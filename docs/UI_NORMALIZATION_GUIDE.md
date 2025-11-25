@@ -435,15 +435,22 @@ See the following pages for real-world implementations:
 - `apps/atlvs/src/app/invoices/page.tsx` - Invoice management
 - `apps/atlvs/src/app/employees/page.tsx` - Employee/workforce management
 - `apps/atlvs/src/app/contracts/page.tsx` - Contract management
+- `apps/atlvs/src/app/assets/page.tsx` - Asset management
+- `apps/atlvs/src/app/billing/page.tsx` - Client billing
+- `apps/atlvs/src/app/payroll/page.tsx` - Payroll management
 
 ### COMPVSS (Production Operations)
 - `apps/compvss/src/app/crew/page.tsx` - Crew directory
 - `apps/compvss/src/app/equipment/page.tsx` - Equipment inventory
 - `apps/compvss/src/app/certifications/page.tsx` - Certifications & licenses
 - `apps/compvss/src/app/deliveries/page.tsx` - Delivery tracking
+- `apps/compvss/src/app/incidents/page.tsx` - Safety incidents
+- `apps/compvss/src/app/expenses/page.tsx` - Production expenses
+- `apps/compvss/src/app/logistics/page.tsx` - Logistics & transportation
 
 ### GVTEWAY (Event Ticketing)
 - `apps/gvteway/src/app/admin/promo-codes/page.tsx` - Promo codes management
+- `apps/gvteway/src/app/admin/will-call/page.tsx` - Will call management
 
 ## Migration Checklist
 

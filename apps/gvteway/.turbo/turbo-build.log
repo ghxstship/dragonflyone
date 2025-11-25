@@ -36,7 +36,7 @@ Route (app)                                   Size     First Load JS
 ├ ○ /admin/pricing/early-bird                 6.12 kB        93.3 kB
 ├ ○ /admin/promo-codes                        2.36 kB        95.4 kB
 ├ ○ /admin/sales-reporting                    2.86 kB        94.3 kB
-├ ○ /admin/will-call                          2.1 kB           93 kB
+├ ○ /admin/will-call                          4.22 kB        97.2 kB
 ├ ƒ /api/ab-testing                           0 B                0 B
 ├ ƒ /api/abandoned-cart                       0 B                0 B
 ├ ƒ /api/accessibility                        0 B                0 B
@@ -147,7 +147,7 @@ Route (app)                                   Size     First Load JS
 ├ ƒ /api/group-organizer                      0 B                0 B
 ├ ƒ /api/groups                               0 B                0 B
 ├ ƒ /api/guest-chat                           0 B                0 B
-├ ƒ /api/health                               0 B                0 B
+├ ○ /api/health                               0 B                0 B
 ├ ƒ /api/influencer-affiliates                0 B                0 B
 ├ ƒ /api/influencer-tracking                  0 B                0 B
 ├ ƒ /api/instagram-templates                  0 B                0 B
@@ -351,7 +351,7 @@ Route (app)                                   Size     First Load JS
 ├ ƒ /events/[id]/parking                      2.88 kB        93.9 kB
 ├ ƒ /events/[id]/photo-booth                  5.02 kB        92.2 kB
 ├ ƒ /events/[id]/program                      1.8 kB         97.3 kB
-├ ƒ /events/[id]/rfid                         2.53 kB        93.4 kB
+├ ƒ /events/[id]/rfid                         5.85 kB          93 kB
 ├ ƒ /events/[id]/seating                      4.45 kB        91.6 kB
 ├ ƒ /events/[id]/social-wall                  5.16 kB        92.3 kB
 ├ ƒ /events/[id]/waitlist                     4.78 kB          92 kB
@@ -443,7 +443,7 @@ Route (app)                                   Size     First Load JS
   └ other shared chunks (total)               1.99 kB
 
 
-ƒ Middleware                                  29 kB
+ƒ Middleware                                  29.1 kB
 
 ○  (Static)   prerendered as static content
 ƒ  (Dynamic)  server-rendered on demand
