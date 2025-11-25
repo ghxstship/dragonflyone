@@ -1,0 +1,40 @@
+{
+  "name": "@ghxstship/integrations",
+  "version": "1.0.0",
+  "description": "Integration utilities, webhook helpers, and automation workflows for GHXSTSHIP platforms",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./webhooks": "./dist/webhooks/index.js",
+    "./workflows": "./workflows/index.json"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "lint": "eslint . --ext .ts",
+    "test": "vitest",
+    "generate:sdk": "openapi-generator-cli generate -i ../api-specs/atlvs/openapi.yaml -g typescript-fetch -o ../sdk-ts/atlvs"
+  },
+  "files": [
+    "dist",
+    "workflows"
+  ],
+  "dependencies": {
+    "crypto": "^1.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0"
+  },
+  "keywords": [
+    "ghxstship",
+    "integrations",
+    "webhooks",
+    "automation",
+    "n8n",
+    "zapier",
+    "make"
+  ]
+}

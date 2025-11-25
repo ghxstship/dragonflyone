@@ -1,0 +1,1043 @@
+# Complete Role System Implementation Guide
+
+## 1. Platform-Level RBAC Roles
+
+### 1.1 Legend Roles (God Mode)
+
+**Domain Requirement:** `@ghxstship.pro` email required for all Legend roles
+
+#### LEGEND_SUPER_ADMIN
+```
+Platform: legend
+Level: god
+Hierarchy: Inherits from ATLVS_SUPER_ADMIN
+Impersonation: Yes (no permission required)
+Access: Absolute platform control, all permissions across all platforms
+```
+
+#### LEGEND_ADMIN
+```
+Platform: legend
+Level: god
+Hierarchy: Inherits from ATLVS_SUPER_ADMIN
+Impersonation: Yes (no permission required)
+Access: Internal product management with cross-app access
+```
+
+#### LEGEND_DEVELOPER
+```
+Platform: legend
+Level: god
+Hierarchy: Inherits from ATLVS_SUPER_ADMIN
+Impersonation: Yes (no permission required)
+Access: Full repository access, internal product team
+```
+
+#### LEGEND_COLLABORATOR
+```
+Platform: legend
+Level: god
+Hierarchy: Inherits from ATLVS_ADMIN
+Impersonation: No
+Access: External scoped full repo access
+```
+
+#### LEGEND_SUPPORT
+```
+Platform: legend
+Level: god
+Hierarchy: Inherits from ATLVS_ADMIN
+Impersonation: Yes (requires permission from user)
+Access: Tech support with conditional user impersonation
+```
+
+#### LEGEND_INCOGNITO
+```
+Platform: legend
+Level: god
+Hierarchy: Inherits from ATLVS_SUPER_ADMIN
+Impersonation: Yes (no permission required)
+Access: Can impersonate any user without permission
+Special: Stealth mode operations
+```
+
+---
+
+### 1.2 ATLVS Platform Roles
+
+#### ATLVS_SUPER_ADMIN
+```
+Platform: atlvs
+Level: admin
+Hierarchy: Inherits from ATLVS_ADMIN
+Permissions:
+  - Full system administration
+  - User management across all roles
+  - System configuration
+  - Database access
+  - Audit log access
+  - Role assignment/revocation
+```
+
+#### ATLVS_ADMIN
+```
+Platform: atlvs
+Level: admin
+Hierarchy: Inherits from ATLVS_TEAM_MEMBER
+Permissions:
+  - Full administrative access
+  - Create/edit/delete projects
+  - Manage team members
+  - Assign roles
+  - Budget management
+  - Client management
+  - Reporting and analytics
+  - Workspace settings
+```
+
+#### ATLVS_TEAM_MEMBER
+```
+Platform: atlvs
+Level: member
+Hierarchy: Inherits from ATLVS_VIEWER
+Permissions:
+  - Work on assigned tasks
+  - Update task status
+  - Time tracking
+  - Comment on projects
+  - Upload files
+  - Create sub-tasks
+  - View assigned budgets
+  - Collaborate with team
+```
+
+#### ATLVS_VIEWER
+```
+Platform: atlvs
+Level: viewer
+Hierarchy: None (base role)
+Permissions:
+  - Read-only access
+  - View projects
+  - View tasks
+  - View team members
+  - View timelines
+  - Export data (limited)
+```
+
+---
+
+### 1.3 COMPVSS Platform Roles
+
+#### COMPVSS_ADMIN
+```
+Platform: compvss
+Level: admin
+Hierarchy: Inherits from COMPVSS_TEAM_MEMBER
+Permissions:
+  - Full administrative access
+  - Event creation/management
+  - Crew management
+  - Advancing workflow approval
+  - Budget oversight
+  - Vendor management
+  - Schedule management
+  - Resource allocation
+```
+
+#### COMPVSS_TEAM_MEMBER
+```
+Platform: compvss
+Level: member
+Hierarchy: Inherits from COMPVSS_VIEWER
+Permissions:
+  - Work on assigned events
+  - Submit advancing requests
+  - Update production status
+  - Manage crew assignments
+  - Upload production documents
+  - Communication tools
+  - Task management
+```
+
+#### COMPVSS_COLLABORATOR
+```
+Platform: compvss
+Level: member
+Hierarchy: Inherits from COMPVSS_VIEWER
+Permissions:
+  - Limited event access
+  - Submit requests
+  - View assigned projects
+  - Upload deliverables
+  - Communication (scoped)
+Note: Separate track from TEAM_MEMBER
+```
+
+#### COMPVSS_VIEWER
+```
+Platform: compvss
+Level: viewer
+Hierarchy: None (base role)
+Permissions:
+  - Read-only access
+  - View event details
+  - View production schedules
+  - View public documents
+```
+
+---
+
+### 1.4 GVTEWAY Platform Roles
+
+#### GVTEWAY_ADMIN
+```
+Platform: gvteway
+Level: admin
+Hierarchy: Inherits from EXPERIENCE_CREATOR, VENUE_MANAGER, MODERATOR
+Permissions:
+  - Full platform administration
+  - Create/manage all experiences
+  - Venue management
+  - User moderation
+  - Payment processing oversight
+  - Analytics dashboard
+  - Platform configuration
+  - Content management
+```
+
+#### GVTEWAY_EXPERIENCE_CREATOR
+```
+Platform: gvteway
+Level: manager
+Hierarchy: Inherits from GVTEWAY_MEMBER
+Permissions:
+  - Create experiences/events
+  - Manage ticketing
+  - Set pricing
+  - View sales data
+  - Marketing tools
+  - Customer communications
+  - Refund management
+  - Report generation
+```
+
+#### GVTEWAY_VENUE_MANAGER
+```
+Platform: gvteway
+Level: manager
+Hierarchy: Inherits from GVTEWAY_MEMBER
+Permissions:
+  - Manage venue profiles
+  - Calendar management
+  - Capacity settings
+  - Venue-specific events
+  - Staff management
+  - Check-in systems
+  - Venue analytics
+```
+
+#### GVTEWAY_ARTIST_VERIFIED
+```
+Platform: gvteway
+Level: member
+Hierarchy: Inherits from GVTEWAY_ARTIST
+Permissions:
+  - All Artist permissions
+  - Verified badge
+  - Enhanced profile features
+  - Priority support
+  - Advanced analytics
+  - Direct messaging
+  - Exclusive opportunities
+```
+
+#### GVTEWAY_ARTIST
+```
+Platform: gvteway
+Level: member
+Hierarchy: Inherits from GVTEWAY_MEMBER
+Permissions:
+  - Artist profile management
+  - Music uploads
+  - Show listings
+  - Fan engagement tools
+  - Basic analytics
+  - Merchandise integration
+  - Tip jar feature
+```
+
+#### GVTEWAY_MEMBER_EXTRA
+```
+Platform: gvteway
+Level: member
+Hierarchy: Inherits from GVTEWAY_MEMBER_PLUS
+Permissions:
+  - All Member Plus features
+  - Exclusive experiences
+  - VIP pre-sales
+  - Meet & greet access
+  - Premium concierge
+  - Limited edition merchandise
+  - Ad-free experience
+```
+
+#### GVTEWAY_MEMBER_PLUS
+```
+Platform: gvteway
+Level: member
+Hierarchy: Inherits from GVTEWAY_MEMBER
+Permissions:
+  - All Member features
+  - Early ticket access
+  - Priority customer support
+  - Enhanced rewards
+  - Special discounts
+  - Member events
+  - Enhanced profile
+```
+
+#### GVTEWAY_MEMBER
+```
+Platform: gvteway
+Level: member
+Hierarchy: None (base role)
+Permissions:
+  - Browse experiences
+  - Purchase tickets
+  - Create playlists
+  - Save favorites
+  - Write reviews
+  - Follow artists/venues
+  - Basic profile
+  - Order history
+```
+
+#### GVTEWAY_MEMBER_GUEST
+```
+Platform: gvteway
+Level: member
+Hierarchy: Inherits from GVTEWAY_MEMBER
+Permissions:
+  - Temporary access
+  - Guest checkout
+  - Limited browsing
+  - Single event access
+Note: Time-limited or event-specific access
+```
+
+#### GVTEWAY_AFFILIATE
+```
+Platform: gvteway
+Level: member
+Hierarchy: Inherits from GVTEWAY_MEMBER
+Permissions:
+  - All Member features
+  - Create referral links
+  - Track commissions
+  - Marketing materials
+  - Affiliate dashboard
+  - Performance analytics
+  - Payout management
+```
+
+#### GVTEWAY_MODERATOR
+```
+Platform: gvteway
+Level: manager
+Hierarchy: None (parallel to admin hierarchy)
+Permissions:
+  - Content moderation
+  - User reporting
+  - Ban/suspend users
+  - Review flags
+  - Community guidelines enforcement
+  - Communication logs
+Note: Does not inherit from member roles
+```
+
+---
+
+## 2. Event-Level Roles
+
+### 2.1 All Platforms Event Roles
+
+These roles have access to **ATLVS**, **COMPVSS**, and **GVTEWAY**
+
+#### EXECUTIVE (Level: 1000)
+```
+Platform Access: ATLVS, COMPVSS, GVTEWAY
+Permissions:
+  - events:create
+  - events:edit
+  - events:delete
+  - tickets:manage
+  - orders:view
+  - orders:refund
+  - advancing:submit
+  - advancing:approve
+  - projects:create
+  - projects:edit
+  - tasks:assign
+  - budgets:manage
+  - users:manage
+  - venue:access:all
+  - backstage:access
+```
+
+#### CORE_AAA (Level: 900)
+```
+Platform Access: ATLVS, COMPVSS, GVTEWAY
+Permissions:
+  - events:create
+  - events:edit
+  - tickets:manage
+  - orders:view
+  - advancing:approve
+  - projects:create
+  - projects:edit
+  - tasks:assign
+  - budgets:manage
+  - venue:access:all
+  - backstage:access
+```
+
+#### AA (Level: 800)
+```
+Platform Access: ATLVS, COMPVSS, GVTEWAY
+Permissions:
+  - events:edit
+  - tickets:manage
+  - orders:view
+  - advancing:submit
+  - projects:edit
+  - tasks:assign
+  - budgets:view
+  - venue:access:restricted
+  - backstage:access
+```
+
+#### PRODUCTION (Level: 700)
+```
+Platform Access: ATLVS, COMPVSS, GVTEWAY
+Permissions:
+  - events:view
+  - advancing:submit
+  - projects:view
+  - tasks:view
+  - venue:access:production
+  - backstage:access
+```
+
+#### MANAGEMENT (Level: 600)
+```
+Platform Access: ATLVS, COMPVSS, GVTEWAY
+Permissions:
+  - events:view
+  - orders:view
+  - projects:view
+  - budgets:view
+  - venue:access:management
+```
+
+---
+
+### 2.2 COMPVSS Event Roles
+
+#### CREW (Level: 500)
+```
+Platform Access: COMPVSS
+Permissions:
+  - advancing:submit
+  - tasks:view
+  - venue:access:crew
+  - backstage:access
+```
+
+#### STAFF (Level: 450)
+```
+Platform Access: COMPVSS
+Permissions:
+  - advancing:submit
+  - tasks:view
+  - venue:access:staff
+```
+
+#### VENDOR (Level: 400)
+```
+Platform Access: COMPVSS
+Permissions:
+  - advancing:submit
+  - orders:view:own
+  - venue:access:vendor
+```
+
+#### ENTERTAINER (Level: 350)
+```
+Platform Access: COMPVSS, GVTEWAY
+Permissions:
+  - events:view
+  - venue:access:performer
+  - backstage:access
+  - greenroom:access
+```
+
+#### ARTIST (Level: 350)
+```
+Platform Access: COMPVSS, GVTEWAY
+Permissions:
+  - events:view
+  - venue:access:performer
+  - backstage:access
+  - greenroom:access
+```
+
+#### AGENT (Level: 300)
+```
+Platform Access: COMPVSS
+Permissions:
+  - events:view
+  - orders:view:clients
+  - venue:access:agent
+```
+
+#### MEDIA (Level: 250)
+```
+Platform Access: COMPVSS, GVTEWAY
+Permissions:
+  - events:view
+  - venue:access:media
+  - photo:pit:access
+```
+
+#### SPONSOR (Level: 200)
+```
+Platform Access: COMPVSS, GVTEWAY
+Permissions:
+  - events:view
+  - venue:access:sponsor
+```
+
+#### PARTNER (Level: 200)
+```
+Platform Access: COMPVSS, GVTEWAY
+Permissions:
+  - events:view
+  - venue:access:partner
+```
+
+#### INDUSTRY (Level: 150)
+```
+Platform Access: COMPVSS
+Permissions:
+  - events:view
+  - venue:access:industry
+```
+
+#### INTERN (Level: 100)
+```
+Platform Access: COMPVSS
+Permissions:
+  - tasks:view
+  - venue:access:intern
+```
+
+#### VOLUNTEER (Level: 50)
+```
+Platform Access: COMPVSS
+Permissions:
+  - tasks:view
+  - venue:access:volunteer
+```
+
+---
+
+### 2.3 GVTEWAY Event Roles
+
+#### BACKSTAGE_L2 (Level: 500)
+```
+Platform Access: GVTEWAY
+Permissions:
+  - events:view
+  - orders:view:own
+  - venue:access:backstage
+  - backstage:access
+  - greenroom:access
+  - vip:lounge:access
+```
+
+#### BACKSTAGE_L1 (Level: 450)
+```
+Platform Access: GVTEWAY
+Permissions:
+  - events:view
+  - orders:view:own
+  - venue:access:backstage
+  - backstage:access
+```
+
+#### PLATINUM_VIP_L2 (Level: 400)
+```
+Platform Access: GVTEWAY
+Permissions:
+  - events:view
+  - orders:view:own
+  - venue:access:platinum_vip
+  - vip:lounge:access
+  - priority:entry
+```
+
+#### PLATINUM_VIP_L1 (Level: 350)
+```
+Platform Access: GVTEWAY
+Permissions:
+  - events:view
+  - orders:view:own
+  - venue:access:platinum_vip
+  - vip:lounge:access
+```
+
+#### VIP_L3 (Level: 300)
+```
+Platform Access: GVTEWAY
+Permissions:
+  - events:view
+  - orders:view:own
+  - venue:access:vip
+  - vip:lounge:access
+```
+
+#### VIP_L2 (Level: 250)
+```
+Platform Access: GVTEWAY
+Permissions:
+  - events:view
+  - orders:view:own
+  - venue:access:vip
+```
+
+#### VIP_L1 (Level: 200)
+```
+Platform Access: GVTEWAY
+Permissions:
+  - events:view
+  - orders:view:own
+  - venue:access:vip
+```
+
+#### GA_L5 (Level: 150)
+```
+Platform Access: GVTEWAY
+Permissions:
+  - events:view
+  - orders:view:own
+  - venue:access:ga
+  - priority:entry
+```
+
+#### GA_L4 (Level: 120)
+```
+Platform Access: GVTEWAY
+Permissions:
+  - events:view
+  - orders:view:own
+  - venue:access:ga
+```
+
+#### GA_L3 (Level: 100)
+```
+Platform Access: GVTEWAY
+Permissions:
+  - events:view
+  - orders:view:own
+  - venue:access:ga
+```
+
+#### GA_L2 (Level: 80)
+```
+Platform Access: GVTEWAY
+Permissions:
+  - events:view
+  - orders:view:own
+  - venue:access:ga
+```
+
+#### GA_L1 (Level: 60)
+```
+Platform Access: GVTEWAY
+Permissions:
+  - events:view
+  - orders:view:own
+  - venue:access:ga
+```
+
+#### GUEST (Level: 50)
+```
+Platform Access: GVTEWAY
+Permissions:
+  - events:view
+  - venue:access:guest
+```
+
+#### INFLUENCER (Level: 150)
+```
+Platform Access: GVTEWAY
+Permissions:
+  - events:view
+  - orders:view:own
+  - venue:access:influencer
+  - media:kit:access
+```
+
+#### BRAND_AMBASSADOR (Level: 120)
+```
+Platform Access: GVTEWAY
+Permissions:
+  - events:view
+  - orders:view:own
+  - venue:access:brand_ambassador
+  - referral:create
+```
+
+#### AFFILIATE (Level: 100)
+```
+Platform Access: GVTEWAY
+Permissions:
+  - events:view
+  - orders:view:own
+  - venue:access:affiliate
+  - referral:create
+  - commission:view
+```
+
+---
+
+## 3. Implementation Guidelines
+
+### 3.1 Role Assignment Rules
+
+**Platform Roles:**
+- Users can have multiple platform roles across different platforms
+- Platform roles are persistent and workspace-specific
+- Legend roles require `@ghxstship.pro` email validation
+- Role hierarchy determines inherited permissions
+
+**Event Roles:**
+- Users can have different event roles per event
+- Event roles are temporary and event-specific
+- Users can hold multiple event roles on same event
+- Hierarchy level (numeric) determines access priority
+
+### 3.2 Permission Checking Logic
+
+```typescript
+// Platform Role Permission Check
+function checkPlatformPermission(
+  userRoles: Role[],
+  requiredPermission: string
+): boolean {
+  // 1. Check if user has Legend role (god mode)
+  if (hasLegendRole(userRoles)) return true;
+  
+  // 2. Check direct role permissions
+  for (const role of userRoles) {
+    if (hasPermission(role, requiredPermission)) return true;
+  }
+  
+  // 3. Check inherited role permissions
+  for (const role of userRoles) {
+    const inherited = getAllInheritedRoles(role);
+    for (const inheritedRole of inherited) {
+      if (hasPermission(inheritedRole, requiredPermission)) return true;
+    }
+  }
+  
+  return false;
+}
+
+// Event Role Permission Check
+function checkEventPermission(
+  eventRoles: EventRole[],
+  requiredPermission: string
+): boolean {
+  for (const role of eventRoles) {
+    const permissions = getEventRolePermissions(role);
+    if (permissions.includes(requiredPermission)) return true;
+  }
+  
+  return false;
+}
+
+// Combined Permission Check
+function checkPermission(
+  user: User,
+  permission: string,
+  eventId?: string
+): boolean {
+  // Check platform permissions
+  if (checkPlatformPermission(user.platformRoles, permission)) {
+    return true;
+  }
+  
+  // Check event permissions if eventId provided
+  if (eventId && user.eventRoles[eventId]) {
+    return checkEventPermission(user.eventRoles[eventId], permission);
+  }
+  
+  return false;
+}
+```
+
+### 3.3 Impersonation Logic
+
+```typescript
+function canImpersonateUser(
+  impersonator: User,
+  targetUser: User
+): boolean {
+  // Check if impersonator has any Legend role with impersonation
+  for (const role of impersonator.platformRoles) {
+    const metadata = RoleMetadataMap[role];
+    
+    if (!metadata?.canImpersonate) continue;
+    
+    // LEGEND_INCOGNITO: no permission needed
+    if (role === Role.LEGEND_INCOGNITO) return true;
+    
+    // Roles requiring permission
+    if (metadata.requiresPermissionToImpersonate) {
+      return targetUser.hasGrantedImpersonationPermission(impersonator.id);
+    }
+    
+    // Other Legend roles with impersonation
+    return true;
+  }
+  
+  return false;
+}
+```
+
+### 3.4 Role Validation
+
+```typescript
+// Validate Legend role assignment
+function validateLegendRoleAssignment(
+  email: string,
+  role: Role
+): boolean {
+  if (!isLegendRole(role)) return true;
+  
+  const metadata = RoleMetadataMap[role];
+  if (metadata.requiresEmail) {
+    return email.endsWith(metadata.requiresEmail);
+  }
+  
+  return true;
+}
+
+// Validate event role platform access
+function validateEventRolePlatformAccess(
+  eventRole: EventRole,
+  platform: 'ATLVS' | 'COMPVSS' | 'GVTEWAY'
+): boolean {
+  return hasEventRolePlatformAccess(eventRole, platform);
+}
+```
+
+### 3.5 Database Schema Recommendations
+
+```typescript
+// User Schema
+interface User {
+  id: string;
+  email: string;
+  platformRoles: Role[]; // Array of platform RBAC roles
+  eventRolesByEvent: Record<string, EventRole[]>; // eventId -> roles
+  impersonationPermissions: string[]; // User IDs allowed to impersonate
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+// Event Assignment Schema
+interface EventAssignment {
+  id: string;
+  userId: string;
+  eventId: string;
+  roles: EventRole[]; // Multiple roles per event
+  assignedBy: string;
+  assignedAt: Date;
+  expiresAt?: Date; // Optional expiration
+}
+
+// Permission Grant Schema
+interface PermissionGrant {
+  id: string;
+  userId: string;
+  grantedBy: string;
+  permission: string;
+  scope: 'platform' | 'event' | 'workspace';
+  scopeId?: string; // eventId or workspaceId
+  grantedAt: Date;
+  expiresAt?: Date;
+}
+
+// Audit Log Schema
+interface AuditLog {
+  id: string;
+  userId: string;
+  action: string;
+  resource: string;
+  resourceId: string;
+  changes: Record<string, any>;
+  impersonatedBy?: string; // If action done via impersonation
+  timestamp: Date;
+}
+```
+
+### 3.6 API Middleware Example
+
+```typescript
+// Role-based access middleware
+function requireRole(...requiredRoles: Role[]) {
+  return (req, res, next) => {
+    const user = req.user;
+    
+    if (!user) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+    
+    if (hasAnyRole(user.platformRoles, requiredRoles)) {
+      return next();
+    }
+    
+    return res.status(403).json({ error: 'Forbidden' });
+  };
+}
+
+// Permission-based access middleware
+function requirePermission(permission: string) {
+  return (req, res, next) => {
+    const user = req.user;
+    const eventId = req.params.eventId;
+    
+    if (!user) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+    
+    if (checkPermission(user, permission, eventId)) {
+      return next();
+    }
+    
+    return res.status(403).json({ error: 'Forbidden' });
+  };
+}
+
+// Event role middleware
+function requireEventRole(
+  ...requiredRoles: EventRole[]
+) {
+  return (req, res, next) => {
+    const user = req.user;
+    const eventId = req.params.eventId;
+    
+    if (!user || !eventId) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+    
+    const userEventRoles = user.eventRolesByEvent[eventId] || [];
+    const hasRole = requiredRoles.some(role => 
+      userEventRoles.includes(role)
+    );
+    
+    if (hasRole) {
+      return next();
+    }
+    
+    return res.status(403).json({ error: 'Forbidden' });
+  };
+}
+```
+
+### 3.7 Frontend Role Display
+
+```typescript
+// Get user's highest role display name
+function getUserDisplayRole(user: User): string {
+  // Check for Legend roles first
+  const legendRoles = user.platformRoles.filter(isLegendRole);
+  if (legendRoles.length > 0) {
+    return RoleMetadataMap[legendRoles[0]].name;
+  }
+  
+  // Find highest level role
+  let highestRole = null;
+  let highestLevel = -1;
+  
+  for (const role of user.platformRoles) {
+    const metadata = RoleMetadataMap[role];
+    const levelMap = { god: 4, admin: 3, manager: 2, member: 1, viewer: 0 };
+    const level = levelMap[metadata.level];
+    
+    if (level > highestLevel) {
+      highestLevel = level;
+      highestRole = role;
+    }
+  }
+  
+  return highestRole ? RoleMetadataMap[highestRole].name : 'Member';
+}
+
+// Get event role badge
+function getEventRoleBadge(role: EventRole): {
+  color: string;
+  label: string;
+  level: number;
+} {
+  const level = ROLE_HIERARCHY[role];
+  
+  if (level >= 600) return { color: 'purple', label: role, level };
+  if (level >= 400) return { color: 'blue', label: role, level };
+  if (level >= 200) return { color: 'green', label: role, level };
+  return { color: 'gray', label: role, level };
+}
+```
+
+---
+
+## 4. Testing Checklist
+
+### Platform Roles
+- [ ] Legend role email validation
+- [ ] Role hierarchy inheritance
+- [ ] Permission checking across inherited roles
+- [ ] Impersonation permission logic
+- [ ] Role assignment restrictions
+- [ ] Multi-platform role combinations
+
+### Event Roles
+- [ ] Event role platform access restrictions
+- [ ] Role hierarchy level comparisons
+- [ ] Permission checks per event
+- [ ] Multiple roles per event
+- [ ] Temporary role expiration
+- [ ] Cross-platform event role access
+
+### Security
+- [ ] Unauthorized access attempts
+- [ ] Privilege escalation prevention
+- [ ] Impersonation audit logging
+- [ ] Role modification audit trails
+- [ ] Permission grant validation
+- [ ] Email domain verification
+
+### Edge Cases
+- [ ] User with no roles
+- [ ] Expired event roles
+- [ ] Conflicting permissions
+- [ ] Deleted user role cleanup
+- [ ] Role migration scenarios
+- [ ] Bulk role assignments
+
+---
+
+This implementation guide provides complete specifications for both platform-level RBAC and event-level roles, enabling developers to build a comprehensive, secure role management system across ATLVS, COMPVSS, and GVTEWAY platforms.

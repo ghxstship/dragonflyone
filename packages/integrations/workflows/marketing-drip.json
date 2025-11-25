@@ -1,0 +1,71 @@
+{
+  "name": "Marketing Drip Campaign",
+  "description": "Automated marketing drip campaign for new ticket buyers with personalized follow-ups",
+  "platform": "gvteway",
+  "category": "marketing",
+  "nodes": [
+    {
+      "id": "trigger",
+      "type": "@ghxstship/n8n-nodes.ghxstshipTrigger",
+      "parameters": { "platform": "gvteway", "event": "ticket.purchased" },
+      "position": [250, 300]
+    },
+    {
+      "id": "get-customer",
+      "type": "@ghxstship/n8n-nodes.ghxstship",
+      "parameters": { "platform": "gvteway", "resource": "customer", "operation": "get", "recordId": "={{ $json.data.customer.id }}" },
+      "position": [450, 300]
+    },
+    {
+      "id": "check-first-purchase",
+      "type": "n8n-nodes-base.if",
+      "parameters": { "conditions": { "number": [{ "value1": "={{ $json.total_purchases }}", "operation": "equal", "value2": 1 }] } },
+      "position": [650, 300]
+    },
+    {
+      "id": "send-welcome",
+      "type": "n8n-nodes-base.emailSend",
+      "parameters": {
+        "toEmail": "={{ $json.email }}",
+        "subject": "Welcome to the GHXSTSHIP Experience! 🎉",
+        "html": "<h1>Welcome, {{ $json.first_name }}!</h1><p>Thank you for your first purchase. Here's what to expect...</p>"
+      },
+      "position": [850, 200]
+    },
+    {
+      "id": "wait-3-days",
+      "type": "n8n-nodes-base.wait",
+      "parameters": { "amount": 3, "unit": "days" },
+      "position": [1050, 200]
+    },
+    {
+      "id": "send-tips",
+      "type": "n8n-nodes-base.emailSend",
+      "parameters": {
+        "toEmail": "={{ $node['get-customer'].json.email }}",
+        "subject": "Get Ready for Your Event! 📍",
+        "html": "<h1>Event Day Tips</h1><p>Here's everything you need to know before the show...</p>"
+      },
+      "position": [1250, 200]
+    },
+    {
+      "id": "add-to-segment",
+      "type": "@ghxstship/n8n-nodes.ghxstship",
+      "parameters": {
+        "platform": "gvteway",
+        "resource": "segment",
+        "operation": "update",
+        "recordId": "new_buyers",
+        "additionalFields": { "add_customer": "={{ $json.id }}" }
+      },
+      "position": [850, 400]
+    }
+  ],
+  "connections": {
+    "trigger": { "main": [[{ "node": "get-customer", "type": "main", "index": 0 }]] },
+    "get-customer": { "main": [[{ "node": "check-first-purchase", "type": "main", "index": 0 }]] },
+    "check-first-purchase": { "main": [[{ "node": "send-welcome", "type": "main", "index": 0 }], [{ "node": "add-to-segment", "type": "main", "index": 0 }]] },
+    "send-welcome": { "main": [[{ "node": "wait-3-days", "type": "main", "index": 0 }]] },
+    "wait-3-days": { "main": [[{ "node": "send-tips", "type": "main", "index": 0 }]] }
+  }
+}

@@ -1,0 +1,4 @@
+
+> @ghxstship/sdk-atlvs@0.0.1 build /Users/julianclarkson/Documents/Dragonflyone/packages/sdk-atlvs
+> tsc -p tsconfig.json
+

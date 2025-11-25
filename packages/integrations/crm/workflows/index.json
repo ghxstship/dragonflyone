@@ -1,0 +1,224 @@
+{
+  "name": "GHXSTSHIP CRM Integration Workflows",
+  "version": "1.0.0",
+  "description": "Pre-built workflows for CRM integrations (Salesforce, HubSpot, Pipedrive)",
+  "workflows": [
+    {
+      "id": "lead-creation-sync",
+      "name": "Lead Creation Sync",
+      "description": "Sync new leads from CRM to ATLVS and create corresponding deals",
+      "platforms": ["zapier", "make", "n8n"],
+      "crm_vendors": ["salesforce", "hubspot", "pipedrive"],
+      "trigger": {
+        "source": "crm",
+        "event": "lead.created"
+      },
+      "actions": [
+        {
+          "step": 1,
+          "action": "create_contact",
+          "target": "atlvs",
+          "mapping": {
+            "email": "{{lead.email}}",
+            "first_name": "{{lead.first_name}}",
+            "last_name": "{{lead.last_name}}",
+            "company": "{{lead.company}}",
+            "phone": "{{lead.phone}}",
+            "source": "{{lead.source}}",
+            "external_id": "{{lead.id}}",
+            "external_system": "{{crm_vendor}}"
+          }
+        },
+        {
+          "step": 2,
+          "action": "create_deal",
+          "target": "atlvs",
+          "mapping": {
+            "name": "{{lead.company}} - New Opportunity",
+            "contact_id": "{{step_1.contact.id}}",
+            "stage": "qualification",
+            "source": "crm_sync",
+            "external_id": "{{lead.id}}"
+          }
+        }
+      ]
+    },
+    {
+      "id": "nps-update-sync",
+      "name": "NPS Score Update Sync",
+      "description": "Update CRM contact records when NPS surveys are completed in ATLVS",
+      "platforms": ["zapier", "make", "n8n"],
+      "crm_vendors": ["salesforce", "hubspot", "pipedrive"],
+      "trigger": {
+        "source": "atlvs",
+        "event": "nps_survey.completed"
+      },
+      "actions": [
+        {
+          "step": 1,
+          "action": "find_contact",
+          "target": "crm",
+          "query": {
+            "email": "{{survey.respondent.email}}"
+          }
+        },
+        {
+          "step": 2,
+          "action": "update_contact",
+          "target": "crm",
+          "condition": "{{step_1.contact != null}}",
+          "mapping": {
+            "id": "{{step_1.contact.id}}",
+            "custom_fields": {
+              "nps_score": "{{survey.score}}",
+              "nps_category": "{{survey.category}}",
+              "nps_feedback": "{{survey.feedback}}",
+              "nps_date": "{{survey.completed_at}}"
+            }
+          }
+        },
+        {
+          "step": 3,
+          "action": "create_activity",
+          "target": "crm",
+          "condition": "{{step_1.contact != null}}",
+          "mapping": {
+            "contact_id": "{{step_1.contact.id}}",
+            "type": "nps_survey",
+            "subject": "NPS Survey Completed: {{survey.category}}",
+            "description": "Score: {{survey.score}}/10\nFeedback: {{survey.feedback}}"
+          }
+        }
+      ]
+    },
+    {
+      "id": "renewal-alert-sync",
+      "name": "Renewal Alert Sync",
+      "description": "Create CRM tasks when contract renewals are approaching",
+      "platforms": ["zapier", "make", "n8n"],
+      "crm_vendors": ["salesforce", "hubspot", "pipedrive"],
+      "trigger": {
+        "source": "atlvs",
+        "event": "contract.renewal_approaching",
+        "filters": {
+          "days_until_renewal": [30, 60, 90]
+        }
+      },
+      "actions": [
+        {
+          "step": 1,
+          "action": "find_deal",
+          "target": "crm",
+          "query": {
+            "external_id": "{{contract.deal_id}}"
+          }
+        },
+        {
+          "step": 2,
+          "action": "create_task",
+          "target": "crm",
+          "mapping": {
+            "deal_id": "{{step_1.deal.id}}",
+            "owner_id": "{{step_1.deal.owner_id}}",
+            "subject": "Contract Renewal: {{contract.name}}",
+            "description": "Contract expires in {{contract.days_until_renewal}} days.\n\nValue: ${{contract.value}}\nRenewal Date: {{contract.renewal_date}}\n\nAction required: Contact client to discuss renewal.",
+            "due_date": "{{contract.renewal_date | date_subtract: 14, 'days'}}",
+            "priority": "{{contract.days_until_renewal <= 30 ? 'high' : 'normal'}}"
+          }
+        }
+      ]
+    },
+    {
+      "id": "deal-stage-bidirectional",
+      "name": "Bidirectional Deal Stage Sync",
+      "description": "Keep deal stages synchronized between ATLVS and CRM",
+      "platforms": ["zapier", "make", "n8n"],
+      "crm_vendors": ["salesforce", "hubspot", "pipedrive"],
+      "bidirectional": true,
+      "conflict_resolution": "last_modified_wins",
+      "triggers": [
+        {
+          "source": "atlvs",
+          "event": "deal.stage_changed"
+        },
+        {
+          "source": "crm",
+          "event": "deal.stage_changed"
+        }
+      ],
+      "stage_mapping": {
+        "atlvs_to_crm": {
+          "qualification": { "salesforce": "Qualification", "hubspot": "appointmentscheduled", "pipedrive": "Lead In" },
+          "proposal": { "salesforce": "Proposal/Price Quote", "hubspot": "presentationscheduled", "pipedrive": "Contact Made" },
+          "negotiation": { "salesforce": "Negotiation/Review", "hubspot": "decisionmakerboughtin", "pipedrive": "Proposal Made" },
+          "closed_won": { "salesforce": "Closed Won", "hubspot": "closedwon", "pipedrive": "Won" },
+          "closed_lost": { "salesforce": "Closed Lost", "hubspot": "closedlost", "pipedrive": "Lost" }
+        }
+      },
+      "actions": [
+        {
+          "step": 1,
+          "action": "find_linked_record",
+          "description": "Find the corresponding record in the other system"
+        },
+        {
+          "step": 2,
+          "action": "check_conflict",
+          "description": "Compare last_modified timestamps"
+        },
+        {
+          "step": 3,
+          "action": "update_stage",
+          "condition": "{{no_conflict || source_is_newer}}",
+          "description": "Update stage in target system using mapping"
+        },
+        {
+          "step": 4,
+          "action": "log_sync",
+          "description": "Record sync event for audit trail"
+        }
+      ]
+    }
+  ],
+  "oauth_templates": {
+    "salesforce": {
+      "authorization_url": "https://login.salesforce.com/services/oauth2/authorize",
+      "token_url": "https://login.salesforce.com/services/oauth2/token",
+      "scopes": ["api", "refresh_token", "offline_access"],
+      "required_permissions": ["Read/Write Leads", "Read/Write Contacts", "Read/Write Opportunities", "Read/Write Tasks"],
+      "security_checklist": [
+        "Enable OAuth 2.0 in Connected App settings",
+        "Configure callback URL to match integration platform",
+        "Set IP restrictions if required by security policy",
+        "Enable refresh token rotation",
+        "Review and limit OAuth scopes to minimum required"
+      ]
+    },
+    "hubspot": {
+      "authorization_url": "https://app.hubspot.com/oauth/authorize",
+      "token_url": "https://api.hubapi.com/oauth/v1/token",
+      "scopes": ["crm.objects.contacts.read", "crm.objects.contacts.write", "crm.objects.deals.read", "crm.objects.deals.write"],
+      "required_permissions": ["CRM Contacts", "CRM Deals", "CRM Tasks"],
+      "security_checklist": [
+        "Create private app in HubSpot developer portal",
+        "Select only required scopes",
+        "Store client secret securely",
+        "Implement token refresh logic",
+        "Monitor API usage limits"
+      ]
+    },
+    "pipedrive": {
+      "authorization_url": "https://oauth.pipedrive.com/oauth/authorize",
+      "token_url": "https://oauth.pipedrive.com/oauth/token",
+      "scopes": ["deals:full", "persons:full", "activities:full"],
+      "required_permissions": ["Deals", "Persons", "Activities"],
+      "security_checklist": [
+        "Register app in Pipedrive Marketplace",
+        "Configure OAuth redirect URI",
+        "Implement secure token storage",
+        "Handle rate limiting (100 requests/10 seconds)",
+        "Use webhook subscriptions for real-time sync"
+      ]
+    }
+  }
+}

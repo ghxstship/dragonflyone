@@ -1,0 +1,150 @@
+{
+  "info": {
+    "name": "GVTEWAY API",
+    "description": "Synced from /packages/api-specs/gvteway/v1/openapi.yaml on 2025-11-22",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.0.0"
+  },
+  "item": [
+    {
+      "name": "Search Events",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "x-trace-id",
+            "value": "{{$guid}}",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/events?limit=25&city=Tampa",
+          "host": ["{{baseUrl}}"],
+          "path": ["events"],
+          "query": [
+            {"key": "limit", "value": "25"},
+            {"key": "city", "value": "Tampa"}
+          ]
+        }
+      }
+    },
+    {
+      "name": "Create Event",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"GHXSTSHIP Showcase\",\n  \"description\": \"Immersive monochrome sensory drop.\",\n  \"startsAt\": \"2025-12-05T20:00:00Z\",\n  \"endsAt\": \"2025-12-05T23:00:00Z\",\n  \"venue\": \"Terminal 5\",\n  \"city\": \"New York\",\n  \"tags\": [\"experiential\", \"nightlife\"]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/events",
+          "host": ["{{baseUrl}}"],
+          "path": ["events"]
+        }
+      }
+    },
+    {
+      "name": "List Ticket Types",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/tickets?eventId={{eventId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["tickets"],
+          "query": [
+            {"key": "eventId", "value": "{{eventId}}"}
+          ]
+        }
+      }
+    },
+    {
+      "name": "Create Checkout Session",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"eventId\": \"{{eventId}}\",\n  \"lineItems\": [\n    {\n      \"ticketTypeId\": \"{{ticketTypeId}}\",\n      \"quantity\": 2\n    }\n  ],\n  \"successUrl\": \"https://gvteway.com/checkout/success\",\n  \"cancelUrl\": \"https://gvteway.com/checkout/cancel\",\n  \"metadata\": {\n    \"source\": \"postman\"\n  }\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/checkout/session",
+          "host": ["{{baseUrl}}"],
+          "path": ["checkout", "session"]
+        }
+      }
+    },
+    {
+      "name": "Create Bundle",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key": "Authorization", "value": "Bearer {{accessToken}}"},
+          {"key": "Content-Type", "value": "application/json"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"eventId\": \"{{eventId}}\",\n  \"name\": \"VIP Night\",\n  \"description\": \"2x VIP tickets + merch + parking\",\n  \"status\": \"active\",\n  \"price\": 650,\n  \"currency\": \"USD\",\n  \"items\": [\n    {\n      \"type\": \"ticket\",\n      \"referenceId\": \"{{ticketTypeId}}\",\n      \"quantity\": 2\n    },\n    {\n      \"type\": \"merch\",\n      \"referenceId\": \"hoodie-black\",\n      \"quantity\": 2\n    },\n    {\n      \"type\": \"parking\",\n      \"referenceId\": \"lot-a\",\n      \"quantity\": 1\n    }\n  ],\n  \"benefits\": [\"Green room access\"],\n  \"limits\": {\n    \"perOrder\": 2\n  }\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/bundles",
+          "host": ["{{baseUrl}}"],
+          "path": ["bundles"]
+        }
+      }
+    },
+    {
+      "name": "Create Membership Tier",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key": "Authorization", "value": "Bearer {{accessToken}}"},
+          {"key": "Content-Type", "value": "application/json"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Obsidian Circle\",\n  \"description\": \"Priority access + lounge upgrades\",\n  \"status\": \"active\",\n  \"tier\": \"obsidian\",\n  \"billingInterval\": \"yearly\",\n  \"price\": 999,\n  \"currency\": \"USD\",\n  \"perks\": [\"Early presale\", \"Dedicated concierge\"],\n  \"accessRules\": {\n    \"earlyAccessMinutes\": 720,\n    \"discountPercent\": 15\n  }\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/memberships",
+          "host": ["{{baseUrl}}"],
+          "path": ["memberships"]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {"key": "baseUrl", "value": "https://api.ghxstship.com/gvteway/v1"},
+    {"key": "accessToken", "value": ""},
+    {"key": "eventId", "value": "00000000-0000-0000-0000-000000000000"},
+    {"key": "ticketTypeId", "value": "00000000-0000-0000-0000-000000000000"}
+  ]
+}

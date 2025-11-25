@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+Allow: /events
+Allow: /events/*
+Allow: /search
+
+Disallow: /api/
+Disallow: /auth/
+Disallow: /profile
+Disallow: /tickets
+Disallow: /dashboard
+
+Sitemap: https://gvteway.com/sitemap.xml

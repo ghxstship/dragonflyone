@@ -1,0 +1,50 @@
+openapi: 3.1.0
+info:
+  title: GVTEWAY API
+  version: 0.1.0
+  description: Draft API for GVTEWAY consumer experience endpoints.
+  contact:
+    name: GHXSTSHIP Platform Team
+    email: platform@ghxstship.com
+tags:
+  - name: Events
+    description: Guest-facing events, ticketing, and experience endpoints
+servers:
+  - url: https://api.ghxstship.com/gvteway
+    description: Production
+  - url: https://staging.api.ghxstship.com/gvteway
+    description: Staging
+paths:
+  /events:
+    get:
+      operationId: listEvents
+      tags:
+        - Events
+      summary: List events
+      description: Returns paginated GVTEWAY events with status and venue filters.
+      responses:
+        "200":
+          description: A paginated list of events
+          content:
+            application/json:
+              schema:
+                $ref: "../shared/schemas.yaml#/components/schemas/EventList"
+    post:
+      operationId: createEvent
+      tags:
+        - Events
+      summary: Create event
+      description: Publishes a new GVTEWAY event record synced to COMPVSS production data.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "../shared/schemas.yaml#/components/schemas/EventCreate"
+      responses:
+        "201":
+          description: Event created
+          content:
+            application/json:
+              schema:
+                $ref: "../shared/schemas.yaml#/components/schemas/Event"

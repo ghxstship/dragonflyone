@@ -1,0 +1,103 @@
+{
+  "name": "Crew Onboarding",
+  "description": "Automated crew onboarding workflow with document collection, training assignment, and compliance verification",
+  "platform": "compvss",
+  "category": "crew-management",
+  "nodes": [
+    {
+      "id": "trigger",
+      "type": "@ghxstship/n8n-nodes.ghxstshipTrigger",
+      "parameters": {
+        "platform": "compvss",
+        "event": "crew.assigned"
+      },
+      "position": [250, 300]
+    },
+    {
+      "id": "get-crew-details",
+      "type": "@ghxstship/n8n-nodes.ghxstship",
+      "parameters": {
+        "platform": "compvss",
+        "resource": "crew",
+        "operation": "get",
+        "recordId": "={{ $json.data.crew_member_id }}"
+      },
+      "position": [450, 300]
+    },
+    {
+      "id": "check-documents",
+      "type": "@ghxstship/n8n-nodes.ghxstship",
+      "parameters": {
+        "platform": "compvss",
+        "resource": "document",
+        "operation": "getAll",
+        "filters": { "crew_id": "={{ $json.id }}", "type": "onboarding" }
+      },
+      "position": [650, 300]
+    },
+    {
+      "id": "check-missing-docs",
+      "type": "n8n-nodes-base.code",
+      "parameters": {
+        "jsCode": "const requiredDocs = ['w4', 'i9', 'direct_deposit', 'emergency_contact', 'nda'];\nconst submittedDocs = $input.all().map(d => d.json.type);\nconst missingDocs = requiredDocs.filter(d => !submittedDocs.includes(d));\nreturn [{ json: { missingDocs, complete: missingDocs.length === 0 } }];"
+      },
+      "position": [850, 300]
+    },
+    {
+      "id": "branch-complete",
+      "type": "n8n-nodes-base.if",
+      "parameters": {
+        "conditions": { "boolean": [{ "value1": "={{ $json.complete }}", "value2": true }] }
+      },
+      "position": [1050, 300]
+    },
+    {
+      "id": "assign-training",
+      "type": "@ghxstship/n8n-nodes.ghxstship",
+      "parameters": {
+        "platform": "compvss",
+        "resource": "training",
+        "operation": "create",
+        "additionalFields": {
+          "crew_id": "={{ $node['get-crew-details'].json.id }}",
+          "courses": ["safety_orientation", "equipment_basics", "company_policies"],
+          "due_date": "={{ $now.plus(7, 'days').toISO() }}"
+        }
+      },
+      "position": [1250, 200]
+    },
+    {
+      "id": "send-doc-request",
+      "type": "n8n-nodes-base.emailSend",
+      "parameters": {
+        "toEmail": "={{ $node['get-crew-details'].json.email }}",
+        "subject": "Action Required: Complete Your Onboarding Documents",
+        "text": "Hi {{ $node['get-crew-details'].json.first_name }},\n\nPlease complete the following documents to finish your onboarding:\n\n{{ $json.missingDocs.join('\\n- ') }}\n\nComplete your documents here: https://compvss.ghxstship.com/onboarding\n\nThank you!"
+      },
+      "position": [1250, 400]
+    },
+    {
+      "id": "update-status",
+      "type": "@ghxstship/n8n-nodes.ghxstship",
+      "parameters": {
+        "platform": "compvss",
+        "resource": "crew",
+        "operation": "update",
+        "recordId": "={{ $node['get-crew-details'].json.id }}",
+        "additionalFields": {
+          "onboarding_status": "={{ $node['branch-complete'].json.complete ? 'training_assigned' : 'documents_pending' }}"
+        }
+      },
+      "position": [1450, 300]
+    }
+  ],
+  "connections": {
+    "trigger": { "main": [[{ "node": "get-crew-details", "type": "main", "index": 0 }]] },
+    "get-crew-details": { "main": [[{ "node": "check-documents", "type": "main", "index": 0 }]] },
+    "check-documents": { "main": [[{ "node": "check-missing-docs", "type": "main", "index": 0 }]] },
+    "check-missing-docs": { "main": [[{ "node": "branch-complete", "type": "main", "index": 0 }]] },
+    "branch-complete": { "main": [[{ "node": "assign-training", "type": "main", "index": 0 }], [{ "node": "send-doc-request", "type": "main", "index": 0 }]] },
+    "assign-training": { "main": [[{ "node": "update-status", "type": "main", "index": 0 }]] },
+    "send-doc-request": { "main": [[{ "node": "update-status", "type": "main", "index": 0 }]] }
+  }
+}

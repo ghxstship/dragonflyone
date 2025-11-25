@@ -1,0 +1,279 @@
+{
+  "name": "GHXSTSHIP Make Module Schemas",
+  "version": "1.0.0",
+  "description": "JSON Schema bundles for Make (Integromat) modules",
+  "modules": {
+    "atlvs": {
+      "deals": {
+        "input": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "name": { "type": "string", "title": "Deal Name", "description": "Name of the deal" },
+            "value": { "type": "number", "title": "Deal Value", "description": "Monetary value of the deal" },
+            "currency": { "type": "string", "enum": ["USD", "EUR", "GBP", "CAD"], "default": "USD" },
+            "stage": { "type": "string", "enum": ["qualification", "proposal", "negotiation", "closed_won", "closed_lost"] },
+            "owner_id": { "type": "string", "title": "Owner ID", "description": "User ID of deal owner" },
+            "contact_id": { "type": "string", "title": "Contact ID", "description": "Primary contact for the deal" },
+            "expected_close_date": { "type": "string", "format": "date", "title": "Expected Close Date" },
+            "custom_fields": { "type": "object", "additionalProperties": true }
+          },
+          "required": ["name"]
+        },
+        "output": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "id": { "type": "string" },
+            "name": { "type": "string" },
+            "value": { "type": "number" },
+            "currency": { "type": "string" },
+            "stage": { "type": "string" },
+            "owner": { "$ref": "#/definitions/user" },
+            "contact": { "$ref": "#/definitions/contact" },
+            "created_at": { "type": "string", "format": "date-time" },
+            "updated_at": { "type": "string", "format": "date-time" }
+          },
+          "definitions": {
+            "user": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string" },
+                "name": { "type": "string" },
+                "email": { "type": "string", "format": "email" }
+              }
+            },
+            "contact": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string" },
+                "name": { "type": "string" },
+                "email": { "type": "string", "format": "email" },
+                "company": { "type": "string" }
+              }
+            }
+          }
+        }
+      },
+      "invoices": {
+        "input": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "deal_id": { "type": "string", "title": "Deal ID" },
+            "client_id": { "type": "string", "title": "Client ID" },
+            "amount": { "type": "number", "title": "Invoice Amount" },
+            "currency": { "type": "string", "default": "USD" },
+            "due_date": { "type": "string", "format": "date" },
+            "line_items": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "description": { "type": "string" },
+                  "quantity": { "type": "number" },
+                  "unit_price": { "type": "number" }
+                }
+              }
+            }
+          },
+          "required": ["client_id", "amount"]
+        },
+        "output": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "id": { "type": "string" },
+            "number": { "type": "string" },
+            "status": { "type": "string", "enum": ["draft", "sent", "paid", "overdue", "cancelled"] },
+            "amount": { "type": "number" },
+            "paid_amount": { "type": "number" },
+            "balance_due": { "type": "number" },
+            "due_date": { "type": "string", "format": "date" },
+            "paid_at": { "type": "string", "format": "date-time" }
+          }
+        }
+      },
+      "assets": {
+        "input": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "name": { "type": "string", "title": "Asset Name" },
+            "category": { "type": "string", "enum": ["equipment", "vehicle", "property", "software", "other"] },
+            "serial_number": { "type": "string" },
+            "purchase_date": { "type": "string", "format": "date" },
+            "purchase_price": { "type": "number" },
+            "current_value": { "type": "number" },
+            "location": { "type": "string" },
+            "assigned_to": { "type": "string" }
+          },
+          "required": ["name", "category"]
+        },
+        "output": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "id": { "type": "string" },
+            "name": { "type": "string" },
+            "category": { "type": "string" },
+            "status": { "type": "string", "enum": ["available", "in_use", "maintenance", "retired"] },
+            "next_maintenance_date": { "type": "string", "format": "date" }
+          }
+        }
+      }
+    },
+    "compvss": {
+      "projects": {
+        "input": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "name": { "type": "string", "title": "Project Name" },
+            "client_id": { "type": "string" },
+            "venue_id": { "type": "string" },
+            "start_date": { "type": "string", "format": "date" },
+            "end_date": { "type": "string", "format": "date" },
+            "budget": { "type": "number" },
+            "project_type": { "type": "string", "enum": ["concert", "festival", "corporate", "theater", "broadcast"] }
+          },
+          "required": ["name", "start_date"]
+        },
+        "output": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "id": { "type": "string" },
+            "name": { "type": "string" },
+            "status": { "type": "string", "enum": ["planning", "pre_production", "load_in", "show", "load_out", "wrap"] },
+            "crew_count": { "type": "integer" },
+            "budget_spent": { "type": "number" },
+            "budget_remaining": { "type": "number" }
+          }
+        }
+      },
+      "crew": {
+        "input": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "project_id": { "type": "string", "title": "Project ID" },
+            "user_id": { "type": "string", "title": "Crew Member ID" },
+            "role": { "type": "string" },
+            "department": { "type": "string" },
+            "start_date": { "type": "string", "format": "date" },
+            "end_date": { "type": "string", "format": "date" },
+            "rate": { "type": "number" },
+            "rate_type": { "type": "string", "enum": ["hourly", "daily", "flat"] }
+          },
+          "required": ["project_id", "user_id", "role"]
+        },
+        "output": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "id": { "type": "string" },
+            "crew_member": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string" },
+                "name": { "type": "string" },
+                "email": { "type": "string" },
+                "phone": { "type": "string" }
+              }
+            },
+            "role": { "type": "string" },
+            "status": { "type": "string", "enum": ["invited", "confirmed", "checked_in", "checked_out"] }
+          }
+        }
+      }
+    },
+    "gvteway": {
+      "events": {
+        "input": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "name": { "type": "string", "title": "Event Name" },
+            "venue_id": { "type": "string" },
+            "date": { "type": "string", "format": "date-time" },
+            "doors_time": { "type": "string", "format": "time" },
+            "show_time": { "type": "string", "format": "time" },
+            "genre": { "type": "string" },
+            "age_restriction": { "type": "string", "enum": ["all_ages", "18+", "21+"] },
+            "capacity": { "type": "integer" }
+          },
+          "required": ["name", "venue_id", "date"]
+        },
+        "output": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "id": { "type": "string" },
+            "name": { "type": "string" },
+            "status": { "type": "string", "enum": ["draft", "on_sale", "sold_out", "cancelled", "completed"] },
+            "tickets_sold": { "type": "integer" },
+            "tickets_available": { "type": "integer" },
+            "revenue": { "type": "number" }
+          }
+        }
+      },
+      "tickets": {
+        "input": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "event_id": { "type": "string", "title": "Event ID" },
+            "customer_email": { "type": "string", "format": "email" },
+            "ticket_type": { "type": "string", "enum": ["ga", "vip", "reserved", "backstage"] },
+            "quantity": { "type": "integer", "minimum": 1 },
+            "promo_code": { "type": "string" }
+          },
+          "required": ["event_id", "customer_email", "ticket_type", "quantity"]
+        },
+        "output": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "order_id": { "type": "string" },
+            "tickets": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "string" },
+                  "barcode": { "type": "string" },
+                  "seat": { "type": "string" },
+                  "status": { "type": "string" }
+                }
+              }
+            },
+            "total": { "type": "number" },
+            "confirmation_url": { "type": "string", "format": "uri" }
+          }
+        }
+      }
+    }
+  },
+  "webhooks": {
+    "payload_schema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "event": { "type": "string", "description": "Event type (e.g., deal.created)" },
+        "version": { "type": "string", "description": "API version" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "data": { "type": "object", "description": "Event-specific payload" },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "correlation_id": { "type": "string" },
+            "idempotency_key": { "type": "string" },
+            "retry_count": { "type": "integer" }
+          }
+        }
+      },
+      "required": ["event", "version", "timestamp", "data"]
+    }
+  }
+}

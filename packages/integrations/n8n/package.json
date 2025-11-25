@@ -1,0 +1,56 @@
+{
+  "name": "@ghxstship/n8n-nodes",
+  "version": "1.0.0",
+  "description": "n8n community nodes for GHXSTSHIP platform integration",
+  "license": "MIT",
+  "homepage": "https://github.com/ghxstship/n8n-nodes",
+  "author": {
+    "name": "GHXSTSHIP Industries",
+    "email": "platform@ghxstship.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ghxstship/n8n-nodes.git"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc && gulp build:icons",
+    "dev": "tsc --watch",
+    "lint": "eslint nodes credentials --ext .ts",
+    "test": "vitest"
+  },
+  "files": [
+    "dist"
+  ],
+  "n8n": {
+    "n8nNodesApiVersion": 1,
+    "credentials": [
+      "dist/credentials/GhxstshipApi.credentials.js",
+      "dist/credentials/GhxstshipOAuth2.credentials.js"
+    ],
+    "nodes": [
+      "dist/nodes/Ghxstship/Ghxstship.node.js",
+      "dist/nodes/GhxstshipTrigger/GhxstshipTrigger.node.js"
+    ]
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "gulp": "^4.0.2",
+    "n8n-workflow": "^1.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0"
+  },
+  "peerDependencies": {
+    "n8n-workflow": "^1.0.0"
+  },
+  "keywords": [
+    "n8n-community-node-package",
+    "ghxstship",
+    "atlvs",
+    "compvss",
+    "gvteway",
+    "event-management",
+    "production-operations"
+  ]
+}

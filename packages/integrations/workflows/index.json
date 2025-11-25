@@ -1,0 +1,81 @@
+{
+  "name": "GHXSTSHIP Reference Workflows",
+  "version": "1.0.0",
+  "description": "Pre-built automation workflows for GHXSTSHIP platform integrations",
+  "workflows": [
+    {
+      "id": "asset-maintenance-loop",
+      "name": "Asset Maintenance Loop",
+      "file": "asset-maintenance-loop.json",
+      "platform": "atlvs",
+      "category": "asset-management",
+      "description": "Automated workflow that monitors asset maintenance schedules, sends alerts, and creates work orders"
+    },
+    {
+      "id": "finance-reconciliation",
+      "name": "Finance Reconciliation",
+      "file": "finance-reconciliation.json",
+      "platform": "atlvs",
+      "category": "finance",
+      "description": "Automated daily reconciliation of invoices, payments, and GL entries with variance alerting"
+    },
+    {
+      "id": "crew-onboarding",
+      "name": "Crew Onboarding",
+      "file": "crew-onboarding.json",
+      "platform": "compvss",
+      "category": "crew-management",
+      "description": "Automated crew onboarding workflow with document collection, training assignment, and compliance verification"
+    },
+    {
+      "id": "ticket-escalation",
+      "name": "Ticket Escalation",
+      "file": "ticket-escalation.json",
+      "platform": "gvteway",
+      "category": "customer-support",
+      "description": "Automated support ticket escalation based on priority, response time, and VIP status"
+    },
+    {
+      "id": "marketing-drip",
+      "name": "Marketing Drip Campaign",
+      "file": "marketing-drip.json",
+      "platform": "gvteway",
+      "category": "marketing",
+      "description": "Automated marketing drip campaign for new ticket buyers with personalized follow-ups"
+    },
+    {
+      "id": "compliance-alerts",
+      "name": "Compliance Alerts",
+      "file": "compliance-alerts.json",
+      "platform": "atlvs",
+      "category": "compliance",
+      "description": "Automated compliance monitoring with alerts for expiring certifications, licenses, and policy violations"
+    },
+    {
+      "id": "inventory-sync",
+      "name": "Inventory Sync",
+      "file": "inventory-sync.json",
+      "platform": "compvss",
+      "category": "inventory",
+      "description": "Real-time inventory synchronization between COMPVSS warehouse and external systems"
+    },
+    {
+      "id": "vip-concierge",
+      "name": "VIP Concierge",
+      "file": "vip-concierge.json",
+      "platform": "gvteway",
+      "category": "vip-services",
+      "description": "Automated VIP concierge service handling requests, upgrades, and personalized experiences"
+    }
+  ],
+  "categories": {
+    "asset-management": "Asset tracking, maintenance, and lifecycle management",
+    "finance": "Financial operations, reconciliation, and reporting",
+    "crew-management": "Crew scheduling, onboarding, and compliance",
+    "customer-support": "Support ticket handling and escalation",
+    "marketing": "Marketing automation and campaign management",
+    "compliance": "Regulatory compliance and certification tracking",
+    "inventory": "Inventory management and synchronization",
+    "vip-services": "VIP customer experience and concierge services"
+  }
+}

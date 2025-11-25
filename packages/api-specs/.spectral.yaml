@@ -1,0 +1,92 @@
+# Spectral OpenAPI Linting Configuration for GHXSTSHIP APIs
+# Run with: npx @stoplight/spectral-cli lint openapi.yaml
+
+extends:
+  - spectral:oas
+
+rules:
+  # Require operation IDs
+  operation-operationId:
+    severity: error
+    message: "Operations must have an operationId"
+
+  # Require descriptions
+  operation-description:
+    severity: warn
+    message: "Operations should have a description"
+
+  # Require tags
+  operation-tags:
+    severity: error
+    message: "Operations must have at least one tag"
+
+  # Require examples for request/response bodies
+  oas3-valid-media-example:
+    severity: warn
+    message: "Media types should have valid examples"
+
+  # Require info contact
+  info-contact:
+    severity: error
+    message: "API must have contact information"
+
+  # Require info license
+  info-license:
+    severity: warn
+    message: "API should have license information"
+
+  # Custom rules for GHXSTSHIP standards
+  ghxstship-changelog:
+    description: "Operations should have changelog metadata"
+    severity: warn
+    given: "$.paths[*][*]"
+    then:
+      field: "x-changelog"
+      function: truthy
+
+  ghxstship-deprecation:
+    description: "Deprecated operations must have deprecation date"
+    severity: error
+    given: "$.paths[*][*][?(@.deprecated==true)]"
+    then:
+      field: "x-deprecation-date"
+      function: truthy
+
+  ghxstship-pagination:
+    description: "List operations should support pagination"
+    severity: warn
+    given: "$.paths[*].get[?(@.operationId =~ /^list/i)]"
+    then:
+      field: "parameters"
+      function: schema
+      functionOptions:
+        schema:
+          type: array
+          contains:
+            type: object
+            properties:
+              name:
+                enum: ["limit", "cursor", "page"]
+
+  ghxstship-rate-limit:
+    description: "Operations should document rate limits"
+    severity: info
+    given: "$.paths[*][*]"
+    then:
+      field: "x-rate-limit"
+      function: truthy
+
+  # Ensure webhook events are documented
+  ghxstship-webhooks:
+    description: "Webhooks should have event documentation"
+    severity: warn
+    given: "$.webhooks[*]"
+    then:
+      field: "x-event-type"
+      function: truthy
+
+# Formats
+formats:
+  - oas3
+  - oas3.0
+  - oas3.1

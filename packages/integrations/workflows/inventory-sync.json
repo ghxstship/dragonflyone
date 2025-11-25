@@ -1,0 +1,100 @@
+{
+  "name": "Inventory Sync",
+  "description": "Real-time inventory synchronization between COMPVSS warehouse and external systems",
+  "platform": "compvss",
+  "category": "inventory",
+  "nodes": [
+    {
+      "id": "webhook-trigger",
+      "type": "@ghxstship/n8n-nodes.ghxstshipTrigger",
+      "parameters": { "platform": "compvss", "event": "inventory.synced" },
+      "position": [250, 300]
+    },
+    {
+      "id": "get-inventory-changes",
+      "type": "@ghxstship/n8n-nodes.ghxstship",
+      "parameters": {
+        "platform": "compvss",
+        "resource": "inventory",
+        "operation": "getAll",
+        "filters": { "modifiedSince": "={{ $json.data.last_sync_at }}" }
+      },
+      "position": [450, 300]
+    },
+    {
+      "id": "split-by-warehouse",
+      "type": "n8n-nodes-base.splitInBatches",
+      "parameters": { "batchSize": 100 },
+      "position": [650, 300]
+    },
+    {
+      "id": "transform-for-erp",
+      "type": "n8n-nodes-base.code",
+      "parameters": {
+        "jsCode": "const items = $input.all();\nreturn items.map(item => ({\n  json: {\n    sku: item.json.sku,\n    quantity: item.json.quantity_available,\n    location: item.json.warehouse_code,\n    lastUpdated: item.json.updated_at,\n    unitCost: item.json.unit_cost,\n    reorderPoint: item.json.reorder_threshold\n  }\n}));"
+      },
+      "position": [850, 300]
+    },
+    {
+      "id": "sync-to-erp",
+      "type": "n8n-nodes-base.httpRequest",
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.ERP_API_URL }}/inventory/bulk-update",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": { "parameters": [{ "name": "items", "value": "={{ $json }}" }] }
+      },
+      "position": [1050, 300]
+    },
+    {
+      "id": "check-low-stock",
+      "type": "n8n-nodes-base.filter",
+      "parameters": {
+        "conditions": { "number": [{ "value1": "={{ $json.quantity }}", "operation": "smallerEqual", "value2": "={{ $json.reorderPoint }}" }] }
+      },
+      "position": [1250, 200]
+    },
+    {
+      "id": "create-reorder",
+      "type": "@ghxstship/n8n-nodes.ghxstship",
+      "parameters": {
+        "platform": "compvss",
+        "resource": "purchaseOrder",
+        "operation": "create",
+        "additionalFields": {
+          "sku": "={{ $json.sku }}",
+          "quantity": "={{ $json.reorderPoint * 2 }}",
+          "priority": "normal",
+          "auto_generated": true
+        }
+      },
+      "position": [1450, 200]
+    },
+    {
+      "id": "log-sync",
+      "type": "@ghxstship/n8n-nodes.ghxstship",
+      "parameters": {
+        "platform": "compvss",
+        "resource": "syncLog",
+        "operation": "create",
+        "additionalFields": {
+          "type": "inventory",
+          "items_synced": "={{ $node['get-inventory-changes'].json.length }}",
+          "status": "success",
+          "destination": "erp"
+        }
+      },
+      "position": [1250, 400]
+    }
+  ],
+  "connections": {
+    "webhook-trigger": { "main": [[{ "node": "get-inventory-changes", "type": "main", "index": 0 }]] },
+    "get-inventory-changes": { "main": [[{ "node": "split-by-warehouse", "type": "main", "index": 0 }]] },
+    "split-by-warehouse": { "main": [[{ "node": "transform-for-erp", "type": "main", "index": 0 }]] },
+    "transform-for-erp": { "main": [[{ "node": "sync-to-erp", "type": "main", "index": 0 }]] },
+    "sync-to-erp": { "main": [[{ "node": "check-low-stock", "type": "main", "index": 0 }, { "node": "log-sync", "type": "main", "index": 0 }]] },
+    "check-low-stock": { "main": [[{ "node": "create-reorder", "type": "main", "index": 0 }]] }
+  }
+}

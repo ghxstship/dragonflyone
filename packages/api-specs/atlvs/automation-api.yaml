@@ -1,0 +1,273 @@
+openapi: 3.1.0
+info:
+  title: ATLVS Automation API
+  version: 1.0.0
+  description: |
+    Automation triggers and actions API for n8n, Zapier, and Make integrations.
+    Enables external automation platforms to subscribe to GHXSTSHIP events and execute actions.
+
+servers:
+  - url: https://{project-ref}.supabase.co/functions/v1
+    description: Supabase Edge Functions
+    variables:
+      project-ref:
+        default: your-project-ref
+        description: Your Supabase project reference ID
+
+security:
+  - apiKey: []
+
+paths:
+  /automation-triggers:
+    get:
+      summary: List available automation triggers
+      operationId: listAutomationTriggers
+      tags:
+        - Automation
+      parameters:
+        - name: platform
+          in: query
+          schema:
+            type: string
+            enum: [ATLVS, COMPVSS, GVTEWAY]
+            default: ATLVS
+          description: Filter triggers by platform
+        - name: trigger_code
+          in: query
+          schema:
+            type: string
+          description: Get specific trigger by code
+      responses:
+        '200':
+          description: List of available triggers
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  triggers:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AutomationTrigger'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    post:
+      summary: Test automation trigger and get sample data
+      operationId: testAutomationTrigger
+      tags:
+        - Automation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - trigger_code
+              properties:
+                trigger_code:
+                  type: string
+                  example: deal.won
+                platform:
+                  type: string
+                  enum: [ATLVS, COMPVSS, GVTEWAY]
+                organization_id:
+                  type: string
+                  format: uuid
+      responses:
+        '200':
+          description: Trigger details with sample data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  trigger:
+                    $ref: '#/components/schemas/AutomationTrigger'
+                  sample_data:
+                    type: object
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /automation-actions:
+    get:
+      summary: List available automation actions
+      operationId: listAutomationActions
+      tags:
+        - Automation
+      parameters:
+        - name: platform
+          in: query
+          schema:
+            type: string
+            enum: [ATLVS, COMPVSS, GVTEWAY]
+            default: ATLVS
+          description: Filter actions by platform
+      responses:
+        '200':
+          description: List of available actions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  actions:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AutomationAction'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    post:
+      summary: Execute automation action
+      operationId: executeAutomationAction
+      tags:
+        - Automation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - action_code
+                - organization_id
+                - payload
+              properties:
+                action_code:
+                  type: string
+                  example: create.contact
+                organization_id:
+                  type: string
+                  format: uuid
+                payload:
+                  type: object
+                  description: Action-specific payload
+              examples:
+                createContact:
+                  value:
+                    action_code: create.contact
+                    organization_id: 550e8400-e29b-41d4-a716-446655440000
+                    payload:
+                      company: Acme Corp
+                      first_name: Jane
+                      last_name: Smith
+                      email: jane@example.com
+                      phone: "+1234567890"
+                createDeal:
+                  value:
+                    action_code: create.deal
+                    organization_id: 550e8400-e29b-41d4-a716-446655440000
+                    payload:
+                      title: Summer Festival 2024
+                      status: lead
+                      value: 150000
+                      currency: USD
+      responses:
+        '200':
+          description: Action executed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  result:
+                    type: object
+        '400':
+          description: Action execution failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: apikey
+      description: Supabase anon or service role key
+
+  schemas:
+    AutomationTrigger:
+      type: object
+      properties:
+        trigger_code:
+          type: string
+          example: deal.won
+        platform:
+          type: string
+          enum: [ATLVS, COMPVSS, GVTEWAY]
+        name:
+          type: string
+          example: Deal Won
+        description:
+          type: string
+        event_types:
+          type: array
+          items:
+            type: string
+        payload_schema:
+          type: object
+          description: JSON Schema for the trigger payload
+
+    AutomationAction:
+      type: object
+      properties:
+        action_code:
+          type: string
+          example: create.contact
+        platform:
+          type: string
+          enum: [ATLVS, COMPVSS, GVTEWAY]
+        name:
+          type: string
+          example: Create Contact
+        description:
+          type: string
+        input_schema:
+          type: object
+          description: JSON Schema for required input parameters
+        output_schema:
+          type: object
+          description: JSON Schema for action response
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Invalid request

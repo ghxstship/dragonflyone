@@ -1,0 +1,269 @@
+{
+  "name": "GHXSTSHIP Sample Zaps",
+  "version": "1.0.0",
+  "description": "Pre-built Zapier templates for common GHXSTSHIP integrations",
+  "zaps": [
+    {
+      "id": "atlvs-slack-deal-alerts",
+      "name": "ATLVS → Slack: Deal Alerts",
+      "description": "Get instant Slack notifications when deals are created, won, or lost",
+      "trigger": {
+        "app": "ghxstship-atlvs",
+        "event": "deal_status_changed",
+        "filters": {
+          "status": ["won", "lost", "created"]
+        }
+      },
+      "actions": [
+        {
+          "app": "slack",
+          "event": "send_channel_message",
+          "config": {
+            "channel": "#sales-alerts",
+            "message": "{{status_emoji}} Deal {{deal.name}} is now {{deal.status}}\nValue: ${{deal.value}}\nOwner: {{deal.owner.name}}\n<{{deal.url}}|View in ATLVS>"
+          }
+        }
+      ],
+      "variables": {
+        "status_emoji": {
+          "won": "🎉",
+          "lost": "😔",
+          "created": "🆕"
+        }
+      }
+    },
+    {
+      "id": "atlvs-slack-invoice-paid",
+      "name": "ATLVS → Slack: Invoice Paid Notification",
+      "description": "Notify finance team when invoices are paid",
+      "trigger": {
+        "app": "ghxstship-atlvs",
+        "event": "invoice_paid"
+      },
+      "actions": [
+        {
+          "app": "slack",
+          "event": "send_channel_message",
+          "config": {
+            "channel": "#finance",
+            "message": "💰 Invoice #{{invoice.number}} paid!\nAmount: ${{invoice.amount}}\nClient: {{invoice.client.name}}\nPayment method: {{invoice.payment_method}}"
+          }
+        }
+      ]
+    },
+    {
+      "id": "atlvs-slack-compliance-alert",
+      "name": "ATLVS → Slack: Compliance Alerts",
+      "description": "Alert compliance team about expiring certifications",
+      "trigger": {
+        "app": "ghxstship-atlvs",
+        "event": "certification_expiring"
+      },
+      "actions": [
+        {
+          "app": "slack",
+          "event": "send_channel_message",
+          "config": {
+            "channel": "#compliance",
+            "message": "⚠️ Certification Expiring\nType: {{certification.type}}\nHolder: {{certification.holder.name}}\nExpires: {{certification.expires_at}}\nDays remaining: {{certification.days_until_expiry}}"
+          }
+        }
+      ]
+    },
+    {
+      "id": "gvteway-mailchimp-ticket-buyer",
+      "name": "GVTEWAY → Mailchimp: New Ticket Buyer",
+      "description": "Add ticket buyers to Mailchimp audience with event tags",
+      "trigger": {
+        "app": "ghxstship-gvteway",
+        "event": "ticket_purchased"
+      },
+      "actions": [
+        {
+          "app": "mailchimp",
+          "event": "add_update_subscriber",
+          "config": {
+            "list_id": "{{mailchimp_list_id}}",
+            "email": "{{customer.email}}",
+            "merge_fields": {
+              "FNAME": "{{customer.first_name}}",
+              "LNAME": "{{customer.last_name}}",
+              "LAST_EVENT": "{{event.name}}",
+              "PURCHASE_DATE": "{{purchase.date}}"
+            },
+            "tags": ["ticket-buyer", "{{event.genre}}", "{{event.venue.city}}"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "gvteway-mailchimp-vip-upgrade",
+      "name": "GVTEWAY → Mailchimp: VIP Upgrade",
+      "description": "Update Mailchimp tags when customer becomes VIP",
+      "trigger": {
+        "app": "ghxstship-gvteway",
+        "event": "vip_upgrade"
+      },
+      "actions": [
+        {
+          "app": "mailchimp",
+          "event": "add_tags",
+          "config": {
+            "email": "{{customer.email}}",
+            "tags": ["vip", "{{vip_tier}}"]
+          }
+        },
+        {
+          "app": "mailchimp",
+          "event": "remove_tags",
+          "config": {
+            "email": "{{customer.email}}",
+            "tags": ["standard"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "gvteway-mailchimp-event-reminder",
+      "name": "GVTEWAY → Mailchimp: Event Reminder Campaign",
+      "description": "Trigger email campaign 3 days before event",
+      "trigger": {
+        "app": "ghxstship-gvteway",
+        "event": "event_reminder",
+        "filters": {
+          "days_before": 3
+        }
+      },
+      "actions": [
+        {
+          "app": "mailchimp",
+          "event": "send_campaign",
+          "config": {
+            "template_id": "event_reminder_template",
+            "segment": {
+              "match": "all",
+              "conditions": [
+                {
+                  "field": "LAST_EVENT",
+                  "op": "is",
+                  "value": "{{event.name}}"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "compvss-jira-incident",
+      "name": "COMPVSS → Jira: Production Incident",
+      "description": "Create Jira issues from COMPVSS production incidents",
+      "trigger": {
+        "app": "ghxstship-compvss",
+        "event": "incident_reported"
+      },
+      "actions": [
+        {
+          "app": "jira",
+          "event": "create_issue",
+          "config": {
+            "project": "OPS",
+            "issue_type": "Bug",
+            "summary": "[COMPVSS] {{incident.title}}",
+            "description": "{{incident.description}}\n\n*Project:* {{incident.project.name}}\n*Reported by:* {{incident.reporter.name}}\n*Severity:* {{incident.severity}}\n\n[View in COMPVSS|{{incident.url}}]",
+            "priority": "{{incident.severity_to_jira_priority}}",
+            "labels": ["compvss", "production", "{{incident.category}}"]
+          }
+        }
+      ],
+      "mappings": {
+        "severity_to_jira_priority": {
+          "critical": "Highest",
+          "high": "High",
+          "medium": "Medium",
+          "low": "Low"
+        }
+      }
+    },
+    {
+      "id": "compvss-jira-crew-issue",
+      "name": "COMPVSS → Jira: Crew Scheduling Issue",
+      "description": "Create Jira task when crew scheduling conflicts detected",
+      "trigger": {
+        "app": "ghxstship-compvss",
+        "event": "scheduling_conflict"
+      },
+      "actions": [
+        {
+          "app": "jira",
+          "event": "create_issue",
+          "config": {
+            "project": "HR",
+            "issue_type": "Task",
+            "summary": "Scheduling Conflict: {{conflict.crew_member.name}}",
+            "description": "Scheduling conflict detected:\n\n*Crew Member:* {{conflict.crew_member.name}}\n*Conflicting Projects:*\n- {{conflict.project_1.name}} ({{conflict.project_1.dates}})\n- {{conflict.project_2.name}} ({{conflict.project_2.dates}})\n\n*Resolution needed by:* {{conflict.deadline}}",
+            "assignee": "{{conflict.crew_member.manager.email}}"
+          }
+        }
+      ]
+    },
+    {
+      "id": "compvss-jira-equipment-issue",
+      "name": "COMPVSS → Jira: Equipment Maintenance",
+      "description": "Create Jira task for equipment maintenance needs",
+      "trigger": {
+        "app": "ghxstship-compvss",
+        "event": "equipment_maintenance_due"
+      },
+      "actions": [
+        {
+          "app": "jira",
+          "event": "create_issue",
+          "config": {
+            "project": "MAINT",
+            "issue_type": "Task",
+            "summary": "Maintenance Due: {{equipment.name}}",
+            "description": "Equipment maintenance required:\n\n*Equipment:* {{equipment.name}}\n*Serial:* {{equipment.serial_number}}\n*Last Service:* {{equipment.last_maintenance_date}}\n*Type:* {{equipment.maintenance_type}}\n*Location:* {{equipment.current_location}}",
+            "due_date": "{{equipment.maintenance_due_date}}",
+            "labels": ["maintenance", "equipment", "{{equipment.category}}"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "atlvs-google-sheets-deals",
+      "name": "ATLVS → Google Sheets: Deal Tracker",
+      "description": "Log all deal updates to a Google Sheet for reporting",
+      "trigger": {
+        "app": "ghxstship-atlvs",
+        "event": "deal_updated"
+      },
+      "actions": [
+        {
+          "app": "google-sheets",
+          "event": "create_spreadsheet_row",
+          "config": {
+            "spreadsheet_id": "{{google_sheet_id}}",
+            "worksheet": "Deals",
+            "row_data": {
+              "Timestamp": "{{_zap.timestamp}}",
+              "Deal ID": "{{deal.id}}",
+              "Deal Name": "{{deal.name}}",
+              "Status": "{{deal.status}}",
+              "Value": "{{deal.value}}",
+              "Owner": "{{deal.owner.name}}",
+              "Stage": "{{deal.stage}}",
+              "Updated By": "{{deal.updated_by.name}}"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "categories": {
+    "sales": ["atlvs-slack-deal-alerts", "atlvs-slack-invoice-paid", "atlvs-google-sheets-deals"],
+    "marketing": ["gvteway-mailchimp-ticket-buyer", "gvteway-mailchimp-vip-upgrade", "gvteway-mailchimp-event-reminder"],
+    "operations": ["compvss-jira-incident", "compvss-jira-crew-issue", "compvss-jira-equipment-issue"],
+    "compliance": ["atlvs-slack-compliance-alert"]
+  }
+}

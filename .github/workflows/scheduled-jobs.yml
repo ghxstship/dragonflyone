@@ -1,0 +1,38 @@
+name: Scheduled Jobs
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+    - cron: '0 */6 * * *'
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+jobs:
+  refresh-caches:
+    if: github.event.schedule == '*/15 * * * *' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Warm materialized view caches
+        run: |
+          curl -X POST https://${{ secrets.PRODUCTION_PROJECT_REF }}.supabase.co/functions/v1/cache-warmer \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}"
+
+  send-notifications:
+    if: github.event.schedule == '0 */6 * * *' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Process pending notifications
+        run: |
+          echo "Notification processing would run here"
+
+  cleanup-data:
+    if: github.event.schedule == '0 3 * * *' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Run cleanup jobs
+        run: |
+          curl -X POST https://${{ secrets.PRODUCTION_PROJECT_REF }}.supabase.co/functions/v1/cleanup-jobs \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}"

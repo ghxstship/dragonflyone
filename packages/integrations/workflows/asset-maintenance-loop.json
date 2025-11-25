@@ -1,0 +1,79 @@
+{
+  "name": "Asset Maintenance Loop",
+  "description": "Automated workflow that monitors asset maintenance schedules, sends alerts, and creates work orders",
+  "platform": "atlvs",
+  "category": "asset-management",
+  "nodes": [
+    {
+      "id": "trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "parameters": {
+        "rule": {
+          "interval": [{ "field": "hours", "hoursInterval": 24 }]
+        }
+      },
+      "position": [250, 300]
+    },
+    {
+      "id": "get-assets",
+      "type": "@ghxstship/n8n-nodes.ghxstship",
+      "parameters": {
+        "platform": "atlvs",
+        "resource": "asset",
+        "operation": "getAll",
+        "filters": {
+          "maintenanceDueWithin": "7d"
+        }
+      },
+      "position": [450, 300]
+    },
+    {
+      "id": "filter-overdue",
+      "type": "n8n-nodes-base.if",
+      "parameters": {
+        "conditions": {
+          "boolean": [{
+            "value1": "={{ $json.maintenance_overdue }}",
+            "value2": true
+          }]
+        }
+      },
+      "position": [650, 300]
+    },
+    {
+      "id": "create-work-order",
+      "type": "@ghxstship/n8n-nodes.ghxstship",
+      "parameters": {
+        "platform": "atlvs",
+        "resource": "workOrder",
+        "operation": "create",
+        "additionalFields": {
+          "asset_id": "={{ $json.id }}",
+          "type": "maintenance",
+          "priority": "={{ $json.maintenance_overdue ? 'high' : 'normal' }}",
+          "description": "Scheduled maintenance for {{ $json.name }}"
+        }
+      },
+      "position": [850, 200]
+    },
+    {
+      "id": "send-alert",
+      "type": "n8n-nodes-base.slack",
+      "parameters": {
+        "channel": "#maintenance-alerts",
+        "text": "⚠️ Asset maintenance due: {{ $json.name }}\nLast maintenance: {{ $json.last_maintenance_date }}\nAssigned to: {{ $json.assigned_to }}"
+      },
+      "position": [850, 400]
+    }
+  ],
+  "connections": {
+    "trigger": { "main": [[{ "node": "get-assets", "type": "main", "index": 0 }]] },
+    "get-assets": { "main": [[{ "node": "filter-overdue", "type": "main", "index": 0 }]] },
+    "filter-overdue": {
+      "main": [
+        [{ "node": "create-work-order", "type": "main", "index": 0 }],
+        [{ "node": "send-alert", "type": "main", "index": 0 }]
+      ]
+    }
+  }
+}

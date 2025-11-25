@@ -1,0 +1,50 @@
+openapi: 3.1.0
+info:
+  title: COMPVSS API
+  version: 0.1.0
+  description: Draft API for COMPVSS production workflows.
+  contact:
+    name: GHXSTSHIP Platform Team
+    email: platform@ghxstship.com
+tags:
+  - name: Projects
+    description: Production project planning endpoints
+servers:
+  - url: https://api.ghxstship.com/compvss
+    description: Production
+  - url: https://staging.api.ghxstship.com/compvss
+    description: Staging
+paths:
+  /projects:
+    get:
+      operationId: listProjects
+      tags:
+        - Projects
+      summary: List projects
+      description: Returns paginated COMPVSS projects with phase filtering.
+      responses:
+        "200":
+          description: A paginated list of projects
+          content:
+            application/json:
+              schema:
+                $ref: "../shared/schemas.yaml#/components/schemas/ProjectList"
+    post:
+      operationId: createProject
+      tags:
+        - Projects
+      summary: Create project
+      description: Creates a production project tied to ATLVS deals.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "../shared/schemas.yaml#/components/schemas/ProjectCreate"
+      responses:
+        "201":
+          description: Project created
+          content:
+            application/json:
+              schema:
+                $ref: "../shared/schemas.yaml#/components/schemas/Project"

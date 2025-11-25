@@ -1,0 +1,108 @@
+{
+  "name": "Compliance Alerts",
+  "description": "Automated compliance monitoring with alerts for expiring certifications, licenses, and policy violations",
+  "platform": "atlvs",
+  "category": "compliance",
+  "nodes": [
+    {
+      "id": "schedule-trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "parameters": { "rule": { "interval": [{ "field": "hours", "hoursInterval": 6 }] } },
+      "position": [250, 200]
+    },
+    {
+      "id": "webhook-trigger",
+      "type": "@ghxstship/n8n-nodes.ghxstshipTrigger",
+      "parameters": { "platform": "atlvs", "event": "compliance.alert" },
+      "position": [250, 400]
+    },
+    {
+      "id": "get-expiring-certs",
+      "type": "@ghxstship/n8n-nodes.ghxstship",
+      "parameters": {
+        "platform": "atlvs",
+        "resource": "certification",
+        "operation": "getAll",
+        "filters": { "expiresWithin": "30d" }
+      },
+      "position": [450, 200]
+    },
+    {
+      "id": "get-expiring-licenses",
+      "type": "@ghxstship/n8n-nodes.ghxstship",
+      "parameters": {
+        "platform": "atlvs",
+        "resource": "license",
+        "operation": "getAll",
+        "filters": { "expiresWithin": "30d" }
+      },
+      "position": [450, 350]
+    },
+    {
+      "id": "merge-items",
+      "type": "n8n-nodes-base.merge",
+      "parameters": { "mode": "append" },
+      "position": [650, 275]
+    },
+    {
+      "id": "categorize-urgency",
+      "type": "n8n-nodes-base.code",
+      "parameters": {
+        "jsCode": "const items = $input.all();\nreturn items.map(item => {\n  const daysUntilExpiry = Math.ceil((new Date(item.json.expires_at) - Date.now()) / (1000 * 60 * 60 * 24));\n  let urgency = 'low';\n  if (daysUntilExpiry <= 7) urgency = 'critical';\n  else if (daysUntilExpiry <= 14) urgency = 'high';\n  else if (daysUntilExpiry <= 21) urgency = 'medium';\n  return { json: { ...item.json, daysUntilExpiry, urgency } };\n});"
+      },
+      "position": [850, 275]
+    },
+    {
+      "id": "filter-critical",
+      "type": "n8n-nodes-base.filter",
+      "parameters": { "conditions": { "string": [{ "value1": "={{ $json.urgency }}", "operation": "equal", "value2": "critical" }] } },
+      "position": [1050, 200]
+    },
+    {
+      "id": "send-critical-alert",
+      "type": "n8n-nodes-base.slack",
+      "parameters": {
+        "channel": "#compliance-critical",
+        "text": "🚨 CRITICAL: {{ $json.type }} expiring in {{ $json.daysUntilExpiry }} days!\nHolder: {{ $json.holder_name }}\nExpires: {{ $json.expires_at }}\nAction required immediately."
+      },
+      "position": [1250, 200]
+    },
+    {
+      "id": "create-task",
+      "type": "@ghxstship/n8n-nodes.ghxstship",
+      "parameters": {
+        "platform": "atlvs",
+        "resource": "task",
+        "operation": "create",
+        "additionalFields": {
+          "title": "Renew {{ $json.type }}: {{ $json.name }}",
+          "due_date": "={{ $json.expires_at }}",
+          "priority": "={{ $json.urgency }}",
+          "assigned_to": "={{ $json.holder_id }}",
+          "category": "compliance"
+        }
+      },
+      "position": [1050, 350]
+    },
+    {
+      "id": "send-email-reminder",
+      "type": "n8n-nodes-base.emailSend",
+      "parameters": {
+        "toEmail": "={{ $json.holder_email }}",
+        "subject": "Action Required: {{ $json.type }} Expiring Soon",
+        "text": "Your {{ $json.type }} ({{ $json.name }}) will expire on {{ $json.expires_at }}.\n\nPlease take action to renew before expiration."
+      },
+      "position": [1250, 350]
+    }
+  ],
+  "connections": {
+    "schedule-trigger": { "main": [[{ "node": "get-expiring-certs", "type": "main", "index": 0 }, { "node": "get-expiring-licenses", "type": "main", "index": 0 }]] },
+    "webhook-trigger": { "main": [[{ "node": "categorize-urgency", "type": "main", "index": 0 }]] },
+    "get-expiring-certs": { "main": [[{ "node": "merge-items", "type": "main", "index": 0 }]] },
+    "get-expiring-licenses": { "main": [[{ "node": "merge-items", "type": "main", "index": 1 }]] },
+    "merge-items": { "main": [[{ "node": "categorize-urgency", "type": "main", "index": 0 }]] },
+    "categorize-urgency": { "main": [[{ "node": "filter-critical", "type": "main", "index": 0 }, { "node": "create-task", "type": "main", "index": 0 }]] },
+    "filter-critical": { "main": [[{ "node": "send-critical-alert", "type": "main", "index": 0 }]] },
+    "create-task": { "main": [[{ "node": "send-email-reminder", "type": "main", "index": 0 }]] }
+  }
+}

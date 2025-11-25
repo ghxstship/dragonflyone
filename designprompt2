@@ -1,0 +1,205 @@
+Design System
+Color Palette - Monochromatic Only
+Primary Colors:
+
+Pure Black: #000000 (backgrounds, text, bold elements)
+Pure White: #FFFFFF (backgrounds, text, contrast elements)
+
+Greyscale Palette (for depth, texture, and hierarchy):
+
+Grey 100: #F5F5F5 (lightest grey, subtle backgrounds)
+Grey 200: #E5E5E5 (light grey, borders, dividers)
+Grey 300: #D4D4D4 (mid-light grey)
+Grey 400: #A3A3A3 (medium grey, secondary text)
+Grey 500: #737373 (mid grey)
+Grey 600: #525252 (mid-dark grey)
+Grey 700: #404040 (dark grey)
+Grey 800: #262626 (darker grey)
+Grey 900: #171717 (almost black, deep backgrounds)
+
+Usage Guidelines:
+
+Backgrounds: Alternate between pure black and pure white for maximum contrast
+Text: Black on white, white on black - no compromise on readability
+Accents: Use grey tones for borders, dividers, and subtle backgrounds
+Hover States: Invert colors (black to white, white to black)
+Shadows: Use grey tones for depth (never true shadows, more like outlines)
+Halftone Effects: Black dots on white or white dots on black
+Duotone Images: Convert all images to black and white with optional grey midtones
+Geometric Shapes: Pure black or white with occasional grey fills
+Pop Art Elements: High contrast with no gradients (flat color blocks)
+
+Typography System
+Display/Title Font: ANTON
+
+Use for: Main site title, hero headlines, major impact statements
+Weight: Regular (400) - this font only has one weight
+Transform: Uppercase preferred for maximum impact
+Sizes:
+
+Desktop: 72px - 120px+ for heroes
+Mobile: 48px - 72px
+
+
+Line Height: 0.9 - 1.1 (tight for impact)
+Letter Spacing: -0.02em to 0 (tight)
+Color: Pure black or pure white only
+Example usage: "GHXSTSHIP", "WE CREATE WORLDS"
+
+H1 Font: ANTON
+
+Use for: Page titles, primary headlines
+Weight: Regular (400)
+Transform: Uppercase
+Sizes:
+
+Desktop: 56px - 80px
+Mobile: 36px - 48px
+
+
+Line Height: 1.0 - 1.1
+Letter Spacing: -0.01em
+Example usage: "THE STORY", "OUR WORK", "CONTACT"
+
+H2-H6 Font: BEBAS NEUE
+
+Use for: Section headers, subsections, category labels, navigation
+Weight: Regular (400) or Bold (700)
+Transform: Uppercase for H2-H3, Title Case or Uppercase for H4-H6
+Sizes:
+
+H2: 40px - 56px (desktop) / 28px - 36px (mobile)
+H3: 32px - 40px (desktop) / 24px - 28px (mobile)
+H4: 24px - 32px (desktop) / 20px - 24px (mobile)
+H5: 20px - 24px (desktop) / 18px - 20px (mobile)
+H6: 18px - 20px (desktop) / 16px - 18px (mobile)
+
+
+Line Height: 1.1 - 1.2
+Letter Spacing: 0.02em - 0.04em (slightly looser for readability)
+Example usage: "DESIGN", "DEVELOPMENT", "SERVICES", "FEATURED WORK"
+
+Body Font: SHARE TECH
+
+Use for: All body copy, paragraphs, descriptions, general content
+Weight: Regular (400) - this font only has one weight
+Transform: Normal (sentence case)
+Sizes:
+
+Desktop: 16px - 18px base
+Mobile: 15px - 16px base
+Large body: 18px - 20px
+
+
+Line Height: 1.6 - 1.8 (comfortable reading)
+Letter Spacing: 0 to 0.01em
+Color: Black on white backgrounds, white on black backgrounds, or grey 400/600 for secondary text
+Max width: 65-75 characters per line for readability
+Example usage: All descriptive paragraphs, about text, service descriptions
+
+Mono/Subtitles Font: SHARE TECH MONO
+
+Use for: Metadata, dates, tags, labels, technical information, captions, code snippets
+Weight: Regular (400) - this font only has one weight
+Transform: Uppercase for labels/tags, normal for captions
+Sizes:
+
+Desktop: 12px - 14px
+Mobile: 11px - 13px
+Large labels: 14px - 16px
+
+
+Line Height: 1.4 - 1.6
+Letter Spacing: 0.05em - 0.1em (mono spacing needs breathing room)
+Color: Grey 500-600 for subtle metadata, black/white for prominent labels
+Example usage: "CLIENT: FORMULA 1", "2024", "TAMPA, FL", "VERTICAL: EXPERIENTIAL", project metadata, timestamps, location data
+
+Typography Hierarchy Example:
+ANTON (120px, black, uppercase): GHXSTSHIP
+↓
+ANTON (72px, black, uppercase): WE CREATE BEYOND REALITY
+↓
+BEBAS NEUE (40px, black, uppercase): IMMERSIVE ENTERTAINMENT
+↓
+SHARE TECH (18px, black): We architect impossible experiences that push the boundaries of what audiences expect, transforming abstract concepts into tangible realities.
+↓
+SHARE TECH MONO (13px, grey-600, uppercase): TAMPA, FL  //  EST. 2022  //  52+ COUNTRIES
+Font Loading & Implementation:
+
+Load via Google Fonts or self-host for performance
+Implement font-display: swap for better performance
+Provide fallback fonts:
+
+ANTON → Impact, Arial Black, sans-serif
+BEBAS NEUE → Arial Narrow, Arial, sans-serif
+SHARE TECH → Monaco, Consolas, monospace
+SHARE TECH MONO → Courier New, Courier, monospace
+
+
+
+Components to Build
+Navigation:
+
+Fixed header with ANTON logo wordmark (GHXSTSHIP)
+Black background with white text (or inverted depending on page context)
+Bebas Neue for menu items (uppercase)
+Hamburger menu on mobile with full-screen black overlay
+Desktop: horizontal menu with minimal dropdown indicators
+CTA button: "START A PROJECT" (Bebas Neue, outlined or inverted style)
+Geometric underline/highlight on hover
+
+Footer:
+
+Multi-column layout on black background
+BEBAS NEUE for column headers (white, uppercase)
+Share Tech for links and info (white/grey 400)
+Share Tech Mono for copyright and legal (grey 500)
+Newsletter signup with minimal input styling
+Bold geometric dividing lines
+Social media icons (custom B&W geometric versions)
+
+Cards:
+
+Project cards: Duotone images, Bebas Neue titles, Share Tech Mono metadata
+Service cards: Geometric icon + Bebas Neue heading + Share Tech description
+Statistic cards: ANTON numbers with Bebas Neue labels
+Hard shadows or thick borders instead of soft shadows
+Hover effects: scale, invert colors, or add geometric overlay
+
+Forms:
+
+Multi-step wizard for contact (geometric progress bar)
+Bold outlined inputs with Bebas Neue labels
+Share Tech for placeholder text
+Inline validation with Share Tech error messages
+Success/error states with bold geometric icons
+File upload with geometric button
+High contrast focus states
+
+Media:
+
+Video player with custom B&W controls
+Image galleries: all images converted to duotone/high-contrast B&W
+Lightbox with black background and white UI elements
+Background video sections converted to B&W
+Lazy-loaded images with geometric placeholder shapes
+Halftone overlay effects on hover
+
+Buttons & CTAs:
+
+BEBAS NEUE text (uppercase)
+Outlined style (white outline on black, black outline on white)
+Filled style with color invert on hover
+Geometric arrows or icons
+Minimum 48px height for accessibility
+Bold, thick borders (2-3px)
+
+Animations:
+
+Page transitions (hard cuts, wipes, geometric reveals)
+Scroll-triggered animations (fade in, slide, scale, rotate)
+Hover states (scale, invert, geometric mask reveals)
+Loading states: geometric shapes, halftone patterns
+Cursor follow effects with geometric shapes (optional, desktop)
+Parallax with geometric shapes
+Grid and dot pattern animations

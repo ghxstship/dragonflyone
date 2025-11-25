@@ -1,0 +1,249 @@
+openapi: 3.1.0
+info:
+  title: ATLVS API
+  version: 1.0.0
+  description: |
+    ATLVS Business Operations Platform API for GHXSTSHIP Industries.
+    
+    ## Authentication
+    All endpoints require Bearer token authentication. Include your API key in the Authorization header:
+    ```
+    Authorization: Bearer your_api_key
+    ```
+    
+    ## Rate Limits
+    - Standard: 1000 requests/minute
+    - Bulk operations: 100 requests/minute
+    
+    ## Changelog
+    - **v1.0.0** (2024-01-15): Initial GA release
+    - **v0.1.0** (2023-11-01): Beta release
+  contact:
+    name: GHXSTSHIP Platform Team
+    email: platform@ghxstship.com
+    url: https://developers.ghxstship.com
+  license:
+    name: Proprietary
+    url: https://ghxstship.com/terms
+  x-logo:
+    url: https://ghxstship.com/logo.png
+    altText: GHXSTSHIP Logo
+
+x-api-status:
+  url: https://status.ghxstship.com
+  description: API status and incident history
+
+tags:
+  - name: Deals
+    description: CRM and revenue operations endpoints
+  - name: Assets
+    description: Asset management and tracking
+  - name: Finance
+    description: Financial operations and reporting
+  - name: Workforce
+    description: Employee and contractor management
+  - name: Compliance
+    description: Regulatory compliance and certifications
+  - name: Webhooks
+    description: Webhook subscription management
+
+servers:
+  - url: https://api.ghxstship.com/atlvs/v1
+    description: Production
+  - url: https://staging.api.ghxstship.com/atlvs/v1
+    description: Staging
+  - url: http://localhost:3000/api
+    description: Local Development
+
+paths:
+  /deals:
+    get:
+      operationId: listDeals
+      tags:
+        - Deals
+      summary: List deals
+      description: Returns paginated ATLVS deals with status filters.
+      x-changelog:
+        - version: "1.0.0"
+          date: "2024-01-15"
+          description: "Added cursor-based pagination"
+        - version: "0.1.0"
+          date: "2023-11-01"
+          description: "Initial release"
+      x-rate-limit:
+        requests: 1000
+        period: minute
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+            maximum: 100
+          description: Maximum number of deals to return
+        - name: cursor
+          in: query
+          schema:
+            type: string
+          description: Pagination cursor from previous response
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [open, won, lost, all]
+          description: Filter by deal status
+      responses:
+        "200":
+          description: A paginated list of deals
+          content:
+            application/json:
+              schema:
+                $ref: "../shared/schemas.yaml#/components/schemas/DealList"
+              example:
+                data:
+                  - id: "deal_abc123"
+                    name: "Enterprise Contract"
+                    value: 150000
+                    currency: "USD"
+                    stage: "proposal"
+                    owner_id: "user_xyz789"
+                pagination:
+                  cursor: "eyJsYXN0SWQiOiJkZWFsX2FiYzEyMyJ9"
+                  hasMore: true
+                  total: 42
+    post:
+      operationId: createDeal
+      tags:
+        - Deals
+      summary: Create deal
+      description: Creates a new deal record in ATLVS CRM.
+      x-changelog:
+        - version: "1.0.0"
+          date: "2024-01-15"
+          description: "Added custom fields support"
+      x-rate-limit:
+        requests: 100
+        period: minute
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "../shared/schemas.yaml#/components/schemas/DealCreate"
+            example:
+              name: "New Enterprise Deal"
+              value: 75000
+              currency: "USD"
+              stage: "qualification"
+              owner_id: "user_xyz789"
+              custom_fields:
+                source: "referral"
+                priority: "high"
+      responses:
+        "201":
+          description: Deal created
+          content:
+            application/json:
+              schema:
+                $ref: "../shared/schemas.yaml#/components/schemas/Deal"
+
+  /webhooks:
+    get:
+      operationId: listWebhooks
+      tags:
+        - Webhooks
+      summary: List webhook subscriptions
+      description: Returns all webhook subscriptions for the authenticated workspace.
+      x-changelog:
+        - version: "1.0.0"
+          date: "2024-01-15"
+          description: "Initial release"
+      responses:
+        "200":
+          description: List of webhook subscriptions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Webhook"
+    post:
+      operationId: createWebhook
+      tags:
+        - Webhooks
+      summary: Create webhook subscription
+      description: Subscribe to webhook events for real-time notifications.
+      x-changelog:
+        - version: "1.0.0"
+          date: "2024-01-15"
+          description: "Initial release"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - url
+                - events
+              properties:
+                url:
+                  type: string
+                  format: uri
+                  description: HTTPS endpoint to receive webhook payloads
+                events:
+                  type: array
+                  items:
+                    type: string
+                  description: Event types to subscribe to
+                secret:
+                  type: string
+                  description: Optional secret for HMAC signature verification
+            example:
+              url: "https://example.com/webhooks/ghxstship"
+              events: ["deal.created", "deal.won", "invoice.paid"]
+              secret: "whsec_abc123"
+      responses:
+        "201":
+          description: Webhook subscription created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Webhook"
+
+components:
+  schemas:
+    Webhook:
+      type: object
+      properties:
+        id:
+          type: string
+        url:
+          type: string
+          format: uri
+        events:
+          type: array
+          items:
+            type: string
+        active:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    apiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+
+security:
+  - bearerAuth: []
+  - apiKey: []

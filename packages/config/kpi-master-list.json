@@ -1,0 +1,31 @@
+{
+  "version": "1.0.0",
+  "totalKPIs": 200,
+  "categories": {
+    "FINANCIAL_PERFORMANCE": {
+      "name": "Financial Performance",
+      "kpiCount": 45,
+      "subcategories": ["REVENUE_METRICS", "COST_MANAGEMENT", "PROFITABILITY"]
+    },
+    "TICKET_ATTENDANCE": {
+      "name": "Ticket & Attendance Analytics",
+      "kpiCount": 45,
+      "subcategories": ["SALES_PERFORMANCE", "CAPACITY_UTILIZATION", "PRICING_OPTIMIZATION"]
+    },
+    "OPERATIONAL_EFFICIENCY": {
+      "name": "Operational Efficiency",
+      "kpiCount": 55,
+      "subcategories": ["PROJECT_MANAGEMENT", "TEAM_PERFORMANCE", "VENDOR_SUPPLY_CHAIN"]
+    },
+    "MARKETING_ENGAGEMENT": {
+      "name": "Marketing & Audience Engagement",
+      "kpiCount": 30,
+      "subcategories": ["DIGITAL_MARKETING", "AUDIENCE_INSIGHTS", "BRAND_EXPERIENCE"]
+    },
+    "CUSTOMER_EXPERIENCE": {
+      "name": "Customer Experience & Satisfaction",
+      "kpiCount": 25,
+      "subcategories": ["EXPERIENCE_QUALITY", "CUSTOMER_SERVICE"]
+    }
+  }
+}

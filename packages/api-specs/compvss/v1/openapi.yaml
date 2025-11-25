@@ -1,0 +1,353 @@
+openapi: 3.1.0
+info:
+  title: COMPVSS API
+  version: 1.0.0
+  description: >-
+    Production operations API for GHXSTSHIP COMPVSS. Surfaces project schedules,
+    crew assignments, and run-of-show telemetry used across the roadmap
+    subsections.
+servers:
+  - url: https://api.ghxstship.com/compvss/v1
+    description: Production
+  - url: https://staging.api.ghxstship.com/compvss/v1
+    description: Staging
+security:
+  - bearerAuth: []
+tags:
+  - name: Projects
+    description: Production project lifecycle endpoints
+  - name: Runbook
+    description: Run-of-show, cue, and checklist automation
+  - name: Crew
+    description: Crew roster, availability, and assignment management
+paths:
+  /projects:
+    get:
+      tags: [Projects]
+      summary: List production projects
+      operationId: listProjects
+      parameters:
+        - in: query
+          name: vertical
+          schema:
+            type: string
+            enum: [concert, festival, corporate, theater, sports]
+        - in: query
+          name: status
+          schema:
+            type: string
+            enum: [intake, planning, build, show, settlement]
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 25
+        - $ref: '#/components/parameters/TraceId'
+      responses:
+        '200':
+          description: Paginated projects payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-changelog:
+        - version: 1.0.0
+          date: 2025-11-22
+          description: Initial release powering production dashboards.
+    post:
+      tags: [Projects]
+      summary: Create project
+      operationId: createProject
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectInput'
+      responses:
+        '201':
+          description: Project created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /projects/{projectId}/runbook:
+    get:
+      tags: [Runbook]
+      summary: Fetch run-of-show
+      operationId: getRunOfShow
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - $ref: '#/components/parameters/TraceId'
+      responses:
+        '200':
+          description: Run-of-show cues
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Runbook'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      tags: [Runbook]
+      summary: Replace run-of-show
+      operationId: replaceRunOfShow
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - $ref: '#/components/parameters/TraceId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Runbook'
+      responses:
+        '200':
+          description: Updated cues
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Runbook'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /crew/assignments:
+    post:
+      tags: [Crew]
+      summary: Assign crew member to call
+      operationId: createCrewAssignment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CrewAssignmentInput'
+      responses:
+        '201':
+          description: Assignment created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CrewAssignment'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    get:
+      tags: [Crew]
+      summary: List assignments
+      operationId: listCrewAssignments
+      parameters:
+        - in: query
+          name: projectId
+          schema:
+            type: string
+            format: uuid
+        - in: query
+          name: day
+          schema:
+            type: string
+            format: date
+        - $ref: '#/components/parameters/TraceId'
+      responses:
+        '200':
+          description: Crew assignments for filters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CrewAssignmentList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    TraceId:
+      in: header
+      name: x-trace-id
+      schema:
+        type: string
+      required: false
+  responses:
+    Unauthorized:
+      description: Authentication required.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: Validation failure.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Project:
+      type: object
+      required: [id, name, status, vertical, startDate, endDate]
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        status:
+          type: string
+          enum: [intake, planning, build, show, settlement]
+        vertical:
+          type: string
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        venue:
+          type: string
+        budget:
+          type: number
+        updatedAt:
+          type: string
+          format: date-time
+    ProjectInput:
+      type: object
+      required: [name, vertical, startDate, endDate]
+      properties:
+        name:
+          type: string
+        vertical:
+          type: string
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        venue:
+          type: string
+        budget:
+          type: number
+    ProjectList:
+      type: object
+      required: [data, pageInfo]
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Project'
+        pageInfo:
+          type: object
+          required: [hasNextPage]
+          properties:
+            hasNextPage:
+              type: boolean
+            endCursor:
+              type: string
+    Runbook:
+      type: object
+      required: [projectId, cues]
+      properties:
+        projectId:
+          type: string
+          format: uuid
+        cues:
+          type: array
+          items:
+            type: object
+            required: [label, start, owner]
+            properties:
+              label:
+                type: string
+              start:
+                type: string
+                format: date-time
+              durationMinutes:
+                type: integer
+              owner:
+                type: string
+              notes:
+                type: string
+    CrewAssignmentInput:
+      type: object
+      required: [projectId, crewId, role, callTime]
+      properties:
+        projectId:
+          type: string
+          format: uuid
+        crewId:
+          type: string
+          format: uuid
+        role:
+          type: string
+        callTime:
+          type: string
+          format: date-time
+        location:
+          type: string
+    CrewAssignment:
+      allOf:
+        - $ref: '#/components/schemas/CrewAssignmentInput'
+        - type: object
+          required: [id, status]
+          properties:
+            id:
+              type: string
+              format: uuid
+            status:
+              type: string
+              enum: [scheduled, checked_in, completed]
+            createdAt:
+              type: string
+              format: date-time
+    CrewAssignmentList:
+      type: object
+      required: [data]
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CrewAssignment'
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: array
+              items:
+                type: string

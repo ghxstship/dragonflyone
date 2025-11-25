@@ -1,0 +1,11 @@
+project_id = "ghxstship-platform"
+
+[db]
+major_version = 15
+
+[studio]
+port = 54323
+
+[functions]
+[functions.deal-project-handoff]
+verify_jwt = true

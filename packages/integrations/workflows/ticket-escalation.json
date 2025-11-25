@@ -1,0 +1,118 @@
+{
+  "name": "Ticket Escalation",
+  "description": "Automated support ticket escalation based on priority, response time, and VIP status",
+  "platform": "gvteway",
+  "category": "customer-support",
+  "nodes": [
+    {
+      "id": "trigger",
+      "type": "@ghxstship/n8n-nodes.ghxstshipTrigger",
+      "parameters": {
+        "platform": "gvteway",
+        "event": "ticket.escalation"
+      },
+      "position": [250, 300]
+    },
+    {
+      "id": "get-ticket",
+      "type": "@ghxstship/n8n-nodes.ghxstship",
+      "parameters": {
+        "platform": "gvteway",
+        "resource": "supportTicket",
+        "operation": "get",
+        "recordId": "={{ $json.data.ticket_id }}"
+      },
+      "position": [450, 300]
+    },
+    {
+      "id": "check-vip",
+      "type": "@ghxstship/n8n-nodes.ghxstship",
+      "parameters": {
+        "platform": "gvteway",
+        "resource": "customer",
+        "operation": "get",
+        "recordId": "={{ $json.customer_id }}"
+      },
+      "position": [650, 300]
+    },
+    {
+      "id": "determine-priority",
+      "type": "n8n-nodes-base.code",
+      "parameters": {
+        "jsCode": "const ticket = $node['get-ticket'].json;\nconst customer = $json;\nlet priority = ticket.priority || 'normal';\nlet escalationLevel = 1;\n\nif (customer.vip_tier === 'platinum') {\n  priority = 'critical';\n  escalationLevel = 3;\n} else if (customer.vip_tier === 'gold') {\n  priority = 'high';\n  escalationLevel = 2;\n}\n\nconst hoursSinceCreated = (Date.now() - new Date(ticket.created_at).getTime()) / (1000 * 60 * 60);\nif (hoursSinceCreated > 24 && escalationLevel < 2) escalationLevel = 2;\nif (hoursSinceCreated > 48) escalationLevel = 3;\n\nreturn [{ json: { ...ticket, customer, priority, escalationLevel, hoursSinceCreated } }];"
+      },
+      "position": [850, 300]
+    },
+    {
+      "id": "route-escalation",
+      "type": "n8n-nodes-base.switch",
+      "parameters": {
+        "dataType": "number",
+        "value1": "={{ $json.escalationLevel }}",
+        "rules": {
+          "rules": [
+            { "value2": 1 },
+            { "value2": 2 },
+            { "value2": 3 }
+          ]
+        }
+      },
+      "position": [1050, 300]
+    },
+    {
+      "id": "assign-tier1",
+      "type": "@ghxstship/n8n-nodes.ghxstship",
+      "parameters": {
+        "platform": "gvteway",
+        "resource": "supportTicket",
+        "operation": "update",
+        "recordId": "={{ $json.id }}",
+        "additionalFields": { "assigned_team": "tier1_support", "priority": "={{ $json.priority }}" }
+      },
+      "position": [1250, 150]
+    },
+    {
+      "id": "assign-tier2",
+      "type": "@ghxstship/n8n-nodes.ghxstship",
+      "parameters": {
+        "platform": "gvteway",
+        "resource": "supportTicket",
+        "operation": "update",
+        "recordId": "={{ $json.id }}",
+        "additionalFields": { "assigned_team": "tier2_support", "priority": "={{ $json.priority }}" }
+      },
+      "position": [1250, 300]
+    },
+    {
+      "id": "assign-vip-concierge",
+      "type": "@ghxstship/n8n-nodes.ghxstship",
+      "parameters": {
+        "platform": "gvteway",
+        "resource": "supportTicket",
+        "operation": "update",
+        "recordId": "={{ $json.id }}",
+        "additionalFields": { "assigned_team": "vip_concierge", "priority": "critical" }
+      },
+      "position": [1250, 450]
+    },
+    {
+      "id": "notify-slack",
+      "type": "n8n-nodes-base.slack",
+      "parameters": {
+        "channel": "={{ $json.escalationLevel === 3 ? '#vip-support' : '#support-escalations' }}",
+        "text": "🎫 Ticket Escalated\nID: {{ $json.id }}\nCustomer: {{ $json.customer.name }} ({{ $json.customer.vip_tier || 'standard' }})\nPriority: {{ $json.priority }}\nLevel: {{ $json.escalationLevel }}\nAge: {{ Math.round($json.hoursSinceCreated) }}h"
+      },
+      "position": [1450, 300]
+    }
+  ],
+  "connections": {
+    "trigger": { "main": [[{ "node": "get-ticket", "type": "main", "index": 0 }]] },
+    "get-ticket": { "main": [[{ "node": "check-vip", "type": "main", "index": 0 }]] },
+    "check-vip": { "main": [[{ "node": "determine-priority", "type": "main", "index": 0 }]] },
+    "determine-priority": { "main": [[{ "node": "route-escalation", "type": "main", "index": 0 }]] },
+    "route-escalation": { "main": [[{ "node": "assign-tier1", "type": "main", "index": 0 }], [{ "node": "assign-tier2", "type": "main", "index": 0 }], [{ "node": "assign-vip-concierge", "type": "main", "index": 0 }]] },
+    "assign-tier1": { "main": [[{ "node": "notify-slack", "type": "main", "index": 0 }]] },
+    "assign-tier2": { "main": [[{ "node": "notify-slack", "type": "main", "index": 0 }]] },
+    "assign-vip-concierge": { "main": [[{ "node": "notify-slack", "type": "main", "index": 0 }]] }
+  }
+}

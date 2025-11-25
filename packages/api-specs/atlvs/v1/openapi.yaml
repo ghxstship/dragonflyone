@@ -1,0 +1,417 @@
+openapi: 3.1.0
+info:
+  title: ATLVS API
+  version: 1.0.0
+  description: >-
+    Executive operations API for GHXSTSHIP ATLVS. Provides secure access to deals,
+    projects, budgets, and portfolio telemetry referenced throughout the master
+    roadmap. All endpoints are Supabase-backed RPC façades with RBAC enforced via
+    LEGEND/ATLVS roles.
+  contact:
+    name: GHXSTSHIP Platform Team
+    email: platform@ghxstship.com
+servers:
+  - url: https://api.ghxstship.com/atlvs/v1
+    description: Production
+  - url: https://staging.api.ghxstship.com/atlvs/v1
+    description: Staging
+security:
+  - bearerAuth: []
+tags:
+  - name: Deals
+    description: CRM and commercial pipeline resources
+  - name: Projects
+    description: Execution and budgeting endpoints
+  - name: Analytics
+    description: Portfolio level telemetry aggregates
+paths:
+  /deals:
+    get:
+      tags: [Deals]
+      summary: List deals
+      description: Returns paginated deals with status, revenue and next action metadata.
+      operationId: listDeals
+      parameters:
+        - in: query
+          name: status
+          schema:
+            type: string
+            enum: [prospect, negotiating, won, lost]
+          description: Optional status filter.
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 25
+        - in: query
+          name: cursor
+          description: Encoded pagination cursor supplied by previous response.
+          schema:
+            type: string
+        - $ref: '#/components/parameters/TraceId'
+      responses:
+        '200':
+          description: Paginated list of deals
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DealListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-changelog:
+        - version: 1.0.0
+          date: 2025-11-22
+          description: Initial release aligned with ATLVS Phase 1 scope.
+      x-deprecation:
+        deprecated: false
+    post:
+      tags: [Deals]
+      summary: Create deal
+      description: Creates a new deal record synchronized with Supabase CRM schema and triggers downstream automations.
+      operationId: createDeal
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DealInput'
+      responses:
+        '201':
+          description: Deal created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deal'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-changelog:
+        - version: 1.0.0
+          date: 2025-11-22
+          description: Initial release.
+      x-deprecation:
+        deprecated: false
+  /deals/{dealId}:
+    get:
+      tags: [Deals]
+      summary: Retrieve deal
+      operationId: getDeal
+      parameters:
+        - name: dealId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - $ref: '#/components/parameters/TraceId'
+      responses:
+        '200':
+          description: Deal details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deal'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      x-changelog:
+        - version: 1.0.0
+          date: 2025-11-22
+          description: Initial release.
+      x-deprecation:
+        deprecated: false
+    patch:
+      tags: [Deals]
+      summary: Update deal
+      operationId: updateDeal
+      parameters:
+        - name: dealId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - $ref: '#/components/parameters/TraceId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DealUpdate'
+      responses:
+        '200':
+          description: Updated deal
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deal'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      x-changelog:
+        - version: 1.0.0
+          date: 2025-11-22
+          description: Initial release.
+      x-deprecation:
+        deprecated: false
+  /projects/{projectId}/budget:
+    get:
+      tags: [Projects]
+      summary: Retrieve budget snapshot
+      description: Returns cash flow, burn, and risk telemetry for a project to power ATLVS dashboards.
+      operationId: getBudgetSnapshot
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - $ref: '#/components/parameters/TraceId'
+      responses:
+        '200':
+          description: Budget snapshot
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BudgetSnapshot'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      x-changelog:
+        - version: 1.0.0
+          date: 2025-11-22
+          description: Initial release powering executive dashboards.
+      x-deprecation:
+        deprecated: false
+  /analytics/portfolio-health:
+    get:
+      tags: [Analytics]
+      summary: Portfolio health metrics
+      description: Aggregated KPIs for success metrics dashboard referenced in roadmap section 3.
+      operationId: getPortfolioHealth
+      parameters:
+        - in: query
+          name: timeframe
+          required: false
+          schema:
+            type: string
+            enum: [l7d, l30d, qtd, ytd]
+            default: qtd
+        - $ref: '#/components/parameters/TraceId'
+      responses:
+        '200':
+          description: Portfolio KPI payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortfolioHealth'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-changelog:
+        - version: 1.0.0
+          date: 2025-11-22
+          description: Initial release for executive scorecard widgets.
+      x-deprecation:
+        deprecated: false
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT issued by GHXSTSHIP Identity for platform + event roles.
+  parameters:
+    TraceId:
+      in: header
+      name: x-trace-id
+      required: false
+      schema:
+        type: string
+      description: Optional client-supplied trace identifier.
+  responses:
+    Unauthorized:
+      description: Authentication required.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    ValidationError:
+      description: Payload failed validation rules.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  schemas:
+    Deal:
+      type: object
+      additionalProperties: false
+      required: [id, name, status, value, currency, nextActionAt, owner]
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        status:
+          type: string
+          enum: [prospect, negotiating, won, lost]
+        value:
+          type: number
+          format: float
+        currency:
+          type: string
+          minLength: 3
+          maxLength: 3
+        probability:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 1
+        owner:
+          type: object
+          required: [id, name]
+          properties:
+            id:
+              type: string
+              format: uuid
+            name:
+              type: string
+        nextActionAt:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    DealInput:
+      type: object
+      required: [name, value, currency]
+      properties:
+        name:
+          type: string
+        value:
+          type: number
+          format: float
+        currency:
+          type: string
+          minLength: 3
+          maxLength: 3
+        probability:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 1
+        ownerId:
+          type: string
+          format: uuid
+        notes:
+          type: string
+    DealUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        status:
+          type: string
+          enum: [prospect, negotiating, won, lost]
+        value:
+          type: number
+          format: float
+        probability:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 1
+        nextActionAt:
+          type: string
+          format: date-time
+        notes:
+          type: string
+    DealListResponse:
+      type: object
+      required: [data, pageInfo]
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Deal'
+        pageInfo:
+          type: object
+          required: [hasNextPage]
+          properties:
+            hasNextPage:
+              type: boolean
+            endCursor:
+              type: string
+    BudgetSnapshot:
+      type: object
+      additionalProperties: false
+      required: [projectId, allocation, burnRate, riskScore, updatedAt]
+      properties:
+        projectId:
+          type: string
+          format: uuid
+        allocation:
+          type: number
+        burnRate:
+          type: number
+          description: Weekly burn rate in home currency.
+        burnVariance:
+          type: number
+        riskScore:
+          type: number
+          minimum: 0
+          maximum: 1
+        stage:
+          type: string
+          enum: [intake, planning, production, settlement]
+        updatedAt:
+          type: string
+          format: date-time
+    PortfolioHealth:
+      type: object
+      required: [timeframe, metrics]
+      properties:
+        timeframe:
+          type: string
+        metrics:
+          type: array
+          items:
+            type: object
+            required: [label, value, trend]
+            properties:
+              label:
+                type: string
+              value:
+                type: number
+              unit:
+                type: string
+              trend:
+                type: string
+    ErrorResponse:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: array
+              items:
+                type: string

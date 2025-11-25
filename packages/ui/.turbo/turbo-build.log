@@ -1,0 +1,4 @@
+
+> @ghxstship/ui@0.0.1 build /Users/julianclarkson/Documents/Dragonflyone/packages/ui
+> tsc -p tsconfig.json
+

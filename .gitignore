@@ -1,0 +1,13 @@
+node_modules
+.pnp.cjs
+.pnp.loader.mjs
+.next
+out
+dist
+build
+coverage
+.env
+.env.*
+.vercel
+.vscode
+.DS_Store

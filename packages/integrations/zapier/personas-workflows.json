@@ -1,0 +1,305 @@
+{
+  "name": "GHXSTSHIP Target Personas & Top Workflows",
+  "version": "1.0.0",
+  "description": "Target personas and top 20 requested automation workflows for Zapier integration",
+  "personas": {
+    "ops": {
+      "name": "Operations Manager",
+      "description": "Manages day-to-day operations across production, logistics, and crew",
+      "platforms": ["compvss", "atlvs"],
+      "pain_points": [
+        "Manual crew scheduling and communication",
+        "Equipment tracking across multiple venues",
+        "Incident reporting and escalation delays",
+        "Compliance documentation management"
+      ],
+      "key_metrics": [
+        "Crew utilization rate",
+        "Equipment availability",
+        "Incident response time",
+        "Compliance completion rate"
+      ],
+      "top_workflows": [
+        "crew-assignment-notification",
+        "equipment-maintenance-alert",
+        "incident-escalation",
+        "compliance-reminder",
+        "schedule-change-broadcast"
+      ]
+    },
+    "finance": {
+      "name": "Finance Director",
+      "description": "Oversees financial operations, budgeting, and reporting",
+      "platforms": ["atlvs"],
+      "pain_points": [
+        "Manual invoice reconciliation",
+        "Delayed expense approvals",
+        "Budget variance tracking",
+        "Multi-entity consolidation"
+      ],
+      "key_metrics": [
+        "Days sales outstanding (DSO)",
+        "Budget variance %",
+        "Expense approval cycle time",
+        "Revenue recognition accuracy"
+      ],
+      "top_workflows": [
+        "invoice-payment-notification",
+        "expense-approval-routing",
+        "budget-variance-alert",
+        "revenue-milestone-tracking",
+        "vendor-payment-reminder"
+      ]
+    },
+    "marketing": {
+      "name": "Marketing Manager",
+      "description": "Drives event promotion, audience engagement, and brand growth",
+      "platforms": ["gvteway", "atlvs"],
+      "pain_points": [
+        "Fragmented customer data across platforms",
+        "Manual campaign segmentation",
+        "Delayed response to ticket sales trends",
+        "Attribution tracking gaps"
+      ],
+      "key_metrics": [
+        "Ticket conversion rate",
+        "Email engagement rate",
+        "Customer acquisition cost",
+        "Campaign ROI"
+      ],
+      "top_workflows": [
+        "new-ticket-buyer-welcome",
+        "abandoned-cart-recovery",
+        "vip-upgrade-notification",
+        "event-reminder-campaign",
+        "post-event-survey"
+      ]
+    },
+    "sales": {
+      "name": "Sales Representative",
+      "description": "Manages client relationships and deal pipeline",
+      "platforms": ["atlvs"],
+      "pain_points": [
+        "CRM data entry overhead",
+        "Missed follow-up opportunities",
+        "Proposal generation delays",
+        "Pipeline visibility gaps"
+      ],
+      "key_metrics": [
+        "Deal close rate",
+        "Average deal size",
+        "Sales cycle length",
+        "Pipeline coverage ratio"
+      ],
+      "top_workflows": [
+        "deal-stage-change-alert",
+        "follow-up-reminder",
+        "proposal-sent-notification",
+        "deal-won-celebration",
+        "renewal-approaching-alert"
+      ]
+    }
+  },
+  "top_20_workflows": [
+    {
+      "rank": 1,
+      "id": "new-ticket-buyer-welcome",
+      "name": "New Ticket Buyer Welcome",
+      "persona": "marketing",
+      "trigger": "gvteway.ticket.purchased",
+      "actions": ["mailchimp.add_subscriber", "slack.send_message"],
+      "description": "Welcome new ticket buyers with personalized email and notify sales team",
+      "estimated_usage": "high"
+    },
+    {
+      "rank": 2,
+      "id": "deal-stage-change-alert",
+      "name": "Deal Stage Change Alert",
+      "persona": "sales",
+      "trigger": "atlvs.deal.stage_changed",
+      "actions": ["slack.send_message", "salesforce.update_opportunity"],
+      "description": "Notify team and sync CRM when deal progresses",
+      "estimated_usage": "high"
+    },
+    {
+      "rank": 3,
+      "id": "crew-assignment-notification",
+      "name": "Crew Assignment Notification",
+      "persona": "ops",
+      "trigger": "compvss.crew.assigned",
+      "actions": ["email.send", "sms.send", "slack.send_dm"],
+      "description": "Multi-channel notification when crew is assigned to project",
+      "estimated_usage": "high"
+    },
+    {
+      "rank": 4,
+      "id": "invoice-payment-notification",
+      "name": "Invoice Payment Notification",
+      "persona": "finance",
+      "trigger": "atlvs.invoice.paid",
+      "actions": ["slack.send_message", "quickbooks.mark_paid", "email.send"],
+      "description": "Notify finance team and sync accounting when invoice is paid",
+      "estimated_usage": "high"
+    },
+    {
+      "rank": 5,
+      "id": "equipment-maintenance-alert",
+      "name": "Equipment Maintenance Alert",
+      "persona": "ops",
+      "trigger": "atlvs.asset.maintenance_due",
+      "actions": ["jira.create_issue", "slack.send_message", "email.send"],
+      "description": "Create maintenance ticket and alert team when equipment service is due",
+      "estimated_usage": "medium"
+    },
+    {
+      "rank": 6,
+      "id": "abandoned-cart-recovery",
+      "name": "Abandoned Cart Recovery",
+      "persona": "marketing",
+      "trigger": "gvteway.cart.abandoned",
+      "actions": ["klaviyo.trigger_flow", "facebook.create_audience"],
+      "description": "Trigger recovery email sequence and retargeting for abandoned carts",
+      "estimated_usage": "high"
+    },
+    {
+      "rank": 7,
+      "id": "expense-approval-routing",
+      "name": "Expense Approval Routing",
+      "persona": "finance",
+      "trigger": "atlvs.expense.submitted",
+      "actions": ["slack.send_approval_request", "email.send", "atlvs.create_task"],
+      "description": "Route expense for approval based on amount and category",
+      "estimated_usage": "medium"
+    },
+    {
+      "rank": 8,
+      "id": "incident-escalation",
+      "name": "Incident Escalation",
+      "persona": "ops",
+      "trigger": "compvss.incident.created",
+      "actions": ["pagerduty.create_incident", "slack.send_message", "jira.create_issue"],
+      "description": "Escalate production incidents to on-call team",
+      "estimated_usage": "medium"
+    },
+    {
+      "rank": 9,
+      "id": "vip-upgrade-notification",
+      "name": "VIP Upgrade Notification",
+      "persona": "marketing",
+      "trigger": "gvteway.customer.vip_upgraded",
+      "actions": ["intercom.tag_user", "mailchimp.add_tag", "slack.send_message"],
+      "description": "Update customer profiles and notify team when customer becomes VIP",
+      "estimated_usage": "medium"
+    },
+    {
+      "rank": 10,
+      "id": "deal-won-celebration",
+      "name": "Deal Won Celebration",
+      "persona": "sales",
+      "trigger": "atlvs.deal.won",
+      "actions": ["slack.send_message", "confetti.trigger", "salesforce.update"],
+      "description": "Celebrate deal wins with team notification and CRM update",
+      "estimated_usage": "medium"
+    },
+    {
+      "rank": 11,
+      "id": "compliance-reminder",
+      "name": "Compliance Reminder",
+      "persona": "ops",
+      "trigger": "atlvs.certification.expiring",
+      "actions": ["email.send", "slack.send_dm", "atlvs.create_task"],
+      "description": "Remind team members about expiring certifications",
+      "estimated_usage": "medium"
+    },
+    {
+      "rank": 12,
+      "id": "event-reminder-campaign",
+      "name": "Event Reminder Campaign",
+      "persona": "marketing",
+      "trigger": "gvteway.event.reminder_due",
+      "actions": ["mailchimp.send_campaign", "sms.send_bulk"],
+      "description": "Send event reminders to ticket holders",
+      "estimated_usage": "high"
+    },
+    {
+      "rank": 13,
+      "id": "budget-variance-alert",
+      "name": "Budget Variance Alert",
+      "persona": "finance",
+      "trigger": "atlvs.budget.variance_exceeded",
+      "actions": ["slack.send_message", "email.send", "atlvs.create_alert"],
+      "description": "Alert stakeholders when budget variance exceeds threshold",
+      "estimated_usage": "medium"
+    },
+    {
+      "rank": 14,
+      "id": "schedule-change-broadcast",
+      "name": "Schedule Change Broadcast",
+      "persona": "ops",
+      "trigger": "compvss.schedule.changed",
+      "actions": ["sms.send_bulk", "email.send_bulk", "slack.send_channel"],
+      "description": "Broadcast schedule changes to affected crew members",
+      "estimated_usage": "high"
+    },
+    {
+      "rank": 15,
+      "id": "follow-up-reminder",
+      "name": "Follow-up Reminder",
+      "persona": "sales",
+      "trigger": "atlvs.activity.follow_up_due",
+      "actions": ["slack.send_dm", "email.send", "atlvs.create_task"],
+      "description": "Remind sales reps about pending follow-ups",
+      "estimated_usage": "high"
+    },
+    {
+      "rank": 16,
+      "id": "post-event-survey",
+      "name": "Post-Event Survey",
+      "persona": "marketing",
+      "trigger": "gvteway.event.completed",
+      "actions": ["typeform.send_survey", "mailchimp.send_email"],
+      "description": "Send satisfaction survey to attendees after event",
+      "estimated_usage": "high"
+    },
+    {
+      "rank": 17,
+      "id": "vendor-payment-reminder",
+      "name": "Vendor Payment Reminder",
+      "persona": "finance",
+      "trigger": "atlvs.invoice.payment_due",
+      "actions": ["email.send", "slack.send_message"],
+      "description": "Remind AP team about upcoming vendor payments",
+      "estimated_usage": "medium"
+    },
+    {
+      "rank": 18,
+      "id": "proposal-sent-notification",
+      "name": "Proposal Sent Notification",
+      "persona": "sales",
+      "trigger": "atlvs.proposal.sent",
+      "actions": ["slack.send_message", "hubspot.log_activity"],
+      "description": "Notify team when proposal is sent to prospect",
+      "estimated_usage": "medium"
+    },
+    {
+      "rank": 19,
+      "id": "revenue-milestone-tracking",
+      "name": "Revenue Milestone Tracking",
+      "persona": "finance",
+      "trigger": "atlvs.revenue.milestone_reached",
+      "actions": ["slack.send_message", "google_sheets.add_row"],
+      "description": "Track and celebrate revenue milestones",
+      "estimated_usage": "low"
+    },
+    {
+      "rank": 20,
+      "id": "renewal-approaching-alert",
+      "name": "Renewal Approaching Alert",
+      "persona": "sales",
+      "trigger": "atlvs.contract.renewal_approaching",
+      "actions": ["slack.send_dm", "salesforce.create_task", "email.send"],
+      "description": "Alert account managers about upcoming contract renewals",
+      "estimated_usage": "medium"
+    }
+  ]
+}

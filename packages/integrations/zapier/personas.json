@@ -1,0 +1,211 @@
+{
+  "personas": [
+    {
+      "id": "ops_manager",
+      "name": "Operations Manager",
+      "description": "Manages day-to-day operations across events and projects",
+      "platforms": ["atlvs", "compvss"],
+      "topWorkflows": [
+        "New project created → Create Slack channel",
+        "Asset maintenance due → Create Asana task",
+        "Crew assignment changed → Send SMS notification",
+        "Purchase order approved → Update Google Sheet",
+        "Incident reported → Create Jira ticket"
+      ]
+    },
+    {
+      "id": "finance_controller",
+      "name": "Finance Controller",
+      "description": "Oversees financial operations and reporting",
+      "platforms": ["atlvs"],
+      "topWorkflows": [
+        "Invoice created → Sync to QuickBooks",
+        "Payment received → Update Airtable",
+        "Expense submitted → Route for approval in Slack",
+        "Budget threshold exceeded → Send email alert",
+        "Vendor payment due → Create reminder in Todoist"
+      ]
+    },
+    {
+      "id": "marketing_director",
+      "name": "Marketing Director",
+      "description": "Drives marketing campaigns and audience engagement",
+      "platforms": ["gvteway"],
+      "topWorkflows": [
+        "Ticket purchased → Add to Mailchimp segment",
+        "Event published → Post to social media",
+        "Guest feedback received → Log in HubSpot",
+        "VIP registration → Send personalized email",
+        "Low ticket sales → Trigger Facebook ad campaign"
+      ]
+    },
+    {
+      "id": "production_coordinator",
+      "name": "Production Coordinator",
+      "description": "Coordinates production activities and crew",
+      "platforms": ["compvss"],
+      "topWorkflows": [
+        "Run of show updated → Notify crew via SMS",
+        "Weather alert → Update event status",
+        "Crew check-in → Log attendance",
+        "Equipment issue → Create maintenance ticket",
+        "Schedule change → Update Google Calendar"
+      ]
+    },
+    {
+      "id": "hr_manager",
+      "name": "HR Manager",
+      "description": "Manages workforce and compliance",
+      "platforms": ["atlvs", "compvss"],
+      "topWorkflows": [
+        "New hire onboarded → Create accounts in systems",
+        "Certification expiring → Send renewal reminder",
+        "Time off approved → Update scheduling system",
+        "Performance review due → Create task",
+        "Training completed → Update employee record"
+      ]
+    }
+  ],
+  "topRequestedWorkflows": [
+    {
+      "rank": 1,
+      "name": "Deal Won → Project Creation",
+      "description": "When a deal is marked as won in ATLVS, automatically create a project in COMPVSS",
+      "trigger": "atlvs.deal.status_changed",
+      "action": "compvss.project.create"
+    },
+    {
+      "rank": 2,
+      "name": "Ticket Sale → CRM Update",
+      "description": "When a ticket is purchased in GVTEWAY, update the contact in HubSpot/Salesforce",
+      "trigger": "gvteway.ticket.purchased",
+      "action": "hubspot.contact.update"
+    },
+    {
+      "rank": 3,
+      "name": "Invoice Overdue → Slack Alert",
+      "description": "When an invoice becomes overdue, send an alert to the finance Slack channel",
+      "trigger": "atlvs.invoice.overdue",
+      "action": "slack.message.send"
+    },
+    {
+      "rank": 4,
+      "name": "Crew Assignment → SMS Notification",
+      "description": "When crew is assigned to an event, send them an SMS with details",
+      "trigger": "compvss.crew.assigned",
+      "action": "twilio.sms.send"
+    },
+    {
+      "rank": 5,
+      "name": "Event Published → Social Post",
+      "description": "When an event is published, automatically post to social media channels",
+      "trigger": "gvteway.event.published",
+      "action": "buffer.post.create"
+    },
+    {
+      "rank": 6,
+      "name": "Asset Maintenance Due → Task Creation",
+      "description": "When asset maintenance is due, create a task in project management tool",
+      "trigger": "atlvs.asset.maintenance_due",
+      "action": "asana.task.create"
+    },
+    {
+      "rank": 7,
+      "name": "Guest Feedback → Support Ticket",
+      "description": "When negative guest feedback is received, create a support ticket",
+      "trigger": "gvteway.feedback.received",
+      "action": "zendesk.ticket.create"
+    },
+    {
+      "rank": 8,
+      "name": "Purchase Order Approved → Vendor Notification",
+      "description": "When a PO is approved, send notification to the vendor",
+      "trigger": "atlvs.purchase_order.approved",
+      "action": "email.send"
+    },
+    {
+      "rank": 9,
+      "name": "Schedule Change → Calendar Update",
+      "description": "When event schedule changes, update team calendars",
+      "trigger": "compvss.schedule.updated",
+      "action": "google_calendar.event.update"
+    },
+    {
+      "rank": 10,
+      "name": "New Lead → CRM Contact",
+      "description": "When a new lead is captured, create contact in CRM",
+      "trigger": "atlvs.lead.created",
+      "action": "salesforce.contact.create"
+    },
+    {
+      "rank": 11,
+      "name": "Contract Signed → Project Kickoff",
+      "description": "When contract is signed, trigger project kickoff workflow",
+      "trigger": "atlvs.contract.signed",
+      "action": "compvss.project.kickoff"
+    },
+    {
+      "rank": 12,
+      "name": "Expense Submitted → Approval Request",
+      "description": "When expense is submitted, route for approval",
+      "trigger": "atlvs.expense.submitted",
+      "action": "slack.approval.request"
+    },
+    {
+      "rank": 13,
+      "name": "VIP Check-in → Concierge Alert",
+      "description": "When VIP guest checks in, alert concierge team",
+      "trigger": "gvteway.checkin.vip",
+      "action": "slack.message.send"
+    },
+    {
+      "rank": 14,
+      "name": "Incident Reported → Emergency Response",
+      "description": "When incident is reported, trigger emergency response workflow",
+      "trigger": "compvss.incident.created",
+      "action": "pagerduty.incident.create"
+    },
+    {
+      "rank": 15,
+      "name": "Membership Renewed → Thank You Email",
+      "description": "When membership is renewed, send personalized thank you",
+      "trigger": "gvteway.membership.renewed",
+      "action": "mailchimp.email.send"
+    },
+    {
+      "rank": 16,
+      "name": "Budget Alert → Finance Notification",
+      "description": "When budget threshold is exceeded, notify finance team",
+      "trigger": "atlvs.budget.threshold_exceeded",
+      "action": "email.send"
+    },
+    {
+      "rank": 17,
+      "name": "Vendor Rating → Database Update",
+      "description": "When vendor is rated, update vendor database",
+      "trigger": "atlvs.vendor.rated",
+      "action": "airtable.record.update"
+    },
+    {
+      "rank": 18,
+      "name": "Event Sold Out → Waitlist Notification",
+      "description": "When event sells out, notify waitlist and update marketing",
+      "trigger": "gvteway.event.sold_out",
+      "action": "mailchimp.campaign.trigger"
+    },
+    {
+      "rank": 19,
+      "name": "Certification Expiring → Renewal Reminder",
+      "description": "When certification is expiring, send renewal reminder",
+      "trigger": "atlvs.certification.expiring",
+      "action": "email.send"
+    },
+    {
+      "rank": 20,
+      "name": "Project Completed → Client Survey",
+      "description": "When project is completed, send client satisfaction survey",
+      "trigger": "compvss.project.completed",
+      "action": "typeform.survey.send"
+    }
+  ]
+}

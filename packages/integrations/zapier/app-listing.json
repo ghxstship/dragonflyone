@@ -1,0 +1,291 @@
+{
+  "name": "GHXSTSHIP",
+  "slug": "ghxstship",
+  "description": "Connect your business operations, production management, and consumer experiences with GHXSTSHIP's unified platform ecosystem.",
+  "version": "1.0.0",
+  "platformVersion": "14.0.0",
+  "categories": [
+    "CRM",
+    "Project Management",
+    "Event Management",
+    "Marketing Automation"
+  ],
+  "logo": {
+    "url": "https://cdn.ghxstship.com/zapier/logo-512.png",
+    "backgroundColor": "#1a1a2e"
+  },
+  "branding": {
+    "primaryColor": "#6366f1",
+    "secondaryColor": "#8b5cf6"
+  },
+  "appDescription": {
+    "short": "Automate your live events, production operations, and business workflows",
+    "long": "GHXSTSHIP is a comprehensive platform ecosystem for live events and entertainment businesses. Connect ATLVS (business operations), COMPVSS (production management), and GVTEWAY (consumer experience) with your favorite apps to automate workflows, sync data, and streamline operations.\n\n**Key Features:**\n- Sync deals and contacts with your CRM\n- Automate crew scheduling and notifications\n- Connect ticket sales to marketing platforms\n- Track assets and maintenance schedules\n- Generate invoices and sync with accounting\n\n**Popular Use Cases:**\n- New ticket buyer → Add to Mailchimp → Send welcome email\n- Deal won → Notify Slack → Create invoice\n- Crew assigned → Send SMS → Update calendar\n- Equipment maintenance due → Create Jira ticket"
+  },
+  "supportEmail": "integrations@ghxstship.com",
+  "supportUrl": "https://support.ghxstship.com/integrations/zapier",
+  "documentationUrl": "https://docs.ghxstship.com/integrations/zapier",
+  "privacyPolicyUrl": "https://ghxstship.com/privacy",
+  "termsOfServiceUrl": "https://ghxstship.com/terms",
+  "authentication": {
+    "type": "oauth2",
+    "oauth2Config": {
+      "authorizeUrl": "https://auth.ghxstship.com/oauth/authorize",
+      "getAccessToken": {
+        "url": "https://auth.ghxstship.com/oauth/token",
+        "method": "POST"
+      },
+      "refreshAccessToken": {
+        "url": "https://auth.ghxstship.com/oauth/token",
+        "method": "POST"
+      },
+      "scope": "read write webhooks",
+      "autoRefresh": true
+    },
+    "test": {
+      "url": "https://api.ghxstship.com/v1/me"
+    },
+    "connectionLabel": "{{bundle.authData.workspace_name}}"
+  },
+  "triggers": [
+    {
+      "key": "new_deal",
+      "noun": "Deal",
+      "display": {
+        "label": "New Deal",
+        "description": "Triggers when a new deal is created in ATLVS."
+      },
+      "operation": {
+        "type": "hook",
+        "performSubscribe": "https://api.ghxstship.com/atlvs/v1/webhooks",
+        "performUnsubscribe": "https://api.ghxstship.com/atlvs/v1/webhooks/{{bundle.subscribeData.id}}"
+      }
+    },
+    {
+      "key": "deal_stage_changed",
+      "noun": "Deal",
+      "display": {
+        "label": "Deal Stage Changed",
+        "description": "Triggers when a deal moves to a new stage."
+      },
+      "operation": {
+        "type": "hook"
+      }
+    },
+    {
+      "key": "deal_won",
+      "noun": "Deal",
+      "display": {
+        "label": "Deal Won",
+        "description": "Triggers when a deal is marked as won."
+      },
+      "operation": {
+        "type": "hook"
+      }
+    },
+    {
+      "key": "invoice_paid",
+      "noun": "Invoice",
+      "display": {
+        "label": "Invoice Paid",
+        "description": "Triggers when an invoice is marked as paid."
+      },
+      "operation": {
+        "type": "hook"
+      }
+    },
+    {
+      "key": "crew_assigned",
+      "noun": "Crew Assignment",
+      "display": {
+        "label": "Crew Assigned",
+        "description": "Triggers when a crew member is assigned to a project."
+      },
+      "operation": {
+        "type": "hook"
+      }
+    },
+    {
+      "key": "ticket_purchased",
+      "noun": "Ticket",
+      "display": {
+        "label": "Ticket Purchased",
+        "description": "Triggers when a ticket is purchased."
+      },
+      "operation": {
+        "type": "hook"
+      }
+    },
+    {
+      "key": "event_created",
+      "noun": "Event",
+      "display": {
+        "label": "New Event",
+        "description": "Triggers when a new event is created."
+      },
+      "operation": {
+        "type": "hook"
+      }
+    },
+    {
+      "key": "asset_maintenance_due",
+      "noun": "Asset",
+      "display": {
+        "label": "Asset Maintenance Due",
+        "description": "Triggers when equipment maintenance is due."
+      },
+      "operation": {
+        "type": "hook"
+      }
+    }
+  ],
+  "actions": [
+    {
+      "key": "create_deal",
+      "noun": "Deal",
+      "display": {
+        "label": "Create Deal",
+        "description": "Creates a new deal in ATLVS."
+      },
+      "operation": {
+        "url": "https://api.ghxstship.com/atlvs/v1/deals",
+        "method": "POST"
+      }
+    },
+    {
+      "key": "update_deal",
+      "noun": "Deal",
+      "display": {
+        "label": "Update Deal",
+        "description": "Updates an existing deal in ATLVS."
+      },
+      "operation": {
+        "url": "https://api.ghxstship.com/atlvs/v1/deals/{{bundle.inputData.id}}",
+        "method": "PATCH"
+      }
+    },
+    {
+      "key": "create_contact",
+      "noun": "Contact",
+      "display": {
+        "label": "Create Contact",
+        "description": "Creates a new contact in ATLVS."
+      },
+      "operation": {
+        "url": "https://api.ghxstship.com/atlvs/v1/contacts",
+        "method": "POST"
+      }
+    },
+    {
+      "key": "create_invoice",
+      "noun": "Invoice",
+      "display": {
+        "label": "Create Invoice",
+        "description": "Creates a new invoice in ATLVS."
+      },
+      "operation": {
+        "url": "https://api.ghxstship.com/atlvs/v1/invoices",
+        "method": "POST"
+      }
+    },
+    {
+      "key": "assign_crew",
+      "noun": "Crew Assignment",
+      "display": {
+        "label": "Assign Crew",
+        "description": "Assigns a crew member to a project in COMPVSS."
+      },
+      "operation": {
+        "url": "https://api.ghxstship.com/compvss/v1/crew-assignments",
+        "method": "POST"
+      }
+    },
+    {
+      "key": "create_event",
+      "noun": "Event",
+      "display": {
+        "label": "Create Event",
+        "description": "Creates a new event in GVTEWAY."
+      },
+      "operation": {
+        "url": "https://api.ghxstship.com/gvteway/v1/events",
+        "method": "POST"
+      }
+    }
+  ],
+  "searches": [
+    {
+      "key": "find_deal",
+      "noun": "Deal",
+      "display": {
+        "label": "Find Deal",
+        "description": "Finds a deal by name or ID."
+      },
+      "operation": {
+        "url": "https://api.ghxstship.com/atlvs/v1/deals/search"
+      }
+    },
+    {
+      "key": "find_contact",
+      "noun": "Contact",
+      "display": {
+        "label": "Find Contact",
+        "description": "Finds a contact by email or name."
+      },
+      "operation": {
+        "url": "https://api.ghxstship.com/atlvs/v1/contacts/search"
+      }
+    },
+    {
+      "key": "find_event",
+      "noun": "Event",
+      "display": {
+        "label": "Find Event",
+        "description": "Finds an event by name or date."
+      },
+      "operation": {
+        "url": "https://api.ghxstship.com/gvteway/v1/events/search"
+      }
+    }
+  ],
+  "screenshots": [
+    {
+      "url": "https://cdn.ghxstship.com/zapier/screenshots/dashboard.png",
+      "caption": "GHXSTSHIP Dashboard - Unified view of all platforms"
+    },
+    {
+      "url": "https://cdn.ghxstship.com/zapier/screenshots/deals.png",
+      "caption": "Deal Management in ATLVS"
+    },
+    {
+      "url": "https://cdn.ghxstship.com/zapier/screenshots/crew.png",
+      "caption": "Crew Scheduling in COMPVSS"
+    },
+    {
+      "url": "https://cdn.ghxstship.com/zapier/screenshots/events.png",
+      "caption": "Event Management in GVTEWAY"
+    }
+  ],
+  "video": {
+    "url": "https://www.youtube.com/watch?v=ghxstship-zapier-demo",
+    "title": "GHXSTSHIP + Zapier Integration Demo"
+  },
+  "supportPlaybooks": [
+    {
+      "title": "Getting Started with GHXSTSHIP on Zapier",
+      "url": "https://docs.ghxstship.com/integrations/zapier/getting-started"
+    },
+    {
+      "title": "Common Zap Templates",
+      "url": "https://docs.ghxstship.com/integrations/zapier/templates"
+    },
+    {
+      "title": "Troubleshooting Guide",
+      "url": "https://docs.ghxstship.com/integrations/zapier/troubleshooting"
+    },
+    {
+      "title": "API Reference",
+      "url": "https://docs.ghxstship.com/api"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+name: Health Check & Uptime Monitoring
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Check ATLVS Health
+        run: |
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" https://atlvs.ghxstship.com/api/health)
+          if [ "$RESPONSE" != "200" ]; then
+            echo "ATLVS health check failed: HTTP $RESPONSE"
+            exit 1
+          fi
+          echo "ATLVS health check passed"
+
+      - name: Check COMPVSS Health
+        run: |
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" https://compvss.ghxstship.com/api/health)
+          if [ "$RESPONSE" != "200" ]; then
+            echo "COMPVSS health check failed: HTTP $RESPONSE"
+            exit 1
+          fi
+          echo "COMPVSS health check passed"
+
+      - name: Check GVTEWAY Health
+        run: |
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" https://gvteway.ghxstship.com/api/health)
+          if [ "$RESPONSE" != "200" ]; then
+            echo "GVTEWAY health check failed: HTTP $RESPONSE"
+            exit 1
+          fi
+          echo "GVTEWAY health check passed"
+
+      - name: Check Supabase Health
+        run: |
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" https://${{ secrets.PRODUCTION_PROJECT_REF }}.supabase.co/functions/v1/health-check)
+          if [ "$RESPONSE" != "200" ]; then
+            echo "Supabase health check failed: HTTP $RESPONSE"
+            exit 1
+          fi
+          echo "Supabase health check passed"
+
+      - name: Send Alert on Failure
+        if: failure()
+        run: |
+          echo "Health check failed - alert would be sent to ops channel"

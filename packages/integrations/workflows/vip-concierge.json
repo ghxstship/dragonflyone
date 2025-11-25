@@ -1,0 +1,154 @@
+{
+  "name": "VIP Concierge",
+  "description": "Automated VIP concierge service handling requests, upgrades, and personalized experiences",
+  "platform": "gvteway",
+  "category": "vip-services",
+  "nodes": [
+    {
+      "id": "trigger",
+      "type": "@ghxstship/n8n-nodes.ghxstshipTrigger",
+      "parameters": { "platform": "gvteway", "event": "vip.concierge_request" },
+      "position": [250, 300]
+    },
+    {
+      "id": "get-vip-profile",
+      "type": "@ghxstship/n8n-nodes.ghxstship",
+      "parameters": {
+        "platform": "gvteway",
+        "resource": "customer",
+        "operation": "get",
+        "recordId": "={{ $json.data.customer_id }}"
+      },
+      "position": [450, 300]
+    },
+    {
+      "id": "get-preferences",
+      "type": "@ghxstship/n8n-nodes.ghxstship",
+      "parameters": {
+        "platform": "gvteway",
+        "resource": "customerPreference",
+        "operation": "getAll",
+        "filters": { "customer_id": "={{ $json.id }}" }
+      },
+      "position": [650, 300]
+    },
+    {
+      "id": "categorize-request",
+      "type": "n8n-nodes-base.switch",
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{ $node['trigger'].json.data.request_type }}",
+        "rules": {
+          "rules": [
+            { "value2": "upgrade" },
+            { "value2": "reservation" },
+            { "value2": "special_request" },
+            { "value2": "complaint" }
+          ]
+        }
+      },
+      "position": [850, 300]
+    },
+    {
+      "id": "handle-upgrade",
+      "type": "@ghxstship/n8n-nodes.ghxstship",
+      "parameters": {
+        "platform": "gvteway",
+        "resource": "ticket",
+        "operation": "update",
+        "recordId": "={{ $node['trigger'].json.data.ticket_id }}",
+        "additionalFields": {
+          "tier": "={{ $node['get-vip-profile'].json.vip_tier === 'platinum' ? 'backstage' : 'vip' }}",
+          "upgraded_by": "concierge",
+          "upgrade_reason": "={{ $node['trigger'].json.data.notes }}"
+        }
+      },
+      "position": [1050, 100]
+    },
+    {
+      "id": "handle-reservation",
+      "type": "@ghxstship/n8n-nodes.ghxstship",
+      "parameters": {
+        "platform": "gvteway",
+        "resource": "reservation",
+        "operation": "create",
+        "additionalFields": {
+          "customer_id": "={{ $node['get-vip-profile'].json.id }}",
+          "type": "={{ $node['trigger'].json.data.reservation_type }}",
+          "event_id": "={{ $node['trigger'].json.data.event_id }}",
+          "preferences": "={{ $node['get-preferences'].json }}",
+          "priority": "vip"
+        }
+      },
+      "position": [1050, 250]
+    },
+    {
+      "id": "handle-special",
+      "type": "@ghxstship/n8n-nodes.ghxstship",
+      "parameters": {
+        "platform": "gvteway",
+        "resource": "conciergeTask",
+        "operation": "create",
+        "additionalFields": {
+          "customer_id": "={{ $node['get-vip-profile'].json.id }}",
+          "request": "={{ $node['trigger'].json.data.notes }}",
+          "priority": "high",
+          "assigned_team": "vip_concierge"
+        }
+      },
+      "position": [1050, 400]
+    },
+    {
+      "id": "handle-complaint",
+      "type": "@ghxstship/n8n-nodes.ghxstship",
+      "parameters": {
+        "platform": "gvteway",
+        "resource": "supportTicket",
+        "operation": "create",
+        "additionalFields": {
+          "customer_id": "={{ $node['get-vip-profile'].json.id }}",
+          "type": "complaint",
+          "priority": "critical",
+          "assigned_team": "vip_concierge",
+          "description": "={{ $node['trigger'].json.data.notes }}"
+        }
+      },
+      "position": [1050, 550]
+    },
+    {
+      "id": "send-confirmation",
+      "type": "n8n-nodes-base.emailSend",
+      "parameters": {
+        "toEmail": "={{ $node['get-vip-profile'].json.email }}",
+        "subject": "Your Concierge Request Has Been Received",
+        "html": "<h1>Hello {{ $node['get-vip-profile'].json.first_name }},</h1><p>Your {{ $node['trigger'].json.data.request_type }} request has been received and is being processed by our VIP concierge team.</p><p>We'll be in touch shortly with an update.</p><p>Your dedicated concierge,<br>GHXSTSHIP VIP Services</p>"
+      },
+      "position": [1250, 300]
+    },
+    {
+      "id": "notify-concierge-team",
+      "type": "n8n-nodes-base.slack",
+      "parameters": {
+        "channel": "#vip-concierge",
+        "text": "🌟 New VIP Request\nCustomer: {{ $node['get-vip-profile'].json.name }} ({{ $node['get-vip-profile'].json.vip_tier }})\nType: {{ $node['trigger'].json.data.request_type }}\nDetails: {{ $node['trigger'].json.data.notes }}\n\nPreferences: {{ JSON.stringify($node['get-preferences'].json) }}"
+      },
+      "position": [1250, 450]
+    }
+  ],
+  "connections": {
+    "trigger": { "main": [[{ "node": "get-vip-profile", "type": "main", "index": 0 }]] },
+    "get-vip-profile": { "main": [[{ "node": "get-preferences", "type": "main", "index": 0 }]] },
+    "get-preferences": { "main": [[{ "node": "categorize-request", "type": "main", "index": 0 }]] },
+    "categorize-request": { "main": [
+      [{ "node": "handle-upgrade", "type": "main", "index": 0 }],
+      [{ "node": "handle-reservation", "type": "main", "index": 0 }],
+      [{ "node": "handle-special", "type": "main", "index": 0 }],
+      [{ "node": "handle-complaint", "type": "main", "index": 0 }]
+    ]},
+    "handle-upgrade": { "main": [[{ "node": "send-confirmation", "type": "main", "index": 0 }]] },
+    "handle-reservation": { "main": [[{ "node": "send-confirmation", "type": "main", "index": 0 }]] },
+    "handle-special": { "main": [[{ "node": "send-confirmation", "type": "main", "index": 0 }]] },
+    "handle-complaint": { "main": [[{ "node": "send-confirmation", "type": "main", "index": 0 }]] },
+    "send-confirmation": { "main": [[{ "node": "notify-concierge-team", "type": "main", "index": 0 }]] }
+  }
+}

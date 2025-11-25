@@ -1,0 +1,47 @@
+{
+  "name": "@ghxstship/config",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "exports": {
+    ".": "./index.ts",
+    "./auth-helpers": "./auth-helpers.ts",
+    "./rpc-client": "./rpc-client.ts",
+    "./supabase-client": "./supabase-client.ts",
+    "./supabase-types": "./supabase-types.ts",
+    "./middleware": "./middleware.ts",
+    "./roles": "./roles.ts",
+    "./workflow-helpers": "./workflow-helpers.ts",
+    "./api-helpers": "./api-helpers.ts",
+    "./form-validators": "./form-validators.ts",
+    "./query-client": "./query-client.tsx",
+    "./query-utils": "./query-utils.ts",
+    "./realtime-sync": "./realtime-sync.ts",
+    "./data-sync": "./data-sync.ts",
+    "./state-persistence": "./state-persistence.ts",
+    "./stores": "./stores/index.ts",
+    "./providers": "./providers.tsx",
+    "./auth-context": "./auth-context.tsx",
+    "./supabase-integration": "./supabase-integration.ts",
+    "./types/advancing": "./types/advancing.ts",
+    "./kpi-definitions": "./kpi-definitions.ts",
+    "./types/kpi-types": "./types/kpi-types.ts",
+    "./i18n": "./i18n/index.ts",
+    "./i18n/translations": "./i18n/translations/index.ts"
+  },
+  "dependencies": {
+    "@supabase/ssr": "^0.5.2",
+    "@supabase/supabase-js": "^2.47.7",
+    "@tanstack/react-query": "^5.56.2",
+    "@tanstack/react-query-devtools": "^5.56.2",
+    "immer": "^10.1.1",
+    "next": "^14.2.3",
+    "react": "^18.2.0",
+    "server-only": "^0.0.1",
+    "zustand": "^4.5.5"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}

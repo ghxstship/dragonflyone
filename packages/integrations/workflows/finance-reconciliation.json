@@ -1,0 +1,93 @@
+{
+  "name": "Finance Reconciliation",
+  "description": "Automated daily reconciliation of invoices, payments, and GL entries with variance alerting",
+  "platform": "atlvs",
+  "category": "finance",
+  "nodes": [
+    {
+      "id": "trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "parameters": {
+        "rule": { "interval": [{ "field": "days", "daysInterval": 1 }] }
+      },
+      "position": [250, 300]
+    },
+    {
+      "id": "get-invoices",
+      "type": "@ghxstship/n8n-nodes.ghxstship",
+      "parameters": {
+        "platform": "atlvs",
+        "resource": "invoice",
+        "operation": "getAll",
+        "filters": { "status": "paid", "paidWithin": "24h" }
+      },
+      "position": [450, 200]
+    },
+    {
+      "id": "get-payments",
+      "type": "@ghxstship/n8n-nodes.ghxstship",
+      "parameters": {
+        "platform": "atlvs",
+        "resource": "payment",
+        "operation": "getAll",
+        "filters": { "processedWithin": "24h" }
+      },
+      "position": [450, 400]
+    },
+    {
+      "id": "merge-data",
+      "type": "n8n-nodes-base.merge",
+      "parameters": { "mode": "combine", "combinationMode": "mergeByFields", "mergeByFields": { "values": [{ "field1": "invoice_id", "field2": "invoice_id" }] } },
+      "position": [650, 300]
+    },
+    {
+      "id": "calculate-variance",
+      "type": "n8n-nodes-base.code",
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconst results = items.map(item => {\n  const variance = Math.abs(item.json.invoice_amount - item.json.payment_amount);\n  const variancePercent = (variance / item.json.invoice_amount) * 100;\n  return {\n    json: {\n      ...item.json,\n      variance,\n      variancePercent,\n      hasVariance: variancePercent > 1\n    }\n  };\n});\nreturn results;"
+      },
+      "position": [850, 300]
+    },
+    {
+      "id": "filter-variance",
+      "type": "n8n-nodes-base.if",
+      "parameters": {
+        "conditions": { "boolean": [{ "value1": "={{ $json.hasVariance }}", "value2": true }] }
+      },
+      "position": [1050, 300]
+    },
+    {
+      "id": "create-gl-entry",
+      "type": "@ghxstship/n8n-nodes.ghxstship",
+      "parameters": {
+        "platform": "atlvs",
+        "resource": "glEntry",
+        "operation": "create",
+        "additionalFields": {
+          "invoice_id": "={{ $json.invoice_id }}",
+          "amount": "={{ $json.payment_amount }}",
+          "type": "payment_received",
+          "reconciled": true
+        }
+      },
+      "position": [1250, 200]
+    },
+    {
+      "id": "alert-variance",
+      "type": "n8n-nodes-base.slack",
+      "parameters": {
+        "channel": "#finance-alerts",
+        "text": "🚨 Payment variance detected!\nInvoice: {{ $json.invoice_id }}\nExpected: ${{ $json.invoice_amount }}\nReceived: ${{ $json.payment_amount }}\nVariance: {{ $json.variancePercent.toFixed(2) }}%"
+      },
+      "position": [1250, 400]
+    }
+  ],
+  "connections": {
+    "trigger": { "main": [[{ "node": "get-invoices", "type": "main", "index": 0 }, { "node": "get-payments", "type": "main", "index": 0 }]] },
+    "get-invoices": { "main": [[{ "node": "merge-data", "type": "main", "index": 0 }]] },
+    "get-payments": { "main": [[{ "node": "merge-data", "type": "main", "index": 1 }]] },
+    "merge-data": { "main": [[{ "node": "calculate-variance", "type": "main", "index": 0 }]] },
+    "calculate-variance": { "main": [[{ "node": "filter-variance", "type": "main", "index": 0 }]] },
+    "filter-variance": { "main": [[{ "node": "create-gl-entry", "type": "main", "index": 0 }], [{ "node": "alert-variance", "type": "main", "index": 0 }]] }
+  }
+}

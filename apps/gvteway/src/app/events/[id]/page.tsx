@@ -1,0 +1,239 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import {
+  PageLayout,
+  Navigation,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
+  H2,
+  H3,
+  Body,
+  Label,
+  Button,
+  Badge,
+  Card,
+  Grid,
+  Stack,
+  SectionLayout,
+  Spinner,
+  Link,
+  Container,
+  Figure,
+} from "@ghxstship/ui";
+import Image from "next/image";
+import { supabase } from "@/lib/supabase";
+import { useRouter } from "next/navigation";
+
+interface Event {
+  id: string;
+  title: string;
+  description: string;
+  venue_name: string;
+  city: string;
+  state: string;
+  event_date: string;
+  event_time: string;
+  genre: string;
+  capacity: number;
+  image_url: string;
+  ticket_types: TicketType[];
+}
+
+interface TicketType {
+  id: string;
+  name: string;
+  price: number;
+  available_quantity: number;
+}
+
+export default function EventDetailPage({ params }: { params: { id: string } }) {
+  const router = useRouter();
+  const [event, setEvent] = useState<Event | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [selectedTicket, setSelectedTicket] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetchEventDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params.id]);
+
+  async function fetchEventDetails() {
+    try {
+      const { data, error } = await supabase
+        .from("events")
+        .select(`
+          *,
+          ticket_types (*)
+        `)
+        .eq("id", params.id)
+        .single();
+
+      if (error) throw error;
+      setEvent(data);
+    } catch (error) {
+      console.error("Error fetching event:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleTicketSelect(ticketTypeId: string) {
+    setSelectedTicket(ticketTypeId);
+    router.push(`/checkout?event=${params.id}&ticket=${ticketTypeId}`);
+  }
+
+  if (loading) {
+    return (
+      <PageLayout background="black">
+        <Stack className="items-center justify-center min-h-screen">
+          <Spinner size="lg" />
+        </Stack>
+      </PageLayout>
+    );
+  }
+
+  if (!event) {
+    return (
+      <PageLayout background="black">
+        <Stack className="items-center justify-center min-h-screen">
+          <H2>Event not found</H2>
+        </Stack>
+      </PageLayout>
+    );
+  }
+
+  return (
+    <PageLayout
+      background="black"
+      header={
+        <Navigation
+          logo={<Display size="md" className="text-[3rem]">GVTEWAY</Display>}
+          cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/auth/signin')}>SIGN IN</Button>}
+        >
+          <Link href="/" className="font-heading text-sm uppercase tracking-wider hover:text-grey-400">Home</Link>
+          <Link href="/events" className="font-heading text-sm uppercase tracking-wider hover:text-grey-400">Events</Link>
+        </Navigation>
+      }
+      footer={
+        <Footer
+          logo={<Display size="md" className="text-white text-[3rem]">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Discover">
+            <FooterLink href="/events">Browse Events</FooterLink>
+            <FooterLink href="/venues">Find Venues</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <SectionLayout background="black">
+        <Stack gap={8}>
+          <Card className="relative h-96 overflow-hidden border-2 border-grey-800">
+            <Image 
+              src={event.image_url || "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=1200"} 
+              alt={event.title} 
+              fill
+              className="object-cover grayscale" 
+            />
+          </Card>
+
+          <Grid cols={3} gap={8}>
+            <Stack gap={6} className="lg:col-span-2">
+              <Stack>
+                <Stack className="mb-4">
+                  <Link href="/events" className="text-grey-400 hover:text-white">← Back to Events</Link>
+                </Stack>
+                <H2 className="text-white">{event.title}</H2>
+                <Stack direction="horizontal" gap={4} className="mt-4 items-center text-grey-400">
+                  <Body>{event.venue_name}</Body>
+                  <Body>•</Body>
+                  <Body>{event.city}, {event.state}</Body>
+                  <Body>•</Body>
+                  <Badge>{event.genre}</Badge>
+                </Stack>
+              </Stack>
+
+              <Card className="border-2 border-grey-800 p-6">
+                <H3 className="mb-4 text-white">About</H3>
+                <Body className="text-grey-300">{event.description}</Body>
+              </Card>
+
+              <Card className="border-2 border-grey-800 p-6">
+                <H3 className="mb-4 text-white">Event Info</H3>
+                <Stack gap={3}>
+                  <Stack>
+                    <Label className="text-grey-500 text-sm">Capacity</Label>
+                    <Body className="text-white">{event.capacity} attendees</Body>
+                  </Stack>
+                  <Stack>
+                    <Label className="text-grey-500 text-sm">Genre</Label>
+                    <Badge>{event.genre}</Badge>
+                  </Stack>
+                </Stack>
+              </Card>
+            </Stack>
+
+            <Stack gap={6}>
+              <Card className="border-2 border-grey-800 p-6">
+                <H3 className="mb-4 text-white">Event Details</H3>
+                <Stack gap={3} className="text-sm">
+                  <Stack>
+                    <Label className="text-grey-500">Date</Label>
+                    <Body className="mt-1 text-white">{new Date(event.event_date).toLocaleDateString()}</Body>
+                  </Stack>
+                  <Stack>
+                    <Label className="text-grey-500">Time</Label>
+                    <Body className="mt-1 text-white">{event.event_time}</Body>
+                  </Stack>
+                  <Stack>
+                    <Label className="text-grey-500">Venue</Label>
+                    <Body className="mt-1 text-white">{event.venue_name}</Body>
+                    <Body className="mt-1 text-grey-400">{event.city}, {event.state}</Body>
+                  </Stack>
+                </Stack>
+              </Card>
+
+              <Card className="border-2 border-grey-800 p-6">
+                <H3 className="mb-4 text-white">Tickets</H3>
+                <Stack gap={4}>
+                  {event.ticket_types && event.ticket_types.length > 0 ? (
+                    event.ticket_types.map((tier) => (
+                      <Card key={tier.id} className="border-2 border-grey-700 p-4">
+                        <Stack direction="horizontal" className="items-start justify-between">
+                          <Stack>
+                            <Label className="text-white">{tier.name}</Label>
+                            <Body className="mt-1 font-mono text-2xl text-white">${tier.price}</Body>
+                            <Body className="mt-1 text-xs text-grey-400">{tier.available_quantity} remaining</Body>
+                          </Stack>
+                          {tier.available_quantity > 0 ? (
+                            <Badge variant="solid">Available</Badge>
+                          ) : (
+                            <Badge variant="outline">Sold Out</Badge>
+                          )}
+                        </Stack>
+                        {tier.available_quantity > 0 && (
+                          <Button 
+                            variant="solid" 
+                            className="mt-4 w-full"
+                            onClick={() => handleTicketSelect(tier.id)}
+                          >
+                            Select Tickets
+                          </Button>
+                        )}
+                      </Card>
+                    ))
+                  ) : (
+                    <Body className="text-grey-400">No tickets available</Body>
+                  )}
+                </Stack>
+              </Card>
+            </Stack>
+          </Grid>
+        </Stack>
+      </SectionLayout>
+    </PageLayout>
+  );
+}

@@ -1,0 +1,175 @@
+openapi: 3.1.0
+info:
+  title: GHXSTSHIP Shared Schemas
+  version: 0.1.0
+  description: Canonical schema definitions reused across ATLVS, COMPVSS, and GVTEWAY specs.
+  contact:
+    name: GHXSTSHIP Platform Team
+    email: platform@ghxstship.com
+servers:
+  - url: https://api.ghxstship.com
+    description: Placeholder server for schema aggregation
+components:
+  schemas:
+    Deal:
+      type: object
+      required:
+        - id
+        - title
+        - status
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        status:
+          type: string
+          enum: [lead, qualified, proposal, won, lost]
+        value:
+          type: number
+          format: float
+        currency:
+          type: string
+          default: USD
+        created_at:
+          type: string
+          format: date-time
+    DealCreate:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+        status:
+          type: string
+          enum: [lead, qualified, proposal, won, lost]
+        value:
+          type: number
+        currency:
+          type: string
+    DealList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Deal"
+        next_cursor:
+          type: string
+        total:
+          type: integer
+    Project:
+      type: object
+      required:
+        - id
+        - code
+        - name
+        - phase
+      properties:
+        id:
+          type: string
+          format: uuid
+        code:
+          type: string
+        name:
+          type: string
+        phase:
+          type: string
+          enum: [intake, preproduction, in_production, post]
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+        budget:
+          type: number
+          format: float
+    ProjectCreate:
+      type: object
+      required:
+        - code
+        - name
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+        phase:
+          type: string
+          enum: [intake, preproduction, in_production, post]
+          default: intake
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+        budget:
+          type: number
+    ProjectList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Project"
+        next_cursor:
+          type: string
+        total:
+          type: integer
+    Event:
+      type: object
+      required:
+        - id
+        - name
+        - status
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        status:
+          type: string
+          enum: [draft, on_sale, sold_out, completed, cancelled]
+        venue:
+          type: string
+        start_at:
+          type: string
+          format: date-time
+        end_at:
+          type: string
+          format: date-time
+    EventCreate:
+      type: object
+      required:
+        - name
+        - status
+      properties:
+        name:
+          type: string
+        status:
+          type: string
+          enum: [draft, on_sale, sold_out, completed, cancelled]
+        venue:
+          type: string
+        start_at:
+          type: string
+          format: date-time
+        end_at:
+          type: string
+          format: date-time
+    EventList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Event"
+        next_cursor:
+          type: string
+        total:
+          type: integer

@@ -1,0 +1,19 @@
+extends:
+  - "spectral:oas"
+
+rules:
+  operation-description:
+    description: Every operation must include a description for roadmap traceability
+    message: "Operation is missing description"
+    severity: warn
+    given: $.paths[*][*]
+    then:
+      field: description
+      function: truthy
+  info-contact:
+    description: API specs must declare a contact for partner escalations
+    given: $.info
+    then:
+      field: contact
+      function: truthy
+    severity: error

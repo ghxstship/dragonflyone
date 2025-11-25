@@ -1,0 +1,2200 @@
+```markdown
+# GVTEWAY 200 KPI Metrics Library
+
+Complete reference guide for all KPI metrics, their descriptions, data sources, and calculation methods.
+
+---
+
+## FINANCIAL PERFORMANCE (45 KPIs)
+
+### Revenue Metrics (10 KPIs)
+
+#### 1. Total Event Revenue
+**Description**: Sum of all revenue streams for the event including tickets, merchandise, F&B, parking, and sponsorships
+**Unit**: USD (Currency)
+**Target Direction**: Higher is better
+**Data Sources**:
+- `transactions` table
+  - `total_amount` (WHERE transaction_status = 'completed')
+  - `transaction_type` (ticket_sale, merchandise, food_beverage, parking, sponsorship)
+**Calculation**: `SUM(transactions.total_amount WHERE status = 'completed')`
+**Update Frequency**: Real-time
+**Visualization**: Number, Line Chart, Bar Chart
+
+#### 2. Per Capita Spending
+**Description**: Average amount spent per attendee across all revenue streams
+**Unit**: USD (Currency)
+**Target Direction**: Higher is better
+**Data Sources**:
+- `transactions` table (total_amount)
+- `events` table (actual_attendance)
+**Calculation**: `Total Revenue / Actual Attendance`
+**Dependencies**: Total Event Revenue, Actual Attendance
+**Update Frequency**: Daily during event, final after event
+**Visualization**: Number, Comparison Bar
+
+#### 3. VIP Revenue Percentage
+**Description**: Percentage of total revenue generated from VIP ticket sales and packages
+**Unit**: Percentage
+**Target Direction**: Target-dependent (typically 20-40%)
+**Data Sources**:
+- `transactions` table (total_amount)
+- `tickets` table (tier_id)
+- `ticket_tiers` table (tier_type = 'vip')
+**Calculation**: `(VIP Revenue / Total Revenue) × 100`
+**Update Frequency**: Daily
+**Visualization**: Gauge, Pie Chart
+
+#### 4. Merchandise Revenue Per Attendee
+**Description**: Average merchandise sales per attendee
+**Unit**: USD (Currency)
+**Target Direction**: Higher is better
+**Data Sources**:
+- `transactions` table (WHERE transaction_type = 'merchandise')
+- `events` table (actual_attendance)
+**Calculation**: `SUM(merchandise transactions) / Actual Attendance`
+**Update Frequency**: Daily during event
+**Visualization**: Number, Line Chart
+
+#### 5. F&B Revenue Per Attendee
+**Description**: Average food and beverage revenue per attendee
+**Unit**: USD (Currency)
+**Target Direction**: Higher is better
+**Data Sources**:
+- `transactions` table (WHERE transaction_type = 'food_beverage')
+- `events` table (actual_attendance)
+**Calculation**: `SUM(F&B transactions) / Actual Attendance`
+**Update Frequency**: Daily during event
+**Visualization**: Number, Line Chart
+
+#### 6. Sponsorship Revenue Goal Achievement
+**Description**: Percentage of sponsorship revenue target achieved
+**Unit**: Percentage
+**Target Direction**: Higher is better (100% = goal met)
+**Data Sources**:
+- `transactions` table (WHERE transaction_type = 'sponsorship')
+- `budgets` table (revenue line items for sponsorship category)
+**Calculation**: `(Actual Sponsorship Revenue / Budgeted Sponsorship Revenue) × 100`
+**Update Frequency**: Weekly
+**Visualization**: Gauge, Progress Bar
+
+#### 7. Secondary Revenue Percentage
+**Description**: Percentage of total revenue from non-ticket sources (merch, F&B, parking, etc.)
+**Unit**: Percentage
+**Target Direction**: Higher is better
+**Data Sources**:
+- `transactions` table (transaction_type)
+**Calculation**: `(Non-ticket Revenue / Total Revenue) × 100`
+**Update Frequency**: Daily
+**Visualization**: Pie Chart, Stacked Bar
+
+#### 8. Average Transaction Value
+**Description**: Average dollar amount per transaction across all revenue types
+**Unit**: USD (Currency)
+**Target Direction**: Higher is better
+**Data Sources**:
+- `transactions` table (total_amount, COUNT)
+**Calculation**: `SUM(total_amount) / COUNT(transactions)`
+**Update Frequency**: Hourly
+**Visualization**: Number, Line Chart
+
+#### 9. Revenue Growth Rate
+**Description**: Percentage change in revenue compared to previous comparable event
+**Unit**: Percentage
+**Target Direction**: Higher is better
+**Data Sources**:
+- `transactions` table (current event)
+- `kpi_data_points` table (historical revenue data)
+**Calculation**: `((Current Revenue - Previous Revenue) / Previous Revenue) × 100`
+**Update Frequency**: After event completion
+**Visualization**: Number with trend indicator
+
+#### 10. Lifetime Value Per Attendee (LTV)
+**Description**: Average total revenue generated per attendee across multiple events
+**Unit**: USD (Currency)
+**Target Direction**: Higher is better
+**Data Sources**:
+- `transactions` table (linked to customer_id)
+- `tickets` table (purchaser_id)
+**Calculation**: `SUM(all transactions by customer) / Unique customers`
+**Update Frequency**: Monthly
+**Visualization**: Number, Cohort Analysis
+
+### Cost Management (15 KPIs)
+
+#### 11. Cost Per Attendee (CPA)
+**Description**: Total event costs divided by actual number of attendees
+**Unit**: USD (Currency)
+**Target Direction**: Lower is better
+**Data Sources**:
+- `budget_line_items` table (actual_amount WHERE item_type = 'expense')
+- `events` table (actual_attendance)
+**Calculation**: `SUM(expense line items) / Actual Attendance`
+**Dependencies**: Total Event Costs, Actual Attendance
+**Update Frequency**: Daily, final after event
+**Visualization**: Number, Line Chart
+
+#### 12. Labor Cost Percentage
+**Description**: Labor costs as a percentage of total event costs
+**Unit**: Percentage
+**Target Direction**: Within target range (typically 20-35%)
+**Data Sources**:
+- `budget_line_items` table (category = 'staffing')
+- `time_entries` table (total_cost)
+**Calculation**: `(Total Labor Costs / Total Event Costs) × 100`
+**Update Frequency**: Daily
+**Visualization**: Gauge, Pie Chart
+
+#### 13. Venue Cost Per Attendee
+**Description**: Venue rental costs divided by actual attendance
+**Unit**: USD (Currency)
+**Target Direction**: Lower is better
+**Data Sources**:
+- `budget_line_items` table (category = 'venue-rental')
+- `events` table (actual_attendance)
+**Calculation**: `Venue Rental Cost / Actual Attendance`
+**Update Frequency**: After event
+**Visualization**: Number
+
+#### 14. Marketing Cost Percentage
+**Description**: Marketing expenses as a percentage of total event costs
+**Unit**: Percentage
+**Target Direction**: Within target range (typically 10-25%)
+**Data Sources**:
+- `budget_line_items` table (category = 'marketing')
+- `marketing_campaigns` table (actual_spend)
+**Calculation**: `(Total Marketing Costs / Total Event Costs) × 100`
+**Update Frequency**: Weekly
+**Visualization**: Gauge, Line Chart
+
+#### 15. Production Cost Per Hour
+**Description**: Production-related costs divided by total event duration
+**Unit**: USD/hour
+**Target Direction**: Lower is better
+**Data Sources**:
+- `budget_line_items` table (production-related categories)
+- `events` table (event duration calculated from start/end times)
+**Calculation**: `Production Costs / Event Duration Hours`
+**Update Frequency**: After event
+**Visualization**: Number
+
+#### 16. Overtime Hours Percentage
+**Description**: Percentage of labor hours that were overtime
+**Unit**: Percentage
+**Target Direction**: Lower is better
+**Data Sources**:
+- `time_entries` table (overtime_hours, total hours)
+- `staff_assignments` table (actual_hours, overtime_hours)
+**Calculation**: `(Total Overtime Hours / Total Hours Worked) × 100`
+**Update Frequency**: Daily during event
+**Visualization**: Gauge
+
+#### 17. Budget Variance Percentage
+**Description**: Percentage difference between budgeted and actual costs
+**Unit**: Percentage
+**Target Direction**: Close to 0% (within ±10%)
+**Data Sources**:
+- `budget_line_items` table (budgeted_amount, actual_amount)
+**Calculation**: `((Actual - Budgeted) / Budgeted) × 100`
+**Update Frequency**: Daily
+**Visualization**: Number with color coding, Variance Chart
+
+#### 18. Cost Per Lead (CPL)
+**Description**: Marketing spend divided by total leads generated
+**Unit**: USD (Currency)
+**Target Direction**: Lower is better
+**Data Sources**:
+- `marketing_campaigns` table (actual_spend)
+- Analytics integration (lead count)
+**Calculation**: `Total Marketing Spend / Total Leads`
+**Update Frequency**: Weekly
+**Visualization**: Number, Line Chart
+
+#### 19. Break-Even Attendance
+**Description**: Number of attendees required to cover all fixed costs
+**Unit**: Count (Attendees)
+**Target Direction**: Lower than projected attendance
+**Data Sources**:
+- `budget_line_items` table (fixed costs)
+- `ticket_tiers` table (average ticket price)
+**Calculation**: `Fixed Costs / (Average Ticket Price - Variable Cost Per Attendee)`
+**Update Frequency**: During planning, updated as budget changes
+**Visualization**: Number, Comparison to Target
+
+#### 20. Cash Flow Cycle Time
+**Description**: Average days from initial deposit to final payment
+**Unit**: Days
+**Target Direction**: Lower is better
+**Data Sources**:
+- `transactions` table (processed_at, completed_at)
+- `contracts` table (deposit_due_date, final_payment_due_date)
+**Calculation**: `AVG(final_payment_date - deposit_date)`
+**Update Frequency**: Weekly
+**Visualization**: Number
+
+#### 21. Vendor Cost Efficiency
+**Description**: Percentage of vendor costs that came in at or under budget
+**Unit**: Percentage
+**Target Direction**: Higher is better
+**Data Sources**:
+- `budget_line_items` table (vendor-related, budgeted vs actual)
+**Calculation**: `(Budgeted Vendor Costs / Actual Vendor Costs) × 100`
+**Update Frequency**: Weekly
+**Visualization**: Gauge
+
+#### 22. Insurance Cost Per Attendee
+**Description**: Total insurance costs divided by attendance
+**Unit**: USD (Currency)
+**Target Direction**: Lower is better
+**Data Sources**:
+- `budget_line_items` table (category = 'insurance')
+- `events` table (actual_attendance)
+**Calculation**: `Insurance Costs / Actual Attendance`
+**Update Frequency**: After event
+**Visualization**: Number
+
+#### 23. Permit and License Cost Percentage
+**Description**: Permits and licenses as percentage of total costs
+**Unit**: Percentage
+**Target Direction**: Lower is better
+**Data Sources**:
+- `budget_line_items` table (category = 'permits-licenses')
+**Calculation**: `(Permit Costs / Total Costs) × 100`
+**Update Frequency**: Weekly
+**Visualization**: Gauge
+
+#### 24. Transportation Cost Per Mile
+**Description**: Transportation costs divided by total miles traveled
+**Unit**: USD/mile
+**Target Direction**: Lower is better
+**Data Sources**:
+- `budget_line_items` table (category = 'transportation')
+- Manual entry or integration (total miles)
+**Calculation**: `Transportation Costs / Total Miles`
+**Update Frequency**: After event
+**Visualization**: Number
+
+#### 25. Accommodation Cost Per Night
+**Description**: Average accommodation cost per night across all bookings
+**Unit**: USD (Currency)
+**Target Direction**: Within budget
+**Data Sources**:
+- `budget_line_items` table (category = 'accommodations')
+- Number of room nights (manual or integrated)
+**Calculation**: `Total Accommodation Costs / Total Room Nights`
+**Update Frequency**: Weekly
+**Visualization**: Number
+
+### Profitability (20 KPIs)
+
+#### 26. Profit Margin Percentage
+**Description**: Net profit as a percentage of total revenue
+**Unit**: Percentage
+**Target Direction**: Higher is better
+**Data Sources**:
+- `transactions` table (total revenue)
+- `budget_line_items` table (total costs)
+**Calculation**: `((Total Revenue - Total Costs) / Total Revenue) × 100`
+**Dependencies**: Total Event Revenue, Total Event Costs
+**Update Frequency**: Daily
+**Visualization**: Gauge, Line Chart
+
+#### 27. Revenue Per Available Hour (RevPAH)
+**Description**: Total revenue divided by event duration in hours
+**Unit**: USD/hour
+**Target Direction**: Higher is better
+**Data Sources**:
+- `transactions` table (total_amount)
+- `events` table (event_start_date, event_end_date)
+**Calculation**: `Total Revenue / Event Duration Hours`
+**Update Frequency**: Daily during event
+**Visualization**: Number, Comparison Bar
+
+#### 28. Return on Investment (ROI)
+**Description**: Net profit divided by total investment, expressed as percentage
+**Unit**: Percentage
+**Target Direction**: Higher is better (positive ROI)
+**Data Sources**:
+- `transactions` table (revenue)
+- `budget_line_items` table (costs as investment)
+**Calculation**: `((Total Revenue - Total Costs) / Total Costs) × 100`
+**Dependencies**: Total Event Revenue, Total Event Costs
+**Update Frequency**: Daily, final after event
+**Visualization**: Gauge, Number with trend
+
+#### 29. EBITDA Margin
+**Description**: Earnings before interest, taxes, depreciation, and amortization as percentage of revenue
+**Unit**: Percentage
+**Target Direction**: Higher is better
+**Data Sources**:
+- `transactions` table (revenue)
+- `budget_line_items` table (operating expenses)
+**Calculation**: `(EBITDA / Total Revenue) × 100`
+**Update Frequency**: After event
+**Visualization**: Gauge
+
+#### 30. Gross Profit Margin
+**Description**: Revenue minus cost of goods sold, divided by revenue
+**Unit**: Percentage
+**Target Direction**: Higher is better
+**Data Sources**:
+- `transactions` table (revenue)
+- `budget_line_items` table (direct costs/COGS)
+**Calculation**: `((Revenue - COGS) / Revenue) × 100`
+**Update Frequency**: Daily
+**Visualization**: Gauge, Line Chart
+
+#### 31. Operating Profit Margin
+**Description**: Operating profit divided by revenue
+**Unit**: Percentage
+**Target Direction**: Higher is better
+**Data Sources**:
+- `transactions` table (revenue)
+- `budget_line_items` table (operating expenses)
+**Calculation**: `(Operating Profit / Revenue) × 100`
+**Update Frequency**: Daily
+**Visualization**: Gauge
+
+#### 32. Revenue Per Square Foot
+**Description**: Total revenue divided by venue square footage
+**Unit**: USD/sq ft
+**Target Direction**: Higher is better
+**Data Sources**:
+- `transactions` table (total_amount)
+- `venues` table (total_square_footage)
+**Calculation**: `Total Revenue / Venue Square Footage`
+**Update Frequency**: After event
+**Visualization**: Number, Comparison to similar events
+
+#### 33. Contribution Margin
+**Description**: Revenue minus variable costs, divided by revenue
+**Unit**: Percentage
+**Target Direction**: Higher is better
+**Data Sources**:
+- `transactions` table (revenue)
+- `budget_line_items` table (variable costs)
+**Calculation**: `((Revenue - Variable Costs) / Revenue) × 100`
+**Update Frequency**: Daily
+**Visualization**: Gauge
+
+#### 34. Net Profit Per Attendee
+**Description**: Total net profit divided by actual attendance
+**Unit**: USD (Currency)
+**Target Direction**: Higher is better
+**Data Sources**:
+- `transactions` table (revenue)
+- `budget_line_items` table (costs)
+- `events` table (actual_attendance)
+**Calculation**: `(Total Revenue - Total Costs) / Actual Attendance`
+**Update Frequency**: After event
+**Visualization**: Number
+
+#### 35. Profit Per Hour
+**Description**: Net profit divided by event duration
+**Unit**: USD/hour
+**Target Direction**: Higher is better
+**Data Sources**:
+- `transactions` table (revenue)
+- `budget_line_items` table (costs)
+- `events` table (duration)
+**Calculation**: `Net Profit / Event Duration Hours`
+**Update Frequency**: After event
+**Visualization**: Number
+
+#### 36. Gross Revenue Multiple
+**Description**: Total revenue as multiple of initial investment
+**Unit**: Ratio (x times)
+**Target Direction**: Higher is better
+**Data Sources**:
+- `transactions` table (total_amount)
+- `budget_line_items` table (initial investment)
+**Calculation**: `Total Revenue / Initial Investment`
+**Update Frequency**: After event
+**Visualization**: Number
+
+#### 37. Payback Period
+**Description**: Days required to recover initial investment
+**Unit**: Days
+**Target Direction**: Lower is better
+**Data Sources**:
+- `transactions` table (cumulative revenue by date)
+- `budget_line_items` table (initial investment)
+**Calculation**: Days until cumulative revenue exceeds investment
+**Update Frequency**: Daily during ticket sales
+**Visualization**: Number, Line Chart
+
+#### 38. Profit Variance from Target
+**Description**: Difference between actual and targeted profit
+**Unit**: USD (Currency)
+**Target Direction**: Positive variance
+**Data Sources**:
+- `transactions` table (actual revenue)
+- `budget_line_items` table (actual costs)
+- `events` table (target_profit_margin, target_revenue)
+**Calculation**: `Actual Profit - Target Profit`
+**Update Frequency**: Daily
+**Visualization**: Number with color coding
+
+#### 39. Revenue Concentration Index
+**Description**: Measure of revenue diversification across streams
+**Unit**: Index (0-100)
+**Target Direction**: Lower is better (more diversified)
+**Data Sources**:
+- `transactions` table (transaction_type, total_amount)
+**Calculation**: Herfindahl-Hirschman Index
+**Update Frequency**: Daily
+**Visualization**: Number
+
+#### 40. Cost Efficiency Ratio
+**Description**: Value delivered per dollar spent
+**Unit**: Ratio
+**Target Direction**: Higher is better
+**Data Sources**:
+- `transactions` table (revenue as value proxy)
+- `budget_line_items` table (total costs)
+**Calculation**: `Total Revenue / Total Costs`
+**Update Frequency**: Daily
+**Visualization**: Number
+
+#### 41. Fixed Cost Coverage Ratio
+**Description**: Contribution margin divided by fixed costs
+**Unit**: Ratio
+**Target Direction**: Greater than 1.0
+**Data Sources**:
+- `transactions` table (revenue)
+- `budget_line_items` table (fixed vs variable costs)
+**Calculation**: `(Revenue - Variable Costs) / Fixed Costs`
+**Update Frequency**: Daily
+**Visualization**: Gauge
+
+#### 42. Operating Leverage
+**Description**: Percentage change in operating income per percentage change in revenue
+**Unit**: Ratio
+**Target Direction**: Context-dependent
+**Data Sources**:
+- `transactions` table (revenue changes)
+- `budget_line_items` table (operating income)
+**Calculation**: `% Change in Operating Income / % Change in Revenue`
+**Update Frequency**: Quarterly
+**Visualization**: Number
+
+#### 43. Break-Even Point
+**Description**: Revenue level required to cover all costs
+**Unit**: USD (Currency)
+**Target Direction**: Lower than projected revenue
+**Data Sources**:
+- `budget_line_items` table (fixed costs, variable costs)
+- `ticket_tiers` table (average price)
+**Calculation**: `Fixed Costs / (1 - (Variable Costs / Revenue))`
+**Update Frequency**: Weekly during planning
+**Visualization**: Number, Comparison Line
+
+#### 44. Safety Margin
+**Description**: Percentage by which actual revenue exceeds break-even
+**Unit**: Percentage
+**Target Direction**: Higher is better
+**Data Sources**:
+- `transactions` table (actual revenue)
+- Break-even calculation
+**Calculation**: `((Actual Revenue - Break-Even Revenue) / Actual Revenue) × 100`
+**Update Frequency**: Daily
+**Visualization**: Gauge
+
+#### 45. Return on Marketing Investment (ROMI)
+**Description**: Revenue attributed to marketing divided by marketing spend
+**Unit**: Ratio (x times)
+**Target Direction**: Higher is better
+**Data Sources**:
+- `transactions` table (attributed revenue)
+- `marketing_campaigns` table (actual_spend)
+**Calculation**: `Marketing-Attributed Revenue / Marketing Spend`
+**Update Frequency**: Weekly
+**Visualization**: Number, Line Chart
+
+---
+
+## TICKET & ATTENDANCE ANALYTICS (45 KPIs)
+
+### Sales Performance (25 KPIs)
+
+#### 46. Ticket Sales Conversion Rate
+**Description**: Percentage of website visitors who purchased tickets
+**Unit**: Percentage
+**Target Direction**: Higher is better
+**Data Sources**:
+- `tickets` table (COUNT where status = 'active')
+- Web analytics integration (total visitors)
+**Calculation**: `(Tickets Sold / Total Website Visitors) × 100`
+**Update Frequency**: Hourly
+**Visualization**: Gauge, Line Chart
+
+#### 47. Daily Ticket Sales Velocity
+**Description**: Average number of tickets sold per day
+**Unit**: Tickets/day
+**Target Direction**: Higher is better (with context)
+**Data Sources**:
+- `tickets` table (purchase_date)
+**Calculation**: `Total Tickets Sold / Days in Sales Period`
+**Update Frequency**: Daily
+**Visualization**: Line Chart, Bar Chart
+
+#### 48. Peak Sales Period
+**Description**: Time period with highest concentration of ticket sales
+**Unit**: Date/Time Range
+**Target Direction**: Informational
+**Data Sources**:
+- `tickets` table (purchase_date)
+**Calculation**: Identify period with maximum sales density
+**Update Frequency**: Daily
+**Visualization**: Heatmap, Bar Chart
+
+#### 49. Ticket Type Distribution
+**Description**: Percentage breakdown of tickets sold by tier (GA, VIP, etc.)
+**Unit**: Percentage per category
+**Target Direction**: Align with projections
+**Data Sources**:
+- `tickets` table (tier_id)
+- `ticket_tiers` table (tier_name, tier_type)
+**Calculation**: `(Tickets per Tier / Total Tickets) × 100`
+**Update Frequency**: Daily
+**Visualization**: Pie Chart, Stacked Bar
+
+#### 50. Group Sales Percentage
+**Description**: Percentage of tickets sold as group bookings
+**Unit**: Percentage
+**Target Direction**: Higher is better
+**Data Sources**:
+- `tickets` table (purchaser_id, purchase quantity)
+- `ticket_tiers` table (tier_type = 'group')
+**Calculation**: `(Group Tickets / Total Tickets) × 100`
+**Update Frequency**: Daily
+**Visualization**: Gauge, Pie Chart
+
+#### 51. Discount Redemption Rate
+**Description**: Percentage of tickets sold with discount codes
+**Unit**: Percentage
+**Target Direction**: Within target range
+**Data Sources**:
+- `tickets` table (discount_amount > 0)
+**Calculation**: `(Discounted Tickets / Total Tickets) × 100`
+**Update Frequency**: Daily
+**Visualization**: Gauge
+
+#### 52. Waitlist Conversion Rate
+**Description**: Percentage of waitlisted customers who purchased when capacity opened
+**Unit**: Percentage
+**Target Direction**: Higher is better
+**Data Sources**:
+- Waitlist table (to be added) or `tickets` table metadata
+**Calculation**: `(Converted from Waitlist / Total Waitlisted) × 100`
+**Update Frequency**: Daily
+**Visualization**: Gauge
+
+#### 53. Cart Abandonment Rate
+**Description**: Percentage of shopping carts abandoned before purchase completion
+**Unit**: Percentage
+**Target Direction**: Lower is better
+**Data Sources**:
+- E-commerce analytics integration
+**Calculation**: `(Abandoned Carts / Total Carts Created) × 100`
+**Update Frequency**: Hourly
+**Visualization**: Gauge, Line Chart
+
+#### 54. Mobile Ticket Sales Percentage
+**Description**: Percentage of tickets purchased via mobile devices
+**Unit**: Percentage
+**Target Direction**: Informational (trend monitoring)
+**Data Sources**:
+- `tickets` table (purchase device metadata)
+- Analytics integration
+**Calculation**: `(Mobile Purchases / Total Purchases) × 100`
+**Update Frequency**: Daily
+**Visualization**: Pie Chart, Line Chart
+
+#### 55. International Attendee Percentage
+**Description**: Percentage of attendees from outside the country
+**Unit**: Percentage
+**Target Direction**: Varies by event
+**Data Sources**:
+- `tickets` table (billing_country)
+- `users` table (country)
+**Calculation**: `(International Tickets / Total Tickets) × 100`
+**Update Frequency**: Daily
+**Visualization**: Gauge, Geographic Map
+
+#### 56. Repeat Attendee Rate
+**Description**: Percentage of attendees who have attended previous events
+**Unit**: Percentage
+**Target Direction**: Higher is better
+**Data Sources**:
+- `tickets` table (purchaser_id historical lookup)
+- `users` table (attendance history)
+**Calculation**: `(Repeat Customers / Total Customers) × 100`
+**Update Frequency**: Daily
+**Visualization**: Gauge, Line Chart
+
+#### 57. Early Bird Conversion Rate
+**Description**: Percentage of capacity sold during early bird pricing period
+**Unit**: Percentage
+**Target Direction**: Higher is better
+**Data Sources**:
+- `tickets` table (purchase_date, tier_type = 'early_bird')
+- `ticket_tiers` table (sale_start_date, sale_end_date)
+- `events` table (total_capacity)
+**Calculation**: `(Early Bird Tickets / Total Capacity) × 100`
+**Update Frequency**: Daily during early bird period
+**Visualization**: Gauge, Progress Bar
+
+#### 58. Last-Minute Sales Percentage
+**Description**: Percentage of tickets sold in final 48 hours before event
+**Unit**: Percentage
+**Target Direction**: Lower is better (indicates good advance sales)
+**Data Sources**:
+- `tickets` table (purchase_date)
+- `events` table (event_start_date)
+**Calculation**: `(Tickets sold in final 48hrs / Total Tickets) × 100`
+**Update Frequency**: Hourly during final 48 hours
+**Visualization**: Gauge
+
+#### 59. Tier Upgrade Rate
+**Description**: Percentage of customers who upgraded ticket tier after initial purchase
+**Unit**: Percentage
+**Target Direction**: Higher is better
+**Data Sources**:
+- `tickets` table (transfer/upgrade history in metadata)
+**Calculation**: `(Upgraded Tickets / Total Tickets) × 100`
+**Update Frequency**: Daily
+**Visualization**: Gauge
+
+#### 60. Cross-Sell Conversion Rate
+**Description**: Percentage of ticket buyers who purchased add-ons (parking, merch, etc.)
+**Unit**: Percentage
+**Target Direction**: Higher is better
+**Data Sources**:
+- `transactions` table (linked by customer_id, transaction_type)
+**Calculation**: `(Customers with Add-ons / Total Ticket Buyers) × 100`
+**Update Frequency**: Daily
+**Visualization**: Gauge
+
+#### 61. Average Days to Purchase
+**Description**: Average number of days before event that tickets are purchased
+**Unit**: Days
+**Target Direction**: Higher is better (more advance planning)
+**Data Sources**:
+- `tickets` table (purchase_date)
+- `events` table (event_start_date)
+**Calculation**: `AVG(event_start_date - purchase_date)`
+**Update Frequency**: Daily
+**Visualization**: Number, Histogram
+
+#### 62. Sales by Traffic Source
+**Description**: Ticket sales breakdown by referring source (organic, paid, social, etc.)
+**Unit**: Count per source
+**Target Direction**: Informational
+**Data Sources**:
+- `tickets` table (referral source metadata)
+- Analytics integration
+**Calculation**: `COUNT(tickets) GROUP BY traffic_source`
+**Update Frequency**: Daily
+**Visualization**: Pie Chart, Bar Chart
+
+#### 63. Price Sensitivity Index
+**Description**: Correlation between price changes and sales volume
+**Unit**: Index score
+**Target Direction**: Informational
+**Data Sources**:
+- `ticket_tiers` table (price changes over time)
+- `tickets` table (sales volume by date)
+**Calculation**: Statistical correlation analysis
+**Update Frequency**: Weekly
+**Visualization**: Line Chart, Scatter Plot
+
+#### 64. Promotional Code Effectiveness
+**Description**: Average incremental sales per promotional code campaign
+**Unit**: Tickets per campaign
+**Target Direction**: Higher is better
+**Data Sources**:
+- `tickets` table (discount metadata, promo codes)
+**Calculation**: `AVG(tickets per promo code) compared to baseline`
+**Update Frequency**: Weekly
+**Visualization**: Bar Chart, Comparison Table
+
+#### 65. Average Purchase Quantity
+**Description**: Average number of tickets purchased per transaction
+**Unit**: Tickets per transaction
+**Target Direction**: Higher is better
+**Data Sources**:
+- `tickets` table (grouped by transaction_id or purchaser + purchase_date)
+**Calculation**: `Total Tickets Sold / Total Transactions`
+**Update Frequency**: Daily
+**Visualization**: Number, Line Chart
+
+#### 66. Revenue Per Transaction
+**Description**: Average revenue generated per ticket purchase transaction
+**Unit**: USD (Currency)
+**Target Direction**: Higher is better
+**Data Sources**:
+- `transactions` table (WHERE transaction_type = 'ticket_sale')
+**Calculation**: `SUM(transaction amounts) / COUNT(transactions)`
+**Update Frequency**: Hourly
+**Visualization**: Number, Line Chart
+
+#### 67. Sales Funnel Conversion Rate
+**Description**: Conversion rate at each stage of ticket purchase funnel
+**Unit**: Percentage per stage
+**Target Direction**: Higher is better
+**Data Sources**:
+- Analytics integration (page views, cart additions, checkouts)
+**Calculation**: `(Stage N completions / Stage N-1 entries) × 100`
+**Update Frequency**: Hourly
+**Visualization**: Funnel Chart
+
+#### 68. First-Time Buyer Percentage
+**Description**: Percentage of ticket buyers purchasing from this organization for first time
+**Unit**: Percentage
+**Target Direction**: Balanced (growth vs retention)
+**Data Sources**:
+- `tickets` table (purchaser_id)
+- Historical ticket data
+**Calculation**: `(First-time Purchasers / Total Purchasers) × 100`
+**Update Frequency**: Daily
+**Visualization**: Gauge, Pie Chart
+
+#### 69. Sales Decline Rate
+**Description**: Rate of sales decrease after peak sales period
+**Unit**: Percentage per day
+**Target Direction**: Lower is better
+**Data Sources**:
+- `tickets` table (purchase_date, COUNT per day)
+**Calculation**: `(Current Day Sales - Peak Day Sales) / Peak Day Sales × 100`
+**Update Frequency**: Daily
+**Visualization**: Line Chart
+
+#### 70. Dynamic Pricing Effectiveness
+**Description**: Revenue increase attributed to dynamic pricing vs. fixed pricing
+**Unit**: USD (Currency) or Percentage
+**Target Direction**: Higher is better
+**Data Sources**:
+- `ticket_tiers` table (price changes over time)
+- `tickets` table (final_price, purchase_date)
+**Calculation**: `(Dynamic Revenue - Projected Fixed Revenue) / Projected Fixed Revenue × 100`
+**Update Frequency**: Daily
+**Visualization**: Number, Comparison Chart
+
+### Capacity & Utilization (15 KPIs)
+
+#### 71. Attendance Rate
+**Description**: Percentage of ticket holders who actually attended the event
+**Unit**: Percentage
+**Target Direction**: Higher is better (90%+ is excellent)
+**Data Sources**:
+- `check_ins` table (check_in_status = 'completed')
+- `tickets` table (ticket_status NOT IN 'cancelled', 'refunded')
+**Calculation**: `(Checked In Count / Tickets Sold) × 100`
+**Update Frequency**: Real-time during event
+**Visualization**: Gauge, Live Counter
+
+#### 72. Capacity Utilization Rate
+**Description**: Percentage of total venue capacity that was filled
+**Unit**: Percentage
+**Target Direction**: Higher is better
+**Data Sources**:
+- `check_ins` table (actual attendees)
+- `events` table (total_capacity)
+**Calculation**: `(Actual Attendance / Total Capacity) × 100`
+**Update Frequency**: Real-time during event, final after
+**Visualization**: Gauge, Progress Bar
+
+#### 73. No-Show Rate
+**Description**: Percentage of ticket holders who did not attend
+**Unit**: Percentage
+**Target Direction**: Lower is better
+**Data Sources**:
+- `tickets` table (active tickets)
+- `check_ins` table (checked in tickets)
+**Calculation**: `((Tickets Sold - Checked In) / Tickets Sold) × 100`
+**Update Frequency**: Real-time during event
+**Visualization**: Gauge
+
+#### 74. VIP Area Utilization
+**Description**: Percentage of VIP capacity that was used
+**Unit**: Percentage
+**Target Direction**: Higher is better
+**Data Sources**:
+- `check_ins` table (WHERE ticket_tier is VIP)
+- `events` table (vip_capacity)
+**Calculation**: `(VIP Check-ins / VIP Capacity) × 100`
+**Update Frequency**: Real-time during event
+**Visualization**: Gauge
+
+#### 75. Time-Based Attendance Distribution
+**Description**: Attendance breakdown by time of day/hour
+**Unit**: Count per time period
+**Target Direction**: Informational (identify peak times)
+**Data Sources**:
+- `check_ins` table (checked_in_at timestamp)
+**Calculation**: `COUNT(check_ins) GROUP BY hour/time_block`
+**Update Frequency**: Hourly during event
+**Visualization**: Line Chart, Heatmap
+
+#### 76. Entry Processing Speed
+**Description**: Average number of attendees processed through entry per minute
+**Unit**: Attendees/minute
+**Target Direction**: Higher is better
+**Data Sources**:
+- `check_ins` table (checked_in_at timestamps)
+**Calculation**: `Total Check-ins / Total Check-in Period Minutes`
+**Update Frequency**: Real-time during entry period
+**Visualization**: Number, Line Chart
+
+#### 77. Queue Wait Time Average
+**Description**: Average wait time in entry queue
+**Unit**: Minutes
+**Target Direction**: Lower is better
+**Data Sources**:
+- Queue management system integration or
+- `check_ins` table (estimated from entry rate)
+**Calculation**: Queue theory calculation or direct measurement
+**Update Frequency**: Real-time during entry
+**Visualization**: Number, Line Chart
+
+#### 78. Seat Turnover Rate
+**Description**: For multi-session events, average number of different attendees per seat
+**Unit**: Ratio
+**Target Direction**: Higher is better (for multi-session)
+**Data Sources**:
+- `tickets` table (section, row, seat_number, session)
+**Calculation**: `Unique Attendees per Seat / Total Sessions`
+**Update Frequency**: After event
+**Visualization**: Number
+
+#### 79. Standing Area Density
+**Description**: Attendees per square meter in standing areas
+**Unit**: Attendees/sq meter
+**Target Direction**: Within safe limits
+**Data Sources**:
+- `check_ins` table (check_in_location = standing areas)
+- `venues` table (standing area dimensions)
+**Calculation**: `Attendees in Standing Areas / Standing Area Square Meters`
+**Update Frequency**: Real-time during event
+**Visualization**: Number, Heatmap
+
+#### 80. Accessibility Accommodation Rate
+**Description**: Percentage of accessibility requests successfully fulfilled
+**Unit**: Percentage
+**Target Direction**: 100%
+**Data Sources**:
+- `tickets` table (special_requirements)
+- Accommodation fulfillment records
+**Calculation**: `(Requests Fulfilled / Total Requests) × 100`
+**Update Frequency**: Daily during planning
+**Visualization**: Gauge
+
+#### 81. Peak Occupancy Time
+**Description**: Time period with maximum concurrent attendance
+**Unit**: Timestamp
+**Target Direction**: Informational
+**Data Sources**:
+- `check_ins` table (checked_in_at)
+- Exit tracking (if available)
+**Calculation**: Identify time with maximum concurrent attendees
+**Update Frequency**: After event
+**Visualization**: Line Chart
+
+#### 82. Entry Gate Efficiency
+**Description**: Comparison of processing speed across different entry gates
+**Unit**: Attendees/minute per gate
+**Target Direction**: Balanced across gates
+**Data Sources**:
+- `check_ins` table (check_in_gate, checked_in_at)
+**Calculation**: `COUNT(check_ins per gate) / Time Period`
+**Update Frequency**: Real-time during event
+**Visualization**: Bar Chart, Comparison Table
+
+#### 83. Re-Entry Rate
+**Description**: Percentage of attendees who exited and re-entered
+**Unit**: Percentage
+**Target Direction**: Informational
+**Data Sources**:
+- `check_ins` table (multiple check-ins per ticket)
+**Calculation**: `(Tickets with Multiple Check-ins / Total Tickets) × 100`
+**Update Frequency**: After event
+**Visualization**: Gauge
+
+#### 84. Early Departure Rate
+**Description**: Percentage of attendees who left before official end time
+**Unit**: Percentage
+**Target Direction**: Lower is better
+**Data Sources**:
+- Exit tracking system or
+- Survey data
+**Calculation**: `(Early Departures / Total Attendees) × 100`
+**Update Frequency**: After event
+**Visualization**: Gauge
+
+#### 85. Capacity Warning Threshold Breaches
+**Description**: Number of times occupancy exceeded safe capacity limits
+**Unit**: Count
+**Target Direction**: Zero
+**Data Sources**:
+- Real-time occupancy tracking
+- `check_ins` table (concurrent attendance calculations)
+**Calculation**: `COUNT(instances where concurrent > max_safe_capacity)`
+**Update Frequency**: Real-time during event
+**Visualization**: Number, Alert Counter
+
+### Pricing Optimization (5 KPIs)
+
+#### 86. Average Ticket Price (ATP)
+**Description**: Average price per ticket sold across all tiers
+**Unit**: USD (Currency)
+**Target Direction**: Align with revenue targets
+**Data Sources**:
+- `tickets` table (final_price)
+**Calculation**: `SUM(final_price) / COUNT(tickets)`
+**Update Frequency**: Hourly
+**Visualization**: Number, Line Chart
+
+#### 87. Sell-Through Rate
+**Description**: Percentage of total capacity that has been sold
+**Unit**: Percentage
+**Target Direction**: Higher is better (approaching 100%)
+**Data Sources**:
+- `tickets` table (ticket_status = sold/active)
+- `events` table (total_capacity)
+**Calculation**: `(Tickets Sold / Total Capacity) × 100`
+**Update Frequency**: Real-time
+**Visualization**: Gauge, Progress Bar
+
+#### 88. Price Elasticity
+**Description**: Percentage change in sales volume per percentage change in price
+**Unit**: Elasticity coefficient
+**Target Direction**: Informational (guides pricing strategy)
+**Data Sources**:
+- `ticket_tiers` table (price changes)
+- `tickets` table (sales volume)
+**Calculation**: `(% Change in Quantity / % Change in Price)`
+**Update Frequency**: Weekly
+**Visualization**: Number, Scatter Plot
+
+#### 89. Optimal Price Point
+**Description**: Price point that maximizes total revenue
+**Unit**: USD (Currency)
+**Target Direction**: Informational
+**Data Sources**:
+- `ticket_tiers` table (various price points)
+- `tickets` table (sales at each price)
+**Calculation**: Revenue maximization analysis across price points
+**Update Frequency**: Weekly
+**Visualization**: Number, Curve Chart
+
+#### 90. Dynamic Pricing Uplift
+**Description**: Revenue increase from dynamic pricing vs. static pricing baseline
+**Unit**: Percentage
+**Target Direction**: Higher is better
+**Data Sources**:
+- `ticket_tiers` table (price changes over time)
+- `tickets` table (actual sales)
+**Calculation**: `((Dynamic Revenue - Static Baseline) / Static Baseline) × 100`
+**Update Frequency**: Daily
+**Visualization**: Number, Comparison Chart
+
+---
+
+## OPERATIONAL EFFICIENCY (55 KPIs)
+
+### Project Management (20 KPIs)
+
+#### 91. Schedule Adherence Rate
+**Description**: Percentage of milestones completed on or before due date
+**Unit**: Percentage
+**Target Direction**: Higher is better (90%+ is excellent)
+**Data Sources**:
+- `project_milestones` table (due_date, completed_at, is_completed)
+**Calculation**: `(On-time Milestones / Total Completed Milestones) × 100`
+**Update Frequency**: Daily
+**Visualization**: Gauge, Line Chart
+
+#### 92. Project Timeline Adherence
+**Description**: Percentage of project staying on schedule
+**Unit**: Percentage
+**Target Direction**: Higher is better
+**Data Sources**:
+- `project_phases` table (start_date, end_date)
+- `project_milestones` table (completion status)
+**Calculation**: `(Tasks On Schedule / Total Tasks) × 100`
+**Update Frequency**: Daily
+**Visualization**: Gauge, Gantt Chart
+
+#### 93. Change Order Frequency
+**Description**: Number of change orders per total project scope items
+**Unit**: Count or Ratio
+**Target Direction**: Lower is better
+**Data Sources**:
+- Change orders tracking (in metadata or separate table)
+- `tasks` table (total count)
+**Calculation**: `COUNT(change orders) / Total Scope Items`
+**Update Frequency**: Weekly
+**Visualization**: Number, Line Chart
+
+#### 94. Risk Mitigation Success Rate
+**Description**: Percentage of identified risks that were successfully prevented/mitigated
+**Unit**: Percentage
+**Target Direction**: Higher is better
+**Data Sources**:
+- Risk register (to be added or in project metadata)
+**Calculation**: `(Prevented Risks / Total Identified Risks) × 100`
+**Update Frequency**: Weekly
+**Visualization**: Gauge
+
+#### 95. Milestone Completion Velocity
+**Description**: Average days ahead of (negative) or behind (positive) schedule
+**Unit**: Days
+**Target Direction**: Negative (ahead) or zero (on time)
+**Data Sources**:
+- `project_milestones` table (due_date, completed_at)
+**Calculation**: `AVG(completed_at - due_date)`
+**Update Frequency**: Daily
+**Visualization**: Number with color coding
+
+#### 96. Resource Allocation Efficiency
+**Description**: Percentage of allocated hours that were actually utilized
+**Unit**: Percentage
+**Target Direction**: 85-95% (optimal range)
+**Data Sources**:
+- `staff_assignments` table (scheduled vs actual hours)
+- `time_entries` table (actual hours)
+**Calculation**: `(Actual Hours Used / Allocated Hours) × 100`
+**Update Frequency**: Daily
+**Visualization**: Gauge
+
+#### 97. Dependency Fulfillment Rate
+**Description**: Percentage of task dependencies met on time
+**Unit**: Percentage
+**Target Direction**: Higher is better
+**Data Sources**:
+- `tasks` table (depends_on_task_ids, completion status)
+**Calculation**: `(Dependencies Met on Time / Total Dependencies) × 100`
+**Update Frequency**: Daily
+**Visualization**: Gauge
+
+#### 98. Critical Path Variance
+**Description**: Days ahead/behind on critical path timeline
+**Unit**: Days
+**Target Direction**: Zero or negative (ahead)
+**Data Sources**:
+- `project_milestones` table (critical_path = true)
+- `tasks` table (is_critical = true)
+**Calculation**: `Actual Critical Path Duration - Planned Duration`
+**Update Frequency**: Daily
+**Visualization**: Number, Timeline Visualization
+
+#### 99. Average Task Duration
+**Description**: Average time to complete a task
+**Unit**: Days or Hours
+**Target Direction**: Align with estimates
+**Data Sources**:
+- `tasks` table (start_date, completed_at)
+**Calculation**: `AVG(completed_at - start_date)`
+**Update Frequency**: Weekly
+**Visualization**: Number, Histogram
+
+#### 100. Sprint Velocity
+**Description**: Average story points completed per sprint (if using Agile)
+**Unit**: Story points per sprint
+**Target Direction**: Consistent or increasing
+**Data Sources**:
+- `tasks` table (story_points, sprint metadata)
+**Calculation**: `AVG(story points per sprint)`
+**Update Frequency**: Per sprint
+**Visualization**: Line Chart
+
+#### 101. Blocker Resolution Time
+**Description**: Average time to clear task blockers
+**Unit**: Hours or Days
+**Target Direction**: Lower is better
+**Data Sources**:
+- `tasks` table (task_status = 'blocked', status change history)
+**Calculation**: `AVG(time in blocked status)`
+**Update Frequency**: Daily
+**Visualization**: Number, Line Chart
+
+#### 102. Task Completion Rate
+**Description**: Percentage of all tasks marked as completed
+**Unit**: Percentage
+**Target Direction**: Progressing toward 100%
+**Data Sources**:
+- `tasks` table (task_status = 'completed' vs all)
+**Calculation**: `(Completed Tasks / Total Tasks) × 100`
+**Update Frequency**: Daily
+**Visualization**: Gauge, Progress Bar
+
+#### 103. Overdue Task Percentage
+**Description**: Percentage of tasks past their due date
+**Unit**: Percentage
+**Target Direction**: Lower is better
+**Data Sources**:
+- `tasks` table (due_date < current_date, status != 'completed')
+**Calculation**: `(Overdue Tasks / Total Active Tasks) × 100`
+**Update Frequency**: Daily
+**Visualization**: Gauge with alert
+
+#### 104. Task Estimation Accuracy
+**Description**: Percentage difference between estimated and actual task duration
+**Unit**: Percentage
+**Target Direction**: Close to 0%
+**Data Sources**:
+- `tasks` table (estimated_hours, actual_hours)
+**Calculation**: `AVG((actual_hours - estimated_hours) / estimated_hours) × 100`
+**Update Frequency**: Weekly
+**Visualization**: Number, Distribution Chart
+
+#### 105. Planning Accuracy
+**Description**: Percentage of project delivered within original scope/timeline/budget
+**Unit**: Percentage
+**Target Direction**: Higher is better
+**Data Sources**:
+- `events` table (baseline targets)
+- Actual performance across multiple dimensions
+**Calculation**: Composite score from scope/time/budget variances
+**Update Frequency**: Weekly
+**Visualization**: Multi-dimensional Gauge
+
+#### 106. Scope Creep Index
+**Description**: Percentage increase in scope from original baseline
+**Unit**: Percentage
+**Target Direction**: Lower is better
+**Data Sources**:
+- `tasks` table (original vs current count)
+- Change order tracking
+**Calculation**: `((Current Scope - Baseline Scope) / Baseline Scope) × 100`
+**Update Frequency**: Weekly
+**Visualization**: Number with trend
+
+#### 107. Communication Response Time
+**Description**: Average time to respond to project communications
+**Unit**: Hours
+**Target Direction**: Lower is better
+**Data Sources**:
+- `communications` table (created_at, response timestamps)
+**Calculation**: `AVG(response_time - created_at)`
+**Update Frequency**: Daily
+**Visualization**: Number
+
+#### 108. Meeting Effectiveness Score
+**Description**: Percentage of meetings resulting in actionable outcomes
+**Unit**: Percentage
+**Target Direction**: Higher is better
+**Data Sources**:
+- `communications` table (communication_type = 'meeting')
+- `tasks` table (created from meetings)
+**Calculation**: `(Meetings with Action Items / Total Meetings) × 100`
+**Update Frequency**: Weekly
+**Visualization**: Gauge
+
+#### 109. Decision Velocity
+**Description**: Average time from issue identification to decision
+**Unit**: Days
+**Target Direction**: Lower is better
+**Data Sources**:
+- `notes` table (note_type = 'decision')
+- Issue tracking
+**Calculation**: `AVG(decision_date - issue_identified_date)`
+**Update Frequency**: Weekly
+**Visualization**: Number
+
+#### 110. Project Health Score
+**Description**: Composite score of schedule, budget, scope, and quality
+**Unit**: Score 0-100
+**Target Direction**: Higher is better (75+ is healthy)
+**Data Sources**:
+- Multiple KPIs (schedule adherence, budget variance, scope, quality metrics)
+**Calculation**: Weighted average of component scores
+**Update Frequency**: Weekly
+**Visualization**: Gauge with breakdown
+
+### Team Performance (20 KPIs)
+
+#### 111. Staff Utilization Rate
+**Description**: Percentage of available staff hours that were billable/productive
+**Unit**: Percentage
+**Target Direction**: 75-90% (optimal range)
+**Data Sources**:
+- `time_entries` table (is_billable, duration_minutes)
+- `staff_assignments` table (scheduled hours)
+**Calculation**: `(Billable Hours / Total Available Hours) × 100`
+**Update Frequency**: Daily
+**Visualization**: Gauge, Line Chart
+
+#### 112. Employee Satisfaction Score
+**Description**: Average satisfaction rating from post-event staff surveys
+**Unit**: Score (1-10 scale)
+**Target Direction**: Higher is better (8+ is excellent)
+**Data Sources**:
+- Staff surveys (to be added to surveys table)
+**Calculation**: `AVG(satisfaction_rating)`
+**Update Frequency**: After each event
+**Visualization**: Number, Trend Line
+
+#### 113. Training Completion Rate
+**Description**: Percentage of required training completed by staff
+**Unit**: Percentage
+**Target Direction**: 100%
+**Data Sources**:
+- `users` table (certifications, training_completed metadata)
+**Calculation**: `(Staff with Training Complete / Total Staff Requiring Training) × 100`
+**Update Frequency**: Monthly
+**Visualization**: Gauge, Progress Bar
+
+#### 114. Cross-Training Index
+**Description**: Average number of roles each staff member is qualified for
+**Unit**: Average count
+**Target Direction**: Higher is better (2+ is good)
+**Data Sources**:
+- `users` table (specialization array)
+- `staff_positions` table
+**Calculation**: `AVG(qualified positions per staff member)`
+**Update Frequency**: Monthly
+**Visualization**: Number
+
+#### 115. Staff Turnover Rate
+**Description**: Percentage of staff who left organization in period
+**Unit**: Percentage (annualized)
+**Target Direction**: Lower is better
+**Data Sources**:
+- `user_organizations` table (invitation_status = 'revoked', dates)
+**Calculation**: `(Departures / Average Staff Count) × 100`
+**Update Frequency**: Monthly
+**Visualization**: Number, Line Chart
+
+#### 116. Average Crew Experience Level
+**Description**: Average years of experience across crew
+**Unit**: Years
+**Target Direction**: Context-dependent
+**Data Sources**:
+- `users` table (years_experience)
+**Calculation**: `AVG(years_experience)`
+**Update Frequency**: Monthly
+**Visualization**: Number
+
+#### 117. Communication Response Time
+**Description**: Average time for staff to respond to messages
+**Unit**: Hours
+**Target Direction**: Lower is better
+**Data Sources**:
+- `communications` table (sent_at, read_at)
+**Calculation**: `AVG(read_at - sent_at)`
+**Update Frequency**: Daily
+**Visualization**: Number
+
+#### 118. Incident Report Frequency
+**Description**: Safety incidents per event or per 1000 staff hours
+**Unit**: Incidents per event or per 1000 hours
+**Target Direction**: Lower is better
+**Data Sources**:
+- `incidents` table
+- `time_entries` table (total hours)
+**Calculation**: `COUNT(incidents) / (Total Hours / 1000)`
+**Update Frequency**: After each event
+**Visualization**: Number, Line Chart
+
+#### 119. Staff Punctuality Rate
+**Description**: Percentage of staff arrivals that were on time
+**Unit**: Percentage
+**Target Direction**: Higher is better (95%+ is excellent)
+**Data Sources**:
+- `staff_assignments` table (scheduled_start, actual_start)
+**Calculation**: `(On-time Arrivals / Total Scheduled Arrivals) × 100`
+**Update Frequency**: Daily during event
+**Visualization**: Gauge
+
+#### 120. Certification Compliance Rate
+**Description**: Percentage of staff with all required certifications valid
+**Unit**: Percentage
+**Target Direction**: 100%
+**Data Sources**:
+- `users` table (certifications with expiry dates)
+- `staff_positions` table (required_certifications)
+**Calculation**: `(Staff with Valid Certs / Total Staff) × 100`
+**Update Frequency**: Monthly
+**Visualization**: Gauge with alert
+
+#### 121. Overtime Percentage
+**Description**: Percentage of hours worked that were overtime
+**Unit**: Percentage
+**Target Direction**: Lower is better
+**Data Sources**:
+- `time_entries` table (work_type = 'overtime')
+- `staff_assignments` table (overtime_hours)
+**Calculation**: `(Overtime Hours / Total Hours) × 100`
+**Update Frequency**: Daily during event
+**Visualization**: Gauge
+
+#### 122. Staff Productivity Score
+**Description**: Tasks completed per staff member per day
+**Unit**: Tasks per person per day
+**Target Direction**: Higher is better
+**Data Sources**:
+- `tasks` table (completed, assigned_to)
+- Date range
+**Calculation**: `Total Completed Tasks / (Staff Count × Days)`
+**Update Frequency**: Daily
+**Visualization**: Number, Bar Chart
+
+#### 123. Team Collaboration Score
+**Description**: Percentage of tasks requiring collaboration completed successfully
+**Unit**: Percentage
+**Target Direction**: Higher is better
+**Data Sources**:
+- `tasks` table (multi-assignee tasks, completion status)
+**Calculation**: `(Collaborative Tasks Completed / Total Collaborative Tasks) × 100`
+**Update Frequency**: Weekly
+**Visualization**: Gauge
+
+#### 124. Staff Retention Rate
+**Description**: Percentage of staff returning for subsequent events
+**Unit**: Percentage
+**Target Direction**: Higher is better
+**Data Sources**:
+- `staff_assignments` table (user_id across multiple events)
+**Calculation**: `(Returning Staff / Total Previous Staff) × 100`
+**Update Frequency**: Per event
+**Visualization**: Gauge
+
+#### 125. Skills Gap Index
+**Description**: Percentage of required skills not covered by current staff
+**Unit**: Percentage
+**Target Direction**: Lower is better
+**Data Sources**:
+- `staff_positions` table (required_skills)
+- `users` table (specialization)
+**Calculation**: `(Uncovered Skills / Total Required Skills) × 100`
+**Update Frequency**: Monthly
+**Visualization**: Gauge
+
+#### 126. Onboarding Completion Time
+**Description**: Average days to complete new staff onboarding
+**Unit**: Days
+**Target Direction**: Lower is better
+**Data Sources**:
+- `user_organizations` table (invited_at, joined_at)
+- Training completion data
+**Calculation**: `AVG(onboarding_complete_date - hired_date)`
+**Update Frequency**: Monthly
+**Visualization**: Number
+
+#### 127. Performance Review Completion
+**Description**: Percentage of scheduled performance reviews completed
+**Unit**: Percentage
+**Target Direction**: 100%
+**Data Sources**:
+- Performance review tracking (to be added)
+**Calculation**: `(Reviews Completed / Reviews Scheduled) × 100`
+**Update Frequency**: Quarterly
+**Visualization**: Gauge
+
+#### 128. Staff Morale Index
+**Description**: Composite score from multiple staff satisfaction indicators
+**Unit**: Score 0-100
+**Target Direction**: Higher is better
+**Data Sources**:
+- Multiple survey questions
+- Retention data
+- Feedback
+**Calculation**: Weighted average of components
+**Update Frequency**: Monthly
+**Visualization**: Gauge, Trend Line
+
+#### 129. Internal Promotion Rate
+**Description**: Percentage of positions filled by internal candidates
+**Unit**: Percentage
+**Target Direction**: Higher is better (40-60% is healthy)
+**Data Sources**:
+- `user_organizations` table (role changes)
+**Calculation**: `(Internal Promotions / Total Promotions) × 100`
+**Update Frequency**: Quarterly
+**Visualization**: Gauge
+
+#### 130. Staff Conflict Resolution Time
+**Description**: Average time to resolve staff conflicts or issues
+**Unit**: Days
+**Target Direction**: Lower is better
+**Data Sources**:
+- HR issue tracking (to be added)
+**Calculation**: `AVG(resolution_date - reported_date)`
+**Update Frequency**: Monthly
+**Visualization**: Number
+
+### Vendor & Supply Chain (15 KPIs)
+
+#### 131. Vendor Reliability Score
+**Description**: Percentage of on-time vendor deliveries
+**Unit**: Percentage
+**Target Direction**: Higher is better (95%+ is excellent)
+**Data Sources**:
+- `vendor_deliverables` table (due_date, delivered_at)
+**Calculation**: `(On-time Deliveries / Total Deliveries) × 100`
+**Update Frequency**: Daily
+**Visualization**: Gauge, Vendor Scorecard
+
+#### 132. Supplier Lead Time
+**Description**: Average days from order to delivery
+**Unit**: Days
+**Target Direction**: Lower is better
+**Data Sources**:
+- `vendor_deliverables` table (requested_at, delivered_at)
+**Calculation**: `AVG(delivered_at - requested_at)`
+**Update Frequency**: Weekly
+**Visualization**: Number, Box Plot by vendor
+
+#### 133. Contract Compliance Rate
+**Description**: Percentage of contracts meeting all stated terms
+**Unit**: Percentage
+**Target Direction**: 100%
+**Data Sources**:
+- `contracts` table (contract_status, compliance metrics)
+**Calculation**: `(Compliant Contracts / Total Active Contracts) × 100`
+**Update Frequency**: Monthly
+**Visualization**: Gauge
+
+#### 134. Vendor Cost Variance
+**Description**: Percentage difference between budgeted and actual vendor costs
+**Unit**: Percentage
+**Target Direction**: Close to 0%
+**Data Sources**:
+- `budget_line_items` table (vendor-related, budgeted vs actual)
+**Calculation**: `((Actual - Budgeted) / Budgeted) × 100`
+**Update Frequency**: Weekly
+**Visualization**: Number, Variance Chart
+
+#### 135. Quality Rejection Rate
+**Description**: Percentage of vendor deliverables rejected for quality issues
+**Unit**: Percentage
+**Target Direction**: Lower is better
+**Data Sources**:
+- `vendor_deliverables` table (deliverable_status = 'rejected')
+**Calculation**: `(Rejected Deliverables / Total Deliverables) × 100`
+**Update Frequency**: Daily
+**Visualization**: Gauge
+
+#### 136. Backup Vendor Activation Rate
+**Description**: Number of times backup vendors were needed
+**Unit**: Count or Percentage
+**Target Direction**: Lower is better
+**Data Sources**:
+- `vendors` table (is_backup, activation records)
+**Calculation**: `COUNT(backup activations)`
+**Update Frequency**: Per event
+**Visualization**: Number
+
+#### 137. Vendor Dispute Resolution Time
+**Description**: Average days to resolve vendor disputes
+**Unit**: Days
+**Target Direction**: Lower is better
+**Data Sources**:
+- Dispute tracking (in communications or contracts)
+**Calculation**: `AVG(resolution_date - dispute_raised_date)`
+**Update Frequency**: Monthly
+**Visualization**: Number
+
+#### 138. Local Vendor Percentage
+**Description**: Percentage of vendors sourced locally (within region)
+**Unit**: Percentage
+**Target Direction**: Higher is better (sustainability)
+**Data Sources**:
+- `vendors` table (city, state compared to event location)
+**Calculation**: `(Local Vendors / Total Vendors) × 100`
+**Update Frequency**: Per event
+**Visualization**: Gauge, Pie Chart
+
+#### 139. Sustainable Supplier Percentage
+**Description**: Percentage of vendors with sustainability certifications
+**Unit**: Percentage
+**Target Direction**: Higher is better
+**Data Sources**:
+- `vendors` table (sustainability certifications metadata)
+**Calculation**: `(Certified Sustainable Vendors / Total Vendors) × 100`
+**Update Frequency**: Quarterly
+**Visualization**: Gauge
+
+#### 140. Vendor NPS (Net Promoter Score)
+**Description**: Likelihood of recommending vendor to others
+**Unit**: Score (-100 to +100)
+**Target Direction**: Higher is better (50+ is excellent)
+**Data Sources**:
+- Vendor rating surveys
+**Calculation**: `(% Promoters - % Detractors)`
+**Update Frequency**: After each event
+**Visualization**: Number, Bar Chart
+
+#### 141. Vendor Response Time
+**Description**: Average time for vendors to respond to requests/inquiries
+**Unit**: Hours
+**Target Direction**: Lower is better
+**Data Sources**:
+- `communications` table (vendor-related)
+- `vendor_deliverables` table (requested_at, acknowledged_at)
+**Calculation**: `AVG(response_time - request_time)`
+**Update Frequency**: Daily
+**Visualization**: Number, Line Chart by vendor
+
+#### 142. Vendor Performance Score
+**Description**: Composite score of quality, reliability, and cost metrics
+**Unit**: Score 0-100
+**Target Direction**: Higher is better
+**Data Sources**:
+- `vendors` table (quality_rating, reliability_rating, etc.)
+**Calculation**: Weighted average of component scores
+**Update Frequency**: After each event
+**Visualization**: Scorecard
+
+#### 143. Contract Renewal Rate
+**Description**: Percentage of expiring contracts that were renewed
+**Unit**: Percentage
+**Target Direction**: Higher is better for good vendors
+**Data Sources**:
+- `contracts` table (expiration_date, renewal records)
+**Calculation**: `(Renewed Contracts / Expiring Contracts) × 100`
+**Update Frequency**: Monthly
+**Visualization**: Gauge
+
+#### 144. Vendor Diversity Index
+**Description**: Measure of diversity across vendor portfolio
+**Unit**: Index score
+**Target Direction**: Higher is better
+**Data Sources**:
+- `vendors` table (various attributes)
+**Calculation**: Diversity calculation across categories
+**Update Frequency**: Quarterly
+**Visualization**: Number
+
+#### 145. Supply Chain Risk Score
+**Description**: Assessment of supply chain vulnerabilities
+**Unit**: Score 0-100
+**Target Direction**: Lower is better
+**Data Sources**:
+- `vendors` table (single-source dependencies, reliability)
+- `contracts` table (contract terms)
+**Calculation**: Risk scoring algorithm
+**Update Frequency**: Monthly
+**Visualization**: Gauge with breakdown
+
+---
+
+## MARKETING & AUDIENCE ENGAGEMENT (30 KPIs)
+
+### Digital Marketing (10 KPIs)
+
+#### 146. Social Media Engagement Rate
+**Description**: Total interactions divided by total impressions
+**Unit**: Percentage
+**Target Direction**: Higher is better (2-5% is good)
+**Data Sources**:
+- `social_media_posts` table (likes, comments, shares, impressions)
+**Calculation**: `(SUM(likes + comments + shares) / SUM(impressions)) × 100`
+**Update Frequency**: Hourly
+**Visualization**: Line Chart, Gauge
+
+#### 147. Website Conversion Rate
+**Description**: Percentage of website visitors who completed desired action
+**Unit**: Percentage
+**Target Direction**: Higher is better
+**Data Sources**:
+- Web analytics integration
+**Calculation**: `(Conversions / Total Visitors) × 100`
+**Update Frequency**: Hourly
+**Visualization**: Gauge, Funnel Chart
+
+#### 148. Landing Page Bounce Rate
+**Description**: Percentage of single-page sessions
+**Unit**: Percentage
+**Target Direction**: Lower is better
+**Data Sources**:
+- Web analytics integration
+**Calculation**: `(Single Page Sessions / Total Sessions) × 100`
+**Update Frequency**: Hourly
+**Visualization**: Gauge
+
+#### 149. Email Campaign Click-Through Rate
+**Description**: Percentage of email recipients who clicked links
+**Unit**: Percentage
+**Target Direction**: Higher is better (2-5% is average)
+**Data Sources**:
+- `email_campaigns` table (emails_clicked, emails_delivered)
+**Calculation**: `(SUM(emails_clicked) / SUM(emails_delivered)) × 100`
+**Update Frequency**: Hourly after send
+**Visualization**: Gauge, Bar Chart
+
+#### 150. Email Open Rate
+**Description**: Percentage of delivered emails that were opened
+**Unit**: Percentage
+**Target Direction**: Higher is better (15-25% is average)
+**Data Sources**:
+- `email_campaigns` table (emails_opened, emails_delivered)
+**Calculation**: `(SUM(emails_opened) / SUM(emails_delivered)) × 100`
+**Update Frequency**: Hourly after send
+**Visualization**: Gauge, Line Chart
+
+#### 151. Email List Growth Rate
+**Description**: Net new subscribers as percentage of total list
+**Unit**: Percentage
+**Target Direction**: Positive growth
+**Data Sources**:
+- Email marketing platform integration
+**Calculation**: `((New Subscribers - Unsubscribes) / Total Subscribers) × 100`
+**Update Frequency**: Daily
+**Visualization**: Line Chart
+
+#### 152. Social Media Follower Growth
+**Description**: Net new followers gained in period
+**Unit**: Count or Percentage
+**Target Direction**: Positive growth
+**Data Sources**:
+- Social media platform API integration
+**Calculation**: `(New Followers - Unfollows) / Previous Total × 100`
+**Update Frequency**: Daily
+**Visualization**: Line Chart
+
+#### 153. Paid Ad ROAS (Return on Ad Spend)
+**Description**: Revenue generated per dollar spent on paid advertising
+**Unit**: Ratio (x times)
+**Target Direction**: Higher is better (3x+ is good)
+**Data Sources**:
+- `marketing_campaigns` table (actual_spend, actual_revenue)
+**Calculation**: `Revenue from Ads / Ad Spend`
+**Update Frequency**: Daily
+**Visualization**: Number, Line Chart
+
+#### 154. Organic Search Traffic Percentage
+**Description**: Percentage of website traffic from organic search
+**Unit**: Percentage
+**Target Direction**: Higher is better
+**Data Sources**:
+- Web analytics integration
+**Calculation**: `(Organic Traffic / Total Traffic) × 100`
+**Update Frequency**: Daily
+**Visualization**: Pie Chart, Line Chart
+
+#### 155. Video View Completion Rate
+**Description**: Percentage of video viewers who watched to end
+**Unit**: Percentage
+**Target Direction**: Higher is better
+**Data Sources**:
+- Video platform analytics integration
+**Calculation**: `(Completed Views / Total Views) × 100`
+**Update Frequency**: Daily
+**Visualization**: Gauge
+
+### Audience Insights (10 KPIs)
+
+#### 156. Net Promoter Score (NPS)
+**Description**: Likelihood of attendees recommending event (promoters - detractors)
+**Unit**: Score (-100 to +100)
+**Target Direction**: Higher is better (50+ is excellent)
+**Data Sources**:
+- `survey_responses` table (WHERE survey_type = 'nps')
+**Calculation**: `(% Promoters [9-10] - % Detractors [0-6])`
+**Update Frequency**: Daily after event
+**Visualization**: Gauge, Distribution Chart
+
+#### 157. Brand Mention Velocity
+**Description**: Number of brand mentions per day during campaign period
+**Unit**: Mentions/day
+**Target Direction**: Higher is better
+**Data Sources**:
+- `brand_mentions` table (mentioned_at)
+**Calculation**: `COUNT(mentions) / Days in Period`
+**Update Frequency**: Daily
+**Visualization**: Line Chart
+
+#### 158. Audience Demographics Match
+**Description**: Percentage alignment between target and actual demographics
+**Unit**: Percentage
+**Target Direction**: Higher is better
+**Data Sources**:
+- `tickets` table (purchaser demographics)
+- Target audience profile
+**Calculation**: Demographic overlap calculation
+**Update Frequency**: Weekly
+**Visualization**: Comparison Chart
+
+#### 159. Geographic Reach Diversity
+**Description**: Number of different regions/countries represented
+**Unit**: Count
+**Target Direction**: Higher is better (for growth)
+**Data Sources**:
+- `tickets` table (billing_city, billing_state, billing_country)
+**Calculation**: `COUNT(DISTINCT geographic_units)`
+**Update Frequency**: Daily
+**Visualization**: Map, Number
+
+#### 160. Age Distribution Index
+**Description**: Breakdown of attendees by age group
+**Unit**: Percentage per age group
+**Target Direction**: Align with target
+**Data Sources**:
+- `users` table or ticket purchaser data (age/DOB)
+**Calculation**: `COUNT per age group / Total × 100`
+**Update Frequency**: Weekly
+**Visualization**: Bar Chart, Pie Chart
+
+#### 161. Gender Distribution
+**Description**: Gender breakdown of attendees
+**Unit**: Percentage per gender
+**Target Direction**: Informational
+**Data Sources**:
+- `users` table or survey data
+**Calculation**: `COUNT per gender / Total × 100`
+**Update Frequency**: Weekly
+**Visualization**: Pie Chart
+
+#### 162. Income Bracket Distribution
+**Description**: Economic demographics of attendees
+**Unit**: Percentage per bracket
+**Target Direction**: Align with target market
+**Data Sources**:
+- Survey data or inferred from postal codes
+**Calculation**: `COUNT per bracket / Total × 100`
+**Update Frequency**: After event
+**Visualization**: Bar Chart
+
+#### 163. Interest Affinity Score
+**Description**: Alignment between event type and attendee interests
+**Unit**: Score 0-100
+**Target Direction**: Higher is better
+**Data Sources**:
+- `users` table (interests metadata)
+- Event category
+**Calculation**: Interest matching algorithm
+**Update Frequency**: Weekly
+**Visualization**: Number
+
+#### 164. Event Discovery Method
+**Description**: How attendees found out about the event
+**Unit**: Percentage per channel
+**Target Direction**: Informational (guides marketing)
+**Data Sources**:
+- Survey question or ticket metadata (referral source)
+**Calculation**: `COUNT per channel / Total × 100`
+**Update Frequency**: Daily
+**Visualization**: Pie Chart, Bar Chart
+
+#### 165. First-Time vs Repeat Ratio
+**Description**: Proportion of new attendees to returning attendees
+**Unit**: Ratio
+**Target Direction**: Balanced (context-dependent)
+**Data Sources**:
+- `tickets` table (purchaser_id historical lookup)
+**Calculation**: `New Attendees : Repeat Attendees`
+**Update Frequency**: Daily
+**Visualization**: Ratio display, Pie Chart
+
+### Brand & Experience (10 KPIs)
+
+#### 166. Brand Awareness Lift
+**Description**: Increase in brand recognition post-event vs pre-event
+**Unit**: Percentage points
+**Target Direction**: Positive increase
+**Data Sources**:
+- Pre and post-event surveys
+**Calculation**: `Post-Event Awareness % - Pre-Event Awareness %`
+**Update Frequency**: After event
+**Visualization**: Comparison Bar
+
+#### 167. Brand Sentiment Score
+**Description**: Ratio of positive to total brand mentions
+**Unit**: Percentage
+**Target Direction**: Higher is better (70%+ is good)
+**Data Sources**:
+- `brand_mentions` table (sentiment)
+**Calculation**: `(Positive Mentions / Total Mentions) × 100`
+**Update Frequency**: Daily
+**Visualization**: Gauge, Line Chart
+
+#### 168. User-Generated Content Volume
+**Description**: Number of fan-created posts, photos, videos about event
+**Unit**: Count
+**Target Direction**: Higher is better
+**Data Sources**:
+- Social listening integration
+- `brand_mentions` table
+**Calculation**: `COUNT(user_generated_content)`
+**Update Frequency**: Daily
+**Visualization**: Number, Line Chart
+
+#### 169. Hashtag Performance
+**Description**: Unique uses of official event hashtag
+**Unit**: Count
+**Target Direction**: Higher is better
+**Data Sources**:
+- Social media API integration
+**Calculation**: `COUNT(DISTINCT hashtag uses)`
+**Update Frequency**: Hourly during event
+**Visualization**: Number, Trend Line
+
+#### 170. Media Impressions
+**Description**: Total reach through PR and media coverage
+**Unit**: Count (impressions)
+**Target Direction**: Higher is better
+**Data Sources**:
+- Media monitoring integration
+**Calculation**: `SUM(article reach + broadcast viewers)`
+**Update Frequency**: Daily
+**Visualization**: Number, Bar Chart
+
+#### 171. Press Mention Sentiment
+**Description**: Percentage of positive press coverage
+**Unit**: Percentage
+**Target Direction**: Higher is better
+**Data Sources**:
+- Media monitoring integration
+**Calculation**: `(Positive Articles / Total Articles) × 100`
+**Update Frequency**: Daily
+**Visualization**: Gauge
+
+#### 172. Partnership Brand Lift
+**Description**: Increase in sponsor/partner brand awareness from event association
+**Unit**: Percentage
+**Target Direction**: Higher is better
+**Data Sources**:
+- Sponsor survey data
+**Calculation**: Post-event awareness increase for sponsors
+**Update Frequency**: After event
+**Visualization**: Bar Chart
+
+#### 173. Event FOMO Factor
+**Description**: Indicator of demand exceeding supply (waitlist + social indicators)
+**Unit**: Composite score
+**Target Direction**: Higher indicates strong demand
+**Data Sources**:
+- Waitlist size
+- `social_media_posts` table (mentions of sold out)
+- `brand_mentions` table (FOMO keywords)
+**Calculation**: Composite of multiple demand indicators
+**Update Frequency**: Daily
+**Visualization**: Number
+
+#### 174. Post-Event Engagement Duration
+**Description**: Days of continued social engagement after event
+**Unit**: Days
+**Target Direction**: Longer is better
+**Data Sources**:
+- `social_media_posts` table (post_date after event)
+- `brand_mentions` table (mentioned_at after event)
+**Calculation**: Days until engagement drops below threshold
+**Update Frequency**: Weekly after event
+**Visualization**: Number
+
+#### 175. Content Virality Coefficient
+**Description**: Average shares per original post
+**Unit**: Ratio
+**Target Direction**: Higher is better (>1 is viral)
+**Data Sources**:
+- `social_media_posts` table (shares per post)
+**Calculation**: `AVG(shares / original posts)`
+**Update Frequency**: Daily
+**Visualization**: Number, Line Chart
+
+---
+
+## CUSTOMER EXPERIENCE & SATISFACTION (30 KPIs)
+
+### Experience Quality (15 KPIs)
+
+#### 176. Overall Satisfaction Score
+**Description**: Average rating of overall event experience
+**Unit**: Score (1-10 scale)
+**Target Direction**: Higher is better (8+ is excellent)
+**Data Sources**:
+- `survey_responses` table (overall rating question)
+**Calculation**: `AVG(satisfaction_rating)`
+**Update Frequency**: Daily after event
+**Visualization**: Number, Distribution Chart
+
+#### 177. Likelihood to Recommend
+**Description**: Percentage of attendees who would recommend event
+**Unit**: Percentage
+**Target Direction**: Higher is better (80%+ is excellent)
+**Data Sources**:
+- `survey_responses` table
+**Calculation**: `(Would Recommend / Total Responses) × 100`
+**Update Frequency**: Daily after event
+**Visualization**: Gauge
+
+#### 178. Experience vs Expectation Gap
+**Description**: Difference between expected and actual experience rating
+**Unit**: Score difference
+**Target Direction**: Positive (exceeded expectations)
+**Data Sources**:
+- `survey_responses` table (pre and post questions)
+**Calculation**: `AVG(actual_rating - expected_rating)`
+**Update Frequency**: After event
+**Visualization**: Number with color coding
+
+#### 179. Venue Experience Rating
+**Description**: Satisfaction with venue facilities and amenities
+**Unit**: Score (1-10 scale)
+**Target Direction**: Higher is better
+**Data Sources**:
+- `survey_responses` table (venue-specific questions)
+**Calculation**: `AVG(venue_rating)`
+**Update Frequency**: After event
+**Visualization**: Number
+
+#### 180. Sound Quality Rating
+**Description**: Attendee rating of audio experience
+**Unit**: Score (1-10 scale)
+**Target Direction**: Higher is better (8+ is excellent)
+**Data Sources**:
+- `survey_responses` table
+**Calculation**: `AVG(sound_quality_rating)`
+**Update Frequency**: After event
+**Visualization**: Number, Distribution
+
+#### 181. Visual Production Rating
+**Description**: Rating of lighting, screens, and visual effects
+**Unit**: Score (1-10 scale)
+**Target Direction**: Higher is better
+**Data Sources**:
+- `survey_responses` table
+**Calculation**: `AVG(visual_production_rating)`
+**Update Frequency**: After event
+**Visualization**: Number
+
+#### 182. F&B Service Quality
+**Description**: Satisfaction with food and beverage offerings
+**Unit**: Score (1-10 scale)
+**Target Direction**: Higher is better
+**Data Sources**:
+- `survey_responses` table
+**Calculation**: `AVG(fb_service_rating)`
+**Update Frequency**: After event
+**Visualization**: Number
+
+#### 183. Restroom Cleanliness Score
+**Description**: Rating of restroom facilities cleanliness
+**Unit**: Score (1-10 scale)
+**Target Direction**: Higher is better
+**Data Sources**:
+- `survey_responses` table
+- Real-time facility checks
+**Calculation**: `AVG(restroom_rating)`
+**Update Frequency**: Hourly during event, final after
+**Visualization**: Number
+
+#### 184. Parking Experience Rating
+**Description**: Satisfaction with parking availability and convenience
+**Unit**: Score (1-10 scale)
+**Target Direction**: Higher is better
+**Data Sources**:
+- `survey_responses` table
+**Calculation**: `AVG(parking_rating)`
+**Update Frequency**: After event
+**Visualization**: Number
+
+#### 185. Accessibility Experience Score
+**Description**: Satisfaction of attendees with accessibility accommodations
+**Unit**: Score (1-10 scale)
+**Target Direction**: Higher is better (9+ target)
+**Data Sources**:
+- `survey_responses` table (accessibility-specific)
+**Calculation**: `AVG(accessibility_rating)`
+**Update Frequency**: After event
+**Visualization**: Number
+
+#### 186. Merchandise Quality Rating
+**Description**: Satisfaction with merchandise offerings and quality
+**Unit**: Score (1-10 scale)
+**Target Direction**: Higher is better
+**Data Sources**:
+- `survey_responses` table
+**Calculation**: `AVG(merchandise_rating)`
+**Update Frequency**: After event
+**Visualization**: Number
+
+#### 187. Staff Friendliness Score
+**Description**: Rating of staff courtesy and helpfulness
+**Unit**: Score (1-10 scale)
+**Target Direction**: Higher is better (9+ target)
+**Data Sources**:
+- `survey_responses` table
+**Calculation**: `AVG(staff_friendliness_rating)`
+**Update Frequency**: After event
+**Visualization**: Number
+
+#### 188. Event Flow Rating
+**Description**: Satisfaction with event pacing and schedule
+**Unit**: Score (1-10 scale)
+**Target Direction**: Higher is better
+**Data Sources**:
+- `survey_responses` table
+**Calculation**: `AVG(event_flow_rating)`
+**Update Frequency**: After event
+**Visualization**: Number
+
+#### 189. Queue Management Score
+**Description**: Satisfaction with wait times and line management
+**Unit**: Score (1-10 scale)
+**Target Direction**: Higher is better
+**Data Sources**:
+- `survey_responses` table
+**Calculation**: `AVG(queue_management_rating)`
+**Update Frequency**: After event
+**Visualization**: Number
+
+#### 190. Information Clarity Rating
+**Description**: Rating of how clear event information and signage was
+**Unit**: Score (1-10 scale)
+**Target Direction**: Higher is better
+**Data Sources**:
+- `survey_responses` table
+**Calculation**: `AVG(information_clarity_rating)`
+**Update Frequency**: After event
+**Visualization**: Number
+
+### Customer Service (10 KPIs)
+
+#### 191. Support Ticket Resolution Time
+**Description**: Average hours to resolve customer support tickets
+**Unit**: Hours
+**Target Direction**: Lower is better (< 24hrs is good)
+**Data Sources**:
+- Support system integration or
+- `communications` table (created_at, resolution timestamp)
+**Calculation**: `AVG(resolved_at - created_at) in hours`
+**Update Frequency**: Daily
+**Visualization**: Number, Line Chart
+
+#### 192. First Contact Resolution Rate
+**Description**: Percentage of issues resolved on first contact
+**Unit**: Percentage
+**Target Direction**: Higher is better (70%+ is good)
+**Data Sources**:
+- `communications` table (resolution without follow-ups)
+**Calculation**: `(First Contact Resolutions / Total Tickets) × 100`
+**Update Frequency**: Daily
+**Visualization**: Gauge
+
+#### 193. Customer Complaint Rate
+**Description**: Number of complaints per 100 attendees
+**Unit**: Rate per 100 attendees
+**Target Direction**: Lower is better
+**Data Sources**:
+- `communications` table (complaint flagged)
+- `incidents` table
+**Calculation**: `(COUNT(complaints) / Total Attendees) × 100`
+**Update Frequency**: Daily during and after event
+**Visualization**: Number
+
+#### 194. Refund Request Rate
+**Description**: Percentage of tickets with refund requests
+**Unit**: Percentage
+**Target Direction**: Lower is better
+**Data Sources**:
+- `tickets` table (ticket_status = 'refunded' or refund_amount > 0)
+**Calculation**: `(Refund Requests / Total Tickets Sold) × 100`
+**Update Frequency**: Daily
+**Visualization**: Gauge
+
+#### 195. Support Satisfaction Score
+**Description**: Average rating of customer service interactions
+**Unit**: Score (1-10 scale)
+**Target Direction**: Higher is better (8+ is excellent)
+**Data Sources**:
+- Post-interaction surveys
+**Calculation**: `AVG(support_rating)`
+**Update Frequency**: Daily
+**Visualization**: Number
+
+#### 196. Live Chat Response Time
+**Description**: Average seconds to first response in live chat
+**Unit**: Seconds
+**Target Direction**: Lower is better (< 60s is excellent)
+**Data Sources**:
+- Chat system integration
+**Calculation**: `AVG(first_response_time - message_received_time)`
+**Update Frequency**: Real-time
+**Visualization**: Number
+
+#### 197. Self-Service Success Rate
+**Description**: Percentage of customers who resolved issues via self-service
+**Unit**: Percentage
+**Target Direction**: Higher is better
+**Data Sources**:
+- Help center analytics
+- Support ticket deflection data
+**Calculation**: `(Self-Resolved / Total Inquiries) × 100`
+**Update Frequency**: Daily
+**Visualization**: Gauge
+
+#### 198. Escalation Rate
+**Description**: Percentage of support tickets that required escalation
+**Unit**: Percentage
+**Target Direction**: Lower is better
+**Data Sources**:
+- `communications` table (escalation flag)
+**Calculation**: `(Escalated Tickets / Total Tickets) × 100`
+**Update Frequency**: Daily
+**Visualization**: Gauge
+
+#### 199. Follow-Up Completion Rate
+**Description**: Percentage of required follow-ups that were completed
+**Unit**: Percentage
+**Target Direction**: 100%
+**Data Sources**:
+- `communications` table (follow-up required/completed)
+**Calculation**: `(Completed Follow-ups / Required Follow-ups) × 100`
+**Update Frequency**: Daily
+**Visualization**: Gauge
+
+#### 200. Service Recovery Success Rate
+**Description**: Percentage of complainants satisfied after complaint resolution
+**Unit**: Percentage
+**Target Direction**: Higher is better (80%+ is good)
+**Data Sources**:
+- Post-resolution surveys
+**Calculation**: `(Satisfied after Resolution / Total Complaints) × 100`
+**Update Frequency**: Weekly
+**Visualization**: Gauge
+
+---
+
+## DATA MAPPING SUMMARY TABLE
+
+| KPI # | KPI Name | Primary Table(s) | Key Fields | Update Frequency |
+|-------|----------|------------------|------------|------------------|
+| 1-45 | Financial KPIs | transactions, budget_line_items, budgets | total_amount, actual_amount | Real-time to Daily |
+| 46-90 | Ticket & Attendance | tickets, ticket_tiers, check_ins, events | ticket_status, final_price, checked_in_at | Real-time to Daily |
+| 91-145 | Operational Efficiency | tasks, project_milestones, staff_assignments, vendors, vendor_deliverables | task_status, due_date, completed_at | Daily |
+| 146-175 | Marketing & Engagement | marketing_campaigns, email_campaigns, social_media_posts, brand_mentions | engagement metrics, campaign_stats | Hourly to Daily |
+| 176-200 | Customer Experience | survey_responses, communications, incidents | rating fields, resolution times | After event |
+
+---
+
+## IMPLEMENTATION NOTES
+
+### Critical Data Dependencies
+1. **Transactions Table**: Foundation for ALL financial KPIs (1-45)
+2. **Tickets Table**: Foundation for ALL attendance KPIs (46-90)
+3. **Tasks Table**: Foundation for operational KPIs (91-110)
+4. **Survey Responses**: Foundation for satisfaction KPIs (176-200)
+
+### Required Integrations
+- Payment processors (Stripe, Square) → transactions
+- Ticketing platforms → tickets, check_ins
+- Email marketing (Mailchimp, SendGrid) → email_campaigns
+- Social media APIs → social_media_posts, brand_mentions
+- Web analytics (Google Analytics) → conversion tracking
+- Survey tools → survey_responses
+
+### Calculation Triggers
+- **Real-time**: Transactions, check-ins, ticket sales
+- **Hourly**: Marketing campaigns, web analytics
+- **Daily**: Budget variance, task completion, vendor performance
+- **Weekly**: Staff metrics, vendor relationships
+- **After Event**: Survey-based KPIs, final reconciliation
+
+---
+
+**BUILD THIS COMPLETE KPI FRAMEWORK. CAPTURE EVERY DATA POINT. DOMINATE YOUR MARKET.** 🚀
+```
