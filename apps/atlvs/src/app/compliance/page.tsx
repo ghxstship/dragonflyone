@@ -4,24 +4,17 @@ import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Navigation } from "../../components/navigation";
 import {
-  H1,
-  StatCard,
-  Select,
-  Button,
+  ListPage,
   Badge,
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableHead,
-  TableCell,
-  LoadingSpinner,
-  EmptyState,
-  Container,
-  Grid,
-  Stack,
-  Section,
+  RecordFormModal,
+  DetailDrawer,
+  ConfirmDialog,
   useNotifications,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
+  type FormFieldConfig,
+  type DetailSection,
 } from "@ghxstship/ui";
 
 interface ComplianceItem {
@@ -42,9 +35,30 @@ interface ComplianceSummary {
   active: number;
   expired: number;
   expiringSoon: number;
-  totalAnnualCost: number;
-  byType: Record<string, number>;
 }
+
+const columns: ListPageColumn<ComplianceItem>[] = [
+  { key: 'title', label: 'Title', accessor: 'title', sortable: true },
+  { key: 'compliance_type', label: 'Type', accessor: 'compliance_type', render: (v) => <Badge variant="outline">{String(v)}</Badge> },
+  { key: 'provider_name', label: 'Provider', accessor: (r) => r.provider_name || '—' },
+  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v) => <Badge variant={v === 'active' ? 'solid' : v === 'expired' ? 'ghost' : 'outline'}>{String(v)}</Badge> },
+  { key: 'effective_date', label: 'Effective', accessor: (r) => r.effective_date ? new Date(r.effective_date).toLocaleDateString() : '—', sortable: true },
+  { key: 'expiration_date', label: 'Expires', accessor: (r) => r.expiration_date ? new Date(r.expiration_date).toLocaleDateString() : '—', sortable: true },
+];
+
+const filters: ListPageFilter[] = [
+  { key: 'compliance_type', label: 'Type', options: [{ value: 'insurance', label: 'Insurance' }, { value: 'license', label: 'License' }, { value: 'certification', label: 'Certification' }, { value: 'permit', label: 'Permit' }] },
+  { key: 'status', label: 'Status', options: [{ value: 'active', label: 'Active' }, { value: 'expired', label: 'Expired' }, { value: 'pending', label: 'Pending' }] },
+];
+
+const formFields: FormFieldConfig[] = [
+  { name: 'title', label: 'Title', type: 'text', required: true },
+  { name: 'compliance_type', label: 'Type', type: 'select', required: true, options: [{ value: 'insurance', label: 'Insurance' }, { value: 'license', label: 'License' }, { value: 'certification', label: 'Certification' }, { value: 'permit', label: 'Permit' }] },
+  { name: 'provider_name', label: 'Provider', type: 'text' },
+  { name: 'effective_date', label: 'Effective Date', type: 'date', required: true },
+  { name: 'expiration_date', label: 'Expiration Date', type: 'date' },
+  { name: 'coverage_amount', label: 'Coverage Amount', type: 'number' },
+];
 
 export default function CompliancePage() {
   const router = useRouter();
@@ -52,214 +66,107 @@ export default function CompliancePage() {
   const [items, setItems] = useState<ComplianceItem[]>([]);
   const [summary, setSummary] = useState<ComplianceSummary | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleViewItem = (itemId: string) => router.push(`/compliance/${itemId}`);
-  const handleAddItem = () => router.push("/compliance/new");
-  const handleGenerateReport = async () => {
-    try {
-      const response = await fetch("/api/compliance/report", { method: "POST" });
-      if (response.ok) {
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `compliance-report-${new Date().toISOString().split("T")[0]}.pdf`;
-        a.click();
-        addNotification({ type: "success", title: "Success", message: "Report generated" });
-      } else {
-        addNotification({ type: "error", title: "Error", message: "Failed to generate report" });
-      }
-    } catch (err) {
-      addNotification({ type: "error", title: "Error", message: "Failed to generate report" });
-    }
-  };
-  const [filterCategory, setFilterCategory] = useState("all");
-  const [filterStatus, setFilterStatus] = useState("all");
+  const [createModalOpen, setCreateModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<ComplianceItem | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState<ComplianceItem | null>(null);
 
   const fetchCompliance = useCallback(async () => {
     try {
       setLoading(true);
-      const params = new URLSearchParams();
-      if (filterCategory !== "all") {
-        params.append("type", filterCategory);
-      }
-      if (filterStatus !== "all") {
-        params.append("status", filterStatus);
-      }
-
-      const response = await fetch(`/api/compliance?${params.toString()}`);
-      if (!response.ok) {
-        throw new Error("Failed to fetch compliance items");
-      }
+      const response = await fetch('/api/compliance');
+      if (!response.ok) throw new Error('Failed to fetch');
       const data = await response.json();
       setItems(data.items || []);
       setSummary(data.summary || null);
-      setError(null);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
-    } finally {
-      setLoading(false);
-    }
-  }, [filterCategory, filterStatus]);
+    } catch { /* fallback */ }
+    finally { setLoading(false); }
+  }, []);
 
-  useEffect(() => {
+  useEffect(() => { fetchCompliance(); }, [fetchCompliance]);
+
+  const complianceRate = summary ? Math.round((summary.active / Math.max(summary.total, 1)) * 100) : 0;
+
+  const rowActions: ListPageAction<ComplianceItem>[] = [
+    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedItem(r); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (r) => router.push(`/compliance/${r.id}/edit`) },
+    { id: 'delete', label: 'Delete', icon: '🗑️', variant: 'danger', onClick: (r) => { setItemToDelete(r); setDeleteConfirmOpen(true); } },
+  ];
+
+  const handleCreate = async (data: Record<string, unknown>) => {
+    console.log('Create compliance item:', data);
+    setCreateModalOpen(false);
     fetchCompliance();
-  }, [fetchCompliance]);
+  };
 
-  const getStatusVariant = (status: string): "solid" | "outline" | "ghost" => {
-    switch (status?.toLowerCase()) {
-      case "active":
-        return "solid";
-      case "expired":
-      case "suspended":
-        return "ghost";
-      default:
-        return "outline";
+  const handleDelete = async () => {
+    if (itemToDelete) {
+      console.log('Delete:', itemToDelete.id);
+      setDeleteConfirmOpen(false);
+      setItemToDelete(null);
+      fetchCompliance();
     }
   };
 
-  const complianceRate = summary
-    ? Math.round((summary.active / Math.max(summary.total, 1)) * 100)
-    : 0;
+  const handleGenerateReport = async () => {
+    try {
+      const response = await fetch('/api/compliance/report', { method: 'POST' });
+      if (response.ok) {
+        addNotification({ type: 'success', title: 'Success', message: 'Report generated' });
+      }
+    } catch {
+      addNotification({ type: 'error', title: 'Error', message: 'Failed to generate report' });
+    }
+  };
 
-  if (loading) {
-    return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <Navigation />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading compliance data..." />
-        </Container>
-      </Section>
-    );
-  }
+  const stats = [
+    { label: 'Total Items', value: summary?.total || items.length },
+    { label: 'Active', value: summary?.active || 0 },
+    { label: 'Expiring Soon', value: summary?.expiringSoon || 0 },
+    { label: 'Compliance Rate', value: `${complianceRate}%` },
+  ];
 
-  if (error) {
-    return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <Navigation />
-        <Container className="py-16">
-          <EmptyState
-            title="Error Loading Compliance"
-            description={error}
-            action={{ label: "Retry", onClick: fetchCompliance }}
-          />
-        </Container>
-      </Section>
-    );
-  }
+  const detailSections: DetailSection[] = selectedItem ? [
+    { id: 'overview', title: 'Compliance Details', content: (
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+        <div><strong>Title:</strong> {selectedItem.title}</div>
+        <div><strong>Type:</strong> {selectedItem.compliance_type}</div>
+        <div><strong>Provider:</strong> {selectedItem.provider_name || '—'}</div>
+        <div><strong>Status:</strong> {selectedItem.status}</div>
+        <div><strong>Effective:</strong> {selectedItem.effective_date ? new Date(selectedItem.effective_date).toLocaleDateString() : '—'}</div>
+        <div><strong>Expires:</strong> {selectedItem.expiration_date ? new Date(selectedItem.expiration_date).toLocaleDateString() : '—'}</div>
+        {selectedItem.coverage_amount && <div><strong>Coverage:</strong> ${selectedItem.coverage_amount.toLocaleString()}</div>}
+        {selectedItem.annual_cost && <div><strong>Annual Cost:</strong> ${selectedItem.annual_cost.toLocaleString()}</div>}
+      </div>
+    )},
+  ] : [];
 
   return (
-    <Section className="relative min-h-screen bg-black text-white">
-      <Navigation />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <H1>Compliance Tracking</H1>
-
-          <Grid cols={4} gap={6}>
-            <StatCard
-              value={summary?.total || 0}
-              label="Total Items"
-              className="bg-black text-white border-grey-800"
-            />
-            <StatCard
-              value={summary?.active || 0}
-              label="Active"
-              className="bg-black text-white border-grey-800"
-            />
-            <StatCard
-              value={summary?.expiringSoon || 0}
-              label="Expiring Soon"
-              className="bg-black text-white border-grey-800"
-            />
-            <StatCard
-              value={`${complianceRate}%`}
-              label="Compliance Rate"
-              className="bg-black text-white border-grey-800"
-            />
-          </Grid>
-
-          <Stack gap={4} direction="horizontal">
-            <Select
-              value={filterCategory}
-              onChange={(e) => setFilterCategory(e.target.value)}
-              className="bg-black text-white border-grey-700"
-            >
-              <option value="all">All Categories</option>
-              <option value="insurance">Insurance</option>
-              <option value="license">License</option>
-              <option value="certification">Certification</option>
-              <option value="permit">Permit</option>
-            </Select>
-            <Select
-              value={filterStatus}
-              onChange={(e) => setFilterStatus(e.target.value)}
-              className="bg-black text-white border-grey-700"
-            >
-              <option value="all">All Statuses</option>
-              <option value="active">Active</option>
-              <option value="expired">Expired</option>
-              <option value="pending">Pending</option>
-            </Select>
-          </Stack>
-
-          {items.length === 0 ? (
-            <EmptyState
-              title="No Compliance Items Found"
-              description="Add your first compliance item to get started"
-              action={{ label: "Add Item", onClick: handleAddItem }}
-            />
-          ) : (
-            <Table variant="bordered" className="bg-black">
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Title</TableHead>
-                  <TableHead>Type</TableHead>
-                  <TableHead>Provider</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Effective Date</TableHead>
-                  <TableHead>Expiry Date</TableHead>
-                  <TableHead>Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {items.map((item) => (
-                  <TableRow key={item.id} className="bg-black text-white hover:bg-grey-900">
-                    <TableCell className="text-white">{item.title}</TableCell>
-                    <TableCell>
-                      <Badge variant="outline">{item.compliance_type}</Badge>
-                    </TableCell>
-                    <TableCell className="text-grey-400">{item.provider_name || "—"}</TableCell>
-                    <TableCell>
-                      <Badge variant={getStatusVariant(item.status)}>{item.status}</Badge>
-                    </TableCell>
-                    <TableCell className="font-mono text-grey-400">
-                      {item.effective_date ? new Date(item.effective_date).toLocaleDateString() : "—"}
-                    </TableCell>
-                    <TableCell className="font-mono text-grey-400">
-                      {item.expiration_date ? new Date(item.expiration_date).toLocaleDateString() : "—"}
-                    </TableCell>
-                    <TableCell>
-                      <Button size="sm" variant="ghost" onClick={() => handleViewItem(item.id)}>
-                        View
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
-
-          <Stack gap={3} direction="horizontal">
-            <Button variant="outlineWhite" onClick={handleAddItem}>
-              Add Compliance Item
-            </Button>
-            <Button variant="ghost" className="text-grey-400 hover:text-white" onClick={handleGenerateReport}>
-              Generate Report
-            </Button>
-          </Stack>
-        </Stack>
-      </Container>
-    </Section>
+    <>
+      <ListPage<ComplianceItem>
+        title="Compliance Tracking"
+        subtitle="Manage insurance, licenses, certifications, and permits"
+        data={items}
+        columns={columns}
+        rowKey="id"
+        loading={loading}
+        onRetry={fetchCompliance}
+        searchPlaceholder="Search compliance items..."
+        filters={filters}
+        rowActions={rowActions}
+        onRowClick={(r) => { setSelectedItem(r); setDrawerOpen(true); }}
+        createLabel="Add Compliance Item"
+        onCreate={() => setCreateModalOpen(true)}
+        onExport={handleGenerateReport}
+        stats={stats}
+        emptyMessage="No compliance items found"
+        emptyAction={{ label: 'Add Item', onClick: () => setCreateModalOpen(true) }}
+        header={<Navigation />}
+      />
+      <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Add Compliance Item" fields={formFields} onSubmit={handleCreate} size="lg" />
+      <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedItem} title={(i) => i.title} subtitle={(i) => i.compliance_type} sections={detailSections} onEdit={(i) => router.push(`/compliance/${i.id}/edit`)} onDelete={(i) => { setItemToDelete(i); setDeleteConfirmOpen(true); setDrawerOpen(false); }} />
+      <ConfirmDialog open={deleteConfirmOpen} title="Delete Compliance Item" message={`Delete "${itemToDelete?.title}"?`} variant="danger" confirmLabel="Delete" onConfirm={handleDelete} onCancel={() => { setDeleteConfirmOpen(false); setItemToDelete(null); }} />
+    </>
   );
 }

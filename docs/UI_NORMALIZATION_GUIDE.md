@@ -438,6 +438,13 @@ See the following pages for real-world implementations:
 - `apps/atlvs/src/app/assets/page.tsx` - Asset management
 - `apps/atlvs/src/app/billing/page.tsx` - Client billing
 - `apps/atlvs/src/app/payroll/page.tsx` - Payroll management
+- `apps/atlvs/src/app/deals/page.tsx` - Sales pipeline
+- `apps/atlvs/src/app/documents/page.tsx` - Document management
+- `apps/atlvs/src/app/audit/page.tsx` - Audit trail
+- `apps/atlvs/src/app/compliance/page.tsx` - Compliance tracking
+- `apps/atlvs/src/app/advances/page.tsx` - Advance review queue
+- `apps/atlvs/src/app/crm/page.tsx` - CRM overview
+- `apps/atlvs/src/app/crm/tasks/page.tsx` - CRM tasks & follow-ups
 
 ### COMPVSS (Production Operations)
 - `apps/compvss/src/app/crew/page.tsx` - Crew directory
@@ -447,10 +454,19 @@ See the following pages for real-world implementations:
 - `apps/compvss/src/app/incidents/page.tsx` - Safety incidents
 - `apps/compvss/src/app/expenses/page.tsx` - Production expenses
 - `apps/compvss/src/app/logistics/page.tsx` - Logistics & transportation
+- `apps/compvss/src/app/artists/page.tsx` - Artist database
+- `apps/compvss/src/app/background-checks/page.tsx` - Background checks
+- `apps/compvss/src/app/maintenance/page.tsx` - Equipment maintenance
+- `apps/compvss/src/app/issues/page.tsx` - Live issue tracking
+- `apps/compvss/src/app/availability/page.tsx` - Crew availability calendar
 
 ### GVTEWAY (Event Ticketing)
 - `apps/gvteway/src/app/admin/promo-codes/page.tsx` - Promo codes management
 - `apps/gvteway/src/app/admin/will-call/page.tsx` - Will call management
+- `apps/gvteway/src/app/admin/sales-reporting/page.tsx` - Sales reporting
+- `apps/gvteway/src/app/admin/contests/page.tsx` - Contests & giveaways
+- `apps/gvteway/src/app/admin/moderation/page.tsx` - Content moderation
+- `apps/gvteway/src/app/admin/inventory-sync/page.tsx` - Inventory synchronization
 
 ## Migration Checklist
 

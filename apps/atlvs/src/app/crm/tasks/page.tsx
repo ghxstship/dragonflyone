@@ -4,10 +4,16 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Navigation } from "../../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
-  Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
+  ListPage,
+  Badge,
+  RecordFormModal,
+  DetailDrawer,
+  ConfirmDialog,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
+  type FormFieldConfig,
+  type DetailSection,
 } from "@ghxstship/ui";
 
 interface Task {
@@ -22,6 +28,7 @@ interface Task {
   linkedDeal?: string;
   status: "Pending" | "Completed" | "Overdue";
   reminder?: string;
+  [key: string]: unknown;
 }
 
 const mockTasks: Task[] = [
@@ -32,200 +39,186 @@ const mockTasks: Task[] = [
   { id: "TSK-005", title: "Client check-in call", type: "Call", priority: "Low", dueDate: "2024-11-23", assignedTo: "Mike Davis", linkedContact: "Music Festival Inc", status: "Completed" },
 ];
 
+const getTypeIcon = (type: string) => {
+  switch (type) {
+    case "Follow-up": return "🔄";
+    case "Call": return "📞";
+    case "Email": return "📧";
+    case "Meeting": return "👥";
+    default: return "✅";
+  }
+};
+
+const columns: ListPageColumn<Task>[] = [
+  { key: 'title', label: 'Task', accessor: (r) => `${getTypeIcon(r.type)} ${r.title}`, sortable: true },
+  { key: 'type', label: 'Type', accessor: 'type', render: (v) => <Badge variant="outline">{String(v)}</Badge> },
+  { key: 'priority', label: 'Priority', accessor: 'priority', sortable: true, render: (v) => <Badge variant={v === 'High' ? 'solid' : v === 'Medium' ? 'outline' : 'ghost'}>{String(v)}</Badge> },
+  { key: 'dueDate', label: 'Due', accessor: (r) => `${r.dueDate}${r.dueTime ? ` ${r.dueTime}` : ''}`, sortable: true },
+  { key: 'assignedTo', label: 'Assigned To', accessor: 'assignedTo' },
+  { key: 'linkedContact', label: 'Contact', accessor: (r) => r.linkedContact || '—' },
+  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v) => <Badge variant={v === 'Completed' ? 'solid' : v === 'Overdue' ? 'solid' : 'outline'}>{String(v)}</Badge> },
+];
+
+const filters: ListPageFilter[] = [
+  { key: 'status', label: 'Status', options: [{ value: 'Pending', label: 'Pending' }, { value: 'Completed', label: 'Completed' }, { value: 'Overdue', label: 'Overdue' }] },
+  { key: 'priority', label: 'Priority', options: [{ value: 'High', label: 'High' }, { value: 'Medium', label: 'Medium' }, { value: 'Low', label: 'Low' }] },
+  { key: 'type', label: 'Type', options: [{ value: 'Follow-up', label: 'Follow-up' }, { value: 'Call', label: 'Call' }, { value: 'Email', label: 'Email' }, { value: 'Meeting', label: 'Meeting' }, { value: 'Task', label: 'Task' }] },
+];
+
+const formFields: FormFieldConfig[] = [
+  { name: 'title', label: 'Task Title', type: 'text', required: true, colSpan: 2 },
+  { name: 'type', label: 'Type', type: 'select', required: true, options: [{ value: 'Follow-up', label: 'Follow-up' }, { value: 'Call', label: 'Call' }, { value: 'Email', label: 'Email' }, { value: 'Meeting', label: 'Meeting' }, { value: 'Task', label: 'Task' }] },
+  { name: 'priority', label: 'Priority', type: 'select', required: true, options: [{ value: 'High', label: 'High' }, { value: 'Medium', label: 'Medium' }, { value: 'Low', label: 'Low' }] },
+  { name: 'dueDate', label: 'Due Date', type: 'date', required: true },
+  { name: 'dueTime', label: 'Due Time', type: 'text' },
+  { name: 'assignedTo', label: 'Assigned To', type: 'text', required: true },
+  { name: 'linkedContact', label: 'Linked Contact', type: 'text' },
+  { name: 'reminder', label: 'Reminder', type: 'select', options: [{ value: '15min', label: '15 minutes before' }, { value: '1hour', label: '1 hour before' }, { value: '1day', label: '1 day before' }] },
+];
+
 export default function TasksPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("pending");
+  const [tasks, setTasks] = useState<Task[]>(mockTasks);
+  const [createModalOpen, setCreateModalOpen] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
-  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+  const [taskToDelete, setTaskToDelete] = useState<Task | null>(null);
 
-  const pendingCount = mockTasks.filter(t => t.status === "Pending").length;
-  const overdueCount = mockTasks.filter(t => t.status === "Overdue").length;
-  const todayCount = mockTasks.filter(t => t.dueDate === "2024-11-25" && t.status === "Pending").length;
+  const pendingCount = tasks.filter(t => t.status === "Pending").length;
+  const overdueCount = tasks.filter(t => t.status === "Overdue").length;
+  const completedCount = tasks.filter(t => t.status === "Completed").length;
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "Completed": return "text-green-400";
-      case "Pending": return "text-yellow-400";
-      case "Overdue": return "text-red-400";
-      default: return "text-ink-400";
+  const rowActions: ListPageAction<Task>[] = [
+    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedTask(r); setDrawerOpen(true); } },
+    { id: 'complete', label: 'Mark Complete', icon: '✅', onClick: (r) => setTasks(tasks.map(t => t.id === r.id ? { ...t, status: 'Completed' } : t)) },
+    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (r) => { setSelectedTask(r); setEditModalOpen(true); } },
+    { id: 'delete', label: 'Delete', icon: '🗑️', variant: 'danger', onClick: (r) => { setTaskToDelete(r); setDeleteConfirmOpen(true); } },
+  ];
+
+  const handleCreate = async (data: Record<string, unknown>) => {
+    const newTask: Task = {
+      id: `TSK-${String(tasks.length + 1).padStart(3, '0')}`,
+      title: String(data.title || ''),
+      type: data.type as Task['type'],
+      priority: data.priority as Task['priority'],
+      dueDate: String(data.dueDate || ''),
+      dueTime: data.dueTime ? String(data.dueTime) : undefined,
+      assignedTo: String(data.assignedTo || ''),
+      linkedContact: data.linkedContact ? String(data.linkedContact) : undefined,
+      status: 'Pending',
+      reminder: data.reminder ? String(data.reminder) : undefined,
+    };
+    setTasks([...tasks, newTask]);
+    setCreateModalOpen(false);
+  };
+
+  const handleEdit = async (data: Record<string, unknown>) => {
+    if (!selectedTask) return;
+    setTasks(tasks.map(t => t.id === selectedTask.id ? { ...t, ...data } as Task : t));
+    setEditModalOpen(false);
+    setSelectedTask(null);
+  };
+
+  const handleDelete = () => {
+    if (taskToDelete) {
+      setTasks(tasks.filter(t => t.id !== taskToDelete.id));
+      setDeleteConfirmOpen(false);
+      setTaskToDelete(null);
     }
   };
 
-  const getPriorityColor = (priority: string) => {
-    switch (priority) {
-      case "High": return "text-red-400";
-      case "Medium": return "text-yellow-400";
-      case "Low": return "text-green-400";
-      default: return "text-ink-400";
-    }
-  };
+  const stats = [
+    { label: 'Total Tasks', value: tasks.length },
+    { label: 'Pending', value: pendingCount },
+    { label: 'Overdue', value: overdueCount },
+    { label: 'Completed', value: completedCount },
+  ];
 
-  const getTypeIcon = (type: string) => {
-    switch (type) {
-      case "Follow-up": return "🔄";
-      case "Call": return "📞";
-      case "Email": return "📧";
-      case "Meeting": return "👥";
-      case "Task": return "✅";
-      default: return "📋";
-    }
-  };
-
-  const filteredTasks = activeTab === "all" ? mockTasks :
-    activeTab === "today" ? mockTasks.filter(t => t.dueDate === "2024-11-25") :
-    mockTasks.filter(t => t.status.toLowerCase() === activeTab);
+  const detailSections: DetailSection[] = selectedTask ? [
+    { id: 'overview', title: 'Task Details', content: (
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+        <div><strong>Title:</strong> {selectedTask.title}</div>
+        <div><strong>Type:</strong> {selectedTask.type}</div>
+        <div><strong>Priority:</strong> {selectedTask.priority}</div>
+        <div><strong>Status:</strong> {selectedTask.status}</div>
+        <div><strong>Due:</strong> {selectedTask.dueDate} {selectedTask.dueTime || ''}</div>
+        <div><strong>Assigned To:</strong> {selectedTask.assignedTo}</div>
+        <div><strong>Contact:</strong> {selectedTask.linkedContact || '—'}</div>
+        <div><strong>Deal:</strong> {selectedTask.linkedDeal || '—'}</div>
+        <div><strong>Reminder:</strong> {selectedTask.reminder || 'None'}</div>
+      </div>
+    )},
+  ] : [];
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <Navigation />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Tasks & Follow-ups</H1>
-            <Label className="text-ink-400">Manage tasks and automated reminders</Label>
-          </Stack>
+    <>
+      <ListPage<Task>
+        title="Tasks & Follow-ups"
+        subtitle="Manage tasks and automated reminders"
+        data={tasks}
+        columns={columns}
+        rowKey="id"
+        loading={false}
+        searchPlaceholder="Search tasks..."
+        filters={filters}
+        rowActions={rowActions}
+        onRowClick={(r) => { setSelectedTask(r); setDrawerOpen(true); }}
+        createLabel="Create Task"
+        onCreate={() => setCreateModalOpen(true)}
+        onExport={() => console.log('Export tasks')}
+        stats={stats}
+        emptyMessage="No tasks found"
+        emptyAction={{ label: 'Create Task', onClick: () => setCreateModalOpen(true) }}
+        header={<Navigation />}
+      />
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Due Today" value={todayCount} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Pending" value={pendingCount} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Overdue" value={overdueCount} trend={overdueCount > 0 ? "down" : "neutral"} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Completed" value={mockTasks.filter(t => t.status === "Completed").length} className="bg-transparent border-2 border-ink-800" />
-          </Grid>
+      <RecordFormModal
+        open={createModalOpen}
+        onClose={() => setCreateModalOpen(false)}
+        mode="create"
+        title="Create Task"
+        fields={formFields}
+        onSubmit={handleCreate}
+      />
 
-          <Stack direction="horizontal" className="justify-between">
-            <Tabs>
-              <TabsList>
-                <Tab active={activeTab === "today"} onClick={() => setActiveTab("today")}>Today</Tab>
-                <Tab active={activeTab === "pending"} onClick={() => setActiveTab("pending")}>Pending</Tab>
-                <Tab active={activeTab === "overdue"} onClick={() => setActiveTab("overdue")}>Overdue</Tab>
-                <Tab active={activeTab === "completed"} onClick={() => setActiveTab("completed")}>Completed</Tab>
-              </TabsList>
-            </Tabs>
-            <Button variant="outlineWhite" onClick={() => setShowCreateModal(true)}>Create Task</Button>
-          </Stack>
+      {selectedTask && (
+        <RecordFormModal
+          open={editModalOpen}
+          onClose={() => { setEditModalOpen(false); setSelectedTask(null); }}
+          mode="edit"
+          title="Edit Task"
+          fields={formFields}
+          record={selectedTask}
+          onSubmit={handleEdit}
+        />
+      )}
 
-          <Stack gap={4}>
-            {filteredTasks.map((task) => (
-              <Card key={task.id} className={`border-2 ${task.status === "Overdue" ? "border-red-800" : "border-ink-800"} bg-ink-900/50 p-4`}>
-                <Grid cols={6} gap={4} className="items-center">
-                  <Stack direction="horizontal" gap={3}>
-                    <Label className="text-xl">{getTypeIcon(task.type)}</Label>
-                    <Stack gap={1}>
-                      <Label className="text-white">{task.title}</Label>
-                      <Badge variant="outline">{task.type}</Badge>
-                    </Stack>
-                  </Stack>
-                  <Stack gap={1}>
-                    <Label size="xs" className="text-ink-500">Due</Label>
-                    <Label className={task.status === "Overdue" ? "text-red-400" : "text-white"}>{task.dueDate}</Label>
-                    {task.dueTime && <Label size="xs" className="text-ink-400">{task.dueTime}</Label>}
-                  </Stack>
-                  <Label className={getPriorityColor(task.priority)}>{task.priority}</Label>
-                  <Stack direction="horizontal" gap={2}>
-                    {task.linkedContact && <Badge variant="outline">{task.linkedContact}</Badge>}
-                  </Stack>
-                  <Label className={getStatusColor(task.status)}>{task.status}</Label>
-                  <Stack direction="horizontal" gap={2}>
-                    {task.status !== "Completed" && <Button variant="solid" size="sm">Complete</Button>}
-                    <Button variant="ghost" size="sm" onClick={() => setSelectedTask(task)}>Edit</Button>
-                  </Stack>
-                </Grid>
-              </Card>
-            ))}
-          </Stack>
+      {selectedTask && (
+        <DetailDrawer
+          open={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+          record={selectedTask}
+          title={(t) => t.title}
+          subtitle={(t) => `${t.type} - ${t.priority} Priority`}
+          sections={detailSections}
+          onEdit={(t) => { setSelectedTask(t); setEditModalOpen(true); setDrawerOpen(false); }}
+          onDelete={(t) => { setTaskToDelete(t); setDeleteConfirmOpen(true); setDrawerOpen(false); }}
+          actions={[{ id: 'complete', label: 'Mark Complete', icon: '✅' }]}
+          onAction={(id, t) => { if (id === 'complete') setTasks(tasks.map(task => task.id === t.id ? { ...task, status: 'Completed' } : task)); }}
+        />
+      )}
 
-          <Grid cols={3} gap={4}>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/contacts")}>Contacts</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/deals")}>Deals</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/")}>Dashboard</Button>
-          </Grid>
-        </Stack>
-      </Container>
-
-      <Modal open={!!selectedTask} onClose={() => setSelectedTask(null)}>
-        <ModalHeader><H3>Edit Task</H3></ModalHeader>
-        <ModalBody>
-          {selectedTask && (
-            <Stack gap={4}>
-              <Input defaultValue={selectedTask.title} className="border-ink-700 bg-black text-white" />
-              <Grid cols={2} gap={4}>
-                <Select defaultValue={selectedTask.type} className="border-ink-700 bg-black text-white">
-                  <option value="Follow-up">Follow-up</option>
-                  <option value="Call">Call</option>
-                  <option value="Email">Email</option>
-                  <option value="Meeting">Meeting</option>
-                  <option value="Task">Task</option>
-                </Select>
-                <Select defaultValue={selectedTask.priority} className="border-ink-700 bg-black text-white">
-                  <option value="High">High</option>
-                  <option value="Medium">Medium</option>
-                  <option value="Low">Low</option>
-                </Select>
-              </Grid>
-              <Grid cols={2} gap={4}>
-                <Input type="date" defaultValue={selectedTask.dueDate} className="border-ink-700 bg-black text-white" />
-                <Input type="time" className="border-ink-700 bg-black text-white" />
-              </Grid>
-              <Select className="border-ink-700 bg-black text-white">
-                <option value="">Reminder...</option>
-                <option value="15min">15 minutes before</option>
-                <option value="1hour">1 hour before</option>
-                <option value="1day">1 day before</option>
-              </Select>
-            </Stack>
-          )}
-        </ModalBody>
-        <ModalFooter>
-          <Button variant="outline" onClick={() => setSelectedTask(null)}>Cancel</Button>
-          <Button variant="solid" onClick={() => setSelectedTask(null)}>Save</Button>
-        </ModalFooter>
-      </Modal>
-
-      <Modal open={showCreateModal} onClose={() => setShowCreateModal(false)}>
-        <ModalHeader><H3>Create Task</H3></ModalHeader>
-        <ModalBody>
-          <Stack gap={4}>
-            <Input placeholder="Task title" className="border-ink-700 bg-black text-white" />
-            <Grid cols={2} gap={4}>
-              <Select className="border-ink-700 bg-black text-white">
-                <option value="">Type...</option>
-                <option value="Follow-up">Follow-up</option>
-                <option value="Call">Call</option>
-                <option value="Email">Email</option>
-                <option value="Meeting">Meeting</option>
-                <option value="Task">Task</option>
-              </Select>
-              <Select className="border-ink-700 bg-black text-white">
-                <option value="">Priority...</option>
-                <option value="High">High</option>
-                <option value="Medium">Medium</option>
-                <option value="Low">Low</option>
-              </Select>
-            </Grid>
-            <Grid cols={2} gap={4}>
-              <Input type="date" className="border-ink-700 bg-black text-white" />
-              <Input type="time" className="border-ink-700 bg-black text-white" />
-            </Grid>
-            <Select className="border-ink-700 bg-black text-white">
-              <option value="">Link to Contact...</option>
-              <option value="c1">Festival Productions</option>
-              <option value="c2">Tech Corp</option>
-            </Select>
-            <Select className="border-ink-700 bg-black text-white">
-              <option value="">Reminder...</option>
-              <option value="15min">15 minutes before</option>
-              <option value="1hour">1 hour before</option>
-              <option value="1day">1 day before</option>
-            </Select>
-            <Textarea placeholder="Notes..." rows={2} className="border-ink-700 bg-black text-white" />
-          </Stack>
-        </ModalBody>
-        <ModalFooter>
-          <Button variant="outline" onClick={() => setShowCreateModal(false)}>Cancel</Button>
-          <Button variant="solid" onClick={() => setShowCreateModal(false)}>Create</Button>
-        </ModalFooter>
-      </Modal>
-    </UISection>
+      <ConfirmDialog
+        open={deleteConfirmOpen}
+        title="Delete Task"
+        message={`Are you sure you want to delete "${taskToDelete?.title}"?`}
+        variant="danger"
+        confirmLabel="Delete"
+        onConfirm={handleDelete}
+        onCancel={() => { setDeleteConfirmOpen(false); setTaskToDelete(null); }}
+      />
+    </>
   );
 }

@@ -236,10 +236,10 @@ Route (app)                              Size     First Load JS
 ├ ƒ /api/weather                         0 B                0 B
 ├ ƒ /api/weather-contingency             0 B                0 B
 ├ ƒ /api/win-loss-tracking               0 B                0 B
-├ ○ /artists                             2.83 kB         103 kB
+├ ○ /artists                             3.53 kB         107 kB
 ├ ○ /auth/signin                         2.67 kB        89.9 kB
-├ ○ /availability                        6.27 kB         104 kB
-├ ○ /background-checks                   2.44 kB         103 kB
+├ ○ /availability                        2.42 kB        96.1 kB
+├ ○ /background-checks                   2.38 kB         106 kB
 ├ ○ /backup-plans                        4.84 kB         102 kB
 ├ ○ /best-practices                      4.07 kB         101 kB
 ├ ○ /bid-portal                          4.11 kB         101 kB
@@ -268,14 +268,14 @@ Route (app)                              Size     First Load JS
 ├ ○ /glossary                            5.08 kB         102 kB
 ├ ○ /incidents                           3.17 kB         199 kB
 ├ ○ /integrations                        5.12 kB        92.3 kB
-├ ○ /issues                              3.34 kB         104 kB
+├ ○ /issues                              2.68 kB         107 kB
 ├ ○ /knowledge                           5.11 kB        92.3 kB
 ├ ○ /knowledge/brand-guidelines          4.83 kB         102 kB
 ├ ○ /knowledge/multilingual              5.28 kB         103 kB
-├ ○ /knowledge/offline                   2.73 kB         103 kB
+├ ○ /knowledge/offline                   5.65 kB         103 kB
 ├ ○ /knowledge/regulations               4.64 kB         102 kB
-├ ○ /logistics                           1.82 kB         197 kB
-├ ○ /maintenance                         3.94 kB         193 kB
+├ ○ /logistics                           1.86 kB         197 kB
+├ ○ /maintenance                         2.05 kB         197 kB
 ├ ○ /mentorship                          5.4 kB          103 kB
 ├ ○ /messages                            3.25 kB         101 kB
 ├ ○ /offline                             2.71 kB        89.9 kB
@@ -290,7 +290,7 @@ Route (app)                              Size     First Load JS
 ├ ○ /projects/new                        4.47 kB        91.7 kB
 ├ ○ /punch-list                          2.77 kB         103 kB
 ├ ○ /qa-checkpoints                      4.97 kB         102 kB
-├ ○ /risk-register                       3.23 kB         104 kB
+├ ○ /risk-register                       5.82 kB         103 kB
 ├ ○ /run-of-show                         3.59 kB         182 kB
 ├ ○ /safety                              4.85 kB         102 kB
 ├ ○ /schedule                            3.15 kB         100 kB
@@ -314,7 +314,7 @@ Route (app)                              Size     First Load JS
 ├ ○ /troubleshooting                     4.23 kB         102 kB
 ├ ○ /vendors/compare                     3.44 kB         101 kB
 ├ ○ /venues                              1.65 kB          99 kB
-├ ○ /vip-management                      2.11 kB         103 kB
+├ ○ /vip-management                      4.75 kB         102 kB
 ├ ○ /weather                             3.66 kB         101 kB
 └ ○ /weather-contingency                 5.33 kB         103 kB
 + First Load JS shared by all            87.2 kB

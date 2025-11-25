@@ -1,111 +1,107 @@
 'use client';
+
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Navigation } from '../../components/navigation';
 import {
-  Container,
-  Section,
-  Display,
-  H2,
-  Body,
-  Button,
-  Card,
-  Grid,
+  ListPage,
   Badge,
-  Spinner,
-  Stack,
-  Breadcrumb,
-  BreadcrumbItem,
+  DetailDrawer,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
+  type DetailSection,
 } from '@ghxstship/ui';
 import { useContacts } from '@/hooks/useContacts';
 import { useDeals } from '@/hooks/useDeals';
 
+interface Contact {
+  id: string;
+  name: string;
+  email: string;
+  company?: string;
+  type?: string;
+  status?: string;
+}
+
+const formatCurrency = (amount: number) => amount >= 1000000 ? `$${(amount / 1000000).toFixed(1)}M` : `$${(amount / 1000).toFixed(0)}K`;
+
+const columns: ListPageColumn<Contact>[] = [
+  { key: 'name', label: 'Name', accessor: 'name', sortable: true },
+  { key: 'email', label: 'Email', accessor: 'email' },
+  { key: 'company', label: 'Company', accessor: (r) => r.company || '—' },
+  { key: 'type', label: 'Type', accessor: 'type', render: (v) => <Badge variant="outline">{String(v || 'client').toUpperCase()}</Badge> },
+  { key: 'status', label: 'Status', accessor: 'status', render: (v) => <Badge variant={v === 'active' ? 'solid' : 'ghost'}>{String(v || 'active').toUpperCase()}</Badge> },
+];
+
+const filters: ListPageFilter[] = [
+  { key: 'type', label: 'Type', options: [{ value: 'client', label: 'Client' }, { value: 'vendor', label: 'Vendor' }, { value: 'partner', label: 'Partner' }, { value: 'lead', label: 'Lead' }] },
+  { key: 'status', label: 'Status', options: [{ value: 'active', label: 'Active' }, { value: 'inactive', label: 'Inactive' }] },
+];
+
 export default function CRMPage() {
   const router = useRouter();
-  const { data: contacts, isLoading: contactsLoading } = useContacts();
+  const { data: contacts, isLoading: contactsLoading, refetch } = useContacts();
   const { data: deals, isLoading: dealsLoading } = useDeals();
   
-  const isLoading = contactsLoading || dealsLoading;
-  
-  if (isLoading) {
-    return (
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <Spinner size="lg" />
-      </Section>
-    );
-  }
+  const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const activeContacts = contacts?.filter(c => c.status === 'active') || [];
-  const totalDeals = deals?.length || 0;
-  const totalValue = deals?.reduce((sum, d) => sum + (d.value || 0), 0) || 0;
+  const isLoading = contactsLoading || dealsLoading;
+  const contactList = (contacts || []) as Contact[];
+  const dealList = deals || [];
+
+  const activeContacts = contactList.filter(c => c.status === 'active').length;
+  const totalValue = dealList.reduce((sum: number, d: { value?: number }) => sum + (d.value || 0), 0);
+
+  const rowActions: ListPageAction<Contact>[] = [
+    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedContact(r); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (r) => router.push(`/contacts/${r.id}/edit`) },
+    { id: 'email', label: 'Send Email', icon: '✉️', onClick: (r) => window.location.href = `mailto:${r.email}` },
+  ];
+
+  const stats = [
+    { label: 'Total Contacts', value: contactList.length },
+    { label: 'Active Clients', value: activeContacts },
+    { label: 'Total Deals', value: dealList.length },
+    { label: 'Pipeline Value', value: formatCurrency(totalValue) },
+  ];
+
+  const detailSections: DetailSection[] = selectedContact ? [
+    { id: 'overview', title: 'Contact Details', content: (
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+        <div><strong>Name:</strong> {selectedContact.name}</div>
+        <div><strong>Email:</strong> {selectedContact.email}</div>
+        <div><strong>Company:</strong> {selectedContact.company || '—'}</div>
+        <div><strong>Type:</strong> {selectedContact.type || 'client'}</div>
+        <div><strong>Status:</strong> {selectedContact.status || 'active'}</div>
+      </div>
+    )},
+  ] : [];
 
   return (
-    <Section className="min-h-screen bg-ink-950 text-white">
-      <Navigation />
-      <Section className="py-8">
-        <Container>
-          {/* Breadcrumb */}
-          <Stack className="mb-6">
-            <Breadcrumb>
-              <BreadcrumbItem href="/dashboard">Dashboard</BreadcrumbItem>
-              <BreadcrumbItem active>CRM</BreadcrumbItem>
-            </Breadcrumb>
-          </Stack>
-
-          <Stack className="border-b-2 border-grey-800 py-8 mb-8">
-            <Display>CRM</Display>
-            <Stack direction="horizontal" gap={4} className="mt-4">
-              <Button variant="solid" onClick={() => router.push('/contacts')}>Add Contact</Button>
-              <Button variant="outline" onClick={() => alert('Import functionality coming soon')}>Import</Button>
-            </Stack>
-          </Stack>
-
-          <Grid cols={3} className="mb-8">
-            <Card className="p-6 text-center">
-              <H2>{activeContacts.length}</H2>
-              <Body>Active Clients</Body>
-            </Card>
-            <Card className="p-6 text-center">
-              <H2>${(totalValue / 1000000).toFixed(1)}M</H2>
-              <Body>Total Value</Body>
-            </Card>
-            <Card className="p-6 text-center">
-              <H2>{totalDeals}</H2>
-              <Body>Active Deals</Body>
-            </Card>
-          </Grid>
-
-          <Stack gap={4}>
-          {contacts?.map(contact => {
-            const contactDeals = deals?.filter(d => d.contact_id === contact.id) || [];
-            const contactValue = contactDeals.reduce((sum, d) => sum + (d.value || 0), 0);
-            
-            return (
-              <Card key={contact.id} className="p-6">
-                <Grid cols={4} gap={4}>
-                  <Stack gap={1}>
-                    <H2>{contact.name}</H2>
-                    <Body className="text-sm">{contact.company || 'N/A'}</Body>
-                    <Body className="text-sm">{contact.email}</Body>
-                  </Stack>
-                  <Stack gap={2}>
-                    <Badge>{contact.type?.toUpperCase() || 'CLIENT'}</Badge>
-                    <Badge>{contact.status?.toUpperCase() || 'ACTIVE'}</Badge>
-                  </Stack>
-                  <Stack gap={1}>
-                    <Body className="text-sm">Deals: {contactDeals.length}</Body>
-                    <Body className="text-sm">Value: ${(contactValue / 1000000).toFixed(2)}M</Body>
-                  </Stack>
-                  <Stack gap={2} direction="horizontal" className="items-center justify-end">
-                    <Button variant="outline" size="sm" onClick={() => router.push(`/contacts/${contact.id}`)}>View</Button>
-                    <Button variant="ghost" size="sm" onClick={() => router.push(`/contacts/${contact.id}/edit`)}>Edit</Button>
-                  </Stack>
-                </Grid>
-              </Card>
-            );
-          })}
-        </Stack>
-          </Container>
-      </Section>
-    </Section>
+    <>
+      <ListPage<Contact>
+        title="CRM"
+        subtitle="Manage contacts, deals, and customer relationships"
+        data={contactList}
+        columns={columns}
+        rowKey="id"
+        loading={isLoading}
+        onRetry={() => refetch?.()}
+        searchPlaceholder="Search contacts..."
+        filters={filters}
+        rowActions={rowActions}
+        onRowClick={(r) => { setSelectedContact(r); setDrawerOpen(true); }}
+        createLabel="Add Contact"
+        onCreate={() => router.push('/contacts')}
+        onExport={() => console.log('Export')}
+        stats={stats}
+        emptyMessage="No contacts found"
+        emptyAction={{ label: 'Add Contact', onClick: () => router.push('/contacts') }}
+        header={<Navigation />}
+      />
+      <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedContact} title={(c) => c.name} subtitle={(c) => c.company || c.email} sections={detailSections} onEdit={(c) => router.push(`/contacts/${c.id}/edit`)} actions={[{ id: 'email', label: 'Send Email', icon: '✉️' }]} onAction={(id, c) => id === 'email' && (window.location.href = `mailto:${c.email}`)} />
+    </>
   );
 }

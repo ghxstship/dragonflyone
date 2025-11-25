@@ -4,10 +4,16 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Navigation } from "../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select,
-  Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
+  ListPage,
+  Badge,
+  RecordFormModal,
+  DetailDrawer,
+  ConfirmDialog,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
+  type FormFieldConfig,
+  type DetailSection,
 } from "@ghxstship/ui";
 
 interface Artist {
@@ -26,11 +32,7 @@ interface Artist {
   lastPerformance?: string;
   upcomingShows: number;
   notes?: string;
-}
-
-interface TechnicalRequirement {
-  category: string;
-  items: string[];
+  [key: string]: unknown;
 }
 
 const mockArtists: Artist[] = [
@@ -41,226 +43,161 @@ const mockArtists: Artist[] = [
   { id: "ART-005", name: "Dr. James Wilson", genre: "Keynote", type: "Speaker", manager: "Lisa Park", managerEmail: "lisa@speakers.com", managerPhone: "+1 555-0205", technicalRider: true, hospitalityRider: false, inputList: false, stageplot: false, upcomingShows: 0 },
 ];
 
-const mockTechRequirements: TechnicalRequirement[] = [
-  { category: "Audio", items: ["48-channel digital console (Yamaha CL5 or equivalent)", "12 monitor mixes", "8 wireless IEM systems", "6 wireless microphones (Shure ULXD)", "Full PA system with subs"] },
-  { category: "Lighting", items: ["40 moving head fixtures", "LED wash fixtures for stage", "Follow spots (2)", "Hazer", "Lighting console (grandMA2 or MA3)"] },
-  { category: "Video", items: ["LED wall upstage (16x9 minimum)", "IMAG screens (2)", "4K camera package", "Video switcher"] },
-  { category: "Backline", items: ["Drum kit (DW or equivalent)", "Bass amp (Ampeg SVT)", "Guitar amps (2x Marshall JCM800)", "Keyboard (Nord Stage 3)"] },
+const columns: ListPageColumn<Artist>[] = [
+  { key: 'name', label: 'Artist', accessor: 'name', sortable: true },
+  { key: 'genre', label: 'Genre', accessor: 'genre' },
+  { key: 'type', label: 'Type', accessor: 'type', render: (v) => <Badge variant="outline">{String(v)}</Badge> },
+  { key: 'manager', label: 'Manager', accessor: (r) => r.manager || '—' },
+  { key: 'documents', label: 'Documents', accessor: (r) => [r.technicalRider && 'Tech', r.inputList && 'Input', r.stageplot && 'Plot'].filter(Boolean).join(', ') || '—' },
+  { key: 'upcomingShows', label: 'Upcoming', accessor: 'upcomingShows', sortable: true, render: (v) => <Badge variant={Number(v) > 0 ? 'solid' : 'ghost'}>{String(v)} shows</Badge> },
+];
+
+const filters: ListPageFilter[] = [
+  { key: 'type', label: 'Type', options: [{ value: 'Solo', label: 'Solo Artist' }, { value: 'Band', label: 'Band' }, { value: 'DJ', label: 'DJ' }, { value: 'Orchestra', label: 'Orchestra' }, { value: 'Speaker', label: 'Speaker' }] },
+];
+
+const formFields: FormFieldConfig[] = [
+  { name: 'name', label: 'Artist/Performer Name', type: 'text', required: true, colSpan: 2 },
+  { name: 'type', label: 'Type', type: 'select', required: true, options: [{ value: 'Solo', label: 'Solo Artist' }, { value: 'Band', label: 'Band' }, { value: 'DJ', label: 'DJ' }, { value: 'Orchestra', label: 'Orchestra' }, { value: 'Speaker', label: 'Speaker' }] },
+  { name: 'genre', label: 'Genre', type: 'text', required: true },
+  { name: 'manager', label: 'Manager Name', type: 'text' },
+  { name: 'agent', label: 'Booking Agent', type: 'text' },
+  { name: 'managerEmail', label: 'Manager Email', type: 'email' },
+  { name: 'managerPhone', label: 'Manager Phone', type: 'text' },
+  { name: 'notes', label: 'Notes', type: 'textarea', colSpan: 2 },
 ];
 
 export default function ArtistsPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("directory");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedType, setSelectedType] = useState("All");
+  const [artists, setArtists] = useState<Artist[]>(mockArtists);
+  const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedArtist, setSelectedArtist] = useState<Artist | null>(null);
-  const [showAddModal, setShowAddModal] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+  const [artistToDelete, setArtistToDelete] = useState<Artist | null>(null);
 
-  const filteredArtists = mockArtists.filter(a => {
-    const matchesSearch = a.name.toLowerCase().includes(searchQuery.toLowerCase()) || a.genre.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesType = selectedType === "All" || a.type === selectedType;
-    return matchesSearch && matchesType;
-  });
+  const withRiders = artists.filter(a => a.technicalRider).length;
+  const upcomingTotal = artists.reduce((sum, a) => sum + a.upcomingShows, 0);
 
-  const withRiders = mockArtists.filter(a => a.technicalRider).length;
-  const upcomingTotal = mockArtists.reduce((sum, a) => sum + a.upcomingShows, 0);
+  const rowActions: ListPageAction<Artist>[] = [
+    { id: 'view', label: 'View Profile', icon: '👁️', onClick: (r) => { setSelectedArtist(r); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (r) => router.push(`/artists/${r.id}/edit`) },
+    { id: 'delete', label: 'Delete', icon: '🗑️', variant: 'danger', onClick: (r) => { setArtistToDelete(r); setDeleteConfirmOpen(true); } },
+  ];
+
+  const handleCreate = async (data: Record<string, unknown>) => {
+    const newArtist: Artist = {
+      id: `ART-${String(artists.length + 1).padStart(3, '0')}`,
+      name: String(data.name || ''),
+      genre: String(data.genre || ''),
+      type: data.type as Artist['type'],
+      manager: data.manager ? String(data.manager) : undefined,
+      managerEmail: data.managerEmail ? String(data.managerEmail) : undefined,
+      managerPhone: data.managerPhone ? String(data.managerPhone) : undefined,
+      agent: data.agent ? String(data.agent) : undefined,
+      technicalRider: false,
+      hospitalityRider: false,
+      inputList: false,
+      stageplot: false,
+      upcomingShows: 0,
+      notes: data.notes ? String(data.notes) : undefined,
+    };
+    setArtists([...artists, newArtist]);
+    setCreateModalOpen(false);
+  };
+
+  const handleDelete = () => {
+    if (artistToDelete) {
+      setArtists(artists.filter(a => a.id !== artistToDelete.id));
+      setDeleteConfirmOpen(false);
+      setArtistToDelete(null);
+    }
+  };
+
+  const stats = [
+    { label: 'Total Artists', value: artists.length },
+    { label: 'With Tech Riders', value: withRiders },
+    { label: 'Upcoming Shows', value: upcomingTotal },
+    { label: 'Active This Month', value: artists.filter(a => a.upcomingShows > 0).length },
+  ];
+
+  const detailSections: DetailSection[] = selectedArtist ? [
+    { id: 'overview', title: 'Artist Profile', content: (
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+        <div><strong>Name:</strong> {selectedArtist.name}</div>
+        <div><strong>Type:</strong> {selectedArtist.type}</div>
+        <div><strong>Genre:</strong> {selectedArtist.genre}</div>
+        <div><strong>Agent:</strong> {selectedArtist.agent || '—'}</div>
+        <div><strong>Manager:</strong> {selectedArtist.manager || '—'}</div>
+        <div><strong>Email:</strong> {selectedArtist.managerEmail || '—'}</div>
+        <div><strong>Phone:</strong> {selectedArtist.managerPhone || '—'}</div>
+        <div><strong>Upcoming:</strong> {selectedArtist.upcomingShows} shows</div>
+      </div>
+    )},
+    { id: 'documents', title: 'Documents on File', content: (
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.5rem' }}>
+        <div>{selectedArtist.technicalRider ? '✓' : '○'} Technical Rider</div>
+        <div>{selectedArtist.hospitalityRider ? '✓' : '○'} Hospitality Rider</div>
+        <div>{selectedArtist.inputList ? '✓' : '○'} Input List</div>
+        <div>{selectedArtist.stageplot ? '✓' : '○'} Stage Plot</div>
+      </div>
+    )},
+  ] : [];
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <Navigation />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Artist Database</H1>
-            <Label className="text-ink-400">Performer profiles, technical requirements, and contact information</Label>
-          </Stack>
+    <>
+      <ListPage<Artist>
+        title="Artist Database"
+        subtitle="Performer profiles, technical requirements, and contact information"
+        data={artists}
+        columns={columns}
+        rowKey="id"
+        loading={false}
+        searchPlaceholder="Search artists..."
+        filters={filters}
+        rowActions={rowActions}
+        onRowClick={(r) => { setSelectedArtist(r); setDrawerOpen(true); }}
+        createLabel="Add Artist"
+        onCreate={() => setCreateModalOpen(true)}
+        onExport={() => console.log('Export artists')}
+        stats={stats}
+        emptyMessage="No artists found"
+        emptyAction={{ label: 'Add Artist', onClick: () => setCreateModalOpen(true) }}
+        header={<Navigation />}
+      />
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Total Artists" value={mockArtists.length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="With Tech Riders" value={withRiders} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Upcoming Shows" value={upcomingTotal} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Active This Month" value={mockArtists.filter(a => a.upcomingShows > 0).length} className="bg-transparent border-2 border-ink-800" />
-          </Grid>
+      <RecordFormModal
+        open={createModalOpen}
+        onClose={() => setCreateModalOpen(false)}
+        mode="create"
+        title="Add Artist"
+        fields={formFields}
+        onSubmit={handleCreate}
+        size="lg"
+      />
 
-          <Grid cols={3} gap={4}>
-            <Input type="search" placeholder="Search artists..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="border-ink-700 bg-black text-white" />
-            <Select value={selectedType} onChange={(e) => setSelectedType(e.target.value)} className="border-ink-700 bg-black text-white">
-              <option value="All">All Types</option>
-              <option value="Solo">Solo Artist</option>
-              <option value="Band">Band</option>
-              <option value="DJ">DJ</option>
-              <option value="Orchestra">Orchestra</option>
-              <option value="Speaker">Speaker</option>
-            </Select>
-            <Button variant="outlineWhite" onClick={() => setShowAddModal(true)}>Add Artist</Button>
-          </Grid>
+      {selectedArtist && (
+        <DetailDrawer
+          open={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+          record={selectedArtist}
+          title={(a) => a.name}
+          subtitle={(a) => `${a.type} • ${a.genre}`}
+          sections={detailSections}
+          onEdit={(a) => router.push(`/artists/${a.id}/edit`)}
+          onDelete={(a) => { setArtistToDelete(a); setDeleteConfirmOpen(true); setDrawerOpen(false); }}
+        />
+      )}
 
-          <Tabs>
-            <TabsList>
-              <Tab active={activeTab === "directory"} onClick={() => setActiveTab("directory")}>Directory</Tab>
-              <Tab active={activeTab === "requirements"} onClick={() => setActiveTab("requirements")}>Tech Requirements</Tab>
-            </TabsList>
-
-            <TabPanel active={activeTab === "directory"}>
-              <Table className="border-2 border-ink-800">
-                <TableHeader>
-                  <TableRow className="bg-ink-900">
-                    <TableHead>Artist</TableHead>
-                    <TableHead>Type</TableHead>
-                    <TableHead>Manager</TableHead>
-                    <TableHead>Documents</TableHead>
-                    <TableHead>Upcoming</TableHead>
-                    <TableHead>Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredArtists.map((artist) => (
-                    <TableRow key={artist.id}>
-                      <TableCell>
-                        <Stack gap={1}>
-                          <Body className="font-display text-white">{artist.name}</Body>
-                          <Label size="xs" className="text-ink-500">{artist.genre}</Label>
-                        </Stack>
-                      </TableCell>
-                      <TableCell><Badge variant="outline">{artist.type}</Badge></TableCell>
-                      <TableCell>
-                        <Stack gap={1}>
-                          <Label className="text-white">{artist.manager || "-"}</Label>
-                          {artist.agent && <Label size="xs" className="text-ink-500">Agent: {artist.agent}</Label>}
-                        </Stack>
-                      </TableCell>
-                      <TableCell>
-                        <Stack direction="horizontal" gap={1}>
-                          {artist.technicalRider && <Badge variant="solid">Tech</Badge>}
-                          {artist.inputList && <Badge variant="outline">Input</Badge>}
-                          {artist.stageplot && <Badge variant="outline">Plot</Badge>}
-                        </Stack>
-                      </TableCell>
-                      <TableCell><Label className={artist.upcomingShows > 0 ? "text-green-400" : "text-ink-400"}>{artist.upcomingShows} shows</Label></TableCell>
-                      <TableCell>
-                        <Button variant="ghost" size="sm" onClick={() => setSelectedArtist(artist)}>View</Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TabPanel>
-
-            <TabPanel active={activeTab === "requirements"}>
-              <Grid cols={2} gap={6}>
-                {mockTechRequirements.map((req) => (
-                  <Card key={req.category} className="border-2 border-ink-800 bg-ink-900/50 p-4">
-                    <Stack gap={3}>
-                      <H3>{req.category}</H3>
-                      <Stack gap={2}>
-                        {req.items.map((item, idx) => (
-                          <Card key={idx} className="p-2 bg-ink-800 border border-ink-700">
-                            <Label className="text-ink-300">{item}</Label>
-                          </Card>
-                        ))}
-                      </Stack>
-                    </Stack>
-                  </Card>
-                ))}
-              </Grid>
-            </TabPanel>
-          </Tabs>
-
-          <Grid cols={3} gap={4}>
-            <Button variant="outline" className="border-ink-700 text-ink-400">Import Artists</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400">Export Database</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/directory")}>Full Directory</Button>
-          </Grid>
-        </Stack>
-      </Container>
-
-      <Modal open={!!selectedArtist} onClose={() => setSelectedArtist(null)}>
-        <ModalHeader><H3>Artist Profile</H3></ModalHeader>
-        <ModalBody>
-          {selectedArtist && (
-            <Stack gap={4}>
-              <Stack gap={1}>
-                <Body className="font-display text-white text-xl">{selectedArtist.name}</Body>
-                <Stack direction="horizontal" gap={2}>
-                  <Badge variant="outline">{selectedArtist.type}</Badge>
-                  <Badge variant="outline">{selectedArtist.genre}</Badge>
-                </Stack>
-              </Stack>
-              <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Manager</Label><Label className="text-white">{selectedArtist.manager || "N/A"}</Label></Stack>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Agent</Label><Label className="text-white">{selectedArtist.agent || "N/A"}</Label></Stack>
-              </Grid>
-              {selectedArtist.managerEmail && (
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Email</Label><Label className="text-white">{selectedArtist.managerEmail}</Label></Stack>
-              )}
-              {selectedArtist.managerPhone && (
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Phone</Label><Label className="font-mono text-white">{selectedArtist.managerPhone}</Label></Stack>
-              )}
-              <Stack gap={2}>
-                <Label className="text-ink-400">Documents on File</Label>
-                <Grid cols={2} gap={2}>
-                  <Card className={`p-2 border ${selectedArtist.technicalRider ? "border-green-800 bg-green-900/10" : "border-ink-700"}`}>
-                    <Label className={selectedArtist.technicalRider ? "text-green-400" : "text-ink-500"}>
-                      {selectedArtist.technicalRider ? "✓" : "○"} Technical Rider
-                    </Label>
-                  </Card>
-                  <Card className={`p-2 border ${selectedArtist.hospitalityRider ? "border-green-800 bg-green-900/10" : "border-ink-700"}`}>
-                    <Label className={selectedArtist.hospitalityRider ? "text-green-400" : "text-ink-500"}>
-                      {selectedArtist.hospitalityRider ? "✓" : "○"} Hospitality Rider
-                    </Label>
-                  </Card>
-                  <Card className={`p-2 border ${selectedArtist.inputList ? "border-green-800 bg-green-900/10" : "border-ink-700"}`}>
-                    <Label className={selectedArtist.inputList ? "text-green-400" : "text-ink-500"}>
-                      {selectedArtist.inputList ? "✓" : "○"} Input List
-                    </Label>
-                  </Card>
-                  <Card className={`p-2 border ${selectedArtist.stageplot ? "border-green-800 bg-green-900/10" : "border-ink-700"}`}>
-                    <Label className={selectedArtist.stageplot ? "text-green-400" : "text-ink-500"}>
-                      {selectedArtist.stageplot ? "✓" : "○"} Stage Plot
-                    </Label>
-                  </Card>
-                </Grid>
-              </Stack>
-            </Stack>
-          )}
-        </ModalBody>
-        <ModalFooter>
-          <Button variant="outline" onClick={() => setSelectedArtist(null)}>Close</Button>
-          <Button variant="solid">Edit Artist</Button>
-        </ModalFooter>
-      </Modal>
-
-      <Modal open={showAddModal} onClose={() => setShowAddModal(false)}>
-        <ModalHeader><H3>Add Artist</H3></ModalHeader>
-        <ModalBody>
-          <Stack gap={4}>
-            <Input placeholder="Artist/Performer Name" className="border-ink-700 bg-black text-white" />
-            <Grid cols={2} gap={4}>
-              <Select className="border-ink-700 bg-black text-white">
-                <option value="">Type...</option>
-                <option value="Solo">Solo Artist</option>
-                <option value="Band">Band</option>
-                <option value="DJ">DJ</option>
-                <option value="Orchestra">Orchestra</option>
-                <option value="Speaker">Speaker</option>
-              </Select>
-              <Input placeholder="Genre" className="border-ink-700 bg-black text-white" />
-            </Grid>
-            <Input placeholder="Manager Name" className="border-ink-700 bg-black text-white" />
-            <Grid cols={2} gap={4}>
-              <Input type="email" placeholder="Manager Email" className="border-ink-700 bg-black text-white" />
-              <Input placeholder="Manager Phone" className="border-ink-700 bg-black text-white" />
-            </Grid>
-            <Input placeholder="Booking Agent" className="border-ink-700 bg-black text-white" />
-            <Textarea placeholder="Notes..." className="border-ink-700 bg-black text-white" rows={2} />
-          </Stack>
-        </ModalBody>
-        <ModalFooter>
-          <Button variant="outline" onClick={() => setShowAddModal(false)}>Cancel</Button>
-          <Button variant="solid" onClick={() => setShowAddModal(false)}>Add Artist</Button>
-        </ModalFooter>
-      </Modal>
-    </UISection>
+      <ConfirmDialog
+        open={deleteConfirmOpen}
+        title="Delete Artist"
+        message={`Are you sure you want to delete "${artistToDelete?.name}"?`}
+        variant="danger"
+        confirmLabel="Delete"
+        onConfirm={handleDelete}
+        onCancel={() => { setDeleteConfirmOpen(false); setArtistToDelete(null); }}
+      />
+    </>
   );
 }

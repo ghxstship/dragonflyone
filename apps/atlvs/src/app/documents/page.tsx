@@ -2,197 +2,136 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Container, Section, Display, H2, H3, Body, Button, Input, Select, Card, Grid, Badge, Stack, StatCard } from '@ghxstship/ui';
-import { Search, Plus, FileText, FolderOpen, Download, Upload, Clock, User } from 'lucide-react';
+import { Navigation } from '../../components/navigation';
+import {
+  ListPage,
+  Badge,
+  RecordFormModal,
+  DetailDrawer,
+  ConfirmDialog,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
+  type FormFieldConfig,
+  type DetailSection,
+} from '@ghxstship/ui';
+
+interface Document {
+  id: string;
+  name: string;
+  type: string;
+  folder: string;
+  version: string;
+  size: string;
+  uploadedBy: string;
+  uploadedAt: string;
+  status: string;
+}
+
+const mockDocuments: Document[] = [
+  { id: '1', name: 'Ultra Music Festival - Master Contract 2025', type: 'Contract', folder: 'Contracts', version: '3.2', size: '2.4 MB', uploadedBy: 'Sarah Johnson', uploadedAt: '2024-11-20', status: 'active' },
+  { id: '2', name: 'General Liability Insurance Policy', type: 'Insurance', folder: 'Compliance', version: '1.0', size: '1.1 MB', uploadedBy: 'Mike Peters', uploadedAt: '2024-11-15', status: 'active' },
+  { id: '3', name: 'Q4 2024 Financial Statements', type: 'Financial', folder: 'Finance', version: '2.1', size: '856 KB', uploadedBy: 'John Doe', uploadedAt: '2024-11-18', status: 'active' },
+];
+
+const columns: ListPageColumn<Document>[] = [
+  { key: 'name', label: 'Document', accessor: 'name', sortable: true },
+  { key: 'type', label: 'Type', accessor: 'type', render: (v) => <Badge variant="outline">{String(v)}</Badge> },
+  { key: 'folder', label: 'Folder', accessor: 'folder' },
+  { key: 'version', label: 'Version', accessor: (r) => `v${r.version}` },
+  { key: 'size', label: 'Size', accessor: 'size' },
+  { key: 'uploadedAt', label: 'Uploaded', accessor: (r) => new Date(r.uploadedAt).toLocaleDateString(), sortable: true },
+  { key: 'status', label: 'Status', accessor: 'status', render: (v) => <Badge variant={v === 'active' ? 'solid' : 'ghost'}>{String(v)}</Badge> },
+];
+
+const filters: ListPageFilter[] = [
+  { key: 'type', label: 'Type', options: [{ value: 'Contract', label: 'Contract' }, { value: 'Insurance', label: 'Insurance' }, { value: 'Financial', label: 'Financial' }, { value: 'Legal', label: 'Legal' }] },
+  { key: 'folder', label: 'Folder', options: [{ value: 'Contracts', label: 'Contracts' }, { value: 'Compliance', label: 'Compliance' }, { value: 'Finance', label: 'Finance' }, { value: 'HR', label: 'HR' }, { value: 'Legal', label: 'Legal' }] },
+  { key: 'status', label: 'Status', options: [{ value: 'active', label: 'Active' }, { value: 'archived', label: 'Archived' }, { value: 'draft', label: 'Draft' }] },
+];
+
+const formFields: FormFieldConfig[] = [
+  { name: 'name', label: 'Document Name', type: 'text', required: true },
+  { name: 'type', label: 'Type', type: 'select', required: true, options: [{ value: 'Contract', label: 'Contract' }, { value: 'Insurance', label: 'Insurance' }, { value: 'Financial', label: 'Financial' }, { value: 'Legal', label: 'Legal' }] },
+  { name: 'folder', label: 'Folder', type: 'select', required: true, options: [{ value: 'Contracts', label: 'Contracts' }, { value: 'Compliance', label: 'Compliance' }, { value: 'Finance', label: 'Finance' }, { value: 'HR', label: 'HR' }] },
+  { name: 'file', label: 'File', type: 'file', required: true },
+];
 
 export default function DocumentsPage() {
   const router = useRouter();
-  const [selectedFolder, setSelectedFolder] = useState('all');
+  const [documents] = useState<Document[]>(mockDocuments);
+  const [createModalOpen, setCreateModalOpen] = useState(false);
+  const [selectedDoc, setSelectedDoc] = useState<Document | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+  const [docToDelete, setDocToDelete] = useState<Document | null>(null);
 
-  const documents = [
-    {
-      id: '1',
-      name: 'Ultra Music Festival - Master Contract 2025',
-      type: 'Contract',
-      folder: 'Contracts',
-      version: '3.2',
-      size: '2.4 MB',
-      uploadedBy: 'Sarah Johnson',
-      uploadedAt: '2024-11-20',
-      status: 'active',
-    },
-    {
-      id: '2',
-      name: 'General Liability Insurance Policy',
-      type: 'Insurance',
-      folder: 'Compliance',
-      version: '1.0',
-      size: '1.1 MB',
-      uploadedBy: 'Mike Peters',
-      uploadedAt: '2024-11-15',
-      status: 'active',
-    },
-    {
-      id: '3',
-      name: 'Q4 2024 Financial Statements',
-      type: 'Financial',
-      folder: 'Finance',
-      version: '2.1',
-      size: '856 KB',
-      uploadedBy: 'John Doe',
-      uploadedAt: '2024-11-18',
-      status: 'active',
-    },
+  const rowActions: ListPageAction<Document>[] = [
+    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedDoc(r); setDrawerOpen(true); } },
+    { id: 'download', label: 'Download', icon: '⬇️', onClick: (r) => window.open(`/api/documents/${r.id}/download`, '_blank') },
+    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (r) => router.push(`/documents/${r.id}/edit`) },
+    { id: 'delete', label: 'Delete', icon: '🗑️', variant: 'danger', onClick: (r) => { setDocToDelete(r); setDeleteConfirmOpen(true); } },
   ];
 
-  const folders = ['All', 'Contracts', 'Compliance', 'Finance', 'HR', 'Legal', 'Operations'];
+  const handleCreate = async (data: Record<string, unknown>) => {
+    console.log('Upload document:', data);
+    setCreateModalOpen(false);
+  };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'active': return 'bg-white text-black border-2 border-black';
-      case 'archived': return 'bg-grey-400 text-white';
-      case 'draft': return 'bg-grey-200 text-black';
-      default: return 'bg-grey-200 text-black';
+  const handleDelete = async () => {
+    if (docToDelete) {
+      console.log('Delete:', docToDelete.id);
+      setDeleteConfirmOpen(false);
+      setDocToDelete(null);
     }
   };
 
+  const stats = [
+    { label: 'Total Documents', value: documents.length },
+    { label: 'Storage Used', value: '4.3 GB' },
+    { label: 'Active Versions', value: 89 },
+    { label: 'Pending Approval', value: 12 },
+  ];
+
+  const detailSections: DetailSection[] = selectedDoc ? [
+    { id: 'overview', title: 'Document Details', content: (
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+        <div><strong>Name:</strong> {selectedDoc.name}</div>
+        <div><strong>Type:</strong> {selectedDoc.type}</div>
+        <div><strong>Folder:</strong> {selectedDoc.folder}</div>
+        <div><strong>Version:</strong> v{selectedDoc.version}</div>
+        <div><strong>Size:</strong> {selectedDoc.size}</div>
+        <div><strong>Status:</strong> {selectedDoc.status}</div>
+        <div><strong>Uploaded By:</strong> {selectedDoc.uploadedBy}</div>
+        <div><strong>Uploaded:</strong> {new Date(selectedDoc.uploadedAt).toLocaleDateString()}</div>
+      </div>
+    )},
+  ] : [];
+
   return (
-    <Section className="min-h-screen bg-white py-8">
-      <Container>
-        <Stack gap={8}>
-          <Stack gap={4} direction="horizontal" className="justify-between items-start">
-            <Stack gap={2}>
-              <Display>DOCUMENT MANAGEMENT</Display>
-              <Body className="text-grey-600">Centralized document storage with version control</Body>
-            </Stack>
-            <Stack gap={3} direction="horizontal">
-              <Button variant="outline" onClick={() => router.push('/documents/upload')}>
-                <Upload className="w-4 h-4 mr-2" />
-                UPLOAD
-              </Button>
-              <Button onClick={() => router.push('/documents/folders/new')}>
-                <Plus className="w-4 h-4 mr-2" />
-                NEW FOLDER
-              </Button>
-            </Stack>
-          </Stack>
-
-          {/* Folder Navigation */}
-          <Card className="p-6">
-            <Stack gap={2} direction="horizontal" className="flex-wrap">
-              {folders.map((folder) => (
-                <Button
-                  key={folder}
-                  variant={selectedFolder === folder.toLowerCase() ? 'solid' : 'outline'}
-                  size="sm"
-                  onClick={() => setSelectedFolder(folder.toLowerCase())}
-                >
-                  <FolderOpen className="w-4 h-4 mr-2" />
-                  {folder}
-                </Button>
-              ))}
-            </Stack>
-          </Card>
-
-          {/* Search and Filters */}
-          <Card className="p-6">
-            <Stack gap={4} direction="horizontal">
-              <Stack className="flex-1 relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-grey-500" />
-                <Input placeholder="Search documents..." className="pl-10 w-full" />
-              </Stack>
-              <Select className="w-48">
-                <option>All Types</option>
-                <option>Contracts</option>
-                <option>Insurance</option>
-                <option>Financial</option>
-                <option>Legal</option>
-              </Select>
-              <Select className="w-48">
-                <option>All Statuses</option>
-                <option>Active</option>
-                <option>Archived</option>
-                <option>Draft</option>
-              </Select>
-            </Stack>
-          </Card>
-
-          {/* Documents List */}
-          <Stack gap={4}>
-            {documents.map((doc) => (
-              <Card key={doc.id} className="p-6 hover:shadow-[8px_8px_0_0_#000] transition-shadow">
-                <Stack gap={4} direction="horizontal" className="items-start justify-between">
-                  <Stack gap={4} className="flex-1">
-                    <Stack gap={3} direction="horizontal" className="items-center">
-                      <FileText className="w-6 h-6 text-grey-600" />
-                      <H2>{doc.name}</H2>
-                      <Badge className={getStatusColor(doc.status)}>
-                        v{doc.version}
-                      </Badge>
-                    </Stack>
-                    
-                    <Grid cols={4} gap={6}>
-                      <Stack gap={1}>
-                        <Body className="text-sm text-grey-600">Type</Body>
-                        <Body className="font-bold">{doc.type}</Body>
-                      </Stack>
-                      <Stack gap={1}>
-                        <Body className="text-sm text-grey-600">Folder</Body>
-                        <Body className="font-bold">{doc.folder}</Body>
-                      </Stack>
-                      <Stack gap={1}>
-                        <Body className="text-sm text-grey-600">Size</Body>
-                        <Body className="font-bold">{doc.size}</Body>
-                      </Stack>
-                      <Stack gap={1}>
-                        <Body className="text-sm text-grey-600">Uploaded</Body>
-                        <Stack gap={2} direction="horizontal" className="items-center">
-                          <Clock className="w-4 h-4 text-grey-600" />
-                          <Body className="text-sm">{new Date(doc.uploadedAt).toLocaleDateString()}</Body>
-                        </Stack>
-                      </Stack>
-                    </Grid>
-
-                    <Stack gap={2} direction="horizontal" className="items-center text-sm text-grey-600">
-                      <User className="w-4 h-4" />
-                      <Body className="text-sm">Uploaded by {doc.uploadedBy}</Body>
-                    </Stack>
-                  </Stack>
-
-                  <Stack gap={2} direction="horizontal" className="ml-6">
-                    <Button variant="outline" size="sm" onClick={() => window.open(`/api/documents/${doc.id}/download`, '_blank')}>
-                      <Download className="w-4 h-4 mr-2" />
-                      DOWNLOAD
-                    </Button>
-                    <Button variant="ghost" size="sm" onClick={() => router.push(`/documents/${doc.id}`)}>VIEW</Button>
-                  </Stack>
-                </Stack>
-              </Card>
-            ))}
-          </Stack>
-
-          {/* Storage Stats */}
-          <Card className="p-6 bg-grey-50">
-            <Grid cols={3} gap={6}>
-              <Stack gap={1}>
-                <H3>Storage Used</H3>
-                <Display size="md">4.3 GB</Display>
-                <Body className="text-sm text-grey-600">of 100 GB</Body>
-              </Stack>
-              <Stack gap={1}>
-                <H3>Total Documents</H3>
-                <Display size="md">1,247</Display>
-                <Body className="text-sm text-grey-600">across all folders</Body>
-              </Stack>
-              <Stack gap={1}>
-                <H3>Active Versions</H3>
-                <Display size="md">89</Display>
-                <Body className="text-sm text-grey-600">pending approval</Body>
-              </Stack>
-            </Grid>
-          </Card>
-        </Stack>
-      </Container>
-    </Section>
+    <>
+      <ListPage<Document>
+        title="Document Management"
+        subtitle="Centralized document storage with version control"
+        data={documents}
+        columns={columns}
+        rowKey="id"
+        loading={false}
+        searchPlaceholder="Search documents..."
+        filters={filters}
+        rowActions={rowActions}
+        onRowClick={(r) => { setSelectedDoc(r); setDrawerOpen(true); }}
+        createLabel="Upload Document"
+        onCreate={() => setCreateModalOpen(true)}
+        onExport={() => console.log('Export')}
+        stats={stats}
+        emptyMessage="No documents found"
+        emptyAction={{ label: 'Upload Document', onClick: () => setCreateModalOpen(true) }}
+        header={<Navigation />}
+      />
+      <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Upload Document" fields={formFields} onSubmit={handleCreate} size="lg" />
+      <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedDoc} title={(d) => d.name} subtitle={(d) => `${d.type} • ${d.folder}`} sections={detailSections} onEdit={(d) => router.push(`/documents/${d.id}/edit`)} onDelete={(d) => { setDocToDelete(d); setDeleteConfirmOpen(true); setDrawerOpen(false); }} actions={[{ id: 'download', label: 'Download', icon: '⬇️' }]} onAction={(id, d) => id === 'download' && window.open(`/api/documents/${d.id}/download`, '_blank')} />
+      <ConfirmDialog open={deleteConfirmOpen} title="Delete Document" message={`Delete "${docToDelete?.name}"?`} variant="danger" confirmLabel="Delete" onConfirm={handleDelete} onCancel={() => { setDeleteConfirmOpen(false); setDocToDelete(null); }} />
+    </>
   );
 }

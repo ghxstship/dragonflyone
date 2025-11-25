@@ -19,24 +19,24 @@
    Collecting build traces ...
 
 Route (app)                                   Size     First Load JS
-┌ ƒ /                                         38.2 kB         140 kB
+┌ ƒ /                                         38.8 kB         141 kB
 ├ ○ /_not-found                               143 B          87.3 kB
 ├ ○ /accessibility                            6.16 kB        93.3 kB
 ├ ○ /accessibility/request                    5.31 kB        92.5 kB
 ├ ○ /activity                                 5 kB           97.7 kB
 ├ ○ /admin/anti-scalping                      7.6 kB         94.8 kB
 ├ ○ /admin/content-calendar                   1.71 kB        92.6 kB
-├ ○ /admin/contests                           6.4 kB         93.6 kB
+├ ○ /admin/contests                           4.49 kB        97.9 kB
 ├ ○ /admin/integrations                       4.09 kB        91.3 kB
-├ ○ /admin/inventory-sync                     3.26 kB        94.7 kB
+├ ○ /admin/inventory-sync                     4.14 kB          95 kB
 ├ ○ /admin/marketing/sms                      6.43 kB        93.6 kB
-├ ○ /admin/moderation                         2.29 kB        93.6 kB
+├ ○ /admin/moderation                         4.01 kB        94.8 kB
 ├ ○ /admin/pos                                5.55 kB        92.7 kB
-├ ○ /admin/pos/cashless                       3.32 kB        94.7 kB
+├ ○ /admin/pos/cashless                       7.12 kB        94.3 kB
 ├ ○ /admin/pricing/early-bird                 6.12 kB        93.3 kB
-├ ○ /admin/promo-codes                        2.36 kB        95.4 kB
-├ ○ /admin/sales-reporting                    2.86 kB        94.3 kB
-├ ○ /admin/will-call                          4.22 kB        97.2 kB
+├ ○ /admin/promo-codes                        3.41 kB        96.8 kB
+├ ○ /admin/sales-reporting                    4.18 kB          95 kB
+├ ○ /admin/will-call                          4.71 kB        98.1 kB
 ├ ƒ /api/ab-testing                           0 B                0 B
 ├ ƒ /api/abandoned-cart                       0 B                0 B
 ├ ƒ /api/accessibility                        0 B                0 B

@@ -4,10 +4,15 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Navigation } from "../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge, Alert,
-  Modal, ModalHeader, ModalBody, ModalFooter, ProgressBar,
-  Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
+  ListPage,
+  Badge,
+  RecordFormModal,
+  DetailDrawer,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
+  type FormFieldConfig,
+  type DetailSection,
 } from "@ghxstship/ui";
 
 interface BackgroundCheck {
@@ -22,6 +27,7 @@ interface BackgroundCheck {
   expirationDate?: string;
   provider: string;
   daysUntilExpiry?: number;
+  [key: string]: unknown;
 }
 
 const mockChecks: BackgroundCheck[] = [
@@ -33,196 +39,149 @@ const mockChecks: BackgroundCheck[] = [
   { id: "BGC-006", crewMemberId: "CRW-106", crewMemberName: "Lisa Park", department: "Audio", checkType: "Enhanced", status: "Cleared", submittedDate: "2024-08-01", completedDate: "2024-08-10", expirationDate: "2024-12-10", provider: "Checkr", daysUntilExpiry: 15 },
 ];
 
+const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
+  switch (status) {
+    case "Cleared": return 'solid';
+    case "Expired": case "Flagged": return 'solid';
+    default: return 'outline';
+  }
+};
+
+const getExpiryLabel = (days?: number) => {
+  if (days === undefined) return '—';
+  if (days < 0) return `${Math.abs(days)} days ago`;
+  return `${days} days`;
+};
+
+const columns: ListPageColumn<BackgroundCheck>[] = [
+  { key: 'crewMemberName', label: 'Crew Member', accessor: 'crewMemberName', sortable: true },
+  { key: 'department', label: 'Department', accessor: 'department', render: (v) => <Badge variant="outline">{String(v)}</Badge> },
+  { key: 'checkType', label: 'Check Type', accessor: 'checkType' },
+  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v) => <Badge variant={getStatusVariant(String(v))}>{String(v)}</Badge> },
+  { key: 'expirationDate', label: 'Expiration', accessor: (r) => r.expirationDate || '—', sortable: true },
+  { key: 'daysUntilExpiry', label: 'Days Left', accessor: (r) => getExpiryLabel(r.daysUntilExpiry), render: (v, r) => {
+    const days = r.daysUntilExpiry;
+    const color = days === undefined ? '' : days < 0 ? 'color: red' : days <= 30 ? 'color: orange' : 'color: green';
+    return <span style={{ [color.split(':')[0]]: color.split(':')[1]?.trim() }}>{String(v)}</span>;
+  }},
+  { key: 'provider', label: 'Provider', accessor: 'provider' },
+];
+
+const filters: ListPageFilter[] = [
+  { key: 'status', label: 'Status', options: [{ value: 'Cleared', label: 'Cleared' }, { value: 'Pending', label: 'Pending' }, { value: 'In Progress', label: 'In Progress' }, { value: 'Expired', label: 'Expired' }, { value: 'Flagged', label: 'Flagged' }] },
+  { key: 'checkType', label: 'Check Type', options: [{ value: 'Standard', label: 'Standard' }, { value: 'Enhanced', label: 'Enhanced' }, { value: 'Federal', label: 'Federal' }] },
+  { key: 'department', label: 'Department', options: [{ value: 'Audio', label: 'Audio' }, { value: 'Lighting', label: 'Lighting' }, { value: 'Stage', label: 'Stage' }, { value: 'Video', label: 'Video' }, { value: 'Rigging', label: 'Rigging' }] },
+];
+
+const formFields: FormFieldConfig[] = [
+  { name: 'crewMemberId', label: 'Crew Member', type: 'select', required: true, options: [{ value: 'CRW-107', label: 'James Wilson' }, { value: 'CRW-108', label: 'Maria Garcia' }], colSpan: 2 },
+  { name: 'checkType', label: 'Check Type', type: 'select', required: true, options: [{ value: 'Standard', label: 'Standard' }, { value: 'Enhanced', label: 'Enhanced' }, { value: 'Federal', label: 'Federal' }] },
+  { name: 'provider', label: 'Provider', type: 'select', required: true, options: [{ value: 'Sterling', label: 'Sterling' }, { value: 'Checkr', label: 'Checkr' }] },
+];
+
 export default function BackgroundChecksPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("all");
+  const [checks, setChecks] = useState<BackgroundCheck[]>(mockChecks);
+  const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedCheck, setSelectedCheck] = useState<BackgroundCheck | null>(null);
-  const [showInitiateModal, setShowInitiateModal] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const expiringSoon = mockChecks.filter(c => c.daysUntilExpiry !== undefined && c.daysUntilExpiry > 0 && c.daysUntilExpiry <= 30).length;
-  const expired = mockChecks.filter(c => c.status === "Expired").length;
-  const pending = mockChecks.filter(c => c.status === "Pending" || c.status === "In Progress").length;
-  const cleared = mockChecks.filter(c => c.status === "Cleared").length;
+  const expiringSoon = checks.filter(c => c.daysUntilExpiry !== undefined && c.daysUntilExpiry > 0 && c.daysUntilExpiry <= 30).length;
+  const expired = checks.filter(c => c.status === "Expired").length;
+  const pending = checks.filter(c => c.status === "Pending" || c.status === "In Progress").length;
+  const cleared = checks.filter(c => c.status === "Cleared").length;
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "Cleared": return "text-green-400";
-      case "Pending": case "In Progress": return "text-yellow-400";
-      case "Expired": return "text-red-400";
-      case "Flagged": return "text-orange-400";
-      default: return "text-ink-400";
-    }
+  const rowActions: ListPageAction<BackgroundCheck>[] = [
+    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedCheck(r); setDrawerOpen(true); } },
+    { id: 'renew', label: 'Renew', icon: '🔄', onClick: (r) => console.log('Renew', r.id) },
+    { id: 'download', label: 'Download Report', icon: '⬇️', onClick: (r) => console.log('Download', r.id) },
+  ];
+
+  const handleCreate = async (data: Record<string, unknown>) => {
+    const newCheck: BackgroundCheck = {
+      id: `BGC-${String(checks.length + 1).padStart(3, '0')}`,
+      crewMemberId: String(data.crewMemberId),
+      crewMemberName: data.crewMemberId === 'CRW-107' ? 'James Wilson' : 'Maria Garcia',
+      department: 'New',
+      checkType: data.checkType as BackgroundCheck['checkType'],
+      status: 'Pending',
+      submittedDate: new Date().toISOString().split('T')[0],
+      provider: String(data.provider),
+    };
+    setChecks([...checks, newCheck]);
+    setCreateModalOpen(false);
   };
 
-  const getExpiryColor = (days?: number) => {
-    if (days === undefined) return "text-ink-400";
-    if (days < 0) return "text-red-400";
-    if (days <= 30) return "text-orange-400";
-    if (days <= 60) return "text-yellow-400";
-    return "text-green-400";
-  };
+  const stats = [
+    { label: 'Cleared', value: cleared },
+    { label: 'Pending', value: pending },
+    { label: 'Expiring Soon', value: expiringSoon },
+    { label: 'Expired', value: expired },
+  ];
 
-  const filteredChecks = activeTab === "all" ? mockChecks :
-    activeTab === "expiring" ? mockChecks.filter(c => c.daysUntilExpiry !== undefined && c.daysUntilExpiry > 0 && c.daysUntilExpiry <= 30) :
-    activeTab === "expired" ? mockChecks.filter(c => c.status === "Expired") :
-    mockChecks.filter(c => c.status === "Pending" || c.status === "In Progress");
+  const detailSections: DetailSection[] = selectedCheck ? [
+    { id: 'overview', title: 'Check Details', content: (
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+        <div><strong>Crew Member:</strong> {selectedCheck.crewMemberName}</div>
+        <div><strong>ID:</strong> {selectedCheck.crewMemberId}</div>
+        <div><strong>Department:</strong> {selectedCheck.department}</div>
+        <div><strong>Check Type:</strong> {selectedCheck.checkType}</div>
+        <div><strong>Status:</strong> {selectedCheck.status}</div>
+        <div><strong>Provider:</strong> {selectedCheck.provider}</div>
+        <div><strong>Submitted:</strong> {selectedCheck.submittedDate}</div>
+        <div><strong>Completed:</strong> {selectedCheck.completedDate || 'Pending'}</div>
+        <div><strong>Expiration:</strong> {selectedCheck.expirationDate || '—'}</div>
+        <div><strong>Days Until Expiry:</strong> {getExpiryLabel(selectedCheck.daysUntilExpiry)}</div>
+      </div>
+    )},
+  ] : [];
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <Navigation />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Background Checks</H1>
-            <Label className="text-ink-400">Crew background check status and renewal management</Label>
-          </Stack>
+    <>
+      <ListPage<BackgroundCheck>
+        title="Background Checks"
+        subtitle="Crew background check status and renewal management"
+        data={checks}
+        columns={columns}
+        rowKey="id"
+        loading={false}
+        searchPlaceholder="Search crew members..."
+        filters={filters}
+        rowActions={rowActions}
+        onRowClick={(r) => { setSelectedCheck(r); setDrawerOpen(true); }}
+        createLabel="Initiate Check"
+        onCreate={() => setCreateModalOpen(true)}
+        onExport={() => console.log('Export')}
+        stats={stats}
+        emptyMessage="No background checks found"
+        emptyAction={{ label: 'Initiate Check', onClick: () => setCreateModalOpen(true) }}
+        header={<Navigation />}
+      />
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Cleared" value={cleared} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Pending" value={pending} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Expiring Soon" value={expiringSoon} trend={expiringSoon > 0 ? "down" : "neutral"} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Expired" value={expired} trend={expired > 0 ? "down" : "neutral"} className="bg-transparent border-2 border-ink-800" />
-          </Grid>
+      <RecordFormModal
+        open={createModalOpen}
+        onClose={() => setCreateModalOpen(false)}
+        mode="create"
+        title="Initiate Background Check"
+        fields={formFields}
+        onSubmit={handleCreate}
+      />
 
-          {(expiringSoon > 0 || expired > 0) && (
-            <Alert variant="warning">
-              ⚠️ {expiringSoon} check(s) expiring within 30 days, {expired} expired check(s) require renewal
-            </Alert>
-          )}
-
-          <Stack direction="horizontal" className="justify-between">
-            <Tabs>
-              <TabsList>
-                <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All</Tab>
-                <Tab active={activeTab === "expiring"} onClick={() => setActiveTab("expiring")}>Expiring Soon</Tab>
-                <Tab active={activeTab === "expired"} onClick={() => setActiveTab("expired")}>Expired</Tab>
-                <Tab active={activeTab === "pending"} onClick={() => setActiveTab("pending")}>Pending</Tab>
-              </TabsList>
-            </Tabs>
-            <Button variant="outlineWhite" onClick={() => setShowInitiateModal(true)}>Initiate Check</Button>
-          </Stack>
-
-          <Table className="border-2 border-ink-800">
-            <TableHeader>
-              <TableRow className="bg-ink-900">
-                <TableHead className="text-ink-400">Crew Member</TableHead>
-                <TableHead className="text-ink-400">Department</TableHead>
-                <TableHead className="text-ink-400">Check Type</TableHead>
-                <TableHead className="text-ink-400">Status</TableHead>
-                <TableHead className="text-ink-400">Expiration</TableHead>
-                <TableHead className="text-ink-400">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredChecks.map((check) => (
-                <TableRow key={check.id} className="border-ink-800">
-                  <TableCell>
-                    <Stack gap={1}>
-                      <Label className="text-white">{check.crewMemberName}</Label>
-                      <Label size="xs" className="text-ink-500">{check.crewMemberId}</Label>
-                    </Stack>
-                  </TableCell>
-                  <TableCell><Badge variant="outline">{check.department}</Badge></TableCell>
-                  <TableCell><Label className="text-ink-300">{check.checkType}</Label></TableCell>
-                  <TableCell><Label className={getStatusColor(check.status)}>{check.status}</Label></TableCell>
-                  <TableCell>
-                    {check.expirationDate ? (
-                      <Stack gap={1}>
-                        <Label className="text-ink-300">{check.expirationDate}</Label>
-                        <Label size="xs" className={getExpiryColor(check.daysUntilExpiry)}>
-                          {check.daysUntilExpiry !== undefined && check.daysUntilExpiry < 0 ? `${Math.abs(check.daysUntilExpiry)} days ago` : `${check.daysUntilExpiry} days`}
-                        </Label>
-                      </Stack>
-                    ) : (
-                      <Label className="text-ink-500">-</Label>
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    <Stack direction="horizontal" gap={2}>
-                      <Button variant="ghost" size="sm" onClick={() => setSelectedCheck(check)}>Details</Button>
-                      {(check.status === "Expired" || (check.daysUntilExpiry !== undefined && check.daysUntilExpiry <= 30)) && (
-                        <Button variant="solid" size="sm">Renew</Button>
-                      )}
-                    </Stack>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-
-          <Grid cols={3} gap={4}>
-            <Button variant="outline" className="border-ink-700 text-ink-400">Export Report</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/certifications")}>Certifications</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/crew")}>Crew Directory</Button>
-          </Grid>
-        </Stack>
-      </Container>
-
-      <Modal open={!!selectedCheck} onClose={() => setSelectedCheck(null)}>
-        <ModalHeader><H3>Background Check Details</H3></ModalHeader>
-        <ModalBody>
-          {selectedCheck && (
-            <Stack gap={4}>
-              <Body className="font-display text-white text-lg">{selectedCheck.crewMemberName}</Body>
-              <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Department</Label><Badge variant="outline">{selectedCheck.department}</Badge></Stack>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Check Type</Label><Label className="text-white">{selectedCheck.checkType}</Label></Stack>
-              </Grid>
-              <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Status</Label><Label className={getStatusColor(selectedCheck.status)}>{selectedCheck.status}</Label></Stack>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Provider</Label><Label className="text-white">{selectedCheck.provider}</Label></Stack>
-              </Grid>
-              <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Submitted</Label><Label className="text-white">{selectedCheck.submittedDate}</Label></Stack>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Completed</Label><Label className="text-white">{selectedCheck.completedDate || "Pending"}</Label></Stack>
-              </Grid>
-              {selectedCheck.expirationDate && (
-                <Stack gap={2}>
-                  <Stack gap={1}><Label size="xs" className="text-ink-500">Expiration</Label><Label className={getExpiryColor(selectedCheck.daysUntilExpiry)}>{selectedCheck.expirationDate}</Label></Stack>
-                  {selectedCheck.daysUntilExpiry !== undefined && selectedCheck.daysUntilExpiry > 0 && (
-                    <ProgressBar value={Math.max(0, 100 - (selectedCheck.daysUntilExpiry / 365) * 100)} className="h-2" />
-                  )}
-                </Stack>
-              )}
-            </Stack>
-          )}
-        </ModalBody>
-        <ModalFooter>
-          <Button variant="outline" onClick={() => setSelectedCheck(null)}>Close</Button>
-          <Button variant="outline">Download Report</Button>
-          {selectedCheck?.status === "Expired" && <Button variant="solid">Initiate Renewal</Button>}
-        </ModalFooter>
-      </Modal>
-
-      <Modal open={showInitiateModal} onClose={() => setShowInitiateModal(false)}>
-        <ModalHeader><H3>Initiate Background Check</H3></ModalHeader>
-        <ModalBody>
-          <Stack gap={4}>
-            <Select className="border-ink-700 bg-black text-white">
-              <option value="">Select Crew Member...</option>
-              <option value="CRW-107">New Hire - James Wilson</option>
-              <option value="CRW-108">New Hire - Maria Garcia</option>
-            </Select>
-            <Select className="border-ink-700 bg-black text-white">
-              <option value="">Check Type...</option>
-              <option value="standard">Standard</option>
-              <option value="enhanced">Enhanced</option>
-              <option value="federal">Federal</option>
-            </Select>
-            <Select className="border-ink-700 bg-black text-white">
-              <option value="">Provider...</option>
-              <option value="sterling">Sterling</option>
-              <option value="checkr">Checkr</option>
-            </Select>
-            <Alert variant="info">The crew member will receive an email to authorize the background check</Alert>
-          </Stack>
-        </ModalBody>
-        <ModalFooter>
-          <Button variant="outline" onClick={() => setShowInitiateModal(false)}>Cancel</Button>
-          <Button variant="solid" onClick={() => setShowInitiateModal(false)}>Send Request</Button>
-        </ModalFooter>
-      </Modal>
-    </UISection>
+      {selectedCheck && (
+        <DetailDrawer
+          open={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+          record={selectedCheck}
+          title={(c) => c.crewMemberName}
+          subtitle={(c) => `${c.department} • ${c.checkType}`}
+          sections={detailSections}
+          actions={[
+            { id: 'download', label: 'Download Report', icon: '⬇️' },
+            ...(selectedCheck.status === 'Expired' ? [{ id: 'renew', label: 'Renew', icon: '🔄' }] : []),
+          ]}
+          onAction={(id) => console.log('Action', id)}
+        />
+      )}
+    </>
   );
 }
