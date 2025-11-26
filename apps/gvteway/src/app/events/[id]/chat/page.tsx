@@ -2,10 +2,11 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter, useParams } from 'next/navigation';
+import { Navigation } from '../../../../components/navigation';
 import {
   Container,
   Section,
-  Display,
+  H1,
   H2,
   H3,
   Body,
@@ -124,8 +125,11 @@ export default function EventChatPage() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" />
+      <Section className="min-h-screen bg-white">
+        <Navigation />
+        <Container className="flex min-h-[60vh] items-center justify-center">
+          <LoadingSpinner size="lg" text="Loading chat..." />
+        </Container>
       </Section>
     );
   }
@@ -133,7 +137,8 @@ export default function EventChatPage() {
   if (!chatRoom) {
     return (
       <Section className="min-h-screen bg-white">
-        <Container>
+        <Navigation />
+        <Container className="py-16">
           <Card className="p-12 text-center mt-12">
             <H2 className="mb-4">CHAT NOT AVAILABLE</H2>
             <Body className="text-gray-600 mb-6">
@@ -151,12 +156,14 @@ export default function EventChatPage() {
   if (chatRoom.status === 'archived') {
     return (
       <Section className="min-h-screen bg-white">
-        <Container>
-          <Section className="border-b-2 border-black py-8 mb-8">
-            <Badge className="bg-gray-500 text-white mb-2">Archived</Badge>
-            <Display>{chatRoom.event_title}</Display>
-            <Body className="mt-2 text-gray-600">Event Chat Archive</Body>
-          </Section>
+        <Navigation />
+        <Container className="py-16">
+          <Stack gap={8}>
+          <Stack gap={2} className="border-b-2 border-black pb-8">
+            <Badge className="bg-grey-500 text-white mb-2">Archived</Badge>
+            <H1>{chatRoom.event_title}</H1>
+            <Body className="text-grey-600">Event Chat Archive</Body>
+          </Stack>
 
           <Card className="p-6">
             <Body className="text-gray-500 mb-4">
@@ -179,6 +186,7 @@ export default function EventChatPage() {
               ))}
             </Stack>
           </Card>
+          </Stack>
         </Container>
       </Section>
     );
@@ -186,16 +194,17 @@ export default function EventChatPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Container>
-        <Section className="border-b-2 border-black py-8 mb-8">
-          <Stack direction="horizontal" className="justify-between items-start">
-            <Stack>
-              <Badge className="bg-green-500 text-white mb-2">Live</Badge>
-              <Display>{chatRoom.event_title}</Display>
-              <Body className="mt-2 text-gray-600">
-                {chatRoom.participant_count} fans chatting
-              </Body>
-            </Stack>
+      <Navigation />
+      <Container className="py-16">
+        <Stack gap={8}>
+        <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
+          <Stack gap={2}>
+            <Badge className="bg-green-500 text-white w-fit">Live</Badge>
+            <H1>{chatRoom.event_title}</H1>
+            <Body className="text-grey-600">
+              {chatRoom.participant_count} fans chatting
+            </Body>
+          </Stack>
             <Stack direction="horizontal" gap={2}>
               <Button variant="outline" onClick={() => setShowRules(!showRules)}>
                 Rules
@@ -204,8 +213,7 @@ export default function EventChatPage() {
                 Event Details
               </Button>
             </Stack>
-          </Stack>
-        </Section>
+        </Stack>
 
         {error && (
           <Alert variant="error" className="mb-6">
@@ -331,6 +339,7 @@ export default function EventChatPage() {
             </Card>
           </Stack>
         </Grid>
+        </Stack>
       </Container>
     </Section>
   );

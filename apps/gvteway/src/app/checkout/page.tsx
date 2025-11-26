@@ -3,7 +3,8 @@
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 
-import { Container, Section, Display, H2, H3, Body, Button, Input, Select, Card, Grid, Badge, Stack, LoadingSpinner } from '@ghxstship/ui';
+import { Navigation } from '../../components/navigation';
+import { Container, Section, H1, H2, H3, Body, Button, Input, Select, Card, Grid, Badge, Stack, LoadingSpinner } from '@ghxstship/ui';
 import { CreditCard, Lock, Check } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 
@@ -120,17 +121,24 @@ function CheckoutContent() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" text="Loading checkout..." />
+      <Section className="min-h-screen bg-white">
+        <Navigation />
+        <Container className="flex min-h-[60vh] items-center justify-center">
+          <LoadingSpinner size="lg" text="Loading checkout..." />
+        </Container>
       </Section>
     );
   }
 
   return (
-    <Section className="min-h-screen bg-white py-12">
-      <Container>
+    <Section className="min-h-screen bg-white">
+      <Navigation />
+      <Container className="py-16">
         <Stack gap={8} className="max-w-4xl mx-auto">
-          <Display>CHECKOUT</Display>
+          <Stack gap={2} className="border-b-2 border-black pb-8">
+            <H1>Checkout</H1>
+            <Body className="text-grey-600">Complete your purchase securely</Body>
+          </Stack>
 
           {/* Progress Steps */}
           <Stack gap={2} direction="horizontal" className="justify-between">
@@ -293,7 +301,7 @@ function CheckoutContent() {
               <Card className="w-16 h-16 mx-auto mb-4 rounded-full bg-black flex items-center justify-center">
                 <Check className="w-8 h-8 text-white" />
               </Card>
-              <Display size="md" className="mb-2">ORDER CONFIRMED!</Display>
+              <H1 className="mb-2">Order Confirmed!</H1>
               <Body className="text-grey-600 mb-6">Order #{orderId || 'PROCESSING'}</Body>
               <Card className="p-6 bg-grey-50 mb-6">
                 <Body className="mb-4">Tickets have been sent to:</Body>
@@ -318,8 +326,11 @@ function CheckoutContent() {
 export default function CheckoutPage() {
   return (
     <Suspense fallback={
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" text="Loading checkout..." />
+      <Section className="min-h-screen bg-white">
+        <Navigation />
+        <Container className="flex min-h-[60vh] items-center justify-center">
+          <LoadingSpinner size="lg" text="Loading checkout..." />
+        </Container>
       </Section>
     }>
       <CheckoutContent />

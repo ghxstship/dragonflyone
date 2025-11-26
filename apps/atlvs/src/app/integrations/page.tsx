@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { Container, H1, H2, H3, Body, Button, Card, Field, Label, Input, Select, Badge, Alert, Stack, Grid, StatCard } from '@ghxstship/ui';
+import { Navigation } from '../../components/navigation';
+import { Container, Section, Display, H2, H3, Body, Button, Card, Field, Label, Input, Select, Badge, Alert, Stack, Grid, StatCard } from '@ghxstship/ui';
 
 export default function IntegrationsPage() {
   const [dealId, setDealId] = useState('');
@@ -41,18 +42,20 @@ export default function IntegrationsPage() {
   };
 
   return (
-    <Container size="xl" className="py-12">
-      <Stack gap={8}>
-        <Stack gap={4}>
-          <H1>ATLVS Cross-Platform Integrations</H1>
-          <Body className="text-gray-400">
-            Manage data synchronization between ATLVS, COMPVSS, and GVTEWAY platforms.
-          </Body>
-        </Stack>
+    <Section className="min-h-screen bg-ink-950 text-ink-50">
+      <Navigation />
+      <Container className="py-16">
+        <Stack gap={8}>
+          <Stack gap={2} className="border-b border-ink-800 pb-8">
+            <Display>CROSS-PLATFORM INTEGRATIONS</Display>
+            <Body className="text-ink-400">
+              Manage data synchronization between ATLVS, COMPVSS, and GVTEWAY platforms.
+            </Body>
+          </Stack>
 
-        <Card className="p-8">
-          <H2>Deal → Project Handoff (ATLVS → COMPVSS)</H2>
-          <Body className="mt-2 mb-6 text-gray-400">
+        <Card className="p-8 border-2 border-ink-800 bg-transparent">
+          <H2 className="text-white">Deal → Project Handoff (ATLVS → COMPVSS)</H2>
+          <Body className="mt-2 mb-6 text-ink-400">
             Automatically create a COMPVSS project when a deal is marked as won.
           </Body>
 
@@ -104,9 +107,9 @@ export default function IntegrationsPage() {
           )}
         </Card>
 
-        <Card className="p-8">
-          <H2>Integration Status Dashboard</H2>
-          <Body className="mt-2 mb-6 text-gray-400">
+        <Card className="p-8 border-2 border-ink-800 bg-transparent">
+          <H2 className="text-white">Integration Status Dashboard</H2>
+          <Body className="mt-2 mb-6 text-ink-400">
             Monitor active sync jobs and integration health.
           </Body>
 
@@ -114,58 +117,59 @@ export default function IntegrationsPage() {
             <StatCard
               value={12}
               label="ATLVS → COMPVSS"
-              className="border-grey-700"
+              className="border-ink-700 bg-transparent"
             />
             <StatCard
               value={8}
               label="COMPVSS → GVTEWAY"
-              className="border-grey-700"
+              className="border-ink-700 bg-transparent"
             />
             <StatCard
               value={24}
               label="GVTEWAY → ATLVS"
-              className="border-grey-700"
+              className="border-ink-700 bg-transparent"
             />
           </Grid>
         </Card>
 
-        <Card className="p-8">
-          <H2>Workflow Templates</H2>
-          <Body className="mt-2 mb-6 text-gray-400">
+        <Card className="p-8 border-2 border-ink-800 bg-transparent">
+          <H2 className="text-white">Workflow Templates</H2>
+          <Body className="mt-2 mb-6 text-ink-400">
             Pre-configured integration workflows for common scenarios.
           </Body>
 
           <Stack gap={4}>
-            <Card className="border-l-4 border-white pl-4 py-2 bg-transparent">
-              <H3>New Event Launch</H3>
-              <Body className="text-sm text-gray-400">
+            <Card className="border-l-4 border-white pl-4 py-2 bg-transparent border-y-0 border-r-0">
+              <H3 className="text-white">New Event Launch</H3>
+              <Body className="text-sm text-ink-400">
                 Deal (ATLVS) → Project (COMPVSS) → Event (GVTEWAY) → Revenue Tracking (ATLVS)
               </Body>
             </Card>
 
-            <Card className="border-l-4 border-gray-300 pl-4 py-2 bg-transparent">
-              <H3>Asset Deployment</H3>
-              <Body className="text-sm text-gray-400">
+            <Card className="border-l-4 border-ink-600 pl-4 py-2 bg-transparent border-y-0 border-r-0">
+              <H3 className="text-white">Asset Deployment</H3>
+              <Body className="text-sm text-ink-400">
                 Asset (ATLVS) → Project Assignment (COMPVSS) → Venue Setup (GVTEWAY)
               </Body>
             </Card>
 
-            <Card className="border-l-4 border-gray-300 pl-4 py-2 bg-transparent">
-              <H3>Crew Onboarding</H3>
-              <Body className="text-sm text-gray-400">
+            <Card className="border-l-4 border-ink-600 pl-4 py-2 bg-transparent border-y-0 border-r-0">
+              <H3 className="text-white">Crew Onboarding</H3>
+              <Body className="text-sm text-ink-400">
                 Employee (ATLVS) → Crew Assignment (COMPVSS) → Access Credentials (GVTEWAY)
               </Body>
             </Card>
 
-            <Card className="border-l-4 border-gray-300 pl-4 py-2 bg-transparent">
-              <H3>Financial Reconciliation</H3>
-              <Body className="text-sm text-gray-400">
+            <Card className="border-l-4 border-ink-600 pl-4 py-2 bg-transparent border-y-0 border-r-0">
+              <H3 className="text-white">Financial Reconciliation</H3>
+              <Body className="text-sm text-ink-400">
                 Ticket Sales (GVTEWAY) → Project Budget (COMPVSS) → General Ledger (ATLVS)
               </Body>
             </Card>
           </Stack>
         </Card>
-      </Stack>
-    </Container>
+        </Stack>
+      </Container>
+    </Section>
   );
 }

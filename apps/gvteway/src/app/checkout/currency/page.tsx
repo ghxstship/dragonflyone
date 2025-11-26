@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Navigation } from "../../../components/navigation";
 import {
   Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
+  Section, Card, Tabs, TabsList, Tab, TabPanel, Badge,
   Modal, ModalHeader, ModalBody, ModalFooter,
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
 } from "@ghxstship/ui";
@@ -51,12 +52,13 @@ export default function CurrencyPage() {
   const formatPrice = (amount: number, symbol: string) => `${symbol}${amount.toLocaleString()}`;
 
   return (
-    <UISection className="min-h-screen bg-white">
-      <Container className="py-8">
+    <Section className="min-h-screen bg-white">
+      <Navigation />
+      <Container className="py-16">
         <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>INTERNATIONAL CURRENCY</H1>
-            <Body className="text-gray-600">Multi-currency support with localized pricing</Body>
+          <Stack gap={2} className="border-b-2 border-black pb-8">
+            <H1>International Currency</H1>
+            <Body className="text-grey-600">Multi-currency support with localized pricing</Body>
           </Stack>
 
           <Grid cols={4} gap={6}>
@@ -263,6 +265,6 @@ export default function CurrencyPage() {
           <Button variant="solid" onClick={() => setShowAddModal(false)}>Add Currency</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </Section>
   );
 }

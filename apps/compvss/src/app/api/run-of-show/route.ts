@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { supabaseAdmin } from '@/lib/supabase';
+import { supabaseAdmin, fromDynamic } from '@/lib/supabase';
 import { apiRoute } from '@ghxstship/config/middleware';
 import { PlatformRole } from '@ghxstship/config/roles';
 
@@ -48,8 +48,7 @@ export const GET = apiRoute(
     const eventId = searchParams.get('event_id');
     const status = searchParams.get('status');
 
-    let query = supabaseAdmin
-      .from('run_of_shows')
+    let query = fromDynamic(supabaseAdmin, 'run_of_shows')
       .select(`
         *,
         project:projects(id, name, status),
@@ -96,8 +95,7 @@ export const POST = apiRoute(
     const data = createRunOfShowSchema.parse(body);
 
     // Create run of show
-    const { data: runOfShow, error: rosError } = await supabaseAdmin
-      .from('run_of_shows')
+    const { data: runOfShow, error: rosError } = await fromDynamic(supabaseAdmin, 'run_of_shows')
       .insert({
         project_id: data.project_id,
         event_id: data.event_id,
@@ -132,8 +130,7 @@ export const POST = apiRoute(
         order: index,
       }));
 
-      const { error: cuesError } = await supabaseAdmin
-        .from('run_of_show_cues')
+      const { error: cuesError } = await fromDynamic(supabaseAdmin, 'run_of_show_cues')
         .insert(cuesWithIds);
 
       if (cuesError) {
@@ -142,8 +139,7 @@ export const POST = apiRoute(
     }
 
     // Fetch complete run of show with cues
-    const { data: completeROS } = await supabaseAdmin
-      .from('run_of_shows')
+    const { data: completeROS } = await fromDynamic(supabaseAdmin, 'run_of_shows')
       .select(`
         *,
         cues:run_of_show_cues(*)

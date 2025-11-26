@@ -12,6 +12,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
+import { getBadgeVariant } from "@ghxstship/config";
 
 interface BoardMeeting {
   id: string;
@@ -27,13 +28,7 @@ interface BoardMeeting {
   [key: string]: unknown;
 }
 
-const getStatusVariant = (status: string): "solid" | "outline" | "ghost" => {
-  switch (status?.toLowerCase()) {
-    case "completed": case "approved": case "active": return "solid";
-    case "scheduled": case "pending": return "outline";
-    default: return "ghost";
-  }
-};
+const getStatusVariant = getBadgeVariant;
 
 const columns: ListPageColumn<BoardMeeting>[] = [
   { key: 'title', label: 'Meeting', accessor: 'title', sortable: true },

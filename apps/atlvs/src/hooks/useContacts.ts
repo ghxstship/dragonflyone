@@ -73,9 +73,9 @@ export function useCreateContact() {
 
   return useMutation({
     mutationFn: async (contact: Omit<Contact, 'id' | 'created_at' | 'updated_at'>) => {
-      const { data, error } = await (supabase as any)
+      const { data, error } = await supabase
         .from('contacts')
-        .insert(contact)
+        .insert(contact as any)
         .select()
         .single();
 

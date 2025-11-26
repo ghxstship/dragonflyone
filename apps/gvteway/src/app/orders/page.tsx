@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Navigation } from '../../components/navigation';
-import { Display, H2, H3, Body, Button, Card, Badge, Grid, LoadingSpinner, Container, Section, Stack, Breadcrumb, BreadcrumbItem, EmptyState } from '@ghxstship/ui';
+import { H1, H2, H3, Body, Button, Card, Badge, Grid, LoadingSpinner, Container, Section, Stack, Breadcrumb, BreadcrumbItem, EmptyState } from '@ghxstship/ui';
 import { useOrders } from '@/hooks/useOrders';
 
 export default function OrdersPage() {
@@ -13,8 +13,11 @@ export default function OrdersPage() {
 
   if (isLoading) {
     return (
-      <Section className="min-h-screen bg-black flex items-center justify-center">
-        <LoadingSpinner size="lg" text="Loading orders..." />
+      <Section className="min-h-screen bg-black text-white">
+        <Navigation />
+        <Container className="flex min-h-[60vh] items-center justify-center">
+          <LoadingSpinner size="lg" text="Loading orders..." />
+        </Container>
       </Section>
     );
   }
@@ -29,16 +32,17 @@ export default function OrdersPage() {
   return (
     <Section className="min-h-screen bg-black text-white">
       <Navigation />
-      <Container className="py-8">
+      <Container className="py-16">
+        <Stack gap={8}>
         {/* Breadcrumb */}
-        <Breadcrumb className="mb-6">
+        <Breadcrumb>
           <BreadcrumbItem href="/">Home</BreadcrumbItem>
           <BreadcrumbItem active>Orders</BreadcrumbItem>
         </Breadcrumb>
 
-        <Stack className="mb-8 border-b-2 border-grey-800 pb-8">
-          <Display>MY ORDERS</Display>
-          <Body className="mt-2 text-grey-400">Order history and ticket management</Body>
+        <Stack gap={2} className="border-b-2 border-grey-800 pb-8">
+          <H1>My Orders</H1>
+          <Body className="text-grey-400">Order history and ticket management</Body>
         </Stack>
 
         <Grid cols={3} gap={6} className="mb-8">
@@ -112,6 +116,7 @@ export default function OrdersPage() {
             </Card>
           ))}
           {filteredOrders.length === 0 && <EmptyState title="No orders found" description="You haven't placed any orders yet." />}
+        </Stack>
         </Stack>
       </Container>
     </Section>

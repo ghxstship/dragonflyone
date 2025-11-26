@@ -1,3 +1,5 @@
+'use client';
+
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
 
@@ -40,7 +42,7 @@ export function useEquipment(filters?: {
       const { data, error } = await query;
 
       if (error) throw error;
-      return data as Equipment[];
+      return (data as unknown) as Equipment[];
     },
   });
 }
@@ -56,7 +58,7 @@ export function useEquipmentItem(id: string) {
         .single();
 
       if (error) throw error;
-      return data as Equipment;
+      return (data as unknown) as Equipment;
     },
     enabled: !!id,
   });

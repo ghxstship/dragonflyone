@@ -1,3 +1,5 @@
+'use client';
+
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
 
@@ -28,7 +30,7 @@ export const useCrewSkills = (crewId?: string) => {
 
       const { data, error } = await query;
       if (error) throw error;
-      return data as CrewSkill[];
+      return (data as unknown) as CrewSkill[];
     },
   });
 };

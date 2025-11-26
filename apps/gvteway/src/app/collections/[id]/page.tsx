@@ -2,10 +2,11 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import { Navigation } from '../../../components/navigation';
 import {
   Container,
   Section,
-  Display,
+  H1,
   H2,
   Body,
   Button,
@@ -71,8 +72,11 @@ export default function CollectionPage() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" />
+      <Section className="min-h-screen bg-white">
+        <Navigation />
+        <Container className="flex min-h-[60vh] items-center justify-center">
+          <LoadingSpinner size="lg" text="Loading collection..." />
+        </Container>
       </Section>
     );
   }
@@ -80,10 +84,11 @@ export default function CollectionPage() {
   if (error || !collection) {
     return (
       <Section className="min-h-screen bg-white">
-        <Container>
-          <Stack className="items-center justify-center min-h-[60vh]" gap={4}>
-            <Display>COLLECTION NOT FOUND</Display>
-            <Body className="text-gray-600">
+        <Navigation />
+        <Container className="py-16">
+          <Stack className="items-center justify-center min-h-[40vh]" gap={4}>
+            <H1>Collection Not Found</H1>
+            <Body className="text-grey-600">
               The collection you are looking for does not exist.
             </Body>
             <Button variant="outline" onClick={() => router.push('/discover')}>
@@ -97,25 +102,25 @@ export default function CollectionPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Container>
-        <Section className="border-b-2 border-black py-8 mb-8">
-          <Stack direction="horizontal" className="justify-between items-start">
-            <Stack>
-              <Display>{collection.name.toUpperCase()}</Display>
-              {collection.description && (
-                <Body className="mt-2 text-gray-600 max-w-2xl">
-                  {collection.description}
-                </Body>
-              )}
-              <Stack direction="horizontal" gap={2} className="mt-4">
-                <Badge>{collection.events.length} events</Badge>
-              </Stack>
+      <Navigation />
+      <Container className="py-16">
+        <Stack gap={8}>
+        <Stack direction="horizontal" className="flex-col md:flex-row md:items-start md:justify-between border-b-2 border-black pb-8">
+          <Stack gap={2}>
+            <H1>{collection.name}</H1>
+            {collection.description && (
+              <Body className="text-grey-600 max-w-2xl">
+                {collection.description}
+              </Body>
+            )}
+            <Stack direction="horizontal" gap={2} className="mt-2">
+              <Badge>{collection.events.length} events</Badge>
             </Stack>
-            <Button variant="outline" onClick={() => router.push('/discover')}>
-              Back to Discover
-            </Button>
           </Stack>
-        </Section>
+          <Button variant="outline" onClick={() => router.push('/discover')}>
+            Back to Discover
+          </Button>
+        </Stack>
 
         {collection.events.length > 0 ? (
           <Grid cols={3} gap={6}>
@@ -132,9 +137,10 @@ export default function CollectionPage() {
           </Grid>
         ) : (
           <Stack className="items-center py-12">
-            <Body className="text-gray-500">No events in this collection yet.</Body>
+            <Body className="text-grey-500">No events in this collection yet.</Body>
           </Stack>
         )}
+        </Stack>
       </Container>
     </Section>
   );

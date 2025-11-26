@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useNotifications } from '@ghxstship/ui';
-import { Container, H1, H2, H3, Body, Button, Card, Badge, Grid, Stack, StatCard, Table, TableHeader, TableBody, TableRow, TableHead, TableCell, LoadingSpinner } from '@ghxstship/ui';
+import { Navigation } from '../../components/navigation';
+import { Container, Section, H1, H2, H3, Body, Button, Card, Badge, Grid, Stack, StatCard, Table, TableHeader, TableBody, TableRow, TableHead, TableCell, LoadingSpinner } from '@ghxstship/ui';
 
 interface SyncJob {
   id: string;
@@ -64,14 +65,16 @@ export default function CompvssIntegrationsPage() {
   };
 
   return (
-    <Container size="xl" className="py-12">
-      <Stack gap={8}>
-        <Stack gap={4}>
-          <H1>COMPVSS Platform Integrations</H1>
-          <Body>
-            Monitor cross-platform data synchronization and manage production workflows.
-          </Body>
-        </Stack>
+    <Section className="min-h-screen bg-black text-white">
+      <Navigation />
+      <Container className="py-16">
+        <Stack gap={8}>
+          <Stack gap={2} className="border-b border-grey-800 pb-8">
+            <H1>Platform Integrations</H1>
+            <Body className="text-grey-400">
+              Monitor cross-platform data synchronization and manage production workflows.
+            </Body>
+          </Stack>
 
         <Grid cols={3} gap={6}>
           <StatCard value={24} label="Projects from ATLVS" />
@@ -181,7 +184,8 @@ export default function CompvssIntegrationsPage() {
             </Grid>
           </Stack>
         </Card>
-      </Stack>
-    </Container>
+        </Stack>
+      </Container>
+    </Section>
   );
 }

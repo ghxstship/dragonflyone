@@ -41,7 +41,7 @@ export function useShipments(filters?: LogisticsFilters) {
 
       const { data, error } = await query;
       if (error) throw error;
-      return data as Shipment[];
+      return (data as unknown) as Shipment[];
     },
   });
 }
@@ -58,7 +58,7 @@ export function useShipment(id: string) {
         .single();
 
       if (error) throw error;
-      return data as Shipment;
+      return (data as unknown) as Shipment;
     },
     enabled: !!id,
   });

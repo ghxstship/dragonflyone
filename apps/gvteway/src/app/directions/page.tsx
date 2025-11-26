@@ -2,10 +2,11 @@
 
 import { useState, useEffect, useCallback, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { Navigation } from '../../components/navigation';
 import {
   Container,
   Section,
-  Display,
+  H1,
   H2,
   H3,
   Body,
@@ -189,8 +190,11 @@ function DirectionsContent() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" />
+      <Section className="min-h-screen bg-white">
+        <Navigation />
+        <Container className="flex min-h-[60vh] items-center justify-center">
+          <LoadingSpinner size="lg" text="Loading directions..." />
+        </Container>
       </Section>
     );
   }
@@ -199,13 +203,14 @@ function DirectionsContent() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Container>
-        <Section className="border-b-2 border-black py-8 mb-8">
-          <Stack direction="horizontal" className="justify-between items-center">
-            <Stack>
-              <Display>DIRECTIONS & PARKING</Display>
+      <Navigation />
+      <Container className="py-16">
+        <Stack gap={8}>
+          <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
+            <Stack gap={2}>
+              <H1>Directions & Parking</H1>
               {venue && (
-                <Body className="mt-2 text-gray-600">
+                <Body className="text-grey-600">
                   {venue.name} • {venue.address}, {venue.city}, {venue.state}
                 </Body>
               )}
@@ -214,7 +219,6 @@ function DirectionsContent() {
               Get My Location
             </Button>
           </Stack>
-        </Section>
 
         {error && (
           <Alert variant="error" className="mb-6" onClose={() => setError(null)}>
@@ -435,6 +439,7 @@ function DirectionsContent() {
             )}
           </Stack>
         </Grid>
+        </Stack>
       </Container>
     </Section>
   );
@@ -443,8 +448,11 @@ function DirectionsContent() {
 export default function DirectionsPage() {
   return (
     <Suspense fallback={
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" />
+      <Section className="min-h-screen bg-white">
+        <Navigation />
+        <Container className="flex min-h-[60vh] items-center justify-center">
+          <LoadingSpinner size="lg" text="Loading directions..." />
+        </Container>
       </Section>
     }>
       <DirectionsContent />

@@ -1,37 +1,29 @@
+'use client';
+
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
+import type { Tables, TablesInsert, TablesUpdate } from '@ghxstship/config';
 
-export interface Certification {
-  id: string;
-  crew_id: string;
-  name: string;
-  type: string;
-  issuer: string;
-  issue_date: string;
-  expiry_date?: string;
-  status: 'active' | 'expiring_soon' | 'expired';
-  document_url?: string;
-  metadata?: Record<string, any>;
-  created_at?: string;
-  updated_at?: string;
-}
+export type CrewCertification = Tables<'crew_certifications'>;
+export type CrewCertificationInsert = TablesInsert<'crew_certifications'>;
+export type CrewCertificationUpdate = TablesUpdate<'crew_certifications'>;
 
-export const useCertifications = (crewId?: string) => {
+export const useCertifications = (crewMemberId?: string) => {
   return useQuery({
-    queryKey: ['certifications', crewId],
+    queryKey: ['crew_certifications', crewMemberId],
     queryFn: async () => {
       let query = supabase
-        .from('certifications')
+        .from('crew_certifications')
         .select('*')
-        .order('expiry_date');
+        .order('expiration_date');
 
-      if (crewId) {
-        query = query.eq('crew_id', crewId);
+      if (crewMemberId) {
+        query = query.eq('crew_member_id', crewMemberId);
       }
 
       const { data, error } = await query;
       if (error) throw error;
-      return data as Certification[];
+      return data;
     },
   });
 };
@@ -40,9 +32,9 @@ export const useAddCertification = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (cert: Omit<Certification, 'id' | 'created_at' | 'updated_at'>) => {
+    mutationFn: async (cert: CrewCertificationInsert) => {
       const { data, error } = await supabase
-        .from('certifications')
+        .from('crew_certifications')
         .insert(cert)
         .select()
         .single();
@@ -50,7 +42,7 @@ export const useAddCertification = () => {
       return data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['certifications'] });
+      queryClient.invalidateQueries({ queryKey: ['crew_certifications'] });
     },
   });
 };
@@ -59,9 +51,9 @@ export const useUpdateCertification = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ id, ...updates }: Partial<Certification> & { id: string }) => {
+    mutationFn: async ({ id, ...updates }: CrewCertificationUpdate & { id: string }) => {
       const { data, error } = await supabase
-        .from('certifications')
+        .from('crew_certifications')
         .update(updates)
         .eq('id', id)
         .select()
@@ -70,7 +62,7 @@ export const useUpdateCertification = () => {
       return data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['certifications'] });
+      queryClient.invalidateQueries({ queryKey: ['crew_certifications'] });
     },
   });
 };
@@ -81,13 +73,13 @@ export const useDeleteCertification = () => {
   return useMutation({
     mutationFn: async (id: string) => {
       const { error } = await supabase
-        .from('certifications')
+        .from('crew_certifications')
         .delete()
         .eq('id', id);
       if (error) throw error;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['certifications'] });
+      queryClient.invalidateQueries({ queryKey: ['crew_certifications'] });
     },
   });
 };

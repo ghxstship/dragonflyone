@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { supabaseAdmin } from '@/lib/supabase';
+import { supabaseAdmin, fromDynamic } from '@/lib/supabase';
 import { apiRoute } from '@ghxstship/config/middleware';
 
 const createNotificationSchema = z.object({
@@ -91,12 +91,11 @@ export const POST = apiRoute(
     }
 
     for (const recipientId of data.recipient_ids) {
-      await supabaseAdmin
-        .from('notification_channels')
+      await fromDynamic(supabaseAdmin, 'notification_channels')
         .select('*')
         .eq('user_id', recipientId)
         .eq('enabled', true)
-        .then(({ data: channels }: any) => {
+        .then(({ data: channels }: { data: any }) => {
           channels?.forEach(async (channel: any) => {
             if (channel.type === 'realtime') {
               await supabaseAdmin

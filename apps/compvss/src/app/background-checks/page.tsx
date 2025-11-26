@@ -14,6 +14,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from "@ghxstship/ui";
+import { getBadgeVariant } from "@ghxstship/config";
 
 interface BackgroundCheck {
   id: string;
@@ -39,13 +40,7 @@ const mockChecks: BackgroundCheck[] = [
   { id: "BGC-006", crewMemberId: "CRW-106", crewMemberName: "Lisa Park", department: "Audio", checkType: "Enhanced", status: "Cleared", submittedDate: "2024-08-01", completedDate: "2024-08-10", expirationDate: "2024-12-10", provider: "Checkr", daysUntilExpiry: 15 },
 ];
 
-const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
-  switch (status) {
-    case "Cleared": return 'solid';
-    case "Expired": case "Flagged": return 'solid';
-    default: return 'outline';
-  }
-};
+const getStatusVariant = getBadgeVariant;
 
 const getExpiryLabel = (days?: number) => {
   if (days === undefined) return '—';

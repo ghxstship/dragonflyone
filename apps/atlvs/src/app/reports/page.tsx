@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { useNotifications } from '@ghxstship/ui';
-import { Container, Section, Display, H2, H3, Body, Button, Card, Grid, Select, LoadingSpinner, ProgressBar, Stack } from '@ghxstship/ui';
+import { Navigation } from '../../components/navigation';
+import { Container, Section, H1, H2, H3, Body, Button, Card, Grid, Select, LoadingSpinner, ProgressBar, Stack, Display } from '@ghxstship/ui';
 import { Download, TrendingUp, DollarSign, Users, Package } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 
@@ -84,35 +85,40 @@ export default function ReportsPage() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" text="Loading reports..." />
+      <Section className="min-h-screen bg-ink-950 text-ink-50">
+        <Navigation />
+        <Container className="flex min-h-[60vh] items-center justify-center">
+          <LoadingSpinner size="lg" text="Loading reports..." />
+        </Container>
       </Section>
     );
   }
 
   if (!analytics) {
     return (
-      <Section className="min-h-screen bg-white py-8">
-        <Container>
-          <Display className="mb-2">EXECUTIVE REPORTS</Display>
-          <Body className="text-grey-600">No data available</Body>
+      <Section className="min-h-screen bg-ink-950 text-ink-50">
+        <Navigation />
+        <Container className="py-16">
+          <H1 className="mb-2">Executive Reports</H1>
+          <Body className="text-ink-400">No data available</Body>
         </Container>
       </Section>
     );
   }
 
   return (
-    <Section className="min-h-screen bg-white py-8">
-      <Container>
+    <Section className="min-h-screen bg-ink-950 text-ink-50">
+      <Navigation />
+      <Container className="py-16">
         <Stack gap={8}>
-          <Stack gap={4} direction="horizontal" className="justify-between items-start">
+          <Stack gap={4} direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b border-ink-800 pb-8">
             <Stack gap={2}>
-              <Display>EXECUTIVE REPORTS</Display>
-              <Body className="text-grey-600">Business intelligence and analytics dashboard</Body>
+              <H1>Executive Reports</H1>
+              <Body className="text-ink-400">Business intelligence and analytics dashboard</Body>
             </Stack>
             <Stack gap={3} direction="horizontal">
               <Select 
-                className="w-48"
+                className="w-48 bg-ink-900 border-ink-700 text-white"
                 value={timeRange}
                 onChange={(e) => setTimeRange(e.target.value)}
               >

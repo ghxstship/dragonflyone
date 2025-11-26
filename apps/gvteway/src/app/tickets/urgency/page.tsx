@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { Navigation } from "../../../components/navigation";
 import {
   Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge, ProgressBar,
+  Section, Card, Tabs, TabsList, Tab, TabPanel, Badge, ProgressBar,
   Modal, ModalHeader, ModalBody, ModalFooter,
 } from "@ghxstship/ui";
 
@@ -76,12 +77,13 @@ export default function UrgencyTacticsPage() {
     mockTactics.filter(t => t.status.toLowerCase() === activeTab);
 
   return (
-    <UISection className="min-h-screen bg-white">
-      <Container className="py-8">
+    <Section className="min-h-screen bg-white">
+      <Navigation />
+      <Container className="py-16">
         <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>URGENCY TACTICS</H1>
-            <Body className="text-gray-600">Countdown timers and low inventory alerts</Body>
+          <Stack gap={2} className="border-b-2 border-black pb-8">
+            <H1>Urgency Tactics</H1>
+            <Body className="text-grey-600">Countdown timers and low inventory alerts</Body>
           </Stack>
 
           <Card className="border-2 border-red-500 p-6 bg-red-50">
@@ -269,6 +271,6 @@ export default function UrgencyTacticsPage() {
           <Button variant="solid" onClick={() => setShowCreateModal(false)}>Create</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </Section>
   );
 }

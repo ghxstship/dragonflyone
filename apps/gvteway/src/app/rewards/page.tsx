@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { Container, Section, Display, H2, H3, Body, Button, Card, Grid, Badge, ProgressBar, LoadingSpinner, EmptyState, Stack } from '@ghxstship/ui';
+import { Navigation } from '../../components/navigation';
+import { Container, Section, H1, H2, H3, Body, Button, Card, Grid, Badge, ProgressBar, LoadingSpinner, EmptyState, Stack } from '@ghxstship/ui';
 import { Award, Gift, Star, TrendingUp, Ticket, Zap } from 'lucide-react';
 
 interface Reward {
@@ -110,17 +111,21 @@ export default function RewardsPage() {
   }
 
   return (
-    <Section className="min-h-screen bg-white py-12">
-      <Container>
+    <Section className="min-h-screen bg-white">
+      <Navigation />
+      <Container className="py-16">
         <Stack gap={8}>
-          <Display>REWARDS PROGRAM</Display>
+          <Stack gap={2} className="border-b-2 border-black pb-8">
+            <H1>Rewards Program</H1>
+            <Body className="text-grey-600">Earn points and unlock exclusive perks</Body>
+          </Stack>
 
           {/* Points Balance */}
           <Card className="p-8 bg-black text-white">
             <Grid cols={2} gap={8}>
               <Stack gap={2}>
                 <Body className="text-grey-400">Your Points</Body>
-                <Display size="lg">{userPoints.toLocaleString()}</Display>
+                <H1 className="text-5xl text-white">{userPoints.toLocaleString()}</H1>
                 <Badge variant="outline" className="mt-4 border-white text-white bg-transparent">
                   {userTier} Member
                 </Badge>
@@ -174,7 +179,7 @@ export default function RewardsPage() {
                         {reward.type}
                       </Badge>
                       <Stack className="text-right">
-                        <Display size="md">{reward.points}</Display>
+                        <H2>{reward.points}</H2>
                         <Body className="text-sm text-grey-600">points</Body>
                       </Stack>
                     </Stack>

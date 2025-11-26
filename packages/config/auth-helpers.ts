@@ -13,7 +13,7 @@ export { SupabaseClient };
  * added to supabase-types.ts yet.
  */
 export function fromUntyped(client: TypedSupabaseClient, table: string) {
-  return (client as SupabaseClient<Record<string, unknown>>).from(table);
+  return (client as unknown as SupabaseClient).from(table);
 }
 
 export interface AuthUser {

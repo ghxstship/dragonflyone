@@ -12,6 +12,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
+import { getBadgeVariant } from "@ghxstship/config";
 
 interface Subsidiary {
   id: string;
@@ -38,13 +39,7 @@ const formatCurrency = (amount: number) => {
   return `$${amount.toFixed(0)}`;
 };
 const formatDate = (dateString: string) => new Date(dateString).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
-const getStatusVariant = (status: string): "solid" | "outline" | "ghost" => {
-  switch (status?.toLowerCase()) {
-    case "active": return "solid";
-    case "pending": return "outline";
-    default: return "ghost";
-  }
-};
+const getStatusVariant = getBadgeVariant;
 
 const columns: ListPageColumn<Subsidiary>[] = [
   { key: 'name', label: 'Entity Name', accessor: 'name', sortable: true },

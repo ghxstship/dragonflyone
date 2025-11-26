@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Navigation } from "../../components/navigation";
 import {
   Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge, Alert,
+  Section, Card, Tabs, TabsList, Tab, TabPanel, Badge, Alert,
   Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
 } from "@ghxstship/ui";
 
@@ -63,12 +64,13 @@ export default function AccessibilityPage() {
   };
 
   return (
-    <UISection className="min-h-screen bg-white">
-      <Container className="py-8">
+    <Section className="min-h-screen bg-white">
+      <Navigation />
+      <Container className="py-16">
         <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>ACCESSIBILITY SERVICES</H1>
-            <Body className="text-gray-600">ADA accommodations and accessibility support for all guests</Body>
+          <Stack gap={2} className="border-b-2 border-black pb-8">
+            <H1>Accessibility Services</H1>
+            <Body className="text-grey-600">ADA accommodations and accessibility support for all guests</Body>
           </Stack>
 
           <Alert variant="info">
@@ -245,6 +247,6 @@ export default function AccessibilityPage() {
           <Button variant="outline">Modify Request</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </Section>
   );
 }

@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Navigation } from "../../../components/navigation";
 import {
   Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
+  Section, Card, Tabs, TabsList, Tab, TabPanel, Badge,
   Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
 } from "@ghxstship/ui";
 
@@ -47,12 +48,13 @@ export default function ContentCalendarPage() {
   };
 
   return (
-    <UISection className="min-h-screen bg-white">
-      <Container className="py-8">
+    <Section className="min-h-screen bg-white">
+      <Navigation />
+      <Container className="py-16">
         <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>CONTENT CALENDAR</H1>
-            <Body className="text-gray-600">Schedule and manage social media content</Body>
+          <Stack gap={2} className="border-b-2 border-black pb-8">
+            <H1>Content Calendar</H1>
+            <Body className="text-grey-600">Schedule and manage social media content</Body>
           </Stack>
 
           <Grid cols={4} gap={6}>
@@ -168,6 +170,6 @@ export default function ContentCalendarPage() {
           <Button variant="solid" onClick={() => setShowCreateModal(false)}>Schedule</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </Section>
   );
 }

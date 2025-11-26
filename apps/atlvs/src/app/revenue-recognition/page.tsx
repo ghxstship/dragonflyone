@@ -1,8 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+import { Navigation } from '../../components/navigation';
 import { useRevenueRecognition } from '@/hooks/useRevenueRecognition';
-import { Display, H2, H3, Body, Label, Button, Card, CardHeader, CardBody, StatCard, Container, Alert, Stack, Grid, Badge } from '@ghxstship/ui';
+import { Section, H1, H2, H3, Body, Label, Button, Card, CardHeader, CardBody, StatCard, Container, Alert, Stack, Grid, Badge, LoadingSpinner } from '@ghxstship/ui';
 
 export default function RevenueRecognitionPage() {
   const {
@@ -59,29 +60,32 @@ export default function RevenueRecognitionPage() {
 
   if (loading) {
     return (
-      <Container>
-        <Stack gap={8} className="py-8 items-center">
-          <Body>Loading revenue recognition data...</Body>
-        </Stack>
-      </Container>
+      <Section className="min-h-screen bg-ink-950 text-ink-50">
+        <Navigation />
+        <Container className="flex min-h-[60vh] items-center justify-center">
+          <LoadingSpinner size="lg" text="Loading revenue recognition data..." />
+        </Container>
+      </Section>
     );
   }
 
   return (
-    <Container>
-      <Stack gap={8} className="py-8">
-        {/* Header */}
-        <Stack direction="horizontal" className="justify-between items-center">
-          <Stack gap={2}>
-            <Display size="lg">Revenue Recognition</Display>
-            <Body className="text-grey-500">
-              Manage revenue recognition rules and schedules
-            </Body>
+    <Section className="min-h-screen bg-ink-950 text-ink-50">
+      <Navigation />
+      <Container className="py-16">
+        <Stack gap={8}>
+          {/* Header */}
+          <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b border-ink-800 pb-8">
+            <Stack gap={2}>
+              <H1>Revenue Recognition</H1>
+              <Body className="text-ink-400">
+                Manage revenue recognition rules and schedules
+              </Body>
+            </Stack>
+            <Button variant="solid" onClick={() => setShowCreateForm(true)}>
+              Create Rule
+            </Button>
           </Stack>
-          <Button variant="solid" onClick={() => setShowCreateForm(true)}>
-            Create Rule
-          </Button>
-        </Stack>
 
         {error && (
           <Alert variant="error">
@@ -287,7 +291,8 @@ export default function RevenueRecognitionPage() {
             </CardBody>
           </Card>
         )}
-      </Stack>
-    </Container>
+        </Stack>
+      </Container>
+    </Section>
   );
 }

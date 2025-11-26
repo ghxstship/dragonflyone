@@ -28,7 +28,11 @@
     "./kpi-definitions": "./kpi-definitions.ts",
     "./types/kpi-types": "./types/kpi-types.ts",
     "./i18n": "./i18n/index.ts",
-    "./i18n/translations": "./i18n/translations/index.ts"
+    "./i18n/translations": "./i18n/translations/index.ts",
+    "./hooks": "./hooks/index.ts",
+    "./hooks/useAuth": "./hooks/useAuth.ts",
+    "./hooks/useRealtime": "./hooks/useRealtime.ts",
+    "./hooks/useAdvancingCatalog": "./hooks/useAdvancingCatalog.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.5.2",

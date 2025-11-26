@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { Navigation } from '../../../../components/navigation';
 import {
   Container,
   Section,
@@ -157,12 +158,13 @@ export default function CashlessPaymentPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Container className="py-8">
+      <Navigation />
+      <Container className="py-16">
         <Stack gap={8}>
-          <Stack direction="horizontal" className="justify-between items-start">
+          <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
             <Stack gap={2}>
-              <H1>CASHLESS PAYMENTS</H1>
-              <Body className="text-gray-600">Manage payment terminals and cashless transactions</Body>
+              <H1>Cashless Payments</H1>
+              <Body className="text-grey-600">Manage payment terminals and cashless transactions</Body>
             </Stack>
             <Stack direction="horizontal" gap={2}>
               <Button variant="outline" onClick={() => router.push('/admin/pos')}>

@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Navigation } from "../../../components/navigation";
 import {
   Container, H1, H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select,
-  Button, Section as UISection, Card, Tabs, TabsList, Tab, TabPanel,
+  Button, Section, Card, Tabs, TabsList, Tab, TabPanel,
   Modal, ModalHeader, ModalBody, ModalFooter, Badge, Alert,
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
 } from "@ghxstship/ui";
@@ -86,13 +87,14 @@ export default function POSPage() {
   };
 
   return (
-    <UISection className="min-h-screen bg-white">
-      <Container className="py-8">
+    <Section className="min-h-screen bg-white">
+      <Navigation />
+      <Container className="py-16">
         <Stack gap={8}>
-          <Stack direction="horizontal" className="justify-between items-center">
+          <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
             <Stack gap={2}>
-              <H1>POINT OF SALE</H1>
-              <Body className="text-gray-600">Box office, concessions, and merchandise sales</Body>
+              <H1>Point of Sale</H1>
+              <Body className="text-grey-600">Box office, concessions, and merchandise sales</Body>
             </Stack>
             <Badge variant="solid">Terminal: Box Office 1</Badge>
           </Stack>
@@ -281,6 +283,6 @@ export default function POSPage() {
           <Button variant="solid" onClick={() => { setShowPaymentModal(false); setCart([]); }}>Complete Sale</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </Section>
   );
 }

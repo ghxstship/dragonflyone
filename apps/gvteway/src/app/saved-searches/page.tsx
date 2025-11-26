@@ -2,10 +2,11 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { Navigation } from '../../components/navigation';
 import {
   Container,
   Section,
-  Display,
+  H1,
   H2,
   H3,
   Body,
@@ -187,28 +188,31 @@ export default function SavedSearchesPage() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" />
+      <Section className="min-h-screen bg-white">
+        <Navigation />
+        <Container className="flex min-h-[60vh] items-center justify-center">
+          <LoadingSpinner size="lg" text="Loading..." />
+        </Container>
       </Section>
     );
   }
 
   return (
     <Section className="min-h-screen bg-white">
-      <Container>
-        <Section className="border-b-2 border-black py-8 mb-8">
-          <Stack direction="horizontal" className="justify-between items-center">
-            <Stack>
-              <Display>SAVED SEARCHES</Display>
-              <Body className="mt-2 text-gray-600">
-                Get notified when new events match your criteria
-              </Body>
-            </Stack>
-            <Button variant="solid" onClick={() => setShowCreateModal(true)}>
-              CREATE SEARCH
-            </Button>
+      <Navigation />
+      <Container className="py-16">
+        <Stack gap={8}>
+        <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
+          <Stack gap={2}>
+            <H1>Saved Searches</H1>
+            <Body className="text-grey-600">
+              Get notified when new events match your criteria
+            </Body>
           </Stack>
-        </Section>
+          <Button variant="solid" onClick={() => setShowCreateModal(true)}>
+            Create Search
+          </Button>
+        </Stack>
 
         {error && (
           <Alert variant="error" className="mb-6">
@@ -432,6 +436,7 @@ export default function SavedSearchesPage() {
             </Stack>
           </form>
         </Modal>
+        </Stack>
       </Container>
     </Section>
   );

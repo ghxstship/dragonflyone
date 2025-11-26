@@ -1,12 +1,13 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { Navigation } from '../../components/navigation';
 import { useCrew } from '../../hooks/useCrew';
 import { useEquipment } from '../../hooks/useEquipment';
 import {
   Container,
   Section,
-  Display,
+  H1,
   H2,
   Body,
   Button,
@@ -46,11 +47,13 @@ export default function CompvssDashboardPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Container>
+      <Navigation />
+      <Container className="py-16">
+        <Stack gap={8}>
         {/* Header */}
-        <Stack gap={2} className="border-b-2 border-black py-8 mb-8">
-          <Display>PRODUCTION OPERATIONS</Display>
-          <Body>Welcome back, {user.name}</Body>
+        <Stack gap={2} className="border-b-2 border-black pb-8">
+          <H1>Production Operations</H1>
+          <Body className="text-grey-600">Welcome back, {user.name}</Body>
         </Stack>
 
         {/* Production Manager View */}
@@ -253,6 +256,7 @@ export default function CompvssDashboardPage() {
             </Grid>
           </>
         )}
+        </Stack>
       </Container>
     </Section>
   );

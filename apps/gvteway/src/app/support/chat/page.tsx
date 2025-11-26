@@ -2,10 +2,11 @@
 
 import { useState, useEffect, useCallback, useRef, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { Navigation } from '../../../components/navigation';
 import {
   Container,
   Section,
-  Display,
+  H1,
   H2,
   H3,
   Body,
@@ -158,28 +159,31 @@ function SupportChatContent() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" />
+      <Section className="min-h-screen bg-white">
+        <Navigation />
+        <Container className="flex min-h-[60vh] items-center justify-center">
+          <LoadingSpinner size="lg" text="Loading..." />
+        </Container>
       </Section>
     );
   }
 
   return (
     <Section className="min-h-screen bg-white">
-      <Container>
-        <Section className="border-b-2 border-black py-8 mb-8">
-          <Stack direction="horizontal" className="justify-between items-center">
-            <Stack>
-              <Display>GUEST SERVICES</Display>
-              <Body className="mt-2 text-gray-600">
-                Chat with our support team
-              </Body>
-            </Stack>
-            <Button variant="solid" onClick={() => setShowNewChat(true)}>
-              New Conversation
-            </Button>
+      <Navigation />
+      <Container className="py-16">
+        <Stack gap={8}>
+        <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
+          <Stack gap={2}>
+            <H1>Guest Services</H1>
+            <Body className="text-grey-600">
+              Chat with our support team
+            </Body>
           </Stack>
-        </Section>
+          <Button variant="solid" onClick={() => setShowNewChat(true)}>
+            New Conversation
+          </Button>
+        </Stack>
 
         <Grid cols={3} gap={6} className="min-h-[600px]">
           <Card className="p-4 overflow-y-auto max-h-[600px]">
@@ -357,6 +361,7 @@ function SupportChatContent() {
             </Stack>
           </form>
         </Modal>
+        </Stack>
       </Container>
     </Section>
   );
@@ -365,8 +370,11 @@ function SupportChatContent() {
 export default function SupportChatPage() {
   return (
     <Suspense fallback={
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" />
+      <Section className="min-h-screen bg-white">
+        <Navigation />
+        <Container className="flex min-h-[60vh] items-center justify-center">
+          <LoadingSpinner size="lg" text="Loading..." />
+        </Container>
       </Section>
     }>
       <SupportChatContent />

@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Container, Section, Display, H2, H3, Body, Button, Card, Grid, Badge, Stack, useNotifications } from '@ghxstship/ui';
+import { Navigation } from '../../components/navigation';
+import { Container, Section, H1, H2, H3, Body, Button, Card, Grid, Badge, Stack, useNotifications } from '@ghxstship/ui';
 import { Share2, ThumbsUp, MessageCircle, Users, TrendingUp, Image as ImageIcon } from 'lucide-react';
 
 export default function SocialPage() {
@@ -58,9 +59,14 @@ export default function SocialPage() {
   ];
 
   return (
-    <Section className="min-h-screen bg-white py-12">
-      <Container>
-        <Display className="mb-8">SOCIAL FEED</Display>
+    <Section className="min-h-screen bg-white">
+      <Navigation />
+      <Container className="py-16">
+        <Stack gap={8}>
+        <Stack gap={2} className="border-b-2 border-black pb-8">
+          <H1>Social Feed</H1>
+          <Body className="text-grey-600">Connect with the community</Body>
+        </Stack>
 
         <Grid cols={3} gap={6} className="mb-8">
           <Card className="col-span-2">
@@ -165,6 +171,7 @@ export default function SocialPage() {
             </Card>
           </Stack>
         </Grid>
+        </Stack>
       </Container>
     </Section>
   );

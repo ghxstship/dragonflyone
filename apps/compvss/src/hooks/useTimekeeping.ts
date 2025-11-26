@@ -65,7 +65,7 @@ export function useTimekeeping(filters?: TimeEntryFilters) {
 
       const { data, error } = await query;
       if (error) throw error;
-      return data as TimeEntry[];
+      return (data as unknown) as TimeEntry[];
     },
   });
 }
@@ -86,7 +86,7 @@ export function useTimeEntry(id: string) {
         .single();
 
       if (error) throw error;
-      return data as TimeEntry;
+      return (data as unknown) as TimeEntry;
     },
     enabled: !!id,
   });

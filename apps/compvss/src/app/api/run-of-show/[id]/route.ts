@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { supabaseAdmin } from '@/lib/supabase';
+import { supabaseAdmin, fromDynamic } from '@/lib/supabase';
 import { apiRoute } from '@ghxstship/config/middleware';
 import { PlatformRole } from '@ghxstship/config/roles';
 
@@ -27,8 +27,7 @@ export const GET = apiRoute(
   async (request: NextRequest, context: any) => {
     const { id } = context.params;
 
-    const { data: runOfShow, error } = await supabaseAdmin
-      .from('run_of_shows')
+    const { data: runOfShow, error } = await fromDynamic(supabaseAdmin, 'run_of_shows')
       .select(`
         *,
         project:projects(id, name, status, client_name),
@@ -65,8 +64,7 @@ export const PATCH = apiRoute(
     
     const updates = updateRunOfShowSchema.parse(body);
 
-    const { data: runOfShow, error } = await supabaseAdmin
-      .from('run_of_shows')
+    const { data: runOfShow, error } = await fromDynamic(supabaseAdmin, 'run_of_shows')
       .update({
         ...updates,
         updated_at: new Date().toISOString(),
@@ -97,14 +95,12 @@ export const DELETE = apiRoute(
     const { id } = context.params;
 
     // Delete all cues first
-    await supabaseAdmin
-      .from('run_of_show_cues')
+    await fromDynamic(supabaseAdmin, 'run_of_show_cues')
       .delete()
       .eq('run_of_show_id', id);
 
     // Delete run of show
-    const { error } = await supabaseAdmin
-      .from('run_of_shows')
+    const { error } = await fromDynamic(supabaseAdmin, 'run_of_shows')
       .delete()
       .eq('id', id);
 

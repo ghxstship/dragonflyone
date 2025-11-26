@@ -6,21 +6,28 @@ export {
   Label,
   Stack,
   Section,
+  Kicker,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 import { PropsWithChildren } from "react";
-import { Stack, Label, H2, Body, Card, Section as UISection } from "@ghxstship/ui";
+import { Section as UISection, SectionHeader as UISectionHeader } from "@ghxstship/ui";
 
-// Custom Section wrapper that maintains backward compatibility with local props
-type SectionProps = PropsWithChildren<{
+// Normalized Section wrapper props - consistent across all apps
+type SectionWrapperProps = PropsWithChildren<{
   id?: string;
   kicker?: string;
   title?: string;
   description?: string;
   border?: boolean;
   className?: string;
+  align?: "left" | "center";
 }>;
 
+/**
+ * Normalized Section wrapper component.
+ * Provides consistent section styling across all GHXSTSHIP apps.
+ */
 export function SectionWithBorder({
   id,
   kicker,
@@ -28,8 +35,9 @@ export function SectionWithBorder({
   description,
   border = true,
   className = "",
+  align = "left",
   children,
-}: SectionProps) {
+}: SectionWrapperProps) {
   const borderClass = border ? "border border-ink-800" : "";
   const paddingClass = border ? "p-6" : "";
 
@@ -39,28 +47,9 @@ export function SectionWithBorder({
       className={`flex flex-col gap-6 ${borderClass} ${paddingClass} ${className}`.trim()}
     >
       {(kicker || title || description) && (
-        <SectionHeader kicker={kicker} title={title} description={description} />
+        <UISectionHeader kicker={kicker} title={title} description={description} align={align} />
       )}
       {children}
     </UISection>
-  );
-}
-
-type SectionHeaderProps = {
-  kicker?: string;
-  title?: string;
-  description?: string;
-  align?: "left" | "center";
-};
-
-export function SectionHeader({ kicker, title, description, align = "left" }: SectionHeaderProps) {
-  return (
-    <Stack gap={2} className={align === "center" ? "text-center" : "text-left"}>
-      {kicker ? (
-        <Label className="font-code text-xs uppercase tracking-[0.4em] text-ink-500">{kicker}</Label>
-      ) : null}
-      {title ? <H2 className="text-3xl md:text-4xl">{title}</H2> : null}
-      {description ? <Body className="max-w-3xl text-ink-300">{description}</Body> : null}
-    </Stack>
   );
 }

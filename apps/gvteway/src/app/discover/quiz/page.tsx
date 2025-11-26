@@ -2,10 +2,11 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Navigation } from '../../../components/navigation';
 import {
   Container,
   Section,
-  Display,
+  H1,
   H2,
   H3,
   Body,
@@ -194,11 +195,14 @@ export default function DiscoveryQuizPage() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <Stack className="items-center" gap={4}>
-          <LoadingSpinner size="lg" />
-          <Body className="text-gray-600">Finding your perfect events...</Body>
-        </Stack>
+      <Section className="min-h-screen bg-white">
+        <Navigation />
+        <Container className="flex min-h-[60vh] items-center justify-center">
+          <Stack className="items-center" gap={4}>
+            <LoadingSpinner size="lg" />
+            <Body className="text-grey-600">Finding your perfect events...</Body>
+          </Stack>
+        </Container>
       </Section>
     );
   }
@@ -206,13 +210,15 @@ export default function DiscoveryQuizPage() {
   if (results) {
     return (
       <Section className="min-h-screen bg-white">
-        <Container>
-          <Section className="border-b-2 border-black py-8 mb-8">
-            <Display>YOUR RESULTS</Display>
-            <Body className="mt-2 text-gray-600">
+        <Navigation />
+        <Container className="py-16">
+          <Stack gap={8}>
+          <Stack gap={2} className="border-b-2 border-black pb-8">
+            <H1>Your Results</H1>
+            <Body className="text-grey-600">
               Based on your preferences, here&apos;s what we recommend
             </Body>
-          </Section>
+          </Stack>
 
           <Grid cols={3} gap={8}>
             <Stack className="col-span-2" gap={6}>
@@ -297,6 +303,7 @@ export default function DiscoveryQuizPage() {
               </Stack>
             </Stack>
           </Grid>
+          </Stack>
         </Container>
       </Section>
     );
@@ -306,13 +313,15 @@ export default function DiscoveryQuizPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Container>
-        <Section className="border-b-2 border-black py-8 mb-8">
-          <Display>DISCOVERY QUIZ</Display>
-          <Body className="mt-2 text-gray-600">
+      <Navigation />
+      <Container className="py-16">
+        <Stack gap={8}>
+        <Stack gap={2} className="border-b-2 border-black pb-8">
+          <H1>Discovery Quiz</H1>
+          <Body className="text-grey-600">
             Answer a few questions to find your perfect events
           </Body>
-        </Section>
+        </Stack>
 
         {error && (
           <Alert variant="error" className="mb-6">
@@ -376,6 +385,7 @@ export default function DiscoveryQuizPage() {
               {isLastQuestion ? 'Get Results' : 'Next'}
             </Button>
           </Stack>
+        </Stack>
         </Stack>
       </Container>
     </Section>

@@ -2,10 +2,11 @@
 
 import { useState, useMemo, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { Navigation } from '../../components/navigation';
 import {
   Container,
   Section,
-  Display,
+  H1,
   H2,
   H3,
   Body,
@@ -104,18 +105,22 @@ export default function CalendarPage() {
 
   if (isLoading) {
     return (
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" />
+      <Section className="min-h-screen bg-white">
+        <Navigation />
+        <Container className="flex min-h-[60vh] items-center justify-center">
+          <LoadingSpinner size="lg" text="Loading calendar..." />
+        </Container>
       </Section>
     );
   }
 
   return (
     <Section className="min-h-screen bg-white">
-      <Container>
-        <Section className="border-b-2 border-black py-8 mb-8">
-          <Stack direction="horizontal" className="justify-between items-center">
-            <Display>EVENT CALENDAR</Display>
+      <Navigation />
+      <Container className="py-16">
+        <Stack gap={8}>
+          <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
+            <H1>Event Calendar</H1>
             <Stack direction="horizontal" gap={2}>
               <Button
                 variant={viewMode === 'month' ? 'solid' : 'outline'}
@@ -131,7 +136,6 @@ export default function CalendarPage() {
               </Button>
             </Stack>
           </Stack>
-        </Section>
 
         <Grid cols={3} gap={8}>
           <Stack className="col-span-2" gap={6}>
@@ -284,7 +288,8 @@ export default function CalendarPage() {
               </Stack>
             </Card>
           </Stack>
-        </Grid>
+          </Grid>
+        </Stack>
       </Container>
     </Section>
   );

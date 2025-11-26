@@ -62,6 +62,8 @@ export { Countdown } from "./atoms/countdown.js";
 export type { CountdownProps } from "./atoms/countdown.js";
 export { UrgencyBadge } from "./atoms/urgency-badge.js";
 export type { UrgencyBadgeProps } from "./atoms/urgency-badge.js";
+export { Kicker } from "./atoms/kicker.js";
+export type { KickerProps } from "./atoms/kicker.js";
 export { HalftonePattern, HeroHalftone, GridPattern } from "./atoms/halftone-pattern.js";
 export type { HalftonePatternProps } from "./atoms/halftone-pattern.js";
 export { Avatar, AvatarGroup } from "./atoms/avatar.js";
@@ -142,6 +144,10 @@ export { BulkActionBar } from "./molecules/bulk-action-bar.js";
 export type { BulkActionBarProps, BulkAction } from "./molecules/bulk-action-bar.js";
 export { RowActions } from "./molecules/row-actions.js";
 export type { RowActionsProps, RowAction } from "./molecules/row-actions.js";
+export { SectionHeader } from "./molecules/section-header.js";
+export type { SectionHeaderProps } from "./molecules/section-header.js";
+export { ContentCard, FeatureCard } from "./molecules/content-card.js";
+export type { ContentCardProps, FeatureCardProps } from "./molecules/content-card.js";
 
 // =============================================================================
 // ORGANISMS - Complex components
@@ -182,6 +188,12 @@ export { RecordFormModal } from "./organisms/record-form-modal.js";
 export type { RecordFormModalProps, FormFieldConfig, FormStep as RecordFormStep, FieldType } from "./organisms/record-form-modal.js";
 export { ImportExportDialog } from "./organisms/import-export-dialog.js";
 export type { ImportExportDialogProps, ExportFormat, ColumnConfig, ImportTemplate } from "./organisms/import-export-dialog.js";
+export { AppNavigation } from "./organisms/app-navigation.js";
+export type { AppNavigationProps, NavItem as AppNavItem } from "./organisms/app-navigation.js";
+export { WorkflowTimeline } from "./organisms/workflow-timeline.js";
+export type { WorkflowTimelineProps, WorkflowStage } from "./organisms/workflow-timeline.js";
+export { ProtectedRoute } from "./organisms/protected-route.js";
+export type { ProtectedRouteProps } from "./organisms/protected-route.js";
 
 // =============================================================================
 // TEMPLATES - Page-level layouts
@@ -194,6 +206,10 @@ export { AppShell } from "./templates/app-shell.js";
 export type { AppShellProps } from "./templates/app-shell.js";
 export { ListPage } from "./templates/list-page.js";
 export type { ListPageProps, ListPageColumn, ListPageFilter, ListPageAction, ListPageBulkAction } from "./templates/list-page.js";
+export { ErrorPage } from "./templates/error-page.js";
+export type { ErrorPageProps } from "./templates/error-page.js";
+export { NotFoundPage } from "./templates/not-found-page.js";
+export type { NotFoundPageProps } from "./templates/not-found-page.js";
 
 // =============================================================================
 // FOUNDATIONS - Layout primitives

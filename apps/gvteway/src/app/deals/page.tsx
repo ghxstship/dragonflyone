@@ -2,10 +2,11 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { Navigation } from '../../components/navigation';
 import {
   Container,
   Section,
-  Display,
+  H1,
   H2,
   H3,
   Body,
@@ -112,23 +113,27 @@ export default function DealsPage() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" />
+      <Section className="min-h-screen bg-white">
+        <Navigation />
+        <Container className="flex min-h-[60vh] items-center justify-center">
+          <LoadingSpinner size="lg" text="Loading deals..." />
+        </Container>
       </Section>
     );
   }
 
   return (
     <Section className="min-h-screen bg-white">
-      <Container>
-        <Section className="border-b-2 border-black py-8 mb-8">
-          <Stack direction="horizontal" className="justify-between items-center">
-            <Stack>
-              <Display>DEALS & OFFERS</Display>
-              <Body className="mt-2 text-gray-600">
-                Score amazing discounts on upcoming events
-              </Body>
-            </Stack>
+      <Navigation />
+      <Container className="py-16">
+        <Stack gap={8}>
+        <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
+          <Stack gap={2}>
+            <H1>Deals & Offers</H1>
+            <Body className="text-grey-600">
+              Score amazing discounts on upcoming events
+            </Body>
+          </Stack>
             <Stack direction="horizontal" gap={4}>
               <Select
                 value={dealType}
@@ -150,9 +155,8 @@ export default function DealsPage() {
                 <option value="price">Lowest Price</option>
                 <option value="date">Event Date</option>
               </Select>
-            </Stack>
           </Stack>
-        </Section>
+        </Stack>
 
         {flashSales.length > 0 && (
           <Section className="mb-12">
@@ -326,6 +330,7 @@ export default function DealsPage() {
             </Button>
           </Stack>
         </Card>
+        </Stack>
       </Container>
     </Section>
   );

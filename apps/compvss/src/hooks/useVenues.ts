@@ -1,3 +1,5 @@
+'use client';
+
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
 
@@ -34,7 +36,7 @@ export const useVenues = (filters?: { status?: string; city?: string }) => {
 
       const { data, error } = await query;
       if (error) throw error;
-      return data as Venue[];
+      return (data as unknown) as Venue[];
     },
   });
 };

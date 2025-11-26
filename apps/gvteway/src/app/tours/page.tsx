@@ -1,11 +1,15 @@
 import { Suspense } from 'react';
-import { Section, LoadingSpinner } from '@ghxstship/ui';
+import { Navigation } from '../../components/navigation';
+import { Section, Container, LoadingSpinner } from '@ghxstship/ui';
 import ToursContent from './tours-content';
 
 function ToursLoadingFallback() {
   return (
-    <Section className="min-h-screen bg-white flex items-center justify-center">
-      <LoadingSpinner size="lg" />
+    <Section className="min-h-screen bg-white">
+      <Navigation />
+      <Container className="flex min-h-[60vh] items-center justify-center">
+        <LoadingSpinner size="lg" text="Loading tours..." />
+      </Container>
     </Section>
   );
 }

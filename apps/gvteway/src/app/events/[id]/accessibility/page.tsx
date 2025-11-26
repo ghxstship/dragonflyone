@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { useRouter, useParams } from "next/navigation";
+import { Navigation } from "../../../../components/navigation";
 import {
   Container, H1, H3, Body, Label, Grid, Stack, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
+  Section, Card, Tabs, TabsList, Tab, TabPanel, Badge,
   Modal, ModalHeader, ModalBody, ModalFooter, Input, Select, Textarea, Alert,
 } from "@ghxstship/ui";
 
@@ -64,12 +65,13 @@ export default function AccessibilityPage() {
   const [selectedService, setSelectedService] = useState<AccessibilityService | null>(null);
 
   return (
-    <UISection className="min-h-screen bg-white">
-      <Container className="py-8">
+    <Section className="min-h-screen bg-white">
+      <Navigation />
+      <Container className="py-16">
         <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>ACCESSIBILITY & AGE POLICY</H1>
-            <Body className="text-gray-600">Event accessibility services and age restrictions</Body>
+          <Stack gap={2} className="border-b-2 border-black pb-8">
+            <H1>Accessibility & Age Policy</H1>
+            <Body className="text-grey-600">Event accessibility services and age restrictions</Body>
           </Stack>
 
           <Card className="border-2 border-black p-6">
@@ -273,6 +275,6 @@ export default function AccessibilityPage() {
           <Button variant="solid" onClick={() => { setShowRequestModal(false); setSelectedService(null); }}>Submit Request</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </Section>
   );
 }

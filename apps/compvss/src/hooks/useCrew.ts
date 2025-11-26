@@ -49,7 +49,7 @@ export function useCrew(filters?: CrewFilters) {
 
       const { data, error } = await query;
       if (error) throw error;
-      return data as CrewMember[];
+      return (data as unknown) as CrewMember[];
     },
   });
 }
@@ -66,7 +66,7 @@ export function useCrewMember(id: string) {
         .single();
 
       if (error) throw error;
-      return data as CrewMember;
+      return (data as unknown) as CrewMember;
     },
     enabled: !!id,
   });

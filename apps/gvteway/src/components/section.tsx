@@ -6,18 +6,38 @@ export {
   Label,
   Stack,
   Section,
+  Kicker,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 import { PropsWithChildren } from "react";
-import { Stack, Label, H2, Body, Section as UISection } from "@ghxstship/ui";
+import { Section as UISection, SectionHeader as UISectionHeader } from "@ghxstship/ui";
 
-// Custom Section wrapper that maintains backward compatibility with local props
+// Normalized Section wrapper props - consistent across all apps
+type SectionWrapperProps = PropsWithChildren<{
+  id?: string;
+  kicker?: string;
+  title?: string;
+  description?: string;
+  border?: boolean;
+  className?: string;
+  align?: "left" | "center";
+}>;
+
+/**
+ * Normalized Section wrapper component.
+ * Provides consistent section styling across all GHXSTSHIP apps.
+ */
 export function SectionWithBorder({
   id,
-  border = false,
+  kicker,
+  title,
+  description,
+  border = true,
   className = "",
+  align = "left",
   children,
-}: PropsWithChildren<{ id?: string; border?: boolean; className?: string }>) {
+}: SectionWrapperProps) {
   const borderClass = border ? "border border-ink-800" : "";
   const paddingClass = border ? "p-6" : "";
 
@@ -26,33 +46,10 @@ export function SectionWithBorder({
       id={id}
       className={`flex flex-col gap-6 ${borderClass} ${paddingClass} ${className}`.trim()}
     >
+      {(kicker || title || description) && (
+        <UISectionHeader kicker={kicker} title={title} description={description} align={align} />
+      )}
       {children}
     </UISection>
-  );
-}
-
-export function SectionHeader({
-  kicker,
-  title,
-  description,
-  align = "left",
-}: {
-  kicker?: string;
-  title?: string;
-  description?: string;
-  align?: "left" | "center";
-}) {
-  return (
-    <Stack gap={3} className={align === "center" ? "text-center" : "text-left"}>
-      {kicker ? (
-        <Label className="font-code text-xs uppercase tracking-[0.4em] text-ink-500">{kicker}</Label>
-      ) : null}
-      {title ? <H2 className="font-display text-4xl uppercase md:text-5xl">{title}</H2> : null}
-      {description ? (
-        <Body className={`text-sm text-ink-300 md:text-base ${align === "center" ? "mx-auto max-w-2xl" : "max-w-3xl"}`}>
-          {description}
-        </Body>
-      ) : null}
-    </Stack>
   );
 }

@@ -2,10 +2,11 @@
 
 import { useState, useEffect, useCallback, useRef, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { Navigation } from '../../components/navigation';
 import {
   Container,
   Section,
-  Display,
+  H1,
   H2,
   H3,
   Body,
@@ -159,21 +160,26 @@ function MessagesContent() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" />
+      <Section className="min-h-screen bg-white">
+        <Navigation />
+        <Container className="flex min-h-[60vh] items-center justify-center">
+          <LoadingSpinner size="lg" text="Loading messages..." />
+        </Container>
       </Section>
     );
   }
 
   return (
     <Section className="min-h-screen bg-white">
-      <Container>
-        <Section className="border-b-2 border-black py-8 mb-8">
-          <Display>MESSAGES</Display>
-          <Body className="mt-2 text-gray-600">
-            Connect with other fans
-          </Body>
-        </Section>
+      <Navigation />
+      <Container className="py-16">
+        <Stack gap={8}>
+          <Stack gap={2} className="border-b-2 border-black pb-8">
+            <H1>Messages</H1>
+            <Body className="text-grey-600">
+              Connect with other fans
+            </Body>
+          </Stack>
 
         {error && (
           <Alert variant="error" className="mb-6">
@@ -365,6 +371,7 @@ function MessagesContent() {
             )}
           </Card>
         </Grid>
+        </Stack>
       </Container>
     </Section>
   );
@@ -373,8 +380,11 @@ function MessagesContent() {
 export default function MessagesPage() {
   return (
     <Suspense fallback={
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" />
+      <Section className="min-h-screen bg-white">
+        <Navigation />
+        <Container className="flex min-h-[60vh] items-center justify-center">
+          <LoadingSpinner size="lg" text="Loading messages..." />
+        </Container>
       </Section>
     }>
       <MessagesContent />

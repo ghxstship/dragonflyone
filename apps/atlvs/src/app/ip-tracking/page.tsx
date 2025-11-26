@@ -12,6 +12,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
+import { getBadgeVariant } from "@ghxstship/config";
 
 interface IntellectualProperty {
   id: string;
@@ -37,13 +38,7 @@ const formatCurrency = (amount: number) => {
   return `$${amount.toFixed(0)}`;
 };
 const formatDate = (dateString: string) => new Date(dateString).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
-const getStatusVariant = (status: string): "solid" | "outline" | "ghost" => {
-  switch (status?.toLowerCase()) {
-    case "registered": case "active": return "solid";
-    case "pending": case "filed": return "outline";
-    default: return "ghost";
-  }
-};
+const getStatusVariant = getBadgeVariant;
 const getTypeIcon = (type: string) => {
   switch (type?.toLowerCase()) {
     case "trademark": return "™";

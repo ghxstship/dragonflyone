@@ -1,10 +1,11 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { Navigation } from '../../../components/navigation';
 import {
   Container,
   Section,
-  Display,
+  H1,
   H2,
   H3,
   Body,
@@ -124,35 +125,38 @@ export default function NotificationSettingsPage() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" />
+      <Section className="min-h-screen bg-white">
+        <Navigation />
+        <Container className="flex min-h-[60vh] items-center justify-center">
+          <LoadingSpinner size="lg" text="Loading notification settings..." />
+        </Container>
       </Section>
     );
   }
 
   return (
     <Section className="min-h-screen bg-white">
-      <Container>
-        <Section className="border-b-2 border-black py-8 mb-8">
-          <Display>NOTIFICATION SETTINGS</Display>
-          <Body className="mt-2 text-gray-600">
-            Control how and when you receive notifications
-          </Body>
-        </Section>
-
-        {error && (
-          <Alert variant="error" className="mb-6">
-            {error}
-          </Alert>
-        )}
-
-        {success && (
-          <Alert variant="success" className="mb-6">
-            {success}
-          </Alert>
-        )}
-
+      <Navigation />
+      <Container className="py-16">
         <Stack gap={8}>
+          <Stack gap={2} className="border-b-2 border-black pb-8">
+            <H1>Notification Settings</H1>
+            <Body className="text-grey-600">
+              Control how and when you receive notifications
+            </Body>
+          </Stack>
+
+          {error && (
+            <Alert variant="error" className="mb-6">
+              {error}
+            </Alert>
+          )}
+
+          {success && (
+            <Alert variant="success" className="mb-6">
+              {success}
+            </Alert>
+          )}
           <Card className="p-6">
             <H2 className="mb-6">NOTIFICATION CHANNELS</H2>
             <Stack gap={4}>

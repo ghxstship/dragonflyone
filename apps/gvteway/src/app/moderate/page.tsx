@@ -1,10 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+import { Navigation } from '../../components/navigation';
 import {
   Container,
   Section,
-  Display,
+  H1,
   H2,
   Body,
   Button,
@@ -45,9 +46,12 @@ export default function ModeratePage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Container>
-        <Stack className="border-b-2 border-black py-8 mb-8">
-          <Display>MODERATION</Display>
+      <Navigation />
+      <Container className="py-16">
+        <Stack gap={8}>
+        <Stack gap={2} className="border-b-2 border-black pb-8">
+          <H1>Moderation</H1>
+          <Body className="text-grey-600">Review and moderate user content</Body>
         </Stack>
 
         <Grid cols={3} className="mb-8">
@@ -103,6 +107,7 @@ export default function ModeratePage() {
               </Grid>
             </Card>
           ))}
+        </Stack>
         </Stack>
       </Container>
     </Section>

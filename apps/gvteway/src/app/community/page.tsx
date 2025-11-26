@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { Navigation } from '../../components/navigation';
-import { Container, Section, Display, H2, H3, Body, Button, Input, Card, Grid, Badge, LoadingSpinner, EmptyState, Stack, Breadcrumb, BreadcrumbItem } from '@ghxstship/ui';
+import { Container, Section, H1, H2, H3, Body, Button, Input, Card, Grid, Badge, LoadingSpinner, EmptyState, Stack, Breadcrumb, BreadcrumbItem } from '@ghxstship/ui';
 import { Search, MessageCircle, Users, TrendingUp, Calendar } from 'lucide-react';
 
 interface Forum {
@@ -108,7 +108,8 @@ export default function CommunityPage() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white py-12">
+      <Section className="min-h-screen bg-black text-white">
+        <Navigation />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading community..." />
         </Container>
@@ -118,7 +119,8 @@ export default function CommunityPage() {
 
   if (error) {
     return (
-      <Section className="min-h-screen bg-white py-12">
+      <Section className="min-h-screen bg-black text-white">
+        <Navigation />
         <Container className="py-16">
           <EmptyState
             title="Error Loading Community"
@@ -141,7 +143,10 @@ export default function CommunityPage() {
             <BreadcrumbItem active>Community</BreadcrumbItem>
           </Breadcrumb>
 
-          <Display className="mb-8">COMMUNITY</Display>
+          <Stack gap={2} className="border-b-2 border-grey-800 pb-8 mb-8">
+            <H1>Community</H1>
+            <Body className="text-grey-400">Connect with fellow fans and share experiences</Body>
+          </Stack>
 
         {/* Tabs */}
         <Stack direction="horizontal" gap={4} className="mb-8 border-b-2 border-grey-200">

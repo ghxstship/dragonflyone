@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Navigation } from "../../../../components/navigation";
 import {
   Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select,
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
+  Section, Card, Tabs, TabsList, Tab, TabPanel, Badge,
   Modal, ModalHeader, ModalBody, ModalFooter, Textarea, Alert,
 } from "@ghxstship/ui";
 
@@ -66,12 +67,13 @@ export default function SMSMarketingPage() {
   const segmentCount = Math.ceil(characterCount / 160);
 
   return (
-    <UISection className="min-h-screen bg-white">
-      <Container className="py-8">
+    <Section className="min-h-screen bg-white">
+      <Navigation />
+      <Container className="py-16">
         <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>SMS MARKETING</H1>
-            <Body className="text-gray-600">Create and manage SMS campaigns for events</Body>
+          <Stack gap={2} className="border-b-2 border-black pb-8">
+            <H1>SMS Marketing</H1>
+            <Body className="text-grey-600">Create and manage SMS campaigns for events</Body>
           </Stack>
 
           <Grid cols={4} gap={6}>
@@ -272,6 +274,6 @@ export default function SMSMarketingPage() {
           <Button variant="outline" onClick={() => setSelectedCampaign(null)}>Close</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </Section>
   );
 }

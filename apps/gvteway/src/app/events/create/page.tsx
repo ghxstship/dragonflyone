@@ -2,10 +2,11 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Navigation } from '../../../components/navigation';
 import {
   Container,
   Section,
-  Display,
+  H1,
   H2,
   Body,
   Button,
@@ -64,10 +65,13 @@ export default function CreateEventPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Container>
-        <Section className="border-b-2 border-black py-8 mb-8">
-          <Display>CREATE EVENT</Display>
-        </Section>
+      <Navigation />
+      <Container className="py-16">
+        <Stack gap={8}>
+        <Stack gap={2} className="border-b-2 border-black pb-8">
+          <H1>Create Event</H1>
+          <Body className="text-grey-600">Set up your new event</Body>
+        </Stack>
 
         {error && (
           <Alert variant="error" className="mb-6">
@@ -206,6 +210,7 @@ export default function CreateEventPage() {
             </Button>
           </Stack>
         </form>
+        </Stack>
       </Container>
     </Section>
   );

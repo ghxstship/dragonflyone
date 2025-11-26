@@ -1,3 +1,5 @@
+'use client';
+
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
 
@@ -21,8 +23,8 @@ export const useRFPs = (filters?: { status?: string; category?: string }) => {
   return useQuery({
     queryKey: ['rfps', filters],
     queryFn: async () => {
-      let query = (supabase as any)
-        .from('rfps')
+      let query = supabase
+        .from('rfps' as any)
         .select('*')
         .order('deadline', { ascending: true });
 

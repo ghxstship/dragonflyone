@@ -46,7 +46,7 @@ export function useMaintenance(filters?: MaintenanceFilters) {
 
       const { data, error } = await query;
       if (error) throw error;
-      return data as MaintenanceRecord[];
+      return (data as unknown) as MaintenanceRecord[];
     },
   });
 }
@@ -63,7 +63,7 @@ export function useMaintenanceRecord(id: string) {
         .single();
 
       if (error) throw error;
-      return data as MaintenanceRecord;
+      return (data as unknown) as MaintenanceRecord;
     },
     enabled: !!id,
   });

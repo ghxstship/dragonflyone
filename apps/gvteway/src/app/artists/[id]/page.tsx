@@ -3,10 +3,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNotifications } from '@ghxstship/ui';
 import { useParams, useRouter } from 'next/navigation';
+import { Navigation } from '../../../components/navigation';
 import {
   Container,
   Section,
-  Display,
+  H1,
   H2,
   H3,
   Body,
@@ -118,8 +119,11 @@ export default function ArtistPage() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" />
+      <Section className="min-h-screen bg-white">
+        <Navigation />
+        <Container className="flex min-h-[60vh] items-center justify-center">
+          <LoadingSpinner size="lg" text="Loading artist..." />
+        </Container>
       </Section>
     );
   }
@@ -127,9 +131,11 @@ export default function ArtistPage() {
   if (!artist) {
     return (
       <Section className="min-h-screen bg-white">
-        <Container>
-          <Stack className="items-center justify-center min-h-[60vh]" gap={4}>
-            <Display>ARTIST NOT FOUND</Display>
+        <Navigation />
+        <Container className="py-16">
+          <Stack className="items-center justify-center min-h-[40vh]" gap={4}>
+            <H1>Artist Not Found</H1>
+            <Body className="text-grey-600">The artist you are looking for does not exist.</Body>
             <Button variant="outline" onClick={() => router.push('/artists')}>
               Browse Artists
             </Button>
@@ -141,10 +147,11 @@ export default function ArtistPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Container>
-        <Section className="border-b-2 border-black py-8 mb-8">
-          <Grid cols={3} gap={8}>
-            <Stack className="col-span-1">
+      <Navigation />
+      <Container className="py-16">
+        <Stack gap={8}>
+        <Grid cols={3} gap={8} className="border-b-2 border-black pb-8">
+          <Stack className="col-span-1">
               {artist.image ? (
                 <Figure className="relative aspect-square bg-gray-100 overflow-hidden">
                   <Image
@@ -165,7 +172,7 @@ export default function ArtistPage() {
 
             <Stack className="col-span-2" gap={4}>
               <Stack direction="horizontal" gap={3} className="items-center">
-                <Display>{artist.name.toUpperCase()}</Display>
+                <H1>{artist.name}</H1>
                 {artist.verified && (
                   <Badge>Verified</Badge>
                 )}
@@ -224,10 +231,9 @@ export default function ArtistPage() {
               )}
             </Stack>
           </Grid>
-        </Section>
 
-        <Section className="mb-12">
-          <H2 className="mb-6">UPCOMING EVENTS</H2>
+        <Stack gap={6}>
+          <H2>Upcoming Events</H2>
           {events.length > 0 ? (
             <Grid cols={3} gap={6}>
               {events.map(event => (
@@ -248,7 +254,8 @@ export default function ArtistPage() {
               </Body>
             </Card>
           )}
-        </Section>
+        </Stack>
+        </Stack>
       </Container>
     </Section>
   );

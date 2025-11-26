@@ -2,10 +2,11 @@
 
 import { useState, useEffect, useCallback, useMemo, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { Navigation } from '../../../components/navigation';
 import {
   Container,
   Section,
-  Display,
+  H1,
   H2,
   H3,
   Body,
@@ -140,10 +141,12 @@ function UniversalSearchContent() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Container>
-        <Section className="border-b-2 border-black py-8 mb-8">
-          <Display>SEARCH</Display>
-          <Stack className="mt-6 max-w-2xl">
+      <Navigation />
+      <Container className="py-16">
+        <Stack gap={8}>
+        <Stack gap={2} className="border-b-2 border-black pb-8">
+          <H1>Search</H1>
+          <Stack className="mt-4 max-w-2xl">
             <Field label="">
               <Input
                 value={query}
@@ -153,7 +156,7 @@ function UniversalSearchContent() {
               />
             </Field>
           </Stack>
-        </Section>
+        </Stack>
 
         {!query && recentSearches.length > 0 && (
           <Section className="mb-8">
@@ -288,6 +291,7 @@ function UniversalSearchContent() {
             </Grid>
           </Section>
         )}
+        </Stack>
       </Container>
     </Section>
   );
@@ -296,8 +300,11 @@ function UniversalSearchContent() {
 export default function UniversalSearchPage() {
   return (
     <Suspense fallback={
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" />
+      <Section className="min-h-screen bg-white">
+        <Navigation />
+        <Container className="flex min-h-[60vh] items-center justify-center">
+          <LoadingSpinner size="lg" text="Loading..." />
+        </Container>
       </Section>
     }>
       <UniversalSearchContent />

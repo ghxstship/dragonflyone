@@ -12,6 +12,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
+import { getBadgeVariant } from '@ghxstship/config';
 
 interface Stakeholder {
   id: string;
@@ -35,13 +36,7 @@ const getPermissionVariant = (level: string): 'solid' | 'outline' | 'ghost' => {
   }
 };
 
-const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
-  switch (status) {
-    case 'active': return 'solid';
-    case 'invited': return 'outline';
-    default: return 'ghost';
-  }
-};
+const getStatusVariant = getBadgeVariant;
 
 const columns: ListPageColumn<Stakeholder>[] = [
   { key: 'name', label: 'Name', accessor: 'name', sortable: true },

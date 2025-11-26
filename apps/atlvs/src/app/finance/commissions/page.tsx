@@ -14,6 +14,7 @@ import {
   type DetailSection,
   type FormFieldConfig,
 } from "@ghxstship/ui";
+import { getBadgeVariant } from "@ghxstship/config";
 
 interface CommissionRecord {
   id: string;
@@ -38,15 +39,7 @@ const mockRecords: CommissionRecord[] = [
   { id: "COM-005", salesRep: "Jane Doe", dealId: "DEAL-160", dealName: "Media Group Awards Show", client: "Media Group LLC", dealValue: 95000, commissionRate: 10, commissionAmount: 9500, status: "Approved", closeDate: "2024-11-22" },
 ];
 
-const getStatusVariant = (status: string): "solid" | "outline" | "ghost" => {
-  switch (status) {
-    case "Paid": return "solid";
-    case "Approved": return "outline";
-    case "Pending": return "ghost";
-    case "Disputed": return "solid";
-    default: return "ghost";
-  }
-};
+const getStatusVariant = getBadgeVariant;
 
 const columns: ListPageColumn<CommissionRecord>[] = [
   { key: 'salesRep', label: 'Sales Rep', accessor: 'salesRep', sortable: true },

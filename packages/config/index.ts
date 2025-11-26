@@ -18,9 +18,14 @@ export * from './api-helpers';
 export * from './form-validators';
 export * from './middleware';
 export * from './hooks/useAdvancingCatalog';
+export * from './hooks/useAuth';
+export * from './hooks/useRealtime';
 export * from './notifications/advancing-notifications';
 export * from './webhooks/advancing-webhooks';
 export type * from './supabase-types';
 
 // Note: advancing-helpers has formatCurrency which conflicts with api-helpers
 // Import explicitly when needed: import { calculateEstimatedCost } from '@ghxstship/config/utils/advancing-helpers'
+
+// Status utilities for consistent status variant mapping across apps
+export * from './status-utils';

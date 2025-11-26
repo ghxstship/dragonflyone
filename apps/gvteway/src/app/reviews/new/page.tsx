@@ -2,10 +2,11 @@
 
 import { useState, useEffect, useCallback, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { Navigation } from '../../../components/navigation';
 import {
   Container,
   Section,
-  Display,
+  H1,
   H2,
   H3,
   Body,
@@ -162,8 +163,11 @@ function NewReviewContent() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" />
+      <Section className="min-h-screen bg-white">
+        <Navigation />
+        <Container className="flex min-h-[60vh] items-center justify-center">
+          <LoadingSpinner size="lg" text="Loading..." />
+        </Container>
       </Section>
     );
   }
@@ -171,7 +175,8 @@ function NewReviewContent() {
   if (!event) {
     return (
       <Section className="min-h-screen bg-white">
-        <Container>
+        <Navigation />
+        <Container className="py-16">
           <Card className="p-12 text-center mt-12">
             <H2 className="mb-4">EVENT NOT FOUND</H2>
             <Body className="text-gray-600 mb-6">
@@ -189,7 +194,8 @@ function NewReviewContent() {
   if (success) {
     return (
       <Section className="min-h-screen bg-white">
-        <Container>
+        <Navigation />
+        <Container className="py-16">
           <Card className="p-12 text-center mt-12">
             <H2 className="mb-4">THANK YOU!</H2>
             <Body className="text-gray-600 mb-6">
@@ -204,10 +210,13 @@ function NewReviewContent() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Container>
-        <Section className="border-b-2 border-black py-8 mb-8">
-          <Display>WRITE A REVIEW</Display>
-        </Section>
+      <Navigation />
+      <Container className="py-16">
+        <Stack gap={8}>
+        <Stack gap={2} className="border-b-2 border-black pb-8">
+          <H1>Write a Review</H1>
+          <Body className="text-grey-600">Share your experience</Body>
+        </Stack>
 
         {error && (
           <Alert variant="error" className="mb-6">
@@ -332,6 +341,7 @@ function NewReviewContent() {
             </Card>
           </Stack>
         </Grid>
+        </Stack>
       </Container>
     </Section>
   );
@@ -340,8 +350,11 @@ function NewReviewContent() {
 export default function NewReviewPage() {
   return (
     <Suspense fallback={
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" />
+      <Section className="min-h-screen bg-white">
+        <Navigation />
+        <Container className="flex min-h-[60vh] items-center justify-center">
+          <LoadingSpinner size="lg" text="Loading..." />
+        </Container>
       </Section>
     }>
       <NewReviewContent />

@@ -3,10 +3,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { Navigation } from '../../components/navigation';
 import {
   Container,
   Section,
-  Display,
+  H1,
   H2,
   H3,
   Body,
@@ -126,8 +127,11 @@ export default function PhotoGalleriesPage() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" />
+      <Section className="min-h-screen bg-white">
+        <Navigation />
+        <Container className="flex min-h-[60vh] items-center justify-center">
+          <LoadingSpinner size="lg" text="Loading photos..." />
+        </Container>
       </Section>
     );
   }
@@ -138,20 +142,20 @@ export default function PhotoGalleriesPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Container>
-        <Section className="border-b-2 border-black py-8 mb-8">
-          <Stack direction="horizontal" className="justify-between items-center">
-            <Stack>
-              <Display>PHOTO GALLERIES</Display>
-              <Body className="mt-2 text-gray-600">
-                Share and discover photos from events
-              </Body>
-            </Stack>
-            <Button variant="solid" onClick={() => setShowUploadModal(true)}>
-              Upload Photo
-            </Button>
+      <Navigation />
+      <Container className="py-16">
+        <Stack gap={8}>
+        <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
+          <Stack gap={2}>
+            <H1>Photo Galleries</H1>
+            <Body className="text-grey-600">
+              Share and discover photos from events
+            </Body>
           </Stack>
-        </Section>
+          <Button variant="solid" onClick={() => setShowUploadModal(true)}>
+            Upload Photo
+          </Button>
+        </Stack>
 
         {error && (
           <Alert variant="error" className="mb-6" onClose={() => setError(null)}>
@@ -424,6 +428,7 @@ export default function PhotoGalleriesPage() {
             </Stack>
           )}
         </Modal>
+        </Stack>
       </Container>
     </Section>
   );

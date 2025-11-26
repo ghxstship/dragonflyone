@@ -12,7 +12,7 @@ import { ErrorBoundary, NotificationProvider } from "@ghxstship/ui";
 import { Providers } from "./providers";
 
 const anton = Anton({ subsets: ["latin"], weight: "400", variable: "--font-anton" });
-const bebas = Bebas_Neue({ subsets: ["latin"], weight: "400", variable: "--font-bebas" });
+const bebasNeue = Bebas_Neue({ subsets: ["latin"], weight: "400", variable: "--font-bebas-neue" });
 const shareTech = Share_Tech({ subsets: ["latin"], weight: "400", variable: "--font-share-tech" });
 const shareTechMono = Share_Tech_Mono({
   subsets: ["latin"],
@@ -34,7 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${anton.variable} ${bebas.variable} ${shareTech.variable} ${shareTechMono.variable} bg-black text-white`}
+        className={`${anton.variable} ${bebasNeue.variable} ${shareTech.variable} ${shareTechMono.variable} bg-black text-white`}
       >
         <ErrorBoundary>
           <Providers>

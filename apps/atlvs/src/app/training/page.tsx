@@ -12,6 +12,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
+import { getBadgeVariant } from "@ghxstship/config";
 
 interface TrainingProgram {
   id: string;
@@ -31,13 +32,7 @@ interface TrainingProgram {
   [key: string]: unknown;
 }
 
-const getStatusVariant = (status: string): "solid" | "outline" | "ghost" => {
-  switch (status?.toLowerCase()) {
-    case "active": return "solid";
-    case "full": case "completed": return "outline";
-    default: return "ghost";
-  }
-};
+const getStatusVariant = getBadgeVariant;
 
 const columns: ListPageColumn<TrainingProgram>[] = [
   { key: 'title', label: 'Program', accessor: 'title', sortable: true },

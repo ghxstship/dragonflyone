@@ -2,10 +2,11 @@
 
 import { useState, useEffect, useCallback, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { Navigation } from '../../../components/navigation';
 import {
   Container,
   Section,
-  Display,
+  H1,
   H2,
   H3,
   Body,
@@ -138,8 +139,11 @@ function GiftTicketsContent() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" />
+      <Section className="min-h-screen bg-white">
+        <Navigation />
+        <Container className="flex min-h-[60vh] items-center justify-center">
+          <LoadingSpinner size="lg" text="Loading..." />
+        </Container>
       </Section>
     );
   }
@@ -147,12 +151,13 @@ function GiftTicketsContent() {
   if (success) {
     return (
       <Section className="min-h-screen bg-white">
-        <Container>
-          <Stack className="items-center justify-center min-h-[60vh]" gap={6}>
+        <Navigation />
+        <Container className="py-16">
+          <Stack className="items-center justify-center min-h-[40vh]" gap={6}>
             <Stack className="w-24 h-24 bg-black rounded-full items-center justify-center">
               <Body className="text-white text-4xl">🎁</Body>
             </Stack>
-            <Display>GIFT SENT!</Display>
+            <H1>Gift Sent!</H1>
             <Body className="text-center text-gray-600 max-w-md">
               Your gift tickets have been sent to {formData.recipient_email}.
               {formData.delivery_date && (
@@ -175,13 +180,15 @@ function GiftTicketsContent() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Container>
-        <Section className="border-b-2 border-black py-8 mb-8">
-          <Display>GIFT TICKETS</Display>
-          <Body className="mt-2 text-gray-600">
+      <Navigation />
+      <Container className="py-16">
+        <Stack gap={8}>
+        <Stack gap={2} className="border-b-2 border-black pb-8">
+          <H1>Gift Tickets</H1>
+          <Body className="text-grey-600">
             Send tickets as a gift to someone special
           </Body>
-        </Section>
+        </Stack>
 
         {error && (
           <Alert variant="error" className="mb-6">
@@ -390,6 +397,7 @@ function GiftTicketsContent() {
             </Card>
           </Stack>
         </Grid>
+        </Stack>
       </Container>
     </Section>
   );
@@ -398,8 +406,11 @@ function GiftTicketsContent() {
 export default function GiftTicketsPage() {
   return (
     <Suspense fallback={
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" />
+      <Section className="min-h-screen bg-white">
+        <Navigation />
+        <Container className="flex min-h-[60vh] items-center justify-center">
+          <LoadingSpinner size="lg" text="Loading..." />
+        </Container>
       </Section>
     }>
       <GiftTicketsContent />

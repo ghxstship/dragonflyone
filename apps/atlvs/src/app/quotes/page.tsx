@@ -12,6 +12,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
+import { getBadgeVariant } from "@ghxstship/config";
 
 interface Quote {
   id: string;
@@ -34,13 +35,7 @@ const formatCurrency = (amount: number) => {
   return `$${amount.toFixed(0)}`;
 };
 
-const getStatusVariant = (status: string): "solid" | "outline" | "ghost" => {
-  switch (status?.toLowerCase()) {
-    case "accepted": case "converted": return "solid";
-    case "sent": case "viewed": return "outline";
-    default: return "ghost";
-  }
-};
+const getStatusVariant = getBadgeVariant;
 
 const columns: ListPageColumn<Quote>[] = [
   { key: 'quote_number', label: 'Quote ID', accessor: 'quote_number', sortable: true },

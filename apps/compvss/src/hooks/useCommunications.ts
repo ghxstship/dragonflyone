@@ -1,20 +1,17 @@
+'use client';
+
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
+import type { Tables, TablesInsert, TablesUpdate } from '@ghxstship/config';
 
-export interface Communication {
-  id: string;
-  type: 'radio' | 'phone' | 'email' | 'sms';
-  from: string;
-  to: string;
-  message: string;
-  timestamp: string;
-  priority: 'normal' | 'urgent' | 'emergency';
-  status: 'sent' | 'delivered' | 'read';
-  metadata?: Record<string, any>;
-  created_at?: string;
-}
+export type Communication = Tables<'communications'>;
+export type CommunicationInsert = TablesInsert<'communications'>;
+export type CommunicationUpdate = TablesUpdate<'communications'>;
 
-export const useCommunications = (filters?: { type?: string; priority?: string }) => {
+export const useCommunications = (filters?: { 
+  type?: Communication['type']; 
+  priority?: Communication['priority'];
+}) => {
   return useQuery({
     queryKey: ['communications', filters],
     queryFn: async () => {
@@ -33,7 +30,7 @@ export const useCommunications = (filters?: { type?: string; priority?: string }
 
       const { data, error } = await query;
       if (error) throw error;
-      return data as Communication[];
+      return data;
     },
   });
 };
@@ -42,14 +39,10 @@ export const useSendCommunication = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (comm: Omit<Communication, 'id' | 'created_at' | 'timestamp' | 'status'>) => {
+    mutationFn: async (comm: CommunicationInsert) => {
       const { data, error } = await supabase
         .from('communications')
-        .insert({
-          ...comm,
-          timestamp: new Date().toISOString(),
-          status: 'sent',
-        })
+        .insert(comm)
         .select()
         .single();
       if (error) throw error;
@@ -65,7 +58,7 @@ export const useUpdateCommunication = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ id, ...updates }: Partial<Communication> & { id: string }) => {
+    mutationFn: async ({ id, ...updates }: CommunicationUpdate & { id: string }) => {
       const { data, error } = await supabase
         .from('communications')
         .update(updates)

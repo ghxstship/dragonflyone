@@ -2,10 +2,11 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { Navigation } from '../../components/navigation';
 import {
   Container,
   Section,
-  Display,
+  H1,
   H2,
   H3,
   Body,
@@ -106,21 +107,26 @@ export default function DiscoverPage() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" />
+      <Section className="min-h-screen bg-white">
+        <Navigation />
+        <Container className="flex min-h-[60vh] items-center justify-center">
+          <LoadingSpinner size="lg" text="Loading events..." />
+        </Container>
       </Section>
     );
   }
 
   return (
     <Section className="min-h-screen bg-white">
-      <Container>
-        <Section className="border-b-2 border-black py-8 mb-8">
-          <Display>DISCOVER</Display>
-          <Body className="mt-2 text-gray-600">
-            Find your next unforgettable experience
-          </Body>
-        </Section>
+      <Navigation />
+      <Container className="py-16">
+        <Stack gap={8}>
+          <Stack gap={2} className="border-b-2 border-black pb-8">
+            <H1>Discover</H1>
+            <Body className="text-grey-600">
+              Find your next unforgettable experience
+            </Body>
+          </Stack>
 
         <Section className="mb-12">
           <H2 className="mb-6">BROWSE BY CATEGORY</H2>
@@ -237,17 +243,18 @@ export default function DiscoverPage() {
           </Section>
         )}
 
-        <Section className="mb-12">
-          <Card className="p-8 bg-black text-white text-center">
-            <H2 className="text-white mb-4">NOT SURE WHAT TO DO?</H2>
-            <Body className="text-gray-300 mb-6 max-w-md mx-auto">
-              Take our quick quiz to get personalized event recommendations based on your preferences.
-            </Body>
-            <Button variant="outline" className="border-white text-white hover:bg-white hover:text-black" onClick={() => router.push('/quiz')}>
-              TAKE THE QUIZ
-            </Button>
-          </Card>
-        </Section>
+          <Section className="mb-12">
+            <Card className="p-8 bg-black text-white text-center">
+              <H2 className="text-white mb-4">NOT SURE WHAT TO DO?</H2>
+              <Body className="text-gray-300 mb-6 max-w-md mx-auto">
+                Take our quick quiz to get personalized event recommendations based on your preferences.
+              </Body>
+              <Button variant="outline" className="border-white text-white hover:bg-white hover:text-black" onClick={() => router.push('/quiz')}>
+                TAKE THE QUIZ
+              </Button>
+            </Card>
+          </Section>
+        </Stack>
       </Container>
     </Section>
   );

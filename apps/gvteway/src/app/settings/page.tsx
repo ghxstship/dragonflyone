@@ -2,10 +2,11 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Navigation } from '../../components/navigation';
 import {
   Container,
   Section,
-  Display,
+  H1,
   H2,
   Body,
   Button,
@@ -40,10 +41,13 @@ export default function SettingsPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Container>
-        <Stack gap={2} className="border-b-2 border-black py-8 mb-8">
-          <Display>SETTINGS</Display>
-        </Stack>
+      <Navigation />
+      <Container className="py-16">
+        <Stack gap={8}>
+          <Stack gap={2} className="border-b-2 border-black pb-8">
+            <H1>Settings</H1>
+            <Body className="text-grey-600">Manage your account preferences</Body>
+          </Stack>
 
         <Grid cols={1} className="max-w-3xl">
           <Card className="p-6 mb-6">
@@ -124,7 +128,8 @@ export default function SettingsPage() {
               Cancel
             </Button>
           </Stack>
-        </Grid>
+          </Grid>
+        </Stack>
       </Container>
     </Section>
   );

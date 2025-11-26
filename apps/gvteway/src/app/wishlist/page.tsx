@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { Container, Section, Display, H2, H3, Body, Button, Card, Grid, Badge, LoadingSpinner, EmptyState, Stack } from '@ghxstship/ui';
+import { Navigation } from '../../components/navigation';
+import { Container, Section, H1, H2, H3, Body, Button, Card, Grid, Badge, LoadingSpinner, EmptyState, Stack } from '@ghxstship/ui';
 import { Heart, Trash2, ShoppingCart, Calendar, MapPin, DollarSign } from 'lucide-react';
 
 interface WishlistItem {
@@ -64,7 +65,8 @@ export default function WishlistPage() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white py-12">
+      <Section className="min-h-screen bg-white">
+        <Navigation />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading your wishlist..." />
         </Container>
@@ -74,7 +76,8 @@ export default function WishlistPage() {
 
   if (error) {
     return (
-      <Section className="min-h-screen bg-white py-12">
+      <Section className="min-h-screen bg-white">
+        <Navigation />
         <Container className="py-16">
           <EmptyState
             title="Error Loading Wishlist"
@@ -87,11 +90,13 @@ export default function WishlistPage() {
   }
 
   return (
-    <Section className="min-h-screen bg-white py-12">
-      <Container>
-        <Stack gap={4} direction="horizontal" className="justify-between items-start mb-8">
+    <Section className="min-h-screen bg-white">
+      <Navigation />
+      <Container className="py-16">
+        <Stack gap={8}>
+        <Stack gap={4} direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
           <Stack gap={2}>
-            <Display>MY WISHLIST</Display>
+            <H1>My Wishlist</H1>
             <Body className="text-grey-600">{wishlist.length} events saved</Body>
           </Stack>
           <Button variant="outline" onClick={() => navigator.share?.({ title: 'My Wishlist', url: window.location.href }) || alert('Share link copied!')}>
@@ -191,6 +196,7 @@ export default function WishlistPage() {
             </Stack>
           </Card>
         )}
+        </Stack>
       </Container>
     </Section>
   );

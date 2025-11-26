@@ -2,10 +2,11 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { Navigation } from '../../../components/navigation';
 import {
   Container,
   Section,
-  Display,
+  H1,
   H2,
   H3,
   Body,
@@ -121,21 +122,26 @@ export default function CommunityPollsPage() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" />
+      <Section className="min-h-screen bg-white">
+        <Navigation />
+        <Container className="flex min-h-[60vh] items-center justify-center">
+          <LoadingSpinner size="lg" text="Loading polls..." />
+        </Container>
       </Section>
     );
   }
 
   return (
     <Section className="min-h-screen bg-white">
-      <Container>
-        <Section className="border-b-2 border-black py-8 mb-8">
-          <Display>COMMUNITY POLLS</Display>
-          <Body className="mt-2 text-gray-600">
+      <Navigation />
+      <Container className="py-16">
+        <Stack gap={8}>
+        <Stack gap={2} className="border-b-2 border-black pb-8">
+          <H1>Community Polls</H1>
+          <Body className="text-grey-600">
             Vote on upcoming events, setlists, and more
           </Body>
-        </Section>
+        </Stack>
 
         {error && (
           <Alert variant="error" className="mb-6">
@@ -262,6 +268,7 @@ export default function CommunityPollsPage() {
             </Body>
           </Card>
         )}
+        </Stack>
       </Container>
     </Section>
   );

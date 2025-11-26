@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { supabaseAdmin } from '@/lib/supabase';
+import { supabaseAdmin, fromDynamic } from '@/lib/supabase';
 import { apiRoute } from '@ghxstship/config/middleware';
 import { PlatformRole } from '@ghxstship/config/roles';
 
@@ -38,8 +38,7 @@ export const GET = apiRoute(
   async (request: NextRequest, context: any) => {
     const { id } = context.params;
 
-    const { data: cues, error } = await supabaseAdmin
-      .from('run_of_show_cues')
+    const { data: cues, error } = await fromDynamic(supabaseAdmin, 'run_of_show_cues')
       .select(`
         *,
         assigned_crew:platform_users(id, full_name, email, role)
@@ -69,8 +68,7 @@ export const POST = apiRoute(
     const body = await request.json();
     const data = createCueSchema.parse(body);
 
-    const { data: cue, error } = await supabaseAdmin
-      .from('run_of_show_cues')
+    const { data: cue, error } = await fromDynamic(supabaseAdmin, 'run_of_show_cues')
       .insert({
         run_of_show_id: id,
         ...data,
@@ -104,8 +102,7 @@ export const PATCH = apiRoute(
       const { cues } = bulkUpdateSchema.parse(body);
       
       const updates = cues.map(cue =>
-        supabaseAdmin
-          .from('run_of_show_cues')
+        fromDynamic(supabaseAdmin, 'run_of_show_cues')
           .update({ order: cue.order })
           .eq('id', cue.id)
           .eq('run_of_show_id', id)

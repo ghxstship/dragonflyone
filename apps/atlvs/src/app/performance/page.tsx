@@ -12,6 +12,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
+import { getBadgeVariant } from "@ghxstship/config";
 
 interface Review {
   id: string;
@@ -30,13 +31,7 @@ interface Review {
   [key: string]: unknown;
 }
 
-const getStatusVariant = (status: string): "solid" | "outline" | "ghost" => {
-  switch (status?.toLowerCase()) {
-    case "completed": return "solid";
-    case "in_progress": case "on_track": return "outline";
-    default: return "ghost";
-  }
-};
+const getStatusVariant = getBadgeVariant;
 const formatStatus = (status: string) => status?.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()) || status;
 
 const columns: ListPageColumn<Review>[] = [

@@ -13,6 +13,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
+import { getBadgeVariant } from '@ghxstship/config';
 
 interface AvailabilitySlot {
   id: string;
@@ -63,15 +64,7 @@ const generateMockAvailability = (): AvailabilitySlot[] => {
   return slots;
 };
 
-const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
-  switch (status) {
-    case 'available': return 'solid';
-    case 'booked': return 'solid';
-    case 'unavailable': return 'solid';
-    case 'tentative': return 'outline';
-    default: return 'ghost';
-  }
-};
+const getStatusVariant = getBadgeVariant;
 
 const columns: ListPageColumn<AvailabilitySlot>[] = [
   { key: 'user_name', label: 'Crew Member', accessor: 'user_name', sortable: true },

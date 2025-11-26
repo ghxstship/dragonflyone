@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Container, Section, Display, H2, H3, Body, Button, Card, Grid, Badge, Stack } from '@ghxstship/ui';
+import { Navigation } from '../../components/navigation';
+import { Container, Section, H1, H2, H3, Body, Button, Card, Grid, Badge, Stack } from '@ghxstship/ui';
 import { Radio, Phone, Users, MessageSquare, Bell, AlertCircle } from 'lucide-react';
 
 export default function CommunicationsPage() {
@@ -68,24 +69,26 @@ export default function CommunicationsPage() {
   };
 
   return (
-    <Section className="min-h-screen bg-white py-8">
-      <Container>
-        <Stack gap={4} direction="horizontal" className="justify-between items-start mb-8">
-          <Stack gap={2}>
-            <Display>COMMUNICATIONS</Display>
-            <Body className="text-grey-600">Radio channels and team messaging</Body>
+    <Section className="min-h-screen bg-black text-white">
+      <Navigation />
+      <Container className="py-16">
+        <Stack gap={8}>
+          <Stack gap={4} direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b border-grey-800 pb-8">
+            <Stack gap={2}>
+              <H1>Communications</H1>
+              <Body className="text-grey-400">Radio channels and team messaging</Body>
+            </Stack>
+            <Stack gap={3} direction="horizontal">
+              <Button variant="outline" onClick={() => router.push('/communications/alerts')}>
+                <Bell className="w-4 h-4 mr-2" />
+                ALERTS
+              </Button>
+              <Button variant="solid" onClick={() => router.push('/communications/channels/new')}>
+                <Radio className="w-4 h-4 mr-2" />
+                NEW CHANNEL
+              </Button>
+            </Stack>
           </Stack>
-          <Stack gap={3} direction="horizontal">
-            <Button variant="outline" onClick={() => router.push('/communications/alerts')}>
-              <Bell className="w-4 h-4 mr-2" />
-              ALERTS
-            </Button>
-            <Button onClick={() => router.push('/communications/channels/new')}>
-              <Radio className="w-4 h-4 mr-2" />
-              NEW CHANNEL
-            </Button>
-          </Stack>
-        </Stack>
 
         <Grid cols={4} gap={6} className="mb-8">
           <Card className="p-6 text-center">
@@ -188,6 +191,7 @@ export default function CommunicationsPage() {
             ))}
           </Grid>
         </Card>
+        </Stack>
       </Container>
     </Section>
   );

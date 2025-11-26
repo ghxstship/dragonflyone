@@ -2,10 +2,11 @@
 
 import { useState, useEffect, useCallback, useMemo, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { Navigation } from '../../../components/navigation';
 import {
   Container,
   Section,
-  Display,
+  H1,
   H2,
   H3,
   Body,
@@ -101,8 +102,11 @@ function CompareEventsContent() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" />
+      <Section className="min-h-screen bg-white">
+        <Navigation />
+        <Container className="flex min-h-[60vh] items-center justify-center">
+          <LoadingSpinner size="lg" text="Loading events..." />
+        </Container>
       </Section>
     );
   }
@@ -110,10 +114,11 @@ function CompareEventsContent() {
   if (events.length === 0) {
     return (
       <Section className="min-h-screen bg-white">
-        <Container>
-          <Card className="p-12 text-center mt-12">
-            <H2 className="mb-4">NO EVENTS TO COMPARE</H2>
-            <Body className="text-gray-600 mb-6">
+        <Navigation />
+        <Container className="py-16">
+          <Card className="p-12 text-center">
+            <H1 className="mb-4">No Events to Compare</H1>
+            <Body className="text-grey-600 mb-6">
               Add events to compare by clicking the compare button on event pages.
             </Body>
             <Button variant="solid" onClick={() => router.push('/browse')}>
@@ -127,20 +132,20 @@ function CompareEventsContent() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Container>
-        <Section className="border-b-2 border-black py-8 mb-8">
-          <Stack direction="horizontal" className="justify-between items-center">
-            <Stack>
-              <Display>COMPARE EVENTS</Display>
-              <Body className="mt-2 text-gray-600">
-                Comparing {events.length} events
-              </Body>
-            </Stack>
-            <Button variant="outline" onClick={() => router.push('/browse')}>
-              Add More Events
-            </Button>
+      <Navigation />
+      <Container className="py-16">
+        <Stack gap={8}>
+        <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
+          <Stack gap={2}>
+            <H1>Compare Events</H1>
+            <Body className="text-grey-600">
+              Comparing {events.length} events
+            </Body>
           </Stack>
-        </Section>
+          <Button variant="outline" onClick={() => router.push('/browse')}>
+            Add More Events
+          </Button>
+        </Stack>
 
         {error && (
           <Alert variant="error" className="mb-6">
@@ -280,6 +285,7 @@ function CompareEventsContent() {
             </Stack>
           </Card>
         </Stack>
+        </Stack>
       </Container>
     </Section>
   );
@@ -288,8 +294,11 @@ function CompareEventsContent() {
 export default function CompareEventsPage() {
   return (
     <Suspense fallback={
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" />
+      <Section className="min-h-screen bg-white">
+        <Navigation />
+        <Container className="flex min-h-[60vh] items-center justify-center">
+          <LoadingSpinner size="lg" text="Loading..." />
+        </Container>
       </Section>
     }>
       <CompareEventsContent />

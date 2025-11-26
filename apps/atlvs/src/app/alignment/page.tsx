@@ -1,10 +1,11 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { Navigation } from '../../components/navigation';
 import {
   Container,
   Section,
-  Display,
+  H1,
   H2,
   H3,
   Body,
@@ -134,8 +135,11 @@ export default function StrategicAlignmentPage() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" />
+      <Section className="min-h-screen bg-ink-950 text-ink-50">
+        <Navigation />
+        <Container className="flex min-h-[60vh] items-center justify-center">
+          <LoadingSpinner size="lg" text="Loading alignment data..." />
+        </Container>
       </Section>
     );
   }
@@ -149,13 +153,14 @@ export default function StrategicAlignmentPage() {
   const goalsOnTrack = goals.filter(g => g.status === 'on_track' || g.status === 'completed').length;
 
   return (
-    <Section className="min-h-screen bg-white">
-      <Container>
-        <Section className="border-b-2 border-black py-8 mb-8">
-          <Stack direction="horizontal" className="justify-between items-center">
-            <Stack>
-              <Display>STRATEGIC ALIGNMENT</Display>
-              <Body className="mt-2 text-gray-600">
+    <Section className="min-h-screen bg-ink-950 text-ink-50">
+      <Navigation />
+      <Container className="py-16">
+        <Stack gap={8}>
+          <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b border-ink-800 pb-8">
+            <Stack gap={2}>
+              <H1>Strategic Alignment</H1>
+              <Body className="text-ink-400">
                 Measure how projects align with strategic goals
               </Body>
             </Stack>
@@ -163,7 +168,6 @@ export default function StrategicAlignmentPage() {
               Align Project
             </Button>
           </Stack>
-        </Section>
 
         {error && (
           <Alert variant="error" className="mb-6" onClose={() => setError(null)}>
@@ -409,6 +413,7 @@ export default function StrategicAlignmentPage() {
             )}
           </Stack>
         </Modal>
+        </Stack>
       </Container>
     </Section>
   );

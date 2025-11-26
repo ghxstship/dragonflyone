@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { useRouter, useParams } from "next/navigation";
+import { Navigation } from "../../../../components/navigation";
 import {
   Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
+  Section, Card, Tabs, TabsList, Tab, TabPanel, Badge,
   Modal, ModalHeader, ModalBody, ModalFooter, Alert,
 } from "@ghxstship/ui";
 
@@ -50,12 +51,13 @@ export default function FloorConfigPage() {
   };
 
   return (
-    <UISection className="min-h-screen bg-white">
+    <Section className="min-h-screen bg-white">
+      <Navigation />
       <Container className="py-8">
         <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>FLOOR CONFIGURATION</H1>
-            <Body className="text-gray-600">Configure general admission areas and floor sections</Body>
+          <Stack gap={2} className="border-b-2 border-black pb-8">
+            <H1>Floor Configuration</H1>
+            <Body className="text-grey-600">Configure general admission areas and floor sections</Body>
           </Stack>
 
           <Grid cols={4} gap={6}>
@@ -245,6 +247,6 @@ export default function FloorConfigPage() {
           <Button variant="solid" onClick={() => setSelectedSection(null)}>Save Changes</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </Section>
   );
 }

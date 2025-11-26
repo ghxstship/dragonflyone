@@ -2,10 +2,11 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { Navigation } from '../../components/navigation';
 import {
   Container,
   Section,
-  Display,
+  H1,
   H2,
   H3,
   Body,
@@ -140,21 +141,26 @@ END:VCALENDAR`;
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" />
+      <Section className="min-h-screen bg-white">
+        <Navigation />
+        <Container className="flex min-h-[60vh] items-center justify-center">
+          <LoadingSpinner size="lg" text="Loading your events..." />
+        </Container>
       </Section>
     );
   }
 
   return (
     <Section className="min-h-screen bg-white">
-      <Container>
-        <Section className="border-b-2 border-black py-8 mb-8">
-          <Display>MY EVENTS</Display>
-          <Body className="mt-2 text-gray-600">
-            Your upcoming events and past experiences
-          </Body>
-        </Section>
+      <Navigation />
+      <Container className="py-16">
+        <Stack gap={8}>
+          <Stack gap={2} className="border-b-2 border-black pb-8">
+            <H1>My Events</H1>
+            <Body className="text-grey-600">
+              Your upcoming events and past experiences
+            </Body>
+          </Stack>
 
         {success && (
           <Alert variant="success" className="mb-6">
@@ -317,6 +323,7 @@ END:VCALENDAR`;
             </Stack>
           </Stack>
         </Modal>
+        </Stack>
       </Container>
     </Section>
   );

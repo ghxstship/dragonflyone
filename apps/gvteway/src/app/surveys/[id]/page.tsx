@@ -2,10 +2,11 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
+import { Navigation } from '../../../components/navigation';
 import {
   Container,
   Section,
-  Display,
+  H1,
   H2,
   H3,
   Body,
@@ -222,8 +223,11 @@ export default function SurveyPage() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" />
+      <Section className="min-h-screen bg-white">
+        <Navigation />
+        <Container className="flex min-h-[60vh] items-center justify-center">
+          <LoadingSpinner size="lg" text="Loading survey..." />
+        </Container>
       </Section>
     );
   }
@@ -231,7 +235,8 @@ export default function SurveyPage() {
   if (!survey) {
     return (
       <Section className="min-h-screen bg-white">
-        <Container>
+        <Navigation />
+        <Container className="py-16">
           <Card className="p-12 text-center mt-12">
             <H2 className="mb-4">SURVEY NOT FOUND</H2>
             <Body className="text-gray-600 mb-6">
@@ -249,7 +254,8 @@ export default function SurveyPage() {
   if (success) {
     return (
       <Section className="min-h-screen bg-white">
-        <Container>
+        <Navigation />
+        <Container className="py-16">
           <Card className="p-12 text-center mt-12">
             <H2 className="mb-4">THANK YOU!</H2>
             <Body className="text-gray-600 mb-6">
@@ -273,13 +279,15 @@ export default function SurveyPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Container>
-        <Section className="border-b-2 border-black py-8 mb-8">
-          <Display>{survey.title}</Display>
+      <Navigation />
+      <Container className="py-16">
+        <Stack gap={8}>
+        <Stack gap={2} className="border-b-2 border-black pb-8">
+          <H1>{survey.title}</H1>
           {survey.description && (
-            <Body className="mt-2 text-gray-600">{survey.description}</Body>
+            <Body className="text-grey-600">{survey.description}</Body>
           )}
-        </Section>
+        </Stack>
 
         {error && (
           <Alert variant="error" className="mb-6">
@@ -373,6 +381,7 @@ export default function SurveyPage() {
             </Card>
           </Stack>
         </Grid>
+        </Stack>
       </Container>
     </Section>
   );

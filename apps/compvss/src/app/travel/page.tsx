@@ -12,6 +12,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
+import { getBadgeVariant } from "@ghxstship/config";
 
 interface TravelBooking {
   id: string;
@@ -37,13 +38,7 @@ interface TravelBooking {
 
 const formatCurrency = (amount: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 0 }).format(amount);
 
-const getStatusVariant = (status: string): "solid" | "outline" | "ghost" => {
-  switch (status?.toLowerCase()) {
-    case "confirmed": case "checked_in": return "solid";
-    case "pending": case "booked": return "outline";
-    default: return "ghost";
-  }
-};
+const getStatusVariant = getBadgeVariant;
 
 const columns: ListPageColumn<TravelBooking>[] = [
   { key: 'booking_reference', label: 'Reference', accessor: 'booking_reference', sortable: true },

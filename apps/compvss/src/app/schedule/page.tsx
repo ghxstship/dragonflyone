@@ -17,6 +17,7 @@ import {
   Stack,
   Section,
 } from "@ghxstship/ui";
+import { getBadgeVariant } from "@ghxstship/config";
 
 interface ScheduleItem {
   id: string;
@@ -80,18 +81,7 @@ export default function SchedulePage() {
     });
   };
 
-  const getStatusVariant = (status: string): "solid" | "outline" | "ghost" => {
-    switch (status?.toLowerCase()) {
-      case 'in_progress':
-        return 'solid';
-      case 'completed':
-        return 'solid';
-      case 'scheduled':
-        return 'outline';
-      default:
-        return 'ghost';
-    }
-  };
+  const getStatusVariant = getBadgeVariant;
 
   const getProgress = (item: ScheduleItem): number => {
     if (item.status === 'completed') return 100;

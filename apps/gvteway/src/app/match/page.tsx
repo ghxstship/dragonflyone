@@ -3,10 +3,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { Navigation } from '../../components/navigation';
 import {
   Container,
   Section,
-  Display,
+  H1,
   H2,
   H3,
   Body,
@@ -167,12 +168,13 @@ export default function MatchPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Container>
-        <Section className="border-b-2 border-black py-8 mb-8">
-          <Stack direction="horizontal" className="justify-between items-center">
-            <Stack>
-              <Display>FIND YOUR PEOPLE</Display>
-              <Body className="mt-2 text-gray-600">
+      <Navigation />
+      <Container className="py-16">
+        <Stack gap={8}>
+          <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
+            <Stack gap={2}>
+              <H1>Find Your People</H1>
+              <Body className="text-grey-600">
                 Connect with fans who share your interests
               </Body>
             </Stack>
@@ -180,7 +182,6 @@ export default function MatchPage() {
               Update Interests
             </Button>
           </Stack>
-        </Section>
 
         {error && (
           <Alert variant="error" className="mb-6" onClose={() => setError(null)}>
@@ -443,6 +444,7 @@ export default function MatchPage() {
             </Stack>
           )}
         </Modal>
+        </Stack>
       </Container>
     </Section>
   );

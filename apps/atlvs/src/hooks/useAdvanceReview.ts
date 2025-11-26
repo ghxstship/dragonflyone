@@ -1,3 +1,5 @@
+'use client';
+
 // apps/atlvs/src/hooks/useAdvanceReview.ts
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import type {

@@ -2,10 +2,11 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { Navigation } from '../../components/navigation';
 import {
   Container,
   Section,
-  Display,
+  H1,
   H2,
   Body,
   Button,
@@ -39,8 +40,11 @@ export default function DashboardPage() {
 
   if (isLoading || !user) {
     return (
-      <Section className="min-h-screen flex items-center justify-center">
-        <LoadingSpinner size="lg" text="Loading dashboard..." />
+      <Section className="min-h-screen bg-white">
+        <Navigation />
+        <Container className="flex min-h-[60vh] items-center justify-center">
+          <LoadingSpinner size="lg" text="Loading dashboard..." />
+        </Container>
       </Section>
     );
   }
@@ -60,14 +64,13 @@ export default function DashboardPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Container>
+      <Navigation />
+      <Container className="py-16">
+        <Stack gap={8}>
         {/* Header */}
-        <Stack gap={8} className="py-8 border-b-2 border-black mb-8">
-          <Stack gap={4} direction="horizontal" className="justify-between items-start">
-            <Stack gap={2}>
-              <Display size="md">
-                {user.name.toUpperCase()}
-              </Display>
+        <Stack gap={4} direction="horizontal" className="justify-between items-start border-b-2 border-black pb-8">
+          <Stack gap={2}>
+            <H1>{user.name}</H1>
               <Body variant="muted">{user.email}</Body>
               <Stack gap={2} direction="horizontal" className="flex-wrap mt-2">
                 {user.platformRoles.map(role => (
@@ -80,7 +83,6 @@ export default function DashboardPage() {
             <Button variant="outline" onClick={logout}>
               Sign Out
             </Button>
-          </Stack>
         </Stack>
 
         {/* Legend/Admin Dashboard */}
@@ -331,6 +333,7 @@ export default function DashboardPage() {
             </Grid>
           </>
         )}
+        </Stack>
       </Container>
     </Section>
   );

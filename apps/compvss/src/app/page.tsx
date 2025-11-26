@@ -1,7 +1,8 @@
 import { Navigation } from "../components/navigation";
 import { Section, SectionHeader } from "../components/section";
-import { Badge, ProgressBar, Button, StatusBadge, Stack, Grid, Card, Container, Link, H1, H2, H3, H4, Body, Label, Text, List, ListItem, Article, Header, Box, Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@ghxstship/ui";
+import { Badge, ProgressBar, Button, StatusBadge, Stack, Grid, Card, Container, Link, H1, H2, H3, H4, Body, Label, Text, List, ListItem, Article, Header, Box, Table, TableHeader, TableBody, TableRow, TableHead, TableCell, WorkflowTimeline, ContentCard, FeatureCard, Kicker } from "@ghxstship/ui";
 import { CrewIntelligence } from "../components/crew-intelligence";
+import { getStatusVariant } from "@ghxstship/config";
 import {
   compvssAnalytics,
   compvssCommandPanels,
@@ -31,15 +32,6 @@ import {
 export const runtime = "edge";
 
 export default function Home() {
-  const getStatusVariant = (status: string): "success" | "error" | "warning" | "info" | "neutral" | "active" | "inactive" | "pending" => {
-    switch (status) {
-      case "Scheduled": return "active";
-      case "Tracking": return "info";
-      case "Closeout": return "neutral";
-      case "Intake": 
-      default: return "pending";
-    }
-  };
 
   return (
     <Section className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50" id="top">

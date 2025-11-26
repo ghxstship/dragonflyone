@@ -45,7 +45,7 @@ export function useIncidents(filters?: IncidentFilters) {
 
       const { data, error } = await query;
       if (error) throw error;
-      return data as Incident[];
+      return (data as unknown) as Incident[];
     },
   });
 }
@@ -62,7 +62,7 @@ export function useIncident(id: string) {
         .single();
 
       if (error) throw error;
-      return data as Incident;
+      return (data as unknown) as Incident;
     },
     enabled: !!id,
   });

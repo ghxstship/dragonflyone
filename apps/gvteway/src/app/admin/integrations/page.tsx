@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { Container, H1, H2, Body, Button, Card, Field, Label, Input, Badge, Alert, Grid, Stack, StatCard } from '@ghxstship/ui';
+import { Navigation } from '../../../components/navigation';
+import { Container, Section, H1, H2, Body, Button, Card, Field, Label, Input, Badge, Alert, Grid, Stack, StatCard } from '@ghxstship/ui';
 
 export default function GvtewayIntegrationsPage() {
   const [eventCode, setEventCode] = useState('');
@@ -51,14 +52,16 @@ export default function GvtewayIntegrationsPage() {
   };
 
   return (
-    <Container size="xl" className="py-12">
-      <Stack gap={8}>
-        <Stack gap={4}>
-          <H1>GVTEWAY Platform Integrations</H1>
-          <Body>
-            Connect ticket sales, guest data, and event operations with backend systems.
-          </Body>
-        </Stack>
+    <Section className="min-h-screen bg-white">
+      <Navigation />
+      <Container className="py-16">
+        <Stack gap={8}>
+          <Stack gap={2} className="border-b-2 border-black pb-8">
+            <H1>Platform Integrations</H1>
+            <Body className="text-grey-600">
+              Connect ticket sales, guest data, and event operations with backend systems.
+            </Body>
+          </Stack>
 
         <Grid cols={4} gap={6}>
           <StatCard value={38} label="Events Synced" />
@@ -201,6 +204,7 @@ export default function GvtewayIntegrationsPage() {
           </Stack>
         </Card>
       </Stack>
-    </Container>
+      </Container>
+    </Section>
   );
 }

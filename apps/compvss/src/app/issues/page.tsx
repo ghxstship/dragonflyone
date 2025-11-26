@@ -14,6 +14,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
+import { getBadgeVariant } from '@ghxstship/config';
 
 interface Issue {
   id: string;
@@ -49,13 +50,7 @@ const getPriorityVariant = (priority: string): 'solid' | 'outline' | 'ghost' => 
   }
 };
 
-const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
-  switch (status) {
-    case 'resolved': case 'closed': return 'solid';
-    case 'escalated': return 'solid';
-    default: return 'outline';
-  }
-};
+const getStatusVariant = getBadgeVariant;
 
 const columns: ListPageColumn<Issue>[] = [
   { key: 'title', label: 'Issue', accessor: 'title', sortable: true },

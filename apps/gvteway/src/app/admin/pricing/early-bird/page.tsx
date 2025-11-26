@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Navigation } from "../../../../components/navigation";
 import {
   Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
+  Section, Card, Tabs, TabsList, Tab, TabPanel, Badge,
   Modal, ModalHeader, ModalBody, ModalFooter, Alert,
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
 } from "@ghxstship/ui";
@@ -54,12 +55,13 @@ export default function EarlyBirdPage() {
   const filteredCampaigns = activeTab === "all" ? mockCampaigns : mockCampaigns.filter(c => c.status.toLowerCase() === activeTab);
 
   return (
-    <UISection className="min-h-screen bg-white">
-      <Container className="py-8">
+    <Section className="min-h-screen bg-white">
+      <Navigation />
+      <Container className="py-16">
         <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>EARLY BIRD PRICING</H1>
-            <Body className="text-gray-600">Create and manage early bird pricing campaigns with countdown timers</Body>
+          <Stack gap={2} className="border-b-2 border-black pb-8">
+            <H1>Early Bird Pricing</H1>
+            <Body className="text-grey-600">Create and manage early bird pricing campaigns with countdown timers</Body>
           </Stack>
 
           <Grid cols={4} gap={6}>
@@ -242,6 +244,6 @@ export default function EarlyBirdPage() {
           <Button variant="solid">Edit Campaign</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </Section>
   );
 }

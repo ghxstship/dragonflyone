@@ -2,10 +2,11 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
+import { Navigation } from '../../../../components/navigation';
 import {
   Container,
   Section,
-  Display,
+  H1,
   H2,
   H3,
   Body,
@@ -81,8 +82,11 @@ export default function EntryInfoPage() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" />
+      <Section className="min-h-screen bg-white">
+        <Navigation />
+        <Container className="flex min-h-[60vh] items-center justify-center">
+          <LoadingSpinner size="lg" text="Loading entry information..." />
+        </Container>
       </Section>
     );
   }
@@ -90,8 +94,9 @@ export default function EntryInfoPage() {
   if (!info) {
     return (
       <Section className="min-h-screen bg-white">
-        <Container>
-          <Card className="p-12 text-center mt-12">
+        <Navigation />
+        <Container className="py-16">
+          <Card className="p-12 text-center">
             <H2 className="mb-4">INFORMATION NOT AVAILABLE</H2>
             <Body className="text-gray-600 mb-6">
               Entry information for this event is not yet available.
@@ -107,14 +112,16 @@ export default function EntryInfoPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Container>
-        <Section className="border-b-2 border-black py-8 mb-8">
-          <Body className="text-gray-500 mb-2">{info.event_date}</Body>
-          <Display>{info.event_title}</Display>
-          <Body className="mt-2 text-gray-600">
+      <Navigation />
+      <Container className="py-16">
+        <Stack gap={8}>
+        <Stack gap={2} className="border-b-2 border-black pb-8">
+          <Body className="text-grey-500">{info.event_date}</Body>
+          <H1>{info.event_title}</H1>
+          <Body className="text-grey-600">
             {info.venue_name} • {info.venue_city}
           </Body>
-        </Section>
+        </Stack>
 
         {error && (
           <Alert variant="error" className="mb-6">
@@ -311,6 +318,7 @@ export default function EntryInfoPage() {
             </Button>
           </Stack>
         </Grid>
+        </Stack>
       </Container>
     </Section>
   );

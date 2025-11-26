@@ -12,6 +12,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
+import { getBadgeVariant } from "@ghxstship/config";
 
 interface RFP {
   id: string;
@@ -34,13 +35,7 @@ const formatCurrency = (amount: number) => {
   if (amount >= 1000) return `$${(amount / 1000).toFixed(0)}K`;
   return `$${amount.toFixed(0)}`;
 };
-const getStatusVariant = (status: string): "solid" | "outline" | "ghost" => {
-  switch (status?.toLowerCase()) {
-    case "awarded": case "closed": return "solid";
-    case "open": case "evaluation": return "outline";
-    default: return "ghost";
-  }
-};
+const getStatusVariant = getBadgeVariant;
 
 const columns: ListPageColumn<RFP>[] = [
   { key: 'title', label: 'Title', accessor: 'title', sortable: true },

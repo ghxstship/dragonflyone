@@ -2,10 +2,11 @@
 
 import { useState, useEffect, useCallback, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { Navigation } from '../../components/navigation';
 import {
   Container,
   Section,
-  Display,
+  H1,
   H2,
   H3,
   Body,
@@ -215,20 +216,20 @@ function MapViewContent() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Container>
-        <Section className="border-b-2 border-black py-8 mb-8">
-          <Stack direction="horizontal" className="justify-between items-center">
-            <Stack>
-              <Display>MAP VIEW</Display>
-              <Body className="mt-2 text-gray-600">
-                Discover events near you
-              </Body>
-            </Stack>
-            <Button variant="outline" onClick={() => router.push('/browse')}>
-              List View
-            </Button>
+      <Navigation />
+      <Container className="py-16">
+        <Stack gap={8}>
+        <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
+          <Stack gap={2}>
+            <H1>Map View</H1>
+            <Body className="text-grey-600">
+              Discover events near you
+            </Body>
           </Stack>
-        </Section>
+          <Button variant="outline" onClick={() => router.push('/browse')}>
+            List View
+          </Button>
+        </Stack>
 
         {error && (
           <Alert variant="error" className="mb-6">
@@ -350,6 +351,7 @@ function MapViewContent() {
             </Card>
           </Stack>
         </Grid>
+        </Stack>
       </Container>
     </Section>
   );
@@ -358,8 +360,11 @@ function MapViewContent() {
 export default function MapViewPage() {
   return (
     <Suspense fallback={
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" />
+      <Section className="min-h-screen bg-white">
+        <Navigation />
+        <Container className="flex min-h-[60vh] items-center justify-center">
+          <LoadingSpinner size="lg" text="Loading map..." />
+        </Container>
       </Section>
     }>
       <MapViewContent />

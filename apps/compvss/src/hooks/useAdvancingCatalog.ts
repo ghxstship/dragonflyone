@@ -1,3 +1,5 @@
+'use client';
+
 // apps/compvss/src/hooks/useAdvancingCatalog.ts
 import { useQuery } from '@tanstack/react-query';
 import type { ProductionCatalogItem, CatalogFilters } from '@ghxstship/config/types/advancing';

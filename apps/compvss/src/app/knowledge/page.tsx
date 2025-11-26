@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Container, Section, Display, H2, H3, Body, Button, Input, Card, Grid, Badge, Stack, StatCard } from '@ghxstship/ui';
+import { Navigation } from '../../components/navigation';
+import { Container, Section, H1, H2, H3, Body, Button, Input, Card, Grid, Badge, Stack, StatCard } from '@ghxstship/ui';
 import { Search, BookOpen, Video, FileText, Download, Star } from 'lucide-react';
 
 export default function KnowledgePage() {
@@ -45,15 +46,16 @@ export default function KnowledgePage() {
   const categories = ['All', 'Safety', 'Technical', 'Operations', 'Equipment', 'Compliance'];
 
   return (
-    <Section className="min-h-screen bg-white py-8">
-      <Container>
+    <Section className="min-h-screen bg-black text-white">
+      <Navigation />
+      <Container className="py-16">
         <Stack gap={8}>
-          <Stack gap={4} direction="horizontal" className="justify-between items-start">
+          <Stack gap={4} direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b border-grey-800 pb-8">
             <Stack gap={2}>
-              <Display>KNOWLEDGE BASE</Display>
-              <Body className="text-grey-600">SOPs, guides, and training materials</Body>
+              <H1>Knowledge Base</H1>
+              <Body className="text-grey-400">SOPs, guides, and training materials</Body>
             </Stack>
-            <Button onClick={() => router.push('/knowledge/contribute')}>
+            <Button variant="solid" onClick={() => router.push('/knowledge/contribute')}>
               <FileText className="w-4 h-4 mr-2" />
               CONTRIBUTE
             </Button>

@@ -2,10 +2,11 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Navigation } from '../../components/navigation';
 import {
   Container,
   Section,
-  Display,
+  H1,
   Body,
   Button,
   Card,
@@ -54,15 +55,14 @@ export default function BuildStrikePage() {
   };
 
   return (
-    <Section className="min-h-screen bg-white">
-      <Container>
+    <Section className="min-h-screen bg-black text-white">
+      <Navigation />
+      <Container className="py-16">
         <Stack gap={8}>
-          <Card className="border-b-2 border-black py-8 bg-transparent rounded-none">
-            <Stack gap={2}>
-              <Display>BUILD & STRIKE</Display>
-              <Body>Build Progress: 45%</Body>
-            </Stack>
-          </Card>
+          <Stack gap={2} className="border-b border-grey-800 pb-8">
+            <H1>Build & Strike</H1>
+            <Body className="text-grey-400">Build Progress: 45%</Body>
+          </Stack>
 
           <Grid cols={3} gap={6}>
             <StatCard
