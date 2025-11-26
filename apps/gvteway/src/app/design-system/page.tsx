@@ -45,7 +45,7 @@ export default function DesignSystemPage() {
       header={
         <Navigation
           logo={
-            <Display size="md" className="text-[3rem]">
+            <Display size="md" className="text-display-md">
               GHXSTSHIP
             </Display>
           }
@@ -64,7 +64,7 @@ export default function DesignSystemPage() {
       footer={
         <Footer
           logo={
-            <Display size="md" className="text-white text-[3rem]">
+            <Display size="md" className="text-white text-display-md">
               GHXSTSHIP
             </Display>
           }

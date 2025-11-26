@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { colors, typography, fontSizes, letterSpacing, transitions, borderWidths } from "../tokens.js";
+import clsx from "clsx";
 
 export type ConfirmDialogVariant = "danger" | "warning" | "info";
 
@@ -30,22 +30,10 @@ export interface ConfirmDialogProps {
   className?: string;
 }
 
-const variantStyles: Record<ConfirmDialogVariant, { icon: string; confirmBg: string; confirmHoverBg: string }> = {
-  danger: {
-    icon: "⚠️",
-    confirmBg: colors.black,
-    confirmHoverBg: colors.grey900,
-  },
-  warning: {
-    icon: "⚡",
-    confirmBg: colors.black,
-    confirmHoverBg: colors.grey900,
-  },
-  info: {
-    icon: "ℹ️",
-    confirmBg: colors.black,
-    confirmHoverBg: colors.grey900,
-  },
+const variantIcons: Record<ConfirmDialogVariant, string> = {
+  danger: "⚠️",
+  warning: "⚡",
+  info: "ℹ️",
 };
 
 export function ConfirmDialog({
@@ -61,7 +49,7 @@ export function ConfirmDialog({
   details,
   className = "",
 }: ConfirmDialogProps) {
-  const styles = variantStyles[variant];
+  const icon = variantIcons[variant];
 
   // Handle escape key
   React.useEffect(() => {
@@ -86,16 +74,10 @@ export function ConfirmDialog({
 
   return (
     <div
-      className={className}
-      style={{
-        position: "fixed",
-        inset: 0,
-        zIndex: 1500,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "1rem",
-      }}
+      className={clsx(
+        "fixed inset-0 z-popover flex items-center justify-center p-4",
+        className
+      )}
       role="alertdialog"
       aria-modal="true"
       aria-labelledby="confirm-dialog-title"
@@ -103,46 +85,19 @@ export function ConfirmDialog({
     >
       {/* Backdrop */}
       <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          backgroundColor: "rgba(0, 0, 0, 0.5)",
-        }}
+        className="absolute inset-0 bg-black/50"
         onClick={loading ? undefined : onCancel}
         aria-hidden="true"
       />
 
       {/* Dialog */}
-      <div
-        style={{
-          position: "relative",
-          backgroundColor: colors.white,
-          border: `${borderWidths.medium} solid ${colors.black}`,
-          boxShadow: "8px 8px 0 0 #000000",
-          width: "100%",
-          maxWidth: "400px",
-          padding: "1.5rem",
-        }}
-      >
+      <div className="relative bg-white border-2 border-black shadow-hard-lg w-full max-w-[400px] p-6">
         {/* Icon and Title */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "0.75rem",
-            marginBottom: "1rem",
-          }}
-        >
-          <span style={{ fontSize: "24px" }}>{styles.icon}</span>
+        <div className="flex items-center gap-3 mb-4">
+          <span className="text-2xl">{icon}</span>
           <h2
             id="confirm-dialog-title"
-            style={{
-              fontFamily: typography.heading,
-              fontSize: fontSizes.h4MD,
-              letterSpacing: letterSpacing.wider,
-              textTransform: "uppercase",
-              margin: 0,
-            }}
+            className="font-heading text-h4-md tracking-wider uppercase"
           >
             {title}
           </h2>
@@ -151,59 +106,31 @@ export function ConfirmDialog({
         {/* Message */}
         <p
           id="confirm-dialog-description"
-          style={{
-            fontFamily: typography.body,
-            fontSize: fontSizes.bodyMD,
-            color: colors.grey700,
-            marginBottom: details ? "0.75rem" : "1.5rem",
-            lineHeight: 1.5,
-          }}
+          className={clsx(
+            "font-body text-body-md text-grey-700 leading-relaxed",
+            details ? "mb-3" : "mb-6"
+          )}
         >
           {message}
         </p>
 
         {/* Details */}
         {details && (
-          <div
-            style={{
-              fontFamily: typography.mono,
-              fontSize: fontSizes.monoSM,
-              color: colors.grey600,
-              backgroundColor: colors.grey100,
-              padding: "0.75rem",
-              marginBottom: "1.5rem",
-              border: `1px solid ${colors.grey200}`,
-            }}
-          >
+          <div className="font-code text-mono-sm text-grey-600 bg-grey-100 p-3 mb-6 border border-grey-200">
             {details}
           </div>
         )}
 
         {/* Actions */}
-        <div
-          style={{
-            display: "flex",
-            gap: "0.75rem",
-            justifyContent: "flex-end",
-          }}
-        >
+        <div className="flex gap-3 justify-end">
           <button
             type="button"
             onClick={onCancel}
             disabled={loading}
-            style={{
-              padding: "0.75rem 1.5rem",
-              fontFamily: typography.heading,
-              fontSize: fontSizes.bodyMD,
-              letterSpacing: letterSpacing.wider,
-              textTransform: "uppercase",
-              backgroundColor: colors.white,
-              color: colors.black,
-              border: `${borderWidths.medium} solid ${colors.black}`,
-              cursor: loading ? "not-allowed" : "pointer",
-              opacity: loading ? 0.5 : 1,
-              transition: transitions.fast,
-            }}
+            className={clsx(
+              "px-6 py-3 font-heading text-body-md tracking-wider uppercase bg-white text-black border-2 border-black transition-colors duration-fast",
+              loading ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:bg-grey-100"
+            )}
           >
             {cancelLabel}
           </button>
@@ -211,44 +138,18 @@ export function ConfirmDialog({
             type="button"
             onClick={onConfirm}
             disabled={loading}
-            style={{
-              padding: "0.75rem 1.5rem",
-              fontFamily: typography.heading,
-              fontSize: fontSizes.bodyMD,
-              letterSpacing: letterSpacing.wider,
-              textTransform: "uppercase",
-              backgroundColor: styles.confirmBg,
-              color: colors.white,
-              border: `${borderWidths.medium} solid ${colors.black}`,
-              cursor: loading ? "not-allowed" : "pointer",
-              opacity: loading ? 0.7 : 1,
-              transition: transitions.fast,
-              display: "flex",
-              alignItems: "center",
-              gap: "0.5rem",
-            }}
+            className={clsx(
+              "px-6 py-3 font-heading text-body-md tracking-wider uppercase bg-black text-white border-2 border-black transition-colors duration-fast flex items-center gap-2",
+              loading ? "cursor-not-allowed opacity-70" : "cursor-pointer hover:bg-grey-900"
+            )}
           >
             {loading && (
-              <span
-                style={{
-                  display: "inline-block",
-                  width: "14px",
-                  height: "14px",
-                  border: `2px solid ${colors.grey300}`,
-                  borderTopColor: colors.white,
-                  borderRadius: "50%",
-                  animation: "spin 1s linear infinite",
-                }}
-              />
+              <span className="inline-block w-3.5 h-3.5 border-2 border-grey-300 border-t-white rounded-full animate-spin" />
             )}
             {confirmLabel}
           </button>
         </div>
       </div>
-
-      <style>
-        {`@keyframes spin { to { transform: rotate(360deg); } }`}
-      </style>
     </div>
   );
 }

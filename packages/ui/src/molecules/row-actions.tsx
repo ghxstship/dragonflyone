@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { colors, typography, fontSizes, letterSpacing, transitions, borderWidths } from "../tokens.js";
+import clsx from "clsx";
 
 export interface RowAction<T = unknown> {
   /** Unique action identifier */
@@ -41,6 +41,21 @@ export interface RowActionsProps<T = unknown> {
   className?: string;
 }
 
+const sizeClasses = {
+  sm: {
+    trigger: "p-1",
+    item: "px-3 py-2 text-mono-xs",
+    icon: "text-base",
+    triggerIcon: "text-sm",
+  },
+  md: {
+    trigger: "p-1.5",
+    item: "px-4 py-2.5 text-mono-sm",
+    icon: "text-base",
+    triggerIcon: "text-xl",
+  },
+};
+
 export function RowActions<T = unknown>({
   row,
   actions,
@@ -53,6 +68,7 @@ export function RowActions<T = unknown>({
 }: RowActionsProps<T>) {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const config = sizeClasses[size];
 
   // Filter visible actions
   const visibleActions = actions.filter((action) => {
@@ -99,31 +115,12 @@ export function RowActions<T = unknown>({
     onAction(actionId, row);
   };
 
-  const sizeStyles = {
-    sm: {
-      triggerPadding: "0.25rem",
-      itemPadding: "0.5rem 0.75rem",
-      fontSize: fontSizes.monoXS,
-    },
-    md: {
-      triggerPadding: "0.375rem",
-      itemPadding: "0.625rem 1rem",
-      fontSize: fontSizes.monoSM,
-    },
-  }[size];
-
   const renderTrigger = () => {
-    const baseStyle: React.CSSProperties = {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      padding: sizeStyles.triggerPadding,
-      backgroundColor: isOpen ? colors.grey100 : "transparent",
-      border: "none",
-      cursor: "pointer",
-      transition: transitions.fast,
-      borderRadius: 0,
-    };
+    const baseClasses = clsx(
+      "flex items-center justify-center border-none cursor-pointer transition-colors duration-fast",
+      config.trigger,
+      isOpen ? "bg-grey-100" : "bg-transparent hover:bg-grey-100"
+    );
 
     if (triggerVariant === "dots") {
       return (
@@ -133,12 +130,12 @@ export function RowActions<T = unknown>({
             e.stopPropagation();
             setIsOpen(!isOpen);
           }}
-          style={baseStyle}
+          className={baseClasses}
           aria-label="Row actions"
           aria-expanded={isOpen}
           aria-haspopup="menu"
         >
-          <span style={{ fontSize: size === "sm" ? "16px" : "20px", letterSpacing: "2px" }}>⋮</span>
+          <span className={clsx(config.triggerIcon, "tracking-widest")}>⋮</span>
         </button>
       );
     }
@@ -151,12 +148,12 @@ export function RowActions<T = unknown>({
             e.stopPropagation();
             setIsOpen(!isOpen);
           }}
-          style={baseStyle}
+          className={baseClasses}
           aria-label="Row actions"
           aria-expanded={isOpen}
           aria-haspopup="menu"
         >
-          <span style={{ fontSize: size === "sm" ? "14px" : "16px" }}>⚙️</span>
+          <span className={size === "sm" ? "text-sm" : "text-base"}>⚙️</span>
         </button>
       );
     }
@@ -168,20 +165,16 @@ export function RowActions<T = unknown>({
           e.stopPropagation();
           setIsOpen(!isOpen);
         }}
-        style={{
-          ...baseStyle,
-          padding: `${sizeStyles.triggerPadding} 0.75rem`,
-          fontFamily: typography.mono,
-          fontSize: sizeStyles.fontSize,
-          letterSpacing: letterSpacing.wide,
-          textTransform: "uppercase",
-          border: `1px solid ${colors.grey300}`,
-        }}
+        className={clsx(
+          baseClasses,
+          "px-3 font-code tracking-wide uppercase border border-grey-300",
+          size === "sm" ? "text-mono-xs" : "text-mono-sm"
+        )}
         aria-expanded={isOpen}
         aria-haspopup="menu"
       >
         {triggerLabel}
-        <span style={{ marginLeft: "0.25rem", fontSize: "10px" }}>{isOpen ? "▲" : "▼"}</span>
+        <span className="ml-1 text-[10px]">{isOpen ? "▲" : "▼"}</span>
       </button>
     );
   };
@@ -191,11 +184,7 @@ export function RowActions<T = unknown>({
   return (
     <div
       ref={containerRef}
-      className={className}
-      style={{
-        position: "relative",
-        display: "inline-block",
-      }}
+      className={clsx("relative inline-block", className)}
     >
       {renderTrigger()}
 
@@ -203,17 +192,10 @@ export function RowActions<T = unknown>({
       {isOpen && (
         <div
           role="menu"
-          style={{
-            position: "absolute",
-            top: "100%",
-            [align === "right" ? "right" : "left"]: 0,
-            marginTop: "4px",
-            minWidth: "160px",
-            backgroundColor: colors.white,
-            border: `${borderWidths.medium} solid ${colors.black}`,
-            boxShadow: "4px 4px 0 0 #000000",
-            zIndex: 100,
-          }}
+          className={clsx(
+            "absolute top-full mt-1 min-w-[160px] bg-white border-2 border-black shadow-hard z-dropdown",
+            align === "right" ? "right-0" : "left-0"
+          )}
         >
           {visibleActions.map((action, index) => {
             const isDisabled =
@@ -222,49 +204,26 @@ export function RowActions<T = unknown>({
             return (
               <React.Fragment key={action.id}>
                 {action.divider && index > 0 && (
-                  <div
-                    style={{
-                      height: "1px",
-                      backgroundColor: colors.grey200,
-                      margin: "0.25rem 0",
-                    }}
-                  />
+                  <div className="h-px bg-grey-200 my-1" />
                 )}
                 <button
                   type="button"
                   role="menuitem"
                   onClick={(e) => !isDisabled && handleActionClick(action.id, e)}
                   disabled={isDisabled}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    width: "100%",
-                    padding: sizeStyles.itemPadding,
-                    fontFamily: typography.body,
-                    fontSize: sizeStyles.fontSize,
-                    textAlign: "left",
-                    backgroundColor: colors.white,
-                    color: action.variant === "danger" ? colors.grey700 : colors.grey800,
-                    border: "none",
-                    borderBottom: `1px solid ${colors.grey200}`,
-                    cursor: isDisabled ? "not-allowed" : "pointer",
-                    opacity: isDisabled ? 0.5 : 1,
-                    transition: transitions.fast,
-                  }}
+                  className={clsx(
+                    "flex items-center justify-between w-full text-left bg-white border-none border-b border-grey-200 transition-colors duration-fast",
+                    config.item,
+                    action.variant === "danger" ? "text-grey-700" : "text-grey-800",
+                    isDisabled ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:bg-grey-100"
+                  )}
                 >
-                  <span style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                    {action.icon && <span style={{ fontSize: "14px" }}>{action.icon}</span>}
+                  <span className="flex items-center gap-2">
+                    {action.icon && <span className="text-sm">{action.icon}</span>}
                     {action.label}
                   </span>
                   {action.shortcut && (
-                    <span
-                      style={{
-                        fontFamily: typography.mono,
-                        fontSize: fontSizes.monoXS,
-                        color: colors.grey500,
-                      }}
-                    >
+                    <span className="font-code text-mono-xs text-grey-500">
                       {action.shortcut}
                     </span>
                   )}

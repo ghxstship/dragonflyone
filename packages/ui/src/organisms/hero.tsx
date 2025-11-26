@@ -13,6 +13,8 @@ export type HeroProps = HTMLAttributes<HTMLElement> & {
 
 export const Hero = forwardRef<HTMLElement, HeroProps>(
   function Hero({ title, subtitle, cta, background = "black", pattern = "none", fullHeight = true, className, ...props }, ref) {
+    const patternColor = background === "black" ? "#FFFFFF" : "#000000";
+    
     return (
       <section
         ref={ref}
@@ -29,7 +31,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
           <div
             className="absolute inset-0 opacity-10"
             style={{
-              backgroundImage: `radial-gradient(circle, ${background === "black" ? "#fff" : "#000"} 1px, transparent 1px)`,
+              backgroundImage: `radial-gradient(circle, ${patternColor} 1px, transparent 1px)`,
               backgroundSize: "20px 20px",
             }}
           />
@@ -39,8 +41,8 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
             className="absolute inset-0 opacity-10"
             style={{
               backgroundImage: `
-                linear-gradient(${background === "black" ? "#fff" : "#000"} 1px, transparent 1px),
-                linear-gradient(90deg, ${background === "black" ? "#fff" : "#000"} 1px, transparent 1px)
+                linear-gradient(${patternColor} 1px, transparent 1px),
+                linear-gradient(90deg, ${patternColor} 1px, transparent 1px)
               `,
               backgroundSize: "40px 40px",
             }}
@@ -50,7 +52,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
         <div className="container mx-auto px-4 h-full flex items-center justify-center relative z-10">
           <div className="text-center max-w-5xl">
             {typeof title === "string" ? (
-              <h1 className="font-display text-[3rem] md:text-[5rem] lg:text-[7.5rem] uppercase leading-[0.9] tracking-tightest mb-6">
+              <h1 className="font-display text-display-md md:text-display-lg lg:text-display-xl uppercase leading-none tracking-tightest mb-6">
                 {title}
               </h1>
             ) : (
@@ -60,7 +62,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
             {subtitle && (
               <div className="mb-8">
                 {typeof subtitle === "string" ? (
-                  <p className="font-heading text-[1.5rem] md:text-[2.5rem] uppercase tracking-wider leading-normal">
+                  <p className="font-heading text-h3-sm md:text-h1-md uppercase tracking-wider leading-normal">
                     {subtitle}
                   </p>
                 ) : (

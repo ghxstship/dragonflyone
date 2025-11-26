@@ -3,7 +3,7 @@ import clsx from "clsx";
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 
 const baseClasses =
-  "inline-flex items-center justify-center gap-2 font-heading uppercase tracking-wider transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black disabled:opacity-50 disabled:cursor-not-allowed min-h-[48px]";
+  "inline-flex items-center justify-center gap-2 font-heading uppercase tracking-wider transition-colors duration-base focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black disabled:opacity-50 disabled:cursor-not-allowed min-h-12";
 
 const variantClasses = {
   solid: "bg-black text-white hover:bg-grey-900 active:scale-95",
@@ -13,9 +13,9 @@ const variantClasses = {
 };
 
 const sizeClasses = {
-  sm: "px-4 py-2 text-[1rem] min-h-[40px]",
-  md: "px-6 py-3 text-[1.125rem] min-h-[48px]",
-  lg: "px-8 py-4 text-[1.25rem] min-h-[56px]",
+  sm: "px-4 py-2 text-body-sm min-h-10",
+  md: "px-6 py-3 text-body-md min-h-12",
+  lg: "px-8 py-4 text-body-lg min-h-14",
 };
 
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {

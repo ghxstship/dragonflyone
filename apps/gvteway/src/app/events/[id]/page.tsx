@@ -110,7 +110,7 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
       background="black"
       header={
         <Navigation
-          logo={<Display size="md" className="text-[3rem]">GVTEWAY</Display>}
+          logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
           cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/auth/signin')}>SIGN IN</Button>}
         >
           <Link href="/" className="font-heading text-sm uppercase tracking-wider hover:text-grey-400">Home</Link>
@@ -119,7 +119,7 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
       }
       footer={
         <Footer
-          logo={<Display size="md" className="text-white text-[3rem]">GVTEWAY</Display>}
+          logo={<Display size="md" className="text-white text-display-md">GVTEWAY</Display>}
           copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
         >
           <FooterColumn title="Discover">

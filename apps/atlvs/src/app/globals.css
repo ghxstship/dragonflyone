@@ -29,7 +29,25 @@ body {
   font-family: var(--font-share-tech), "Share Tech", "Monaco", "Consolas", monospace;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   letter-spacing: 0.01em;
+}
+
+/* Ensure font variables are applied */
+.font-display {
+  font-family: var(--font-anton), "Anton", "Impact", "Arial Black", sans-serif;
+}
+
+.font-heading {
+  font-family: var(--font-bebas-neue), "Bebas Neue", "Arial Narrow", Arial, sans-serif;
+}
+
+.font-body {
+  font-family: var(--font-share-tech), "Share Tech", "Monaco", "Consolas", monospace;
+}
+
+.font-mono {
+  font-family: var(--font-share-tech-mono), "Share Tech Mono", "Monaco", "Consolas", monospace;
 }
 
 a {

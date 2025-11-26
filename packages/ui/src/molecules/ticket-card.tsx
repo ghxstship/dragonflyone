@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { colors, typography, fontSizes, letterSpacing, transitions, borderWidths } from "../tokens.js";
+import clsx from "clsx";
 
 export interface TicketCardProps {
   /** Ticket ID */
@@ -35,11 +35,11 @@ export interface TicketCardProps {
 }
 
 const statusConfig = {
-  valid: { label: "VALID", bgColor: colors.black, textColor: colors.white },
-  used: { label: "USED", bgColor: colors.grey500, textColor: colors.white },
-  transferred: { label: "TRANSFERRED", bgColor: colors.grey600, textColor: colors.white },
-  refunded: { label: "REFUNDED", bgColor: colors.grey400, textColor: colors.black },
-  expired: { label: "EXPIRED", bgColor: colors.grey300, textColor: colors.grey700 },
+  valid: { label: "VALID", bgClass: "bg-black", textClass: "text-white" },
+  used: { label: "USED", bgClass: "bg-grey-500", textClass: "text-white" },
+  transferred: { label: "TRANSFERRED", bgClass: "bg-grey-600", textClass: "text-white" },
+  refunded: { label: "REFUNDED", bgClass: "bg-grey-400", textClass: "text-black" },
+  expired: { label: "EXPIRED", bgClass: "bg-grey-300", textClass: "text-grey-700" },
 };
 
 function formatDate(date: Date | string): string {
@@ -73,123 +73,57 @@ export function TicketCard({
 
   return (
     <article
-      className={className}
+      className={clsx(
+        "flex flex-col bg-white border-2 border-black overflow-hidden transition-all duration-base",
+        onClick && "cursor-pointer",
+        !isActive && "opacity-70",
+        className
+      )}
       onClick={onClick}
       role={onClick ? "button" : undefined}
       tabIndex={onClick ? 0 : undefined}
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        backgroundColor: colors.white,
-        border: `${borderWidths.medium} solid ${colors.black}`,
-        cursor: onClick ? "pointer" : "default",
-        transition: transitions.base,
-        overflow: "hidden",
-        opacity: isActive ? 1 : 0.7,
-      }}
     >
       {/* Header with Status */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "1rem 1.25rem",
-          borderBottom: `${borderWidths.thin} solid ${colors.grey200}`,
-        }}
-      >
-        <div
-          style={{
-            fontFamily: typography.mono,
-            fontSize: fontSizes.monoSM,
-            color: colors.grey600,
-            letterSpacing: letterSpacing.widest,
-          }}
-        >
+      <div className="flex justify-between items-center px-5 py-4 border-b border-grey-200">
+        <div className="font-code text-mono-sm text-grey-600 tracking-widest">
           {ticketType}
         </div>
         <div
-          style={{
-            backgroundColor: statusInfo.bgColor,
-            color: statusInfo.textColor,
-            fontFamily: typography.mono,
-            fontSize: fontSizes.monoXS,
-            letterSpacing: letterSpacing.widest,
-            padding: "0.25rem 0.5rem",
-          }}
+          className={clsx(
+            "font-code text-mono-xs tracking-widest px-2 py-1",
+            statusInfo.bgClass,
+            statusInfo.textClass
+          )}
         >
           {statusInfo.label}
         </div>
       </div>
 
       {/* Main Content */}
-      <div
-        style={{
-          padding: "1.25rem",
-          display: "flex",
-          gap: "1.5rem",
-        }}
-      >
+      <div className="p-5 flex gap-6">
         {/* Event Info */}
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-          <h3
-            style={{
-              fontFamily: typography.heading,
-              fontSize: fontSizes.h4MD,
-              color: colors.black,
-              textTransform: "uppercase",
-              letterSpacing: letterSpacing.wide,
-              margin: 0,
-              lineHeight: 1.1,
-            }}
-          >
+        <div className="flex-1 flex flex-col gap-3">
+          <h3 className="font-heading text-h4-md text-black uppercase tracking-wide leading-snug">
             {eventTitle}
           </h3>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.375rem" }}>
-            <div
-              style={{
-                fontFamily: typography.mono,
-                fontSize: fontSizes.monoSM,
-                color: colors.black,
-                letterSpacing: letterSpacing.wide,
-              }}
-            >
+          <div className="flex flex-col gap-1.5">
+            <div className="font-code text-mono-sm text-black tracking-wide">
               {formatDate(date)}
               {time && ` // ${time}`}
             </div>
-            <div
-              style={{
-                fontFamily: typography.body,
-                fontSize: fontSizes.bodySM,
-                color: colors.grey700,
-              }}
-            >
+            <div className="font-body text-body-sm text-grey-700">
               {venue}
             </div>
             {seatInfo && (
-              <div
-                style={{
-                  fontFamily: typography.mono,
-                  fontSize: fontSizes.monoSM,
-                  color: colors.grey600,
-                  letterSpacing: letterSpacing.wide,
-                }}
-              >
+              <div className="font-code text-mono-sm text-grey-600 tracking-wide">
                 {seatInfo}
               </div>
             )}
           </div>
 
           {attendeeName && (
-            <div
-              style={{
-                fontFamily: typography.body,
-                fontSize: fontSizes.bodySM,
-                color: colors.grey700,
-                marginTop: "0.5rem",
-              }}
-            >
+            <div className="font-body text-body-sm text-grey-700 mt-2">
               {attendeeName}
             </div>
           )}
@@ -197,77 +131,32 @@ export function TicketCard({
 
         {/* QR Code */}
         {showQR && qrCode && isActive && (
-          <div
-            style={{
-              width: "100px",
-              height: "100px",
-              backgroundColor: colors.white,
-              border: `${borderWidths.thin} solid ${colors.grey300}`,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              flexShrink: 0,
-            }}
-          >
+          <div className="w-[100px] h-[100px] bg-white border border-grey-300 flex items-center justify-center flex-shrink-0">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={qrCode}
               alt="Ticket QR Code"
-              style={{
-                width: "90%",
-                height: "90%",
-                objectFit: "contain",
-              }}
+              className="w-[90%] h-[90%] object-contain"
             />
           </div>
         )}
       </div>
 
       {/* Footer with Order Info */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "0.75rem 1.25rem",
-          backgroundColor: colors.grey100,
-          borderTop: `${borderWidths.thin} solid ${colors.grey200}`,
-        }}
-      >
-        <div
-          style={{
-            fontFamily: typography.mono,
-            fontSize: fontSizes.monoXS,
-            color: colors.grey500,
-            letterSpacing: letterSpacing.widest,
-          }}
-        >
+      <div className="flex justify-between items-center px-5 py-3 bg-grey-100 border-t border-grey-200">
+        <div className="font-code text-mono-xs text-grey-500 tracking-widest">
           {orderNumber && `ORDER #${orderNumber}`}
         </div>
-        <div
-          style={{
-            fontFamily: typography.mono,
-            fontSize: fontSizes.monoXS,
-            color: colors.grey500,
-            letterSpacing: letterSpacing.widest,
-          }}
-        >
+        <div className="font-code text-mono-xs text-grey-500 tracking-widest">
           ID: {id.slice(0, 8).toUpperCase()}
         </div>
       </div>
 
-      {/* Perforated Edge Effect */}
+      {/* Perforated Edge Effect - keeping inline style for complex gradient */}
       <div
+        className="h-2 border-t border-dashed border-grey-300"
         style={{
-          height: "8px",
-          background: `repeating-linear-gradient(
-            90deg,
-            ${colors.white} 0px,
-            ${colors.white} 8px,
-            transparent 8px,
-            transparent 16px
-          )`,
-          borderTop: `${borderWidths.thin} dashed ${colors.grey300}`,
+          background: `repeating-linear-gradient(90deg, white 0px, white 8px, transparent 8px, transparent 16px)`,
         }}
       />
     </article>

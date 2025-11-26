@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { colors } from "../tokens.js";
+import clsx from "clsx";
 
 export interface HalftonePatternProps {
   /** Pattern type */
@@ -10,8 +10,8 @@ export interface HalftonePatternProps {
   size?: number;
   /** Spacing between elements */
   spacing?: number;
-  /** Pattern color */
-  color?: string;
+  /** Pattern color - use 'black' or 'white' for token colors */
+  color?: "black" | "white" | "grey" | string;
   /** Background color */
   backgroundColor?: string;
   /** Opacity of the pattern (0-1) */
@@ -22,6 +22,16 @@ export interface HalftonePatternProps {
   className?: string;
   /** Children to render on top */
   children?: React.ReactNode;
+}
+
+const colorMap: Record<string, string> = {
+  black: "#000000",
+  white: "#FFFFFF",
+  grey: "#737373",
+};
+
+function getColorValue(color: string): string {
+  return colorMap[color] || color;
 }
 
 function generateDotPattern(size: number, spacing: number, color: string): string {
@@ -66,7 +76,7 @@ export function HalftonePattern({
   pattern = "dots",
   size = 4,
   spacing = 8,
-  color = colors.black,
+  color = "black",
   backgroundColor = "transparent",
   opacity = 0.5,
   overlay = false,
@@ -80,7 +90,8 @@ export function HalftonePattern({
     diagonal: generateDiagonalPattern,
   };
 
-  const svgPattern = patternGenerators[pattern](size, spacing, color);
+  const colorValue = getColorValue(color);
+  const svgPattern = patternGenerators[pattern](size, spacing, colorValue);
   const encodedPattern = `data:image/svg+xml,${encodeURIComponent(svgPattern)}`;
 
   const patternStyle: React.CSSProperties = {
@@ -92,15 +103,11 @@ export function HalftonePattern({
 
   if (overlay) {
     return (
-      <div className={className} style={{ position: "relative" }}>
+      <div className={clsx("relative", className)}>
         {children}
         <div
-          style={{
-            ...patternStyle,
-            position: "absolute",
-            inset: 0,
-            pointerEvents: "none",
-          }}
+          className="absolute inset-0 pointer-events-none"
+          style={patternStyle}
           aria-hidden="true"
         />
       </div>
@@ -109,12 +116,8 @@ export function HalftonePattern({
 
   return (
     <div
-      className={className}
-      style={{
-        ...patternStyle,
-        width: "100%",
-        height: "100%",
-      }}
+      className={clsx("w-full h-full", className)}
+      style={patternStyle}
     >
       {children}
     </div>
@@ -136,7 +139,7 @@ export function HeroHalftone({
       pattern="dots"
       size={3}
       spacing={12}
-      color={variant === "light" ? colors.white : colors.black}
+      color={variant === "light" ? "white" : "black"}
       opacity={variant === "light" ? 0.15 : 0.1}
       overlay
       className={className}
@@ -161,7 +164,7 @@ export function GridPattern({
       pattern="grid"
       size={variant === "bold" ? 2 : 1}
       spacing={variant === "bold" ? 24 : 48}
-      color={colors.grey300}
+      color="grey"
       opacity={variant === "bold" ? 0.5 : 0.3}
       overlay
       className={className}

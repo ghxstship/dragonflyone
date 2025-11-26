@@ -190,7 +190,7 @@ export default function CommunityPage() {
         {activeTab === 'forums' && (
           <Stack gap={4}>
             {filteredForums.map((forum) => (
-              <Card key={forum.id} className="p-6 hover:shadow-[8px_8px_0_0_#000] transition-shadow">
+              <Card key={forum.id} className="p-6 hover:shadow-hard-lg transition-shadow">
                 <Stack gap={4} direction="horizontal" className="justify-between items-start mb-4">
                   <Stack gap={2} className="flex-1">
                     <Stack gap={3} direction="horizontal" className="items-center">

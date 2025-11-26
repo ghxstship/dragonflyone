@@ -19,17 +19,17 @@ export const StatCard = forwardRef<HTMLDivElement, StatCardProps>(
         {...props}
       >
         {icon ? <div className="text-black">{icon}</div> : null}
-        <div className="font-display text-[3rem] leading-none uppercase tracking-tightest text-black">
+        <div className="font-display text-display-md leading-none uppercase tracking-tightest text-black">
           {value}
         </div>
-        <div className="font-heading text-[1rem] uppercase tracking-wider text-black">
+        <div className="font-heading text-h6-sm uppercase tracking-wider text-black">
           {label}
         </div>
         {trend && trendValue ? (
           <div className="flex items-center gap-2">
             <span
               className={clsx(
-                "font-code text-[0.75rem] uppercase tracking-widest",
+                "font-code text-mono-xs uppercase tracking-widest",
                 trend === "up" && "text-black",
                 trend === "down" && "text-grey-600",
                 trend === "neutral" && "text-grey-500"

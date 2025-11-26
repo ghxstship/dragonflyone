@@ -162,7 +162,7 @@ export default function OpportunitiesPage() {
         {activeTab === 'rfps' && (
           <Stack gap={4}>
             {rfps.map((rfp) => (
-              <Card key={rfp.id} className="p-6 hover:shadow-[8px_8px_0_0_#000] transition-shadow">
+              <Card key={rfp.id} className="p-6 hover:shadow-hard-lg transition-shadow">
                 <Stack gap={4} direction="horizontal" className="justify-between items-start mb-4">
                   <Stack gap={2} className="flex-1">
                     <Stack gap={3} direction="horizontal" className="items-center">
@@ -202,7 +202,7 @@ export default function OpportunitiesPage() {
         {activeTab === 'jobs' && (
           <Stack gap={4}>
             {jobs.map((job) => (
-              <Card key={job.id} className="p-6 hover:shadow-[8px_8px_0_0_#000] transition-shadow">
+              <Card key={job.id} className="p-6 hover:shadow-hard-lg transition-shadow">
                 <Stack gap={4} direction="horizontal" className="justify-between items-start">
                   <Stack gap={2} className="flex-1">
                     <Stack gap={3} direction="horizontal" className="items-center">
@@ -240,7 +240,7 @@ export default function OpportunitiesPage() {
         {activeTab === 'gigs' && (
           <Stack gap={4}>
             {gigs.map((gig) => (
-              <Card key={gig.id} className="p-6 hover:shadow-[8px_8px_0_0_#000] transition-shadow">
+              <Card key={gig.id} className="p-6 hover:shadow-hard-lg transition-shadow">
                 <Stack gap={4} direction="horizontal" className="justify-between items-start">
                   <Stack gap={4} className="flex-1">
                     <H2 className="mb-4">{gig.title}</H2>

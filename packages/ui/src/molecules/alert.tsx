@@ -32,11 +32,11 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
         {icon ? <div className="flex-shrink-0">{icon}</div> : null}
         <div className="flex-1">
           {title ? (
-            <div className="font-heading text-[1.125rem] uppercase tracking-wider mb-1">
+            <div className="font-heading text-h5-sm uppercase tracking-wider mb-1">
               {title}
             </div>
           ) : null}
-          <div className="font-body text-[1rem]">{children}</div>
+          <div className="font-body text-body-sm">{children}</div>
         </div>
         {onClose ? (
           <button

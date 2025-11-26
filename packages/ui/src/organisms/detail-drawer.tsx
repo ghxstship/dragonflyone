@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { colors, typography, fontSizes, letterSpacing, transitions, borderWidths } from "../tokens.js";
+import clsx from "clsx";
 
 export interface DetailSection {
   /** Section identifier */
@@ -64,11 +64,11 @@ export interface DetailDrawerProps<T = unknown> {
   children?: React.ReactNode;
 }
 
-const widthStyles = {
-  sm: "320px",
-  md: "480px",
-  lg: "640px",
-  xl: "800px",
+const widthClasses = {
+  sm: "max-w-xs",
+  md: "max-w-md",
+  lg: "max-w-xl",
+  xl: "max-w-3xl",
 };
 
 export function DetailDrawer<T = unknown>({
@@ -133,14 +133,11 @@ export function DetailDrawer<T = unknown>({
 
   return (
     <div
-      className={className}
-      style={{
-        position: "fixed",
-        inset: 0,
-        zIndex: 1300,
-        display: "flex",
-        justifyContent: position === "right" ? "flex-end" : "flex-start",
-      }}
+      className={clsx(
+        "fixed inset-0 z-modal flex",
+        position === "right" ? "justify-end" : "justify-start",
+        className
+      )}
       role="dialog"
       aria-modal="true"
       aria-labelledby="drawer-title"
@@ -148,12 +145,7 @@ export function DetailDrawer<T = unknown>({
       {/* Overlay */}
       {showOverlay && (
         <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-            transition: transitions.base,
-          }}
+          className="absolute inset-0 bg-black/50 transition-opacity duration-base"
           onClick={onClose}
           aria-hidden="true"
         />
@@ -163,56 +155,23 @@ export function DetailDrawer<T = unknown>({
       <div
         ref={drawerRef}
         tabIndex={-1}
-        style={{
-          position: "relative",
-          width: "100%",
-          maxWidth: widthStyles[width],
-          height: "100%",
-          backgroundColor: colors.white,
-          borderLeft: position === "right" ? `${borderWidths.medium} solid ${colors.black}` : "none",
-          borderRight: position === "left" ? `${borderWidths.medium} solid ${colors.black}` : "none",
-          display: "flex",
-          flexDirection: "column",
-          overflow: "hidden",
-        }}
+        className={clsx(
+          "relative w-full h-full bg-white flex flex-col overflow-hidden",
+          widthClasses[width],
+          position === "right" ? "border-l-2 border-black" : "border-r-2 border-black"
+        )}
       >
         {/* Header */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            padding: "1.25rem 1.5rem",
-            borderBottom: `${borderWidths.medium} solid ${colors.black}`,
-            backgroundColor: colors.black,
-            color: colors.white,
-          }}
-        >
-          <div style={{ flex: 1, minWidth: 0 }}>
+        <div className="flex items-center justify-between px-6 py-5 border-b-2 border-black bg-black text-white">
+          <div className="flex-1 min-w-0">
             <h2
               id="drawer-title"
-              style={{
-                fontFamily: typography.heading,
-                fontSize: fontSizes.h4MD,
-                letterSpacing: letterSpacing.wider,
-                textTransform: "uppercase",
-                margin: 0,
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-              }}
+              className="font-heading text-h4-md tracking-wider uppercase overflow-hidden text-ellipsis whitespace-nowrap"
             >
               {getTitle()}
             </h2>
             {getSubtitle() && (
-              <p
-                style={{
-                  fontFamily: typography.mono,
-                  fontSize: fontSizes.monoSM,
-                  color: colors.grey400,
-                  margin: "0.25rem 0 0 0",
-                }}
-              >
+              <p className="font-code text-mono-sm text-grey-400 mt-1">
                 {getSubtitle()}
               </p>
             )}
@@ -221,15 +180,7 @@ export function DetailDrawer<T = unknown>({
           <button
             type="button"
             onClick={onClose}
-            style={{
-              padding: "0.5rem",
-              backgroundColor: "transparent",
-              border: "none",
-              color: colors.white,
-              cursor: "pointer",
-              fontSize: "20px",
-              lineHeight: 1,
-            }}
+            className="p-2 bg-transparent border-none text-white cursor-pointer text-xl leading-none hover:text-grey-300"
             aria-label="Close drawer"
           >
             ✕
@@ -238,36 +189,12 @@ export function DetailDrawer<T = unknown>({
 
         {/* Actions bar */}
         {(actions.length > 0 || onEdit || onDelete) && record && (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "0.5rem",
-              padding: "0.75rem 1.5rem",
-              borderBottom: `1px solid ${colors.grey200}`,
-              backgroundColor: colors.grey100,
-              flexWrap: "wrap",
-            }}
-          >
+          <div className="flex items-center gap-2 px-6 py-3 border-b border-grey-200 bg-grey-100 flex-wrap">
             {onEdit && (
               <button
                 type="button"
                 onClick={() => onEdit(record)}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.375rem",
-                  padding: "0.5rem 0.75rem",
-                  fontFamily: typography.mono,
-                  fontSize: fontSizes.monoSM,
-                  letterSpacing: letterSpacing.wide,
-                  textTransform: "uppercase",
-                  backgroundColor: colors.black,
-                  color: colors.white,
-                  border: `${borderWidths.medium} solid ${colors.black}`,
-                  cursor: "pointer",
-                  transition: transitions.fast,
-                }}
+                className="flex items-center gap-1.5 px-3 py-2 font-code text-mono-sm tracking-wide uppercase bg-black text-white border-2 border-black cursor-pointer transition-colors duration-fast hover:bg-grey-900"
               >
                 ✏️ Edit
               </button>
@@ -279,32 +206,15 @@ export function DetailDrawer<T = unknown>({
                 type="button"
                 onClick={() => onAction?.(action.id, record)}
                 disabled={action.disabled}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.375rem",
-                  padding: "0.5rem 0.75rem",
-                  fontFamily: typography.mono,
-                  fontSize: fontSizes.monoSM,
-                  letterSpacing: letterSpacing.wide,
-                  textTransform: "uppercase",
-                  backgroundColor:
-                    action.variant === "primary"
-                      ? colors.black
-                      : action.variant === "danger"
-                      ? colors.white
-                      : colors.white,
-                  color:
-                    action.variant === "primary"
-                      ? colors.white
-                      : action.variant === "danger"
-                      ? colors.grey700
-                      : colors.black,
-                  border: `${borderWidths.medium} solid ${colors.black}`,
-                  cursor: action.disabled ? "not-allowed" : "pointer",
-                  opacity: action.disabled ? 0.5 : 1,
-                  transition: transitions.fast,
-                }}
+                className={clsx(
+                  "flex items-center gap-1.5 px-3 py-2 font-code text-mono-sm tracking-wide uppercase border-2 border-black transition-colors duration-fast",
+                  action.variant === "primary"
+                    ? "bg-black text-white hover:bg-grey-900"
+                    : action.variant === "danger"
+                    ? "bg-white text-grey-700 hover:bg-grey-100"
+                    : "bg-white text-black hover:bg-grey-100",
+                  action.disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"
+                )}
               >
                 {action.icon && <span>{action.icon}</span>}
                 {action.label}
@@ -315,22 +225,7 @@ export function DetailDrawer<T = unknown>({
               <button
                 type="button"
                 onClick={() => onDelete(record)}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.375rem",
-                  padding: "0.5rem 0.75rem",
-                  fontFamily: typography.mono,
-                  fontSize: fontSizes.monoSM,
-                  letterSpacing: letterSpacing.wide,
-                  textTransform: "uppercase",
-                  backgroundColor: colors.white,
-                  color: colors.grey700,
-                  border: `${borderWidths.medium} solid ${colors.grey400}`,
-                  cursor: "pointer",
-                  transition: transitions.fast,
-                  marginLeft: "auto",
-                }}
+                className="flex items-center gap-1.5 px-3 py-2 font-code text-mono-sm tracking-wide uppercase bg-white text-grey-700 border-2 border-grey-400 cursor-pointer transition-colors duration-fast ml-auto hover:bg-grey-100"
               >
                 🗑️ Delete
               </button>
@@ -339,32 +234,10 @@ export function DetailDrawer<T = unknown>({
         )}
 
         {/* Content */}
-        <div
-          style={{
-            flex: 1,
-            overflow: "auto",
-            padding: "1.5rem",
-          }}
-        >
+        <div className="flex-1 overflow-auto p-6">
           {loading ? (
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                height: "200px",
-              }}
-            >
-              <div
-                style={{
-                  width: "32px",
-                  height: "32px",
-                  border: `3px solid ${colors.grey300}`,
-                  borderTopColor: colors.black,
-                  borderRadius: "50%",
-                  animation: "spin 1s linear infinite",
-                }}
-              />
+            <div className="flex items-center justify-center h-[200px]">
+              <div className="w-8 h-8 border-[3px] border-grey-300 border-t-black rounded-full animate-spin" />
             </div>
           ) : record ? (
             <>
@@ -377,24 +250,12 @@ export function DetailDrawer<T = unknown>({
               {children}
             </>
           ) : (
-            <div
-              style={{
-                textAlign: "center",
-                padding: "3rem",
-                color: colors.grey500,
-                fontFamily: typography.mono,
-                fontSize: fontSizes.monoMD,
-              }}
-            >
+            <div className="text-center p-12 text-grey-500 font-code text-mono-md">
               No record selected
             </div>
           )}
         </div>
       </div>
-
-      <style>
-        {`@keyframes spin { to { transform: rotate(360deg); } }`}
-      </style>
     </div>
   );
 }
@@ -404,31 +265,14 @@ function DetailSectionComponent({ section }: { section: DetailSection }) {
   const [collapsed, setCollapsed] = React.useState(section.defaultCollapsed ?? false);
 
   return (
-    <div
-      style={{
-        marginBottom: "1.5rem",
-        borderBottom: `1px solid ${colors.grey200}`,
-        paddingBottom: "1.5rem",
-      }}
-    >
+    <div className="mb-6 border-b border-grey-200 pb-6">
       <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          marginBottom: collapsed ? 0 : "1rem",
-        }}
+        className={clsx(
+          "flex items-center justify-between",
+          collapsed ? "mb-0" : "mb-4"
+        )}
       >
-        <h3
-          style={{
-            fontFamily: typography.mono,
-            fontSize: fontSizes.monoMD,
-            letterSpacing: letterSpacing.widest,
-            textTransform: "uppercase",
-            color: colors.grey600,
-            margin: 0,
-          }}
-        >
+        <h3 className="font-code text-mono-md tracking-widest uppercase text-grey-600">
           {section.title}
         </h3>
 
@@ -436,14 +280,7 @@ function DetailSectionComponent({ section }: { section: DetailSection }) {
           <button
             type="button"
             onClick={() => setCollapsed(!collapsed)}
-            style={{
-              padding: "0.25rem",
-              backgroundColor: "transparent",
-              border: "none",
-              cursor: "pointer",
-              fontSize: "12px",
-              color: colors.grey500,
-            }}
+            className="p-1 bg-transparent border-none cursor-pointer text-xs text-grey-500 hover:text-grey-700"
             aria-expanded={!collapsed}
           >
             {collapsed ? "▼" : "▲"}

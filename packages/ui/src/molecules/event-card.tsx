@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { colors, typography, fontSizes, letterSpacing, transitions, borderWidths } from "../tokens.js";
+import clsx from "clsx";
 
 export interface EventCardProps {
   /** Event ID */
@@ -33,10 +33,10 @@ export interface EventCardProps {
 }
 
 const statusConfig = {
-  "on-sale": { label: "ON SALE", bgColor: colors.black, textColor: colors.white },
-  "sold-out": { label: "SOLD OUT", bgColor: colors.grey600, textColor: colors.white },
-  "coming-soon": { label: "COMING SOON", bgColor: colors.grey800, textColor: colors.white },
-  "cancelled": { label: "CANCELLED", bgColor: colors.grey500, textColor: colors.white },
+  "on-sale": { label: "ON SALE", bgClass: "bg-black", textClass: "text-white" },
+  "sold-out": { label: "SOLD OUT", bgClass: "bg-grey-600", textClass: "text-white" },
+  "coming-soon": { label: "COMING SOON", bgClass: "bg-grey-800", textClass: "text-white" },
+  "cancelled": { label: "CANCELLED", bgClass: "bg-grey-500", textClass: "text-white" },
 };
 
 function formatDate(date: Date | string): { day: string; month: string; weekday: string } {
@@ -70,93 +70,47 @@ export function EventCard({
   const isFeatured = variant === "featured";
   const isCompact = variant === "compact";
 
+  const imageHeightClass = isFeatured ? "h-[280px]" : isCompact ? "h-[120px]" : "h-[180px]";
+
   return (
     <article
-      className={className}
+      className={clsx(
+        "flex bg-white border-2 border-black overflow-hidden transition-all duration-base",
+        isFeatured || !isCompact ? "flex-col" : "flex-row",
+        onClick && "cursor-pointer hover:-translate-y-1 hover:shadow-hard",
+        className
+      )}
       onClick={onClick}
       role={onClick ? "button" : undefined}
       tabIndex={onClick ? 0 : undefined}
-      style={{
-        display: "flex",
-        flexDirection: isFeatured ? "column" : isCompact ? "row" : "column",
-        backgroundColor: colors.white,
-        border: `${borderWidths.medium} solid ${colors.black}`,
-        cursor: onClick ? "pointer" : "default",
-        transition: transitions.base,
-        overflow: "hidden",
-      }}
-      onMouseEnter={(e) => {
-        if (onClick) {
-          e.currentTarget.style.transform = "translateY(-4px)";
-          e.currentTarget.style.boxShadow = `4px 4px 0 0 ${colors.black}`;
-        }
-      }}
-      onMouseLeave={(e) => {
-        if (onClick) {
-          e.currentTarget.style.transform = "translateY(0)";
-          e.currentTarget.style.boxShadow = "none";
-        }
-      }}
     >
       {/* Image Section */}
       <div
-        style={{
-          position: "relative",
-          width: isCompact ? "120px" : "100%",
-          height: isFeatured ? "280px" : isCompact ? "120px" : "180px",
-          backgroundColor: colors.grey200,
-          flexShrink: 0,
-          overflow: "hidden",
-        }}
+        className={clsx(
+          "relative bg-grey-200 flex-shrink-0 overflow-hidden",
+          isCompact ? "w-[120px]" : "w-full",
+          imageHeightClass
+        )}
       >
         {imageUrl && (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={imageUrl}
             alt={title}
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              filter: status === "cancelled" ? "grayscale(100%)" : "grayscale(100%) contrast(1.1)",
-              opacity: status === "cancelled" ? 0.5 : 1,
-            }}
+            className={clsx(
+              "w-full h-full object-cover",
+              status === "cancelled" ? "grayscale opacity-50" : "grayscale contrast-[1.1]"
+            )}
           />
         )}
 
         {/* Date Badge */}
         {!isCompact && (
-          <div
-            style={{
-              position: "absolute",
-              top: "1rem",
-              left: "1rem",
-              backgroundColor: colors.white,
-              border: `${borderWidths.medium} solid ${colors.black}`,
-              padding: "0.5rem 0.75rem",
-              textAlign: "center",
-              minWidth: "3.5rem",
-            }}
-          >
-            <div
-              style={{
-                fontFamily: typography.heading,
-                fontSize: fontSizes.h3MD,
-                color: colors.black,
-                lineHeight: 1,
-              }}
-            >
+          <div className="absolute top-4 left-4 bg-white border-2 border-black px-3 py-2 text-center min-w-14">
+            <div className="font-heading text-h3-md text-black leading-none">
               {dateInfo.day}
             </div>
-            <div
-              style={{
-                fontFamily: typography.mono,
-                fontSize: fontSizes.monoXS,
-                color: colors.grey600,
-                letterSpacing: letterSpacing.widest,
-                marginTop: "0.25rem",
-              }}
-            >
+            <div className="font-code text-mono-xs text-grey-600 tracking-widest mt-1">
               {dateInfo.month}
             </div>
           </div>
@@ -164,17 +118,12 @@ export function EventCard({
 
         {/* Status Badge */}
         <div
-          style={{
-            position: "absolute",
-            top: isCompact ? "0.5rem" : "1rem",
-            right: isCompact ? "0.5rem" : "1rem",
-            backgroundColor: statusInfo.bgColor,
-            color: statusInfo.textColor,
-            fontFamily: typography.mono,
-            fontSize: fontSizes.monoXS,
-            letterSpacing: letterSpacing.widest,
-            padding: "0.25rem 0.5rem",
-          }}
+          className={clsx(
+            "absolute font-code text-mono-xs tracking-widest px-2 py-1",
+            isCompact ? "top-2 right-2" : "top-4 right-4",
+            statusInfo.bgClass,
+            statusInfo.textClass
+          )}
         >
           {statusInfo.label}
         </div>
@@ -182,30 +131,12 @@ export function EventCard({
         {/* Urgency Indicator */}
         {showUrgency && status === "on-sale" && (
           <div
-            style={{
-              position: "absolute",
-              bottom: isCompact ? "0.5rem" : "1rem",
-              left: isCompact ? "0.5rem" : "1rem",
-              backgroundColor: colors.black,
-              color: colors.white,
-              fontFamily: typography.mono,
-              fontSize: fontSizes.monoXS,
-              letterSpacing: letterSpacing.widest,
-              padding: "0.25rem 0.5rem",
-              display: "flex",
-              alignItems: "center",
-              gap: "0.375rem",
-            }}
+            className={clsx(
+              "absolute bg-black text-white font-code text-mono-xs tracking-widest px-2 py-1 flex items-center gap-1.5",
+              isCompact ? "bottom-2 left-2" : "bottom-4 left-4"
+            )}
           >
-            <span
-              style={{
-                width: "6px",
-                height: "6px",
-                backgroundColor: colors.white,
-                borderRadius: "50%",
-                animation: "pulse 2s infinite",
-              }}
-            />
+            <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
             {ticketsRemaining <= 10 ? "ALMOST GONE" : `${ticketsRemaining} LEFT`}
           </div>
         )}
@@ -213,91 +144,51 @@ export function EventCard({
 
       {/* Content Section */}
       <div
-        style={{
-          padding: isCompact ? "0.75rem" : "1.25rem",
-          display: "flex",
-          flexDirection: "column",
-          gap: isCompact ? "0.25rem" : "0.5rem",
-          flex: 1,
-        }}
+        className={clsx(
+          "flex flex-col flex-1",
+          isCompact ? "p-3 gap-1" : "p-5 gap-2"
+        )}
       >
         {/* Category */}
         {category && !isCompact && (
-          <span
-            style={{
-              fontFamily: typography.mono,
-              fontSize: fontSizes.monoXS,
-              color: colors.grey500,
-              letterSpacing: letterSpacing.widest,
-              textTransform: "uppercase",
-            }}
-          >
+          <span className="font-code text-mono-xs text-grey-500 tracking-widest uppercase">
             {category}
           </span>
         )}
 
         {/* Title */}
         <h3
-          style={{
-            fontFamily: typography.heading,
-            fontSize: isFeatured ? fontSizes.h2MD : isCompact ? fontSizes.h5MD : fontSizes.h4MD,
-            color: colors.black,
-            textTransform: "uppercase",
-            letterSpacing: letterSpacing.wide,
-            margin: 0,
-            lineHeight: 1.1,
-          }}
+          className={clsx(
+            "font-heading text-black uppercase tracking-wide leading-snug",
+            isFeatured ? "text-h2-md" : isCompact ? "text-h5-md" : "text-h4-md"
+          )}
         >
           {title}
         </h3>
 
         {/* Venue & Location */}
         <div
-          style={{
-            fontFamily: typography.body,
-            fontSize: isCompact ? fontSizes.bodySM : fontSizes.bodyMD,
-            color: colors.grey700,
-          }}
+          className={clsx(
+            "font-body text-grey-700",
+            isCompact ? "text-body-sm" : "text-body-md"
+          )}
         >
           {venue}
         </div>
-        <div
-          style={{
-            fontFamily: typography.mono,
-            fontSize: fontSizes.monoSM,
-            color: colors.grey500,
-            letterSpacing: letterSpacing.wide,
-          }}
-        >
+        <div className="font-code text-mono-sm text-grey-500 tracking-wide">
           {location}
         </div>
 
         {/* Compact Date */}
         {isCompact && (
-          <div
-            style={{
-              fontFamily: typography.mono,
-              fontSize: fontSizes.monoXS,
-              color: colors.grey600,
-              letterSpacing: letterSpacing.widest,
-              marginTop: "auto",
-            }}
-          >
+          <div className="font-code text-mono-xs text-grey-600 tracking-widest mt-auto">
             {dateInfo.weekday} {dateInfo.month} {dateInfo.day}
           </div>
         )}
 
         {/* Price */}
         {price && !isCompact && (
-          <div
-            style={{
-              fontFamily: typography.heading,
-              fontSize: fontSizes.h5MD,
-              color: colors.black,
-              marginTop: "auto",
-              paddingTop: "0.5rem",
-            }}
-          >
+          <div className="font-heading text-h5-md text-black mt-auto pt-2">
             {price}
           </div>
         )}

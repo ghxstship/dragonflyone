@@ -49,7 +49,7 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
         role="tab"
         aria-selected={active}
         className={clsx(
-          "px-4 py-2 font-heading uppercase text-sm tracking-wider transition-colors",
+          "px-4 py-2 font-heading uppercase text-mono-sm tracking-wider transition-colors duration-base",
           "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black",
           variant === "line" && [
             active

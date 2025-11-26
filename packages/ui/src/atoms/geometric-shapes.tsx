@@ -2,6 +2,7 @@
 
 import { forwardRef, HTMLAttributes } from "react";
 import clsx from "clsx";
+import { colors } from "../tokens.js";
 
 export interface GeometricShapeProps extends HTMLAttributes<HTMLDivElement> {
   /** Shape type */
@@ -101,7 +102,7 @@ export const GeometricShape = forwardRef<HTMLDivElement, GeometricShapeProps>(
               height: 0,
               borderLeft: `${pixelSize / 2}px solid transparent`,
               borderRight: `${pixelSize / 2}px solid transparent`,
-              borderBottom: `${pixelSize}px solid ${fill === "black" ? "#000" : fill === "white" ? "#fff" : fill === "grey" ? "#737373" : "transparent"}`,
+              borderBottom: `${pixelSize}px solid ${fill === "black" ? colors.black : fill === "white" ? colors.white : fill === "grey" ? colors.grey[500] : "transparent"}`,
               transform: rotate ? `rotate(${rotate}deg)` : undefined,
               ...style,
             }}
@@ -141,8 +142,8 @@ export const GeometricShape = forwardRef<HTMLDivElement, GeometricShapeProps>(
             >
               <polygon
                 points="50,0 100,25 100,75 50,100 0,75 0,25"
-                fill={stroke ? "none" : fill === "black" ? "#000" : fill === "white" ? "#fff" : fill === "grey" ? "#737373" : "transparent"}
-                stroke={stroke ? (fill === "black" ? "#000" : fill === "white" ? "#fff" : fill === "grey" ? "#737373" : "transparent") : "none"}
+                fill={stroke ? "none" : fill === "black" ? colors.black : fill === "white" ? colors.white : fill === "grey" ? colors.grey[500] : "transparent"}
+                stroke={stroke ? (fill === "black" ? colors.black : fill === "white" ? colors.white : fill === "grey" ? colors.grey[500] : "transparent") : "none"}
                 strokeWidth={stroke ? strokeWidth * 2 : 0}
               />
             </svg>
@@ -204,7 +205,7 @@ export const GeometricShape = forwardRef<HTMLDivElement, GeometricShapeProps>(
               <path
                 d="M5 12h14M12 5l7 7-7 7"
                 fill="none"
-                stroke={fill === "black" ? "#000" : fill === "white" ? "#fff" : fill === "grey" ? "#737373" : "transparent"}
+                stroke={fill === "black" ? colors.black : fill === "white" ? colors.white : fill === "grey" ? colors.grey[500] : "transparent"}
                 strokeWidth={strokeWidth}
                 strokeLinecap="square"
               />
@@ -257,7 +258,7 @@ export const GeometricPattern = forwardRef<HTMLDivElement, GeometricPatternProps
     ref
   ) {
     const patternSize = patternSizes[size];
-    const colorValue = color === "black" ? "#000" : color === "white" ? "#fff" : "#737373";
+    const colorValue = color === "black" ? colors.black : color === "white" ? colors.white : colors.grey[500];
 
     const getPatternSvg = () => {
       switch (pattern) {

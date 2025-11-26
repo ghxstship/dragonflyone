@@ -60,7 +60,7 @@ export function LanguageSelector({
         </button>
         
         {isOpen && (
-          <div className="absolute right-0 top-full mt-1 min-w-[120px] bg-white border-2 border-black shadow-[4px_4px_0_0_#000] z-50">
+          <div className="absolute right-0 top-full mt-1 min-w-[120px] bg-white border-2 border-black shadow-hard z-50">
             {languages.map((lang) => (
               <button
                 key={lang.code}
@@ -93,7 +93,7 @@ export function LanguageSelector({
         </button>
         
         {isOpen && (
-          <div className="absolute right-0 top-full mt-1 min-w-[160px] bg-white border-2 border-black shadow-[4px_4px_0_0_#000] z-50">
+          <div className="absolute right-0 top-full mt-1 min-w-[160px] bg-white border-2 border-black shadow-hard z-50">
             {languages.map((lang) => (
               <button
                 key={lang.code}
@@ -129,7 +129,7 @@ export function LanguageSelector({
       </button>
       
       {isOpen && (
-        <div className="absolute left-0 top-full mt-1 w-full bg-white border-2 border-black shadow-[4px_4px_0_0_#000] z-50 max-h-[300px] overflow-y-auto">
+        <div className="absolute left-0 top-full mt-1 w-full bg-white border-2 border-black shadow-hard z-50 max-h-[300px] overflow-y-auto">
           {languages.map((lang) => (
             <button
               key={lang.code}

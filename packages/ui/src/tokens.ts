@@ -2,6 +2,10 @@
  * GHXSTSHIP Design System Tokens
  * Contemporary Minimal Pop Art
  * Monochromatic palette with stark contrast
+ * 
+ * NOTE: These tokens are synchronized with @ghxstship/config-tailwind
+ * For Tailwind usage, prefer the utility classes (e.g., `text-ink-500`, `shadow-hard`)
+ * Use these exports for programmatic access in JavaScript/TypeScript
  */
 
 // Color Palette - Monochromatic Only
@@ -11,15 +15,41 @@ export const colors = {
   white: "#FFFFFF",
   
   // Greyscale for depth, texture, and hierarchy
-  grey100: "#F5F5F5",
-  grey200: "#E5E5E5",
-  grey300: "#D4D4D4",
-  grey400: "#A3A3A3",
-  grey500: "#737373",
-  grey600: "#525252",
-  grey700: "#404040",
-  grey800: "#262626",
-  grey900: "#171717",
+  grey: {
+    100: "#F5F5F5",
+    200: "#E5E5E5",
+    300: "#D4D4D4",
+    400: "#A3A3A3",
+    500: "#737373",
+    600: "#525252",
+    700: "#404040",
+    800: "#262626",
+    900: "#171717",
+  },
+} as const;
+
+// Semantic Status Colors - for status indicators only
+// These are exceptions to the monochromatic palette for accessibility
+export const statusColors = {
+  success: "#22C55E",  // Green - online, success states
+  warning: "#F59E0B",  // Amber - away, warning states
+  error: "#EF4444",    // Red - busy, error states
+  info: "#3B82F6",     // Blue - info states
+} as const;
+
+// Ink Palette - semantic alias for dark-mode-first design
+export const ink = {
+  50: "#FFFFFF",
+  100: "#F5F5F5",
+  200: "#E5E5E5",
+  300: "#D4D4D4",
+  400: "#A3A3A3",
+  500: "#737373",
+  600: "#525252",
+  700: "#404040",
+  800: "#262626",
+  900: "#171717",
+  950: "#000000",
 } as const;
 
 // Typography System
@@ -70,6 +100,10 @@ export const fontSizes = {
   monoSM: "0.8125rem",     // 13px
   monoXS: "0.75rem",       // 12px
   monoXXS: "0.6875rem",    // 11px
+  
+  // Micro (very small labels, QR codes)
+  micro: "0.625rem",       // 10px
+  microXS: "0.5625rem",    // 9px
 } as const;
 
 export const lineHeights = {
@@ -139,9 +173,12 @@ export const borderWidths = {
 // Shadows (using outlines, not soft shadows)
 export const shadows = {
   none: "none",
-  outline: `0 0 0 1px ${colors.grey700}`,
+  outline: `0 0 0 1px ${colors.grey[700]}`,
   outlineBold: `0 0 0 2px ${colors.black}`,
   hard: `4px 4px 0 0 ${colors.black}`,
+  hardLg: `8px 8px 0 0 ${colors.black}`,
+  hardWhite: `4px 4px 0 0 ${colors.white}`,
+  hardLgWhite: `8px 8px 0 0 ${colors.white}`,
 } as const;
 
 // Z-index hierarchy
@@ -162,6 +199,12 @@ export const transitions = {
   base: "200ms ease-in-out",
   slow: "300ms ease-in-out",
   slower: "500ms ease-in-out",
+} as const;
+
+// Overlay/Backdrop
+export const overlays = {
+  backdrop: "rgba(0, 0, 0, 0.5)",
+  backdropLight: "rgba(0, 0, 0, 0.3)",
 } as const;
 
 // Breakpoints

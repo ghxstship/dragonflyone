@@ -207,7 +207,7 @@ export default function SafetyPage() {
               { title: 'Safety Protocols', icon: Shield, docs: 24 },
               { title: 'Training Materials', icon: FileText, docs: 18 },
             ].map((resource, idx) => (
-              <Card key={idx} className="p-6 text-center hover:shadow-[8px_8px_0_0_#000] transition-shadow cursor-pointer">
+              <Card key={idx} className="p-6 text-center hover:shadow-hard-lg transition-shadow cursor-pointer">
                 <resource.icon className="w-12 h-12 mx-auto mb-3 text-grey-600" />
                 <H3 className="mb-2">{resource.title}</H3>
                 <Body className="text-sm text-grey-600 mb-4">{resource.docs} documents</Body>

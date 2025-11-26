@@ -171,7 +171,7 @@ export default function RewardsPage() {
               {rewards.map((reward) => (
                 <Card 
                   key={reward.id} 
-                  className={`p-6 ${!reward.available ? 'opacity-50' : 'hover:shadow-[8px_8px_0_0_#000] transition-shadow'}`}
+                  className={`p-6 ${!reward.available ? 'opacity-50' : 'hover:shadow-hard-lg transition-shadow'}`}
                 >
                   <Stack gap={4}>
                     <Stack gap={4} direction="horizontal" className="items-start justify-between">

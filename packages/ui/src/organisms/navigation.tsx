@@ -22,7 +22,7 @@ export const Navigation = forwardRef<HTMLElement, NavigationProps>(
           ref={ref}
           className={clsx(
             "w-full border-b-2 transition-colors",
-            fixed && "fixed top-0 left-0 right-0 z-[1200]",
+            fixed && "fixed top-0 left-0 right-0 z-fixed",
             inverted ? "bg-black border-white" : "bg-white border-black",
             className
           )}
@@ -74,7 +74,7 @@ export const Navigation = forwardRef<HTMLElement, NavigationProps>(
         {mobileOpen ? (
           <div
             className={clsx(
-              "md:hidden fixed inset-0 z-[1100] pt-16",
+              "md:hidden fixed inset-0 z-sticky pt-16",
               inverted ? "bg-black" : "bg-white"
             )}
           >
@@ -102,7 +102,7 @@ export const NavLink = forwardRef<HTMLAnchorElement, NavLinkProps>(
         ref={ref}
         href={href}
         className={clsx(
-          "font-heading text-[1rem] uppercase tracking-wider transition-colors",
+          "font-heading text-h6-sm uppercase tracking-wider transition-colors",
           "hover:opacity-70",
           active && "border-b-2",
           inverted ? "text-white border-white" : "text-black border-black",

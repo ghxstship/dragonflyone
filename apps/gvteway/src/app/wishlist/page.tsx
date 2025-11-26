@@ -119,7 +119,7 @@ export default function WishlistPage() {
         ) : (
           <Grid cols={1} gap={4}>
             {wishlist.map((event) => (
-              <Card key={event.id} className="p-6 hover:shadow-[8px_8px_0_0_#000] transition-shadow">
+              <Card key={event.id} className="p-6 hover:shadow-hard-lg transition-shadow">
                 <Stack direction="horizontal" gap={6}>
                   <Card className="w-48 h-32 bg-grey-200 flex-shrink-0" />
                   

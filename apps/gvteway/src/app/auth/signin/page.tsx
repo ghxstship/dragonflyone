@@ -51,7 +51,7 @@ export default function SignInPage() {
       header={
         <Navigation
           logo={
-            <Display size="md" className="text-[3rem]">
+            <Display size="md" className="text-display-md">
               GVTEWAY
             </Display>
           }
@@ -61,7 +61,7 @@ export default function SignInPage() {
       footer={
         <Footer
           logo={
-            <Display size="md" className="text-white text-[3rem]">
+            <Display size="md" className="text-white text-display-md">
               GVTEWAY
             </Display>
           }

@@ -63,7 +63,7 @@ export const Pagination = forwardRef<HTMLDivElement, PaginationProps>(
         <button
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className="px-3 py-2 border-2 border-black text-black bg-white hover:bg-black hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-heading uppercase text-sm"
+          className="px-3 py-2 border-2 border-black text-black bg-white hover:bg-black hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-base font-heading uppercase text-mono-sm"
         >
           Previous
         </button>
@@ -82,7 +82,7 @@ export const Pagination = forwardRef<HTMLDivElement, PaginationProps>(
               key={pageNumber}
               onClick={() => onPageChange(pageNumber as number)}
               className={clsx(
-                "px-4 py-2 border-2 transition-colors font-heading uppercase text-sm min-w-[44px]",
+                "px-4 py-2 border-2 transition-colors duration-base font-heading uppercase text-mono-sm min-w-11",
                 currentPage === pageNumber
                   ? "border-black bg-black text-white"
                   : "border-grey-300 bg-white text-black hover:border-black"
@@ -96,7 +96,7 @@ export const Pagination = forwardRef<HTMLDivElement, PaginationProps>(
         <button
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="px-3 py-2 border-2 border-black text-black bg-white hover:bg-black hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-heading uppercase text-sm"
+          className="px-3 py-2 border-2 border-black text-black bg-white hover:bg-black hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-base font-heading uppercase text-mono-sm"
         >
           Next
         </button>

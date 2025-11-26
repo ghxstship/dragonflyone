@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { colors, typography, fontSizes, letterSpacing, transitions, borderWidths } from "../tokens.js";
+import clsx from "clsx";
 
 export interface Step {
   id: string;
@@ -29,27 +29,27 @@ export interface StepperProps {
   className?: string;
 }
 
-const sizeStyles = {
+const sizeClasses = {
   sm: {
-    indicator: "24px",
-    fontSize: fontSizes.monoXS,
-    labelSize: fontSizes.monoSM,
-    gap: "0.5rem",
-    lineWidth: "2px",
+    indicator: "w-6 h-6 text-mono-xs",
+    label: "text-mono-sm",
+    gap: "gap-2",
+    lineH: "h-0.5",
+    lineW: "w-0.5",
   },
   md: {
-    indicator: "32px",
-    fontSize: fontSizes.monoSM,
-    labelSize: fontSizes.monoMD,
-    gap: "0.75rem",
-    lineWidth: "2px",
+    indicator: "w-8 h-8 text-mono-sm",
+    label: "text-mono-md",
+    gap: "gap-3",
+    lineH: "h-0.5",
+    lineW: "w-0.5",
   },
   lg: {
-    indicator: "40px",
-    fontSize: fontSizes.monoMD,
-    labelSize: fontSizes.bodyMD,
-    gap: "1rem",
-    lineWidth: "3px",
+    indicator: "w-10 h-10 text-mono-md",
+    label: "text-body-md",
+    gap: "gap-4",
+    lineH: "h-[3px]",
+    lineW: "w-[3px]",
   },
 };
 
@@ -63,7 +63,7 @@ export function Stepper({
   size = "md",
   className = "",
 }: StepperProps) {
-  const styles = sizeStyles[size];
+  const config = sizeClasses[size];
   const isHorizontal = orientation === "horizontal";
 
   const getStepStatus = (index: number): "completed" | "current" | "upcoming" => {
@@ -83,13 +83,12 @@ export function Stepper({
 
   return (
     <div
-      className={className}
-      style={{
-        display: "flex",
-        flexDirection: isHorizontal ? "row" : "column",
-        alignItems: isHorizontal ? "flex-start" : "stretch",
-        gap: styles.gap,
-      }}
+      className={clsx(
+        "flex",
+        isHorizontal ? "flex-row items-start" : "flex-col",
+        config.gap,
+        className
+      )}
     >
       {steps.map((step, index) => {
         const status = getStepStatus(index);
@@ -99,63 +98,37 @@ export function Stepper({
         return (
           <div
             key={step.id}
-            style={{
-              display: "flex",
-              flexDirection: isHorizontal ? "column" : "row",
-              alignItems: isHorizontal ? "center" : "flex-start",
-              flex: isHorizontal && !isLast ? 1 : "none",
-              gap: styles.gap,
-            }}
+            className={clsx(
+              "flex",
+              isHorizontal ? "flex-col items-center" : "flex-row items-start",
+              isHorizontal && !isLast && "flex-1",
+              config.gap
+            )}
           >
             {/* Step indicator and connector */}
             <div
-              style={{
-                display: "flex",
-                flexDirection: isHorizontal ? "row" : "column",
-                alignItems: "center",
-                flex: isHorizontal ? 1 : "none",
-              }}
+              className={clsx(
+                "flex items-center",
+                isHorizontal ? "flex-row flex-1" : "flex-col"
+              )}
             >
               {/* Step indicator */}
               <button
                 onClick={() => clickable && onStepClick?.(index)}
                 disabled={!clickable}
-                style={{
-                  width: styles.indicator,
-                  height: styles.indicator,
-                  borderRadius: "50%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontFamily: typography.mono,
-                  fontSize: styles.fontSize,
-                  fontWeight: 400,
-                  letterSpacing: letterSpacing.wide,
-                  backgroundColor:
-                    status === "completed"
-                      ? colors.black
-                      : status === "current"
-                      ? colors.white
-                      : colors.grey200,
-                  color:
-                    status === "completed"
-                      ? colors.white
-                      : status === "current"
-                      ? colors.black
-                      : colors.grey500,
-                  border: `${borderWidths.medium} solid ${
-                    status === "upcoming" ? colors.grey300 : colors.black
-                  }`,
-                  cursor: clickable ? "pointer" : "default",
-                  transition: transitions.base,
-                  flexShrink: 0,
-                  padding: 0,
-                }}
+                className={clsx(
+                  "rounded-full flex items-center justify-center font-code font-normal tracking-wide border-2 flex-shrink-0 p-0 transition-colors duration-base",
+                  config.indicator,
+                  status === "completed" && "bg-black text-white border-black",
+                  status === "current" && "bg-white text-black border-black",
+                  status === "upcoming" && "bg-grey-200 text-grey-500 border-grey-300",
+                  clickable ? "cursor-pointer" : "cursor-default"
+                )}
                 aria-label={`Step ${index + 1}: ${step.label}`}
                 aria-current={status === "current" ? "step" : undefined}
               >
                 {status === "completed" ? (
-                  <span style={{ fontSize: "12px" }}>✓</span>
+                  <span className="text-xs">✓</span>
                 ) : step.icon ? (
                   step.icon
                 ) : (
@@ -166,51 +139,35 @@ export function Stepper({
               {/* Connector line */}
               {!isLast && (
                 <div
-                  style={{
-                    flex: 1,
-                    height: isHorizontal ? styles.lineWidth : "24px",
-                    width: isHorizontal ? "auto" : styles.lineWidth,
-                    minWidth: isHorizontal ? "24px" : "auto",
-                    minHeight: isHorizontal ? "auto" : "24px",
-                    backgroundColor:
-                      status === "completed" || (status === "current" && completedSteps.includes(index))
-                        ? colors.black
-                        : colors.grey300,
-                    margin: isHorizontal ? `0 ${styles.gap}` : `${styles.gap} 0`,
-                    transition: transitions.base,
-                  }}
+                  className={clsx(
+                    "flex-1 transition-colors duration-base",
+                    isHorizontal ? clsx(config.lineH, "min-w-6 mx-2") : clsx(config.lineW, "min-h-6 my-2"),
+                    status === "completed" || (status === "current" && completedSteps.includes(index))
+                      ? "bg-black"
+                      : "bg-grey-300"
+                  )}
                 />
               )}
             </div>
 
             {/* Step label and description */}
             <div
-              style={{
-                textAlign: isHorizontal ? "center" : "left",
-                flex: isHorizontal ? "none" : 1,
-              }}
+              className={clsx(
+                isHorizontal ? "text-center" : "text-left flex-1"
+              )}
             >
               <div
-                style={{
-                  fontFamily: typography.mono,
-                  fontSize: styles.labelSize,
-                  color: status === "upcoming" ? colors.grey500 : colors.black,
-                  letterSpacing: letterSpacing.wide,
-                  textTransform: "uppercase",
-                  fontWeight: status === "current" ? 700 : 400,
-                }}
+                className={clsx(
+                  "font-code tracking-wide uppercase",
+                  config.label,
+                  status === "upcoming" ? "text-grey-500" : "text-black",
+                  status === "current" && "font-bold"
+                )}
               >
                 {step.label}
               </div>
               {step.description && (
-                <div
-                  style={{
-                    fontFamily: typography.body,
-                    fontSize: fontSizes.bodySM,
-                    color: colors.grey600,
-                    marginTop: "0.25rem",
-                  }}
-                >
+                <div className="font-body text-body-sm text-grey-600 mt-1">
                   {step.description}
                 </div>
               )}

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { colors, typography, fontSizes, letterSpacing, transitions, borderWidths } from "../tokens.js";
+import clsx from "clsx";
 
 export interface Stat {
   id: string;
@@ -54,6 +54,20 @@ function formatChange(change: number): string {
   return `${sign}${change.toFixed(1)}%`;
 }
 
+const gridClasses = {
+  2: "grid-cols-2",
+  3: "grid-cols-2 md:grid-cols-3",
+  4: "grid-cols-2 md:grid-cols-4",
+  5: "grid-cols-2 md:grid-cols-5",
+  6: "grid-cols-2 md:grid-cols-3 lg:grid-cols-6",
+};
+
+const trendClasses = {
+  up: "text-black",
+  down: "text-grey-500",
+  neutral: "text-grey-600",
+};
+
 export function StatsDashboard({
   stats,
   columns = 4,
@@ -62,166 +76,83 @@ export function StatsDashboard({
   onStatClick,
   className = "",
 }: StatsDashboardProps) {
-  const gridColumns = {
-    2: "repeat(2, 1fr)",
-    3: "repeat(3, 1fr)",
-    4: "repeat(2, 1fr)",
-    5: "repeat(5, 1fr)",
-    6: "repeat(3, 1fr)",
-  };
-
-  const gridColumnsMd = {
-    2: "repeat(2, 1fr)",
-    3: "repeat(3, 1fr)",
-    4: "repeat(4, 1fr)",
-    5: "repeat(5, 1fr)",
-    6: "repeat(6, 1fr)",
-  };
-
   return (
     <div
-      className={className}
-      style={{
-        display: "grid",
-        gridTemplateColumns: gridColumns[columns],
-        gap: compact ? "0.75rem" : "1rem",
-      }}
+      className={clsx(
+        "grid",
+        gridClasses[columns],
+        compact ? "gap-3" : "gap-4",
+        className
+      )}
     >
-      <style>
-        {`
-          @media (min-width: 768px) {
-            .stats-dashboard-grid {
-              grid-template-columns: ${gridColumnsMd[columns]} !important;
-            }
-          }
-        `}
-      </style>
-      {stats.map((stat) => {
-        const trendColor =
-          stat.trend === "up"
-            ? colors.black
-            : stat.trend === "down"
-            ? colors.grey500
-            : colors.grey600;
-
-        return (
-          <div
-            key={stat.id}
-            onClick={() => onStatClick?.(stat)}
-            role={onStatClick ? "button" : undefined}
-            tabIndex={onStatClick ? 0 : undefined}
-            style={{
-              padding: compact ? "1rem" : "1.5rem",
-              backgroundColor: colors.white,
-              border: `${borderWidths.medium} solid ${colors.black}`,
-              cursor: onStatClick ? "pointer" : "default",
-              transition: transitions.base,
-              display: "flex",
-              flexDirection: "column",
-              gap: compact ? "0.5rem" : "0.75rem",
-            }}
-          >
-            {/* Header with icon */}
-            <div
-              style={{
-                display: "flex",
-                alignItems: "flex-start",
-                justifyContent: "space-between",
-                gap: "0.5rem",
-              }}
+      {stats.map((stat) => (
+        <div
+          key={stat.id}
+          onClick={() => onStatClick?.(stat)}
+          role={onStatClick ? "button" : undefined}
+          tabIndex={onStatClick ? 0 : undefined}
+          className={clsx(
+            "bg-white border-2 border-black flex flex-col transition-colors duration-base",
+            compact ? "p-4 gap-2" : "p-6 gap-3",
+            onStatClick && "cursor-pointer hover:bg-grey-50"
+          )}
+        >
+          {/* Header with icon */}
+          <div className="flex items-start justify-between gap-2">
+            <span
+              className={clsx(
+                "font-code text-grey-600 tracking-widest uppercase",
+                compact ? "text-mono-xs" : "text-mono-sm"
+              )}
             >
-              <span
-                style={{
-                  fontFamily: typography.mono,
-                  fontSize: compact ? fontSizes.monoXS : fontSizes.monoSM,
-                  color: colors.grey600,
-                  letterSpacing: letterSpacing.widest,
-                  textTransform: "uppercase",
-                }}
-              >
-                {stat.label}
+              {stat.label}
+            </span>
+            {stat.icon && (
+              <span className={clsx("text-grey-500", compact ? "text-base" : "text-xl")}>
+                {stat.icon}
               </span>
-              {stat.icon && (
+            )}
+          </div>
+
+          {/* Value */}
+          <div
+            className={clsx(
+              "font-heading text-black tracking-tight leading-none",
+              compact ? "text-h3-md" : "text-h2-md"
+            )}
+          >
+            {formatValue(stat.value, stat.format)}
+          </div>
+
+          {/* Trend and change */}
+          {showTrends && (stat.change !== undefined || stat.previousValue !== undefined) && (
+            <div className="flex items-center gap-2 flex-wrap">
+              {stat.change !== undefined && (
                 <span
-                  style={{
-                    fontSize: compact ? "16px" : "20px",
-                    color: colors.grey500,
-                  }}
+                  className={clsx(
+                    "inline-flex items-center gap-1 font-code text-mono-xs tracking-wide",
+                    trendClasses[stat.trend || "neutral"]
+                  )}
                 >
-                  {stat.icon}
+                  {stat.trend === "up" && "↑"}
+                  {stat.trend === "down" && "↓"}
+                  {formatChange(stat.change)}
+                </span>
+              )}
+              {stat.changeLabel && (
+                <span className="font-code text-mono-xs text-grey-500 tracking-wide">
+                  {stat.changeLabel}
+                </span>
+              )}
+              {stat.previousValue !== undefined && !stat.changeLabel && (
+                <span className="font-code text-mono-xs text-grey-500 tracking-wide">
+                  vs {formatValue(stat.previousValue, stat.format)}
                 </span>
               )}
             </div>
-
-            {/* Value */}
-            <div
-              style={{
-                fontFamily: typography.heading,
-                fontSize: compact ? fontSizes.h3MD : fontSizes.h2MD,
-                color: colors.black,
-                letterSpacing: letterSpacing.tight,
-                lineHeight: 1,
-              }}
-            >
-              {formatValue(stat.value, stat.format)}
-            </div>
-
-            {/* Trend and change */}
-            {showTrends && (stat.change !== undefined || stat.previousValue !== undefined) && (
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.5rem",
-                  flexWrap: "wrap",
-                }}
-              >
-                {stat.change !== undefined && (
-                  <span
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "0.25rem",
-                      fontFamily: typography.mono,
-                      fontSize: fontSizes.monoXS,
-                      color: trendColor,
-                      letterSpacing: letterSpacing.wide,
-                    }}
-                  >
-                    {stat.trend === "up" && "↑"}
-                    {stat.trend === "down" && "↓"}
-                    {formatChange(stat.change)}
-                  </span>
-                )}
-                {stat.changeLabel && (
-                  <span
-                    style={{
-                      fontFamily: typography.mono,
-                      fontSize: fontSizes.monoXS,
-                      color: colors.grey500,
-                      letterSpacing: letterSpacing.wide,
-                    }}
-                  >
-                    {stat.changeLabel}
-                  </span>
-                )}
-                {stat.previousValue !== undefined && !stat.changeLabel && (
-                  <span
-                    style={{
-                      fontFamily: typography.mono,
-                      fontSize: fontSizes.monoXS,
-                      color: colors.grey500,
-                      letterSpacing: letterSpacing.wide,
-                    }}
-                  >
-                    vs {formatValue(stat.previousValue, stat.format)}
-                  </span>
-                )}
-              </div>
-            )}
-          </div>
-        );
-      })}
+          )}
+        </div>
+      ))}
     </div>
   );
 }
@@ -246,71 +177,41 @@ export function StatCard({
   onClick?: () => void;
   className?: string;
 }) {
-  const trendColor =
-    trend === "up" ? colors.black : trend === "down" ? colors.grey500 : colors.grey600;
-
   return (
     <div
-      className={className}
+      className={clsx(
+        "p-6 bg-white border-2 border-black transition-colors duration-base",
+        onClick && "cursor-pointer hover:bg-grey-50",
+        className
+      )}
       onClick={onClick}
       role={onClick ? "button" : undefined}
       tabIndex={onClick ? 0 : undefined}
-      style={{
-        padding: "1.5rem",
-        backgroundColor: colors.white,
-        border: `${borderWidths.medium} solid ${colors.black}`,
-        cursor: onClick ? "pointer" : "default",
-        transition: transitions.base,
-      }}
     >
-      <div
-        style={{
-          display: "flex",
-          alignItems: "flex-start",
-          justifyContent: "space-between",
-          marginBottom: "0.75rem",
-        }}
-      >
-        <span
-          style={{
-            fontFamily: typography.mono,
-            fontSize: fontSizes.monoSM,
-            color: colors.grey600,
-            letterSpacing: letterSpacing.widest,
-            textTransform: "uppercase",
-          }}
-        >
+      <div className="flex items-start justify-between mb-3">
+        <span className="font-code text-mono-sm text-grey-600 tracking-widest uppercase">
           {label}
         </span>
         {icon && (
-          <span style={{ fontSize: "20px", color: colors.grey500 }}>{icon}</span>
+          <span className="text-xl text-grey-500">{icon}</span>
         )}
       </div>
 
       <div
-        style={{
-          fontFamily: typography.heading,
-          fontSize: fontSizes.h2MD,
-          color: colors.black,
-          letterSpacing: letterSpacing.tight,
-          lineHeight: 1,
-          marginBottom: change !== undefined ? "0.75rem" : 0,
-        }}
+        className={clsx(
+          "font-heading text-h2-md text-black tracking-tight leading-none",
+          change !== undefined && "mb-3"
+        )}
       >
         {formatValue(value, format)}
       </div>
 
       {change !== undefined && (
         <span
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "0.25rem",
-            fontFamily: typography.mono,
-            fontSize: fontSizes.monoXS,
-            color: trendColor,
-            letterSpacing: letterSpacing.wide,
-          }}
+          className={clsx(
+            "inline-flex items-center gap-1 font-code text-mono-xs tracking-wide",
+            trendClasses[trend || "neutral"]
+          )}
         >
           {trend === "up" && "↑"}
           {trend === "down" && "↓"}

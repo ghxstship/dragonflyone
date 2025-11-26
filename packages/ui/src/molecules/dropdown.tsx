@@ -39,7 +39,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
         {isOpen && (
           <div
             className={clsx(
-              "absolute z-dropdown mt-2 min-w-[200px] bg-white border-2 border-black shadow-[4px_4px_0_0_#000000]",
+              "absolute z-dropdown mt-2 min-w-[200px] bg-white border-2 border-black shadow-hard",
               align === "left" ? "left-0" : "right-0"
             )}
           >
@@ -54,7 +54,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
 export const DropdownItem = forwardRef<HTMLButtonElement, HTMLAttributes<HTMLButtonElement> & { href?: string }>(
   function DropdownItem({ href, className, children, ...props }, ref) {
     const baseClasses = clsx(
-      "w-full px-4 py-3 text-left font-body text-sm transition-colors",
+      "w-full px-4 py-3 text-left font-body text-body-sm transition-colors duration-base",
       "hover:bg-grey-100 focus:bg-grey-100 focus:outline-none",
       "border-b border-grey-200 last:border-b-0",
       className

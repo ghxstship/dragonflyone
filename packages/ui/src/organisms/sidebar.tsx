@@ -106,7 +106,7 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(
                             <span className="flex-1 uppercase tracking-wider">{item.label}</span>
                             {item.badge && (
                               <span className={clsx(
-                                "px-2 py-0.5 text-xs rounded-full",
+                                "px-2 py-0.5 text-mono-xs font-code uppercase tracking-widest",
                                 inverted ? "bg-grey-800 text-white" : "bg-grey-200 text-black"
                               )}>
                                 {item.badge}

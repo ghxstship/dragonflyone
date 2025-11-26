@@ -85,7 +85,7 @@ export default function KnowledgePage() {
             <H2>FEATURED CONTENT</H2>
             <Grid cols={2} gap={6}>
               {articles.filter(a => a.featured).map((article) => (
-                <Card key={article.id} className="p-6 hover:shadow-[8px_8px_0_0_#000] transition-shadow">
+                <Card key={article.id} className="p-6 hover:shadow-hard-lg transition-shadow">
                   <Stack gap={4}>
                     <Stack gap={3} direction="horizontal" className="justify-between items-start">
                       <Badge className="bg-black text-white">FEATURED</Badge>

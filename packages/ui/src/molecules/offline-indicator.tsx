@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { WifiOff, RefreshCw, Check, AlertCircle } from 'lucide-react';
 
 export interface OfflineIndicatorProps {
@@ -22,6 +22,19 @@ export function OfflineIndicator({
   const [isSyncing, setIsSyncing] = useState(false);
   const [showSyncSuccess, setShowSyncSuccess] = useState(false);
 
+  const handleSync = useCallback(async () => {
+    if (!onRetry || isSyncing) return;
+    
+    setIsSyncing(true);
+    try {
+      await onRetry();
+      setShowSyncSuccess(true);
+      setTimeout(() => setShowSyncSuccess(false), 3000);
+    } finally {
+      setIsSyncing(false);
+    }
+  }, [onRetry, isSyncing]);
+
   useEffect(() => {
     const handleOnline = () => {
       setIsOffline(false);
@@ -41,20 +54,7 @@ export function OfflineIndicator({
       window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
     };
-  }, [pendingSyncCount, onRetry]);
-
-  const handleSync = async () => {
-    if (!onRetry || isSyncing) return;
-    
-    setIsSyncing(true);
-    try {
-      await onRetry();
-      setShowSyncSuccess(true);
-      setTimeout(() => setShowSyncSuccess(false), 3000);
-    } finally {
-      setIsSyncing(false);
-    }
-  };
+  }, [pendingSyncCount, onRetry, handleSync]);
 
   const formatLastSync = (date: Date | null) => {
     if (!date) return 'Never';
@@ -105,7 +105,7 @@ export function OfflineIndicator({
     return (
       <div className={`fixed bottom-4 right-4 z-50 ${className}`}>
         {isOffline && (
-          <div className="flex items-center gap-3 px-4 py-3 bg-grey-900 text-white border-2 border-black shadow-[4px_4px_0_0_#000]">
+          <div className="flex items-center gap-3 px-4 py-3 bg-grey-900 text-white border-2 border-black shadow-hard">
             <WifiOff className="h-5 w-5 text-grey-400" />
             <div>
               <div className="font-heading text-sm uppercase tracking-wider">Offline Mode</div>
@@ -115,7 +115,7 @@ export function OfflineIndicator({
         )}
         
         {!isOffline && pendingSyncCount > 0 && (
-          <div className="flex items-center gap-3 px-4 py-3 bg-yellow-50 text-yellow-900 border-2 border-yellow-400 shadow-[4px_4px_0_0_#ca8a04]">
+          <div className="flex items-center gap-3 px-4 py-3 bg-yellow-50 text-yellow-900 border-2 border-yellow-400 shadow-hard">
             <AlertCircle className="h-5 w-5" />
             <div className="flex-1">
               <div className="font-heading text-sm uppercase tracking-wider">
@@ -136,7 +136,7 @@ export function OfflineIndicator({
         )}
 
         {showSyncSuccess && (
-          <div className="flex items-center gap-3 px-4 py-3 bg-green-50 text-green-900 border-2 border-green-400 shadow-[4px_4px_0_0_#16a34a]">
+          <div className="flex items-center gap-3 px-4 py-3 bg-green-50 text-green-900 border-2 border-green-400 shadow-hard">
             <Check className="h-5 w-5" />
             <div className="font-heading text-sm uppercase tracking-wider">
               All Changes Synced

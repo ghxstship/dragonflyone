@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { colors, typography, fontSizes, letterSpacing, transitions, borderWidths } from "../tokens.js";
+import clsx from "clsx";
 
 export interface CrewCardProps {
   /** Crew member ID */
@@ -35,10 +35,10 @@ export interface CrewCardProps {
 }
 
 const statusConfig = {
-  available: { label: "AVAILABLE", bgColor: colors.black, textColor: colors.white },
-  assigned: { label: "ASSIGNED", bgColor: colors.grey700, textColor: colors.white },
-  unavailable: { label: "UNAVAILABLE", bgColor: colors.grey400, textColor: colors.black },
-  "on-call": { label: "ON CALL", bgColor: colors.grey800, textColor: colors.white },
+  available: { label: "AVAILABLE", bgClass: "bg-black", textClass: "text-white" },
+  assigned: { label: "ASSIGNED", bgClass: "bg-grey-700", textClass: "text-white" },
+  unavailable: { label: "UNAVAILABLE", bgClass: "bg-grey-400", textClass: "text-black" },
+  "on-call": { label: "ON CALL", bgClass: "bg-grey-800", textClass: "text-white" },
 };
 
 function getInitials(name: string): string {
@@ -70,67 +70,41 @@ export function CrewCard({
   const isCompact = variant === "compact";
   const isDetailed = variant === "detailed";
 
+  const avatarHeightClass = isCompact ? "h-20" : isDetailed ? "h-[200px]" : "h-40";
+
   return (
     <article
-      className={className}
+      className={clsx(
+        "flex bg-white border-2 border-black overflow-hidden transition-all duration-base",
+        isCompact ? "flex-row" : "flex-col",
+        onClick && "cursor-pointer hover:-translate-y-0.5 hover:shadow-hard",
+        className
+      )}
       onClick={onClick}
       role={onClick ? "button" : undefined}
       tabIndex={onClick ? 0 : undefined}
-      style={{
-        display: "flex",
-        flexDirection: isCompact ? "row" : "column",
-        backgroundColor: colors.white,
-        border: `${borderWidths.medium} solid ${colors.black}`,
-        cursor: onClick ? "pointer" : "default",
-        transition: transitions.base,
-        overflow: "hidden",
-      }}
-      onMouseEnter={(e) => {
-        if (onClick) {
-          e.currentTarget.style.transform = "translateY(-2px)";
-          e.currentTarget.style.boxShadow = `2px 2px 0 0 ${colors.black}`;
-        }
-      }}
-      onMouseLeave={(e) => {
-        if (onClick) {
-          e.currentTarget.style.transform = "translateY(0)";
-          e.currentTarget.style.boxShadow = "none";
-        }
-      }}
     >
       {/* Avatar Section */}
       <div
-        style={{
-          position: "relative",
-          width: isCompact ? "80px" : "100%",
-          height: isCompact ? "80px" : isDetailed ? "200px" : "160px",
-          backgroundColor: colors.grey800,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          flexShrink: 0,
-          overflow: "hidden",
-        }}
+        className={clsx(
+          "relative bg-grey-800 flex items-center justify-center flex-shrink-0 overflow-hidden",
+          isCompact ? "w-20 h-20" : "w-full",
+          !isCompact && avatarHeightClass
+        )}
       >
         {imageUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={imageUrl}
             alt={name}
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              filter: "grayscale(100%) contrast(1.1)",
-            }}
+            className="w-full h-full object-cover grayscale contrast-[1.1]"
           />
         ) : (
           <span
-            style={{
-              fontFamily: typography.heading,
-              fontSize: isCompact ? fontSizes.h4MD : fontSizes.h2MD,
-              color: colors.white,
-            }}
+            className={clsx(
+              "font-heading text-white",
+              isCompact ? "text-h4-md" : "text-h2-md"
+            )}
           >
             {getInitials(name)}
           </span>
@@ -139,17 +113,11 @@ export function CrewCard({
         {/* Status Badge */}
         {!isCompact && (
           <div
-            style={{
-              position: "absolute",
-              top: "0.75rem",
-              right: "0.75rem",
-              backgroundColor: statusInfo.bgColor,
-              color: statusInfo.textColor,
-              fontFamily: typography.mono,
-              fontSize: fontSizes.monoXS,
-              letterSpacing: letterSpacing.widest,
-              padding: "0.25rem 0.5rem",
-            }}
+            className={clsx(
+              "absolute top-3 right-3 font-code text-mono-xs tracking-widest px-2 py-1",
+              statusInfo.bgClass,
+              statusInfo.textClass
+            )}
           >
             {statusInfo.label}
           </div>
@@ -158,36 +126,26 @@ export function CrewCard({
 
       {/* Content Section */}
       <div
-        style={{
-          padding: isCompact ? "0.75rem" : "1.25rem",
-          display: "flex",
-          flexDirection: "column",
-          gap: isCompact ? "0.25rem" : "0.5rem",
-          flex: 1,
-        }}
+        className={clsx(
+          "flex flex-col flex-1",
+          isCompact ? "p-3 gap-1" : "p-5 gap-2"
+        )}
       >
         {/* Name & Role */}
         <div>
           <h3
-            style={{
-              fontFamily: typography.heading,
-              fontSize: isCompact ? fontSizes.h5MD : fontSizes.h4MD,
-              color: colors.black,
-              textTransform: "uppercase",
-              letterSpacing: letterSpacing.wide,
-              margin: 0,
-              lineHeight: 1.1,
-            }}
+            className={clsx(
+              "font-heading text-black uppercase tracking-wide leading-snug",
+              isCompact ? "text-h5-md" : "text-h4-md"
+            )}
           >
             {name}
           </h3>
           <div
-            style={{
-              fontFamily: typography.body,
-              fontSize: isCompact ? fontSizes.bodySM : fontSizes.bodyMD,
-              color: colors.grey700,
-              marginTop: "0.25rem",
-            }}
+            className={clsx(
+              "font-body text-grey-700 mt-1",
+              isCompact ? "text-body-sm" : "text-body-md"
+            )}
           >
             {role}
           </div>
@@ -195,14 +153,7 @@ export function CrewCard({
 
         {/* Department */}
         {department && !isCompact && (
-          <div
-            style={{
-              fontFamily: typography.mono,
-              fontSize: fontSizes.monoSM,
-              color: colors.grey500,
-              letterSpacing: letterSpacing.wide,
-            }}
-          >
+          <div className="font-code text-mono-sm text-grey-500 tracking-wide">
             {department}
           </div>
         )}
@@ -210,13 +161,10 @@ export function CrewCard({
         {/* Compact Status */}
         {isCompact && (
           <div
-            style={{
-              fontFamily: typography.mono,
-              fontSize: fontSizes.monoXS,
-              color: statusInfo.bgColor === colors.black ? colors.black : colors.grey600,
-              letterSpacing: letterSpacing.widest,
-              marginTop: "auto",
-            }}
+            className={clsx(
+              "font-code text-mono-xs tracking-widest mt-auto",
+              status === "available" ? "text-black" : "text-grey-600"
+            )}
           >
             {statusInfo.label}
           </div>
@@ -224,56 +172,24 @@ export function CrewCard({
 
         {/* Current Assignment */}
         {currentAssignment && !isCompact && (
-          <div
-            style={{
-              fontFamily: typography.mono,
-              fontSize: fontSizes.monoSM,
-              color: colors.grey600,
-              letterSpacing: letterSpacing.wide,
-              padding: "0.5rem",
-              backgroundColor: colors.grey100,
-              marginTop: "0.5rem",
-            }}
-          >
+          <div className="font-code text-mono-sm text-grey-600 tracking-wide p-2 bg-grey-100 mt-2">
             ASSIGNED: {currentAssignment}
           </div>
         )}
 
         {/* Skills */}
         {isDetailed && skills.length > 0 && (
-          <div
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: "0.375rem",
-              marginTop: "0.5rem",
-            }}
-          >
+          <div className="flex flex-wrap gap-1.5 mt-2">
             {skills.slice(0, 4).map((skill, index) => (
               <span
                 key={index}
-                style={{
-                  fontFamily: typography.mono,
-                  fontSize: fontSizes.monoXS,
-                  color: colors.grey700,
-                  letterSpacing: letterSpacing.wide,
-                  padding: "0.25rem 0.5rem",
-                  border: `1px solid ${colors.grey300}`,
-                }}
+                className="font-code text-mono-xs text-grey-700 tracking-wide px-2 py-1 border border-grey-300"
               >
                 {skill}
               </span>
             ))}
             {skills.length > 4 && (
-              <span
-                style={{
-                  fontFamily: typography.mono,
-                  fontSize: fontSizes.monoXS,
-                  color: colors.grey500,
-                  letterSpacing: letterSpacing.wide,
-                  padding: "0.25rem 0.5rem",
-                }}
-              >
+              <span className="font-code text-mono-xs text-grey-500 tracking-wide px-2 py-1">
                 +{skills.length - 4}
               </span>
             )}
@@ -282,37 +198,14 @@ export function CrewCard({
 
         {/* Contact Info (Detailed only) */}
         {isDetailed && (email || phone) && (
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "0.25rem",
-              marginTop: "auto",
-              paddingTop: "0.75rem",
-              borderTop: `1px solid ${colors.grey200}`,
-            }}
-          >
+          <div className="flex flex-col gap-1 mt-auto pt-3 border-t border-grey-200">
             {email && (
-              <div
-                style={{
-                  fontFamily: typography.mono,
-                  fontSize: fontSizes.monoSM,
-                  color: colors.grey600,
-                  letterSpacing: letterSpacing.wide,
-                }}
-              >
+              <div className="font-code text-mono-sm text-grey-600 tracking-wide">
                 {email}
               </div>
             )}
             {phone && (
-              <div
-                style={{
-                  fontFamily: typography.mono,
-                  fontSize: fontSizes.monoSM,
-                  color: colors.grey600,
-                  letterSpacing: letterSpacing.wide,
-                }}
-              >
+              <div className="font-code text-mono-sm text-grey-600 tracking-wide">
                 {phone}
               </div>
             )}
@@ -322,31 +215,21 @@ export function CrewCard({
         {/* Rating */}
         {rating !== undefined && !isCompact && (
           <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "0.25rem",
-              marginTop: isDetailed ? "0.5rem" : "auto",
-            }}
+            className={clsx(
+              "flex items-center gap-1",
+              isDetailed ? "mt-2" : "mt-auto"
+            )}
           >
             {[1, 2, 3, 4, 5].map((star) => (
               <span
                 key={star}
-                style={{
-                  width: "12px",
-                  height: "12px",
-                  backgroundColor: star <= rating ? colors.black : colors.grey300,
-                }}
+                className={clsx(
+                  "w-3 h-3",
+                  star <= rating ? "bg-black" : "bg-grey-300"
+                )}
               />
             ))}
-            <span
-              style={{
-                fontFamily: typography.mono,
-                fontSize: fontSizes.monoXS,
-                color: colors.grey600,
-                marginLeft: "0.5rem",
-              }}
-            >
+            <span className="font-code text-mono-xs text-grey-600 ml-2">
               {rating.toFixed(1)}
             </span>
           </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import { colors, typography, fontSizes, letterSpacing, transitions, borderWidths } from "../tokens.js";
+import clsx from "clsx";
 
 export interface Column<T> {
   /** Unique key for the column */
@@ -153,50 +153,28 @@ export function DataTable<T>({
     }
   };
 
-  const cellPadding = compact ? "0.5rem 0.75rem" : "0.75rem 1rem";
-  const headerPadding = compact ? "0.625rem 0.75rem" : "0.875rem 1rem";
-
   return (
     <div
-      className={className}
-      style={{
-        border: `${borderWidths.medium} solid ${colors.black}`,
-        backgroundColor: colors.white,
-        overflow: "auto",
-      }}
+      className={clsx(
+        "border-2 border-black bg-white overflow-auto",
+        className
+      )}
     >
       <table
-        style={{
-          width: "100%",
-          borderCollapse: "collapse",
-          fontFamily: typography.body,
-          fontSize: compact ? fontSizes.bodySM : fontSizes.bodyMD,
-        }}
+        className={clsx(
+          "w-full border-collapse font-body",
+          compact ? "text-body-sm" : "text-body-md"
+        )}
       >
         <thead>
-          <tr
-            style={{
-              backgroundColor: colors.black,
-              color: colors.white,
-            }}
-          >
+          <tr className="bg-black text-white">
             {selectable && (
-              <th
-                style={{
-                  padding: headerPadding,
-                  width: "48px",
-                  textAlign: "center",
-                }}
-              >
+              <th className={clsx("w-12 text-center", compact ? "px-3 py-2.5" : "px-4 py-3.5")}>
                 <input
                   type="checkbox"
                   checked={selectedKeys.length === data.length && data.length > 0}
                   onChange={handleSelectAll}
-                  style={{
-                    width: "16px",
-                    height: "16px",
-                    cursor: "pointer",
-                  }}
+                  className="w-4 h-4 cursor-pointer"
                 />
               </th>
             )}
@@ -204,43 +182,24 @@ export function DataTable<T>({
               <th
                 key={column.key}
                 onClick={() => handleSort(column.key)}
-                style={{
-                  padding: headerPadding,
-                  textAlign: column.align || "left",
-                  fontFamily: typography.mono,
-                  fontSize: fontSizes.monoSM,
-                  fontWeight: 400,
-                  letterSpacing: letterSpacing.widest,
-                  textTransform: "uppercase",
-                  width: column.width,
-                  cursor: column.sortable ? "pointer" : "default",
-                  userSelect: "none",
-                  whiteSpace: "nowrap",
-                }}
+                className={clsx(
+                  "font-code text-mono-sm font-normal tracking-widest uppercase whitespace-nowrap select-none",
+                  compact ? "px-3 py-2.5" : "px-4 py-3.5",
+                  column.sortable ? "cursor-pointer" : "cursor-default",
+                  column.align === "center" && "text-center",
+                  column.align === "right" && "text-right",
+                  !column.align && "text-left"
+                )}
+                style={{ width: column.width }}
               >
-                <span style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                <span className="flex items-center gap-2">
                   {column.label}
                   {column.sortable && (
-                    <span
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        fontSize: "8px",
-                        lineHeight: 1,
-                      }}
-                    >
-                      <span
-                        style={{
-                          opacity: sortColumn === column.key && sortDirection === "asc" ? 1 : 0.3,
-                        }}
-                      >
+                    <span className="flex flex-col text-[8px] leading-none">
+                      <span className={sortColumn === column.key && sortDirection === "asc" ? "opacity-100" : "opacity-30"}>
                         ▲
                       </span>
-                      <span
-                        style={{
-                          opacity: sortColumn === column.key && sortDirection === "desc" ? 1 : 0.3,
-                        }}
-                      >
+                      <span className={sortColumn === column.key && sortDirection === "desc" ? "opacity-100" : "opacity-30"}>
                         ▼
                       </span>
                     </span>
@@ -255,40 +214,16 @@ export function DataTable<T>({
             <tr>
               <td
                 colSpan={columns.length + (selectable ? 1 : 0)}
-                style={{
-                  padding: "3rem",
-                  textAlign: "center",
-                  color: colors.grey500,
-                }}
+                className="p-12 text-center text-grey-500"
               >
-                <div
-                  style={{
-                    display: "inline-block",
-                    width: "24px",
-                    height: "24px",
-                    border: `2px solid ${colors.grey300}`,
-                    borderTopColor: colors.black,
-                    borderRadius: "50%",
-                    animation: "spin 1s linear infinite",
-                  }}
-                />
-                <style>
-                  {`@keyframes spin { to { transform: rotate(360deg); } }`}
-                </style>
+                <div className="inline-block w-6 h-6 border-2 border-grey-300 border-t-black rounded-full animate-spin" />
               </td>
             </tr>
           ) : sortedData.length === 0 ? (
             <tr>
               <td
                 colSpan={columns.length + (selectable ? 1 : 0)}
-                style={{
-                  padding: "3rem",
-                  textAlign: "center",
-                  fontFamily: typography.mono,
-                  fontSize: fontSizes.monoMD,
-                  color: colors.grey500,
-                  letterSpacing: letterSpacing.wide,
-                }}
+                className="p-12 text-center font-code text-mono-md text-grey-500 tracking-wide"
               >
                 {emptyMessage}
               </td>
@@ -302,48 +237,22 @@ export function DataTable<T>({
                 <tr
                   key={key}
                   onClick={() => onRowClick?.(row)}
-                  style={{
-                    backgroundColor: isSelected
-                      ? colors.grey100
-                      : striped && index % 2 === 1
-                      ? colors.grey100
-                      : colors.white,
-                    cursor: onRowClick ? "pointer" : "default",
-                    transition: transitions.fast,
-                    borderBottom: `1px solid ${colors.grey200}`,
-                  }}
-                  onMouseEnter={(e) => {
-                    if (onRowClick) {
-                      e.currentTarget.style.backgroundColor = colors.grey100;
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (onRowClick) {
-                      e.currentTarget.style.backgroundColor = isSelected
-                        ? colors.grey100
-                        : striped && index % 2 === 1
-                        ? colors.grey100
-                        : colors.white;
-                    }
-                  }}
+                  className={clsx(
+                    "border-b border-grey-200 transition-colors duration-fast",
+                    isSelected ? "bg-grey-100" : striped && index % 2 === 1 ? "bg-grey-100" : "bg-white",
+                    onRowClick && "cursor-pointer hover:bg-grey-100"
+                  )}
                 >
                   {selectable && (
                     <td
-                      style={{
-                        padding: cellPadding,
-                        textAlign: "center",
-                      }}
+                      className={clsx("text-center", compact ? "px-3 py-2" : "px-4 py-3")}
                       onClick={(e) => e.stopPropagation()}
                     >
                       <input
                         type="checkbox"
                         checked={isSelected}
                         onChange={() => handleSelectRow(key)}
-                        style={{
-                          width: "16px",
-                          height: "16px",
-                          cursor: "pointer",
-                        }}
+                        className="w-4 h-4 cursor-pointer"
                       />
                     </td>
                   )}
@@ -354,11 +263,13 @@ export function DataTable<T>({
                     return (
                       <td
                         key={column.key}
-                        style={{
-                          padding: cellPadding,
-                          textAlign: column.align || "left",
-                          color: colors.grey800,
-                        }}
+                        className={clsx(
+                          "text-grey-800",
+                          compact ? "px-3 py-2" : "px-4 py-3",
+                          column.align === "center" && "text-center",
+                          column.align === "right" && "text-right",
+                          !column.align && "text-left"
+                        )}
                       >
                         {rendered as React.ReactNode}
                       </td>

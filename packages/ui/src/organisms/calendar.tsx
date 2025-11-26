@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import { colors, typography, fontSizes, letterSpacing, transitions, borderWidths } from "../tokens.js";
+import clsx from "clsx";
 
 export interface CalendarEvent {
   id: string;
@@ -136,81 +136,29 @@ export function Calendar({
   }
 
   return (
-    <div
-      className={className}
-      style={{
-        backgroundColor: colors.white,
-        border: `${borderWidths.medium} solid ${colors.black}`,
-      }}
-    >
+    <div className={clsx("bg-white border-2 border-black", className)}>
       {/* Header */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "1rem 1.25rem",
-          borderBottom: `${borderWidths.thin} solid ${colors.grey200}`,
-        }}
-      >
+      <div className="flex justify-between items-center px-5 py-4 border-b border-grey-200">
         <button
           onClick={() => navigateMonth(-1)}
-          style={{
-            width: "40px",
-            height: "40px",
-            backgroundColor: "transparent",
-            border: `${borderWidths.medium} solid ${colors.black}`,
-            cursor: "pointer",
-            fontFamily: typography.heading,
-            fontSize: fontSizes.h5MD,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            transition: transitions.fast,
-          }}
+          className="w-10 h-10 bg-transparent border-2 border-black cursor-pointer font-heading text-h5-md flex items-center justify-center transition-colors duration-fast hover:bg-grey-100"
           aria-label="Previous month"
         >
           ←
         </button>
 
-        <div style={{ textAlign: "center" }}>
-          <div
-            style={{
-              fontFamily: typography.heading,
-              fontSize: fontSizes.h4MD,
-              color: colors.black,
-              letterSpacing: letterSpacing.wide,
-            }}
-          >
+        <div className="text-center">
+          <div className="font-heading text-h4-md text-black tracking-wide">
             {MONTHS[viewDate.getMonth()]}
           </div>
-          <div
-            style={{
-              fontFamily: typography.mono,
-              fontSize: fontSizes.monoSM,
-              color: colors.grey600,
-              letterSpacing: letterSpacing.widest,
-            }}
-          >
+          <div className="font-code text-mono-sm text-grey-600 tracking-widest">
             {viewDate.getFullYear()}
           </div>
         </div>
 
         <button
           onClick={() => navigateMonth(1)}
-          style={{
-            width: "40px",
-            height: "40px",
-            backgroundColor: "transparent",
-            border: `${borderWidths.medium} solid ${colors.black}`,
-            cursor: "pointer",
-            fontFamily: typography.heading,
-            fontSize: fontSizes.h5MD,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            transition: transitions.fast,
-          }}
+          className="w-10 h-10 bg-transparent border-2 border-black cursor-pointer font-heading text-h5-md flex items-center justify-center transition-colors duration-fast hover:bg-grey-100"
           aria-label="Next month"
         >
           →
@@ -219,36 +167,18 @@ export function Calendar({
 
       {/* Days of Week Header */}
       <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: showWeekNumbers ? "40px repeat(7, 1fr)" : "repeat(7, 1fr)",
-          borderBottom: `${borderWidths.thin} solid ${colors.grey200}`,
-        }}
+        className="grid border-b border-grey-200"
+        style={{ gridTemplateColumns: showWeekNumbers ? "40px repeat(7, 1fr)" : "repeat(7, 1fr)" }}
       >
         {showWeekNumbers && (
-          <div
-            style={{
-              padding: "0.75rem 0.5rem",
-              fontFamily: typography.mono,
-              fontSize: fontSizes.monoXS,
-              color: colors.grey400,
-              textAlign: "center",
-            }}
-          >
+          <div className="px-2 py-3 font-code text-mono-xs text-grey-400 text-center">
             WK
           </div>
         )}
         {daysOfWeek.map((day) => (
           <div
             key={day}
-            style={{
-              padding: "0.75rem 0.5rem",
-              fontFamily: typography.mono,
-              fontSize: fontSizes.monoXS,
-              color: colors.grey600,
-              letterSpacing: letterSpacing.widest,
-              textAlign: "center",
-            }}
+            className="px-2 py-3 font-code text-mono-xs text-grey-600 tracking-widest text-center"
           >
             {day}
           </div>
@@ -260,25 +190,11 @@ export function Calendar({
         {weeks.map((week, weekIndex) => (
           <div
             key={weekIndex}
-            style={{
-              display: "grid",
-              gridTemplateColumns: showWeekNumbers ? "40px repeat(7, 1fr)" : "repeat(7, 1fr)",
-              borderBottom: weekIndex < weeks.length - 1 ? `1px solid ${colors.grey100}` : "none",
-            }}
+            className={clsx("grid", weekIndex < weeks.length - 1 && "border-b border-grey-100")}
+            style={{ gridTemplateColumns: showWeekNumbers ? "40px repeat(7, 1fr)" : "repeat(7, 1fr)" }}
           >
             {showWeekNumbers && (
-              <div
-                style={{
-                  padding: "0.5rem",
-                  fontFamily: typography.mono,
-                  fontSize: fontSizes.monoXS,
-                  color: colors.grey400,
-                  textAlign: "center",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
+              <div className="p-2 font-code text-mono-xs text-grey-400 text-center flex items-center justify-center">
                 {week[0] ? getWeekNumber(week[0]) : ""}
               </div>
             )}
@@ -287,11 +203,7 @@ export function Calendar({
                 return (
                   <div
                     key={`empty-${dayIndex}`}
-                    style={{
-                      padding: "0.5rem",
-                      minHeight: "60px",
-                      backgroundColor: colors.grey100,
-                    }}
+                    className="p-2 min-h-[60px] bg-grey-100"
                   />
                 );
               }
@@ -306,32 +218,14 @@ export function Calendar({
                   key={date.toISOString()}
                   onClick={() => !isDisabled && onDateSelect?.(date)}
                   disabled={isDisabled}
-                  style={{
-                    padding: "0.5rem",
-                    minHeight: "60px",
-                    backgroundColor: isSelected
-                      ? colors.black
-                      : isToday
-                      ? colors.grey100
-                      : colors.white,
-                    border: "none",
-                    borderRight: dayIndex < 6 ? `1px solid ${colors.grey100}` : "none",
-                    cursor: isDisabled ? "not-allowed" : "pointer",
-                    opacity: isDisabled ? 0.4 : 1,
-                    transition: transitions.fast,
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "flex-start",
-                    gap: "0.25rem",
-                  }}
+                  className={clsx(
+                    "p-2 min-h-[60px] border-none flex flex-col items-start gap-1 transition-colors duration-fast",
+                    isSelected ? "bg-black" : isToday ? "bg-grey-100" : "bg-white hover:bg-grey-50",
+                    dayIndex < 6 && "border-r border-grey-100",
+                    isDisabled ? "cursor-not-allowed opacity-40" : "cursor-pointer"
+                  )}
                 >
-                  <span
-                    style={{
-                      fontFamily: typography.heading,
-                      fontSize: fontSizes.h6MD,
-                      color: isSelected ? colors.white : colors.black,
-                    }}
-                  >
+                  <span className={clsx("font-heading text-h6-md", isSelected ? "text-white" : "text-black")}>
                     {date.getDate()}
                   </span>
 
@@ -343,32 +237,14 @@ export function Calendar({
                         e.stopPropagation();
                         onEventClick?.(event);
                       }}
-                      style={{
-                        width: "100%",
-                        padding: "0.125rem 0.25rem",
-                        backgroundColor: event.color || colors.grey800,
-                        color: colors.white,
-                        fontFamily: typography.mono,
-                        fontSize: fontSizes.monoXXS,
-                        letterSpacing: letterSpacing.wide,
-                        textAlign: "left",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
-                        cursor: "pointer",
-                      }}
+                      className="w-full px-1 py-0.5 text-white font-code text-[10px] tracking-wide text-left overflow-hidden text-ellipsis whitespace-nowrap cursor-pointer"
+                      style={{ backgroundColor: event.color || "#1F2937" }}
                     >
                       {event.title}
                     </div>
                   ))}
                   {dayEvents.length > 2 && (
-                    <span
-                      style={{
-                        fontFamily: typography.mono,
-                        fontSize: fontSizes.monoXXS,
-                        color: isSelected ? colors.grey400 : colors.grey500,
-                      }}
-                    >
+                    <span className={clsx("font-code text-[10px]", isSelected ? "text-grey-400" : "text-grey-500")}>
                       +{dayEvents.length - 2} more
                     </span>
                   )}
@@ -380,26 +256,10 @@ export function Calendar({
       </div>
 
       {/* Footer */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          padding: "0.75rem",
-          borderTop: `${borderWidths.thin} solid ${colors.grey200}`,
-        }}
-      >
+      <div className="flex justify-center py-3 border-t border-grey-200">
         <button
           onClick={goToToday}
-          style={{
-            padding: "0.5rem 1rem",
-            backgroundColor: "transparent",
-            border: `${borderWidths.medium} solid ${colors.black}`,
-            fontFamily: typography.mono,
-            fontSize: fontSizes.monoSM,
-            letterSpacing: letterSpacing.widest,
-            cursor: "pointer",
-            transition: transitions.fast,
-          }}
+          className="px-4 py-2 bg-transparent border-2 border-black font-code text-mono-sm tracking-widest cursor-pointer transition-colors duration-fast hover:bg-grey-100"
         >
           TODAY
         </button>

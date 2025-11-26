@@ -15,8 +15,8 @@ export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
       xs: "w-3 h-3 border-2",
       sm: "w-4 h-4 border-2",
       md: "w-6 h-6 border-2",
-      lg: "w-8 h-8 border-[3px]",
-      xl: "w-12 h-12 border-[3px]",
+      lg: "w-8 h-8 border-3",
+      xl: "w-12 h-12 border-3",
     };
 
     const variantClasses = {

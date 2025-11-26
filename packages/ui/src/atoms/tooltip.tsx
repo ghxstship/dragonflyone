@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { colors, typography, fontSizes, letterSpacing, transitions, zIndex } from "../tokens.js";
+import clsx from "clsx";
 
 export interface TooltipProps {
   /** Tooltip content */
@@ -87,6 +87,7 @@ export function Tooltip({
     if (isVisible) {
       calculatePosition();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isVisible, position]);
 
   useEffect(() => {
@@ -105,7 +106,7 @@ export function Tooltip({
         onMouseLeave={hideTooltip}
         onFocus={showTooltip}
         onBlur={hideTooltip}
-        style={{ display: "inline-block" }}
+        className="inline-block"
       >
         {children}
       </div>
@@ -113,23 +114,16 @@ export function Tooltip({
       {isVisible && (
         <div
           ref={tooltipRef}
-          className={className}
           role="tooltip"
+          className={clsx(
+            "fixed z-tooltip bg-black text-white font-code text-mono-sm tracking-wide",
+            "px-3 py-2 max-w-[250px] pointer-events-none transition-opacity duration-fast",
+            isVisible ? "opacity-100" : "opacity-0",
+            className
+          )}
           style={{
-            position: "fixed",
             top: coords.top,
             left: coords.left,
-            zIndex: zIndex.tooltip,
-            backgroundColor: colors.black,
-            color: colors.white,
-            fontFamily: typography.mono,
-            fontSize: fontSizes.monoSM,
-            letterSpacing: letterSpacing.wide,
-            padding: "0.5rem 0.75rem",
-            maxWidth: "250px",
-            pointerEvents: "none",
-            opacity: isVisible ? 1 : 0,
-            transition: transitions.fast,
           }}
         >
           {content}

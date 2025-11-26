@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import { colors, typography, fontSizes, letterSpacing, transitions, borderWidths } from "../tokens.js";
+import clsx from "clsx";
 
 export interface Seat {
   id: string;
@@ -45,11 +45,11 @@ export interface SeatingChartProps {
 }
 
 const statusColors = {
-  available: colors.white,
-  selected: colors.black,
-  sold: colors.grey400,
-  reserved: colors.grey300,
-  accessible: colors.grey700,
+  available: "#FFFFFF",
+  selected: "#000000",
+  sold: "#9CA3AF",
+  reserved: "#D1D5DB",
+  accessible: "#374151",
 };
 
 const statusLabels = {
@@ -124,21 +124,12 @@ export function SeatingChart({
   const seatGap = 4 * zoom;
 
   return (
-    <div className={className} style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+    <div className={clsx("flex flex-col gap-6", className)}>
       {/* Stage */}
       {showStage && (
         <div
-          style={{
-            width: "100%",
-            padding: `${1 * zoom}rem ${2 * zoom}rem`,
-            backgroundColor: colors.grey900,
-            color: colors.white,
-            fontFamily: typography.heading,
-            fontSize: `calc(${fontSizes.h4MD} * ${zoom})`,
-            textAlign: "center",
-            letterSpacing: letterSpacing.mega,
-            textTransform: "uppercase",
-          }}
+          className="w-full bg-grey-900 text-white font-heading text-center tracking-mega uppercase"
+          style={{ padding: `${1 * zoom}rem ${2 * zoom}rem`, fontSize: `calc(1.125rem * ${zoom})` }}
         >
           {stageLabel}
         </div>
@@ -146,14 +137,8 @@ export function SeatingChart({
 
       {/* Seating Area */}
       <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: `${1.5 * zoom}rem`,
-          padding: `${1 * zoom}rem`,
-          overflow: "auto",
-        }}
+        className="flex flex-col items-center overflow-auto"
+        style={{ gap: `${1.5 * zoom}rem`, padding: `${1 * zoom}rem` }}
       >
         {sections.map((section) => {
           const sectionSeats = seatsBySection[section.id];
@@ -164,23 +149,13 @@ export function SeatingChart({
           return (
             <div
               key={section.id}
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                gap: `${0.5 * zoom}rem`,
-              }}
+              className="flex flex-col items-center"
+              style={{ gap: `${0.5 * zoom}rem` }}
             >
               {/* Section Label */}
               <div
-                style={{
-                  fontFamily: typography.mono,
-                  fontSize: `calc(${fontSizes.monoSM} * ${zoom})`,
-                  color: colors.grey600,
-                  letterSpacing: letterSpacing.widest,
-                  textTransform: "uppercase",
-                  marginBottom: `${0.5 * zoom}rem`,
-                }}
+                className="font-code text-grey-600 tracking-widest uppercase"
+                style={{ fontSize: `calc(0.75rem * ${zoom})`, marginBottom: `${0.5 * zoom}rem` }}
               >
                 {section.name}
               </div>
@@ -189,22 +164,13 @@ export function SeatingChart({
               {rows.map((row) => (
                 <div
                   key={row}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: `${seatGap}px`,
-                  }}
+                  className="flex items-center"
+                  style={{ gap: `${seatGap}px` }}
                 >
                   {/* Row Label */}
                   <span
-                    style={{
-                      width: `${seatSize}px`,
-                      fontFamily: typography.mono,
-                      fontSize: `calc(${fontSizes.monoXS} * ${zoom})`,
-                      color: colors.grey500,
-                      textAlign: "right",
-                      paddingRight: `${4 * zoom}px`,
-                    }}
+                    className="font-code text-grey-500 text-right"
+                    style={{ width: `${seatSize}px`, fontSize: `calc(0.625rem * ${zoom})`, paddingRight: `${4 * zoom}px` }}
                   >
                     {row}
                   </span>
@@ -222,33 +188,21 @@ export function SeatingChart({
                         onMouseEnter={() => setHoveredSeat(seat)}
                         onMouseLeave={() => setHoveredSeat(null)}
                         disabled={!isClickable}
+                        className="relative p-0 rounded-sm transition-transform duration-fast"
                         style={{
                           width: `${seatSize}px`,
                           height: `${seatSize}px`,
                           backgroundColor: statusColors[status],
-                          border: `${borderWidths.medium} solid ${
-                            status === "selected" ? colors.black : colors.grey400
-                          }`,
-                          borderRadius: "2px",
+                          border: `2px solid ${status === "selected" ? "#000000" : "#9CA3AF"}`,
                           cursor: isClickable ? "pointer" : "not-allowed",
-                          transition: transitions.fast,
                           transform: isHovered && isClickable ? "scale(1.15)" : "scale(1)",
-                          position: "relative",
-                          padding: 0,
                         }}
                         aria-label={`Row ${seat.row}, Seat ${seat.number}, ${statusLabels[status]}`}
                       >
                         {status === "accessible" && (
                           <span
-                            style={{
-                              position: "absolute",
-                              inset: 0,
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              color: colors.white,
-                              fontSize: `${10 * zoom}px`,
-                            }}
+                            className="absolute inset-0 flex items-center justify-center text-white"
+                            style={{ fontSize: `${10 * zoom}px` }}
                           >
                             ♿
                           </span>
@@ -259,14 +213,8 @@ export function SeatingChart({
 
                   {/* Row Label (right side) */}
                   <span
-                    style={{
-                      width: `${seatSize}px`,
-                      fontFamily: typography.mono,
-                      fontSize: `calc(${fontSizes.monoXS} * ${zoom})`,
-                      color: colors.grey500,
-                      textAlign: "left",
-                      paddingLeft: `${4 * zoom}px`,
-                    }}
+                    className="font-code text-grey-500 text-left"
+                    style={{ width: `${seatSize}px`, fontSize: `calc(0.625rem * ${zoom})`, paddingLeft: `${4 * zoom}px` }}
                   >
                     {row}
                   </span>
@@ -279,23 +227,7 @@ export function SeatingChart({
 
       {/* Hovered Seat Info */}
       {hoveredSeat && (
-        <div
-          style={{
-            position: "fixed",
-            bottom: "1rem",
-            left: "50%",
-            transform: "translateX(-50%)",
-            backgroundColor: colors.black,
-            color: colors.white,
-            padding: "0.75rem 1.25rem",
-            fontFamily: typography.mono,
-            fontSize: fontSizes.monoSM,
-            letterSpacing: letterSpacing.wide,
-            display: "flex",
-            gap: "1.5rem",
-            zIndex: 100,
-          }}
-        >
+        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-black text-white px-5 py-3 font-code text-mono-sm tracking-wide flex gap-6 z-tooltip">
           <span>
             ROW {hoveredSeat.row} / SEAT {hoveredSeat.number}
           </span>
@@ -305,7 +237,7 @@ export function SeatingChart({
             </span>
           )}
           {hoveredSeat.priceCategory && (
-            <span style={{ color: colors.grey400 }}>
+            <span className="text-grey-400">
               {hoveredSeat.priceCategory}
             </span>
           )}
@@ -314,45 +246,17 @@ export function SeatingChart({
 
       {/* Legend */}
       {showLegend && (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: "1.5rem",
-            flexWrap: "wrap",
-            padding: "1rem",
-            borderTop: `1px solid ${colors.grey200}`,
-          }}
-        >
+        <div className="flex justify-center gap-6 flex-wrap p-4 border-t border-grey-200">
           {(Object.keys(statusColors) as Array<keyof typeof statusColors>).map((status) => (
-            <div
-              key={status}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "0.5rem",
-              }}
-            >
+            <div key={status} className="flex items-center gap-2">
               <div
+                className="w-4 h-4 rounded-sm"
                 style={{
-                  width: "16px",
-                  height: "16px",
                   backgroundColor: statusColors[status],
-                  border: `${borderWidths.medium} solid ${
-                    status === "selected" ? colors.black : colors.grey400
-                  }`,
-                  borderRadius: "2px",
+                  border: `2px solid ${status === "selected" ? "#000000" : "#9CA3AF"}`,
                 }}
               />
-              <span
-                style={{
-                  fontFamily: typography.mono,
-                  fontSize: fontSizes.monoXS,
-                  color: colors.grey600,
-                  letterSpacing: letterSpacing.wide,
-                  textTransform: "uppercase",
-                }}
-              >
+              <span className="font-code text-mono-xs text-grey-600 tracking-wide uppercase">
                 {statusLabels[status]}
               </span>
             </div>
@@ -362,34 +266,12 @@ export function SeatingChart({
 
       {/* Selection Summary */}
       {selectedSeats.length > 0 && (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            padding: "1rem 1.25rem",
-            backgroundColor: colors.grey100,
-            border: `${borderWidths.medium} solid ${colors.black}`,
-          }}
-        >
-          <div
-            style={{
-              fontFamily: typography.mono,
-              fontSize: fontSizes.monoSM,
-              color: colors.grey700,
-              letterSpacing: letterSpacing.wide,
-            }}
-          >
+        <div className="flex justify-between items-center px-5 py-4 bg-grey-100 border-2 border-black">
+          <div className="font-code text-mono-sm text-grey-700 tracking-wide">
             {selectedSeats.length} SEAT{selectedSeats.length !== 1 ? "S" : ""} SELECTED
             {maxSelection && ` (MAX ${maxSelection})`}
           </div>
-          <div
-            style={{
-              fontFamily: typography.heading,
-              fontSize: fontSizes.h5MD,
-              color: colors.black,
-            }}
-          >
+          <div className="font-heading text-h5-md text-black">
             $
             {seats
               .filter((s) => selectedSeats.includes(s.id))

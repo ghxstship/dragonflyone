@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { colors, typography, fontSizes, letterSpacing, transitions, borderWidths } from "../tokens.js";
+import clsx from "clsx";
 
 export interface TimelineItem {
   id: string;
@@ -32,11 +32,11 @@ export interface TimelineProps {
   className?: string;
 }
 
-const statusColors = {
-  completed: colors.black,
-  current: colors.grey700,
-  upcoming: colors.grey400,
-  error: colors.grey500,
+const statusConfig = {
+  completed: { bgClass: "bg-black", borderClass: "border-black", textClass: "text-white" },
+  current: { bgClass: "bg-white", borderClass: "border-grey-700", textClass: "text-grey-700" },
+  upcoming: { bgClass: "bg-grey-400", borderClass: "border-grey-400", textClass: "text-white" },
+  error: { bgClass: "bg-grey-500", borderClass: "border-grey-500", textClass: "text-white" },
 };
 
 function formatTimestamp(timestamp: Date | string): string {
@@ -79,17 +79,16 @@ export function Timeline({
 
   return (
     <div
-      className={className}
-      style={{
-        display: "flex",
-        flexDirection: isVertical ? "column" : "row",
-        gap: compact ? "0.75rem" : "1.25rem",
-        overflowX: isVertical ? "visible" : "auto",
-      }}
+      className={clsx(
+        "flex",
+        isVertical ? "flex-col" : "flex-row overflow-x-auto",
+        compact ? "gap-3" : "gap-5",
+        className
+      )}
     >
       {items.map((item, index) => {
         const isLast = index === items.length - 1;
-        const statusColor = statusColors[item.status || "completed"];
+        const status = statusConfig[item.status || "completed"];
 
         return (
           <div
@@ -97,39 +96,30 @@ export function Timeline({
             onClick={() => onItemClick?.(item)}
             role={onItemClick ? "button" : undefined}
             tabIndex={onItemClick ? 0 : undefined}
-            style={{
-              display: "flex",
-              flexDirection: isVertical ? "row" : "column",
-              gap: compact ? "0.75rem" : "1rem",
-              cursor: onItemClick ? "pointer" : "default",
-              minWidth: isVertical ? "auto" : "200px",
-              flex: isVertical ? "none" : "0 0 auto",
-            }}
+            className={clsx(
+              "flex",
+              isVertical ? "flex-row" : "flex-col",
+              compact ? "gap-3" : "gap-4",
+              onItemClick && "cursor-pointer",
+              !isVertical && "min-w-[200px] flex-shrink-0"
+            )}
           >
             {/* Timeline indicator */}
             <div
-              style={{
-                display: "flex",
-                flexDirection: isVertical ? "column" : "row",
-                alignItems: "center",
-                flexShrink: 0,
-              }}
+              className={clsx(
+                "flex items-center flex-shrink-0",
+                isVertical ? "flex-col" : "flex-row"
+              )}
             >
               {/* Dot/Icon */}
               <div
-                style={{
-                  width: compact ? "24px" : "32px",
-                  height: compact ? "24px" : "32px",
-                  borderRadius: "50%",
-                  backgroundColor: item.status === "current" ? colors.white : statusColor,
-                  border: `${borderWidths.medium} solid ${statusColor}`,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: item.status === "current" ? statusColor : colors.white,
-                  fontSize: compact ? "10px" : "12px",
-                  flexShrink: 0,
-                }}
+                className={clsx(
+                  "rounded-full border-2 flex items-center justify-center flex-shrink-0",
+                  compact ? "w-6 h-6 text-[10px]" : "w-8 h-8 text-xs",
+                  item.status === "current" ? "bg-white" : status.bgClass,
+                  status.borderClass,
+                  item.status === "current" ? status.textClass : "text-white"
+                )}
               >
                 {item.icon || (item.status === "completed" ? "✓" : index + 1)}
               </div>
@@ -137,58 +127,33 @@ export function Timeline({
               {/* Connector line */}
               {showConnectors && !isLast && (
                 <div
-                  style={{
-                    width: isVertical ? borderWidths.medium : "100%",
-                    height: isVertical ? "100%" : borderWidths.medium,
-                    minWidth: isVertical ? "auto" : "24px",
-                    minHeight: isVertical ? "24px" : "auto",
-                    backgroundColor:
-                      item.status === "completed" ? colors.black : colors.grey300,
-                    flex: 1,
-                  }}
+                  className={clsx(
+                    "flex-1",
+                    isVertical ? "w-0.5 min-h-6" : "h-0.5 min-w-6",
+                    item.status === "completed" ? "bg-black" : "bg-grey-300"
+                  )}
                 />
               )}
             </div>
 
             {/* Content */}
             <div
-              style={{
-                flex: 1,
-                paddingBottom: isVertical && !isLast ? (compact ? "0.75rem" : "1.25rem") : 0,
-              }}
+              className={clsx(
+                "flex-1",
+                isVertical && !isLast && (compact ? "pb-3" : "pb-5")
+              )}
             >
               {/* Header */}
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "flex-start",
-                  justifyContent: "space-between",
-                  gap: "0.75rem",
-                  marginBottom: "0.25rem",
-                }}
-              >
+              <div className="flex items-start justify-between gap-3 mb-1">
                 <h4
-                  style={{
-                    fontFamily: typography.heading,
-                    fontSize: compact ? fontSizes.h6MD : fontSizes.h5MD,
-                    color: colors.black,
-                    textTransform: "uppercase",
-                    letterSpacing: letterSpacing.wide,
-                    margin: 0,
-                    lineHeight: 1.2,
-                  }}
+                  className={clsx(
+                    "font-heading text-black uppercase tracking-wide leading-relaxed",
+                    compact ? "text-h6-md" : "text-h5-md"
+                  )}
                 >
                   {item.title}
                 </h4>
-                <span
-                  style={{
-                    fontFamily: typography.mono,
-                    fontSize: fontSizes.monoXS,
-                    color: colors.grey500,
-                    letterSpacing: letterSpacing.widest,
-                    whiteSpace: "nowrap",
-                  }}
-                >
+                <span className="font-code text-mono-xs text-grey-500 tracking-widest whitespace-nowrap">
                   {formatTimestamp(item.timestamp)}
                 </span>
               </div>
@@ -196,13 +161,10 @@ export function Timeline({
               {/* Description */}
               {item.description && (
                 <p
-                  style={{
-                    fontFamily: typography.body,
-                    fontSize: compact ? fontSizes.bodySM : fontSizes.bodyMD,
-                    color: colors.grey700,
-                    margin: 0,
-                    marginBottom: "0.5rem",
-                  }}
+                  className={clsx(
+                    "font-body text-grey-700 mb-2",
+                    compact ? "text-body-sm" : "text-body-md"
+                  )}
                 >
                   {item.description}
                 </p>
@@ -210,52 +172,20 @@ export function Timeline({
 
               {/* User */}
               {item.user && (
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "0.5rem",
-                    marginTop: "0.5rem",
-                  }}
-                >
+                <div className="flex items-center gap-2 mt-2">
                   {item.user.avatar ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
                       src={item.user.avatar}
                       alt={item.user.name}
-                      style={{
-                        width: "20px",
-                        height: "20px",
-                        borderRadius: "50%",
-                        objectFit: "cover",
-                        filter: "grayscale(100%)",
-                      }}
+                      className="w-5 h-5 rounded-full object-cover grayscale"
                     />
                   ) : (
-                    <div
-                      style={{
-                        width: "20px",
-                        height: "20px",
-                        borderRadius: "50%",
-                        backgroundColor: colors.grey700,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        fontFamily: typography.mono,
-                        fontSize: fontSizes.monoXXS,
-                        color: colors.white,
-                      }}
-                    >
+                    <div className="w-5 h-5 rounded-full bg-grey-700 flex items-center justify-center font-code text-mono-xxs text-white">
                       {getInitials(item.user.name)}
                     </div>
                   )}
-                  <span
-                    style={{
-                      fontFamily: typography.mono,
-                      fontSize: fontSizes.monoXS,
-                      color: colors.grey600,
-                    }}
-                  >
+                  <span className="font-code text-mono-xs text-grey-600">
                     {item.user.name}
                   </span>
                 </div>
@@ -263,25 +193,11 @@ export function Timeline({
 
               {/* Metadata */}
               {item.metadata && Object.keys(item.metadata).length > 0 && (
-                <div
-                  style={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    gap: "0.5rem",
-                    marginTop: "0.5rem",
-                  }}
-                >
+                <div className="flex flex-wrap gap-2 mt-2">
                   {Object.entries(item.metadata).map(([key, value]) => (
                     <span
                       key={key}
-                      style={{
-                        fontFamily: typography.mono,
-                        fontSize: fontSizes.monoXS,
-                        color: colors.grey600,
-                        padding: "0.125rem 0.375rem",
-                        backgroundColor: colors.grey100,
-                        letterSpacing: letterSpacing.wide,
-                      }}
+                      className="font-code text-mono-xs text-grey-600 px-1.5 py-0.5 bg-grey-100 tracking-wide"
                     >
                       {key}: {value}
                     </span>

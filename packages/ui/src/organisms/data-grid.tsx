@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo, useCallback } from "react";
-import { colors, typography, fontSizes, letterSpacing, transitions, borderWidths } from "../tokens.js";
+import clsx from "clsx";
 
 // Types
 export interface DataGridColumn<T> {
@@ -132,10 +132,10 @@ export function DataGrid<T>({
     return String(row[rowKey]);
   }, [rowKey]);
 
-  const getCellValue = (row: T, column: DataGridColumn<T>): unknown => {
+  const getCellValue = useCallback((row: T, column: DataGridColumn<T>): unknown => {
     if (typeof column.accessor === "function") return column.accessor(row);
     return row[column.accessor];
-  };
+  }, []);
 
   const visibleColumns = useMemo(() => 
     columns.filter(col => !col.hidden && !hiddenColumns.has(col.key)),
@@ -156,7 +156,7 @@ export function DataGrid<T>({
       const comparison = aVal < bVal ? -1 : 1;
       return sortDirection === "asc" ? comparison : -comparison;
     });
-  }, [data, sortColumn, sortDirection, columns]);
+  }, [data, sortColumn, sortDirection, columns, getCellValue]);
 
   const handleSort = (columnKey: string) => {
     const column = columns.find(c => c.key === columnKey);
@@ -196,75 +196,54 @@ export function DataGrid<T>({
     onSearchChange?.(value);
   };
 
-  const cellPadding = compact ? "0.5rem 0.75rem" : "0.75rem 1rem";
-  const headerPadding = compact ? "0.625rem 0.75rem" : "0.875rem 1rem";
   const activeFilterCount = Object.values(activeFilters).reduce((count, value) => {
     if (Array.isArray(value)) return count + value.length;
     return count + (value ? 1 : 0);
   }, 0);
 
   return (
-    <div className={className} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+    <div className={clsx("flex flex-col gap-4", className)}>
       {/* Toolbar */}
       {(searchable || filters.length > 0 || columnVisibility) && (
-        <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap", alignItems: "center" }}>
+        <div className="flex gap-3 flex-wrap items-center">
           {searchable && (
-            <div style={{ flex: "1 1 300px", position: "relative" }}>
+            <div className="flex-[1_1_300px] relative">
               <input
                 type="text"
                 value={localSearch}
                 onChange={(e) => handleSearchChange(e.target.value)}
                 placeholder={searchPlaceholder}
-                style={{
-                  width: "100%",
-                  padding: cellPadding,
-                  paddingLeft: "2.5rem",
-                  fontFamily: typography.body,
-                  fontSize: compact ? fontSizes.bodySM : fontSizes.bodyMD,
-                  backgroundColor: colors.white,
-                  border: `${borderWidths.medium} solid ${colors.black}`,
-                  outline: "none",
-                }}
+                className={clsx(
+                  "w-full pl-10 bg-white border-2 border-black outline-none",
+                  compact ? "py-2 px-3 text-body-sm" : "py-3 px-4 text-body-md"
+                )}
               />
-              <span style={{ position: "absolute", left: "0.75rem", top: "50%", transform: "translateY(-50%)", color: colors.grey500 }}>🔍</span>
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-grey-500">🔍</span>
             </div>
           )}
 
           {filters.map((group) => (
-            <div key={group.key} style={{ position: "relative" }}>
+            <div key={group.key} className="relative">
               <button
                 onClick={() => setExpandedFilter(expandedFilter === group.key ? null : group.key)}
-                style={{
-                  padding: cellPadding,
-                  fontFamily: typography.mono,
-                  fontSize: fontSizes.monoSM,
-                  letterSpacing: letterSpacing.wide,
-                  textTransform: "uppercase",
-                  backgroundColor: activeFilters[group.key] ? colors.black : colors.white,
-                  color: activeFilters[group.key] ? colors.white : colors.black,
-                  border: `${borderWidths.medium} solid ${colors.black}`,
-                  cursor: "pointer",
-                }}
+                className={clsx(
+                  "font-code text-mono-sm tracking-wide uppercase border-2 border-black cursor-pointer",
+                  compact ? "px-3 py-2" : "px-4 py-3",
+                  activeFilters[group.key] ? "bg-black text-white" : "bg-white text-black"
+                )}
               >
                 {group.label} {expandedFilter === group.key ? "▲" : "▼"}
               </button>
               {expandedFilter === group.key && (
-                <div style={{
-                  position: "absolute", top: "100%", left: 0, marginTop: "4px",
-                  minWidth: "200px", maxHeight: "300px", overflowY: "auto",
-                  backgroundColor: colors.white, border: `${borderWidths.medium} solid ${colors.black}`, zIndex: 100,
-                }}>
+                <div className="absolute top-full left-0 mt-1 min-w-[200px] max-h-[300px] overflow-y-auto bg-white border-2 border-black z-dropdown">
                   {group.options.map((option) => (
                     <button
                       key={option.value}
                       onClick={() => onFilterChange?.(group.key, option.value)}
-                      style={{
-                        display: "block", width: "100%", padding: "0.75rem 1rem",
-                        fontFamily: typography.body, fontSize: fontSizes.bodySM,
-                        backgroundColor: activeFilters[group.key] === option.value ? colors.grey100 : colors.white,
-                        border: "none", borderBottom: `1px solid ${colors.grey200}`,
-                        cursor: "pointer", textAlign: "left",
-                      }}
+                      className={clsx(
+                        "block w-full px-4 py-3 font-body text-body-sm border-none border-b border-grey-200 cursor-pointer text-left hover:bg-grey-100",
+                        activeFilters[group.key] === option.value ? "bg-grey-100" : "bg-white"
+                      )}
                     >
                       {option.label}
                     </button>
@@ -275,11 +254,7 @@ export function DataGrid<T>({
           ))}
 
           {activeFilterCount > 0 && (
-            <button onClick={onClearFilters} style={{
-              padding: "0.25rem 0.5rem", fontFamily: typography.mono, fontSize: fontSizes.monoXS,
-              backgroundColor: "transparent", color: colors.grey600, border: "none",
-              cursor: "pointer", textDecoration: "underline",
-            }}>
+            <button onClick={onClearFilters} className="px-2 py-1 font-code text-mono-xs bg-transparent text-grey-600 border-none cursor-pointer underline">
               CLEAR ALL ({activeFilterCount})
             </button>
           )}
@@ -288,30 +263,22 @@ export function DataGrid<T>({
 
       {/* Bulk Action Bar */}
       {selectable && selectedKeys.length > 0 && bulkActions.length > 0 && (
-        <div style={{
-          display: "flex", alignItems: "center", justifyContent: "space-between",
-          padding: "0.75rem 1rem", backgroundColor: colors.black, color: colors.white,
-        }}>
-          <span style={{ fontFamily: typography.mono, fontSize: fontSizes.monoMD }}>
+        <div className="flex items-center justify-between px-4 py-3 bg-black text-white">
+          <span className="font-code text-mono-md">
             <strong>{selectedKeys.length}</strong> selected
-            <button onClick={() => onSelectionChange?.([])} style={{
-              marginLeft: "1rem", padding: "0.25rem 0.5rem", backgroundColor: "transparent",
-              color: colors.grey400, border: "none", cursor: "pointer", textDecoration: "underline",
-            }}>Clear</button>
+            <button onClick={() => onSelectionChange?.([])} className="ml-4 px-2 py-1 bg-transparent text-grey-400 border-none cursor-pointer underline">Clear</button>
           </span>
-          <div style={{ display: "flex", gap: "0.5rem" }}>
+          <div className="flex gap-2">
             {bulkActions.map((action) => (
               <button
                 key={action.id}
                 onClick={() => onBulkAction?.(action.id, selectedKeys)}
                 disabled={action.disabled}
-                style={{
-                  padding: "0.5rem 0.75rem", fontFamily: typography.mono, fontSize: fontSizes.monoSM,
-                  backgroundColor: action.variant === "danger" ? colors.white : colors.grey800,
-                  color: action.variant === "danger" ? colors.black : colors.white,
-                  border: `1px solid ${colors.grey600}`, cursor: action.disabled ? "not-allowed" : "pointer",
-                  opacity: action.disabled ? 0.5 : 1,
-                }}
+                className={clsx(
+                  "px-3 py-2 font-code text-mono-sm border border-grey-600",
+                  action.variant === "danger" ? "bg-white text-black" : "bg-grey-800 text-white",
+                  action.disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"
+                )}
               >
                 {action.icon} {action.label}
               </button>
@@ -321,51 +288,53 @@ export function DataGrid<T>({
       )}
 
       {/* Table */}
-      <div style={{ border: `${borderWidths.medium} solid ${colors.black}`, backgroundColor: colors.white, overflow: "auto" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse", fontFamily: typography.body, fontSize: compact ? fontSizes.bodySM : fontSizes.bodyMD }}>
+      <div className="border-2 border-black bg-white overflow-auto">
+        <table className={clsx("w-full border-collapse font-body", compact ? "text-body-sm" : "text-body-md")}>
           <thead>
-            <tr style={{ backgroundColor: colors.black, color: colors.white }}>
+            <tr className="bg-black text-white">
               {selectable && (
-                <th style={{ padding: headerPadding, width: "48px", textAlign: "center" }}>
-                  <input type="checkbox" checked={selectedKeys.length === data.length && data.length > 0} onChange={handleSelectAll} style={{ cursor: "pointer" }} />
+                <th className={clsx("w-12 text-center", compact ? "px-3 py-2.5" : "px-4 py-3.5")}>
+                  <input type="checkbox" checked={selectedKeys.length === data.length && data.length > 0} onChange={handleSelectAll} className="cursor-pointer" />
                 </th>
               )}
               {visibleColumns.map((column) => (
                 <th
                   key={column.key}
                   onClick={() => sortable && handleSort(column.key)}
-                  style={{
-                    padding: headerPadding, textAlign: column.align || "left",
-                    fontFamily: typography.mono, fontSize: fontSizes.monoSM, fontWeight: 400,
-                    letterSpacing: letterSpacing.widest, textTransform: "uppercase",
-                    width: column.width, minWidth: column.minWidth,
-                    cursor: column.sortable ? "pointer" : "default", userSelect: "none",
-                  }}
+                  className={clsx(
+                    "font-code text-mono-sm font-normal tracking-widest uppercase select-none",
+                    compact ? "px-3 py-2.5" : "px-4 py-3.5",
+                    column.sortable ? "cursor-pointer" : "cursor-default",
+                    column.align === "center" && "text-center",
+                    column.align === "right" && "text-right",
+                    !column.align && "text-left"
+                  )}
+                  style={{ width: column.width, minWidth: column.minWidth }}
                 >
-                  <span style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                  <span className="flex items-center gap-2">
                     {column.label}
                     {column.sortable && (
-                      <span style={{ display: "flex", flexDirection: "column", fontSize: "8px", lineHeight: 1 }}>
-                        <span style={{ opacity: sortColumn === column.key && sortDirection === "asc" ? 1 : 0.3 }}>▲</span>
-                        <span style={{ opacity: sortColumn === column.key && sortDirection === "desc" ? 1 : 0.3 }}>▼</span>
+                      <span className="flex flex-col text-[8px] leading-none">
+                        <span className={sortColumn === column.key && sortDirection === "asc" ? "opacity-100" : "opacity-30"}>▲</span>
+                        <span className={sortColumn === column.key && sortDirection === "desc" ? "opacity-100" : "opacity-30"}>▼</span>
                       </span>
                     )}
                   </span>
                 </th>
               ))}
-              {rowActions.length > 0 && <th style={{ padding: headerPadding, width: "60px" }} />}
+              {rowActions.length > 0 && <th className={clsx("w-[60px]", compact ? "px-3 py-2.5" : "px-4 py-3.5")} />}
             </tr>
           </thead>
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={visibleColumns.length + (selectable ? 1 : 0) + (rowActions.length > 0 ? 1 : 0)} style={{ padding: "3rem", textAlign: "center" }}>
-                  <div style={{ display: "inline-block", width: "24px", height: "24px", border: `2px solid ${colors.grey300}`, borderTopColor: colors.black, borderRadius: "50%", animation: "spin 1s linear infinite" }} />
+                <td colSpan={visibleColumns.length + (selectable ? 1 : 0) + (rowActions.length > 0 ? 1 : 0)} className="p-12 text-center">
+                  <div className="inline-block w-6 h-6 border-2 border-grey-300 border-t-black rounded-full animate-spin" />
                 </td>
               </tr>
             ) : sortedData.length === 0 ? (
               <tr>
-                <td colSpan={visibleColumns.length + (selectable ? 1 : 0) + (rowActions.length > 0 ? 1 : 0)} style={{ padding: "3rem", textAlign: "center", fontFamily: typography.mono, color: colors.grey500 }}>
+                <td colSpan={visibleColumns.length + (selectable ? 1 : 0) + (rowActions.length > 0 ? 1 : 0)} className="p-12 text-center font-code text-grey-500">
                   {emptyMessage}
                 </td>
               </tr>
@@ -377,28 +346,37 @@ export function DataGrid<T>({
                   <tr
                     key={key}
                     onClick={() => onRowClick?.(row)}
-                    style={{
-                      backgroundColor: isSelected ? colors.grey100 : striped && index % 2 === 1 ? colors.grey100 : colors.white,
-                      cursor: onRowClick ? "pointer" : "default",
-                      borderBottom: `1px solid ${colors.grey200}`,
-                    }}
+                    className={clsx(
+                      "border-b border-grey-200 transition-colors duration-fast",
+                      isSelected ? "bg-grey-100" : striped && index % 2 === 1 ? "bg-grey-100" : "bg-white",
+                      onRowClick && "cursor-pointer hover:bg-grey-100"
+                    )}
                   >
                     {selectable && (
-                      <td style={{ padding: cellPadding, textAlign: "center" }} onClick={(e) => e.stopPropagation()}>
-                        <input type="checkbox" checked={isSelected} onChange={() => handleSelectRow(key)} style={{ cursor: "pointer" }} />
+                      <td className={clsx("text-center", compact ? "px-3 py-2" : "px-4 py-3")} onClick={(e) => e.stopPropagation()}>
+                        <input type="checkbox" checked={isSelected} onChange={() => handleSelectRow(key)} className="cursor-pointer" />
                       </td>
                     )}
                     {visibleColumns.map((column) => {
                       const value = getCellValue(row, column);
                       const rendered = column.render ? column.render(value, row) : value;
                       return (
-                        <td key={column.key} style={{ padding: cellPadding, textAlign: column.align || "left", color: colors.grey800 }}>
+                        <td
+                          key={column.key}
+                          className={clsx(
+                            "text-grey-800",
+                            compact ? "px-3 py-2" : "px-4 py-3",
+                            column.align === "center" && "text-center",
+                            column.align === "right" && "text-right",
+                            !column.align && "text-left"
+                          )}
+                        >
                           {rendered as React.ReactNode}
                         </td>
                       );
                     })}
                     {rowActions.length > 0 && (
-                      <td style={{ padding: cellPadding, textAlign: "center" }} onClick={(e) => e.stopPropagation()}>
+                      <td className={clsx("text-center", compact ? "px-3 py-2" : "px-4 py-3")} onClick={(e) => e.stopPropagation()}>
                         <RowActionsDropdown row={row} actions={rowActions} onAction={onRowAction} />
                       </td>
                     )}
@@ -412,22 +390,34 @@ export function DataGrid<T>({
 
       {/* Pagination */}
       {pagination && (
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
-          <span style={{ fontFamily: typography.mono, fontSize: fontSizes.monoSM, color: colors.grey600 }}>
+        <div className="flex items-center justify-between flex-wrap gap-4">
+          <span className="font-code text-mono-sm text-grey-600">
             Showing {((pagination.page - 1) * pagination.pageSize) + 1} - {Math.min(pagination.page * pagination.pageSize, pagination.total)} of {pagination.total}
           </span>
-          <div style={{ display: "flex", gap: "0.5rem" }}>
-            <button onClick={() => onPageChange?.(pagination.page - 1)} disabled={pagination.page === 1} style={{ padding: "0.5rem 1rem", border: `${borderWidths.medium} solid ${colors.black}`, backgroundColor: colors.white, cursor: pagination.page === 1 ? "not-allowed" : "pointer", opacity: pagination.page === 1 ? 0.5 : 1 }}>
+          <div className="flex gap-2">
+            <button
+              onClick={() => onPageChange?.(pagination.page - 1)}
+              disabled={pagination.page === 1}
+              className={clsx(
+                "px-4 py-2 border-2 border-black bg-white",
+                pagination.page === 1 ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:bg-grey-100"
+              )}
+            >
               Previous
             </button>
-            <button onClick={() => onPageChange?.(pagination.page + 1)} disabled={pagination.page * pagination.pageSize >= pagination.total} style={{ padding: "0.5rem 1rem", border: `${borderWidths.medium} solid ${colors.black}`, backgroundColor: colors.white, cursor: pagination.page * pagination.pageSize >= pagination.total ? "not-allowed" : "pointer", opacity: pagination.page * pagination.pageSize >= pagination.total ? 0.5 : 1 }}>
+            <button
+              onClick={() => onPageChange?.(pagination.page + 1)}
+              disabled={pagination.page * pagination.pageSize >= pagination.total}
+              className={clsx(
+                "px-4 py-2 border-2 border-black bg-white",
+                pagination.page * pagination.pageSize >= pagination.total ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:bg-grey-100"
+              )}
+            >
               Next
             </button>
           </div>
         </div>
       )}
-
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </div>
   );
 }
@@ -439,10 +429,10 @@ function RowActionsDropdown<T>({ row, actions, onAction }: { row: T; actions: Ro
   if (visibleActions.length === 0) return null;
 
   return (
-    <div style={{ position: "relative", display: "inline-block" }}>
-      <button onClick={() => setOpen(!open)} style={{ padding: "0.25rem", backgroundColor: "transparent", border: "none", cursor: "pointer", fontSize: "16px" }}>⋮</button>
+    <div className="relative inline-block">
+      <button onClick={() => setOpen(!open)} className="p-1 bg-transparent border-none cursor-pointer text-base hover:text-grey-600">⋮</button>
       {open && (
-        <div style={{ position: "absolute", top: "100%", right: 0, minWidth: "140px", backgroundColor: colors.white, border: `${borderWidths.medium} solid ${colors.black}`, zIndex: 100 }}>
+        <div className="absolute top-full right-0 min-w-[140px] bg-white border-2 border-black z-dropdown">
           {visibleActions.map((action) => {
             const disabled = typeof action.disabled === "function" ? action.disabled(row) : action.disabled;
             return (
@@ -450,7 +440,10 @@ function RowActionsDropdown<T>({ row, actions, onAction }: { row: T; actions: Ro
                 key={action.id}
                 onClick={() => { setOpen(false); onAction?.(action.id, row); }}
                 disabled={disabled}
-                style={{ display: "block", width: "100%", padding: "0.5rem 0.75rem", textAlign: "left", backgroundColor: colors.white, border: "none", borderBottom: `1px solid ${colors.grey200}`, cursor: disabled ? "not-allowed" : "pointer", opacity: disabled ? 0.5 : 1 }}
+                className={clsx(
+                  "block w-full px-3 py-2 text-left bg-white border-none border-b border-grey-200 hover:bg-grey-100",
+                  disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"
+                )}
               >
                 {action.icon} {action.label}
               </button>

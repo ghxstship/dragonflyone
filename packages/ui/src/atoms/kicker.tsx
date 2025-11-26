@@ -16,9 +16,9 @@ export type KickerProps = HTMLAttributes<HTMLSpanElement> & {
 export const Kicker = forwardRef<HTMLSpanElement, KickerProps>(
   function Kicker({ size = "md", variant = "default", className, children, ...props }, ref) {
     const sizeClasses = {
-      sm: "text-[0.625rem] tracking-[0.35em]",
-      md: "text-xs tracking-[0.4em]",
-      lg: "text-sm tracking-[0.4em]",
+      sm: "text-micro tracking-ultra",
+      md: "text-mono-xs tracking-ultra",
+      lg: "text-mono-sm tracking-ultra",
     };
 
     const variantClasses = {

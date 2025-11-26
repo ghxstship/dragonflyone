@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useCallback } from "react";
-import { colors, typography, fontSizes, letterSpacing, transitions, borderWidths } from "../tokens.js";
+import clsx from "clsx";
 
 export interface UploadedFile {
   id: string;
@@ -187,10 +187,8 @@ export function FileUpload({
     e.target.value = "";
   };
 
-  const dropzonePadding = compact ? "1.5rem" : "2.5rem";
-
   return (
-    <div className={className} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+    <div className={clsx("flex flex-col gap-4", className)}>
       {/* Dropzone */}
       <div
         onClick={handleClick}
@@ -198,17 +196,12 @@ export function FileUpload({
         onDragLeave={handleDragLeave}
         onDragOver={handleDragOver}
         onDrop={handleDrop}
-        style={{
-          padding: dropzonePadding,
-          border: `${borderWidths.medium} dashed ${
-            isDragging ? colors.black : disabled ? colors.grey300 : colors.grey500
-          }`,
-          backgroundColor: isDragging ? colors.grey100 : colors.white,
-          cursor: disabled ? "not-allowed" : "pointer",
-          transition: transitions.base,
-          textAlign: "center",
-          opacity: disabled ? 0.5 : 1,
-        }}
+        className={clsx(
+          "border-2 border-dashed text-center transition-colors duration-base",
+          compact ? "p-6" : "p-10",
+          isDragging ? "border-black bg-grey-100" : disabled ? "border-grey-300" : "border-grey-500 bg-white hover:border-black hover:bg-grey-50",
+          disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"
+        )}
       >
         <input
           ref={inputRef}
@@ -217,58 +210,33 @@ export function FileUpload({
           multiple={multiple}
           onChange={handleInputChange}
           disabled={disabled}
-          style={{ display: "none" }}
+          className="hidden"
         />
 
         {/* Upload icon */}
-        <div
-          style={{
-            fontSize: compact ? "24px" : "32px",
-            marginBottom: compact ? "0.5rem" : "1rem",
-          }}
-        >
+        <div className={compact ? "text-2xl mb-2" : "text-[32px] mb-4"}>
           ⬆️
         </div>
 
         {/* Label */}
         <div
-          style={{
-            fontFamily: typography.mono,
-            fontSize: compact ? fontSizes.monoSM : fontSizes.monoMD,
-            color: colors.black,
-            letterSpacing: letterSpacing.widest,
-            marginBottom: "0.5rem",
-          }}
+          className={clsx(
+            "font-code text-black tracking-widest mb-2",
+            compact ? "text-mono-sm" : "text-mono-md"
+          )}
         >
           {label}
         </div>
 
         {/* Helper text */}
         {helperText && (
-          <div
-            style={{
-              fontFamily: typography.body,
-              fontSize: fontSizes.bodySM,
-              color: colors.grey600,
-            }}
-          >
+          <div className="font-body text-body-sm text-grey-600">
             {helperText}
           </div>
         )}
 
         {/* Constraints info */}
-        <div
-          style={{
-            fontFamily: typography.mono,
-            fontSize: fontSizes.monoXS,
-            color: colors.grey500,
-            marginTop: "0.75rem",
-            display: "flex",
-            justifyContent: "center",
-            gap: "1rem",
-            flexWrap: "wrap",
-          }}
-        >
+        <div className="font-code text-mono-xs text-grey-500 mt-3 flex justify-center gap-4 flex-wrap">
           {accept && <span>FORMATS: {accept.replace(/,/g, ", ")}</span>}
           {maxSize && <span>MAX: {formatFileSize(maxSize)}</span>}
           {maxFiles && <span>LIMIT: {maxFiles} FILES</span>}
@@ -277,48 +245,28 @@ export function FileUpload({
 
       {/* File list */}
       {showFileList && files.length > 0 && (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "0.5rem",
-          }}
-        >
+        <div className="flex flex-col gap-2">
           {files.map((file) => (
             <div
               key={file.id}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "0.75rem",
-                padding: "0.75rem 1rem",
-                backgroundColor: file.status === "error" ? colors.grey100 : colors.white,
-                border: `1px solid ${file.status === "error" ? colors.grey400 : colors.grey200}`,
-              }}
+              className={clsx(
+                "flex items-center gap-3 px-4 py-3 border",
+                file.status === "error" ? "bg-grey-100 border-grey-400" : "bg-white border-grey-200"
+              )}
             >
               {/* File icon */}
-              <span style={{ fontSize: "20px" }}>{getFileIcon(file.type)}</span>
+              <span className="text-xl">{getFileIcon(file.type)}</span>
 
               {/* File info */}
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div
-                  style={{
-                    fontFamily: typography.body,
-                    fontSize: fontSizes.bodySM,
-                    color: colors.black,
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                  }}
-                >
+              <div className="flex-1 min-w-0">
+                <div className="font-body text-body-sm text-black overflow-hidden text-ellipsis whitespace-nowrap">
                   {file.name}
                 </div>
                 <div
-                  style={{
-                    fontFamily: typography.mono,
-                    fontSize: fontSizes.monoXS,
-                    color: file.status === "error" ? colors.grey600 : colors.grey500,
-                  }}
+                  className={clsx(
+                    "font-code text-mono-xs",
+                    file.status === "error" ? "text-grey-600" : "text-grey-500"
+                  )}
                 >
                   {file.status === "error"
                     ? file.error || "Upload failed"
@@ -327,20 +275,10 @@ export function FileUpload({
 
                 {/* Progress bar */}
                 {file.status === "uploading" && file.progress !== undefined && (
-                  <div
-                    style={{
-                      height: "4px",
-                      backgroundColor: colors.grey200,
-                      marginTop: "0.375rem",
-                    }}
-                  >
+                  <div className="h-1 bg-grey-200 mt-1.5">
                     <div
-                      style={{
-                        height: "100%",
-                        width: `${file.progress}%`,
-                        backgroundColor: colors.black,
-                        transition: transitions.fast,
-                      }}
+                      className="h-full bg-black transition-all duration-fast"
+                      style={{ width: `${file.progress}%` }}
                     />
                   </div>
                 )}
@@ -348,31 +286,13 @@ export function FileUpload({
 
               {/* Status / Remove button */}
               {file.status === "uploading" ? (
-                <span
-                  style={{
-                    fontFamily: typography.mono,
-                    fontSize: fontSizes.monoXS,
-                    color: colors.grey600,
-                  }}
-                >
+                <span className="font-code text-mono-xs text-grey-600">
                   {file.progress}%
                 </span>
               ) : (
                 <button
                   onClick={() => onFileRemove?.(file.id)}
-                  style={{
-                    width: "24px",
-                    height: "24px",
-                    backgroundColor: "transparent",
-                    border: "none",
-                    cursor: "pointer",
-                    color: colors.grey500,
-                    fontSize: "14px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    transition: transitions.fast,
-                  }}
+                  className="w-6 h-6 bg-transparent border-none cursor-pointer text-grey-500 text-sm flex items-center justify-center transition-colors duration-fast hover:text-black"
                   aria-label={`Remove ${file.name}`}
                 >
                   ✕

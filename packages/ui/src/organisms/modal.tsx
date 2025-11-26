@@ -36,7 +36,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
 
     return (
       <div
-        className="fixed inset-0 z-[1400] flex items-center justify-center p-4"
+        className="fixed inset-0 z-modal flex items-center justify-center p-4"
         role="dialog"
         aria-modal="true"
         aria-labelledby={title ? "modal-title" : undefined}
@@ -51,7 +51,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
           className={clsx(
             "relative bg-white border-2 border-black w-full",
             sizeClasses[size],
-            "shadow-[8px_8px_0_0_#000000]",
+            "shadow-hard-lg",
             className
           )}
           {...props}
@@ -59,7 +59,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
           {(title || showClose) ? (
             <div className="flex items-center justify-between p-6 border-b-2 border-black">
               {title ? (
-                <h2 id="modal-title" className="font-heading text-[1.5rem] uppercase tracking-wider">
+                <h2 id="modal-title" className="font-heading text-h4-sm uppercase tracking-wider">
                   {title}
                 </h2>
               ) : <div />}

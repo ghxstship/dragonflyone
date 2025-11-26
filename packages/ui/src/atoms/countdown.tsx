@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { colors, typography, fontSizes, letterSpacing } from "../tokens.js";
+import clsx from "clsx";
 
 export interface CountdownProps {
   /** Target date/time to count down to */
@@ -40,6 +40,24 @@ function calculateTimeLeft(targetDate: Date): TimeLeft {
   };
 }
 
+const sizeConfig = {
+  default: {
+    container: "gap-4",
+    number: "text-h2-md px-5 py-4 min-w-14",
+    label: "text-mono-sm",
+  },
+  compact: {
+    container: "gap-2",
+    number: "text-h4-md px-3 py-2 min-w-10",
+    label: "text-mono-xs",
+  },
+  large: {
+    container: "gap-6",
+    number: "text-h1-md px-8 py-6 min-w-20",
+    label: "text-mono-md",
+  },
+};
+
 export function Countdown({
   targetDate,
   onComplete,
@@ -71,65 +89,28 @@ export function Countdown({
     return () => clearInterval(timer);
   }, [targetDate, onComplete]);
 
-  const bgColor = inverted ? colors.black : colors.white;
-  const textColor = inverted ? colors.white : colors.black;
-  const borderColor = inverted ? colors.white : colors.black;
-
-  const sizeStyles = {
-    default: {
-      container: { gap: "1rem" },
-      number: { fontSize: fontSizes.h2MD, padding: "1rem 1.25rem" },
-      label: { fontSize: fontSizes.monoSM },
-    },
-    compact: {
-      container: { gap: "0.5rem" },
-      number: { fontSize: fontSizes.h4MD, padding: "0.5rem 0.75rem" },
-      label: { fontSize: fontSizes.monoXS },
-    },
-    large: {
-      container: { gap: "1.5rem" },
-      number: { fontSize: fontSizes.h1MD, padding: "1.5rem 2rem" },
-      label: { fontSize: fontSizes.monoMD },
-    },
-  };
-
-  const styles = sizeStyles[variant];
+  const config = sizeConfig[variant];
 
   const TimeUnit = ({ value, label }: { value: number; label: string }) => (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: "0.5rem",
-      }}
-    >
+    <div className="flex flex-col items-center gap-2">
       <div
-        style={{
-          fontFamily: typography.heading,
-          fontSize: styles.number.fontSize,
-          fontWeight: 400,
-          color: textColor,
-          backgroundColor: bgColor,
-          border: `2px solid ${borderColor}`,
-          padding: styles.number.padding,
-          minWidth: variant === "large" ? "5rem" : variant === "compact" ? "2.5rem" : "3.5rem",
-          textAlign: "center",
-          letterSpacing: letterSpacing.wide,
-          textTransform: "uppercase",
-        }}
+        className={clsx(
+          "font-heading font-normal border-2 text-center tracking-wide uppercase",
+          config.number,
+          inverted
+            ? "bg-black text-white border-white"
+            : "bg-white text-black border-black"
+        )}
       >
         {String(value).padStart(2, "0")}
       </div>
       {showLabels && (
         <span
-          style={{
-            fontFamily: typography.mono,
-            fontSize: styles.label.fontSize,
-            color: inverted ? colors.grey400 : colors.grey600,
-            textTransform: "uppercase",
-            letterSpacing: letterSpacing.widest,
-          }}
+          className={clsx(
+            "font-code uppercase tracking-widest",
+            config.label,
+            inverted ? "text-grey-400" : "text-grey-600"
+          )}
         >
           {label}
         </span>
@@ -139,13 +120,12 @@ export function Countdown({
 
   const Separator = () => (
     <span
-      style={{
-        fontFamily: typography.heading,
-        fontSize: styles.number.fontSize,
-        color: textColor,
-        alignSelf: showLabels ? "flex-start" : "center",
-        paddingTop: showLabels ? styles.number.padding : "0",
-      }}
+      className={clsx(
+        "font-heading",
+        variant === "large" ? "text-h1-md" : variant === "compact" ? "text-h4-md" : "text-h2-md",
+        showLabels ? "self-start pt-4" : "self-center",
+        inverted ? "text-white" : "text-black"
+      )}
     >
       :
     </span>
@@ -154,15 +134,12 @@ export function Countdown({
   if (isComplete) {
     return (
       <div
-        className={className}
-        style={{
-          fontFamily: typography.heading,
-          fontSize: styles.number.fontSize,
-          color: textColor,
-          textTransform: "uppercase",
-          letterSpacing: letterSpacing.wide,
-          textAlign: "center",
-        }}
+        className={clsx(
+          "font-heading uppercase tracking-wide text-center",
+          variant === "large" ? "text-h1-md" : variant === "compact" ? "text-h4-md" : "text-h2-md",
+          inverted ? "text-white" : "text-black",
+          className
+        )}
       >
         EXPIRED
       </div>
@@ -171,13 +148,11 @@ export function Countdown({
 
   return (
     <div
-      className={className}
-      style={{
-        display: "flex",
-        alignItems: "flex-start",
-        justifyContent: "center",
-        gap: styles.container.gap,
-      }}
+      className={clsx(
+        "flex items-start justify-center",
+        config.container,
+        className
+      )}
     >
       {timeLeft.days > 0 && (
         <>

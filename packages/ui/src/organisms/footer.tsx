@@ -21,7 +21,7 @@ export const Footer = forwardRef<HTMLElement, FooterProps>(
           {children ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">{children}</div> : null}
           {copyright ? (
             <div className="pt-8 border-t-2 border-grey-800">
-              <p className="font-code text-[0.75rem] uppercase tracking-widest text-grey-500">{copyright}</p>
+              <p className="font-code text-mono-xs uppercase tracking-widest text-grey-500">{copyright}</p>
             </div>
           ) : null}
         </div>
@@ -38,7 +38,7 @@ export const FooterColumn = forwardRef<HTMLDivElement, FooterColumnProps>(
   function FooterColumn({ title, className, children, ...props }, ref) {
     return (
       <div ref={ref} className={clsx("flex flex-col gap-4", className)} {...props}>
-        <h3 className="font-heading text-[1.125rem] uppercase tracking-wider">{title}</h3>
+        <h3 className="font-heading text-h5-sm uppercase tracking-wider">{title}</h3>
         {children}
       </div>
     );
@@ -51,7 +51,7 @@ export const FooterLink = forwardRef<HTMLAnchorElement, HTMLAttributes<HTMLAncho
       <a
         ref={ref}
         href={href}
-        className={clsx("font-body text-[1rem] text-grey-400 hover:text-white transition-colors", className)}
+        className={clsx("font-body text-body-sm text-grey-400 hover:text-white transition-colors", className)}
         {...props}
       >
         {children}

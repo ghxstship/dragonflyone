@@ -16,9 +16,9 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
     };
 
     const sizeClasses = {
-      sm: "px-2 py-0.5 text-[0.6875rem]",  // 11px
-      md: "px-2.5 py-1 text-[0.75rem]",    // 12px
-      lg: "px-3 py-1.5 text-[0.875rem]",   // 14px
+      sm: "px-2 py-0.5 text-mono-xxs",
+      md: "px-2.5 py-1 text-mono-xs",
+      lg: "px-3 py-1.5 text-mono-md",
     };
 
     return (

@@ -6,9 +6,9 @@ import type { HTMLAttributes } from "react";
 export const Display = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHeadingElement> & { size?: "xl" | "lg" | "md" }>(
   function Display({ size = "lg", className, children, ...props }, ref) {
     const sizeClasses = {
-      xl: "text-[7.5rem] leading-[0.9]",      // 120px
-      lg: "text-[5.625rem] leading-[0.95]",   // 90px
-      md: "text-[4.5rem] leading-[1.0]",      // 72px
+      xl: "text-display-xl",
+      lg: "text-display-lg",
+      md: "text-display-md",
     };
     
     return (
@@ -31,9 +31,9 @@ export const Display = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHeading
 export const H1 = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHeadingElement> & { size?: "lg" | "md" | "sm" }>(
   function H1({ size = "md", className, children, ...props }, ref) {
     const sizeClasses = {
-      lg: "text-[5rem] md:text-[5rem]",        // 80px
-      md: "text-[2.25rem] md:text-[3.5rem]",   // 36-56px
-      sm: "text-[2.25rem]",                    // 36px
+      lg: "text-h1-lg",
+      md: "text-h1-sm md:text-h1-md",
+      sm: "text-h1-sm",
     };
     
     return (
@@ -56,9 +56,9 @@ export const H1 = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHeadingEleme
 export const H2 = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHeadingElement> & { size?: "lg" | "md" | "sm" }>(
   function H2({ size = "md", className, children, ...props }, ref) {
     const sizeClasses = {
-      lg: "text-[3.5rem]",                     // 56px
-      md: "text-[1.75rem] md:text-[2.5rem]",  // 28-40px
-      sm: "text-[1.75rem]",                    // 28px
+      lg: "text-h2-lg",
+      md: "text-h2-sm md:text-h2-md",
+      sm: "text-h2-sm",
     };
     
     return (
@@ -81,9 +81,9 @@ export const H2 = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHeadingEleme
 export const H3 = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHeadingElement> & { size?: "lg" | "md" | "sm" }>(
   function H3({ size = "md", className, children, ...props }, ref) {
     const sizeClasses = {
-      lg: "text-[2.5rem]",                     // 40px
-      md: "text-[1.5rem] md:text-[2rem]",     // 24-32px
-      sm: "text-[1.5rem]",                     // 24px
+      lg: "text-h3-lg",
+      md: "text-h3-sm md:text-h3-md",
+      sm: "text-h3-sm",
     };
     
     return (
@@ -106,9 +106,9 @@ export const H3 = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHeadingEleme
 export const H4 = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHeadingElement> & { size?: "lg" | "md" | "sm" }>(
   function H4({ size = "md", className, children, ...props }, ref) {
     const sizeClasses = {
-      lg: "text-[2rem]",                       // 32px
-      md: "text-[1.25rem] md:text-[1.5rem]",  // 20-24px
-      sm: "text-[1.25rem]",                    // 20px
+      lg: "text-h4-lg",
+      md: "text-h4-sm md:text-h4-md",
+      sm: "text-h4-sm",
     };
     
     return (
@@ -131,9 +131,9 @@ export const H4 = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHeadingEleme
 export const H5 = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHeadingElement> & { size?: "lg" | "md" | "sm" }>(
   function H5({ size = "md", className, children, ...props }, ref) {
     const sizeClasses = {
-      lg: "text-[1.5rem]",                     // 24px
-      md: "text-[1.125rem] md:text-[1.25rem]",// 18-20px
-      sm: "text-[1.125rem]",                   // 18px
+      lg: "text-h5-lg",
+      md: "text-h5-sm md:text-h5-md",
+      sm: "text-h5-sm",
     };
     
     return (
@@ -156,9 +156,9 @@ export const H5 = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHeadingEleme
 export const H6 = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHeadingElement> & { size?: "lg" | "md" | "sm" }>(
   function H6({ size = "md", className, children, ...props }, ref) {
     const sizeClasses = {
-      lg: "text-[1.25rem]",                    // 20px
-      md: "text-[1rem] md:text-[1.125rem]",   // 16-18px
-      sm: "text-[1rem]",                       // 16px
+      lg: "text-h6-lg",
+      md: "text-h6-sm md:text-h6-md",
+      sm: "text-h6-sm",
     };
     
     return (
@@ -184,10 +184,10 @@ export const Body = forwardRef<HTMLParagraphElement, HTMLAttributes<HTMLParagrap
 }>(
   function Body({ size = "md", variant = "default", className, children, ...props }, ref) {
     const sizeClasses = {
-      lg: "text-[1.25rem]",                    // 20px
-      md: "text-[1rem] md:text-[1.125rem]",   // 16-18px
-      sm: "text-[1rem]",                       // 16px
-      xs: "text-[0.9375rem]",                  // 15px
+      lg: "text-body-lg",
+      md: "text-body-sm md:text-body-md",
+      sm: "text-body-sm",
+      xs: "text-body-xs",
     };
 
     const variantClasses = {
@@ -218,11 +218,11 @@ export const Body = forwardRef<HTMLParagraphElement, HTMLAttributes<HTMLParagrap
 export const Label = forwardRef<HTMLSpanElement, HTMLAttributes<HTMLSpanElement> & { size?: "lg" | "md" | "sm" | "xs" | "xxs"; uppercase?: boolean }>(
   function Label({ size = "md", uppercase = true, className, children, ...props }, ref) {
     const sizeClasses = {
-      lg: "text-[1rem]",          // 16px
-      md: "text-[0.875rem]",      // 14px
-      sm: "text-[0.8125rem]",     // 13px
-      xs: "text-[0.75rem]",       // 12px
-      xxs: "text-[0.6875rem]",    // 11px
+      lg: "text-mono-lg",
+      md: "text-mono-md",
+      sm: "text-mono-sm",
+      xs: "text-mono-xs",
+      xxs: "text-mono-xxs",
     };
     
     return (

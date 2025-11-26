@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { colors, typography, fontSizes, borderWidths } from "../tokens.js";
+import clsx from "clsx";
 
 export interface AvatarProps {
   /** Image source URL */
@@ -24,19 +24,19 @@ export interface AvatarProps {
   onClick?: () => void;
 }
 
-const sizeMap = {
-  xs: { size: "1.5rem", fontSize: fontSizes.monoXXS, statusSize: "0.375rem" },
-  sm: { size: "2rem", fontSize: fontSizes.monoXS, statusSize: "0.5rem" },
-  md: { size: "2.5rem", fontSize: fontSizes.monoSM, statusSize: "0.625rem" },
-  lg: { size: "3.5rem", fontSize: fontSizes.monoMD, statusSize: "0.75rem" },
-  xl: { size: "5rem", fontSize: fontSizes.bodyMD, statusSize: "1rem" },
+const sizeClasses = {
+  xs: { container: "w-6 h-6", text: "text-mono-xxs", status: "w-1.5 h-1.5" },
+  sm: { container: "w-8 h-8", text: "text-mono-xs", status: "w-2 h-2" },
+  md: { container: "w-10 h-10", text: "text-mono-sm", status: "w-2.5 h-2.5" },
+  lg: { container: "w-14 h-14", text: "text-mono-md", status: "w-3 h-3" },
+  xl: { container: "w-20 h-20", text: "text-body-md", status: "w-4 h-4" },
 };
 
-const statusColors = {
-  online: "#22C55E",
-  offline: colors.grey500,
-  away: "#F59E0B",
-  busy: "#EF4444",
+const statusColorClasses = {
+  online: "bg-green-500",
+  offline: "bg-grey-500",
+  away: "bg-amber-500",
+  busy: "bg-red-500",
 };
 
 export function Avatar({
@@ -50,45 +50,33 @@ export function Avatar({
   className = "",
   onClick,
 }: AvatarProps) {
-  const sizeStyles = sizeMap[size];
+  const config = sizeClasses[size];
   const [imageError, setImageError] = React.useState(false);
 
   const showFallback = !src || imageError;
   const displayInitials = initials?.slice(0, 2).toUpperCase() || "?";
 
-  const containerStyle: React.CSSProperties = {
-    position: "relative",
-    display: "inline-flex",
-    alignItems: "center",
-    justifyContent: "center",
-    width: sizeStyles.size,
-    height: sizeStyles.size,
-    borderRadius: shape === "circle" ? "50%" : "4px",
-    backgroundColor: showFallback ? colors.grey800 : "transparent",
-    border: bordered ? `${borderWidths.medium} solid ${colors.black}` : "none",
-    overflow: "hidden",
-    cursor: onClick ? "pointer" : "default",
-    flexShrink: 0,
-  };
-
   return (
     <div
-      className={className}
-      style={containerStyle}
+      className={clsx(
+        "relative inline-flex items-center justify-center overflow-hidden flex-shrink-0",
+        config.container,
+        shape === "circle" ? "rounded-full" : "rounded-sm",
+        showFallback && "bg-grey-800",
+        bordered && "border-2 border-black",
+        onClick && "cursor-pointer",
+        className
+      )}
       onClick={onClick}
       role={onClick ? "button" : undefined}
       tabIndex={onClick ? 0 : undefined}
     >
       {showFallback ? (
         <span
-          style={{
-            fontFamily: typography.mono,
-            fontSize: sizeStyles.fontSize,
-            fontWeight: 400,
-            color: colors.white,
-            textTransform: "uppercase",
-            userSelect: "none",
-          }}
+          className={clsx(
+            "font-code font-normal text-white uppercase select-none",
+            config.text
+          )}
         >
           {displayInitials}
         </span>
@@ -97,27 +85,18 @@ export function Avatar({
           src={src}
           alt={alt}
           onError={() => setImageError(true)}
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            filter: "grayscale(100%) contrast(1.1)",
-          }}
+          className="w-full h-full object-cover grayscale contrast-[1.1]"
         />
       )}
 
       {status && (
         <span
-          style={{
-            position: "absolute",
-            bottom: shape === "circle" ? "0" : "-2px",
-            right: shape === "circle" ? "0" : "-2px",
-            width: sizeStyles.statusSize,
-            height: sizeStyles.statusSize,
-            backgroundColor: statusColors[status],
-            borderRadius: "50%",
-            border: `2px solid ${colors.white}`,
-          }}
+          className={clsx(
+            "absolute rounded-full border-2 border-white",
+            config.status,
+            statusColorClasses[status],
+            shape === "circle" ? "bottom-0 right-0" : "-bottom-0.5 -right-0.5"
+          )}
           aria-label={`Status: ${status}`}
         />
       )}
@@ -136,6 +115,14 @@ export interface AvatarGroupProps {
   className?: string;
 }
 
+const groupOverlapClasses = {
+  xs: "-ml-1.5",
+  sm: "-ml-2",
+  md: "-ml-2.5",
+  lg: "-ml-3.5",
+  xl: "-ml-5",
+};
+
 export function AvatarGroup({
   max = 4,
   size = "md",
@@ -145,24 +132,18 @@ export function AvatarGroup({
   const childArray = React.Children.toArray(children);
   const visibleChildren = childArray.slice(0, max);
   const remainingCount = childArray.length - max;
-  const sizeStyles = sizeMap[size];
+  const config = sizeClasses[size];
 
   return (
-    <div
-      className={className}
-      style={{
-        display: "flex",
-        alignItems: "center",
-      }}
-    >
+    <div className={clsx("flex items-center", className)}>
       {visibleChildren.map((child, index) => (
         <div
           key={index}
-          style={{
-            marginLeft: index > 0 ? `-${parseInt(sizeStyles.size) * 0.25}rem` : 0,
-            position: "relative",
-            zIndex: visibleChildren.length - index,
-          }}
+          className={clsx(
+            "relative",
+            index > 0 && groupOverlapClasses[size]
+          )}
+          style={{ zIndex: visibleChildren.length - index }}
         >
           {React.isValidElement(child)
             ? React.cloneElement(child as React.ReactElement<AvatarProps>, {
@@ -175,21 +156,13 @@ export function AvatarGroup({
 
       {remainingCount > 0 && (
         <div
-          style={{
-            marginLeft: `-${parseInt(sizeStyles.size) * 0.25}rem`,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: sizeStyles.size,
-            height: sizeStyles.size,
-            borderRadius: "50%",
-            backgroundColor: colors.grey700,
-            border: `${borderWidths.medium} solid ${colors.white}`,
-            fontFamily: typography.mono,
-            fontSize: sizeStyles.fontSize,
-            color: colors.white,
-            zIndex: 0,
-          }}
+          className={clsx(
+            "flex items-center justify-center rounded-full bg-grey-700 border-2 border-white font-code text-white",
+            config.container,
+            config.text,
+            groupOverlapClasses[size]
+          )}
+          style={{ zIndex: 0 }}
         >
           +{remainingCount}
         </div>

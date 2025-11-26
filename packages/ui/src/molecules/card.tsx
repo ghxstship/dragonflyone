@@ -12,7 +12,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
     const variantClasses = {
       default: "bg-white border-2 border-black",
       outlined: "bg-transparent border-2 border-black",
-      elevated: "bg-white shadow-[4px_4px_0_0_#000000]",
+      elevated: "bg-white shadow-hard",
     };
 
     return (

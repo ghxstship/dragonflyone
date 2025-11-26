@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useCallback, useRef, useEffect } from "react";
-import { colors, typography, fontSizes, letterSpacing, transitions, borderWidths } from "../tokens.js";
+import clsx from "clsx";
 
 export interface FilterOption {
   value: string;
@@ -138,59 +138,29 @@ export function SearchFilter({
   };
 
   const activeCount = getActiveCount();
-  const inputPadding = compact ? "0.5rem 0.75rem" : "0.75rem 1rem";
 
   return (
-    <div
-      className={className}
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: compact ? "0.75rem" : "1rem",
-      }}
-    >
+    <div className={clsx("flex flex-col", compact ? "gap-3" : "gap-4", className)}>
       {/* Search and Filter Bar */}
-      <div
-        style={{
-          display: "flex",
-          gap: "0.75rem",
-          flexWrap: "wrap",
-        }}
-      >
+      <div className="flex gap-3 flex-wrap">
         {/* Search Input */}
-        <div
-          style={{
-            flex: "1 1 300px",
-            position: "relative",
-          }}
-        >
+        <div className="flex-1 min-w-[300px] relative">
           <input
             type="text"
             value={localSearch}
             onChange={(e) => handleSearchChange(e.target.value)}
             placeholder={placeholder}
-            style={{
-              width: "100%",
-              padding: inputPadding,
-              paddingLeft: compact ? "2.5rem" : "3rem",
-              fontFamily: typography.body,
-              fontSize: compact ? fontSizes.bodySM : fontSizes.bodyMD,
-              backgroundColor: colors.white,
-              border: `${borderWidths.medium} solid ${colors.black}`,
-              outline: "none",
-              transition: transitions.fast,
-            }}
+            className={clsx(
+              "w-full font-body bg-white border-2 border-black outline-none transition-colors duration-fast focus:border-grey-700",
+              compact ? "py-2 px-3 pl-10 text-body-sm" : "py-3 px-4 pl-12 text-body-md"
+            )}
           />
           {/* Search Icon */}
           <span
-            style={{
-              position: "absolute",
-              left: compact ? "0.75rem" : "1rem",
-              top: "50%",
-              transform: "translateY(-50%)",
-              color: colors.grey500,
-              fontSize: compact ? "14px" : "16px",
-            }}
+            className={clsx(
+              "absolute top-1/2 -translate-y-1/2 text-grey-500",
+              compact ? "left-3 text-sm" : "left-4 text-base"
+            )}
           >
             🔍
           </span>
@@ -198,18 +168,10 @@ export function SearchFilter({
           {localSearch && (
             <button
               onClick={() => handleSearchChange("")}
-              style={{
-                position: "absolute",
-                right: compact ? "0.5rem" : "0.75rem",
-                top: "50%",
-                transform: "translateY(-50%)",
-                backgroundColor: "transparent",
-                border: "none",
-                cursor: "pointer",
-                color: colors.grey500,
-                fontSize: compact ? "14px" : "16px",
-                padding: "0.25rem",
-              }}
+              className={clsx(
+                "absolute top-1/2 -translate-y-1/2 bg-transparent border-none cursor-pointer text-grey-500 p-1 hover:text-grey-700",
+                compact ? "right-2 text-sm" : "right-3 text-base"
+              )}
               aria-label="Clear search"
             >
               ✕
@@ -218,14 +180,7 @@ export function SearchFilter({
         </div>
 
         {/* Filter Dropdowns */}
-        <div
-          ref={filterRef}
-          style={{
-            display: "flex",
-            gap: "0.5rem",
-            flexWrap: "wrap",
-          }}
-        >
+        <div ref={filterRef} className="flex gap-2 flex-wrap">
           {filters.map((group) => {
             const isExpanded = expandedFilter === group.key;
             const groupActiveCount = Array.isArray(activeFilters[group.key])
@@ -235,59 +190,29 @@ export function SearchFilter({
               : 0;
 
             return (
-              <div key={group.key} style={{ position: "relative" }}>
+              <div key={group.key} className="relative">
                 <button
                   onClick={() => setExpandedFilter(isExpanded ? null : group.key)}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "0.5rem",
-                    padding: inputPadding,
-                    fontFamily: typography.mono,
-                    fontSize: compact ? fontSizes.monoSM : fontSizes.monoMD,
-                    letterSpacing: letterSpacing.wide,
-                    textTransform: "uppercase",
-                    backgroundColor: groupActiveCount > 0 ? colors.black : colors.white,
-                    color: groupActiveCount > 0 ? colors.white : colors.black,
-                    border: `${borderWidths.medium} solid ${colors.black}`,
-                    cursor: "pointer",
-                    transition: transitions.fast,
-                    whiteSpace: "nowrap",
-                  }}
+                  className={clsx(
+                    "flex items-center gap-2 font-code tracking-wide uppercase border-2 border-black cursor-pointer transition-colors duration-fast whitespace-nowrap",
+                    compact ? "px-3 py-2 text-mono-sm" : "px-4 py-3 text-mono-md",
+                    groupActiveCount > 0
+                      ? "bg-black text-white"
+                      : "bg-white text-black hover:bg-grey-100"
+                  )}
                 >
                   {group.label}
                   {showCounts && groupActiveCount > 0 && (
-                    <span
-                      style={{
-                        backgroundColor: colors.white,
-                        color: colors.black,
-                        padding: "0.125rem 0.375rem",
-                        fontSize: fontSizes.monoXS,
-                        fontWeight: 700,
-                      }}
-                    >
+                    <span className="bg-white text-black px-1.5 py-0.5 text-mono-xs font-bold">
                       {groupActiveCount}
                     </span>
                   )}
-                  <span style={{ fontSize: "10px" }}>{isExpanded ? "▲" : "▼"}</span>
+                  <span className="text-[10px]">{isExpanded ? "▲" : "▼"}</span>
                 </button>
 
                 {/* Dropdown */}
                 {isExpanded && (
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: "100%",
-                      left: 0,
-                      marginTop: "4px",
-                      minWidth: "200px",
-                      maxHeight: "300px",
-                      overflowY: "auto",
-                      backgroundColor: colors.white,
-                      border: `${borderWidths.medium} solid ${colors.black}`,
-                      zIndex: 100,
-                    }}
-                  >
+                  <div className="absolute top-full left-0 mt-1 min-w-[200px] max-h-[300px] overflow-y-auto bg-white border-2 border-black z-dropdown">
                     {group.options.map((option) => {
                       const isActive = isOptionActive(group.key, option.value);
 
@@ -297,37 +222,18 @@ export function SearchFilter({
                           onClick={() =>
                             handleFilterToggle(group.key, option.value, group.multiple || false)
                           }
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            width: "100%",
-                            padding: "0.75rem 1rem",
-                            fontFamily: typography.body,
-                            fontSize: fontSizes.bodySM,
-                            backgroundColor: isActive ? colors.grey100 : colors.white,
-                            color: colors.black,
-                            border: "none",
-                            borderBottom: `1px solid ${colors.grey200}`,
-                            cursor: "pointer",
-                            textAlign: "left",
-                            transition: transitions.fast,
-                          }}
+                          className={clsx(
+                            "flex justify-between items-center w-full px-4 py-3 font-body text-body-sm text-black border-none border-b border-grey-200 cursor-pointer text-left transition-colors duration-fast",
+                            isActive ? "bg-grey-100" : "bg-white hover:bg-grey-50"
+                          )}
                         >
-                          <span style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                          <span className="flex items-center gap-2">
                             {group.multiple && (
                               <span
-                                style={{
-                                  width: "16px",
-                                  height: "16px",
-                                  border: `2px solid ${colors.black}`,
-                                  backgroundColor: isActive ? colors.black : colors.white,
-                                  display: "flex",
-                                  alignItems: "center",
-                                  justifyContent: "center",
-                                  color: colors.white,
-                                  fontSize: "10px",
-                                }}
+                                className={clsx(
+                                  "w-4 h-4 border-2 border-black flex items-center justify-center text-[10px]",
+                                  isActive ? "bg-black text-white" : "bg-white"
+                                )}
                               >
                                 {isActive && "✓"}
                               </span>
@@ -335,13 +241,7 @@ export function SearchFilter({
                             {option.label}
                           </span>
                           {showCounts && option.count !== undefined && (
-                            <span
-                              style={{
-                                fontFamily: typography.mono,
-                                fontSize: fontSizes.monoXS,
-                                color: colors.grey500,
-                              }}
-                            >
+                            <span className="font-code text-mono-xs text-grey-500">
                               {option.count}
                             </span>
                           )}
@@ -358,22 +258,8 @@ export function SearchFilter({
 
       {/* Active Filters Summary */}
       {activeCount > 0 && (
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "0.5rem",
-            flexWrap: "wrap",
-          }}
-        >
-          <span
-            style={{
-              fontFamily: typography.mono,
-              fontSize: fontSizes.monoSM,
-              color: colors.grey600,
-              letterSpacing: letterSpacing.wide,
-            }}
-          >
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="font-code text-mono-sm text-grey-600 tracking-wide">
             ACTIVE FILTERS:
           </span>
 
@@ -389,23 +275,10 @@ export function SearchFilter({
                 <button
                   key={`${group.key}-${v}`}
                   onClick={() => handleFilterToggle(group.key, v, group.multiple || false)}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "0.375rem",
-                    padding: "0.25rem 0.5rem",
-                    fontFamily: typography.mono,
-                    fontSize: fontSizes.monoXS,
-                    letterSpacing: letterSpacing.wide,
-                    backgroundColor: colors.grey100,
-                    color: colors.grey700,
-                    border: `1px solid ${colors.grey300}`,
-                    cursor: "pointer",
-                    transition: transitions.fast,
-                  }}
+                  className="flex items-center gap-1.5 px-2 py-1 font-code text-mono-xs tracking-wide bg-grey-100 text-grey-700 border border-grey-300 cursor-pointer transition-colors duration-fast hover:bg-grey-200"
                 >
                   {option.label}
-                  <span style={{ color: colors.grey500 }}>✕</span>
+                  <span className="text-grey-500">✕</span>
                 </button>
               );
             });
@@ -413,17 +286,7 @@ export function SearchFilter({
 
           <button
             onClick={onClearAll}
-            style={{
-              padding: "0.25rem 0.5rem",
-              fontFamily: typography.mono,
-              fontSize: fontSizes.monoXS,
-              letterSpacing: letterSpacing.wide,
-              backgroundColor: "transparent",
-              color: colors.grey600,
-              border: "none",
-              cursor: "pointer",
-              textDecoration: "underline",
-            }}
+            className="px-2 py-1 font-code text-mono-xs tracking-wide bg-transparent text-grey-600 border-none cursor-pointer underline hover:text-black"
           >
             CLEAR ALL
           </button>

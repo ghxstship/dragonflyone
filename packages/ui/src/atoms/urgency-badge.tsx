@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { colors, typography, fontSizes, letterSpacing, transitions } from "../tokens.js";
+import clsx from "clsx";
 
 export interface UrgencyBadgeProps {
   /** Type of urgency indicator */
@@ -20,60 +20,57 @@ const urgencyConfig = {
   "low-stock": {
     label: "LOW STOCK",
     withCount: (count: number) => `ONLY ${count} LEFT`,
-    bgColor: colors.grey900,
-    textColor: colors.white,
+    bgClass: "bg-grey-900",
+    textClass: "text-white",
     pulse: true,
   },
   "selling-fast": {
     label: "SELLING FAST",
     withCount: (count: number) => `${count} SOLD TODAY`,
-    bgColor: colors.black,
-    textColor: colors.white,
+    bgClass: "bg-black",
+    textClass: "text-white",
     pulse: true,
   },
   "last-chance": {
     label: "LAST CHANCE",
     withCount: () => "LAST CHANCE",
-    bgColor: colors.black,
-    textColor: colors.white,
+    bgClass: "bg-black",
+    textClass: "text-white",
     pulse: true,
   },
   "limited": {
     label: "LIMITED",
     withCount: (count: number) => `LIMITED TO ${count}`,
-    bgColor: colors.grey800,
-    textColor: colors.white,
+    bgClass: "bg-grey-800",
+    textClass: "text-white",
     pulse: false,
   },
   "ending-soon": {
     label: "ENDING SOON",
     withCount: () => "ENDING SOON",
-    bgColor: colors.black,
-    textColor: colors.white,
+    bgClass: "bg-black",
+    textClass: "text-white",
     pulse: true,
   },
   "new": {
     label: "NEW",
     withCount: () => "NEW",
-    bgColor: colors.white,
-    textColor: colors.black,
+    bgClass: "bg-white",
+    textClass: "text-black",
     pulse: false,
   },
 };
 
-const sizeStyles = {
-  sm: {
-    fontSize: fontSizes.monoXS,
-    padding: "0.25rem 0.5rem",
-  },
-  md: {
-    fontSize: fontSizes.monoSM,
-    padding: "0.375rem 0.75rem",
-  },
-  lg: {
-    fontSize: fontSizes.monoMD,
-    padding: "0.5rem 1rem",
-  },
+const sizeClasses = {
+  sm: "text-mono-xs px-2 py-1",
+  md: "text-mono-sm px-3 py-1.5",
+  lg: "text-mono-md px-4 py-2",
+};
+
+const dotSizeClasses = {
+  sm: "w-1.5 h-1.5",
+  md: "w-2 h-2",
+  lg: "w-2.5 h-2.5",
 };
 
 export function UrgencyBadge({
@@ -84,55 +81,33 @@ export function UrgencyBadge({
   className = "",
 }: UrgencyBadgeProps) {
   const config = urgencyConfig[type];
-  const styles = sizeStyles[size];
   const label = count !== undefined ? config.withCount(count) : config.label;
   const shouldPulse = animated && config.pulse;
+  const showDot = type === "low-stock" || type === "selling-fast" || type === "last-chance";
 
   return (
-    <>
-      {shouldPulse && (
-        <style>
-          {`
-            @keyframes urgency-pulse {
-              0%, 100% { opacity: 1; }
-              50% { opacity: 0.7; }
-            }
-          `}
-        </style>
+    <span
+      className={clsx(
+        "inline-flex items-center gap-1.5 font-code font-normal tracking-widest uppercase transition-colors duration-base",
+        config.bgClass,
+        config.textClass,
+        sizeClasses[size],
+        type === "new" && "border-2 border-black",
+        shouldPulse && "animate-pulse",
+        className
       )}
-      <span
-        className={className}
-        style={{
-          display: "inline-flex",
-          alignItems: "center",
-          gap: "0.375rem",
-          fontFamily: typography.mono,
-          fontSize: styles.fontSize,
-          fontWeight: 400,
-          letterSpacing: letterSpacing.widest,
-          textTransform: "uppercase",
-          backgroundColor: config.bgColor,
-          color: config.textColor,
-          padding: styles.padding,
-          border: type === "new" ? `2px solid ${colors.black}` : "none",
-          animation: shouldPulse ? "urgency-pulse 2s ease-in-out infinite" : "none",
-          transition: transitions.base,
-        }}
-      >
-        {(type === "low-stock" || type === "selling-fast" || type === "last-chance") && (
-          <span
-            style={{
-              width: size === "sm" ? "6px" : size === "lg" ? "10px" : "8px",
-              height: size === "sm" ? "6px" : size === "lg" ? "10px" : "8px",
-              backgroundColor: colors.white,
-              borderRadius: "50%",
-              animation: shouldPulse ? "urgency-pulse 1s ease-in-out infinite" : "none",
-            }}
-          />
-        )}
-        {label}
-      </span>
-    </>
+    >
+      {showDot && (
+        <span
+          className={clsx(
+            "bg-white rounded-full",
+            dotSizeClasses[size],
+            shouldPulse && "animate-pulse"
+          )}
+        />
+      )}
+      {label}
+    </span>
   );
 }
 

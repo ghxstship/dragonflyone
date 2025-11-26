@@ -3,6 +3,8 @@
  * Provides helpers for screen reader announcements and ARIA management
  */
 
+import { colors } from "../tokens.js";
+
 // Live region for dynamic announcements
 let liveRegion: HTMLElement | null = null;
 
@@ -303,8 +305,8 @@ export function createSkipLinks(targets: { id: string; label: string }[]): void 
       left: -9999px;
       top: 0;
       padding: 0.5rem 1rem;
-      background: #000;
-      color: #fff;
+      background: ${colors.black};
+      color: ${colors.white};
       text-decoration: none;
       font-family: system-ui, sans-serif;
       font-size: 0.875rem;

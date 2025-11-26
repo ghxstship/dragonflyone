@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { colors, typography, fontSizes, letterSpacing } from "../tokens.js";
+import clsx from "clsx";
 
 export interface PriceDisplayProps {
   /** Current price */
@@ -26,26 +26,26 @@ export interface PriceDisplayProps {
   className?: string;
 }
 
-const sizeStyles = {
+const sizeClasses = {
   sm: {
-    price: fontSizes.h5MD,
-    original: fontSizes.monoSM,
-    label: fontSizes.monoXS,
+    price: "text-h5-md",
+    original: "text-mono-sm",
+    label: "text-mono-xs",
   },
   md: {
-    price: fontSizes.h4MD,
-    original: fontSizes.monoMD,
-    label: fontSizes.monoSM,
+    price: "text-h4-md",
+    original: "text-mono-md",
+    label: "text-mono-sm",
   },
   lg: {
-    price: fontSizes.h3MD,
-    original: fontSizes.bodyMD,
-    label: fontSizes.monoMD,
+    price: "text-h3-md",
+    original: "text-body-md",
+    label: "text-mono-md",
   },
   xl: {
-    price: fontSizes.h2MD,
-    original: fontSizes.bodyLG,
-    label: fontSizes.monoMD,
+    price: "text-h2-md",
+    original: "text-body-lg",
+    label: "text-mono-md",
   },
 };
 
@@ -73,56 +73,36 @@ export function PriceDisplay({
   inverted = false,
   className = "",
 }: PriceDisplayProps) {
-  const styles = sizeStyles[size];
+  const config = sizeClasses[size];
   const hasDiscount = originalPrice && originalPrice > price;
   const calculatedDiscount = hasDiscount
     ? Math.round(((originalPrice - price) / originalPrice) * 100)
     : discountPercent;
 
-  const textColor = inverted ? colors.white : colors.black;
-  const mutedColor = inverted ? colors.grey400 : colors.grey600;
-
   return (
-    <div
-      className={className}
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "0.25rem",
-      }}
-    >
+    <div className={clsx("flex flex-col gap-1", className)}>
       {/* From label */}
       {showFrom && (
         <span
-          style={{
-            fontFamily: typography.mono,
-            fontSize: styles.label,
-            color: mutedColor,
-            letterSpacing: letterSpacing.widest,
-            textTransform: "uppercase",
-          }}
+          className={clsx(
+            "font-code tracking-widest uppercase",
+            config.label,
+            inverted ? "text-grey-400" : "text-grey-600"
+          )}
         >
           FROM
         </span>
       )}
 
       {/* Price row */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "baseline",
-          gap: "0.5rem",
-          flexWrap: "wrap",
-        }}
-      >
+      <div className="flex items-baseline gap-2 flex-wrap">
         {/* Current price */}
         <span
-          style={{
-            fontFamily: typography.heading,
-            fontSize: styles.price,
-            color: textColor,
-            letterSpacing: letterSpacing.tight,
-          }}
+          className={clsx(
+            "font-heading tracking-tight",
+            config.price,
+            inverted ? "text-white" : "text-black"
+          )}
         >
           {formatPrice(price, currency, currencySymbol)}
         </span>
@@ -130,13 +110,11 @@ export function PriceDisplay({
         {/* Original price (strikethrough) */}
         {hasDiscount && (
           <span
-            style={{
-              fontFamily: typography.mono,
-              fontSize: styles.original,
-              color: mutedColor,
-              textDecoration: "line-through",
-              letterSpacing: letterSpacing.wide,
-            }}
+            className={clsx(
+              "font-code line-through tracking-wide",
+              config.original,
+              inverted ? "text-grey-400" : "text-grey-600"
+            )}
           >
             {formatPrice(originalPrice, currency, currencySymbol)}
           </span>
@@ -145,12 +123,11 @@ export function PriceDisplay({
         {/* Per unit */}
         {perUnit && (
           <span
-            style={{
-              fontFamily: typography.mono,
-              fontSize: styles.label,
-              color: mutedColor,
-              letterSpacing: letterSpacing.wide,
-            }}
+            className={clsx(
+              "font-code tracking-wide",
+              config.label,
+              inverted ? "text-grey-400" : "text-grey-600"
+            )}
           >
             /{perUnit}
           </span>
@@ -160,16 +137,11 @@ export function PriceDisplay({
       {/* Discount badge */}
       {calculatedDiscount && calculatedDiscount > 0 && (
         <span
-          style={{
-            display: "inline-flex",
-            alignSelf: "flex-start",
-            fontFamily: typography.mono,
-            fontSize: styles.label,
-            color: inverted ? colors.black : colors.white,
-            backgroundColor: inverted ? colors.white : colors.black,
-            padding: "0.125rem 0.375rem",
-            letterSpacing: letterSpacing.widest,
-          }}
+          className={clsx(
+            "inline-flex self-start font-code tracking-widest px-1.5 py-0.5",
+            config.label,
+            inverted ? "text-black bg-white" : "text-white bg-black"
+          )}
         >
           SAVE {calculatedDiscount}%
         </span>
@@ -201,9 +173,7 @@ export function PriceRange({
   inverted = false,
   className = "",
 }: PriceRangeProps) {
-  const styles = sizeStyles[size];
-  const textColor = inverted ? colors.white : colors.black;
-  const mutedColor = inverted ? colors.grey400 : colors.grey600;
+  const config = sizeClasses[size];
 
   if (minPrice === maxPrice) {
     return (
@@ -218,38 +188,31 @@ export function PriceRange({
   }
 
   return (
-    <div
-      className={className}
-      style={{
-        display: "flex",
-        alignItems: "baseline",
-        gap: "0.375rem",
-      }}
-    >
+    <div className={clsx("flex items-baseline gap-1.5", className)}>
       <span
-        style={{
-          fontFamily: typography.heading,
-          fontSize: styles.price,
-          color: textColor,
-        }}
+        className={clsx(
+          "font-heading",
+          config.price,
+          inverted ? "text-white" : "text-black"
+        )}
       >
         {formatPrice(minPrice, "USD", currencySymbol)}
       </span>
       <span
-        style={{
-          fontFamily: typography.mono,
-          fontSize: styles.label,
-          color: mutedColor,
-        }}
+        className={clsx(
+          "font-code",
+          config.label,
+          inverted ? "text-grey-400" : "text-grey-600"
+        )}
       >
         –
       </span>
       <span
-        style={{
-          fontFamily: typography.heading,
-          fontSize: styles.price,
-          color: textColor,
-        }}
+        className={clsx(
+          "font-heading",
+          config.price,
+          inverted ? "text-white" : "text-black"
+        )}
       >
         {formatPrice(maxPrice, "USD", currencySymbol)}
       </span>

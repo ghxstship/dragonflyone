@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { colors, typography, fontSizes, letterSpacing, transitions, borderWidths } from "../tokens.js";
+import clsx from "clsx";
 
 export interface BulkAction {
   /** Unique action identifier */
@@ -41,6 +41,12 @@ export interface BulkActionBarProps {
   className?: string;
 }
 
+const positionClasses = {
+  top: "sticky top-0 z-dropdown",
+  bottom: "sticky bottom-0 z-dropdown",
+  floating: "fixed bottom-8 left-1/2 -translate-x-1/2 z-fixed shadow-hard-lg",
+};
+
 export function BulkActionBar({
   selectedCount,
   actions,
@@ -54,83 +60,35 @@ export function BulkActionBar({
 }: BulkActionBarProps) {
   if (selectedCount === 0) return null;
 
-  const positionStyles: React.CSSProperties = {
-    top: { position: "sticky", top: 0, zIndex: 100 },
-    bottom: { position: "sticky", bottom: 0, zIndex: 100 },
-    floating: {
-      position: "fixed",
-      bottom: "2rem",
-      left: "50%",
-      transform: "translateX(-50%)",
-      zIndex: 1000,
-      boxShadow: "0 4px 20px rgba(0, 0, 0, 0.3)",
-    },
-  }[position] as React.CSSProperties;
-
   return (
     <div
-      className={className}
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        gap: "1rem",
-        padding: "0.75rem 1rem",
-        backgroundColor: colors.black,
-        color: colors.white,
-        border: `${borderWidths.medium} solid ${colors.black}`,
-        ...positionStyles,
-      }}
+      className={clsx(
+        "flex items-center justify-between gap-4 px-4 py-3 bg-black text-white border-2 border-black",
+        positionClasses[position],
+        className
+      )}
     >
       {/* Selection info */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "1rem",
-        }}
-      >
-        <span
-          style={{
-            fontFamily: typography.mono,
-            fontSize: fontSizes.monoMD,
-            letterSpacing: letterSpacing.wide,
-          }}
-        >
-          <strong style={{ fontWeight: 700 }}>{selectedCount}</strong> {entityName} selected
+      <div className="flex items-center gap-4">
+        <span className="font-code text-mono-md tracking-wide">
+          <strong className="font-bold">{selectedCount}</strong> {entityName} selected
         </span>
 
         <button
           type="button"
           onClick={onClearSelection}
           disabled={loading}
-          style={{
-            padding: "0.25rem 0.5rem",
-            fontFamily: typography.mono,
-            fontSize: fontSizes.monoSM,
-            letterSpacing: letterSpacing.wide,
-            textTransform: "uppercase",
-            backgroundColor: "transparent",
-            color: colors.grey400,
-            border: "none",
-            cursor: loading ? "not-allowed" : "pointer",
-            textDecoration: "underline",
-            transition: transitions.fast,
-          }}
+          className={clsx(
+            "px-2 py-1 font-code text-mono-sm tracking-wide uppercase bg-transparent text-grey-400 border-none underline transition-colors duration-fast",
+            loading ? "cursor-not-allowed" : "cursor-pointer hover:text-white"
+          )}
         >
           Clear
         </button>
       </div>
 
       {/* Actions */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "0.5rem",
-          flexWrap: "wrap",
-        }}
-      >
+      <div className="flex items-center gap-2 flex-wrap">
         {actions.map((action) => {
           const isLoading = loading && loadingActionId === action.id;
           const isDisabled = action.disabled || loading;
@@ -141,48 +99,24 @@ export function BulkActionBar({
               type="button"
               onClick={() => onAction(action.id)}
               disabled={isDisabled}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "0.375rem",
-                padding: "0.5rem 0.75rem",
-                fontFamily: typography.mono,
-                fontSize: fontSizes.monoSM,
-                letterSpacing: letterSpacing.wide,
-                textTransform: "uppercase",
-                backgroundColor: action.variant === "danger" ? colors.white : colors.grey800,
-                color: action.variant === "danger" ? colors.black : colors.white,
-                border: `1px solid ${action.variant === "danger" ? colors.white : colors.grey600}`,
-                cursor: isDisabled ? "not-allowed" : "pointer",
-                opacity: isDisabled ? 0.5 : 1,
-                transition: transitions.fast,
-                whiteSpace: "nowrap",
-              }}
+              className={clsx(
+                "flex items-center gap-1.5 px-3 py-2 font-code text-mono-sm tracking-wide uppercase border whitespace-nowrap transition-colors duration-fast",
+                action.variant === "danger"
+                  ? "bg-white text-black border-white hover:bg-grey-100"
+                  : "bg-grey-800 text-white border-grey-600 hover:bg-grey-700",
+                isDisabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"
+              )}
             >
               {isLoading ? (
-                <span
-                  style={{
-                    display: "inline-block",
-                    width: "12px",
-                    height: "12px",
-                    border: `2px solid ${colors.grey500}`,
-                    borderTopColor: colors.white,
-                    borderRadius: "50%",
-                    animation: "spin 1s linear infinite",
-                  }}
-                />
+                <span className="inline-block w-3 h-3 border-2 border-grey-500 border-t-white rounded-full animate-spin" />
               ) : action.icon ? (
-                <span style={{ fontSize: "14px" }}>{action.icon}</span>
+                <span className="text-sm">{action.icon}</span>
               ) : null}
               {action.label}
             </button>
           );
         })}
       </div>
-
-      <style>
-        {`@keyframes spin { to { transform: rotate(360deg); } }`}
-      </style>
     </div>
   );
 }

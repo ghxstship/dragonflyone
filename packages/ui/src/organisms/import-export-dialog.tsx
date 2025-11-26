@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useCallback } from "react";
-import { colors, typography, fontSizes, letterSpacing, transitions, borderWidths } from "../tokens.js";
+import clsx from "clsx";
 
 export type ExportFormat = "csv" | "json" | "excel" | "pdf";
 
@@ -135,22 +135,36 @@ export function ImportExportDialog({
   if (!open) return null;
 
   return (
-    <div className={className} style={{ position: "fixed", inset: 0, zIndex: 1400, display: "flex", alignItems: "center", justifyContent: "center", padding: "1rem" }} role="dialog" aria-modal="true">
-      <div style={{ position: "absolute", inset: 0, backgroundColor: "rgba(0, 0, 0, 0.5)" }} onClick={processing ? undefined : onClose} />
+    <div
+      className={clsx("fixed inset-0 z-modal flex items-center justify-center p-4", className)}
+      role="dialog"
+      aria-modal="true"
+    >
+      <div
+        className="absolute inset-0 bg-black/50"
+        onClick={processing ? undefined : onClose}
+      />
       
-      <div style={{ position: "relative", backgroundColor: colors.white, border: `${borderWidths.medium} solid ${colors.black}`, boxShadow: "8px 8px 0 0 #000000", width: "100%", maxWidth: "600px", maxHeight: "90vh", display: "flex", flexDirection: "column" }}>
+      <div className="relative bg-white border-2 border-black shadow-hard-lg w-full max-w-[600px] max-h-[90vh] flex flex-col">
         {/* Header */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "1.25rem 1.5rem", borderBottom: `${borderWidths.medium} solid ${colors.black}` }}>
-          <h2 style={{ fontFamily: typography.heading, fontSize: fontSizes.h4MD, letterSpacing: letterSpacing.wider, textTransform: "uppercase", margin: 0 }}>
+        <div className="flex items-center justify-between px-6 py-5 border-b-2 border-black">
+          <h2 className="font-heading text-h4-md tracking-wider uppercase">
             {mode === "import" ? `Import ${label}` : `Export ${label}`}
           </h2>
-          <button type="button" onClick={onClose} disabled={processing} style={{ padding: "0.5rem", backgroundColor: "transparent", border: "none", cursor: processing ? "not-allowed" : "pointer", fontSize: "20px" }}>✕</button>
+          <button
+            type="button"
+            onClick={onClose}
+            disabled={processing}
+            className={clsx("p-2 bg-transparent border-none text-xl", processing ? "cursor-not-allowed" : "cursor-pointer")}
+          >
+            ✕
+          </button>
         </div>
 
         {/* Content */}
-        <div style={{ flex: 1, overflow: "auto", padding: "1.5rem" }}>
+        <div className="flex-1 overflow-auto p-6">
           {error && (
-            <div style={{ padding: "0.75rem 1rem", marginBottom: "1rem", backgroundColor: colors.grey100, border: `1px solid ${colors.grey300}`, fontFamily: typography.mono, fontSize: fontSizes.monoSM, color: colors.grey700 }}>
+            <div className="px-4 py-3 mb-4 bg-grey-100 border border-grey-300 font-code text-mono-sm text-grey-700">
               ⚠️ {error}
             </div>
           )}
@@ -164,27 +178,23 @@ export function ImportExportDialog({
                   onDragOver={(e) => e.preventDefault()}
                   onDrop={handleDrop}
                   onClick={() => document.getElementById("file-input")?.click()}
-                  style={{
-                    padding: "3rem 2rem",
-                    border: `${borderWidths.medium} dashed ${dragActive ? colors.black : colors.grey400}`,
-                    backgroundColor: dragActive ? colors.grey100 : colors.white,
-                    textAlign: "center",
-                    cursor: "pointer",
-                    transition: transitions.base,
-                  }}
+                  className={clsx(
+                    "px-8 py-12 border-2 border-dashed text-center cursor-pointer transition-colors duration-base",
+                    dragActive ? "border-black bg-grey-100" : "border-grey-400 bg-white hover:border-black"
+                  )}
                 >
                   <input
                     id="file-input"
                     type="file"
                     accept={acceptedFormats}
                     onChange={(e) => e.target.files?.[0] && handleFileSelect(e.target.files[0])}
-                    style={{ display: "none" }}
+                    className="hidden"
                   />
-                  <div style={{ fontSize: "32px", marginBottom: "1rem" }}>⬆️</div>
-                  <div style={{ fontFamily: typography.mono, fontSize: fontSizes.monoMD, letterSpacing: letterSpacing.widest, marginBottom: "0.5rem" }}>
+                  <div className="text-[32px] mb-4">⬆️</div>
+                  <div className="font-code text-mono-md tracking-widest mb-2">
                     DROP FILE HERE OR CLICK TO UPLOAD
                   </div>
-                  <div style={{ fontFamily: typography.body, fontSize: fontSizes.bodySM, color: colors.grey500 }}>
+                  <div className="font-body text-body-sm text-grey-500">
                     Supported formats: {acceptedFormats.replace(/\./g, "").toUpperCase()}
                   </div>
                 </div>
@@ -192,14 +202,14 @@ export function ImportExportDialog({
 
               {importStep === "mapping" && selectedFile && (
                 <div>
-                  <div style={{ marginBottom: "1.5rem", padding: "1rem", backgroundColor: colors.grey100, border: `1px solid ${colors.grey200}` }}>
-                    <div style={{ fontFamily: typography.mono, fontSize: fontSizes.monoSM, color: colors.grey600 }}>Selected file:</div>
-                    <div style={{ fontFamily: typography.body, fontSize: fontSizes.bodyMD, fontWeight: 600 }}>{selectedFile.name}</div>
+                  <div className="mb-6 p-4 bg-grey-100 border border-grey-200">
+                    <div className="font-code text-mono-sm text-grey-600">Selected file:</div>
+                    <div className="font-body text-body-md font-semibold">{selectedFile.name}</div>
                   </div>
 
                   {importTemplates.length > 0 && (
-                    <div style={{ marginBottom: "1.5rem" }}>
-                      <label style={{ display: "block", marginBottom: "0.5rem", fontFamily: typography.heading, fontSize: fontSizes.bodySM, letterSpacing: letterSpacing.wider, textTransform: "uppercase" }}>
+                    <div className="mb-6">
+                      <label className="block mb-2 font-heading text-body-sm tracking-wider uppercase">
                         Use Template
                       </label>
                       <select
@@ -209,7 +219,7 @@ export function ImportExportDialog({
                           const template = importTemplates.find(t => t.id === e.target.value);
                           if (template) setFieldMapping(template.mapping);
                         }}
-                        style={{ width: "100%", padding: "0.75rem 1rem", fontFamily: typography.body, fontSize: fontSizes.bodyMD, border: `${borderWidths.medium} solid ${colors.black}` }}
+                        className="w-full px-4 py-3 font-body text-body-md border-2 border-black"
                       >
                         <option value="">Manual mapping</option>
                         {importTemplates.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
@@ -219,20 +229,20 @@ export function ImportExportDialog({
 
                   {sampleFields.length > 0 && (
                     <div>
-                      <div style={{ fontFamily: typography.heading, fontSize: fontSizes.bodySM, letterSpacing: letterSpacing.wider, textTransform: "uppercase", marginBottom: "0.75rem" }}>
+                      <div className="font-heading text-body-sm tracking-wider uppercase mb-3">
                         Field Mapping
                       </div>
-                      <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                      <div className="flex flex-col gap-2">
                         {sampleFields.map(field => (
-                          <div key={field} style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-                            <span style={{ flex: 1, fontFamily: typography.mono, fontSize: fontSizes.monoSM }}>{field}</span>
-                            <span style={{ color: colors.grey400 }}>→</span>
+                          <div key={field} className="flex items-center gap-3">
+                            <span className="flex-1 font-code text-mono-sm">{field}</span>
+                            <span className="text-grey-400">→</span>
                             <input
                               type="text"
                               value={fieldMapping[field] || ""}
                               onChange={(e) => setFieldMapping(prev => ({ ...prev, [field]: e.target.value }))}
                               placeholder="Database field"
-                              style={{ flex: 1, padding: "0.5rem", fontFamily: typography.mono, fontSize: fontSizes.monoSM, border: `1px solid ${colors.grey300}` }}
+                              className="flex-1 p-2 font-code text-mono-sm border border-grey-300"
                             />
                           </div>
                         ))}
@@ -245,27 +255,20 @@ export function ImportExportDialog({
           ) : (
             <>
               {/* Export Format */}
-              <div style={{ marginBottom: "1.5rem" }}>
-                <div style={{ fontFamily: typography.heading, fontSize: fontSizes.bodySM, letterSpacing: letterSpacing.wider, textTransform: "uppercase", marginBottom: "0.75rem" }}>
+              <div className="mb-6">
+                <div className="font-heading text-body-sm tracking-wider uppercase mb-3">
                   Export Format
                 </div>
-                <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+                <div className="flex gap-2 flex-wrap">
                   {exportFormats.map(format => (
                     <button
                       key={format}
                       type="button"
                       onClick={() => setSelectedFormat(format)}
-                      style={{
-                        padding: "0.5rem 1rem",
-                        fontFamily: typography.mono,
-                        fontSize: fontSizes.monoSM,
-                        letterSpacing: letterSpacing.wide,
-                        textTransform: "uppercase",
-                        backgroundColor: selectedFormat === format ? colors.black : colors.white,
-                        color: selectedFormat === format ? colors.white : colors.black,
-                        border: `${borderWidths.medium} solid ${colors.black}`,
-                        cursor: "pointer",
-                      }}
+                      className={clsx(
+                        "px-4 py-2 font-code text-mono-sm tracking-wide uppercase border-2 border-black cursor-pointer",
+                        selectedFormat === format ? "bg-black text-white" : "bg-white text-black hover:bg-grey-100"
+                      )}
                     >
                       {format}
                     </button>
@@ -276,20 +279,20 @@ export function ImportExportDialog({
               {/* Column Selection */}
               {columns.length > 0 && (
                 <div>
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.75rem" }}>
-                    <div style={{ fontFamily: typography.heading, fontSize: fontSizes.bodySM, letterSpacing: letterSpacing.wider, textTransform: "uppercase" }}>
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="font-heading text-body-sm tracking-wider uppercase">
                       Select Columns ({selectedColumns.size}/{columns.length})
                     </div>
-                    <div style={{ display: "flex", gap: "0.5rem" }}>
-                      <button type="button" onClick={selectAllColumns} style={{ fontFamily: typography.mono, fontSize: fontSizes.monoXS, color: colors.grey600, backgroundColor: "transparent", border: "none", cursor: "pointer", textDecoration: "underline" }}>All</button>
-                      <button type="button" onClick={deselectAllColumns} style={{ fontFamily: typography.mono, fontSize: fontSizes.monoXS, color: colors.grey600, backgroundColor: "transparent", border: "none", cursor: "pointer", textDecoration: "underline" }}>None</button>
+                    <div className="flex gap-2">
+                      <button type="button" onClick={selectAllColumns} className="font-code text-mono-xs text-grey-600 bg-transparent border-none cursor-pointer underline">All</button>
+                      <button type="button" onClick={deselectAllColumns} className="font-code text-mono-xs text-grey-600 bg-transparent border-none cursor-pointer underline">None</button>
                     </div>
                   </div>
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "0.5rem", maxHeight: "200px", overflow: "auto", padding: "0.5rem", border: `1px solid ${colors.grey200}` }}>
+                  <div className="grid grid-cols-2 gap-2 max-h-[200px] overflow-auto p-2 border border-grey-200">
                     {columns.map(col => (
-                      <label key={col.key} style={{ display: "flex", alignItems: "center", gap: "0.5rem", cursor: "pointer" }}>
-                        <input type="checkbox" checked={selectedColumns.has(col.key)} onChange={() => toggleColumn(col.key)} style={{ width: "16px", height: "16px" }} />
-                        <span style={{ fontFamily: typography.body, fontSize: fontSizes.bodySM }}>{col.label}</span>
+                      <label key={col.key} className="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" checked={selectedColumns.has(col.key)} onChange={() => toggleColumn(col.key)} className="w-4 h-4" />
+                        <span className="font-body text-body-sm">{col.label}</span>
                       </label>
                     ))}
                   </div>
@@ -297,7 +300,7 @@ export function ImportExportDialog({
               )}
 
               {totalRecords !== undefined && (
-                <div style={{ marginTop: "1rem", fontFamily: typography.mono, fontSize: fontSizes.monoSM, color: colors.grey600 }}>
+                <div className="mt-4 font-code text-mono-sm text-grey-600">
                   {totalRecords.toLocaleString()} records will be exported
                 </div>
               )}
@@ -306,36 +309,34 @@ export function ImportExportDialog({
         </div>
 
         {/* Footer */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", gap: "0.75rem", padding: "1rem 1.5rem", borderTop: `${borderWidths.medium} solid ${colors.grey200}` }}>
-          <button type="button" onClick={onClose} disabled={processing} style={{ padding: "0.75rem 1.5rem", fontFamily: typography.heading, fontSize: fontSizes.bodyMD, letterSpacing: letterSpacing.wider, textTransform: "uppercase", backgroundColor: colors.white, color: colors.black, border: `${borderWidths.medium} solid ${colors.black}`, cursor: processing ? "not-allowed" : "pointer" }}>
+        <div className="flex items-center justify-end gap-3 px-6 py-4 border-t-2 border-grey-200">
+          <button
+            type="button"
+            onClick={onClose}
+            disabled={processing}
+            className={clsx(
+              "px-6 py-3 font-heading text-body-md tracking-wider uppercase bg-white text-black border-2 border-black",
+              processing ? "cursor-not-allowed" : "cursor-pointer hover:bg-grey-100"
+            )}
+          >
             Cancel
           </button>
           <button
             type="button"
             onClick={mode === "import" ? handleImport : handleExport}
             disabled={processing || loading || (mode === "import" && !selectedFile) || (mode === "export" && selectedColumns.size === 0)}
-            style={{
-              padding: "0.75rem 1.5rem",
-              fontFamily: typography.heading,
-              fontSize: fontSizes.bodyMD,
-              letterSpacing: letterSpacing.wider,
-              textTransform: "uppercase",
-              backgroundColor: colors.black,
-              color: colors.white,
-              border: `${borderWidths.medium} solid ${colors.black}`,
-              cursor: processing ? "not-allowed" : "pointer",
-              opacity: processing || (mode === "import" && !selectedFile) || (mode === "export" && selectedColumns.size === 0) ? 0.5 : 1,
-              display: "flex",
-              alignItems: "center",
-              gap: "0.5rem",
-            }}
+            className={clsx(
+              "px-6 py-3 font-heading text-body-md tracking-wider uppercase bg-black text-white border-2 border-black flex items-center gap-2",
+              processing || (mode === "import" && !selectedFile) || (mode === "export" && selectedColumns.size === 0)
+                ? "cursor-not-allowed opacity-50"
+                : "cursor-pointer hover:bg-grey-900"
+            )}
           >
-            {processing && <span style={{ display: "inline-block", width: "14px", height: "14px", border: `2px solid ${colors.grey500}`, borderTopColor: colors.white, borderRadius: "50%", animation: "spin 1s linear infinite" }} />}
+            {processing && <span className="inline-block w-3.5 h-3.5 border-2 border-grey-500 border-t-white rounded-full animate-spin" />}
             {mode === "import" ? "Import" : "Export"}
           </button>
         </div>
       </div>
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </div>
   );
 }

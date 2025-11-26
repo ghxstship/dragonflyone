@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useCallback, useEffect } from "react";
-import { colors, typography, fontSizes, letterSpacing, transitions, borderWidths } from "../tokens.js";
+import React, { useState, useCallback, useEffect, useMemo } from "react";
+import clsx from "clsx";
 
 export type FieldType = "text" | "email" | "password" | "number" | "textarea" | "select" | "checkbox" | "radio" | "date" | "datetime" | "file";
 
@@ -54,7 +54,7 @@ export interface RecordFormModalProps<T = Record<string, unknown>> {
   className?: string;
 }
 
-const sizeClasses = { sm: "400px", md: "560px", lg: "720px", xl: "900px" };
+const sizeClasses = { sm: "max-w-sm", md: "max-w-lg", lg: "max-w-2xl", xl: "max-w-4xl" };
 
 export function RecordFormModal<T = Record<string, unknown>>({
   open,
@@ -77,7 +77,10 @@ export function RecordFormModal<T = Record<string, unknown>>({
   const [submitting, setSubmitting] = useState(false);
 
   const isMultiStep = steps.length > 0;
-  const currentFields = isMultiStep ? steps[currentStep]?.fields || [] : fields;
+  const currentFields = useMemo(() => 
+    isMultiStep ? steps[currentStep]?.fields || [] : fields,
+    [isMultiStep, steps, currentStep, fields]
+  );
   const modalTitle = title || (mode === "create" ? "Create New Record" : "Edit Record");
   const submitText = submitLabel || (mode === "create" ? "Create" : "Save Changes");
 
@@ -173,22 +176,16 @@ export function RecordFormModal<T = Record<string, unknown>>({
   const renderField = (field: FormFieldConfig) => {
     const value = formData[field.name];
     const error = errors[field.name];
-    const baseInputStyle: React.CSSProperties = {
-      width: "100%",
-      padding: "0.75rem 1rem",
-      fontFamily: typography.body,
-      fontSize: fontSizes.bodyMD,
-      backgroundColor: colors.white,
-      border: `${borderWidths.medium} solid ${error ? colors.grey700 : colors.black}`,
-      outline: "none",
-      transition: transitions.fast,
-    };
+    const baseInputClasses = clsx(
+      "w-full px-4 py-3 font-body text-body-md bg-white border-2 outline-none transition-colors duration-fast",
+      error ? "border-grey-700" : "border-black focus:border-grey-700"
+    );
 
     return (
-      <div key={field.name} style={{ gridColumn: field.colSpan === 2 ? "span 2" : "span 1" }}>
-        <label style={{ display: "block", marginBottom: "0.5rem", fontFamily: typography.heading, fontSize: fontSizes.bodySM, letterSpacing: letterSpacing.wider, textTransform: "uppercase" }}>
+      <div key={field.name} className={field.colSpan === 2 ? "col-span-2" : "col-span-1"}>
+        <label className="block mb-2 font-heading text-body-sm tracking-wider uppercase">
           {field.label}
-          {field.required && <span style={{ marginLeft: "0.25rem", color: colors.black }}>*</span>}
+          {field.required && <span className="ml-1 text-black">*</span>}
         </label>
 
         {field.type === "textarea" ? (
@@ -198,14 +195,14 @@ export function RecordFormModal<T = Record<string, unknown>>({
             placeholder={field.placeholder}
             disabled={field.disabled || submitting}
             rows={4}
-            style={{ ...baseInputStyle, resize: "vertical" }}
+            className={clsx(baseInputClasses, "resize-y")}
           />
         ) : field.type === "select" ? (
           <select
             value={String(value || "")}
             onChange={(e) => handleChange(field.name, e.target.value)}
             disabled={field.disabled || submitting}
-            style={baseInputStyle}
+            className={baseInputClasses}
           >
             <option value="">{field.placeholder || "Select..."}</option>
             {field.options?.map(opt => (
@@ -213,15 +210,15 @@ export function RecordFormModal<T = Record<string, unknown>>({
             ))}
           </select>
         ) : field.type === "checkbox" ? (
-          <label style={{ display: "flex", alignItems: "center", gap: "0.5rem", cursor: "pointer" }}>
+          <label className="flex items-center gap-2 cursor-pointer">
             <input
               type="checkbox"
               checked={Boolean(value)}
               onChange={(e) => handleChange(field.name, e.target.checked)}
               disabled={field.disabled || submitting}
-              style={{ width: "18px", height: "18px" }}
+              className="w-[18px] h-[18px]"
             />
-            <span style={{ fontFamily: typography.body, fontSize: fontSizes.bodyMD }}>{field.placeholder}</span>
+            <span className="font-body text-body-md">{field.placeholder}</span>
           </label>
         ) : (
           <input
@@ -230,15 +227,15 @@ export function RecordFormModal<T = Record<string, unknown>>({
             onChange={(e) => handleChange(field.name, field.type === "number" ? Number(e.target.value) : e.target.value)}
             placeholder={field.placeholder}
             disabled={field.disabled || submitting}
-            style={baseInputStyle}
+            className={baseInputClasses}
           />
         )}
 
         {field.hint && !error && (
-          <span style={{ display: "block", marginTop: "0.25rem", fontFamily: typography.mono, fontSize: fontSizes.monoXS, color: colors.grey500 }}>{field.hint}</span>
+          <span className="block mt-1 font-code text-mono-xs text-grey-500">{field.hint}</span>
         )}
         {error && (
-          <span style={{ display: "block", marginTop: "0.25rem", fontFamily: typography.mono, fontSize: fontSizes.monoXS, color: colors.grey700, textTransform: "uppercase" }}>{error}</span>
+          <span className="block mt-1 font-code text-mono-xs text-grey-700 uppercase">{error}</span>
         )}
       </div>
     );
@@ -247,67 +244,111 @@ export function RecordFormModal<T = Record<string, unknown>>({
   if (!open) return null;
 
   return (
-    <div className={className} style={{ position: "fixed", inset: 0, zIndex: 1400, display: "flex", alignItems: "center", justifyContent: "center", padding: "1rem" }} role="dialog" aria-modal="true">
-      <div style={{ position: "absolute", inset: 0, backgroundColor: "rgba(0, 0, 0, 0.5)" }} onClick={submitting ? undefined : onClose} />
+    <div
+      className={clsx("fixed inset-0 z-modal flex items-center justify-center p-4", className)}
+      role="dialog"
+      aria-modal="true"
+    >
+      <div className="absolute inset-0 bg-black/50" onClick={submitting ? undefined : onClose} />
       
-      <div style={{ position: "relative", backgroundColor: colors.white, border: `${borderWidths.medium} solid ${colors.black}`, boxShadow: "8px 8px 0 0 #000000", width: "100%", maxWidth: sizeClasses[size], maxHeight: "90vh", display: "flex", flexDirection: "column" }}>
+      <div className={clsx("relative bg-white border-2 border-black shadow-hard-lg w-full max-h-[90vh] flex flex-col", sizeClasses[size])}>
         {/* Header */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "1.25rem 1.5rem", borderBottom: `${borderWidths.medium} solid ${colors.black}` }}>
-          <h2 style={{ fontFamily: typography.heading, fontSize: fontSizes.h4MD, letterSpacing: letterSpacing.wider, textTransform: "uppercase", margin: 0 }}>{modalTitle}</h2>
-          <button type="button" onClick={onClose} disabled={submitting} style={{ padding: "0.5rem", backgroundColor: "transparent", border: "none", cursor: submitting ? "not-allowed" : "pointer", fontSize: "20px" }}>✕</button>
+        <div className="flex items-center justify-between px-6 py-5 border-b-2 border-black">
+          <h2 className="font-heading text-h4-md tracking-wider uppercase">{modalTitle}</h2>
+          <button
+            type="button"
+            onClick={onClose}
+            disabled={submitting}
+            className={clsx("p-2 bg-transparent border-none text-xl", submitting ? "cursor-not-allowed" : "cursor-pointer")}
+          >
+            ✕
+          </button>
         </div>
 
         {/* Step indicator */}
         {isMultiStep && (
-          <div style={{ display: "flex", padding: "1rem 1.5rem", borderBottom: `1px solid ${colors.grey200}`, gap: "0.5rem" }}>
+          <div className="flex px-6 py-4 border-b border-grey-200 gap-2">
             {steps.map((step, idx) => (
-              <div key={step.id} style={{ flex: 1, display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                <div style={{
-                  width: "24px", height: "24px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center",
-                  backgroundColor: idx <= currentStep ? colors.black : colors.grey200,
-                  color: idx <= currentStep ? colors.white : colors.grey500,
-                  fontFamily: typography.mono, fontSize: fontSizes.monoXS,
-                }}>{idx + 1}</div>
-                <span style={{ fontFamily: typography.mono, fontSize: fontSizes.monoXS, color: idx === currentStep ? colors.black : colors.grey500, textTransform: "uppercase" }}>{step.title}</span>
+              <div key={step.id} className="flex-1 flex items-center gap-2">
+                <div
+                  className={clsx(
+                    "w-6 h-6 rounded-full flex items-center justify-center font-code text-mono-xs",
+                    idx <= currentStep ? "bg-black text-white" : "bg-grey-200 text-grey-500"
+                  )}
+                >
+                  {idx + 1}
+                </div>
+                <span
+                  className={clsx(
+                    "font-code text-mono-xs uppercase",
+                    idx === currentStep ? "text-black" : "text-grey-500"
+                  )}
+                >
+                  {step.title}
+                </span>
               </div>
             ))}
           </div>
         )}
 
         {/* Form */}
-        <form onSubmit={handleSubmit} style={{ flex: 1, overflow: "auto", padding: "1.5rem", display: "flex", flexDirection: "column" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "1rem", flex: 1 }}>
+        <form onSubmit={handleSubmit} className="flex-1 overflow-auto p-6 flex flex-col">
+          <div className="grid grid-cols-2 gap-4 flex-1">
             {currentFields.map(renderField)}
           </div>
         </form>
 
         {/* Footer */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "1rem 1.5rem", borderTop: `${borderWidths.medium} solid ${colors.grey200}` }}>
+        <div className="flex items-center justify-between px-6 py-4 border-t-2 border-grey-200">
           <div>
             {isMultiStep && currentStep > 0 && (
-              <button type="button" onClick={handlePrev} disabled={submitting} style={{ padding: "0.75rem 1.5rem", fontFamily: typography.heading, fontSize: fontSizes.bodyMD, letterSpacing: letterSpacing.wider, textTransform: "uppercase", backgroundColor: colors.white, color: colors.black, border: `${borderWidths.medium} solid ${colors.black}`, cursor: "pointer" }}>
+              <button
+                type="button"
+                onClick={handlePrev}
+                disabled={submitting}
+                className="px-6 py-3 font-heading text-body-md tracking-wider uppercase bg-white text-black border-2 border-black cursor-pointer hover:bg-grey-100"
+              >
                 Previous
               </button>
             )}
           </div>
-          <div style={{ display: "flex", gap: "0.75rem" }}>
-            <button type="button" onClick={onClose} disabled={submitting} style={{ padding: "0.75rem 1.5rem", fontFamily: typography.heading, fontSize: fontSizes.bodyMD, letterSpacing: letterSpacing.wider, textTransform: "uppercase", backgroundColor: colors.white, color: colors.black, border: `${borderWidths.medium} solid ${colors.black}`, cursor: submitting ? "not-allowed" : "pointer" }}>
+          <div className="flex gap-3">
+            <button
+              type="button"
+              onClick={onClose}
+              disabled={submitting}
+              className={clsx(
+                "px-6 py-3 font-heading text-body-md tracking-wider uppercase bg-white text-black border-2 border-black",
+                submitting ? "cursor-not-allowed" : "cursor-pointer hover:bg-grey-100"
+              )}
+            >
               {cancelLabel}
             </button>
             {isMultiStep && currentStep < steps.length - 1 ? (
-              <button type="button" onClick={handleNext} style={{ padding: "0.75rem 1.5rem", fontFamily: typography.heading, fontSize: fontSizes.bodyMD, letterSpacing: letterSpacing.wider, textTransform: "uppercase", backgroundColor: colors.black, color: colors.white, border: `${borderWidths.medium} solid ${colors.black}`, cursor: "pointer" }}>
+              <button
+                type="button"
+                onClick={handleNext}
+                className="px-6 py-3 font-heading text-body-md tracking-wider uppercase bg-black text-white border-2 border-black cursor-pointer hover:bg-grey-900"
+              >
                 Next
               </button>
             ) : (
-              <button type="submit" onClick={handleSubmit} disabled={submitting || loading} style={{ padding: "0.75rem 1.5rem", fontFamily: typography.heading, fontSize: fontSizes.bodyMD, letterSpacing: letterSpacing.wider, textTransform: "uppercase", backgroundColor: colors.black, color: colors.white, border: `${borderWidths.medium} solid ${colors.black}`, cursor: submitting ? "not-allowed" : "pointer", opacity: submitting ? 0.7 : 1, display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                {submitting && <span style={{ display: "inline-block", width: "14px", height: "14px", border: `2px solid ${colors.grey500}`, borderTopColor: colors.white, borderRadius: "50%", animation: "spin 1s linear infinite" }} />}
+              <button
+                type="submit"
+                onClick={handleSubmit}
+                disabled={submitting || loading}
+                className={clsx(
+                  "px-6 py-3 font-heading text-body-md tracking-wider uppercase bg-black text-white border-2 border-black flex items-center gap-2",
+                  submitting ? "cursor-not-allowed opacity-70" : "cursor-pointer hover:bg-grey-900"
+                )}
+              >
+                {submitting && <span className="inline-block w-3.5 h-3.5 border-2 border-grey-500 border-t-white rounded-full animate-spin" />}
                 {submitText}
               </button>
             )}
           </div>
         </div>
       </div>
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </div>
   );
 }

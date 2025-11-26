@@ -23,7 +23,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           )}
           {...props}
         />
-        {label ? <span className="font-body text-[1rem] select-none">{label}</span> : null}
+        {label ? <span className="font-body text-body-sm select-none">{label}</span> : null}
       </label>
     );
   }

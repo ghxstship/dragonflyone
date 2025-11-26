@@ -120,11 +120,7 @@ export const DuotoneImage = forwardRef<HTMLImageElement, DuotoneImageProps>(
             )}
             {placeholderType === 'halftone' && (
               <div 
-                className="w-full h-full"
-                style={{
-                  backgroundImage: `radial-gradient(circle, #000 1px, transparent 1px)`,
-                  backgroundSize: '8px 8px',
-                }}
+                className="w-full h-full bg-halftone bg-halftone"
               />
             )}
             {placeholderType === 'solid' && (
@@ -172,11 +168,7 @@ export const DuotoneImage = forwardRef<HTMLImageElement, DuotoneImageProps>(
         {/* Halftone overlay on hover */}
         {halftoneHover && !hasError && (
           <div 
-            className="absolute inset-0 opacity-0 hover:opacity-30 transition-opacity duration-300 pointer-events-none"
-            style={{
-              backgroundImage: `radial-gradient(circle, #000 1px, transparent 1px)`,
-              backgroundSize: '4px 4px',
-            }}
+            className="absolute inset-0 opacity-0 hover:opacity-30 transition-opacity duration-300 pointer-events-none bg-halftone bg-halftone"
           />
         )}
       </div>
