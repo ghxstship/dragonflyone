@@ -107,20 +107,20 @@ export default function VendorSelectionPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Awarded": return "text-green-400";
-      case "Approved": return "text-blue-400";
-      case "Pending Approval": return "text-yellow-400";
+      case "Awarded": return "text-success-400";
+      case "Approved": return "text-info-400";
+      case "Pending Approval": return "text-warning-400";
       case "Evaluating": return "text-ink-400";
-      case "Rejected": return "text-red-400";
+      case "Rejected": return "text-error-400";
       default: return "text-ink-400";
     }
   };
 
   const getRecommendationColor = (rec: string) => {
     switch (rec) {
-      case "Recommended": return "text-green-400";
-      case "Acceptable": return "text-yellow-400";
-      case "Not Recommended": return "text-red-400";
+      case "Recommended": return "text-success-400";
+      case "Acceptable": return "text-warning-400";
+      case "Not Recommended": return "text-error-400";
       default: return "text-ink-400";
     }
   };
@@ -197,7 +197,7 @@ export default function VendorSelectionPage() {
                         </TableHeader>
                         <TableBody>
                           {selection.vendors.map((vendor) => (
-                            <TableRow key={vendor.id} className={vendor.rank === 1 ? "bg-green-900/10" : ""}>
+                            <TableRow key={vendor.id} className={vendor.rank === 1 ? "bg-success-900/10" : ""}>
                               <TableCell><Badge variant={vendor.rank === 1 ? "solid" : "outline"}>#{vendor.rank}</Badge></TableCell>
                               <TableCell><Label className="text-white">{vendor.vendorName}</Label></TableCell>
                               <TableCell className="font-mono text-white">${vendor.bidAmount.toLocaleString()}</TableCell>
@@ -263,13 +263,13 @@ export default function VendorSelectionPage() {
               <Stack gap={2}>
                 <Label className="text-ink-400">Approval Chain</Label>
                 {selectedSelection.approvers.map((approver) => (
-                  <Card key={approver.id} className={`p-3 border ${approver.status === "Approved" ? "border-green-800 bg-green-900/10" : "border-ink-700 bg-ink-800"}`}>
+                  <Card key={approver.id} className={`p-3 border ${approver.status === "Approved" ? "border-success-800 bg-success-900/10" : "border-ink-700 bg-ink-800"}`}>
                     <Stack direction="horizontal" className="justify-between items-center">
                       <Stack gap={1}>
                         <Label className="text-white">{approver.name}</Label>
                         <Label size="xs" className="text-ink-500">{approver.role}</Label>
                       </Stack>
-                      <Label className={approver.status === "Approved" ? "text-green-400" : approver.status === "Rejected" ? "text-red-400" : "text-yellow-400"}>
+                      <Label className={approver.status === "Approved" ? "text-success-400" : approver.status === "Rejected" ? "text-error-400" : "text-warning-400"}>
                         {approver.status}
                       </Label>
                     </Stack>
@@ -297,11 +297,11 @@ export default function VendorSelectionPage() {
               <Stack gap={2}>
                 <Label>Your Decision</Label>
                 <Grid cols={2} gap={4}>
-                  <Card className="p-4 border-2 border-green-800 bg-green-900/10 cursor-pointer text-center">
-                    <Label className="text-green-400">Approve</Label>
+                  <Card className="p-4 border-2 border-success-800 bg-success-900/10 cursor-pointer text-center">
+                    <Label className="text-success-400">Approve</Label>
                   </Card>
-                  <Card className="p-4 border-2 border-red-800 bg-red-900/10 cursor-pointer text-center">
-                    <Label className="text-red-400">Reject</Label>
+                  <Card className="p-4 border-2 border-error-800 bg-error-900/10 cursor-pointer text-center">
+                    <Label className="text-error-400">Reject</Label>
                   </Card>
                 </Grid>
               </Stack>

@@ -204,12 +204,12 @@ function MessagesContent() {
                     className={`p-3 cursor-pointer transition-colors ${
                       activeConversation?.id === conv.id
                         ? 'bg-black text-white'
-                        : 'hover:bg-gray-100'
+                        : 'hover:bg-grey-100'
                     }`}
                     onClick={() => setActiveConversation(conv)}
                   >
                     <Stack direction="horizontal" gap={3}>
-                      <Stack className="w-10 h-10 bg-gray-200 rounded-full flex-shrink-0 flex items-center justify-center">
+                      <Stack className="w-10 h-10 bg-grey-200 rounded-full flex-shrink-0 flex items-center justify-center">
                         {conv.participant_avatar ? (
                           <Image
                             src={conv.participant_avatar}
@@ -231,25 +231,25 @@ function MessagesContent() {
                           }`}>
                             {conv.participant_name}
                             {conv.participant_verified && (
-                              <Badge className="ml-1 text-xs bg-blue-500 text-white">✓</Badge>
+                              <Badge className="ml-1 text-xs bg-info-500 text-white">✓</Badge>
                             )}
                           </Body>
                           {conv.unread_count > 0 && (
-                            <Badge className="bg-red-500 text-white text-xs">
+                            <Badge className="bg-error-500 text-white text-xs">
                               {conv.unread_count}
                             </Badge>
                           )}
                         </Stack>
                         {conv.last_message && (
                           <Body className={`text-sm truncate ${
-                            activeConversation?.id === conv.id ? 'text-gray-300' : 'text-gray-500'
+                            activeConversation?.id === conv.id ? 'text-grey-300' : 'text-grey-500'
                           }`}>
                             {conv.last_message}
                           </Body>
                         )}
                         {conv.last_message_at && (
                           <Body className={`text-xs ${
-                            activeConversation?.id === conv.id ? 'text-gray-400' : 'text-gray-400'
+                            activeConversation?.id === conv.id ? 'text-grey-400' : 'text-grey-400'
                           }`}>
                             {formatTime(conv.last_message_at)}
                           </Body>
@@ -261,7 +261,7 @@ function MessagesContent() {
               </Stack>
             ) : (
               <Stack className="items-center py-8">
-                <Body className="text-gray-500 text-center">
+                <Body className="text-grey-500 text-center">
                   No conversations yet
                 </Body>
                 <Button
@@ -279,9 +279,9 @@ function MessagesContent() {
           <Card className="col-span-2 flex flex-col">
             {activeConversation ? (
               <>
-                <Stack className="p-4 border-b border-gray-200">
+                <Stack className="p-4 border-b border-grey-200">
                   <Stack direction="horizontal" gap={3} className="items-center">
-                    <Stack className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                    <Stack className="w-10 h-10 bg-grey-200 rounded-full flex items-center justify-center">
                       {activeConversation.participant_avatar ? (
                         <Image
                           src={activeConversation.participant_avatar}
@@ -298,7 +298,7 @@ function MessagesContent() {
                       <Body className="font-medium">
                         {activeConversation.participant_name}
                         {activeConversation.participant_verified && (
-                          <Badge className="ml-2 text-xs bg-blue-500 text-white">Verified</Badge>
+                          <Badge className="ml-2 text-xs bg-info-500 text-white">Verified</Badge>
                         )}
                       </Body>
                     </Stack>
@@ -317,7 +317,7 @@ function MessagesContent() {
                         className={`p-3 ${
                           message.sender_id !== activeConversation.participant_id
                             ? 'bg-black text-white'
-                            : 'bg-gray-100'
+                            : 'bg-grey-100'
                         }`}
                       >
                         <Body className={
@@ -328,7 +328,7 @@ function MessagesContent() {
                       </Card>
                       <Body className={`text-xs mt-1 ${
                         message.sender_id !== activeConversation.participant_id ? 'text-right' : ''
-                      } text-gray-400`}>
+                      } text-grey-400`}>
                         {formatTime(message.created_at)}
                       </Body>
                     </Stack>
@@ -336,7 +336,7 @@ function MessagesContent() {
                   <Box ref={messagesEndRef} />
                 </Stack>
 
-                <Stack className="p-4 border-t border-gray-200">
+                <Stack className="p-4 border-t border-grey-200">
                   <Stack direction="horizontal" gap={2}>
                     <Input
                       value={newMessage}
@@ -364,7 +364,7 @@ function MessagesContent() {
             ) : (
               <Stack className="flex-1 items-center justify-center p-8">
                 <H3 className="mb-4">SELECT A CONVERSATION</H3>
-                <Body className="text-gray-600 text-center">
+                <Body className="text-grey-600 text-center">
                   Choose a conversation from the list or find new fans to connect with.
                 </Body>
               </Stack>

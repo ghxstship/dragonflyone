@@ -56,9 +56,9 @@ export default function LanguageSettingsPage() {
   };
 
   const getCoverageColor = (coverage: number) => {
-    if (coverage >= 95) return "text-green-600";
-    if (coverage >= 80) return "text-yellow-600";
-    return "text-orange-600";
+    if (coverage >= 95) return "text-success-600";
+    if (coverage >= 80) return "text-warning-600";
+    return "text-warning-600";
   };
 
   return (
@@ -67,14 +67,14 @@ export default function LanguageSettingsPage() {
         <Stack gap={8}>
           <Stack gap={2}>
             <H1>LANGUAGE SETTINGS</H1>
-            <Body className="text-gray-600">Choose your preferred language for the app</Body>
+            <Body className="text-grey-600">Choose your preferred language for the app</Body>
           </Stack>
 
           <Card className="border-2 border-black p-6">
             <Stack gap={4}>
               <Stack direction="horizontal" className="justify-between items-center">
                 <Stack gap={1}>
-                  <Label className="text-gray-500">Current Language</Label>
+                  <Label className="text-grey-500">Current Language</Label>
                   <Body className="font-bold text-xl">{currentLanguage?.nativeName} ({currentLanguage?.name})</Body>
                 </Stack>
                 <Badge variant="solid">Active</Badge>
@@ -89,22 +89,25 @@ export default function LanguageSettingsPage() {
             <H3>Available Languages</H3>
             <Grid cols={3} gap={4}>
               {mockLanguages.map((lang) => (
-                <Card key={lang.code} className={`border-2 p-4 cursor-pointer transition-all ${lang.code === selectedLanguage ? "border-black bg-gray-50" : "border-gray-200 hover:border-gray-400"}`} onClick={() => handleLanguageSelect(lang)}>
+                <Card key={lang.code} className={`border-2 p-4 cursor-pointer transition-all ${lang.code === selectedLanguage ? "border-black bg-grey-50" : "border-grey-200 hover:border-grey-400"}`} onClick={() => handleLanguageSelect(lang)}>
                   <Stack gap={3}>
                     <Stack direction="horizontal" className="justify-between items-start">
                       <Stack gap={1}>
                         <Body className="font-bold">{lang.nativeName}</Body>
-                        <Label className="text-gray-500">{lang.name}</Label>
+                        <Label className="text-grey-500">{lang.name}</Label>
                       </Stack>
                       {lang.code === selectedLanguage && <Badge variant="solid">✓</Badge>}
                       {lang.isDefault && <Badge variant="outline">Default</Badge>}
                     </Stack>
                     <Stack direction="horizontal" className="justify-between items-center">
-                      <Label size="xs" className="text-gray-500">Translation Coverage</Label>
+                      <Label size="xs" className="text-grey-500">Translation Coverage</Label>
                       <Label className={getCoverageColor(lang.coverage)}>{lang.coverage}%</Label>
                     </Stack>
-                    <Card className="h-2 bg-gray-200 overflow-hidden">
-                      <Card className={`h-full ${lang.coverage >= 95 ? "bg-green-500" : lang.coverage >= 80 ? "bg-yellow-500" : "bg-orange-500"}`} style={{ width: `${lang.coverage}%` }} />
+                    <Card className="h-2 bg-grey-200 overflow-hidden">
+                      <Card 
+                        className={`h-full ${lang.coverage >= 95 ? "bg-success-500" : lang.coverage >= 80 ? "bg-warning-500" : "bg-warning-500"}`} 
+                        style={{ '--progress-width': `${lang.coverage}%`, width: 'var(--progress-width)' } as React.CSSProperties} 
+                      />
                     </Card>
                   </Stack>
                 </Card>
@@ -112,27 +115,27 @@ export default function LanguageSettingsPage() {
             </Grid>
           </Stack>
 
-          <Card className="border-2 border-gray-200 p-6">
+          <Card className="border-2 border-grey-200 p-6">
             <Stack gap={4}>
               <H3>Translation Information</H3>
               <Grid cols={2} gap={6}>
                 <Stack gap={2}>
-                  <Label className="text-gray-500">What gets translated:</Label>
+                  <Label className="text-grey-500">What gets translated:</Label>
                   <Stack gap={1}>
                     {["Navigation and menus", "Buttons and labels", "System messages", "Help content", "Email notifications"].map((item) => (
                       <Stack key={item} direction="horizontal" gap={2}>
-                        <Label className="text-green-600">✓</Label>
+                        <Label className="text-success-600">✓</Label>
                         <Label>{item}</Label>
                       </Stack>
                     ))}
                   </Stack>
                 </Stack>
                 <Stack gap={2}>
-                  <Label className="text-gray-500">What stays in original language:</Label>
+                  <Label className="text-grey-500">What stays in original language:</Label>
                   <Stack gap={1}>
                     {["Event names and descriptions", "Artist names", "Venue information", "User reviews", "Chat messages"].map((item) => (
                       <Stack key={item} direction="horizontal" gap={2}>
-                        <Label className="text-gray-400">•</Label>
+                        <Label className="text-grey-400">•</Label>
                         <Label>{item}</Label>
                       </Stack>
                     ))}
@@ -143,7 +146,7 @@ export default function LanguageSettingsPage() {
           </Card>
 
           <Stack gap={2}>
-            <Label className="text-gray-500">Missing your language?</Label>
+            <Label className="text-grey-500">Missing your language?</Label>
             <Button variant="outline">Request a Language</Button>
           </Stack>
 
@@ -157,15 +160,15 @@ export default function LanguageSettingsPage() {
           {pendingLanguage && (
             <Stack gap={4}>
               <Body>Are you sure you want to change your language to <strong>{pendingLanguage.nativeName}</strong>?</Body>
-              <Card className="p-4 bg-gray-50 border border-gray-200">
+              <Card className="p-4 bg-grey-50 border border-grey-200">
                 <Stack direction="horizontal" className="justify-between">
                   <Stack gap={1}>
-                    <Label className="text-gray-500">From</Label>
+                    <Label className="text-grey-500">From</Label>
                     <Body>{currentLanguage?.nativeName}</Body>
                   </Stack>
                   <Label className="text-2xl">→</Label>
                   <Stack gap={1}>
-                    <Label className="text-gray-500">To</Label>
+                    <Label className="text-grey-500">To</Label>
                     <Body className="font-bold">{pendingLanguage.nativeName}</Body>
                   </Stack>
                 </Stack>

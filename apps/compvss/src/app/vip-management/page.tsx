@@ -49,10 +49,10 @@ export default function VIPManagementPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Checked In": return "text-green-400";
-      case "Approved": return "text-blue-400";
-      case "Pending": return "text-yellow-400";
-      case "Denied": return "text-red-400";
+      case "Checked In": return "text-success-400";
+      case "Approved": return "text-info-400";
+      case "Pending": return "text-warning-400";
+      case "Denied": return "text-error-400";
       default: return "text-ink-400";
     }
   };
@@ -128,7 +128,7 @@ export default function VIPManagementPage() {
                       <Stack gap={2}>
                         <Label className="text-ink-400">{zone.currentOccupancy} / {zone.maxCapacity}</Label>
                         <Card className="h-2 bg-ink-800 rounded-full overflow-hidden">
-                          <Card className="h-full bg-white" style={{ width: `${(zone.currentOccupancy / zone.maxCapacity) * 100}%` }} />
+                          <Card className="h-full bg-white" style={{ '--progress-width': `${(zone.currentOccupancy / zone.maxCapacity) * 100}%`, width: 'var(--progress-width)' } as React.CSSProperties} />
                         </Card>
                       </Stack>
                     </Stack>

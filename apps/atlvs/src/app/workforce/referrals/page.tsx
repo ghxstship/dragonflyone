@@ -41,9 +41,9 @@ export default function ReferralProgramPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Hired": case "Paid": return "text-green-400";
-      case "Interviewing": case "Pending": return "text-yellow-400";
-      case "Rejected": return "text-red-400";
+      case "Hired": case "Paid": return "text-success-400";
+      case "Interviewing": case "Pending": return "text-warning-400";
+      case "Rejected": return "text-error-400";
       default: return "text-ink-400";
     }
   };

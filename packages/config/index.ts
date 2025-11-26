@@ -29,3 +29,15 @@ export type * from './supabase-types';
 
 // Status utilities for consistent status variant mapping across apps
 export * from './status-utils';
+
+// App context for navigation hierarchy
+export * from './app-context';
+
+// Auth context for user authentication (explicit exports to avoid conflicts with hooks/useAuth)
+export { 
+  AuthProvider, 
+  useAuth as useAuthContext,
+  RequireRole,
+  RequirePlatformAccess,
+} from './auth-context';
+export type { User as AuthUser } from './auth-context';

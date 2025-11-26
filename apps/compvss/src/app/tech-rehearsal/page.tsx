@@ -65,20 +65,20 @@ export default function TechRehearsalPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Completed": return "text-green-400";
-      case "In Progress": return "text-blue-400";
+      case "Completed": return "text-success-400";
+      case "In Progress": return "text-info-400";
       case "Scheduled": return "text-ink-400";
-      case "Cancelled": return "text-red-400";
+      case "Cancelled": return "text-error-400";
       default: return "text-ink-400";
     }
   };
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case "Critical": return "text-red-400";
-      case "High": return "text-orange-400";
-      case "Medium": return "text-yellow-400";
-      case "Low": return "text-green-400";
+      case "Critical": return "text-error-400";
+      case "High": return "text-warning-400";
+      case "Medium": return "text-warning-400";
+      case "Low": return "text-success-400";
       default: return "text-ink-400";
     }
   };
@@ -121,7 +121,7 @@ export default function TechRehearsalPage() {
                   <Button variant="outline" size="sm" onClick={() => setShowAddModal(true)}>Add Session</Button>
                 </Stack>
                 {mockSessions.map((session) => (
-                  <Card key={session.id} className={`border-2 p-4 ${session.status === "In Progress" ? "border-blue-800 bg-blue-900/10" : "border-ink-800 bg-ink-900/50"}`}>
+                  <Card key={session.id} className={`border-2 p-4 ${session.status === "In Progress" ? "border-info-800 bg-info-900/10" : "border-ink-800 bg-ink-900/50"}`}>
                     <Grid cols={6} gap={4} className="items-center">
                       <Stack gap={1}>
                         <Body className="font-display text-white">{session.name}</Body>
@@ -176,7 +176,7 @@ export default function TechRehearsalPage() {
                       <TableCell><Label className="text-ink-300">{note.description}</Label></TableCell>
                       <TableCell><Label className="text-white">{note.assignedTo || "-"}</Label></TableCell>
                       <TableCell>
-                        <Label className={note.resolved ? "text-green-400" : "text-yellow-400"}>
+                        <Label className={note.resolved ? "text-success-400" : "text-warning-400"}>
                           {note.resolved ? "Resolved" : "Open"}
                         </Label>
                       </TableCell>
@@ -190,7 +190,7 @@ export default function TechRehearsalPage() {
               <Stack gap={4}>
                 <H3>Open Issues ({unresolvedIssues})</H3>
                 {mockNotes.filter(n => !n.resolved && n.type === "Issue").map((note) => (
-                  <Card key={note.id} className="border-2 border-yellow-800 bg-yellow-900/10 p-4">
+                  <Card key={note.id} className="border-2 border-warning-800 bg-warning-900/10 p-4">
                     <Grid cols={4} gap={4} className="items-center">
                       <Stack gap={1}>
                         <Badge variant="outline">{note.department}</Badge>

@@ -240,7 +240,7 @@ export default function SavedSearchesPage() {
                     </Stack>
 
                     {search.query && (
-                      <Body className="text-gray-600">
+                      <Body className="text-grey-600">
                         Search: &quot;{search.query}&quot;
                       </Body>
                     )}
@@ -278,7 +278,7 @@ export default function SavedSearchesPage() {
                         <Badge variant="outline">{search.alert_frequency}</Badge>
                       )}
                       {search.last_run && (
-                        <Body className="text-sm text-gray-500">
+                        <Body className="text-sm text-grey-500">
                           Last checked: {new Date(search.last_run).toLocaleDateString()}
                         </Body>
                       )}
@@ -300,7 +300,7 @@ export default function SavedSearchesPage() {
         ) : (
           <Card className="p-12 text-center">
             <H3 className="mb-4">NO SAVED SEARCHES</H3>
-            <Body className="text-gray-600 mb-6">
+            <Body className="text-grey-600 mb-6">
               Save your search criteria to get notified when new events match.
             </Body>
             <Button variant="solid" onClick={() => setShowCreateModal(true)}>
@@ -395,7 +395,7 @@ export default function SavedSearchesPage() {
                 </Field>
               </Grid>
 
-              <Stack className="border-t border-gray-200 pt-4">
+              <Stack className="border-t border-grey-200 pt-4">
                 <Stack direction="horizontal" gap={4} className="items-center mb-4">
                   <Switch
                     checked={formData.alerts_enabled}

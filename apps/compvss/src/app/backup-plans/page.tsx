@@ -41,12 +41,12 @@ export default function BackupPlansPage() {
 
   const getCategoryColor = (category: string) => {
     switch (category) {
-      case "Weather": return "bg-blue-900/30 border-blue-800";
-      case "Technical": return "bg-yellow-900/30 border-yellow-800";
-      case "Staffing": return "bg-green-900/30 border-green-800";
+      case "Weather": return "bg-info-900/30 border-info-800";
+      case "Technical": return "bg-warning-900/30 border-warning-800";
+      case "Staffing": return "bg-success-900/30 border-success-800";
       case "Vendor": return "bg-purple-900/30 border-purple-800";
-      case "Venue": return "bg-orange-900/30 border-orange-800";
-      case "Safety": return "bg-red-900/30 border-red-800";
+      case "Venue": return "bg-warning-900/30 border-warning-800";
+      case "Safety": return "bg-error-900/30 border-error-800";
       default: return "bg-ink-800 border-ink-700";
     }
   };

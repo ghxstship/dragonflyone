@@ -238,7 +238,7 @@ export default function AdvanceReviewDetailPage({ params }: { params: { id: stri
       {/* Reject Modal */}
       <Modal open={showRejectModal} onClose={() => setShowRejectModal(false)}>
         <ModalHeader>
-          <H2 className="text-red-900">Reject Advance</H2>
+          <H2 className="text-error-900">Reject Advance</H2>
         </ModalHeader>
         <ModalBody>
           <Stack gap={4}>
@@ -270,7 +270,7 @@ export default function AdvanceReviewDetailPage({ params }: { params: { id: stri
             variant="solid"
             onClick={handleReject}
             disabled={isRejecting || !reviewerNotes.trim()}
-            className="bg-red-600 hover:bg-red-700"
+            className="bg-error-600 hover:bg-error-700"
           >
             {isRejecting ? 'Rejecting...' : 'Confirm Rejection'}
           </Button>

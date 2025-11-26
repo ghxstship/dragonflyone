@@ -119,18 +119,18 @@ export default function StrategicAlignmentPage() {
 
   const getStatusBadge = (status: string) => {
     const variants: Record<string, string> = {
-      on_track: 'bg-green-500 text-white',
-      at_risk: 'bg-yellow-500 text-white',
-      behind: 'bg-red-500 text-white',
-      completed: 'bg-blue-500 text-white',
+      on_track: 'bg-success-500 text-white',
+      at_risk: 'bg-warning-500 text-white',
+      behind: 'bg-error-500 text-white',
+      completed: 'bg-info-500 text-white',
     };
     return <Badge className={variants[status] || ''}>{status.replace('_', ' ').toUpperCase()}</Badge>;
   };
 
   const getAlignmentScoreBadge = (score: number) => {
-    if (score >= 80) return <Badge className="bg-green-500 text-white">{score}%</Badge>;
-    if (score >= 50) return <Badge className="bg-yellow-500 text-white">{score}%</Badge>;
-    return <Badge className="bg-red-500 text-white">{score}%</Badge>;
+    if (score >= 80) return <Badge className="bg-success-500 text-white">{score}%</Badge>;
+    if (score >= 50) return <Badge className="bg-warning-500 text-white">{score}%</Badge>;
+    return <Badge className="bg-error-500 text-white">{score}%</Badge>;
   };
 
   if (loading) {
@@ -218,26 +218,26 @@ export default function StrategicAlignmentPage() {
                     <Stack direction="horizontal" className="justify-between items-start mb-4">
                       <Stack gap={1}>
                         <H3>{goal.name}</H3>
-                        <Body className="text-gray-600 text-sm">{goal.description}</Body>
+                        <Body className="text-grey-600 text-sm">{goal.description}</Body>
                       </Stack>
                       {getStatusBadge(goal.status)}
                     </Stack>
                     <Stack gap={2}>
                       <Stack direction="horizontal" className="justify-between">
-                        <Label className="text-gray-500">Progress</Label>
+                        <Label className="text-grey-500">Progress</Label>
                         <Body className="font-bold">{goal.progress}%</Body>
                       </Stack>
-                      <Stack className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                      <Stack className="h-2 bg-grey-200 rounded-full overflow-hidden">
                         <Stack
                           className="h-full bg-black transition-all"
-                          style={{ width: `${goal.progress}%` }}
+                          style={{ '--progress-width': `${goal.progress}%`, width: 'var(--progress-width)' } as React.CSSProperties}
                         />
                       </Stack>
                       <Stack direction="horizontal" className="justify-between mt-2">
-                        <Body className="text-xs text-gray-500">
+                        <Body className="text-xs text-grey-500">
                           Owner: {goal.owner}
                         </Body>
-                        <Body className="text-xs text-gray-500">
+                        <Body className="text-xs text-grey-500">
                           Target: {new Date(goal.target_date).toLocaleDateString()}
                         </Body>
                       </Stack>
@@ -247,7 +247,7 @@ export default function StrategicAlignmentPage() {
               </Stack>
             ) : (
               <Card className="p-8 text-center">
-                <Body className="text-gray-600">No strategic goals defined</Body>
+                <Body className="text-grey-600">No strategic goals defined</Body>
               </Card>
             )}
           </Stack>
@@ -261,14 +261,14 @@ export default function StrategicAlignmentPage() {
                     <Stack direction="horizontal" className="justify-between items-start mb-4">
                       <Stack gap={1}>
                         <H3>{project.name}</H3>
-                        <Body className="text-gray-600 text-sm">
+                        <Body className="text-grey-600 text-sm">
                           Budget: ${project.budget?.toLocaleString() || 0}
                         </Body>
                       </Stack>
                       {getAlignmentScoreBadge(project.alignment_score || 0)}
                     </Stack>
                     <Stack gap={2}>
-                      <Label className="text-gray-500">Aligned Goals</Label>
+                      <Label className="text-grey-500">Aligned Goals</Label>
                       {project.aligned_goals && project.aligned_goals.length > 0 ? (
                         <Stack direction="horizontal" gap={2} className="flex-wrap">
                           {project.aligned_goals.map(goalId => {
@@ -281,7 +281,7 @@ export default function StrategicAlignmentPage() {
                           })}
                         </Stack>
                       ) : (
-                        <Body className="text-sm text-gray-400">No goals aligned</Body>
+                        <Body className="text-sm text-grey-400">No goals aligned</Body>
                       )}
                     </Stack>
                     <Button
@@ -300,7 +300,7 @@ export default function StrategicAlignmentPage() {
               </Stack>
             ) : (
               <Card className="p-8 text-center">
-                <Body className="text-gray-600">No projects found</Body>
+                <Body className="text-grey-600">No projects found</Body>
               </Card>
             )}
           </Stack>
@@ -315,15 +315,15 @@ export default function StrategicAlignmentPage() {
                   <H3 className="mb-4">{metric.goal_name}</H3>
                   <Stack gap={3}>
                     <Stack direction="horizontal" className="justify-between">
-                      <Body className="text-gray-600">Aligned Projects</Body>
+                      <Body className="text-grey-600">Aligned Projects</Body>
                       <Body className="font-bold">{metric.aligned_projects}</Body>
                     </Stack>
                     <Stack direction="horizontal" className="justify-between">
-                      <Body className="text-gray-600">Budget Aligned</Body>
+                      <Body className="text-grey-600">Budget Aligned</Body>
                       <Body className="font-bold">${metric.total_budget_aligned?.toLocaleString()}</Body>
                     </Stack>
                     <Stack direction="horizontal" className="justify-between">
-                      <Body className="text-gray-600">Avg Progress</Body>
+                      <Body className="text-grey-600">Avg Progress</Body>
                       <Body className="font-bold">{metric.average_progress}%</Body>
                     </Stack>
                   </Stack>
@@ -368,8 +368,8 @@ export default function StrategicAlignmentPage() {
                       key={goal.id}
                       className={`p-4 cursor-pointer border-2 transition-colors ${
                         selectedProject.aligned_goals?.includes(goal.id)
-                          ? 'border-black bg-gray-50'
-                          : 'border-gray-200 hover:border-gray-400'
+                          ? 'border-black bg-grey-50'
+                          : 'border-grey-200 hover:border-grey-400'
                       }`}
                       onClick={() => {
                         const currentGoals = selectedProject.aligned_goals || [];
@@ -382,7 +382,7 @@ export default function StrategicAlignmentPage() {
                       <Stack direction="horizontal" className="justify-between items-center">
                         <Stack gap={1}>
                           <Body className="font-bold">{goal.name}</Body>
-                          <Body className="text-sm text-gray-600">{goal.category}</Body>
+                          <Body className="text-sm text-grey-600">{goal.category}</Body>
                         </Stack>
                         {selectedProject.aligned_goals?.includes(goal.id) && (
                           <Badge className="bg-black text-white">Selected</Badge>

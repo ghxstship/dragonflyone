@@ -93,7 +93,7 @@ export default function RFPPage() {
 
   const detailSections: DetailSection[] = selectedRfp ? [
     { id: 'overview', title: 'RFP Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Title:</strong> {selectedRfp.title}</div>
         <div><strong>Type:</strong> {selectedRfp.project_type || 'General'}</div>
         <div><strong>Budget:</strong> {selectedRfp.budget_min && selectedRfp.budget_max ? `${formatCurrency(selectedRfp.budget_min)} - ${formatCurrency(selectedRfp.budget_max)}` : '—'}</div>
@@ -102,7 +102,7 @@ export default function RFPPage() {
         <div><strong>Status:</strong> {selectedRfp.status}</div>
         <div><strong>Created By:</strong> {selectedRfp.created_by_user?.full_name || '—'}</div>
         <div><strong>Created:</strong> {new Date(selectedRfp.created_at).toLocaleDateString()}</div>
-        {selectedRfp.description && <div style={{ gridColumn: 'span 2' }}><strong>Description:</strong> {selectedRfp.description}</div>}
+        {selectedRfp.description && <div className="col-span-2"><strong>Description:</strong> {selectedRfp.description}</div>}
       </div>
     )},
   ] : [];

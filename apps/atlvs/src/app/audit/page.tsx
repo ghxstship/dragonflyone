@@ -82,13 +82,13 @@ export default function AuditPage() {
 
   const detailSections: DetailSection[] = selectedLog ? [
     { id: 'overview', title: 'Audit Log Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Timestamp:</strong> {selectedLog.timestamp || new Date(selectedLog.created_at).toLocaleString()}</div>
         <div><strong>User:</strong> {selectedLog.user?.email || selectedLog.user_email || '—'}</div>
         <div><strong>Action:</strong> {selectedLog.action}</div>
         <div><strong>Resource:</strong> {selectedLog.resource_type}/{selectedLog.resource_id}</div>
         <div><strong>IP Address:</strong> {selectedLog.ip_address || '—'}</div>
-        {selectedLog.details && <div style={{ gridColumn: 'span 2' }}><strong>Details:</strong> {selectedLog.details}</div>}
+        {selectedLog.details && <div className="col-span-2"><strong>Details:</strong> {selectedLog.details}</div>}
       </div>
     )},
   ] : [];

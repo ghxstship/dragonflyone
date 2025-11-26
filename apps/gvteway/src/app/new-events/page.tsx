@@ -155,7 +155,7 @@ export default function NewEventsPage() {
               {justAnnouncedEvents.map(event => (
                 <Card key={event.id} className="overflow-hidden">
                   <Stack className="relative">
-                    <Badge className="absolute top-2 left-2 z-10 bg-red-500 text-white">
+                    <Badge className="absolute top-2 left-2 z-10 bg-error-500 text-white">
                       {getTimeSinceAnnounced(event.announced_at)}
                     </Badge>
                     <ProjectCard
@@ -167,15 +167,15 @@ export default function NewEventsPage() {
                     />
                   </Stack>
                   {event.presale_date && new Date(event.presale_date) > new Date() && (
-                    <Stack className="p-3 bg-gray-50 border-t">
-                      <Body className="text-sm text-gray-600">
+                    <Stack className="p-3 bg-grey-50 border-t">
+                      <Body className="text-sm text-grey-600">
                         Presale: {new Date(event.presale_date).toLocaleDateString()}
                       </Body>
                     </Stack>
                   )}
                   {event.on_sale_date && new Date(event.on_sale_date) > new Date() && (
-                    <Stack className="p-3 bg-gray-50 border-t">
-                      <Body className="text-sm text-gray-600">
+                    <Stack className="p-3 bg-grey-50 border-t">
+                      <Body className="text-sm text-grey-600">
                         On Sale: {new Date(event.on_sale_date).toLocaleDateString()}
                       </Body>
                     </Stack>
@@ -231,7 +231,7 @@ export default function NewEventsPage() {
         {events.length === 0 && (
           <Card className="p-12 text-center">
             <H3 className="mb-4">NO NEW EVENTS</H3>
-            <Body className="text-gray-600 mb-6">
+            <Body className="text-grey-600 mb-6">
               No new events have been announced in the selected time period.
             </Body>
             <Button variant="outline" onClick={() => router.push('/browse')}>
@@ -244,7 +244,7 @@ export default function NewEventsPage() {
           <Stack direction="horizontal" className="justify-between items-center">
             <Stack>
               <H3 className="text-white">NEVER MISS AN ANNOUNCEMENT</H3>
-              <Body className="text-gray-300">
+              <Body className="text-grey-300">
                 Follow your favorite artists and venues to get notified first.
               </Body>
             </Stack>

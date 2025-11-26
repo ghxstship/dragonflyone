@@ -46,17 +46,17 @@ export default function BidDecisionPage() {
   };
 
   const getScoreColor = (score: number) => {
-    if (score >= 70) return "text-green-400";
-    if (score >= 50) return "text-yellow-400";
-    return "text-red-400";
+    if (score >= 70) return "text-success-400";
+    if (score >= 50) return "text-warning-400";
+    return "text-error-400";
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Bid": return "text-green-400";
-      case "No Bid": return "text-red-400";
-      case "Pending Review": return "text-yellow-400";
-      case "Under Evaluation": return "text-blue-400";
+      case "Bid": return "text-success-400";
+      case "No Bid": return "text-error-400";
+      case "Pending Review": return "text-warning-400";
+      case "Under Evaluation": return "text-info-400";
       default: return "text-ink-400";
     }
   };
@@ -174,7 +174,7 @@ export default function BidDecisionPage() {
                   {selectedOpp.recommendation && (
                     <Stack direction="horizontal" className="justify-between">
                       <Label className="text-ink-400">Recommendation</Label>
-                      <Label className={selectedOpp.recommendation === "Bid" ? "text-green-400" : "text-red-400"}>{selectedOpp.recommendation}</Label>
+                      <Label className={selectedOpp.recommendation === "Bid" ? "text-success-400" : "text-error-400"}>{selectedOpp.recommendation}</Label>
                     </Stack>
                   )}
                 </Stack>
@@ -185,8 +185,8 @@ export default function BidDecisionPage() {
         </ModalBody>
         <ModalFooter>
           <Button variant="outline" onClick={() => setSelectedOpp(null)}>Cancel</Button>
-          <Button variant="outline" className="text-red-400">No Bid</Button>
-          <Button variant="solid" className="bg-green-600">Bid</Button>
+          <Button variant="outline" className="text-error-400">No Bid</Button>
+          <Button variant="solid" className="bg-success-600">Bid</Button>
         </ModalFooter>
       </Modal>
     </UISection>

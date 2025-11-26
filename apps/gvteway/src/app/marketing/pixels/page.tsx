@@ -57,10 +57,10 @@ export default function PixelsPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Active": return "text-green-600";
-      case "Inactive": return "text-gray-400";
-      case "Error": return "text-red-600";
-      default: return "text-gray-600";
+      case "Active": return "text-success-600";
+      case "Inactive": return "text-grey-400";
+      case "Error": return "text-error-600";
+      default: return "text-grey-600";
     }
   };
 
@@ -84,7 +84,7 @@ export default function PixelsPage() {
         <Stack gap={8}>
           <Stack gap={2}>
             <H1>RETARGETING PIXELS</H1>
-            <Body className="text-gray-600">Manage tracking pixels and conversion events</Body>
+            <Body className="text-grey-600">Manage tracking pixels and conversion events</Body>
           </Stack>
 
           <Grid cols={4} gap={6}>
@@ -115,18 +115,18 @@ export default function PixelsPage() {
                             <Label className="text-3xl">{getPlatformIcon(pixel.platform)}</Label>
                             <Stack gap={1}>
                               <Body className="font-bold">{pixel.name}</Body>
-                              <Label className="font-mono text-gray-500">{pixel.pixelId}</Label>
+                              <Label className="font-mono text-grey-500">{pixel.pixelId}</Label>
                             </Stack>
                           </Stack>
                           <Label className={getStatusColor(pixel.status)}>{pixel.status}</Label>
                         </Stack>
                         <Grid cols={2} gap={4}>
                           <Stack gap={1}>
-                            <Label className="text-gray-500">Events Tracked</Label>
+                            <Label className="text-grey-500">Events Tracked</Label>
                             <Label className="font-mono">{pixel.eventsTracked.toLocaleString()}</Label>
                           </Stack>
                           <Stack gap={1}>
-                            <Label className="text-gray-500">Last Fired</Label>
+                            <Label className="text-grey-500">Last Fired</Label>
                             <Label>{pixel.lastFired || "Never"}</Label>
                           </Stack>
                         </Grid>
@@ -165,7 +165,7 @@ export default function PixelsPage() {
                       <TableCell><Badge variant="outline">{event.type}</Badge></TableCell>
                       <TableCell><Label className="font-mono">{event.count.toLocaleString()}</Label></TableCell>
                       <TableCell><Label className="font-mono">{event.value > 0 ? formatCurrency(event.value) : "-"}</Label></TableCell>
-                      <TableCell><Label className="text-gray-500">{event.lastTriggered}</Label></TableCell>
+                      <TableCell><Label className="text-grey-500">{event.lastTriggered}</Label></TableCell>
                       <TableCell><Button variant="ghost" size="sm">Edit</Button></TableCell>
                     </TableRow>
                   ))}
@@ -185,11 +185,11 @@ export default function PixelsPage() {
                     <Grid cols={4} gap={4} className="items-center">
                       <Body className="font-bold">{audience.name}</Body>
                       <Stack gap={1}>
-                        <Label className="text-gray-500">Audience Size</Label>
+                        <Label className="text-grey-500">Audience Size</Label>
                         <Label className="font-mono">{audience.size.toLocaleString()}</Label>
                       </Stack>
                       <Stack gap={1}>
-                        <Label className="text-gray-500">Retention</Label>
+                        <Label className="text-grey-500">Retention</Label>
                         <Label>{audience.retention}</Label>
                       </Stack>
                       <Stack direction="horizontal" gap={2}>
@@ -226,7 +226,7 @@ export default function PixelsPage() {
               </Stack>
               <Input defaultValue={selectedPixel.pixelId} placeholder="Pixel ID" className="border-2 border-black font-mono" />
               <Stack gap={2}>
-                <Label className="text-gray-500">Events to Track</Label>
+                <Label className="text-grey-500">Events to Track</Label>
                 <Grid cols={2} gap={2}>
                   {["PageView", "Purchase", "AddToCart", "InitiateCheckout", "Lead", "ViewContent"].map((event) => (
                     <Stack key={event} direction="horizontal" gap={2}>
@@ -237,7 +237,7 @@ export default function PixelsPage() {
                 </Grid>
               </Stack>
               <Stack gap={2}>
-                <Label className="text-gray-500">Status</Label>
+                <Label className="text-grey-500">Status</Label>
                 <Select defaultValue={selectedPixel.status} className="border-2 border-black">
                   <option value="Active">Active</option>
                   <option value="Inactive">Inactive</option>
@@ -248,7 +248,7 @@ export default function PixelsPage() {
         </ModalBody>
         <ModalFooter>
           <Button variant="outline" onClick={() => setSelectedPixel(null)}>Cancel</Button>
-          <Button variant="outline" className="text-red-600">Remove</Button>
+          <Button variant="outline" className="text-error-600">Remove</Button>
           <Button variant="solid" onClick={() => setSelectedPixel(null)}>Save</Button>
         </ModalFooter>
       </Modal>

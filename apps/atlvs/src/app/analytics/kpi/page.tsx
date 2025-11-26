@@ -106,12 +106,12 @@ export default function KPILibraryPage() {
 
   const getCategoryColor = (category: string) => {
     switch (category) {
-      case 'FINANCIAL_PERFORMANCE': return 'bg-green-100 border-green-500';
-      case 'TICKET_ATTENDANCE': return 'bg-blue-100 border-blue-500';
+      case 'FINANCIAL_PERFORMANCE': return 'bg-success-100 border-success-500';
+      case 'TICKET_ATTENDANCE': return 'bg-info-100 border-info-500';
       case 'OPERATIONAL_EFFICIENCY': return 'bg-purple-100 border-purple-500';
-      case 'MARKETING_ENGAGEMENT': return 'bg-orange-100 border-orange-500';
+      case 'MARKETING_ENGAGEMENT': return 'bg-warning-100 border-warning-500';
       case 'CUSTOMER_EXPERIENCE': return 'bg-pink-100 border-pink-500';
-      default: return 'bg-gray-100 border-gray-500';
+      default: return 'bg-grey-100 border-grey-500';
     }
   };
 
@@ -154,7 +154,7 @@ export default function KPILibraryPage() {
                 onClick={() => setSelectedReport(selectedReport === report.id ? null : report.id)}
               >
                 <H3 className="mb-2">{report.name}</H3>
-                <Body className="mb-3 text-gray-600">{report.description}</Body>
+                <Body className="mb-3 text-grey-600">{report.description}</Body>
                 <Badge variant="outline">{report.kpi_codes.length} KPIs</Badge>
               </Card>
             ))}
@@ -176,7 +176,7 @@ export default function KPILibraryPage() {
                 </option>
               ))}
             </Select>
-            <Body className="text-gray-600">
+            <Body className="text-grey-600">
               Showing {filteredKPIs.length} of {kpis.length} KPIs
             </Body>
           </Stack>
@@ -246,7 +246,7 @@ export default function KPILibraryPage() {
 
         {filteredKPIs.length === 0 && (
           <Card className="p-12 text-center">
-            <Body className="text-gray-500">
+            <Body className="text-grey-500">
               No KPIs found for the selected category.
             </Body>
           </Card>
@@ -256,20 +256,20 @@ export default function KPILibraryPage() {
         <Stack className="mt-12 pt-8 border-t-2 border-black">
           <H2 className="mb-6">CATEGORY BREAKDOWN</H2>
           <Grid cols={4} gap={4}>
-            <Card className="p-6 bg-green-50">
-              <H3 className="text-green-700">45</H3>
+            <Card className="p-6 bg-success-50">
+              <H3 className="text-success-700">45</H3>
               <Body className="text-sm">Financial KPIs</Body>
             </Card>
-            <Card className="p-6 bg-blue-50">
-              <H3 className="text-blue-700">45</H3>
+            <Card className="p-6 bg-info-50">
+              <H3 className="text-info-700">45</H3>
               <Body className="text-sm">Ticket & Attendance</Body>
             </Card>
             <Card className="p-6 bg-purple-50">
               <H3 className="text-purple-700">55</H3>
               <Body className="text-sm">Operational</Body>
             </Card>
-            <Card className="p-6 bg-orange-50">
-              <H3 className="text-orange-700">30</H3>
+            <Card className="p-6 bg-warning-50">
+              <H3 className="text-warning-700">30</H3>
               <Body className="text-sm">Marketing</Body>
             </Card>
             <Card className="p-6 bg-pink-50">

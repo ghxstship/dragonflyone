@@ -58,17 +58,17 @@ export default function VendorComparePage() {
 
   const getAvailabilityColor = (availability: string) => {
     switch (availability) {
-      case "Available": return "text-green-400";
-      case "Limited": return "text-yellow-400";
-      case "Booked": return "text-red-400";
+      case "Available": return "text-success-400";
+      case "Limited": return "text-warning-400";
+      case "Booked": return "text-error-400";
       default: return "text-ink-400";
     }
   };
 
   const getPricingColor = (pricing: string) => {
     switch (pricing) {
-      case "Budget": return "bg-green-900/20 border-green-800";
-      case "Mid-Range": return "bg-yellow-900/20 border-yellow-800";
+      case "Budget": return "bg-success-900/20 border-success-800";
+      case "Mid-Range": return "bg-warning-900/20 border-warning-800";
       case "Premium": return "bg-purple-900/20 border-purple-800";
       default: return "bg-ink-900/50 border-ink-800";
     }

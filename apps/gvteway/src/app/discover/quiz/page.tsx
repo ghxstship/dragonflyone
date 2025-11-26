@@ -228,12 +228,12 @@ export default function DiscoveryQuizPage() {
                   {results.recommended_events.map(event => (
                     <Card
                       key={event.id}
-                      className="p-4 cursor-pointer hover:bg-gray-50"
+                      className="p-4 cursor-pointer hover:bg-grey-50"
                       onClick={() => router.push(`/events/${event.id}`)}
                     >
                       <Stack direction="horizontal" gap={4}>
                         {event.image && (
-                          <Stack className="w-24 h-24 bg-gray-200 rounded overflow-hidden flex-shrink-0 relative">
+                          <Stack className="w-24 h-24 bg-grey-200 rounded overflow-hidden flex-shrink-0 relative">
                             <Image
                               src={event.image}
                               alt={event.title}
@@ -245,12 +245,12 @@ export default function DiscoveryQuizPage() {
                         <Stack className="flex-1">
                           <Stack direction="horizontal" className="justify-between items-start">
                             <Body className="font-bold">{event.title}</Body>
-                            <Badge className="bg-green-500 text-white">
+                            <Badge className="bg-success-500 text-white">
                               {event.match_score}% Match
                             </Badge>
                           </Stack>
-                          <Body className="text-gray-600">{event.date}</Body>
-                          <Body className="text-gray-500 text-sm">{event.venue}</Body>
+                          <Body className="text-grey-600">{event.date}</Body>
+                          <Body className="text-grey-500 text-sm">{event.venue}</Body>
                         </Stack>
                       </Stack>
                     </Card>
@@ -264,7 +264,7 @@ export default function DiscoveryQuizPage() {
                 <H3 className="mb-4">YOUR PROFILE</H3>
                 <Stack gap={4}>
                   <Stack>
-                    <Label className="text-gray-500">Categories</Label>
+                    <Label className="text-grey-500">Categories</Label>
                     <Stack direction="horizontal" gap={2} className="flex-wrap mt-1">
                       {results.categories.map(cat => (
                         <Badge key={cat}>{cat}</Badge>
@@ -273,7 +273,7 @@ export default function DiscoveryQuizPage() {
                   </Stack>
 
                   <Stack>
-                    <Label className="text-gray-500">Genres</Label>
+                    <Label className="text-grey-500">Genres</Label>
                     <Stack direction="horizontal" gap={2} className="flex-wrap mt-1">
                       {results.genres.map(genre => (
                         <Badge key={genre} variant="outline">{genre}</Badge>
@@ -282,12 +282,12 @@ export default function DiscoveryQuizPage() {
                   </Stack>
 
                   <Stack>
-                    <Label className="text-gray-500">Budget</Label>
+                    <Label className="text-grey-500">Budget</Label>
                     <Body>{results.price_range}</Body>
                   </Stack>
 
                   <Stack>
-                    <Label className="text-gray-500">Vibe</Label>
+                    <Label className="text-grey-500">Vibe</Label>
                     <Body>{results.vibe}</Body>
                   </Stack>
                 </Stack>
@@ -330,21 +330,21 @@ export default function DiscoveryQuizPage() {
         )}
 
         <Stack className="max-w-2xl mx-auto" gap={8}>
-          <Stack className="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
+          <Stack className="w-full bg-grey-200 h-2 rounded-full overflow-hidden">
             <Stack
               className="bg-black h-full transition-all"
-              style={{ width: `${((currentStep + 1) / QUIZ_QUESTIONS.length) * 100}%` }}
+              style={{ '--progress-width': `${((currentStep + 1) / QUIZ_QUESTIONS.length) * 100}%`, width: 'var(--progress-width)' } as React.CSSProperties}
             />
           </Stack>
 
           <Card className="p-8">
-            <Body className="text-gray-500 mb-2">
+            <Body className="text-grey-500 mb-2">
               Question {currentStep + 1} of {QUIZ_QUESTIONS.length}
             </Body>
             <H2 className="mb-6">{currentQuestion.question}</H2>
 
             {currentQuestion.type === 'multiple' && (
-              <Body className="text-gray-500 mb-4">Select all that apply</Body>
+              <Body className="text-grey-500 mb-4">Select all that apply</Body>
             )}
 
             <Grid cols={2} gap={3}>
@@ -354,7 +354,7 @@ export default function DiscoveryQuizPage() {
                   className={`p-4 cursor-pointer transition-colors ${
                     selectedOptions.includes(option.id)
                       ? 'bg-black text-white'
-                      : 'hover:bg-gray-100'
+                      : 'hover:bg-grey-100'
                   }`}
                   onClick={() => handleOptionSelect(option.id)}
                 >

@@ -83,20 +83,20 @@ export default function AssetKitsPage() {
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Kit Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Name:</strong> {selected.name}</div>
         <div><strong>Category:</strong> {selected.category}</div>
         <div><strong>Status:</strong> {selected.status}</div>
         <div><strong>Item Count:</strong> {selected.itemCount}</div>
         <div><strong>Total Value:</strong> {formatCurrency(selected.totalValue)}</div>
         <div><strong>Last Used:</strong> {selected.lastUsed || 'Never'}</div>
-        <div style={{ gridColumn: 'span 2' }}><strong>Description:</strong> {selected.description}</div>
+        <div className="col-span-2"><strong>Description:</strong> {selected.description}</div>
       </div>
     )},
     { id: 'contents', title: 'Kit Contents', content: (
       <div>
         {selected.items.map((item, idx) => (
-          <div key={idx} style={{ padding: '0.5rem 0', borderBottom: '1px solid #333' }}>
+          <div key={idx} className="py-2 border-b border-grey-700">
             <strong>{item.name}</strong> ({item.category}) - Qty: {item.quantity}
           </div>
         ))}

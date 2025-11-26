@@ -158,7 +158,7 @@ function GiftTicketsContent() {
               <Body className="text-white text-4xl">🎁</Body>
             </Stack>
             <H1>Gift Sent!</H1>
-            <Body className="text-center text-gray-600 max-w-md">
+            <Body className="text-center text-grey-600 max-w-md">
               Your gift tickets have been sent to {formData.recipient_email}.
               {formData.delivery_date && (
                 <> They will receive them on {new Date(formData.delivery_date).toLocaleDateString()}.</>
@@ -301,7 +301,7 @@ function GiftTicketsContent() {
                         onChange={(e) => setFormData({ ...formData, delivery_date: e.target.value })}
                         min={new Date().toISOString().split('T')[0]}
                       />
-                      <Body className="text-sm text-gray-500 mt-1">
+                      <Body className="text-sm text-grey-500 mt-1">
                         Leave empty to send immediately
                       </Body>
                     </Field>
@@ -321,8 +321,8 @@ function GiftTicketsContent() {
                         key={style.id}
                         className={`p-4 cursor-pointer text-center transition-all ${
                           formData.wrap_style === style.id
-                            ? 'border-2 border-black bg-gray-50'
-                            : 'border border-gray-200 hover:border-gray-400'
+                            ? 'border-2 border-black bg-grey-50'
+                            : 'border border-grey-200 hover:border-grey-400'
                         }`}
                         onClick={() => setFormData({ ...formData, wrap_style: style.id })}
                       >
@@ -352,16 +352,16 @@ function GiftTicketsContent() {
                 <Stack gap={4}>
                   <Stack gap={2}>
                     <Body className="font-bold">{selectedEvent.title}</Body>
-                    <Body className="text-sm text-gray-600">{selectedEvent.date}</Body>
-                    <Body className="text-sm text-gray-600">{selectedEvent.venue}</Body>
+                    <Body className="text-sm text-grey-600">{selectedEvent.date}</Body>
+                    <Body className="text-sm text-grey-600">{selectedEvent.venue}</Body>
                   </Stack>
 
-                  <Stack className="border-t border-gray-200 pt-4">
+                  <Stack className="border-t border-grey-200 pt-4">
                     <Stack direction="horizontal" className="justify-between">
                       <Body>{selectedTicketType.name}</Body>
                       <Body>${selectedTicketType.price}</Body>
                     </Stack>
-                    <Stack direction="horizontal" className="justify-between text-gray-600">
+                    <Stack direction="horizontal" className="justify-between text-grey-600">
                       <Body>Quantity</Body>
                       <Body>x {formData.quantity}</Body>
                     </Stack>
@@ -375,22 +375,22 @@ function GiftTicketsContent() {
                   </Stack>
                 </Stack>
               ) : (
-                <Body className="text-gray-500">
+                <Body className="text-grey-500">
                   Select an event and ticket type to see your order summary.
                 </Body>
               )}
             </Card>
 
-            <Card className="p-6 bg-gray-50">
+            <Card className="p-6 bg-grey-50">
               <H3 className="mb-4">GIFT POLICY</H3>
               <Stack gap={2}>
-                <Body className="text-sm text-gray-600">
+                <Body className="text-sm text-grey-600">
                   • Gift tickets are non-refundable
                 </Body>
-                <Body className="text-sm text-gray-600">
+                <Body className="text-sm text-grey-600">
                   • Recipient can transfer tickets once
                 </Body>
-                <Body className="text-sm text-gray-600">
+                <Body className="text-sm text-grey-600">
                   • Gift expires if not claimed within 30 days
                 </Body>
               </Stack>

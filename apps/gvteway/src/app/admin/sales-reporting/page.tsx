@@ -55,8 +55,8 @@ const columns: ListPageColumn<SalesData>[] = [
   { key: 'period', label: 'Period', accessor: 'period' },
   { key: 'transactions', label: 'Transactions', accessor: 'transactions', sortable: true },
   { key: 'gross_sales', label: 'Gross Sales', accessor: 'gross_sales', sortable: true, render: (v) => formatCurrency(Number(v)) },
-  { key: 'refunds', label: 'Refunds', accessor: 'refunds', render: (v) => Number(v) > 0 ? <span style={{ color: 'red' }}>{formatCurrency(Number(v))}</span> : '—' },
-  { key: 'net_sales', label: 'Net Sales', accessor: 'net_sales', sortable: true, render: (v) => <strong style={{ color: 'green' }}>{formatCurrency(Number(v))}</strong> },
+  { key: 'refunds', label: 'Refunds', accessor: 'refunds', render: (v) => Number(v) > 0 ? <span className="text-error-600">{formatCurrency(Number(v))}</span> : '—' },
+  { key: 'net_sales', label: 'Net Sales', accessor: 'net_sales', sortable: true, render: (v) => <strong className="text-success-600">{formatCurrency(Number(v))}</strong> },
   { key: 'avg_transaction', label: 'Avg Transaction', accessor: 'avg_transaction', render: (v) => formatCurrency(Number(v)) },
 ];
 
@@ -89,7 +89,7 @@ export default function SalesReportingPage() {
 
   const detailSections: DetailSection[] = selectedPeriod ? [
     { id: 'overview', title: 'Period Summary', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Location:</strong> {selectedPeriod.location}</div>
         <div><strong>Type:</strong> {selectedPeriod.location_type.replace('_', ' ')}</div>
         <div><strong>Date:</strong> {selectedPeriod.date}</div>
@@ -104,7 +104,7 @@ export default function SalesReportingPage() {
     { id: 'top_items', title: 'Top Items', content: (
       <div>
         {selectedPeriod.top_items.map((item, idx) => (
-          <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0', borderBottom: '1px solid #eee' }}>
+          <div key={idx} className="flex justify-between py-2 border-b border-grey-200">
             <span>{item.name} ({item.quantity} sold)</span>
             <strong>{formatCurrency(item.revenue)}</strong>
           </div>

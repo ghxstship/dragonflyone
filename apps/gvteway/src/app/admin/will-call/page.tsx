@@ -100,7 +100,7 @@ export default function WillCallPage() {
 
   const detailSections: DetailSection[] = selectedTicket ? [
     { id: 'overview', title: 'Ticket Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Order:</strong> {selectedTicket.orderNumber}</div>
         <div><strong>Status:</strong> {selectedTicket.status}</div>
         <div><strong>Customer:</strong> {selectedTicket.customerName}</div>
@@ -111,7 +111,7 @@ export default function WillCallPage() {
         <div><strong>ID Required:</strong> {selectedTicket.idRequired ? 'Yes' : 'No'}</div>
         {selectedTicket.pickedUpAt && <div><strong>Picked Up:</strong> {selectedTicket.pickedUpAt}</div>}
         {selectedTicket.pickedUpBy && <div><strong>Picked Up By:</strong> {selectedTicket.pickedUpBy}</div>}
-        {selectedTicket.notes && <div style={{ gridColumn: 'span 2' }}><strong>Notes:</strong> {selectedTicket.notes}</div>}
+        {selectedTicket.notes && <div className="col-span-2"><strong>Notes:</strong> {selectedTicket.notes}</div>}
       </div>
     )},
   ] : [];

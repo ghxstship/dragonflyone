@@ -37,22 +37,22 @@ export default function Home() {
       <Container className="relative mx-auto flex max-w-6xl flex-col gap-16 px-6 pb-24 pt-16 lg:px-8">
         <Stack direction="horizontal" gap={10} className="flex-col lg:flex-row lg:items-end lg:justify-between">
           <Stack gap={6}>
-            <Label className="text-xs uppercase tracking-[0.4em] text-ink-400">{gvtewayHero.kicker}</Label>
+            <Label className="text-xs uppercase tracking-display text-ink-400">{gvtewayHero.kicker}</Label>
             <H1 className="font-display text-6xl uppercase text-white md:text-8xl">{gvtewayHero.headline}</H1>
             <Body className="max-w-2xl text-base text-ink-300 md:text-lg">{gvtewayHero.subhead}</Body>
-            <Stack direction="horizontal" gap={3} className="flex-wrap text-xs uppercase tracking-[0.3em] text-ink-500">
+            <Stack direction="horizontal" gap={3} className="flex-wrap text-xs uppercase tracking-kicker text-ink-500">
               {gvtewayNavigation.map((item) => (
                 <Badge key={item.label}>{item.label}</Badge>
               ))}
             </Stack>
           </Stack>
           <Stack gap={5} className="text-right">
-            <Label className="text-xs tracking-[0.4em] text-ink-500">STATUS</Label>
+            <Label className="text-xs tracking-display text-ink-500">STATUS</Label>
             <Body className="font-code text-2xl text-white">{gvtewayHero.status}</Body>
-            <Stack gap={3} className="text-xs uppercase tracking-[0.4em] text-white">
+            <Stack gap={3} className="text-xs uppercase tracking-display text-white">
               <Link
                 href="#event-stack"
-                className="border border-white px-8 py-4 tracking-[0.35em] transition hover:-translate-y-1 hover:bg-white hover:text-black"
+                className="border border-white px-8 py-4 tracking-kicker transition hover:-translate-y-1 hover:bg-white hover:text-black"
               >
                 {gvtewayHero.ctaPrimary}
               </Link>
@@ -70,7 +70,7 @@ export default function Home() {
           <Grid cols={3} gap={6}>
             {gvtewayHero.stats.map((stat) => (
               <Card key={stat.label} className="space-y-2 bg-transparent">
-                <Label className="text-xs uppercase tracking-[0.4em] text-ink-500">{stat.label}</Label>
+                <Label className="text-xs uppercase tracking-display text-ink-500">{stat.label}</Label>
                 <Body className="font-display text-4xl text-white">{stat.value}</Body>
               </Card>
             ))}
@@ -97,7 +97,7 @@ export default function Home() {
               <Article key={node.id} className="space-y-4 border border-ink-800 p-6">
                 <Stack direction="horizontal" className="items-center justify-between">
                   <Stack>
-                    <Label className="font-code text-xs uppercase tracking-[0.4em] text-ink-500">{node.access}</Label>
+                    <Label className="font-code text-xs uppercase tracking-display text-ink-500">{node.access}</Label>
                     <H3 className="text-2xl uppercase">{node.label}</H3>
                   </Stack>
                   <Stack className="text-right text-sm text-ink-400">
@@ -136,7 +136,7 @@ export default function Home() {
           <Grid cols={3} gap={6}>
             {gvtewayEventBlueprint.map((card) => (
               <Article key={card.title} className="border border-ink-800 bg-black/60 p-6">
-                <Label className="text-xs uppercase tracking-[0.4em] text-ink-500">Blueprint</Label>
+                <Label className="text-xs uppercase tracking-display text-ink-500">Blueprint</Label>
                 <H3 className="mt-4 text-2xl uppercase">{card.title}</H3>
                 <Body className="mt-3 text-sm text-ink-300">{card.description}</Body>
                 <List className="mt-4 space-y-2 text-sm text-ink-200">
@@ -154,12 +154,12 @@ export default function Home() {
             <Table className="min-w-full text-left text-sm">
               <TableHeader className="bg-ink-900 text-ink-500">
                 <TableRow>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-[0.3em]">Ticket</TableHead>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-[0.3em]">Tier</TableHead>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-[0.3em]">Price</TableHead>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-[0.3em]">Fee</TableHead>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-[0.3em]">Available</TableHead>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-[0.3em]">Description</TableHead>
+                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Ticket</TableHead>
+                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Tier</TableHead>
+                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Price</TableHead>
+                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Fee</TableHead>
+                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Available</TableHead>
+                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Description</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -209,13 +209,13 @@ export default function Home() {
           <Grid cols={3} gap={6}>
             {gvtewayRevenuePanels.map((panel) => (
               <Article key={panel.title} className="border border-ink-800 p-6">
-                <Label className="font-code text-xs uppercase tracking-[0.4em] text-ink-500">{panel.kicker}</Label>
+                <Label className="font-code text-xs uppercase tracking-display text-ink-500">{panel.kicker}</Label>
                 <H3 className="mt-4 text-2xl uppercase">{panel.title}</H3>
                 <Body className="mt-3 text-sm text-ink-300">{panel.description}</Body>
                 <Stack direction="horizontal" gap={6} className="mt-6">
                   {panel.metrics.map((metric) => (
                     <Stack key={metric.label}>
-                      <Label className="text-xs uppercase tracking-[0.3em] text-ink-500">{metric.label}</Label>
+                      <Label className="text-xs uppercase tracking-kicker text-ink-500">{metric.label}</Label>
                       <Body className="font-display text-3xl text-white">{metric.value}</Body>
                     </Stack>
                   ))}
@@ -234,7 +234,7 @@ export default function Home() {
           <Grid cols={3} gap={4}>
             {gvtewayReconciliationInsights.stats.map((stat) => (
               <Article key={stat.label} className="border border-ink-800 p-6">
-                <Label className="text-xs uppercase tracking-[0.4em] text-ink-500">{stat.label}</Label>
+                <Label className="text-xs uppercase tracking-display text-ink-500">{stat.label}</Label>
                 <Body className="mt-3 font-display text-4xl text-white">{stat.value}</Body>
                 <Body className="text-sm text-ink-400">{stat.delta}</Body>
               </Article>
@@ -244,14 +244,14 @@ export default function Home() {
             <Table className="min-w-full text-left text-sm">
               <TableHeader className="bg-ink-900 text-ink-500">
                 <TableRow>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-[0.3em]">Run</TableHead>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-[0.3em]">Window</TableHead>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-[0.3em]">Gross</TableHead>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-[0.3em]">Fees</TableHead>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-[0.3em]">Refunds</TableHead>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-[0.3em]">Net</TableHead>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-[0.3em]">Variance</TableHead>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-[0.3em]">Status</TableHead>
+                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Run</TableHead>
+                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Window</TableHead>
+                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Gross</TableHead>
+                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Fees</TableHead>
+                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Refunds</TableHead>
+                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Net</TableHead>
+                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Variance</TableHead>
+                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Status</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -280,7 +280,7 @@ export default function Home() {
           <Grid cols={2} gap={4}>
             {gvtewayReconciliationInsights.alerts.map((alert) => (
               <Article key={alert.id} className="border border-ink-800 p-6">
-                <Stack direction="horizontal" className="items-center justify-between text-xs uppercase tracking-[0.3em] text-ink-500">
+                <Stack direction="horizontal" className="items-center justify-between text-xs uppercase tracking-kicker text-ink-500">
                   <Text>{alert.label}</Text>
                   <Text className="text-ink-400">Owner: {alert.owner}</Text>
                 </Stack>
@@ -330,7 +330,7 @@ export default function Home() {
           <Grid cols={3} gap={6}>
             {gvtewayMobileTickets.map((ticket) => (
               <Article key={ticket.id} className="border border-ink-800 p-6">
-                <Stack direction="horizontal" className="items-center justify-between text-xs uppercase tracking-[0.3em] text-ink-500">
+                <Stack direction="horizontal" className="items-center justify-between text-xs uppercase tracking-kicker text-ink-500">
                   <Text>{ticket.attendee}</Text>
                   <Text>{ticket.status}</Text>
                 </Stack>
@@ -440,12 +440,12 @@ export default function Home() {
           <Article className="border border-ink-800 p-6">
             <Stack direction="horizontal" className="flex-col gap-2 md:flex-row md:items-center md:justify-between">
               <Stack>
-                <Label className="text-xs uppercase tracking-[0.3em] text-ink-500">Provider</Label>
+                <Label className="text-xs uppercase tracking-kicker text-ink-500">Provider</Label>
                 <H3 className="text-2xl uppercase">{gvtewayEmailNotifications.provider}</H3>
               </Stack>
               <Text
-                className={`text-xs uppercase tracking-[0.3em] ${
-                  gvtewayEmailNotifications.status === "active" ? "text-green-400" : "text-ink-500"
+                className={`text-xs uppercase tracking-kicker ${
+                  gvtewayEmailNotifications.status === "active" ? "text-success-400" : "text-ink-500"
                 }`}
               >
                 {gvtewayEmailNotifications.status}
@@ -461,7 +461,7 @@ export default function Home() {
             </List>
             <Link
               href="mailto:legend@gvxstship.com?subject=GVTEWAY%20Email%20Test"
-              className="mt-4 inline-flex border border-ink-50 px-6 py-3 text-xs uppercase tracking-[0.3em] transition hover:-translate-y-0.5 hover:bg-ink-50 hover:text-ink-950"
+              className="mt-4 inline-flex border border-ink-50 px-6 py-3 text-xs uppercase tracking-kicker transition hover:-translate-y-0.5 hover:bg-ink-50 hover:text-ink-950"
             >
               {gvtewayEmailNotifications.cta}
             </Link>
@@ -477,7 +477,7 @@ export default function Home() {
           <Grid cols={3} gap={6}>
             {gvtewayAutomationProgram.map((program: (typeof gvtewayAutomationProgram)[number]) => (
               <Article key={program.title} className="border border-ink-800 p-6">
-                <Label className="font-code text-xs uppercase tracking-[0.4em] text-ink-500">{program.title}</Label>
+                <Label className="font-code text-xs uppercase tracking-display text-ink-500">{program.title}</Label>
                 <H3 className="mt-4 text-2xl uppercase">{program.title}</H3>
                 <Body className="mt-3 text-sm text-ink-300">{program.description}</Body>
                 <List className="mt-4 space-y-2 text-sm text-ink-200">
@@ -499,7 +499,7 @@ export default function Home() {
           <Grid cols={2} gap={6}>
             {gvtewayDevelopmentPhases.map((phase: (typeof gvtewayDevelopmentPhases)[number]) => (
               <Article key={phase.phase} className="border border-ink-800 p-6">
-                <Label className="font-code text-xs uppercase tracking-[0.4em] text-ink-500">{phase.phase}</Label>
+                <Label className="font-code text-xs uppercase tracking-display text-ink-500">{phase.phase}</Label>
                 <H3 className="mt-4 text-2xl uppercase">{phase.focus}</H3>
                 <List className="mt-4 space-y-2 text-sm text-ink-200">
                   {phase.bullets.map((bullet: string) => (
@@ -556,13 +556,13 @@ export default function Home() {
           <Stack direction="horizontal" gap={4} className="mt-8 flex-col items-center justify-center md:flex-row">
             <Link
               href="mailto:legend@gvxstship.com"
-              className="border border-white px-8 py-4 text-xs uppercase tracking-[0.3em] transition hover:-translate-y-1 hover:bg-white hover:text-black"
+              className="border border-white px-8 py-4 text-xs uppercase tracking-kicker transition hover:-translate-y-1 hover:bg-white hover:text-black"
             >
               Email Legend Team
             </Link>
             <Link
               href="#event-stack"
-              className="border border-ink-600 px-8 py-4 text-xs uppercase tracking-[0.3em] text-ink-400 transition hover:-translate-y-1 hover:border-white hover:text-white"
+              className="border border-ink-600 px-8 py-4 text-xs uppercase tracking-kicker text-ink-400 transition hover:-translate-y-1 hover:border-white hover:text-white"
             >
               Review Feature Checklist
             </Link>

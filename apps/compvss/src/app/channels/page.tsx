@@ -147,10 +147,10 @@ export default function ChannelsPage() {
 
   const getTypeBadge = (type: string) => {
     const colors: Record<string, string> = {
-      department: 'bg-blue-500 text-white',
+      department: 'bg-info-500 text-white',
       project: 'bg-purple-500 text-white',
-      broadcast: 'bg-orange-500 text-white',
-      private: 'bg-gray-500 text-white',
+      broadcast: 'bg-warning-500 text-white',
+      private: 'bg-grey-500 text-white',
     };
     return <Badge className={colors[type] || ''}>{type}</Badge>;
   };
@@ -230,7 +230,7 @@ export default function ChannelsPage() {
                           <Stack direction="horizontal" gap={2} className="items-center">
                             <Body className="font-display text-white">{channel.name}</Body>
                             {channel.unread_count > 0 && (
-                              <Badge className="bg-red-500 text-white text-xs">{channel.unread_count}</Badge>
+                              <Badge className="bg-error-500 text-white text-xs">{channel.unread_count}</Badge>
                             )}
                           </Stack>
                           <Label size="xs" className="text-ink-500">{channel.members.length} members</Label>
@@ -262,7 +262,7 @@ export default function ChannelsPage() {
 
                   <Stack gap={3} className="flex-1 overflow-y-auto max-h-96">
                     {channelMessages.map(message => (
-                      <Card key={message.id} className={`p-3 ${message.is_priority ? 'border-l-4 border-l-orange-500 bg-orange-900/10' : 'bg-ink-800'}`}>
+                      <Card key={message.id} className={`p-3 ${message.is_priority ? 'border-l-4 border-l-orange-500 bg-warning-900/10' : 'bg-ink-800'}`}>
                         <Stack gap={2}>
                           <Stack direction="horizontal" className="justify-between items-center">
                             <Stack direction="horizontal" gap={2} className="items-center">
@@ -377,7 +377,7 @@ export default function ChannelsPage() {
                     <Body className="text-white">{member.name}</Body>
                     <Label size="xs" className="text-ink-500">{member.role}</Label>
                   </Stack>
-                  <Badge className={member.is_online ? 'bg-green-500 text-white' : 'bg-gray-500 text-white'}>
+                  <Badge className={member.is_online ? 'bg-success-500 text-white' : 'bg-grey-500 text-white'}>
                     {member.is_online ? 'Online' : 'Offline'}
                   </Badge>
                 </Stack>

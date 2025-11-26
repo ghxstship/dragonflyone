@@ -112,9 +112,9 @@ export default function SettlementPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Finalized": return "text-green-400";
-      case "Approved": return "text-blue-400";
-      case "Pending Review": return "text-yellow-400";
+      case "Finalized": return "text-success-400";
+      case "Approved": return "text-info-400";
+      case "Pending Review": return "text-warning-400";
       case "Draft": return "text-ink-400";
       default: return "text-ink-400";
     }
@@ -176,7 +176,7 @@ export default function SettlementPage() {
                           <Card className="p-3 bg-ink-800 border border-ink-700">
                             <Stack gap={1}>
                               <Label size="xs" className="text-ink-500">Gross Profit</Label>
-                              <Label className="font-mono text-green-400 text-lg">${settlement.grossProfit.toLocaleString()}</Label>
+                              <Label className="font-mono text-success-400 text-lg">${settlement.grossProfit.toLocaleString()}</Label>
                             </Stack>
                           </Card>
                           <Card className="p-3 bg-ink-800 border border-ink-700">
@@ -191,10 +191,10 @@ export default function SettlementPage() {
                           <Stack gap={2}>
                             <Label className="text-ink-400">Adjustments ({settlement.adjustments.length})</Label>
                             {settlement.adjustments.map((adj) => (
-                              <Card key={adj.id} className={`p-2 border ${adj.type === "Credit" ? "border-green-800 bg-green-900/10" : "border-red-800 bg-red-900/10"}`}>
+                              <Card key={adj.id} className={`p-2 border ${adj.type === "Credit" ? "border-success-800 bg-success-900/10" : "border-error-800 bg-error-900/10"}`}>
                                 <Stack direction="horizontal" className="justify-between">
                                   <Label className="text-ink-300">{adj.description}</Label>
-                                  <Label className={adj.type === "Credit" ? "text-green-400" : "text-red-400"}>
+                                  <Label className={adj.type === "Credit" ? "text-success-400" : "text-error-400"}>
                                     {adj.type === "Credit" ? "+" : "-"}${adj.amount.toLocaleString()}
                                   </Label>
                                 </Stack>
@@ -256,7 +256,7 @@ export default function SettlementPage() {
                 <Grid cols={3} gap={4}>
                   <Stack gap={1}><Label size="xs" className="text-ink-500">Total Revenue</Label><Label className="font-mono text-white">${selectedSettlement.contractValue.toLocaleString()}</Label></Stack>
                   <Stack gap={1}><Label size="xs" className="text-ink-500">Total Costs</Label><Label className="font-mono text-white">${selectedSettlement.actualCosts.toLocaleString()}</Label></Stack>
-                  <Stack gap={1}><Label size="xs" className="text-ink-500">Net Profit</Label><Label className="font-mono text-green-400">${selectedSettlement.grossProfit.toLocaleString()}</Label></Stack>
+                  <Stack gap={1}><Label size="xs" className="text-ink-500">Net Profit</Label><Label className="font-mono text-success-400">${selectedSettlement.grossProfit.toLocaleString()}</Label></Stack>
                 </Grid>
               </Card>
 

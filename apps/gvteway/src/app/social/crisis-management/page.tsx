@@ -54,20 +54,20 @@ export default function CrisisManagementPage() {
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
-      case "Critical": return "text-red-600 bg-red-100";
-      case "High": return "text-orange-600 bg-orange-100";
-      case "Medium": return "text-yellow-600 bg-yellow-100";
-      case "Low": return "text-green-600 bg-green-100";
-      default: return "text-gray-600";
+      case "Critical": return "text-error-600 bg-error-100";
+      case "High": return "text-warning-600 bg-warning-100";
+      case "Medium": return "text-warning-600 bg-warning-100";
+      case "Low": return "text-success-600 bg-success-100";
+      default: return "text-grey-600";
     }
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Active": return "text-red-600";
-      case "Monitoring": return "text-yellow-600";
-      case "Resolved": return "text-green-600";
-      default: return "text-gray-600";
+      case "Active": return "text-error-600";
+      case "Monitoring": return "text-warning-600";
+      case "Resolved": return "text-success-600";
+      default: return "text-grey-600";
     }
   };
 
@@ -77,7 +77,7 @@ export default function CrisisManagementPage() {
         <Stack gap={8}>
           <Stack gap={2}>
             <H1>CRISIS MANAGEMENT</H1>
-            <Body className="text-gray-600">Response tools and templates for social media crises</Body>
+            <Body className="text-grey-600">Response tools and templates for social media crises</Body>
           </Stack>
 
           {criticalCount > 0 && (
@@ -119,7 +119,7 @@ export default function CrisisManagementPage() {
                       <TableCell>
                         <Stack gap={1}>
                           <Label className="font-bold">{incident.title}</Label>
-                          <Label size="xs" className="text-gray-500">{incident.startTime}</Label>
+                          <Label size="xs" className="text-grey-500">{incident.startTime}</Label>
                         </Stack>
                       </TableCell>
                       <TableCell><Badge variant="outline" className={getSeverityColor(incident.severity)}>{incident.severity}</Badge></TableCell>
@@ -149,9 +149,9 @@ export default function CrisisManagementPage() {
                           <Body className="font-bold">{template.name}</Body>
                           <Badge variant="outline">{template.category}</Badge>
                         </Stack>
-                        <Label className="text-gray-500 line-clamp-2">{template.content}</Label>
+                        <Label className="text-grey-500 line-clamp-2">{template.content}</Label>
                         <Stack direction="horizontal" className="justify-between">
-                          <Label size="xs" className="text-gray-400">Used {template.usageCount} times</Label>
+                          <Label size="xs" className="text-grey-400">Used {template.usageCount} times</Label>
                           <Button variant="outline" size="sm" onClick={() => setSelectedTemplate(template)}>Use</Button>
                         </Stack>
                       </Stack>
@@ -176,10 +176,10 @@ export default function CrisisManagementPage() {
                         { step: "6. Monitor", desc: "Track sentiment and mentions" },
                         { step: "7. Review", desc: "Post-crisis analysis" },
                       ].map((item, idx) => (
-                        <Card key={idx} className="p-3 border border-gray-200">
+                        <Card key={idx} className="p-3 border border-grey-200">
                           <Stack direction="horizontal" gap={3}>
                             <Label className="font-bold">{item.step}</Label>
-                            <Label className="text-gray-500">{item.desc}</Label>
+                            <Label className="text-grey-500">{item.desc}</Label>
                           </Stack>
                         </Card>
                       ))}
@@ -196,11 +196,11 @@ export default function CrisisManagementPage() {
                         { role: "Social Media Lead", name: "Sarah Johnson", phone: "555-0103" },
                         { role: "Customer Service", name: "Mike Davis", phone: "555-0104" },
                       ].map((contact, idx) => (
-                        <Card key={idx} className="p-3 border border-gray-200">
+                        <Card key={idx} className="p-3 border border-grey-200">
                           <Stack direction="horizontal" className="justify-between">
                             <Stack gap={0}>
                               <Label className="font-bold">{contact.role}</Label>
-                              <Label className="text-gray-500">{contact.name}</Label>
+                              <Label className="text-grey-500">{contact.name}</Label>
                             </Stack>
                             <Label className="font-mono">{contact.phone}</Label>
                           </Stack>
@@ -224,14 +224,14 @@ export default function CrisisManagementPage() {
             <Stack gap={4}>
               <Body className="font-bold">{selectedIncident.title}</Body>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label className="text-gray-500">Severity</Label><Badge variant="outline" className={getSeverityColor(selectedIncident.severity)}>{selectedIncident.severity}</Badge></Stack>
-                <Stack gap={1}><Label className="text-gray-500">Status</Label><Label className={getStatusColor(selectedIncident.status)}>{selectedIncident.status}</Label></Stack>
+                <Stack gap={1}><Label className="text-grey-500">Severity</Label><Badge variant="outline" className={getSeverityColor(selectedIncident.severity)}>{selectedIncident.severity}</Badge></Stack>
+                <Stack gap={1}><Label className="text-grey-500">Status</Label><Label className={getStatusColor(selectedIncident.status)}>{selectedIncident.status}</Label></Stack>
               </Grid>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label className="text-gray-500">Platform</Label><Label>{selectedIncident.platform}</Label></Stack>
-                <Stack gap={1}><Label className="text-gray-500">Mentions</Label><Label className="font-mono">{selectedIncident.mentions}</Label></Stack>
+                <Stack gap={1}><Label className="text-grey-500">Platform</Label><Label>{selectedIncident.platform}</Label></Stack>
+                <Stack gap={1}><Label className="text-grey-500">Mentions</Label><Label className="font-mono">{selectedIncident.mentions}</Label></Stack>
               </Grid>
-              <Stack gap={1}><Label className="text-gray-500">Assigned To</Label><Label>{selectedIncident.assignedTo}</Label></Stack>
+              <Stack gap={1}><Label className="text-grey-500">Assigned To</Label><Label>{selectedIncident.assignedTo}</Label></Stack>
               <Textarea placeholder="Add response or notes..." rows={3} className="border-2 border-black" />
             </Stack>
           )}

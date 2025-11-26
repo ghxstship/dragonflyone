@@ -88,7 +88,7 @@ export default function CalendarIntegrationPage() {
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Event Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Title:</strong> {selected.title}</div>
         <div><strong>Type:</strong> {selected.type}</div>
         <div><strong>Date:</strong> {selected.date}</div>
@@ -96,7 +96,7 @@ export default function CalendarIntegrationPage() {
         <div><strong>Duration:</strong> {selected.duration}</div>
         <div><strong>Status:</strong> {selected.status}</div>
         {selected.location && <div><strong>Location:</strong> {selected.location}</div>}
-        <div style={{ gridColumn: 'span 2' }}><strong>Attendees:</strong> {selected.attendees.join(', ')}</div>
+        <div className="col-span-2"><strong>Attendees:</strong> {selected.attendees.join(', ')}</div>
         {selected.linkedContact && <div><strong>Contact:</strong> {selected.linkedContact}</div>}
         {selected.linkedDeal && <div><strong>Deal:</strong> {selected.linkedDeal}</div>}
       </div>

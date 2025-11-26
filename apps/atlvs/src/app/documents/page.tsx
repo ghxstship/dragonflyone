@@ -95,7 +95,7 @@ export default function DocumentsPage() {
 
   const detailSections: DetailSection[] = selectedDoc ? [
     { id: 'overview', title: 'Document Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Name:</strong> {selectedDoc.name}</div>
         <div><strong>Type:</strong> {selectedDoc.type}</div>
         <div><strong>Folder:</strong> {selectedDoc.folder}</div>

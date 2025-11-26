@@ -48,9 +48,9 @@ export default function RegulationsPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Current": return "text-green-400";
-      case "Updated": return "text-blue-400";
-      case "Review Required": return "text-yellow-400";
+      case "Current": return "text-success-400";
+      case "Updated": return "text-info-400";
+      case "Review Required": return "text-warning-400";
       default: return "text-ink-400";
     }
   };

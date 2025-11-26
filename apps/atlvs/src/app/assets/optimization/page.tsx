@@ -83,7 +83,7 @@ export default function AssetOptimizationPage() {
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Recommendation Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Asset:</strong> {selected.asset_name}</div>
         <div><strong>Category:</strong> {selected.category}</div>
         <div><strong>Type:</strong> {selected.type.replace('_', ' ')}</div>
@@ -92,13 +92,13 @@ export default function AssetOptimizationPage() {
         <div><strong>Target Utilization:</strong> {selected.target_utilization}%</div>
         <div><strong>Potential Savings:</strong> {formatCurrency(selected.potential_savings)}</div>
         <div><strong>Status:</strong> {selected.status.replace('_', ' ')}</div>
-        <div style={{ gridColumn: 'span 2' }}><strong>Recommendation:</strong> {selected.recommendation}</div>
+        <div className="col-span-2"><strong>Recommendation:</strong> {selected.recommendation}</div>
       </div>
     )},
     { id: 'actions', title: 'Action Items', content: (
       <div>
         {selected.action_items.map((item, idx) => (
-          <div key={idx} style={{ padding: '0.5rem 0', borderBottom: '1px solid #333' }}>
+          <div key={idx} className="py-2 border-b border-grey-700">
             {idx + 1}. {item}
           </div>
         ))}

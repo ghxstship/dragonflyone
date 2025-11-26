@@ -109,13 +109,13 @@ export default function TicketTrackingPage() {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'processing':
-        return <Badge className="bg-yellow-500 text-white">Processing</Badge>;
+        return <Badge variant="warning">Processing</Badge>;
       case 'sent':
-        return <Badge className="bg-blue-500 text-white">Sent</Badge>;
+        return <Badge variant="info">Sent</Badge>;
       case 'delivered':
-        return <Badge className="bg-green-500 text-white">Delivered</Badge>;
+        return <Badge variant="success">Delivered</Badge>;
       case 'ready':
-        return <Badge className="bg-purple-500 text-white">Ready for Pickup</Badge>;
+        return <Badge variant="info">Ready for Pickup</Badge>;
       default:
         return <Badge>{status}</Badge>;
     }
@@ -128,8 +128,8 @@ export default function TicketTrackingPage() {
           <Stack className="items-center">
             <Stack
               className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                step.status === 'completed' ? 'bg-green-500' :
-                step.status === 'current' ? 'bg-blue-500' : 'bg-gray-300'
+                step.status === 'completed' ? 'bg-success-500' :
+                step.status === 'current' ? 'bg-info-500' : 'bg-grey-300'
               }`}
             >
               {step.status === 'completed' ? (
@@ -137,26 +137,26 @@ export default function TicketTrackingPage() {
               ) : step.status === 'current' ? (
                 <Stack className="w-3 h-3 bg-white rounded-full" />
               ) : (
-                <Stack className="w-3 h-3 bg-gray-400 rounded-full" />
+                <Stack className="w-3 h-3 bg-grey-400 rounded-full" />
               )}
             </Stack>
             {index < steps.length - 1 && (
               <Stack
                 className={`w-0.5 flex-1 min-h-[40px] ${
-                  step.status === 'completed' ? 'bg-green-500' : 'bg-gray-300'
+                  step.status === 'completed' ? 'bg-success-500' : 'bg-grey-300'
                 }`}
               />
             )}
           </Stack>
           <Stack className="flex-1 pb-4">
-            <Body className={`font-medium ${step.status === 'pending' ? 'text-gray-400' : ''}`}>
+            <Body className={`font-medium ${step.status === 'pending' ? 'text-grey-400' : ''}`}>
               {step.title}
             </Body>
-            <Body className={`text-sm ${step.status === 'pending' ? 'text-gray-400' : 'text-gray-600'}`}>
+            <Body className={`text-sm ${step.status === 'pending' ? 'text-grey-400' : 'text-grey-600'}`}>
               {step.description}
             </Body>
             {step.timestamp && (
-              <Body className="text-xs text-gray-500 mt-1">{step.timestamp}</Body>
+              <Body className="text-xs text-grey-500 mt-1">{step.timestamp}</Body>
             )}
           </Stack>
         </Stack>
@@ -213,7 +213,7 @@ export default function TicketTrackingPage() {
               <Stack direction="horizontal" className="justify-between items-start mb-6">
                 <Stack>
                   <H3>{searchResult.event_title}</H3>
-                  <Body className="text-gray-600">{searchResult.event_date}</Body>
+                  <Body className="text-grey-600">{searchResult.event_date}</Body>
                 </Stack>
                 {getStatusBadge(searchResult.delivery_status)}
               </Stack>
@@ -221,18 +221,18 @@ export default function TicketTrackingPage() {
               <Grid cols={2} gap={6}>
                 <Stack gap={4}>
                   <Stack>
-                    <Label className="text-gray-500">Delivery Method</Label>
+                    <Label className="text-grey-500">Delivery Method</Label>
                     <Body>{getDeliveryMethodLabel(searchResult.delivery_method)}</Body>
                   </Stack>
                   {searchResult.tracking_number && (
                     <Stack>
-                      <Label className="text-gray-500">Tracking Number</Label>
+                      <Label className="text-grey-500">Tracking Number</Label>
                       <Body className="font-mono">{searchResult.tracking_number}</Body>
                     </Stack>
                   )}
                   {searchResult.estimated_delivery && (
                     <Stack>
-                      <Label className="text-gray-500">Estimated Delivery</Label>
+                      <Label className="text-grey-500">Estimated Delivery</Label>
                       <Body>{searchResult.estimated_delivery}</Body>
                     </Stack>
                   )}
@@ -257,21 +257,21 @@ export default function TicketTrackingPage() {
                       <H3>{delivery.event_title}</H3>
                       {getStatusBadge(delivery.delivery_status)}
                     </Stack>
-                    <Body className="text-gray-600">{delivery.event_date}</Body>
+                    <Body className="text-grey-600">{delivery.event_date}</Body>
                     <Stack direction="horizontal" gap={4} className="mt-2">
                       <Stack>
-                        <Label className="text-gray-500 text-xs">Method</Label>
+                        <Label className="text-grey-500 text-xs">Method</Label>
                         <Body className="text-sm">{getDeliveryMethodLabel(delivery.delivery_method)}</Body>
                       </Stack>
                       {delivery.tracking_number && (
                         <Stack>
-                          <Label className="text-gray-500 text-xs">Tracking</Label>
+                          <Label className="text-grey-500 text-xs">Tracking</Label>
                           <Body className="text-sm font-mono">{delivery.tracking_number}</Body>
                         </Stack>
                       )}
                       {delivery.estimated_delivery && (
                         <Stack>
-                          <Label className="text-gray-500 text-xs">Est. Delivery</Label>
+                          <Label className="text-grey-500 text-xs">Est. Delivery</Label>
                           <Body className="text-sm">{delivery.estimated_delivery}</Body>
                         </Stack>
                       )}
@@ -293,7 +293,7 @@ export default function TicketTrackingPage() {
         ) : (
           <Card className="p-12 text-center">
             <H3 className="mb-4">NO DELIVERIES</H3>
-            <Body className="text-gray-600 mb-6">
+            <Body className="text-grey-600 mb-6">
               You don&apos;t have any ticket deliveries to track.
             </Body>
             <Button variant="solid" onClick={() => router.push('/browse')}>

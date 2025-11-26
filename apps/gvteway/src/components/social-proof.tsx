@@ -42,16 +42,16 @@ export function SocialProofWidget({ eventId, variant = "compact" }: SocialProofP
     return (
       <Stack direction="horizontal" gap={4} className="flex-wrap">
         {data.trending && (
-          <Badge variant="solid" className="bg-red-500">🔥 Trending</Badge>
+          <Badge variant="solid" className="bg-error-500">🔥 Trending</Badge>
         )}
-        <Label size="xs" className="text-gray-500">
+        <Label size="xs" className="text-grey-500">
           👥 {data.viewingNow} viewing now
         </Label>
-        <Label size="xs" className="text-gray-500">
+        <Label size="xs" className="text-grey-500">
           🎟️ {data.recentPurchases} bought in last hour
         </Label>
         {data.friendsAttending > 0 && (
-          <Label size="xs" className="text-blue-600">
+          <Label size="xs" className="text-info-600">
             👋 {data.friendsAttending} friends going
           </Label>
         )}
@@ -64,43 +64,43 @@ export function SocialProofWidget({ eventId, variant = "compact" }: SocialProofP
       <Stack gap={4}>
         <Stack direction="horizontal" className="justify-between items-center">
           <Label className="font-bold">Live Activity</Label>
-          {data.trending && <Badge variant="solid" className="bg-red-500">🔥 Trending</Badge>}
+          {data.trending && <Badge variant="solid" className="bg-error-500">🔥 Trending</Badge>}
         </Stack>
         
         <Stack gap={3}>
           <Stack direction="horizontal" className="justify-between">
-            <Label className="text-gray-600">👥 People viewing</Label>
+            <Label className="text-grey-600">👥 People viewing</Label>
             <Label className="font-mono">{data.viewingNow}</Label>
           </Stack>
           
           <Stack direction="horizontal" className="justify-between">
-            <Label className="text-gray-600">🎟️ Bought in last hour</Label>
+            <Label className="text-grey-600">🎟️ Bought in last hour</Label>
             <Label className="font-mono">{data.recentPurchases}</Label>
           </Stack>
           
           <Stack direction="horizontal" className="justify-between">
-            <Label className="text-gray-600">✅ Total attending</Label>
+            <Label className="text-grey-600">✅ Total attending</Label>
             <Label className="font-mono">{data.attendeeCount.toLocaleString()}</Label>
           </Stack>
           
           {data.friendsAttending > 0 && (
             <Stack direction="horizontal" className="justify-between">
-              <Label className="text-blue-600">👋 Friends going</Label>
-              <Label className="font-mono text-blue-600">{data.friendsAttending}</Label>
+              <Label className="text-info-600">👋 Friends going</Label>
+              <Label className="font-mono text-info-600">{data.friendsAttending}</Label>
             </Stack>
           )}
         </Stack>
 
         <Stack gap={2}>
           <Stack direction="horizontal" className="justify-between">
-            <Label size="xs" className="text-gray-500">Tickets sold</Label>
-            <Label size="xs" className="text-gray-500">{data.soldPercentage}%</Label>
+            <Label size="xs" className="text-grey-500">Tickets sold</Label>
+            <Label size="xs" className="text-grey-500">{data.soldPercentage}%</Label>
           </Stack>
-          <Card className="h-2 bg-gray-200 overflow-hidden">
-            <Card className={`h-full ${data.soldPercentage > 80 ? "bg-red-500" : data.soldPercentage > 50 ? "bg-yellow-500" : "bg-green-500"}`} style={{ width: `${data.soldPercentage}%` }} />
+          <Card className="h-2 bg-grey-200 overflow-hidden">
+            <Card className={`h-full ${data.soldPercentage > 80 ? "bg-error-500" : data.soldPercentage > 50 ? "bg-warning-500" : "bg-success-500"}`} style={{ '--progress-width': `${data.soldPercentage}%`, width: 'var(--progress-width)' } as React.CSSProperties} />
           </Card>
           {data.soldPercentage > 75 && (
-            <Label size="xs" className="text-red-600">⚠️ Selling fast - only {100 - data.soldPercentage}% remaining!</Label>
+            <Label size="xs" className="text-error-600">⚠️ Selling fast - only {100 - data.soldPercentage}% remaining!</Label>
           )}
         </Stack>
       </Stack>
@@ -135,12 +135,12 @@ export function RecentPurchaseToast() {
   return (
     <Card className="fixed bottom-4 left-4 p-4 bg-white border-2 border-black shadow-lg animate-slide-up z-50">
       <Stack direction="horizontal" gap={3}>
-        <Card className="w-10 h-10 bg-green-100 flex items-center justify-center rounded-full">
+        <Card className="w-10 h-10 bg-success-100 flex items-center justify-center rounded-full">
           <Label>🎟️</Label>
         </Card>
         <Stack gap={1}>
           <Label className="font-bold">{purchase.name} from {purchase.location}</Label>
-          <Label size="xs" className="text-gray-500">
+          <Label size="xs" className="text-grey-500">
             Just purchased {purchase.tickets} ticket{purchase.tickets > 1 ? "s" : ""}
           </Label>
         </Stack>
@@ -155,11 +155,11 @@ export function AttendeeAvatars({ count = 5 }: { count?: number }) {
   return (
     <Stack direction="horizontal" gap={0}>
       {avatars.slice(0, count).map((avatar, idx) => (
-        <Card key={idx} className="w-8 h-8 bg-gray-100 border-2 border-white rounded-full flex items-center justify-center -ml-2 first:ml-0">
+        <Card key={idx} className="w-8 h-8 bg-grey-100 border-2 border-white rounded-full flex items-center justify-center -ml-2 first:ml-0">
           <Label size="xs">{avatar}</Label>
         </Card>
       ))}
-      <Label size="xs" className="ml-2 text-gray-500">+2,842 attending</Label>
+      <Label size="xs" className="ml-2 text-grey-500">+2,842 attending</Label>
     </Stack>
   );
 }

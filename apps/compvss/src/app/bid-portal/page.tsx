@@ -42,10 +42,10 @@ export default function BidPortalPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Won": return "text-green-400";
-      case "Submitted": case "Under Review": return "text-blue-400";
-      case "Open": return "text-yellow-400";
-      case "Lost": return "text-red-400";
+      case "Won": return "text-success-400";
+      case "Submitted": case "Under Review": return "text-info-400";
+      case "Open": return "text-warning-400";
+      case "Lost": return "text-error-400";
       default: return "text-ink-400";
     }
   };
@@ -94,7 +94,7 @@ export default function BidPortalPage() {
                         <Stack gap={1}><Label size="xs" className="text-ink-500">Due</Label><Label className="font-mono text-white">{bid.dueDate}</Label></Stack>
                         {bid.budget && <Stack gap={1}><Label size="xs" className="text-ink-500">Budget</Label><Label className="text-white">{bid.budget}</Label></Stack>}
                         <Stack gap={1}><Label size="xs" className="text-ink-500">Type</Label><Badge variant="outline">{bid.type}</Badge></Stack>
-                        {bid.bidAmount && <Stack gap={1}><Label size="xs" className="text-ink-500">Our Bid</Label><Label className="font-mono text-green-400">${bid.bidAmount.toLocaleString()}</Label></Stack>}
+                        {bid.bidAmount && <Stack gap={1}><Label size="xs" className="text-ink-500">Our Bid</Label><Label className="font-mono text-success-400">${bid.bidAmount.toLocaleString()}</Label></Stack>}
                       </Grid>
                       <Stack direction="horizontal" gap={4} className="justify-end">
                         <Button variant="ghost" size="sm" onClick={() => setSelectedBid(bid)}>Details</Button>

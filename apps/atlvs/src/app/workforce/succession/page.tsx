@@ -56,19 +56,19 @@ export default function SuccessionPlanningPage() {
 
   const getRiskColor = (risk: string) => {
     switch (risk) {
-      case 'Low': return 'text-green-400';
-      case 'Medium': return 'text-yellow-400';
-      case 'High': return 'text-orange-400';
-      case 'Critical': return 'text-red-400';
+      case 'Low': return 'text-success-400';
+      case 'Medium': return 'text-warning-400';
+      case 'High': return 'text-warning-400';
+      case 'Critical': return 'text-error-400';
       default: return 'text-ink-400';
     }
   };
 
   const getReadinessColor = (readiness: string) => {
     switch (readiness) {
-      case 'Ready Now': return 'text-green-400';
-      case '1-2 Years': return 'text-yellow-400';
-      case '3-5 Years': return 'text-orange-400';
+      case 'Ready Now': return 'text-success-400';
+      case '1-2 Years': return 'text-warning-400';
+      case '3-5 Years': return 'text-warning-400';
       default: return 'text-ink-400';
     }
   };

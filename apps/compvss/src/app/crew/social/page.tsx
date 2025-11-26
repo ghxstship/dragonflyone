@@ -55,10 +55,10 @@ export default function CrewSocialPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Online": return "bg-green-500";
-      case "Away": return "bg-yellow-500";
-      case "Offline": return "bg-gray-500";
-      default: return "bg-gray-500";
+      case "Online": return "bg-success-500";
+      case "Away": return "bg-warning-500";
+      case "Offline": return "bg-grey-500";
+      default: return "bg-grey-500";
     }
   };
 

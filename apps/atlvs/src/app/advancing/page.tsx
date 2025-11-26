@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Container, H1, Body, Tabs, TabsList, Tab, TabPanel } from '@ghxstship/ui';
-import { AdvanceRequestsList } from '@/components/advancing/AdvanceRequestsList';
+import { AdvanceRequestsList } from '@/components/advancing/advance-requests-list';
 
 type TabValue = 'all' | 'submitted' | 'approved' | 'in_progress' | 'fulfilled';
 

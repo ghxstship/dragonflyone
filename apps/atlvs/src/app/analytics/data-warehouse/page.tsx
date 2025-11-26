@@ -89,7 +89,7 @@ export default function DataWarehousePage() {
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Data Source Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Name:</strong> {selected.name}</div>
         <div><strong>Type:</strong> {selected.type}</div>
         <div><strong>Status:</strong> {selected.status}</div>

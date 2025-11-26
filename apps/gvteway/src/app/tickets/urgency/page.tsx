@@ -56,10 +56,10 @@ export default function UrgencyTacticsPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Active": return "text-green-600";
-      case "Scheduled": return "text-blue-600";
-      case "Ended": return "text-gray-400";
-      default: return "text-gray-600";
+      case "Active": return "text-success-600";
+      case "Scheduled": return "text-info-600";
+      case "Ended": return "text-grey-400";
+      default: return "text-grey-600";
     }
   };
 
@@ -86,11 +86,11 @@ export default function UrgencyTacticsPage() {
             <Body className="text-grey-600">Countdown timers and low inventory alerts</Body>
           </Stack>
 
-          <Card className="border-2 border-red-500 p-6 bg-red-50">
+          <Card className="border-2 border-error-500 p-6 bg-error-50">
             <Stack gap={4}>
               <Stack direction="horizontal" className="justify-between items-center">
                 <Stack gap={1}>
-                  <Label className="text-red-600 font-bold">🔥 EARLY BIRD ENDS SOON</Label>
+                  <Label className="text-error-600 font-bold">🔥 EARLY BIRD ENDS SOON</Label>
                   <Body>Summer Music Festival 2025 - Save $50 on tickets</Body>
                 </Stack>
                 <Button variant="solid">Get Tickets</Button>
@@ -102,9 +102,9 @@ export default function UrgencyTacticsPage() {
                   { label: "Minutes", value: countdown.minutes },
                   { label: "Seconds", value: countdown.seconds },
                 ].map((item) => (
-                  <Card key={item.label} className="p-3 border-2 border-red-300 text-center bg-white">
-                    <Label className="font-mono text-3xl text-red-600">{String(item.value).padStart(2, "0")}</Label>
-                    <Label className="text-gray-500">{item.label}</Label>
+                  <Card key={item.label} className="p-3 border-2 border-error-300 text-center bg-white">
+                    <Label className="font-mono text-3xl text-error-600">{String(item.value).padStart(2, "0")}</Label>
+                    <Label className="text-grey-500">{item.label}</Label>
                   </Card>
                 ))}
               </Grid>
@@ -141,22 +141,22 @@ export default function UrgencyTacticsPage() {
                     </Stack>
                   </Stack>
                   <Stack gap={1} className="col-span-2">
-                    <Label className="text-gray-500">Message</Label>
+                    <Label className="text-grey-500">Message</Label>
                     <Label>{tactic.message}</Label>
                   </Stack>
                   {tactic.threshold && (
                     <Stack gap={2}>
                       <Stack direction="horizontal" className="justify-between">
-                        <Label className="text-gray-500">Inventory</Label>
-                        <Label className={tactic.currentValue && tactic.currentValue < 25 ? "text-red-600" : ""}>{tactic.currentValue} / {tactic.threshold}</Label>
+                        <Label className="text-grey-500">Inventory</Label>
+                        <Label className={tactic.currentValue && tactic.currentValue < 25 ? "text-error-600" : ""}>{tactic.currentValue} / {tactic.threshold}</Label>
                       </Stack>
                       <ProgressBar value={((tactic.currentValue || 0) / tactic.threshold) * 100} className="h-2" />
                     </Stack>
                   )}
-                  {!tactic.threshold && <Label className="text-gray-500">{tactic.endDate}</Label>}
+                  {!tactic.threshold && <Label className="text-grey-500">{tactic.endDate}</Label>}
                   <Stack gap={1}>
                     <Label className={getStatusColor(tactic.status)}>{tactic.status}</Label>
-                    <Label className="text-gray-500">{tactic.conversions} conversions</Label>
+                    <Label className="text-grey-500">{tactic.conversions} conversions</Label>
                   </Stack>
                   <Button variant="outline" size="sm" onClick={() => setSelectedTactic(tactic)}>Configure</Button>
                 </Grid>
@@ -168,21 +168,21 @@ export default function UrgencyTacticsPage() {
             <Stack gap={4}>
               <H3>Low Inventory Alert Preview</H3>
               <Grid cols={2} gap={4}>
-                <Card className="p-4 border-2 border-orange-500 bg-orange-50">
+                <Card className="p-4 border-2 border-warning-500 bg-warning-50">
                   <Stack direction="horizontal" gap={3}>
                     <Label className="text-2xl">🔥</Label>
                     <Stack gap={1}>
-                      <Label className="font-bold text-orange-600">Only 23 VIP tickets left!</Label>
-                      <Label className="text-gray-600">High demand - selling fast</Label>
+                      <Label className="font-bold text-warning-600">Only 23 VIP tickets left!</Label>
+                      <Label className="text-grey-600">High demand - selling fast</Label>
                     </Stack>
                   </Stack>
                 </Card>
-                <Card className="p-4 border-2 border-red-500 bg-red-50">
+                <Card className="p-4 border-2 border-error-500 bg-error-50">
                   <Stack direction="horizontal" gap={3}>
                     <Label className="text-2xl">⚡</Label>
                     <Stack gap={1}>
-                      <Label className="font-bold text-red-600">Final 12 tickets available!</Label>
-                      <Label className="text-gray-600">Last chance to attend</Label>
+                      <Label className="font-bold text-error-600">Final 12 tickets available!</Label>
+                      <Label className="text-grey-600">Last chance to attend</Label>
                     </Stack>
                   </Stack>
                 </Card>
@@ -217,7 +217,7 @@ export default function UrgencyTacticsPage() {
                 <Input type="number" defaultValue={selectedTactic.threshold} placeholder="Threshold" className="border-2 border-black" />
               )}
               <Stack gap={2}>
-                <Label className="text-gray-500">Display Options</Label>
+                <Label className="text-grey-500">Display Options</Label>
                 <Stack gap={1}>
                   {["Show on event page", "Show in checkout", "Show in email", "Show in app notifications"].map((opt, idx) => (
                     <Stack key={idx} direction="horizontal" gap={2}>
@@ -228,7 +228,7 @@ export default function UrgencyTacticsPage() {
                 </Stack>
               </Stack>
               <Stack gap={1}>
-                <Label className="text-gray-500">Performance</Label>
+                <Label className="text-grey-500">Performance</Label>
                 <Label className="font-mono">{selectedTactic.conversions} conversions attributed</Label>
               </Stack>
             </Stack>
@@ -236,7 +236,7 @@ export default function UrgencyTacticsPage() {
         </ModalBody>
         <ModalFooter>
           <Button variant="outline" onClick={() => setSelectedTactic(null)}>Cancel</Button>
-          {selectedTactic?.status === "Active" && <Button variant="outline" className="text-red-600">Deactivate</Button>}
+          {selectedTactic?.status === "Active" && <Button variant="outline" className="text-error-600">Deactivate</Button>}
           <Button variant="solid" onClick={() => setSelectedTactic(null)}>Save</Button>
         </ModalFooter>
       </Modal>

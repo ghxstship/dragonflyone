@@ -138,7 +138,7 @@ export default function ContactsPage() {
       id: 'contact',
       title: 'Contact Information',
       content: (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+        <div className="grid grid-cols-2 gap-4">
           <div><strong>Email:</strong> {selectedContact.email}</div>
           <div><strong>Phone:</strong> {selectedContact.phone || '—'}</div>
           <div><strong>Company:</strong> {selectedContact.company || '—'}</div>

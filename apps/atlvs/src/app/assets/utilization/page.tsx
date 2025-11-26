@@ -78,7 +78,7 @@ export default function AssetUtilizationPage() {
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Utilization Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Asset:</strong> {selected.name}</div>
         <div><strong>Category:</strong> {selected.category}</div>
         <div><strong>Purchase Price:</strong> ${selected.purchasePrice.toLocaleString()}</div>

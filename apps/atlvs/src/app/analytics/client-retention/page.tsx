@@ -84,7 +84,7 @@ export default function ClientRetentionPage() {
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Client Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Client:</strong> {selected.clientName}</div>
         <div><strong>Segment:</strong> {selected.segment}</div>
         <div><strong>Total Revenue:</strong> {formatCurrency(selected.totalRevenue)}</div>

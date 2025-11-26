@@ -93,15 +93,15 @@ export default function DealsPage() {
   const getDealTypeBadge = (type: string) => {
     switch (type) {
       case 'flash_sale':
-        return <Badge className="bg-red-500 text-white">Flash Sale</Badge>;
+        return <Badge className="bg-error-500 text-white">Flash Sale</Badge>;
       case 'last_minute':
-        return <Badge className="bg-orange-500 text-white">Last Minute</Badge>;
+        return <Badge className="bg-warning-500 text-white">Last Minute</Badge>;
       case 'early_bird':
-        return <Badge className="bg-blue-500 text-white">Early Bird</Badge>;
+        return <Badge className="bg-info-500 text-white">Early Bird</Badge>;
       case 'group':
         return <Badge className="bg-purple-500 text-white">Group Deal</Badge>;
       case 'member':
-        return <Badge className="bg-green-500 text-white">Member Exclusive</Badge>;
+        return <Badge className="bg-success-500 text-white">Member Exclusive</Badge>;
       default:
         return <Badge>Deal</Badge>;
     }
@@ -162,11 +162,11 @@ export default function DealsPage() {
           <Section className="mb-12">
             <Stack direction="horizontal" gap={3} className="items-center mb-6">
               <H2>FLASH SALES</H2>
-              <Badge className="bg-red-500 text-white animate-pulse">Limited Time</Badge>
+              <Badge className="bg-error-500 text-white animate-pulse">Limited Time</Badge>
             </Stack>
             <Grid cols={3} gap={6}>
               {flashSales.map(deal => (
-                <Card key={deal.id} className="overflow-hidden border-2 border-red-500">
+                <Card key={deal.id} className="overflow-hidden border-2 border-error-500">
                   <Stack className="relative">
                     <Stack className="absolute top-2 left-2 z-10" direction="horizontal" gap={2}>
                       {getDealTypeBadge(deal.deal_type)}
@@ -175,7 +175,7 @@ export default function DealsPage() {
                       </Badge>
                     </Stack>
                     {deal.expires_at && (
-                      <Badge className="absolute top-2 right-2 z-10 bg-red-600 text-white">
+                      <Badge className="absolute top-2 right-2 z-10 bg-error-600 text-white">
                         {getTimeRemaining(deal.expires_at)}
                       </Badge>
                     )}
@@ -186,13 +186,13 @@ export default function DealsPage() {
                     metadata={`${deal.event_date} • ${deal.event_venue}`}
                     onClick={() => handleEventClick(deal.event_id)}
                   />
-                  <Stack className="p-4 bg-gray-50 border-t">
+                  <Stack className="p-4 bg-grey-50 border-t">
                     <Stack direction="horizontal" className="justify-between items-center">
                       <Stack>
-                        <Body className="text-gray-500 line-through text-sm">
+                        <Body className="text-grey-500 line-through text-sm">
                           ${deal.original_price}
                         </Body>
-                        <Body className="font-bold text-xl text-red-600">
+                        <Body className="font-bold text-xl text-error-600">
                           ${deal.deal_price}
                         </Body>
                       </Stack>
@@ -201,7 +201,7 @@ export default function DealsPage() {
                       </Button>
                     </Stack>
                     {deal.quantity_available && deal.quantity_available < 50 && (
-                      <Body className="text-sm text-red-600 mt-2">
+                      <Body className="text-sm text-error-600 mt-2">
                         Only {deal.quantity_available} left at this price!
                       </Body>
                     )}
@@ -216,7 +216,7 @@ export default function DealsPage() {
           <Section className="mb-12">
             <Stack direction="horizontal" gap={3} className="items-center mb-6">
               <H2>LAST MINUTE DEALS</H2>
-              <Body className="text-gray-600">Events happening soon</Body>
+              <Body className="text-grey-600">Events happening soon</Body>
             </Stack>
             <Grid cols={3} gap={6}>
               {lastMinute.map(deal => (
@@ -235,10 +235,10 @@ export default function DealsPage() {
                     metadata={`${deal.event_date} • ${deal.event_venue}`}
                     onClick={() => handleEventClick(deal.event_id)}
                   />
-                  <Stack className="p-4 bg-gray-50 border-t">
+                  <Stack className="p-4 bg-grey-50 border-t">
                     <Stack direction="horizontal" className="justify-between items-center">
                       <Stack>
-                        <Body className="text-gray-500 line-through text-sm">
+                        <Body className="text-grey-500 line-through text-sm">
                           ${deal.original_price}
                         </Body>
                         <Body className="font-bold text-xl">
@@ -276,10 +276,10 @@ export default function DealsPage() {
                     metadata={`${deal.event_date} • ${deal.event_venue}`}
                     onClick={() => handleEventClick(deal.event_id)}
                   />
-                  <Stack className="p-4 bg-gray-50 border-t">
+                  <Stack className="p-4 bg-grey-50 border-t">
                     <Stack direction="horizontal" className="justify-between items-center">
                       <Stack>
-                        <Body className="text-gray-500 line-through text-sm">
+                        <Body className="text-grey-500 line-through text-sm">
                           ${deal.original_price}
                         </Body>
                         <Body className="font-bold text-xl">
@@ -291,9 +291,9 @@ export default function DealsPage() {
                       </Button>
                     </Stack>
                     {deal.promo_code && (
-                      <Stack className="mt-2 p-2 bg-gray-100 rounded">
+                      <Stack className="mt-2 p-2 bg-grey-100 rounded">
                         <Stack direction="horizontal" gap={1}>
-                          <Body className="text-sm text-gray-600">Use code:</Body>
+                          <Body className="text-sm text-grey-600">Use code:</Body>
                           <Label className="font-mono font-bold">{deal.promo_code}</Label>
                         </Stack>
                       </Stack>
@@ -308,7 +308,7 @@ export default function DealsPage() {
         {deals.length === 0 && (
           <Card className="p-12 text-center">
             <H3 className="mb-4">NO DEALS AVAILABLE</H3>
-            <Body className="text-gray-600 mb-6">
+            <Body className="text-grey-600 mb-6">
               Check back soon for new deals and offers.
             </Body>
             <Button variant="outline" onClick={() => router.push('/browse')}>
@@ -321,7 +321,7 @@ export default function DealsPage() {
           <Stack direction="horizontal" className="justify-between items-center">
             <Stack>
               <H3 className="text-white">GET DEAL ALERTS</H3>
-              <Body className="text-gray-300">
+              <Body className="text-grey-300">
                 Be the first to know about flash sales and special offers.
               </Body>
             </Stack>

@@ -158,7 +158,7 @@ export default function DeliveriesPage() {
       id: 'overview',
       title: 'Delivery Details',
       content: (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+        <div className="grid grid-cols-2 gap-4">
           <div><strong>Vendor:</strong> {selectedDelivery.vendor}</div>
           <div><strong>Status:</strong> {selectedDelivery.status}</div>
           <div><strong>Date:</strong> {selectedDelivery.scheduledDate}</div>
@@ -176,7 +176,7 @@ export default function DeliveriesPage() {
       content: (
         <div>
           {selectedDelivery.items.map((item, idx) => (
-            <div key={idx} style={{ padding: '0.5rem 0', borderBottom: '1px solid #333' }}>
+            <div key={idx} className="py-2 border-b border-grey-700">
               <strong>{item.name}</strong> — Qty: {item.quantity} {item.received !== undefined && `(Received: ${item.received})`}
             </div>
           ))}

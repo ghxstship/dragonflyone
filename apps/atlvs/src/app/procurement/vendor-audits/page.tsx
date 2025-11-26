@@ -45,18 +45,18 @@ export default function VendorAuditsPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Completed': return 'text-green-400';
-      case 'Scheduled': return 'text-blue-400';
-      case 'In Progress': return 'text-yellow-400';
-      case 'Overdue': return 'text-red-400';
+      case 'Completed': return 'text-success-400';
+      case 'Scheduled': return 'text-info-400';
+      case 'In Progress': return 'text-warning-400';
+      case 'Overdue': return 'text-error-400';
       default: return 'text-ink-400';
     }
   };
 
   const getScoreColor = (score: number) => {
-    if (score >= 90) return 'text-green-400';
-    if (score >= 70) return 'text-yellow-400';
-    return 'text-red-400';
+    if (score >= 90) return 'text-success-400';
+    if (score >= 70) return 'text-warning-400';
+    return 'text-error-400';
   };
 
   const filteredAudits = activeTab === 'upcoming' 
@@ -113,7 +113,7 @@ export default function VendorAuditsPage() {
             </TableHeader>
             <TableBody>
               {filteredAudits.map((audit) => (
-                <TableRow key={audit.id} className={audit.status === 'Overdue' ? 'bg-red-900/10' : ''}>
+                <TableRow key={audit.id} className={audit.status === 'Overdue' ? 'bg-error-900/10' : ''}>
                   <TableCell><Label className="text-white">{audit.vendorName}</Label></TableCell>
                   <TableCell><Badge variant="outline">{audit.category}</Badge></TableCell>
                   <TableCell><Label className="text-ink-300">{audit.auditType}</Label></TableCell>

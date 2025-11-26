@@ -199,8 +199,8 @@ function ConfirmationContent() {
                 </Stack>
                 {order.discount > 0 && (
                   <Stack gap={1} direction="horizontal" className="justify-between">
-                    <Body className="text-green-400">Discount</Body>
-                    <Body className="font-mono text-green-400">-{formatCurrency(order.discount)}</Body>
+                    <Body className="text-success-400">Discount</Body>
+                    <Body className="font-mono text-success-400">-{formatCurrency(order.discount)}</Body>
                   </Stack>
                 )}
                 <Stack gap={1} direction="horizontal" className="justify-between border-t border-grey-800 pt-2">

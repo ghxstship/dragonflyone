@@ -44,18 +44,18 @@ export default function BackgroundChecksPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Completed": return "text-green-400";
-      case "In Progress": case "Pending": return "text-yellow-400";
-      case "Failed": case "Expired": return "text-red-400";
+      case "Completed": return "text-success-400";
+      case "In Progress": case "Pending": return "text-warning-400";
+      case "Failed": case "Expired": return "text-error-400";
       default: return "text-ink-400";
     }
   };
 
   const getResultColor = (result?: string) => {
     switch (result) {
-      case "Clear": return "text-green-400";
-      case "Review Required": return "text-yellow-400";
-      case "Failed": return "text-red-400";
+      case "Clear": return "text-success-400";
+      case "Review Required": return "text-warning-400";
+      case "Failed": return "text-error-400";
       default: return "text-ink-400";
     }
   };
@@ -129,8 +129,8 @@ export default function BackgroundChecksPage() {
                   <TableCell>
                     {check.expiryDate ? (
                       <Stack gap={1}>
-                        <Label className={check.daysUntilExpiry && check.daysUntilExpiry < 0 ? "text-red-400" : check.daysUntilExpiry && check.daysUntilExpiry <= 30 ? "text-yellow-400" : "text-ink-300"}>{check.expiryDate}</Label>
-                        <Label size="xs" className={check.daysUntilExpiry && check.daysUntilExpiry < 0 ? "text-red-400" : "text-ink-500"}>
+                        <Label className={check.daysUntilExpiry && check.daysUntilExpiry < 0 ? "text-error-400" : check.daysUntilExpiry && check.daysUntilExpiry <= 30 ? "text-warning-400" : "text-ink-300"}>{check.expiryDate}</Label>
+                        <Label size="xs" className={check.daysUntilExpiry && check.daysUntilExpiry < 0 ? "text-error-400" : "text-ink-500"}>
                           {check.daysUntilExpiry && check.daysUntilExpiry < 0 ? `${Math.abs(check.daysUntilExpiry)} days ago` : `${check.daysUntilExpiry} days`}
                         </Label>
                       </Stack>
@@ -180,13 +180,13 @@ export default function BackgroundChecksPage() {
               {selectedCheck.expiryDate && (
                 <Stack gap={1}>
                   <Label className="text-ink-400">Expiry Date</Label>
-                  <Label className={selectedCheck.daysUntilExpiry && selectedCheck.daysUntilExpiry < 0 ? "text-red-400" : "text-white"}>{selectedCheck.expiryDate}</Label>
+                  <Label className={selectedCheck.daysUntilExpiry && selectedCheck.daysUntilExpiry < 0 ? "text-error-400" : "text-white"}>{selectedCheck.expiryDate}</Label>
                 </Stack>
               )}
               {selectedCheck.result === "Review Required" && (
-                <Card className="p-4 border border-yellow-800 bg-yellow-900/20">
+                <Card className="p-4 border border-warning-800 bg-warning-900/20">
                   <Stack gap={2}>
-                    <Label className="text-yellow-400">⚠️ Review Required</Label>
+                    <Label className="text-warning-400">⚠️ Review Required</Label>
                     <Label className="text-ink-300">This background check requires manual review before clearance.</Label>
                   </Stack>
                 </Card>

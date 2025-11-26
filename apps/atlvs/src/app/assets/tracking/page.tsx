@@ -78,7 +78,7 @@ export default function AssetTrackingPage() {
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Tracking Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Asset:</strong> {selected.assetName}</div>
         <div><strong>Asset ID:</strong> {selected.assetId}</div>
         <div><strong>Category:</strong> {selected.category}</div>

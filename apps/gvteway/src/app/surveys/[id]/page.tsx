@@ -134,7 +134,7 @@ export default function SurveyPage() {
                 type="button"
                 variant="ghost"
                 className={`text-3xl p-2 ${
-                  star <= (answers[question.id] || 0) ? 'text-yellow-500' : 'text-gray-300'
+                  star <= (answers[question.id] || 0) ? 'text-warning-500' : 'text-grey-300'
                 }`}
                 onClick={() => updateAnswer(question.id, star)}
               >
@@ -148,8 +148,8 @@ export default function SurveyPage() {
         return (
           <Stack gap={2}>
             <Stack direction="horizontal" className="justify-between">
-              <Body className="text-sm text-gray-500">{question.min_label || '1'}</Body>
-              <Body className="text-sm text-gray-500">{question.max_label || '10'}</Body>
+              <Body className="text-sm text-grey-500">{question.min_label || '1'}</Body>
+              <Body className="text-sm text-grey-500">{question.max_label || '10'}</Body>
             </Stack>
             <Stack direction="horizontal" gap={1}>
               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
@@ -239,7 +239,7 @@ export default function SurveyPage() {
         <Container className="py-16">
           <Card className="p-12 text-center mt-12">
             <H2 className="mb-4">SURVEY NOT FOUND</H2>
-            <Body className="text-gray-600 mb-6">
+            <Body className="text-grey-600 mb-6">
               This survey may have expired or been removed.
             </Body>
             <Button variant="solid" onClick={() => router.push('/my-events')}>
@@ -258,7 +258,7 @@ export default function SurveyPage() {
         <Container className="py-16">
           <Card className="p-12 text-center mt-12">
             <H2 className="mb-4">THANK YOU!</H2>
-            <Body className="text-gray-600 mb-6">
+            <Body className="text-grey-600 mb-6">
               Your feedback has been submitted. We appreciate you taking the time to share your experience.
             </Body>
             <Button variant="solid" onClick={() => router.push('/my-events')}>
@@ -301,13 +301,13 @@ export default function SurveyPage() {
               <Card key={question.id} className="p-6">
                 <Stack gap={4}>
                   <Stack direction="horizontal" gap={2} className="items-start">
-                    <Body className="text-gray-500">
+                    <Body className="text-grey-500">
                       {currentStep * questionsPerPage + index + 1}.
                     </Body>
                     <Stack className="flex-1">
                       <Body className="font-medium">
                         {question.question}
-                        {question.required && <Text className="text-red-500 ml-1">*</Text>}
+                        {question.required && <Text className="text-error-500 ml-1">*</Text>}
                       </Body>
                     </Stack>
                   </Stack>
@@ -325,7 +325,7 @@ export default function SurveyPage() {
                 Previous
               </Button>
 
-              <Body className="text-gray-500">
+              <Body className="text-grey-500">
                 Page {currentStep + 1} of {totalPages}
               </Body>
 
@@ -352,7 +352,7 @@ export default function SurveyPage() {
             <Card className="p-6 sticky top-6">
               <H3 className="mb-4">EVENT</H3>
               {survey.event_image && (
-                <Box className="h-32 bg-gray-100 mb-4 overflow-hidden relative">
+                <Box className="h-32 bg-grey-100 mb-4 overflow-hidden relative">
                   <Image
                     src={survey.event_image}
                     alt={survey.event_title}
@@ -362,19 +362,17 @@ export default function SurveyPage() {
                 </Box>
               )}
               <Body className="font-bold">{survey.event_title}</Body>
-              <Body className="text-gray-600 text-sm">{survey.event_date}</Body>
+              <Body className="text-grey-600 text-sm">{survey.event_date}</Body>
 
-              <Stack className="mt-6 pt-4 border-t border-gray-200">
+              <Stack className="mt-6 pt-4 border-t border-grey-200">
                 <H3 className="mb-2">PROGRESS</H3>
-                <Stack className="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
+                <Stack className="w-full bg-grey-200 h-2 rounded-full overflow-hidden">
                   <Stack
                     className="bg-black h-full transition-all"
-                    style={{
-                      width: `${(Object.keys(answers).length / survey.questions.length) * 100}%`,
-                    }}
+                    style={{ '--progress-width': `${(Object.keys(answers).length / survey.questions.length) * 100}%`, width: 'var(--progress-width)' } as React.CSSProperties}
                   />
                 </Stack>
-                <Body className="text-sm text-gray-500 mt-2">
+                <Body className="text-sm text-grey-500 mt-2">
                   {Object.keys(answers).length} of {survey.questions.length} answered
                 </Body>
               </Stack>

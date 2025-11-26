@@ -143,9 +143,9 @@ export default function MatchPage() {
   };
 
   const getMatchScoreColor = (score: number) => {
-    if (score >= 80) return 'text-green-600';
-    if (score >= 60) return 'text-yellow-600';
-    return 'text-gray-600';
+    if (score >= 80) return 'text-success-600';
+    if (score >= 60) return 'text-warning-600';
+    return 'text-grey-600';
   };
 
   const groupedInterests = interests.reduce((acc, interest) => {
@@ -236,7 +236,7 @@ export default function MatchPage() {
                 className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow"
                 onClick={() => router.push(`/events/${event.id}`)}
               >
-                <Stack className="relative h-32 bg-gray-100">
+                <Stack className="relative h-32 bg-grey-100">
                   {event.image_url ? (
                     <Image src={event.image_url} alt={event.title} fill className="object-cover" />
                   ) : (
@@ -245,19 +245,19 @@ export default function MatchPage() {
                     </Stack>
                   )}
                   <Stack className="absolute top-2 right-2">
-                    <Badge className="bg-green-500 text-white">{event.match_score}% Match</Badge>
+                    <Badge className="bg-success-500 text-white">{event.match_score}% Match</Badge>
                   </Stack>
                 </Stack>
                 <Stack className="p-3" gap={1}>
                   <Body className="font-bold line-clamp-1">{event.title}</Body>
-                  <Body className="text-xs text-gray-500">{event.venue_name}</Body>
-                  <Body className="text-xs text-gray-400">{event.match_reason}</Body>
+                  <Body className="text-xs text-grey-500">{event.venue_name}</Body>
+                  <Body className="text-xs text-grey-400">{event.match_reason}</Body>
                 </Stack>
               </Card>
             ))
           ) : (
             <Card className="col-span-4 p-8 text-center">
-              <Body className="text-gray-600">Add interests to see personalized event recommendations</Body>
+              <Body className="text-grey-600">Add interests to see personalized event recommendations</Body>
             </Card>
           )}
         </Grid>
@@ -272,7 +272,7 @@ export default function MatchPage() {
                 onClick={() => setSelectedMatch(match)}
               >
                 <Stack direction="horizontal" gap={4}>
-                  <Stack className="w-16 h-16 rounded-full bg-gray-200 overflow-hidden relative flex-shrink-0">
+                  <Stack className="w-16 h-16 rounded-full bg-grey-200 overflow-hidden relative flex-shrink-0">
                     {match.avatar_url ? (
                       <Image src={match.avatar_url} alt={match.name} fill className="object-cover" />
                     ) : (
@@ -286,7 +286,7 @@ export default function MatchPage() {
                       <Stack>
                         <Body className="font-bold">{match.name}</Body>
                         {match.location && (
-                          <Body className="text-xs text-gray-500">📍 {match.location}</Body>
+                          <Body className="text-xs text-grey-500">📍 {match.location}</Body>
                         )}
                       </Stack>
                       <Body className={`font-bold ${getMatchScoreColor(match.match_score)}`}>
@@ -305,7 +305,7 @@ export default function MatchPage() {
                         </Badge>
                       )}
                     </Stack>
-                    <Stack direction="horizontal" gap={4} className="mt-2 text-xs text-gray-500">
+                    <Stack direction="horizontal" gap={4} className="mt-2 text-xs text-grey-500">
                       <Body>{match.events_attended} events</Body>
                       {match.mutual_friends > 0 && (
                         <Body>{match.mutual_friends} mutual friends</Body>
@@ -318,7 +318,7 @@ export default function MatchPage() {
           ) : (
             <Card className="col-span-3 p-12 text-center">
               <H3 className="mb-4">NO MATCHES YET</H3>
-              <Body className="text-gray-600 mb-6">
+              <Body className="text-grey-600 mb-6">
                 Add your interests to find fans like you
               </Body>
               <Button variant="solid" onClick={() => setShowInterestsModal(true)}>
@@ -334,7 +334,7 @@ export default function MatchPage() {
           title="Your Interests"
         >
           <Stack gap={6}>
-            <Body className="text-gray-600">
+            <Body className="text-grey-600">
               Select your interests to get better matches and recommendations
             </Body>
             {Object.entries(groupedInterests).map(([category, categoryInterests]) => (
@@ -371,7 +371,7 @@ export default function MatchPage() {
           {selectedMatch && (
             <Stack gap={6}>
               <Stack direction="horizontal" gap={6} className="items-center">
-                <Stack className="w-24 h-24 rounded-full bg-gray-200 overflow-hidden relative flex-shrink-0">
+                <Stack className="w-24 h-24 rounded-full bg-grey-200 overflow-hidden relative flex-shrink-0">
                   {selectedMatch.avatar_url ? (
                     <Image src={selectedMatch.avatar_url} alt={selectedMatch.name} fill className="object-cover" />
                   ) : (
@@ -383,7 +383,7 @@ export default function MatchPage() {
                 <Stack>
                   <H2>{selectedMatch.name}</H2>
                   {selectedMatch.location && (
-                    <Body className="text-gray-500">📍 {selectedMatch.location}</Body>
+                    <Body className="text-grey-500">📍 {selectedMatch.location}</Body>
                   )}
                   <Body className={`text-2xl font-bold ${getMatchScoreColor(selectedMatch.match_score)}`}>
                     {selectedMatch.match_score}% Match
@@ -393,13 +393,13 @@ export default function MatchPage() {
 
               {selectedMatch.bio && (
                 <Stack gap={2}>
-                  <Label className="text-gray-500">About</Label>
+                  <Label className="text-grey-500">About</Label>
                   <Body>{selectedMatch.bio}</Body>
                 </Stack>
               )}
 
               <Stack gap={2}>
-                <Label className="text-gray-500">Interests</Label>
+                <Label className="text-grey-500">Interests</Label>
                 <Stack direction="horizontal" gap={2} className="flex-wrap">
                   {selectedMatch.interests.map(interest => (
                     <Badge key={interest} variant="outline">{interest}</Badge>
@@ -408,7 +408,7 @@ export default function MatchPage() {
               </Stack>
 
               <Stack gap={2}>
-                <Label className="text-gray-500">Favorite Genres</Label>
+                <Label className="text-grey-500">Favorite Genres</Label>
                 <Stack direction="horizontal" gap={2} className="flex-wrap">
                   {selectedMatch.favorite_genres.map(genre => (
                     <Badge key={genre} className="bg-purple-500 text-white">{genre}</Badge>
@@ -417,13 +417,13 @@ export default function MatchPage() {
               </Stack>
 
               <Grid cols={2} gap={4}>
-                <Stack className="text-center p-4 bg-gray-50 rounded">
+                <Stack className="text-center p-4 bg-grey-50 rounded">
                   <Body className="text-2xl font-bold">{selectedMatch.events_attended}</Body>
-                  <Body className="text-xs text-gray-500">Events Attended</Body>
+                  <Body className="text-xs text-grey-500">Events Attended</Body>
                 </Stack>
-                <Stack className="text-center p-4 bg-gray-50 rounded">
+                <Stack className="text-center p-4 bg-grey-50 rounded">
                   <Body className="text-2xl font-bold">{selectedMatch.mutual_friends}</Body>
-                  <Body className="text-xs text-gray-500">Mutual Friends</Body>
+                  <Body className="text-xs text-grey-500">Mutual Friends</Body>
                 </Stack>
               </Grid>
 

@@ -83,17 +83,17 @@ export default function WinLossPage() {
                 <Stack gap={2}>
                   <Stack direction="horizontal" className="justify-between">
                     <Label className="text-ink-400">Current Period</Label>
-                    <Label className="font-mono text-green-400">{winRate}%</Label>
+                    <Label className="font-mono text-success-400">{winRate}%</Label>
                   </Stack>
                   <ProgressBar value={winRate} className="h-4" />
                 </Stack>
                 <Grid cols={2} gap={4}>
-                  <Card className="p-3 border border-green-800 bg-green-900/20 text-center">
-                    <Label className="font-mono text-green-400 text-2xl">{wonRecords.length}</Label>
+                  <Card className="p-3 border border-success-800 bg-success-900/20 text-center">
+                    <Label className="font-mono text-success-400 text-2xl">{wonRecords.length}</Label>
                     <Label className="text-ink-400">Won</Label>
                   </Card>
-                  <Card className="p-3 border border-red-800 bg-red-900/20 text-center">
-                    <Label className="font-mono text-red-400 text-2xl">{lostRecords.length}</Label>
+                  <Card className="p-3 border border-error-800 bg-error-900/20 text-center">
+                    <Label className="font-mono text-error-400 text-2xl">{lostRecords.length}</Label>
                     <Label className="text-ink-400">Lost</Label>
                   </Card>
                 </Grid>
@@ -107,7 +107,7 @@ export default function WinLossPage() {
                     <Stack key={idx} gap={1}>
                       <Stack direction="horizontal" className="justify-between">
                         <Label className="text-ink-300">{reason}</Label>
-                        <Label className="font-mono text-red-400">{count}</Label>
+                        <Label className="font-mono text-error-400">{count}</Label>
                       </Stack>
                       <ProgressBar value={(count / lostRecords.length) * 100} className="h-2" />
                     </Stack>
@@ -146,7 +146,7 @@ export default function WinLossPage() {
                   <TableCell><Label className="text-white">{record.opportunity}</Label></TableCell>
                   <TableCell><Label className="text-ink-300">{record.client}</Label></TableCell>
                   <TableCell><Label className="font-mono text-white">{formatCurrency(record.value)}</Label></TableCell>
-                  <TableCell><Label className={record.result === "Won" ? "text-green-400" : "text-red-400"}>{record.result}</Label></TableCell>
+                  <TableCell><Label className={record.result === "Won" ? "text-success-400" : "text-error-400"}>{record.result}</Label></TableCell>
                   <TableCell><Label className="text-ink-300">{record.reason}</Label></TableCell>
                   <TableCell><Label className="text-ink-400">{record.closeDate}</Label></TableCell>
                   <TableCell><Button variant="ghost" size="sm" onClick={() => setSelectedRecord(record)}>Details</Button></TableCell>
@@ -169,7 +169,7 @@ export default function WinLossPage() {
           {selectedRecord && (
             <Stack gap={4}>
               <Body className="text-white">{selectedRecord.opportunity}</Body>
-              <Badge variant={selectedRecord.result === "Won" ? "solid" : "outline"} className={selectedRecord.result === "Won" ? "bg-green-600" : ""}>{selectedRecord.result}</Badge>
+              <Badge variant={selectedRecord.result === "Won" ? "solid" : "outline"} className={selectedRecord.result === "Won" ? "bg-success-600" : ""}>{selectedRecord.result}</Badge>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}><Label className="text-ink-400">Client</Label><Label className="text-white">{selectedRecord.client}</Label></Stack>
                 <Stack gap={1}><Label className="text-ink-400">Value</Label><Label className="font-mono text-white">{formatCurrency(selectedRecord.value)}</Label></Stack>
@@ -178,7 +178,7 @@ export default function WinLossPage() {
                 <Stack gap={1}><Label className="text-ink-400">Close Date</Label><Label className="text-white">{selectedRecord.closeDate}</Label></Stack>
                 <Stack gap={1}><Label className="text-ink-400">Sales Rep</Label><Label className="text-white">{selectedRecord.salesRep}</Label></Stack>
               </Grid>
-              {selectedRecord.competitor && <Stack gap={1}><Label className="text-ink-400">Lost To</Label><Label className="text-red-400">{selectedRecord.competitor}</Label></Stack>}
+              {selectedRecord.competitor && <Stack gap={1}><Label className="text-ink-400">Lost To</Label><Label className="text-error-400">{selectedRecord.competitor}</Label></Stack>}
               <Stack gap={1}><Label className="text-ink-400">Reason</Label><Body className="text-ink-300">{selectedRecord.reason}</Body></Stack>
               {selectedRecord.lessons && <Stack gap={1}><Label className="text-ink-400">Lessons Learned</Label><Body className="text-ink-300">{selectedRecord.lessons}</Body></Stack>}
             </Stack>
@@ -196,10 +196,10 @@ export default function WinLossPage() {
             <Stack gap={2}>
               <Label className="text-ink-400">Win Factors</Label>
               {Object.entries(winReasons).map(([reason, count], idx) => (
-                <Card key={idx} className="p-3 border border-green-800 bg-green-900/20">
+                <Card key={idx} className="p-3 border border-success-800 bg-success-900/20">
                   <Stack direction="horizontal" className="justify-between">
-                    <Label className="text-green-400">{reason}</Label>
-                    <Label className="font-mono text-green-400">{count}x</Label>
+                    <Label className="text-success-400">{reason}</Label>
+                    <Label className="font-mono text-success-400">{count}x</Label>
                   </Stack>
                 </Card>
               ))}
@@ -207,10 +207,10 @@ export default function WinLossPage() {
             <Stack gap={2}>
               <Label className="text-ink-400">Loss Factors</Label>
               {Object.entries(lossReasons).map(([reason, count], idx) => (
-                <Card key={idx} className="p-3 border border-red-800 bg-red-900/20">
+                <Card key={idx} className="p-3 border border-error-800 bg-error-900/20">
                   <Stack direction="horizontal" className="justify-between">
-                    <Label className="text-red-400">{reason}</Label>
-                    <Label className="font-mono text-red-400">{count}x</Label>
+                    <Label className="text-error-400">{reason}</Label>
+                    <Label className="font-mono text-error-400">{count}x</Label>
                   </Stack>
                 </Card>
               ))}

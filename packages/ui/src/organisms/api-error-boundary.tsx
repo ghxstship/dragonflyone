@@ -23,7 +23,7 @@ export function ApiErrorBoundary({ children, onRetry }: ApiErrorBoundaryProps) {
 
   const fallback = (
     <div className="flex min-h-[400px] items-center justify-center p-6">
-      <div className="w-full max-w-md space-y-4 border-2 border-yellow-500 bg-ink-900 p-6">
+      <div className="w-full max-w-md space-y-4 border-2 border-warning-500 bg-ink-900 p-6">
         <div className="space-y-2">
           <h2 className="font-display text-2xl text-white">
             Connection Error

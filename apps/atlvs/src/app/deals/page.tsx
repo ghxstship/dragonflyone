@@ -98,7 +98,7 @@ export default function DealsPage() {
 
   const detailSections: DetailSection[] = selectedDeal ? [
     { id: 'overview', title: 'Deal Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Title:</strong> {selectedDeal.title}</div>
         <div><strong>Status:</strong> {selectedDeal.status}</div>
         <div><strong>Client:</strong> {selectedDeal.client || '—'}</div>

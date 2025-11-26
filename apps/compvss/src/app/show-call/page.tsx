@@ -57,9 +57,9 @@ export default function ShowCallPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Checked In": case "On Site": return "text-green-400";
-      case "Late": return "text-yellow-400";
-      case "No Show": return "text-red-400";
+      case "Checked In": case "On Site": return "text-success-400";
+      case "Late": return "text-warning-400";
+      case "No Show": return "text-error-400";
       case "Not Due": return "text-ink-400";
       default: return "text-ink-400";
     }
@@ -67,9 +67,9 @@ export default function ShowCallPage() {
 
   const getStatusBg = (status: string) => {
     switch (status) {
-      case "Checked In": case "On Site": return "border-green-800 bg-green-900/10";
-      case "Late": return "border-yellow-800 bg-yellow-900/10";
-      case "No Show": return "border-red-800 bg-red-900/10";
+      case "Checked In": case "On Site": return "border-success-800 bg-success-900/10";
+      case "Late": return "border-warning-800 bg-warning-900/10";
+      case "No Show": return "border-error-800 bg-error-900/10";
       default: return "border-ink-800 bg-ink-900/50";
     }
   };
@@ -96,24 +96,24 @@ export default function ShowCallPage() {
           </Stack>
 
           <Grid cols={4} gap={6}>
-            <StatCard label="Checked In" value={checkedInCount} trend="up" className="bg-transparent border-2 border-green-800" />
-            <StatCard label="Late" value={lateCount} trend={lateCount > 0 ? "down" : "neutral"} className="bg-transparent border-2 border-yellow-800" />
-            <StatCard label="No Show" value={noShowCount} trend={noShowCount > 0 ? "down" : "neutral"} className="bg-transparent border-2 border-red-800" />
+            <StatCard label="Checked In" value={checkedInCount} trend="up" className="bg-transparent border-2 border-success-800" />
+            <StatCard label="Late" value={lateCount} trend={lateCount > 0 ? "down" : "neutral"} className="bg-transparent border-2 border-warning-800" />
+            <StatCard label="No Show" value={noShowCount} trend={noShowCount > 0 ? "down" : "neutral"} className="bg-transparent border-2 border-error-800" />
             <StatCard label="Not Due Yet" value={notDueCount} className="bg-transparent border-2 border-ink-800" />
           </Grid>
 
           <Card className="p-4 border-2 border-ink-800 bg-ink-900/50">
             <Grid cols={4} gap={4}>
               <Stack gap={1} className="text-center">
-                <Label className="text-green-400 text-3xl font-mono">{checkedInCount}</Label>
+                <Label className="text-success-400 text-3xl font-mono">{checkedInCount}</Label>
                 <Label size="xs" className="text-ink-400">Present</Label>
               </Stack>
               <Stack gap={1} className="text-center">
-                <Label className="text-yellow-400 text-3xl font-mono">{lateCount}</Label>
+                <Label className="text-warning-400 text-3xl font-mono">{lateCount}</Label>
                 <Label size="xs" className="text-ink-400">Late</Label>
               </Stack>
               <Stack gap={1} className="text-center">
-                <Label className="text-red-400 text-3xl font-mono">{noShowCount}</Label>
+                <Label className="text-error-400 text-3xl font-mono">{noShowCount}</Label>
                 <Label size="xs" className="text-ink-400">Missing</Label>
               </Stack>
               <Stack gap={1} className="text-center">
@@ -147,7 +147,7 @@ export default function ShowCallPage() {
                         <Label size="xs" className="text-ink-500">Call Time</Label>
                         <Label className="font-mono text-white">{crew.callTime}</Label>
                         {crew.checkedInAt && (
-                          <Label size="xs" className="text-green-400">In: {crew.checkedInAt}</Label>
+                          <Label size="xs" className="text-success-400">In: {crew.checkedInAt}</Label>
                         )}
                       </Stack>
                       <Stack gap={2} className="items-end">

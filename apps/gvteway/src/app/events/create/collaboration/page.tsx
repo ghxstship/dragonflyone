@@ -64,21 +64,21 @@ export default function EventCollaborationPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Active": return "text-green-600";
-      case "Pending": return "text-yellow-600";
-      case "Revoked": return "text-red-600";
-      default: return "text-gray-600";
+      case "Active": return "text-success-600";
+      case "Pending": return "text-warning-600";
+      case "Revoked": return "text-error-600";
+      default: return "text-grey-600";
     }
   };
 
   const getRoleColor = (role: string) => {
     switch (role) {
-      case "Promoter": return "bg-blue-100 text-blue-800";
+      case "Promoter": return "bg-info-100 text-info-800";
       case "Venue": return "bg-purple-100 text-purple-800";
-      case "Artist": return "bg-green-100 text-green-800";
-      case "Sponsor": return "bg-yellow-100 text-yellow-800";
-      case "Production": return "bg-red-100 text-red-800";
-      default: return "bg-gray-100 text-gray-800";
+      case "Artist": return "bg-success-100 text-success-800";
+      case "Sponsor": return "bg-warning-100 text-warning-800";
+      case "Production": return "bg-error-100 text-error-800";
+      default: return "bg-grey-100 text-grey-800";
     }
   };
 
@@ -88,7 +88,7 @@ export default function EventCollaborationPage() {
         <Stack gap={8}>
           <Stack gap={2}>
             <H1>EVENT COLLABORATION</H1>
-            <Body className="text-gray-600">Manage team permissions and collaboration</Body>
+            <Body className="text-grey-600">Manage team permissions and collaboration</Body>
           </Stack>
 
           <Grid cols={4} gap={6}>
@@ -117,14 +117,14 @@ export default function EventCollaborationPage() {
                     <Stack direction="horizontal" className="justify-between">
                       <Stack gap={1}>
                         <Body className="font-bold">{collaborator.name}</Body>
-                        <Label className="text-gray-500">{collaborator.email}</Label>
+                        <Label className="text-grey-500">{collaborator.email}</Label>
                       </Stack>
                       <Stack gap={1} className="text-right">
                         <Badge className={getRoleColor(collaborator.role)}>{collaborator.role}</Badge>
                         <Label className={getStatusColor(collaborator.status)}>{collaborator.status}</Label>
                       </Stack>
                     </Stack>
-                    <Label className="text-gray-600">{collaborator.organization}</Label>
+                    <Label className="text-grey-600">{collaborator.organization}</Label>
                     <Stack direction="horizontal" gap={2} className="flex-wrap">
                       {collaborator.permissions.slice(0, 3).map((perm, idx) => (
                         <Badge key={idx} variant="outline">{perm}</Badge>
@@ -134,7 +134,7 @@ export default function EventCollaborationPage() {
                       )}
                     </Stack>
                     {collaborator.lastActive && (
-                      <Label size="xs" className="text-gray-400">Last active: {collaborator.lastActive}</Label>
+                      <Label size="xs" className="text-grey-400">Last active: {collaborator.lastActive}</Label>
                     )}
                     <Stack direction="horizontal" gap={2}>
                       <Button variant="outline" size="sm" onClick={() => setSelectedCollaborator(collaborator)}>Manage</Button>
@@ -162,7 +162,7 @@ export default function EventCollaborationPage() {
                     <TableCell><Label className="font-medium">{activity.user}</Label></TableCell>
                     <TableCell><Label>{activity.action}</Label></TableCell>
                     <TableCell><Badge variant="outline">{activity.section}</Badge></TableCell>
-                    <TableCell><Label className="text-gray-500">{activity.timestamp}</Label></TableCell>
+                    <TableCell><Label className="text-grey-500">{activity.timestamp}</Label></TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -180,12 +180,12 @@ export default function EventCollaborationPage() {
                     { role: "Artist", perms: ["Artist info editing", "Event viewing", "Rider access"] },
                     { role: "Sponsor", perms: ["Event viewing", "Analytics viewing", "Brand placement"] },
                   ].map((level) => (
-                    <Card key={level.role} className="p-4 border border-gray-200">
+                    <Card key={level.role} className="p-4 border border-grey-200">
                       <Stack gap={2}>
                         <Badge className={getRoleColor(level.role)}>{level.role}</Badge>
                         <Stack gap={1}>
                           {level.perms.map((perm, idx) => (
-                            <Label key={idx} className="text-gray-600">• {perm}</Label>
+                            <Label key={idx} className="text-grey-600">• {perm}</Label>
                           ))}
                         </Stack>
                       </Stack>
@@ -207,14 +207,14 @@ export default function EventCollaborationPage() {
             <Stack gap={4}>
               <Stack gap={1}>
                 <Label className="font-bold">{selectedCollaborator.name}</Label>
-                <Label className="text-gray-500">{selectedCollaborator.email}</Label>
+                <Label className="text-grey-500">{selectedCollaborator.email}</Label>
               </Stack>
               <Stack gap={1}>
-                <Label className="text-gray-500">Organization</Label>
+                <Label className="text-grey-500">Organization</Label>
                 <Label>{selectedCollaborator.organization}</Label>
               </Stack>
               <Stack gap={2}>
-                <Label className="text-gray-500">Role</Label>
+                <Label className="text-grey-500">Role</Label>
                 <Select defaultValue={selectedCollaborator.role} className="border-2 border-black">
                   <option value="Promoter">Promoter</option>
                   <option value="Venue">Venue</option>
@@ -224,7 +224,7 @@ export default function EventCollaborationPage() {
                 </Select>
               </Stack>
               <Stack gap={2}>
-                <Label className="text-gray-500">Permissions</Label>
+                <Label className="text-grey-500">Permissions</Label>
                 <Stack gap={1}>
                   {permissionOptions.map((perm) => (
                     <Stack key={perm} direction="horizontal" gap={2}>
@@ -239,7 +239,7 @@ export default function EventCollaborationPage() {
         </ModalBody>
         <ModalFooter>
           <Button variant="outline" onClick={() => setSelectedCollaborator(null)}>Cancel</Button>
-          <Button variant="outline" className="text-red-600">Revoke Access</Button>
+          <Button variant="outline" className="text-error-600">Revoke Access</Button>
           <Button variant="solid" onClick={() => setSelectedCollaborator(null)}>Save Changes</Button>
         </ModalFooter>
       </Modal>

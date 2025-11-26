@@ -48,21 +48,21 @@ export default function Home() {
       <Container className="relative mx-auto flex max-w-6xl flex-col gap-16 px-6 pt-16 pb-24 lg:px-8">
         <Header className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
           <Stack gap={6}>
-            <Label className="text-sm uppercase tracking-[0.4em] text-ink-400">{atlvsHero.kicker}</Label>
+            <Label className="text-sm uppercase tracking-display text-ink-400">{atlvsHero.kicker}</Label>
             <H1 className="text-5xl uppercase text-ink-50 md:text-7xl lg:text-8xl">
               {atlvsHero.headline}
             </H1>
             <Body className="max-w-2xl text-base text-ink-300 md:text-lg">{atlvsHero.description}</Body>
-            <Stack direction="horizontal" gap={3} className="flex-wrap text-xs uppercase tracking-[0.3em] text-ink-400">
+            <Stack direction="horizontal" gap={3} className="flex-wrap text-xs uppercase tracking-kicker text-ink-400">
               {atlvsHero.tags.map((tag) => (
                 <Badge key={tag}>{tag}</Badge>
               ))}
             </Stack>
           </Stack>
           <Stack gap={6} className="text-right">
-            <Label className="text-xs tracking-[0.4em] text-ink-500">STATUS</Label>
+            <Label className="text-xs tracking-display text-ink-500">STATUS</Label>
             <Body className="font-code text-2xl text-ink-100">{atlvsHero.status}</Body>
-            <Button variant="outline" className="inline-flex items-center gap-2 border border-ink-50 px-8 py-4 text-sm uppercase tracking-[0.3em] transition hover:-translate-y-1 hover:bg-ink-50 hover:text-ink-950">
+            <Button variant="outline" className="inline-flex items-center gap-2 border border-ink-50 px-8 py-4 text-sm uppercase tracking-kicker transition hover:-translate-y-1 hover:bg-ink-50 hover:text-ink-950">
               {atlvsHero.cta}
             </Button>
           </Stack>
@@ -79,7 +79,7 @@ export default function Home() {
               <Article key={entity.id} className="flex flex-col gap-4 border border-ink-800 p-5">
                 <Stack direction="horizontal" className="items-center justify-between">
                   <Stack>
-                    <Label className="font-code text-xs uppercase tracking-[0.4em] text-ink-500">{entity.vertical}</Label>
+                    <Label className="font-code text-xs uppercase tracking-display text-ink-500">{entity.vertical}</Label>
                     <H3 className="text-2xl uppercase">{entity.name}</H3>
                   </Stack>
                   <Stack className="text-right text-sm text-ink-300">
@@ -95,13 +95,13 @@ export default function Home() {
                   </Stack>
                 </Stack>
                 <Body className="text-sm text-ink-300">{entity.description}</Body>
-                <Stack direction="horizontal" gap={2} className="flex-wrap text-xs uppercase tracking-[0.3em] text-ink-400">
+                <Stack direction="horizontal" gap={2} className="flex-wrap text-xs uppercase tracking-kicker text-ink-400">
                   {entity.dependencies.map((dependency) => (
                     <Badge key={dependency}>{dependency}</Badge>
                   ))}
                 </Stack>
                 <Stack>
-                  <Label className="font-code text-xs uppercase tracking-[0.4em] text-ink-500">Top OKRs</Label>
+                  <Label className="font-code text-xs uppercase tracking-display text-ink-500">Top OKRs</Label>
                   <List className="mt-2 space-y-1 text-sm text-ink-200">
                     {entity.okrs.map((okr) => (
                       <ListItem key={okr} className="flex gap-2">
@@ -126,12 +126,12 @@ export default function Home() {
             <Table variant="bordered" className="min-w-full border border-ink-800 text-left text-sm">
               <TableHeader className="bg-ink-900 text-ink-400">
                 <TableRow>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-[0.3em]">Project</TableHead>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-[0.3em]">COMPVSS Link</TableHead>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-[0.3em]">Status</TableHead>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-[0.3em]">Last Sync</TableHead>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-[0.3em]">Delta</TableHead>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-[0.3em]">Blockers</TableHead>
+                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Project</TableHead>
+                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">COMPVSS Link</TableHead>
+                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Status</TableHead>
+                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Last Sync</TableHead>
+                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Delta</TableHead>
+                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Blockers</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -141,14 +141,14 @@ export default function Home() {
                     <TableCell className="border border-ink-800 px-4 py-3 text-ink-300">{sync.compvssSlug}</TableCell>
                     <TableCell className="border border-ink-800 px-4 py-3">
                       <Text
-                        className={`inline-flex items-center gap-2 px-3 py-1 text-xs uppercase tracking-[0.3em] ${
+                        className={`inline-flex items-center gap-2 px-3 py-1 text-xs uppercase tracking-kicker ${
                           sync.status === "synced"
                             ? "bg-ink-50 text-ink-950"
                             : sync.status === "in-progress"
                               ? "bg-ink-200 text-ink-900"
                               : sync.status === "pending"
                                 ? "bg-ink-700 text-ink-200"
-                                : "bg-red-500 text-ink-950"
+                                : "bg-error-500 text-ink-950"
                         }`}
                       >
                         {sync.status}
@@ -186,15 +186,15 @@ export default function Home() {
               ))}
             </List>
             <Card className="border border-ink-800 p-4">
-              <Label className="text-xs uppercase tracking-[0.3em] text-ink-500">Signals</Label>
+              <Label className="text-xs uppercase tracking-kicker text-ink-500">Signals</Label>
               <Stack gap={4} className="mt-4">
                 {atlvsExecutiveSummary.signals.map((signal) => (
                   <Stack key={signal.label} direction="horizontal" className="items-center justify-between">
                     <Stack>
-                      <Label className="text-xs uppercase tracking-[0.3em] text-ink-500">{signal.label}</Label>
+                      <Label className="text-xs uppercase tracking-kicker text-ink-500">{signal.label}</Label>
                       <Body className="font-display text-3xl text-ink-50">{signal.value}</Body>
                     </Stack>
-                    <Text className="text-xs uppercase tracking-[0.3em] text-ink-400">{signal.trend}</Text>
+                    <Text className="text-xs uppercase tracking-kicker text-ink-400">{signal.trend}</Text>
                   </Stack>
                 ))}
               </Stack>
@@ -213,11 +213,11 @@ export default function Home() {
               <Table variant="bordered" className="min-w-full border border-ink-800 text-left text-sm">
                 <TableHeader className="bg-ink-900 text-ink-400">
                   <TableRow>
-                    <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-[0.3em]">Doc</TableHead>
-                    <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-[0.3em]">Owner</TableHead>
-                    <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-[0.3em]">Category</TableHead>
-                    <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-[0.3em]">Status</TableHead>
-                    <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-[0.3em]">Updated</TableHead>
+                    <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Doc</TableHead>
+                    <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Owner</TableHead>
+                    <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Category</TableHead>
+                    <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Status</TableHead>
+                    <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Updated</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -228,7 +228,7 @@ export default function Home() {
                       <TableCell className="border border-ink-800 px-4 py-3 text-ink-300">{doc.category}</TableCell>
                       <TableCell className="border border-ink-800 px-4 py-3">
                         <Text
-                          className={`inline-flex items-center gap-2 border px-3 py-1 text-xs uppercase tracking-[0.3em] ${
+                          className={`inline-flex items-center gap-2 border px-3 py-1 text-xs uppercase tracking-kicker ${
                             doc.status === "approved"
                               ? "border-ink-200 text-ink-100"
                               : doc.status === "in-review"
@@ -247,16 +247,16 @@ export default function Home() {
               </Table>
             </Box>
             <Stack gap={4}>
-              <Label className="font-code text-xs uppercase tracking-[0.4em] text-ink-500">Active Compliance Alerts</Label>
+              <Label className="font-code text-xs uppercase tracking-display text-ink-500">Active Compliance Alerts</Label>
               <List className="space-y-3">
                 {atlvsComplianceAlerts.map((alert) => (
                   <ListItem key={alert.id} className="border border-ink-800 p-4">
-                    <Stack direction="horizontal" className="items-center justify-between text-xs uppercase tracking-[0.3em]">
+                    <Stack direction="horizontal" className="items-center justify-between text-xs uppercase tracking-kicker">
                       <Text className="text-ink-500">{alert.area}</Text>
                       <Text className="text-ink-400">Due {alert.due}</Text>
                     </Stack>
                     <Body className="mt-2 text-sm text-ink-50">{alert.detail}</Body>
-                    <Stack direction="horizontal" className="mt-3 items-center justify-between text-xs uppercase tracking-[0.3em]">
+                    <Stack direction="horizontal" className="mt-3 items-center justify-between text-xs uppercase tracking-kicker">
                       <Text className="text-ink-400">Owner: {alert.owner}</Text>
                       <Text className={`px-3 py-1 text-ink-950 ${
                         alert.severity === "high"
@@ -284,14 +284,14 @@ export default function Home() {
               <Article key={phase.phase} className="border border-ink-800 p-6">
                 <Stack direction="horizontal" className="flex-col gap-2 md:flex-row md:items-center md:justify-between">
                   <Stack>
-                    <Label className="font-code text-xs uppercase tracking-[0.4em] text-ink-500">{phase.phase}</Label>
+                    <Label className="font-code text-xs uppercase tracking-display text-ink-500">{phase.phase}</Label>
                     <H3 className="text-2xl uppercase">{phase.target}</H3>
                   </Stack>
                   <Text className="text-sm text-ink-400">Key tactics + proof metrics</Text>
                 </Stack>
                 <Grid cols={2} gap={4} className="mt-4">
                   <Stack>
-                    <Label className="text-xs uppercase tracking-[0.3em] text-ink-500">Tactics</Label>
+                    <Label className="text-xs uppercase tracking-kicker text-ink-500">Tactics</Label>
                     <List className="mt-2 space-y-1 text-sm text-ink-200">
                       {phase.tactics.map((tactic) => (
                         <ListItem key={tactic} className="flex gap-2">
@@ -302,7 +302,7 @@ export default function Home() {
                     </List>
                   </Stack>
                   <Stack>
-                    <Label className="text-xs uppercase tracking-[0.3em] text-ink-500">Metrics</Label>
+                    <Label className="text-xs uppercase tracking-kicker text-ink-500">Metrics</Label>
                     <List className="mt-2 space-y-1 text-sm text-ink-200">
                       {phase.metrics.map((metric) => (
                         <ListItem key={metric} className="flex gap-2">
@@ -327,7 +327,7 @@ export default function Home() {
           <Grid cols={2} gap={6}>
             {atlvsInnovationTracks.map((track) => (
               <Article key={track.title} className="border border-ink-800 p-6">
-                <Label className="font-code text-xs uppercase tracking-[0.4em] text-ink-500">{track.title}</Label>
+                <Label className="font-code text-xs uppercase tracking-display text-ink-500">{track.title}</Label>
                 <List className="mt-4 space-y-2 text-sm text-ink-200">
                   {track.bullets.map((bullet) => (
                     <ListItem key={bullet} className="flex gap-2">
@@ -351,9 +351,9 @@ export default function Home() {
             <Table variant="bordered" className="min-w-full border border-ink-800 text-left text-sm">
               <TableHeader>
                 <TableRow className="bg-ink-900 text-ink-400">
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-[0.3em]">Feature</TableHead>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-[0.3em]">Competitors</TableHead>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-[0.3em]">ATLVS Advantage</TableHead>
+                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Feature</TableHead>
+                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Competitors</TableHead>
+                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">ATLVS Advantage</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -380,7 +380,7 @@ export default function Home() {
               <Article key={phase.id} className="border border-ink-800 p-6">
                 <Stack direction="horizontal" className="flex-col gap-2 md:flex-row md:items-center md:justify-between">
                   <Stack>
-                    <Label className="font-code text-xs uppercase tracking-[0.4em] text-ink-500">{phase.phase}</Label>
+                    <Label className="font-code text-xs uppercase tracking-display text-ink-500">{phase.phase}</Label>
                     <H3 className="text-2xl uppercase">{phase.timeframe}</H3>
                   </Stack>
                   <Text className="text-sm text-ink-400">{phase.description}</Text>
@@ -407,7 +407,7 @@ export default function Home() {
           <Grid cols={2} gap={6}>
             {atlvsAutomationProgram.map((track) => (
               <Article key={track.id} className="border border-ink-800 p-6">
-                <Label className="font-code text-xs uppercase tracking-[0.4em] text-ink-500">{track.title}</Label>
+                <Label className="font-code text-xs uppercase tracking-display text-ink-500">{track.title}</Label>
                 <List className="mt-4 space-y-2 text-sm text-ink-200">
                   {track.bullets.map((bullet) => (
                     <ListItem key={bullet} className="flex gap-2">
@@ -434,7 +434,7 @@ export default function Home() {
                   <H3 className="text-xl uppercase">{flow.title}</H3>
                   <Body className="text-sm text-ink-300">{flow.detail}</Body>
                 </Stack>
-                <Text className="text-xs uppercase tracking-[0.3em] text-ink-500">ATLVS · COMPVSS · GVTEWAY</Text>
+                <Text className="text-xs uppercase tracking-kicker text-ink-500">ATLVS · COMPVSS · GVTEWAY</Text>
               </Article>
             ))}
           </Grid>
@@ -449,7 +449,7 @@ export default function Home() {
           <Grid cols={2} gap={6}>
             {atlvsFeatureChecklist.map((segment) => (
               <Article key={segment.id} className="border border-ink-800 p-6">
-                <Label className="font-code text-xs uppercase tracking-[0.4em] text-ink-500">{segment.kicker}</Label>
+                <Label className="font-code text-xs uppercase tracking-display text-ink-500">{segment.kicker}</Label>
                 <H3 className="mt-4 text-2xl uppercase">{segment.title}</H3>
                 <List className="mt-4 space-y-2 text-sm text-ink-200">
                   {segment.items.map((item) => (
@@ -474,7 +474,7 @@ export default function Home() {
             {atlvsIntegrationWorkflows.map((workflow) => (
               <Article key={workflow.id} className="border border-ink-800 p-6">
                 <Stack direction="horizontal" className="flex-col gap-2 md:flex-row md:items-center md:justify-between">
-                  <Label className="font-code text-xs uppercase tracking-[0.4em] text-ink-500">{workflow.title}</Label>
+                  <Label className="font-code text-xs uppercase tracking-display text-ink-500">{workflow.title}</Label>
                   <Text className="text-sm text-ink-400">{workflow.description}</Text>
                 </Stack>
                 <List className="mt-4 grid gap-2 text-sm text-ink-200 md:grid-cols-2">
@@ -494,7 +494,7 @@ export default function Home() {
           <Grid cols={4} gap={6} className="md:grid-cols-2 lg:grid-cols-4">
             {atlvsStats.map((stat) => (
               <Stack key={stat.label} gap={1}>
-                <Text className="font-code text-xs tracking-[0.4em] text-ink-500">{stat.label}</Text>
+                <Text className="font-code text-xs tracking-display text-ink-500">{stat.label}</Text>
                 <Text className="font-display text-4xl text-ink-50 md:text-5xl">{stat.value}</Text>
               </Stack>
             ))}
@@ -510,7 +510,7 @@ export default function Home() {
           <Grid cols={2} gap={6}>
             {atlvsSuccessMetrics.map((group) => (
               <Article key={group.id} className="border border-ink-800 p-6">
-                <Label className="font-code text-xs uppercase tracking-[0.4em] text-ink-500">{group.title}</Label>
+                <Label className="font-code text-xs uppercase tracking-display text-ink-500">{group.title}</Label>
                 <List className="mt-4 space-y-2 text-sm text-ink-200">
                   {group.metrics.map((metric) => (
                     <ListItem key={metric} className="flex gap-2">
@@ -547,7 +547,7 @@ export default function Home() {
         <Section border={false} className="grid gap-8 lg:grid-cols-2">
           {atlvsCapabilityPanels.map((panel) => (
             <Article key={panel.title} className="surface p-8">
-              <Label className="font-code text-xs tracking-[0.4em] text-ink-400">{panel.kicker}</Label>
+              <Label className="font-code text-xs tracking-display text-ink-400">{panel.kicker}</Label>
               <H2 className="mt-6 text-3xl md:text-4xl">{panel.title}</H2>
               <Body className="mt-4 text-ink-300">{panel.description}</Body>
               <List className="mt-6 space-y-2 text-sm text-ink-200">
@@ -584,7 +584,7 @@ export default function Home() {
           <Grid cols={2} gap={6}>
             {atlvsRoadmapSections.map((section) => (
               <Article key={section.id} id={section.id} className="border border-ink-800 p-6">
-                <Label className="font-code text-xs tracking-[0.4em] text-ink-500">{section.kicker}</Label>
+                <Label className="font-code text-xs tracking-display text-ink-500">{section.kicker}</Label>
                 <H3 className="mt-4 text-2xl">{section.title}</H3>
                 <Body className="mt-2 text-ink-300">{section.description}</Body>
                 <List className="mt-4 space-y-1 text-sm text-ink-200">
@@ -612,7 +612,7 @@ export default function Home() {
                     <H3 className="text-2xl uppercase">{stage.title}</H3>
                     <Body className="mt-2 text-sm text-ink-300">{stage.description}</Body>
                   </Stack>
-                  <Stack direction="horizontal" gap={2} className="flex-wrap text-xs uppercase tracking-[0.3em] text-ink-400">
+                  <Stack direction="horizontal" gap={2} className="flex-wrap text-xs uppercase tracking-kicker text-ink-400">
                     {stage.tags.map((tag) => (
                       <Badge key={tag}>{tag}</Badge>
                     ))}
@@ -636,7 +636,7 @@ export default function Home() {
                 <Stack direction="horizontal" gap={6} className="mt-4">
                   {card.metrics.map((metric) => (
                     <Stack key={metric.label}>
-                      <Label className="text-xs uppercase tracking-[0.3em] text-ink-500">{metric.label}</Label>
+                      <Label className="text-xs uppercase tracking-kicker text-ink-500">{metric.label}</Label>
                       <Body className="font-display text-3xl text-ink-50">{metric.value}</Body>
                     </Stack>
                   ))}
@@ -670,14 +670,14 @@ export default function Home() {
 
         <Section className="lg:flex-row lg:items-center lg:justify-between" >
           <Stack>
-            <Label className="font-code text-xs tracking-[0.4em] text-ink-500">ROLE MATRIX</Label>
+            <Label className="font-code text-xs tracking-display text-ink-500">ROLE MATRIX</Label>
             <H2 className="mt-4 text-2xl">Legend → Atlvs → Compvss interlocks</H2>
             <Body className="mt-2 max-w-2xl text-ink-300">
               Granular RBAC spans Legend god-mode through ATLVS admin, member, and viewer layers,
               ensuring precision control and secure impersonation for support flows.
             </Body>
           </Stack>
-          <Grid gap={3} className="w-full text-sm uppercase tracking-[0.3em] text-ink-200 lg:max-w-md">
+          <Grid gap={3} className="w-full text-sm uppercase tracking-kicker text-ink-200 lg:max-w-md">
             {atlvsRoles.map((role) => (
               <Stack key={role.name} className="border border-ink-700 px-4 py-3">
                 <Text>{role.name}</Text>
@@ -718,7 +718,7 @@ export default function Home() {
           <Grid cols={4} gap={6}>
             {atlvsFinanceKPIs.map((kpi) => (
               <Article key={kpi.label} className="border border-ink-800 p-4">
-                <Label className="text-xs uppercase tracking-[0.3em] text-ink-500">{kpi.label}</Label>
+                <Label className="text-xs uppercase tracking-kicker text-ink-500">{kpi.label}</Label>
                 <Body className="font-display text-4xl text-ink-50">{kpi.value}</Body>
                 <Body className="mt-2 text-sm text-ink-300">{kpi.detail}</Body>
               </Article>
@@ -750,7 +750,7 @@ export default function Home() {
         <Section id="next" className="grid gap-6 md:grid-cols-3">
           {atlvsImmediateNextSteps.map((step) => (
             <Stack key={step.title} gap={3}>
-              <Label className="font-code text-xs tracking-[0.4em] text-ink-500">NEXT</Label>
+              <Label className="font-code text-xs tracking-display text-ink-500">NEXT</Label>
               <H3 className="text-xl">{step.title}</H3>
               <Body className="text-sm text-ink-300">{step.detail}</Body>
             </Stack>
@@ -784,13 +784,13 @@ export default function Home() {
           <Stack direction="horizontal" gap={4} className="flex-col items-center justify-center md:flex-row">
             <Link
               href={atlvsFinalCta.primary.href}
-              className="border border-ink-50 px-8 py-4 text-xs uppercase tracking-[0.3em] transition hover:-translate-y-1 hover:bg-ink-50 hover:text-ink-950"
+              className="border border-ink-50 px-8 py-4 text-xs uppercase tracking-kicker transition hover:-translate-y-1 hover:bg-ink-50 hover:text-ink-950"
             >
               {atlvsFinalCta.primary.label}
             </Link>
             <Link
               href={atlvsFinalCta.secondary.href}
-              className="border border-ink-700 px-8 py-4 text-xs uppercase tracking-[0.3em] text-ink-400 transition hover:-translate-y-1 hover:border-ink-50 hover:text-ink-50"
+              className="border border-ink-700 px-8 py-4 text-xs uppercase tracking-kicker text-ink-400 transition hover:-translate-y-1 hover:border-ink-50 hover:text-ink-50"
             >
               {atlvsFinalCta.secondary.label}
             </Link>

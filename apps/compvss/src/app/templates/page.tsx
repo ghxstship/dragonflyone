@@ -58,11 +58,11 @@ export default function TemplatesPage() {
 
   const getCategoryColor = (category: string) => {
     switch (category) {
-      case "Contract": return "bg-blue-900/20 border-blue-800";
-      case "Checklist": return "bg-green-900/20 border-green-800";
-      case "Form": return "bg-yellow-900/20 border-yellow-800";
+      case "Contract": return "bg-info-900/20 border-info-800";
+      case "Checklist": return "bg-success-900/20 border-success-800";
+      case "Form": return "bg-warning-900/20 border-warning-800";
       case "Rider": return "bg-purple-900/20 border-purple-800";
-      case "Report": return "bg-orange-900/20 border-orange-800";
+      case "Report": return "bg-warning-900/20 border-warning-800";
       case "SOP": return "bg-pink-900/20 border-pink-800";
       default: return "bg-ink-900/50 border-ink-800";
     }

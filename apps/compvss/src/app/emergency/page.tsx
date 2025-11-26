@@ -57,11 +57,11 @@ export default function EmergencyPage() {
 
   const getCategoryColor = (category: string) => {
     switch (category) {
-      case "Medical": return "text-red-400";
-      case "Fire": return "text-orange-400";
-      case "Security": return "text-yellow-400";
-      case "Police": return "text-blue-400";
-      case "Production": return "text-green-400";
+      case "Medical": return "text-error-400";
+      case "Fire": return "text-warning-400";
+      case "Security": return "text-warning-400";
+      case "Police": return "text-info-400";
+      case "Production": return "text-success-400";
       default: return "text-ink-400";
     }
   };
@@ -82,25 +82,25 @@ export default function EmergencyPage() {
           </Alert>
 
           <Grid cols={3} gap={4}>
-            <Card className="border-2 border-red-800 bg-red-900/20 p-4 cursor-pointer hover:bg-red-900/30" onClick={() => setSelectedProcedure(mockProcedures.find(p => p.type === "Medical") || null)}>
+            <Card className="border-2 border-error-800 bg-error-900/20 p-4 cursor-pointer hover:bg-error-900/30" onClick={() => setSelectedProcedure(mockProcedures.find(p => p.type === "Medical") || null)}>
               <Stack gap={2} className="text-center">
-                <Label className="text-red-400 text-2xl">🚑</Label>
+                <Label className="text-error-400 text-2xl">🚑</Label>
                 <Body className="font-bold text-white">MEDICAL</Body>
-                <Label size="xs" className="text-red-300">Tap for procedure</Label>
+                <Label size="xs" className="text-error-300">Tap for procedure</Label>
               </Stack>
             </Card>
-            <Card className="border-2 border-orange-800 bg-orange-900/20 p-4 cursor-pointer hover:bg-orange-900/30" onClick={() => setSelectedProcedure(mockProcedures.find(p => p.type === "Fire") || null)}>
+            <Card className="border-2 border-warning-800 bg-warning-900/20 p-4 cursor-pointer hover:bg-warning-900/30" onClick={() => setSelectedProcedure(mockProcedures.find(p => p.type === "Fire") || null)}>
               <Stack gap={2} className="text-center">
-                <Label className="text-orange-400 text-2xl">🔥</Label>
+                <Label className="text-warning-400 text-2xl">🔥</Label>
                 <Body className="font-bold text-white">FIRE</Body>
-                <Label size="xs" className="text-orange-300">Tap for procedure</Label>
+                <Label size="xs" className="text-warning-300">Tap for procedure</Label>
               </Stack>
             </Card>
-            <Card className="border-2 border-blue-800 bg-blue-900/20 p-4 cursor-pointer hover:bg-blue-900/30" onClick={() => setSelectedProcedure(mockProcedures.find(p => p.type === "Evacuation") || null)}>
+            <Card className="border-2 border-info-800 bg-info-900/20 p-4 cursor-pointer hover:bg-info-900/30" onClick={() => setSelectedProcedure(mockProcedures.find(p => p.type === "Evacuation") || null)}>
               <Stack gap={2} className="text-center">
-                <Label className="text-blue-400 text-2xl">🚨</Label>
+                <Label className="text-info-400 text-2xl">🚨</Label>
                 <Body className="font-bold text-white">EVACUATION</Body>
-                <Label size="xs" className="text-blue-300">Tap for procedure</Label>
+                <Label size="xs" className="text-info-300">Tap for procedure</Label>
               </Stack>
             </Card>
           </Grid>

@@ -13,8 +13,8 @@ import {
   TabPanel,
 } from '@ghxstship/ui';
 import { useAdvancingRequest } from '@ghxstship/config';
-import { AdvanceRequestDetail } from '@/components/advancing/AdvanceRequestDetail';
-import { FulfillmentManager } from '@/components/advancing/FulfillmentManager';
+import { AdvanceRequestDetail } from '@/components/advancing/advance-request-detail';
+import { FulfillmentManager } from '@/components/advancing/fulfillment-manager';
 
 export default function AdvanceRequestPage({ params }: { params: { id: string } }) {
   const router = useRouter();

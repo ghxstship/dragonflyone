@@ -53,10 +53,10 @@ export default function EventLanguagesPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Complete": case "Translated": return "text-green-600";
-      case "In Progress": case "Review": return "text-yellow-600";
-      case "Not Started": case "Pending": return "text-gray-400";
-      default: return "text-gray-600";
+      case "Complete": case "Translated": return "text-success-600";
+      case "In Progress": case "Review": return "text-warning-600";
+      case "Not Started": case "Pending": return "text-grey-400";
+      default: return "text-grey-600";
     }
   };
 
@@ -80,7 +80,7 @@ export default function EventLanguagesPage() {
         <Stack gap={8}>
           <Stack gap={2}>
             <H1>MULTI-LANGUAGE</H1>
-            <Body className="text-gray-600">Event information translations and localization</Body>
+            <Body className="text-grey-600">Event information translations and localization</Body>
           </Stack>
 
           <Grid cols={4} gap={6}>
@@ -111,23 +111,23 @@ export default function EventLanguagesPage() {
                         <Label className="text-3xl">{getLanguageFlag(translation.languageCode)}</Label>
                         <Stack gap={1}>
                           <Body className="font-bold">{translation.language}</Body>
-                          <Label className="text-gray-500">{translation.languageCode.toUpperCase()}</Label>
+                          <Label className="text-grey-500">{translation.languageCode.toUpperCase()}</Label>
                         </Stack>
                       </Stack>
                       <Label className={getStatusColor(translation.status)}>{translation.status}</Label>
                     </Stack>
                     <Stack gap={2}>
                       <Stack direction="horizontal" className="justify-between">
-                        <Label className="text-gray-500">Progress</Label>
+                        <Label className="text-grey-500">Progress</Label>
                         <Label className="font-mono">{translation.progress}%</Label>
                       </Stack>
                       <ProgressBar value={translation.progress} className="h-2" />
                     </Stack>
                     {translation.translator && (
-                      <Label className="text-gray-500">Translator: {translation.translator}</Label>
+                      <Label className="text-grey-500">Translator: {translation.translator}</Label>
                     )}
                     {translation.lastUpdated && (
-                      <Label size="xs" className="text-gray-400">Updated: {translation.lastUpdated}</Label>
+                      <Label size="xs" className="text-grey-400">Updated: {translation.lastUpdated}</Label>
                     )}
                     <Stack direction="horizontal" gap={2}>
                       <Button variant="outline" size="sm" onClick={() => setSelectedTranslation(translation)}>Edit</Button>
@@ -153,16 +153,16 @@ export default function EventLanguagesPage() {
                       <Label className="font-bold">{field.field}</Label>
                       <Label className={getStatusColor(field.status)}>{field.status}</Label>
                     </Stack>
-                    <Card className="p-3 bg-gray-50 border border-gray-200">
+                    <Card className="p-3 bg-grey-50 border border-grey-200">
                       <Stack gap={1}>
-                        <Label size="xs" className="text-gray-500">Original (English)</Label>
+                        <Label size="xs" className="text-grey-500">Original (English)</Label>
                         <Body>{field.original}</Body>
                       </Stack>
                     </Card>
                     {field.translated ? (
-                      <Card className="p-3 bg-blue-50 border border-blue-200">
+                      <Card className="p-3 bg-info-50 border border-info-200">
                         <Stack gap={1}>
-                          <Label size="xs" className="text-blue-600">Translation</Label>
+                          <Label size="xs" className="text-info-600">Translation</Label>
                           <Body>{field.translated}</Body>
                         </Stack>
                       </Card>
@@ -183,7 +183,7 @@ export default function EventLanguagesPage() {
                   <Stack direction="horizontal" className="justify-between items-center">
                     <Stack gap={1}>
                       <Label className="font-bold">Default Language</Label>
-                      <Label className="text-gray-500">Primary language for event content</Label>
+                      <Label className="text-grey-500">Primary language for event content</Label>
                     </Stack>
                     <Select className="border-2 border-black w-48">
                       <option value="en">English</option>
@@ -193,14 +193,14 @@ export default function EventLanguagesPage() {
                   <Stack direction="horizontal" className="justify-between items-center">
                     <Stack gap={1}>
                       <Label className="font-bold">Auto-detect Language</Label>
-                      <Label className="text-gray-500">Show content in visitor&apos;s browser language</Label>
+                      <Label className="text-grey-500">Show content in visitor&apos;s browser language</Label>
                     </Stack>
                     <Button variant="solid" size="sm">Enabled</Button>
                   </Stack>
                   <Stack direction="horizontal" className="justify-between items-center">
                     <Stack gap={1}>
                       <Label className="font-bold">Machine Translation</Label>
-                      <Label className="text-gray-500">Use AI for initial translations</Label>
+                      <Label className="text-grey-500">Use AI for initial translations</Label>
                     </Stack>
                     <Button variant="outline" size="sm">Disabled</Button>
                   </Stack>
@@ -226,7 +226,7 @@ export default function EventLanguagesPage() {
                 </Stack>
               </Stack>
               <Stack gap={2}>
-                <Label className="text-gray-500">Progress</Label>
+                <Label className="text-grey-500">Progress</Label>
                 <ProgressBar value={selectedTranslation.progress} className="h-3" />
                 <Label className="font-mono text-center">{selectedTranslation.progress}%</Label>
               </Stack>
@@ -241,7 +241,7 @@ export default function EventLanguagesPage() {
         </ModalBody>
         <ModalFooter>
           <Button variant="outline" onClick={() => setSelectedTranslation(null)}>Cancel</Button>
-          <Button variant="outline" className="text-red-600">Remove Language</Button>
+          <Button variant="outline" className="text-error-600">Remove Language</Button>
           <Button variant="solid" onClick={() => setSelectedTranslation(null)}>Save</Button>
         </ModalFooter>
       </Modal>

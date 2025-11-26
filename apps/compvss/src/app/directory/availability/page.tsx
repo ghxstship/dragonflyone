@@ -48,21 +48,21 @@ export default function AvailabilityPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Available": return "bg-green-500";
-      case "Busy": return "bg-red-500";
-      case "Tentative": return "bg-yellow-500";
-      case "Unavailable": return "bg-gray-500";
-      default: return "bg-gray-500";
+      case "Available": return "bg-success-500";
+      case "Busy": return "bg-error-500";
+      case "Tentative": return "bg-warning-500";
+      case "Unavailable": return "bg-grey-500";
+      default: return "bg-grey-500";
     }
   };
 
   const getStatusTextColor = (status: string) => {
     switch (status) {
-      case "Available": return "text-green-400";
-      case "Busy": return "text-red-400";
-      case "Tentative": return "text-yellow-400";
-      case "Unavailable": return "text-gray-400";
-      default: return "text-gray-400";
+      case "Available": return "text-success-400";
+      case "Busy": return "text-error-400";
+      case "Tentative": return "text-warning-400";
+      case "Unavailable": return "text-grey-400";
+      default: return "text-grey-400";
     }
   };
 
@@ -142,8 +142,8 @@ export default function AvailabilityPage() {
                   <Card className="p-3 border-b border-ink-800 col-span-2">
                     <Grid cols={6} gap={2}>
                       {crew.weekAvailability.slice(0, 6).map((available, idx) => (
-                        <Card key={idx} className={`h-8 rounded flex items-center justify-center ${available ? "bg-green-900/30 border border-green-800" : "bg-ink-800 border border-ink-700"}`}>
-                          <Label size="xs" className={available ? "text-green-400" : "text-ink-500"}>
+                        <Card key={idx} className={`h-8 rounded flex items-center justify-center ${available ? "bg-success-900/30 border border-success-800" : "bg-ink-800 border border-ink-700"}`}>
+                          <Label size="xs" className={available ? "text-success-400" : "text-ink-500"}>
                             {available ? "✓" : "—"}
                           </Label>
                         </Card>
@@ -158,19 +158,19 @@ export default function AvailabilityPage() {
           <Card className="border-2 border-ink-800 bg-ink-900/50 p-4">
             <Stack direction="horizontal" gap={6} className="justify-center">
               <Stack direction="horizontal" gap={2}>
-                <Card className="w-4 h-4 bg-green-500 rounded" />
+                <Card className="w-4 h-4 bg-success-500 rounded" />
                 <Label className="text-ink-400">Available</Label>
               </Stack>
               <Stack direction="horizontal" gap={2}>
-                <Card className="w-4 h-4 bg-yellow-500 rounded" />
+                <Card className="w-4 h-4 bg-warning-500 rounded" />
                 <Label className="text-ink-400">Tentative</Label>
               </Stack>
               <Stack direction="horizontal" gap={2}>
-                <Card className="w-4 h-4 bg-red-500 rounded" />
+                <Card className="w-4 h-4 bg-error-500 rounded" />
                 <Label className="text-ink-400">Busy</Label>
               </Stack>
               <Stack direction="horizontal" gap={2}>
-                <Card className="w-4 h-4 bg-gray-500 rounded" />
+                <Card className="w-4 h-4 bg-grey-500 rounded" />
                 <Label className="text-ink-400">Unavailable</Label>
               </Stack>
             </Stack>
@@ -212,8 +212,8 @@ export default function AvailabilityPage() {
                   {weekDays.slice(0, 6).map((day, idx) => (
                     <Stack key={day} gap={1} className="text-center">
                       <Label size="xs" className="text-ink-500">{day}</Label>
-                      <Card className={`h-8 rounded flex items-center justify-center ${selectedCrew.weekAvailability[idx] ? "bg-green-900/30 border border-green-800" : "bg-ink-800 border border-ink-700"}`}>
-                        <Label size="xs" className={selectedCrew.weekAvailability[idx] ? "text-green-400" : "text-ink-500"}>
+                      <Card className={`h-8 rounded flex items-center justify-center ${selectedCrew.weekAvailability[idx] ? "bg-success-900/30 border border-success-800" : "bg-ink-800 border border-ink-700"}`}>
+                        <Label size="xs" className={selectedCrew.weekAvailability[idx] ? "text-success-400" : "text-ink-500"}>
                           {selectedCrew.weekAvailability[idx] ? "✓" : "—"}
                         </Label>
                       </Card>

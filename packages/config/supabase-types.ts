@@ -1449,6 +1449,340 @@ export type Database = {
         Update: Record<string, unknown>
         Relationships: []
       }
+      // Context hierarchy tables for navigation
+      teams: {
+        Row: {
+          id: string
+          organization_id: string
+          name: string
+          slug: string
+          description: string | null
+          icon: string | null
+          color: string | null
+          is_default: boolean | null
+          settings: Json | null
+          created_by: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          organization_id: string
+          name: string
+          slug: string
+          description?: string | null
+          icon?: string | null
+          color?: string | null
+          is_default?: boolean | null
+          settings?: Json | null
+          created_by?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          organization_id?: string
+          name?: string
+          slug?: string
+          description?: string | null
+          icon?: string | null
+          color?: string | null
+          is_default?: boolean | null
+          settings?: Json | null
+          created_by?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      team_members: {
+        Row: {
+          id: string
+          team_id: string
+          platform_user_id: string
+          role: string
+          joined_at: string
+        }
+        Insert: {
+          id?: string
+          team_id: string
+          platform_user_id: string
+          role?: string
+          joined_at?: string
+        }
+        Update: {
+          id?: string
+          team_id?: string
+          platform_user_id?: string
+          role?: string
+          joined_at?: string
+        }
+        Relationships: []
+      }
+      workspaces: {
+        Row: {
+          id: string
+          organization_id: string
+          team_id: string | null
+          name: string
+          slug: string
+          description: string | null
+          icon: string | null
+          color: string | null
+          visibility: string
+          settings: Json | null
+          created_by: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          organization_id: string
+          team_id?: string | null
+          name: string
+          slug: string
+          description?: string | null
+          icon?: string | null
+          color?: string | null
+          visibility?: string
+          settings?: Json | null
+          created_by?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          organization_id?: string
+          team_id?: string | null
+          name?: string
+          slug?: string
+          description?: string | null
+          icon?: string | null
+          color?: string | null
+          visibility?: string
+          settings?: Json | null
+          created_by?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      workspace_projects: {
+        Row: {
+          id: string
+          workspace_id: string
+          project_id: string
+          added_at: string
+        }
+        Insert: {
+          id?: string
+          workspace_id: string
+          project_id: string
+          added_at?: string
+        }
+        Update: {
+          id?: string
+          workspace_id?: string
+          project_id?: string
+          added_at?: string
+        }
+        Relationships: []
+      }
+      activations: {
+        Row: {
+          id: string
+          organization_id: string
+          project_id: string | null
+          event_id: string | null
+          name: string
+          slug: string
+          code: string | null
+          description: string | null
+          category: 'stage' | 'amenity' | 'food_beverage' | 'retail' | 'installation' | 'service' | 'hospitality' | 'production' | 'safety' | 'infrastructure' | 'sponsor' | 'other'
+          subcategory: string | null
+          tags: string[] | null
+          location_name: string | null
+          location_zone: string | null
+          latitude: number | null
+          longitude: number | null
+          floor_level: string | null
+          map_coordinates: Json | null
+          capacity: number | null
+          area_sqft: number | null
+          specifications: Json | null
+          status: string
+          setup_start: string | null
+          activation_start: string | null
+          activation_end: string | null
+          teardown_end: string | null
+          owner_id: string | null
+          vendor_id: string | null
+          contact_id: string | null
+          icon: string | null
+          color: string | null
+          image_url: string | null
+          metadata: Json | null
+          created_by: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          organization_id: string
+          project_id?: string | null
+          event_id?: string | null
+          name: string
+          slug: string
+          code?: string | null
+          description?: string | null
+          category?: 'stage' | 'amenity' | 'food_beverage' | 'retail' | 'installation' | 'service' | 'hospitality' | 'production' | 'safety' | 'infrastructure' | 'sponsor' | 'other'
+          subcategory?: string | null
+          tags?: string[] | null
+          location_name?: string | null
+          location_zone?: string | null
+          latitude?: number | null
+          longitude?: number | null
+          floor_level?: string | null
+          map_coordinates?: Json | null
+          capacity?: number | null
+          area_sqft?: number | null
+          specifications?: Json | null
+          status?: string
+          setup_start?: string | null
+          activation_start?: string | null
+          activation_end?: string | null
+          teardown_end?: string | null
+          owner_id?: string | null
+          vendor_id?: string | null
+          contact_id?: string | null
+          icon?: string | null
+          color?: string | null
+          image_url?: string | null
+          metadata?: Json | null
+          created_by?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          organization_id?: string
+          project_id?: string | null
+          event_id?: string | null
+          name?: string
+          slug?: string
+          code?: string | null
+          description?: string | null
+          category?: 'stage' | 'amenity' | 'food_beverage' | 'retail' | 'installation' | 'service' | 'hospitality' | 'production' | 'safety' | 'infrastructure' | 'sponsor' | 'other'
+          subcategory?: string | null
+          tags?: string[] | null
+          location_name?: string | null
+          location_zone?: string | null
+          latitude?: number | null
+          longitude?: number | null
+          floor_level?: string | null
+          map_coordinates?: Json | null
+          capacity?: number | null
+          area_sqft?: number | null
+          specifications?: Json | null
+          status?: string
+          setup_start?: string | null
+          activation_start?: string | null
+          activation_end?: string | null
+          teardown_end?: string | null
+          owner_id?: string | null
+          vendor_id?: string | null
+          contact_id?: string | null
+          icon?: string | null
+          color?: string | null
+          image_url?: string | null
+          metadata?: Json | null
+          created_by?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      activation_assignments: {
+        Row: {
+          id: string
+          activation_id: string
+          assignee_type: string
+          assignee_id: string
+          role: string | null
+          shift_start: string | null
+          shift_end: string | null
+          notes: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          activation_id: string
+          assignee_type: string
+          assignee_id: string
+          role?: string | null
+          shift_start?: string | null
+          shift_end?: string | null
+          notes?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          activation_id?: string
+          assignee_type?: string
+          assignee_id?: string
+          role?: string | null
+          shift_start?: string | null
+          shift_end?: string | null
+          notes?: string | null
+          created_at?: string
+        }
+        Relationships: []
+      }
+      user_context_preferences: {
+        Row: {
+          id: string
+          platform_user_id: string
+          platform: string
+          last_organization_id: string | null
+          last_team_id: string | null
+          last_workspace_id: string | null
+          last_project_id: string | null
+          last_activation_id: string | null
+          pinned_organizations: string[] | null
+          pinned_projects: string[] | null
+          recent_items: Json | null
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          platform_user_id: string
+          platform: string
+          last_organization_id?: string | null
+          last_team_id?: string | null
+          last_workspace_id?: string | null
+          last_project_id?: string | null
+          last_activation_id?: string | null
+          pinned_organizations?: string[] | null
+          pinned_projects?: string[] | null
+          recent_items?: Json | null
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          platform_user_id?: string
+          platform?: string
+          last_organization_id?: string | null
+          last_team_id?: string | null
+          last_workspace_id?: string | null
+          last_project_id?: string | null
+          last_activation_id?: string | null
+          pinned_organizations?: string[] | null
+          pinned_projects?: string[] | null
+          recent_items?: Json | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       user_event_roles: {

@@ -44,19 +44,19 @@ export default function EmergencyProcurementPage() {
 
   const getUrgencyColor = (urgency: string) => {
     switch (urgency) {
-      case 'Critical': return 'text-red-400';
-      case 'High': return 'text-orange-400';
-      case 'Medium': return 'text-yellow-400';
+      case 'Critical': return 'text-error-400';
+      case 'High': return 'text-warning-400';
+      case 'Medium': return 'text-warning-400';
       default: return 'text-ink-400';
     }
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Completed': return 'text-green-400';
-      case 'Approved': return 'text-blue-400';
-      case 'Pending': return 'text-yellow-400';
-      case 'Rejected': return 'text-red-400';
+      case 'Completed': return 'text-success-400';
+      case 'Approved': return 'text-info-400';
+      case 'Pending': return 'text-warning-400';
+      case 'Rejected': return 'text-error-400';
       default: return 'text-ink-400';
     }
   };
@@ -87,25 +87,25 @@ export default function EmergencyProcurementPage() {
             <Stack gap={4}>
               <H3>Emergency Procurement Guidelines</H3>
               <Grid cols={3} gap={4}>
-                <Card className="p-4 border border-red-800 bg-red-900/20">
+                <Card className="p-4 border border-error-800 bg-error-900/20">
                   <Stack gap={2}>
-                    <Label className="text-red-400 font-bold">CRITICAL</Label>
+                    <Label className="text-error-400 font-bold">CRITICAL</Label>
                     <Label className="text-ink-300">Show-stopping issue</Label>
                     <Label className="text-ink-400">Approval: VP or above</Label>
                     <Label className="text-ink-400">Target: 1 hour</Label>
                   </Stack>
                 </Card>
-                <Card className="p-4 border border-orange-800 bg-orange-900/20">
+                <Card className="p-4 border border-warning-800 bg-warning-900/20">
                   <Stack gap={2}>
-                    <Label className="text-orange-400 font-bold">HIGH</Label>
+                    <Label className="text-warning-400 font-bold">HIGH</Label>
                     <Label className="text-ink-300">Significant impact</Label>
                     <Label className="text-ink-400">Approval: Director</Label>
                     <Label className="text-ink-400">Target: 4 hours</Label>
                   </Stack>
                 </Card>
-                <Card className="p-4 border border-yellow-800 bg-yellow-900/20">
+                <Card className="p-4 border border-warning-800 bg-warning-900/20">
                   <Stack gap={2}>
-                    <Label className="text-yellow-400 font-bold">MEDIUM</Label>
+                    <Label className="text-warning-400 font-bold">MEDIUM</Label>
                     <Label className="text-ink-300">Operational need</Label>
                     <Label className="text-ink-400">Approval: Manager</Label>
                     <Label className="text-ink-400">Target: 24 hours</Label>
@@ -139,7 +139,7 @@ export default function EmergencyProcurementPage() {
             </TableHeader>
             <TableBody>
               {filteredRequests.map((req) => (
-                <TableRow key={req.id} className={req.urgency === 'Critical' && req.status === 'Pending' ? 'bg-red-900/10' : ''}>
+                <TableRow key={req.id} className={req.urgency === 'Critical' && req.status === 'Pending' ? 'bg-error-900/10' : ''}>
                   <TableCell>
                     <Stack gap={0}>
                       <Label className="text-white">{req.description}</Label>

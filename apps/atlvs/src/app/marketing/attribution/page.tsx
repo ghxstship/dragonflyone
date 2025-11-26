@@ -106,9 +106,9 @@ export default function MarketingAttributionPage() {
                       <TableCell><Badge variant="outline">{source.channel}</Badge></TableCell>
                       <TableCell><Label className="font-mono text-white">{source.leads}</Label></TableCell>
                       <TableCell><Label className="font-mono text-white">{source.conversions}</Label></TableCell>
-                      <TableCell><Label className="font-mono text-green-400">{formatCurrency(source.revenue)}</Label></TableCell>
+                      <TableCell><Label className="font-mono text-success-400">{formatCurrency(source.revenue)}</Label></TableCell>
                       <TableCell><Label className="font-mono text-ink-400">{formatCurrency(source.cost)}</Label></TableCell>
-                      <TableCell><Label className={`font-mono ${source.roi > 500 ? "text-green-400" : "text-yellow-400"}`}>{source.roi > 0 ? `${source.roi}%` : "N/A"}</Label></TableCell>
+                      <TableCell><Label className={`font-mono ${source.roi > 500 ? "text-success-400" : "text-warning-400"}`}>{source.roi > 0 ? `${source.roi}%` : "N/A"}</Label></TableCell>
                       <TableCell><Button variant="ghost" size="sm" onClick={() => setSelectedSource(source)}>Details</Button></TableCell>
                     </TableRow>
                   ))}
@@ -196,12 +196,12 @@ export default function MarketingAttributionPage() {
                 <Stack gap={1}><Label className="text-ink-400">Conversions</Label><Label className="font-mono text-white text-xl">{selectedSource.conversions}</Label></Stack>
               </Grid>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label className="text-ink-400">Revenue</Label><Label className="font-mono text-green-400 text-xl">{formatCurrency(selectedSource.revenue)}</Label></Stack>
+                <Stack gap={1}><Label className="text-ink-400">Revenue</Label><Label className="font-mono text-success-400 text-xl">{formatCurrency(selectedSource.revenue)}</Label></Stack>
                 <Stack gap={1}><Label className="text-ink-400">Cost</Label><Label className="font-mono text-ink-400 text-xl">{formatCurrency(selectedSource.cost)}</Label></Stack>
               </Grid>
               <Stack gap={1}>
                 <Label className="text-ink-400">ROI</Label>
-                <Label className={`font-mono text-2xl ${selectedSource.roi > 500 ? "text-green-400" : "text-yellow-400"}`}>
+                <Label className={`font-mono text-2xl ${selectedSource.roi > 500 ? "text-success-400" : "text-warning-400"}`}>
                   {selectedSource.roi > 0 ? `${selectedSource.roi}%` : "N/A (Organic)"}
                 </Label>
               </Stack>

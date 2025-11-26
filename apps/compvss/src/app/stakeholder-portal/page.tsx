@@ -52,10 +52,10 @@ export default function StakeholderPortalPage() {
 
   const getRoleColor = (role: string) => {
     switch (role) {
-      case "Client": return "bg-blue-900/30 border-blue-800";
+      case "Client": return "bg-info-900/30 border-info-800";
       case "Sponsor": return "bg-purple-900/30 border-purple-800";
-      case "Vendor": return "bg-green-900/30 border-green-800";
-      case "Partner": return "bg-yellow-900/30 border-yellow-800";
+      case "Vendor": return "bg-success-900/30 border-success-800";
+      case "Partner": return "bg-warning-900/30 border-warning-800";
       default: return "bg-ink-800 border-ink-700";
     }
   };
@@ -140,7 +140,7 @@ export default function StakeholderPortalPage() {
                       </Stack>
                       <Stack gap={1} className="text-right">
                         <Badge variant="outline">{stakeholder.role}</Badge>
-                        <Label className={stakeholder.status === "Active" ? "text-green-400" : "text-yellow-400"}>{stakeholder.status}</Label>
+                        <Label className={stakeholder.status === "Active" ? "text-success-400" : "text-warning-400"}>{stakeholder.status}</Label>
                       </Stack>
                     </Stack>
                     <Grid cols={2} gap={4}>
@@ -213,7 +213,7 @@ export default function StakeholderPortalPage() {
         </ModalBody>
         <ModalFooter>
           <Button variant="outline" onClick={() => setSelectedStakeholder(null)}>Cancel</Button>
-          <Button variant="ghost" className="text-red-400">Revoke Access</Button>
+          <Button variant="ghost" className="text-error-400">Revoke Access</Button>
           <Button variant="solid" onClick={() => setSelectedStakeholder(null)}>Save</Button>
         </ModalFooter>
       </Modal>

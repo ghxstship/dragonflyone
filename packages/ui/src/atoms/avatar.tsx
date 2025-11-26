@@ -33,10 +33,10 @@ const sizeClasses = {
 };
 
 const statusColorClasses = {
-  online: "bg-green-500",
+  online: "bg-success-500",
   offline: "bg-grey-500",
-  away: "bg-amber-500",
-  busy: "bg-red-500",
+  away: "bg-warning-500",
+  busy: "bg-error-500",
 };
 
 export function Avatar({

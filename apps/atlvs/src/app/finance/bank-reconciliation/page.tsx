@@ -75,7 +75,7 @@ export default function BankReconciliationPage() {
 
   const detailSections: DetailSection[] = selectedTxn ? [
     { id: 'overview', title: 'Transaction Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Date:</strong> {selectedTxn.date}</div>
         <div><strong>Account:</strong> {selectedTxn.bankAccount}</div>
         <div><strong>Description:</strong> {selectedTxn.description}</div>

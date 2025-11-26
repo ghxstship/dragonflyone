@@ -141,7 +141,7 @@ export default function DashboardPage() {
                   </Stack>
                   <Stack gap={2} direction="horizontal" className="justify-between">
                     <Body>Database</Body>
-                    <Body className="font-bold text-green-600">Healthy</Body>
+                    <Body className="font-bold text-success-600">Healthy</Body>
                   </Stack>
                   <Stack gap={2} direction="horizontal" className="justify-between">
                     <Body>Cache Hit</Body>
@@ -199,7 +199,7 @@ export default function DashboardPage() {
                       June 15, 2024 • 342 tickets sold
                     </Body>
                   </Stack>
-                  <Stack gap={1} className="border-l-4 border-gray-400 pl-4">
+                  <Stack gap={1} className="border-l-4 border-grey-400 pl-4">
                     <Body className="font-bold">Rock Concert Series</Body>
                     <Body variant="muted" className="text-sm">
                       July 20, 2024 • 156 tickets sold
@@ -322,7 +322,7 @@ export default function DashboardPage() {
                       Based on your preferences
                     </Body>
                   </Stack>
-                  <Stack gap={1} className="border-l-4 border-gray-400 pl-4">
+                  <Stack gap={1} className="border-l-4 border-grey-400 pl-4">
                     <Body className="font-bold">Jazz in the Park</Body>
                     <Body variant="muted" className="text-sm">
                       Nearby • This Weekend

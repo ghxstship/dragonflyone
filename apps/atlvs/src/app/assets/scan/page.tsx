@@ -128,20 +128,20 @@ export default function AssetScanPage() {
 
   const getStatusBadge = (status: string) => {
     const colors: Record<string, string> = {
-      available: 'bg-green-500 text-white',
-      checked_out: 'bg-yellow-500 text-black',
-      maintenance: 'bg-orange-500 text-white',
-      retired: 'bg-gray-500 text-white',
+      available: 'bg-success-500 text-white',
+      checked_out: 'bg-warning-500 text-black',
+      maintenance: 'bg-warning-500 text-white',
+      retired: 'bg-grey-500 text-white',
     };
     return <Badge className={colors[status] || ''}>{status.replace('_', ' ')}</Badge>;
   };
 
   const getActionBadge = (action: string) => {
     const colors: Record<string, string> = {
-      check_in: 'bg-green-500 text-white',
-      check_out: 'bg-blue-500 text-white',
+      check_in: 'bg-success-500 text-white',
+      check_out: 'bg-info-500 text-white',
       inventory: 'bg-purple-500 text-white',
-      transfer: 'bg-orange-500 text-white',
+      transfer: 'bg-warning-500 text-white',
     };
     return <Badge className={colors[action] || ''}>{action.replace('_', ' ')}</Badge>;
   };
@@ -158,7 +158,7 @@ export default function AssetScanPage() {
           <Stack direction="horizontal" className="justify-between items-center">
             <Stack>
               <Display>BARCODE SCANNER</Display>
-              <Body className="mt-2 text-gray-600">
+              <Body className="mt-2 text-grey-600">
                 Scan assets for check-in, check-out, and inventory
               </Body>
             </Stack>
@@ -265,10 +265,10 @@ export default function AssetScanPage() {
                 </Button>
               </Stack>
 
-              <Card className="p-4 bg-gray-50 border">
+              <Card className="p-4 bg-grey-50 border">
                 <Stack gap={2}>
-                  <Label className="text-gray-500">Instructions</Label>
-                  <Body className="text-sm text-gray-600">
+                  <Label className="text-grey-500">Instructions</Label>
+                  <Body className="text-sm text-grey-600">
                     1. Select scan mode above<br />
                     2. Scan barcode with scanner or enter manually<br />
                     3. Confirm action in popup<br />
@@ -287,11 +287,11 @@ export default function AssetScanPage() {
                   <Stack direction="horizontal" className="justify-between items-center">
                     <Stack gap={1}>
                       <Body className="font-bold">{scan.asset_name}</Body>
-                      <Label className="text-gray-500 font-mono">{scan.barcode}</Label>
+                      <Label className="text-grey-500 font-mono">{scan.barcode}</Label>
                     </Stack>
                     <Stack className="text-right" gap={1}>
                       {getActionBadge(scan.action)}
-                      <Label className="text-xs text-gray-400">
+                      <Label className="text-xs text-grey-400">
                         {new Date(scan.timestamp).toLocaleTimeString()}
                       </Label>
                     </Stack>
@@ -300,7 +300,7 @@ export default function AssetScanPage() {
               ))}
               {scanHistory.length === 0 && (
                 <Card className="p-8 text-center border">
-                  <Body className="text-gray-500">No scans yet today</Body>
+                  <Body className="text-grey-500">No scans yet today</Body>
                 </Card>
               )}
             </Stack>
@@ -317,7 +317,7 @@ export default function AssetScanPage() {
         >
           {scannedAsset && (
             <Stack gap={6}>
-              <Card className="p-4 bg-gray-50 border">
+              <Card className="p-4 bg-grey-50 border">
                 <Stack gap={2}>
                   <Body className="font-mono text-lg">{scannedAsset.barcode}</Body>
                   <H3>{scannedAsset.name}</H3>
@@ -330,21 +330,21 @@ export default function AssetScanPage() {
 
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>
-                  <Label className="text-gray-500">Location</Label>
+                  <Label className="text-grey-500">Location</Label>
                   <Body>{scannedAsset.location}</Body>
                 </Stack>
                 <Stack gap={1}>
-                  <Label className="text-gray-500">Condition</Label>
+                  <Label className="text-grey-500">Condition</Label>
                   <Body className="capitalize">{scannedAsset.condition}</Body>
                 </Stack>
                 {scannedAsset.serial_number && (
                   <Stack gap={1}>
-                    <Label className="text-gray-500">Serial Number</Label>
+                    <Label className="text-grey-500">Serial Number</Label>
                     <Body className="font-mono">{scannedAsset.serial_number}</Body>
                   </Stack>
                 )}
                 <Stack gap={1}>
-                  <Label className="text-gray-500">Last Scan</Label>
+                  <Label className="text-grey-500">Last Scan</Label>
                   <Body>{new Date(scannedAsset.last_scan).toLocaleString()}</Body>
                 </Stack>
               </Grid>

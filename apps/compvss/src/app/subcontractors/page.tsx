@@ -280,7 +280,7 @@ export default function SubcontractorsPage() {
                     <TableCell className="text-grey-400">
                       {sub.location}
                     </TableCell>
-                    <TableCell className="text-yellow-400">
+                    <TableCell className="text-warning-400">
                       {renderRating(sub.rating)}
                     </TableCell>
                     <TableCell className="font-mono text-white">

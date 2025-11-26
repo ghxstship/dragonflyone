@@ -41,17 +41,17 @@ export default function Home() {
       <Container className="relative mx-auto flex max-w-6xl flex-col gap-16 px-6 pb-24 pt-16 lg:px-8">
         <Header className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between" id="command">
           <Stack gap={6}>
-            <Label className="text-sm uppercase tracking-[0.4em] text-ink-400">{compvssHero.kicker}</Label>
+            <Label className="text-sm uppercase tracking-display text-ink-400">{compvssHero.kicker}</Label>
             <H1 className="text-5xl uppercase text-ink-50 md:text-7xl lg:text-8xl">{compvssHero.headline}</H1>
             <Body className="max-w-2xl text-base text-ink-300 md:text-lg">{compvssHero.description}</Body>
-            <Stack direction="horizontal" gap={3} className="flex-wrap text-xs uppercase tracking-[0.3em] text-ink-400">
+            <Stack direction="horizontal" gap={3} className="flex-wrap text-xs uppercase tracking-kicker text-ink-400">
               {compvssHero.tags.map((tag) => (
                 <Badge key={tag}>{tag}</Badge>
               ))}
             </Stack>
           </Stack>
           <Stack gap={6} className="text-right">
-            <Label className="text-xs tracking-[0.4em] text-ink-500">STATUS</Label>
+            <Label className="text-xs tracking-display text-ink-500">STATUS</Label>
             <Body className="font-code text-2xl text-ink-100">{compvssHero.status}</Body>
             <Button variant="outline" size="lg" className="border-ink-50 text-ink-50 hover:bg-ink-50 hover:text-ink-950">
               {compvssHero.cta}
@@ -70,15 +70,15 @@ export default function Home() {
               ))}
             </List>
             <Card className="border border-ink-800 p-4">
-              <Label className="text-xs uppercase tracking-[0.3em] text-ink-500">Indicators</Label>
+              <Label className="text-xs uppercase tracking-kicker text-ink-500">Indicators</Label>
               <Stack gap={4} className="mt-4">
                 {compvssSignal.indicators.map((signal) => (
                   <Stack key={signal.label} direction="horizontal" className="items-center justify-between">
                     <Stack>
-                      <Label className="text-xs uppercase tracking-[0.3em] text-ink-500">{signal.label}</Label>
+                      <Label className="text-xs uppercase tracking-kicker text-ink-500">{signal.label}</Label>
                       <Body className="font-display text-3xl text-ink-50">{signal.value}</Body>
                     </Stack>
-                    <Text className="text-xs uppercase tracking-[0.3em] text-ink-400">{signal.detail}</Text>
+                    <Text className="text-xs uppercase tracking-kicker text-ink-400">{signal.detail}</Text>
                   </Stack>
                 ))}
               </Stack>
@@ -97,17 +97,17 @@ export default function Home() {
               <Article key={track.id} className="border border-ink-800 p-6">
                 <Stack direction="horizontal" className="flex-col gap-2 md:flex-row md:items-baseline md:justify-between">
                   <Stack>
-                    <Label className="text-xs uppercase tracking-[0.4em] text-ink-500">{track.dateLabel}</Label>
+                    <Label className="text-xs uppercase tracking-display text-ink-500">{track.dateLabel}</Label>
                     <H3 className="text-2xl">{track.location}</H3>
                   </Stack>
-                  <Text className="text-xs uppercase tracking-[0.3em] text-ink-400">{track.phases.length} phases</Text>
+                  <Text className="text-xs uppercase tracking-kicker text-ink-400">{track.phases.length} phases</Text>
                 </Stack>
                 <Stack gap={4} className="mt-4">
                   {track.phases.map((phase) => (
                     <Card key={`${track.id}-${phase.name}`} className="rounded border border-ink-800 p-4">
                       <Stack direction="horizontal" className="flex-col gap-2 md:flex-row md:items-center md:justify-between">
                         <Stack>
-                          <Label className="font-code text-xs uppercase tracking-[0.4em] text-ink-500">{phase.owner}</Label>
+                          <Label className="font-code text-xs uppercase tracking-display text-ink-500">{phase.owner}</Label>
                           <H4 className="text-xl">{phase.name}</H4>
                         </Stack>
                         <Stack className="text-right text-sm text-ink-400">
@@ -121,7 +121,7 @@ export default function Home() {
                         <ProgressBar value={phase.progress} variant="inverse" />
                       </Box>
                       {phase.dependencies?.length ? (
-                        <Body className="mt-2 text-xs uppercase tracking-[0.3em] text-ink-500">
+                        <Body className="mt-2 text-xs uppercase tracking-kicker text-ink-500">
                           Depends on: {phase.dependencies.join(", ")}
                         </Body>
                       ) : null}
@@ -142,14 +142,14 @@ export default function Home() {
           <Grid cols={3} gap={4}>
             {compvssFileVaultEntries.map((file) => (
               <Article key={file.id} className="border border-ink-800 p-4">
-                <Label className="text-xs uppercase tracking-[0.4em] text-ink-500">{file.type}</Label>
+                <Label className="text-xs uppercase tracking-display text-ink-500">{file.type}</Label>
                 <H3 className="mt-2 text-2xl">{file.filename}</H3>
                 <Body className="mt-1 text-sm text-ink-300">{file.department}</Body>
-                <Stack direction="horizontal" gap={2} className="mt-3 flex-wrap text-xs uppercase tracking-[0.3em] text-ink-400">
+                <Stack direction="horizontal" gap={2} className="mt-3 flex-wrap text-xs uppercase tracking-kicker text-ink-400">
                   <Text className="border border-ink-800 px-3 py-1">{file.owner}</Text>
                   <Text className="border border-ink-800 px-3 py-1">{file.updatedAt}</Text>
                 </Stack>
-                <Body className="mt-3 text-xs uppercase tracking-[0.3em] text-ink-500">{file.status}</Body>
+                <Body className="mt-3 text-xs uppercase tracking-kicker text-ink-500">{file.status}</Body>
               </Article>
             ))}
           </Grid>
@@ -167,7 +167,7 @@ export default function Home() {
         >
           <Box className="overflow-x-auto border border-ink-800">
             <Table className="min-w-full text-left text-sm">
-              <TableHeader className="font-code text-xs uppercase tracking-[0.3em] text-ink-500">
+              <TableHeader className="font-code text-xs uppercase tracking-kicker text-ink-500">
                 <TableRow>
                   <TableHead className="px-4 py-3">Crew</TableHead>
                   <TableHead className="px-4 py-3">Role</TableHead>
@@ -184,7 +184,7 @@ export default function Home() {
                   <TableRow key={entry.id} className="border-t border-ink-900">
                     <TableCell className="px-4 py-4 text-base">
                       <Body className="font-display text-xl">{entry.name}</Body>
-                      <Body className="text-xs uppercase tracking-[0.3em] text-ink-500">{entry.id}</Body>
+                      <Body className="text-xs uppercase tracking-kicker text-ink-500">{entry.id}</Body>
                     </TableCell>
                     <TableCell className="px-4 py-4 text-ink-300">{entry.role}</TableCell>
                     <TableCell className="px-4 py-4 text-ink-300">{entry.department}</TableCell>
@@ -193,7 +193,7 @@ export default function Home() {
                     <TableCell className="px-4 py-4 text-ink-300">{entry.actual ?? "—"}</TableCell>
                     <TableCell className="px-4 py-4 text-ink-300">{entry.method}</TableCell>
                     <TableCell className="px-4 py-4">
-                      <Text className="rounded border border-ink-700 px-3 py-1 text-xs uppercase tracking-[0.3em] text-ink-300">
+                      <Text className="rounded border border-ink-700 px-3 py-1 text-xs uppercase tracking-kicker text-ink-300">
                         {entry.status}
                       </Text>
                     </TableCell>
@@ -212,7 +212,7 @@ export default function Home() {
         >
           <Box className="overflow-x-auto border border-ink-800">
             <Table className="min-w-full text-left text-sm">
-              <TableHeader className="font-code text-xs uppercase tracking-[0.3em] text-ink-500">
+              <TableHeader className="font-code text-xs uppercase tracking-kicker text-ink-500">
                 <TableRow>
                   <TableHead className="px-4 py-3">Project</TableHead>
                   <TableHead className="px-4 py-3">Client</TableHead>
@@ -229,7 +229,7 @@ export default function Home() {
                   <TableRow key={project.id} className="border-t border-ink-900">
                     <TableCell className="px-4 py-4 text-base">
                       <Body className="font-display text-xl">{project.name}</Body>
-                      <Body className="text-xs uppercase tracking-[0.3em] text-ink-500">{project.id}</Body>
+                      <Body className="text-xs uppercase tracking-kicker text-ink-500">{project.id}</Body>
                     </TableCell>
                     <TableCell className="px-4 py-4 text-ink-300">{project.client}</TableCell>
                     <TableCell className="px-4 py-4 text-ink-300">{project.venue}</TableCell>
@@ -237,7 +237,7 @@ export default function Home() {
                     <TableCell className="px-4 py-4 text-ink-300">{project.owner}</TableCell>
                     <TableCell className="px-4 py-4 text-ink-50">{project.budget}</TableCell>
                     <TableCell className="px-4 py-4">
-                      <Text className="rounded border border-ink-700 px-3 py-1 text-xs uppercase tracking-[0.3em] text-ink-300">
+                      <Text className="rounded border border-ink-700 px-3 py-1 text-xs uppercase tracking-kicker text-ink-300">
                         {project.risk}
                       </Text>
                     </TableCell>
@@ -256,7 +256,7 @@ export default function Home() {
         <Section id="stats" border={false} className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {compvssStats.map((stat) => (
             <Stack key={stat.label} gap={1}>
-              <Text className="font-code text-xs tracking-[0.4em] text-ink-500">{stat.label}</Text>
+              <Text className="font-code text-xs tracking-display text-ink-500">{stat.label}</Text>
               <Text className="font-display text-4xl text-ink-50 md:text-5xl">{stat.value}</Text>
             </Stack>
           ))}
@@ -266,7 +266,7 @@ export default function Home() {
           <Grid cols={2} gap={6}>
             {compvssCommandPanels.map((panel) => (
               <Article key={panel.title} className="surface p-8">
-                <Label className="font-code text-xs tracking-[0.4em] text-ink-400">{panel.kicker}</Label>
+                <Label className="font-code text-xs tracking-display text-ink-400">{panel.kicker}</Label>
                 <H2 className="mt-6 text-3xl md:text-4xl">{panel.title}</H2>
                 <Body className="mt-4 text-ink-300">{panel.description}</Body>
                 <List className="mt-6 space-y-2 text-sm text-ink-200">
@@ -288,7 +288,7 @@ export default function Home() {
           <Grid cols={2} gap={6}>
             {compvssProjectLanes.map((lane) => (
               <Article key={lane.id} id={lane.id} className="border border-ink-800 p-6">
-                <Label className="font-code text-xs tracking-[0.4em] text-ink-500">{lane.kicker}</Label>
+                <Label className="font-code text-xs tracking-display text-ink-500">{lane.kicker}</Label>
                 <H3 className="mt-4 text-2xl">{lane.title}</H3>
                 <Body className="mt-2 text-ink-300">{lane.description}</Body>
                 <List className="mt-4 space-y-1 text-sm text-ink-200">
@@ -309,7 +309,7 @@ export default function Home() {
                 <Stack direction="horizontal" gap={6} className="mt-4">
                   {card.metrics.map((metric) => (
                     <Stack key={metric.label}>
-                      <Label className="text-xs uppercase tracking-[0.3em] text-ink-500">{metric.label}</Label>
+                      <Label className="text-xs uppercase tracking-kicker text-ink-500">{metric.label}</Label>
                       <Body className="font-display text-3xl text-ink-50">{metric.value}</Body>
                     </Stack>
                   ))}
@@ -324,7 +324,7 @@ export default function Home() {
           <Grid cols={3} gap={6}>
             {compvssShowConsole.map((panel) => (
               <Article key={panel.title} className="border border-ink-800 p-6">
-                <Label className="font-code text-xs uppercase tracking-[0.4em] text-ink-500">{panel.kicker}</Label>
+                <Label className="font-code text-xs uppercase tracking-display text-ink-500">{panel.kicker}</Label>
                 <H3 className="mt-4 text-2xl">{panel.title}</H3>
                 <Body className="mt-2 text-sm text-ink-300">{panel.description}</Body>
                 <List className="mt-4 space-y-1 text-sm text-ink-200">
@@ -337,7 +337,7 @@ export default function Home() {
           </Grid>
           <Box className="mt-8 overflow-x-auto border border-ink-800">
             <Table className="min-w-full text-left text-sm">
-              <TableHeader className="font-code text-xs uppercase tracking-[0.3em] text-ink-500">
+              <TableHeader className="font-code text-xs uppercase tracking-kicker text-ink-500">
                 <TableRow>
                   <TableHead className="px-4 py-3">Cue</TableHead>
                   <TableHead className="px-4 py-3">Time</TableHead>
@@ -386,20 +386,20 @@ export default function Home() {
                   <Article key={vendor.name} className="border border-ink-800 p-4">
                     <Stack direction="horizontal" className="items-start justify-between gap-3">
                       <Stack>
-                        <Label className="text-xs uppercase tracking-[0.3em] text-ink-500">{vendor.category}</Label>
+                        <Label className="text-xs uppercase tracking-kicker text-ink-500">{vendor.category}</Label>
                         <H4 className="text-2xl">{vendor.name}</H4>
                       </Stack>
-                      <Text className="text-xs uppercase tracking-[0.3em] text-ink-400">{vendor.rating.toFixed(1)}</Text>
+                      <Text className="text-xs uppercase tracking-kicker text-ink-400">{vendor.rating.toFixed(1)}</Text>
                     </Stack>
                     <Body className="mt-2 text-sm text-ink-300">{vendor.location}</Body>
-                    <Stack direction="horizontal" gap={2} className="mt-3 flex-wrap text-xs uppercase tracking-[0.3em] text-ink-400">
+                    <Stack direction="horizontal" gap={2} className="mt-3 flex-wrap text-xs uppercase tracking-kicker text-ink-400">
                       {vendor.specialties.map((specialty) => (
                         <Badge key={`${vendor.name}-${specialty}`} variant="outline">
                           {specialty}
                         </Badge>
                       ))}
                     </Stack>
-                    <Link href={`mailto:${vendor.contact}`} className="mt-3 inline-flex text-xs uppercase tracking-[0.3em] text-ink-200">
+                    <Link href={`mailto:${vendor.contact}`} className="mt-3 inline-flex text-xs uppercase tracking-kicker text-ink-200">
                       {vendor.contact}
                     </Link>
                   </Article>
@@ -414,7 +414,7 @@ export default function Home() {
                   <Article key={venue.name} className="border border-ink-800 p-4">
                     <Stack direction="horizontal" className="items-start justify-between gap-3">
                       <H4 className="text-2xl">{venue.name}</H4>
-                      <Text className="text-xs uppercase tracking-[0.3em] text-ink-400">{venue.capacity}</Text>
+                      <Text className="text-xs uppercase tracking-kicker text-ink-400">{venue.capacity}</Text>
                     </Stack>
                     <Body className="mt-2 text-sm text-ink-300">{venue.city}</Body>
                     <List className="mt-3 space-y-1 text-sm text-ink-200">
@@ -422,7 +422,7 @@ export default function Home() {
                         <ListItem key={`${venue.name}-${spec}`}>• {spec}</ListItem>
                       ))}
                     </List>
-                    <Link href={`mailto:${venue.contact}`} className="mt-3 inline-flex text-xs uppercase tracking-[0.3em] text-ink-200">
+                    <Link href={`mailto:${venue.contact}`} className="mt-3 inline-flex text-xs uppercase tracking-kicker text-ink-200">
                       {venue.contact}
                     </Link>
                   </Article>
@@ -439,7 +439,7 @@ export default function Home() {
                     <List className="mt-3 space-y-1 text-sm text-ink-200">
                       {region.contacts.map((contact) => (
                         <ListItem key={`${region.region}-${contact.label}`} className="flex flex-col">
-                          <Text className="text-xs uppercase tracking-[0.3em] text-ink-500">{contact.label}</Text>
+                          <Text className="text-xs uppercase tracking-kicker text-ink-500">{contact.label}</Text>
                           <Text>{contact.details}</Text>
                         </ListItem>
                       ))}
@@ -546,7 +546,7 @@ export default function Home() {
                     <H3 className="text-2xl uppercase">{stage.title}</H3>
                     <Body className="mt-2 text-sm text-ink-300">{stage.description}</Body>
                   </Stack>
-                  <Stack direction="horizontal" gap={2} className="flex-wrap text-xs uppercase tracking-[0.3em] text-ink-400">
+                  <Stack direction="horizontal" gap={2} className="flex-wrap text-xs uppercase tracking-kicker text-ink-400">
                     {stage.tags.map((tag) => (
                       <Badge key={tag}>{tag}</Badge>
                     ))}
@@ -567,13 +567,13 @@ export default function Home() {
           <Stack direction="horizontal" gap={4} className="flex-col items-center justify-center md:flex-row">
             <Link
               href={compvssFinalCta.primary.href}
-              className="border border-ink-50 px-8 py-4 text-xs uppercase tracking-[0.3em] transition hover:-translate-y-1 hover:bg-ink-50 hover:text-ink-950"
+              className="border border-ink-50 px-8 py-4 text-xs uppercase tracking-kicker transition hover:-translate-y-1 hover:bg-ink-50 hover:text-ink-950"
             >
               {compvssFinalCta.primary.label}
             </Link>
             <Link
               href={compvssFinalCta.secondary.href}
-              className="border border-ink-700 px-8 py-4 text-xs uppercase tracking-[0.3em] text-ink-400 transition hover:-translate-y-1 hover:border-ink-50 hover:text-ink-50"
+              className="border border-ink-700 px-8 py-4 text-xs uppercase tracking-kicker text-ink-400 transition hover:-translate-y-1 hover:border-ink-50 hover:text-ink-50"
             >
               {compvssFinalCta.secondary.label}
             </Link>

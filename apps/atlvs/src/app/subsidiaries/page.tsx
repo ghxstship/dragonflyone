@@ -99,7 +99,7 @@ export default function SubsidiariesPage() {
 
   const detailSections: DetailSection[] = selectedEntity ? [
     { id: 'overview', title: 'Entity Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Name:</strong> {selectedEntity.name}</div>
         <div><strong>Legal Name:</strong> {selectedEntity.legal_name}</div>
         <div><strong>Type:</strong> {selectedEntity.entity_type}</div>
@@ -111,7 +111,7 @@ export default function SubsidiariesPage() {
         <div><strong>Employees:</strong> {selectedEntity.employee_count || '—'}</div>
         <div><strong>Status:</strong> {selectedEntity.status}</div>
         {selectedEntity.registered_agent && <div><strong>Registered Agent:</strong> {selectedEntity.registered_agent}</div>}
-        {selectedEntity.address && <div style={{ gridColumn: 'span 2' }}><strong>Address:</strong> {selectedEntity.address}</div>}
+        {selectedEntity.address && <div className="col-span-2"><strong>Address:</strong> {selectedEntity.address}</div>}
       </div>
     )},
   ] : [];

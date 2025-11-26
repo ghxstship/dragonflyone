@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { Container, H1, Body, Button } from '@ghxstship/ui';
-import { AdvanceRequestForm } from '@/components/advancing/AdvanceRequestForm';
+import { AdvanceRequestForm } from '@/components/advancing/advance-request-form';
 
 export default function NewAdvanceRequestPage() {
   const router = useRouter();

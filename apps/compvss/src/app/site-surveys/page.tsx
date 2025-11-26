@@ -121,13 +121,13 @@ export default function SiteSurveysPage() {
     switch (assessment?.toLowerCase()) {
       case "good":
       case "adequate":
-        return "text-green-400";
+        return "text-success-400";
       case "fair":
       case "limited":
-        return "text-yellow-400";
+        return "text-warning-400";
       case "poor":
       case "inadequate":
-        return "text-red-400";
+        return "text-error-400";
       default:
         return "text-grey-400";
     }

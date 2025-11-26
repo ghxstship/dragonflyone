@@ -231,11 +231,11 @@ export default function NearbyEventsPage() {
         {loading ? (
           <Stack className="items-center py-12">
             <LoadingSpinner size="lg" />
-            <Body className="mt-4 text-gray-600">Finding events near you...</Body>
+            <Body className="mt-4 text-grey-600">Finding events near you...</Body>
           </Stack>
         ) : events.length > 0 ? (
           <Stack gap={6}>
-            <Body className="text-gray-600">
+            <Body className="text-grey-600">
               {events.length} events found within {radius} miles
             </Body>
 
@@ -257,7 +257,7 @@ export default function NearbyEventsPage() {
                   <Stack className="p-4 border-t">
                     <Stack direction="horizontal" className="justify-between items-center">
                       <Stack>
-                        <Body className="text-sm text-gray-500">{event.city}</Body>
+                        <Body className="text-sm text-grey-500">{event.city}</Body>
                       </Stack>
                       <Body className="font-bold">From ${event.price}</Body>
                     </Stack>
@@ -269,7 +269,7 @@ export default function NearbyEventsPage() {
         ) : location ? (
           <Card className="p-12 text-center">
             <H3 className="mb-4">NO EVENTS FOUND NEARBY</H3>
-            <Body className="text-gray-600 mb-6">
+            <Body className="text-grey-600 mb-6">
               No events found within {radius} miles of your location.
               Try increasing the radius or searching a different area.
             </Body>
@@ -285,7 +285,7 @@ export default function NearbyEventsPage() {
         ) : (
           <Card className="p-12 text-center">
             <H3 className="mb-4">ENABLE LOCATION</H3>
-            <Body className="text-gray-600 mb-6">
+            <Body className="text-grey-600 mb-6">
               Allow location access or enter your location to find events near you.
             </Body>
             <Button variant="solid" onClick={getCurrentLocation}>

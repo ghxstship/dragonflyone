@@ -154,20 +154,20 @@ export default function AntiScalpingPage() {
 
   const getSeverityBadge = (severity: string) => {
     const colors: Record<string, string> = {
-      critical: 'bg-red-600 text-white',
-      high: 'bg-red-500 text-white',
-      medium: 'bg-yellow-500 text-black',
-      low: 'bg-green-500 text-white',
+      critical: 'bg-error-600 text-white',
+      high: 'bg-error-500 text-white',
+      medium: 'bg-warning-500 text-black',
+      low: 'bg-success-500 text-white',
     };
     return <Badge className={colors[severity] || ''}>{severity}</Badge>;
   };
 
   const getStatusBadge = (status: string) => {
     const colors: Record<string, string> = {
-      pending: 'bg-yellow-500 text-black',
-      investigating: 'bg-blue-500 text-white',
-      blocked: 'bg-red-500 text-white',
-      cleared: 'bg-green-500 text-white',
+      pending: 'bg-warning-500 text-black',
+      investigating: 'bg-info-500 text-white',
+      blocked: 'bg-error-500 text-white',
+      cleared: 'bg-success-500 text-white',
     };
     return <Badge className={colors[status] || ''}>{status}</Badge>;
   };
@@ -227,9 +227,9 @@ export default function AntiScalpingPage() {
 
           <Grid cols={4} gap={6}>
             <StatCard label="Active Alerts" value={alerts.filter(a => a.status === 'pending' || a.status === 'investigating').length} className="border-2 border-black" />
-            <StatCard label="Critical" value={criticalCount} className="border-2 border-red-500" />
+            <StatCard label="Critical" value={criticalCount} className="border-2 border-error-500" />
             <StatCard label="Blocked Today" value={blockedToday} className="border-2 border-black" />
-            <StatCard label="Tickets Protected" value={ticketsProtected} className="border-2 border-green-500" />
+            <StatCard label="Tickets Protected" value={ticketsProtected} className="border-2 border-success-500" />
           </Grid>
 
           {criticalCount > 0 && (
@@ -286,7 +286,7 @@ export default function AntiScalpingPage() {
 
               <Stack gap={4}>
                 {filteredAlerts.map(alert => (
-                  <Card key={alert.id} className={`p-4 border-2 ${alert.severity === 'critical' ? 'border-red-500' : alert.severity === 'high' ? 'border-red-300' : 'border-gray-200'}`}>
+                  <Card key={alert.id} className={`p-4 border-2 ${alert.severity === 'critical' ? 'border-error-500' : alert.severity === 'high' ? 'border-error-300' : 'border-grey-200'}`}>
                     <Grid cols={6} gap={4} className="items-center">
                       <Stack gap={2}>
                         <Stack direction="horizontal" gap={2}>
@@ -296,16 +296,16 @@ export default function AntiScalpingPage() {
                         <Body className="font-bold">{alert.event_name}</Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Label className="text-gray-500">Details</Label>
+                        <Label className="text-grey-500">Details</Label>
                         <Body className="text-sm">{alert.details}</Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Label className="text-gray-500">Tickets</Label>
+                        <Label className="text-grey-500">Tickets</Label>
                         <Body className="font-bold">{alert.ticket_count}</Body>
                       </Stack>
                       <Stack gap={1}>
                         {getStatusBadge(alert.status)}
-                        <Label className="text-xs text-gray-400">
+                        <Label className="text-xs text-grey-400">
                           {new Date(alert.created_at).toLocaleString()}
                         </Label>
                       </Stack>
@@ -329,23 +329,23 @@ export default function AntiScalpingPage() {
           {activeTab === 'rules' && (
             <Stack gap={4}>
               {rules.map(rule => (
-                <Card key={rule.id} className={`p-4 border-2 ${rule.enabled ? 'border-green-300' : 'border-gray-200'}`}>
+                <Card key={rule.id} className={`p-4 border-2 ${rule.enabled ? 'border-success-300' : 'border-grey-200'}`}>
                   <Grid cols={4} gap={4} className="items-center">
                     <Stack gap={1}>
                       <Body className="font-bold">{rule.name}</Body>
-                      <Label className="text-gray-500">{rule.description}</Label>
+                      <Label className="text-grey-500">{rule.description}</Label>
                     </Stack>
                     <Stack gap={1}>
-                      <Label className="text-gray-500">Type</Label>
+                      <Label className="text-grey-500">Type</Label>
                       <Badge variant="outline">{rule.type.replace('_', ' ')}</Badge>
                     </Stack>
                     <Stack gap={1}>
-                      <Label className="text-gray-500">Action</Label>
+                      <Label className="text-grey-500">Action</Label>
                       <Badge variant={rule.action === 'block' ? 'solid' : 'outline'}>
                         {rule.action.replace('_', ' ')}
                       </Badge>
                       {rule.threshold && (
-                        <Label className="text-xs text-gray-400">Threshold: {rule.threshold}</Label>
+                        <Label className="text-xs text-grey-400">Threshold: {rule.threshold}</Label>
                       )}
                     </Stack>
                     <Stack direction="horizontal" gap={2} className="justify-end">
@@ -387,7 +387,7 @@ export default function AntiScalpingPage() {
                       </TableCell>
                       <TableCell>{block.reason}</TableCell>
                       <TableCell>
-                        <Label className="text-gray-500">
+                        <Label className="text-grey-500">
                           {new Date(block.blocked_at).toLocaleString()}
                         </Label>
                       </TableCell>
@@ -424,7 +424,7 @@ export default function AntiScalpingPage() {
                   <Stack gap={2}>
                     <Stack direction="horizontal" className="justify-between">
                       <Body>Tickets Protected</Body>
-                      <Body className="font-bold text-green-600">{ticketsProtected}</Body>
+                      <Body className="font-bold text-success-600">{ticketsProtected}</Body>
                     </Stack>
                     <Stack direction="horizontal" className="justify-between">
                       <Body>Scalpers Blocked</Body>
@@ -436,7 +436,7 @@ export default function AntiScalpingPage() {
                     </Stack>
                     <Stack direction="horizontal" className="justify-between">
                       <Body>False Positive Rate</Body>
-                      <Body className="font-bold text-green-600">0.3%</Body>
+                      <Body className="font-bold text-success-600">0.3%</Body>
                     </Stack>
                   </Stack>
                 </Stack>
@@ -464,22 +464,22 @@ export default function AntiScalpingPage() {
               <Body>{selectedAlert.details}</Body>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>
-                  <Label className="text-gray-500">Ticket Count</Label>
+                  <Label className="text-grey-500">Ticket Count</Label>
                   <Body className="font-bold">{selectedAlert.ticket_count}</Body>
                 </Stack>
                 <Stack gap={1}>
-                  <Label className="text-gray-500">Detected At</Label>
+                  <Label className="text-grey-500">Detected At</Label>
                   <Body>{new Date(selectedAlert.created_at).toLocaleString()}</Body>
                 </Stack>
                 {selectedAlert.ip_address && (
                   <Stack gap={1}>
-                    <Label className="text-gray-500">IP Address</Label>
+                    <Label className="text-grey-500">IP Address</Label>
                     <Body className="font-mono">{selectedAlert.ip_address}</Body>
                   </Stack>
                 )}
                 {selectedAlert.user_email && (
                   <Stack gap={1}>
-                    <Label className="text-gray-500">Email</Label>
+                    <Label className="text-grey-500">Email</Label>
                     <Body>{selectedAlert.user_email}</Body>
                   </Stack>
                 )}

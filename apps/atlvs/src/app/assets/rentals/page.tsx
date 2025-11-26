@@ -87,7 +87,7 @@ export default function RentalEquipmentPage() {
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Rental Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Equipment:</strong> {selected.name}</div>
         <div><strong>Category:</strong> {selected.category}</div>
         <div><strong>Vendor:</strong> {selected.vendor}</div>

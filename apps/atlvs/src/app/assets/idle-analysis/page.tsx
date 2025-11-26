@@ -74,7 +74,7 @@ export default function IdleAnalysisPage() {
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Idle Asset Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Asset:</strong> {selected.name}</div>
         <div><strong>Category:</strong> {selected.category}</div>
         <div><strong>Idle Days:</strong> {selected.idleDays}</div>
@@ -83,7 +83,7 @@ export default function IdleAnalysisPage() {
         <div><strong>Value:</strong> {formatCurrency(selected.value)}</div>
         <div><strong>Monthly Carry:</strong> {formatCurrency(selected.monthlyCarryCost)}</div>
         <div><strong>Recommendation:</strong> {selected.recommendation}</div>
-        <div style={{ gridColumn: 'span 2' }}><strong>Annual Carry Cost:</strong> {formatCurrency(selected.monthlyCarryCost * 12)}</div>
+        <div className="col-span-2"><strong>Annual Carry Cost:</strong> {formatCurrency(selected.monthlyCarryCost * 12)}</div>
       </div>
     )},
   ] : [];

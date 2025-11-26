@@ -142,7 +142,7 @@ export function ContactWizard() {
     <Card className="p-8">
       <Stack gap={8}>
         <Stack gap={4}>
-          <Label className="font-code text-xs uppercase tracking-[0.4em] text-ink-400">Multi-Step Wizard</Label>
+          <Label className="font-code text-xs uppercase tracking-display text-ink-400">Multi-Step Wizard</Label>
           <Grid cols={3} gap={3}>
             {wizardSteps.map((item, index) => (
               <Button
@@ -151,7 +151,7 @@ export function ContactWizard() {
                 onClick={() => setActiveStep(index)}
                 className="flex flex-col items-start px-4 py-3 text-left h-auto"
               >
-                <Label className="font-code text-xs uppercase tracking-[0.4em]">0{index + 1}</Label>
+                <Label className="font-code text-xs uppercase tracking-display">0{index + 1}</Label>
                 <Body className="font-display text-2xl">{item.title}</Body>
               </Button>
             ))}
@@ -168,7 +168,7 @@ export function ContactWizard() {
             <Stack gap={4}>
               {step.fields.map((field) => (
                 <Stack key={field.id} gap={2}>
-                  <Label className="text-xs uppercase tracking-[0.3em] text-ink-400">
+                  <Label className="text-xs uppercase tracking-kicker text-ink-400">
                     {field.label}
                   </Label>
                   {field.type === "textarea" ? (
@@ -186,7 +186,7 @@ export function ContactWizard() {
                       onChange={(event) => handleChange(field.id, event.target.value)}
                     />
                   )}
-                  <Body className="text-[11px] uppercase tracking-[0.3em] text-ink-500">
+                  <Body className="text-[11px] uppercase tracking-kicker text-ink-500">
                     {errors[field.id] ? (
                       <Body className="text-ink-50">{errors[field.id]}</Body>
                     ) : (
@@ -204,7 +204,7 @@ export function ContactWizard() {
             ) : null}
 
             <Stack direction="horizontal" gap={4} className="flex-col md:flex-row md:items-center md:justify-between">
-              <Body className="text-xs uppercase tracking-[0.3em] text-ink-500">
+              <Body className="text-xs uppercase tracking-kicker text-ink-500">
                 Step {activeStep + 1} of {wizardSteps.length}
               </Body>
               <Stack direction="horizontal" gap={3}>

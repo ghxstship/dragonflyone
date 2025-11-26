@@ -170,7 +170,7 @@ export default function VendorsPage() {
       id: 'overview',
       title: 'Overview',
       content: (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+        <div className="grid grid-cols-2 gap-4">
           <div><strong>Category:</strong> {selectedVendor.category}</div>
           <div><strong>Status:</strong> {selectedVendor.status}</div>
           <div><strong>Rating:</strong> {selectedVendor.rating ? `${selectedVendor.rating}★` : '—'}</div>
@@ -183,7 +183,7 @@ export default function VendorsPage() {
       id: 'contact',
       title: 'Contact Information',
       content: (
-        <div style={{ display: 'grid', gap: '0.5rem' }}>
+        <div className="grid gap-2">
           <div><strong>Contact:</strong> {selectedVendor.contact_name || '—'}</div>
           <div><strong>Email:</strong> {selectedVendor.email}</div>
           <div><strong>Phone:</strong> {selectedVendor.phone || '—'}</div>

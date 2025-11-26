@@ -100,12 +100,12 @@ export default function BadgesPage() {
 
   const getTierColor = (tier: string) => {
     switch (tier) {
-      case 'bronze': return 'bg-amber-600';
-      case 'silver': return 'bg-gray-400';
-      case 'gold': return 'bg-yellow-500';
+      case 'bronze': return 'bg-warning-600';
+      case 'silver': return 'bg-grey-400';
+      case 'gold': return 'bg-warning-500';
       case 'platinum': return 'bg-purple-500';
       case 'diamond': return 'bg-cyan-400';
-      default: return 'bg-gray-500';
+      default: return 'bg-grey-500';
     }
   };
 
@@ -141,15 +141,15 @@ export default function BadgesPage() {
         <Card className="p-6 mb-8 bg-gradient-to-r from-black to-gray-800 text-white">
           <Grid cols={3} gap={6}>
             <Stack className="items-center">
-              <Body className="text-gray-400 text-sm">TOTAL BADGES</Body>
+              <Body className="text-grey-400 text-sm">TOTAL BADGES</Body>
               <H2 className="text-white">{earnedBadges.length}</H2>
             </Stack>
             <Stack className="items-center">
-              <Body className="text-gray-400 text-sm">FAN POINTS</Body>
+              <Body className="text-grey-400 text-sm">FAN POINTS</Body>
               <H2 className="text-white">{currentPoints.toLocaleString()}</H2>
             </Stack>
             <Stack className="items-center">
-              <Body className="text-gray-400 text-sm">CURRENT TIER</Body>
+              <Body className="text-grey-400 text-sm">CURRENT TIER</Body>
               <H2 className="text-white">
                 {fanTiers.find(t => t.is_current)?.name || 'New Fan'}
               </H2>
@@ -189,12 +189,12 @@ export default function BadgesPage() {
                     </Stack>
                     <Stack>
                       <Body className="font-bold">{badge.name}</Body>
-                      <Body className="text-xs text-gray-500">{badge.description}</Body>
+                      <Body className="text-xs text-grey-500">{badge.description}</Body>
                     </Stack>
                     <Badge className={getTierColor(badge.tier) + ' text-white'}>
                       {badge.tier.toUpperCase()}
                     </Badge>
-                    <Body className="text-xs text-gray-400">
+                    <Body className="text-xs text-grey-400">
                       Earned {new Date(badge.earned_at).toLocaleDateString()}
                     </Body>
                     <Button
@@ -210,7 +210,7 @@ export default function BadgesPage() {
             ) : (
               <Card className="col-span-4 p-12 text-center">
                 <H3 className="mb-4">NO BADGES YET</H3>
-                <Body className="text-gray-600 mb-6">
+                <Body className="text-grey-600 mb-6">
                   Start attending events and engaging with the community to earn badges!
                 </Body>
                 <Button variant="solid" onClick={() => router.push('/browse')}>
@@ -226,21 +226,21 @@ export default function BadgesPage() {
             {availableBadges.filter(b => !b.is_earned).map(badge => (
               <Card key={badge.id} className="p-4">
                 <Stack direction="horizontal" gap={4}>
-                  <Stack className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Stack className="w-12 h-12 bg-grey-200 rounded-full flex items-center justify-center flex-shrink-0">
                     <Body className="text-2xl opacity-50">{badge.icon}</Body>
                   </Stack>
                   <Stack className="flex-1">
                     <Body className="font-bold">{badge.name}</Body>
-                    <Body className="text-xs text-gray-500">{badge.description}</Body>
-                    <Body className="text-xs text-gray-400 mt-1">{badge.requirement}</Body>
+                    <Body className="text-xs text-grey-500">{badge.description}</Body>
+                    <Body className="text-xs text-grey-400 mt-1">{badge.requirement}</Body>
                     <Stack className="mt-2">
-                      <Stack className="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
+                      <Stack className="w-full bg-grey-200 h-2 rounded-full overflow-hidden">
                         <Stack
                           className="bg-black h-full transition-all"
-                          style={{ width: `${(badge.progress / badge.total) * 100}%` }}
+                          style={{ '--progress-width': `${(badge.progress / badge.total) * 100}%`, width: 'var(--progress-width)' } as React.CSSProperties}
                         />
                       </Stack>
-                      <Body className="text-xs text-gray-500 mt-1">
+                      <Body className="text-xs text-grey-500 mt-1">
                         {badge.progress} / {badge.total}
                       </Body>
                     </Stack>
@@ -267,7 +267,7 @@ export default function BadgesPage() {
                 >
                   <Stack direction="horizontal" gap={6}>
                     <Stack className={`w-20 h-20 rounded-full flex items-center justify-center ${
-                      isUnlocked ? 'bg-black text-white' : 'bg-gray-200'
+                      isUnlocked ? 'bg-black text-white' : 'bg-grey-200'
                     }`}>
                       <Body className="text-3xl">{tier.icon}</Body>
                     </Stack>
@@ -277,17 +277,17 @@ export default function BadgesPage() {
                           <Stack direction="horizontal" gap={2} className="items-center">
                             <H3>{tier.name}</H3>
                             {tier.is_current && (
-                              <Badge className="bg-green-500 text-white">Current</Badge>
+                              <Badge className="bg-success-500 text-white">Current</Badge>
                             )}
                           </Stack>
-                          <Body className="text-gray-500">
+                          <Body className="text-grey-500">
                             {tier.points_required.toLocaleString()} points required
                           </Body>
                         </Stack>
                         <Body className="text-2xl font-bold">Level {tier.level}</Body>
                       </Stack>
                       <Stack className="mt-4">
-                        <Label className="text-gray-500 mb-2">PERKS</Label>
+                        <Label className="text-grey-500 mb-2">PERKS</Label>
                         <Grid cols={2} gap={2}>
                           {tier.perks.map((perk, i) => (
                             <Body key={i} className="text-sm">✓ {perk}</Body>
@@ -296,13 +296,13 @@ export default function BadgesPage() {
                       </Stack>
                       {tier.is_current && nextTier && (
                         <Stack className="mt-4">
-                          <Stack className="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
+                          <Stack className="w-full bg-grey-200 h-2 rounded-full overflow-hidden">
                             <Stack
                               className="bg-black h-full transition-all"
-                              style={{ width: `${Math.min(progress, 100)}%` }}
+                              style={{ '--progress-width': `${Math.min(progress, 100)}%`, width: 'var(--progress-width)' } as React.CSSProperties}
                             />
                           </Stack>
-                          <Body className="text-xs text-gray-500 mt-1">
+                          <Body className="text-xs text-grey-500 mt-1">
                             {nextTier.points_required - currentPoints} points to {nextTier.name}
                           </Body>
                         </Stack>

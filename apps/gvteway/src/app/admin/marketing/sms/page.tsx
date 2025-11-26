@@ -54,11 +54,11 @@ export default function SMSMarketingPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Completed": return "text-green-400";
-      case "Sending": return "text-blue-400";
-      case "Scheduled": return "text-yellow-400";
+      case "Completed": return "text-success-400";
+      case "Sending": return "text-info-400";
+      case "Scheduled": return "text-warning-400";
       case "Draft": return "text-ink-400";
-      case "Paused": return "text-red-400";
+      case "Paused": return "text-error-400";
       default: return "text-ink-400";
     }
   };
@@ -115,7 +115,7 @@ export default function SMSMarketingPage() {
                         <TableCell>
                           <Stack gap={1}>
                             <Body className="font-bold">{campaign.name}</Body>
-                            {campaign.eventName && <Label size="xs" className="text-gray-500">{campaign.eventName}</Label>}
+                            {campaign.eventName && <Label size="xs" className="text-grey-500">{campaign.eventName}</Label>}
                           </Stack>
                         </TableCell>
                         <TableCell><Label className={getStatusColor(campaign.status)}>{campaign.status}</Label></TableCell>
@@ -124,13 +124,13 @@ export default function SMSMarketingPage() {
                         <TableCell>
                           <Stack gap={0}>
                             <Label>{campaign.deliveredCount.toLocaleString()}</Label>
-                            {campaign.sentCount > 0 && <Label size="xs" className="text-gray-500">{((campaign.deliveredCount / campaign.sentCount) * 100).toFixed(1)}%</Label>}
+                            {campaign.sentCount > 0 && <Label size="xs" className="text-grey-500">{((campaign.deliveredCount / campaign.sentCount) * 100).toFixed(1)}%</Label>}
                           </Stack>
                         </TableCell>
                         <TableCell>
                           <Stack gap={0}>
                             <Label>{campaign.clickCount.toLocaleString()}</Label>
-                            {campaign.deliveredCount > 0 && <Label size="xs" className="text-gray-500">{((campaign.clickCount / campaign.deliveredCount) * 100).toFixed(1)}% CTR</Label>}
+                            {campaign.deliveredCount > 0 && <Label size="xs" className="text-grey-500">{((campaign.clickCount / campaign.deliveredCount) * 100).toFixed(1)}% CTR</Label>}
                           </Stack>
                         </TableCell>
                         <TableCell>
@@ -160,9 +160,9 @@ export default function SMSMarketingPage() {
                     </Stack>
                   </Card>
                 ))}
-                <Card className="border-2 border-dashed border-gray-300 p-4 flex items-center justify-center cursor-pointer hover:border-black">
+                <Card className="border-2 border-dashed border-grey-300 p-4 flex items-center justify-center cursor-pointer hover:border-black">
                   <Stack gap={2} className="text-center">
-                    <Label className="text-gray-500">+ Create Segment</Label>
+                    <Label className="text-grey-500">+ Create Segment</Label>
                   </Stack>
                 </Card>
               </Grid>
@@ -176,10 +176,10 @@ export default function SMSMarketingPage() {
                   { name: "VIP Upgrade", message: "Upgrade to VIP for [EVENT]! Get exclusive perks for just $[PRICE] more: [LINK]" },
                   { name: "Last Chance", message: "Last chance! Only [COUNT] tickets left for [EVENT]. Get yours now: [LINK]" },
                 ].map((template, idx) => (
-                  <Card key={idx} className="border border-gray-200 p-4">
+                  <Card key={idx} className="border border-grey-200 p-4">
                     <Stack gap={3}>
                       <Body className="font-bold">{template.name}</Body>
-                      <Body className="text-gray-600 text-sm">{template.message}</Body>
+                      <Body className="text-grey-600 text-sm">{template.message}</Body>
                       <Button variant="outline" size="sm">Use Template</Button>
                     </Stack>
                   </Card>
@@ -219,7 +219,7 @@ export default function SMSMarketingPage() {
             <Stack gap={2}>
               <Stack direction="horizontal" className="justify-between">
                 <Label>Message</Label>
-                <Label size="xs" className={characterCount > 160 ? "text-yellow-600" : "text-gray-500"}>
+                <Label size="xs" className={characterCount > 160 ? "text-warning-600" : "text-grey-500"}>
                   {characterCount}/160 ({segmentCount} segment{segmentCount > 1 ? "s" : ""})
                 </Label>
               </Stack>
@@ -255,17 +255,17 @@ export default function SMSMarketingPage() {
           {selectedCampaign && (
             <Stack gap={4}>
               <Body className="font-bold text-lg">{selectedCampaign.name}</Body>
-              <Card className="p-3 bg-gray-100 border border-gray-200">
+              <Card className="p-3 bg-grey-100 border border-grey-200">
                 <Body className="text-sm">{selectedCampaign.message}</Body>
               </Card>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-gray-500">Status</Label><Label className={getStatusColor(selectedCampaign.status)}>{selectedCampaign.status}</Label></Stack>
-                <Stack gap={1}><Label size="xs" className="text-gray-500">Audience</Label><Label>{selectedCampaign.audienceSize.toLocaleString()}</Label></Stack>
+                <Stack gap={1}><Label size="xs" className="text-grey-500">Status</Label><Label className={getStatusColor(selectedCampaign.status)}>{selectedCampaign.status}</Label></Stack>
+                <Stack gap={1}><Label size="xs" className="text-grey-500">Audience</Label><Label>{selectedCampaign.audienceSize.toLocaleString()}</Label></Stack>
               </Grid>
               <Grid cols={3} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-gray-500">Sent</Label><Label className="font-mono">{selectedCampaign.sentCount.toLocaleString()}</Label></Stack>
-                <Stack gap={1}><Label size="xs" className="text-gray-500">Delivered</Label><Label className="font-mono">{selectedCampaign.deliveredCount.toLocaleString()}</Label></Stack>
-                <Stack gap={1}><Label size="xs" className="text-gray-500">Clicks</Label><Label className="font-mono">{selectedCampaign.clickCount.toLocaleString()}</Label></Stack>
+                <Stack gap={1}><Label size="xs" className="text-grey-500">Sent</Label><Label className="font-mono">{selectedCampaign.sentCount.toLocaleString()}</Label></Stack>
+                <Stack gap={1}><Label size="xs" className="text-grey-500">Delivered</Label><Label className="font-mono">{selectedCampaign.deliveredCount.toLocaleString()}</Label></Stack>
+                <Stack gap={1}><Label size="xs" className="text-grey-500">Clicks</Label><Label className="font-mono">{selectedCampaign.clickCount.toLocaleString()}</Label></Stack>
               </Grid>
             </Stack>
           )}

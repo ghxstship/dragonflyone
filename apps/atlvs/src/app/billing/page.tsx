@@ -142,7 +142,7 @@ export default function BillingPage() {
 
   const detailSections: DetailSection[] = selectedInvoice ? [
     { id: 'overview', title: 'Invoice Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Invoice #:</strong> {selectedInvoice.invoice_number}</div>
         <div><strong>Status:</strong> {selectedInvoice.status}</div>
         <div><strong>Client:</strong> {selectedInvoice.client?.name || '—'}</div>

@@ -92,28 +92,28 @@ export default function WeatherContingencyPage() {
 
   const getRiskColor = (risk: string) => {
     switch (risk) {
-      case "Low": return "text-green-400";
-      case "Moderate": return "text-yellow-400";
-      case "High": return "text-orange-400";
-      case "Severe": return "text-red-400";
+      case "Low": return "text-success-400";
+      case "Moderate": return "text-warning-400";
+      case "High": return "text-warning-400";
+      case "Severe": return "text-error-400";
       default: return "text-ink-400";
     }
   };
 
   const getRiskBg = (risk: string) => {
     switch (risk) {
-      case "Low": return "border-green-800 bg-green-900/10";
-      case "Moderate": return "border-yellow-800 bg-yellow-900/10";
-      case "High": return "border-orange-800 bg-orange-900/20";
-      case "Severe": return "border-red-800 bg-red-900/20";
+      case "Low": return "border-success-800 bg-success-900/10";
+      case "Moderate": return "border-warning-800 bg-warning-900/10";
+      case "High": return "border-warning-800 bg-warning-900/20";
+      case "Severe": return "border-error-800 bg-error-900/20";
       default: return "border-ink-800 bg-ink-900/50";
     }
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Active": return "text-green-400";
-      case "Triggered": return "text-orange-400";
+      case "Active": return "text-success-400";
+      case "Triggered": return "text-warning-400";
       case "Cleared": return "text-ink-400";
       default: return "text-ink-400";
     }
@@ -198,11 +198,11 @@ export default function WeatherContingencyPage() {
                       <Label className="text-ink-400">Contingency Actions ({plan.contingencyPlans.length})</Label>
                       <Grid cols={2} gap={2}>
                         {plan.contingencyPlans.map((action) => (
-                          <Card key={action.id} className={`p-3 border ${action.status === "Activated" ? "border-orange-700 bg-orange-900/20" : action.status === "Completed" ? "border-green-700 bg-green-900/10" : "border-ink-700"}`}>
+                          <Card key={action.id} className={`p-3 border ${action.status === "Activated" ? "border-warning-700 bg-warning-900/20" : action.status === "Completed" ? "border-success-700 bg-success-900/10" : "border-ink-700"}`}>
                             <Stack gap={2}>
                               <Stack direction="horizontal" className="justify-between">
                                 <Badge variant="outline">{action.trigger}</Badge>
-                                <Label size="xs" className={action.status === "Activated" ? "text-orange-400" : action.status === "Completed" ? "text-green-400" : "text-ink-400"}>{action.status}</Label>
+                                <Label size="xs" className={action.status === "Activated" ? "text-warning-400" : action.status === "Completed" ? "text-success-400" : "text-ink-400"}>{action.status}</Label>
                               </Stack>
                               <Label size="xs" className="text-ink-500">Threshold: {action.threshold}</Label>
                               <Label className="text-ink-300">{action.action}</Label>
@@ -252,7 +252,7 @@ export default function WeatherContingencyPage() {
                     <Stack gap={1}>
                       <Stack direction="horizontal" className="justify-between">
                         <Label className="text-white">{action.trigger}: {action.threshold}</Label>
-                        <Label size="xs" className={action.status === "Activated" ? "text-orange-400" : "text-ink-400"}>{action.status}</Label>
+                        <Label size="xs" className={action.status === "Activated" ? "text-warning-400" : "text-ink-400"}>{action.status}</Label>
                       </Stack>
                       <Label className="text-ink-300">{action.action}</Label>
                       <Label size="xs" className="text-ink-500">{action.responsible}</Label>

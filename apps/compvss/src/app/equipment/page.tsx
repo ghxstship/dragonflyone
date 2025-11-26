@@ -176,7 +176,7 @@ export default function EquipmentPage() {
       id: 'overview',
       title: 'Equipment Details',
       content: (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+        <div className="grid grid-cols-2 gap-4">
           <div><strong>Tag:</strong> {selectedEquipment.tag}</div>
           <div><strong>Category:</strong> {selectedEquipment.type || selectedEquipment.category}</div>
           <div><strong>Serial:</strong> {selectedEquipment.serial_number || selectedEquipment.metadata?.serial_number || '—'}</div>

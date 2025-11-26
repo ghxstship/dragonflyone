@@ -98,12 +98,12 @@ export default function ModerationPage() {
 
   const detailSections: DetailSection[] = selectedContent ? [
     { id: 'content', title: 'Flagged Content', content: (
-      <div style={{ padding: '1rem', background: '#f5f5f5', borderRadius: '8px', marginBottom: '1rem' }}>
+      <div className="p-4 bg-grey-100 rounded-sm mb-4">
         <p>{selectedContent.content}</p>
       </div>
     )},
     { id: 'details', title: 'Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Type:</strong> {getTypeIcon(selectedContent.type)} {selectedContent.type}</div>
         <div><strong>Status:</strong> {selectedContent.status}</div>
         <div><strong>Author:</strong> {selectedContent.author}</div>

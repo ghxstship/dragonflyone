@@ -84,7 +84,7 @@ export default function MessagesPage() {
                       <Stack direction="horizontal" gap={3}>
                         <Card className="w-10 h-10 bg-ink-700 rounded-full flex items-center justify-center relative">
                           <Label>{conv.participantName.charAt(0)}</Label>
-                          {conv.online && <Card className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-ink-900" />}
+                          {conv.online && <Card className="absolute bottom-0 right-0 w-3 h-3 bg-success-500 rounded-full border-2 border-ink-900" />}
                         </Card>
                         <Stack gap={1} className="flex-1">
                           <Stack direction="horizontal" className="justify-between">
@@ -115,7 +115,7 @@ export default function MessagesPage() {
                         </Card>
                         <Stack gap={0}>
                           <Label className="text-white">{selectedConversation.participantName}</Label>
-                          <Label size="xs" className={selectedConversation.online ? "text-green-400" : "text-ink-500"}>
+                          <Label size="xs" className={selectedConversation.online ? "text-success-400" : "text-ink-500"}>
                             {selectedConversation.online ? "Online" : "Offline"}
                           </Label>
                         </Stack>
@@ -127,7 +127,7 @@ export default function MessagesPage() {
                   <Stack className="flex-1 p-4 overflow-y-auto" gap={3}>
                     {mockMessages.map((msg) => (
                       <Stack key={msg.id} className={msg.senderId === "me" ? "items-end" : "items-start"}>
-                        <Card className={`p-3 max-w-xs ${msg.senderId === "me" ? "bg-blue-600" : "bg-ink-800"}`}>
+                        <Card className={`p-3 max-w-xs ${msg.senderId === "me" ? "bg-info-600" : "bg-ink-800"}`}>
                           <Label className="text-white">{msg.content}</Label>
                         </Card>
                         <Label size="xs" className="text-ink-500">{msg.timestamp}</Label>

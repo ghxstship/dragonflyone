@@ -51,19 +51,19 @@ export default function SetTimesPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Completed": return "text-green-400";
-      case "On Stage": return "text-blue-400";
+      case "Completed": return "text-success-400";
+      case "On Stage": return "text-info-400";
       case "Upcoming": return "text-ink-400";
-      case "Delayed": return "text-yellow-400";
-      case "Cancelled": return "text-red-400";
+      case "Delayed": return "text-warning-400";
+      case "Cancelled": return "text-error-400";
       default: return "text-ink-400";
     }
   };
 
   const getStatusBg = (status: string) => {
     switch (status) {
-      case "On Stage": return "border-blue-800 bg-blue-900/20";
-      case "Delayed": return "border-yellow-800 bg-yellow-900/20";
+      case "On Stage": return "border-info-800 bg-info-900/20";
+      case "Delayed": return "border-warning-800 bg-warning-900/20";
       default: return "border-ink-800 bg-ink-900/50";
     }
   };
@@ -98,18 +98,18 @@ export default function SetTimesPage() {
           </Stack>
 
           <Grid cols={4} gap={6}>
-            <StatCard label="On Stage Now" value={onStage.length} className="bg-transparent border-2 border-blue-800" />
+            <StatCard label="On Stage Now" value={onStage.length} className="bg-transparent border-2 border-info-800" />
             <StatCard label="Upcoming" value={upcoming.length} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Completed" value={completed.length} trend="up" className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Delayed" value={delayed} trend={delayed > 0 ? "down" : "neutral"} className="bg-transparent border-2 border-ink-800" />
           </Grid>
 
           {onStage.length > 0 && (
-            <Card className="border-2 border-blue-800 bg-blue-900/20 p-6">
+            <Card className="border-2 border-info-800 bg-info-900/20 p-6">
               <Stack gap={4}>
                 <Stack direction="horizontal" className="justify-between items-center">
                   <Stack gap={1}>
-                    <Label className="text-blue-400">NOW ON STAGE</Label>
+                    <Label className="text-info-400">NOW ON STAGE</Label>
                     <Body className="font-display text-white text-2xl">{onStage[0].artistName}</Body>
                     <Label className="text-ink-400">{onStage[0].stage}</Label>
                   </Stack>
@@ -177,7 +177,7 @@ export default function SetTimesPage() {
                       <H3>{stage}</H3>
                       <Stack gap={2}>
                         {mockSetTimes.filter(s => s.stage === stage).sort((a, b) => a.scheduledStart.localeCompare(b.scheduledStart)).map((set) => (
-                          <Card key={set.id} className={`p-3 border ${set.status === "On Stage" ? "border-blue-800 bg-blue-900/10" : "border-ink-700 bg-ink-800"}`}>
+                          <Card key={set.id} className={`p-3 border ${set.status === "On Stage" ? "border-info-800 bg-info-900/10" : "border-ink-700 bg-ink-800"}`}>
                             <Stack direction="horizontal" className="justify-between items-center">
                               <Stack gap={1}>
                                 <Label className="text-white">{set.artistName}</Label>
@@ -208,13 +208,13 @@ export default function SetTimesPage() {
                             <Label className="text-white">{set.artistName}</Label>
                             <Stack gap={1}>
                               <Label size="xs" className="text-ink-500">Start Variance</Label>
-                              <Label className={startVar && startVar > 0 ? "text-yellow-400" : startVar && startVar < 0 ? "text-green-400" : "text-ink-300"}>
+                              <Label className={startVar && startVar > 0 ? "text-warning-400" : startVar && startVar < 0 ? "text-success-400" : "text-ink-300"}>
                                 {startVar !== null ? (startVar > 0 ? `+${startVar}` : startVar) : "--"} min
                               </Label>
                             </Stack>
                             <Stack gap={1}>
                               <Label size="xs" className="text-ink-500">End Variance</Label>
-                              <Label className={endVar && endVar > 0 ? "text-yellow-400" : endVar && endVar < 0 ? "text-green-400" : "text-ink-300"}>
+                              <Label className={endVar && endVar > 0 ? "text-warning-400" : endVar && endVar < 0 ? "text-success-400" : "text-ink-300"}>
                                 {endVar !== null ? (endVar > 0 ? `+${endVar}` : endVar) : "--"} min
                               </Label>
                             </Stack>

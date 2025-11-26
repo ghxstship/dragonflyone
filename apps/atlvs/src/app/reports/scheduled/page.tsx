@@ -46,9 +46,9 @@ export default function ScheduledReportsPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Active": return "text-green-400";
-      case "Paused": return "text-yellow-400";
-      case "Failed": return "text-red-400";
+      case "Active": return "text-success-400";
+      case "Paused": return "text-warning-400";
+      case "Failed": return "text-error-400";
       default: return "text-ink-400";
     }
   };

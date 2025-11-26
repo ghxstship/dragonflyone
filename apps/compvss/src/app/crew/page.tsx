@@ -251,7 +251,7 @@ export default function CrewPage() {
       id: 'overview',
       title: 'Overview',
       content: (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+        <div className="grid grid-cols-2 gap-4">
           <div><strong>Role:</strong> {selectedMember.role}</div>
           <div><strong>Department:</strong> {selectedMember.department}</div>
           <div><strong>Day Rate:</strong> ${selectedMember.rate}/day</div>
@@ -265,7 +265,7 @@ export default function CrewPage() {
       id: 'contact',
       title: 'Contact',
       content: (
-        <div style={{ display: 'grid', gap: '0.5rem' }}>
+        <div className="grid gap-2">
           <div><strong>Phone:</strong> {selectedMember.phone}</div>
           <div><strong>Email:</strong> {selectedMember.email}</div>
         </div>
@@ -275,11 +275,11 @@ export default function CrewPage() {
       id: 'skills',
       title: 'Specialties & Certifications',
       content: (
-        <div style={{ display: 'grid', gap: '1rem' }}>
+        <div className="grid gap-4">
           {selectedMember.specialties && (
             <div>
               <strong>Specialties:</strong>
-              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginTop: '0.5rem' }}>
+              <div className="flex gap-2 flex-wrap mt-2">
                 {selectedMember.specialties.map((s: string) => (
                   <Badge key={s} variant="outline">{s}</Badge>
                 ))}
@@ -289,7 +289,7 @@ export default function CrewPage() {
           {selectedMember.certifications && (
             <div>
               <strong>Certifications:</strong>
-              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginTop: '0.5rem' }}>
+              <div className="flex gap-2 flex-wrap mt-2">
                 {selectedMember.certifications.map((c: string) => (
                   <Badge key={c}>{c}</Badge>
                 ))}

@@ -82,7 +82,7 @@ export default function CompensationPage() {
 
   const detailSections: DetailSection[] = selectedPlan ? [
     { id: 'overview', title: 'Compensation Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Employee:</strong> {selectedPlan.employeeName}</div>
         <div><strong>Department:</strong> {selectedPlan.department}</div>
         <div><strong>Role:</strong> {selectedPlan.role}</div>

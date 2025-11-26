@@ -182,19 +182,19 @@ export default function WatchPartiesPage() {
 
   const getStatusBadge = (status: string) => {
     const variants: Record<string, string> = {
-      upcoming: 'bg-blue-500 text-white',
-      live: 'bg-red-500 text-white animate-pulse',
-      ended: 'bg-gray-500 text-white',
+      upcoming: 'bg-info-500 text-white',
+      live: 'bg-error-500 text-white animate-pulse',
+      ended: 'bg-grey-500 text-white',
     };
     return <Badge className={variants[status] || ''}>{status.toUpperCase()}</Badge>;
   };
 
   const getContentTypeBadge = (type: string) => {
     const variants: Record<string, { color: string; label: string }> = {
-      livestream: { color: 'bg-red-500 text-white', label: '🔴 Live' },
-      recording: { color: 'bg-blue-500 text-white', label: '📹 Recording' },
+      livestream: { color: 'bg-error-500 text-white', label: '🔴 Live' },
+      recording: { color: 'bg-info-500 text-white', label: '📹 Recording' },
       premiere: { color: 'bg-purple-500 text-white', label: '🎬 Premiere' },
-      rewatch: { color: 'bg-green-500 text-white', label: '🔄 Rewatch' },
+      rewatch: { color: 'bg-success-500 text-white', label: '🔄 Rewatch' },
     };
     const variant = variants[type] || { color: '', label: type };
     return <Badge className={variant.color}>{variant.label}</Badge>;
@@ -305,14 +305,14 @@ export default function WatchPartiesPage() {
               {liveParties.map(party => (
                 <Card
                   key={party.id}
-                  className="p-6 border-2 border-red-500 cursor-pointer hover:shadow-lg transition-shadow"
+                  className="p-6 border-2 border-error-500 cursor-pointer hover:shadow-lg transition-shadow"
                   onClick={() => {
                     setSelectedParty(party);
                     setShowJoinModal(true);
                   }}
                 >
                   <Stack direction="horizontal" gap={4}>
-                    <Stack className="w-32 h-24 bg-gray-200 rounded overflow-hidden relative flex-shrink-0">
+                    <Stack className="w-32 h-24 bg-grey-200 rounded overflow-hidden relative flex-shrink-0">
                       {party.thumbnail_url ? (
                         <Image src={party.thumbnail_url} alt={party.title} fill className="object-cover" />
                       ) : (
@@ -327,10 +327,10 @@ export default function WatchPartiesPage() {
                         {getContentTypeBadge(party.content_type)}
                       </Stack>
                       <H3 className="mt-2">{party.title}</H3>
-                      <Body className="text-sm text-gray-600">
+                      <Body className="text-sm text-grey-600">
                         Hosted by {party.host_name}
                       </Body>
-                      <Stack direction="horizontal" gap={4} className="mt-2 text-sm text-gray-500">
+                      <Stack direction="horizontal" gap={4} className="mt-2 text-sm text-grey-500">
                         <Body>{party.attendees_count} watching</Body>
                         {party.chat_enabled && <Body>💬 Chat</Body>}
                         {party.video_enabled && <Body>📹 Video</Body>}
@@ -356,7 +356,7 @@ export default function WatchPartiesPage() {
                   setShowJoinModal(true);
                 }}
               >
-                <Stack className="relative h-40 bg-gray-100">
+                <Stack className="relative h-40 bg-grey-100">
                   {party.thumbnail_url ? (
                     <Image src={party.thumbnail_url} alt={party.title} fill className="object-cover" />
                   ) : (
@@ -376,14 +376,14 @@ export default function WatchPartiesPage() {
                 <Stack className="p-4" gap={2}>
                   {getContentTypeBadge(party.content_type)}
                   <H3 className="line-clamp-1">{party.title}</H3>
-                  <Body className="text-sm text-gray-600">
+                  <Body className="text-sm text-grey-600">
                     Hosted by {party.host_name}
                   </Body>
-                  <Body className="text-xs text-gray-500">
+                  <Body className="text-xs text-grey-500">
                     {formatDate(party.scheduled_at)}
                   </Body>
                   <Stack direction="horizontal" className="justify-between items-center mt-2">
-                    <Body className="text-xs text-gray-500">
+                    <Body className="text-xs text-grey-500">
                       {party.attendees_count}{party.max_attendees ? `/${party.max_attendees}` : ''} joined
                     </Body>
                     <Stack direction="horizontal" gap={1}>
@@ -399,7 +399,7 @@ export default function WatchPartiesPage() {
         {parties.length === 0 && (
           <Card className="p-12 text-center">
             <H3 className="mb-4">NO WATCH PARTIES</H3>
-            <Body className="text-gray-600 mb-6">
+            <Body className="text-grey-600 mb-6">
               Be the first to host a watch party!
             </Body>
             <Button variant="solid" onClick={() => setShowCreateModal(true)}>
@@ -536,8 +536,8 @@ export default function WatchPartiesPage() {
                   {getContentTypeBadge(selectedParty.content_type)}
                 </Stack>
                 <H2>{selectedParty.title}</H2>
-                <Body className="text-gray-600">{selectedParty.description}</Body>
-                <Stack direction="horizontal" gap={4} className="text-sm text-gray-500">
+                <Body className="text-grey-600">{selectedParty.description}</Body>
+                <Stack direction="horizontal" gap={4} className="text-sm text-grey-500">
                   <Body>Hosted by {selectedParty.host_name}</Body>
                   <Body>{formatDate(selectedParty.scheduled_at)}</Body>
                   <Body>{selectedParty.attendees_count} joined</Body>

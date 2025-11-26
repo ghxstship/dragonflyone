@@ -141,7 +141,7 @@ export default function EventChatPage() {
         <Container className="py-16">
           <Card className="p-12 text-center mt-12">
             <H2 className="mb-4">CHAT NOT AVAILABLE</H2>
-            <Body className="text-gray-600 mb-6">
+            <Body className="text-grey-600 mb-6">
               The chat room for this event is not available yet.
             </Body>
             <Button variant="solid" onClick={() => router.back()}>
@@ -166,21 +166,21 @@ export default function EventChatPage() {
           </Stack>
 
           <Card className="p-6">
-            <Body className="text-gray-500 mb-4">
+            <Body className="text-grey-500 mb-4">
               This chat has been archived. Messages are read-only.
             </Body>
             <Stack gap={3} className="max-h-[500px] overflow-y-auto">
               {messages.map(message => (
                 <Stack key={message.id} direction="horizontal" gap={3}>
-                  <Stack className="w-8 h-8 bg-gray-200 rounded-full flex-shrink-0 flex items-center justify-center">
+                  <Stack className="w-8 h-8 bg-grey-200 rounded-full flex-shrink-0 flex items-center justify-center">
                     <Body className="text-xs">{message.user_name.charAt(0)}</Body>
                   </Stack>
                   <Stack>
                     <Stack direction="horizontal" gap={2} className="items-center">
                       <Body className="font-medium text-sm">{message.user_name}</Body>
-                      <Body className="text-xs text-gray-400">{formatTime(message.created_at)}</Body>
+                      <Body className="text-xs text-grey-400">{formatTime(message.created_at)}</Body>
                     </Stack>
-                    <Body className="text-gray-600">{message.content}</Body>
+                    <Body className="text-grey-600">{message.content}</Body>
                   </Stack>
                 </Stack>
               ))}
@@ -199,7 +199,7 @@ export default function EventChatPage() {
         <Stack gap={8}>
         <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
           <Stack gap={2}>
-            <Badge className="bg-green-500 text-white w-fit">Live</Badge>
+            <Badge className="bg-success-500 text-white w-fit">Live</Badge>
             <H1>{chatRoom.event_title}</H1>
             <Body className="text-grey-600">
               {chatRoom.participant_count} fans chatting
@@ -222,7 +222,7 @@ export default function EventChatPage() {
         )}
 
         {showRules && chatRoom.rules && (
-          <Card className="p-4 mb-6 bg-yellow-50">
+          <Card className="p-4 mb-6 bg-warning-50">
             <H3 className="mb-2">CHAT RULES</H3>
             <Stack gap={1}>
               {chatRoom.rules.map((rule, index) => (
@@ -238,10 +238,10 @@ export default function EventChatPage() {
               {messages.map(message => (
                 <Stack
                   key={message.id}
-                  className={`${message.is_pinned ? 'bg-yellow-50 p-2 rounded' : ''}`}
+                  className={`${message.is_pinned ? 'bg-warning-50 p-2 rounded' : ''}`}
                 >
                   <Stack direction="horizontal" gap={3}>
-                    <Stack className="relative w-10 h-10 bg-gray-200 rounded-full flex-shrink-0 flex items-center justify-center overflow-hidden">
+                    <Stack className="relative w-10 h-10 bg-grey-200 rounded-full flex-shrink-0 flex items-center justify-center overflow-hidden">
                       {message.user_avatar ? (
                         <Image
                           src={message.user_avatar}
@@ -260,9 +260,9 @@ export default function EventChatPage() {
                           <Badge className="bg-purple-500 text-white text-xs">MOD</Badge>
                         )}
                         {message.is_pinned && (
-                          <Badge className="bg-yellow-500 text-white text-xs">PINNED</Badge>
+                          <Badge className="bg-warning-500 text-white text-xs">PINNED</Badge>
                         )}
-                        <Body className="text-xs text-gray-400">{formatTime(message.created_at)}</Body>
+                        <Body className="text-xs text-grey-400">{formatTime(message.created_at)}</Body>
                       </Stack>
                       <Body>{message.content}</Body>
                     </Stack>
@@ -272,7 +272,7 @@ export default function EventChatPage() {
               <Box ref={messagesEndRef} />
             </Stack>
 
-            <Stack className="p-4 border-t border-gray-200">
+            <Stack className="p-4 border-t border-grey-200">
               <form onSubmit={handleSendMessage}>
                 <Stack direction="horizontal" gap={2}>
                   <Input
@@ -299,7 +299,7 @@ export default function EventChatPage() {
             <Card className="p-4">
               <H3 className="mb-4">EVENT INFO</H3>
               <Stack gap={2}>
-                <Body className="text-sm text-gray-600">{chatRoom.event_date}</Body>
+                <Body className="text-sm text-grey-600">{chatRoom.event_date}</Body>
                 <Button
                   variant="outline"
                   size="sm"
@@ -329,12 +329,12 @@ export default function EventChatPage() {
               </Stack>
             </Card>
 
-            <Card className="p-4 bg-gray-50">
+            <Card className="p-4 bg-grey-50">
               <H3 className="mb-2">CHAT TIPS</H3>
               <Stack gap={1}>
-                <Body className="text-xs text-gray-600">• Be respectful to other fans</Body>
-                <Body className="text-xs text-gray-600">• No spoilers for setlists</Body>
-                <Body className="text-xs text-gray-600">• Report inappropriate content</Body>
+                <Body className="text-xs text-grey-600">• Be respectful to other fans</Body>
+                <Body className="text-xs text-grey-600">• No spoilers for setlists</Body>
+                <Body className="text-xs text-grey-600">• Report inappropriate content</Body>
               </Stack>
             </Card>
           </Stack>

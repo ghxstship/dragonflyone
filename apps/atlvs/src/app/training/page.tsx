@@ -93,7 +93,7 @@ export default function TrainingPage() {
 
   const detailSections: DetailSection[] = selectedProgram ? [
     { id: 'overview', title: 'Program Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Title:</strong> {selectedProgram.title}</div>
         <div><strong>Category:</strong> {selectedProgram.category}</div>
         <div><strong>Duration:</strong> {selectedProgram.duration_hours} hours</div>
@@ -104,7 +104,7 @@ export default function TrainingPage() {
         <div><strong>End Date:</strong> {selectedProgram.end_date ? new Date(selectedProgram.end_date).toLocaleDateString() : '—'}</div>
         <div><strong>Status:</strong> {selectedProgram.status}</div>
         <div><strong>Virtual:</strong> {selectedProgram.is_virtual ? 'Yes' : 'No'}</div>
-        {selectedProgram.description && <div style={{ gridColumn: 'span 2' }}><strong>Description:</strong> {selectedProgram.description}</div>}
+        {selectedProgram.description && <div className="col-span-2"><strong>Description:</strong> {selectedProgram.description}</div>}
       </div>
     )},
   ] : [];

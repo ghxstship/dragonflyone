@@ -136,32 +136,32 @@ export default function RelationshipsPage() {
 
   const getRelationshipBadge = (type: string) => {
     const colors: Record<string, string> = {
-      reports_to: 'bg-blue-500 text-white',
+      reports_to: 'bg-info-500 text-white',
       manages: 'bg-purple-500 text-white',
-      works_with: 'bg-green-500 text-white',
-      referred_by: 'bg-yellow-500 text-black',
-      decision_maker: 'bg-red-500 text-white',
-      influencer: 'bg-orange-500 text-white',
-      champion: 'bg-green-600 text-white',
-      blocker: 'bg-red-600 text-white',
+      works_with: 'bg-success-500 text-white',
+      referred_by: 'bg-warning-500 text-black',
+      decision_maker: 'bg-error-500 text-white',
+      influencer: 'bg-warning-500 text-white',
+      champion: 'bg-success-600 text-white',
+      blocker: 'bg-error-600 text-white',
     };
     return <Badge className={colors[type] || ''}>{type.replace('_', ' ')}</Badge>;
   };
 
   const getInfluenceBadge = (influence: string) => {
     const colors: Record<string, string> = {
-      high: 'bg-red-500 text-white',
-      medium: 'bg-yellow-500 text-black',
-      low: 'bg-green-500 text-white',
+      high: 'bg-error-500 text-white',
+      medium: 'bg-warning-500 text-black',
+      low: 'bg-success-500 text-white',
     };
     return <Badge className={colors[influence] || ''}>{influence}</Badge>;
   };
 
   const getSentimentBadge = (sentiment: string) => {
     const colors: Record<string, string> = {
-      positive: 'bg-green-500 text-white',
-      neutral: 'bg-gray-500 text-white',
-      negative: 'bg-red-500 text-white',
+      positive: 'bg-success-500 text-white',
+      neutral: 'bg-grey-500 text-white',
+      negative: 'bg-error-500 text-white',
     };
     return <Badge className={colors[sentiment] || ''}>{sentiment}</Badge>;
   };
@@ -177,7 +177,7 @@ export default function RelationshipsPage() {
           <Stack direction="horizontal" className="justify-between items-center">
             <Stack>
               <Display>RELATIONSHIP MAPPING</Display>
-              <Body className="mt-2 text-gray-600">
+              <Body className="mt-2 text-grey-600">
                 Stakeholder org charts and relationship visualization
               </Body>
             </Stack>
@@ -241,7 +241,7 @@ export default function RelationshipsPage() {
             <Card className="p-6 border-2 border-black">
               <Stack gap={4}>
                 <H2>{stakeholderMap.organization_name}</H2>
-                <Body className="text-gray-600">Stakeholder influence and sentiment mapping</Body>
+                <Body className="text-grey-600">Stakeholder influence and sentiment mapping</Body>
               </Stack>
             </Card>
 
@@ -255,15 +255,15 @@ export default function RelationshipsPage() {
                       <Card
                         key={stakeholder.contact.id}
                         className={`p-4 border-2 cursor-pointer hover:shadow-lg ${
-                          stakeholder.sentiment === 'positive' ? 'border-green-300 bg-green-50' :
-                          stakeholder.sentiment === 'negative' ? 'border-red-300 bg-red-50' :
-                          'border-gray-300'
+                          stakeholder.sentiment === 'positive' ? 'border-success-300 bg-success-50' :
+                          stakeholder.sentiment === 'negative' ? 'border-error-300 bg-error-50' :
+                          'border-grey-300'
                         }`}
                         onClick={() => setSelectedContact(stakeholder.contact)}
                       >
                         <Stack gap={2}>
                           <Body className="font-bold">{stakeholder.contact.name}</Body>
-                          <Label className="text-gray-500">{stakeholder.contact.title}</Label>
+                          <Label className="text-grey-500">{stakeholder.contact.title}</Label>
                           <Badge variant="outline">{stakeholder.role}</Badge>
                           <Stack direction="horizontal" gap={2}>
                             {getInfluenceBadge(stakeholder.influence)}
@@ -284,10 +284,10 @@ export default function RelationshipsPage() {
               <Stack gap={8}>
                 {/* CEO Level */}
                 <Stack className="items-center">
-                  <Card className="p-4 border-2 border-black bg-gray-100 w-64">
+                  <Card className="p-4 border-2 border-black bg-grey-100 w-64">
                     <Stack gap={1} className="text-center">
                       <Body className="font-bold">{mockContacts[3].name}</Body>
-                      <Label className="text-gray-500">{mockContacts[3].title}</Label>
+                      <Label className="text-grey-500">{mockContacts[3].title}</Label>
                       {getRelationshipBadge('decision_maker')}
                     </Stack>
                   </Card>
@@ -301,7 +301,7 @@ export default function RelationshipsPage() {
                       <Card className="p-4 border-2 border-black w-56">
                         <Stack gap={1} className="text-center">
                           <Body className="font-bold">{contact.name}</Body>
-                          <Label className="text-gray-500">{contact.title}</Label>
+                          <Label className="text-grey-500">{contact.title}</Label>
                         </Stack>
                       </Card>
                     </Stack>
@@ -312,19 +312,19 @@ export default function RelationshipsPage() {
                 <Stack direction="horizontal" className="justify-center gap-8">
                   <Stack className="items-center" gap={4}>
                     <Card className="w-1 h-8 bg-black" />
-                    <Card className="p-4 border border-gray-300 w-48">
+                    <Card className="p-4 border border-grey-300 w-48">
                       <Stack gap={1} className="text-center">
                         <Body className="font-bold">{mockContacts[1].name}</Body>
-                        <Label className="text-gray-500">{mockContacts[1].title}</Label>
+                        <Label className="text-grey-500">{mockContacts[1].title}</Label>
                       </Stack>
                     </Card>
                   </Stack>
                   <Stack className="items-center" gap={4}>
                     <Card className="w-1 h-8 bg-black" />
-                    <Card className="p-4 border border-gray-300 w-48">
+                    <Card className="p-4 border border-grey-300 w-48">
                       <Stack gap={1} className="text-center">
                         <Body className="font-bold">{mockContacts[4].name}</Body>
-                        <Label className="text-gray-500">{mockContacts[4].title}</Label>
+                        <Label className="text-grey-500">{mockContacts[4].title}</Label>
                       </Stack>
                     </Card>
                   </Stack>
@@ -341,15 +341,15 @@ export default function RelationshipsPage() {
                 <Grid cols={4} gap={4} className="items-center">
                   <Stack gap={1}>
                     <Body className="font-bold">{rel.from_contact.name}</Body>
-                    <Label className="text-gray-500">{rel.from_contact.title}</Label>
+                    <Label className="text-grey-500">{rel.from_contact.title}</Label>
                   </Stack>
                   <Stack className="items-center">
                     {getRelationshipBadge(rel.relationship_type)}
-                    <Body className="text-gray-400">→</Body>
+                    <Body className="text-grey-400">→</Body>
                   </Stack>
                   <Stack gap={1}>
                     <Body className="font-bold">{rel.to_contact.name}</Body>
-                    <Label className="text-gray-500">{rel.to_contact.title}</Label>
+                    <Label className="text-grey-500">{rel.to_contact.title}</Label>
                   </Stack>
                   <Stack className="items-end">
                     <Badge variant="outline" className="capitalize">{rel.strength}</Badge>
@@ -439,22 +439,22 @@ export default function RelationshipsPage() {
           {selectedContact && (
             <Stack gap={4}>
               <H2>{selectedContact.name}</H2>
-              <Body className="text-gray-600">{selectedContact.title}</Body>
+              <Body className="text-grey-600">{selectedContact.title}</Body>
               <Body>{selectedContact.company}</Body>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>
-                  <Label className="text-gray-500">Email</Label>
+                  <Label className="text-grey-500">Email</Label>
                   <Body>{selectedContact.email}</Body>
                 </Stack>
                 {selectedContact.phone && (
                   <Stack gap={1}>
-                    <Label className="text-gray-500">Phone</Label>
+                    <Label className="text-grey-500">Phone</Label>
                     <Body>{selectedContact.phone}</Body>
                   </Stack>
                 )}
               </Grid>
               <Stack gap={2}>
-                <Label className="text-gray-500">Relationships</Label>
+                <Label className="text-grey-500">Relationships</Label>
                 {getContactRelationships(selectedContact.id).map(rel => (
                   <Card key={rel.id} className="p-3 border">
                     <Stack direction="horizontal" gap={2} className="items-center">

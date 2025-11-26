@@ -190,22 +190,22 @@ export default function CommunityPollsPage() {
                     <Stack gap={1}>
                       <Badge variant="outline">{poll.category}</Badge>
                       {poll.event_title && (
-                        <Body className="text-sm text-gray-500">{poll.event_title}</Body>
+                        <Body className="text-sm text-grey-500">{poll.event_title}</Body>
                       )}
                     </Stack>
                     {poll.status === 'active' && poll.ends_at && (
-                      <Badge className="bg-blue-500 text-white">
+                      <Badge className="bg-info-500 text-white">
                         {getTimeRemaining(poll.ends_at)}
                       </Badge>
                     )}
                     {poll.status === 'closed' && (
-                      <Badge className="bg-gray-500 text-white">Closed</Badge>
+                      <Badge className="bg-grey-500 text-white">Closed</Badge>
                     )}
                   </Stack>
 
                   <H3>{poll.question}</H3>
                   {poll.description && (
-                    <Body className="text-gray-600">{poll.description}</Body>
+                    <Body className="text-grey-600">{poll.description}</Body>
                   )}
 
                   <Stack gap={2}>
@@ -228,9 +228,9 @@ export default function CommunityPollsPage() {
                             <Stack className="relative">
                               <Stack
                                 className={`absolute inset-0 ${
-                                  isVoted ? 'bg-black' : 'bg-gray-200'
+                                  isVoted ? 'bg-black' : 'bg-grey-200'
                                 } rounded transition-all`}
-                                style={{ width: `${option.percentage}%` }}
+                                style={{ '--progress-width': `${option.percentage}%`, width: 'var(--progress-width)' } as React.CSSProperties}
                               />
                               <Stack
                                 direction="horizontal"
@@ -240,7 +240,7 @@ export default function CommunityPollsPage() {
                                   {option.text}
                                   {isVoted && ' ✓'}
                                 </Body>
-                                <Body className={`font-mono ${isVoted ? 'text-white' : 'text-gray-600'}`}>
+                                <Body className={`font-mono ${isVoted ? 'text-white' : 'text-grey-600'}`}>
                                   {option.percentage}%
                                 </Body>
                               </Stack>
@@ -251,7 +251,7 @@ export default function CommunityPollsPage() {
                     })}
                   </Stack>
 
-                  <Body className="text-sm text-gray-500">
+                  <Body className="text-sm text-grey-500">
                     {poll.total_votes} vote{poll.total_votes !== 1 ? 's' : ''}
                   </Body>
                 </Stack>
@@ -261,7 +261,7 @@ export default function CommunityPollsPage() {
         ) : (
           <Card className="p-12 text-center">
             <H3 className="mb-4">NO POLLS FOUND</H3>
-            <Body className="text-gray-600">
+            <Body className="text-grey-600">
               {filter === 'active'
                 ? 'No active polls at the moment. Check back soon!'
                 : 'No polls match your current filters.'}

@@ -68,7 +68,7 @@ function EventCloneContent() {
         <Stack gap={8}>
           <Stack gap={2}>
             <H1>CREATE EVENT</H1>
-            <Body className="text-gray-600">Clone from template or existing event</Body>
+            <Body className="text-grey-600">Clone from template or existing event</Body>
           </Stack>
 
           <Grid cols={4} gap={6}>
@@ -88,7 +88,7 @@ function EventCloneContent() {
             <TabPanel active={activeTab === "templates"}>
               <Grid cols={3} gap={4}>
                 {mockTemplates.map((template) => (
-                  <Card key={template.id} className="border-2 border-black p-6 cursor-pointer hover:bg-gray-50" onClick={() => setSelectedTemplate(template)}>
+                  <Card key={template.id} className="border-2 border-black p-6 cursor-pointer hover:bg-grey-50" onClick={() => setSelectedTemplate(template)}>
                     <Stack gap={4}>
                       <Stack direction="horizontal" className="justify-between">
                         <Label className="text-3xl">{getTypeIcon(template.type)}</Label>
@@ -96,20 +96,20 @@ function EventCloneContent() {
                       </Stack>
                       <Stack gap={1}>
                         <Body className="font-bold">{template.name}</Body>
-                        <Label className="text-gray-500">{template.description}</Label>
+                        <Label className="text-grey-500">{template.description}</Label>
                       </Stack>
                       <Stack direction="horizontal" gap={4}>
-                        <Label size="xs" className="text-gray-400">Used {template.timesUsed} times</Label>
-                        {template.lastUsed && <Label size="xs" className="text-gray-400">Last: {template.lastUsed}</Label>}
+                        <Label size="xs" className="text-grey-400">Used {template.timesUsed} times</Label>
+                        {template.lastUsed && <Label size="xs" className="text-grey-400">Last: {template.lastUsed}</Label>}
                       </Stack>
                       <Button variant="solid" size="sm">Use Template</Button>
                     </Stack>
                   </Card>
                 ))}
-                <Card className="border-2 border-dashed border-gray-300 p-6 cursor-pointer hover:border-black" onClick={() => setShowCreateModal(true)}>
+                <Card className="border-2 border-dashed border-grey-300 p-6 cursor-pointer hover:border-black" onClick={() => setShowCreateModal(true)}>
                   <Stack gap={4} className="items-center justify-center h-full">
                     <Label className="text-4xl">➕</Label>
-                    <Body className="text-gray-500">Create Custom Template</Body>
+                    <Body className="text-grey-500">Create Custom Template</Body>
                   </Stack>
                 </Card>
               </Grid>
@@ -119,7 +119,7 @@ function EventCloneContent() {
               <Stack gap={4}>
                 <Input type="search" placeholder="Search past events..." className="border-2 border-black" />
                 {mockRecentEvents.map((event) => (
-                  <Card key={event.id} className="border-2 border-black p-4 cursor-pointer hover:bg-gray-50" onClick={() => setSelectedEvent(event)}>
+                  <Card key={event.id} className="border-2 border-black p-4 cursor-pointer hover:bg-grey-50" onClick={() => setSelectedEvent(event)}>
                     <Grid cols={4} gap={4} className="items-center">
                       <Stack direction="horizontal" gap={3}>
                         <Label className="text-2xl">{getTypeIcon(event.type)}</Label>
@@ -128,8 +128,8 @@ function EventCloneContent() {
                           <Badge variant="outline">{event.type}</Badge>
                         </Stack>
                       </Stack>
-                      <Label className="text-gray-600">{event.venue}</Label>
-                      <Label className="text-gray-500">{event.date}</Label>
+                      <Label className="text-grey-600">{event.venue}</Label>
+                      <Label className="text-grey-500">{event.date}</Label>
                       <Button variant="outline" size="sm">Clone</Button>
                     </Grid>
                   </Card>
@@ -141,7 +141,7 @@ function EventCloneContent() {
               <Card className="border-2 border-black p-8">
                 <Stack gap={6}>
                   <H3>Start from Scratch</H3>
-                  <Body className="text-gray-600">Create a new event without using a template. You will configure all settings manually.</Body>
+                  <Body className="text-grey-600">Create a new event without using a template. You will configure all settings manually.</Body>
                   <Grid cols={2} gap={4}>
                     <Input placeholder="Event Name" className="border-2 border-black" />
                     <Select className="border-2 border-black">
@@ -184,9 +184,9 @@ function EventCloneContent() {
                   <Badge variant="outline">{selectedTemplate.type}</Badge>
                 </Stack>
               </Stack>
-              <Body className="text-gray-600">{selectedTemplate.description}</Body>
+              <Body className="text-grey-600">{selectedTemplate.description}</Body>
               <Stack gap={2}>
-                <Label className="text-gray-500">Included Sections</Label>
+                <Label className="text-grey-500">Included Sections</Label>
                 <Stack direction="horizontal" gap={2} className="flex-wrap">
                   {selectedTemplate.sections.map((section, idx) => (
                     <Badge key={idx} variant="outline">{section}</Badge>
@@ -224,11 +224,11 @@ function EventCloneContent() {
                 </Stack>
               </Stack>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label className="text-gray-500">Original Date</Label><Label>{selectedEvent.date}</Label></Stack>
-                <Stack gap={1}><Label className="text-gray-500">Venue</Label><Label>{selectedEvent.venue}</Label></Stack>
+                <Stack gap={1}><Label className="text-grey-500">Original Date</Label><Label>{selectedEvent.date}</Label></Stack>
+                <Stack gap={1}><Label className="text-grey-500">Venue</Label><Label>{selectedEvent.venue}</Label></Stack>
               </Grid>
               <Stack gap={2}>
-                <Label className="text-gray-500">What to copy</Label>
+                <Label className="text-grey-500">What to copy</Label>
                 <Stack gap={1}>
                   {["Event Details", "Ticket Types", "Seating Layout", "Marketing Content", "Team Members"].map((item, idx) => (
                     <Stack key={idx} direction="horizontal" gap={2}>
@@ -265,7 +265,7 @@ function EventCloneContent() {
             </Select>
             <Textarea placeholder="Description..." rows={2} className="border-2 border-black" />
             <Stack gap={2}>
-              <Label className="text-gray-500">Include Sections</Label>
+              <Label className="text-grey-500">Include Sections</Label>
               <Grid cols={2} gap={2}>
                 {["Event Info", "Ticketing", "Seating", "Marketing", "Sponsors", "Lineup"].map((section, idx) => (
                   <Stack key={idx} direction="horizontal" gap={2}>

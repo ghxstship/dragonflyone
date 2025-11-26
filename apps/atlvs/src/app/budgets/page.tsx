@@ -92,7 +92,7 @@ export default function BudgetsPage() {
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Budget Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Name:</strong> {selected.name}</div>
         <div><strong>Category:</strong> {selected.category}</div>
         <div><strong>Budgeted:</strong> {formatCurrency(selected.budgeted)}</div>

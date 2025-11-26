@@ -46,9 +46,9 @@ export default function CaseStudiesPage() {
 
   const getTypeColor = (type: string) => {
     switch (type) {
-      case "Success": return "text-green-400";
-      case "Post-Mortem": return "text-red-400";
-      case "Lessons Learned": return "text-yellow-400";
+      case "Success": return "text-success-400";
+      case "Post-Mortem": return "text-error-400";
+      case "Lessons Learned": return "text-warning-400";
       default: return "text-ink-400";
     }
   };
@@ -133,7 +133,7 @@ export default function CaseStudiesPage() {
                 {selectedStudy.keyTakeaways.map((takeaway, idx) => (
                   <Card key={idx} className="p-3 border border-ink-700">
                     <Stack direction="horizontal" gap={2}>
-                      <Label className="text-green-400">✓</Label>
+                      <Label className="text-success-400">✓</Label>
                       <Label className="text-ink-300">{takeaway}</Label>
                     </Stack>
                   </Card>

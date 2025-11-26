@@ -79,9 +79,9 @@ export default function POSPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Online": return "text-green-400";
-      case "Busy": return "text-yellow-400";
-      case "Offline": return "text-red-400";
+      case "Online": return "text-success-400";
+      case "Busy": return "text-warning-400";
+      case "Offline": return "text-error-400";
       default: return "text-ink-400";
     }
   };
@@ -126,10 +126,10 @@ export default function POSPage() {
                     </Stack>
                     <Grid cols={4} gap={3}>
                       {filteredItems.map(item => (
-                        <Card key={item.id} className="p-3 border border-gray-200 cursor-pointer hover:border-black transition-all" onClick={() => addToCart(item)}>
+                        <Card key={item.id} className="p-3 border border-grey-200 cursor-pointer hover:border-black transition-all" onClick={() => addToCart(item)}>
                           <Stack gap={1}>
                             <Body className="font-bold text-sm">{item.name}</Body>
-                            <Label className="text-gray-600">${item.price}</Label>
+                            <Label className="text-grey-600">${item.price}</Label>
                           </Stack>
                         </Card>
                       ))}
@@ -141,15 +141,15 @@ export default function POSPage() {
                   <Stack gap={4}>
                     <H3>CURRENT ORDER</H3>
                     {cart.length === 0 ? (
-                      <Body className="text-gray-500 text-center py-8">No items in cart</Body>
+                      <Body className="text-grey-500 text-center py-8">No items in cart</Body>
                     ) : (
                       <Stack gap={2}>
                         {cart.map(item => (
-                          <Card key={item.id} className="p-2 border border-gray-200">
+                          <Card key={item.id} className="p-2 border border-grey-200">
                             <Stack direction="horizontal" className="justify-between items-center">
                               <Stack gap={0}>
                                 <Label className="font-bold">{item.name}</Label>
-                                <Label size="xs" className="text-gray-500">x{item.quantity}</Label>
+                                <Label size="xs" className="text-grey-500">x{item.quantity}</Label>
                               </Stack>
                               <Stack direction="horizontal" gap={2} className="items-center">
                                 <Label>${item.price * item.quantity}</Label>
@@ -160,7 +160,7 @@ export default function POSPage() {
                         ))}
                       </Stack>
                     )}
-                    <Card className="p-3 bg-gray-100 border-t-2 border-black">
+                    <Card className="p-3 bg-grey-100 border-t-2 border-black">
                       <Stack direction="horizontal" className="justify-between">
                         <H3>TOTAL</H3>
                         <H3>${cartTotal.toFixed(2)}</H3>
@@ -183,23 +183,23 @@ export default function POSPage() {
                       <Stack direction="horizontal" className="justify-between items-start">
                         <Stack gap={1}>
                           <Body className="font-bold">{terminal.name}</Body>
-                          <Label size="xs" className="text-gray-500">{terminal.location}</Label>
+                          <Label size="xs" className="text-grey-500">{terminal.location}</Label>
                         </Stack>
                         <Label className={getStatusColor(terminal.status)}>{terminal.status}</Label>
                       </Stack>
                       <Badge variant="outline">{terminal.type}</Badge>
                       <Grid cols={2} gap={2}>
                         <Stack gap={0}>
-                          <Label size="xs" className="text-gray-500">Sales</Label>
+                          <Label size="xs" className="text-grey-500">Sales</Label>
                           <Label className="font-mono">${terminal.todaySales.toLocaleString()}</Label>
                         </Stack>
                         <Stack gap={0}>
-                          <Label size="xs" className="text-gray-500">Transactions</Label>
+                          <Label size="xs" className="text-grey-500">Transactions</Label>
                           <Label className="font-mono">{terminal.transactionCount}</Label>
                         </Stack>
                       </Grid>
                       {terminal.lastTransaction && (
-                        <Label size="xs" className="text-gray-400">Last: {terminal.lastTransaction}</Label>
+                        <Label size="xs" className="text-grey-400">Last: {terminal.lastTransaction}</Label>
                       )}
                     </Stack>
                   </Card>
@@ -254,7 +254,7 @@ export default function POSPage() {
         <ModalHeader><H3>PAYMENT</H3></ModalHeader>
         <ModalBody>
           <Stack gap={4}>
-            <Card className="p-4 bg-gray-100">
+            <Card className="p-4 bg-grey-100">
               <Stack direction="horizontal" className="justify-between">
                 <Body>Total Due</Body>
                 <H2>${cartTotal.toFixed(2)}</H2>
@@ -264,7 +264,7 @@ export default function POSPage() {
               <Label>Payment Method</Label>
               <Grid cols={2} gap={2}>
                 {["Card", "Cash", "Apple Pay", "Gift Card"].map(method => (
-                  <Card key={method} className={`p-3 border-2 cursor-pointer ${paymentMethod === method ? "border-black" : "border-gray-200"}`} onClick={() => setPaymentMethod(method)}>
+                  <Card key={method} className={`p-3 border-2 cursor-pointer ${paymentMethod === method ? "border-black" : "border-grey-200"}`} onClick={() => setPaymentMethod(method)}>
                     <Label className="text-center">{method}</Label>
                   </Card>
                 ))}

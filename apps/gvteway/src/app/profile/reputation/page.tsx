@@ -152,7 +152,7 @@ export default function ReputationPage() {
                   <Body className="text-4xl">{currentLevel.icon}</Body>
                 </Stack>
                 <Stack>
-                  <Body className="text-gray-400 text-sm">LEVEL {currentLevel.level}</Body>
+                  <Body className="text-grey-400 text-sm">LEVEL {currentLevel.level}</Body>
                   <H2 className="text-white">{currentLevel.name}</H2>
                   <Body className="text-2xl font-bold text-white">
                     {stats?.total_karma.toLocaleString() || 0} karma
@@ -164,21 +164,21 @@ export default function ReputationPage() {
                   <Stack className="w-full bg-white/20 h-3 rounded-full overflow-hidden">
                     <Stack
                       className="bg-white h-full transition-all"
-                      style={{ width: `${progressToNext}%` }}
+                      style={{ '--progress-width': `${progressToNext}%`, width: 'var(--progress-width)' } as React.CSSProperties}
                     />
                   </Stack>
-                  <Body className="text-gray-400 text-sm mt-2">
+                  <Body className="text-grey-400 text-sm mt-2">
                     {nextLevel.min - (stats?.total_karma || 0)} karma to {nextLevel.name}
                   </Body>
                 </Stack>
               )}
             </Stack>
             <Stack className="items-center justify-center border-l border-white/20">
-              <Body className="text-gray-400 text-sm">RANK</Body>
+              <Body className="text-grey-400 text-sm">RANK</Body>
               <H2 className="text-white">Top {stats?.rank_percentile || 50}%</H2>
             </Stack>
             <Stack className="items-center justify-center border-l border-white/20">
-              <Body className="text-gray-400 text-sm">HELPFUL VOTES</Body>
+              <Body className="text-grey-400 text-sm">HELPFUL VOTES</Body>
               <H2 className="text-white">{stats?.helpful_votes || 0}</H2>
             </Stack>
           </Grid>
@@ -222,10 +222,10 @@ export default function ReputationPage() {
                   <Stack
                     key={index}
                     direction="horizontal"
-                    className="justify-between items-center py-2 border-b border-gray-100"
+                    className="justify-between items-center py-2 border-b border-grey-100"
                   >
                     <Body>{item.action}</Body>
-                    <Badge className="bg-green-500 text-white">{item.karma}</Badge>
+                    <Badge className="bg-success-500 text-white">{item.karma}</Badge>
                   </Stack>
                 ))}
               </Stack>
@@ -234,21 +234,21 @@ export default function ReputationPage() {
             <Card className="p-6">
               <H3 className="mb-6">YOUR CONTRIBUTIONS</H3>
               <Grid cols={2} gap={4}>
-                <Card className="p-4 bg-gray-50 text-center">
+                <Card className="p-4 bg-grey-50 text-center">
                   <Body className="text-3xl font-bold">{stats?.reviews_count || 0}</Body>
-                  <Body className="text-gray-500 text-sm">Reviews</Body>
+                  <Body className="text-grey-500 text-sm">Reviews</Body>
                 </Card>
-                <Card className="p-4 bg-gray-50 text-center">
+                <Card className="p-4 bg-grey-50 text-center">
                   <Body className="text-3xl font-bold">{stats?.answers_count || 0}</Body>
-                  <Body className="text-gray-500 text-sm">Answers</Body>
+                  <Body className="text-grey-500 text-sm">Answers</Body>
                 </Card>
-                <Card className="p-4 bg-gray-50 text-center">
+                <Card className="p-4 bg-grey-50 text-center">
                   <Body className="text-3xl font-bold">{stats?.events_attended || 0}</Body>
-                  <Body className="text-gray-500 text-sm">Events</Body>
+                  <Body className="text-grey-500 text-sm">Events</Body>
                 </Card>
-                <Card className="p-4 bg-gray-50 text-center">
+                <Card className="p-4 bg-grey-50 text-center">
                   <Body className="text-3xl font-bold">{stats?.helpful_votes || 0}</Body>
-                  <Body className="text-gray-500 text-sm">Helpful Votes</Body>
+                  <Body className="text-grey-500 text-sm">Helpful Votes</Body>
                 </Card>
               </Grid>
             </Card>
@@ -260,14 +260,14 @@ export default function ReputationPage() {
                   <Card
                     key={level.level}
                     className={`p-4 min-w-[140px] text-center ${
-                      currentLevel.level >= level.level ? 'bg-black text-white' : 'bg-gray-100'
+                      currentLevel.level >= level.level ? 'bg-black text-white' : 'bg-grey-100'
                     }`}
                   >
                     <Body className="text-2xl mb-2">{level.icon}</Body>
                     <Body className={`font-bold ${currentLevel.level >= level.level ? 'text-white' : ''}`}>
                       {level.name}
                     </Body>
-                    <Body className={`text-xs ${currentLevel.level >= level.level ? 'text-gray-300' : 'text-gray-500'}`}>
+                    <Body className={`text-xs ${currentLevel.level >= level.level ? 'text-grey-300' : 'text-grey-500'}`}>
                       {level.min.toLocaleString()}+ karma
                     </Body>
                   </Card>
@@ -286,22 +286,22 @@ export default function ReputationPage() {
                   <Stack
                     key={tx.id}
                     direction="horizontal"
-                    className="justify-between items-center py-3 border-b border-gray-100"
+                    className="justify-between items-center py-3 border-b border-grey-100"
                   >
                     <Stack>
                       <Body className="font-medium">{tx.description}</Body>
-                      <Body className="text-xs text-gray-500">
+                      <Body className="text-xs text-grey-500">
                         {new Date(tx.created_at).toLocaleDateString()}
                       </Body>
                     </Stack>
-                    <Badge className={tx.amount >= 0 ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}>
+                    <Badge className={tx.amount >= 0 ? 'bg-success-500 text-white' : 'bg-error-500 text-white'}>
                       {tx.amount >= 0 ? '+' : ''}{tx.amount}
                     </Badge>
                   </Stack>
                 ))}
               </Stack>
             ) : (
-              <Body className="text-gray-500 text-center py-8">
+              <Body className="text-grey-500 text-center py-8">
                 No karma transactions yet
               </Body>
             )}
@@ -317,30 +317,30 @@ export default function ReputationPage() {
               >
                 <Stack className="items-center text-center" gap={3}>
                   <Stack className={`w-16 h-16 rounded-full flex items-center justify-center ${
-                    achievement.earned_at ? 'bg-black' : 'bg-gray-200'
+                    achievement.earned_at ? 'bg-black' : 'bg-grey-200'
                   }`}>
                     <Body className="text-3xl">{achievement.icon}</Body>
                   </Stack>
                   <Stack>
                     <Body className="font-bold">{achievement.name}</Body>
-                    <Body className="text-xs text-gray-500">{achievement.description}</Body>
+                    <Body className="text-xs text-grey-500">{achievement.description}</Body>
                   </Stack>
-                  <Badge className={achievement.earned_at ? 'bg-green-500 text-white' : 'bg-gray-300'}>
+                  <Badge className={achievement.earned_at ? 'bg-success-500 text-white' : 'bg-grey-300'}>
                     +{achievement.karma_reward} karma
                   </Badge>
                   {achievement.earned_at ? (
-                    <Body className="text-xs text-gray-400">
+                    <Body className="text-xs text-grey-400">
                       Earned {new Date(achievement.earned_at).toLocaleDateString()}
                     </Body>
                   ) : achievement.progress !== undefined && (
                     <Stack className="w-full">
-                      <Stack className="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
+                      <Stack className="w-full bg-grey-200 h-2 rounded-full overflow-hidden">
                         <Stack
                           className="bg-black h-full"
-                          style={{ width: `${(achievement.progress / (achievement.total || 1)) * 100}%` }}
+                          style={{ '--progress-width': `${(achievement.progress / (achievement.total || 1)) * 100}%`, width: 'var(--progress-width)' } as React.CSSProperties}
                         />
                       </Stack>
-                      <Body className="text-xs text-gray-500 mt-1">
+                      <Body className="text-xs text-grey-500 mt-1">
                         {achievement.progress} / {achievement.total}
                       </Body>
                     </Stack>

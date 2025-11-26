@@ -159,7 +159,7 @@ export default function CalendarPage() {
               <Stack className="grid grid-cols-7 gap-1">
                 {dayNames.map(day => (
                   <Stack key={day} className="p-2 text-center">
-                    <Label className="text-gray-500">{day}</Label>
+                    <Label className="text-grey-500">{day}</Label>
                   </Stack>
                 ))}
 
@@ -167,13 +167,13 @@ export default function CalendarPage() {
                   <Card
                     key={index}
                     className={`p-2 min-h-[80px] cursor-pointer transition-colors ${
-                      !day.isCurrentMonth ? 'bg-gray-50 opacity-50' : ''
+                      !day.isCurrentMonth ? 'bg-grey-50 opacity-50' : ''
                     } ${
                       day.isToday ? 'border-2 border-black' : ''
                     } ${
                       selectedDate?.toDateString() === day.date.toDateString() 
                         ? 'bg-black text-white' 
-                        : 'hover:bg-gray-100'
+                        : 'hover:bg-grey-100'
                     }`}
                     onClick={() => handleDayClick(day)}
                   >
@@ -201,8 +201,8 @@ export default function CalendarPage() {
                         {day.events.length > 2 && (
                           <Body className={`text-xs ${
                             selectedDate?.toDateString() === day.date.toDateString()
-                              ? 'text-gray-200'
-                              : 'text-gray-500'
+                              ? 'text-grey-200'
+                              : 'text-grey-500'
                           }`}>
                             +{day.events.length - 2} more
                           </Body>
@@ -234,11 +234,11 @@ export default function CalendarPage() {
                     {selectedDayEvents.map(event => (
                       <Card
                         key={event.id}
-                        className="p-4 cursor-pointer hover:bg-gray-50 transition-colors"
+                        className="p-4 cursor-pointer hover:bg-grey-50 transition-colors"
                         onClick={() => handleEventClick(event.id)}
                       >
                         <H3 className="mb-1">{event.title}</H3>
-                        <Body className="text-gray-600 text-sm mb-2">
+                        <Body className="text-grey-600 text-sm mb-2">
                           {event.venue}
                         </Body>
                         <Stack direction="horizontal" gap={2}>
@@ -249,10 +249,10 @@ export default function CalendarPage() {
                     ))}
                   </Stack>
                 ) : (
-                  <Body className="text-gray-500">No events on this date.</Body>
+                  <Body className="text-grey-500">No events on this date.</Body>
                 )
               ) : (
-                <Body className="text-gray-500">
+                <Body className="text-grey-500">
                   Click on a date to see events.
                 </Body>
               )}
@@ -273,12 +273,12 @@ export default function CalendarPage() {
                     <Stack
                       key={event.id}
                       direction="horizontal"
-                      className="justify-between items-center py-2 border-b border-gray-200 cursor-pointer hover:bg-gray-50"
+                      className="justify-between items-center py-2 border-b border-grey-200 cursor-pointer hover:bg-grey-50"
                       onClick={() => handleEventClick(event.id)}
                     >
                       <Stack>
                         <Body className="font-medium">{event.title || event.name}</Body>
-                        <Body className="text-sm text-gray-500">
+                        <Body className="text-sm text-grey-500">
                           {new Date(event.date || event.start_date).toLocaleDateString()}
                         </Body>
                       </Stack>

@@ -93,7 +93,7 @@ export default function MaintenancePage() {
 
   const detailSections: DetailSection[] = selectedItem ? [
     { id: 'overview', title: 'Maintenance Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Equipment:</strong> {selectedItem.equipment_name}</div>
         <div><strong>Type:</strong> {formatStatus(selectedItem.type)}</div>
         <div><strong>Priority:</strong> {selectedItem.priority}</div>

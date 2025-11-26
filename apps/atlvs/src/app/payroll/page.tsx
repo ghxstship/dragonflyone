@@ -141,7 +141,7 @@ export default function PayrollPage() {
 
   const detailSections: DetailSection[] = selectedEntry ? [
     { id: 'overview', title: 'Payroll Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Employee:</strong> {selectedEntry.employee_name}</div>
         <div><strong>Department:</strong> {selectedEntry.department}</div>
         <div><strong>Period:</strong> {selectedEntry.pay_period_start} - {selectedEntry.pay_period_end}</div>

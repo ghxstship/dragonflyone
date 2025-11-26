@@ -216,7 +216,7 @@ export default function CrewSocialPage() {
                           <Stack direction="horizontal" gap={2} className="items-center">
                             <Body className="font-display text-white">{member.name}</Body>
                             {member.is_online && (
-                              <Card className="w-2 h-2 rounded-full bg-green-500" />
+                              <Card className="w-2 h-2 rounded-full bg-success-500" />
                             )}
                           </Stack>
                           <Label className="text-ink-400">{member.role}</Label>
@@ -282,7 +282,7 @@ export default function CrewSocialPage() {
                             variant="ghost"
                             size="sm"
                             onClick={() => handleLikePhoto(photo.id)}
-                            className={photo.liked_by.includes('CREW-001') ? 'text-red-400' : ''}
+                            className={photo.liked_by.includes('CREW-001') ? 'text-error-400' : ''}
                           >
                             ❤️ {photo.likes}
                           </Button>
@@ -310,7 +310,7 @@ export default function CrewSocialPage() {
                           <Stack direction="horizontal" gap={2} className="items-center">
                             <Body className="font-display text-white">{member.name}</Body>
                             {member.is_online && (
-                              <Badge className="bg-green-500 text-white text-xs">Online</Badge>
+                              <Badge className="bg-success-500 text-white text-xs">Online</Badge>
                             )}
                           </Stack>
                           <Label className="text-ink-400">{member.role}</Label>
@@ -352,7 +352,7 @@ export default function CrewSocialPage() {
                   <Stack direction="horizontal" gap={2} className="items-center">
                     <Body className="font-display text-white text-xl">{selectedMember.name}</Body>
                     {selectedMember.is_online && (
-                      <Badge className="bg-green-500 text-white">Online</Badge>
+                      <Badge className="bg-success-500 text-white">Online</Badge>
                     )}
                   </Stack>
                   <Label className="text-ink-400">{selectedMember.role}</Label>

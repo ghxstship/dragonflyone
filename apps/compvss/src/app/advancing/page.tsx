@@ -13,8 +13,8 @@ import {
   Tab,
   TabPanel,
 } from '@ghxstship/ui';
-import { AdvanceRequestsList } from '@/components/advancing/AdvanceRequestsList';
-import { FulfillmentManager } from '@/components/advancing/FulfillmentManager';
+import { AdvanceRequestsList } from '@/components/advancing/advance-requests-list';
+import { FulfillmentManager } from '@/components/advancing/fulfillment-manager';
 import type { AdvanceStatus } from '@ghxstship/config/types/advancing';
 
 export default function AdvancingPage() {

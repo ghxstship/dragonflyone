@@ -84,7 +84,7 @@ export default function LogisticsPage() {
 
   const detailSections: DetailSection[] = selectedShipment ? [
     { id: 'overview', title: 'Shipment Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>ID:</strong> {selectedShipment.id}</div>
         <div><strong>Status:</strong> {selectedShipment.status}</div>
         <div><strong>Equipment:</strong> {selectedShipment.equipment}</div>

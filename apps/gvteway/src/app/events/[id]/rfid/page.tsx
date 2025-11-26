@@ -82,7 +82,7 @@ export default function RFIDPage() {
 
   const detailSections: DetailSection[] = selectedWristband ? [
     { id: 'overview', title: 'Wristband Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Wristband ID:</strong> {selectedWristband.wristbandId}</div>
         <div><strong>Guest:</strong> {selectedWristband.guestName}</div>
         <div><strong>Email:</strong> {selectedWristband.email}</div>

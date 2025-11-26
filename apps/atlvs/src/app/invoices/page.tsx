@@ -209,7 +209,7 @@ export default function InvoicesPage() {
       id: 'overview',
       title: 'Invoice Details',
       content: (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+        <div className="grid grid-cols-2 gap-4">
           <div><strong>Invoice #:</strong> {selectedInvoice.invoice_number}</div>
           <div><strong>Client:</strong> {selectedInvoice.client_name}</div>
           <div><strong>Project:</strong> {selectedInvoice.project_name || '—'}</div>

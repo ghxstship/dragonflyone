@@ -73,15 +73,15 @@ export default function RisksPage() {
 
   const detailSections: DetailSection[] = selectedRisk ? [
     { id: 'overview', title: 'Risk Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>ID:</strong> {selectedRisk.id.substring(0, 12).toUpperCase()}</div>
         <div><strong>Title:</strong> {selectedRisk.title}</div>
         <div><strong>Category:</strong> {selectedRisk.category}</div>
         <div><strong>Severity:</strong> {selectedRisk.severity}</div>
         <div><strong>Status:</strong> {selectedRisk.status}</div>
         <div><strong>Owner:</strong> {selectedRisk.owner?.name || 'Unassigned'}</div>
-        {selectedRisk.description && <div style={{ gridColumn: 'span 2' }}><strong>Description:</strong> {selectedRisk.description}</div>}
-        {selectedRisk.mitigation_plan && <div style={{ gridColumn: 'span 2' }}><strong>Mitigation Plan:</strong> {selectedRisk.mitigation_plan}</div>}
+        {selectedRisk.description && <div className="col-span-2"><strong>Description:</strong> {selectedRisk.description}</div>}
+        {selectedRisk.mitigation_plan && <div className="col-span-2"><strong>Mitigation Plan:</strong> {selectedRisk.mitigation_plan}</div>}
       </div>
     )},
   ] : [];

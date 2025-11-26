@@ -48,7 +48,7 @@ export function CrewIntelligence() {
           placeholder="Search crew, roles, locations"
           className="w-full"
         />
-        <Stack direction="horizontal" gap={2} className="flex-wrap text-xs uppercase tracking-[0.3em] text-ink-400">
+        <Stack direction="horizontal" gap={2} className="flex-wrap text-xs uppercase tracking-kicker text-ink-400">
           {compvssCrewSkills.map((skill) => (
             <Button
               key={skill}
@@ -68,16 +68,16 @@ export function CrewIntelligence() {
           <Article key={crew.name} variant="bordered" className="p-4">
             <Stack direction="horizontal" className="items-start justify-between gap-3">
               <Stack>
-                <Label className="text-sm uppercase tracking-[0.3em] text-ink-500">{crew.role}</Label>
+                <Label className="text-sm uppercase tracking-kicker text-ink-500">{crew.role}</Label>
                 <H4 className="text-2xl">{crew.name}</H4>
               </Stack>
-              <Label className="text-xs uppercase tracking-[0.3em] text-ink-400">{crew.availability}</Label>
+              <Label className="text-xs uppercase tracking-kicker text-ink-400">{crew.availability}</Label>
             </Stack>
             <Body className="mt-2 text-sm text-ink-300">{crew.location}</Body>
-            <Link href={`mailto:${crew.contact}`} className="mt-2 inline-flex text-xs uppercase tracking-[0.3em] text-ink-200">
+            <Link href={`mailto:${crew.contact}`} className="mt-2 inline-flex text-xs uppercase tracking-kicker text-ink-200">
               {crew.contact}
             </Link>
-            <Stack direction="horizontal" gap={2} className="mt-3 flex-wrap text-xs uppercase tracking-[0.3em] text-ink-400">
+            <Stack direction="horizontal" gap={2} className="mt-3 flex-wrap text-xs uppercase tracking-kicker text-ink-400">
               {crew.skills.map((skill) => (
                 <Badge key={`${crew.name}-${skill}`} variant="outline">
                   {skill}
@@ -93,15 +93,15 @@ export function CrewIntelligence() {
         <Grid cols={2} gap={4}>
           {compvssCrewCallSchedule.map((call) => (
             <Article key={call.id} variant="bordered" className="p-4">
-              <Label className="text-xs uppercase tracking-[0.3em] text-ink-500">{call.department}</Label>
+              <Label className="text-xs uppercase tracking-kicker text-ink-500">{call.department}</Label>
               <H4 className="text-2xl">{call.location}</H4>
               <Stack direction="horizontal" gap={6} className="mt-2 text-sm text-ink-300">
                 <Stack>
-                  <Label className="text-xs uppercase tracking-[0.3em] text-ink-500">Date</Label>
+                  <Label className="text-xs uppercase tracking-kicker text-ink-500">Date</Label>
                   <Body>{call.date}</Body>
                 </Stack>
                 <Stack>
-                  <Label className="text-xs uppercase tracking-[0.3em] text-ink-500">Call</Label>
+                  <Label className="text-xs uppercase tracking-kicker text-ink-500">Call</Label>
                   <Body>{call.callTime}</Body>
                 </Stack>
               </Stack>

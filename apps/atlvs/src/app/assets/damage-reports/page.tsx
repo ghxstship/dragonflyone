@@ -82,7 +82,7 @@ export default function DamageReportsPage() {
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Damage Report Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Asset:</strong> {selected.assetName}</div>
         <div><strong>Category:</strong> {selected.category}</div>
         <div><strong>Severity:</strong> {selected.severity}</div>
@@ -91,7 +91,7 @@ export default function DamageReportsPage() {
         <div><strong>Reported By:</strong> {selected.reportedBy}</div>
         <div><strong>Reported Date:</strong> {selected.reportedDate}</div>
         <div><strong>Est. Cost:</strong> {selected.estimatedCost ? `$${selected.estimatedCost}` : 'N/A'}</div>
-        <div style={{ gridColumn: 'span 2' }}><strong>Description:</strong> {selected.description}</div>
+        <div className="col-span-2"><strong>Description:</strong> {selected.description}</div>
         {selected.repairVendor && <div><strong>Repair Vendor:</strong> {selected.repairVendor}</div>}
       </div>
     )},

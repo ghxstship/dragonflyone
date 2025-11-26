@@ -147,11 +147,11 @@ function SupportChatContent() {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'open':
-        return <Badge className="bg-green-500 text-white">Open</Badge>;
+        return <Badge className="bg-success-500 text-white">Open</Badge>;
       case 'waiting':
-        return <Badge className="bg-yellow-500 text-white">Waiting</Badge>;
+        return <Badge className="bg-warning-500 text-white">Waiting</Badge>;
       case 'resolved':
-        return <Badge className="bg-gray-500 text-white">Resolved</Badge>;
+        return <Badge className="bg-grey-500 text-white">Resolved</Badge>;
       default:
         return <Badge>{status}</Badge>;
     }
@@ -196,7 +196,7 @@ function SupportChatContent() {
                     className={`p-3 cursor-pointer transition-colors ${
                       activeConversation?.id === conv.id
                         ? 'bg-black text-white'
-                        : 'hover:bg-gray-100'
+                        : 'hover:bg-grey-100'
                     }`}
                     onClick={() => setActiveConversation(conv)}
                   >
@@ -210,13 +210,13 @@ function SupportChatContent() {
                     </Stack>
                     {conv.event_title && (
                       <Body className={`text-sm ${
-                        activeConversation?.id === conv.id ? 'text-gray-300' : 'text-gray-500'
+                        activeConversation?.id === conv.id ? 'text-grey-300' : 'text-grey-500'
                       }`}>
                         {conv.event_title}
                       </Body>
                     )}
                     <Body className={`text-xs mt-1 ${
-                      activeConversation?.id === conv.id ? 'text-gray-400' : 'text-gray-400'
+                      activeConversation?.id === conv.id ? 'text-grey-400' : 'text-grey-400'
                     }`}>
                       {new Date(conv.created_at).toLocaleDateString()}
                     </Body>
@@ -224,7 +224,7 @@ function SupportChatContent() {
                 ))}
               </Stack>
             ) : (
-              <Body className="text-gray-500 text-center py-8">
+              <Body className="text-grey-500 text-center py-8">
                 No conversations yet
               </Body>
             )}
@@ -233,12 +233,12 @@ function SupportChatContent() {
           <Card className="col-span-2 flex flex-col">
             {activeConversation ? (
               <>
-                <Stack className="p-4 border-b border-gray-200">
+                <Stack className="p-4 border-b border-grey-200">
                   <Stack direction="horizontal" className="justify-between items-center">
                     <Stack>
                       <H3>{activeConversation.subject}</H3>
                       {activeConversation.event_title && (
-                        <Body className="text-sm text-gray-500">
+                        <Body className="text-sm text-grey-500">
                           Re: {activeConversation.event_title}
                         </Body>
                       )}
@@ -256,7 +256,7 @@ function SupportChatContent() {
                       }`}
                     >
                       {message.sender === 'system' ? (
-                        <Body className="text-center text-gray-500 text-sm py-2">
+                        <Body className="text-center text-grey-500 text-sm py-2">
                           {message.content}
                         </Body>
                       ) : (
@@ -264,11 +264,11 @@ function SupportChatContent() {
                           className={`p-3 ${
                             message.sender === 'user'
                               ? 'bg-black text-white'
-                              : 'bg-gray-100'
+                              : 'bg-grey-100'
                           }`}
                         >
                           {message.sender === 'agent' && message.agent_name && (
-                            <Body className="text-xs text-gray-500 mb-1">
+                            <Body className="text-xs text-grey-500 mb-1">
                               {message.agent_name}
                             </Body>
                           )}
@@ -276,7 +276,7 @@ function SupportChatContent() {
                             {message.content}
                           </Body>
                           <Body className={`text-xs mt-2 ${
-                            message.sender === 'user' ? 'text-gray-400' : 'text-gray-500'
+                            message.sender === 'user' ? 'text-grey-400' : 'text-grey-500'
                           }`}>
                             {new Date(message.timestamp).toLocaleTimeString()}
                           </Body>
@@ -288,7 +288,7 @@ function SupportChatContent() {
                 </Stack>
 
                 {activeConversation.status !== 'resolved' && (
-                  <Stack className="p-4 border-t border-gray-200">
+                  <Stack className="p-4 border-t border-grey-200">
                     <form onSubmit={handleSendMessage}>
                       <Stack direction="horizontal" gap={2}>
                         <Input
@@ -309,7 +309,7 @@ function SupportChatContent() {
             ) : (
               <Stack className="flex-1 items-center justify-center p-8">
                 <H3 className="mb-4">SELECT A CONVERSATION</H3>
-                <Body className="text-gray-600 text-center mb-6">
+                <Body className="text-grey-600 text-center mb-6">
                   Choose a conversation from the list or start a new one.
                 </Body>
                 <Button variant="solid" onClick={() => setShowNewChat(true)}>

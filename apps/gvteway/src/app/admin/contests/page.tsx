@@ -126,7 +126,7 @@ export default function ContestsPage() {
 
   const detailSections: DetailSection[] = selectedContest ? [
     { id: 'overview', title: 'Contest Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Name:</strong> {selectedContest.name}</div>
         <div><strong>Type:</strong> {selectedContest.type}</div>
         <div><strong>Status:</strong> {selectedContest.status}</div>
@@ -137,7 +137,7 @@ export default function ContestsPage() {
         <div><strong>Platforms:</strong> {selectedContest.platforms.join(', ')}</div>
         <div><strong>Start:</strong> {selectedContest.startDate}</div>
         <div><strong>End:</strong> {selectedContest.endDate}</div>
-        {selectedContest.winnerName && <div style={{ gridColumn: 'span 2' }}><strong>Winner:</strong> {selectedContest.winnerName}</div>}
+        {selectedContest.winnerName && <div className="col-span-2"><strong>Winner:</strong> {selectedContest.winnerName}</div>}
       </div>
     )},
   ] : [];

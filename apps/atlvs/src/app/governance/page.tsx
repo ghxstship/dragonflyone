@@ -88,7 +88,7 @@ export default function GovernancePage() {
 
   const detailSections: DetailSection[] = selectedMeeting ? [
     { id: 'overview', title: 'Meeting Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Title:</strong> {selectedMeeting.title}</div>
         <div><strong>Type:</strong> {selectedMeeting.meeting_type}</div>
         <div><strong>Date:</strong> {new Date(selectedMeeting.scheduled_date).toLocaleDateString()}</div>
@@ -96,10 +96,10 @@ export default function GovernancePage() {
         <div><strong>Status:</strong> {selectedMeeting.status}</div>
         <div><strong>Attendees:</strong> {selectedMeeting.attendees?.length || 0}</div>
         {selectedMeeting.agenda_items?.length > 0 && (
-          <div style={{ gridColumn: 'span 2' }}><strong>Agenda:</strong> {selectedMeeting.agenda_items.join(', ')}</div>
+          <div className="col-span-2"><strong>Agenda:</strong> {selectedMeeting.agenda_items.join(', ')}</div>
         )}
         {(selectedMeeting.resolutions?.length ?? 0) > 0 && (
-          <div style={{ gridColumn: 'span 2' }}><strong>Resolutions:</strong> {selectedMeeting.resolutions?.join(', ')}</div>
+          <div className="col-span-2"><strong>Resolutions:</strong> {selectedMeeting.resolutions?.join(', ')}</div>
         )}
       </div>
     )},

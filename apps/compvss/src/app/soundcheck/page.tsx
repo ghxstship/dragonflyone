@@ -49,20 +49,20 @@ export default function SoundcheckPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Completed": return "text-green-400";
-      case "In Progress": return "text-blue-400";
+      case "Completed": return "text-success-400";
+      case "In Progress": return "text-info-400";
       case "Scheduled": return "text-ink-400";
-      case "Delayed": return "text-yellow-400";
-      case "Cancelled": return "text-red-400";
+      case "Delayed": return "text-warning-400";
+      case "Cancelled": return "text-error-400";
       default: return "text-ink-400";
     }
   };
 
   const getStatusBg = (status: string) => {
     switch (status) {
-      case "In Progress": return "border-blue-800 bg-blue-900/20";
-      case "Delayed": return "border-yellow-800 bg-yellow-900/20";
-      case "Completed": return "border-green-800 bg-green-900/10";
+      case "In Progress": return "border-info-800 bg-info-900/20";
+      case "Delayed": return "border-warning-800 bg-warning-900/20";
+      case "Completed": return "border-success-800 bg-success-900/10";
       default: return "border-ink-800 bg-ink-900/50";
     }
   };
@@ -80,17 +80,17 @@ export default function SoundcheckPage() {
 
           <Grid cols={4} gap={6}>
             <StatCard label="Completed" value={completed} trend="up" className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="In Progress" value={inProgress ? 1 : 0} className="bg-transparent border-2 border-blue-800" />
+            <StatCard label="In Progress" value={inProgress ? 1 : 0} className="bg-transparent border-2 border-info-800" />
             <StatCard label="Remaining" value={remaining} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Delayed" value={delayed} trend={delayed > 0 ? "down" : "neutral"} className="bg-transparent border-2 border-ink-800" />
           </Grid>
 
           {inProgress && (
-            <Card className="border-2 border-blue-800 bg-blue-900/20 p-6">
+            <Card className="border-2 border-info-800 bg-info-900/20 p-6">
               <Stack gap={4}>
                 <Stack direction="horizontal" className="justify-between items-center">
                   <Stack gap={1}>
-                    <Label className="text-blue-400">NOW SOUNDCHECKING</Label>
+                    <Label className="text-info-400">NOW SOUNDCHECKING</Label>
                     <Body className="font-display text-white text-2xl">{inProgress.artistName}</Body>
                     <Label className="text-ink-400">{inProgress.stage} • Engineer: {inProgress.engineer}</Label>
                   </Stack>

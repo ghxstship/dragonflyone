@@ -48,7 +48,7 @@ export default function StoryTemplatesPage() {
         <Stack gap={8}>
           <Stack gap={2}>
             <H1>STORY TEMPLATES</H1>
-            <Body className="text-gray-600">Branded Instagram and TikTok story templates</Body>
+            <Body className="text-grey-600">Branded Instagram and TikTok story templates</Body>
           </Stack>
 
           <Grid cols={4} gap={6}>
@@ -83,9 +83,9 @@ export default function StoryTemplatesPage() {
                   </Stack>
                   <Stack direction="horizontal" gap={2}>
                     <Badge variant="outline">{template.category}</Badge>
-                    <Label className="text-gray-500">{template.dimensions}</Label>
+                    <Label className="text-grey-500">{template.dimensions}</Label>
                   </Stack>
-                  <Label className="text-gray-500">{template.uses.toLocaleString()} uses</Label>
+                  <Label className="text-grey-500">{template.uses.toLocaleString()} uses</Label>
                   <Stack direction="horizontal" gap={2}>
                     <Button variant="outline" size="sm" onClick={() => setSelectedTemplate(template)}>Preview</Button>
                     <Button variant="solid" size="sm">Use Template</Button>
@@ -113,19 +113,19 @@ export default function StoryTemplatesPage() {
               <Stack direction="horizontal" gap={2}>
                 <Badge variant="outline">{selectedTemplate.platform}</Badge>
                 <Badge variant="outline">{selectedTemplate.category}</Badge>
-                <Label className="text-gray-500">{selectedTemplate.dimensions}</Label>
+                <Label className="text-grey-500">{selectedTemplate.dimensions}</Label>
               </Stack>
               <Stack gap={2}>
-                <Label className="text-gray-500">Template Elements</Label>
+                <Label className="text-grey-500">Template Elements</Label>
                 <Grid cols={2} gap={2}>
                   {selectedTemplate.elements.map((el, idx) => (
-                    <Card key={idx} className="p-2 border border-gray-200">
+                    <Card key={idx} className="p-2 border border-grey-200">
                       <Label>{el}</Label>
                     </Card>
                   ))}
                 </Grid>
               </Stack>
-              <Label className="text-gray-500">{selectedTemplate.uses.toLocaleString()} total uses</Label>
+              <Label className="text-grey-500">{selectedTemplate.uses.toLocaleString()} total uses</Label>
             </Stack>
           )}
         </ModalBody>

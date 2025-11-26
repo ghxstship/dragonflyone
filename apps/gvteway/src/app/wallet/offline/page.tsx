@@ -63,14 +63,14 @@ export default function OfflineWalletPage() {
         <Stack gap={8}>
           <Stack gap={2}>
             <H1>OFFLINE WALLET</H1>
-            <Body className="text-gray-600">Access your tickets even without internet connection</Body>
+            <Body className="text-grey-600">Access your tickets even without internet connection</Body>
           </Stack>
 
-          <Card className={`p-4 border-2 ${isOnline ? "border-green-500 bg-green-50" : "border-yellow-500 bg-yellow-50"}`}>
+          <Card className={`p-4 border-2 ${isOnline ? "border-success-500 bg-success-50" : "border-warning-500 bg-warning-50"}`}>
             <Stack direction="horizontal" className="justify-between items-center">
               <Stack gap={1}>
                 <Label className="font-bold">{isOnline ? "Online" : "Offline Mode"}</Label>
-                <Label size="xs" className="text-gray-500">
+                <Label size="xs" className="text-grey-500">
                   Last synced: {formatDate(lastSync)}
                 </Label>
               </Stack>
@@ -103,28 +103,28 @@ export default function OfflineWalletPage() {
                     <Stack direction="horizontal" className="justify-between items-start">
                       <Stack gap={1}>
                         <Body className="font-bold text-lg">{ticket.eventName}</Body>
-                        <Label className="text-gray-400">{ticket.eventDate}</Label>
+                        <Label className="text-grey-400">{ticket.eventDate}</Label>
                       </Stack>
                       <Badge variant="solid">{ticket.ticketType}</Badge>
                     </Stack>
                   </Card>
                   
                   <Stack className="p-6" gap={4}>
-                    <Card className="aspect-square max-w-48 mx-auto bg-gray-100 border border-gray-200 flex items-center justify-center">
+                    <Card className="aspect-square max-w-48 mx-auto bg-grey-100 border border-grey-200 flex items-center justify-center">
                       <Stack gap={2} className="text-center p-4">
-                        <Label className="text-gray-500">QR Code</Label>
-                        <Body className="text-xs text-gray-400 font-mono break-all">{ticket.id}</Body>
-                        <Label size="xs" className="text-green-600">✓ Available Offline</Label>
+                        <Label className="text-grey-500">QR Code</Label>
+                        <Body className="text-xs text-grey-400 font-mono break-all">{ticket.id}</Body>
+                        <Label size="xs" className="text-success-600">✓ Available Offline</Label>
                       </Stack>
                     </Card>
 
                     <Grid cols={2} gap={4}>
                       <Stack gap={1}>
-                        <Label size="xs" className="text-gray-500">Cached</Label>
+                        <Label size="xs" className="text-grey-500">Cached</Label>
                         <Label>{formatDate(ticket.cachedAt)}</Label>
                       </Stack>
                       <Stack gap={1}>
-                        <Label size="xs" className="text-gray-500">Valid Until</Label>
+                        <Label size="xs" className="text-grey-500">Valid Until</Label>
                         <Label>{formatDate(ticket.expiresAt)}</Label>
                       </Stack>
                     </Grid>
@@ -139,24 +139,24 @@ export default function OfflineWalletPage() {
             ))}
           </Stack>
 
-          <Card className="p-4 border border-gray-200 bg-gray-50">
+          <Card className="p-4 border border-grey-200 bg-grey-50">
             <Stack gap={3}>
               <H3>OFFLINE MODE INFO</H3>
               <Stack gap={2}>
                 <Stack direction="horizontal" gap={2}>
-                  <Label className="text-green-600">✓</Label>
+                  <Label className="text-success-600">✓</Label>
                   <Body className="text-sm">QR codes work without internet</Body>
                 </Stack>
                 <Stack direction="horizontal" gap={2}>
-                  <Label className="text-green-600">✓</Label>
+                  <Label className="text-success-600">✓</Label>
                   <Body className="text-sm">Tickets cached for 48 hours</Body>
                 </Stack>
                 <Stack direction="horizontal" gap={2}>
-                  <Label className="text-green-600">✓</Label>
+                  <Label className="text-success-600">✓</Label>
                   <Body className="text-sm">Automatic sync when online</Body>
                 </Stack>
                 <Stack direction="horizontal" gap={2}>
-                  <Label className="text-yellow-600">!</Label>
+                  <Label className="text-warning-600">!</Label>
                   <Body className="text-sm">Transfers require internet connection</Body>
                 </Stack>
               </Stack>
@@ -165,16 +165,16 @@ export default function OfflineWalletPage() {
 
           <Stack gap={4}>
             <H3>STORAGE</H3>
-            <Card className="p-4 border border-gray-200">
+            <Card className="p-4 border border-grey-200">
               <Stack gap={3}>
                 <Stack direction="horizontal" className="justify-between">
                   <Label>Cached Data</Label>
                   <Label className="font-mono">2.4 MB</Label>
                 </Stack>
-                <Card className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                <Card className="h-2 bg-grey-200 rounded-full overflow-hidden">
                   <Card className="h-full bg-black w-1/4" />
                 </Card>
-                <Label size="xs" className="text-gray-500">Using 2.4 MB of 10 MB available</Label>
+                <Label size="xs" className="text-grey-500">Using 2.4 MB of 10 MB available</Label>
                 <Button variant="outline" size="sm">Clear Cache</Button>
               </Stack>
             </Card>

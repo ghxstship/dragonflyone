@@ -42,9 +42,9 @@ export default function FloorConfigPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Available": return "text-green-400";
-      case "Limited": return "text-yellow-400";
-      case "Sold Out": return "text-red-400";
+      case "Available": return "text-success-400";
+      case "Limited": return "text-warning-400";
+      case "Sold Out": return "text-error-400";
       case "Closed": return "text-ink-400";
       default: return "text-ink-400";
     }
@@ -81,27 +81,27 @@ export default function FloorConfigPage() {
                     <H3>Visual Floor Plan</H3>
                     <Button variant="outline" size="sm" onClick={() => setShowAddModal(true)}>Add Section</Button>
                   </Stack>
-                  <Card className="h-96 bg-gray-100 border border-gray-200 relative overflow-hidden">
+                  <Card className="h-96 bg-grey-100 border border-grey-200 relative overflow-hidden">
                     <Stack className="absolute inset-0 items-center justify-center">
-                      <Label className="text-gray-500">Interactive Floor Plan Editor</Label>
-                      <Body className="text-gray-400 text-sm">Drag and drop sections to configure layout</Body>
+                      <Label className="text-grey-500">Interactive Floor Plan Editor</Label>
+                      <Body className="text-grey-400 text-sm">Drag and drop sections to configure layout</Body>
                     </Stack>
-                    <Card className="absolute top-4 left-4 w-32 h-20 bg-blue-500/20 border-2 border-blue-500 flex items-center justify-center">
-                      <Label className="text-blue-700 text-xs">STAGE</Label>
+                    <Card className="absolute top-4 left-4 w-32 h-20 bg-info-500/20 border-2 border-info-500 flex items-center justify-center">
+                      <Label className="text-info-700 text-xs">STAGE</Label>
                     </Card>
-                    <Card className="absolute top-28 left-1/4 w-48 h-32 border-2 flex items-center justify-center" style={{ backgroundColor: `${mockSections[1].color}20`, borderColor: mockSections[1].color }}>
+                    <Card className="absolute top-28 left-1/4 w-48 h-32 border-2 flex items-center justify-center" style={{ '--section-bg': `${mockSections[1].color}20`, '--section-border': mockSections[1].color, backgroundColor: 'var(--section-bg)', borderColor: 'var(--section-border)' } as React.CSSProperties}>
                       <Stack gap={1} className="text-center">
                         <Label className="text-xs font-bold">{mockSections[1].name}</Label>
                         <Label className="text-xs">{mockSections[1].capacity} cap</Label>
                       </Stack>
                     </Card>
-                    <Card className="absolute top-28 right-4 w-24 h-32 border-2 flex items-center justify-center" style={{ backgroundColor: `${mockSections[2].color}20`, borderColor: mockSections[2].color }}>
+                    <Card className="absolute top-28 right-4 w-24 h-32 border-2 flex items-center justify-center" style={{ '--section-bg': `${mockSections[2].color}20`, '--section-border': mockSections[2].color, backgroundColor: 'var(--section-bg)', borderColor: 'var(--section-border)' } as React.CSSProperties}>
                       <Stack gap={1} className="text-center">
                         <Label className="text-xs font-bold">VIP</Label>
                         <Label className="text-xs">{mockSections[2].capacity}</Label>
                       </Stack>
                     </Card>
-                    <Card className="absolute bottom-4 left-4 right-4 h-32 border-2 flex items-center justify-center" style={{ backgroundColor: `${mockSections[0].color}20`, borderColor: mockSections[0].color }}>
+                    <Card className="absolute bottom-4 left-4 right-4 h-32 border-2 flex items-center justify-center" style={{ '--section-bg': `${mockSections[0].color}20`, '--section-border': mockSections[0].color, backgroundColor: 'var(--section-bg)', borderColor: 'var(--section-border)' } as React.CSSProperties}>
                       <Stack gap={1} className="text-center">
                         <Label className="font-bold">{mockSections[0].name}</Label>
                         <Label className="text-sm">{mockSections[0].capacity.toLocaleString()} capacity</Label>
@@ -118,20 +118,20 @@ export default function FloorConfigPage() {
                   <Card key={section.id} className="border-2 border-black p-4">
                     <Grid cols={6} gap={4} className="items-center">
                       <Stack gap={1}>
-                        <Card className="w-4 h-4 rounded" style={{ backgroundColor: section.color }} />
+                        <Card className="w-4 h-4 rounded" style={{ '--section-color': section.color, backgroundColor: 'var(--section-color)' } as React.CSSProperties} />
                         <Body className="font-bold">{section.name}</Body>
                         <Badge variant="outline">{section.type}</Badge>
                       </Stack>
                       <Stack gap={1}>
-                        <Label size="xs" className="text-gray-500">Capacity</Label>
+                        <Label size="xs" className="text-grey-500">Capacity</Label>
                         <Label className="font-mono">{section.capacity.toLocaleString()}</Label>
                       </Stack>
                       <Stack gap={1}>
-                        <Label size="xs" className="text-gray-500">Sold</Label>
+                        <Label size="xs" className="text-grey-500">Sold</Label>
                         <Label className="font-mono">{section.sold.toLocaleString()}</Label>
                       </Stack>
                       <Stack gap={1}>
-                        <Label size="xs" className="text-gray-500">Price</Label>
+                        <Label size="xs" className="text-grey-500">Price</Label>
                         <Label className="font-mono">${section.price}</Label>
                       </Stack>
                       <Label className={getStatusColor(section.status)}>{section.status}</Label>
@@ -156,8 +156,8 @@ export default function FloorConfigPage() {
                           <Label>{section.name}</Label>
                           <Label className="font-mono">{section.sold}/{section.capacity}</Label>
                         </Stack>
-                        <Card className="h-3 bg-gray-200 rounded-full overflow-hidden">
-                          <Card className="h-full rounded-full" style={{ width: `${(section.sold / section.capacity) * 100}%`, backgroundColor: section.color }} />
+                        <Card className="h-3 bg-grey-200 rounded-full overflow-hidden">
+                          <Card className="h-full rounded-full" style={{ '--progress-width': `${(section.sold / section.capacity) * 100}%`, '--section-color': section.color, width: 'var(--progress-width)', backgroundColor: 'var(--section-color)' } as React.CSSProperties} />
                         </Card>
                       </Stack>
                     ))}
@@ -169,7 +169,7 @@ export default function FloorConfigPage() {
                     <Alert variant="info">Oversell protection is enabled. Sales will automatically stop when capacity is reached.</Alert>
                     <Stack gap={2}>
                       <Label>Buffer Percentage</Label>
-                      <Select className="border-gray-300">
+                      <Select className="border-grey-300">
                         <option value="0">No buffer (100% capacity)</option>
                         <option value="5">5% buffer (95% sellable)</option>
                         <option value="10">10% buffer (90% sellable)</option>
@@ -177,8 +177,8 @@ export default function FloorConfigPage() {
                     </Stack>
                     <Stack gap={2}>
                       <Label>Low Inventory Alert</Label>
-                      <Input type="number" defaultValue="50" className="border-gray-300" />
-                      <Label size="xs" className="text-gray-500">Alert when remaining tickets fall below this number</Label>
+                      <Input type="number" defaultValue="50" className="border-grey-300" />
+                      <Label size="xs" className="text-grey-500">Alert when remaining tickets fall below this number</Label>
                     </Stack>
                   </Stack>
                 </Card>

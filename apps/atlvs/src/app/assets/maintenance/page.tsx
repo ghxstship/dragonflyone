@@ -119,7 +119,7 @@ export default function AssetMaintenancePage() {
 
   const detailSections: DetailSection[] = selectedRecord ? [
     { id: 'overview', title: 'Maintenance Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Asset:</strong> {selectedRecord.assetName}</div>
         <div><strong>Category:</strong> {selectedRecord.category}</div>
         <div><strong>Type:</strong> {selectedRecord.type}</div>
@@ -129,7 +129,7 @@ export default function AssetMaintenancePage() {
         {selectedRecord.technician && <div><strong>Technician:</strong> {selectedRecord.technician}</div>}
         {selectedRecord.cost && <div><strong>Cost:</strong> ${selectedRecord.cost.toLocaleString()}</div>}
         {selectedRecord.laborHours && <div><strong>Labor Hours:</strong> {selectedRecord.laborHours}</div>}
-        {selectedRecord.notes && <div style={{ gridColumn: 'span 2' }}><strong>Notes:</strong> {selectedRecord.notes}</div>}
+        {selectedRecord.notes && <div className="col-span-2"><strong>Notes:</strong> {selectedRecord.notes}</div>}
       </div>
     )},
   ] : [];

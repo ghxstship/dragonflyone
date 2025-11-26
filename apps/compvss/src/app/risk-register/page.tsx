@@ -51,17 +51,17 @@ export default function RiskRegisterPage() {
   const filteredRisks = categoryFilter === "All" ? mockRisks : mockRisks.filter(r => r.category === categoryFilter);
 
   const getRiskScoreColor = (score: number) => {
-    if (score >= 15) return "text-red-400 bg-red-900/20";
-    if (score >= 10) return "text-orange-400 bg-orange-900/20";
-    if (score >= 5) return "text-yellow-400 bg-yellow-900/20";
-    return "text-green-400 bg-green-900/20";
+    if (score >= 15) return "text-error-400 bg-error-900/20";
+    if (score >= 10) return "text-warning-400 bg-warning-900/20";
+    if (score >= 5) return "text-warning-400 bg-warning-900/20";
+    return "text-success-400 bg-success-900/20";
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Closed": return "text-green-400";
-      case "Monitoring": return "text-blue-400";
-      case "Mitigating": return "text-yellow-400";
+      case "Closed": return "text-success-400";
+      case "Monitoring": return "text-info-400";
+      case "Mitigating": return "text-warning-400";
       case "Identified": return "text-ink-400";
       default: return "text-ink-400";
     }
@@ -119,7 +119,7 @@ export default function RiskRegisterPage() {
                   .filter(r => activeTab === "active" ? r.status !== "Closed" : r.status === "Closed")
                   .sort((a, b) => b.riskScore - a.riskScore)
                   .map((risk) => (
-                    <Card key={risk.id} className={`border-2 p-4 ${risk.riskScore >= 12 ? "border-red-800 bg-red-900/10" : "border-ink-800 bg-ink-900/50"}`}>
+                    <Card key={risk.id} className={`border-2 p-4 ${risk.riskScore >= 12 ? "border-error-800 bg-error-900/10" : "border-ink-800 bg-ink-900/50"}`}>
                       <Grid cols={6} gap={4} className="items-center">
                         <Stack gap={1}>
                           <Body className="font-display text-white">{risk.title}</Body>
@@ -156,24 +156,24 @@ export default function RiskRegisterPage() {
                     <Card className="p-2 text-center bg-ink-800"><Label size="xs">Impact →</Label></Card>
                     
                     <Card className="p-2 text-center bg-ink-800"><Label size="xs">High</Label></Card>
-                    <Card className="p-2 bg-yellow-900/30 text-center"><Label size="xs">{activeRisks.filter(r => r.probability === "High" && r.impact === "Low").length}</Label></Card>
-                    <Card className="p-2 bg-orange-900/30 text-center"><Label size="xs">{activeRisks.filter(r => r.probability === "High" && r.impact === "Medium").length}</Label></Card>
-                    <Card className="p-2 bg-red-900/30 text-center"><Label size="xs">{activeRisks.filter(r => r.probability === "High" && r.impact === "High").length}</Label></Card>
-                    <Card className="p-2 bg-red-900/50 text-center"><Label size="xs">{activeRisks.filter(r => r.probability === "High" && r.impact === "Critical").length}</Label></Card>
+                    <Card className="p-2 bg-warning-900/30 text-center"><Label size="xs">{activeRisks.filter(r => r.probability === "High" && r.impact === "Low").length}</Label></Card>
+                    <Card className="p-2 bg-warning-900/30 text-center"><Label size="xs">{activeRisks.filter(r => r.probability === "High" && r.impact === "Medium").length}</Label></Card>
+                    <Card className="p-2 bg-error-900/30 text-center"><Label size="xs">{activeRisks.filter(r => r.probability === "High" && r.impact === "High").length}</Label></Card>
+                    <Card className="p-2 bg-error-900/50 text-center"><Label size="xs">{activeRisks.filter(r => r.probability === "High" && r.impact === "Critical").length}</Label></Card>
                     <Card className="p-2" />
                     
                     <Card className="p-2 text-center bg-ink-800"><Label size="xs">Medium</Label></Card>
-                    <Card className="p-2 bg-green-900/30 text-center"><Label size="xs">{activeRisks.filter(r => r.probability === "Medium" && r.impact === "Low").length}</Label></Card>
-                    <Card className="p-2 bg-yellow-900/30 text-center"><Label size="xs">{activeRisks.filter(r => r.probability === "Medium" && r.impact === "Medium").length}</Label></Card>
-                    <Card className="p-2 bg-orange-900/30 text-center"><Label size="xs">{activeRisks.filter(r => r.probability === "Medium" && r.impact === "High").length}</Label></Card>
-                    <Card className="p-2 bg-red-900/30 text-center"><Label size="xs">{activeRisks.filter(r => r.probability === "Medium" && r.impact === "Critical").length}</Label></Card>
+                    <Card className="p-2 bg-success-900/30 text-center"><Label size="xs">{activeRisks.filter(r => r.probability === "Medium" && r.impact === "Low").length}</Label></Card>
+                    <Card className="p-2 bg-warning-900/30 text-center"><Label size="xs">{activeRisks.filter(r => r.probability === "Medium" && r.impact === "Medium").length}</Label></Card>
+                    <Card className="p-2 bg-warning-900/30 text-center"><Label size="xs">{activeRisks.filter(r => r.probability === "Medium" && r.impact === "High").length}</Label></Card>
+                    <Card className="p-2 bg-error-900/30 text-center"><Label size="xs">{activeRisks.filter(r => r.probability === "Medium" && r.impact === "Critical").length}</Label></Card>
                     <Card className="p-2 text-center"><Label size="xs">Probability ↑</Label></Card>
                     
                     <Card className="p-2 text-center bg-ink-800"><Label size="xs">Low</Label></Card>
-                    <Card className="p-2 bg-green-900/30 text-center"><Label size="xs">{activeRisks.filter(r => r.probability === "Low" && r.impact === "Low").length}</Label></Card>
-                    <Card className="p-2 bg-green-900/30 text-center"><Label size="xs">{activeRisks.filter(r => r.probability === "Low" && r.impact === "Medium").length}</Label></Card>
-                    <Card className="p-2 bg-yellow-900/30 text-center"><Label size="xs">{activeRisks.filter(r => r.probability === "Low" && r.impact === "High").length}</Label></Card>
-                    <Card className="p-2 bg-orange-900/30 text-center"><Label size="xs">{activeRisks.filter(r => r.probability === "Low" && r.impact === "Critical").length}</Label></Card>
+                    <Card className="p-2 bg-success-900/30 text-center"><Label size="xs">{activeRisks.filter(r => r.probability === "Low" && r.impact === "Low").length}</Label></Card>
+                    <Card className="p-2 bg-success-900/30 text-center"><Label size="xs">{activeRisks.filter(r => r.probability === "Low" && r.impact === "Medium").length}</Label></Card>
+                    <Card className="p-2 bg-warning-900/30 text-center"><Label size="xs">{activeRisks.filter(r => r.probability === "Low" && r.impact === "High").length}</Label></Card>
+                    <Card className="p-2 bg-warning-900/30 text-center"><Label size="xs">{activeRisks.filter(r => r.probability === "Low" && r.impact === "Critical").length}</Label></Card>
                     <Card className="p-2" />
                   </Grid>
                 </Stack>

@@ -94,7 +94,7 @@ export default function QuotesPage() {
 
   const detailSections: DetailSection[] = selectedQuote ? [
     { id: 'overview', title: 'Quote Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Quote #:</strong> {selectedQuote.quote_number}</div>
         <div><strong>Client:</strong> {selectedQuote.client?.name || selectedQuote.client_name}</div>
         <div><strong>Project:</strong> {selectedQuote.opportunity_name || selectedQuote.title}</div>

@@ -160,10 +160,10 @@ export default function NotificationSettingsPage() {
           <Card className="p-6">
             <H2 className="mb-6">NOTIFICATION CHANNELS</H2>
             <Stack gap={4}>
-              <Stack direction="horizontal" className="justify-between items-center py-3 border-b border-gray-200">
+              <Stack direction="horizontal" className="justify-between items-center py-3 border-b border-grey-200">
                 <Stack>
                   <Body className="font-medium">Email Notifications</Body>
-                  <Body className="text-sm text-gray-500">Receive notifications via email</Body>
+                  <Body className="text-sm text-grey-500">Receive notifications via email</Body>
                 </Stack>
                 <Switch
                   checked={preferences.email_enabled}
@@ -171,10 +171,10 @@ export default function NotificationSettingsPage() {
                 />
               </Stack>
 
-              <Stack direction="horizontal" className="justify-between items-center py-3 border-b border-gray-200">
+              <Stack direction="horizontal" className="justify-between items-center py-3 border-b border-grey-200">
                 <Stack>
                   <Body className="font-medium">Push Notifications</Body>
-                  <Body className="text-sm text-gray-500">Receive notifications on your device</Body>
+                  <Body className="text-sm text-grey-500">Receive notifications on your device</Body>
                 </Stack>
                 <Switch
                   checked={preferences.push_enabled}
@@ -185,7 +185,7 @@ export default function NotificationSettingsPage() {
               <Stack direction="horizontal" className="justify-between items-center py-3">
                 <Stack>
                   <Body className="font-medium">SMS Notifications</Body>
-                  <Body className="text-sm text-gray-500">Receive text messages for important updates</Body>
+                  <Body className="text-sm text-grey-500">Receive text messages for important updates</Body>
                 </Stack>
                 <Switch
                   checked={preferences.sms_enabled}
@@ -198,10 +198,10 @@ export default function NotificationSettingsPage() {
           <Card className="p-6">
             <H2 className="mb-6">NOTIFICATION TYPES</H2>
             <Stack gap={4}>
-              <Stack direction="horizontal" className="justify-between items-center py-3 border-b border-gray-200">
+              <Stack direction="horizontal" className="justify-between items-center py-3 border-b border-grey-200">
                 <Stack>
                   <Body className="font-medium">Order Updates</Body>
-                  <Body className="text-sm text-gray-500">Confirmations, ticket delivery, and changes</Body>
+                  <Body className="text-sm text-grey-500">Confirmations, ticket delivery, and changes</Body>
                 </Stack>
                 <Switch
                   checked={preferences.categories.order_updates}
@@ -209,10 +209,10 @@ export default function NotificationSettingsPage() {
                 />
               </Stack>
 
-              <Stack direction="horizontal" className="justify-between items-center py-3 border-b border-gray-200">
+              <Stack direction="horizontal" className="justify-between items-center py-3 border-b border-grey-200">
                 <Stack>
                   <Body className="font-medium">Event Reminders</Body>
-                  <Body className="text-sm text-gray-500">Reminders before your upcoming events</Body>
+                  <Body className="text-sm text-grey-500">Reminders before your upcoming events</Body>
                 </Stack>
                 <Switch
                   checked={preferences.categories.event_reminders}
@@ -220,10 +220,10 @@ export default function NotificationSettingsPage() {
                 />
               </Stack>
 
-              <Stack direction="horizontal" className="justify-between items-center py-3 border-b border-gray-200">
+              <Stack direction="horizontal" className="justify-between items-center py-3 border-b border-grey-200">
                 <Stack>
                   <Body className="font-medium">Price Alerts</Body>
-                  <Body className="text-sm text-gray-500">When ticket prices drop to your target</Body>
+                  <Body className="text-sm text-grey-500">When ticket prices drop to your target</Body>
                 </Stack>
                 <Switch
                   checked={preferences.categories.price_alerts}
@@ -231,10 +231,10 @@ export default function NotificationSettingsPage() {
                 />
               </Stack>
 
-              <Stack direction="horizontal" className="justify-between items-center py-3 border-b border-gray-200">
+              <Stack direction="horizontal" className="justify-between items-center py-3 border-b border-grey-200">
                 <Stack>
                   <Body className="font-medium">Saved Search Alerts</Body>
-                  <Body className="text-sm text-gray-500">New events matching your saved searches</Body>
+                  <Body className="text-sm text-grey-500">New events matching your saved searches</Body>
                 </Stack>
                 <Switch
                   checked={preferences.categories.saved_search_alerts}
@@ -242,10 +242,10 @@ export default function NotificationSettingsPage() {
                 />
               </Stack>
 
-              <Stack direction="horizontal" className="justify-between items-center py-3 border-b border-gray-200">
+              <Stack direction="horizontal" className="justify-between items-center py-3 border-b border-grey-200">
                 <Stack>
                   <Body className="font-medium">Artist Announcements</Body>
-                  <Body className="text-sm text-gray-500">New events from artists you follow</Body>
+                  <Body className="text-sm text-grey-500">New events from artists you follow</Body>
                 </Stack>
                 <Switch
                   checked={preferences.categories.artist_announcements}
@@ -253,10 +253,10 @@ export default function NotificationSettingsPage() {
                 />
               </Stack>
 
-              <Stack direction="horizontal" className="justify-between items-center py-3 border-b border-gray-200">
+              <Stack direction="horizontal" className="justify-between items-center py-3 border-b border-grey-200">
                 <Stack>
                   <Body className="font-medium">Venue Announcements</Body>
-                  <Body className="text-sm text-gray-500">New events at venues you follow</Body>
+                  <Body className="text-sm text-grey-500">New events at venues you follow</Body>
                 </Stack>
                 <Switch
                   checked={preferences.categories.venue_announcements}
@@ -264,10 +264,10 @@ export default function NotificationSettingsPage() {
                 />
               </Stack>
 
-              <Stack direction="horizontal" className="justify-between items-center py-3 border-b border-gray-200">
+              <Stack direction="horizontal" className="justify-between items-center py-3 border-b border-grey-200">
                 <Stack>
                   <Body className="font-medium">Promotions & Offers</Body>
-                  <Body className="text-sm text-gray-500">Discounts, deals, and special offers</Body>
+                  <Body className="text-sm text-grey-500">Discounts, deals, and special offers</Body>
                 </Stack>
                 <Switch
                   checked={preferences.categories.promotions}
@@ -275,10 +275,10 @@ export default function NotificationSettingsPage() {
                 />
               </Stack>
 
-              <Stack direction="horizontal" className="justify-between items-center py-3 border-b border-gray-200">
+              <Stack direction="horizontal" className="justify-between items-center py-3 border-b border-grey-200">
                 <Stack>
                   <Body className="font-medium">Community Updates</Body>
-                  <Body className="text-sm text-gray-500">Activity from groups and forums</Body>
+                  <Body className="text-sm text-grey-500">Activity from groups and forums</Body>
                 </Stack>
                 <Switch
                   checked={preferences.categories.community_updates}
@@ -289,7 +289,7 @@ export default function NotificationSettingsPage() {
               <Stack direction="horizontal" className="justify-between items-center py-3">
                 <Stack>
                   <Body className="font-medium">Account Security</Body>
-                  <Body className="text-sm text-gray-500">Login alerts and security notifications</Body>
+                  <Body className="text-sm text-grey-500">Login alerts and security notifications</Body>
                 </Stack>
                 <Switch
                   checked={preferences.categories.account_security}
@@ -306,7 +306,7 @@ export default function NotificationSettingsPage() {
               <Stack direction="horizontal" className="justify-between items-center">
                 <Stack>
                   <Body className="font-medium">Event Reminder Timing</Body>
-                  <Body className="text-sm text-gray-500">How far in advance to remind you</Body>
+                  <Body className="text-sm text-grey-500">How far in advance to remind you</Body>
                 </Stack>
                 <Select
                   value={preferences.reminder_timing}
@@ -324,7 +324,7 @@ export default function NotificationSettingsPage() {
               <Stack direction="horizontal" className="justify-between items-center">
                 <Stack>
                   <Body className="font-medium">Digest Frequency</Body>
-                  <Body className="text-sm text-gray-500">How often to receive digest emails</Body>
+                  <Body className="text-sm text-grey-500">How often to receive digest emails</Body>
                 </Stack>
                 <Select
                   value={preferences.digest_frequency}
@@ -346,7 +346,7 @@ export default function NotificationSettingsPage() {
               <Stack direction="horizontal" className="justify-between items-center">
                 <Stack>
                   <Body className="font-medium">Enable Quiet Hours</Body>
-                  <Body className="text-sm text-gray-500">Pause non-urgent notifications during set times</Body>
+                  <Body className="text-sm text-grey-500">Pause non-urgent notifications during set times</Body>
                 </Stack>
                 <Switch
                   checked={preferences.quiet_hours_enabled}

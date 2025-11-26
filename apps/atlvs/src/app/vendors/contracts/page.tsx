@@ -42,10 +42,10 @@ export default function VendorContractsPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Active": return "text-green-400";
-      case "Expiring": return "text-yellow-400";
-      case "Expired": return "text-red-400";
-      case "Pending Renewal": return "text-blue-400";
+      case "Active": return "text-success-400";
+      case "Expiring": return "text-warning-400";
+      case "Expired": return "text-error-400";
+      case "Pending Renewal": return "text-info-400";
       default: return "text-ink-400";
     }
   };
@@ -117,7 +117,7 @@ export default function VendorContractsPage() {
                   <TableCell>
                     <Stack gap={1}>
                       <Label className={getStatusColor(contract.status)}>{contract.expiryDate}</Label>
-                      <Label size="xs" className={contract.daysUntilExpiry < 0 ? "text-red-400" : contract.daysUntilExpiry < 30 ? "text-yellow-400" : "text-ink-500"}>
+                      <Label size="xs" className={contract.daysUntilExpiry < 0 ? "text-error-400" : contract.daysUntilExpiry < 30 ? "text-warning-400" : "text-ink-500"}>
                         {contract.daysUntilExpiry < 0 ? `${Math.abs(contract.daysUntilExpiry)} days ago` : `${contract.daysUntilExpiry} days`}
                       </Label>
                     </Stack>
@@ -167,20 +167,20 @@ export default function VendorContractsPage() {
               <Stack gap={1}><Label className="text-ink-400">Contract Value</Label><Label className="font-mono text-white text-xl">{formatCurrency(selectedContract.value)}</Label></Stack>
               <Stack gap={1}>
                 <Label className="text-ink-400">Auto-Renewal</Label>
-                <Label className={selectedContract.autoRenew ? "text-green-400" : "text-ink-400"}>{selectedContract.autoRenew ? "Enabled" : "Disabled"}</Label>
+                <Label className={selectedContract.autoRenew ? "text-success-400" : "text-ink-400"}>{selectedContract.autoRenew ? "Enabled" : "Disabled"}</Label>
               </Stack>
               {selectedContract.daysUntilExpiry <= 30 && selectedContract.daysUntilExpiry > 0 && (
-                <Card className="p-4 border border-yellow-800 bg-yellow-900/20">
+                <Card className="p-4 border border-warning-800 bg-warning-900/20">
                   <Stack gap={2}>
-                    <Label className="text-yellow-400">⚠️ Contract Expiring Soon</Label>
+                    <Label className="text-warning-400">⚠️ Contract Expiring Soon</Label>
                     <Label className="text-ink-300">This contract expires in {selectedContract.daysUntilExpiry} days. Initiate renewal process.</Label>
                   </Stack>
                 </Card>
               )}
               {selectedContract.daysUntilExpiry < 0 && (
-                <Card className="p-4 border border-red-800 bg-red-900/20">
+                <Card className="p-4 border border-error-800 bg-error-900/20">
                   <Stack gap={2}>
-                    <Label className="text-red-400">⚠️ Contract Expired</Label>
+                    <Label className="text-error-400">⚠️ Contract Expired</Label>
                     <Label className="text-ink-300">This contract expired {Math.abs(selectedContract.daysUntilExpiry)} days ago. Immediate action required.</Label>
                   </Stack>
                 </Card>

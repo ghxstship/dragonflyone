@@ -34,10 +34,10 @@ export function NotificationToast({
   }, [id, duration, onDismiss]);
 
   const colors = {
-    success: 'border-green-500 bg-green-950',
-    error: 'border-red-500 bg-red-950',
-    info: 'border-blue-500 bg-blue-950',
-    warning: 'border-yellow-500 bg-yellow-950',
+    success: 'border-success-500 bg-success-900',
+    error: 'border-error-500 bg-error-900',
+    info: 'border-info-500 bg-info-900',
+    warning: 'border-warning-500 bg-warning-900',
   };
 
   const icons = {

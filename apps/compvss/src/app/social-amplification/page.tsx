@@ -63,9 +63,9 @@ export default function SocialAmplificationPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Active": return "text-green-400";
-      case "Scheduled": return "text-blue-400";
-      case "Pending": return "text-yellow-400";
+      case "Active": return "text-success-400";
+      case "Scheduled": return "text-info-400";
+      case "Pending": return "text-warning-400";
       case "Completed": return "text-ink-400";
       default: return "text-ink-400";
     }

@@ -78,10 +78,10 @@ export default function SocialWallPage() {
           <Stack direction="horizontal" className="justify-between items-center">
             <Stack gap={2}>
               <H1>LIVE SOCIAL WALL</H1>
-              <Body className="text-gray-400">Real-time social media feed from the event</Body>
+              <Body className="text-grey-400">Real-time social media feed from the event</Body>
             </Stack>
             <Stack direction="horizontal" gap={4} className="items-center">
-              {isLive && <Badge variant="solid" className="bg-red-500 animate-pulse">● LIVE</Badge>}
+              {isLive && <Badge variant="solid" className="bg-error-500 animate-pulse">● LIVE</Badge>}
               <Button variant={isLive ? "solid" : "outline"} onClick={() => setIsLive(!isLive)}>
                 {isLive ? "Pause Feed" : "Resume Feed"}
               </Button>
@@ -89,15 +89,15 @@ export default function SocialWallPage() {
           </Stack>
 
           <Grid cols={4} gap={6}>
-            <StatCard label="Total Posts" value={posts.length} className="border-2 border-gray-700 bg-gray-900" />
-            <StatCard label="Twitter" value={posts.filter(p => p.platform === "Twitter").length} className="border-2 border-gray-700 bg-gray-900" />
-            <StatCard label="Instagram" value={posts.filter(p => p.platform === "Instagram").length} className="border-2 border-gray-700 bg-gray-900" />
-            <StatCard label="TikTok" value={posts.filter(p => p.platform === "TikTok").length} className="border-2 border-gray-700 bg-gray-900" />
+            <StatCard label="Total Posts" value={posts.length} className="border-2 border-grey-700 bg-grey-900" />
+            <StatCard label="Twitter" value={posts.filter(p => p.platform === "Twitter").length} className="border-2 border-grey-700 bg-grey-900" />
+            <StatCard label="Instagram" value={posts.filter(p => p.platform === "Instagram").length} className="border-2 border-grey-700 bg-grey-900" />
+            <StatCard label="TikTok" value={posts.filter(p => p.platform === "TikTok").length} className="border-2 border-grey-700 bg-grey-900" />
           </Grid>
 
-          <Card className="p-4 border-2 border-gray-700 bg-gray-900">
+          <Card className="p-4 border-2 border-grey-700 bg-grey-900">
             <Stack direction="horizontal" className="justify-between items-center">
-              <Label className="text-gray-400">Tracking: #SummerFest2024, #LiveMusic, @SummerFest</Label>
+              <Label className="text-grey-400">Tracking: #SummerFest2024, #LiveMusic, @SummerFest</Label>
               <Button variant="outline" size="sm">Manage Hashtags</Button>
             </Stack>
           </Card>
@@ -113,32 +113,32 @@ export default function SocialWallPage() {
             <TabPanel active={true}>
               <Grid cols={3} gap={4}>
                 {filteredPosts.map((post) => (
-                  <Card key={post.id} className="border-2 border-gray-700 bg-gray-900 p-4 cursor-pointer hover:border-white transition-colors" onClick={() => setSelectedPost(post)}>
+                  <Card key={post.id} className="border-2 border-grey-700 bg-grey-900 p-4 cursor-pointer hover:border-white transition-colors" onClick={() => setSelectedPost(post)}>
                     <Stack gap={3}>
                       <Stack direction="horizontal" className="justify-between items-start">
                         <Stack direction="horizontal" gap={2}>
-                          <Card className="w-10 h-10 bg-gray-800 flex items-center justify-center rounded-full">
+                          <Card className="w-10 h-10 bg-grey-800 flex items-center justify-center rounded-full">
                             <Label>{getPlatformIcon(post.platform)}</Label>
                           </Card>
                           <Stack gap={0}>
                             <Label className="font-bold">{post.author}</Label>
-                            <Label size="xs" className="text-gray-500">{post.handle}</Label>
+                            <Label size="xs" className="text-grey-500">{post.handle}</Label>
                           </Stack>
                         </Stack>
-                        <Label size="xs" className="text-gray-500">{post.timestamp}</Label>
+                        <Label size="xs" className="text-grey-500">{post.timestamp}</Label>
                       </Stack>
                       {post.mediaType && (
-                        <Card className="h-32 bg-gray-800 flex items-center justify-center">
+                        <Card className="h-32 bg-grey-800 flex items-center justify-center">
                           <Label className="text-4xl">{post.mediaType === "video" ? "🎬" : "🖼️"}</Label>
                         </Card>
                       )}
-                      <Body className="text-gray-200">{post.content}</Body>
+                      <Body className="text-grey-200">{post.content}</Body>
                       <Stack direction="horizontal" gap={2} className="flex-wrap">
                         {post.hashtags.map(tag => <Badge key={tag} variant="outline">#{tag}</Badge>)}
                       </Stack>
                       <Stack direction="horizontal" gap={4}>
-                        <Label size="xs" className="text-gray-500">❤️ {post.likes}</Label>
-                        {post.retweets !== undefined && <Label size="xs" className="text-gray-500">🔄 {post.retweets}</Label>}
+                        <Label size="xs" className="text-grey-500">❤️ {post.likes}</Label>
+                        {post.retweets !== undefined && <Label size="xs" className="text-grey-500">🔄 {post.retweets}</Label>}
                       </Stack>
                     </Stack>
                   </Card>
@@ -160,16 +160,16 @@ export default function SocialWallPage() {
           {selectedPost && (
             <Stack gap={4}>
               <Stack direction="horizontal" gap={3}>
-                <Card className="w-12 h-12 bg-gray-800 flex items-center justify-center rounded-full">
+                <Card className="w-12 h-12 bg-grey-800 flex items-center justify-center rounded-full">
                   <Label className="text-2xl">{getPlatformIcon(selectedPost.platform)}</Label>
                 </Card>
                 <Stack gap={0}>
                   <Label className="font-bold">{selectedPost.author}</Label>
-                  <Label className="text-gray-500">{selectedPost.handle}</Label>
+                  <Label className="text-grey-500">{selectedPost.handle}</Label>
                 </Stack>
               </Stack>
               {selectedPost.mediaType && (
-                <Card className="h-48 bg-gray-800 flex items-center justify-center">
+                <Card className="h-48 bg-grey-800 flex items-center justify-center">
                   <Label className="text-6xl">{selectedPost.mediaType === "video" ? "🎬" : "🖼️"}</Label>
                 </Card>
               )}
@@ -181,7 +181,7 @@ export default function SocialWallPage() {
                 <Label>❤️ {selectedPost.likes} likes</Label>
                 {selectedPost.retweets !== undefined && <Label>🔄 {selectedPost.retweets} retweets</Label>}
               </Stack>
-              <Label className="text-gray-500">{selectedPost.timestamp}</Label>
+              <Label className="text-grey-500">{selectedPost.timestamp}</Label>
             </Stack>
           )}
         </ModalBody>

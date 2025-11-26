@@ -130,11 +130,11 @@ export default function ArtistMerchPage() {
 
   const getCategoryBadge = (category: string) => {
     const variants: Record<string, string> = {
-      apparel: 'bg-blue-500 text-white',
+      apparel: 'bg-info-500 text-white',
       accessories: 'bg-purple-500 text-white',
-      music: 'bg-green-500 text-white',
-      collectibles: 'bg-yellow-500 text-white',
-      posters: 'bg-red-500 text-white',
+      music: 'bg-success-500 text-white',
+      collectibles: 'bg-warning-500 text-white',
+      posters: 'bg-error-500 text-white',
     };
     return <Badge className={variants[category] || ''}>{category}</Badge>;
   };
@@ -176,7 +176,7 @@ export default function ArtistMerchPage() {
       <Container>
         <Section className="border-b-2 border-black py-8 mb-8">
           <Stack direction="horizontal" gap={6} className="items-center">
-            <Stack className="w-24 h-24 rounded-full bg-gray-200 overflow-hidden relative flex-shrink-0">
+            <Stack className="w-24 h-24 rounded-full bg-grey-200 overflow-hidden relative flex-shrink-0">
               {artist.image_url ? (
                 <Image src={artist.image_url} alt={artist.name} fill className="object-cover" />
               ) : (
@@ -187,7 +187,7 @@ export default function ArtistMerchPage() {
             </Stack>
             <Stack>
               <Display>{artist.name}</Display>
-              <Body className="mt-2 text-gray-600">Official Merchandise</Body>
+              <Body className="mt-2 text-grey-600">Official Merchandise</Body>
             </Stack>
           </Stack>
         </Section>
@@ -263,7 +263,7 @@ export default function ArtistMerchPage() {
                   setSelectedVariant(product.variants[0] || null);
                 }}
               >
-                <Stack className="relative aspect-square bg-gray-100">
+                <Stack className="relative aspect-square bg-grey-100">
                   {product.images[0] ? (
                     <Image
                       src={product.images[0]}
@@ -278,17 +278,17 @@ export default function ArtistMerchPage() {
                   )}
                   {product.is_limited_edition && (
                     <Stack className="absolute top-2 left-2">
-                      <Badge className="bg-yellow-500 text-white">Limited</Badge>
+                      <Badge className="bg-warning-500 text-white">Limited</Badge>
                     </Stack>
                   )}
                   {product.is_preorder && (
                     <Stack className="absolute top-2 right-2">
-                      <Badge className="bg-blue-500 text-white">Pre-Order</Badge>
+                      <Badge className="bg-info-500 text-white">Pre-Order</Badge>
                     </Stack>
                   )}
                   {product.inventory_count < 10 && product.inventory_count > 0 && (
                     <Stack className="absolute bottom-2 left-2">
-                      <Badge className="bg-red-500 text-white">Low Stock</Badge>
+                      <Badge className="bg-error-500 text-white">Low Stock</Badge>
                     </Stack>
                   )}
                 </Stack>
@@ -298,7 +298,7 @@ export default function ArtistMerchPage() {
                   <Stack direction="horizontal" gap={2} className="items-center">
                     <Body className="font-bold text-lg">${product.price.toFixed(2)}</Body>
                     {product.compare_at_price && product.compare_at_price > product.price && (
-                      <Body className="text-gray-400 line-through text-sm">
+                      <Body className="text-grey-400 line-through text-sm">
                         ${product.compare_at_price.toFixed(2)}
                       </Body>
                     )}
@@ -309,7 +309,7 @@ export default function ArtistMerchPage() {
           ) : (
             <Card className="col-span-4 p-12 text-center">
               <H3 className="mb-4">NO PRODUCTS FOUND</H3>
-              <Body className="text-gray-600">
+              <Body className="text-grey-600">
                 Check back soon for new merchandise
               </Body>
             </Card>
@@ -328,7 +328,7 @@ export default function ArtistMerchPage() {
           {selectedProduct && (
             <Stack gap={6}>
               <Grid cols={2} gap={6}>
-                <Stack className="relative aspect-square bg-gray-100 rounded overflow-hidden">
+                <Stack className="relative aspect-square bg-grey-100 rounded overflow-hidden">
                   {selectedProduct.images[0] ? (
                     <Image
                       src={selectedProduct.images[0]}
@@ -346,17 +346,17 @@ export default function ArtistMerchPage() {
                   <Stack direction="horizontal" gap={2}>
                     {getCategoryBadge(selectedProduct.category)}
                     {selectedProduct.is_limited_edition && (
-                      <Badge className="bg-yellow-500 text-white">Limited Edition</Badge>
+                      <Badge className="bg-warning-500 text-white">Limited Edition</Badge>
                     )}
                   </Stack>
                   <H2>{selectedProduct.name}</H2>
-                  <Body className="text-gray-600">{selectedProduct.description}</Body>
+                  <Body className="text-grey-600">{selectedProduct.description}</Body>
                   <Stack direction="horizontal" gap={2} className="items-center">
                     <Body className="font-bold text-2xl">
                       ${(selectedVariant?.price || selectedProduct.price).toFixed(2)}
                     </Body>
                     {selectedProduct.compare_at_price && (
-                      <Body className="text-gray-400 line-through">
+                      <Body className="text-grey-400 line-through">
                         ${selectedProduct.compare_at_price.toFixed(2)}
                       </Body>
                     )}

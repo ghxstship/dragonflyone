@@ -76,10 +76,10 @@ export default function SeatingPage() {
   const getSeatColor = (status: string, isSelected: boolean) => {
     if (isSelected) return 'bg-black text-white';
     switch (status) {
-      case 'available': return 'bg-white border-2 border-black hover:bg-gray-100 cursor-pointer';
-      case 'reserved': return 'bg-gray-300 cursor-not-allowed';
-      case 'sold': return 'bg-gray-600 text-white cursor-not-allowed';
-      default: return 'bg-gray-200';
+      case 'available': return 'bg-white border-2 border-black hover:bg-grey-100 cursor-pointer';
+      case 'reserved': return 'bg-grey-300 cursor-not-allowed';
+      case 'sold': return 'bg-grey-600 text-white cursor-not-allowed';
+      default: return 'bg-grey-200';
     }
   };
 
@@ -108,7 +108,7 @@ export default function SeatingPage() {
         <Section className="border-b-2 border-black py-8 mb-8">
           <Display>SELECT YOUR SEATS</Display>
           {event && (
-            <Body className="mt-2 text-gray-600">
+            <Body className="mt-2 text-grey-600">
               {event.title} • {event.venue}
             </Body>
           )}
@@ -166,8 +166,8 @@ export default function SeatingPage() {
                 </Stack>
               ) : (
                 <Stack className="items-center py-12">
-                  <Body className="text-gray-500">No seating chart available for this event.</Body>
-                  <Body className="text-gray-400 text-sm">This may be a general admission event.</Body>
+                  <Body className="text-grey-500">No seating chart available for this event.</Body>
+                  <Body className="text-grey-400 text-sm">This may be a general admission event.</Body>
                 </Stack>
               )}
 
@@ -181,11 +181,11 @@ export default function SeatingPage() {
                   <Label>Selected</Label>
                 </Stack>
                 <Stack direction="horizontal" gap={2} className="items-center">
-                  <Stack className="w-6 h-6 bg-gray-300" />
+                  <Stack className="w-6 h-6 bg-grey-300" />
                   <Label>Reserved</Label>
                 </Stack>
                 <Stack direction="horizontal" gap={2} className="items-center">
-                  <Stack className="w-6 h-6 bg-gray-600" />
+                  <Stack className="w-6 h-6 bg-grey-600" />
                   <Label>Sold</Label>
                 </Stack>
               </Stack>
@@ -202,7 +202,7 @@ export default function SeatingPage() {
                     {selectedSeats.map(seatId => {
                       const seat = seating?.seats?.find(s => s.id === seatId);
                       return seat ? (
-                        <Stack key={seatId} direction="horizontal" className="justify-between items-center py-2 border-b border-gray-200">
+                        <Stack key={seatId} direction="horizontal" className="justify-between items-center py-2 border-b border-grey-200">
                           <Body>{seat.section} - Row {seat.row}, Seat {seat.number}</Body>
                           <Button
                             variant="ghost"
@@ -232,7 +232,7 @@ export default function SeatingPage() {
                   </Button>
                 </Stack>
               ) : (
-                <Body className="text-gray-500">
+                <Body className="text-grey-500">
                   Click on available seats to select them.
                 </Body>
               )}
@@ -241,7 +241,7 @@ export default function SeatingPage() {
             <Card className="p-6">
               <H3 className="mb-4">NEED HELP?</H3>
               <Stack gap={2}>
-                <Body className="text-sm text-gray-600">
+                <Body className="text-sm text-grey-600">
                   Having trouble selecting seats? Contact our support team.
                 </Body>
                 <Button variant="outline" className="w-full" onClick={() => router.push('/help')}>

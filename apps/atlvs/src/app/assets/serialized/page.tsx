@@ -186,13 +186,13 @@ export default function SerializedComponentsPage() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'Active':
-        return 'text-green-400';
+        return 'text-success-400';
       case 'Replaced':
         return 'text-ink-400';
       case 'Failed':
-        return 'text-red-400';
+        return 'text-error-400';
       case 'In Repair':
-        return 'text-yellow-400';
+        return 'text-warning-400';
       default:
         return 'text-ink-400';
     }
@@ -290,7 +290,7 @@ export default function SerializedComponentsPage() {
                   </TableCell>
                   <TableCell>
                     {component.warrantyExpiry ? (
-                      <Label className={new Date(component.warrantyExpiry) < new Date() ? 'text-red-400' : 'text-ink-300'}>
+                      <Label className={new Date(component.warrantyExpiry) < new Date() ? 'text-error-400' : 'text-ink-300'}>
                         {component.warrantyExpiry}
                       </Label>
                     ) : (
@@ -378,7 +378,7 @@ export default function SerializedComponentsPage() {
                   <Label size="xs" className="text-ink-500">
                     Warranty Expiry
                   </Label>
-                  <Label className={selectedComponent.warrantyExpiry && new Date(selectedComponent.warrantyExpiry) < new Date() ? 'text-red-400' : 'text-white'}>
+                  <Label className={selectedComponent.warrantyExpiry && new Date(selectedComponent.warrantyExpiry) < new Date() ? 'text-error-400' : 'text-white'}>
                     {selectedComponent.warrantyExpiry || 'N/A'}
                   </Label>
                 </Stack>

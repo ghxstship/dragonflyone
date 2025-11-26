@@ -115,7 +115,7 @@ export default function AssetsPage() {
 
   const detailSections: DetailSection[] = selectedAsset ? [
     { id: 'overview', title: 'Asset Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Category:</strong> {selectedAsset.category}</div>
         <div><strong>Status:</strong> {selectedAsset.status}</div>
         <div><strong>Location:</strong> {selectedAsset.location}</div>

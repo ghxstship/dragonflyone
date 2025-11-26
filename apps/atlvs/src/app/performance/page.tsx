@@ -89,7 +89,7 @@ export default function PerformancePage() {
 
   const detailSections: DetailSection[] = selectedReview ? [
     { id: 'overview', title: 'Review Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Employee:</strong> {selectedReview.employee?.full_name || '—'}</div>
         <div><strong>Reviewer:</strong> {selectedReview.reviewer?.full_name || '—'}</div>
         <div><strong>Period:</strong> {selectedReview.review_period}</div>
@@ -97,8 +97,8 @@ export default function PerformancePage() {
         <div><strong>Score:</strong> {selectedReview.overall_score > 0 ? selectedReview.overall_score.toFixed(1) : '—'}</div>
         <div><strong>Status:</strong> {formatStatus(selectedReview.status)}</div>
         <div><strong>Scheduled:</strong> {selectedReview.scheduled_date ? new Date(selectedReview.scheduled_date).toLocaleDateString() : '—'}</div>
-        {selectedReview.strengths?.length > 0 && <div style={{ gridColumn: 'span 2' }}><strong>Strengths:</strong> {selectedReview.strengths.join(', ')}</div>}
-        {selectedReview.improvements?.length > 0 && <div style={{ gridColumn: 'span 2' }}><strong>Improvements:</strong> {selectedReview.improvements.join(', ')}</div>}
+        {selectedReview.strengths?.length > 0 && <div className="col-span-2"><strong>Strengths:</strong> {selectedReview.strengths.join(', ')}</div>}
+        {selectedReview.improvements?.length > 0 && <div className="col-span-2"><strong>Improvements:</strong> {selectedReview.improvements.join(', ')}</div>}
       </div>
     )},
   ] : [];

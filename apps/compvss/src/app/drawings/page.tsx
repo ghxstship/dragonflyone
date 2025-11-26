@@ -56,12 +56,12 @@ export default function DrawingsPage() {
 
   const getCategoryColor = (category: string) => {
     switch (category) {
-      case "Stage": return "bg-blue-900/30 border-blue-800";
-      case "Lighting": return "bg-yellow-900/30 border-yellow-800";
-      case "Audio": return "bg-green-900/30 border-green-800";
+      case "Stage": return "bg-info-900/30 border-info-800";
+      case "Lighting": return "bg-warning-900/30 border-warning-800";
+      case "Audio": return "bg-success-900/30 border-success-800";
       case "Video": return "bg-purple-900/30 border-purple-800";
-      case "Rigging": return "bg-red-900/30 border-red-800";
-      case "Site": return "bg-orange-900/30 border-orange-800";
+      case "Rigging": return "bg-error-900/30 border-error-800";
+      case "Site": return "bg-warning-900/30 border-warning-800";
       default: return "bg-ink-800 border-ink-700";
     }
   };
@@ -116,7 +116,7 @@ export default function DrawingsPage() {
                     </Stack>
                     <Stack direction="horizontal" className="justify-between">
                       <Label size="xs" className="text-ink-500">{drawing.size}</Label>
-                      {drawing.markups > 0 && <Label size="xs" className="text-yellow-400">{drawing.markups} markups</Label>}
+                      {drawing.markups > 0 && <Label size="xs" className="text-warning-400">{drawing.markups} markups</Label>}
                     </Stack>
                     <Stack direction="horizontal" gap={2}>
                       <Button variant="outline" size="sm" onClick={() => setSelectedDrawing(drawing)}>View</Button>
@@ -187,8 +187,8 @@ export default function DrawingsPage() {
               {selectedDrawing.markups > 0 && (
                 <Stack gap={2}>
                   <Label className="text-ink-400">Active Markups ({selectedDrawing.markups})</Label>
-                  <Card className="p-3 border border-yellow-800 bg-yellow-900/20">
-                    <Label className="text-yellow-400">View markups and comments in the drawing viewer</Label>
+                  <Card className="p-3 border border-warning-800 bg-warning-900/20">
+                    <Label className="text-warning-400">View markups and comments in the drawing viewer</Label>
                   </Card>
                 </Stack>
               )}

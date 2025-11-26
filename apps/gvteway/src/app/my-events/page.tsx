@@ -133,9 +133,9 @@ END:VCALENDAR`;
   };
 
   const getCountdownBadge = (daysUntil: number) => {
-    if (daysUntil === 0) return <Badge className="bg-red-500 text-white">Today!</Badge>;
-    if (daysUntil === 1) return <Badge className="bg-orange-500 text-white">Tomorrow</Badge>;
-    if (daysUntil <= 7) return <Badge className="bg-yellow-500 text-white">{daysUntil} days</Badge>;
+    if (daysUntil === 0) return <Badge className="bg-error-500 text-white">Today!</Badge>;
+    if (daysUntil === 1) return <Badge className="bg-warning-500 text-white">Tomorrow</Badge>;
+    if (daysUntil <= 7) return <Badge className="bg-warning-500 text-white">{daysUntil} days</Badge>;
     return <Badge variant="outline">{daysUntil} days</Badge>;
   };
 
@@ -177,7 +177,7 @@ END:VCALENDAR`;
                 <Card key={event.id} className="overflow-hidden">
                   <Grid cols={4} gap={0}>
                     {event.image && (
-                      <Stack className="bg-gray-100 relative h-full">
+                      <Stack className="bg-grey-100 relative h-full">
                         <Image
                           src={event.image}
                           alt={event.title}
@@ -193,16 +193,16 @@ END:VCALENDAR`;
                             <H3>{event.title}</H3>
                             {getCountdownBadge(event.days_until)}
                           </Stack>
-                          <Body className="text-gray-600">
+                          <Body className="text-grey-600">
                             {event.date} at {event.time}
                           </Body>
-                          <Body className="text-gray-500">
+                          <Body className="text-grey-500">
                             {event.venue}, {event.city}
                           </Body>
                         </Stack>
                         <Stack className="items-end">
                           <Badge>{event.ticket_count} ticket{event.ticket_count > 1 ? 's' : ''}</Badge>
-                          <Body className="text-sm text-gray-500 mt-1">{event.ticket_type}</Body>
+                          <Body className="text-sm text-grey-500 mt-1">{event.ticket_type}</Body>
                         </Stack>
                       </Stack>
 
@@ -236,7 +236,7 @@ END:VCALENDAR`;
           ) : (
             <Card className="p-12 text-center">
               <H3 className="mb-4">NO UPCOMING EVENTS</H3>
-              <Body className="text-gray-600 mb-6">
+              <Body className="text-grey-600 mb-6">
                 You don&apos;t have any upcoming events. Browse and find your next experience!
               </Body>
               <Button variant="solid" onClick={() => router.push('/browse')}>
@@ -254,8 +254,8 @@ END:VCALENDAR`;
                 <Card key={event.id} className="p-4">
                   <Stack gap={2}>
                     <H3 className="text-lg">{event.title}</H3>
-                    <Body className="text-gray-600 text-sm">{event.date}</Body>
-                    <Body className="text-gray-500 text-sm">{event.venue}</Body>
+                    <Body className="text-grey-600 text-sm">{event.date}</Body>
+                    <Body className="text-grey-500 text-sm">{event.venue}</Body>
                     <Stack direction="horizontal" gap={2} className="mt-2">
                       <Button
                         variant="ghost"

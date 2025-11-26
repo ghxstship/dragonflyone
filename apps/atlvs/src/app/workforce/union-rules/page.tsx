@@ -72,14 +72,14 @@ export default function UnionRulesPage() {
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Rule Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Union:</strong> {selected.union}</div>
         <div><strong>Category:</strong> {selected.category}</div>
         <div><strong>Rule:</strong> {selected.rule}</div>
         <div><strong>Status:</strong> {selected.status}</div>
         <div><strong>Effective Date:</strong> {selected.effectiveDate}</div>
         <div><strong>Penalty:</strong> {selected.penaltyAmount ? `$${selected.penaltyAmount} (${selected.penaltyType})` : 'N/A'}</div>
-        <div style={{ gridColumn: 'span 2' }}><strong>Description:</strong> {selected.description}</div>
+        <div className="col-span-2"><strong>Description:</strong> {selected.description}</div>
       </div>
     )},
   ] : [];

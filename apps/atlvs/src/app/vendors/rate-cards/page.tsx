@@ -97,9 +97,9 @@ export default function RateCardsPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Active": return "text-green-400";
-      case "Expired": return "text-red-400";
-      case "Pending": return "text-yellow-400";
+      case "Active": return "text-success-400";
+      case "Expired": return "text-error-400";
+      case "Pending": return "text-warning-400";
       default: return "text-ink-400";
     }
   };

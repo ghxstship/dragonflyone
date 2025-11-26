@@ -68,13 +68,13 @@ export default function EmailIntegrationPage() {
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Email Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>From:</strong> {selected.from}</div>
         <div><strong>To:</strong> {selected.to}</div>
         <div><strong>Date:</strong> {selected.date}</div>
         <div><strong>Status:</strong> {selected.status}</div>
-        <div style={{ gridColumn: 'span 2' }}><strong>Subject:</strong> {selected.subject}</div>
-        <div style={{ gridColumn: 'span 2' }}><strong>Preview:</strong> {selected.preview}</div>
+        <div className="col-span-2"><strong>Subject:</strong> {selected.subject}</div>
+        <div className="col-span-2"><strong>Preview:</strong> {selected.preview}</div>
         {selected.linkedContact && <div><strong>Contact:</strong> {selected.linkedContact}</div>}
         {selected.linkedDeal && <div><strong>Deal:</strong> {selected.linkedDeal}</div>}
       </div>

@@ -157,7 +157,7 @@ export default function FavoritesPage() {
                       ♥
                     </Button>
                     {!favorite.tickets_available && (
-                      <Badge className="absolute top-2 left-2 z-10 bg-red-500 text-white">
+                      <Badge className="absolute top-2 left-2 z-10 bg-error-500 text-white">
                         Sold Out
                       </Badge>
                     )}
@@ -171,7 +171,7 @@ export default function FavoritesPage() {
                   </Stack>
                   <Stack className="p-4 border-t">
                     <Stack direction="horizontal" className="justify-between items-center">
-                      <Body className="text-sm text-gray-500">{favorite.city}</Body>
+                      <Body className="text-sm text-grey-500">{favorite.city}</Body>
                       <Body className="font-bold">From ${favorite.price_min}</Body>
                     </Stack>
                   </Stack>
@@ -183,7 +183,7 @@ export default function FavoritesPage() {
 
         {pastFavorites.length > 0 && (
           <Section className="mb-12">
-            <H2 className="mb-6 text-gray-500">PAST EVENTS</H2>
+            <H2 className="mb-6 text-grey-500">PAST EVENTS</H2>
             <Grid cols={4} gap={4}>
               {pastFavorites.map(favorite => (
                 <Card key={favorite.id} className="p-4 opacity-60">
@@ -199,7 +199,7 @@ export default function FavoritesPage() {
                       </Button>
                     </Stack>
                     <H3 className="text-base">{favorite.title}</H3>
-                    <Body className="text-sm text-gray-500">{favorite.date}</Body>
+                    <Body className="text-sm text-grey-500">{favorite.date}</Body>
                   </Stack>
                 </Card>
               ))}
@@ -210,7 +210,7 @@ export default function FavoritesPage() {
         {favorites.length === 0 && (
           <Card className="p-12 text-center">
             <H3 className="mb-4">NO FAVORITES YET</H3>
-            <Body className="text-gray-600 mb-6">
+            <Body className="text-grey-600 mb-6">
               Save events you&apos;re interested in to easily find them later.
             </Body>
             <Button variant="solid" onClick={() => router.push('/browse')}>
@@ -219,11 +219,11 @@ export default function FavoritesPage() {
           </Card>
         )}
 
-          <Card className="p-6 bg-gray-50">
+          <Card className="p-6 bg-grey-50">
             <Stack direction="horizontal" className="justify-between items-center">
               <Stack>
                 <H3>GET NOTIFIED</H3>
-                <Body className="text-gray-600">
+                <Body className="text-grey-600">
                   Set up alerts for your favorite events to never miss a sale.
                 </Body>
               </Stack>

@@ -58,9 +58,9 @@ export default function SiteAccessPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Open": case "Active": return "text-green-400";
-      case "Restricted": case "Pending": return "text-yellow-400";
-      case "Closed": case "Expired": return "text-red-400";
+      case "Open": case "Active": return "text-success-400";
+      case "Restricted": case "Pending": return "text-warning-400";
+      case "Closed": case "Expired": return "text-error-400";
       default: return "text-ink-400";
     }
   };
@@ -106,7 +106,7 @@ export default function SiteAccessPage() {
                         <Stack gap={2}>
                           <Label className="text-ink-400">Capacity: {point.currentVehicles}/{point.maxCapacity}</Label>
                           <Card className="h-2 bg-ink-800 rounded-full overflow-hidden">
-                            <Card className={`h-full ${(point.currentVehicles / (point.maxCapacity || 1)) > 0.8 ? "bg-red-500" : "bg-green-500"}`} style={{ width: `${(point.currentVehicles / (point.maxCapacity || 1)) * 100}%` }} />
+                            <Card className={`h-full ${(point.currentVehicles / (point.maxCapacity || 1)) > 0.8 ? "bg-error-500" : "bg-success-500"}`} style={{ '--progress-width': `${(point.currentVehicles / (point.maxCapacity || 1)) * 100}%`, width: 'var(--progress-width)' } as React.CSSProperties} />
                           </Card>
                         </Stack>
                       )}

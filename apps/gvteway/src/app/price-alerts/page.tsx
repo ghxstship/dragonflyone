@@ -147,19 +147,19 @@ export default function PriceAlertsPage() {
 
         <Grid cols={4} gap={4} className="mb-8">
           <Card className="p-4">
-            <Label className="text-gray-500">Total Alerts</Label>
+            <Label className="text-grey-500">Total Alerts</Label>
             <H2>{alerts.length}</H2>
           </Card>
           <Card className="p-4">
-            <Label className="text-gray-500">Active</Label>
+            <Label className="text-grey-500">Active</Label>
             <H2>{activeAlerts.length}</H2>
           </Card>
           <Card className="p-4">
-            <Label className="text-gray-500">Triggered</Label>
+            <Label className="text-grey-500">Triggered</Label>
             <H2>{triggeredAlerts.length}</H2>
           </Card>
           <Card className="p-4">
-            <Label className="text-gray-500">Paused</Label>
+            <Label className="text-grey-500">Paused</Label>
             <H2>{inactiveAlerts.length}</H2>
           </Card>
         </Grid>
@@ -169,28 +169,28 @@ export default function PriceAlertsPage() {
             <H2 className="mb-4">PRICE DROPS!</H2>
             <Stack gap={4}>
               {triggeredAlerts.map(alert => (
-                <Card key={alert.id} className="p-6 border-2 border-green-500 bg-green-50">
+                <Card key={alert.id} className="p-6 border-2 border-success-500 bg-success-50">
                   <Stack direction="horizontal" className="justify-between items-start">
                     <Stack gap={2}>
                       <Stack direction="horizontal" gap={2} className="items-center">
                         <H3>{alert.event_title}</H3>
                         <Badge>Price Dropped!</Badge>
                       </Stack>
-                      <Body className="text-gray-600">
+                      <Body className="text-grey-600">
                         {alert.event_date} • {alert.event_venue}
                       </Body>
                       <Stack direction="horizontal" gap={4} className="mt-2">
                         <Stack>
-                          <Label className="text-gray-500">Your Target</Label>
+                          <Label className="text-grey-500">Your Target</Label>
                           <Body className="font-bold">${alert.target_price}</Body>
                         </Stack>
                         <Stack>
-                          <Label className="text-gray-500">Current Price</Label>
-                          <Body className="font-bold text-green-600">${alert.current_price}</Body>
+                          <Label className="text-grey-500">Current Price</Label>
+                          <Body className="font-bold text-success-600">${alert.current_price}</Body>
                         </Stack>
                         <Stack>
-                          <Label className="text-gray-500">You Save</Label>
-                          <Body className="font-bold text-green-600">
+                          <Label className="text-grey-500">You Save</Label>
+                          <Body className="font-bold text-success-600">
                             ${(alert.target_price - alert.current_price).toFixed(2)}
                           </Body>
                         </Stack>
@@ -220,7 +220,7 @@ export default function PriceAlertsPage() {
                   <Stack direction="horizontal" className="justify-between items-start">
                     <Stack gap={2}>
                       <H3>{alert.event_title}</H3>
-                      <Body className="text-gray-600">
+                      <Body className="text-grey-600">
                         {alert.event_date} • {alert.event_venue}
                       </Body>
                       {alert.ticket_type && (
@@ -228,19 +228,19 @@ export default function PriceAlertsPage() {
                       )}
                       <Stack direction="horizontal" gap={4} className="mt-2">
                         <Stack>
-                          <Label className="text-gray-500">Target Price</Label>
+                          <Label className="text-grey-500">Target Price</Label>
                           <Body className="font-bold">${alert.target_price}</Body>
                         </Stack>
                         <Stack>
-                          <Label className="text-gray-500">Current Price</Label>
+                          <Label className="text-grey-500">Current Price</Label>
                           <Body className="font-bold">${alert.current_price}</Body>
                         </Stack>
                         <Stack>
-                          <Label className="text-gray-500">Difference</Label>
+                          <Label className="text-grey-500">Difference</Label>
                           <Body className={`font-bold ${
                             alert.current_price <= alert.target_price 
-                              ? 'text-green-600' 
-                              : 'text-red-600'
+                              ? 'text-success-600' 
+                              : 'text-error-600'
                           }`}>
                             {alert.current_price <= alert.target_price ? '-' : '+'}
                             ${Math.abs(alert.current_price - alert.target_price).toFixed(2)}
@@ -276,16 +276,16 @@ export default function PriceAlertsPage() {
                   <Stack direction="horizontal" className="justify-between items-start">
                     <Stack gap={2}>
                       <H3>{alert.event_title}</H3>
-                      <Body className="text-gray-600">
+                      <Body className="text-grey-600">
                         {alert.event_date} • {alert.event_venue}
                       </Body>
                       <Stack direction="horizontal" gap={4} className="mt-2">
                         <Stack>
-                          <Label className="text-gray-500">Target Price</Label>
+                          <Label className="text-grey-500">Target Price</Label>
                           <Body>${alert.target_price}</Body>
                         </Stack>
                         <Stack>
-                          <Label className="text-gray-500">Current Price</Label>
+                          <Label className="text-grey-500">Current Price</Label>
                           <Body>${alert.current_price}</Body>
                         </Stack>
                       </Stack>
@@ -309,7 +309,7 @@ export default function PriceAlertsPage() {
         {alerts.length === 0 && (
           <Card className="p-12 text-center">
             <H3 className="mb-4">NO PRICE ALERTS</H3>
-            <Body className="text-gray-600 mb-6">
+            <Body className="text-grey-600 mb-6">
               Set up price alerts on events you are interested in to get notified when prices drop.
             </Body>
             <Button variant="solid" onClick={() => router.push('/browse')}>
@@ -318,7 +318,7 @@ export default function PriceAlertsPage() {
           </Card>
         )}
 
-        <Card className="p-6 bg-gray-50 mt-8">
+        <Card className="p-6 bg-grey-50 mt-8">
           <H3 className="mb-4">HOW PRICE ALERTS WORK</H3>
           <Grid cols={3} gap={6}>
             <Stack gap={2}>
@@ -326,7 +326,7 @@ export default function PriceAlertsPage() {
                 <Body>1</Body>
               </Stack>
               <Body className="font-medium">Set Your Target</Body>
-              <Body className="text-sm text-gray-600">
+              <Body className="text-sm text-grey-600">
                 Choose the price you want to pay for tickets to an event.
               </Body>
             </Stack>
@@ -335,7 +335,7 @@ export default function PriceAlertsPage() {
                 <Body>2</Body>
               </Stack>
               <Body className="font-medium">We Monitor Prices</Body>
-              <Body className="text-sm text-gray-600">
+              <Body className="text-sm text-grey-600">
                 We check prices regularly and track any changes.
               </Body>
             </Stack>
@@ -344,7 +344,7 @@ export default function PriceAlertsPage() {
                 <Body>3</Body>
               </Stack>
               <Body className="font-medium">Get Notified</Body>
-              <Body className="text-sm text-gray-600">
+              <Body className="text-sm text-grey-600">
                 Receive an alert when the price drops to your target or below.
               </Body>
             </Stack>

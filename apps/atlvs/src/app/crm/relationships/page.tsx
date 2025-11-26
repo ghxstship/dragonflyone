@@ -98,7 +98,7 @@ export default function RelationshipsPage() {
 
   const detailSections: DetailSection[] = selectedStakeholder ? [
     { id: 'overview', title: 'Stakeholder Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Name:</strong> {selectedStakeholder.name}</div>
         <div><strong>Company:</strong> {selectedStakeholder.company}</div>
         <div><strong>Role:</strong> {selectedStakeholder.role}</div>

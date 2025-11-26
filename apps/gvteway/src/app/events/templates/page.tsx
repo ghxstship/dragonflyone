@@ -37,7 +37,7 @@ export default function EventTemplatesPage() {
         <Stack gap={8}>
           <Stack gap={2}>
             <H1>EVENT TEMPLATES</H1>
-            <Body className="text-gray-600">Create events faster with pre-configured templates</Body>
+            <Body className="text-grey-600">Create events faster with pre-configured templates</Body>
           </Stack>
 
           <Grid cols={4} gap={6}>
@@ -60,14 +60,14 @@ export default function EventTemplatesPage() {
                     <Body className="font-bold">{template.name}</Body>
                     <Badge variant="outline">{template.type}</Badge>
                   </Stack>
-                  <Label className="text-gray-500">{template.description}</Label>
+                  <Label className="text-grey-500">{template.description}</Label>
                   <Grid cols={3} gap={4}>
-                    <Stack gap={1}><Label size="xs" className="text-gray-400">Ticket Types</Label><Label className="font-mono">{template.settings.ticketTypes}</Label></Stack>
-                    <Stack gap={1}><Label size="xs" className="text-gray-400">Sections</Label><Label className="font-mono">{template.settings.sections}</Label></Stack>
-                    <Stack gap={1}><Label size="xs" className="text-gray-400">Add-ons</Label><Label className="font-mono">{template.settings.addOns}</Label></Stack>
+                    <Stack gap={1}><Label size="xs" className="text-grey-400">Ticket Types</Label><Label className="font-mono">{template.settings.ticketTypes}</Label></Stack>
+                    <Stack gap={1}><Label size="xs" className="text-grey-400">Sections</Label><Label className="font-mono">{template.settings.sections}</Label></Stack>
+                    <Stack gap={1}><Label size="xs" className="text-grey-400">Add-ons</Label><Label className="font-mono">{template.settings.addOns}</Label></Stack>
                   </Grid>
                   <Stack direction="horizontal" className="justify-between">
-                    <Label size="xs" className="text-gray-400">Used {template.usageCount} times</Label>
+                    <Label size="xs" className="text-grey-400">Used {template.usageCount} times</Label>
                     <Stack direction="horizontal" gap={2}>
                       <Button variant="outline" size="sm" onClick={() => setSelectedTemplate(template)}>Preview</Button>
                       <Button variant="solid" size="sm" onClick={() => { setSelectedTemplate(template); setShowCloneModal(true); }}>Use Template</Button>
@@ -90,11 +90,11 @@ export default function EventTemplatesPage() {
               <Badge variant="outline">{selectedTemplate.type}</Badge>
               <Body>{selectedTemplate.description}</Body>
               <Grid cols={3} gap={4}>
-                <Stack gap={1}><Label className="text-gray-400">Ticket Types</Label><Label className="font-mono text-xl">{selectedTemplate.settings.ticketTypes}</Label></Stack>
-                <Stack gap={1}><Label className="text-gray-400">Sections</Label><Label className="font-mono text-xl">{selectedTemplate.settings.sections}</Label></Stack>
-                <Stack gap={1}><Label className="text-gray-400">Add-ons</Label><Label className="font-mono text-xl">{selectedTemplate.settings.addOns}</Label></Stack>
+                <Stack gap={1}><Label className="text-grey-400">Ticket Types</Label><Label className="font-mono text-xl">{selectedTemplate.settings.ticketTypes}</Label></Stack>
+                <Stack gap={1}><Label className="text-grey-400">Sections</Label><Label className="font-mono text-xl">{selectedTemplate.settings.sections}</Label></Stack>
+                <Stack gap={1}><Label className="text-grey-400">Add-ons</Label><Label className="font-mono text-xl">{selectedTemplate.settings.addOns}</Label></Stack>
               </Grid>
-              <Stack gap={1}><Label className="text-gray-400">Created By</Label><Label>{selectedTemplate.createdBy}</Label></Stack>
+              <Stack gap={1}><Label className="text-grey-400">Created By</Label><Label>{selectedTemplate.createdBy}</Label></Stack>
             </Stack>
           )}
         </ModalBody>
@@ -108,7 +108,7 @@ export default function EventTemplatesPage() {
         <ModalHeader><H3>Create Event from Template</H3></ModalHeader>
         <ModalBody>
           <Stack gap={4}>
-            <Label className="text-gray-500">Template: {selectedTemplate?.name}</Label>
+            <Label className="text-grey-500">Template: {selectedTemplate?.name}</Label>
             <Input placeholder="Event Name" className="border-2 border-black" />
             <Grid cols={2} gap={4}>
               <Input type="date" className="border-2 border-black" />

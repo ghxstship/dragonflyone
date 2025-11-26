@@ -81,12 +81,12 @@ export default function MemberBenefitsPage() {
 
   const getBenefitTypeColor = (type: string) => {
     switch (type) {
-      case "Discount": return "bg-green-100 text-green-800";
-      case "Access": return "bg-blue-100 text-blue-800";
+      case "Discount": return "bg-success-100 text-success-800";
+      case "Access": return "bg-info-100 text-info-800";
       case "Content": return "bg-purple-100 text-purple-800";
-      case "Experience": return "bg-yellow-100 text-yellow-800";
+      case "Experience": return "bg-warning-100 text-warning-800";
       case "Merchandise": return "bg-pink-100 text-pink-800";
-      default: return "bg-gray-100 text-gray-800";
+      default: return "bg-grey-100 text-grey-800";
     }
   };
 
@@ -96,7 +96,7 @@ export default function MemberBenefitsPage() {
         <Stack gap={8}>
           <Stack gap={2}>
             <H1>MEMBER BENEFITS</H1>
-            <Body className="text-gray-600">Configure membership tiers and benefits</Body>
+            <Body className="text-grey-600">Configure membership tiers and benefits</Body>
           </Stack>
 
           <Grid cols={4} gap={6}>
@@ -117,7 +117,7 @@ export default function MemberBenefitsPage() {
               <Grid cols={3} gap={6}>
                 {mockTiers.map((tier) => (
                   <Card key={tier.id} className="border-2 border-black overflow-hidden">
-                    <Card className="p-4" style={{ backgroundColor: tier.color }}>
+                    <Card className="p-4" style={{ '--tier-color': tier.color, backgroundColor: 'var(--tier-color)' } as React.CSSProperties}>
                       <Stack gap={1}>
                         <Body className="font-bold text-white text-lg">{tier.name}</Body>
                         <Label className="text-white/80">{tier.memberCount.toLocaleString()} members</Label>
@@ -126,28 +126,28 @@ export default function MemberBenefitsPage() {
                     <Stack className="p-4" gap={4}>
                       <Stack direction="horizontal" className="justify-between items-baseline">
                         <Label className="text-3xl font-bold">${tier.price}</Label>
-                        <Label className="text-gray-500">/{tier.billingCycle === "Monthly" ? "mo" : "yr"}</Label>
+                        <Label className="text-grey-500">/{tier.billingCycle === "Monthly" ? "mo" : "yr"}</Label>
                       </Stack>
                       <Stack gap={2}>
-                        <Label className="text-gray-500 text-sm">BENEFITS</Label>
+                        <Label className="text-grey-500 text-sm">BENEFITS</Label>
                         {tier.benefits.slice(0, 4).map((benefit) => (
                           <Stack key={benefit.id} direction="horizontal" gap={2}>
-                            <Label className="text-green-600">✓</Label>
+                            <Label className="text-success-600">✓</Label>
                             <Label className="text-sm">{benefit.name}</Label>
                           </Stack>
                         ))}
                         {tier.benefits.length > 4 && (
-                          <Label className="text-gray-500 text-sm">+{tier.benefits.length - 4} more benefits</Label>
+                          <Label className="text-grey-500 text-sm">+{tier.benefits.length - 4} more benefits</Label>
                         )}
                       </Stack>
                       <Button variant="outline" onClick={() => setSelectedTier(tier)}>Edit Tier</Button>
                     </Stack>
                   </Card>
                 ))}
-                <Card className="border-2 border-dashed border-gray-300 p-6 flex items-center justify-center cursor-pointer hover:border-black">
+                <Card className="border-2 border-dashed border-grey-300 p-6 flex items-center justify-center cursor-pointer hover:border-black">
                   <Stack gap={2} className="text-center">
-                    <Label className="text-gray-500 text-2xl">+</Label>
-                    <Label className="text-gray-500">Add New Tier</Label>
+                    <Label className="text-grey-500 text-2xl">+</Label>
+                    <Label className="text-grey-500">Add New Tier</Label>
                   </Stack>
                 </Card>
               </Grid>
@@ -156,7 +156,7 @@ export default function MemberBenefitsPage() {
             <TabPanel active={activeTab === "benefits"}>
               <Stack gap={6}>
                 {availableBenefits.map((category) => (
-                  <Card key={category.type} className="border border-gray-200 p-4">
+                  <Card key={category.type} className="border border-grey-200 p-4">
                     <Stack gap={3}>
                       <Stack direction="horizontal" className="justify-between items-center">
                         <Badge className={getBenefitTypeColor(category.type)}>{category.type}</Badge>
@@ -164,7 +164,7 @@ export default function MemberBenefitsPage() {
                       </Stack>
                       <Grid cols={4} gap={2}>
                         {category.options.map((option) => (
-                          <Card key={option} className="p-2 border border-gray-200 text-center cursor-pointer hover:border-black">
+                          <Card key={option} className="p-2 border border-grey-200 text-center cursor-pointer hover:border-black">
                             <Label className="text-sm">{option}</Label>
                           </Card>
                         ))}
@@ -186,8 +186,8 @@ export default function MemberBenefitsPage() {
                           <Label>{tier.name}</Label>
                           <Label className="font-mono">{tier.memberCount.toLocaleString()}</Label>
                         </Stack>
-                        <Card className="h-3 bg-gray-200 rounded-full overflow-hidden">
-                          <Card className="h-full rounded-full" style={{ width: `${(tier.memberCount / totalMembers) * 100}%`, backgroundColor: tier.color }} />
+                        <Card className="h-3 bg-grey-200 rounded-full overflow-hidden">
+                          <Card className="h-full rounded-full" style={{ '--progress-width': `${(tier.memberCount / totalMembers) * 100}%`, '--tier-color': tier.color, width: 'var(--progress-width)', backgroundColor: 'var(--tier-color)' } as React.CSSProperties} />
                         </Card>
                       </Stack>
                     ))}
@@ -206,8 +206,8 @@ export default function MemberBenefitsPage() {
                       <Stack key={benefit.name} direction="horizontal" className="justify-between items-center">
                         <Label>{benefit.name}</Label>
                         <Stack direction="horizontal" gap={2} className="items-center">
-                          <Card className="h-2 w-24 bg-gray-200 rounded-full overflow-hidden">
-                            <Card className="h-full bg-black rounded-full" style={{ width: `${benefit.usage}%` }} />
+                          <Card className="h-2 w-24 bg-grey-200 rounded-full overflow-hidden">
+                            <Card className="h-full bg-black rounded-full" style={{ '--progress-width': `${benefit.usage}%`, width: 'var(--progress-width)' } as React.CSSProperties} />
                           </Card>
                           <Label className="font-mono text-sm w-12 text-right">{benefit.usage}%</Label>
                         </Stack>
@@ -239,11 +239,11 @@ export default function MemberBenefitsPage() {
               <Stack gap={2}>
                 <Label>Benefits</Label>
                 {selectedTier.benefits.map((benefit) => (
-                  <Card key={benefit.id} className="p-3 border border-gray-200">
+                  <Card key={benefit.id} className="p-3 border border-grey-200">
                     <Stack direction="horizontal" className="justify-between items-center">
                       <Stack gap={0}>
                         <Label className="font-bold">{benefit.name}</Label>
-                        <Label size="xs" className="text-gray-500">{benefit.description}</Label>
+                        <Label size="xs" className="text-grey-500">{benefit.description}</Label>
                       </Stack>
                       <Badge className={getBenefitTypeColor(benefit.type)}>{benefit.type}</Badge>
                     </Stack>

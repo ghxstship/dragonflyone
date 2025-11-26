@@ -6,7 +6,7 @@ export type ProgressBarProps = HTMLAttributes<HTMLDivElement> & {
   value: number;
   max?: number;
   size?: "sm" | "md" | "lg";
-  variant?: "default" | "inverse";
+  variant?: "default" | "inverse" | "success" | "warning" | "error" | "info";
   showLabel?: boolean;
 };
 
@@ -26,11 +26,28 @@ export const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
     const bgClasses = {
       default: "bg-grey-200",
       inverse: "bg-grey-900",
+      success: "bg-success-100",
+      warning: "bg-warning-100",
+      error: "bg-error-100",
+      info: "bg-info-100",
     };
 
     const fillClasses = {
       default: "bg-black",
       inverse: "bg-white",
+      success: "bg-success-500",
+      warning: "bg-warning-500",
+      error: "bg-error-500",
+      info: "bg-info-500",
+    };
+
+    const labelClasses = {
+      default: "text-grey-500",
+      inverse: "text-grey-400",
+      success: "text-success-700",
+      warning: "text-warning-700",
+      error: "text-error-700",
+      info: "text-info-700",
     };
 
     return (
@@ -42,7 +59,7 @@ export const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
           />
         </div>
         {showLabel && (
-          <span className="mt-1 block font-mono text-xs text-grey-500">
+          <span className={clsx("mt-1 block font-mono text-xs", labelClasses[variant])}>
             {percentage.toFixed(0)}%
           </span>
         )}

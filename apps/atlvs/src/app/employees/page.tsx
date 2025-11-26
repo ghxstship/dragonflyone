@@ -163,7 +163,7 @@ export default function EmployeesPage() {
       id: 'overview',
       title: 'Employee Information',
       content: (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+        <div className="grid grid-cols-2 gap-4">
           <div><strong>Email:</strong> {selectedEmployee.email}</div>
           <div><strong>Phone:</strong> {selectedEmployee.phone || '—'}</div>
           <div><strong>Role:</strong> {selectedEmployee.role}</div>

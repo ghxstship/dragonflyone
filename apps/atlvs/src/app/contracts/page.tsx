@@ -186,7 +186,7 @@ export default function ContractsPage() {
       id: 'overview',
       title: 'Contract Details',
       content: (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+        <div className="grid grid-cols-2 gap-4">
           <div><strong>Title:</strong> {selectedContract.title}</div>
           <div><strong>Client:</strong> {selectedContract.vendor?.name || '—'}</div>
           <div><strong>Type:</strong> {selectedContract.type}</div>

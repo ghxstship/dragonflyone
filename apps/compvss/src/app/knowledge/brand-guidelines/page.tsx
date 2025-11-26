@@ -151,7 +151,7 @@ export default function BrandGuidelinesPage() {
                   </Stack>
                 </Card>
                 <Card className="border-2 border-ink-800 bg-ink-900/50 overflow-hidden">
-                  <Card className="h-32 bg-blue-500" />
+                  <Card className="h-32 bg-info-500" />
                   <Stack className="p-4" gap={2}>
                     <Label className="text-white">Accent Blue</Label>
                     <Label className="font-mono text-ink-400">#3B82F6</Label>

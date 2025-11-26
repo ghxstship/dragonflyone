@@ -59,9 +59,9 @@ export default function CategoryManagementPage() {
 
   const getStrategyColor = (strategy: string) => {
     switch (strategy) {
-      case 'Strategic': return 'text-blue-400';
-      case 'Leverage': return 'text-green-400';
-      case 'Bottleneck': return 'text-orange-400';
+      case 'Strategic': return 'text-info-400';
+      case 'Leverage': return 'text-success-400';
+      case 'Bottleneck': return 'text-warning-400';
       case 'Non-Critical': return 'text-ink-400';
       default: return 'text-ink-400';
     }
@@ -69,9 +69,9 @@ export default function CategoryManagementPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Active': return 'text-green-400';
+      case 'Active': return 'text-success-400';
       case 'Draft': return 'text-ink-400';
-      case 'Under Review': return 'text-yellow-400';
+      case 'Under Review': return 'text-warning-400';
       default: return 'text-ink-400';
     }
   };
@@ -160,7 +160,7 @@ export default function CategoryManagementPage() {
                         <Label className={getStatusColor(strategy.status)}>{strategy.status}</Label>
                       </Stack>
                       <Stack gap={1} className="text-right">
-                        <Label className="font-mono text-green-400">{strategy.targetSavings}% Target Savings</Label>
+                        <Label className="font-mono text-success-400">{strategy.targetSavings}% Target Savings</Label>
                       </Stack>
                     </Stack>
                     <Stack gap={1}>
@@ -191,9 +191,9 @@ export default function CategoryManagementPage() {
               <Stack gap={4}>
                 <H3>Kraljic Portfolio Matrix</H3>
                 <Grid cols={2} gap={4}>
-                  <Card className="p-4 border-2 border-blue-800 bg-blue-900/20">
+                  <Card className="p-4 border-2 border-info-800 bg-info-900/20">
                     <Stack gap={2}>
-                      <Label className="text-blue-400 font-bold">STRATEGIC</Label>
+                      <Label className="text-info-400 font-bold">STRATEGIC</Label>
                       <Label className="text-ink-300">High profit impact, High supply risk</Label>
                       <Stack gap={1}>
                         {mockCategories.filter(c => c.strategy === 'Strategic').map(c => (
@@ -202,9 +202,9 @@ export default function CategoryManagementPage() {
                       </Stack>
                     </Stack>
                   </Card>
-                  <Card className="p-4 border-2 border-orange-800 bg-orange-900/20">
+                  <Card className="p-4 border-2 border-warning-800 bg-warning-900/20">
                     <Stack gap={2}>
-                      <Label className="text-orange-400 font-bold">BOTTLENECK</Label>
+                      <Label className="text-warning-400 font-bold">BOTTLENECK</Label>
                       <Label className="text-ink-300">Low profit impact, High supply risk</Label>
                       <Stack gap={1}>
                         {mockCategories.filter(c => c.strategy === 'Bottleneck').map(c => (
@@ -213,9 +213,9 @@ export default function CategoryManagementPage() {
                       </Stack>
                     </Stack>
                   </Card>
-                  <Card className="p-4 border-2 border-green-800 bg-green-900/20">
+                  <Card className="p-4 border-2 border-success-800 bg-success-900/20">
                     <Stack gap={2}>
-                      <Label className="text-green-400 font-bold">LEVERAGE</Label>
+                      <Label className="text-success-400 font-bold">LEVERAGE</Label>
                       <Label className="text-ink-300">High profit impact, Low supply risk</Label>
                       <Stack gap={1}>
                         {mockCategories.filter(c => c.strategy === 'Leverage').map(c => (

@@ -97,11 +97,11 @@ export default function HandbookPage() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'Acknowledged':
-        return 'text-green-400';
+        return 'text-success-400';
       case 'Pending':
-        return 'text-yellow-400';
+        return 'text-warning-400';
       case 'Overdue':
-        return 'text-red-400';
+        return 'text-error-400';
       default:
         return 'text-ink-400';
     }
@@ -165,7 +165,7 @@ export default function HandbookPage() {
                         </Stack>
                         <Stack gap={1} className="text-right">
                           <Label className="font-mono text-ink-400">v{section.version}</Label>
-                          {section.requiresAck && <Badge className="bg-yellow-500 text-black">Requires Ack</Badge>}
+                          {section.requiresAck && <Badge className="bg-warning-500 text-black">Requires Ack</Badge>}
                         </Stack>
                       </Stack>
                       <Label className="text-ink-300">{section.description}</Label>
@@ -211,7 +211,7 @@ export default function HandbookPage() {
                 </TableHeader>
                 <TableBody>
                   {mockAcknowledgments.map((ack) => (
-                    <TableRow key={ack.id} className={ack.status === 'Overdue' ? 'bg-red-900/10' : ''}>
+                    <TableRow key={ack.id} className={ack.status === 'Overdue' ? 'bg-error-900/10' : ''}>
                       <TableCell>
                         <Stack gap={1}>
                           <Label className="text-white">{ack.employeeName}</Label>
@@ -227,10 +227,10 @@ export default function HandbookPage() {
                         <Label className="text-ink-300">{ack.policyTitle}</Label>
                       </TableCell>
                       <TableCell>
-                        <Label className={`font-mono ${ack.status === 'Overdue' ? 'text-red-400' : 'text-white'}`}>{ack.dueDate}</Label>
+                        <Label className={`font-mono ${ack.status === 'Overdue' ? 'text-error-400' : 'text-white'}`}>{ack.dueDate}</Label>
                       </TableCell>
                       <TableCell>
-                        {ack.acknowledgedDate ? <Label className="font-mono text-green-400">{ack.acknowledgedDate}</Label> : <Label className="text-ink-500">-</Label>}
+                        {ack.acknowledgedDate ? <Label className="font-mono text-success-400">{ack.acknowledgedDate}</Label> : <Label className="text-ink-500">-</Label>}
                       </TableCell>
                       <TableCell>
                         <Label className={getStatusColor(ack.status)}>{ack.status}</Label>
@@ -262,20 +262,20 @@ export default function HandbookPage() {
                     <ProgressBar value={complianceRate} className="h-3" />
                   </Stack>
                   <Grid cols={3} gap={4}>
-                    <Card className="p-4 border border-green-800 bg-green-900/20 text-center">
-                      <Label className="font-mono text-green-400 text-2xl">{acknowledgedCount}</Label>
+                    <Card className="p-4 border border-success-800 bg-success-900/20 text-center">
+                      <Label className="font-mono text-success-400 text-2xl">{acknowledgedCount}</Label>
                       <Label size="xs" className="text-ink-400">
                         Acknowledged
                       </Label>
                     </Card>
-                    <Card className="p-4 border border-yellow-800 bg-yellow-900/20 text-center">
-                      <Label className="font-mono text-yellow-400 text-2xl">{pendingCount}</Label>
+                    <Card className="p-4 border border-warning-800 bg-warning-900/20 text-center">
+                      <Label className="font-mono text-warning-400 text-2xl">{pendingCount}</Label>
                       <Label size="xs" className="text-ink-400">
                         Pending
                       </Label>
                     </Card>
-                    <Card className="p-4 border border-red-800 bg-red-900/20 text-center">
-                      <Label className="font-mono text-red-400 text-2xl">{overdueCount}</Label>
+                    <Card className="p-4 border border-error-800 bg-error-900/20 text-center">
+                      <Label className="font-mono text-error-400 text-2xl">{overdueCount}</Label>
                       <Label size="xs" className="text-ink-400">
                         Overdue
                       </Label>
@@ -331,7 +331,7 @@ export default function HandbookPage() {
               <Stack direction="horizontal" gap={2}>
                 <Badge variant="outline">{selectedSection.category}</Badge>
                 <Label className="font-mono text-ink-400">Version {selectedSection.version}</Label>
-                {selectedSection.requiresAck && <Badge className="bg-yellow-500 text-black">Requires Acknowledgment</Badge>}
+                {selectedSection.requiresAck && <Badge className="bg-warning-500 text-black">Requires Acknowledgment</Badge>}
               </Stack>
               <Stack gap={1}>
                 <Label className="text-ink-400">Description</Label>

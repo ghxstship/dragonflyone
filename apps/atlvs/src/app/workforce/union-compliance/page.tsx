@@ -56,9 +56,9 @@ export default function UnionCompliancePage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Active": return "text-green-400";
-      case "Expiring": return "text-yellow-400";
-      case "Expired": return "text-red-400";
+      case "Active": return "text-success-400";
+      case "Expiring": return "text-warning-400";
+      case "Expired": return "text-error-400";
       default: return "text-ink-400";
     }
   };
@@ -145,7 +145,7 @@ export default function UnionCompliancePage() {
                       <TableCell><Label className="text-ink-300">{rule.category}</Label></TableCell>
                       <TableCell><Label className="text-white">{rule.rule}</Label></TableCell>
                       <TableCell><Label className="text-ink-300">{rule.requirement}</Label></TableCell>
-                      <TableCell><Label className="text-red-400">{rule.penalty || "-"}</Label></TableCell>
+                      <TableCell><Label className="text-error-400">{rule.penalty || "-"}</Label></TableCell>
                       <TableCell><Button variant="ghost" size="sm" onClick={() => setSelectedRule(rule)}>Details</Button></TableCell>
                     </TableRow>
                   ))}
@@ -222,7 +222,7 @@ export default function UnionCompliancePage() {
             <Stack gap={4}>
               <Badge variant="outline">{selectedRule.category}</Badge>
               <Stack gap={1}><Label className="text-ink-400">Requirement</Label><Body className="text-white">{selectedRule.requirement}</Body></Stack>
-              {selectedRule.penalty && <Stack gap={1}><Label className="text-ink-400">Penalty</Label><Label className="text-red-400">{selectedRule.penalty}</Label></Stack>}
+              {selectedRule.penalty && <Stack gap={1}><Label className="text-ink-400">Penalty</Label><Label className="text-error-400">{selectedRule.penalty}</Label></Stack>}
             </Stack>
           )}
         </ModalBody>

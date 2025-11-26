@@ -140,13 +140,13 @@ function AccessibilityRequestContent() {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'approved':
-        return <Badge className="bg-green-500 text-white">Approved</Badge>;
+        return <Badge className="bg-success-500 text-white">Approved</Badge>;
       case 'pending':
-        return <Badge className="bg-yellow-500 text-white">Pending</Badge>;
+        return <Badge className="bg-warning-500 text-white">Pending</Badge>;
       case 'denied':
-        return <Badge className="bg-red-500 text-white">Denied</Badge>;
+        return <Badge className="bg-error-500 text-white">Denied</Badge>;
       case 'completed':
-        return <Badge className="bg-gray-500 text-white">Completed</Badge>;
+        return <Badge className="bg-grey-500 text-white">Completed</Badge>;
       default:
         return <Badge>{status}</Badge>;
     }
@@ -202,7 +202,7 @@ function AccessibilityRequestContent() {
                           className={`p-4 cursor-pointer transition-colors ${
                             selectedServices.includes(service.id)
                               ? 'bg-black text-white'
-                              : 'hover:bg-gray-50'
+                              : 'hover:bg-grey-50'
                           }`}
                           onClick={() => toggleService(service.id)}
                         >
@@ -213,7 +213,7 @@ function AccessibilityRequestContent() {
                               {service.label}
                             </Body>
                             <Body className={`text-sm ${
-                              selectedServices.includes(service.id) ? 'text-gray-300' : 'text-gray-500'
+                              selectedServices.includes(service.id) ? 'text-grey-300' : 'text-grey-500'
                             }`}>
                               {service.description}
                             </Body>
@@ -279,20 +279,20 @@ function AccessibilityRequestContent() {
                           <Body className="font-medium text-sm">{request.event_title}</Body>
                           {getStatusBadge(request.status)}
                         </Stack>
-                        <Body className="text-xs text-gray-500">{request.event_date}</Body>
-                        <Body className="text-xs text-gray-600">{request.request_type}</Body>
+                        <Body className="text-xs text-grey-500">{request.event_date}</Body>
+                        <Body className="text-xs text-grey-600">{request.request_type}</Body>
                       </Stack>
                     </Card>
                   ))}
                 </Stack>
               ) : (
-                <Body className="text-gray-500 text-sm">No previous requests</Body>
+                <Body className="text-grey-500 text-sm">No previous requests</Body>
               )}
             </Card>
 
-            <Card className="p-6 bg-gray-50">
+            <Card className="p-6 bg-grey-50">
               <H3 className="mb-4">NEED HELP?</H3>
-              <Body className="text-sm text-gray-600 mb-4">
+              <Body className="text-sm text-grey-600 mb-4">
                 Our accessibility team is here to assist you.
               </Body>
               <Stack gap={2}>

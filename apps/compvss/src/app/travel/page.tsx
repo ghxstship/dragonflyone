@@ -99,7 +99,7 @@ export default function TravelPage() {
 
   const detailSections: DetailSection[] = selectedBooking ? [
     { id: 'overview', title: 'Booking Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Reference:</strong> {selectedBooking.booking_reference}</div>
         <div><strong>Crew Member:</strong> {selectedBooking.crew_member_name}</div>
         <div><strong>Project:</strong> {selectedBooking.project_name}</div>
@@ -112,7 +112,7 @@ export default function TravelPage() {
         <div><strong>Flight #:</strong> {selectedBooking.flight_number || '—'}</div>
         <div><strong>Cost:</strong> {formatCurrency(selectedBooking.cost)}</div>
         <div><strong>Status:</strong> {selectedBooking.status}</div>
-        {selectedBooking.notes && <div style={{ gridColumn: 'span 2' }}><strong>Notes:</strong> {selectedBooking.notes}</div>}
+        {selectedBooking.notes && <div className="col-span-2"><strong>Notes:</strong> {selectedBooking.notes}</div>}
       </div>
     )},
   ] : [];

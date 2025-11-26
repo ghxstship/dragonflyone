@@ -145,10 +145,10 @@ export default function QASessionsPage() {
 
   const getStatusBadge = (status: string) => {
     const variants: Record<string, string> = {
-      upcoming: 'bg-blue-500 text-white',
-      live: 'bg-red-500 text-white animate-pulse',
-      ended: 'bg-gray-500 text-white',
-      archived: 'bg-gray-400 text-white',
+      upcoming: 'bg-info-500 text-white',
+      live: 'bg-error-500 text-white animate-pulse',
+      ended: 'bg-grey-500 text-white',
+      archived: 'bg-grey-400 text-white',
     };
     return <Badge className={variants[status] || ''}>{status.toUpperCase()}</Badge>;
   };
@@ -259,11 +259,11 @@ export default function QASessionsPage() {
               {liveSessions.map(session => (
                 <Card
                   key={session.id}
-                  className="p-6 border-2 border-red-500 cursor-pointer hover:shadow-lg transition-shadow"
+                  className="p-6 border-2 border-error-500 cursor-pointer hover:shadow-lg transition-shadow"
                   onClick={() => setSelectedSession(session)}
                 >
                   <Stack direction="horizontal" gap={4}>
-                    <Stack className="w-20 h-20 rounded-full bg-gray-200 overflow-hidden relative flex-shrink-0">
+                    <Stack className="w-20 h-20 rounded-full bg-grey-200 overflow-hidden relative flex-shrink-0">
                       {session.artist_image ? (
                         <Image src={session.artist_image} alt={session.artist_name} fill className="object-cover" />
                       ) : (
@@ -278,8 +278,8 @@ export default function QASessionsPage() {
                         {session.is_member_only && <Badge variant="outline">Members Only</Badge>}
                       </Stack>
                       <H3 className="mt-2">{session.title}</H3>
-                      <Body className="text-gray-600">{session.artist_name}</Body>
-                      <Stack direction="horizontal" gap={4} className="mt-2 text-sm text-gray-500">
+                      <Body className="text-grey-600">{session.artist_name}</Body>
+                      <Stack direction="horizontal" gap={4} className="mt-2 text-sm text-grey-500">
                         <Body>{session.attendees_count} watching</Body>
                         <Body>{session.questions_count} questions</Body>
                       </Stack>
@@ -298,7 +298,7 @@ export default function QASessionsPage() {
               className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow"
               onClick={() => setSelectedSession(session)}
             >
-              <Stack className="relative h-32 bg-gray-100">
+              <Stack className="relative h-32 bg-grey-100">
                 {session.artist_image ? (
                   <Image src={session.artist_image} alt={session.artist_name} fill className="object-cover" />
                 ) : (
@@ -312,12 +312,12 @@ export default function QASessionsPage() {
               </Stack>
               <Stack className="p-4" gap={2}>
                 <H3 className="line-clamp-1">{session.title}</H3>
-                <Body className="text-gray-600">{session.artist_name}</Body>
-                <Body className="text-sm text-gray-500">
+                <Body className="text-grey-600">{session.artist_name}</Body>
+                <Body className="text-sm text-grey-500">
                   {formatDate(session.scheduled_at)}
                 </Body>
                 <Stack direction="horizontal" className="justify-between items-center mt-2">
-                  <Body className="text-xs text-gray-500">
+                  <Body className="text-xs text-grey-500">
                     {session.questions_count} questions
                   </Body>
                   {session.is_member_only && (
@@ -332,7 +332,7 @@ export default function QASessionsPage() {
         {sessions.length === 0 && (
           <Card className="p-12 text-center">
             <H3 className="mb-4">NO Q&A SESSIONS</H3>
-            <Body className="text-gray-600 mb-6">
+            <Body className="text-grey-600 mb-6">
               Check back soon for upcoming artist Q&A sessions
             </Body>
             <Button variant="solid" onClick={() => router.push('/artists')}>
@@ -352,7 +352,7 @@ export default function QASessionsPage() {
           {selectedSession && (
             <Stack gap={6}>
               <Stack direction="horizontal" gap={4} className="items-center">
-                <Stack className="w-16 h-16 rounded-full bg-gray-200 overflow-hidden relative flex-shrink-0">
+                <Stack className="w-16 h-16 rounded-full bg-grey-200 overflow-hidden relative flex-shrink-0">
                   {selectedSession.artist_image ? (
                     <Image src={selectedSession.artist_image} alt={selectedSession.artist_name} fill className="object-cover" />
                   ) : (
@@ -366,7 +366,7 @@ export default function QASessionsPage() {
                     {getStatusBadge(selectedSession.status)}
                   </Stack>
                   <H2>{selectedSession.title}</H2>
-                  <Body className="text-gray-600">{selectedSession.artist_name}</Body>
+                  <Body className="text-grey-600">{selectedSession.artist_name}</Body>
                 </Stack>
               </Stack>
 
@@ -386,12 +386,12 @@ export default function QASessionsPage() {
                   questions
                     .sort((a, b) => b.upvotes - a.upvotes)
                     .map(question => (
-                      <Card key={question.id} className={`p-4 ${question.is_answered ? 'bg-green-50 border-green-200' : ''}`}>
+                      <Card key={question.id} className={`p-4 ${question.is_answered ? 'bg-success-50 border-success-200' : ''}`}>
                         <Stack gap={2}>
                           <Stack direction="horizontal" className="justify-between items-start">
                             <Stack>
                               <Body className="font-bold">{question.content}</Body>
-                              <Body className="text-xs text-gray-500">
+                              <Body className="text-xs text-grey-500">
                                 Asked by {question.user_name}
                               </Body>
                             </Stack>
@@ -404,8 +404,8 @@ export default function QASessionsPage() {
                             </Button>
                           </Stack>
                           {question.is_answered && question.answer && (
-                            <Card className="p-3 bg-white border-l-4 border-green-500 mt-2">
-                              <Body className="text-sm font-bold text-green-700">Answer:</Body>
+                            <Card className="p-3 bg-white border-l-4 border-success-500 mt-2">
+                              <Body className="text-sm font-bold text-success-700">Answer:</Body>
                               <Body className="text-sm">{question.answer}</Body>
                             </Card>
                           )}
@@ -413,7 +413,7 @@ export default function QASessionsPage() {
                       </Card>
                     ))
                 ) : (
-                  <Body className="text-center text-gray-500 py-8">
+                  <Body className="text-center text-grey-500 py-8">
                     No questions yet. Be the first to ask!
                   </Body>
                 )}
@@ -438,7 +438,7 @@ export default function QASessionsPage() {
                   required
                 />
               </Field>
-              <Body className="text-sm text-gray-500">
+              <Body className="text-sm text-grey-500">
                 Questions are moderated. Be respectful and keep it relevant.
               </Body>
               <Stack direction="horizontal" gap={4}>

@@ -134,7 +134,7 @@ export default function DiscoverPage() {
             {categories.map(category => (
               <Card
                 key={category.id}
-                className="p-6 text-center cursor-pointer hover:bg-gray-50 transition-colors"
+                className="p-6 text-center cursor-pointer hover:bg-grey-50 transition-colors"
                 onClick={() => handleCategoryClick(category.id)}
               >
                 <Body className="text-4xl mb-2">{category.emoji}</Body>
@@ -149,7 +149,7 @@ export default function DiscoverPage() {
             <Stack direction="horizontal" className="justify-between items-center mb-6">
               <Stack>
                 <H2>TRENDING NOW</H2>
-                <Body className="text-gray-600">Most popular events this week</Body>
+                <Body className="text-grey-600">Most popular events this week</Body>
               </Stack>
               <Button variant="outline" onClick={() => router.push('/browse?sort=trending')}>
                 View All
@@ -174,7 +174,7 @@ export default function DiscoverPage() {
             <Stack direction="horizontal" className="justify-between items-center mb-6">
               <Stack>
                 <H2>RECOMMENDED FOR YOU</H2>
-                <Body className="text-gray-600">Based on your interests and history</Body>
+                <Body className="text-grey-600">Based on your interests and history</Body>
               </Stack>
               <Button variant="outline" onClick={() => router.push('/browse?sort=recommended')}>
                 View All
@@ -201,7 +201,7 @@ export default function DiscoverPage() {
               {collections.map(collection => (
                 <Card key={collection.id} className="p-6">
                   <H3 className="mb-2">{collection.name}</H3>
-                  <Body className="text-gray-600 mb-4">{collection.description}</Body>
+                  <Body className="text-grey-600 mb-4">{collection.description}</Body>
                   <Stack direction="horizontal" gap={2}>
                     <Badge>{collection.events.length} events</Badge>
                     <Button
@@ -223,7 +223,7 @@ export default function DiscoverPage() {
             <Stack direction="horizontal" className="justify-between items-center mb-6">
               <Stack>
                 <H2>NEAR YOU</H2>
-                <Body className="text-gray-600">Events happening in your area</Body>
+                <Body className="text-grey-600">Events happening in your area</Body>
               </Stack>
               <Button variant="outline" onClick={() => router.push('/browse?nearby=true')}>
                 View All
@@ -246,7 +246,7 @@ export default function DiscoverPage() {
           <Section className="mb-12">
             <Card className="p-8 bg-black text-white text-center">
               <H2 className="text-white mb-4">NOT SURE WHAT TO DO?</H2>
-              <Body className="text-gray-300 mb-6 max-w-md mx-auto">
+              <Body className="text-grey-300 mb-6 max-w-md mx-auto">
                 Take our quick quiz to get personalized event recommendations based on your preferences.
               </Body>
               <Button variant="outline" className="border-white text-white hover:bg-white hover:text-black" onClick={() => router.push('/quiz')}>

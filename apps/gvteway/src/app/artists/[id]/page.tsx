@@ -153,7 +153,7 @@ export default function ArtistPage() {
         <Grid cols={3} gap={8} className="border-b-2 border-black pb-8">
           <Stack className="col-span-1">
               {artist.image ? (
-                <Figure className="relative aspect-square bg-gray-100 overflow-hidden">
+                <Figure className="relative aspect-square bg-grey-100 overflow-hidden">
                   <Image
                     src={artist.image}
                     alt={artist.name}
@@ -183,17 +183,17 @@ export default function ArtistPage() {
               )}
 
               {artist.bio && (
-                <Body className="text-gray-600 max-w-2xl">{artist.bio}</Body>
+                <Body className="text-grey-600 max-w-2xl">{artist.bio}</Body>
               )}
 
               <Stack direction="horizontal" gap={6} className="mt-4">
                 <Stack>
                   <H2>{artist.followers_count.toLocaleString()}</H2>
-                  <Label className="text-gray-500">Followers</Label>
+                  <Label className="text-grey-500">Followers</Label>
                 </Stack>
                 <Stack>
                   <H2>{events.length}</H2>
-                  <Label className="text-gray-500">Upcoming Events</Label>
+                  <Label className="text-grey-500">Upcoming Events</Label>
                 </Stack>
               </Stack>
 
@@ -248,8 +248,8 @@ export default function ArtistPage() {
             </Grid>
           ) : (
             <Card className="p-8 text-center">
-              <Body className="text-gray-500">No upcoming events scheduled.</Body>
-              <Body className="text-gray-400 text-sm mt-2">
+              <Body className="text-grey-500">No upcoming events scheduled.</Body>
+              <Body className="text-grey-400 text-sm mt-2">
                 Follow {artist.name} to get notified when new events are announced.
               </Body>
             </Card>

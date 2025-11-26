@@ -158,7 +158,7 @@ export default function DirectoryFiltersPage() {
                         </Stack>
                       </Stack>
                       <Stack gap={2} className="text-right">
-                        <Label className="font-mono text-yellow-400">{entry.rating} ★</Label>
+                        <Label className="font-mono text-warning-400">{entry.rating} ★</Label>
                         <Button variant="outline" size="sm">View Profile</Button>
                       </Stack>
                     </Stack>

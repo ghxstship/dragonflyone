@@ -54,10 +54,10 @@ export default function MobileJobSearchPage() {
 
   const getTypeColor = (type: string) => {
     switch (type) {
-      case 'Full-Time': return 'bg-blue-800';
-      case 'Gig': return 'bg-green-800';
+      case 'Full-Time': return 'bg-info-800';
+      case 'Gig': return 'bg-success-800';
       case 'Contract': return 'bg-purple-800';
-      case 'Freelance': return 'bg-orange-800';
+      case 'Freelance': return 'bg-warning-800';
       default: return 'bg-ink-700';
     }
   };
@@ -126,7 +126,7 @@ export default function MobileJobSearchPage() {
                         </Stack>
                         <Stack gap={1} className="text-right">
                           <Badge className={getTypeColor(job.type)}>{job.type}</Badge>
-                          <Label className="font-mono text-green-400">{job.rate}</Label>
+                          <Label className="font-mono text-success-400">{job.rate}</Label>
                         </Stack>
                       </Stack>
                       <Stack direction="horizontal" gap={4}>
@@ -167,7 +167,7 @@ export default function MobileJobSearchPage() {
                           <Body className="font-display text-white">{job.title}</Body>
                           <Label className="text-ink-400">{job.company} • {job.location}</Label>
                         </Stack>
-                        <Label className="font-mono text-green-400">{job.rate}</Label>
+                        <Label className="font-mono text-success-400">{job.rate}</Label>
                       </Stack>
                       <Stack direction="horizontal" gap={2}>
                         <Button variant="solid" size="sm" className="flex-1">Quick Apply</Button>
@@ -195,7 +195,7 @@ export default function MobileJobSearchPage() {
                           <Body className="font-display text-white">{job.title}</Body>
                           <Label className="text-ink-400">{job.company} • {job.location}</Label>
                         </Stack>
-                        <Badge variant="solid" className="bg-green-800">Applied</Badge>
+                        <Badge variant="solid" className="bg-success-800">Applied</Badge>
                       </Stack>
                       <Stack direction="horizontal" gap={2}>
                         <Button variant="outline" size="sm" className="flex-1">View Application</Button>
@@ -223,7 +223,7 @@ export default function MobileJobSearchPage() {
               </Stack>
               <Stack direction="horizontal" gap={2}>
                 <Badge className={getTypeColor(selectedJob.type)}>{selectedJob.type}</Badge>
-                <Label className="font-mono text-green-400">{selectedJob.rate}</Label>
+                <Label className="font-mono text-success-400">{selectedJob.rate}</Label>
               </Stack>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}><Label className="text-ink-400">Location</Label><Label className="text-white">{selectedJob.location}</Label></Stack>

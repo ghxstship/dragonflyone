@@ -65,10 +65,10 @@ export default function FileSharingPage() {
 
   const getTypeColor = (type: string) => {
     switch (type) {
-      case "PDF": return "text-red-400";
-      case "CAD": return "text-blue-400";
-      case "Image": return "text-green-400";
-      case "Document": return "text-yellow-400";
+      case "PDF": return "text-error-400";
+      case "CAD": return "text-info-400";
+      case "Image": return "text-success-400";
+      case "Document": return "text-warning-400";
       case "Spreadsheet": return "text-purple-400";
       default: return "text-ink-400";
     }

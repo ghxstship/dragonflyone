@@ -12,10 +12,24 @@ export type AlertProps = HTMLAttributes<HTMLDivElement> & {
 export const Alert = forwardRef<HTMLDivElement, AlertProps>(
   function Alert({ variant = "info", title, icon, onClose, className, children, ...props }, ref) {
     const variantClasses = {
-      info: "bg-grey-100 border-grey-700",
-      success: "bg-white border-black",
-      warning: "bg-grey-200 border-grey-800",
-      error: "bg-black text-white border-black",
+      info: "bg-info-50 border-info-500 text-info-900",
+      success: "bg-success-50 border-success-500 text-success-900",
+      warning: "bg-warning-50 border-warning-500 text-warning-900",
+      error: "bg-error-50 border-error-500 text-error-900",
+    };
+
+    const iconColors = {
+      info: "text-info-500",
+      success: "text-success-500",
+      warning: "text-warning-500",
+      error: "text-error-500",
+    };
+
+    const closeButtonColors = {
+      info: "text-info-700 hover:text-info-900",
+      success: "text-success-700 hover:text-success-900",
+      warning: "text-warning-700 hover:text-warning-900",
+      error: "text-error-700 hover:text-error-900",
     };
 
     return (
@@ -29,7 +43,7 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
         role="alert"
         {...props}
       >
-        {icon ? <div className="flex-shrink-0">{icon}</div> : null}
+        {icon ? <div className={clsx("flex-shrink-0", iconColors[variant])}>{icon}</div> : null}
         <div className="flex-1">
           {title ? (
             <div className="font-heading text-h5-sm uppercase tracking-wider mb-1">
@@ -42,7 +56,7 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
           <button
             type="button"
             onClick={onClose}
-            className="flex-shrink-0 hover:opacity-70 transition-opacity"
+            className={clsx("flex-shrink-0 transition-colors", closeButtonColors[variant])}
             aria-label="Close alert"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

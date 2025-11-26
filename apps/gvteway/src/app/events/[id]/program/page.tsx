@@ -108,7 +108,7 @@ export default function EventProgramPage() {
         <Container>
           <Card className="p-12 text-center mt-12">
             <H2 className="mb-4">PROGRAM NOT AVAILABLE</H2>
-            <Body className="text-gray-600 mb-6">
+            <Body className="text-grey-600 mb-6">
               The program for this event is not yet available.
             </Body>
             <Button variant="solid" onClick={() => router.back()}>
@@ -124,9 +124,9 @@ export default function EventProgramPage() {
     <Section className="min-h-screen bg-white">
       <Container>
         <Section className="border-b-2 border-black py-8 mb-8">
-          <Body className="text-gray-500 mb-2">{program.event_date}</Body>
+          <Body className="text-grey-500 mb-2">{program.event_date}</Body>
           <Display>{program.event_title}</Display>
-          <Body className="mt-2 text-gray-600">{program.venue_name}</Body>
+          <Body className="mt-2 text-grey-600">{program.venue_name}</Body>
         </Section>
 
         {error && (
@@ -138,7 +138,7 @@ export default function EventProgramPage() {
         <Grid cols={3} gap={8}>
           <Stack className="col-span-2" gap={6}>
             {program.program_notes && (
-              <Card className="p-6 bg-gray-50">
+              <Card className="p-6 bg-grey-50">
                 <Body>{program.program_notes}</Body>
               </Card>
             )}
@@ -172,7 +172,7 @@ export default function EventProgramPage() {
                     </Stack>
 
                     {section.description && (
-                      <Body className="text-gray-600">{section.description}</Body>
+                      <Body className="text-grey-600">{section.description}</Body>
                     )}
 
                     <Stack gap={2}>
@@ -180,31 +180,31 @@ export default function EventProgramPage() {
                         <Stack
                           key={item.id}
                           direction="horizontal"
-                          className={`py-3 border-b border-gray-100 last:border-0 ${
-                            item.is_encore ? 'bg-yellow-50 -mx-2 px-2' : ''
+                          className={`py-3 border-b border-grey-100 last:border-0 ${
+                            item.is_encore ? 'bg-warning-50 -mx-2 px-2' : ''
                           }`}
                         >
-                          <Body className="w-8 text-gray-400 font-mono">
+                          <Body className="w-8 text-grey-400 font-mono">
                             {item.order || index + 1}
                           </Body>
                           <Stack className="flex-1">
                             <Body className="font-medium">
                               {item.title}
                               {item.is_encore && (
-                                <Badge className="ml-2 bg-yellow-500 text-white text-xs">
+                                <Badge className="ml-2 bg-warning-500 text-white text-xs">
                                   ENCORE
                                 </Badge>
                               )}
                             </Body>
                             {item.artist && (
-                              <Body className="text-sm text-gray-500">{item.artist}</Body>
+                              <Body className="text-sm text-grey-500">{item.artist}</Body>
                             )}
                             {item.notes && (
-                              <Body className="text-xs text-gray-400 mt-1">{item.notes}</Body>
+                              <Body className="text-xs text-grey-400 mt-1">{item.notes}</Body>
                             )}
                           </Stack>
                           {item.duration && (
-                            <Body className="text-sm text-gray-400">{item.duration}</Body>
+                            <Body className="text-sm text-grey-400">{item.duration}</Body>
                           )}
                         </Stack>
                       ))}
@@ -222,7 +222,7 @@ export default function EventProgramPage() {
                   {program.performers.map(performer => (
                     <Stack key={performer.id} direction="horizontal" gap={3}>
                       {performer.image && (
-                        <Figure className="relative w-12 h-12 bg-gray-100 rounded-full overflow-hidden flex-shrink-0">
+                        <Figure className="relative w-12 h-12 bg-grey-100 rounded-full overflow-hidden flex-shrink-0">
                           <Image
                             src={performer.image}
                             alt={performer.name}
@@ -234,7 +234,7 @@ export default function EventProgramPage() {
                       <Stack>
                         <Body className="font-medium">{performer.name}</Body>
                         {performer.role && (
-                          <Body className="text-sm text-gray-500">{performer.role}</Body>
+                          <Body className="text-sm text-grey-500">{performer.role}</Body>
                         )}
                       </Stack>
                     </Stack>
@@ -250,7 +250,7 @@ export default function EventProgramPage() {
                   {program.sponsors.map((sponsor, index) => (
                     <Stack key={index} direction="horizontal" gap={3} className="items-center">
                       {sponsor.logo && (
-                        <Figure className="relative w-16 h-8 bg-gray-100 flex items-center justify-center">
+                        <Figure className="relative w-16 h-8 bg-grey-100 flex items-center justify-center">
                           <Image
                             src={sponsor.logo}
                             alt={sponsor.name}
@@ -261,7 +261,7 @@ export default function EventProgramPage() {
                       )}
                       <Stack>
                         <Body className="text-sm">{sponsor.name}</Body>
-                        <Body className="text-xs text-gray-400">{sponsor.tier}</Body>
+                        <Body className="text-xs text-grey-400">{sponsor.tier}</Body>
                       </Stack>
                     </Stack>
                   ))}
@@ -271,7 +271,7 @@ export default function EventProgramPage() {
 
             <Card className="p-6 bg-black text-white">
               <H3 className="text-white mb-4">SHARE PROGRAM</H3>
-              <Body className="text-gray-300 mb-4">
+              <Body className="text-grey-300 mb-4">
                 Share this program with friends
               </Body>
               <Button

@@ -134,12 +134,12 @@ function MapViewContent() {
 
   // Simple map rendering (would integrate with Mapbox/Google Maps in production)
   const renderMap = () => (
-    <Stack className="relative w-full h-[500px] bg-gray-100 rounded-lg overflow-hidden">
+    <Stack className="relative w-full h-[500px] bg-grey-100 rounded-lg overflow-hidden">
       {/* Map placeholder - in production would use Mapbox GL or Google Maps */}
       <Stack className="absolute inset-0 flex items-center justify-center">
         <Stack className="text-center">
-          <Body className="text-gray-500 mb-2">Interactive Map</Body>
-          <Body className="text-sm text-gray-400">
+          <Body className="text-grey-500 mb-2">Interactive Map</Body>
+          <Body className="text-sm text-grey-400">
             Center: {mapCenter.lat.toFixed(4)}, {mapCenter.lng.toFixed(4)}
           </Body>
         </Stack>
@@ -156,16 +156,17 @@ function MapViewContent() {
         if (x < 0 || x > 100 || y < 0 || y > 100) return null;
 
         return (
+          // DS Exception: Map marker positioning requires inline styles for dynamic coordinates
           <Stack
             key={event.id}
             className={`absolute w-8 h-8 -ml-4 -mt-4 cursor-pointer transition-transform hover:scale-125 ${
               selectedEvent?.id === event.id ? 'z-20' : 'z-10'
             }`}
-            style={{ left: `${x}%`, top: `${y}%` }}
+            style={{ '--marker-x': `${x}%`, '--marker-y': `${y}%`, left: 'var(--marker-x)', top: 'var(--marker-y)' } as React.CSSProperties}
             onClick={() => handleEventClick(event)}
           >
             <Stack className={`w-full h-full rounded-full flex items-center justify-center ${
-              selectedEvent?.id === event.id ? 'bg-black' : 'bg-red-500'
+              selectedEvent?.id === event.id ? 'bg-black' : 'bg-error-500'
             }`}>
               <Body className="text-white text-xs">●</Body>
             </Stack>
@@ -173,13 +174,12 @@ function MapViewContent() {
         );
       })}
 
-      {/* User location marker */}
+      {/* User location marker - DS Exception: Map marker positioning */}
       {userLocation && (
         <Stack
-          className="absolute w-4 h-4 -ml-2 -mt-2 z-30"
-          style={{ left: '50%', top: '50%' }}
+          className="absolute w-4 h-4 -ml-2 -mt-2 z-30 left-1/2 top-1/2"
         >
-          <Stack className="w-full h-full bg-blue-500 rounded-full border-2 border-white shadow-lg" />
+          <Stack className="w-full h-full bg-info-500 rounded-full border-2 border-white shadow-lg" />
         </Stack>
       )}
 
@@ -293,7 +293,7 @@ function MapViewContent() {
               <Card className="p-6">
                 <H3 className="mb-4">SELECTED EVENT</H3>
                 {selectedEvent.image && (
-                  <Figure className="relative h-32 bg-gray-100 mb-4 overflow-hidden rounded">
+                  <Figure className="relative h-32 bg-grey-100 mb-4 overflow-hidden rounded">
                     <Image
                       src={selectedEvent.image}
                       alt={selectedEvent.title}
@@ -304,9 +304,9 @@ function MapViewContent() {
                 )}
                 <Stack gap={2}>
                   <Body className="font-bold">{selectedEvent.title}</Body>
-                  <Body className="text-gray-600">{selectedEvent.date}</Body>
-                  <Body className="text-gray-500 text-sm">{selectedEvent.venue}</Body>
-                  <Body className="text-gray-500 text-sm">{selectedEvent.city}</Body>
+                  <Body className="text-grey-600">{selectedEvent.date}</Body>
+                  <Body className="text-grey-500 text-sm">{selectedEvent.venue}</Body>
+                  <Body className="text-grey-500 text-sm">{selectedEvent.city}</Body>
                   <Stack direction="horizontal" className="justify-between items-center mt-4">
                     <Badge>{selectedEvent.category}</Badge>
                     <Body className="font-bold">From ${selectedEvent.price_min}</Body>
@@ -322,7 +322,7 @@ function MapViewContent() {
               </Card>
             ) : (
               <Card className="p-6 text-center">
-                <Body className="text-gray-500">
+                <Body className="text-grey-500">
                   Click on a marker to see event details
                 </Body>
               </Card>
@@ -334,16 +334,16 @@ function MapViewContent() {
                 {events.slice(0, 10).map(event => (
                   <Stack
                     key={event.id}
-                    className="p-3 border border-gray-200 rounded cursor-pointer hover:bg-gray-50"
+                    className="p-3 border border-grey-200 rounded cursor-pointer hover:bg-grey-50"
                     onClick={() => handleEventClick(event)}
                   >
                     <Body className="font-medium text-sm">{event.title}</Body>
-                    <Body className="text-xs text-gray-500">{event.date}</Body>
-                    <Body className="text-xs text-gray-400">{event.venue}</Body>
+                    <Body className="text-xs text-grey-500">{event.date}</Body>
+                    <Body className="text-xs text-grey-400">{event.venue}</Body>
                   </Stack>
                 ))}
                 {events.length === 0 && (
-                  <Body className="text-gray-500 text-center">
+                  <Body className="text-grey-500 text-center">
                     No events found in this area
                   </Body>
                 )}

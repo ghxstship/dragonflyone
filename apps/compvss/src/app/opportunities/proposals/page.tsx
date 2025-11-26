@@ -43,11 +43,11 @@ export default function ProposalsPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Won": return "text-green-400";
-      case "Submitted": return "text-blue-400";
-      case "In Review": return "text-yellow-400";
+      case "Won": return "text-success-400";
+      case "Submitted": return "text-info-400";
+      case "In Review": return "text-warning-400";
       case "Draft": return "text-ink-400";
-      case "Lost": return "text-red-400";
+      case "Lost": return "text-error-400";
       default: return "text-ink-400";
     }
   };

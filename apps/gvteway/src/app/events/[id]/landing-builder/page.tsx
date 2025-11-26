@@ -400,8 +400,8 @@ export default function LandingBuilderPage() {
                     <Stack gap={2}>
                       <Label className="text-ink-400">Search Preview</Label>
                       <Stack gap={1}>
-                        <Label className="text-blue-400">{config.seoTitle || "Event Title"}</Label>
-                        <Label size="xs" className="text-green-400">gvteway.com/events/{eventId}</Label>
+                        <Label className="text-info-400">{config.seoTitle || "Event Title"}</Label>
+                        <Label size="xs" className="text-success-400">gvteway.com/events/{eventId}</Label>
                         <Label size="xs" className="text-ink-300">{config.seoDescription || "Event description..."}</Label>
                       </Stack>
                     </Stack>

@@ -86,17 +86,17 @@ export default function BackgroundChecksPage() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'Completed':
-        return 'text-green-400';
+        return 'text-success-400';
       case 'Pending':
         return 'text-ink-400';
       case 'In Progress':
-        return 'text-blue-400';
+        return 'text-info-400';
       case 'Failed':
-        return 'text-red-400';
+        return 'text-error-400';
       case 'Expired':
-        return 'text-red-400';
+        return 'text-error-400';
       case 'Renewal Due':
-        return 'text-yellow-400';
+        return 'text-warning-400';
       default:
         return 'text-ink-400';
     }
@@ -105,11 +105,11 @@ export default function BackgroundChecksPage() {
   const getResultColor = (result?: string) => {
     switch (result) {
       case 'Clear':
-        return 'text-green-400';
+        return 'text-success-400';
       case 'Review Required':
-        return 'text-yellow-400';
+        return 'text-warning-400';
       case 'Failed':
-        return 'text-red-400';
+        return 'text-error-400';
       default:
         return 'text-ink-400';
     }
@@ -180,7 +180,7 @@ export default function BackgroundChecksPage() {
             </TableHeader>
             <TableBody>
               {filteredChecks.map((check) => (
-                <TableRow key={check.id} className={check.status === 'Expired' || check.status === 'Renewal Due' ? 'bg-yellow-900/10' : ''}>
+                <TableRow key={check.id} className={check.status === 'Expired' || check.status === 'Renewal Due' ? 'bg-warning-900/10' : ''}>
                   <TableCell>
                     <Stack gap={1}>
                       <Label className="text-white">{check.employeeName}</Label>
@@ -203,7 +203,7 @@ export default function BackgroundChecksPage() {
                   </TableCell>
                   <TableCell>
                     {check.expiryDate ? (
-                      <Label className={`font-mono ${check.status === 'Expired' || check.status === 'Renewal Due' ? 'text-yellow-400' : 'text-ink-300'}`}>
+                      <Label className={`font-mono ${check.status === 'Expired' || check.status === 'Renewal Due' ? 'text-warning-400' : 'text-ink-300'}`}>
                         {check.expiryDate}
                       </Label>
                     ) : (
@@ -302,7 +302,7 @@ export default function BackgroundChecksPage() {
                   <Label size="xs" className="text-ink-500">
                     Expiry Date
                   </Label>
-                  <Label className={`font-mono ${selectedCheck.status === 'Expired' ? 'text-red-400' : 'text-white'}`}>{selectedCheck.expiryDate}</Label>
+                  <Label className={`font-mono ${selectedCheck.status === 'Expired' ? 'text-error-400' : 'text-white'}`}>{selectedCheck.expiryDate}</Label>
                 </Stack>
               )}
               {selectedCheck.result && (

@@ -156,7 +156,7 @@ export default function CertificationsPage() {
       id: 'overview',
       title: 'Certification Details',
       content: (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+        <div className="grid grid-cols-2 gap-4">
           <div><strong>ID:</strong> {selectedCert.id}</div>
           <div><strong>Crew Member:</strong> {selectedCert.crew_member_name}</div>
           <div><strong>Type:</strong> {selectedCert.certification_type}</div>

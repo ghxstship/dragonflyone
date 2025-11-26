@@ -107,10 +107,10 @@ export default function BundlesPage() {
 
   const getTypeBadge = (type: string) => {
     const colors: Record<string, string> = {
-      ticket: 'bg-blue-500 text-white',
+      ticket: 'bg-info-500 text-white',
       merch: 'bg-purple-500 text-white',
-      parking: 'bg-green-500 text-white',
-      upgrade: 'bg-orange-500 text-white',
+      parking: 'bg-success-500 text-white',
+      upgrade: 'bg-warning-500 text-white',
       experience: 'bg-pink-500 text-white',
     };
     return <Badge className={colors[type] || ''}>{type}</Badge>;
@@ -127,7 +127,7 @@ export default function BundlesPage() {
           <Stack direction="horizontal" className="justify-between items-start">
             <Stack gap={2}>
               <H1>BUNDLES & CROSS-SELLS</H1>
-              <Body className="text-gray-600">Create product bundles and cross-sell recommendations</Body>
+              <Body className="text-grey-600">Create product bundles and cross-sell recommendations</Body>
             </Stack>
             <Button variant="solid" onClick={() => setShowCreateModal(true)}>
               Create Bundle
@@ -170,7 +170,7 @@ export default function BundlesPage() {
           {activeTab === 'bundles' && (
             <Grid cols={2} gap={6}>
               {bundles.map(bundle => (
-                <Card key={bundle.id} className={`border-2 p-6 ${bundle.is_active ? 'border-black' : 'border-gray-200 opacity-60'}`}>
+                <Card key={bundle.id} className={`border-2 p-6 ${bundle.is_active ? 'border-black' : 'border-grey-200 opacity-60'}`}>
                   <Stack gap={4}>
                     <Stack direction="horizontal" className="justify-between items-start">
                       <Stack gap={1}>
@@ -179,15 +179,15 @@ export default function BundlesPage() {
                           <Badge variant="outline">{bundle.event_name}</Badge>
                         )}
                       </Stack>
-                      <Badge className={bundle.is_active ? 'bg-green-500 text-white' : 'bg-gray-500 text-white'}>
+                      <Badge className={bundle.is_active ? 'bg-success-500 text-white' : 'bg-grey-500 text-white'}>
                         {bundle.is_active ? 'Active' : 'Inactive'}
                       </Badge>
                     </Stack>
 
-                    <Body className="text-gray-600">{bundle.description}</Body>
+                    <Body className="text-grey-600">{bundle.description}</Body>
 
                     <Stack gap={2}>
-                      <Label className="text-gray-500">Included Items</Label>
+                      <Label className="text-grey-500">Included Items</Label>
                       <Stack gap={1}>
                         {bundle.products.map(product => (
                           <Stack key={product.id} direction="horizontal" className="justify-between items-center">
@@ -195,31 +195,31 @@ export default function BundlesPage() {
                               {getTypeBadge(product.type)}
                               <Body>{product.name}</Body>
                             </Stack>
-                            <Label className="text-gray-400">${product.price}</Label>
+                            <Label className="text-grey-400">${product.price}</Label>
                           </Stack>
                         ))}
                       </Stack>
                     </Stack>
 
-                    <Card className="p-4 bg-gray-50 border">
+                    <Card className="p-4 bg-grey-50 border">
                       <Grid cols={3} gap={4}>
                         <Stack gap={1}>
-                          <Label className="text-gray-500">Original</Label>
-                          <Body className="line-through text-gray-400">${bundle.original_price}</Body>
+                          <Label className="text-grey-500">Original</Label>
+                          <Body className="line-through text-grey-400">${bundle.original_price}</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Label className="text-gray-500">Bundle Price</Label>
-                          <Body className="font-bold text-xl text-green-600">${bundle.bundle_price}</Body>
+                          <Label className="text-grey-500">Bundle Price</Label>
+                          <Body className="font-bold text-xl text-success-600">${bundle.bundle_price}</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Label className="text-gray-500">Savings</Label>
-                          <Badge className="bg-green-500 text-white">{bundle.savings_percent}% OFF</Badge>
+                          <Label className="text-grey-500">Savings</Label>
+                          <Badge className="bg-success-500 text-white">{bundle.savings_percent}% OFF</Badge>
                         </Stack>
                       </Grid>
                     </Card>
 
                     <Stack direction="horizontal" className="justify-between items-center">
-                      <Label className="text-gray-500">
+                      <Label className="text-grey-500">
                         {bundle.sold_count} sold / {bundle.available_quantity} available
                       </Label>
                       <Stack direction="horizontal" gap={2}>
@@ -249,30 +249,30 @@ export default function BundlesPage() {
               </Stack>
 
               {crossSells.map(cs => (
-                <Card key={cs.id} className={`p-4 border-2 ${cs.is_active ? 'border-black' : 'border-gray-200 opacity-60'}`}>
+                <Card key={cs.id} className={`p-4 border-2 ${cs.is_active ? 'border-black' : 'border-grey-200 opacity-60'}`}>
                   <Grid cols={6} gap={4} className="items-center">
                     <Stack gap={1}>
-                      <Label className="text-gray-500">When buying</Label>
+                      <Label className="text-grey-500">When buying</Label>
                       <Body className="font-bold">{cs.trigger_product_name}</Body>
                     </Stack>
                     <Stack className="items-center">
                       <Body className="text-2xl">→</Body>
                     </Stack>
                     <Stack gap={1}>
-                      <Label className="text-gray-500">Recommend</Label>
+                      <Label className="text-grey-500">Recommend</Label>
                       <Body className="font-bold">{cs.recommended_product_name}</Body>
-                      <Label className="text-gray-400">${cs.recommended_product_price}</Label>
+                      <Label className="text-grey-400">${cs.recommended_product_price}</Label>
                     </Stack>
                     <Stack gap={1}>
-                      <Label className="text-gray-500">Discount</Label>
+                      <Label className="text-grey-500">Discount</Label>
                       {cs.discount_percent ? (
-                        <Badge className="bg-green-500 text-white">{cs.discount_percent}% OFF</Badge>
+                        <Badge className="bg-success-500 text-white">{cs.discount_percent}% OFF</Badge>
                       ) : (
-                        <Label className="text-gray-400">None</Label>
+                        <Label className="text-grey-400">None</Label>
                       )}
                     </Stack>
                     <Stack gap={1}>
-                      <Label className="text-gray-500">Conversion</Label>
+                      <Label className="text-grey-500">Conversion</Label>
                       <Body className="font-bold">{cs.conversion_rate}%</Body>
                     </Stack>
                     <Stack direction="horizontal" gap={2} className="justify-end">
@@ -301,7 +301,7 @@ export default function BundlesPage() {
                       <Stack key={bundle.id} direction="horizontal" className="justify-between">
                         <Body>{bundle.name}</Body>
                         <Stack direction="horizontal" gap={4}>
-                          <Label className="text-gray-500">{bundle.sold_count} sold</Label>
+                          <Label className="text-grey-500">{bundle.sold_count} sold</Label>
                           <Body className="font-bold">${(bundle.bundle_price * bundle.sold_count).toLocaleString()}</Body>
                         </Stack>
                       </Stack>
@@ -330,11 +330,11 @@ export default function BundlesPage() {
                   <Stack gap={2}>
                     <Stack direction="horizontal" className="justify-between">
                       <Body>Bundle Revenue</Body>
-                      <Body className="font-bold text-green-600">${totalBundleRevenue.toLocaleString()}</Body>
+                      <Body className="font-bold text-success-600">${totalBundleRevenue.toLocaleString()}</Body>
                     </Stack>
                     <Stack direction="horizontal" className="justify-between">
                       <Body>Cross-Sell Revenue</Body>
-                      <Body className="font-bold text-green-600">$24,500</Body>
+                      <Body className="font-bold text-success-600">$24,500</Body>
                     </Stack>
                     <Stack direction="horizontal" className="justify-between">
                       <Body>Avg Order Value Lift</Body>
@@ -349,15 +349,15 @@ export default function BundlesPage() {
                   <Stack gap={2}>
                     <Stack direction="horizontal" className="justify-between">
                       <Body>Ticket + Parking</Body>
-                      <Badge className="bg-green-500 text-white">45% attach rate</Badge>
+                      <Badge className="bg-success-500 text-white">45% attach rate</Badge>
                     </Stack>
                     <Stack direction="horizontal" className="justify-between">
                       <Body>Ticket + T-Shirt</Body>
-                      <Badge className="bg-green-500 text-white">32% attach rate</Badge>
+                      <Badge className="bg-success-500 text-white">32% attach rate</Badge>
                     </Stack>
                     <Stack direction="horizontal" className="justify-between">
                       <Body>VIP + Meet & Greet</Body>
-                      <Badge className="bg-green-500 text-white">28% attach rate</Badge>
+                      <Badge className="bg-success-500 text-white">28% attach rate</Badge>
                     </Stack>
                   </Stack>
                 </Stack>
@@ -390,7 +390,7 @@ export default function BundlesPage() {
             </Field>
             <Stack gap={2}>
               <Label>Products to Include</Label>
-              <Body className="text-gray-500 text-sm">Select products to add to this bundle</Body>
+              <Body className="text-grey-500 text-sm">Select products to add to this bundle</Body>
               <Button variant="outline" size="sm">Add Product</Button>
             </Stack>
             <Grid cols={2} gap={4}>

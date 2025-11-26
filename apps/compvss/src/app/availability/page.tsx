@@ -134,7 +134,7 @@ export default function AvailabilityPage() {
 
   const detailSections: DetailSection[] = selectedSlot ? [
     { id: 'details', title: 'Availability Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Crew Member:</strong> {selectedSlot.user_name}</div>
         <div><strong>Role:</strong> {selectedSlot.role}</div>
         <div><strong>Department:</strong> {selectedSlot.department}</div>
@@ -143,7 +143,7 @@ export default function AvailabilityPage() {
         <div><strong>Start Time:</strong> {selectedSlot.start_time || '-'}</div>
         <div><strong>End Time:</strong> {selectedSlot.end_time || '-'}</div>
         <div><strong>Source:</strong> {selectedSlot.calendar_source === 'google' ? '📅 Google' : '✏️ Manual'}</div>
-        {selectedSlot.notes && <div style={{ gridColumn: 'span 2' }}><strong>Notes:</strong> {selectedSlot.notes}</div>}
+        {selectedSlot.notes && <div className="col-span-2"><strong>Notes:</strong> {selectedSlot.notes}</div>}
       </div>
     )},
   ] : [];

@@ -43,8 +43,8 @@ const GIFT_CARD_DESIGNS = [
   { id: 'classic', name: 'Classic Black', color: 'bg-black' },
   { id: 'concert', name: 'Concert Vibes', color: 'bg-purple-600' },
   { id: 'festival', name: 'Festival Fun', color: 'bg-gradient-to-r from-pink-500 to-yellow-500' },
-  { id: 'sports', name: 'Game Day', color: 'bg-green-600' },
-  { id: 'theater', name: 'Theater Night', color: 'bg-red-800' },
+  { id: 'sports', name: 'Game Day', color: 'bg-success-600' },
+  { id: 'theater', name: 'Theater Night', color: 'bg-error-800' },
 ];
 
 export default function GiftCardsPage() {
@@ -164,11 +164,11 @@ export default function GiftCardsPage() {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'active':
-        return <Badge className="bg-green-500 text-white">Active</Badge>;
+        return <Badge className="bg-success-500 text-white">Active</Badge>;
       case 'redeemed':
-        return <Badge className="bg-gray-500 text-white">Redeemed</Badge>;
+        return <Badge className="bg-grey-500 text-white">Redeemed</Badge>;
       case 'expired':
-        return <Badge className="bg-red-500 text-white">Expired</Badge>;
+        return <Badge className="bg-error-500 text-white">Expired</Badge>;
       default:
         return <Badge>{status}</Badge>;
     }
@@ -366,21 +366,21 @@ export default function GiftCardsPage() {
                         {getStatusBadge(card.status)}
                       </Stack>
                       <Stack>
-                        <Label className="text-gray-500">Balance</Label>
+                        <Label className="text-grey-500">Balance</Label>
                         <H2>${card.current_balance.toFixed(2)}</H2>
                         {card.current_balance !== card.initial_balance && (
-                          <Body className="text-sm text-gray-500">
+                          <Body className="text-sm text-grey-500">
                             of ${card.initial_balance.toFixed(2)}
                           </Body>
                         )}
                       </Stack>
                       {card.recipient_name && (
-                        <Body className="text-sm text-gray-600">
+                        <Body className="text-sm text-grey-600">
                           Sent to: {card.recipient_name}
                         </Body>
                       )}
                       {card.expires_at && (
-                        <Body className="text-xs text-gray-400">
+                        <Body className="text-xs text-grey-400">
                           Expires: {new Date(card.expires_at).toLocaleDateString()}
                         </Body>
                       )}
@@ -391,7 +391,7 @@ export default function GiftCardsPage() {
             ) : (
               <Card className="p-12 text-center">
                 <H3 className="mb-4">NO GIFT CARDS</H3>
-                <Body className="text-gray-600 mb-6">
+                <Body className="text-grey-600 mb-6">
                   You haven&apos;t purchased or received any gift cards yet.
                 </Body>
                 <Button variant="solid" onClick={() => setActiveTab('buy')}>

@@ -73,7 +73,7 @@ export default function CalibrationCertificationPage() {
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Calibration Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Asset:</strong> {selected.assetName}</div>
         <div><strong>Category:</strong> {selected.category}</div>
         <div><strong>Type:</strong> {selected.calibrationType}</div>
@@ -82,7 +82,7 @@ export default function CalibrationCertificationPage() {
         <div><strong>Next Due:</strong> {selected.nextDue}</div>
         <div><strong>Frequency:</strong> {selected.frequency}</div>
         <div><strong>Certified By:</strong> {selected.certifiedBy || 'N/A'}</div>
-        {selected.notes && <div style={{ gridColumn: 'span 2' }}><strong>Notes:</strong> {selected.notes}</div>}
+        {selected.notes && <div className="col-span-2"><strong>Notes:</strong> {selected.notes}</div>}
       </div>
     )},
   ] : [];

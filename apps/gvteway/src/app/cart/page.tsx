@@ -194,7 +194,7 @@ export default function CartPage() {
                           variant="ghost" 
                           size="sm"
                           onClick={() => handleRemoveItem(item.id)}
-                          className="text-grey-400 hover:text-red-400"
+                          className="text-grey-400 hover:text-error-400"
                         >
                           Remove
                         </Button>
@@ -255,8 +255,8 @@ export default function CartPage() {
                       </Stack>
                       {discount > 0 && (
                         <Stack gap={1} direction="horizontal" className="justify-between">
-                          <Body className="text-green-400">Discount</Body>
-                          <Body className="font-mono text-green-400">-{formatCurrency(discount)}</Body>
+                          <Body className="text-success-400">Discount</Body>
+                          <Body className="font-mono text-success-400">-{formatCurrency(discount)}</Body>
                         </Stack>
                       )}
                     </Stack>

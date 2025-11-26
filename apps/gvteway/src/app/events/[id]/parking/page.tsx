@@ -59,18 +59,18 @@ export default function ParkingTransportPage() {
   const getTypeColor = (type: string) => {
     switch (type) {
       case "VIP": return "bg-purple-100 text-purple-800";
-      case "Premium": return "bg-yellow-100 text-yellow-800";
-      case "Accessible": return "bg-blue-100 text-blue-800";
-      case "Rideshare": return "bg-green-100 text-green-800";
-      default: return "bg-gray-100 text-gray-800";
+      case "Premium": return "bg-warning-100 text-warning-800";
+      case "Accessible": return "bg-info-100 text-info-800";
+      case "Rideshare": return "bg-success-100 text-success-800";
+      default: return "bg-grey-100 text-grey-800";
     }
   };
 
   const getAvailabilityColor = (available: number, total: number) => {
     const pct = (available / total) * 100;
-    if (pct > 50) return "text-green-600";
-    if (pct > 20) return "text-yellow-600";
-    return "text-red-600";
+    if (pct > 50) return "text-success-600";
+    if (pct > 20) return "text-warning-600";
+    return "text-error-600";
   };
 
   return (
@@ -79,7 +79,7 @@ export default function ParkingTransportPage() {
         <Stack gap={8}>
           <Stack gap={2}>
             <H1>PARKING & TRANSPORTATION</H1>
-            <Body className="text-gray-600">Find parking and transportation options for your event</Body>
+            <Body className="text-grey-600">Find parking and transportation options for your event</Body>
           </Stack>
 
           <Grid cols={4} gap={6}>
@@ -108,7 +108,7 @@ export default function ParkingTransportPage() {
                       <Stack direction="horizontal" className="justify-between items-start">
                         <Stack gap={1}>
                           <Body className="font-bold">{option.name}</Body>
-                          <Label className="text-gray-400">{option.distance} • {option.walkTime} walk</Label>
+                          <Label className="text-grey-400">{option.distance} • {option.walkTime} walk</Label>
                         </Stack>
                         <Badge className={getTypeColor(option.type)}>{option.type}</Badge>
                       </Stack>
@@ -118,7 +118,7 @@ export default function ParkingTransportPage() {
                         {option.price > 0 ? (
                           <Label className="font-mono text-2xl">${option.price}</Label>
                         ) : (
-                          <Label className="text-green-600 text-xl">Free</Label>
+                          <Label className="text-success-600 text-xl">Free</Label>
                         )}
                         {option.type !== "Rideshare" && (
                           <Label className={getAvailabilityColor(option.spotsAvailable, option.totalSpots)}>
@@ -129,12 +129,12 @@ export default function ParkingTransportPage() {
                       <Stack gap={2}>
                         {option.features.map((feature, idx) => (
                           <Stack key={idx} direction="horizontal" gap={2}>
-                            <Label className="text-green-600">✓</Label>
+                            <Label className="text-success-600">✓</Label>
                             <Label className="text-sm">{feature}</Label>
                           </Stack>
                         ))}
                       </Stack>
-                      {option.address && <Label className="text-gray-500 text-sm">{option.address}</Label>}
+                      {option.address && <Label className="text-grey-500 text-sm">{option.address}</Label>}
                       {option.type !== "Rideshare" && option.spotsAvailable > 0 && (
                         <Button variant="solid" onClick={() => { setSelectedParking(option); setShowReserveModal(true); }}>
                           Reserve Parking
@@ -159,29 +159,29 @@ export default function ParkingTransportPage() {
                           <Body className="font-bold text-lg">{option.name}</Body>
                           <Badge variant="outline">{option.type}</Badge>
                         </Stack>
-                        <Body className="text-gray-600">{option.description}</Body>
+                        <Body className="text-grey-600">{option.description}</Body>
                       </Stack>
                       <Stack gap={2}>
                         {option.schedule && (
                           <Stack gap={1}>
-                            <Label size="xs" className="text-gray-500">Schedule</Label>
+                            <Label size="xs" className="text-grey-500">Schedule</Label>
                             <Label>{option.schedule}</Label>
                           </Stack>
                         )}
                         {option.price !== undefined && (
                           <Stack gap={1}>
-                            <Label size="xs" className="text-gray-500">Price</Label>
-                            <Label className={option.price === 0 ? "text-green-600" : ""}>
+                            <Label size="xs" className="text-grey-500">Price</Label>
+                            <Label className={option.price === 0 ? "text-success-600" : ""}>
                               {option.price === 0 ? "Free" : `$${option.price}`}
                             </Label>
                           </Stack>
                         )}
                       </Stack>
                       <Stack gap={2}>
-                        <Label size="xs" className="text-gray-500">Features</Label>
+                        <Label size="xs" className="text-grey-500">Features</Label>
                         {option.features.map((feature, idx) => (
                           <Stack key={idx} direction="horizontal" gap={2}>
-                            <Label className="text-green-600">✓</Label>
+                            <Label className="text-success-600">✓</Label>
                             <Label className="text-sm">{feature}</Label>
                           </Stack>
                         ))}
@@ -196,18 +196,18 @@ export default function ParkingTransportPage() {
               <Card className="border-2 border-black p-6">
                 <Stack gap={4}>
                   <H3>Venue Area Map</H3>
-                  <Card className="h-96 bg-gray-100 flex items-center justify-center">
+                  <Card className="h-96 bg-grey-100 flex items-center justify-center">
                     <Stack gap={2} className="text-center">
-                      <Label className="text-gray-500 text-4xl">🗺️</Label>
-                      <Label className="text-gray-500">Interactive map would display here</Label>
-                      <Label className="text-gray-400 text-sm">Showing parking lots, transit stops, and venue entrance</Label>
+                      <Label className="text-grey-500 text-4xl">🗺️</Label>
+                      <Label className="text-grey-500">Interactive map would display here</Label>
+                      <Label className="text-grey-400 text-sm">Showing parking lots, transit stops, and venue entrance</Label>
                     </Stack>
                   </Card>
                   <Grid cols={4} gap={2}>
-                    <Card className="p-2 bg-blue-100 text-center"><Label className="text-sm">🅿️ Parking</Label></Card>
-                    <Card className="p-2 bg-green-100 text-center"><Label className="text-sm">🚌 Shuttle</Label></Card>
+                    <Card className="p-2 bg-info-100 text-center"><Label className="text-sm">🅿️ Parking</Label></Card>
+                    <Card className="p-2 bg-success-100 text-center"><Label className="text-sm">🚌 Shuttle</Label></Card>
                     <Card className="p-2 bg-purple-100 text-center"><Label className="text-sm">🚇 Metro</Label></Card>
-                    <Card className="p-2 bg-yellow-100 text-center"><Label className="text-sm">🚗 Rideshare</Label></Card>
+                    <Card className="p-2 bg-warning-100 text-center"><Label className="text-sm">🚗 Rideshare</Label></Card>
                   </Grid>
                 </Stack>
               </Card>
@@ -226,7 +226,7 @@ export default function ParkingTransportPage() {
         <ModalBody>
           {selectedParking && (
             <Stack gap={4}>
-              <Card className="p-4 bg-gray-50 border border-gray-200">
+              <Card className="p-4 bg-grey-50 border border-grey-200">
                 <Stack direction="horizontal" className="justify-between items-center">
                   <Stack gap={1}>
                     <Body className="font-bold">{selectedParking.name}</Body>

@@ -76,7 +76,7 @@ export default function PipelinePage() {
 
   const detailSections: DetailSection[] = selectedDeal ? [
     { id: 'overview', title: 'Deal Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Opportunity:</strong> {selectedDeal.name}</div>
         <div><strong>Client:</strong> {selectedDeal.client}</div>
         <div><strong>Value:</strong> {formatCurrency(selectedDeal.value || 0)}</div>
@@ -84,7 +84,7 @@ export default function PipelinePage() {
         <div><strong>Stage:</strong> {selectedDeal.stage}</div>
         <div><strong>Owner:</strong> {selectedDeal.owner}</div>
         <div><strong>Close Date:</strong> {selectedDeal.closeDate ? new Date(selectedDeal.closeDate).toLocaleDateString() : '—'}</div>
-        {selectedDeal.description && <div style={{ gridColumn: 'span 2' }}><strong>Description:</strong> {selectedDeal.description}</div>}
+        {selectedDeal.description && <div className="col-span-2"><strong>Description:</strong> {selectedDeal.description}</div>}
       </div>
     )},
   ] : [];

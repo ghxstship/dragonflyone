@@ -100,14 +100,14 @@ export default function IncidentsPage() {
 
   const detailSections: DetailSection[] = selectedIncident ? [
     { id: 'overview', title: 'Incident Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Type:</strong> {selectedIncident.type}</div>
         <div><strong>Severity:</strong> {selectedIncident.severity}</div>
         <div><strong>Status:</strong> {selectedIncident.status}</div>
         <div><strong>Date:</strong> {selectedIncident.incident_date || 'N/A'}</div>
         <div><strong>Reporter:</strong> {selectedIncident.reporter}</div>
         <div><strong>Event:</strong> {selectedIncident.event_name || 'N/A'}</div>
-        {selectedIncident.description && <div style={{ gridColumn: 'span 2' }}><strong>Description:</strong> {selectedIncident.description}</div>}
+        {selectedIncident.description && <div className="col-span-2"><strong>Description:</strong> {selectedIncident.description}</div>}
       </div>
     )},
   ] : [];

@@ -57,10 +57,10 @@ export default function PhotoBoothPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Active": return "text-green-600";
-      case "Offline": return "text-red-600";
-      case "Maintenance": return "text-yellow-600";
-      default: return "text-gray-600";
+      case "Active": return "text-success-600";
+      case "Offline": return "text-error-600";
+      case "Maintenance": return "text-warning-600";
+      default: return "text-grey-600";
     }
   };
 
@@ -70,7 +70,7 @@ export default function PhotoBoothPage() {
         <Stack gap={8}>
           <Stack gap={2}>
             <H1>PHOTO BOOTH</H1>
-            <Body className="text-gray-600">Capture memories and share instantly to social media</Body>
+            <Body className="text-grey-600">Capture memories and share instantly to social media</Body>
           </Stack>
 
           <Grid cols={4} gap={6}>
@@ -98,14 +98,14 @@ export default function PhotoBoothPage() {
                       </Stack>
                     </Card>
                     <Stack className="p-4" gap={4}>
-                      <Label className="text-gray-500">{booth.location}</Label>
+                      <Label className="text-grey-500">{booth.location}</Label>
                       <Grid cols={2} gap={4}>
                         <Stack gap={1}>
-                          <Label size="xs" className="text-gray-500">Sessions</Label>
+                          <Label size="xs" className="text-grey-500">Sessions</Label>
                           <Label className="font-mono text-xl">{booth.sessionCount}</Label>
                         </Stack>
                         <Stack gap={1}>
-                          <Label size="xs" className="text-gray-500">Photos</Label>
+                          <Label size="xs" className="text-grey-500">Photos</Label>
                           <Label className="font-mono text-xl">{booth.photosTaken}</Label>
                         </Stack>
                       </Grid>
@@ -120,10 +120,10 @@ export default function PhotoBoothPage() {
               <Stack gap={4}>
                 <Grid cols={4} gap={4}>
                   {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((i) => (
-                    <Card key={i} className="aspect-square bg-gray-100 border-2 border-black flex items-center justify-center cursor-pointer hover:bg-gray-200">
+                    <Card key={i} className="aspect-square bg-grey-100 border-2 border-black flex items-center justify-center cursor-pointer hover:bg-grey-200">
                       <Stack gap={2} className="text-center">
                         <Label className="text-4xl">📸</Label>
-                        <Label size="xs" className="text-gray-500">Photo {i}</Label>
+                        <Label size="xs" className="text-grey-500">Photo {i}</Label>
                       </Stack>
                     </Card>
                   ))}
@@ -139,14 +139,14 @@ export default function PhotoBoothPage() {
                     <Grid cols={6} gap={4} className="items-center">
                       <Stack gap={1}>
                         <Label className="font-mono">{session.id}</Label>
-                        <Label size="xs" className="text-gray-500">{session.boothName}</Label>
+                        <Label size="xs" className="text-grey-500">{session.boothName}</Label>
                       </Stack>
                       <Stack gap={1}>
-                        <Label size="xs" className="text-gray-500">Time</Label>
+                        <Label size="xs" className="text-grey-500">Time</Label>
                         <Label>{new Date(session.timestamp).toLocaleTimeString()}</Label>
                       </Stack>
                       <Stack gap={1}>
-                        <Label size="xs" className="text-gray-500">Photos</Label>
+                        <Label size="xs" className="text-grey-500">Photos</Label>
                         <Label>{session.photoCount}</Label>
                       </Stack>
                       <Stack direction="horizontal" gap={2}>
@@ -166,7 +166,7 @@ export default function PhotoBoothPage() {
           <Card className="border-2 border-black p-6">
             <Stack gap={4}>
               <H3>Share Your Photos</H3>
-              <Body className="text-gray-600">Enter your session code to access and share your photos</Body>
+              <Body className="text-grey-600">Enter your session code to access and share your photos</Body>
               <Grid cols={3} gap={4}>
                 <Input placeholder="Session Code (e.g., SES-001)" className="col-span-2 border-2 border-black" />
                 <Button variant="solid">Find My Photos</Button>
@@ -188,17 +188,17 @@ export default function PhotoBoothPage() {
             <Stack gap={4}>
               <Body className="font-bold text-lg">{selectedBooth.name}</Body>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-gray-500">Location</Label><Label>{selectedBooth.location}</Label></Stack>
-                <Stack gap={1}><Label size="xs" className="text-gray-500">Status</Label><Label className={getStatusColor(selectedBooth.status)}>{selectedBooth.status}</Label></Stack>
+                <Stack gap={1}><Label size="xs" className="text-grey-500">Location</Label><Label>{selectedBooth.location}</Label></Stack>
+                <Stack gap={1}><Label size="xs" className="text-grey-500">Status</Label><Label className={getStatusColor(selectedBooth.status)}>{selectedBooth.status}</Label></Stack>
               </Grid>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-gray-500">Sessions Today</Label><Label className="font-mono text-xl">{selectedBooth.sessionCount}</Label></Stack>
-                <Stack gap={1}><Label size="xs" className="text-gray-500">Photos Taken</Label><Label className="font-mono text-xl">{selectedBooth.photosTaken}</Label></Stack>
+                <Stack gap={1}><Label size="xs" className="text-grey-500">Sessions Today</Label><Label className="font-mono text-xl">{selectedBooth.sessionCount}</Label></Stack>
+                <Stack gap={1}><Label size="xs" className="text-grey-500">Photos Taken</Label><Label className="font-mono text-xl">{selectedBooth.photosTaken}</Label></Stack>
               </Grid>
               <Stack gap={2}>
-                <Label className="text-gray-500">Recent Activity</Label>
+                <Label className="text-grey-500">Recent Activity</Label>
                 {mockSessions.filter(s => s.boothId === selectedBooth.id).slice(0, 3).map(session => (
-                  <Card key={session.id} className="p-3 bg-gray-50 border border-gray-200">
+                  <Card key={session.id} className="p-3 bg-grey-50 border border-grey-200">
                     <Stack direction="horizontal" className="justify-between">
                       <Label>{new Date(session.timestamp).toLocaleTimeString()}</Label>
                       <Label>{session.photoCount} photos</Label>

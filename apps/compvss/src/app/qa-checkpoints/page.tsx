@@ -89,11 +89,11 @@ export default function QACheckpointsPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Passed": return "text-green-400";
-      case "In Progress": return "text-yellow-400";
+      case "Passed": return "text-success-400";
+      case "In Progress": return "text-warning-400";
       case "Pending": return "text-ink-400";
-      case "Failed": return "text-red-400";
-      case "Waived": return "text-blue-400";
+      case "Failed": return "text-error-400";
+      case "Waived": return "text-info-400";
       default: return "text-ink-400";
     }
   };
@@ -134,7 +134,7 @@ export default function QACheckpointsPage() {
             <TabPanel active={true}>
               <Stack gap={4}>
                 {filteredCheckpoints.map((checkpoint) => (
-                  <Card key={checkpoint.id} className={`border-2 p-6 ${checkpoint.status === "Failed" ? "border-red-800 bg-red-900/10" : "border-ink-800 bg-ink-900/50"}`}>
+                  <Card key={checkpoint.id} className={`border-2 p-6 ${checkpoint.status === "Failed" ? "border-error-800 bg-error-900/10" : "border-ink-800 bg-ink-900/50"}`}>
                     <Grid cols={6} gap={4} className="items-center">
                       <Stack gap={1}>
                         <Body className="font-display text-white">{checkpoint.name}</Body>
@@ -189,10 +189,10 @@ export default function QACheckpointsPage() {
               <Stack gap={2}>
                 <Label className="text-ink-400">Checklist Items</Label>
                 {selectedCheckpoint.items.map((item) => (
-                  <Card key={item.id} className={`p-3 border ${item.checked ? "border-green-800 bg-green-900/10" : "border-ink-700"}`}>
+                  <Card key={item.id} className={`p-3 border ${item.checked ? "border-success-800 bg-success-900/10" : "border-ink-700"}`}>
                     <Stack direction="horizontal" className="justify-between items-center">
                       <Stack direction="horizontal" gap={2}>
-                        <Label className={item.checked ? "text-green-400" : "text-white"}>{item.checked ? "✓" : "○"}</Label>
+                        <Label className={item.checked ? "text-success-400" : "text-white"}>{item.checked ? "✓" : "○"}</Label>
                         <Label className={item.checked ? "text-ink-400" : "text-white"}>{item.description}</Label>
                       </Stack>
                       {item.critical && <Badge variant="solid">Critical</Badge>}

@@ -60,18 +60,18 @@ export default function OfflineAccessPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Synced': return 'text-green-400';
-      case 'Pending': return 'text-yellow-400';
-      case 'Outdated': return 'text-orange-400';
-      case 'Error': return 'text-red-400';
+      case 'Synced': return 'text-success-400';
+      case 'Pending': return 'text-warning-400';
+      case 'Outdated': return 'text-warning-400';
+      case 'Error': return 'text-error-400';
       default: return 'text-ink-400';
     }
   };
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'High': return 'text-red-400';
-      case 'Medium': return 'text-yellow-400';
+      case 'High': return 'text-error-400';
+      case 'Medium': return 'text-warning-400';
       case 'Low': return 'text-ink-400';
       default: return 'text-ink-400';
     }
@@ -127,7 +127,7 @@ export default function OfflineAccessPage() {
               </TableHeader>
               <TableBody>
                 {mockContent.map((content) => (
-                  <TableRow key={content.id} className={content.status === 'Outdated' ? 'bg-orange-900/10' : ''}>
+                  <TableRow key={content.id} className={content.status === 'Outdated' ? 'bg-warning-900/10' : ''}>
                     <TableCell><Label className="text-white">{content.title}</Label></TableCell>
                     <TableCell><Badge variant="outline">{content.category}</Badge></TableCell>
                     <TableCell><Label className="font-mono text-ink-300">{content.size}</Label></TableCell>
@@ -259,7 +259,7 @@ export default function OfflineAccessPage() {
                 <Stack gap={2}>
                   <Label className="text-ink-400">Download Status</Label>
                   <ProgressBar value={100} className="h-2" />
-                  <Label size="xs" className="text-green-400">Fully downloaded and synced</Label>
+                  <Label size="xs" className="text-success-400">Fully downloaded and synced</Label>
                 </Stack>
               )}
             </Stack>

@@ -159,7 +159,7 @@ export default function ProjectsPage() {
       id: 'overview',
       title: 'Overview',
       content: (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+        <div className="grid grid-cols-2 gap-4">
           <div><strong>Code:</strong> {selectedProject.code || '—'}</div>
           <div><strong>Status:</strong> {selectedProject.status}</div>
           <div><strong>Phase:</strong> {selectedProject.phase || '—'}</div>
@@ -171,7 +171,7 @@ export default function ProjectsPage() {
       id: 'dates',
       title: 'Timeline',
       content: (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+        <div className="grid grid-cols-2 gap-4">
           <div><strong>Start:</strong> {selectedProject.start_date ? new Date(selectedProject.start_date).toLocaleDateString() : '—'}</div>
           <div><strong>End:</strong> {selectedProject.end_date ? new Date(selectedProject.end_date).toLocaleDateString() : '—'}</div>
         </div>

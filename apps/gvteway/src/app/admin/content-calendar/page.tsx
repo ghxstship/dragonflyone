@@ -40,10 +40,10 @@ export default function ContentCalendarPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Published": return "text-green-600";
-      case "Scheduled": return "text-blue-600";
-      case "Draft": return "text-gray-500";
-      default: return "text-gray-600";
+      case "Published": return "text-success-600";
+      case "Scheduled": return "text-info-600";
+      case "Draft": return "text-grey-500";
+      default: return "text-grey-600";
     }
   };
 
@@ -80,12 +80,12 @@ export default function ContentCalendarPage() {
                 <Grid cols={6} gap={4} className="items-center">
                   <Stack gap={1}>
                     <Body className="font-bold">{post.title}</Body>
-                    <Label className="text-gray-500">{post.author}</Label>
+                    <Label className="text-grey-500">{post.author}</Label>
                   </Stack>
                   <Badge variant="outline">{post.platform}</Badge>
                   <Stack gap={1}>
                     <Label>{post.scheduledDate}</Label>
-                    <Label className="text-gray-500">{post.scheduledTime}</Label>
+                    <Label className="text-grey-500">{post.scheduledTime}</Label>
                   </Stack>
                   <Badge variant="outline">{post.mediaType}</Badge>
                   <Label className={getStatusColor(post.status)}>{post.status}</Label>

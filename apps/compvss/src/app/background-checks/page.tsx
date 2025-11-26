@@ -56,8 +56,8 @@ const columns: ListPageColumn<BackgroundCheck>[] = [
   { key: 'expirationDate', label: 'Expiration', accessor: (r) => r.expirationDate || '—', sortable: true },
   { key: 'daysUntilExpiry', label: 'Days Left', accessor: (r) => getExpiryLabel(r.daysUntilExpiry), render: (v, r) => {
     const days = r.daysUntilExpiry;
-    const color = days === undefined ? '' : days < 0 ? 'color: red' : days <= 30 ? 'color: orange' : 'color: green';
-    return <span style={{ [color.split(':')[0]]: color.split(':')[1]?.trim() }}>{String(v)}</span>;
+    const colorClass = days === undefined ? '' : days < 0 ? 'text-error-500' : days <= 30 ? 'text-warning-500' : 'text-success-500';
+    return <span className={colorClass}>{String(v)}</span>;
   }},
   { key: 'provider', label: 'Provider', accessor: 'provider' },
 ];
@@ -116,7 +116,7 @@ export default function BackgroundChecksPage() {
 
   const detailSections: DetailSection[] = selectedCheck ? [
     { id: 'overview', title: 'Check Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Crew Member:</strong> {selectedCheck.crewMemberName}</div>
         <div><strong>ID:</strong> {selectedCheck.crewMemberId}</div>
         <div><strong>Department:</strong> {selectedCheck.department}</div>

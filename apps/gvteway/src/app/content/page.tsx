@@ -114,11 +114,11 @@ export default function ExclusiveContentPage() {
 
   const getTypeBadge = (type: string) => {
     const variants: Record<string, { color: string; icon: string }> = {
-      video: { color: 'bg-red-500 text-white', icon: '🎬' },
+      video: { color: 'bg-error-500 text-white', icon: '🎬' },
       audio: { color: 'bg-purple-500 text-white', icon: '🎵' },
-      photo_gallery: { color: 'bg-blue-500 text-white', icon: '📸' },
-      document: { color: 'bg-gray-500 text-white', icon: '📄' },
-      behind_the_scenes: { color: 'bg-yellow-500 text-white', icon: '🎭' },
+      photo_gallery: { color: 'bg-info-500 text-white', icon: '📸' },
+      document: { color: 'bg-grey-500 text-white', icon: '📄' },
+      behind_the_scenes: { color: 'bg-warning-500 text-white', icon: '🎭' },
     };
     const variant = variants[type] || { color: '', icon: '📁' };
     return (
@@ -130,10 +130,10 @@ export default function ExclusiveContentPage() {
 
   const getAccessBadge = (level: string) => {
     const variants: Record<string, string> = {
-      all: 'bg-green-500 text-white',
-      attendees: 'bg-blue-500 text-white',
+      all: 'bg-success-500 text-white',
+      attendees: 'bg-info-500 text-white',
       vip: 'bg-purple-500 text-white',
-      members: 'bg-yellow-500 text-white',
+      members: 'bg-warning-500 text-white',
     };
     return <Badge className={variants[level] || ''}>{level}</Badge>;
   };
@@ -252,7 +252,7 @@ export default function ExclusiveContentPage() {
                 className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow"
                 onClick={() => setSelectedContent(item)}
               >
-                <Stack className="relative h-48 bg-gray-100">
+                <Stack className="relative h-48 bg-grey-100">
                   {item.thumbnail_url ? (
                     <Image
                       src={item.thumbnail_url}
@@ -269,7 +269,7 @@ export default function ExclusiveContentPage() {
                   )}
                   {item.is_new && (
                     <Stack className="absolute top-2 left-2">
-                      <Badge className="bg-red-500 text-white">NEW</Badge>
+                      <Badge className="bg-error-500 text-white">NEW</Badge>
                     </Stack>
                   )}
                   <Stack className="absolute top-2 right-2">
@@ -286,14 +286,14 @@ export default function ExclusiveContentPage() {
                     {getTypeBadge(item.type)}
                   </Stack>
                   <H3 className="line-clamp-2">{item.title}</H3>
-                  <Body className="text-sm text-gray-600 line-clamp-2">
+                  <Body className="text-sm text-grey-600 line-clamp-2">
                     {item.description}
                   </Body>
-                  <Body className="text-xs text-gray-500">
+                  <Body className="text-xs text-grey-500">
                     {item.event_name}
                   </Body>
                   <Stack direction="horizontal" className="justify-between items-center mt-2">
-                    <Body className="text-xs text-gray-500">
+                    <Body className="text-xs text-grey-500">
                       {item.views.toLocaleString()} views
                     </Body>
                     <Stack direction="horizontal" gap={2}>
@@ -315,7 +315,7 @@ export default function ExclusiveContentPage() {
           ) : (
             <Card className="col-span-3 p-12 text-center">
               <H3 className="mb-4">NO CONTENT AVAILABLE</H3>
-              <Body className="text-gray-600 mb-6">
+              <Body className="text-grey-600 mb-6">
                 Exclusive content from your events will appear here
               </Body>
               <Button variant="solid" onClick={() => router.push('/events')}>
@@ -332,7 +332,7 @@ export default function ExclusiveContentPage() {
         >
           {selectedContent && (
             <Stack gap={4}>
-              <Stack className="relative aspect-video bg-gray-100 rounded overflow-hidden">
+              <Stack className="relative aspect-video bg-grey-100 rounded overflow-hidden">
                 {selectedContent.thumbnail_url ? (
                   <Image
                     src={selectedContent.thumbnail_url}
@@ -361,8 +361,8 @@ export default function ExclusiveContentPage() {
                   {getAccessBadge(selectedContent.access_level)}
                 </Stack>
                 <H2>{selectedContent.title}</H2>
-                <Body className="text-gray-600">{selectedContent.description}</Body>
-                <Stack direction="horizontal" gap={4} className="text-sm text-gray-500">
+                <Body className="text-grey-600">{selectedContent.description}</Body>
+                <Stack direction="horizontal" gap={4} className="text-sm text-grey-500">
                   <Body>{selectedContent.event_name}</Body>
                   <Body>{new Date(selectedContent.release_date).toLocaleDateString()}</Body>
                   {selectedContent.duration && <Body>{selectedContent.duration}</Body>}

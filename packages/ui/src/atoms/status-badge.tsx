@@ -5,19 +5,38 @@ import type { HTMLAttributes } from "react";
 export type StatusBadgeProps = HTMLAttributes<HTMLSpanElement> & {
   status: "success" | "error" | "warning" | "info" | "neutral" | "active" | "inactive" | "pending";
   size?: "sm" | "md" | "lg";
+  /** Use filled variant for higher emphasis */
+  filled?: boolean;
 };
 
 export const StatusBadge = forwardRef<HTMLSpanElement, StatusBadgeProps>(
-  function StatusBadge({ status, size = "md", className, children, ...props }, ref) {
+  function StatusBadge({ status, size = "md", filled = false, className, children, ...props }, ref) {
+    // Semantic status colors with filled and outline variants
     const statusClasses = {
-      success: "bg-white border-2 border-black text-black",
-      error: "bg-black text-white",
-      warning: "bg-grey-200 border-2 border-grey-800 text-black",
-      info: "bg-grey-100 border-2 border-grey-700 text-black",
-      neutral: "bg-grey-400 text-white",
-      active: "bg-white text-black border-2 border-black",
-      inactive: "bg-grey-800 text-white",
-      pending: "bg-grey-700 text-grey-200",
+      success: filled 
+        ? "bg-success-500 text-white" 
+        : "bg-success-50 border-2 border-success-500 text-success-700",
+      error: filled 
+        ? "bg-error-500 text-white" 
+        : "bg-error-50 border-2 border-error-500 text-error-700",
+      warning: filled 
+        ? "bg-warning-500 text-white" 
+        : "bg-warning-50 border-2 border-warning-500 text-warning-700",
+      info: filled 
+        ? "bg-info-500 text-white" 
+        : "bg-info-50 border-2 border-info-500 text-info-700",
+      neutral: filled 
+        ? "bg-grey-500 text-white" 
+        : "bg-grey-100 border-2 border-grey-400 text-grey-700",
+      active: filled 
+        ? "bg-success-500 text-white" 
+        : "bg-success-50 border-2 border-success-500 text-success-700",
+      inactive: filled 
+        ? "bg-grey-700 text-white" 
+        : "bg-grey-100 border-2 border-grey-500 text-grey-600",
+      pending: filled 
+        ? "bg-warning-500 text-white" 
+        : "bg-warning-50 border-2 border-warning-400 text-warning-700",
     };
 
     const sizeClasses = {

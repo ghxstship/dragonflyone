@@ -57,10 +57,10 @@ export default function LogisticsPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Delivered': return 'text-green-400';
-      case 'In Transit': return 'text-blue-400';
+      case 'Delivered': return 'text-success-400';
+      case 'In Transit': return 'text-info-400';
       case 'Scheduled': return 'text-ink-400';
-      case 'Delayed': return 'text-red-400';
+      case 'Delayed': return 'text-error-400';
       default: return 'text-ink-400';
     }
   };
@@ -118,7 +118,7 @@ export default function LogisticsPage() {
             </TableHeader>
             <TableBody>
               {filteredShipments.map((shipment) => (
-                <TableRow key={shipment.id} className={shipment.status === 'Delayed' ? 'bg-red-900/10' : ''}>
+                <TableRow key={shipment.id} className={shipment.status === 'Delayed' ? 'bg-error-900/10' : ''}>
                   <TableCell>
                     <Stack gap={0}>
                       <Label className="text-white">{shipment.projectName}</Label>

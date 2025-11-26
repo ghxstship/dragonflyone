@@ -130,7 +130,7 @@ export default function IssuesPage() {
 
   const detailSections: DetailSection[] = selectedIssue ? [
     { id: 'overview', title: 'Issue Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Title:</strong> {selectedIssue.title}</div>
         <div><strong>Category:</strong> {selectedIssue.category}</div>
         <div><strong>Priority:</strong> {selectedIssue.priority}</div>

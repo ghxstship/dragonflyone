@@ -138,7 +138,7 @@ export default function TasksPage() {
 
   const detailSections: DetailSection[] = selectedTask ? [
     { id: 'overview', title: 'Task Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Title:</strong> {selectedTask.title}</div>
         <div><strong>Type:</strong> {selectedTask.type}</div>
         <div><strong>Priority:</strong> {selectedTask.priority}</div>

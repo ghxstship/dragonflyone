@@ -161,7 +161,7 @@ export default function ExpensesPage() {
 
   const detailSections: DetailSection[] = selectedExpense ? [
     { id: 'overview', title: 'Expense Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Expense #:</strong> {selectedExpense.expense_number}</div>
         <div><strong>Status:</strong> {selectedExpense.status}</div>
         <div><strong>Crew Member:</strong> {selectedExpense.crew_member_name}</div>
@@ -170,7 +170,7 @@ export default function ExpensesPage() {
         <div><strong>Amount:</strong> {formatCurrency(selectedExpense.amount)}</div>
         <div><strong>Date:</strong> {formatDate(selectedExpense.expense_date)}</div>
         {selectedExpense.approved_by && <div><strong>Approved By:</strong> {selectedExpense.approved_by}</div>}
-        {selectedExpense.description && <div style={{ gridColumn: 'span 2' }}><strong>Description:</strong> {selectedExpense.description}</div>}
+        {selectedExpense.description && <div className="col-span-2"><strong>Description:</strong> {selectedExpense.description}</div>}
       </div>
     )},
   ] : [];

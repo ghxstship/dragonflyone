@@ -74,7 +74,7 @@ export default function StorageOptimizationPage() {
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Location Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Name:</strong> {selected.name}</div>
         <div><strong>Type:</strong> {selected.type}</div>
         <div><strong>Category:</strong> {selected.category}</div>
@@ -83,7 +83,7 @@ export default function StorageOptimizationPage() {
         <div><strong>Used:</strong> {selected.used.toLocaleString()} sq ft</div>
         <div><strong>Utilization:</strong> {Math.round((selected.used / selected.capacity) * 100)}%</div>
         <div><strong>Status:</strong> {selected.status}</div>
-        {selected.address && <div style={{ gridColumn: 'span 2' }}><strong>Address:</strong> {selected.address}</div>}
+        {selected.address && <div className="col-span-2"><strong>Address:</strong> {selected.address}</div>}
       </div>
     )},
   ] : [];

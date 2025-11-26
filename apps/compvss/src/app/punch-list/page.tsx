@@ -53,19 +53,19 @@ export default function PunchListPage() {
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case "Critical": return "text-red-400";
-      case "High": return "text-orange-400";
-      case "Medium": return "text-yellow-400";
-      case "Low": return "text-green-400";
+      case "Critical": return "text-error-400";
+      case "High": return "text-warning-400";
+      case "Medium": return "text-warning-400";
+      case "Low": return "text-success-400";
       default: return "text-ink-400";
     }
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Verified": return "text-green-400";
-      case "Resolved": return "text-blue-400";
-      case "In Progress": return "text-yellow-400";
+      case "Verified": return "text-success-400";
+      case "Resolved": return "text-info-400";
+      case "In Progress": return "text-warning-400";
       case "Open": return "text-ink-400";
       default: return "text-ink-400";
     }
@@ -122,7 +122,7 @@ export default function PunchListPage() {
                     return priorityOrder[a.priority] - priorityOrder[b.priority];
                   })
                   .map((item) => (
-                    <Card key={item.id} className={`border-2 p-4 ${item.priority === "Critical" ? "border-red-800 bg-red-900/10" : "border-ink-800 bg-ink-900/50"}`}>
+                    <Card key={item.id} className={`border-2 p-4 ${item.priority === "Critical" ? "border-error-800 bg-error-900/10" : "border-ink-800 bg-ink-900/50"}`}>
                       <Grid cols={6} gap={4} className="items-center">
                         <Stack gap={1}>
                           <Body className="font-display text-white">{item.title}</Body>
@@ -168,7 +168,7 @@ export default function PunchListPage() {
                       <TableCell className="font-mono text-ink-400">{item.resolvedDate}</TableCell>
                       <TableCell>
                         {item.status === "Verified" 
-                          ? <Label className="text-green-400">✓ {item.verifiedBy}</Label>
+                          ? <Label className="text-success-400">✓ {item.verifiedBy}</Label>
                           : <Button variant="outline" size="sm">Verify</Button>
                         }
                       </TableCell>

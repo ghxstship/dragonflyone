@@ -100,7 +100,7 @@ export default function FinancePage() {
 
   const detailSections: DetailSection[] = selectedTxn ? [
     { id: 'overview', title: 'Transaction Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>ID:</strong> {selectedTxn.id}</div>
         <div><strong>Type:</strong> {selectedTxn.type}</div>
         <div><strong>Party:</strong> {selectedTxn.entity}</div>

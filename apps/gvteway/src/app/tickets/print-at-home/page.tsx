@@ -37,11 +37,11 @@ export default function PrintAtHomePage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Available": return "text-green-600";
-      case "Printed": return "text-blue-600";
-      case "Used": return "text-gray-400";
-      case "Expired": return "text-red-600";
-      default: return "text-gray-600";
+      case "Available": return "text-success-600";
+      case "Printed": return "text-info-600";
+      case "Used": return "text-grey-400";
+      case "Expired": return "text-error-600";
+      default: return "text-grey-600";
     }
   };
 
@@ -51,7 +51,7 @@ export default function PrintAtHomePage() {
         <Stack gap={8}>
           <Stack gap={2}>
             <H1>PRINT-AT-HOME TICKETS</H1>
-            <Body className="text-gray-600">Secure printable tickets with security features</Body>
+            <Body className="text-grey-600">Secure printable tickets with security features</Body>
           </Stack>
 
           <Grid cols={4} gap={6}>
@@ -71,11 +71,11 @@ export default function PrintAtHomePage() {
                   { icon: "🛡️", name: "Holographic Pattern", desc: "Anti-counterfeit design" },
                   { icon: "📋", name: "Barcode Backup", desc: "Secondary validation" },
                 ].map((feature, idx) => (
-                  <Card key={idx} className="p-4 border border-gray-200 text-center">
+                  <Card key={idx} className="p-4 border border-grey-200 text-center">
                     <Stack gap={2}>
                       <Label className="text-2xl">{feature.icon}</Label>
                       <Label className="font-bold">{feature.name}</Label>
-                      <Label className="text-gray-500">{feature.desc}</Label>
+                      <Label className="text-grey-500">{feature.desc}</Label>
                     </Stack>
                   </Card>
                 ))}
@@ -97,15 +97,15 @@ export default function PrintAtHomePage() {
                     <Badge variant="outline">{ticket.ticketType}</Badge>
                   </Stack>
                   <Stack gap={1}>
-                    <Label className="text-gray-500">Order</Label>
+                    <Label className="text-grey-500">Order</Label>
                     <Label className="font-mono">{ticket.orderId}</Label>
                   </Stack>
                   <Stack gap={1}>
-                    <Label className="text-gray-500">Purchaser</Label>
+                    <Label className="text-grey-500">Purchaser</Label>
                     <Label>{ticket.purchaserName}</Label>
                   </Stack>
                   <Stack gap={1}>
-                    <Label className="text-gray-500">Print Count</Label>
+                    <Label className="text-grey-500">Print Count</Label>
                     <Label className="font-mono">{ticket.printCount}</Label>
                   </Stack>
                   <Label className={getStatusColor(ticket.status)}>{ticket.status}</Label>
@@ -127,7 +127,7 @@ export default function PrintAtHomePage() {
         <ModalBody>
           {selectedTicket && (
             <Stack gap={4}>
-              <Card className="p-6 border-2 border-black bg-gray-50">
+              <Card className="p-6 border-2 border-black bg-grey-50">
                 <Stack gap={4}>
                   <Stack direction="horizontal" className="justify-between">
                     <Stack gap={1}>
@@ -139,22 +139,22 @@ export default function PrintAtHomePage() {
                     </Card>
                   </Stack>
                   <Grid cols={2} gap={4}>
-                    <Stack gap={1}><Label className="text-gray-500">Ticket ID</Label><Label className="font-mono">{selectedTicket.id}</Label></Stack>
-                    <Stack gap={1}><Label className="text-gray-500">Order</Label><Label className="font-mono">{selectedTicket.orderId}</Label></Stack>
+                    <Stack gap={1}><Label className="text-grey-500">Ticket ID</Label><Label className="font-mono">{selectedTicket.id}</Label></Stack>
+                    <Stack gap={1}><Label className="text-grey-500">Order</Label><Label className="font-mono">{selectedTicket.orderId}</Label></Stack>
                   </Grid>
-                  <Stack gap={1}><Label className="text-gray-500">Attendee</Label><Label className="font-bold">{selectedTicket.purchaserName}</Label></Stack>
-                  <Card className="p-2 bg-gray-200 text-center">
+                  <Stack gap={1}><Label className="text-grey-500">Attendee</Label><Label className="font-bold">{selectedTicket.purchaserName}</Label></Stack>
+                  <Card className="p-2 bg-grey-200 text-center">
                     <Label className="font-mono text-xs">||||||||||||||||||||||||</Label>
                   </Card>
-                  <Label className="text-gray-400 text-center">This ticket contains security features to prevent counterfeiting</Label>
+                  <Label className="text-grey-400 text-center">This ticket contains security features to prevent counterfeiting</Label>
                 </Stack>
               </Card>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label className="text-gray-500">Purchase Date</Label><Label>{selectedTicket.purchaseDate}</Label></Stack>
-                <Stack gap={1}><Label className="text-gray-500">Times Printed</Label><Label>{selectedTicket.printCount}</Label></Stack>
+                <Stack gap={1}><Label className="text-grey-500">Purchase Date</Label><Label>{selectedTicket.purchaseDate}</Label></Stack>
+                <Stack gap={1}><Label className="text-grey-500">Times Printed</Label><Label>{selectedTicket.printCount}</Label></Stack>
               </Grid>
               {selectedTicket.lastPrinted && (
-                <Stack gap={1}><Label className="text-gray-500">Last Printed</Label><Label>{selectedTicket.lastPrinted}</Label></Stack>
+                <Stack gap={1}><Label className="text-grey-500">Last Printed</Label><Label>{selectedTicket.lastPrinted}</Label></Stack>
               )}
             </Stack>
           )}
@@ -185,11 +185,11 @@ export default function PrintAtHomePage() {
               <Label className="font-bold">Print Limits</Label>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>
-                  <Label className="text-gray-500">Max prints per ticket</Label>
+                  <Label className="text-grey-500">Max prints per ticket</Label>
                   <Input type="number" defaultValue={3} className="border-2 border-black" />
                 </Stack>
                 <Stack gap={1}>
-                  <Label className="text-gray-500">Reprint cooldown (hours)</Label>
+                  <Label className="text-grey-500">Reprint cooldown (hours)</Label>
                   <Input type="number" defaultValue={24} className="border-2 border-black" />
                 </Stack>
               </Grid>

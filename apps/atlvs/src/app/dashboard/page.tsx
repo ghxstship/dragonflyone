@@ -191,7 +191,7 @@ export default function DashboardPage() {
                     ${(((project as any).actual_cost || (project as any).actual || 0) / 1000).toFixed(0)}K
                   </TableCell>
                   <TableCell>
-                    <Body className={`font-mono ${((project as any).actual_cost || (project as any).actual || 0) > (project.budget || 0) ? "text-red-400" : "text-green-400"}`}>
+                    <Body className={`font-mono ${((project as any).actual_cost || (project as any).actual || 0) > (project.budget || 0) ? "text-error-400" : "text-success-400"}`}>
                       {((((project.budget || 0) - ((project as any).actual_cost || (project as any).actual || 0)) / (project.budget || 1)) * 100).toFixed(1)}%
                     </Body>
                   </TableCell>

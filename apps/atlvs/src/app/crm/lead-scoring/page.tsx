@@ -85,7 +85,7 @@ export default function LeadScoringPage() {
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Lead Score Breakdown', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Name:</strong> {selected.name}</div>
         <div><strong>Company:</strong> {selected.company}</div>
         <div><strong>Email:</strong> {selected.email}</div>

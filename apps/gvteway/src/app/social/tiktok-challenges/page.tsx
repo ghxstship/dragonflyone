@@ -47,10 +47,10 @@ export default function TikTokChallengesPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Active": return "text-green-600";
-      case "Scheduled": return "text-blue-600";
-      case "Completed": return "text-gray-500";
-      default: return "text-gray-600";
+      case "Active": return "text-success-600";
+      case "Scheduled": return "text-info-600";
+      case "Completed": return "text-grey-500";
+      default: return "text-grey-600";
     }
   };
 
@@ -62,7 +62,7 @@ export default function TikTokChallengesPage() {
         <Stack gap={8}>
           <Stack gap={2}>
             <H1>TIKTOK CHALLENGES</H1>
-            <Body className="text-gray-600">Create and manage viral TikTok challenge campaigns</Body>
+            <Body className="text-grey-600">Create and manage viral TikTok challenge campaigns</Body>
           </Stack>
 
           <Grid cols={4} gap={6}>
@@ -90,18 +90,18 @@ export default function TikTokChallengesPage() {
                 <Grid cols={6} gap={4} className="items-center">
                   <Stack gap={1}>
                     <Body className="font-bold">{challenge.name}</Body>
-                    <Label className="text-blue-600">{challenge.hashtag}</Label>
+                    <Label className="text-info-600">{challenge.hashtag}</Label>
                   </Stack>
                   <Stack gap={1}>
-                    <Label className="text-gray-500">Event</Label>
+                    <Label className="text-grey-500">Event</Label>
                     <Label>{challenge.eventName}</Label>
                   </Stack>
                   <Stack gap={1}>
-                    <Label className="text-gray-500">Duration</Label>
+                    <Label className="text-grey-500">Duration</Label>
                     <Label>{challenge.startDate} - {challenge.endDate}</Label>
                   </Stack>
                   <Stack gap={1}>
-                    <Label className="text-gray-500">Views</Label>
+                    <Label className="text-grey-500">Views</Label>
                     <Label className="font-mono">{formatNumber(challenge.views)}</Label>
                   </Stack>
                   <Label className={getStatusColor(challenge.status)}>{challenge.status}</Label>
@@ -121,27 +121,27 @@ export default function TikTokChallengesPage() {
           {selectedChallenge && (
             <Stack gap={4}>
               <Stack direction="horizontal" className="justify-between">
-                <Label className="text-blue-600 text-lg">{selectedChallenge.hashtag}</Label>
+                <Label className="text-info-600 text-lg">{selectedChallenge.hashtag}</Label>
                 <Label className={getStatusColor(selectedChallenge.status)}>{selectedChallenge.status}</Label>
               </Stack>
-              <Stack gap={1}><Label className="text-gray-500">Event</Label><Label>{selectedChallenge.eventName}</Label></Stack>
+              <Stack gap={1}><Label className="text-grey-500">Event</Label><Label>{selectedChallenge.eventName}</Label></Stack>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label className="text-gray-500">Start Date</Label><Label>{selectedChallenge.startDate}</Label></Stack>
-                <Stack gap={1}><Label className="text-gray-500">End Date</Label><Label>{selectedChallenge.endDate}</Label></Stack>
+                <Stack gap={1}><Label className="text-grey-500">Start Date</Label><Label>{selectedChallenge.startDate}</Label></Stack>
+                <Stack gap={1}><Label className="text-grey-500">End Date</Label><Label>{selectedChallenge.endDate}</Label></Stack>
               </Grid>
               <Grid cols={3} gap={4}>
-                <Stack gap={1}><Label className="text-gray-500">Participants</Label><Label className="font-mono text-xl">{formatNumber(selectedChallenge.participants)}</Label></Stack>
-                <Stack gap={1}><Label className="text-gray-500">Views</Label><Label className="font-mono text-xl">{formatNumber(selectedChallenge.views)}</Label></Stack>
-                <Stack gap={1}><Label className="text-gray-500">Engagement</Label><Label className="font-mono text-xl">{selectedChallenge.engagement}%</Label></Stack>
+                <Stack gap={1}><Label className="text-grey-500">Participants</Label><Label className="font-mono text-xl">{formatNumber(selectedChallenge.participants)}</Label></Stack>
+                <Stack gap={1}><Label className="text-grey-500">Views</Label><Label className="font-mono text-xl">{formatNumber(selectedChallenge.views)}</Label></Stack>
+                <Stack gap={1}><Label className="text-grey-500">Engagement</Label><Label className="font-mono text-xl">{selectedChallenge.engagement}%</Label></Stack>
               </Grid>
               {selectedChallenge.engagement > 0 && (
                 <Stack gap={2}>
-                  <Label className="text-gray-500">Engagement Rate</Label>
+                  <Label className="text-grey-500">Engagement Rate</Label>
                   <ProgressBar value={selectedChallenge.engagement * 10} className="h-2" />
                 </Stack>
               )}
               {selectedChallenge.prize && (
-                <Stack gap={1}><Label className="text-gray-500">Prize</Label><Badge variant="solid">{selectedChallenge.prize}</Badge></Stack>
+                <Stack gap={1}><Label className="text-grey-500">Prize</Label><Badge variant="solid">{selectedChallenge.prize}</Badge></Stack>
               )}
             </Stack>
           )}

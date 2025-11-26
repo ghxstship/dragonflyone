@@ -30,7 +30,7 @@ import {
   Plus,
 } from '@ghxstship/ui';
 import { useCreateAdvance } from '@ghxstship/config';
-import { CatalogBrowser } from './CatalogBrowser';
+import { CatalogBrowser } from './catalog-browser';
 import type { ProductionCatalogItem, CreateAdvancePayload } from '@ghxstship/config/types/advancing';
 
 interface AdvanceItem {

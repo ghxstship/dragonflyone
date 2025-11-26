@@ -86,13 +86,13 @@ export function OfflineIndicator({
           <button
             onClick={handleSync}
             disabled={isSyncing}
-            className="inline-flex items-center gap-1 px-2 py-1 text-xs font-mono uppercase tracking-wider bg-yellow-100 text-yellow-800 border border-yellow-400 hover:bg-yellow-200 transition-colors"
+            className="inline-flex items-center gap-1 px-2 py-1 text-xs font-mono uppercase tracking-wider bg-warning-100 text-warning-800 border border-warning-400 hover:bg-warning-200 transition-colors"
           >
             <RefreshCw className={`h-3 w-3 ${isSyncing ? 'animate-spin' : ''}`} />
             {isSyncing ? 'Syncing...' : `Sync ${pendingSyncCount}`}
           </button>
         ) : showSyncSuccess ? (
-          <span className="inline-flex items-center gap-1 px-2 py-1 text-xs font-mono uppercase tracking-wider bg-green-100 text-green-800 border border-green-400">
+          <span className="inline-flex items-center gap-1 px-2 py-1 text-xs font-mono uppercase tracking-wider bg-success-100 text-success-800 border border-success-400">
             <Check className="h-3 w-3" />
             Synced
           </span>
@@ -115,20 +115,20 @@ export function OfflineIndicator({
         )}
         
         {!isOffline && pendingSyncCount > 0 && (
-          <div className="flex items-center gap-3 px-4 py-3 bg-yellow-50 text-yellow-900 border-2 border-yellow-400 shadow-hard">
+          <div className="flex items-center gap-3 px-4 py-3 bg-warning-50 text-warning-900 border-2 border-warning-400 shadow-hard">
             <AlertCircle className="h-5 w-5" />
             <div className="flex-1">
               <div className="font-heading text-sm uppercase tracking-wider">
                 {pendingSyncCount} Pending Changes
               </div>
-              <div className="text-xs text-yellow-700">
+              <div className="text-xs text-warning-700">
                 Last sync: {formatLastSync(lastSyncTime || null)}
               </div>
             </div>
             <button
               onClick={handleSync}
               disabled={isSyncing}
-              className="px-3 py-1 text-xs font-heading uppercase tracking-wider bg-yellow-400 hover:bg-yellow-500 transition-colors disabled:opacity-50"
+              className="px-3 py-1 text-xs font-heading uppercase tracking-wider bg-warning-400 hover:bg-warning-500 transition-colors disabled:opacity-50"
             >
               {isSyncing ? 'Syncing...' : 'Sync Now'}
             </button>
@@ -136,7 +136,7 @@ export function OfflineIndicator({
         )}
 
         {showSyncSuccess && (
-          <div className="flex items-center gap-3 px-4 py-3 bg-green-50 text-green-900 border-2 border-green-400 shadow-hard">
+          <div className="flex items-center gap-3 px-4 py-3 bg-success-50 text-success-900 border-2 border-success-400 shadow-hard">
             <Check className="h-5 w-5" />
             <div className="font-heading text-sm uppercase tracking-wider">
               All Changes Synced
@@ -160,7 +160,7 @@ export function OfflineIndicator({
       )}
       
       {!isOffline && pendingSyncCount > 0 && (
-        <div className="flex items-center justify-center gap-3 px-4 py-2 bg-yellow-100 text-yellow-900 border-b-2 border-yellow-400">
+        <div className="flex items-center justify-center gap-3 px-4 py-2 bg-warning-100 text-warning-900 border-b-2 border-warning-400">
           <AlertCircle className="h-4 w-4" />
           <span className="font-heading text-sm uppercase tracking-wider">
             {pendingSyncCount} changes pending sync
@@ -168,7 +168,7 @@ export function OfflineIndicator({
           <button
             onClick={handleSync}
             disabled={isSyncing}
-            className="flex items-center gap-1 px-2 py-1 text-xs font-heading uppercase tracking-wider bg-yellow-400 hover:bg-yellow-500 transition-colors disabled:opacity-50"
+            className="flex items-center gap-1 px-2 py-1 text-xs font-heading uppercase tracking-wider bg-warning-400 hover:bg-warning-500 transition-colors disabled:opacity-50"
           >
             <RefreshCw className={`h-3 w-3 ${isSyncing ? 'animate-spin' : ''}`} />
             {isSyncing ? 'Syncing...' : 'Sync Now'}
@@ -177,7 +177,7 @@ export function OfflineIndicator({
       )}
 
       {showSyncSuccess && (
-        <div className="flex items-center justify-center gap-3 px-4 py-2 bg-green-100 text-green-900 border-b-2 border-green-400">
+        <div className="flex items-center justify-center gap-3 px-4 py-2 bg-success-100 text-success-900 border-b-2 border-success-400">
           <Check className="h-4 w-4" />
           <span className="font-heading text-sm uppercase tracking-wider">
             All changes synced successfully

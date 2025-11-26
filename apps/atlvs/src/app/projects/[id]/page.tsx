@@ -169,7 +169,7 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
           </Card>
           <Card className="border-2 border-ink-800 p-6">
             <Label className="font-mono text-xs uppercase tracking-wider text-ink-500">Variance</Label>
-            <Body className={`mt-3 font-display text-3xl ${variance > 0 ? "text-red-400" : "text-green-400"}`}>
+            <Body className={`mt-3 font-display text-3xl ${variance > 0 ? "text-error-400" : "text-success-400"}`}>
               {variance > 0 ? "+" : ""}
               {variance}%
             </Body>

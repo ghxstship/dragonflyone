@@ -107,7 +107,7 @@ export default function IPTrackingPage() {
 
   const detailSections: DetailSection[] = selectedAsset ? [
     { id: 'overview', title: 'IP Asset Details', content: (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="grid grid-cols-2 gap-4">
         <div><strong>Title:</strong> {selectedAsset.title}</div>
         <div><strong>Type:</strong> {getTypeIcon(selectedAsset.ip_type)} {selectedAsset.ip_type}</div>
         <div><strong>Registration #:</strong> {selectedAsset.registration_number || '—'}</div>
@@ -118,7 +118,7 @@ export default function IPTrackingPage() {
         <div><strong>Registered:</strong> {selectedAsset.registration_date ? formatDate(selectedAsset.registration_date) : '—'}</div>
         <div><strong>Expires:</strong> {selectedAsset.expiration_date ? formatDate(selectedAsset.expiration_date) : 'N/A'}</div>
         <div><strong>Value:</strong> {selectedAsset.estimated_value ? formatCurrency(selectedAsset.estimated_value) : '—'}</div>
-        {selectedAsset.description && <div style={{ gridColumn: 'span 2' }}><strong>Description:</strong> {selectedAsset.description}</div>}
+        {selectedAsset.description && <div className="col-span-2"><strong>Description:</strong> {selectedAsset.description}</div>}
       </div>
     )},
   ] : [];

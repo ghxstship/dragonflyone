@@ -59,8 +59,8 @@ export default function MultilingualPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Complete': return 'text-green-400';
-      case 'In Progress': return 'text-yellow-400';
+      case 'Complete': return 'text-success-400';
+      case 'In Progress': return 'text-warning-400';
       case 'Pending': return 'text-ink-400';
       default: return 'text-ink-400';
     }
@@ -134,7 +134,7 @@ export default function MultilingualPage() {
                       <TableCell>
                         <Stack direction="horizontal" gap={2} className="flex-wrap">
                           {content.translations.map((t, idx) => (
-                            <Badge key={idx} variant={t.status === 'Complete' ? 'solid' : 'outline'} className={t.status === 'Complete' ? 'bg-green-800' : ''}>
+                            <Badge key={idx} variant={t.status === 'Complete' ? 'solid' : 'outline'} className={t.status === 'Complete' ? 'bg-success-800' : ''}>
                               {t.language} {t.status === 'In Progress' && `(${t.progress}%)`}
                             </Badge>
                           ))}

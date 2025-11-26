@@ -85,19 +85,19 @@ export default function ABTestingPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Running": return "text-green-600";
-      case "Completed": return "text-blue-600";
-      case "Draft": return "text-gray-400";
-      case "Paused": return "text-yellow-600";
-      default: return "text-gray-600";
+      case "Running": return "text-success-600";
+      case "Completed": return "text-info-600";
+      case "Draft": return "text-grey-400";
+      case "Paused": return "text-warning-600";
+      default: return "text-grey-600";
     }
   };
 
   const getConfidenceColor = (confidence?: number) => {
-    if (!confidence) return "text-gray-400";
-    if (confidence >= 95) return "text-green-600";
-    if (confidence >= 80) return "text-yellow-600";
-    return "text-red-600";
+    if (!confidence) return "text-grey-400";
+    if (confidence >= 95) return "text-success-600";
+    if (confidence >= 80) return "text-warning-600";
+    return "text-error-600";
   };
 
   const filteredTests = activeTab === "all" ? mockTests :
@@ -109,7 +109,7 @@ export default function ABTestingPage() {
         <Stack gap={8}>
           <Stack gap={2}>
             <H1>A/B TESTING</H1>
-            <Body className="text-gray-600">Test landing pages, pricing, and marketing elements</Body>
+            <Body className="text-grey-600">Test landing pages, pricing, and marketing elements</Body>
           </Stack>
 
           <Grid cols={4} gap={6}>
@@ -146,33 +146,33 @@ export default function ABTestingPage() {
                     <Stack gap={1} className="text-right">
                       {test.confidence && (
                         <Stack direction="horizontal" gap={2}>
-                          <Label className="text-gray-500">Confidence:</Label>
+                          <Label className="text-grey-500">Confidence:</Label>
                           <Label className={getConfidenceColor(test.confidence)}>{test.confidence}%</Label>
                         </Stack>
                       )}
-                      {test.winner && <Badge variant="solid" className="bg-green-600">Winner: {test.winner}</Badge>}
+                      {test.winner && <Badge variant="solid" className="bg-success-600">Winner: {test.winner}</Badge>}
                     </Stack>
                   </Stack>
 
                   <Grid cols={2} gap={4}>
                     {test.variants.map((variant, idx) => (
-                      <Card key={idx} className={`p-4 border ${test.winner === variant.name ? "border-green-500 bg-green-50" : "border-gray-200"}`}>
+                      <Card key={idx} className={`p-4 border ${test.winner === variant.name ? "border-success-500 bg-success-50" : "border-grey-200"}`}>
                         <Stack gap={3}>
                           <Label className="font-medium">{variant.name}</Label>
                           <Grid cols={3} gap={2}>
                             <Stack gap={0}>
                               <Label className="font-mono">{variant.visitors.toLocaleString()}</Label>
-                              <Label size="xs" className="text-gray-500">Visitors</Label>
+                              <Label size="xs" className="text-grey-500">Visitors</Label>
                             </Stack>
                             <Stack gap={0}>
                               <Label className="font-mono">{variant.conversions}</Label>
-                              <Label size="xs" className="text-gray-500">Conversions</Label>
+                              <Label size="xs" className="text-grey-500">Conversions</Label>
                             </Stack>
                             <Stack gap={0}>
-                              <Label className={`font-mono ${idx > 0 && variant.conversionRate > test.variants[0].conversionRate ? "text-green-600" : ""}`}>
+                              <Label className={`font-mono ${idx > 0 && variant.conversionRate > test.variants[0].conversionRate ? "text-success-600" : ""}`}>
                                 {variant.conversionRate.toFixed(1)}%
                               </Label>
-                              <Label size="xs" className="text-gray-500">Conv Rate</Label>
+                              <Label size="xs" className="text-grey-500">Conv Rate</Label>
                             </Stack>
                           </Grid>
                           {test.status === "Running" && (
@@ -184,7 +184,7 @@ export default function ABTestingPage() {
                   </Grid>
 
                   <Stack direction="horizontal" className="justify-between items-center">
-                    <Label className="text-gray-500">Started: {test.startDate} {test.endDate && `• Ended: ${test.endDate}`}</Label>
+                    <Label className="text-grey-500">Started: {test.startDate} {test.endDate && `• Ended: ${test.endDate}`}</Label>
                     <Stack direction="horizontal" gap={2}>
                       <Button variant="outline" size="sm" onClick={() => setSelectedTest(test)}>Details</Button>
                       {test.status === "Running" && <Button variant="ghost" size="sm">Pause</Button>}
@@ -211,25 +211,25 @@ export default function ABTestingPage() {
                 <Label className={getStatusColor(selectedTest.status)}>{selectedTest.status}</Label>
               </Stack>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label className="text-gray-500">Start Date</Label><Label>{selectedTest.startDate}</Label></Stack>
-                <Stack gap={1}><Label className="text-gray-500">End Date</Label><Label>{selectedTest.endDate || "Ongoing"}</Label></Stack>
+                <Stack gap={1}><Label className="text-grey-500">Start Date</Label><Label>{selectedTest.startDate}</Label></Stack>
+                <Stack gap={1}><Label className="text-grey-500">End Date</Label><Label>{selectedTest.endDate || "Ongoing"}</Label></Stack>
               </Grid>
               {selectedTest.confidence && (
                 <Stack gap={1}>
-                  <Label className="text-gray-500">Statistical Confidence</Label>
+                  <Label className="text-grey-500">Statistical Confidence</Label>
                   <Stack direction="horizontal" gap={2}>
                     <ProgressBar value={selectedTest.confidence} className="h-4 flex-1" />
                     <Label className={getConfidenceColor(selectedTest.confidence)}>{selectedTest.confidence}%</Label>
                   </Stack>
                   {selectedTest.confidence < 95 && (
-                    <Label size="xs" className="text-yellow-600">Need 95% confidence to declare a winner</Label>
+                    <Label size="xs" className="text-warning-600">Need 95% confidence to declare a winner</Label>
                   )}
                 </Stack>
               )}
               <Stack gap={2}>
-                <Label className="text-gray-500">Variant Performance</Label>
+                <Label className="text-grey-500">Variant Performance</Label>
                 {selectedTest.variants.map((variant, idx) => (
-                  <Card key={idx} className={`p-3 border ${selectedTest.winner === variant.name ? "border-green-500" : "border-gray-200"}`}>
+                  <Card key={idx} className={`p-3 border ${selectedTest.winner === variant.name ? "border-success-500" : "border-grey-200"}`}>
                     <Stack direction="horizontal" className="justify-between">
                       <Label>{variant.name}</Label>
                       <Label className="font-mono">{variant.conversionRate.toFixed(1)}% conversion</Label>
@@ -266,14 +266,14 @@ export default function ABTestingPage() {
               <option value="e2">Tech Conference 2025</option>
             </Select>
             <Stack gap={2}>
-              <Label className="text-gray-500">Variants</Label>
+              <Label className="text-grey-500">Variants</Label>
               <Input placeholder="Control (Original)" className="border-2 border-black" />
               <Input placeholder="Variant A" className="border-2 border-black" />
               <Button variant="outline" size="sm">+ Add Variant</Button>
             </Stack>
             <Grid cols={2} gap={4}>
               <Stack gap={1}>
-                <Label className="text-gray-500">Traffic Split</Label>
+                <Label className="text-grey-500">Traffic Split</Label>
                 <Select className="border-2 border-black">
                   <option value="50">50/50</option>
                   <option value="70">70/30</option>
@@ -281,7 +281,7 @@ export default function ABTestingPage() {
                 </Select>
               </Stack>
               <Stack gap={1}>
-                <Label className="text-gray-500">Min Sample Size</Label>
+                <Label className="text-grey-500">Min Sample Size</Label>
                 <Input type="number" placeholder="1000" className="border-2 border-black" />
               </Stack>
             </Grid>
