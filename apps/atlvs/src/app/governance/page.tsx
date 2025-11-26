@@ -4,26 +4,13 @@ import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Navigation } from "../../components/navigation";
 import {
-  H1,
-  H2,
-  Body,
-  StatCard,
-  Button,
+  ListPage,
   Badge,
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableHead,
-  TableCell,
-  LoadingSpinner,
-  EmptyState,
-  Container,
-  Grid,
-  Stack,
-  Card,
-  Section,
-  useNotifications,
+  DetailDrawer,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
+  type DetailSection,
 } from "@ghxstship/ui";
 
 interface BoardMeeting {
@@ -37,48 +24,46 @@ interface BoardMeeting {
   agenda_items: string[];
   minutes_url?: string;
   resolutions?: string[];
+  [key: string]: unknown;
 }
 
-interface GovernanceDocument {
-  id: string;
-  title: string;
-  document_type: string;
-  version: string;
-  effective_date: string;
-  review_date: string;
-  owner: string;
-  status: string;
-}
+const getStatusVariant = (status: string): "solid" | "outline" | "ghost" => {
+  switch (status?.toLowerCase()) {
+    case "completed": case "approved": case "active": return "solid";
+    case "scheduled": case "pending": return "outline";
+    default: return "ghost";
+  }
+};
 
-interface GovernanceSummary {
-  total_meetings: number;
-  upcoming_meetings: number;
-  total_documents: number;
-  pending_reviews: number;
-  board_members: number;
-  committees: number;
-}
+const columns: ListPageColumn<BoardMeeting>[] = [
+  { key: 'title', label: 'Meeting', accessor: 'title', sortable: true },
+  { key: 'meeting_type', label: 'Type', accessor: 'meeting_type', render: (v) => <Badge variant="outline">{String(v)}</Badge> },
+  { key: 'scheduled_date', label: 'Date', accessor: (r) => new Date(r.scheduled_date).toLocaleDateString(), sortable: true },
+  { key: 'location', label: 'Location', accessor: 'location' },
+  { key: 'attendees', label: 'Attendees', accessor: (r) => `${r.attendees?.length || 0} members` },
+  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v) => <Badge variant={getStatusVariant(String(v))}>{String(v)}</Badge> },
+];
+
+const filters: ListPageFilter[] = [
+  { key: 'status', label: 'Status', options: [{ value: 'scheduled', label: 'Scheduled' }, { value: 'completed', label: 'Completed' }, { value: 'cancelled', label: 'Cancelled' }] },
+  { key: 'meeting_type', label: 'Type', options: [{ value: 'board', label: 'Board Meeting' }, { value: 'committee', label: 'Committee' }, { value: 'annual', label: 'Annual Meeting' }] },
+];
 
 export default function GovernancePage() {
   const router = useRouter();
-  const { addNotification } = useNotifications();
   const [meetings, setMeetings] = useState<BoardMeeting[]>([]);
-  const [documents, setDocuments] = useState<GovernanceDocument[]>([]);
-  const [summary, setSummary] = useState<GovernanceSummary | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<"meetings" | "documents">("meetings");
+  const [selectedMeeting, setSelectedMeeting] = useState<BoardMeeting | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const fetchGovernanceData = useCallback(async () => {
     try {
       setLoading(true);
       const response = await fetch("/api/governance");
       if (!response.ok) throw new Error("Failed to fetch governance data");
-      
       const data = await response.json();
       setMeetings(data.meetings || []);
-      setDocuments(data.documents || []);
-      setSummary(data.summary || null);
       setError(null);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
@@ -91,272 +76,83 @@ export default function GovernancePage() {
     fetchGovernanceData();
   }, [fetchGovernanceData]);
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
-  };
+  const scheduledCount = meetings.filter(m => m.status === 'scheduled').length;
+  const completedCount = meetings.filter(m => m.status === 'completed').length;
 
-  const getStatusVariant = (status: string): "solid" | "outline" | "ghost" => {
-    switch (status?.toLowerCase()) {
-      case "completed":
-      case "approved":
-      case "active":
-        return "solid";
-      case "scheduled":
-      case "pending":
-        return "outline";
-      case "draft":
-      case "cancelled":
-        return "ghost";
-      default:
-        return "ghost";
-    }
-  };
+  const rowActions: ListPageAction<BoardMeeting>[] = [
+    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedMeeting(r); setDrawerOpen(true); } },
+    { id: 'minutes', label: 'View Minutes', icon: '📄', onClick: (r) => r.minutes_url && window.open(r.minutes_url, '_blank') },
+  ];
 
-  if (loading) {
-    return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <Navigation />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading governance data..." />
-        </Container>
-      </Section>
-    );
-  }
+  const stats = [
+    { label: 'Total Meetings', value: meetings.length },
+    { label: 'Scheduled', value: scheduledCount },
+    { label: 'Completed', value: completedCount },
+    { label: 'Board Members', value: 4 },
+  ];
 
-  if (error) {
-    return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <Navigation />
-        <Container className="py-16">
-          <EmptyState
-            title="Error Loading Governance Data"
-            description={error}
-            action={{ label: "Retry", onClick: fetchGovernanceData }}
-          />
-        </Container>
-      </Section>
-    );
-  }
+  const detailSections: DetailSection[] = selectedMeeting ? [
+    { id: 'overview', title: 'Meeting Details', content: (
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+        <div><strong>Title:</strong> {selectedMeeting.title}</div>
+        <div><strong>Type:</strong> {selectedMeeting.meeting_type}</div>
+        <div><strong>Date:</strong> {new Date(selectedMeeting.scheduled_date).toLocaleDateString()}</div>
+        <div><strong>Location:</strong> {selectedMeeting.location}</div>
+        <div><strong>Status:</strong> {selectedMeeting.status}</div>
+        <div><strong>Attendees:</strong> {selectedMeeting.attendees?.length || 0}</div>
+        {selectedMeeting.agenda_items?.length > 0 && (
+          <div style={{ gridColumn: 'span 2' }}><strong>Agenda:</strong> {selectedMeeting.agenda_items.join(', ')}</div>
+        )}
+        {(selectedMeeting.resolutions?.length ?? 0) > 0 && (
+          <div style={{ gridColumn: 'span 2' }}><strong>Resolutions:</strong> {selectedMeeting.resolutions?.join(', ')}</div>
+        )}
+      </div>
+    )},
+  ] : [];
 
   return (
-    <Section className="relative min-h-screen bg-black text-white">
-      <Navigation />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Corporate Governance</H1>
-            <Body className="text-grey-400">
-              Board meetings, corporate policies, and governance documentation
-            </Body>
-          </Stack>
+    <>
+      <ListPage<BoardMeeting>
+        title="Corporate Governance"
+        subtitle="Board meetings, corporate policies, and governance documentation"
+        data={meetings}
+        columns={columns}
+        rowKey="id"
+        loading={loading}
+        error={error ? new Error(error) : undefined}
+        onRetry={fetchGovernanceData}
+        searchPlaceholder="Search meetings..."
+        filters={filters}
+        rowActions={rowActions}
+        onRowClick={(r) => { setSelectedMeeting(r); setDrawerOpen(true); }}
+        createLabel="Schedule Meeting"
+        onCreate={() => router.push('/governance/meetings/new')}
+        onExport={() => console.log('Export')}
+        stats={stats}
+        emptyMessage="No meetings scheduled"
+        emptyAction={{ label: 'Schedule Meeting', onClick: () => router.push('/governance/meetings/new') }}
+        header={<Navigation />}
+      />
 
-          <Grid cols={4} gap={6}>
-            <StatCard
-              value={summary?.board_members || 0}
-              label="Board Members"
-              className="bg-black text-white border-grey-800"
-            />
-            <StatCard
-              value={summary?.committees || 0}
-              label="Committees"
-              className="bg-black text-white border-grey-800"
-            />
-            <StatCard
-              value={summary?.upcoming_meetings || 0}
-              label="Upcoming Meetings"
-              className="bg-black text-white border-grey-800"
-            />
-            <StatCard
-              value={summary?.pending_reviews || 0}
-              label="Pending Reviews"
-              className="bg-black text-white border-grey-800"
-            />
-          </Grid>
-
-          <Card className="p-6 bg-black border-grey-800">
-            <Stack gap={4}>
-              <H2>Board of Directors</H2>
-              <Grid cols={4} gap={4}>
-                <Card className="p-4 bg-grey-900 border-grey-700">
-                  <Stack gap={2}>
-                    <Body className="text-grey-400 text-sm uppercase tracking-wider">Chair</Body>
-                    <Body className="text-lg font-bold">Marcus Chen</Body>
-                    <Body className="text-sm text-grey-400">CEO & Founder</Body>
-                  </Stack>
-                </Card>
-                <Card className="p-4 bg-grey-900 border-grey-700">
-                  <Stack gap={2}>
-                    <Body className="text-grey-400 text-sm uppercase tracking-wider">Director</Body>
-                    <Body className="text-lg">Sarah Williams</Body>
-                    <Body className="text-sm text-grey-400">CFO</Body>
-                  </Stack>
-                </Card>
-                <Card className="p-4 bg-grey-900 border-grey-700">
-                  <Stack gap={2}>
-                    <Body className="text-grey-400 text-sm uppercase tracking-wider">Director</Body>
-                    <Body className="text-lg">James Rodriguez</Body>
-                    <Body className="text-sm text-grey-400">Independent</Body>
-                  </Stack>
-                </Card>
-                <Card className="p-4 bg-grey-900 border-grey-700">
-                  <Stack gap={2}>
-                    <Body className="text-grey-400 text-sm uppercase tracking-wider">Director</Body>
-                    <Body className="text-lg">Emily Park</Body>
-                    <Body className="text-sm text-grey-400">Independent</Body>
-                  </Stack>
-                </Card>
-              </Grid>
-            </Stack>
-          </Card>
-
-          <Stack gap={4} direction="horizontal">
-            <Button 
-              variant={activeTab === "meetings" ? "solid" : "ghost"}
-              onClick={() => setActiveTab("meetings")}
-            >
-              Board Meetings
-            </Button>
-            <Button 
-              variant={activeTab === "documents" ? "solid" : "ghost"}
-              onClick={() => setActiveTab("documents")}
-            >
-              Governance Documents
-            </Button>
-          </Stack>
-
-          {activeTab === "meetings" && (
-            <>
-              {meetings.length === 0 ? (
-                <EmptyState
-                  title="No Meetings Scheduled"
-                  description="Schedule your first board meeting"
-                  action={{ label: "Schedule Meeting", onClick: () => {} }}
-                />
-              ) : (
-                <Table variant="bordered" className="bg-black">
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Meeting</TableHead>
-                      <TableHead>Type</TableHead>
-                      <TableHead>Date</TableHead>
-                      <TableHead>Location</TableHead>
-                      <TableHead>Attendees</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Actions</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {meetings.map((meeting) => (
-                      <TableRow key={meeting.id} className="bg-black text-white hover:bg-grey-900">
-                        <TableCell className="text-white font-medium">
-                          {meeting.title}
-                        </TableCell>
-                        <TableCell className="text-grey-400">
-                          {meeting.meeting_type}
-                        </TableCell>
-                        <TableCell className="font-mono text-grey-400">
-                          {formatDate(meeting.scheduled_date)}
-                        </TableCell>
-                        <TableCell className="text-grey-400">
-                          {meeting.location}
-                        </TableCell>
-                        <TableCell className="text-grey-400">
-                          {meeting.attendees?.length || 0} members
-                        </TableCell>
-                        <TableCell>
-                          <Badge variant={getStatusVariant(meeting.status)}>
-                            {meeting.status}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>
-                          <Stack gap={2} direction="horizontal">
-                            <Button size="sm" variant="ghost" onClick={() => router.push(`/governance/meetings/${meeting.id}`)}>
-                              View
-                            </Button>
-                            {meeting.minutes_url && (
-                              <Button size="sm" variant="ghost" onClick={() => window.open(meeting.minutes_url, '_blank')}>
-                                Minutes
-                              </Button>
-                            )}
-                          </Stack>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              )}
-            </>
-          )}
-
-          {activeTab === "documents" && (
-            <>
-              {documents.length === 0 ? (
-                <EmptyState
-                  title="No Documents Found"
-                  description="Upload your first governance document"
-                  action={{ label: "Upload Document", onClick: () => {} }}
-                />
-              ) : (
-                <Table variant="bordered" className="bg-black">
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Document</TableHead>
-                      <TableHead>Type</TableHead>
-                      <TableHead>Version</TableHead>
-                      <TableHead>Effective Date</TableHead>
-                      <TableHead>Review Date</TableHead>
-                      <TableHead>Owner</TableHead>
-                      <TableHead>Status</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {documents.map((doc) => (
-                      <TableRow key={doc.id} className="bg-black text-white hover:bg-grey-900">
-                        <TableCell className="text-white font-medium">
-                          {doc.title}
-                        </TableCell>
-                        <TableCell className="text-grey-400">
-                          {doc.document_type}
-                        </TableCell>
-                        <TableCell className="font-mono text-grey-400">
-                          v{doc.version}
-                        </TableCell>
-                        <TableCell className="font-mono text-grey-400">
-                          {formatDate(doc.effective_date)}
-                        </TableCell>
-                        <TableCell className="font-mono text-grey-400">
-                          {formatDate(doc.review_date)}
-                        </TableCell>
-                        <TableCell className="text-grey-400">
-                          {doc.owner}
-                        </TableCell>
-                        <TableCell>
-                          <Badge variant={getStatusVariant(doc.status)}>
-                            {doc.status}
-                          </Badge>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              )}
-            </>
-          )}
-
-          <Stack gap={3} direction="horizontal">
-            <Button variant="outlineWhite" onClick={() => router.push(activeTab === "meetings" ? '/governance/meetings/new' : '/governance/documents/upload')}>
-              {activeTab === "meetings" ? "Schedule Meeting" : "Upload Document"}
-            </Button>
-            <Button variant="ghost" className="text-grey-400 hover:text-white" onClick={() => router.push('/governance/export')}>
-              Export Records
-            </Button>
-          </Stack>
-        </Stack>
-      </Container>
-    </Section>
+      {selectedMeeting && (
+        <DetailDrawer
+          open={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+          record={selectedMeeting}
+          title={(m) => m.title}
+          subtitle={(m) => `${m.meeting_type} • ${new Date(m.scheduled_date).toLocaleDateString()}`}
+          sections={detailSections}
+          actions={[
+            { id: 'edit', label: 'Edit Meeting', icon: '✏️' },
+            ...(selectedMeeting.minutes_url ? [{ id: 'minutes', label: 'View Minutes', icon: '📄' }] : []),
+          ]}
+          onAction={(id, m) => {
+            if (id === 'edit') router.push(`/governance/meetings/${m.id}/edit`);
+            if (id === 'minutes' && m.minutes_url) window.open(m.minutes_url, '_blank');
+            setDrawerOpen(false);
+          }}
+        />
+      )}
+    </>
   );
 }

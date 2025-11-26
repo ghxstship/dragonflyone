@@ -4,24 +4,13 @@ import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Navigation } from "../../components/navigation";
 import {
-  H1,
-  StatCard,
-  Select,
-  Button,
+  ListPage,
   Badge,
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableHead,
-  TableCell,
-  LoadingSpinner,
-  EmptyState,
-  Container,
-  Grid,
-  Stack,
-  useNotifications,
-  Section,
+  DetailDrawer,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
+  type DetailSection,
 } from "@ghxstship/ui";
 
 interface RFP {
@@ -37,49 +26,48 @@ interface RFP {
   responses?: { count: number }[];
   created_by_user?: { id: string; full_name: string; email: string };
   created_at: string;
+  [key: string]: unknown;
 }
+
+const formatCurrency = (amount: number) => {
+  if (amount >= 1000000) return `$${(amount / 1000000).toFixed(1)}M`;
+  if (amount >= 1000) return `$${(amount / 1000).toFixed(0)}K`;
+  return `$${amount.toFixed(0)}`;
+};
+const getStatusVariant = (status: string): "solid" | "outline" | "ghost" => {
+  switch (status?.toLowerCase()) {
+    case "awarded": case "closed": return "solid";
+    case "open": case "evaluation": return "outline";
+    default: return "ghost";
+  }
+};
+
+const columns: ListPageColumn<RFP>[] = [
+  { key: 'title', label: 'Title', accessor: 'title', sortable: true },
+  { key: 'project_type', label: 'Type', accessor: 'project_type', render: (v) => <Badge variant="ghost">{String(v) || 'General'}</Badge> },
+  { key: 'budget', label: 'Budget Range', accessor: (r) => r.budget_min && r.budget_max ? `${formatCurrency(r.budget_min)} - ${formatCurrency(r.budget_max)}` : r.budget_max ? formatCurrency(r.budget_max) : '—' },
+  { key: 'responses', label: 'Responses', accessor: (r) => r.responses?.[0]?.count || 0, sortable: true },
+  { key: 'submission_deadline', label: 'Deadline', accessor: (r) => r.submission_deadline ? new Date(r.submission_deadline).toLocaleDateString() : '—', sortable: true },
+  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v) => <Badge variant={getStatusVariant(String(v))}>{String(v)}</Badge> },
+];
+
+const filters: ListPageFilter[] = [
+  { key: 'status', label: 'Status', options: [{ value: 'draft', label: 'Draft' }, { value: 'open', label: 'Open' }, { value: 'evaluation', label: 'Evaluation' }, { value: 'awarded', label: 'Awarded' }, { value: 'closed', label: 'Closed' }] },
+];
 
 export default function RFPPage() {
   const router = useRouter();
-  const { addNotification } = useNotifications();
   const [rfps, setRfps] = useState<RFP[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [filterStatus, setFilterStatus] = useState("all");
-
-  const handleViewRFP = (rfpId: string) => router.push(`/rfp/${rfpId}`);
-  const handleCreateRFP = () => router.push("/rfp/new");
-  const handleTemplateLibrary = () => router.push("/rfp/templates");
-  const handlePublishRFP = async (rfpId: string) => {
-    try {
-      const response = await fetch(`/api/rfp/${rfpId}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status: "open" }),
-      });
-      if (response.ok) {
-        addNotification({ type: "success", title: "Success", message: "RFP published successfully" });
-        fetchRFPs();
-      } else {
-        addNotification({ type: "error", title: "Error", message: "Failed to publish RFP" });
-      }
-    } catch (err) {
-      addNotification({ type: "error", title: "Error", message: "Failed to publish RFP" });
-    }
-  };
+  const [selectedRfp, setSelectedRfp] = useState<RFP | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const fetchRFPs = useCallback(async () => {
     try {
       setLoading(true);
-      const params = new URLSearchParams();
-      if (filterStatus !== "all") {
-        params.append("status", filterStatus);
-      }
-
-      const response = await fetch(`/api/rfp?${params.toString()}`);
-      if (!response.ok) {
-        throw new Error("Failed to fetch RFPs");
-      }
+      const response = await fetch('/api/rfp');
+      if (!response.ok) throw new Error("Failed to fetch RFPs");
       const data = await response.json();
       setRfps(data.rfps || []);
       setError(null);
@@ -88,180 +76,77 @@ export default function RFPPage() {
     } finally {
       setLoading(false);
     }
-  }, [filterStatus]);
+  }, []);
 
-  useEffect(() => {
-    fetchRFPs();
-  }, [fetchRFPs]);
+  useEffect(() => { fetchRFPs(); }, [fetchRFPs]);
 
   const totalBudget = rfps.reduce((sum, r) => sum + (Number(r.budget_max) || 0), 0);
-  const openCount = rfps.filter((r) => r.status === "open" || r.status === "draft").length;
+  const openCount = rfps.filter(r => r.status === "open" || r.status === "draft").length;
   const totalResponses = rfps.reduce((sum, r) => sum + (r.responses?.[0]?.count || 0), 0);
 
-  const formatCurrency = (amount: number) => {
-    if (amount >= 1000000) {
-      return `$${(amount / 1000000).toFixed(1)}M`;
-    }
-    if (amount >= 1000) {
-      return `$${(amount / 1000).toFixed(0)}K`;
-    }
-    return `$${amount.toFixed(0)}`;
-  };
+  const rowActions: ListPageAction<RFP>[] = [
+    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedRfp(r); setDrawerOpen(true); } },
+    { id: 'publish', label: 'Publish', icon: '📤', onClick: async (r) => { await fetch(`/api/rfp/${r.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status: 'open' }) }); fetchRFPs(); } },
+  ];
 
-  const getStatusVariant = (status: string): "solid" | "outline" | "ghost" => {
-    switch (status.toLowerCase()) {
-      case "awarded":
-      case "closed":
-        return "solid";
-      case "open":
-      case "evaluation":
-        return "outline";
-      default:
-        return "ghost";
-    }
-  };
+  const stats = [
+    { label: 'Total RFPs', value: rfps.length },
+    { label: 'Open', value: openCount },
+    { label: 'Total Budget', value: formatCurrency(totalBudget) },
+    { label: 'Responses', value: totalResponses },
+  ];
 
-  if (loading) {
-    return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <Navigation />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading RFPs..." />
-        </Container>
-      </Section>
-    );
-  }
-
-  if (error) {
-    return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <Navigation />
-        <Container className="py-16">
-          <EmptyState
-            title="Error Loading RFPs"
-            description={error}
-            action={{ label: "Retry", onClick: fetchRFPs }}
-          />
-        </Container>
-      </Section>
-    );
-  }
+  const detailSections: DetailSection[] = selectedRfp ? [
+    { id: 'overview', title: 'RFP Details', content: (
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+        <div><strong>Title:</strong> {selectedRfp.title}</div>
+        <div><strong>Type:</strong> {selectedRfp.project_type || 'General'}</div>
+        <div><strong>Budget:</strong> {selectedRfp.budget_min && selectedRfp.budget_max ? `${formatCurrency(selectedRfp.budget_min)} - ${formatCurrency(selectedRfp.budget_max)}` : '—'}</div>
+        <div><strong>Responses:</strong> {selectedRfp.responses?.[0]?.count || 0}</div>
+        <div><strong>Deadline:</strong> {selectedRfp.submission_deadline ? new Date(selectedRfp.submission_deadline).toLocaleDateString() : '—'}</div>
+        <div><strong>Status:</strong> {selectedRfp.status}</div>
+        <div><strong>Created By:</strong> {selectedRfp.created_by_user?.full_name || '—'}</div>
+        <div><strong>Created:</strong> {new Date(selectedRfp.created_at).toLocaleDateString()}</div>
+        {selectedRfp.description && <div style={{ gridColumn: 'span 2' }}><strong>Description:</strong> {selectedRfp.description}</div>}
+      </div>
+    )},
+  ] : [];
 
   return (
-    <Section className="relative min-h-screen bg-black text-white">
-      <Navigation />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <H1>RFP Management</H1>
-
-          <Grid cols={4} gap={6}>
-            <StatCard
-              value={rfps.length}
-              label="Total RFPs"
-              className="bg-black text-white border-grey-800"
-            />
-            <StatCard
-              value={openCount}
-              label="Open"
-              className="bg-black text-white border-grey-800"
-            />
-            <StatCard
-              value={formatCurrency(totalBudget)}
-              label="Total Budget"
-              className="bg-black text-white border-grey-800"
-            />
-            <StatCard
-              value={totalResponses}
-              label="Responses"
-              className="bg-black text-white border-grey-800"
-            />
-          </Grid>
-
-          <Stack gap={4} direction="horizontal">
-            <Select
-              value={filterStatus}
-              onChange={(e) => setFilterStatus(e.target.value)}
-              className="bg-black text-white border-grey-700"
-            >
-              <option value="all">All Statuses</option>
-              <option value="draft">Draft</option>
-              <option value="open">Open</option>
-              <option value="evaluation">Evaluation</option>
-              <option value="awarded">Awarded</option>
-              <option value="closed">Closed</option>
-            </Select>
-          </Stack>
-
-          {rfps.length === 0 ? (
-            <EmptyState
-              title="No RFPs Found"
-              description="Create your first RFP to start receiving vendor responses"
-              action={{ label: "Create RFP", onClick: handleCreateRFP }}
-            />
-          ) : (
-            <Table variant="bordered" className="bg-black">
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Title</TableHead>
-                  <TableHead>Type</TableHead>
-                  <TableHead>Budget Range</TableHead>
-                  <TableHead>Responses</TableHead>
-                  <TableHead>Deadline</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {rfps.map((rfp) => (
-                  <TableRow key={rfp.id} className="bg-black text-white hover:bg-grey-900">
-                    <TableCell className="text-white">{rfp.title}</TableCell>
-                    <TableCell>
-                      <Badge variant="ghost">{rfp.project_type || "General"}</Badge>
-                    </TableCell>
-                    <TableCell className="font-mono text-white">
-                      {rfp.budget_min && rfp.budget_max
-                        ? `${formatCurrency(rfp.budget_min)} - ${formatCurrency(rfp.budget_max)}`
-                        : rfp.budget_max
-                        ? formatCurrency(rfp.budget_max)
-                        : "—"}
-                    </TableCell>
-                    <TableCell className="font-mono text-white">{rfp.responses?.[0]?.count || 0}</TableCell>
-                    <TableCell className="font-mono text-grey-400">
-                      {rfp.submission_deadline
-                        ? new Date(rfp.submission_deadline).toLocaleDateString()
-                        : "—"}
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant={getStatusVariant(rfp.status)}>{rfp.status}</Badge>
-                    </TableCell>
-                    <TableCell>
-                      <Stack gap={2} direction="horizontal">
-                        <Button size="sm" variant="ghost" onClick={() => handleViewRFP(rfp.id)}>
-                          View
-                        </Button>
-                        {rfp.status === "draft" && (
-                          <Button size="sm" variant="outline" onClick={() => handlePublishRFP(rfp.id)}>
-                            Publish
-                          </Button>
-                        )}
-                      </Stack>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
-
-          <Stack gap={3} direction="horizontal">
-            <Button variant="outlineWhite" onClick={handleCreateRFP}>
-              Create RFP
-            </Button>
-            <Button variant="ghost" className="text-grey-400 hover:text-white" onClick={handleTemplateLibrary}>
-              Template Library
-            </Button>
-          </Stack>
-        </Stack>
-      </Container>
-    </Section>
+    <>
+      <ListPage<RFP>
+        title="RFP Management"
+        subtitle="Create and manage requests for proposals"
+        data={rfps}
+        columns={columns}
+        rowKey="id"
+        loading={loading}
+        error={error ? new Error(error) : undefined}
+        onRetry={fetchRFPs}
+        searchPlaceholder="Search RFPs..."
+        filters={filters}
+        rowActions={rowActions}
+        onRowClick={(r) => { setSelectedRfp(r); setDrawerOpen(true); }}
+        createLabel="Create RFP"
+        onCreate={() => router.push('/rfp/new')}
+        onExport={() => router.push('/rfp/templates')}
+        stats={stats}
+        emptyMessage="No RFPs found"
+        emptyAction={{ label: 'Create RFP', onClick: () => router.push('/rfp/new') }}
+        header={<Navigation />}
+      />
+      {selectedRfp && (
+        <DetailDrawer
+          open={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+          record={selectedRfp}
+          title={(r) => r.title}
+          subtitle={(r) => `${r.project_type || 'General'} • ${r.status}`}
+          sections={detailSections}
+          actions={[{ id: 'edit', label: 'Edit RFP', icon: '✏️' }, { id: 'publish', label: 'Publish', icon: '📤' }]}
+          onAction={(id, r) => { if (id === 'edit') router.push(`/rfp/${r.id}`); setDrawerOpen(false); }}
+        />
+      )}
+    </>
   );
 }

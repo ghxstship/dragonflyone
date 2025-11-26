@@ -4,27 +4,13 @@ import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Navigation } from "../../components/navigation";
 import {
-  H1,
-  H2,
-  Body,
-  StatCard,
-  Select,
-  Button,
+  ListPage,
   Badge,
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableHead,
-  TableCell,
-  LoadingSpinner,
-  EmptyState,
-  Container,
-  Grid,
-  Stack,
-  Card,
-  Section,
-  useNotifications,
+  DetailDrawer,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
+  type DetailSection,
 } from "@ghxstship/ui";
 
 interface IntellectualProperty {
@@ -42,307 +28,141 @@ interface IntellectualProperty {
   classes?: string[];
   renewal_date?: string;
   estimated_value?: number;
+  [key: string]: unknown;
 }
 
-interface IPSummary {
-  total_assets: number;
-  trademarks: number;
-  patents: number;
-  copyrights: number;
-  trade_secrets: number;
-  pending_applications: number;
-  expiring_soon: number;
-  total_value: number;
-}
+const formatCurrency = (amount: number) => {
+  if (amount >= 1000000) return `$${(amount / 1000000).toFixed(1)}M`;
+  if (amount >= 1000) return `$${(amount / 1000).toFixed(0)}K`;
+  return `$${amount.toFixed(0)}`;
+};
+const formatDate = (dateString: string) => new Date(dateString).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+const getStatusVariant = (status: string): "solid" | "outline" | "ghost" => {
+  switch (status?.toLowerCase()) {
+    case "registered": case "active": return "solid";
+    case "pending": case "filed": return "outline";
+    default: return "ghost";
+  }
+};
+const getTypeIcon = (type: string) => {
+  switch (type?.toLowerCase()) {
+    case "trademark": return "™";
+    case "patent": return "⚙";
+    case "copyright": return "©";
+    case "trade_secret": return "🔒";
+    default: return "📄";
+  }
+};
+
+const columns: ListPageColumn<IntellectualProperty>[] = [
+  { key: 'title', label: 'Asset', accessor: 'title', sortable: true },
+  { key: 'ip_type', label: 'Type', accessor: (r) => `${getTypeIcon(r.ip_type)} ${r.ip_type}` },
+  { key: 'registration_number', label: 'Registration #', accessor: (r) => r.registration_number || '—' },
+  { key: 'jurisdiction', label: 'Jurisdiction', accessor: 'jurisdiction', sortable: true },
+  { key: 'filing_date', label: 'Filed', accessor: (r) => r.filing_date ? formatDate(r.filing_date) : '—', sortable: true },
+  { key: 'expiration_date', label: 'Expires', accessor: (r) => r.expiration_date ? formatDate(r.expiration_date) : 'N/A', sortable: true },
+  { key: 'estimated_value', label: 'Value', accessor: (r) => r.estimated_value ? formatCurrency(r.estimated_value) : '—', sortable: true },
+  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v) => <Badge variant={getStatusVariant(String(v))}>{String(v)}</Badge> },
+];
+
+const filters: ListPageFilter[] = [
+  { key: 'ip_type', label: 'Type', options: [{ value: 'trademark', label: 'Trademarks' }, { value: 'patent', label: 'Patents' }, { value: 'copyright', label: 'Copyrights' }, { value: 'trade_secret', label: 'Trade Secrets' }] },
+  { key: 'status', label: 'Status', options: [{ value: 'registered', label: 'Registered' }, { value: 'pending', label: 'Pending' }, { value: 'filed', label: 'Filed' }, { value: 'expired', label: 'Expired' }] },
+];
 
 export default function IPTrackingPage() {
   const router = useRouter();
-  const { addNotification } = useNotifications();
   const [assets, setAssets] = useState<IntellectualProperty[]>([]);
-  const [summary, setSummary] = useState<IPSummary | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [filterType, setFilterType] = useState("all");
-  const [filterStatus, setFilterStatus] = useState("all");
+  const [selectedAsset, setSelectedAsset] = useState<IntellectualProperty | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const fetchIPAssets = useCallback(async () => {
     try {
       setLoading(true);
-      const params = new URLSearchParams();
-      if (filterType !== "all") params.append("type", filterType);
-      if (filterStatus !== "all") params.append("status", filterStatus);
-
-      const response = await fetch(`/api/intellectual-property?${params.toString()}`);
+      const response = await fetch('/api/intellectual-property');
       if (!response.ok) throw new Error("Failed to fetch IP assets");
-      
       const data = await response.json();
       setAssets(data.assets || []);
-      setSummary(data.summary || null);
       setError(null);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
       setLoading(false);
     }
-  }, [filterType, filterStatus]);
+  }, []);
 
-  useEffect(() => {
-    fetchIPAssets();
-  }, [fetchIPAssets]);
+  useEffect(() => { fetchIPAssets(); }, [fetchIPAssets]);
 
-  const formatCurrency = (amount: number) => {
-    if (amount >= 1000000) {
-      return `$${(amount / 1000000).toFixed(1)}M`;
-    }
-    if (amount >= 1000) {
-      return `$${(amount / 1000).toFixed(0)}K`;
-    }
-    return `$${amount.toFixed(0)}`;
-  };
+  const pendingCount = assets.filter(a => a.status === 'pending' || a.status === 'filed').length;
+  const totalValue = assets.reduce((sum, a) => sum + (a.estimated_value || 0), 0);
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
-  };
+  const rowActions: ListPageAction<IntellectualProperty>[] = [
+    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedAsset(r); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (r) => router.push(`/ip-tracking/${r.id}/edit`) },
+  ];
 
-  const getStatusVariant = (status: string): "solid" | "outline" | "ghost" => {
-    switch (status?.toLowerCase()) {
-      case "registered":
-      case "active":
-        return "solid";
-      case "pending":
-      case "filed":
-        return "outline";
-      case "expired":
-      case "abandoned":
-        return "ghost";
-      default:
-        return "ghost";
-    }
-  };
+  const stats = [
+    { label: 'Total IP Assets', value: assets.length },
+    { label: 'Pending', value: pendingCount },
+    { label: 'Registered', value: assets.filter(a => a.status === 'registered').length },
+    { label: 'Estimated Value', value: formatCurrency(totalValue) },
+  ];
 
-  const getTypeIcon = (type: string) => {
-    switch (type?.toLowerCase()) {
-      case "trademark":
-        return "™";
-      case "patent":
-        return "⚙";
-      case "copyright":
-        return "©";
-      case "trade_secret":
-        return "🔒";
-      default:
-        return "📄";
-    }
-  };
-
-  if (loading) {
-    return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <Navigation />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading IP assets..." />
-        </Container>
-      </Section>
-    );
-  }
-
-  if (error) {
-    return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <Navigation />
-        <Container className="py-16">
-          <EmptyState
-            title="Error Loading IP Assets"
-            description={error}
-            action={{ label: "Retry", onClick: fetchIPAssets }}
-          />
-        </Container>
-      </Section>
-    );
-  }
+  const detailSections: DetailSection[] = selectedAsset ? [
+    { id: 'overview', title: 'IP Asset Details', content: (
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+        <div><strong>Title:</strong> {selectedAsset.title}</div>
+        <div><strong>Type:</strong> {getTypeIcon(selectedAsset.ip_type)} {selectedAsset.ip_type}</div>
+        <div><strong>Registration #:</strong> {selectedAsset.registration_number || '—'}</div>
+        <div><strong>Jurisdiction:</strong> {selectedAsset.jurisdiction}</div>
+        <div><strong>Owner:</strong> {selectedAsset.owner_entity}</div>
+        <div><strong>Status:</strong> {selectedAsset.status}</div>
+        <div><strong>Filed:</strong> {selectedAsset.filing_date ? formatDate(selectedAsset.filing_date) : '—'}</div>
+        <div><strong>Registered:</strong> {selectedAsset.registration_date ? formatDate(selectedAsset.registration_date) : '—'}</div>
+        <div><strong>Expires:</strong> {selectedAsset.expiration_date ? formatDate(selectedAsset.expiration_date) : 'N/A'}</div>
+        <div><strong>Value:</strong> {selectedAsset.estimated_value ? formatCurrency(selectedAsset.estimated_value) : '—'}</div>
+        {selectedAsset.description && <div style={{ gridColumn: 'span 2' }}><strong>Description:</strong> {selectedAsset.description}</div>}
+      </div>
+    )},
+  ] : [];
 
   return (
-    <Section className="relative min-h-screen bg-black text-white">
-      <Navigation />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Intellectual Property</H1>
-            <Body className="text-grey-400">
-              Track and manage trademarks, patents, copyrights, and trade secrets
-            </Body>
-          </Stack>
-
-          <Grid cols={4} gap={6}>
-            <StatCard
-              value={summary?.total_assets || 0}
-              label="Total IP Assets"
-              className="bg-black text-white border-grey-800"
-            />
-            <StatCard
-              value={summary?.pending_applications || 0}
-              label="Pending"
-              className="bg-black text-white border-grey-800"
-            />
-            <StatCard
-              value={summary?.expiring_soon || 0}
-              label="Expiring Soon"
-              className="bg-black text-white border-grey-800"
-            />
-            <StatCard
-              value={formatCurrency(summary?.total_value || 0)}
-              label="Estimated Value"
-              className="bg-black text-white border-grey-800"
-            />
-          </Grid>
-
-          <Card className="p-6 bg-black border-grey-800">
-            <Stack gap={4}>
-              <H2>IP Portfolio Overview</H2>
-              <Grid cols={4} gap={4}>
-                <Card className="p-4 bg-grey-900 border-grey-700">
-                  <Stack gap={2}>
-                    <Body className="text-grey-400 text-sm uppercase tracking-wider">Trademarks</Body>
-                    <Stack gap={1} direction="horizontal" className="items-center">
-                      <Body className="text-2xl">™</Body>
-                      <Body className="text-2xl font-bold">{summary?.trademarks || 0}</Body>
-                    </Stack>
-                  </Stack>
-                </Card>
-                <Card className="p-4 bg-grey-900 border-grey-700">
-                  <Stack gap={2}>
-                    <Body className="text-grey-400 text-sm uppercase tracking-wider">Patents</Body>
-                    <Stack gap={1} direction="horizontal" className="items-center">
-                      <Body className="text-2xl">⚙</Body>
-                      <Body className="text-2xl font-bold">{summary?.patents || 0}</Body>
-                    </Stack>
-                  </Stack>
-                </Card>
-                <Card className="p-4 bg-grey-900 border-grey-700">
-                  <Stack gap={2}>
-                    <Body className="text-grey-400 text-sm uppercase tracking-wider">Copyrights</Body>
-                    <Stack gap={1} direction="horizontal" className="items-center">
-                      <Body className="text-2xl">©</Body>
-                      <Body className="text-2xl font-bold">{summary?.copyrights || 0}</Body>
-                    </Stack>
-                  </Stack>
-                </Card>
-                <Card className="p-4 bg-grey-900 border-grey-700">
-                  <Stack gap={2}>
-                    <Body className="text-grey-400 text-sm uppercase tracking-wider">Trade Secrets</Body>
-                    <Stack gap={1} direction="horizontal" className="items-center">
-                      <Body className="text-2xl">🔒</Body>
-                      <Body className="text-2xl font-bold">{summary?.trade_secrets || 0}</Body>
-                    </Stack>
-                  </Stack>
-                </Card>
-              </Grid>
-            </Stack>
-          </Card>
-
-          <Stack gap={4} direction="horizontal">
-            <Select
-              value={filterType}
-              onChange={(e) => setFilterType(e.target.value)}
-              className="bg-black text-white border-grey-700"
-            >
-              <option value="all">All Types</option>
-              <option value="trademark">Trademarks</option>
-              <option value="patent">Patents</option>
-              <option value="copyright">Copyrights</option>
-              <option value="trade_secret">Trade Secrets</option>
-            </Select>
-            <Select
-              value={filterStatus}
-              onChange={(e) => setFilterStatus(e.target.value)}
-              className="bg-black text-white border-grey-700"
-            >
-              <option value="all">All Statuses</option>
-              <option value="registered">Registered</option>
-              <option value="pending">Pending</option>
-              <option value="filed">Filed</option>
-              <option value="expired">Expired</option>
-            </Select>
-          </Stack>
-
-          {assets.length === 0 ? (
-            <EmptyState
-              title="No IP Assets Found"
-              description="Register your first intellectual property asset"
-              action={{ label: "Add IP Asset", onClick: () => {} }}
-            />
-          ) : (
-            <Table variant="bordered" className="bg-black">
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Asset</TableHead>
-                  <TableHead>Type</TableHead>
-                  <TableHead>Registration #</TableHead>
-                  <TableHead>Jurisdiction</TableHead>
-                  <TableHead>Filed</TableHead>
-                  <TableHead>Expires</TableHead>
-                  <TableHead>Value</TableHead>
-                  <TableHead>Status</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {assets.map((asset) => (
-                  <TableRow key={asset.id} className="bg-black text-white hover:bg-grey-900">
-                    <TableCell>
-                      <Stack gap={1}>
-                        <Body className="text-white font-medium">{asset.title}</Body>
-                        <Body className="text-grey-500 text-sm">{asset.owner_entity}</Body>
-                      </Stack>
-                    </TableCell>
-                    <TableCell>
-                      <Stack gap={1} direction="horizontal" className="items-center">
-                        <Body className="text-lg">{getTypeIcon(asset.ip_type)}</Body>
-                        <Body className="text-grey-400">{asset.ip_type}</Body>
-                      </Stack>
-                    </TableCell>
-                    <TableCell className="font-mono text-grey-400">
-                      {asset.registration_number || "—"}
-                    </TableCell>
-                    <TableCell className="text-grey-400">
-                      {asset.jurisdiction}
-                    </TableCell>
-                    <TableCell className="font-mono text-grey-400">
-                      {asset.filing_date ? formatDate(asset.filing_date) : "—"}
-                    </TableCell>
-                    <TableCell className="font-mono text-grey-400">
-                      {asset.expiration_date ? formatDate(asset.expiration_date) : "N/A"}
-                    </TableCell>
-                    <TableCell className="font-mono text-white">
-                      {asset.estimated_value ? formatCurrency(asset.estimated_value) : "—"}
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant={getStatusVariant(asset.status)}>
-                        {asset.status}
-                      </Badge>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
-
-          <Stack gap={3} direction="horizontal">
-            <Button variant="outlineWhite" onClick={() => router.push('/ip-tracking/new')}>
-              Register New IP
-            </Button>
-            <Button variant="ghost" className="text-grey-400 hover:text-white" onClick={() => router.push('/ip-tracking/renewals')}>
-              Renewal Calendar
-            </Button>
-            <Button variant="ghost" className="text-grey-400 hover:text-white" onClick={() => router.push('/ip-tracking/export')}>
-              Export Portfolio
-            </Button>
-          </Stack>
-        </Stack>
-      </Container>
-    </Section>
+    <>
+      <ListPage<IntellectualProperty>
+        title="Intellectual Property"
+        subtitle="Track trademarks, patents, copyrights, and trade secrets"
+        data={assets}
+        columns={columns}
+        rowKey="id"
+        loading={loading}
+        error={error ? new Error(error) : undefined}
+        onRetry={fetchIPAssets}
+        searchPlaceholder="Search IP assets..."
+        filters={filters}
+        rowActions={rowActions}
+        onRowClick={(r) => { setSelectedAsset(r); setDrawerOpen(true); }}
+        createLabel="Register New IP"
+        onCreate={() => router.push('/ip-tracking/new')}
+        onExport={() => router.push('/ip-tracking/export')}
+        stats={stats}
+        emptyMessage="No IP assets found"
+        emptyAction={{ label: 'Register New IP', onClick: () => router.push('/ip-tracking/new') }}
+        header={<Navigation />}
+      />
+      {selectedAsset && (
+        <DetailDrawer
+          open={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+          record={selectedAsset}
+          title={(a) => a.title}
+          subtitle={(a) => `${getTypeIcon(a.ip_type)} ${a.ip_type} • ${a.jurisdiction}`}
+          sections={detailSections}
+          actions={[{ id: 'edit', label: 'Edit Asset', icon: '✏️' }, { id: 'renew', label: 'Renewal Calendar', icon: '📅' }]}
+          onAction={(id, a) => { if (id === 'edit') router.push(`/ip-tracking/${a.id}/edit`); setDrawerOpen(false); }}
+        />
+      )}
+    </>
   );
 }

@@ -4,25 +4,13 @@ import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Navigation } from "../../components/navigation";
 import {
-  H1,
-  H3,
-  StatCard,
-  Select,
-  Button,
+  ListPage,
   Badge,
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableHead,
-  TableCell,
-  LoadingSpinner,
-  EmptyState,
-  Container,
-  Grid,
-  Stack,
-  Section,
-  useNotifications,
+  DetailDrawer,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
+  type DetailSection,
 } from "@ghxstship/ui";
 
 interface TrainingProgram {
@@ -40,271 +28,135 @@ interface TrainingProgram {
   status: string;
   is_virtual: boolean;
   created_at: string;
+  [key: string]: unknown;
 }
 
-interface TrainingCompletion {
-  id: string;
-  completed_at: string;
-  score: number;
-  employee?: { id: string; full_name: string; email: string };
-  program?: { id: string; title: string };
-}
+const getStatusVariant = (status: string): "solid" | "outline" | "ghost" => {
+  switch (status?.toLowerCase()) {
+    case "active": return "solid";
+    case "full": case "completed": return "outline";
+    default: return "ghost";
+  }
+};
 
-interface TrainingSummary {
-  total_programs: number;
-  active_programs: number;
-  total_enrolled: number;
-  by_category: Record<string, number>;
-}
+const columns: ListPageColumn<TrainingProgram>[] = [
+  { key: 'title', label: 'Program', accessor: 'title', sortable: true },
+  { key: 'category', label: 'Category', accessor: 'category', render: (v) => <Badge variant="ghost">{String(v).replace("_", " ")}</Badge> },
+  { key: 'duration_hours', label: 'Duration', accessor: (r) => `${r.duration_hours} hours`, sortable: true },
+  { key: 'instructor', label: 'Instructor', accessor: (r) => r.instructor?.full_name || r.instructor_name || '—' },
+  { key: 'enrolled', label: 'Enrolled', accessor: (r) => `${r.enrolled_count || 0}/${r.capacity}` },
+  { key: 'start_date', label: 'Start Date', accessor: (r) => r.start_date ? new Date(r.start_date).toLocaleDateString() : '—', sortable: true },
+  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v) => <Badge variant={getStatusVariant(String(v))}>{String(v)}</Badge> },
+];
+
+const filters: ListPageFilter[] = [
+  { key: 'status', label: 'Status', options: [{ value: 'active', label: 'Active' }, { value: 'draft', label: 'Draft' }, { value: 'full', label: 'Full' }, { value: 'completed', label: 'Completed' }] },
+  { key: 'category', label: 'Category', options: [{ value: 'safety', label: 'Safety' }, { value: 'management', label: 'Management' }, { value: 'compliance', label: 'Compliance' }, { value: 'technical', label: 'Technical' }, { value: 'soft_skills', label: 'Soft Skills' }, { value: 'certification', label: 'Certification' }] },
+];
 
 export default function TrainingPage() {
   const router = useRouter();
-  const { addNotification } = useNotifications();
   const [programs, setPrograms] = useState<TrainingProgram[]>([]);
-  const [completions, setCompletions] = useState<TrainingCompletion[]>([]);
-  const [summary, setSummary] = useState<TrainingSummary | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [filterStatus, setFilterStatus] = useState("all");
-  const [filterCategory, setFilterCategory] = useState("all");
+  const [selectedProgram, setSelectedProgram] = useState<TrainingProgram | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const fetchTraining = useCallback(async () => {
     try {
       setLoading(true);
-      const params = new URLSearchParams();
-      if (filterStatus !== "all") {
-        params.append("status", filterStatus);
-      }
-      if (filterCategory !== "all") {
-        params.append("category", filterCategory);
-      }
-
-      const response = await fetch(`/api/training?${params.toString()}`);
-      if (!response.ok) {
-        throw new Error("Failed to fetch training programs");
-      }
+      const response = await fetch('/api/training');
+      if (!response.ok) throw new Error("Failed to fetch training programs");
       const data = await response.json();
       setPrograms(data.programs || []);
-      setCompletions(data.recent_completions || []);
-      setSummary(data.summary || null);
       setError(null);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
       setLoading(false);
     }
-  }, [filterStatus, filterCategory]);
+  }, []);
 
   useEffect(() => {
     fetchTraining();
   }, [fetchTraining]);
 
-  const getStatusVariant = (status: string): "solid" | "outline" | "ghost" => {
-    switch (status?.toLowerCase()) {
-      case "active":
-        return "solid";
-      case "full":
-      case "completed":
-        return "outline";
-      default:
-        return "ghost";
-    }
-  };
+  const activeCount = programs.filter(p => p.status === 'active').length;
+  const totalEnrolled = programs.reduce((sum, p) => sum + (p.enrolled_count || 0), 0);
 
-  if (loading) {
-    return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <Navigation />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading training programs..." />
-        </Container>
-      </Section>
-    );
-  }
+  const rowActions: ListPageAction<TrainingProgram>[] = [
+    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedProgram(r); setDrawerOpen(true); } },
+    { id: 'enroll', label: 'Enroll', icon: '📝', onClick: (r) => router.push(`/training/${r.id}/enroll`) },
+  ];
 
-  if (error) {
-    return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <Navigation />
-        <Container className="py-16">
-          <EmptyState
-            title="Error Loading Training"
-            description={error}
-            action={{ label: "Retry", onClick: fetchTraining }}
-          />
-        </Container>
-      </Section>
-    );
-  }
+  const stats = [
+    { label: 'Total Programs', value: programs.length },
+    { label: 'Active', value: activeCount },
+    { label: 'Total Enrolled', value: totalEnrolled },
+    { label: 'Virtual', value: programs.filter(p => p.is_virtual).length },
+  ];
+
+  const detailSections: DetailSection[] = selectedProgram ? [
+    { id: 'overview', title: 'Program Details', content: (
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+        <div><strong>Title:</strong> {selectedProgram.title}</div>
+        <div><strong>Category:</strong> {selectedProgram.category}</div>
+        <div><strong>Duration:</strong> {selectedProgram.duration_hours} hours</div>
+        <div><strong>Instructor:</strong> {selectedProgram.instructor?.full_name || selectedProgram.instructor_name || '—'}</div>
+        <div><strong>Capacity:</strong> {selectedProgram.capacity}</div>
+        <div><strong>Enrolled:</strong> {selectedProgram.enrolled_count || 0}</div>
+        <div><strong>Start Date:</strong> {selectedProgram.start_date ? new Date(selectedProgram.start_date).toLocaleDateString() : '—'}</div>
+        <div><strong>End Date:</strong> {selectedProgram.end_date ? new Date(selectedProgram.end_date).toLocaleDateString() : '—'}</div>
+        <div><strong>Status:</strong> {selectedProgram.status}</div>
+        <div><strong>Virtual:</strong> {selectedProgram.is_virtual ? 'Yes' : 'No'}</div>
+        {selectedProgram.description && <div style={{ gridColumn: 'span 2' }}><strong>Description:</strong> {selectedProgram.description}</div>}
+      </div>
+    )},
+  ] : [];
 
   return (
-    <Section className="relative min-h-screen bg-black text-white">
-      <Navigation />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <H1>Training & Development</H1>
+    <>
+      <ListPage<TrainingProgram>
+        title="Training & Development"
+        subtitle="Manage training programs and employee development"
+        data={programs}
+        columns={columns}
+        rowKey="id"
+        loading={loading}
+        error={error ? new Error(error) : undefined}
+        onRetry={fetchTraining}
+        searchPlaceholder="Search programs..."
+        filters={filters}
+        rowActions={rowActions}
+        onRowClick={(r) => { setSelectedProgram(r); setDrawerOpen(true); }}
+        createLabel="Create Program"
+        onCreate={() => router.push('/training/new')}
+        onExport={() => console.log('Export')}
+        stats={stats}
+        emptyMessage="No training programs found"
+        emptyAction={{ label: 'Create Program', onClick: () => router.push('/training/new') }}
+        header={<Navigation />}
+      />
 
-          <Grid cols={4} gap={6}>
-            <StatCard
-              value={summary?.active_programs || 0}
-              label="Active Programs"
-              className="bg-black text-white border-grey-800"
-            />
-            <StatCard
-              value={summary?.total_enrolled || 0}
-              label="Total Enrolled"
-              className="bg-black text-white border-grey-800"
-            />
-            <StatCard
-              value={`${summary?.total_programs || 0}`}
-              label="Total Programs"
-              className="bg-black text-white border-grey-800"
-            />
-            <StatCard
-              value={completions.length}
-              label="Recent Completions"
-              className="bg-black text-white border-grey-800"
-            />
-          </Grid>
-
-          <Stack gap={4} direction="horizontal">
-            <Select
-              value={filterStatus}
-              onChange={(e) => setFilterStatus(e.target.value)}
-              className="bg-black text-white border-grey-700"
-            >
-              <option value="all">All Statuses</option>
-              <option value="active">Active</option>
-              <option value="draft">Draft</option>
-              <option value="full">Full</option>
-              <option value="completed">Completed</option>
-            </Select>
-            <Select
-              value={filterCategory}
-              onChange={(e) => setFilterCategory(e.target.value)}
-              className="bg-black text-white border-grey-700"
-            >
-              <option value="all">All Categories</option>
-              <option value="safety">Safety</option>
-              <option value="management">Management</option>
-              <option value="compliance">Compliance</option>
-              <option value="technical">Technical</option>
-              <option value="soft_skills">Soft Skills</option>
-              <option value="certification">Certification</option>
-            </Select>
-          </Stack>
-
-          <Stack gap={4}>
-            <H3 className="text-white">Available Programs</H3>
-            {programs.length === 0 ? (
-              <EmptyState
-                title="No Programs Found"
-                description="Create your first training program to get started"
-                action={{ label: "Create Program", onClick: () => router.push("/training/new") }}
-              />
-            ) : (
-              <Table variant="bordered" className="bg-black">
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Program</TableHead>
-                    <TableHead>Category</TableHead>
-                    <TableHead>Duration</TableHead>
-                    <TableHead>Instructor</TableHead>
-                    <TableHead>Enrolled</TableHead>
-                    <TableHead>Start Date</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {programs.map((program) => (
-                    <TableRow key={program.id} className="bg-black text-white hover:bg-grey-900">
-                      <TableCell className="text-white">{program.title}</TableCell>
-                      <TableCell>
-                        <Badge variant="ghost">{program.category?.replace("_", " ")}</Badge>
-                      </TableCell>
-                      <TableCell className="font-mono text-grey-400">
-                        {program.duration_hours} hours
-                      </TableCell>
-                      <TableCell className="text-grey-400">
-                        {program.instructor?.full_name || program.instructor_name || "—"}
-                      </TableCell>
-                      <TableCell className="font-mono text-white">
-                        {program.enrolled_count || 0}/{program.capacity}
-                      </TableCell>
-                      <TableCell className="font-mono text-grey-400">
-                        {program.start_date
-                          ? new Date(program.start_date).toLocaleDateString()
-                          : "—"}
-                      </TableCell>
-                      <TableCell>
-                        <Badge variant={getStatusVariant(program.status)}>{program.status}</Badge>
-                      </TableCell>
-                      <TableCell>
-                        <Stack gap={2} direction="horizontal">
-                          <Button size="sm" variant="ghost" onClick={() => router.push(`/training/${program.id}`)}>
-                            View
-                          </Button>
-                          {program.status === "active" && (
-                            <Button size="sm" variant="outline" onClick={() => router.push(`/training/${program.id}/enroll`)}>
-                              Enroll
-                            </Button>
-                          )}
-                        </Stack>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            )}
-          </Stack>
-
-          {completions.length > 0 && (
-            <Stack gap={4}>
-              <H3 className="text-white">Recent Completions</H3>
-              <Table variant="bordered" className="bg-black">
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Employee</TableHead>
-                    <TableHead>Course</TableHead>
-                    <TableHead>Completed</TableHead>
-                    <TableHead>Score</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {completions.map((record) => (
-                    <TableRow key={record.id} className="bg-black text-white hover:bg-grey-900">
-                      <TableCell className="text-white">
-                        {record.employee?.full_name || "—"}
-                      </TableCell>
-                      <TableCell className="text-grey-400">
-                        {record.program?.title || "—"}
-                      </TableCell>
-                      <TableCell className="font-mono text-grey-400">
-                        {record.completed_at
-                          ? new Date(record.completed_at).toLocaleDateString()
-                          : "—"}
-                      </TableCell>
-                      <TableCell className="font-mono text-white">
-                        {record.score ? `${record.score}%` : "—"}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Stack>
-          )}
-
-          <Stack gap={3} direction="horizontal">
-            <Button variant="outlineWhite" onClick={() => router.push("/training/new")}>
-              Create Program
-            </Button>
-            <Button variant="ghost" className="text-grey-400 hover:text-white" onClick={() => router.push("/training/enroll")}>
-              Enroll Employee
-            </Button>
-          </Stack>
-        </Stack>
-      </Container>
-    </Section>
+      {selectedProgram && (
+        <DetailDrawer
+          open={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+          record={selectedProgram}
+          title={(p) => p.title}
+          subtitle={(p) => `${p.category} • ${p.duration_hours} hours`}
+          sections={detailSections}
+          actions={[
+            { id: 'enroll', label: 'Enroll Employee', icon: '📝' },
+            { id: 'edit', label: 'Edit Program', icon: '✏️' },
+          ]}
+          onAction={(id, p) => {
+            if (id === 'enroll') router.push(`/training/${p.id}/enroll`);
+            if (id === 'edit') router.push(`/training/${p.id}/edit`);
+            setDrawerOpen(false);
+          }}
+        />
+      )}
+    </>
   );
 }

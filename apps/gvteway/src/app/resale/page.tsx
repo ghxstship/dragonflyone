@@ -4,29 +4,14 @@ import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Navigation } from "../../components/navigation";
 import {
-  H1,
-  H2,
-  Body,
-  StatCard,
-  Select,
-  Button,
+  ListPage,
   Badge,
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableHead,
-  TableCell,
-  LoadingSpinner,
-  EmptyState,
-  Container,
-  Grid,
-  Stack,
-  Card,
-  Section,
-  Input,
-  Field,
-  useNotifications,
+  DetailDrawer,
+  ConfirmDialog,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
+  type DetailSection,
 } from "@ghxstship/ui";
 
 interface ResaleListing {
@@ -47,351 +32,147 @@ interface ResaleListing {
   status: string;
   listed_at: string;
   expires_at?: string;
+  [key: string]: unknown;
 }
 
-interface ResaleSummary {
-  total_listings: number;
-  my_listings: number;
-  total_value: number;
-  sold_count: number;
-  pending_count: number;
-}
+const formatCurrency = (amount: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 0 }).format(amount);
+
+const getStatusVariant = (status: string): "solid" | "outline" | "ghost" => {
+  switch (status?.toLowerCase()) {
+    case "sold": return "solid";
+    case "active": case "listed": return "outline";
+    default: return "ghost";
+  }
+};
+
+const columns: ListPageColumn<ResaleListing>[] = [
+  { key: 'event_name', label: 'Event', accessor: 'event_name', sortable: true },
+  { key: 'venue_name', label: 'Venue', accessor: 'venue_name' },
+  { key: 'event_date', label: 'Date', accessor: (r) => new Date(r.event_date).toLocaleDateString(), sortable: true },
+  { key: 'ticket_type', label: 'Type', accessor: 'ticket_type' },
+  { key: 'seat', label: 'Section/Seat', accessor: (r) => r.section ? `${r.section} / Row ${r.row}` : 'GA' },
+  { key: 'asking_price', label: 'Price', accessor: (r) => formatCurrency(r.asking_price), sortable: true },
+  { key: 'status', label: 'Status', accessor: 'status', render: (v) => <Badge variant={getStatusVariant(String(v))}>{String(v)}</Badge> },
+];
+
+const filters: ListPageFilter[] = [
+  { key: 'status', label: 'Status', options: [{ value: 'active', label: 'Active' }, { value: 'sold', label: 'Sold' }, { value: 'expired', label: 'Expired' }] },
+  { key: 'ticket_type', label: 'Type', options: [{ value: 'GA', label: 'General Admission' }, { value: 'VIP', label: 'VIP' }, { value: 'Reserved', label: 'Reserved' }] },
+];
 
 export default function ResalePage() {
   const router = useRouter();
-  const { addNotification } = useNotifications();
   const [listings, setListings] = useState<ResaleListing[]>([]);
-  const [myListings, setMyListings] = useState<ResaleListing[]>([]);
-  const [summary, setSummary] = useState<ResaleSummary | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<"browse" | "my-listings">("browse");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedListing, setSelectedListing] = useState<ResaleListing | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
 
   const fetchListings = useCallback(async () => {
     try {
       setLoading(true);
-      const params = new URLSearchParams();
-      if (searchQuery) params.append("search", searchQuery);
-
-      const response = await fetch(`/api/resale?${params.toString()}`);
+      const response = await fetch('/api/resale');
       if (!response.ok) throw new Error("Failed to fetch listings");
-      
       const data = await response.json();
       setListings(data.listings || []);
-      setMyListings(data.my_listings || []);
-      setSummary(data.summary || null);
       setError(null);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
       setLoading(false);
     }
-  }, [searchQuery]);
+  }, []);
 
-  useEffect(() => {
-    fetchListings();
-  }, [fetchListings]);
+  useEffect(() => { fetchListings(); }, [fetchListings]);
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-      minimumFractionDigits: 0,
-    }).format(amount);
+  const handleDelete = async () => {
+    if (!selectedListing) return;
+    setListings(listings.filter(l => l.id !== selectedListing.id));
+    setDeleteConfirmOpen(false);
+    setSelectedListing(null);
   };
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-    });
-  };
+  const activeCount = listings.filter(l => l.status === 'active').length;
+  const soldCount = listings.filter(l => l.status === 'sold').length;
+  const totalValue = listings.reduce((sum, l) => sum + l.asking_price, 0);
 
-  const getStatusVariant = (status: string): "solid" | "outline" | "ghost" => {
-    switch (status?.toLowerCase()) {
-      case "sold":
-        return "solid";
-      case "active":
-      case "listed":
-        return "outline";
-      case "expired":
-      case "cancelled":
-        return "ghost";
-      default:
-        return "ghost";
-    }
-  };
+  const rowActions: ListPageAction<ResaleListing>[] = [
+    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedListing(r); setDrawerOpen(true); } },
+    { id: 'buy', label: 'Buy Now', icon: '🛒', onClick: (r) => router.push(`/checkout?listing=${r.id}`) },
+    { id: 'cancel', label: 'Cancel', icon: '❌', onClick: (r) => { setSelectedListing(r); setDeleteConfirmOpen(true); }, variant: 'danger' },
+  ];
 
-  const handleBuyTicket = async (listingId: string) => {
-    router.push(`/checkout?listing=${listingId}`);
-  };
+  const stats = [
+    { label: 'Total Listings', value: listings.length },
+    { label: 'Active', value: activeCount },
+    { label: 'Sold', value: soldCount },
+    { label: 'Market Value', value: formatCurrency(totalValue) },
+  ];
 
-  const handleCancelListing = async (listingId: string) => {
-    try {
-      const response = await fetch(`/api/resale/${listingId}`, {
-        method: "DELETE",
-      });
-      if (response.ok) {
-        addNotification({ type: "success", title: "Success", message: "Listing cancelled" });
-        fetchListings();
-      }
-    } catch (err) {
-      addNotification({ type: "error", title: "Error", message: "Failed to cancel listing" });
-    }
-  };
-
-  if (loading) {
-    return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <Navigation />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading resale marketplace..." />
-        </Container>
-      </Section>
-    );
-  }
-
-  if (error) {
-    return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <Navigation />
-        <Container className="py-16">
-          <EmptyState
-            title="Error Loading Marketplace"
-            description={error}
-            action={{ label: "Retry", onClick: fetchListings }}
-          />
-        </Container>
-      </Section>
-    );
-  }
+  const detailSections: DetailSection[] = selectedListing ? [
+    { id: 'overview', title: 'Listing Details', content: (
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+        <div><strong>Event:</strong> {selectedListing.event_name}</div>
+        <div><strong>Venue:</strong> {selectedListing.venue_name}</div>
+        <div><strong>Date:</strong> {new Date(selectedListing.event_date).toLocaleDateString()}</div>
+        <div><strong>Ticket Type:</strong> {selectedListing.ticket_type}</div>
+        <div><strong>Section:</strong> {selectedListing.section || 'GA'}</div>
+        <div><strong>Row:</strong> {selectedListing.row || '—'}</div>
+        <div><strong>Seat:</strong> {selectedListing.seat || '—'}</div>
+        <div><strong>Original Price:</strong> {formatCurrency(selectedListing.original_price)}</div>
+        <div><strong>Asking Price:</strong> {formatCurrency(selectedListing.asking_price)}</div>
+        <div><strong>Status:</strong> {selectedListing.status}</div>
+        <div><strong>Seller:</strong> {selectedListing.seller_name}</div>
+        <div><strong>Listed:</strong> {new Date(selectedListing.listed_at).toLocaleDateString()}</div>
+      </div>
+    )},
+  ] : [];
 
   return (
-    <Section className="relative min-h-screen bg-black text-white">
-      <Navigation />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Ticket Resale</H1>
-            <Body className="text-grey-400">
-              Buy and sell tickets safely through our verified marketplace
-            </Body>
-          </Stack>
-
-          <Grid cols={4} gap={6}>
-            <StatCard
-              value={summary?.total_listings || 0}
-              label="Active Listings"
-              className="bg-black text-white border-grey-800"
-            />
-            <StatCard
-              value={summary?.my_listings || 0}
-              label="My Listings"
-              className="bg-black text-white border-grey-800"
-            />
-            <StatCard
-              value={summary?.sold_count || 0}
-              label="Sold This Month"
-              className="bg-black text-white border-grey-800"
-            />
-            <StatCard
-              value={formatCurrency(summary?.total_value || 0)}
-              label="Market Value"
-              className="bg-black text-white border-grey-800"
-            />
-          </Grid>
-
-          <Card className="p-6 bg-black border-grey-800">
-            <Stack gap={4}>
-              <H2>Seller Protection</H2>
-              <Grid cols={3} gap={4}>
-                <Stack gap={2}>
-                  <Body className="text-2xl">🔒</Body>
-                  <Body className="font-medium">Secure Transfers</Body>
-                  <Body className="text-grey-400 text-sm">
-                    Tickets are only transferred after payment is confirmed
-                  </Body>
-                </Stack>
-                <Stack gap={2}>
-                  <Body className="text-2xl">💰</Body>
-                  <Body className="font-medium">Guaranteed Payment</Body>
-                  <Body className="text-grey-400 text-sm">
-                    Get paid within 5 business days of the event
-                  </Body>
-                </Stack>
-                <Stack gap={2}>
-                  <Body className="text-2xl">✓</Body>
-                  <Body className="font-medium">Verified Tickets</Body>
-                  <Body className="text-grey-400 text-sm">
-                    All tickets are verified authentic before listing
-                  </Body>
-                </Stack>
-              </Grid>
-            </Stack>
-          </Card>
-
-          <Stack gap={4} direction="horizontal">
-            <Button 
-              variant={activeTab === "browse" ? "solid" : "ghost"}
-              onClick={() => setActiveTab("browse")}
-            >
-              Browse Listings
-            </Button>
-            <Button 
-              variant={activeTab === "my-listings" ? "solid" : "ghost"}
-              onClick={() => setActiveTab("my-listings")}
-            >
-              My Listings
-            </Button>
-          </Stack>
-
-          {activeTab === "browse" && (
-            <>
-              <Field>
-                <Input
-                  placeholder="Search events..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="bg-black text-white border-grey-700"
-                />
-              </Field>
-
-              {listings.length === 0 ? (
-                <EmptyState
-                  title="No Listings Found"
-                  description="Check back later for available tickets"
-                />
-              ) : (
-                <Table variant="bordered" className="bg-black">
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Event</TableHead>
-                      <TableHead>Date</TableHead>
-                      <TableHead>Ticket Type</TableHead>
-                      <TableHead>Section/Seat</TableHead>
-                      <TableHead>Price</TableHead>
-                      <TableHead>Actions</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {listings.map((listing) => (
-                      <TableRow key={listing.id} className="bg-black text-white hover:bg-grey-900">
-                        <TableCell>
-                          <Stack gap={1}>
-                            <Body className="text-white font-medium">{listing.event_name}</Body>
-                            <Body className="text-grey-500 text-sm">{listing.venue_name}</Body>
-                          </Stack>
-                        </TableCell>
-                        <TableCell className="font-mono text-grey-400">
-                          {formatDate(listing.event_date)}
-                        </TableCell>
-                        <TableCell className="text-grey-400">
-                          {listing.ticket_type}
-                        </TableCell>
-                        <TableCell className="text-grey-400">
-                          {listing.section ? `${listing.section} / Row ${listing.row} / Seat ${listing.seat}` : "GA"}
-                        </TableCell>
-                        <TableCell>
-                          <Stack gap={1}>
-                            <Body className="font-mono text-white font-bold">
-                              {formatCurrency(listing.asking_price)}
-                            </Body>
-                            <Body className="text-grey-500 text-xs line-through">
-                              {formatCurrency(listing.original_price)}
-                            </Body>
-                          </Stack>
-                        </TableCell>
-                        <TableCell>
-                          <Button 
-                            size="sm" 
-                            variant="outline" 
-                            onClick={() => handleBuyTicket(listing.id)}
-                          >
-                            Buy Now
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              )}
-            </>
-          )}
-
-          {activeTab === "my-listings" && (
-            <>
-              {myListings.length === 0 ? (
-                <EmptyState
-                  title="No Active Listings"
-                  description="List a ticket for resale"
-                  action={{ label: "List a Ticket", onClick: () => router.push("/tickets") }}
-                />
-              ) : (
-                <Table variant="bordered" className="bg-black">
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Event</TableHead>
-                      <TableHead>Ticket Type</TableHead>
-                      <TableHead>Asking Price</TableHead>
-                      <TableHead>Listed</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Actions</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {myListings.map((listing) => (
-                      <TableRow key={listing.id} className="bg-black text-white hover:bg-grey-900">
-                        <TableCell>
-                          <Stack gap={1}>
-                            <Body className="text-white font-medium">{listing.event_name}</Body>
-                            <Body className="text-grey-500 text-sm">{formatDate(listing.event_date)}</Body>
-                          </Stack>
-                        </TableCell>
-                        <TableCell className="text-grey-400">
-                          {listing.ticket_type}
-                        </TableCell>
-                        <TableCell className="font-mono text-white">
-                          {formatCurrency(listing.asking_price)}
-                        </TableCell>
-                        <TableCell className="font-mono text-grey-400">
-                          {formatDate(listing.listed_at)}
-                        </TableCell>
-                        <TableCell>
-                          <Badge variant={getStatusVariant(listing.status)}>
-                            {listing.status}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>
-                          {listing.status === "active" && (
-                            <Button 
-                              size="sm" 
-                              variant="ghost" 
-                              onClick={() => handleCancelListing(listing.id)}
-                            >
-                              Cancel
-                            </Button>
-                          )}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              )}
-            </>
-          )}
-
-          <Stack gap={3} direction="horizontal">
-            <Button variant="outlineWhite" onClick={() => router.push("/tickets")}>
-              List a Ticket
-            </Button>
-            <Button variant="ghost" className="text-grey-400 hover:text-white" onClick={() => router.push('/resale/pricing-guide')}>
-              Pricing Guide
-            </Button>
-          </Stack>
-        </Stack>
-      </Container>
-    </Section>
+    <>
+      <ListPage<ResaleListing>
+        title="Ticket Resale"
+        subtitle="Buy and sell tickets safely through our verified marketplace"
+        data={listings}
+        columns={columns}
+        rowKey="id"
+        loading={loading}
+        error={error ? new Error(error) : undefined}
+        onRetry={fetchListings}
+        searchPlaceholder="Search events..."
+        filters={filters}
+        rowActions={rowActions}
+        onRowClick={(r) => { setSelectedListing(r); setDrawerOpen(true); }}
+        createLabel="List a Ticket"
+        onCreate={() => router.push('/tickets')}
+        onExport={() => console.log('Export')}
+        stats={stats}
+        emptyMessage="No listings found"
+        emptyAction={{ label: 'List a Ticket', onClick: () => router.push('/tickets') }}
+        header={<Navigation />}
+      />
+      {selectedListing && (
+        <DetailDrawer
+          open={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+          record={selectedListing}
+          title={(l) => l.event_name}
+          subtitle={(l) => `${l.venue_name} • ${formatCurrency(l.asking_price)}`}
+          sections={detailSections}
+          actions={[{ id: 'buy', label: 'Buy Now', icon: '🛒' }]}
+          onAction={(id, l) => { if (id === 'buy') router.push(`/checkout?listing=${l.id}`); setDrawerOpen(false); }}
+        />
+      )}
+      <ConfirmDialog
+        open={deleteConfirmOpen}
+        onCancel={() => setDeleteConfirmOpen(false)}
+        title="Cancel Listing"
+        message={`Are you sure you want to cancel the listing for "${selectedListing?.event_name}"?`}
+        confirmLabel="Cancel Listing"
+        onConfirm={handleDelete}
+        variant="danger"
+      />
+    </>
   );
 }

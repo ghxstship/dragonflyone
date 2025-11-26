@@ -361,7 +361,7 @@ Route (app)                                   Size     First Load JS
 ├ ○ /finance/bank-reconciliation              5.24 kB        95.3 kB
 ├ ○ /finance/commissions                      5.57 kB        95.6 kB
 ├ ○ /finance/credit-cards                     5.4 kB         95.4 kB
-├ ○ /governance                               2.02 kB          95 kB
+├ ○ /governance                               2.31 kB        97.2 kB
 ├ ○ /integrations                             4 kB           91.2 kB
 ├ ○ /invoices                                 4.87 kB         102 kB
 ├ ○ /ip-tracking                              2.15 kB        95.6 kB
@@ -389,10 +389,10 @@ Route (app)                                   Size     First Load JS
 ├ ○ /risks                                    3.5 kB          185 kB
 ├ ○ /scenarios                                3.59 kB        93.6 kB
 ├ ○ /settings                                 2.66 kB         146 kB
-├ ○ /stakeholders                             6.99 kB        94.2 kB
-├ ○ /subsidiaries                             1.82 kB        94.8 kB
+├ ○ /stakeholders                             2.34 kB        96.9 kB
+├ ○ /subsidiaries                             4.28 kB        94.3 kB
 ├ ○ /taxes                                    2.1 kB         95.5 kB
-├ ○ /training                                 4.74 kB        94.8 kB
+├ ○ /training                                 2.39 kB        97.3 kB
 ├ ○ /vendors                                  3.71 kB         189 kB
 ├ ○ /vendors/contracts                        4.47 kB        94.5 kB
 ├ ○ /vendors/rate-cards                       4.83 kB        94.9 kB

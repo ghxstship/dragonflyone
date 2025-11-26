@@ -445,6 +445,9 @@ See the following pages for real-world implementations:
 - `apps/atlvs/src/app/advances/page.tsx` - Advance review queue
 - `apps/atlvs/src/app/crm/page.tsx` - CRM overview
 - `apps/atlvs/src/app/crm/tasks/page.tsx` - CRM tasks & follow-ups
+- `apps/atlvs/src/app/training/page.tsx` - Training & development
+- `apps/atlvs/src/app/stakeholders/page.tsx` - Stakeholder hub
+- `apps/atlvs/src/app/governance/page.tsx` - Corporate governance
 
 ### COMPVSS (Production Operations)
 - `apps/compvss/src/app/crew/page.tsx` - Crew directory
@@ -459,6 +462,8 @@ See the following pages for real-world implementations:
 - `apps/compvss/src/app/maintenance/page.tsx` - Equipment maintenance
 - `apps/compvss/src/app/issues/page.tsx` - Live issue tracking
 - `apps/compvss/src/app/availability/page.tsx` - Crew availability calendar
+- `apps/compvss/src/app/travel/page.tsx` - Travel coordination
+- `apps/compvss/src/app/stage-management/page.tsx` - Stage management & performers
 
 ### GVTEWAY (Event Ticketing)
 - `apps/gvteway/src/app/admin/promo-codes/page.tsx` - Promo codes management
@@ -467,6 +472,13 @@ See the following pages for real-world implementations:
 - `apps/gvteway/src/app/admin/contests/page.tsx` - Contests & giveaways
 - `apps/gvteway/src/app/admin/moderation/page.tsx` - Content moderation
 - `apps/gvteway/src/app/admin/inventory-sync/page.tsx` - Inventory synchronization
+- `apps/gvteway/src/app/resale/page.tsx` - Ticket resale marketplace
+- `apps/gvteway/src/app/events/[id]/rfid/page.tsx` - RFID wristband management
+
+### Additional Normalized Pages (Latest)
+- `apps/atlvs/src/app/risks/page.tsx` - Risk management
+- `apps/atlvs/src/app/quotes/page.tsx` - Quote management
+- `apps/atlvs/src/app/pipeline/page.tsx` - Sales pipeline
 
 ## Migration Checklist
 

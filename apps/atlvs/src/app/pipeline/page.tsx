@@ -5,186 +5,125 @@ import { useRouter } from "next/navigation";
 import { Navigation } from "../../components/navigation";
 import { useDeals } from "@/hooks/useDeals";
 import {
-  H1,
-  StatCard,
-  Select,
-  Button,
+  ListPage,
   Badge,
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableHead,
-  TableCell,
-  LoadingSpinner,
-  EmptyState,
-  Container,
-  Grid,
-  Stack,
-  Section,
+  DetailDrawer,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
+  type DetailSection,
 } from "@ghxstship/ui";
+
+interface Deal {
+  id: string;
+  name: string;
+  client: string;
+  value: number;
+  probability: number;
+  stage: string;
+  owner: string;
+  closeDate?: string;
+  description?: string;
+  [key: string]: unknown;
+}
 
 const stages = ["Lead", "Qualification", "Discovery", "Proposal Sent", "Negotiation", "Closed Won", "Closed Lost"];
 
+const formatCurrency = (amount: number) => {
+  if (amount >= 1000000) return `$${(amount / 1000000).toFixed(1)}M`;
+  if (amount >= 1000) return `$${(amount / 1000).toFixed(0)}K`;
+  return `$${amount.toFixed(0)}`;
+};
+
+const columns: ListPageColumn<Deal>[] = [
+  { key: 'name', label: 'Opportunity', accessor: 'name', sortable: true },
+  { key: 'client', label: 'Client', accessor: 'client', sortable: true },
+  { key: 'value', label: 'Value', accessor: (r) => formatCurrency(r.value || 0), sortable: true },
+  { key: 'probability', label: 'Probability', accessor: (r) => `${r.probability}%`, sortable: true },
+  { key: 'stage', label: 'Stage', accessor: 'stage', sortable: true, render: (v) => <Badge variant="outline">{String(v)}</Badge> },
+  { key: 'owner', label: 'Owner', accessor: 'owner' },
+  { key: 'closeDate', label: 'Close Date', accessor: (r) => r.closeDate ? new Date(r.closeDate).toLocaleDateString() : '—', sortable: true },
+];
+
+const filters: ListPageFilter[] = [
+  { key: 'stage', label: 'Stage', options: stages.map(s => ({ value: s, label: s })) },
+  { key: 'owner', label: 'Owner', options: [{ value: 'Sarah', label: 'Sarah Chen' }, { value: 'Michael', label: 'Michael Torres' }, { value: 'David', label: 'David Kim' }] },
+];
+
 export default function PipelinePage() {
   const router = useRouter();
-  const [filterStage, setFilterStage] = useState("all");
-  const [filterOwner, setFilterOwner] = useState("all");
   const { data: deals, isLoading, error, refetch } = useDeals();
+  const [selectedDeal, setSelectedDeal] = useState<Deal | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const displayDeals = deals || [];
-  const filteredDeals = displayDeals.filter((deal: any) => {
-    const matchesStage = filterStage === "all" || deal.stage === filterStage;
-    const matchesOwner = filterOwner === "all" || (deal.owner && deal.owner.includes(filterOwner));
-    return matchesStage && matchesOwner;
-  });
+  const dealData = (deals || []) as unknown as Deal[];
+  const totalValue = dealData.reduce((sum, d) => sum + (d.value || 0), 0);
+  const weightedValue = dealData.reduce((sum, d) => sum + ((d.value || 0) * (d.probability || 0) / 100), 0);
+  const wonDeals = dealData.filter(d => d.stage === 'Closed Won').length;
+  const winRate = dealData.length > 0 ? Math.round((wonDeals / dealData.length) * 100) : 0;
 
-  const totalValue = filteredDeals.reduce((sum: number, d: any) => sum + (d.value || 0), 0);
-  const weightedValue = filteredDeals.reduce((sum: number, d: any) => sum + ((d.value || 0) * (d.probability || 0) / 100), 0);
+  const rowActions: ListPageAction<Deal>[] = [
+    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedDeal(r); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (r) => router.push(`/pipeline/${r.id}`) },
+  ];
 
-  const formatCurrency = (amount: number) => {
-    if (amount >= 1000000) {
-      return `$${(amount / 1000000).toFixed(1)}M`;
-    } else if (amount >= 1000) {
-      return `$${(amount / 1000).toFixed(0)}K`;
-    }
-    return `$${amount.toFixed(0)}`;
-  };
+  const stats = [
+    { label: 'Active Deals', value: dealData.length },
+    { label: 'Total Value', value: formatCurrency(totalValue) },
+    { label: 'Weighted Value', value: formatCurrency(weightedValue) },
+    { label: 'Win Rate', value: `${winRate}%` },
+  ];
 
-  if (isLoading) {
-    return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <Navigation />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading pipeline..." />
-        </Container>
-      </Section>
-    );
-  }
-
-  if (error) {
-    return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <Navigation />
-        <Container className="py-16">
-          <EmptyState
-            title="Error Loading Pipeline"
-            description={error instanceof Error ? error.message : "An error occurred"}
-            action={{ label: "Retry", onClick: () => refetch() }}
-          />
-        </Container>
-      </Section>
-    );
-  }
+  const detailSections: DetailSection[] = selectedDeal ? [
+    { id: 'overview', title: 'Deal Details', content: (
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+        <div><strong>Opportunity:</strong> {selectedDeal.name}</div>
+        <div><strong>Client:</strong> {selectedDeal.client}</div>
+        <div><strong>Value:</strong> {formatCurrency(selectedDeal.value || 0)}</div>
+        <div><strong>Probability:</strong> {selectedDeal.probability}%</div>
+        <div><strong>Stage:</strong> {selectedDeal.stage}</div>
+        <div><strong>Owner:</strong> {selectedDeal.owner}</div>
+        <div><strong>Close Date:</strong> {selectedDeal.closeDate ? new Date(selectedDeal.closeDate).toLocaleDateString() : '—'}</div>
+        {selectedDeal.description && <div style={{ gridColumn: 'span 2' }}><strong>Description:</strong> {selectedDeal.description}</div>}
+      </div>
+    )},
+  ] : [];
 
   return (
-    <Section className="relative min-h-screen bg-black text-white">
-      <Navigation />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <H1>Sales Pipeline</H1>
-
-          <Grid cols={4} gap={6}>
-            <StatCard
-              value={displayDeals.length}
-              label="Active Deals"
-              className="bg-black text-white border-grey-800"
-            />
-            <StatCard
-              value={formatCurrency(totalValue)}
-              label="Total Value"
-              className="bg-black text-white border-grey-800"
-            />
-            <StatCard
-              value={formatCurrency(weightedValue)}
-              label="Weighted Value"
-              className="bg-black text-white border-grey-800"
-            />
-            <StatCard
-              value="68%"
-              label="Win Rate"
-              className="bg-black text-white border-grey-800"
-            />
-          </Grid>
-
-          <Stack gap={4} direction="horizontal">
-            <Select
-              value={filterStage}
-              onChange={(e) => setFilterStage(e.target.value)}
-              className="bg-black text-white border-grey-700"
-            >
-              <option value="all">All Stages</option>
-              {stages.map(stage => (
-                <option key={stage} value={stage}>{stage}</option>
-              ))}
-            </Select>
-            <Select
-              value={filterOwner}
-              onChange={(e) => setFilterOwner(e.target.value)}
-              className="bg-black text-white border-grey-700"
-            >
-              <option value="all">All Owners</option>
-              <option value="Sarah">Sarah Chen</option>
-              <option value="Michael">Michael Torres</option>
-              <option value="David">David Kim</option>
-            </Select>
-          </Stack>
-
-          {filteredDeals.length === 0 ? (
-            <EmptyState
-              title="No Deals Found"
-              description="Add your first deal to get started"
-              action={{ label: "Add Deal", onClick: () => router.push("/pipeline/new") }}
-            />
-          ) : (
-            <Table variant="bordered" className="bg-black">
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Opportunity</TableHead>
-                  <TableHead>Client</TableHead>
-                  <TableHead>Value</TableHead>
-                  <TableHead>Probability</TableHead>
-                  <TableHead>Stage</TableHead>
-                  <TableHead>Owner</TableHead>
-                  <TableHead>Close Date</TableHead>
-                  <TableHead>Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredDeals.map((deal: any) => (
-                  <TableRow key={deal.id} className="bg-black text-white hover:bg-grey-900">
-                    <TableCell className="text-white">{deal.name}</TableCell>
-                    <TableCell className="text-grey-400">{deal.client}</TableCell>
-                    <TableCell className="font-mono text-white">{formatCurrency(deal.value || 0)}</TableCell>
-                    <TableCell className="font-mono text-white">{deal.probability}%</TableCell>
-                    <TableCell>
-                      <Badge variant="outline">{deal.stage}</Badge>
-                    </TableCell>
-                    <TableCell className="text-grey-400">{deal.owner}</TableCell>
-                    <TableCell className="font-mono text-grey-400">
-                      {deal.closeDate ? new Date(deal.closeDate).toLocaleDateString() : "—"}
-                    </TableCell>
-                    <TableCell>
-                      <Button size="sm" variant="ghost" onClick={() => router.push(`/pipeline/${deal.id}`)}>
-                        View
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
-
-          <Stack gap={3} direction="horizontal">
-            <Button variant="outlineWhite" onClick={() => router.push("/pipeline/new")}>
-              Add Deal
-            </Button>
-            <Button variant="ghost" className="text-grey-400 hover:text-white" onClick={() => router.push("/pipeline/forecast")}>
-              Forecast Report
-            </Button>
-          </Stack>
-        </Stack>
-      </Container>
-    </Section>
+    <>
+      <ListPage<Deal>
+        title="Sales Pipeline"
+        subtitle="Track and manage sales opportunities"
+        data={dealData}
+        columns={columns}
+        rowKey="id"
+        loading={isLoading}
+        error={error instanceof Error ? error : undefined}
+        onRetry={refetch}
+        searchPlaceholder="Search deals..."
+        filters={filters}
+        rowActions={rowActions}
+        onRowClick={(r) => { setSelectedDeal(r); setDrawerOpen(true); }}
+        createLabel="Add Deal"
+        onCreate={() => router.push('/pipeline/new')}
+        onExport={() => router.push('/pipeline/forecast')}
+        stats={stats}
+        emptyMessage="No deals found"
+        emptyAction={{ label: 'Add Deal', onClick: () => router.push('/pipeline/new') }}
+        header={<Navigation />}
+      />
+      {selectedDeal && (
+        <DetailDrawer
+          open={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+          record={selectedDeal}
+          title={(d) => d.name}
+          subtitle={(d) => `${d.client} • ${formatCurrency(d.value || 0)}`}
+          sections={detailSections}
+          actions={[{ id: 'edit', label: 'Edit Deal', icon: '✏️' }]}
+          onAction={(id, d) => { if (id === 'edit') router.push(`/pipeline/${d.id}`); setDrawerOpen(false); }}
+        />
+      )}
+    </>
   );
 }

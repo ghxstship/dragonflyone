@@ -5,164 +5,122 @@ import { useRouter } from "next/navigation";
 import { Navigation } from "../../components/navigation";
 import { useRisks } from "../../hooks/useRisks";
 import {
-  H1,
-  StatCard,
-  Select,
-  Button,
+  ListPage,
   Badge,
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableHead,
-  TableCell,
-  LoadingSpinner,
-  EmptyState,
-  Container,
-  Grid,
-  Stack,
-  Section,
+  DetailDrawer,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
+  type DetailSection,
 } from "@ghxstship/ui";
+
+interface Risk {
+  id: string;
+  title: string;
+  description?: string;
+  category: string;
+  severity: string;
+  status: string;
+  owner?: { name: string };
+  mitigation_plan?: string;
+  [key: string]: unknown;
+}
+
+const getSeverityVariant = (severity: string): "solid" | "outline" | "ghost" => {
+  switch (severity?.toLowerCase()) {
+    case "critical": case "high": return "solid";
+    case "medium": return "outline";
+    default: return "ghost";
+  }
+};
+
+const columns: ListPageColumn<Risk>[] = [
+  { key: 'id', label: 'ID', accessor: (r) => r.id.substring(0, 12).toUpperCase(), sortable: true },
+  { key: 'title', label: 'Risk', accessor: 'title', sortable: true },
+  { key: 'category', label: 'Category', accessor: 'category', render: (v) => <Badge variant="outline">{String(v)}</Badge> },
+  { key: 'severity', label: 'Severity', accessor: 'severity', sortable: true, render: (v) => <Badge variant={getSeverityVariant(String(v))}>{String(v)}</Badge> },
+  { key: 'status', label: 'Status', accessor: 'status' },
+  { key: 'owner', label: 'Owner', accessor: (r) => r.owner?.name || 'Unassigned' },
+];
+
+const filters: ListPageFilter[] = [
+  { key: 'severity', label: 'Severity', options: [{ value: 'critical', label: 'Critical' }, { value: 'high', label: 'High' }, { value: 'medium', label: 'Medium' }, { value: 'low', label: 'Low' }] },
+  { key: 'status', label: 'Status', options: [{ value: 'identified', label: 'Identified' }, { value: 'analyzing', label: 'Analyzing' }, { value: 'mitigating', label: 'Mitigating' }, { value: 'mitigated', label: 'Mitigated' }] },
+];
 
 export default function RisksPage() {
   const router = useRouter();
-  const [filterSeverity, setFilterSeverity] = useState("all");
-  const [filterStatus, setFilterStatus] = useState("all");
-  const { data: risks, isLoading, error, refetch } = useRisks({ severity: filterSeverity, status: filterStatus });
+  const { data: risks, isLoading, error, refetch } = useRisks({});
+  const [selectedRisk, setSelectedRisk] = useState<Risk | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const filteredRisks = risks || [];
-  const highSeverity = (risks || []).filter((r: any) => r.severity === "high" || r.severity === "critical").length;
-  const activeRisks = (risks || []).filter((r: any) => r.status === "identified" || r.status === "analyzing" || r.status === "mitigating").length;
-  const mitigatedRisks = (risks || []).filter((r: any) => r.status === "mitigated").length;
+  const riskData = (risks || []) as unknown as Risk[];
+  const highSeverity = riskData.filter(r => r.severity === "high" || r.severity === "critical").length;
+  const activeRisks = riskData.filter(r => ["identified", "analyzing", "mitigating"].includes(r.status)).length;
+  const mitigatedRisks = riskData.filter(r => r.status === "mitigated").length;
 
-  if (isLoading) {
-    return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <Navigation />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading risks..." />
-        </Container>
-      </Section>
-    );
-  }
+  const rowActions: ListPageAction<Risk>[] = [
+    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedRisk(r); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (r) => router.push(`/risks/${r.id}/edit`) },
+  ];
 
-  if (error) {
-    return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <Navigation />
-        <Container className="py-16">
-          <EmptyState
-            title="Error Loading Risks"
-            description={error instanceof Error ? error.message : "An error occurred"}
-            action={{ label: "Retry", onClick: () => refetch() }}
-          />
-        </Container>
-      </Section>
-    );
-  }
+  const stats = [
+    { label: 'Total Risks', value: riskData.length },
+    { label: 'Active', value: activeRisks },
+    { label: 'High Severity', value: highSeverity },
+    { label: 'Mitigated', value: mitigatedRisks },
+  ];
+
+  const detailSections: DetailSection[] = selectedRisk ? [
+    { id: 'overview', title: 'Risk Details', content: (
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+        <div><strong>ID:</strong> {selectedRisk.id.substring(0, 12).toUpperCase()}</div>
+        <div><strong>Title:</strong> {selectedRisk.title}</div>
+        <div><strong>Category:</strong> {selectedRisk.category}</div>
+        <div><strong>Severity:</strong> {selectedRisk.severity}</div>
+        <div><strong>Status:</strong> {selectedRisk.status}</div>
+        <div><strong>Owner:</strong> {selectedRisk.owner?.name || 'Unassigned'}</div>
+        {selectedRisk.description && <div style={{ gridColumn: 'span 2' }}><strong>Description:</strong> {selectedRisk.description}</div>}
+        {selectedRisk.mitigation_plan && <div style={{ gridColumn: 'span 2' }}><strong>Mitigation Plan:</strong> {selectedRisk.mitigation_plan}</div>}
+      </div>
+    )},
+  ] : [];
 
   return (
-    <Section className="relative min-h-screen bg-black text-white">
-      <Navigation />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <H1>Risk Management</H1>
-
-          <Grid cols={4} gap={6}>
-            <StatCard
-              value={filteredRisks.length}
-              label="Total Risks"
-              className="bg-black text-white border-grey-800"
-            />
-            <StatCard
-              value={activeRisks}
-              label="Active"
-              className="bg-black text-white border-grey-800"
-            />
-            <StatCard
-              value={highSeverity}
-              label="High Severity"
-              className="bg-black text-white border-grey-800"
-            />
-            <StatCard
-              value={mitigatedRisks}
-              label="Mitigated"
-              className="bg-black text-white border-grey-800"
-            />
-          </Grid>
-
-          <Stack gap={4} direction="horizontal">
-            <Select
-              value={filterSeverity}
-              onChange={(e) => setFilterSeverity(e.target.value)}
-              className="bg-black text-white border-grey-700"
-            >
-              <option value="all">All Severities</option>
-              <option value="high">High</option>
-              <option value="medium">Medium</option>
-              <option value="low">Low</option>
-            </Select>
-            <Select
-              value={filterStatus}
-              onChange={(e) => setFilterStatus(e.target.value)}
-              className="bg-black text-white border-grey-700"
-            >
-              <option value="all">All Statuses</option>
-              <option value="active">Active</option>
-              <option value="monitoring">Monitoring</option>
-              <option value="mitigated">Mitigated</option>
-            </Select>
-          </Stack>
-
-          {filteredRisks.length === 0 ? (
-            <EmptyState
-              title="No Risks Found"
-              description={filterSeverity !== "all" || filterStatus !== "all" ? "Try adjusting your filters" : "No risks have been reported yet"}
-              action={{ label: "Report New Risk", onClick: () => router.push("/risks/new") }}
-            />
-          ) : (
-            <Table variant="bordered" className="bg-black">
-              <TableHeader>
-                <TableRow>
-                  <TableHead>ID</TableHead>
-                  <TableHead>Risk</TableHead>
-                  <TableHead>Category</TableHead>
-                  <TableHead>Severity</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Owner</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredRisks.map((risk: any) => (
-                  <TableRow key={risk.id} className="bg-black text-white hover:bg-grey-900">
-                    <TableCell className="font-mono text-white">{risk.id.substring(0, 12).toUpperCase()}</TableCell>
-                    <TableCell className="text-white">{risk.title}</TableCell>
-                    <TableCell>
-                      <Badge variant="outline">{risk.category}</Badge>
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant={(risk.severity === "high" || risk.severity === "critical") ? "solid" : "outline"}>
-                        {risk.severity}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="text-grey-400">{risk.status}</TableCell>
-                    <TableCell className="text-grey-400">{risk.owner?.name || "Unassigned"}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
-
-          <Stack gap={3} direction="horizontal">
-            <Button variant="outlineWhite" onClick={() => router.push("/risks/new")}>
-              Report New Risk
-            </Button>
-            <Button variant="ghost" className="text-grey-400 hover:text-white" onClick={() => router.push("/risks/export")}>
-              Export Risk Register
-            </Button>
-          </Stack>
-        </Stack>
-      </Container>
-    </Section>
+    <>
+      <ListPage<Risk>
+        title="Risk Management"
+        subtitle="Identify, assess, and mitigate organizational risks"
+        data={riskData}
+        columns={columns}
+        rowKey="id"
+        loading={isLoading}
+        error={error instanceof Error ? error : undefined}
+        onRetry={refetch}
+        searchPlaceholder="Search risks..."
+        filters={filters}
+        rowActions={rowActions}
+        onRowClick={(r) => { setSelectedRisk(r); setDrawerOpen(true); }}
+        createLabel="Report New Risk"
+        onCreate={() => router.push('/risks/new')}
+        onExport={() => router.push('/risks/export')}
+        stats={stats}
+        emptyMessage="No risks found"
+        emptyAction={{ label: 'Report New Risk', onClick: () => router.push('/risks/new') }}
+        header={<Navigation />}
+      />
+      {selectedRisk && (
+        <DetailDrawer
+          open={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+          record={selectedRisk}
+          title={(r) => r.title}
+          subtitle={(r) => `${r.category} • ${r.severity}`}
+          sections={detailSections}
+          actions={[{ id: 'edit', label: 'Edit Risk', icon: '✏️' }]}
+          onAction={(id, r) => { if (id === 'edit') router.push(`/risks/${r.id}/edit`); setDrawerOpen(false); }}
+        />
+      )}
+    </>
   );
 }
