@@ -41,3 +41,22 @@ export {
   RequirePlatformAccess,
 } from './auth-context';
 export type { User as AuthUser } from './auth-context';
+
+// Auth schemas and validation
+export * from './auth-schemas';
+
+// Auth actions (server-side) - use explicit exports to avoid conflicts with auth-helpers
+export {
+  signUp,
+  signIn,
+  signInWithOAuth,
+  handleOAuthCallback,
+  sendMagicLink,
+  forgotPassword,
+  verifyEmail,
+  refreshSession,
+  updateProfile,
+  updatePreferences,
+  completeOnboarding,
+  getSession,
+} from './auth-actions';
