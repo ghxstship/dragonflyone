@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Navigation } from '../../components/navigation';
+import { ConsumerNavigationPublic } from '../../components/navigation';
 import { Container, Section, H1, H2, H3, Body, Button, Card, Grid, Badge, Stack, useNotifications } from '@ghxstship/ui';
 import { Share2, ThumbsUp, MessageCircle, Users, TrendingUp, Image as ImageIcon } from 'lucide-react';
 
@@ -60,7 +60,7 @@ export default function SocialPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
         <Stack gap={2} className="border-b-2 border-black pb-8">
@@ -91,7 +91,7 @@ export default function SocialPage() {
                       
                       {post.image && (
                         <Card className="w-full h-64 bg-grey-200 flex items-center justify-center">
-                          <ImageIcon className="w-12 h-12 text-grey-400" />
+                          <ImageIcon className="w-12 h-12 text-grey-600" />
                         </Card>
                       )}
                       
@@ -163,7 +163,7 @@ export default function SocialPage() {
               <Stack gap={4} className="items-center">
                 <Share2 className="w-12 h-12" />
                 <H3>SHARE YOUR STORY</H3>
-                <Body className="text-grey-400">
+                <Body className="text-grey-600">
                   Connect with fans and share your festival experiences
                 </Body>
                 <Button className="w-full" onClick={() => router.push('/social/new')}>CREATE POST</Button>

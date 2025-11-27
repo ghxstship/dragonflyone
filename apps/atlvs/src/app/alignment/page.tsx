@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { Navigation } from '../../components/navigation';
+import { CreatorNavigationAuthenticated } from '../../components/navigation';
 import {
   Container,
   Section,
@@ -136,7 +136,7 @@ export default function StrategicAlignmentPage() {
   if (loading) {
     return (
       <Section className="min-h-screen bg-ink-950 text-ink-50">
-        <Navigation />
+        <CreatorNavigationAuthenticated />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading alignment data..." />
         </Container>
@@ -154,7 +154,7 @@ export default function StrategicAlignmentPage() {
 
   return (
     <Section className="min-h-screen bg-ink-950 text-ink-50">
-      <Navigation />
+      <CreatorNavigationAuthenticated />
       <Container className="py-16">
         <Stack gap={8}>
           <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b border-ink-800 pb-8">

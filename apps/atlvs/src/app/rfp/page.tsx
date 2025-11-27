@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../components/navigation";
+import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
   ListPage,
   Badge,
@@ -128,7 +128,7 @@ export default function RFPPage() {
         stats={stats}
         emptyMessage="No RFPs found"
         emptyAction={{ label: 'Create RFP', onClick: () => router.push('/rfp/new') }}
-        header={<Navigation />}
+        header={<CreatorNavigationAuthenticated />}
       />
       {selectedRfp && (
         <DetailDrawer

@@ -55,7 +55,7 @@ export default function EventLanguagesPage() {
     switch (status) {
       case "Complete": case "Translated": return "text-success-600";
       case "In Progress": case "Review": return "text-warning-600";
-      case "Not Started": case "Pending": return "text-grey-400";
+      case "Not Started": case "Pending": return "text-grey-600";
       default: return "text-grey-600";
     }
   };
@@ -127,7 +127,7 @@ export default function EventLanguagesPage() {
                       <Label className="text-grey-500">Translator: {translation.translator}</Label>
                     )}
                     {translation.lastUpdated && (
-                      <Label size="xs" className="text-grey-400">Updated: {translation.lastUpdated}</Label>
+                      <Label size="xs" className="text-grey-600">Updated: {translation.lastUpdated}</Label>
                     )}
                     <Stack direction="horizontal" gap={2}>
                       <Button variant="outline" size="sm" onClick={() => setSelectedTranslation(translation)}>Edit</Button>

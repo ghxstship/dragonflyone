@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Navigation } from '../../../components/navigation';
+import { CreatorNavigationAuthenticated } from '../../../components/navigation';
 import {
   ListPage, Badge, DetailDrawer, RecordFormModal,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig,
@@ -123,7 +123,7 @@ export default function AssetKitsPage() {
         stats={stats}
         emptyMessage="No kits found"
         emptyAction={{ label: 'Create Kit', onClick: () => setCreateModalOpen(true) }}
-        header={<Navigation />}
+        header={<CreatorNavigationAuthenticated />}
       />
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Create Kit" fields={formFields} onSubmit={handleCreate} />
       {selected && (

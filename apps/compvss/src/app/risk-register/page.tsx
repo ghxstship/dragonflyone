@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../components/navigation";
+import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
   Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select,
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Button,
@@ -73,7 +73,7 @@ export default function RiskRegisterPage() {
   return (
     <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
       <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <Navigation />
+      <CreatorNavigationAuthenticated />
       <Container className="py-16">
         <Stack gap={8}>
           <Stack gap={2}>

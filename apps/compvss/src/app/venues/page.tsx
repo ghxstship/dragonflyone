@@ -1,6 +1,6 @@
 "use client";
 
-import { Navigation } from "../../components/navigation";
+import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
   H1,
   H3,
@@ -22,7 +22,7 @@ const venues = [
 export default function VenuesPage() {
   return (
     <Section className="relative min-h-screen bg-black text-white">
-      <Navigation />
+      <CreatorNavigationAuthenticated />
       <Container className="py-16">
         <Stack gap={8}>
           <H1>Venue Directory</H1>

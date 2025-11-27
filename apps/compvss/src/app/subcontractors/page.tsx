@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../components/navigation";
+import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
   H1,
   H2,
@@ -127,7 +127,7 @@ export default function SubcontractorsPage() {
   if (loading) {
     return (
       <Section className="relative min-h-screen bg-black text-white">
-        <Navigation />
+        <CreatorNavigationAuthenticated />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading subcontractors..." />
         </Container>
@@ -138,7 +138,7 @@ export default function SubcontractorsPage() {
   if (error) {
     return (
       <Section className="relative min-h-screen bg-black text-white">
-        <Navigation />
+        <CreatorNavigationAuthenticated />
         <Container className="py-16">
           <EmptyState
             title="Error Loading Subcontractors"
@@ -152,7 +152,7 @@ export default function SubcontractorsPage() {
 
   return (
     <Section className="relative min-h-screen bg-black text-white">
-      <Navigation />
+      <CreatorNavigationAuthenticated />
       <Container className="py-16">
         <Stack gap={8}>
           <Stack gap={2}>

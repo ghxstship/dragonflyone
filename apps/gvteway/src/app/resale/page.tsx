@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../components/navigation";
+import { ConsumerNavigationPublic } from "../../components/navigation";
 import {
   ListPage,
   Badge,
@@ -150,7 +150,7 @@ export default function ResalePage() {
         stats={stats}
         emptyMessage="No listings found"
         emptyAction={{ label: 'List a Ticket', onClick: () => router.push('/tickets') }}
-        header={<Navigation />}
+        header={<ConsumerNavigationPublic />}
       />
       {selectedListing && (
         <DetailDrawer

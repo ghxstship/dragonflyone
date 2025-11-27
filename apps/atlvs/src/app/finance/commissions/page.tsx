@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../../components/navigation";
+import { CreatorNavigationAuthenticated } from "../../../components/navigation";
 import {
   ListPage,
   Badge,
@@ -142,7 +142,7 @@ export default function CommissionsPage() {
         stats={stats}
         emptyMessage="No commission records found"
         emptyAction={{ label: 'Add Commission', onClick: () => setCreateModalOpen(true) }}
-        header={<Navigation />}
+        header={<CreatorNavigationAuthenticated />}
       />
       {selectedRecord && (
         <DetailDrawer

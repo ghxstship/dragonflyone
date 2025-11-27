@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { Navigation } from '../../components/navigation';
+import { ConsumerNavigationPublic } from '../../components/navigation';
 import {
   Container,
   Section,
@@ -159,7 +159,7 @@ export default function LostFoundPage() {
   if (loading) {
     return (
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading..." />
         </Container>
@@ -169,7 +169,7 @@ export default function LostFoundPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
         <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
@@ -255,7 +255,7 @@ export default function LostFoundPage() {
                   )}
 
                   <Stack direction="horizontal" className="justify-between items-center">
-                    <Body className="text-xs text-grey-400">
+                    <Body className="text-xs text-grey-600">
                       {new Date(item.date_lost_found).toLocaleDateString()}
                     </Body>
                     <Button variant="ghost" size="sm" onClick={() => router.push(`/lost-found/${item.id}`)}>

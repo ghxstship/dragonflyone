@@ -12,7 +12,7 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
     const variantClasses = {
       default: "text-current hover:text-grey-400 transition-colors",
       nav: "font-heading text-sm uppercase tracking-wider hover:text-grey-400 transition-colors",
-      footer: "font-body text-grey-400 hover:text-white transition-colors",
+      footer: "font-body text-grey-300 hover:text-white transition-colors",
       inline: "underline underline-offset-4 hover:text-grey-400 transition-colors",
       button: "border-2 border-current px-6 py-3 text-sm uppercase tracking-wider transition hover:-translate-y-0.5 hover:bg-white hover:text-black",
     };

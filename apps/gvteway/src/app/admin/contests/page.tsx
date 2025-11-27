@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../../components/navigation";
+import { ConsumerNavigationPublic } from "../../../components/navigation";
 import {
   ListPage,
   Badge,
@@ -161,7 +161,7 @@ export default function ContestsPage() {
         stats={stats}
         emptyMessage="No contests found"
         emptyAction={{ label: 'Create Contest', onClick: () => setCreateModalOpen(true) }}
-        header={<Navigation />}
+        header={<ConsumerNavigationPublic />}
       />
 
       <RecordFormModal

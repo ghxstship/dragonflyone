@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { Navigation } from '../../../../components/navigation';
+import { ConsumerNavigationPublic } from '../../../../components/navigation';
 import {
   Container,
   Section,
@@ -158,7 +158,7 @@ export default function CashlessPaymentPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
           <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
@@ -324,7 +324,7 @@ export default function CashlessPaymentPage() {
                       {txn.tip_amount ? (
                         <Body className="text-success-600">+${txn.tip_amount.toFixed(2)}</Body>
                       ) : (
-                        <Label className="text-grey-400">-</Label>
+                        <Label className="text-grey-600">-</Label>
                       )}
                     </TableCell>
                     <TableCell>
@@ -338,11 +338,11 @@ export default function CashlessPaymentPage() {
                         <Stack gap={1}>
                           <Label>{txn.card_type}</Label>
                           {txn.card_last_four && (
-                            <Label className="text-grey-400 font-mono">****{txn.card_last_four}</Label>
+                            <Label className="text-grey-600 font-mono">****{txn.card_last_four}</Label>
                           )}
                         </Stack>
                       ) : (
-                        <Label className="text-grey-400">-</Label>
+                        <Label className="text-grey-600">-</Label>
                       )}
                     </TableCell>
                     <TableCell>

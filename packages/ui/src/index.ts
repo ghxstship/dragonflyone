@@ -150,6 +150,8 @@ export { SectionHeader } from "./molecules/section-header.js";
 export type { SectionHeaderProps } from "./molecules/section-header.js";
 export { ContentCard, FeatureCard } from "./molecules/content-card.js";
 export type { ContentCardProps, FeatureCardProps } from "./molecules/content-card.js";
+export { ContextBreadcrumb } from "./molecules/context-breadcrumb.js";
+export type { ContextBreadcrumbProps, ContextLevel, ContextItem } from "./molecules/context-breadcrumb.js";
 
 // =============================================================================
 // ORGANISMS - Complex components
@@ -192,6 +194,8 @@ export { ImportExportDialog } from "./organisms/import-export-dialog.js";
 export type { ImportExportDialogProps, ExportFormat, ColumnConfig, ImportTemplate } from "./organisms/import-export-dialog.js";
 export { AppNavigation } from "./organisms/app-navigation.js";
 export type { AppNavigationProps, NavItem as AppNavItem } from "./organisms/app-navigation.js";
+export { UnifiedHeader } from "./organisms/unified-header.js";
+export type { UnifiedHeaderProps, NavItem as UnifiedNavItem } from "./organisms/unified-header.js";
 export { WorkflowTimeline } from "./organisms/workflow-timeline.js";
 export type { WorkflowTimelineProps, WorkflowStage } from "./organisms/workflow-timeline.js";
 export { ProtectedRoute } from "./organisms/protected-route.js";

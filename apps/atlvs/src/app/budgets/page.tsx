@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Navigation } from '../../components/navigation';
+import { CreatorNavigationAuthenticated } from '../../components/navigation';
 import {
   ListPage, Badge, DetailDrawer, RecordFormModal,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig,
@@ -123,7 +123,7 @@ export default function BudgetsPage() {
         stats={stats}
         emptyMessage="No budgets found"
         emptyAction={{ label: 'Create Budget', onClick: () => setCreateModalOpen(true) }}
-        header={<Navigation />}
+        header={<CreatorNavigationAuthenticated />}
       />
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Create Budget" fields={formFields} onSubmit={handleCreate} size="lg" />
       {selected && (

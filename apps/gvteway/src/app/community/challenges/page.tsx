@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../../components/navigation";
+import { ConsumerNavigationPublic } from "../../../components/navigation";
 import {
   Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Button,
   Section, Card, Tabs, TabsList, Tab, TabPanel, Badge,
@@ -84,7 +84,7 @@ export default function ChallengesPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
           <Stack gap={2} className="border-b-2 border-black pb-8">
@@ -182,7 +182,7 @@ export default function ChallengesPage() {
                       <Card key={entry.rank} className={`p-4 ${entry.rank <= 3 ? "bg-warning-50 border-warning-200" : "bg-grey-50"} border`}>
                         <Grid cols={4} gap={4} className="items-center">
                           <Stack direction="horizontal" gap={3} className="items-center">
-                            <Label className={`font-mono text-2xl ${entry.rank === 1 ? "text-warning-600" : entry.rank === 2 ? "text-grey-500" : entry.rank === 3 ? "text-warning-600" : "text-grey-400"}`}>
+                            <Label className={`font-mono text-2xl ${entry.rank === 1 ? "text-warning-600" : entry.rank === 2 ? "text-grey-500" : entry.rank === 3 ? "text-warning-600" : "text-grey-600"}`}>
                               #{entry.rank}
                             </Label>
                             <Body className="font-bold">{entry.userName}</Body>
@@ -208,11 +208,11 @@ export default function ChallengesPage() {
                       </Stack>
                       <Stack gap={0}>
                         <Label className="font-mono text-xl">2,450</Label>
-                        <Label size="xs" className="text-grey-400">points</Label>
+                        <Label size="xs" className="text-grey-600">points</Label>
                       </Stack>
                       <Stack gap={0}>
                         <Label className="font-mono">{completedByUser}</Label>
-                        <Label size="xs" className="text-grey-400">challenges</Label>
+                        <Label size="xs" className="text-grey-600">challenges</Label>
                       </Stack>
                       <Label className="text-warning-400">Keep going!</Label>
                     </Grid>

@@ -108,7 +108,7 @@ export default function ParkingTransportPage() {
                       <Stack direction="horizontal" className="justify-between items-start">
                         <Stack gap={1}>
                           <Body className="font-bold">{option.name}</Body>
-                          <Label className="text-grey-400">{option.distance} • {option.walkTime} walk</Label>
+                          <Label className="text-grey-600">{option.distance} • {option.walkTime} walk</Label>
                         </Stack>
                         <Badge className={getTypeColor(option.type)}>{option.type}</Badge>
                       </Stack>
@@ -200,7 +200,7 @@ export default function ParkingTransportPage() {
                     <Stack gap={2} className="text-center">
                       <Label className="text-grey-500 text-4xl">🗺️</Label>
                       <Label className="text-grey-500">Interactive map would display here</Label>
-                      <Label className="text-grey-400 text-sm">Showing parking lots, transit stops, and venue entrance</Label>
+                      <Label className="text-grey-600 text-sm">Showing parking lots, transit stops, and venue entrance</Label>
                     </Stack>
                   </Card>
                   <Grid cols={4} gap={2}>

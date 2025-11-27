@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../components/navigation";
+import { ConsumerNavigationPublic } from "../../components/navigation";
 import {
   H1,
   H2,
@@ -110,7 +110,7 @@ export default function GroupsPage() {
   if (loading) {
     return (
       <Section className="relative min-h-screen bg-black text-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading groups..." />
         </Container>
@@ -121,7 +121,7 @@ export default function GroupsPage() {
   if (error) {
     return (
       <Section className="relative min-h-screen bg-black text-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="py-16">
           <EmptyState
             title="Error Loading Groups"
@@ -135,7 +135,7 @@ export default function GroupsPage() {
 
   return (
     <Section className="relative min-h-screen bg-black text-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
           <Stack gap={2}>

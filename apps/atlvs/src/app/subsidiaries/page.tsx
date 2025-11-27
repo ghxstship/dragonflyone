@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../components/navigation";
+import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
   ListPage,
   Badge,
@@ -137,7 +137,7 @@ export default function SubsidiariesPage() {
         stats={stats}
         emptyMessage="No subsidiaries found"
         emptyAction={{ label: 'Add Entity', onClick: () => router.push('/subsidiaries/new') }}
-        header={<Navigation />}
+        header={<CreatorNavigationAuthenticated />}
       />
       {selectedEntity && (
         <DetailDrawer

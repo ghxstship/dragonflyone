@@ -298,7 +298,7 @@ export default function ArtistMerchPage() {
                   <Stack direction="horizontal" gap={2} className="items-center">
                     <Body className="font-bold text-lg">${product.price.toFixed(2)}</Body>
                     {product.compare_at_price && product.compare_at_price > product.price && (
-                      <Body className="text-grey-400 line-through text-sm">
+                      <Body className="text-grey-600 line-through text-sm">
                         ${product.compare_at_price.toFixed(2)}
                       </Body>
                     )}
@@ -356,7 +356,7 @@ export default function ArtistMerchPage() {
                       ${(selectedVariant?.price || selectedProduct.price).toFixed(2)}
                     </Body>
                     {selectedProduct.compare_at_price && (
-                      <Body className="text-grey-400 line-through">
+                      <Body className="text-grey-600 line-through">
                         ${selectedProduct.compare_at_price.toFixed(2)}
                       </Body>
                     )}

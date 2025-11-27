@@ -291,7 +291,7 @@ export default function AssetScanPage() {
                     </Stack>
                     <Stack className="text-right" gap={1}>
                       {getActionBadge(scan.action)}
-                      <Label className="text-xs text-grey-400">
+                      <Label className="text-xs text-grey-600">
                         {new Date(scan.timestamp).toLocaleTimeString()}
                       </Label>
                     </Stack>

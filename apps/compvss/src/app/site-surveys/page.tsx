@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../components/navigation";
+import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
   H1,
   H2,
@@ -136,7 +136,7 @@ export default function SiteSurveysPage() {
   if (loading) {
     return (
       <Section className="relative min-h-screen bg-black text-white">
-        <Navigation />
+        <CreatorNavigationAuthenticated />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading site surveys..." />
         </Container>
@@ -147,7 +147,7 @@ export default function SiteSurveysPage() {
   if (error) {
     return (
       <Section className="relative min-h-screen bg-black text-white">
-        <Navigation />
+        <CreatorNavigationAuthenticated />
         <Container className="py-16">
           <EmptyState
             title="Error Loading Site Surveys"
@@ -161,7 +161,7 @@ export default function SiteSurveysPage() {
 
   return (
     <Section className="relative min-h-screen bg-black text-white">
-      <Navigation />
+      <CreatorNavigationAuthenticated />
       <Container className="py-16">
         <Stack gap={8}>
           <Stack gap={2}>

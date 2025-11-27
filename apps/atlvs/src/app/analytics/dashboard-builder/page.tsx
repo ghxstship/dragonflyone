@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Navigation } from '../../../components/navigation';
+import { CreatorNavigationAuthenticated } from '../../../components/navigation';
 import {
   ListPage, Badge, DetailDrawer, RecordFormModal,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig,
@@ -107,7 +107,7 @@ export default function DashboardBuilderPage() {
         stats={stats}
         emptyMessage="No dashboards found"
         emptyAction={{ label: 'Create Dashboard', onClick: () => setCreateModalOpen(true) }}
-        header={<Navigation />}
+        header={<CreatorNavigationAuthenticated />}
       />
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Create Dashboard" fields={formFields} onSubmit={handleCreate} />
       {selected && (

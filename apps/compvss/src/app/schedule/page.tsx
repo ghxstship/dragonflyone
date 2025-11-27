@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { Navigation } from "../../components/navigation";
+import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
   H1,
   H3,
@@ -92,7 +92,7 @@ export default function SchedulePage() {
   if (loading) {
     return (
       <Section className="relative min-h-screen bg-black text-white">
-        <Navigation />
+        <CreatorNavigationAuthenticated />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading schedule..." />
         </Container>
@@ -103,7 +103,7 @@ export default function SchedulePage() {
   if (error) {
     return (
       <Section className="relative min-h-screen bg-black text-white">
-        <Navigation />
+        <CreatorNavigationAuthenticated />
         <Container className="py-16">
           <EmptyState
             title="Error Loading Schedule"
@@ -117,7 +117,7 @@ export default function SchedulePage() {
 
   return (
     <Section className="relative min-h-screen bg-black text-white">
-      <Navigation />
+      <CreatorNavigationAuthenticated />
       <Container className="py-16">
         <Stack gap={8}>
           <H1>Production Schedule</H1>

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Navigation } from '../../components/navigation';
+import { CreatorNavigationAuthenticated } from '../../components/navigation';
 import { Container, Section, Display, H1, H2, H3, Body, Button, Input, Select, Card, Grid, Badge, LoadingSpinner, Stack } from '@ghxstship/ui';
 import { Search, Plus, FileText, TrendingUp, Package, DollarSign, CheckCircle, Clock } from 'lucide-react';
 import { usePurchaseOrders } from '@/hooks/useProcurement';
@@ -48,7 +48,7 @@ export default function ProcurementPage() {
   if (isLoading) {
     return (
       <Section className="min-h-screen bg-ink-950 text-ink-50">
-        <Navigation />
+        <CreatorNavigationAuthenticated />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading procurement data..." />
         </Container>
@@ -86,13 +86,13 @@ export default function ProcurementPage() {
 
   return (
     <Section className="min-h-screen bg-ink-950 text-ink-50">
-      <Navigation />
+      <CreatorNavigationAuthenticated />
       <Container className="py-16">
         <Stack gap={8}>
           <Stack gap={4} direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b border-ink-800 pb-8">
             <Stack gap={2}>
               <H1>Procurement</H1>
-              <Body className="text-ink-400">Purchase orders and vendor management</Body>
+              <Body className="text-ink-600">Purchase orders and vendor management</Body>
             </Stack>
             <Stack gap={3} direction="horizontal">
               <Button variant="outline" onClick={() => router.push('/procurement/export')}>
@@ -108,24 +108,24 @@ export default function ProcurementPage() {
 
           <Grid cols={4} gap={6}>
             <Card className="p-6 text-center border-2 border-ink-800 bg-transparent">
-              <Package className="w-8 h-8 mx-auto mb-2 text-ink-400" />
+              <Package className="w-8 h-8 mx-auto mb-2 text-ink-600" />
               <H2 className="text-white">{stats.totalActive}</H2>
-              <Body className="text-ink-400">Active POs</Body>
+              <Body className="text-ink-600">Active POs</Body>
             </Card>
             <Card className="p-6 text-center border-2 border-ink-800 bg-transparent">
-              <Clock className="w-8 h-8 mx-auto mb-2 text-ink-400" />
+              <Clock className="w-8 h-8 mx-auto mb-2 text-ink-600" />
               <H2 className="text-white">{stats.totalPending}</H2>
-              <Body className="text-ink-400">Pending</Body>
+              <Body className="text-ink-600">Pending</Body>
             </Card>
             <Card className="p-6 text-center border-2 border-ink-800 bg-transparent">
-              <DollarSign className="w-8 h-8 mx-auto mb-2 text-ink-400" />
+              <DollarSign className="w-8 h-8 mx-auto mb-2 text-ink-600" />
               <H2 className="text-white">${(stats.totalSpend / 1000).toFixed(0)}K</H2>
-              <Body className="text-ink-400">Total Spend</Body>
+              <Body className="text-ink-600">Total Spend</Body>
             </Card>
             <Card className="p-6 text-center border-2 border-ink-800 bg-transparent">
-              <TrendingUp className="w-8 h-8 mx-auto mb-2 text-ink-400" />
+              <TrendingUp className="w-8 h-8 mx-auto mb-2 text-ink-600" />
               <H2 className="text-white">${(stats.avgValue / 1000).toFixed(0)}K</H2>
-              <Body className="text-ink-400">Avg Value</Body>
+              <Body className="text-ink-600">Avg Value</Body>
             </Card>
           </Grid>
 
@@ -179,11 +179,11 @@ export default function ProcurementPage() {
                       </Badge>
                     </Stack>
                     <H3 className="text-white mb-1">{po.description}</H3>
-                    <Body className="text-sm text-ink-400">Vendor: {(po as any).vendor}</Body>
+                    <Body className="text-sm text-ink-600">Vendor: {(po as any).vendor}</Body>
                   </Stack>
                   <Stack className="text-right">
                     <Display size="md" className="text-white mb-1">${(po.amount / 1000).toFixed(0)}K</Display>
-                    <Body className="text-sm text-ink-400">Due: {new Date((po as any).dueDate).toLocaleDateString()}</Body>
+                    <Body className="text-sm text-ink-600">Due: {new Date((po as any).dueDate).toLocaleDateString()}</Body>
                   </Stack>
               </Stack>
 

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Navigation } from '../../components/navigation';
+import { CreatorNavigationAuthenticated } from '../../components/navigation';
 import { Container, Section, H1, H2, H3, Body, Button, Input, Select, Card, Grid, Badge, LoadingSpinner, Stack } from '@ghxstship/ui';
 import { Search, Plus, Handshake, TrendingUp, DollarSign, Calendar } from 'lucide-react';
 import { useContacts } from '@/hooks/useContacts';
@@ -15,7 +15,7 @@ export default function PartnershipsPage() {
   if (isLoading) {
     return (
       <Section className="min-h-screen bg-ink-950 text-ink-50">
-        <Navigation />
+        <CreatorNavigationAuthenticated />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading partnerships..." />
         </Container>
@@ -36,13 +36,13 @@ export default function PartnershipsPage() {
 
   return (
     <Section className="min-h-screen bg-ink-950 text-ink-50">
-      <Navigation />
+      <CreatorNavigationAuthenticated />
       <Container className="py-16">
         <Stack gap={8}>
           <Stack gap={4} direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b border-ink-800 pb-8">
             <Stack gap={2}>
               <H1>Partnerships</H1>
-              <Body className="text-ink-400">Strategic alliances and joint ventures</Body>
+              <Body className="text-ink-600">Strategic alliances and joint ventures</Body>
             </Stack>
             <Button variant="solid" onClick={() => router.push('/partnerships/new')}>
               <Plus className="w-4 h-4 mr-2" />
@@ -52,24 +52,24 @@ export default function PartnershipsPage() {
 
           <Grid cols={4} gap={6}>
             <Card className="p-6 text-center border-2 border-ink-800 bg-transparent">
-              <Handshake className="w-8 h-8 mx-auto mb-2 text-ink-400" />
+              <Handshake className="w-8 h-8 mx-auto mb-2 text-ink-600" />
               <H2 className="text-white">{partnerships.filter((p: any) => p.status === 'active').length}</H2>
-              <Body className="text-ink-400">Active</Body>
+              <Body className="text-ink-600">Active</Body>
             </Card>
             <Card className="p-6 text-center border-2 border-ink-800 bg-transparent">
-              <TrendingUp className="w-8 h-8 mx-auto mb-2 text-ink-400" />
+              <TrendingUp className="w-8 h-8 mx-auto mb-2 text-ink-600" />
               <H2 className="text-white">{partnerships.filter((p: any) => p.status === 'pending').length}</H2>
-              <Body className="text-ink-400">Pending</Body>
+              <Body className="text-ink-600">Pending</Body>
             </Card>
             <Card className="p-6 text-center border-2 border-ink-800 bg-transparent">
-              <DollarSign className="w-8 h-8 mx-auto mb-2 text-ink-400" />
+              <DollarSign className="w-8 h-8 mx-auto mb-2 text-ink-600" />
               <H2 className="text-white">{partnerships.length}</H2>
-              <Body className="text-ink-400">Total Partners</Body>
+              <Body className="text-ink-600">Total Partners</Body>
             </Card>
             <Card className="p-6 text-center border-2 border-ink-800 bg-transparent">
-              <Calendar className="w-8 h-8 mx-auto mb-2 text-ink-400" />
+              <Calendar className="w-8 h-8 mx-auto mb-2 text-ink-600" />
               <H2 className="text-white">{partnerships.filter((p: any) => p.company).length}</H2>
-              <Body className="text-ink-400">Companies</Body>
+              <Body className="text-ink-600">Companies</Body>
             </Card>
           </Grid>
 
@@ -100,13 +100,13 @@ export default function PartnershipsPage() {
                 <Stack gap={4} direction="horizontal" className="items-start justify-between">
                   <Stack gap={4} className="flex-1">
                     <Stack gap={3} direction="horizontal" className="items-center">
-                      <Handshake className="w-6 h-6 text-ink-400" />
+                      <Handshake className="w-6 h-6 text-ink-600" />
                       <H2 className="text-white">{partnership.name}</H2>
                       <Badge className={getStatusColor(partnership.status || 'active')}>
                         {partnership.status?.toUpperCase() || 'ACTIVE'}
                       </Badge>
                     </Stack>
-                    <Body className="text-ink-400">{partnership.company || partnership.type || 'Partner'}</Body>
+                    <Body className="text-ink-600">{partnership.company || partnership.type || 'Partner'}</Body>
                     
                     <Grid cols={4} gap={6}>
                       <Stack gap={1}>

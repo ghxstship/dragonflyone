@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { Navigation } from '../../components/navigation';
+import { ConsumerNavigationPublic } from '../../components/navigation';
 import { Container, Section, H1, H2, H3, Body, Button, Input, Card, Grid, Badge, LoadingSpinner, EmptyState, Stack, Breadcrumb, BreadcrumbItem } from '@ghxstship/ui';
 import { Search, MessageCircle, Users, TrendingUp, Calendar } from 'lucide-react';
 
@@ -109,7 +109,7 @@ export default function CommunityPage() {
   if (loading) {
     return (
       <Section className="min-h-screen bg-black text-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading community..." />
         </Container>
@@ -120,7 +120,7 @@ export default function CommunityPage() {
   if (error) {
     return (
       <Section className="min-h-screen bg-black text-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="py-16">
           <EmptyState
             title="Error Loading Community"
@@ -134,7 +134,7 @@ export default function CommunityPage() {
 
   return (
     <Section className="min-h-screen bg-black text-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Section className="py-12">
         <Container>
           {/* Breadcrumb */}
@@ -145,7 +145,7 @@ export default function CommunityPage() {
 
           <Stack gap={2} className="border-b-2 border-grey-800 pb-8 mb-8">
             <H1>Community</H1>
-            <Body className="text-grey-400">Connect with fellow fans and share experiences</Body>
+            <Body className="text-grey-600">Connect with fellow fans and share experiences</Body>
           </Stack>
 
         {/* Tabs */}
@@ -220,7 +220,7 @@ export default function CommunityPage() {
             ))}
 
             <Card className="p-12 text-center border-2 border-dashed border-grey-300">
-              <MessageCircle className="w-12 h-12 mx-auto mb-4 text-grey-400" />
+              <MessageCircle className="w-12 h-12 mx-auto mb-4 text-grey-600" />
               <H3 className="mb-2">START A NEW DISCUSSION</H3>
               <Body className="text-grey-500 mb-4">
                 Share your thoughts and connect with the community
@@ -253,7 +253,7 @@ export default function CommunityPage() {
             ))}
 
             <Card className="p-12 text-center border-2 border-dashed border-grey-300">
-              <Users className="w-12 h-12 mx-auto mb-4 text-grey-400" />
+              <Users className="w-12 h-12 mx-auto mb-4 text-grey-600" />
               <H3 className="mb-2">CREATE YOUR GROUP</H3>
               <Body className="text-grey-500 mb-4">
                 Build your own community around shared interests
@@ -303,7 +303,7 @@ export default function CommunityPage() {
             )}
 
             <Card className="p-12 text-center border-2 border-dashed border-grey-300">
-              <Calendar className="w-12 h-12 mx-auto mb-4 text-grey-400" />
+              <Calendar className="w-12 h-12 mx-auto mb-4 text-grey-600" />
               <H3 className="mb-2">HOST A COMMUNITY EVENT</H3>
               <Body className="text-grey-500 mb-4">
                 Organize meetups and gatherings for your community

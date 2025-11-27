@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../components/navigation";
+import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
   Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select,
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Button,
@@ -53,19 +53,19 @@ export default function VIPManagementPage() {
       case "Approved": return "text-info-400";
       case "Pending": return "text-warning-400";
       case "Denied": return "text-error-400";
-      default: return "text-ink-400";
+      default: return "text-ink-600";
     }
   };
 
   return (
     <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
       <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <Navigation />
+      <CreatorNavigationAuthenticated />
       <Container className="py-16">
         <Stack gap={8}>
           <Stack gap={2}>
             <H1>VIP & Backstage Management</H1>
-            <Label className="text-ink-400">Guest list management and access control</Label>
+            <Label className="text-ink-600">Guest list management and access control</Label>
           </Stack>
 
           <Grid cols={4} gap={6}>
@@ -126,7 +126,7 @@ export default function VIPManagementPage() {
                     <Stack gap={4}>
                       <H3>{zone.name}</H3>
                       <Stack gap={2}>
-                        <Label className="text-ink-400">{zone.currentOccupancy} / {zone.maxCapacity}</Label>
+                        <Label className="text-ink-600">{zone.currentOccupancy} / {zone.maxCapacity}</Label>
                         <Card className="h-2 bg-ink-800 rounded-full overflow-hidden">
                           <Card className="h-full bg-white" style={{ '--progress-width': `${(zone.currentOccupancy / zone.maxCapacity) * 100}%`, width: 'var(--progress-width)' } as React.CSSProperties} />
                         </Card>
@@ -140,8 +140,8 @@ export default function VIPManagementPage() {
 
           <Grid cols={3} gap={4}>
             <Button variant="outlineWhite" onClick={() => setShowAddModal(true)}>Add Guest</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400">Print Credentials</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/stage-management")}>Stage Management</Button>
+            <Button variant="outline" className="border-ink-700 text-ink-600">Print Credentials</Button>
+            <Button variant="outline" className="border-ink-700 text-ink-600" onClick={() => router.push("/stage-management")}>Stage Management</Button>
           </Grid>
         </Stack>
       </Container>
@@ -173,10 +173,10 @@ export default function VIPManagementPage() {
           {selectedGuest && (
             <Stack gap={4}>
               <Body className="text-white font-display text-lg">{selectedGuest.name}</Body>
-              <Label className="text-ink-400">{selectedGuest.email}</Label>
+              <Label className="text-ink-600">{selectedGuest.email}</Label>
               <Badge variant="outline">{selectedGuest.passType}</Badge>
               <Label className={getStatusColor(selectedGuest.status)}>{selectedGuest.status}</Label>
-              {selectedGuest.notes && <Body className="text-ink-300">{selectedGuest.notes}</Body>}
+              {selectedGuest.notes && <Body className="text-ink-700">{selectedGuest.notes}</Body>}
             </Stack>
           )}
         </ModalBody>

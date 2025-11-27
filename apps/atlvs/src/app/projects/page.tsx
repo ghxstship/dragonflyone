@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Navigation } from '../../components/navigation';
+import { CreatorNavigationAuthenticated } from '../../components/navigation';
 import { 
   ListPage, 
   Badge, 
@@ -202,7 +202,7 @@ export default function ProjectsPage() {
         stats={stats}
         emptyMessage="No projects yet"
         emptyAction={{ label: 'Create Project', onClick: () => setCreateModalOpen(true) }}
-        header={<Navigation />}
+        header={<CreatorNavigationAuthenticated />}
       />
 
       <RecordFormModal

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Navigation } from '../../components/navigation';
+import { CreatorNavigationAuthenticated } from '../../components/navigation';
 import { Container, Section, Display, H2, H3, Body, Button, Input, Select, Card, Grid, Badge, Stack, Modal, ModalHeader, ModalBody, ModalFooter, Textarea, Alert, Breadcrumb, BreadcrumbItem } from '@ghxstship/ui';
 import { Search, Briefcase, DollarSign, MapPin, Clock, FileText } from 'lucide-react';
 
@@ -96,7 +96,7 @@ export default function OpportunitiesPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <CreatorNavigationAuthenticated />
       <Section className="py-8">
         <Container>
           {/* Breadcrumb */}

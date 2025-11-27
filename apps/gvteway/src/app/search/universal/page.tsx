@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useMemo, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Navigation } from '../../../components/navigation';
+import { ConsumerNavigationPublic } from '../../../components/navigation';
 import {
   Container,
   Section,
@@ -141,7 +141,7 @@ function UniversalSearchContent() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
         <Stack gap={2} className="border-b-2 border-black pb-8">
@@ -301,7 +301,7 @@ export default function UniversalSearchPage() {
   return (
     <Suspense fallback={
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading..." />
         </Container>

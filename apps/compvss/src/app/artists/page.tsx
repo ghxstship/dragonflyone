@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../components/navigation";
+import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
   ListPage,
   Badge,
@@ -163,7 +163,7 @@ export default function ArtistsPage() {
         stats={stats}
         emptyMessage="No artists found"
         emptyAction={{ label: 'Add Artist', onClick: () => setCreateModalOpen(true) }}
-        header={<Navigation />}
+        header={<CreatorNavigationAuthenticated />}
       />
 
       <RecordFormModal

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../../components/navigation";
+import { CreatorNavigationAuthenticated } from "../../../components/navigation";
 import {
   ListPage,
   Badge,
@@ -112,7 +112,7 @@ export default function AccountsReceivablePage() {
         onExport={() => console.log('Export')}
         stats={stats}
         emptyMessage="No invoices found"
-        header={<Navigation />}
+        header={<CreatorNavigationAuthenticated />}
       />
       {selectedInvoice && (
         <DetailDrawer

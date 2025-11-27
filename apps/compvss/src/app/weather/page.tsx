@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../components/navigation";
+import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
   H1,
   H3,
@@ -91,7 +91,7 @@ export default function WeatherPage() {
   if (loading) {
     return (
       <Section className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-        <Navigation />
+        <CreatorNavigationAuthenticated />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading weather data..." />
         </Container>
@@ -101,7 +101,7 @@ export default function WeatherPage() {
 
   return (
     <Section className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Navigation />
+      <CreatorNavigationAuthenticated />
       <Container className="py-16">
         <Stack gap={8}>
           <H1>Weather Monitoring</H1>

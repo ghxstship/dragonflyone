@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Navigation } from '../../../components/navigation';
+import { ConsumerNavigationPublic } from '../../../components/navigation';
 import {
   Container,
   Section,
@@ -154,7 +154,7 @@ function AccessibilityRequestContent() {
   if (loading) {
     return (
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading..." />
         </Container>
@@ -164,7 +164,7 @@ function AccessibilityRequestContent() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
         <Stack gap={2} className="border-b-2 border-black pb-8">
@@ -212,7 +212,7 @@ function AccessibilityRequestContent() {
                               {service.label}
                             </Body>
                             <Body className={`text-sm ${
-                              selectedServices.includes(service.id) ? 'text-grey-300' : 'text-grey-500'
+                              selectedServices.includes(service.id) ? 'text-grey-600' : 'text-grey-500'
                             }`}>
                               {service.description}
                             </Body>
@@ -318,7 +318,7 @@ export default function AccessibilityRequestPage() {
   return (
     <Suspense fallback={
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading..." />
         </Container>

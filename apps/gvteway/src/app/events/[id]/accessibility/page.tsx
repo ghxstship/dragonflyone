@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter, useParams } from "next/navigation";
-import { Navigation } from "../../../../components/navigation";
+import { ConsumerNavigationPublic } from "../../../../components/navigation";
 import {
   Container, H1, H3, Body, Label, Grid, Stack, Button,
   Section, Card, Tabs, TabsList, Tab, TabPanel, Badge,
@@ -66,7 +66,7 @@ export default function AccessibilityPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
           <Stack gap={2} className="border-b-2 border-black pb-8">
@@ -89,7 +89,7 @@ export default function AccessibilityPage() {
               <Grid cols={2} gap={4}>
                 <Card className="p-3 bg-grey-50 border border-grey-200">
                   <Stack direction="horizontal" gap={2}>
-                    <Label className={mockAgeRestriction.idRequired ? "text-success-600" : "text-grey-400"}>
+                    <Label className={mockAgeRestriction.idRequired ? "text-success-600" : "text-grey-600"}>
                       {mockAgeRestriction.idRequired ? "✓" : "○"}
                     </Label>
                     <Label>Photo ID Required</Label>
@@ -97,7 +97,7 @@ export default function AccessibilityPage() {
                 </Card>
                 <Card className="p-3 bg-grey-50 border border-grey-200">
                   <Stack direction="horizontal" gap={2}>
-                    <Label className={mockAgeRestriction.guardianRequired ? "text-success-600" : "text-grey-400"}>
+                    <Label className={mockAgeRestriction.guardianRequired ? "text-success-600" : "text-grey-600"}>
                       {mockAgeRestriction.guardianRequired ? "✓" : "○"}
                     </Label>
                     <Label>Guardian Required for Minors</Label>
@@ -188,10 +188,10 @@ export default function AccessibilityPage() {
                         { feature: "Tactile Flooring", available: false },
                       ].map((item) => (
                         <Stack key={item.feature} direction="horizontal" gap={2}>
-                          <Label className={item.available ? "text-success-600" : "text-grey-400"}>
+                          <Label className={item.available ? "text-success-600" : "text-grey-600"}>
                             {item.available ? "✓" : "○"}
                           </Label>
-                          <Label className={item.available ? "" : "text-grey-400"}>{item.feature}</Label>
+                          <Label className={item.available ? "" : "text-grey-600"}>{item.feature}</Label>
                         </Stack>
                       ))}
                     </Stack>

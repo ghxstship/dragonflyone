@@ -185,6 +185,63 @@ export const ink = {
   950: "#000000",
 } as const;
 
+/**
+ * Semantic Text Colors - WCAG AA compliant text/background pairings
+ * 
+ * Usage:
+ * - onDark: Use when text appears on dark backgrounds (ink-700 to ink-950)
+ * - onLight: Use when text appears on light backgrounds (ink-50 to ink-200)
+ * - onMid: Use when text appears on mid-tone backgrounds (ink-400 to ink-600)
+ * 
+ * Contrast ratios:
+ * - primary: Minimum 4.5:1 (WCAG AA for normal text)
+ * - secondary: Minimum 4.5:1 (WCAG AA for normal text)
+ * - muted: Minimum 3:1 (WCAG AA for large text/UI components)
+ * - disabled: Minimum 3:1 (decorative/disabled state)
+ */
+export const textColors = {
+  // On dark backgrounds (ink-700, ink-800, ink-900, ink-950)
+  onDark: {
+    primary: ink[50],      // #FFFFFF - 21:1 on ink-950
+    secondary: ink[300],   // #D4D4D4 - 12.6:1 on ink-950
+    muted: ink[400],       // #A3A3A3 - 7.4:1 on ink-950
+    disabled: ink[500],    // #737373 - 4.6:1 on ink-950
+  },
+  // On light backgrounds (ink-50, ink-100, ink-200)
+  onLight: {
+    primary: ink[950],     // #000000 - 21:1 on ink-50
+    secondary: ink[700],   // #404040 - 9.7:1 on ink-50
+    muted: ink[500],       // #737373 - 4.6:1 on ink-50
+    disabled: ink[400],    // #A3A3A3 - 2.7:1 on ink-50 (decorative only)
+  },
+  // On mid-tone backgrounds (ink-400, ink-500, ink-600)
+  onMid: {
+    primary: ink[50],      // #FFFFFF - 7.4:1 on ink-500
+    secondary: ink[200],   // #E5E5E5 - 5.3:1 on ink-500
+  },
+} as const;
+
+/**
+ * Background-to-text mapping utility
+ * Maps background classes to their WCAG-compliant text color pairings
+ */
+export const bgTextPairings = {
+  // Dark backgrounds
+  'ink-950': { primary: 'ink-50', secondary: 'ink-300', muted: 'ink-400' },
+  'ink-900': { primary: 'ink-50', secondary: 'ink-300', muted: 'ink-400' },
+  'ink-800': { primary: 'ink-50', secondary: 'ink-200', muted: 'ink-400' },
+  'ink-700': { primary: 'ink-50', secondary: 'ink-200', muted: 'ink-400' },
+  // Light backgrounds
+  'ink-50': { primary: 'ink-950', secondary: 'ink-700', muted: 'ink-500' },
+  'ink-100': { primary: 'ink-950', secondary: 'ink-700', muted: 'ink-500' },
+  'ink-200': { primary: 'ink-900', secondary: 'ink-700', muted: 'ink-500' },
+  'ink-300': { primary: 'ink-900', secondary: 'ink-700', muted: 'ink-500' },
+  // Mid-tone backgrounds
+  'ink-400': { primary: 'ink-50', secondary: 'ink-200', muted: 'ink-200' },
+  'ink-500': { primary: 'ink-50', secondary: 'ink-200', muted: 'ink-200' },
+  'ink-600': { primary: 'ink-50', secondary: 'ink-200', muted: 'ink-300' },
+} as const;
+
 // Typography System
 export const typography = {
   display: "'Anton', 'Impact', 'Arial Black', sans-serif",

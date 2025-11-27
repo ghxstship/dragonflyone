@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../components/navigation";
+import { ConsumerNavigationPublic } from "../../components/navigation";
 import {
   H1,
   H2,
@@ -114,7 +114,7 @@ export default function ForumsPage() {
   if (loading) {
     return (
       <Section className="relative min-h-screen bg-black text-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading forums..." />
         </Container>
@@ -125,7 +125,7 @@ export default function ForumsPage() {
   if (error) {
     return (
       <Section className="relative min-h-screen bg-black text-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="py-16">
           <EmptyState
             title="Error Loading Forums"
@@ -139,7 +139,7 @@ export default function ForumsPage() {
 
   return (
     <Section className="relative min-h-screen bg-black text-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
           <Stack gap={2}>

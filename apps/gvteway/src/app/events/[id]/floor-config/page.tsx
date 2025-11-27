@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter, useParams } from "next/navigation";
-import { Navigation } from "../../../../components/navigation";
+import { ConsumerNavigationPublic } from "../../../../components/navigation";
 import {
   Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
   Section, Card, Tabs, TabsList, Tab, TabPanel, Badge,
@@ -45,14 +45,14 @@ export default function FloorConfigPage() {
       case "Available": return "text-success-400";
       case "Limited": return "text-warning-400";
       case "Sold Out": return "text-error-400";
-      case "Closed": return "text-ink-400";
-      default: return "text-ink-400";
+      case "Closed": return "text-ink-600";
+      default: return "text-ink-600";
     }
   };
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-8">
         <Stack gap={8}>
           <Stack gap={2} className="border-b-2 border-black pb-8">
@@ -84,7 +84,7 @@ export default function FloorConfigPage() {
                   <Card className="h-96 bg-grey-100 border border-grey-200 relative overflow-hidden">
                     <Stack className="absolute inset-0 items-center justify-center">
                       <Label className="text-grey-500">Interactive Floor Plan Editor</Label>
-                      <Body className="text-grey-400 text-sm">Drag and drop sections to configure layout</Body>
+                      <Body className="text-grey-600 text-sm">Drag and drop sections to configure layout</Body>
                     </Stack>
                     <Card className="absolute top-4 left-4 w-32 h-20 bg-info-500/20 border-2 border-info-500 flex items-center justify-center">
                       <Label className="text-info-700 text-xs">STAGE</Label>

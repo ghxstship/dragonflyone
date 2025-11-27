@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../../components/navigation";
+import { ConsumerNavigationPublic } from "../../../components/navigation";
 import {
   Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
   Section, Card, Tabs, TabsList, Tab, TabPanel, Badge, ProgressBar,
@@ -58,7 +58,7 @@ export default function UrgencyTacticsPage() {
     switch (status) {
       case "Active": return "text-success-600";
       case "Scheduled": return "text-info-600";
-      case "Ended": return "text-grey-400";
+      case "Ended": return "text-grey-600";
       default: return "text-grey-600";
     }
   };
@@ -78,7 +78,7 @@ export default function UrgencyTacticsPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
           <Stack gap={2} className="border-b-2 border-black pb-8">

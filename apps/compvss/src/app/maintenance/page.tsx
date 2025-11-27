@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../components/navigation";
+import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import { useMaintenance } from "../../hooks/useMaintenance";
 import {
   ListPage,
@@ -125,7 +125,7 @@ export default function MaintenancePage() {
         stats={stats}
         emptyMessage="No maintenance records found"
         emptyAction={{ label: 'Schedule Maintenance', onClick: () => setCreateModalOpen(true) }}
-        header={<Navigation />}
+        header={<CreatorNavigationAuthenticated />}
       />
 
       <RecordFormModal

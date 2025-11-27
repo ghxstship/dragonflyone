@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Navigation } from '../../components/navigation';
+import { CreatorNavigationAuthenticated } from '../../components/navigation';
 import { useAdvanceReviewQueue } from '@/hooks/useAdvanceReview';
 import {
   ListPage,
@@ -106,7 +106,7 @@ export default function AdvanceReviewQueuePage() {
         onExport={() => console.log('Export')}
         stats={stats}
         emptyMessage="No advances pending review"
-        header={<Navigation />}
+        header={<CreatorNavigationAuthenticated />}
       />
       <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedAdvance} title={(a) => a.activation_name || 'Advance'} subtitle={(a) => a.organization?.name || ''} sections={detailSections} actions={[{ id: 'review', label: 'Review', icon: '✅' }]} onAction={(id, a) => id === 'review' && router.push(`/advances/${a.id}`)} />
     </>

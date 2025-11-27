@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../../components/navigation";
+import { CreatorNavigationAuthenticated } from "../../../components/navigation";
 import {
   ListPage,
   Badge,
@@ -128,7 +128,7 @@ export default function RelationshipsPage() {
         stats={stats}
         emptyMessage="No stakeholders found"
         emptyAction={{ label: 'Add Stakeholder', onClick: () => setCreateModalOpen(true) }}
-        header={<Navigation />}
+        header={<CreatorNavigationAuthenticated />}
       />
       {selectedStakeholder && (
         <DetailDrawer

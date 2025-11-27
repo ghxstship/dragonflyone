@@ -195,7 +195,7 @@ export default function BundlesPage() {
                               {getTypeBadge(product.type)}
                               <Body>{product.name}</Body>
                             </Stack>
-                            <Label className="text-grey-400">${product.price}</Label>
+                            <Label className="text-grey-600">${product.price}</Label>
                           </Stack>
                         ))}
                       </Stack>
@@ -205,7 +205,7 @@ export default function BundlesPage() {
                       <Grid cols={3} gap={4}>
                         <Stack gap={1}>
                           <Label className="text-grey-500">Original</Label>
-                          <Body className="line-through text-grey-400">${bundle.original_price}</Body>
+                          <Body className="line-through text-grey-600">${bundle.original_price}</Body>
                         </Stack>
                         <Stack gap={1}>
                           <Label className="text-grey-500">Bundle Price</Label>
@@ -261,14 +261,14 @@ export default function BundlesPage() {
                     <Stack gap={1}>
                       <Label className="text-grey-500">Recommend</Label>
                       <Body className="font-bold">{cs.recommended_product_name}</Body>
-                      <Label className="text-grey-400">${cs.recommended_product_price}</Label>
+                      <Label className="text-grey-600">${cs.recommended_product_price}</Label>
                     </Stack>
                     <Stack gap={1}>
                       <Label className="text-grey-500">Discount</Label>
                       {cs.discount_percent ? (
                         <Badge className="bg-success-500 text-white">{cs.discount_percent}% OFF</Badge>
                       ) : (
-                        <Label className="text-grey-400">None</Label>
+                        <Label className="text-grey-600">None</Label>
                       )}
                     </Stack>
                     <Stack gap={1}>

@@ -36,8 +36,8 @@ export default function TicketsPage() {
           logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
           cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/profile')}>PROFILE</Button>}
         >
-          <Link href="/" className="font-heading text-sm uppercase tracking-wider hover:text-grey-400">Home</Link>
-          <Link href="/events" className="font-heading text-sm uppercase tracking-wider hover:text-grey-400">Events</Link>
+          <Link href="/" className="font-heading text-sm uppercase tracking-wider hover:text-grey-600">Home</Link>
+          <Link href="/events" className="font-heading text-sm uppercase tracking-wider hover:text-grey-600">Events</Link>
           <Link href="/tickets" className="font-heading text-sm uppercase tracking-wider text-white">Tickets</Link>
         </Navigation>
       }
@@ -72,7 +72,7 @@ export default function TicketsPage() {
                         <Stack gap={3}>
                           <Stack gap={1}>
                             <H3 className="text-white">{ticket.event?.name || 'Event'}</H3>
-                            <Body className="text-grey-400">{ticket.event?.venue || 'Venue'}</Body>
+                            <Body className="text-grey-600">{ticket.event?.venue || 'Venue'}</Body>
                           </Stack>
                           <Grid cols={2} gap={2}>
                             <Stack gap={1} direction="horizontal">

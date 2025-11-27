@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../../components/navigation";
+import { ConsumerNavigationPublic } from "../../../components/navigation";
 import {
   Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
   Section, Card, Tabs, TabsList, Tab, TabPanel, Badge,
@@ -56,7 +56,7 @@ export default function FanContentPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
           <Stack gap={2} className="border-b-2 border-black pb-8">
@@ -96,7 +96,7 @@ export default function FanContentPage() {
                     {content.featured && <Badge variant="solid">Featured</Badge>}
                   </Stack>
                   <Label className="text-grey-500">by {content.creator}</Label>
-                  <Label size="xs" className="text-grey-400">{content.eventName}</Label>
+                  <Label size="xs" className="text-grey-600">{content.eventName}</Label>
                   <Stack direction="horizontal" gap={4}>
                     <Label size="xs">❤️ {content.likes}</Label>
                     <Label size="xs">💬 {content.comments}</Label>
@@ -126,7 +126,7 @@ export default function FanContentPage() {
                   <Body className="font-bold">{selectedContent.creator}</Body>
                   <Label className="text-grey-500">{selectedContent.eventName}</Label>
                 </Stack>
-                <Label className="text-grey-400">{selectedContent.createdAt}</Label>
+                <Label className="text-grey-600">{selectedContent.createdAt}</Label>
               </Stack>
               <Stack direction="horizontal" gap={6}>
                 <Label>❤️ {selectedContent.likes} likes</Label>

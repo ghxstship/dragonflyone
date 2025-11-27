@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { Navigation } from '../../components/navigation';
+import { ConsumerNavigationPublic } from '../../components/navigation';
 import {
   Container,
   Section,
@@ -168,7 +168,7 @@ export default function MatchPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
           <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
@@ -251,7 +251,7 @@ export default function MatchPage() {
                 <Stack className="p-3" gap={1}>
                   <Body className="font-bold line-clamp-1">{event.title}</Body>
                   <Body className="text-xs text-grey-500">{event.venue_name}</Body>
-                  <Body className="text-xs text-grey-400">{event.match_reason}</Body>
+                  <Body className="text-xs text-grey-600">{event.match_reason}</Body>
                 </Stack>
               </Card>
             ))

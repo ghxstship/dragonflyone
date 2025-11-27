@@ -55,7 +55,7 @@ export default function ExclusiveAccessPage() {
     switch (status) {
       case "Active": return "text-success-600";
       case "Upcoming": return "text-info-600";
-      case "Ended": return "text-grey-400";
+      case "Ended": return "text-grey-600";
       default: return "text-grey-600";
     }
   };

@@ -64,7 +64,7 @@ export default function EarlyBirdPage() {
       case "Active": return "text-success-600";
       case "Ending Soon": return "text-warning-600";
       case "Scheduled": return "text-info-600";
-      case "Ended": return "text-grey-400";
+      case "Ended": return "text-grey-600";
       default: return "text-grey-600";
     }
   };
@@ -133,7 +133,7 @@ export default function EarlyBirdPage() {
                   </Stack>
                   <Stack gap={1}>
                     <Stack direction="horizontal" gap={2}>
-                      <Label className="line-through text-grey-400">{formatCurrency(campaign.originalPrice)}</Label>
+                      <Label className="line-through text-grey-600">{formatCurrency(campaign.originalPrice)}</Label>
                       <Label className="font-bold text-success-600">{formatCurrency(campaign.discountedPrice)}</Label>
                     </Stack>
                     <Badge variant="solid" className="bg-success-600">{campaign.discountPercent}% OFF</Badge>

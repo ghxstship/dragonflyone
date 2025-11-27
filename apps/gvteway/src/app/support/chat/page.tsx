@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Navigation } from '../../../components/navigation';
+import { ConsumerNavigationPublic } from '../../../components/navigation';
 import {
   Container,
   Section,
@@ -159,7 +159,7 @@ function SupportChatContent() {
   if (loading) {
     return (
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading..." />
         </Container>
@@ -169,7 +169,7 @@ function SupportChatContent() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
         <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
@@ -209,13 +209,13 @@ function SupportChatContent() {
                     </Stack>
                     {conv.event_title && (
                       <Body className={`text-sm ${
-                        activeConversation?.id === conv.id ? 'text-grey-300' : 'text-grey-500'
+                        activeConversation?.id === conv.id ? 'text-grey-600' : 'text-grey-500'
                       }`}>
                         {conv.event_title}
                       </Body>
                     )}
                     <Body className={`text-xs mt-1 ${
-                      activeConversation?.id === conv.id ? 'text-grey-400' : 'text-grey-400'
+                      activeConversation?.id === conv.id ? 'text-grey-600' : 'text-grey-600'
                     }`}>
                       {new Date(conv.created_at).toLocaleDateString()}
                     </Body>
@@ -275,7 +275,7 @@ function SupportChatContent() {
                             {message.content}
                           </Body>
                           <Body className={`text-xs mt-2 ${
-                            message.sender === 'user' ? 'text-grey-400' : 'text-grey-500'
+                            message.sender === 'user' ? 'text-grey-600' : 'text-grey-500'
                           }`}>
                             {new Date(message.timestamp).toLocaleTimeString()}
                           </Body>
@@ -370,7 +370,7 @@ export default function SupportChatPage() {
   return (
     <Suspense fallback={
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading..." />
         </Container>

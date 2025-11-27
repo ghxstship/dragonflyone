@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Navigation } from '../../components/navigation';
+import { ConsumerNavigationPublic } from '../../components/navigation';
 import { H1, H2, H3, Body, Button, Card, Badge, Grid, LoadingSpinner, Container, Section, Stack, Breadcrumb, BreadcrumbItem, EmptyState } from '@ghxstship/ui';
 import { useOrders } from '@/hooks/useOrders';
 
@@ -14,7 +14,7 @@ export default function OrdersPage() {
   if (isLoading) {
     return (
       <Section className="min-h-screen bg-black text-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading orders..." />
         </Container>
@@ -31,7 +31,7 @@ export default function OrdersPage() {
 
   return (
     <Section className="min-h-screen bg-black text-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
         {/* Breadcrumb */}

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Navigation } from '../../components/navigation';
+import { CreatorNavigationAuthenticated } from '../../components/navigation';
 import {
   ListPage,
   Badge,
@@ -172,7 +172,7 @@ export default function ContactsPage() {
         stats={stats}
         emptyMessage="No contacts yet"
         emptyAction={{ label: 'Add Contact', onClick: () => setCreateModalOpen(true) }}
-        header={<Navigation />}
+        header={<CreatorNavigationAuthenticated />}
       />
 
       <RecordFormModal

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../../components/navigation";
+import { CreatorNavigationAuthenticated } from "../../../components/navigation";
 import {
   ListPage,
   Badge,
@@ -105,7 +105,7 @@ export default function BankReconciliationPage() {
         onExport={() => console.log('Export')}
         stats={stats}
         emptyMessage="No transactions found"
-        header={<Navigation />}
+        header={<CreatorNavigationAuthenticated />}
       />
       {selectedTxn && (
         <DetailDrawer

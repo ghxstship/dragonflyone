@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Navigation } from '../../../components/navigation';
+import { ConsumerNavigationPublic } from '../../../components/navigation';
 import {
   Container,
   Section,
@@ -140,7 +140,7 @@ function GiftTicketsContent() {
   if (loading) {
     return (
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading..." />
         </Container>
@@ -151,7 +151,7 @@ function GiftTicketsContent() {
   if (success) {
     return (
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="py-16">
           <Stack className="items-center justify-center min-h-[40vh]" gap={6}>
             <Stack className="w-24 h-24 bg-black rounded-full items-center justify-center">
@@ -180,7 +180,7 @@ function GiftTicketsContent() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
         <Stack gap={2} className="border-b-2 border-black pb-8">
@@ -407,7 +407,7 @@ export default function GiftTicketsPage() {
   return (
     <Suspense fallback={
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading..." />
         </Container>

@@ -345,7 +345,7 @@ export default function RelationshipsPage() {
                   </Stack>
                   <Stack className="items-center">
                     {getRelationshipBadge(rel.relationship_type)}
-                    <Body className="text-grey-400">→</Body>
+                    <Body className="text-grey-600">→</Body>
                   </Stack>
                   <Stack gap={1}>
                     <Body className="font-bold">{rel.to_contact.name}</Body>

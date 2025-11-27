@@ -46,7 +46,7 @@ export default function GroupTicketsPage() {
       case "Completed": return "text-success-600";
       case "Paid": return "text-info-600";
       case "Confirmed": return "text-warning-600";
-      case "Pending": return "text-grey-400";
+      case "Pending": return "text-grey-600";
       default: return "text-grey-600";
     }
   };

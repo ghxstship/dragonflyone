@@ -134,7 +134,7 @@ export default function EventCollaborationPage() {
                       )}
                     </Stack>
                     {collaborator.lastActive && (
-                      <Label size="xs" className="text-grey-400">Last active: {collaborator.lastActive}</Label>
+                      <Label size="xs" className="text-grey-600">Last active: {collaborator.lastActive}</Label>
                     )}
                     <Stack direction="horizontal" gap={2}>
                       <Button variant="outline" size="sm" onClick={() => setSelectedCollaborator(collaborator)}>Manage</Button>

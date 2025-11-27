@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { Navigation } from '../../components/navigation';
+import { CreatorNavigationAuthenticated } from '../../components/navigation';
 import { Container, Section, Display, H2, H3, Body, Button, Card, Grid, Badge, LoadingSpinner, EmptyState, Stack, Breadcrumb, BreadcrumbItem } from '@ghxstship/ui';
 import { AlertTriangle, CheckCircle, FileText, Users, Shield, AlertCircle } from 'lucide-react';
 
@@ -93,7 +93,7 @@ export default function SafetyPage() {
 
   return (
     <Section className="min-h-screen bg-ink-950 text-white">
-      <Navigation />
+      <CreatorNavigationAuthenticated />
       <Section className="py-8">
         <Container>
           {/* Breadcrumb */}

@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNotifications } from '@ghxstship/ui';
 import { useRouter } from 'next/navigation';
-import { Navigation } from '../../components/navigation';
+import { ConsumerNavigationPublic } from '../../components/navigation';
 import {
   Container,
   Section,
@@ -121,7 +121,7 @@ export default function ActivityFeedPage() {
   if (loading) {
     return (
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading activity..." />
         </Container>
@@ -131,7 +131,7 @@ export default function ActivityFeedPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
           <Stack gap={2} className="border-b-2 border-black pb-8">
@@ -219,7 +219,7 @@ export default function ActivityFeedPage() {
                         )}
 
                         <Stack direction="horizontal" gap={3} className="mt-3 items-center">
-                          <Body className="text-xs text-grey-400">
+                          <Body className="text-xs text-grey-600">
                             {getActivityIcon(activity.type)} {formatTimeAgo(activity.created_at)}
                           </Body>
                         </Stack>

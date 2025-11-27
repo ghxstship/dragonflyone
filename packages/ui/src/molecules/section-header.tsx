@@ -19,11 +19,18 @@ export type SectionHeaderProps = HTMLAttributes<HTMLDivElement> & {
   titleSize?: "md" | "lg" | "xl";
   /** Gap between elements */
   gap?: "sm" | "md" | "lg";
+  /** Background context for WCAG-compliant contrast */
+  colorScheme?: "on-dark" | "on-light" | "on-mid";
 };
 
 /**
  * SectionHeader - Consistent header pattern for page sections
  * Used across ATLVS, COMPVSS, and GVTEWAY landing pages
+ * 
+ * Color scheme determines text color for WCAG AA compliance:
+ * - on-dark: For dark backgrounds (ink-700 to ink-950) - default
+ * - on-light: For light backgrounds (ink-50 to ink-200)
+ * - on-mid: For mid-tone backgrounds (ink-400 to ink-600)
  */
 export const SectionHeader = forwardRef<HTMLDivElement, SectionHeaderProps>(
   function SectionHeader(
@@ -34,6 +41,7 @@ export const SectionHeader = forwardRef<HTMLDivElement, SectionHeaderProps>(
       align = "left", 
       titleSize = "lg",
       gap = "md",
+      colorScheme = "on-dark",
       className, 
       children,
       ...props 
@@ -58,8 +66,15 @@ export const SectionHeader = forwardRef<HTMLDivElement, SectionHeaderProps>(
       lg: 4,
     };
 
+    // WCAG AA compliant description colors based on background context
+    const descriptionColorClasses = {
+      "on-dark": "text-ink-300",   // 12.6:1 contrast on ink-950
+      "on-light": "text-ink-600",  // 5.7:1 contrast on ink-50
+      "on-mid": "text-ink-200",    // 5.3:1 contrast on ink-500
+    };
+
     const descriptionClasses = clsx(
-      "text-ink-300",
+      descriptionColorClasses[colorScheme],
       align === "center" ? "mx-auto max-w-2xl" : "max-w-3xl"
     );
 
@@ -70,7 +85,7 @@ export const SectionHeader = forwardRef<HTMLDivElement, SectionHeaderProps>(
         className={clsx(alignClasses[align], className)}
         {...props}
       >
-        {kicker && <Kicker>{kicker}</Kicker>}
+        {kicker && <Kicker colorScheme={colorScheme}>{kicker}</Kicker>}
         {title && (
           typeof title === "string" ? (
             <H2 className={titleSizeClasses[titleSize]}>{title}</H2>

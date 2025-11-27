@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../components/navigation";
+import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
   ListPage,
   Badge,
@@ -124,7 +124,7 @@ export default function PerformancePage() {
         stats={stats}
         emptyMessage="No reviews found"
         emptyAction={{ label: 'Schedule Review', onClick: () => router.push('/performance/reviews/new') }}
-        header={<Navigation />}
+        header={<CreatorNavigationAuthenticated />}
       />
       {selectedReview && (
         <DetailDrawer

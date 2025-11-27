@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Navigation } from '../../../components/navigation';
+import { CreatorNavigationAuthenticated } from '../../../components/navigation';
 import {
   ListPage, Badge, DetailDrawer, RecordFormModal,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig,
@@ -119,7 +119,7 @@ export default function RentalEquipmentPage() {
         onExport={() => console.log('Export')}
         stats={stats}
         emptyMessage="No rentals found"
-        header={<Navigation />}
+        header={<CreatorNavigationAuthenticated />}
       />
       {selected && (
         <DetailDrawer

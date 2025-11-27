@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { Navigation } from '../../components/navigation';
+import { ConsumerNavigationPublic } from '../../components/navigation';
 import { Container, Section, H1, H2, H3, Body, Button, Card, Grid, Badge, ProgressBar, LoadingSpinner, EmptyState, Stack } from '@ghxstship/ui';
 import { Award, Gift, Star, TrendingUp, Ticket, Zap } from 'lucide-react';
 
@@ -112,7 +112,7 @@ export default function RewardsPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
           <Stack gap={2} className="border-b-2 border-black pb-8">
@@ -124,7 +124,7 @@ export default function RewardsPage() {
           <Card className="p-8 bg-black text-white">
             <Grid cols={2} gap={8}>
               <Stack gap={2}>
-                <Body className="text-grey-400">Your Points</Body>
+                <Body className="text-grey-600">Your Points</Body>
                 <H1 className="text-5xl text-white">{userPoints.toLocaleString()}</H1>
                 <Badge variant="outline" className="mt-4 border-white text-white bg-transparent">
                   {userTier} Member

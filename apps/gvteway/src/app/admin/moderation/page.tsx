@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../../components/navigation";
+import { ConsumerNavigationPublic } from "../../../components/navigation";
 import {
   ListPage,
   Badge,
@@ -130,7 +130,7 @@ export default function ModerationPage() {
         onExport={() => console.log('Export')}
         stats={stats}
         emptyMessage="No flagged content"
-        header={<Navigation />}
+        header={<ConsumerNavigationPublic />}
       />
 
       {selectedContent && (

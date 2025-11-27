@@ -39,7 +39,7 @@ export default function PrintAtHomePage() {
     switch (status) {
       case "Available": return "text-success-600";
       case "Printed": return "text-info-600";
-      case "Used": return "text-grey-400";
+      case "Used": return "text-grey-600";
       case "Expired": return "text-error-600";
       default: return "text-grey-600";
     }
@@ -146,7 +146,7 @@ export default function PrintAtHomePage() {
                   <Card className="p-2 bg-grey-200 text-center">
                     <Label className="font-mono text-xs">||||||||||||||||||||||||</Label>
                   </Card>
-                  <Label className="text-grey-400 text-center">This ticket contains security features to prevent counterfeiting</Label>
+                  <Label className="text-grey-600 text-center">This ticket contains security features to prevent counterfeiting</Label>
                 </Stack>
               </Card>
               <Grid cols={2} gap={4}>

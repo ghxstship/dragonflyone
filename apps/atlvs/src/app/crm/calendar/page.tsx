@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Navigation } from '../../../components/navigation';
+import { CreatorNavigationAuthenticated } from '../../../components/navigation';
 import {
   ListPage, Badge, DetailDrawer, RecordFormModal,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig,
@@ -122,7 +122,7 @@ export default function CalendarIntegrationPage() {
         stats={stats}
         emptyMessage="No events scheduled"
         emptyAction={{ label: 'Schedule Meeting', onClick: () => setCreateModalOpen(true) }}
-        header={<Navigation />}
+        header={<CreatorNavigationAuthenticated />}
       />
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Schedule Meeting" fields={formFields} onSubmit={handleCreate} />
       {selected && (

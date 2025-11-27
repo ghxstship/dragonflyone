@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../components/navigation";
+import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
   ListPage,
   Badge,
@@ -138,7 +138,7 @@ export default function TravelPage() {
         stats={stats}
         emptyMessage="No travel bookings"
         emptyAction={{ label: 'Book Travel', onClick: () => router.push('/travel/new') }}
-        header={<Navigation />}
+        header={<CreatorNavigationAuthenticated />}
       />
       {selectedBooking && (
         <DetailDrawer

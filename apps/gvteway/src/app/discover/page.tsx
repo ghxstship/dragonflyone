@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { Navigation } from '../../components/navigation';
+import { ConsumerNavigationPublic } from '../../components/navigation';
 import {
   Container,
   Section,
@@ -108,7 +108,7 @@ export default function DiscoverPage() {
   if (loading) {
     return (
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading events..." />
         </Container>
@@ -118,7 +118,7 @@ export default function DiscoverPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
           <Stack gap={2} className="border-b-2 border-black pb-8">
@@ -246,7 +246,7 @@ export default function DiscoverPage() {
           <Section className="mb-12">
             <Card className="p-8 bg-black text-white text-center">
               <H2 className="text-white mb-4">NOT SURE WHAT TO DO?</H2>
-              <Body className="text-grey-300 mb-6 max-w-md mx-auto">
+              <Body className="text-grey-600 mb-6 max-w-md mx-auto">
                 Take our quick quiz to get personalized event recommendations based on your preferences.
               </Body>
               <Button variant="outline" className="border-white text-white hover:bg-white hover:text-black" onClick={() => router.push('/quiz')}>

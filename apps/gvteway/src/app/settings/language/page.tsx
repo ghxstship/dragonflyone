@@ -135,7 +135,7 @@ export default function LanguageSettingsPage() {
                   <Stack gap={1}>
                     {["Event names and descriptions", "Artist names", "Venue information", "User reviews", "Chat messages"].map((item) => (
                       <Stack key={item} direction="horizontal" gap={2}>
-                        <Label className="text-grey-400">•</Label>
+                        <Label className="text-grey-600">•</Label>
                         <Label>{item}</Label>
                       </Stack>
                     ))}

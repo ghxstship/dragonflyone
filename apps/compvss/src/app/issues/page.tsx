@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Navigation } from '../../components/navigation';
+import { CreatorNavigationAuthenticated } from '../../components/navigation';
 import {
   ListPage,
   Badge,
@@ -166,7 +166,7 @@ export default function IssuesPage() {
         stats={stats}
         emptyMessage="No issues found"
         emptyAction={{ label: 'Report Issue', onClick: () => setCreateModalOpen(true) }}
-        header={<Navigation />}
+        header={<CreatorNavigationAuthenticated />}
       />
 
       <RecordFormModal

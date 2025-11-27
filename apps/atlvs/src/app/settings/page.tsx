@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useNotifications } from "@ghxstship/ui";
-import { Navigation } from "../../components/navigation";
+import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import { Section } from "../../components/section";
 import {
   H1,
@@ -39,7 +39,7 @@ export default function SettingsPage() {
 
   return (
     <Section className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Navigation />
+      <CreatorNavigationAuthenticated />
       <Container className="py-16">
         <Stack gap={8}>
           <H1>Settings</H1>

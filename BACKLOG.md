@@ -33,7 +33,35 @@ _Add planned features here as they are identified._
 
 ## Technical Debt
 
-_Add technical debt items here as they are identified._
+### Text Color Visibility Audit ✅ COMPLETE
+**Status:** Fully implemented and audited
+**Documentation:** See `docs/TEXT_COLOR_VISIBILITY.md`
+**Completed:** November 27, 2025
+
+The text color visibility system has been fully implemented across the codebase:
+
+**Design System Foundation:**
+- [x] Added `textColors` semantic tokens to `packages/ui/src/tokens.ts`
+- [x] Added `textColorPalette` to `packages/config-tailwind/index.js`
+- [x] Updated `Kicker` component with `colorScheme` prop
+- [x] Updated `SectionHeader` component with `colorScheme` prop
+
+**UI Component Fixes:**
+- [x] Fixed `context-breadcrumb.tsx` - swapped inverted color logic
+- [x] Fixed `breadcrumb.tsx` - updated separator color
+- [x] Fixed `link.tsx` - updated footer variant color
+- [x] Fixed `offline-indicator.tsx` - updated muted text colors
+- [x] Fixed `bulk-action-bar.tsx` - updated clear button color
+
+**App-Level Audit (All Three Apps):**
+- [x] GVTEWAY: Fixed all light-background pages (`text-grey-400` → `text-grey-600`)
+- [x] ATLVS: Fixed all light-background pages (`text-grey-400` → `text-grey-600`)
+- [x] COMPVSS: Fixed all light-background pages (`text-grey-400` → `text-grey-600`)
+- [x] Fixed `text-ink-400`/`text-ink-300` on light backgrounds → `text-ink-600`/`text-ink-700`
+
+**Verification:**
+- Zero files with light backgrounds (`bg-white`, `bg-ink-50`) using low-contrast text colors
+- All remaining `text-grey-400` and `text-ink-400` instances are correctly on dark backgrounds
 
 ---
 

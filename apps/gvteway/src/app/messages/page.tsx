@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Navigation } from '../../components/navigation';
+import { ConsumerNavigationPublic } from '../../components/navigation';
 import {
   Container,
   Section,
@@ -161,7 +161,7 @@ function MessagesContent() {
   if (loading) {
     return (
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading messages..." />
         </Container>
@@ -171,7 +171,7 @@ function MessagesContent() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
           <Stack gap={2} className="border-b-2 border-black pb-8">
@@ -242,14 +242,14 @@ function MessagesContent() {
                         </Stack>
                         {conv.last_message && (
                           <Body className={`text-sm truncate ${
-                            activeConversation?.id === conv.id ? 'text-grey-300' : 'text-grey-500'
+                            activeConversation?.id === conv.id ? 'text-grey-600' : 'text-grey-500'
                           }`}>
                             {conv.last_message}
                           </Body>
                         )}
                         {conv.last_message_at && (
                           <Body className={`text-xs ${
-                            activeConversation?.id === conv.id ? 'text-grey-400' : 'text-grey-400'
+                            activeConversation?.id === conv.id ? 'text-grey-600' : 'text-grey-600'
                           }`}>
                             {formatTime(conv.last_message_at)}
                           </Body>
@@ -328,7 +328,7 @@ function MessagesContent() {
                       </Card>
                       <Body className={`text-xs mt-1 ${
                         message.sender_id !== activeConversation.participant_id ? 'text-right' : ''
-                      } text-grey-400`}>
+                      } text-grey-600`}>
                         {formatTime(message.created_at)}
                       </Body>
                     </Stack>
@@ -381,7 +381,7 @@ export default function MessagesPage() {
   return (
     <Suspense fallback={
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading messages..." />
         </Container>

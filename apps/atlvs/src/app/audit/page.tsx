@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../components/navigation";
+import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
   ListPage,
   Badge,
@@ -110,7 +110,7 @@ export default function AuditPage() {
         onExport={() => router.push('/audit/export')}
         stats={stats}
         emptyMessage="No audit logs found"
-        header={<Navigation />}
+        header={<CreatorNavigationAuthenticated />}
       />
       <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedLog} title={(l) => l.action} subtitle={(l) => l.user?.email || l.user_email || 'Unknown user'} sections={detailSections} />
     </>

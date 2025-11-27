@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Navigation } from '../../../components/navigation';
+import { CreatorNavigationAuthenticated } from '../../../components/navigation';
 import {
   ListPage, Badge, DetailDrawer,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
@@ -104,7 +104,7 @@ export default function StorageOptimizationPage() {
         onExport={() => console.log('Export')}
         stats={stats}
         emptyMessage="No locations found"
-        header={<Navigation />}
+        header={<CreatorNavigationAuthenticated />}
       />
       {selected && (
         <DetailDrawer

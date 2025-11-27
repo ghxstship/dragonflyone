@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Navigation } from '../../../components/navigation';
+import { ConsumerNavigationPublic } from '../../../components/navigation';
 import { Container, Section, H1, H2, Body, Button, Card, Field, Label, Input, Badge, Alert, Grid, Stack, StatCard } from '@ghxstship/ui';
 
 export default function GvtewayIntegrationsPage() {
@@ -53,7 +53,7 @@ export default function GvtewayIntegrationsPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
           <Stack gap={2} className="border-b-2 border-black pb-8">
@@ -165,7 +165,7 @@ export default function GvtewayIntegrationsPage() {
                 <Stack gap={4} direction="horizontal" className="items-center">
                   <Stack gap={1} className="flex-1">
                     <Body className="font-bold">Ticket Sales → Financial Records</Body>
-                    <Body className="text-sm text-grey-400">GVTEWAY → ATLVS Ledger</Body>
+                    <Body className="text-sm text-grey-600">GVTEWAY → ATLVS Ledger</Body>
                   </Stack>
                   <Badge variant="solid">Real-time</Badge>
                 </Stack>
@@ -175,7 +175,7 @@ export default function GvtewayIntegrationsPage() {
                 <Stack gap={4} direction="horizontal" className="items-center">
                   <Stack gap={1} className="flex-1">
                     <Body className="font-bold">Event Updates → Production Schedule</Body>
-                    <Body className="text-sm text-grey-400">COMPVSS → GVTEWAY Events</Body>
+                    <Body className="text-sm text-grey-600">COMPVSS → GVTEWAY Events</Body>
                   </Stack>
                   <Badge variant="solid">Bi-directional</Badge>
                 </Stack>
@@ -185,7 +185,7 @@ export default function GvtewayIntegrationsPage() {
                 <Stack gap={4} direction="horizontal" className="items-center">
                   <Stack gap={1} className="flex-1">
                     <Body className="font-bold">Guest Profiles → CRM Database</Body>
-                    <Body className="text-sm text-grey-400">GVTEWAY → ATLVS Contacts</Body>
+                    <Body className="text-sm text-grey-600">GVTEWAY → ATLVS Contacts</Body>
                   </Stack>
                   <Badge variant="outline">Nightly Batch</Badge>
                 </Stack>
@@ -195,7 +195,7 @@ export default function GvtewayIntegrationsPage() {
                 <Stack gap={4} direction="horizontal" className="items-center">
                   <Stack gap={1} className="flex-1">
                     <Body className="font-bold">Inventory → Merchandise Stock</Body>
-                    <Body className="text-sm text-grey-400">ATLVS Assets → GVTEWAY Store</Body>
+                    <Body className="text-sm text-grey-600">ATLVS Assets → GVTEWAY Store</Body>
                   </Stack>
                   <Badge variant="solid">Real-time</Badge>
                 </Stack>

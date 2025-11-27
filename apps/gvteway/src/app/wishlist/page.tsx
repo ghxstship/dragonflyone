@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { Navigation } from '../../components/navigation';
+import { ConsumerNavigationPublic } from '../../components/navigation';
 import { Container, Section, H1, H2, H3, Body, Button, Card, Grid, Badge, LoadingSpinner, EmptyState, Stack } from '@ghxstship/ui';
 import { Heart, Trash2, ShoppingCart, Calendar, MapPin, DollarSign } from 'lucide-react';
 
@@ -66,7 +66,7 @@ export default function WishlistPage() {
   if (loading) {
     return (
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading your wishlist..." />
         </Container>
@@ -77,7 +77,7 @@ export default function WishlistPage() {
   if (error) {
     return (
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="py-16">
           <EmptyState
             title="Error Loading Wishlist"
@@ -91,7 +91,7 @@ export default function WishlistPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
         <Stack gap={4} direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
@@ -107,7 +107,7 @@ export default function WishlistPage() {
 
         {wishlist.length === 0 ? (
           <Card className="p-12 text-center">
-            <Heart className="w-16 h-16 mx-auto mb-4 text-grey-400" />
+            <Heart className="w-16 h-16 mx-auto mb-4 text-grey-600" />
             <H2 className="mb-2">NO EVENTS SAVED</H2>
             <Body className="text-grey-500 mb-6">
               Start building your wishlist by saving events you love

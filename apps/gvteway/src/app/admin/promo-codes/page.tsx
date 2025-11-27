@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { Navigation } from '../../../components/navigation';
+import { ConsumerNavigationPublic } from '../../../components/navigation';
 import {
   ListPage,
   Badge,
@@ -249,7 +249,7 @@ export default function PromoCodesPage() {
         stats={stats}
         emptyMessage="No promo codes yet"
         emptyAction={{ label: 'Create Promo Code', onClick: () => setCreateModalOpen(true) }}
-        header={<Navigation />}
+        header={<ConsumerNavigationPublic />}
       />
 
       <RecordFormModal

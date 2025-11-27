@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../components/navigation";
+import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import { useContracts } from "../../hooks/useContracts";
 import {
   ListPage,
@@ -223,7 +223,7 @@ export default function ContractsPage() {
         stats={stats}
         emptyMessage="No contracts found"
         emptyAction={{ label: 'Create Contract', onClick: () => setCreateModalOpen(true) }}
-        header={<Navigation />}
+        header={<CreatorNavigationAuthenticated />}
       />
 
       <RecordFormModal

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Navigation } from '../../../components/navigation';
+import { ConsumerNavigationPublic } from '../../../components/navigation';
 import {
   Container,
   Section,
@@ -150,7 +150,7 @@ function NewReviewContent() {
             key={star}
             type="button"
             variant="ghost"
-            className={`text-2xl p-1 ${star <= rating ? 'text-warning-500' : 'text-grey-300'}`}
+            className={`text-2xl p-1 ${star <= rating ? 'text-warning-500' : 'text-grey-600'}`}
             onClick={() => setRating(star)}
           >
             ★
@@ -163,7 +163,7 @@ function NewReviewContent() {
   if (loading) {
     return (
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading..." />
         </Container>
@@ -174,7 +174,7 @@ function NewReviewContent() {
   if (!event) {
     return (
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="py-16">
           <Card className="p-12 text-center mt-12">
             <H2 className="mb-4">EVENT NOT FOUND</H2>
@@ -193,7 +193,7 @@ function NewReviewContent() {
   if (success) {
     return (
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="py-16">
           <Card className="p-12 text-center mt-12">
             <H2 className="mb-4">THANK YOU!</H2>
@@ -209,7 +209,7 @@ function NewReviewContent() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
         <Stack gap={2} className="border-b-2 border-black pb-8">
@@ -350,7 +350,7 @@ export default function NewReviewPage() {
   return (
     <Suspense fallback={
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading..." />
         </Container>

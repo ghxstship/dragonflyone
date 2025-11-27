@@ -135,7 +135,7 @@ export default function CheckoutContent() {
           <Stack gap={2} direction="horizontal" className="justify-between">
             {['cart', 'payment', 'confirm'].map((s, idx) => (
               <Stack key={s} gap={2} direction="horizontal" className="flex-1 items-center">
-                <Card className={`flex items-center justify-center w-10 h-10 rounded-full border-2 ${step === s ? 'bg-black text-white border-black' : 'border-grey-300 text-grey-400'}`}>
+                <Card className={`flex items-center justify-center w-10 h-10 rounded-full border-2 ${step === s ? 'bg-black text-white border-black' : 'border-grey-300 text-grey-600'}`}>
                   <Body>{idx + 1}</Body>
                 </Card>
                 {idx < 2 && <Card className={`flex-1 h-0.5 ${step !== 'cart' && idx === 0 || step === 'confirm' && idx === 1 ? 'bg-black' : 'bg-grey-300'} mx-2`} />}

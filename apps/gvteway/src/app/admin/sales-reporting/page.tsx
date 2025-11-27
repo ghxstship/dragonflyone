@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Navigation } from '../../../components/navigation';
+import { ConsumerNavigationPublic } from '../../../components/navigation';
 import {
   ListPage,
   Badge,
@@ -129,7 +129,7 @@ export default function SalesReportingPage() {
         onExport={() => console.log('Export all')}
         stats={stats}
         emptyMessage="No sales data available"
-        header={<Navigation />}
+        header={<ConsumerNavigationPublic />}
       />
 
       {selectedPeriod && (

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { Navigation } from '../../../components/navigation';
+import { ConsumerNavigationPublic } from '../../../components/navigation';
 import {
   Container,
   Section,
@@ -112,7 +112,7 @@ export default function ReputationPage() {
   if (loading) {
     return (
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading reputation..." />
         </Container>
@@ -128,7 +128,7 @@ export default function ReputationPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
         <Stack gap={2} className="border-b-2 border-black pb-8">
@@ -152,7 +152,7 @@ export default function ReputationPage() {
                   <Body className="text-4xl">{currentLevel.icon}</Body>
                 </Stack>
                 <Stack>
-                  <Body className="text-grey-400 text-sm">LEVEL {currentLevel.level}</Body>
+                  <Body className="text-grey-600 text-sm">LEVEL {currentLevel.level}</Body>
                   <H2 className="text-white">{currentLevel.name}</H2>
                   <Body className="text-2xl font-bold text-white">
                     {stats?.total_karma.toLocaleString() || 0} karma
@@ -167,18 +167,18 @@ export default function ReputationPage() {
                       style={{ '--progress-width': `${progressToNext}%`, width: 'var(--progress-width)' } as React.CSSProperties}
                     />
                   </Stack>
-                  <Body className="text-grey-400 text-sm mt-2">
+                  <Body className="text-grey-600 text-sm mt-2">
                     {nextLevel.min - (stats?.total_karma || 0)} karma to {nextLevel.name}
                   </Body>
                 </Stack>
               )}
             </Stack>
             <Stack className="items-center justify-center border-l border-white/20">
-              <Body className="text-grey-400 text-sm">RANK</Body>
+              <Body className="text-grey-600 text-sm">RANK</Body>
               <H2 className="text-white">Top {stats?.rank_percentile || 50}%</H2>
             </Stack>
             <Stack className="items-center justify-center border-l border-white/20">
-              <Body className="text-grey-400 text-sm">HELPFUL VOTES</Body>
+              <Body className="text-grey-600 text-sm">HELPFUL VOTES</Body>
               <H2 className="text-white">{stats?.helpful_votes || 0}</H2>
             </Stack>
           </Grid>
@@ -267,7 +267,7 @@ export default function ReputationPage() {
                     <Body className={`font-bold ${currentLevel.level >= level.level ? 'text-white' : ''}`}>
                       {level.name}
                     </Body>
-                    <Body className={`text-xs ${currentLevel.level >= level.level ? 'text-grey-300' : 'text-grey-500'}`}>
+                    <Body className={`text-xs ${currentLevel.level >= level.level ? 'text-grey-600' : 'text-grey-500'}`}>
                       {level.min.toLocaleString()}+ karma
                     </Body>
                   </Card>
@@ -329,7 +329,7 @@ export default function ReputationPage() {
                     +{achievement.karma_reward} karma
                   </Badge>
                   {achievement.earned_at ? (
-                    <Body className="text-xs text-grey-400">
+                    <Body className="text-xs text-grey-600">
                       Earned {new Date(achievement.earned_at).toLocaleDateString()}
                     </Body>
                   ) : achievement.progress !== undefined && (

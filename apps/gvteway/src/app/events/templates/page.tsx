@@ -62,12 +62,12 @@ export default function EventTemplatesPage() {
                   </Stack>
                   <Label className="text-grey-500">{template.description}</Label>
                   <Grid cols={3} gap={4}>
-                    <Stack gap={1}><Label size="xs" className="text-grey-400">Ticket Types</Label><Label className="font-mono">{template.settings.ticketTypes}</Label></Stack>
-                    <Stack gap={1}><Label size="xs" className="text-grey-400">Sections</Label><Label className="font-mono">{template.settings.sections}</Label></Stack>
-                    <Stack gap={1}><Label size="xs" className="text-grey-400">Add-ons</Label><Label className="font-mono">{template.settings.addOns}</Label></Stack>
+                    <Stack gap={1}><Label size="xs" className="text-grey-600">Ticket Types</Label><Label className="font-mono">{template.settings.ticketTypes}</Label></Stack>
+                    <Stack gap={1}><Label size="xs" className="text-grey-600">Sections</Label><Label className="font-mono">{template.settings.sections}</Label></Stack>
+                    <Stack gap={1}><Label size="xs" className="text-grey-600">Add-ons</Label><Label className="font-mono">{template.settings.addOns}</Label></Stack>
                   </Grid>
                   <Stack direction="horizontal" className="justify-between">
-                    <Label size="xs" className="text-grey-400">Used {template.usageCount} times</Label>
+                    <Label size="xs" className="text-grey-600">Used {template.usageCount} times</Label>
                     <Stack direction="horizontal" gap={2}>
                       <Button variant="outline" size="sm" onClick={() => setSelectedTemplate(template)}>Preview</Button>
                       <Button variant="solid" size="sm" onClick={() => { setSelectedTemplate(template); setShowCloneModal(true); }}>Use Template</Button>
@@ -90,11 +90,11 @@ export default function EventTemplatesPage() {
               <Badge variant="outline">{selectedTemplate.type}</Badge>
               <Body>{selectedTemplate.description}</Body>
               <Grid cols={3} gap={4}>
-                <Stack gap={1}><Label className="text-grey-400">Ticket Types</Label><Label className="font-mono text-xl">{selectedTemplate.settings.ticketTypes}</Label></Stack>
-                <Stack gap={1}><Label className="text-grey-400">Sections</Label><Label className="font-mono text-xl">{selectedTemplate.settings.sections}</Label></Stack>
-                <Stack gap={1}><Label className="text-grey-400">Add-ons</Label><Label className="font-mono text-xl">{selectedTemplate.settings.addOns}</Label></Stack>
+                <Stack gap={1}><Label className="text-grey-600">Ticket Types</Label><Label className="font-mono text-xl">{selectedTemplate.settings.ticketTypes}</Label></Stack>
+                <Stack gap={1}><Label className="text-grey-600">Sections</Label><Label className="font-mono text-xl">{selectedTemplate.settings.sections}</Label></Stack>
+                <Stack gap={1}><Label className="text-grey-600">Add-ons</Label><Label className="font-mono text-xl">{selectedTemplate.settings.addOns}</Label></Stack>
               </Grid>
-              <Stack gap={1}><Label className="text-grey-400">Created By</Label><Label>{selectedTemplate.createdBy}</Label></Stack>
+              <Stack gap={1}><Label className="text-grey-600">Created By</Label><Label>{selectedTemplate.createdBy}</Label></Stack>
             </Stack>
           )}
         </ModalBody>

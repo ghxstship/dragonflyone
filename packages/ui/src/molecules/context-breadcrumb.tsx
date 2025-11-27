@@ -191,7 +191,7 @@ function ContextDropdown({ level, inverted, isOpen, onToggle, onClose }: Context
               <svg
                 className={clsx(
                   "absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4",
-                  inverted ? "text-grey-500" : "text-grey-400"
+                  inverted ? "text-grey-400" : "text-grey-500"
                 )}
                 fill="none"
                 viewBox="0 0 24 24"
@@ -211,7 +211,7 @@ function ContextDropdown({ level, inverted, isOpen, onToggle, onClose }: Context
                   "w-full pl-9 pr-3 py-2 text-body-sm rounded outline-none",
                   inverted
                     ? "bg-grey-800 text-white placeholder:text-grey-500 focus:ring-1 focus:ring-grey-600"
-                    : "bg-grey-50 text-black placeholder:text-grey-400 focus:ring-1 focus:ring-grey-300"
+                    : "bg-grey-50 text-black placeholder:text-grey-500 focus:ring-1 focus:ring-grey-300"
                 )}
               />
             </div>
@@ -226,14 +226,14 @@ function ContextDropdown({ level, inverted, isOpen, onToggle, onClose }: Context
             {level.isLoading ? (
               <div className={clsx(
                 "px-4 py-8 text-center text-body-sm",
-                inverted ? "text-grey-500" : "text-grey-400"
+                inverted ? "text-grey-400" : "text-grey-500"
               )}>
                 Loading...
               </div>
             ) : filteredItems.length === 0 ? (
               <div className={clsx(
                 "px-4 py-8 text-center text-body-sm",
-                inverted ? "text-grey-500" : "text-grey-400"
+                inverted ? "text-grey-400" : "text-grey-500"
               )}>
                 No results found
               </div>
@@ -242,7 +242,7 @@ function ContextDropdown({ level, inverted, isOpen, onToggle, onClose }: Context
                 {/* Section Label */}
                 <div className={clsx(
                   "px-3 py-1.5 text-micro font-mono uppercase tracking-wider",
-                  inverted ? "text-grey-500" : "text-grey-400"
+                  inverted ? "text-grey-400" : "text-grey-500"
                 )}>
                   {level.label}s
                 </div>

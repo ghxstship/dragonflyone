@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../components/navigation";
+import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
   ListPage,
   Badge,
@@ -126,7 +126,7 @@ export default function GovernancePage() {
         stats={stats}
         emptyMessage="No meetings scheduled"
         emptyAction={{ label: 'Schedule Meeting', onClick: () => router.push('/governance/meetings/new') }}
-        header={<Navigation />}
+        header={<CreatorNavigationAuthenticated />}
       />
 
       {selectedMeeting && (

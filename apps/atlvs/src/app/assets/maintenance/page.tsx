@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../../components/navigation";
+import { CreatorNavigationAuthenticated } from "../../../components/navigation";
 import {
   ListPage,
   Badge,
@@ -153,7 +153,7 @@ export default function AssetMaintenancePage() {
         stats={stats}
         emptyMessage="No maintenance records found"
         emptyAction={{ label: 'Schedule Maintenance', onClick: () => setCreateModalOpen(true) }}
-        header={<Navigation />}
+        header={<CreatorNavigationAuthenticated />}
       />
       {selectedRecord && (
         <DetailDrawer

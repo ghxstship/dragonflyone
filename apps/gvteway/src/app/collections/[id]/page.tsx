@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { Navigation } from '../../../components/navigation';
+import { ConsumerNavigationPublic } from '../../../components/navigation';
 import {
   Container,
   Section,
@@ -73,7 +73,7 @@ export default function CollectionPage() {
   if (loading) {
     return (
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading collection..." />
         </Container>
@@ -84,7 +84,7 @@ export default function CollectionPage() {
   if (error || !collection) {
     return (
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="py-16">
           <Stack className="items-center justify-center min-h-[40vh]" gap={4}>
             <H1>Collection Not Found</H1>
@@ -102,7 +102,7 @@ export default function CollectionPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
         <Stack direction="horizontal" className="flex-col md:flex-row md:items-start md:justify-between border-b-2 border-black pb-8">

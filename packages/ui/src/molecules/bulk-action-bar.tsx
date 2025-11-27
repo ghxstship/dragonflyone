@@ -79,7 +79,7 @@ export function BulkActionBar({
           onClick={onClearSelection}
           disabled={loading}
           className={clsx(
-            "px-2 py-1 font-code text-mono-sm tracking-wide uppercase bg-transparent text-grey-400 border-none underline transition-colors duration-fast",
+            "px-2 py-1 font-code text-mono-sm tracking-wide uppercase bg-transparent text-grey-300 border-none underline transition-colors duration-fast",
             loading ? "cursor-not-allowed" : "cursor-pointer hover:text-white"
           )}
         >

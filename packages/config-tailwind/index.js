@@ -38,6 +38,36 @@ const inkPalette = {
 };
 
 /**
+ * Semantic Text Colors - WCAG AA compliant text/background pairings
+ * 
+ * Usage:
+ * - text-on-dark-*: Use when text appears on dark backgrounds (ink-700 to ink-950)
+ * - text-on-light-*: Use when text appears on light backgrounds (ink-50 to ink-200)
+ * - text-on-mid-*: Use when text appears on mid-tone backgrounds (ink-400 to ink-600)
+ */
+const textColorPalette = {
+  // On dark backgrounds (ink-700, ink-800, ink-900, ink-950)
+  'on-dark': {
+    primary: inkPalette[50],      // #FFFFFF - 21:1 on ink-950
+    secondary: inkPalette[300],   // #D4D4D4 - 12.6:1 on ink-950
+    muted: inkPalette[400],       // #A3A3A3 - 7.4:1 on ink-950
+    disabled: inkPalette[500],    // #737373 - 4.6:1 on ink-950
+  },
+  // On light backgrounds (ink-50, ink-100, ink-200)
+  'on-light': {
+    primary: inkPalette[950],     // #000000 - 21:1 on ink-50
+    secondary: inkPalette[700],   // #404040 - 9.7:1 on ink-50
+    muted: inkPalette[500],       // #737373 - 4.6:1 on ink-50
+    disabled: inkPalette[400],    // #A3A3A3 - 2.7:1 on ink-50 (decorative only)
+  },
+  // On mid-tone backgrounds (ink-400, ink-500, ink-600)
+  'on-mid': {
+    primary: inkPalette[50],      // #FFFFFF - 7.4:1 on ink-500
+    secondary: inkPalette[200],   // #E5E5E5 - 5.3:1 on ink-500
+  },
+};
+
+/**
  * Semantic Status Colors - for status indicators, alerts, and data visualization
  * These are exceptions to the monochromatic palette for accessibility
  */
@@ -265,6 +295,13 @@ const baseTailwindConfig = {
         violet: accentPalette.violet,
         indigo: accentPalette.indigo,
       },
+      // Semantic text colors for WCAG-compliant text/background pairings
+      // Usage: text-on-dark-primary, text-on-light-secondary, text-on-mid-muted, etc.
+      textColor: {
+        'on-dark': textColorPalette['on-dark'],
+        'on-light': textColorPalette['on-light'],
+        'on-mid': textColorPalette['on-mid'],
+      },
       fontFamily: fontFamilies,
       fontSize: fontSizeScale,
       letterSpacing: {
@@ -369,6 +406,7 @@ const createTailwindConfig = (overrides = {}) => {
 module.exports = {
   monochromePalette,
   inkPalette,
+  textColorPalette,
   fontFamilies,
   fontSizeScale,
   shadowTokens,

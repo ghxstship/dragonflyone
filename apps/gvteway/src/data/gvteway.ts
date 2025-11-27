@@ -1,10 +1,19 @@
+// Consumer-facing navigation for the root experience
 export const gvtewayNavigation = [
   { label: "Events", href: "/events" },
   { label: "Tickets", href: "/tickets" },
   { label: "Artists", href: "/artists" },
+  { label: "Venues", href: "/venues" },
   { label: "Community", href: "/community" },
-  { label: "Merch", href: "/merch" },
-  { label: "Membership", href: "/membership" },
+];
+
+// Creator/Organizer SaaS landing page navigation (anchor links)
+export const gvtewayCreatorNavigation = [
+  { label: "Features", href: "#features" },
+  { label: "Pricing", href: "#pricing" },
+  { label: "Integrations", href: "#integrations" },
+  { label: "Testimonials", href: "#testimonials" },
+  { label: "Roadmap", href: "#roadmap" },
 ];
 
 // Sidebar navigation for authenticated users

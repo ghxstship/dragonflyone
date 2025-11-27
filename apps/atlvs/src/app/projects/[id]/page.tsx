@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, notFound } from "next/navigation";
-import { Navigation } from "../../../components/navigation";
+import { CreatorNavigationAuthenticated } from "../../../components/navigation";
 import { Badge, Section } from "../../../components/section";
 import { ProgressBar, Button, Stack, StatusBadge, LoadingSpinner, Container, useNotifications, H1, H2, H3, Body, Label, Card, Grid, Link } from "@ghxstship/ui";
 
@@ -84,7 +84,7 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
   if (loading) {
     return (
       <Section className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-        <Navigation />
+        <CreatorNavigationAuthenticated />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading project..." />
         </Container>
@@ -95,7 +95,7 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
   if (error || !project) {
     return (
       <Section className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-        <Navigation />
+        <CreatorNavigationAuthenticated />
         <Container className="flex min-h-[60vh] flex-col items-center justify-center gap-4">
           <H2 className="text-white">{error || "Project not found"}</H2>
           <Button variant="outlineWhite" onClick={() => router.push("/projects")}>
@@ -131,7 +131,7 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
   return (
     <Section className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
       <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <Navigation />
+      <CreatorNavigationAuthenticated />
 
       <Container className="relative mx-auto flex max-w-7xl flex-col gap-8 px-6 pb-24 pt-16 lg:px-8">
         <Stack direction="horizontal" className="items-start justify-between">

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Navigation } from '../../components/navigation';
+import { CreatorNavigationAuthenticated } from '../../components/navigation';
 import {
   Container,
   Section,
@@ -43,7 +43,7 @@ export default function RunOfShowPage() {
   if (isLoading) {
     return (
       <Section className="min-h-screen bg-black text-white">
-        <Navigation />
+        <CreatorNavigationAuthenticated />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading run of show..." />
         </Container>
@@ -60,7 +60,7 @@ export default function RunOfShowPage() {
 
   return (
     <Section className="min-h-screen bg-black text-white">
-      <Navigation />
+      <CreatorNavigationAuthenticated />
       <Container className="py-16">
         <Stack gap={8}>
           <Stack gap={2} className="border-b border-grey-800 pb-8">

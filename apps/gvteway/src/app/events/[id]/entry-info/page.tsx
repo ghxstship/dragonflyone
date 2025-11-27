@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { Navigation } from '../../../../components/navigation';
+import { ConsumerNavigationPublic } from '../../../../components/navigation';
 import {
   Container,
   Section,
@@ -83,7 +83,7 @@ export default function EntryInfoPage() {
   if (loading) {
     return (
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading entry information..." />
         </Container>
@@ -94,7 +94,7 @@ export default function EntryInfoPage() {
   if (!info) {
     return (
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="py-16">
           <Card className="p-12 text-center">
             <H2 className="mb-4">INFORMATION NOT AVAILABLE</H2>
@@ -112,7 +112,7 @@ export default function EntryInfoPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
         <Stack gap={2} className="border-b-2 border-black pb-8">
@@ -264,8 +264,8 @@ export default function EntryInfoPage() {
             <Card className="p-6 bg-black text-white sticky top-6">
               <H3 className="text-white mb-4">VENUE ADDRESS</H3>
               <Body className="text-white">{info.venue_name}</Body>
-              <Body className="text-grey-300">{info.venue_address}</Body>
-              <Body className="text-grey-300">{info.venue_city}</Body>
+              <Body className="text-grey-600">{info.venue_address}</Body>
+              <Body className="text-grey-600">{info.venue_city}</Body>
               <Button
                 variant="outline"
                 className="mt-4 w-full border-white text-white hover:bg-white hover:text-black"

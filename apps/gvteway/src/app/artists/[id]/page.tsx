@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNotifications } from '@ghxstship/ui';
 import { useParams, useRouter } from 'next/navigation';
-import { Navigation } from '../../../components/navigation';
+import { ConsumerNavigationPublic } from '../../../components/navigation';
 import {
   Container,
   Section,
@@ -120,7 +120,7 @@ export default function ArtistPage() {
   if (loading) {
     return (
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading artist..." />
         </Container>
@@ -131,7 +131,7 @@ export default function ArtistPage() {
   if (!artist) {
     return (
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="py-16">
           <Stack className="items-center justify-center min-h-[40vh]" gap={4}>
             <H1>Artist Not Found</H1>
@@ -147,7 +147,7 @@ export default function ArtistPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
         <Grid cols={3} gap={8} className="border-b-2 border-black pb-8">
@@ -249,7 +249,7 @@ export default function ArtistPage() {
           ) : (
             <Card className="p-8 text-center">
               <Body className="text-grey-500">No upcoming events scheduled.</Body>
-              <Body className="text-grey-400 text-sm mt-2">
+              <Body className="text-grey-600 text-sm mt-2">
                 Follow {artist.name} to get notified when new events are announced.
               </Body>
             </Card>

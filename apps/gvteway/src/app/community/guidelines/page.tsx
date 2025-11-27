@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Navigation } from '../../../components/navigation';
+import { ConsumerNavigationPublic } from '../../../components/navigation';
 import {
   Container,
   Section,
@@ -116,7 +116,7 @@ export default function CommunityGuidelinesPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
         <Stack gap={2} className="border-b-2 border-black pb-8">
@@ -131,7 +131,7 @@ export default function CommunityGuidelinesPage() {
             <Body className="text-4xl">📜</Body>
             <Stack>
               <H3 className="text-white">Our Community Promise</H3>
-              <Body className="text-grey-300">
+              <Body className="text-grey-600">
                 We&apos;re committed to creating a welcoming, inclusive, and safe space for all fans 
                 to connect, share experiences, and celebrate their love for live events.
               </Body>
@@ -158,7 +158,7 @@ export default function CommunityGuidelinesPage() {
                   <Stack className="flex-1">
                     <Stack direction="horizontal" className="justify-between items-center">
                       <H3>{guideline.title}</H3>
-                      <Body className="text-grey-400">
+                      <Body className="text-grey-600">
                         {expandedSection === guideline.id ? '−' : '+'}
                       </Body>
                     </Stack>

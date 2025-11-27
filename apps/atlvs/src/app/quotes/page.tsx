@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../components/navigation";
+import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
   ListPage,
   Badge,
@@ -128,7 +128,7 @@ export default function QuotesPage() {
         stats={stats}
         emptyMessage="No quotes found"
         emptyAction={{ label: 'Create Quote', onClick: () => router.push('/quotes/new') }}
-        header={<Navigation />}
+        header={<CreatorNavigationAuthenticated />}
       />
       {selectedQuote && (
         <DetailDrawer

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../components/navigation";
+import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import { useCrew } from "../../hooks/useCrew";
 import {
   ListPage,
@@ -322,7 +322,7 @@ export default function CrewPage() {
         stats={stats}
         emptyMessage="No crew members found"
         emptyAction={{ label: 'Add Crew Member', onClick: () => setCreateModalOpen(true) }}
-        header={<Navigation />}
+        header={<CreatorNavigationAuthenticated />}
       />
 
       <RecordFormModal

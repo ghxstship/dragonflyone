@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Navigation } from '../../components/navigation';
+import { CreatorNavigationAuthenticated } from '../../components/navigation';
 import { Container, Section, H1, H2, H3, Body, Button, Card, Grid, Badge, Stack } from '@ghxstship/ui';
 import { Radio, Phone, Users, MessageSquare, Bell, AlertCircle } from 'lucide-react';
 
@@ -70,13 +70,13 @@ export default function CommunicationsPage() {
 
   return (
     <Section className="min-h-screen bg-black text-white">
-      <Navigation />
+      <CreatorNavigationAuthenticated />
       <Container className="py-16">
         <Stack gap={8}>
           <Stack gap={4} direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b border-grey-800 pb-8">
             <Stack gap={2}>
               <H1>Communications</H1>
-              <Body className="text-grey-400">Radio channels and team messaging</Body>
+              <Body className="text-grey-600">Radio channels and team messaging</Body>
             </Stack>
             <Stack gap={3} direction="horizontal">
               <Button variant="outline" onClick={() => router.push('/communications/alerts')}>
@@ -164,7 +164,7 @@ export default function CommunicationsPage() {
             </Stack>
 
             <Card className="p-6 mt-4 border-2 border-dashed border-grey-300">
-              <MessageSquare className="w-8 h-8 mx-auto mb-3 text-grey-400" />
+              <MessageSquare className="w-8 h-8 mx-auto mb-3 text-grey-600" />
               <H3 className="text-center mb-2">Send Broadcast Message</H3>
               <Button className="w-full" onClick={() => router.push('/communications/broadcast')}>COMPOSE</Button>
             </Card>

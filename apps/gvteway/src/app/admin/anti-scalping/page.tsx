@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { Navigation } from '../../../components/navigation';
+import { ConsumerNavigationPublic } from '../../../components/navigation';
 import {
   Container,
   Section,
@@ -195,7 +195,7 @@ export default function AntiScalpingPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
           <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
@@ -305,7 +305,7 @@ export default function AntiScalpingPage() {
                       </Stack>
                       <Stack gap={1}>
                         {getStatusBadge(alert.status)}
-                        <Label className="text-xs text-grey-400">
+                        <Label className="text-xs text-grey-600">
                           {new Date(alert.created_at).toLocaleString()}
                         </Label>
                       </Stack>
@@ -345,7 +345,7 @@ export default function AntiScalpingPage() {
                         {rule.action.replace('_', ' ')}
                       </Badge>
                       {rule.threshold && (
-                        <Label className="text-xs text-grey-400">Threshold: {rule.threshold}</Label>
+                        <Label className="text-xs text-grey-600">Threshold: {rule.threshold}</Label>
                       )}
                     </Stack>
                     <Stack direction="horizontal" gap={2} className="justify-end">

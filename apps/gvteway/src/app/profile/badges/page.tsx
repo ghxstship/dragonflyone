@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { Navigation } from '../../../components/navigation';
+import { ConsumerNavigationPublic } from '../../../components/navigation';
 import {
   Container,
   Section,
@@ -112,7 +112,7 @@ export default function BadgesPage() {
   if (loading) {
     return (
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading badges..." />
         </Container>
@@ -122,7 +122,7 @@ export default function BadgesPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
         <Stack gap={2} className="border-b-2 border-black pb-8">
@@ -141,15 +141,15 @@ export default function BadgesPage() {
         <Card className="p-6 mb-8 bg-gradient-to-r from-black to-gray-800 text-white">
           <Grid cols={3} gap={6}>
             <Stack className="items-center">
-              <Body className="text-grey-400 text-sm">TOTAL BADGES</Body>
+              <Body className="text-grey-600 text-sm">TOTAL BADGES</Body>
               <H2 className="text-white">{earnedBadges.length}</H2>
             </Stack>
             <Stack className="items-center">
-              <Body className="text-grey-400 text-sm">FAN POINTS</Body>
+              <Body className="text-grey-600 text-sm">FAN POINTS</Body>
               <H2 className="text-white">{currentPoints.toLocaleString()}</H2>
             </Stack>
             <Stack className="items-center">
-              <Body className="text-grey-400 text-sm">CURRENT TIER</Body>
+              <Body className="text-grey-600 text-sm">CURRENT TIER</Body>
               <H2 className="text-white">
                 {fanTiers.find(t => t.is_current)?.name || 'New Fan'}
               </H2>
@@ -194,7 +194,7 @@ export default function BadgesPage() {
                     <Badge className={getTierColor(badge.tier) + ' text-white'}>
                       {badge.tier.toUpperCase()}
                     </Badge>
-                    <Body className="text-xs text-grey-400">
+                    <Body className="text-xs text-grey-600">
                       Earned {new Date(badge.earned_at).toLocaleDateString()}
                     </Body>
                     <Button
@@ -232,7 +232,7 @@ export default function BadgesPage() {
                   <Stack className="flex-1">
                     <Body className="font-bold">{badge.name}</Body>
                     <Body className="text-xs text-grey-500">{badge.description}</Body>
-                    <Body className="text-xs text-grey-400 mt-1">{badge.requirement}</Body>
+                    <Body className="text-xs text-grey-600 mt-1">{badge.requirement}</Body>
                     <Stack className="mt-2">
                       <Stack className="w-full bg-grey-200 h-2 rounded-full overflow-hidden">
                         <Stack

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { Navigation } from '../../../components/navigation';
+import { ConsumerNavigationPublic } from '../../../components/navigation';
 import {
   Container,
   Section,
@@ -225,7 +225,7 @@ export default function PrivacySettingsPage() {
   if (loading) {
     return (
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading privacy settings..." />
         </Container>
@@ -235,7 +235,7 @@ export default function PrivacySettingsPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
           <Stack gap={2} className="border-b-2 border-black pb-8">
@@ -396,7 +396,7 @@ export default function PrivacySettingsPage() {
                         {getStatusBadge(report.status)}
                       </Stack>
                       <Body className="text-sm text-grey-600">{report.reason}</Body>
-                      <Body className="text-xs text-grey-400 mt-2">
+                      <Body className="text-xs text-grey-600 mt-2">
                         {new Date(report.created_at).toLocaleDateString()}
                       </Body>
                     </Card>

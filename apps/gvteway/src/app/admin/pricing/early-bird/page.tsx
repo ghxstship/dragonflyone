@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../../../components/navigation";
+import { ConsumerNavigationPublic } from "../../../../components/navigation";
 import {
   Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
   Section, Card, Tabs, TabsList, Tab, TabPanel, Badge,
@@ -56,7 +56,7 @@ export default function EarlyBirdPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
           <Stack gap={2} className="border-b-2 border-black pb-8">
@@ -155,7 +155,7 @@ export default function EarlyBirdPage() {
                     {[{ value: "05", label: "DAYS" }, { value: "12", label: "HOURS" }, { value: "34", label: "MINS" }, { value: "56", label: "SECS" }].map((item) => (
                       <Stack key={item.label} gap={1}>
                         <Label className="text-4xl font-mono">{item.value}</Label>
-                        <Label size="xs" className="text-grey-400">{item.label}</Label>
+                        <Label size="xs" className="text-grey-600">{item.label}</Label>
                       </Stack>
                     ))}
                   </Grid>

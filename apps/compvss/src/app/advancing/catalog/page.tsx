@@ -283,7 +283,7 @@ export default function CatalogPage() {
           <EmptyState
             title="NO ITEMS FOUND"
             description="Try adjusting your search or filters"
-            icon={<Package className="h-12 w-12 text-grey-400" />}
+            icon={<Package className="h-12 w-12 text-grey-600" />}
           />
         )}
 

@@ -1,4 +1,4 @@
-import { Navigation } from "../components/navigation";
+import { CreatorNavigationAuthenticated } from "../components/navigation";
 import { Badge, Section, SectionHeader } from "../components/section";
 import { ContactWizard } from "../components/contact-wizard";
 import { Stack, Grid, Card, Body, H1, H2, H3, Label, Button, Link, Container, Display, Table, TableHeader, TableBody, TableRow, TableHead, TableCell, List, ListItem, Article, Header, Main, Box, Text, Badge as UIBadge, StatusBadge } from "@ghxstship/ui";
@@ -43,7 +43,7 @@ export default function Home() {
   return (
     <Section className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50" id="top">
       <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <Navigation />
+      <CreatorNavigationAuthenticated />
 
       <Container className="relative mx-auto flex max-w-6xl flex-col gap-16 px-6 pt-16 pb-24 lg:px-8">
         <Header className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">

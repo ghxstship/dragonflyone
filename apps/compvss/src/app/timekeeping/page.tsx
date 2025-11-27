@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../components/navigation";
+import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import { useTimekeeping, useApproveTimeEntry } from "../../hooks/useTimekeeping";
 import {
   H1,
@@ -53,7 +53,7 @@ export default function TimekeepingPage() {
   if (isLoading) {
     return (
       <Section className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-        <Navigation />
+        <CreatorNavigationAuthenticated />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading timekeeping data..." />
         </Container>
@@ -63,7 +63,7 @@ export default function TimekeepingPage() {
 
   return (
     <Section className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Navigation />
+      <CreatorNavigationAuthenticated />
       <Container className="py-16">
         <Stack gap={8}>
           <H1>Timekeeping</H1>

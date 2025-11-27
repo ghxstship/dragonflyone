@@ -67,7 +67,7 @@ export default function MediaKitPage() {
     switch (status) {
       case "Published": return "text-success-600";
       case "Distributed": return "text-info-600";
-      case "Draft": return "text-grey-400";
+      case "Draft": return "text-grey-600";
       default: return "text-grey-600";
     }
   };

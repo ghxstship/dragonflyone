@@ -105,7 +105,7 @@ export default function FanClubPage() {
                     <Card className="p-4 bg-black text-white">
                       <Stack gap={2}>
                         <Body className="font-bold text-lg">{club.name}</Body>
-                        {club.artistName && <Label className="text-grey-400">{club.artistName}</Label>}
+                        {club.artistName && <Label className="text-grey-600">{club.artistName}</Label>}
                       </Stack>
                     </Card>
                     <Stack className="p-4" gap={4}>

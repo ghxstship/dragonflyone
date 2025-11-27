@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Navigation } from '../../../components/navigation';
+import { CreatorNavigationAuthenticated } from '../../../components/navigation';
 import {
   ListPage,
   Badge,
@@ -115,7 +115,7 @@ export default function CompensationPage() {
         stats={stats}
         emptyMessage="No compensation plans found"
         emptyAction={{ label: 'Create Plan', onClick: () => router.push('/workforce/compensation/new') }}
-        header={<Navigation />}
+        header={<CreatorNavigationAuthenticated />}
       />
       {selectedPlan && (
         <DetailDrawer

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Navigation } from "../../components/navigation";
+import { ConsumerNavigationPublic } from "../../components/navigation";
 import {
   H1,
   H2,
@@ -99,7 +99,7 @@ function ConfirmationContent() {
   if (loading) {
     return (
       <Section className="relative min-h-screen bg-black text-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading order details..." />
         </Container>
@@ -110,7 +110,7 @@ function ConfirmationContent() {
   if (!order) {
     return (
       <Section className="relative min-h-screen bg-black text-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="py-16 text-center">
           <Stack gap={4} className="items-center">
             <H1>Order Not Found</H1>
@@ -126,7 +126,7 @@ function ConfirmationContent() {
 
   return (
     <Section className="relative min-h-screen bg-black text-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8} className="max-w-3xl mx-auto">
           <Stack gap={4} className="text-center">
@@ -258,7 +258,7 @@ export default function ConfirmationPage() {
   return (
     <Suspense fallback={
       <Section className="relative min-h-screen bg-black text-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading order details..." />
         </Container>

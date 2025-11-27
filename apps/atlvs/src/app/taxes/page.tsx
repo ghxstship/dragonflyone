@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../components/navigation";
+import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
   ListPage,
   Badge,
@@ -125,7 +125,7 @@ export default function TaxesPage() {
         stats={stats}
         emptyMessage="No tax documents found"
         emptyAction={{ label: 'Add Tax Document', onClick: () => router.push('/taxes/new') }}
-        header={<Navigation />}
+        header={<CreatorNavigationAuthenticated />}
       />
       {selectedDoc && (
         <DetailDrawer

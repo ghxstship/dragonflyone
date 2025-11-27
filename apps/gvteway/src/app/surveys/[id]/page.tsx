@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { Navigation } from '../../../components/navigation';
+import { ConsumerNavigationPublic } from '../../../components/navigation';
 import {
   Container,
   Section,
@@ -134,7 +134,7 @@ export default function SurveyPage() {
                 type="button"
                 variant="ghost"
                 className={`text-3xl p-2 ${
-                  star <= (answers[question.id] || 0) ? 'text-warning-500' : 'text-grey-300'
+                  star <= (answers[question.id] || 0) ? 'text-warning-500' : 'text-grey-600'
                 }`}
                 onClick={() => updateAnswer(question.id, star)}
               >
@@ -224,7 +224,7 @@ export default function SurveyPage() {
   if (loading) {
     return (
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading survey..." />
         </Container>
@@ -235,7 +235,7 @@ export default function SurveyPage() {
   if (!survey) {
     return (
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="py-16">
           <Card className="p-12 text-center mt-12">
             <H2 className="mb-4">SURVEY NOT FOUND</H2>
@@ -254,7 +254,7 @@ export default function SurveyPage() {
   if (success) {
     return (
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="py-16">
           <Card className="p-12 text-center mt-12">
             <H2 className="mb-4">THANK YOU!</H2>
@@ -279,7 +279,7 @@ export default function SurveyPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
         <Stack gap={2} className="border-b-2 border-black pb-8">

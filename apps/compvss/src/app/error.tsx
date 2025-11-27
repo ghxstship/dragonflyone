@@ -1,6 +1,6 @@
 "use client";
 
-import { Navigation } from "../components/navigation";
+import { CreatorNavigationAuthenticated } from "../components/navigation";
 import { ErrorPage } from "@ghxstship/ui";
 
 export default function Error({
@@ -14,7 +14,7 @@ export default function Error({
     <ErrorPage
       error={error}
       reset={reset}
-      navigation={<Navigation />}
+      navigation={<CreatorNavigationAuthenticated />}
       appName="COMPVSS"
       background="black"
       showDashboard={true}

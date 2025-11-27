@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../components/navigation";
+import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import { useDeals } from "@/hooks/useDeals";
 import {
   ListPage,
@@ -110,7 +110,7 @@ export default function PipelinePage() {
         stats={stats}
         emptyMessage="No deals found"
         emptyAction={{ label: 'Add Deal', onClick: () => router.push('/pipeline/new') }}
-        header={<Navigation />}
+        header={<CreatorNavigationAuthenticated />}
       />
       {selectedDeal && (
         <DetailDrawer

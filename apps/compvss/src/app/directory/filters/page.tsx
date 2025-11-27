@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Navigation } from '../../../components/navigation';
+import { CreatorNavigationAuthenticated } from '../../../components/navigation';
 import {
   Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select,
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Button,
@@ -59,12 +59,12 @@ export default function DirectoryFiltersPage() {
   return (
     <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
       <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <Navigation />
+      <CreatorNavigationAuthenticated />
       <Container className="py-16">
         <Stack gap={8}>
           <Stack gap={2}>
             <H1>Directory Search</H1>
-            <Label className="text-ink-400">Filter by language and specialty</Label>
+            <Label className="text-ink-600">Filter by language and specialty</Label>
           </Stack>
 
           <Grid cols={4} gap={6}>
@@ -80,7 +80,7 @@ export default function DirectoryFiltersPage() {
                 <H3>Filters</H3>
                 
                 <Stack gap={2}>
-                  <Label className="text-ink-400">Type</Label>
+                  <Label className="text-ink-600">Type</Label>
                   <Select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)} className="border-ink-700 bg-black text-white">
                     <option value="All">All Types</option>
                     <option value="Crew">Crew</option>
@@ -90,24 +90,24 @@ export default function DirectoryFiltersPage() {
                 </Stack>
 
                 <Stack gap={2}>
-                  <Label className="text-ink-400">Languages</Label>
+                  <Label className="text-ink-600">Languages</Label>
                   <Stack gap={1}>
                     {allLanguages.map(lang => (
                       <Stack key={lang} direction="horizontal" gap={2} className="cursor-pointer" onClick={() => toggleLanguage(lang)}>
                         <Card className={`w-4 h-4 border ${selectedLanguages.includes(lang) ? 'bg-white border-white' : 'border-ink-600'}`} />
-                        <Label className={selectedLanguages.includes(lang) ? 'text-white' : 'text-ink-400'}>{lang}</Label>
+                        <Label className={selectedLanguages.includes(lang) ? 'text-white' : 'text-ink-600'}>{lang}</Label>
                       </Stack>
                     ))}
                   </Stack>
                 </Stack>
 
                 <Stack gap={2}>
-                  <Label className="text-ink-400">Specialties</Label>
+                  <Label className="text-ink-600">Specialties</Label>
                   <Stack gap={1} className="max-h-48 overflow-y-auto">
                     {allSpecialties.slice(0, 10).map(spec => (
                       <Stack key={spec} direction="horizontal" gap={2} className="cursor-pointer" onClick={() => toggleSpecialty(spec)}>
                         <Card className={`w-4 h-4 border ${selectedSpecialties.includes(spec) ? 'bg-white border-white' : 'border-ink-600'}`} />
-                        <Label size="xs" className={selectedSpecialties.includes(spec) ? 'text-white' : 'text-ink-400'}>{spec}</Label>
+                        <Label size="xs" className={selectedSpecialties.includes(spec) ? 'text-white' : 'text-ink-600'}>{spec}</Label>
                       </Stack>
                     ))}
                   </Stack>
@@ -115,7 +115,7 @@ export default function DirectoryFiltersPage() {
 
                 <Stack direction="horizontal" gap={2} className="cursor-pointer" onClick={() => setAvailableOnly(!availableOnly)}>
                   <Card className={`w-4 h-4 border ${availableOnly ? 'bg-white border-white' : 'border-ink-600'}`} />
-                  <Label className={availableOnly ? 'text-white' : 'text-ink-400'}>Available Only</Label>
+                  <Label className={availableOnly ? 'text-white' : 'text-ink-600'}>Available Only</Label>
                 </Stack>
 
                 <Button variant="outline" size="sm" onClick={() => { setSelectedLanguages([]); setSelectedSpecialties([]); setTypeFilter('All'); setAvailableOnly(false); }}>
@@ -144,7 +144,7 @@ export default function DirectoryFiltersPage() {
                         <Stack direction="horizontal" gap={3}>
                           <Body className="font-display text-white">{entry.name}</Body>
                           <Badge variant="outline">{entry.type}</Badge>
-                          {!entry.available && <Badge className="bg-ink-700 text-ink-400">Unavailable</Badge>}
+                          {!entry.available && <Badge className="bg-ink-700 text-ink-600">Unavailable</Badge>}
                         </Stack>
                         <Stack direction="horizontal" gap={2} className="flex-wrap">
                           {entry.specialties.slice(0, 3).map(spec => (
@@ -153,8 +153,8 @@ export default function DirectoryFiltersPage() {
                           {entry.specialties.length > 3 && <Label className="text-ink-500">+{entry.specialties.length - 3} more</Label>}
                         </Stack>
                         <Stack direction="horizontal" gap={4}>
-                          <Label className="text-ink-400">{entry.location}</Label>
-                          <Label className="text-ink-400">Languages: {entry.languages.join(', ')}</Label>
+                          <Label className="text-ink-600">{entry.location}</Label>
+                          <Label className="text-ink-600">Languages: {entry.languages.join(', ')}</Label>
                         </Stack>
                       </Stack>
                       <Stack gap={2} className="text-right">
@@ -168,7 +168,7 @@ export default function DirectoryFiltersPage() {
             </Stack>
           </Grid>
 
-          <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push('/directory')}>Back to Directory</Button>
+          <Button variant="outline" className="border-ink-700 text-ink-600" onClick={() => router.push('/directory')}>Back to Directory</Button>
         </Stack>
       </Container>
     </UISection>

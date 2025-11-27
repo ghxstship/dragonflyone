@@ -98,13 +98,13 @@ export default function InfluencersPage() {
                     </Stack>
                   </Stack>
                   <Grid cols={3} gap={4}>
-                    <Stack gap={1}><Label size="xs" className="text-grey-400">Followers</Label><Label className="font-mono">{formatNumber(influencer.followers)}</Label></Stack>
-                    <Stack gap={1}><Label size="xs" className="text-grey-400">Engagement</Label><Label className="font-mono">{influencer.engagement}%</Label></Stack>
-                    <Stack gap={1}><Label size="xs" className="text-grey-400">Niche</Label><Badge variant="outline">{influencer.niche}</Badge></Stack>
+                    <Stack gap={1}><Label size="xs" className="text-grey-600">Followers</Label><Label className="font-mono">{formatNumber(influencer.followers)}</Label></Stack>
+                    <Stack gap={1}><Label size="xs" className="text-grey-600">Engagement</Label><Label className="font-mono">{influencer.engagement}%</Label></Stack>
+                    <Stack gap={1}><Label size="xs" className="text-grey-600">Niche</Label><Badge variant="outline">{influencer.niche}</Badge></Stack>
                   </Grid>
                   <Grid cols={2} gap={4}>
-                    <Stack gap={1}><Label size="xs" className="text-grey-400">Campaigns</Label><Label className="font-mono">{influencer.campaigns}</Label></Stack>
-                    <Stack gap={1}><Label size="xs" className="text-grey-400">Revenue</Label><Label className="font-mono">${formatNumber(influencer.revenue)}</Label></Stack>
+                    <Stack gap={1}><Label size="xs" className="text-grey-600">Campaigns</Label><Label className="font-mono">{influencer.campaigns}</Label></Stack>
+                    <Stack gap={1}><Label size="xs" className="text-grey-600">Revenue</Label><Label className="font-mono">${formatNumber(influencer.revenue)}</Label></Stack>
                   </Grid>
                   <Button variant="outline" size="sm" onClick={() => setSelectedInfluencer(influencer)}>View Details</Button>
                 </Stack>
@@ -126,16 +126,16 @@ export default function InfluencersPage() {
                 <Badge variant="outline">{selectedInfluencer.platform}</Badge>
               </Stack>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label className="text-grey-400">Followers</Label><Label className="font-mono text-xl">{formatNumber(selectedInfluencer.followers)}</Label></Stack>
-                <Stack gap={1}><Label className="text-grey-400">Engagement</Label><Label className="font-mono text-xl">{selectedInfluencer.engagement}%</Label></Stack>
+                <Stack gap={1}><Label className="text-grey-600">Followers</Label><Label className="font-mono text-xl">{formatNumber(selectedInfluencer.followers)}</Label></Stack>
+                <Stack gap={1}><Label className="text-grey-600">Engagement</Label><Label className="font-mono text-xl">{selectedInfluencer.engagement}%</Label></Stack>
               </Grid>
               <Stack gap={2}>
-                <Label className="text-grey-400">Performance</Label>
+                <Label className="text-grey-600">Performance</Label>
                 <ProgressBar value={selectedInfluencer.engagement * 10} className="h-2" />
               </Stack>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label className="text-grey-400">Campaigns</Label><Label className="font-mono">{selectedInfluencer.campaigns}</Label></Stack>
-                <Stack gap={1}><Label className="text-grey-400">Revenue Generated</Label><Label className="font-mono">${formatNumber(selectedInfluencer.revenue)}</Label></Stack>
+                <Stack gap={1}><Label className="text-grey-600">Campaigns</Label><Label className="font-mono">{selectedInfluencer.campaigns}</Label></Stack>
+                <Stack gap={1}><Label className="text-grey-600">Revenue Generated</Label><Label className="font-mono">${formatNumber(selectedInfluencer.revenue)}</Label></Stack>
               </Grid>
             </Stack>
           )}

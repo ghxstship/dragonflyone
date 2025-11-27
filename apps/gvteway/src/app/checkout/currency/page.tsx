@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../../components/navigation";
+import { ConsumerNavigationPublic } from "../../../components/navigation";
 import {
   Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
   Section, Card, Tabs, TabsList, Tab, TabPanel, Badge,
@@ -53,7 +53,7 @@ export default function CurrencyPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
           <Stack gap={2} className="border-b-2 border-black pb-8">
@@ -99,7 +99,7 @@ export default function CurrencyPage() {
                         <TableCell><Badge variant="outline">{currency.code}</Badge></TableCell>
                         <TableCell><Label className="font-mono">{currency.symbol}</Label></TableCell>
                         <TableCell><Label className="font-mono">{currency.rate.toFixed(2)}</Label></TableCell>
-                        <TableCell><Label className={currency.enabled ? "text-success-600" : "text-grey-400"}>{currency.enabled ? "Enabled" : "Disabled"}</Label></TableCell>
+                        <TableCell><Label className={currency.enabled ? "text-success-600" : "text-grey-600"}>{currency.enabled ? "Enabled" : "Disabled"}</Label></TableCell>
                         <TableCell><Label className="text-grey-500">{currency.lastUpdated}</Label></TableCell>
                         <TableCell>
                           <Stack direction="horizontal" gap={2}>

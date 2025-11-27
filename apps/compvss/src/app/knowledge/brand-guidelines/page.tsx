@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../../components/navigation";
+import { CreatorNavigationAuthenticated } from "../../../components/navigation";
 import {
   Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
   Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
@@ -70,12 +70,12 @@ export default function BrandGuidelinesPage() {
   return (
     <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
       <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <Navigation />
+      <CreatorNavigationAuthenticated />
       <Container className="py-16">
         <Stack gap={8}>
           <Stack gap={2}>
             <H1>Brand Guidelines</H1>
-            <Label className="text-ink-400">Brand standards and asset documentation</Label>
+            <Label className="text-ink-600">Brand standards and asset documentation</Label>
           </Stack>
 
           <Grid cols={4} gap={6}>
@@ -125,7 +125,7 @@ export default function BrandGuidelinesPage() {
                         <Body className="font-display text-white">{guideline.title}</Body>
                         <Badge variant="outline">{guideline.category}</Badge>
                       </Stack>
-                      <Body className="text-ink-300">{guideline.content}</Body>
+                      <Body className="text-ink-700">{guideline.content}</Body>
                     </Stack>
                   </Card>
                 ))}
@@ -138,7 +138,7 @@ export default function BrandGuidelinesPage() {
                   <Card className="h-32 bg-black" />
                   <Stack className="p-4" gap={2}>
                     <Label className="text-white">Primary Black</Label>
-                    <Label className="font-mono text-ink-400">#000000</Label>
+                    <Label className="font-mono text-ink-600">#000000</Label>
                     <Label size="xs" className="text-ink-500">RGB: 0, 0, 0</Label>
                   </Stack>
                 </Card>
@@ -146,7 +146,7 @@ export default function BrandGuidelinesPage() {
                   <Card className="h-32 bg-white" />
                   <Stack className="p-4" gap={2}>
                     <Label className="text-white">Primary White</Label>
-                    <Label className="font-mono text-ink-400">#FFFFFF</Label>
+                    <Label className="font-mono text-ink-600">#FFFFFF</Label>
                     <Label size="xs" className="text-ink-500">RGB: 255, 255, 255</Label>
                   </Stack>
                 </Card>
@@ -154,7 +154,7 @@ export default function BrandGuidelinesPage() {
                   <Card className="h-32 bg-info-500" />
                   <Stack className="p-4" gap={2}>
                     <Label className="text-white">Accent Blue</Label>
-                    <Label className="font-mono text-ink-400">#3B82F6</Label>
+                    <Label className="font-mono text-ink-600">#3B82F6</Label>
                     <Label size="xs" className="text-ink-500">RGB: 59, 130, 246</Label>
                   </Stack>
                 </Card>
@@ -169,7 +169,7 @@ export default function BrandGuidelinesPage() {
                       <Badge variant="outline">Display</Badge>
                       <H1>Inter Bold - Headlines</H1>
                     </Stack>
-                    <Label className="text-ink-400">Use for main headlines, hero text, and primary titles. Sizes: 48px, 36px, 24px</Label>
+                    <Label className="text-ink-600">Use for main headlines, hero text, and primary titles. Sizes: 48px, 36px, 24px</Label>
                   </Stack>
                 </Card>
                 <Card className="border-2 border-ink-800 bg-ink-900/50 p-6">
@@ -178,7 +178,7 @@ export default function BrandGuidelinesPage() {
                       <Badge variant="outline">Body</Badge>
                       <Body>Inter Regular - Body Text</Body>
                     </Stack>
-                    <Label className="text-ink-400">Use for paragraphs, descriptions, and general content. Sizes: 16px, 14px</Label>
+                    <Label className="text-ink-600">Use for paragraphs, descriptions, and general content. Sizes: 16px, 14px</Label>
                   </Stack>
                 </Card>
                 <Card className="border-2 border-ink-800 bg-ink-900/50 p-6">
@@ -187,7 +187,7 @@ export default function BrandGuidelinesPage() {
                       <Badge variant="outline">Labels</Badge>
                       <Label>Inter Medium - Labels & Captions</Label>
                     </Stack>
-                    <Label className="text-ink-400">Use for labels, captions, and supporting text. Sizes: 12px, 10px</Label>
+                    <Label className="text-ink-600">Use for labels, captions, and supporting text. Sizes: 12px, 10px</Label>
                   </Stack>
                 </Card>
               </Stack>
@@ -195,9 +195,9 @@ export default function BrandGuidelinesPage() {
           </Tabs>
 
           <Grid cols={3} gap={4}>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/knowledge")}>Knowledge Base</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/documents")}>Documents</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/")}>Dashboard</Button>
+            <Button variant="outline" className="border-ink-700 text-ink-600" onClick={() => router.push("/knowledge")}>Knowledge Base</Button>
+            <Button variant="outline" className="border-ink-700 text-ink-600" onClick={() => router.push("/documents")}>Documents</Button>
+            <Button variant="outline" className="border-ink-700 text-ink-600" onClick={() => router.push("/")}>Dashboard</Button>
           </Grid>
         </Stack>
       </Container>
@@ -211,8 +211,8 @@ export default function BrandGuidelinesPage() {
                 <Label className="text-6xl">{getTypeIcon(selectedAsset.type)}</Label>
               </Card>
               <Badge variant="outline">{selectedAsset.type}</Badge>
-              {selectedAsset.format && <Stack gap={1}><Label className="text-ink-400">Formats</Label><Label className="text-white">{selectedAsset.format}</Label></Stack>}
-              <Stack gap={1}><Label className="text-ink-400">Usage</Label><Body className="text-ink-300">{selectedAsset.usage}</Body></Stack>
+              {selectedAsset.format && <Stack gap={1}><Label className="text-ink-600">Formats</Label><Label className="text-white">{selectedAsset.format}</Label></Stack>}
+              <Stack gap={1}><Label className="text-ink-600">Usage</Label><Body className="text-ink-700">{selectedAsset.usage}</Body></Stack>
             </Stack>
           )}
         </ModalBody>

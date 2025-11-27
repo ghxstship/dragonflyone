@@ -125,7 +125,7 @@ export default function OnboardingPage() {
           {/* Step Header */}
           <Stack gap={2} className="text-center">
             <H2 className="text-white">{STEPS[currentStepIndex].label}</H2>
-            <Body className="text-grey-400">{STEPS[currentStepIndex].description}</Body>
+            <Body className="text-grey-600">{STEPS[currentStepIndex].description}</Body>
           </Stack>
 
           {error && <Alert variant="error">{error}</Alert>}
@@ -153,14 +153,14 @@ export default function OnboardingPage() {
           {/* Interests Step */}
           {currentStep === 'interests' && (
             <Stack gap={4}>
-              <Body className="text-grey-400 text-center">Select the types of events you&apos;re interested in:</Body>
+              <Body className="text-grey-600 text-center">Select the types of events you&apos;re interested in:</Body>
               <Grid cols={2} gap={3}>
                 {EVENT_INTERESTS.map((interest) => (
                   <Button
                     key={interest}
                     variant={interests.includes(interest) ? 'solid' : 'outline'}
                     onClick={() => toggleInterest(interest)}
-                    className={interests.includes(interest) ? '' : 'border-grey-700 text-grey-400 hover:border-white hover:text-white'}
+                    className={interests.includes(interest) ? '' : 'border-grey-700 text-grey-600 hover:border-white hover:text-white'}
                   >
                     {interest}
                   </Button>
@@ -186,15 +186,15 @@ export default function OnboardingPage() {
               <Stack gap={4}>
                 <Stack direction="horizontal" gap={3} className="items-center">
                   <Checkbox id="email" checked={preferences.emailNotifications} onChange={(e) => setPreferences({ ...preferences, emailNotifications: e.target.checked })} />
-                  <Body className="text-grey-400">Email notifications for event updates</Body>
+                  <Body className="text-grey-600">Email notifications for event updates</Body>
                 </Stack>
                 <Stack direction="horizontal" gap={3} className="items-center">
                   <Checkbox id="push" checked={preferences.pushNotifications} onChange={(e) => setPreferences({ ...preferences, pushNotifications: e.target.checked })} />
-                  <Body className="text-grey-400">Push notifications for ticket sales</Body>
+                  <Body className="text-grey-600">Push notifications for ticket sales</Body>
                 </Stack>
                 <Stack direction="horizontal" gap={3} className="items-center">
                   <Checkbox id="marketing" checked={preferences.marketingEmails} onChange={(e) => setPreferences({ ...preferences, marketingEmails: e.target.checked })} />
-                  <Body className="text-grey-400">Receive personalized event recommendations</Body>
+                  <Body className="text-grey-600">Receive personalized event recommendations</Body>
                 </Stack>
               </Stack>
             </Stack>
@@ -207,14 +207,14 @@ export default function OnboardingPage() {
                 <Check className="w-10 h-10 text-white" />
               </Stack>
               <H3 className="text-white">Welcome to GVTEWAY!</H3>
-              <Body className="text-grey-400">Your account is all set up. Discover amazing events and experiences.</Body>
+              <Body className="text-grey-600">Your account is all set up. Discover amazing events and experiences.</Body>
             </Stack>
           )}
 
           {/* Navigation */}
           <Stack direction="horizontal" className="justify-between pt-8 border-t border-grey-800">
             {currentStep !== 'complete' && currentStep !== 'profile' && (
-              <Button variant="outline" onClick={() => setCurrentStep(STEPS[currentStepIndex - 1].id)} className="border-grey-700 text-grey-400 hover:border-white hover:text-white">
+              <Button variant="outline" onClick={() => setCurrentStep(STEPS[currentStepIndex - 1].id)} className="border-grey-700 text-grey-600 hover:border-white hover:text-white">
                 Back
               </Button>
             )}

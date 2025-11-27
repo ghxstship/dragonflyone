@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { Navigation } from '../../components/navigation';
+import { CreatorNavigationAuthenticated } from '../../components/navigation';
 import { useCrew } from '../../hooks/useCrew';
 import { useEquipment } from '../../hooks/useEquipment';
 import {
@@ -47,7 +47,7 @@ export default function CompvssDashboardPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <CreatorNavigationAuthenticated />
       <Container className="py-16">
         <Stack gap={8}>
         {/* Header */}

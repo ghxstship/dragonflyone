@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Navigation } from '../../components/navigation';
+import { CreatorNavigationAuthenticated } from '../../components/navigation';
 import { Container, Section, H1, H2, H3, Body, Button, Input, Card, Grid, Badge, Stack, StatCard } from '@ghxstship/ui';
 import { Search, BookOpen, Video, FileText, Download, Star } from 'lucide-react';
 
@@ -47,13 +47,13 @@ export default function KnowledgePage() {
 
   return (
     <Section className="min-h-screen bg-black text-white">
-      <Navigation />
+      <CreatorNavigationAuthenticated />
       <Container className="py-16">
         <Stack gap={8}>
           <Stack gap={4} direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b border-grey-800 pb-8">
             <Stack gap={2}>
               <H1>Knowledge Base</H1>
-              <Body className="text-grey-400">SOPs, guides, and training materials</Body>
+              <Body className="text-grey-600">SOPs, guides, and training materials</Body>
             </Stack>
             <Button variant="solid" onClick={() => router.push('/knowledge/contribute')}>
               <FileText className="w-4 h-4 mr-2" />

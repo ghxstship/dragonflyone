@@ -58,7 +58,7 @@ export default function PixelsPage() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "Active": return "text-success-600";
-      case "Inactive": return "text-grey-400";
+      case "Inactive": return "text-grey-600";
       case "Error": return "text-error-600";
       default: return "text-grey-600";
     }

@@ -103,7 +103,7 @@ export default function OfflineWalletPage() {
                     <Stack direction="horizontal" className="justify-between items-start">
                       <Stack gap={1}>
                         <Body className="font-bold text-lg">{ticket.eventName}</Body>
-                        <Label className="text-grey-400">{ticket.eventDate}</Label>
+                        <Label className="text-grey-600">{ticket.eventDate}</Label>
                       </Stack>
                       <Badge variant="solid">{ticket.ticketType}</Badge>
                     </Stack>
@@ -113,7 +113,7 @@ export default function OfflineWalletPage() {
                     <Card className="aspect-square max-w-48 mx-auto bg-grey-100 border border-grey-200 flex items-center justify-center">
                       <Stack gap={2} className="text-center p-4">
                         <Label className="text-grey-500">QR Code</Label>
-                        <Body className="text-xs text-grey-400 font-mono break-all">{ticket.id}</Body>
+                        <Body className="text-xs text-grey-600 font-mono break-all">{ticket.id}</Body>
                         <Label size="xs" className="text-success-600">✓ Available Offline</Label>
                       </Stack>
                     </Card>

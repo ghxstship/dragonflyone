@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Navigation } from '../../components/navigation';
+import { CreatorNavigationAuthenticated } from '../../components/navigation';
 import { Container, Section, Display, H2, H3, Body, Button, Card, Field, Label, Input, Select, Badge, Alert, Stack, Grid, StatCard } from '@ghxstship/ui';
 
 export default function IntegrationsPage() {
@@ -43,7 +43,7 @@ export default function IntegrationsPage() {
 
   return (
     <Section className="min-h-screen bg-ink-950 text-ink-50">
-      <Navigation />
+      <CreatorNavigationAuthenticated />
       <Container className="py-16">
         <Stack gap={8}>
           <Stack gap={2} className="border-b border-ink-800 pb-8">

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { Navigation } from '../../../../components/navigation';
+import { ConsumerNavigationPublic } from '../../../../components/navigation';
 import {
   Container,
   Section,
@@ -126,7 +126,7 @@ export default function EventChatPage() {
   if (loading) {
     return (
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading chat..." />
         </Container>
@@ -137,7 +137,7 @@ export default function EventChatPage() {
   if (!chatRoom) {
     return (
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="py-16">
           <Card className="p-12 text-center mt-12">
             <H2 className="mb-4">CHAT NOT AVAILABLE</H2>
@@ -156,7 +156,7 @@ export default function EventChatPage() {
   if (chatRoom.status === 'archived') {
     return (
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="py-16">
           <Stack gap={8}>
           <Stack gap={2} className="border-b-2 border-black pb-8">
@@ -178,7 +178,7 @@ export default function EventChatPage() {
                   <Stack>
                     <Stack direction="horizontal" gap={2} className="items-center">
                       <Body className="font-medium text-sm">{message.user_name}</Body>
-                      <Body className="text-xs text-grey-400">{formatTime(message.created_at)}</Body>
+                      <Body className="text-xs text-grey-600">{formatTime(message.created_at)}</Body>
                     </Stack>
                     <Body className="text-grey-600">{message.content}</Body>
                   </Stack>
@@ -194,7 +194,7 @@ export default function EventChatPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
         <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
@@ -262,7 +262,7 @@ export default function EventChatPage() {
                         {message.is_pinned && (
                           <Badge className="bg-warning-500 text-white text-xs">PINNED</Badge>
                         )}
-                        <Body className="text-xs text-grey-400">{formatTime(message.created_at)}</Body>
+                        <Body className="text-xs text-grey-600">{formatTime(message.created_at)}</Body>
                       </Stack>
                       <Body>{message.content}</Body>
                     </Stack>

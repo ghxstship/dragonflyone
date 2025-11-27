@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useNotifications } from '@ghxstship/ui';
-import { Navigation } from '../../components/navigation';
+import { CreatorNavigationAuthenticated } from '../../components/navigation';
 import { Container, Section, H1, H2, H3, Body, Button, Card, Grid, Select, LoadingSpinner, ProgressBar, Stack, Display } from '@ghxstship/ui';
 import { Download, TrendingUp, DollarSign, Users, Package } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
@@ -86,7 +86,7 @@ export default function ReportsPage() {
   if (loading) {
     return (
       <Section className="min-h-screen bg-ink-950 text-ink-50">
-        <Navigation />
+        <CreatorNavigationAuthenticated />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading reports..." />
         </Container>
@@ -97,7 +97,7 @@ export default function ReportsPage() {
   if (!analytics) {
     return (
       <Section className="min-h-screen bg-ink-950 text-ink-50">
-        <Navigation />
+        <CreatorNavigationAuthenticated />
         <Container className="py-16">
           <H1 className="mb-2">Executive Reports</H1>
           <Body className="text-ink-400">No data available</Body>
@@ -108,7 +108,7 @@ export default function ReportsPage() {
 
   return (
     <Section className="min-h-screen bg-ink-950 text-ink-50">
-      <Navigation />
+      <CreatorNavigationAuthenticated />
       <Container className="py-16">
         <Stack gap={8}>
           <Stack gap={4} direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b border-ink-800 pb-8">

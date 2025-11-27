@@ -106,10 +106,10 @@ export function OfflineIndicator({
       <div className={`fixed bottom-4 right-4 z-50 ${className}`}>
         {isOffline && (
           <div className="flex items-center gap-3 px-4 py-3 bg-grey-900 text-white border-2 border-black shadow-hard">
-            <WifiOff className="h-5 w-5 text-grey-400" />
+            <WifiOff className="h-5 w-5 text-grey-500" />
             <div>
               <div className="font-heading text-sm uppercase tracking-wider">Offline Mode</div>
-              <div className="text-xs text-grey-400">Changes will sync when online</div>
+              <div className="text-xs text-grey-500">Changes will sync when online</div>
             </div>
           </div>
         )}

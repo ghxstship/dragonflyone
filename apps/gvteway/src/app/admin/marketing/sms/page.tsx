@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../../../components/navigation";
+import { ConsumerNavigationPublic } from "../../../../components/navigation";
 import {
   Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select,
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Button,
@@ -57,9 +57,9 @@ export default function SMSMarketingPage() {
       case "Completed": return "text-success-400";
       case "Sending": return "text-info-400";
       case "Scheduled": return "text-warning-400";
-      case "Draft": return "text-ink-400";
+      case "Draft": return "text-ink-600";
       case "Paused": return "text-error-400";
-      default: return "text-ink-400";
+      default: return "text-ink-600";
     }
   };
 
@@ -68,7 +68,7 @@ export default function SMSMarketingPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
           <Stack gap={2} className="border-b-2 border-black pb-8">

@@ -136,7 +136,7 @@ export function MobileJobSearch({ initialJobs = [], onApply }: MobileJobSearchPr
       <Stack className="sticky top-0 z-10 bg-white border-b border-grey-200 p-4">
         <Stack direction="horizontal" gap={2} className="items-center">
           <Stack className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-grey-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-grey-500" />
             <Input
               placeholder="Search jobs, skills, companies..."
               value={searchQuery}
@@ -212,7 +212,7 @@ export function MobileJobSearch({ initialJobs = [], onApply }: MobileJobSearchPr
         ) : filteredJobs.length === 0 ? (
           <Card className="p-8 text-center">
             <Stack gap={4} className="items-center">
-              <Briefcase className="w-12 h-12 text-grey-400" />
+              <Briefcase className="w-12 h-12 text-grey-500" />
               <H3>No Opportunities Found</H3>
               <Body variant="muted">Try adjusting your filters or search term</Body>
               <Button variant="outline" onClick={clearFilters}>Clear Filters</Button>
@@ -242,7 +242,7 @@ export function MobileJobSearch({ initialJobs = [], onApply }: MobileJobSearchPr
                         e.stopPropagation();
                         toggleSaveJob(job.id);
                       }}
-                      className={savedJobs.includes(job.id) ? 'text-black' : 'text-grey-400'}
+                      className={savedJobs.includes(job.id) ? 'text-black' : 'text-grey-500'}
                     >
                       {savedJobs.includes(job.id) ? '★' : '☆'}
                     </Button>

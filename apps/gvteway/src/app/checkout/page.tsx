@@ -3,7 +3,7 @@
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 
-import { Navigation } from '../../components/navigation';
+import { ConsumerNavigationPublic } from '../../components/navigation';
 import { Container, Section, H1, H2, H3, Body, Button, Input, Select, Card, Grid, Badge, Stack, LoadingSpinner } from '@ghxstship/ui';
 import { CreditCard, Lock, Check } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
@@ -122,7 +122,7 @@ function CheckoutContent() {
   if (loading) {
     return (
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading checkout..." />
         </Container>
@@ -132,7 +132,7 @@ function CheckoutContent() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8} className="max-w-4xl mx-auto">
           <Stack gap={2} className="border-b-2 border-black pb-8">
@@ -144,7 +144,7 @@ function CheckoutContent() {
           <Stack gap={2} direction="horizontal" className="justify-between">
             {['cart', 'payment', 'confirm'].map((s, idx) => (
               <Stack key={s} gap={2} direction="horizontal" className="flex-1 items-center">
-                <Card className={`flex items-center justify-center w-10 h-10 rounded-full border-2 ${step === s ? 'bg-black text-white border-black' : 'border-grey-300 text-grey-400'}`}>
+                <Card className={`flex items-center justify-center w-10 h-10 rounded-full border-2 ${step === s ? 'bg-black text-white border-black' : 'border-grey-300 text-grey-600'}`}>
                   <Body>{idx + 1}</Body>
                 </Card>
                 {idx < 2 && <Card className={`flex-1 h-0.5 ${step !== 'cart' && idx === 0 || step === 'confirm' && idx === 1 ? 'bg-black' : 'bg-grey-300'} mx-2`} />}
@@ -327,7 +327,7 @@ export default function CheckoutPage() {
   return (
     <Suspense fallback={
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading checkout..." />
         </Container>

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../components/navigation";
+import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import { useCrewSkills } from "../../hooks/useSkills";
 import { useCrew } from "../../hooks/useCrew";
 import {
@@ -41,7 +41,7 @@ export default function SkillsPage() {
   if (isLoading) {
     return (
       <Section className="relative min-h-screen bg-black text-white">
-        <Navigation />
+        <CreatorNavigationAuthenticated />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading skills matrix..." />
         </Container>
@@ -52,7 +52,7 @@ export default function SkillsPage() {
   if (skillsError) {
     return (
       <Section className="relative min-h-screen bg-black text-white">
-        <Navigation />
+        <CreatorNavigationAuthenticated />
         <Container className="py-16">
           <EmptyState
             title="Error Loading Skills"
@@ -106,7 +106,7 @@ export default function SkillsPage() {
 
   return (
     <Section className="relative min-h-screen bg-black text-white">
-      <Navigation />
+      <CreatorNavigationAuthenticated />
       <Container className="py-16">
         <Stack gap={8}>
           <H1>Skills Matrix</H1>

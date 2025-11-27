@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../../components/navigation";
+import { ConsumerNavigationPublic } from "../../../components/navigation";
 import {
   Container, H1, H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select,
   Button, Section, Card, Tabs, TabsList, Tab, TabPanel,
@@ -82,13 +82,13 @@ export default function POSPage() {
       case "Online": return "text-success-400";
       case "Busy": return "text-warning-400";
       case "Offline": return "text-error-400";
-      default: return "text-ink-400";
+      default: return "text-ink-600";
     }
   };
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
           <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
@@ -199,7 +199,7 @@ export default function POSPage() {
                         </Stack>
                       </Grid>
                       {terminal.lastTransaction && (
-                        <Label size="xs" className="text-grey-400">Last: {terminal.lastTransaction}</Label>
+                        <Label size="xs" className="text-grey-600">Last: {terminal.lastTransaction}</Label>
                       )}
                     </Stack>
                   </Card>

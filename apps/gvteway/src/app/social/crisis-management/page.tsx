@@ -151,7 +151,7 @@ export default function CrisisManagementPage() {
                         </Stack>
                         <Label className="text-grey-500 line-clamp-2">{template.content}</Label>
                         <Stack direction="horizontal" className="justify-between">
-                          <Label size="xs" className="text-grey-400">Used {template.usageCount} times</Label>
+                          <Label size="xs" className="text-grey-600">Used {template.usageCount} times</Label>
                           <Button variant="outline" size="sm" onClick={() => setSelectedTemplate(template)}>Use</Button>
                         </Stack>
                       </Stack>

@@ -31,7 +31,7 @@ import {
   Tab,
   TabPanel,
 } from '@ghxstship/ui';
-import { Navigation } from '../../components/navigation';
+import { CreatorNavigationAuthenticated } from '../../components/navigation';
 
 interface Channel {
   id: string;
@@ -167,7 +167,7 @@ export default function ChannelsPage() {
   return (
     <Section className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
       <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <Navigation />
+      <CreatorNavigationAuthenticated />
       <Container className="py-16">
         <Stack gap={8}>
           <Stack direction="horizontal" className="justify-between items-start">

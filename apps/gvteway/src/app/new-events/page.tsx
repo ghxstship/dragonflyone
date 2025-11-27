@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { Navigation } from '../../components/navigation';
+import { ConsumerNavigationPublic } from '../../components/navigation';
 import {
   Container,
   Section,
@@ -101,7 +101,7 @@ export default function NewEventsPage() {
   if (loading) {
     return (
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading events..." />
         </Container>
@@ -111,7 +111,7 @@ export default function NewEventsPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
         <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
@@ -244,7 +244,7 @@ export default function NewEventsPage() {
           <Stack direction="horizontal" className="justify-between items-center">
             <Stack>
               <H3 className="text-white">NEVER MISS AN ANNOUNCEMENT</H3>
-              <Body className="text-grey-300">
+              <Body className="text-grey-600">
                 Follow your favorite artists and venues to get notified first.
               </Body>
             </Stack>

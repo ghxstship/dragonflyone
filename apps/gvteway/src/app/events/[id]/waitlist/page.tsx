@@ -299,7 +299,7 @@ export default function WaitlistPage() {
               ) : (
                 <Stack className="items-center py-8">
                   <Body className="text-grey-500">No one on the waitlist yet.</Body>
-                  <Body className="text-grey-400 text-sm">Be the first to join!</Body>
+                  <Body className="text-grey-600 text-sm">Be the first to join!</Body>
                 </Stack>
               )}
             </Card>

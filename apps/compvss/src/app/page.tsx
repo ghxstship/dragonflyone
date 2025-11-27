@@ -1,4 +1,4 @@
-import { Navigation } from "../components/navigation";
+import { CreatorNavigationAuthenticated } from "../components/navigation";
 import { Section, SectionHeader } from "../components/section";
 import { Badge, ProgressBar, Button, StatusBadge, Stack, Grid, Card, Container, Link, H1, H2, H3, H4, Body, Label, Text, List, ListItem, Article, Header, Box, Table, TableHeader, TableBody, TableRow, TableHead, TableCell, WorkflowTimeline, ContentCard, FeatureCard, Kicker } from "@ghxstship/ui";
 import { CrewIntelligence } from "../components/crew-intelligence";
@@ -36,7 +36,7 @@ export default function Home() {
   return (
     <Section className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50" id="top">
       <Card className="grid-overlay pointer-events-none absolute inset-0 opacity-40" />
-      <Navigation />
+      <CreatorNavigationAuthenticated />
 
       <Container className="relative mx-auto flex max-w-6xl flex-col gap-16 px-6 pb-24 pt-16 lg:px-8">
         <Header className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between" id="command">

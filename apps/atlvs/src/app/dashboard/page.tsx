@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Navigation } from "../../components/navigation";
+import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import { Section, SectionHeader } from "../../components/section";
 import { Badge, ProgressBar, StatusBadge, Button, H1, H2, H3, Body, Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Container, Stack, Card, StatCard, LoadingSpinner, Grid } from "@ghxstship/ui";
 import { useProjects } from "../../hooks/useProjects";
@@ -96,7 +96,7 @@ export default function DashboardPage() {
   if (isLoading) {
     return (
       <Section className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-        <Navigation />
+        <CreatorNavigationAuthenticated />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading dashboard..." />
         </Container>
@@ -107,7 +107,7 @@ export default function DashboardPage() {
   return (
     <Section className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
       <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <Navigation />
+      <CreatorNavigationAuthenticated />
 
       <Container className="py-16">
         <Stack gap={8}>

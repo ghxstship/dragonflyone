@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../components/navigation";
+import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import { useRisks } from "../../hooks/useRisks";
 import {
   ListPage,
@@ -107,7 +107,7 @@ export default function RisksPage() {
         stats={stats}
         emptyMessage="No risks found"
         emptyAction={{ label: 'Report New Risk', onClick: () => router.push('/risks/new') }}
-        header={<Navigation />}
+        header={<CreatorNavigationAuthenticated />}
       />
       {selectedRisk && (
         <DetailDrawer

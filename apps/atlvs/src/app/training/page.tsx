@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../components/navigation";
+import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
   ListPage,
   Badge,
@@ -130,7 +130,7 @@ export default function TrainingPage() {
         stats={stats}
         emptyMessage="No training programs found"
         emptyAction={{ label: 'Create Program', onClick: () => router.push('/training/new') }}
-        header={<Navigation />}
+        header={<CreatorNavigationAuthenticated />}
       />
 
       {selectedProgram && (

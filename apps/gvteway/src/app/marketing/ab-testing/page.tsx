@@ -87,14 +87,14 @@ export default function ABTestingPage() {
     switch (status) {
       case "Running": return "text-success-600";
       case "Completed": return "text-info-600";
-      case "Draft": return "text-grey-400";
+      case "Draft": return "text-grey-600";
       case "Paused": return "text-warning-600";
       default: return "text-grey-600";
     }
   };
 
   const getConfidenceColor = (confidence?: number) => {
-    if (!confidence) return "text-grey-400";
+    if (!confidence) return "text-grey-600";
     if (confidence >= 95) return "text-success-600";
     if (confidence >= 80) return "text-warning-600";
     return "text-error-600";

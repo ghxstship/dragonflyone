@@ -184,7 +184,7 @@ export default function EventProgramPage() {
                             item.is_encore ? 'bg-warning-50 -mx-2 px-2' : ''
                           }`}
                         >
-                          <Body className="w-8 text-grey-400 font-mono">
+                          <Body className="w-8 text-grey-600 font-mono">
                             {item.order || index + 1}
                           </Body>
                           <Stack className="flex-1">
@@ -200,11 +200,11 @@ export default function EventProgramPage() {
                               <Body className="text-sm text-grey-500">{item.artist}</Body>
                             )}
                             {item.notes && (
-                              <Body className="text-xs text-grey-400 mt-1">{item.notes}</Body>
+                              <Body className="text-xs text-grey-600 mt-1">{item.notes}</Body>
                             )}
                           </Stack>
                           {item.duration && (
-                            <Body className="text-sm text-grey-400">{item.duration}</Body>
+                            <Body className="text-sm text-grey-600">{item.duration}</Body>
                           )}
                         </Stack>
                       ))}
@@ -261,7 +261,7 @@ export default function EventProgramPage() {
                       )}
                       <Stack>
                         <Body className="text-sm">{sponsor.name}</Body>
-                        <Body className="text-xs text-grey-400">{sponsor.tier}</Body>
+                        <Body className="text-xs text-grey-600">{sponsor.tier}</Body>
                       </Stack>
                     </Stack>
                   ))}
@@ -271,7 +271,7 @@ export default function EventProgramPage() {
 
             <Card className="p-6 bg-black text-white">
               <H3 className="text-white mb-4">SHARE PROGRAM</H3>
-              <Body className="text-grey-300 mb-4">
+              <Body className="text-grey-600 mb-4">
                 Share this program with friends
               </Body>
               <Button

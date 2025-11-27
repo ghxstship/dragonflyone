@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Navigation } from '../../components/navigation';
+import { CreatorNavigationAuthenticated } from '../../components/navigation';
 import {
   ListPage,
   Badge,
@@ -99,7 +99,7 @@ export default function CRMPage() {
         stats={stats}
         emptyMessage="No contacts found"
         emptyAction={{ label: 'Add Contact', onClick: () => router.push('/contacts') }}
-        header={<Navigation />}
+        header={<CreatorNavigationAuthenticated />}
       />
       <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedContact} title={(c) => c.name} subtitle={(c) => c.company || c.email} sections={detailSections} onEdit={(c) => router.push(`/contacts/${c.id}/edit`)} actions={[{ id: 'email', label: 'Send Email', icon: '✉️' }]} onAction={(id, c) => id === 'email' && (window.location.href = `mailto:${c.email}`)} />
     </>

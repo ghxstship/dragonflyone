@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { Navigation } from '../../../components/navigation';
+import { ConsumerNavigationPublic } from '../../../components/navigation';
 import {
   Container,
   Section,
@@ -149,10 +149,10 @@ export default function TicketTrackingPage() {
             )}
           </Stack>
           <Stack className="flex-1 pb-4">
-            <Body className={`font-medium ${step.status === 'pending' ? 'text-grey-400' : ''}`}>
+            <Body className={`font-medium ${step.status === 'pending' ? 'text-grey-600' : ''}`}>
               {step.title}
             </Body>
-            <Body className={`text-sm ${step.status === 'pending' ? 'text-grey-400' : 'text-grey-600'}`}>
+            <Body className={`text-sm ${step.status === 'pending' ? 'text-grey-600' : 'text-grey-600'}`}>
               {step.description}
             </Body>
             {step.timestamp && (
@@ -167,7 +167,7 @@ export default function TicketTrackingPage() {
   if (loading) {
     return (
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading deliveries..." />
         </Container>
@@ -177,7 +177,7 @@ export default function TicketTrackingPage() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
         <Stack gap={2} className="border-b-2 border-black pb-8">

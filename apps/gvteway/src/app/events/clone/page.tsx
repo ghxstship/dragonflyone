@@ -99,8 +99,8 @@ function EventCloneContent() {
                         <Label className="text-grey-500">{template.description}</Label>
                       </Stack>
                       <Stack direction="horizontal" gap={4}>
-                        <Label size="xs" className="text-grey-400">Used {template.timesUsed} times</Label>
-                        {template.lastUsed && <Label size="xs" className="text-grey-400">Last: {template.lastUsed}</Label>}
+                        <Label size="xs" className="text-grey-600">Used {template.timesUsed} times</Label>
+                        {template.lastUsed && <Label size="xs" className="text-grey-600">Last: {template.lastUsed}</Label>}
                       </Stack>
                       <Button variant="solid" size="sm">Use Template</Button>
                     </Stack>

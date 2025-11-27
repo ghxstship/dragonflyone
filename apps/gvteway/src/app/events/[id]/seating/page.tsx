@@ -167,7 +167,7 @@ export default function SeatingPage() {
               ) : (
                 <Stack className="items-center py-12">
                   <Body className="text-grey-500">No seating chart available for this event.</Body>
-                  <Body className="text-grey-400 text-sm">This may be a general admission event.</Body>
+                  <Body className="text-grey-600 text-sm">This may be a general admission event.</Body>
                 </Stack>
               )}
 

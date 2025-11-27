@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Navigation } from '../../components/navigation';
+import { ConsumerNavigationPublic } from '../../components/navigation';
 import {
   Container,
   Section,
@@ -139,7 +139,7 @@ function MapViewContent() {
       <Stack className="absolute inset-0 flex items-center justify-center">
         <Stack className="text-center">
           <Body className="text-grey-500 mb-2">Interactive Map</Body>
-          <Body className="text-sm text-grey-400">
+          <Body className="text-sm text-grey-600">
             Center: {mapCenter.lat.toFixed(4)}, {mapCenter.lng.toFixed(4)}
           </Body>
         </Stack>
@@ -216,7 +216,7 @@ function MapViewContent() {
 
   return (
     <Section className="min-h-screen bg-white">
-      <Navigation />
+      <ConsumerNavigationPublic />
       <Container className="py-16">
         <Stack gap={8}>
         <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
@@ -339,7 +339,7 @@ function MapViewContent() {
                   >
                     <Body className="font-medium text-sm">{event.title}</Body>
                     <Body className="text-xs text-grey-500">{event.date}</Body>
-                    <Body className="text-xs text-grey-400">{event.venue}</Body>
+                    <Body className="text-xs text-grey-600">{event.venue}</Body>
                   </Stack>
                 ))}
                 {events.length === 0 && (
@@ -361,7 +361,7 @@ export default function MapViewPage() {
   return (
     <Suspense fallback={
       <Section className="min-h-screen bg-white">
-        <Navigation />
+        <ConsumerNavigationPublic />
         <Container className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading map..." />
         </Container>

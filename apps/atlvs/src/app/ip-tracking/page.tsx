@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "../../components/navigation";
+import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
   ListPage,
   Badge,
@@ -144,7 +144,7 @@ export default function IPTrackingPage() {
         stats={stats}
         emptyMessage="No IP assets found"
         emptyAction={{ label: 'Register New IP', onClick: () => router.push('/ip-tracking/new') }}
-        header={<Navigation />}
+        header={<CreatorNavigationAuthenticated />}
       />
       {selectedAsset && (
         <DetailDrawer

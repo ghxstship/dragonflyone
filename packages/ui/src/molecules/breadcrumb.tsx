@@ -53,7 +53,7 @@ export const BreadcrumbItem = forwardRef<HTMLLIElement, BreadcrumbItemProps>(
           )}
         </li>
         {!active && (
-          <li aria-hidden="true" className="text-grey-400">
+          <li aria-hidden="true" className="text-grey-500">
             /
           </li>
         )}
