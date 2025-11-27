@@ -90,9 +90,9 @@ export default function EventTemplatesPage() {
               <Badge variant="outline">{selectedTemplate.type}</Badge>
               <Body>{selectedTemplate.description}</Body>
               <Grid cols={3} gap={4}>
-                <Stack gap={1}><Label className="text-grey-600">Ticket Types</Label><Label className="font-mono text-xl">{selectedTemplate.settings.ticketTypes}</Label></Stack>
-                <Stack gap={1}><Label className="text-grey-600">Sections</Label><Label className="font-mono text-xl">{selectedTemplate.settings.sections}</Label></Stack>
-                <Stack gap={1}><Label className="text-grey-600">Add-ons</Label><Label className="font-mono text-xl">{selectedTemplate.settings.addOns}</Label></Stack>
+                <Stack gap={1}><Label className="text-grey-600">Ticket Types</Label><Label className="font-mono text-h6-md">{selectedTemplate.settings.ticketTypes}</Label></Stack>
+                <Stack gap={1}><Label className="text-grey-600">Sections</Label><Label className="font-mono text-h6-md">{selectedTemplate.settings.sections}</Label></Stack>
+                <Stack gap={1}><Label className="text-grey-600">Add-ons</Label><Label className="font-mono text-h6-md">{selectedTemplate.settings.addOns}</Label></Stack>
               </Grid>
               <Stack gap={1}><Label className="text-grey-600">Created By</Label><Label>{selectedTemplate.createdBy}</Label></Stack>
             </Stack>

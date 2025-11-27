@@ -177,11 +177,11 @@ export default function AnalyticsPage() {
                 {kpis.slice(0, 5).map((kpi) => (
                   <Stack key={kpi.code} gap={2} direction="horizontal" className="justify-between">
                     <Body className="text-grey-400">{kpi.name}</Body>
-                    <Body className="font-mono text-white text-xs">{kpi.code}</Body>
+                    <Body className="font-mono text-white text-mono-xs">{kpi.code}</Body>
                   </Stack>
                 ))}
                 {kpis.length > 5 && (
-                  <Body className="text-grey-500 text-sm">+{kpis.length - 5} more KPIs</Body>
+                  <Body className="text-grey-500 text-body-sm">+{kpis.length - 5} more KPIs</Body>
                 )}
               </Stack>
             </Card>

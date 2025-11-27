@@ -186,9 +186,9 @@ export default function CartPage() {
                     <Stack gap={4}>
                       <Stack gap={2} direction="horizontal" className="justify-between">
                         <Stack gap={1}>
-                          <H2 className="text-xl">{item.event_name}</H2>
+                          <H2 className="text-h6-md">{item.event_name}</H2>
                           <Body className="text-grey-400">{item.venue_name}</Body>
-                          <Body className="text-grey-500 text-sm">{formatDate(item.event_date)}</Body>
+                          <Body className="text-grey-500 text-body-sm">{formatDate(item.event_date)}</Body>
                         </Stack>
                         <Button 
                           variant="ghost" 
@@ -203,7 +203,7 @@ export default function CartPage() {
                       <Stack gap={2} direction="horizontal" className="justify-between items-center">
                         <Stack gap={1}>
                           <Badge variant="outline">{item.ticket_type_name}</Badge>
-                          <Body className="text-grey-400 text-sm">
+                          <Body className="text-grey-400 text-body-sm">
                             {formatCurrency(item.unit_price)} each
                           </Body>
                         </Stack>
@@ -226,7 +226,7 @@ export default function CartPage() {
                           </Button>
                         </Stack>
 
-                        <Body className="font-mono text-lg">
+                        <Body className="font-mono text-body-md">
                           {formatCurrency(item.subtotal)}
                         </Body>
                       </Stack>
@@ -263,7 +263,7 @@ export default function CartPage() {
 
                     <Stack gap={1} direction="horizontal" className="justify-between border-t border-grey-800 pt-4">
                       <Body className="font-bold">Total</Body>
-                      <Body className="font-mono text-xl font-bold">
+                      <Body className="font-mono text-h6-md font-bold">
                         {formatCurrency((summary?.total || 0) - discount)}
                       </Body>
                     </Stack>
@@ -272,7 +272,7 @@ export default function CartPage() {
 
                 <Card className="p-6 bg-black border-grey-800">
                   <Stack gap={4}>
-                    <Body className="text-grey-400 text-sm uppercase tracking-wider">Promo Code</Body>
+                    <Body className="text-grey-400 text-body-sm uppercase tracking-widest">Promo Code</Body>
                     <Stack gap={2} direction="horizontal">
                       <Field className="flex-1">
                         <Input
@@ -303,7 +303,7 @@ export default function CartPage() {
                   Proceed to Checkout
                 </Button>
 
-                <Body className="text-grey-500 text-sm text-center">
+                <Body className="text-grey-500 text-body-sm text-center">
                   Tickets are held for 10 minutes during checkout
                 </Body>
               </Stack>

@@ -110,19 +110,19 @@ export default function PartnershipsPage() {
                     
                     <Grid cols={4} gap={6}>
                       <Stack gap={1}>
-                        <Body className="text-sm text-ink-500">Type</Body>
+                        <Body className="text-body-sm text-ink-500">Type</Body>
                         <Body className="font-bold text-white">{partnership.type || 'Partner'}</Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Body className="text-sm text-ink-500">Company</Body>
+                        <Body className="text-body-sm text-ink-500">Company</Body>
                         <Body className="font-bold text-white">{partnership.company || 'N/A'}</Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Body className="text-sm text-ink-500">Email</Body>
+                        <Body className="text-body-sm text-ink-500">Email</Body>
                         <Body className="font-bold text-white">{partnership.email || 'N/A'}</Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Body className="text-sm text-ink-500">Phone</Body>
+                        <Body className="text-body-sm text-ink-500">Phone</Body>
                         <Body className="font-bold text-white">{partnership.phone || 'N/A'}</Body>
                       </Stack>
                     </Grid>

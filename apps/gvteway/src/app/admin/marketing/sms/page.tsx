@@ -152,7 +152,7 @@ export default function SMSMarketingPage() {
                   <Card key={segment.id} className="border-2 border-black p-4">
                     <Stack gap={3}>
                       <Body className="font-bold">{segment.name}</Body>
-                      <Label className="text-2xl font-mono">{segment.count.toLocaleString()}</Label>
+                      <Label className="text-h5-md font-mono">{segment.count.toLocaleString()}</Label>
                       <Stack direction="horizontal" gap={2}>
                         <Button variant="outline" size="sm">View</Button>
                         <Button variant="outline" size="sm">Export</Button>
@@ -179,7 +179,7 @@ export default function SMSMarketingPage() {
                   <Card key={idx} className="border border-grey-200 p-4">
                     <Stack gap={3}>
                       <Body className="font-bold">{template.name}</Body>
-                      <Body className="text-grey-600 text-sm">{template.message}</Body>
+                      <Body className="text-grey-600 text-body-sm">{template.message}</Body>
                       <Button variant="outline" size="sm">Use Template</Button>
                     </Stack>
                   </Card>
@@ -254,9 +254,9 @@ export default function SMSMarketingPage() {
         <ModalBody>
           {selectedCampaign && (
             <Stack gap={4}>
-              <Body className="font-bold text-lg">{selectedCampaign.name}</Body>
+              <Body className="font-bold text-body-md">{selectedCampaign.name}</Body>
               <Card className="p-3 bg-grey-100 border border-grey-200">
-                <Body className="text-sm">{selectedCampaign.message}</Body>
+                <Body className="text-body-sm">{selectedCampaign.message}</Body>
               </Card>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}><Label size="xs" className="text-grey-500">Status</Label><Label className={getStatusColor(selectedCampaign.status)}>{selectedCampaign.status}</Label></Stack>

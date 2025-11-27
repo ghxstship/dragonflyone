@@ -97,7 +97,7 @@ export default function BackupPlansPage() {
                 <Stack gap={4}>
                   <Stack direction="horizontal" className="justify-between">
                     <Stack direction="horizontal" gap={3}>
-                      <Label className="text-2xl">{getCategoryIcon(plan.category)}</Label>
+                      <Label className="text-h5-md">{getCategoryIcon(plan.category)}</Label>
                       <Stack gap={1}>
                         <Body className="font-display text-white">{plan.name}</Body>
                         <Badge variant="outline">{plan.project}</Badge>
@@ -136,7 +136,7 @@ export default function BackupPlansPage() {
           {selectedPlan && (
             <Stack gap={4}>
               <Stack direction="horizontal" gap={2}>
-                <Label className="text-xl">{getCategoryIcon(selectedPlan.category)}</Label>
+                <Label className="text-h6-md">{getCategoryIcon(selectedPlan.category)}</Label>
                 <Badge variant="outline">{selectedPlan.category}</Badge>
                 <Badge variant={selectedPlan.status === "Active" ? "solid" : "outline"}>{selectedPlan.status}</Badge>
               </Stack>

@@ -130,7 +130,7 @@ function ConfirmationContent() {
       <Container className="py-16">
         <Stack gap={8} className="max-w-3xl mx-auto">
           <Stack gap={4} className="text-center">
-            <Body className="text-4xl">✓</Body>
+            <Body className="text-h3-md">✓</Body>
             <H1>Order Confirmed!</H1>
             <Body className="text-grey-400">
               Thank you for your purchase. Your tickets are on the way!
@@ -143,7 +143,7 @@ function ConfirmationContent() {
           <Card className="p-6 bg-black border-grey-800">
             <Stack gap={6}>
               <Stack gap={2}>
-                <Body className="text-grey-400 text-sm uppercase tracking-wider">Order Details</Body>
+                <Body className="text-grey-400 text-body-sm uppercase tracking-widest">Order Details</Body>
                 <Stack gap={1} direction="horizontal" className="justify-between">
                   <Body className="text-grey-400">Order Date</Body>
                   <Body>{formatDate(order.created_at)}</Body>
@@ -159,21 +159,21 @@ function ConfirmationContent() {
               </Stack>
 
               <Stack gap={4}>
-                <Body className="text-grey-400 text-sm uppercase tracking-wider">Tickets</Body>
+                <Body className="text-grey-400 text-body-sm uppercase tracking-widest">Tickets</Body>
                 {order.items.map((item) => (
                   <Card key={item.id} className="p-4 bg-grey-900 border-grey-700">
                     <Stack gap={3}>
                       <Stack gap={1}>
-                        <H2 className="text-lg">{item.event_name}</H2>
+                        <H2 className="text-body-md">{item.event_name}</H2>
                         <Body className="text-grey-400">{item.venue_name}</Body>
-                        <Body className="text-grey-500 text-sm">
+                        <Body className="text-grey-500 text-body-sm">
                           {formatDate(item.event_date)} at {formatTime(item.event_date)}
                         </Body>
                       </Stack>
                       <Stack gap={1} direction="horizontal" className="justify-between">
                         <Stack gap={1}>
                           <Badge variant="outline">{item.ticket_type}</Badge>
-                          <Body className="text-grey-400 text-sm">
+                          <Body className="text-grey-400 text-body-sm">
                             {item.quantity} × {formatCurrency(item.unit_price)}
                           </Body>
                         </Stack>
@@ -205,7 +205,7 @@ function ConfirmationContent() {
                 )}
                 <Stack gap={1} direction="horizontal" className="justify-between border-t border-grey-800 pt-2">
                   <Body className="font-bold">Total Paid</Body>
-                  <Body className="font-mono text-xl font-bold">{formatCurrency(order.total)}</Body>
+                  <Body className="font-mono text-h6-md font-bold">{formatCurrency(order.total)}</Body>
                 </Stack>
               </Stack>
             </Stack>
@@ -216,23 +216,23 @@ function ConfirmationContent() {
               <H2>What&apos;s Next?</H2>
               <Grid cols={3} gap={4}>
                 <Stack gap={2}>
-                  <Body className="text-2xl">📧</Body>
+                  <Body className="text-h5-md">📧</Body>
                   <Body className="font-medium">Check Your Email</Body>
-                  <Body className="text-grey-400 text-sm">
+                  <Body className="text-grey-400 text-body-sm">
                     Your tickets have been sent to {order.billing_email}
                   </Body>
                 </Stack>
                 <Stack gap={2}>
-                  <Body className="text-2xl">📱</Body>
+                  <Body className="text-h5-md">📱</Body>
                   <Body className="font-medium">Add to Wallet</Body>
-                  <Body className="text-grey-400 text-sm">
+                  <Body className="text-grey-400 text-body-sm">
                     Save your tickets to Apple Wallet or Google Pay
                   </Body>
                 </Stack>
                 <Stack gap={2}>
-                  <Body className="text-2xl">🎫</Body>
+                  <Body className="text-h5-md">🎫</Body>
                   <Body className="font-medium">View Tickets</Body>
-                  <Body className="text-grey-400 text-sm">
+                  <Body className="text-grey-400 text-body-sm">
                     Access your tickets anytime from your account
                   </Body>
                 </Stack>

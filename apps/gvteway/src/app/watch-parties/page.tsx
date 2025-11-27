@@ -317,7 +317,7 @@ export default function WatchPartiesPage() {
                         <Image src={party.thumbnail_url} alt={party.title} fill className="object-cover" />
                       ) : (
                         <Stack className="w-full h-full flex items-center justify-center">
-                          <Body className="text-2xl">📺</Body>
+                          <Body className="text-h5-md">📺</Body>
                         </Stack>
                       )}
                     </Stack>
@@ -327,10 +327,10 @@ export default function WatchPartiesPage() {
                         {getContentTypeBadge(party.content_type)}
                       </Stack>
                       <H3 className="mt-2">{party.title}</H3>
-                      <Body className="text-sm text-grey-600">
+                      <Body className="text-body-sm text-grey-600">
                         Hosted by {party.host_name}
                       </Body>
-                      <Stack direction="horizontal" gap={4} className="mt-2 text-sm text-grey-500">
+                      <Stack direction="horizontal" gap={4} className="mt-2 text-body-sm text-grey-500">
                         <Body>{party.attendees_count} watching</Body>
                         {party.chat_enabled && <Body>💬 Chat</Body>}
                         {party.video_enabled && <Body>📹 Video</Body>}
@@ -361,7 +361,7 @@ export default function WatchPartiesPage() {
                     <Image src={party.thumbnail_url} alt={party.title} fill className="object-cover" />
                   ) : (
                     <Stack className="w-full h-full flex items-center justify-center">
-                      <Body className="text-4xl">📺</Body>
+                      <Body className="text-h3-md">📺</Body>
                     </Stack>
                   )}
                   <Stack className="absolute top-2 right-2">
@@ -376,19 +376,19 @@ export default function WatchPartiesPage() {
                 <Stack className="p-4" gap={2}>
                   {getContentTypeBadge(party.content_type)}
                   <H3 className="line-clamp-1">{party.title}</H3>
-                  <Body className="text-sm text-grey-600">
+                  <Body className="text-body-sm text-grey-600">
                     Hosted by {party.host_name}
                   </Body>
-                  <Body className="text-xs text-grey-500">
+                  <Body className="text-mono-xs text-grey-500">
                     {formatDate(party.scheduled_at)}
                   </Body>
                   <Stack direction="horizontal" className="justify-between items-center mt-2">
-                    <Body className="text-xs text-grey-500">
+                    <Body className="text-mono-xs text-grey-500">
                       {party.attendees_count}{party.max_attendees ? `/${party.max_attendees}` : ''} joined
                     </Body>
                     <Stack direction="horizontal" gap={1}>
-                      {party.chat_enabled && <Body className="text-xs">💬</Body>}
-                      {party.video_enabled && <Body className="text-xs">📹</Body>}
+                      {party.chat_enabled && <Body className="text-mono-xs">💬</Body>}
+                      {party.video_enabled && <Body className="text-mono-xs">📹</Body>}
                     </Stack>
                   </Stack>
                 </Stack>
@@ -518,12 +518,12 @@ export default function WatchPartiesPage() {
                   <Image src={selectedParty.thumbnail_url} alt={selectedParty.title} fill className="object-cover" />
                 ) : (
                   <Stack className="w-full h-full flex items-center justify-center">
-                    <Body className="text-6xl">📺</Body>
+                    <Body className="text-h1-sm">📺</Body>
                   </Stack>
                 )}
                 {selectedParty.status === 'live' && (
                   <Stack className="absolute inset-0 flex items-center justify-center bg-black/50">
-                    <Button variant="solid" className="text-xl px-8 py-4">
+                    <Button variant="solid" className="text-h6-md px-8 py-4">
                       ▶️ Join Stream
                     </Button>
                   </Stack>
@@ -537,7 +537,7 @@ export default function WatchPartiesPage() {
                 </Stack>
                 <H2>{selectedParty.title}</H2>
                 <Body className="text-grey-600">{selectedParty.description}</Body>
-                <Stack direction="horizontal" gap={4} className="text-sm text-grey-500">
+                <Stack direction="horizontal" gap={4} className="text-body-sm text-grey-500">
                   <Body>Hosted by {selectedParty.host_name}</Body>
                   <Body>{formatDate(selectedParty.scheduled_at)}</Body>
                   <Body>{selectedParty.attendees_count} joined</Body>

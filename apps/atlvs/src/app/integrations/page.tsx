@@ -141,28 +141,28 @@ export default function IntegrationsPage() {
           <Stack gap={4}>
             <Card className="border-l-4 border-white pl-4 py-2 bg-transparent border-y-0 border-r-0">
               <H3 className="text-white">New Event Launch</H3>
-              <Body className="text-sm text-ink-400">
+              <Body className="text-body-sm text-ink-400">
                 Deal (ATLVS) → Project (COMPVSS) → Event (GVTEWAY) → Revenue Tracking (ATLVS)
               </Body>
             </Card>
 
             <Card className="border-l-4 border-ink-600 pl-4 py-2 bg-transparent border-y-0 border-r-0">
               <H3 className="text-white">Asset Deployment</H3>
-              <Body className="text-sm text-ink-400">
+              <Body className="text-body-sm text-ink-400">
                 Asset (ATLVS) → Project Assignment (COMPVSS) → Venue Setup (GVTEWAY)
               </Body>
             </Card>
 
             <Card className="border-l-4 border-ink-600 pl-4 py-2 bg-transparent border-y-0 border-r-0">
               <H3 className="text-white">Crew Onboarding</H3>
-              <Body className="text-sm text-ink-400">
+              <Body className="text-body-sm text-ink-400">
                 Employee (ATLVS) → Crew Assignment (COMPVSS) → Access Credentials (GVTEWAY)
               </Body>
             </Card>
 
             <Card className="border-l-4 border-ink-600 pl-4 py-2 bg-transparent border-y-0 border-r-0">
               <H3 className="text-white">Financial Reconciliation</H3>
-              <Body className="text-sm text-ink-400">
+              <Body className="text-body-sm text-ink-400">
                 Ticket Sales (GVTEWAY) → Project Budget (COMPVSS) → General Ledger (ATLVS)
               </Body>
             </Card>

@@ -190,7 +190,7 @@ export default function AssetSpecificationsPage() {
                     <Card className="p-4 bg-ink-800">
                       <Stack direction="horizontal" className="justify-between items-start">
                         <Stack gap={1}>
-                          <Body className="font-display text-white text-lg">{spec.name}</Body>
+                          <Body className="font-display text-white text-body-md">{spec.name}</Body>
                           <Label className="text-ink-400">{spec.manufacturer} • {spec.model}</Label>
                         </Stack>
                         <Badge variant="outline">{spec.category}</Badge>

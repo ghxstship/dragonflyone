@@ -25,10 +25,10 @@ export function ApiErrorBoundary({ children, onRetry }: ApiErrorBoundaryProps) {
     <div className="flex min-h-[400px] items-center justify-center p-6">
       <div className="w-full max-w-md space-y-4 border-2 border-warning-500 bg-ink-900 p-6">
         <div className="space-y-2">
-          <h2 className="font-display text-2xl text-white">
+          <h2 className="font-display text-h4-md text-white">
             Connection Error
           </h2>
-          <p className="text-sm text-ink-300">
+          <p className="text-body-sm text-ink-300">
             We&apos;re having trouble connecting to our servers. Please check your internet connection and try again.
           </p>
         </div>

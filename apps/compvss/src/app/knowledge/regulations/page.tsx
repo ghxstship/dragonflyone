@@ -102,7 +102,7 @@ export default function RegulationsPage() {
                 <Stack gap={4}>
                   <Stack direction="horizontal" className="justify-between">
                     <Stack direction="horizontal" gap={3}>
-                      <Label className="text-2xl">{getCategoryIcon(reg.category)}</Label>
+                      <Label className="text-h5-md">{getCategoryIcon(reg.category)}</Label>
                       <Stack gap={1}>
                         <Body className="font-display text-white">{reg.title}</Body>
                         <Stack direction="horizontal" gap={2}>
@@ -133,7 +133,7 @@ export default function RegulationsPage() {
                 {categories.slice(1).map((cat) => (
                   <Card key={cat} className="p-4 border border-ink-700 cursor-pointer hover:border-white" onClick={() => setCategoryFilter(cat)}>
                     <Stack gap={2} className="text-center">
-                      <Label className="text-2xl">{getCategoryIcon(cat)}</Label>
+                      <Label className="text-h5-md">{getCategoryIcon(cat)}</Label>
                       <Label className="text-white">{cat}</Label>
                       <Label size="xs" className="text-ink-500">{mockRegulations.filter(r => r.category === cat).length} docs</Label>
                     </Stack>
@@ -157,7 +157,7 @@ export default function RegulationsPage() {
           {selectedRegulation && (
             <Stack gap={4}>
               <Stack direction="horizontal" gap={2}>
-                <Label className="text-xl">{getCategoryIcon(selectedRegulation.category)}</Label>
+                <Label className="text-h6-md">{getCategoryIcon(selectedRegulation.category)}</Label>
                 <Badge variant="outline">{selectedRegulation.category}</Badge>
                 <Badge variant="outline">{selectedRegulation.jurisdiction}</Badge>
                 <Label className={getStatusColor(selectedRegulation.status)}>{selectedRegulation.status}</Label>

@@ -161,30 +161,30 @@ export default function FanClubsPage() {
               <H2>Member Benefits</H2>
               <Grid cols={4} gap={4}>
                 <Stack gap={2}>
-                  <Body className="text-2xl">🎫</Body>
+                  <Body className="text-h5-md">🎫</Body>
                   <Body className="font-medium">Presale Access</Body>
-                  <Body className="text-grey-400 text-sm">
+                  <Body className="text-grey-400 text-body-sm">
                     Get tickets before the general public
                   </Body>
                 </Stack>
                 <Stack gap={2}>
-                  <Body className="text-2xl">⭐</Body>
+                  <Body className="text-h5-md">⭐</Body>
                   <Body className="font-medium">Exclusive Events</Body>
-                  <Body className="text-grey-400 text-sm">
+                  <Body className="text-grey-400 text-body-sm">
                     Members-only shows and meet & greets
                   </Body>
                 </Stack>
                 <Stack gap={2}>
-                  <Body className="text-2xl">🎁</Body>
+                  <Body className="text-h5-md">🎁</Body>
                   <Body className="font-medium">Merch Discounts</Body>
-                  <Body className="text-grey-400 text-sm">
+                  <Body className="text-grey-400 text-body-sm">
                     Special pricing on official merchandise
                   </Body>
                 </Stack>
                 <Stack gap={2}>
-                  <Body className="text-2xl">📱</Body>
+                  <Body className="text-h5-md">📱</Body>
                   <Body className="font-medium">Exclusive Content</Body>
-                  <Body className="text-grey-400 text-sm">
+                  <Body className="text-grey-400 text-body-sm">
                     Behind-the-scenes and early releases
                   </Body>
                 </Stack>
@@ -228,7 +228,7 @@ export default function FanClubsPage() {
                   <Stack gap={4}>
                     <Stack gap={2} direction="horizontal" className="justify-between items-start">
                       <Stack gap={1}>
-                        <H2 className="text-xl">{club.artist_name}</H2>
+                        <H2 className="text-h6-md">{club.artist_name}</H2>
                         <Body className="text-grey-400">{club.name}</Body>
                       </Stack>
                       {club.is_member && (
@@ -236,22 +236,22 @@ export default function FanClubsPage() {
                       )}
                     </Stack>
 
-                    <Body className="text-grey-400 text-sm">
+                    <Body className="text-grey-400 text-body-sm">
                       {club.description}
                     </Body>
 
                     <Stack gap={2}>
-                      <Body className="text-grey-500 text-sm uppercase tracking-wider">Benefits</Body>
+                      <Body className="text-grey-500 text-body-sm uppercase tracking-widest">Benefits</Body>
                       <Stack gap={1}>
                         {club.benefits.slice(0, 4).map((benefit, idx) => (
-                          <Body key={idx} className="text-grey-300 text-sm">
+                          <Body key={idx} className="text-grey-300 text-body-sm">
                             ✓ {benefit}
                           </Body>
                         ))}
                       </Stack>
                     </Stack>
 
-                    <Stack gap={2} direction="horizontal" className="text-grey-500 text-sm">
+                    <Stack gap={2} direction="horizontal" className="text-grey-500 text-body-sm">
                       <Body>{club.member_count.toLocaleString()} members</Body>
                       <Body>•</Body>
                       <Body>{club.exclusive_events} exclusive events</Body>
@@ -260,12 +260,12 @@ export default function FanClubsPage() {
                     <Stack gap={2} direction="horizontal" className="justify-between items-center border-t border-grey-800 pt-4">
                       <Stack gap={1}>
                         {club.monthly_price && (
-                          <Body className="text-grey-400 text-sm">
+                          <Body className="text-grey-400 text-body-sm">
                             {formatCurrency(club.monthly_price)}/month
                           </Body>
                         )}
                         {club.annual_price && (
-                          <Body className="text-grey-500 text-xs">
+                          <Body className="text-grey-500 text-mono-xs">
                             or {formatCurrency(club.annual_price)}/year (save 20%)
                           </Body>
                         )}

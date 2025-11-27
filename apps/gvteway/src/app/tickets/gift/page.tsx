@@ -155,7 +155,7 @@ function GiftTicketsContent() {
         <Container className="py-16">
           <Stack className="items-center justify-center min-h-[40vh]" gap={6}>
             <Stack className="w-24 h-24 bg-black rounded-full items-center justify-center">
-              <Body className="text-white text-4xl">🎁</Body>
+              <Body className="text-white text-h3-md">🎁</Body>
             </Stack>
             <H1>Gift Sent!</H1>
             <Body className="text-center text-grey-600 max-w-md">
@@ -301,7 +301,7 @@ function GiftTicketsContent() {
                         onChange={(e) => setFormData({ ...formData, delivery_date: e.target.value })}
                         min={new Date().toISOString().split('T')[0]}
                       />
-                      <Body className="text-sm text-grey-500 mt-1">
+                      <Body className="text-body-sm text-grey-500 mt-1">
                         Leave empty to send immediately
                       </Body>
                     </Field>
@@ -326,7 +326,7 @@ function GiftTicketsContent() {
                         }`}
                         onClick={() => setFormData({ ...formData, wrap_style: style.id })}
                       >
-                        <Body className="text-3xl mb-2">{style.emoji}</Body>
+                        <Body className="text-h4-md mb-2">{style.emoji}</Body>
                         <Body className="font-medium">{style.name}</Body>
                       </Card>
                     ))}
@@ -352,8 +352,8 @@ function GiftTicketsContent() {
                 <Stack gap={4}>
                   <Stack gap={2}>
                     <Body className="font-bold">{selectedEvent.title}</Body>
-                    <Body className="text-sm text-grey-600">{selectedEvent.date}</Body>
-                    <Body className="text-sm text-grey-600">{selectedEvent.venue}</Body>
+                    <Body className="text-body-sm text-grey-600">{selectedEvent.date}</Body>
+                    <Body className="text-body-sm text-grey-600">{selectedEvent.venue}</Body>
                   </Stack>
 
                   <Stack className="border-t border-grey-200 pt-4">
@@ -384,13 +384,13 @@ function GiftTicketsContent() {
             <Card className="p-6 bg-grey-50">
               <H3 className="mb-4">GIFT POLICY</H3>
               <Stack gap={2}>
-                <Body className="text-sm text-grey-600">
+                <Body className="text-body-sm text-grey-600">
                   • Gift tickets are non-refundable
                 </Body>
-                <Body className="text-sm text-grey-600">
+                <Body className="text-body-sm text-grey-600">
                   • Recipient can transfer tickets once
                 </Body>
-                <Body className="text-sm text-grey-600">
+                <Body className="text-body-sm text-grey-600">
                   • Gift expires if not claimed within 30 days
                 </Body>
               </Stack>

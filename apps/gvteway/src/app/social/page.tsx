@@ -83,7 +83,7 @@ export default function SocialPage() {
                         <Card className="w-12 h-12 bg-grey-300 rounded-full flex-shrink-0" />
                         <Stack gap={1} className="flex-1">
                           <Body className="font-bold">{post.user}</Body>
-                          <Body className="text-sm text-grey-600">{post.timestamp}</Body>
+                          <Body className="text-body-sm text-grey-600">{post.timestamp}</Body>
                         </Stack>
                       </Stack>
                       
@@ -95,7 +95,7 @@ export default function SocialPage() {
                         </Card>
                       )}
                       
-                      <Stack direction="horizontal" gap={6} className="text-sm text-grey-600">
+                      <Stack direction="horizontal" gap={6} className="text-body-sm text-grey-600">
                         <Button variant="ghost" size="sm" onClick={() => handleLike(post.id)}>
                           <ThumbsUp className={`w-4 h-4 mr-2 ${likedPosts.includes(post.id) ? 'fill-black' : ''}`} />
                           {post.likes + (likedPosts.includes(post.id) ? 1 : 0)}
@@ -127,7 +127,7 @@ export default function SocialPage() {
                         <TrendingUp className="w-4 h-4 text-grey-600" />
                         <Body className="font-bold">{item.tag}</Body>
                       </Stack>
-                      <Body className="text-sm text-grey-600">{item.posts.toLocaleString()} posts</Body>
+                      <Body className="text-body-sm text-grey-600">{item.posts.toLocaleString()} posts</Body>
                     </Stack>
                   ))}
                 </Stack>
@@ -146,9 +146,9 @@ export default function SocialPage() {
                       <Stack gap={2}>
                         <H3>{group.name}</H3>
                         <Stack gap={2} direction="horizontal" className="justify-between items-center">
-                          <Stack gap={2} direction="horizontal" className="items-center text-sm text-grey-600">
+                          <Stack gap={2} direction="horizontal" className="items-center text-body-sm text-grey-600">
                             <Users className="w-4 h-4" />
-                            <Body className="text-sm">{group.members.toLocaleString()} members</Body>
+                            <Body className="text-body-sm">{group.members.toLocaleString()} members</Body>
                           </Stack>
                           <Button variant="outline" size="sm" onClick={() => router.push(`/community/groups/${idx}`)}>JOIN</Button>
                         </Stack>

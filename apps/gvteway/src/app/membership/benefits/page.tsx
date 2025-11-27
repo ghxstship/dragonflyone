@@ -119,25 +119,25 @@ export default function MemberBenefitsPage() {
                   <Card key={tier.id} className="border-2 border-black overflow-hidden">
                     <Card className="p-4" style={{ '--tier-color': tier.color, backgroundColor: 'var(--tier-color)' } as React.CSSProperties}>
                       <Stack gap={1}>
-                        <Body className="font-bold text-white text-lg">{tier.name}</Body>
+                        <Body className="font-bold text-white text-body-md">{tier.name}</Body>
                         <Label className="text-white/80">{tier.memberCount.toLocaleString()} members</Label>
                       </Stack>
                     </Card>
                     <Stack className="p-4" gap={4}>
                       <Stack direction="horizontal" className="justify-between items-baseline">
-                        <Label className="text-3xl font-bold">${tier.price}</Label>
+                        <Label className="text-h4-md font-bold">${tier.price}</Label>
                         <Label className="text-grey-500">/{tier.billingCycle === "Monthly" ? "mo" : "yr"}</Label>
                       </Stack>
                       <Stack gap={2}>
-                        <Label className="text-grey-500 text-sm">BENEFITS</Label>
+                        <Label className="text-grey-500 text-body-sm">BENEFITS</Label>
                         {tier.benefits.slice(0, 4).map((benefit) => (
                           <Stack key={benefit.id} direction="horizontal" gap={2}>
                             <Label className="text-success-600">✓</Label>
-                            <Label className="text-sm">{benefit.name}</Label>
+                            <Label className="text-body-sm">{benefit.name}</Label>
                           </Stack>
                         ))}
                         {tier.benefits.length > 4 && (
-                          <Label className="text-grey-500 text-sm">+{tier.benefits.length - 4} more benefits</Label>
+                          <Label className="text-grey-500 text-body-sm">+{tier.benefits.length - 4} more benefits</Label>
                         )}
                       </Stack>
                       <Button variant="outline" onClick={() => setSelectedTier(tier)}>Edit Tier</Button>
@@ -146,7 +146,7 @@ export default function MemberBenefitsPage() {
                 ))}
                 <Card className="border-2 border-dashed border-grey-300 p-6 flex items-center justify-center cursor-pointer hover:border-black">
                   <Stack gap={2} className="text-center">
-                    <Label className="text-grey-500 text-2xl">+</Label>
+                    <Label className="text-grey-500 text-h5-md">+</Label>
                     <Label className="text-grey-500">Add New Tier</Label>
                   </Stack>
                 </Card>
@@ -165,7 +165,7 @@ export default function MemberBenefitsPage() {
                       <Grid cols={4} gap={2}>
                         {category.options.map((option) => (
                           <Card key={option} className="p-2 border border-grey-200 text-center cursor-pointer hover:border-black">
-                            <Label className="text-sm">{option}</Label>
+                            <Label className="text-body-sm">{option}</Label>
                           </Card>
                         ))}
                       </Grid>
@@ -209,7 +209,7 @@ export default function MemberBenefitsPage() {
                           <Card className="h-2 w-24 bg-grey-200 rounded-full overflow-hidden">
                             <Card className="h-full bg-black rounded-full" style={{ '--progress-width': `${benefit.usage}%`, width: 'var(--progress-width)' } as React.CSSProperties} />
                           </Card>
-                          <Label className="font-mono text-sm w-12 text-right">{benefit.usage}%</Label>
+                          <Label className="font-mono text-body-sm w-12 text-right">{benefit.usage}%</Label>
                         </Stack>
                       </Stack>
                     ))}

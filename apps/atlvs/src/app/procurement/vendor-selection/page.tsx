@@ -156,7 +156,7 @@ export default function VendorSelectionPage() {
                     <Stack gap={4}>
                       <Stack direction="horizontal" className="justify-between items-start">
                         <Stack gap={1}>
-                          <Body className="font-display text-white text-lg">{selection.rfpTitle}</Body>
+                          <Body className="font-display text-white text-body-md">{selection.rfpTitle}</Body>
                           <Label className="text-ink-500">{selection.rfpId}</Label>
                         </Stack>
                         <Label className={getStatusColor(selection.status)}>{selection.status}</Label>

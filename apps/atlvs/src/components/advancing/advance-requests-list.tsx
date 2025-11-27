@@ -146,7 +146,7 @@ export function AdvanceRequestsList({ projectId, status }: AdvanceRequestsListPr
                         {request.team_workspace || request.activation_name || '-'}
                       </Body>
                       {request.project && (
-                        <Body className="text-sm text-grey-500">
+                        <Body className="text-body-sm text-grey-500">
                           {request.project.name}
                         </Body>
                       )}

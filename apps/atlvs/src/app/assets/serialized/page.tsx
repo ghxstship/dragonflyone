@@ -333,7 +333,7 @@ export default function SerializedComponentsPage() {
             <Stack gap={4}>
               <Stack gap={1}>
                 <Label className="text-ink-400">Serial Number</Label>
-                <Label className="font-mono text-white text-lg">{selectedComponent.serialNumber}</Label>
+                <Label className="font-mono text-white text-body-md">{selectedComponent.serialNumber}</Label>
               </Stack>
               <Stack direction="horizontal" gap={2}>
                 <Badge variant="outline">{selectedComponent.componentType}</Badge>

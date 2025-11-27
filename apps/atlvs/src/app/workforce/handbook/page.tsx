@@ -263,19 +263,19 @@ export default function HandbookPage() {
                   </Stack>
                   <Grid cols={3} gap={4}>
                     <Card className="p-4 border border-success-800 bg-success-900/20 text-center">
-                      <Label className="font-mono text-success-400 text-2xl">{acknowledgedCount}</Label>
+                      <Label className="font-mono text-success-400 text-h5-md">{acknowledgedCount}</Label>
                       <Label size="xs" className="text-ink-400">
                         Acknowledged
                       </Label>
                     </Card>
                     <Card className="p-4 border border-warning-800 bg-warning-900/20 text-center">
-                      <Label className="font-mono text-warning-400 text-2xl">{pendingCount}</Label>
+                      <Label className="font-mono text-warning-400 text-h5-md">{pendingCount}</Label>
                       <Label size="xs" className="text-ink-400">
                         Pending
                       </Label>
                     </Card>
                     <Card className="p-4 border border-error-800 bg-error-900/20 text-center">
-                      <Label className="font-mono text-error-400 text-2xl">{overdueCount}</Label>
+                      <Label className="font-mono text-error-400 text-h5-md">{overdueCount}</Label>
                       <Label size="xs" className="text-ink-400">
                         Overdue
                       </Label>

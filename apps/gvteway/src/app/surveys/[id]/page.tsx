@@ -133,7 +133,7 @@ export default function SurveyPage() {
                 key={star}
                 type="button"
                 variant="ghost"
-                className={`text-3xl p-2 ${
+                className={`text-h4-md p-2 ${
                   star <= (answers[question.id] || 0) ? 'text-warning-500' : 'text-grey-600'
                 }`}
                 onClick={() => updateAnswer(question.id, star)}
@@ -148,8 +148,8 @@ export default function SurveyPage() {
         return (
           <Stack gap={2}>
             <Stack direction="horizontal" className="justify-between">
-              <Body className="text-sm text-grey-500">{question.min_label || '1'}</Body>
-              <Body className="text-sm text-grey-500">{question.max_label || '10'}</Body>
+              <Body className="text-body-sm text-grey-500">{question.min_label || '1'}</Body>
+              <Body className="text-body-sm text-grey-500">{question.max_label || '10'}</Body>
             </Stack>
             <Stack direction="horizontal" gap={1}>
               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
@@ -362,7 +362,7 @@ export default function SurveyPage() {
                 </Box>
               )}
               <Body className="font-bold">{survey.event_title}</Body>
-              <Body className="text-grey-600 text-sm">{survey.event_date}</Body>
+              <Body className="text-grey-600 text-body-sm">{survey.event_date}</Body>
 
               <Stack className="mt-6 pt-4 border-t border-grey-200">
                 <H3 className="mb-2">PROGRESS</H3>
@@ -372,7 +372,7 @@ export default function SurveyPage() {
                     style={{ '--progress-width': `${(Object.keys(answers).length / survey.questions.length) * 100}%`, width: 'var(--progress-width)' } as React.CSSProperties}
                   />
                 </Stack>
-                <Body className="text-sm text-grey-500 mt-2">
+                <Body className="text-body-sm text-grey-500 mt-2">
                   {Object.keys(answers).length} of {survey.questions.length} answered
                 </Body>
               </Stack>

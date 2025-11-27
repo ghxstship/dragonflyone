@@ -84,7 +84,7 @@ export default function BidPortalPage() {
                     <Stack gap={4}>
                       <Stack direction="horizontal" className="justify-between items-start">
                         <Stack gap={1}>
-                          <Body className="font-display text-white text-lg">{bid.title}</Body>
+                          <Body className="font-display text-white text-body-md">{bid.title}</Body>
                           <Label className="text-ink-400">{bid.client}</Label>
                         </Stack>
                         <Label className={getStatusColor(bid.status)}>{bid.status}</Label>
@@ -136,7 +136,7 @@ export default function BidPortalPage() {
         <ModalBody>
           {selectedBid && (
             <Stack gap={4}>
-              <Body className="font-display text-white text-lg">{selectedBid.title}</Body>
+              <Body className="font-display text-white text-body-md">{selectedBid.title}</Body>
               <Label className="text-ink-400">{selectedBid.client}</Label>
               <Body className="text-ink-300">{selectedBid.description}</Body>
               <Grid cols={2} gap={4}>

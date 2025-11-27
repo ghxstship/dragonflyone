@@ -103,7 +103,7 @@ export default function DrawingsPage() {
               {filteredDrawings.map((drawing) => (
                 <Card key={drawing.id} className={`border-2 ${getCategoryColor(drawing.category)} overflow-hidden`}>
                   <Card className="h-40 bg-ink-800 flex items-center justify-center">
-                    <Label className="text-6xl">{getTypeIcon(drawing.type)}</Label>
+                    <Label className="text-h1-sm">{getTypeIcon(drawing.type)}</Label>
                   </Card>
                   <Stack className="p-4" gap={3}>
                     <Stack direction="horizontal" className="justify-between">
@@ -132,7 +132,7 @@ export default function DrawingsPage() {
                 <Card key={drawing.id} className="border-2 border-ink-800 bg-ink-900/50 p-4">
                   <Grid cols={6} gap={4} className="items-center">
                     <Stack direction="horizontal" gap={3}>
-                      <Label className="text-2xl">{getTypeIcon(drawing.type)}</Label>
+                      <Label className="text-h5-md">{getTypeIcon(drawing.type)}</Label>
                       <Stack gap={1}>
                         <Label className="text-white">{drawing.name}</Label>
                         <Badge variant="outline">{drawing.category}</Badge>
@@ -169,7 +169,7 @@ export default function DrawingsPage() {
           {selectedDrawing && (
             <Stack gap={4}>
               <Card className="h-48 bg-ink-800 flex items-center justify-center">
-                <Label className="text-6xl">{getTypeIcon(selectedDrawing.type)}</Label>
+                <Label className="text-h1-sm">{getTypeIcon(selectedDrawing.type)}</Label>
               </Card>
               <Stack direction="horizontal" gap={2}>
                 <Badge variant="outline">{selectedDrawing.category}</Badge>
@@ -208,7 +208,7 @@ export default function DrawingsPage() {
           <Stack gap={4}>
             <Card className="p-8 border-2 border-dashed border-ink-700 text-center">
               <Stack gap={2}>
-                <Label className="text-4xl">📐</Label>
+                <Label className="text-h3-md">📐</Label>
                 <Label className="text-ink-400">Drag and drop CAD files here</Label>
                 <Label size="xs" className="text-ink-500">Supports: DWG, VWX, SKP, PDF</Label>
                 <Button variant="outline">Browse Files</Button>

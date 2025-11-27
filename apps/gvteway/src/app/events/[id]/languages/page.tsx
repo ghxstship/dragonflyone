@@ -108,7 +108,7 @@ export default function EventLanguagesPage() {
                   <Stack gap={4}>
                     <Stack direction="horizontal" className="justify-between">
                       <Stack direction="horizontal" gap={3}>
-                        <Label className="text-3xl">{getLanguageFlag(translation.languageCode)}</Label>
+                        <Label className="text-h4-md">{getLanguageFlag(translation.languageCode)}</Label>
                         <Stack gap={1}>
                           <Body className="font-bold">{translation.language}</Body>
                           <Label className="text-grey-500">{translation.languageCode.toUpperCase()}</Label>
@@ -219,7 +219,7 @@ export default function EventLanguagesPage() {
           {selectedTranslation && (
             <Stack gap={4}>
               <Stack direction="horizontal" gap={3}>
-                <Label className="text-3xl">{getLanguageFlag(selectedTranslation.languageCode)}</Label>
+                <Label className="text-h4-md">{getLanguageFlag(selectedTranslation.languageCode)}</Label>
                 <Stack gap={1}>
                   <Label className="font-bold">{selectedTranslation.language}</Label>
                   <Badge variant="outline">{selectedTranslation.languageCode.toUpperCase()}</Badge>

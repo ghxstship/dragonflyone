@@ -189,17 +189,17 @@ export default function CalendarPage() {
                         {day.events.slice(0, 2).map(event => (
                           <Stack
                             key={event.id}
-                            className={`px-1 py-0.5 text-xs truncate rounded ${
+                            className={`px-1 py-0.5 text-mono-xs truncate rounded ${
                               selectedDate?.toDateString() === day.date.toDateString()
                                 ? 'bg-white text-black'
                                 : 'bg-black text-white'
                             }`}
                           >
-                            <Body className="text-xs truncate">{event.title}</Body>
+                            <Body className="text-mono-xs truncate">{event.title}</Body>
                           </Stack>
                         ))}
                         {day.events.length > 2 && (
-                          <Body className={`text-xs ${
+                          <Body className={`text-mono-xs ${
                             selectedDate?.toDateString() === day.date.toDateString()
                               ? 'text-grey-200'
                               : 'text-grey-500'
@@ -238,7 +238,7 @@ export default function CalendarPage() {
                         onClick={() => handleEventClick(event.id)}
                       >
                         <H3 className="mb-1">{event.title}</H3>
-                        <Body className="text-grey-600 text-sm mb-2">
+                        <Body className="text-grey-600 text-body-sm mb-2">
                           {event.venue}
                         </Body>
                         <Stack direction="horizontal" gap={2}>
@@ -278,7 +278,7 @@ export default function CalendarPage() {
                     >
                       <Stack>
                         <Body className="font-medium">{event.title || event.name}</Body>
-                        <Body className="text-sm text-grey-500">
+                        <Body className="text-body-sm text-grey-500">
                           {new Date(event.date || event.start_date).toLocaleDateString()}
                         </Body>
                       </Stack>

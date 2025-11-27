@@ -175,11 +175,11 @@ export default function CatalogPage() {
           {/* Subcategory Pills - Show when category is selected */}
           {selectedCategory && subcategories.length > 0 && (
             <Stack gap={2}>
-              <Body className="text-sm text-grey-600 font-bold">SUBCATEGORIES:</Body>
+              <Body className="text-body-sm text-grey-600 font-bold">SUBCATEGORIES:</Body>
               <Stack direction="horizontal" className="flex-wrap gap-2">
                 <Badge
                   variant={!selectedSubcategory ? 'solid' : 'outline'}
-                  className="cursor-pointer text-xs"
+                  className="cursor-pointer text-mono-xs"
                   onClick={() => setSelectedSubcategory(undefined)}
                 >
                   ALL
@@ -188,7 +188,7 @@ export default function CatalogPage() {
                   <Badge
                     key={sub}
                     variant={selectedSubcategory === sub ? 'solid' : 'outline'}
-                    className="cursor-pointer text-xs"
+                    className="cursor-pointer text-mono-xs"
                     onClick={() => setSelectedSubcategory(selectedSubcategory === sub ? undefined : sub)}
                   >
                     {sub.toUpperCase()}
@@ -231,46 +231,46 @@ export default function CatalogPage() {
                 <Stack direction="horizontal" className="justify-between items-start mb-3">
                   <Stack direction="horizontal" gap={2} className="items-center">
                     <Package className="h-4 w-4 text-grey-600" />
-                    <Body className="text-xs font-mono text-grey-600">
+                    <Body className="text-mono-xs text-grey-600">
                       {item.item_id}
                     </Body>
                   </Stack>
                   {isSelected(item.id) && (
-                    <Badge className="bg-black text-white text-xs">SELECTED</Badge>
+                    <Badge className="bg-black text-white text-mono-xs">SELECTED</Badge>
                   )}
                 </Stack>
 
                 <H3 className="mb-2">{item.item_name}</H3>
                 
                 <Stack direction="horizontal" gap={2} className="items-center mb-3">
-                  <Badge className="bg-grey-200 text-black text-xs">
+                  <Badge className="bg-grey-200 text-black text-mono-xs">
                     {item.category.toUpperCase()}
                   </Badge>
-                  <Badge className="bg-white border-2 border-black text-xs">
+                  <Badge className="bg-white border-2 border-black text-mono-xs">
                     {item.subcategory.toUpperCase()}
                   </Badge>
                 </Stack>
 
                 {item.specifications && (
-                  <Body className="text-sm text-grey-600 line-clamp-2 mb-3">
+                  <Body className="text-body-sm text-grey-600 line-clamp-2 mb-3">
                     {item.specifications}
                   </Body>
                 )}
 
                 <Stack direction="horizontal" gap={1}>
-                  <Body className="text-xs text-grey-600">Unit:</Body>
-                  <Label className="text-xs font-bold">{item.standard_unit}</Label>
+                  <Body className="text-mono-xs text-grey-600">Unit:</Body>
+                  <Label className="text-mono-xs font-bold">{item.standard_unit}</Label>
                 </Stack>
 
                 {item.common_variations && item.common_variations.length > 0 && (
                   <Stack direction="horizontal" className="mt-3 flex-wrap gap-1">
                     {item.common_variations.slice(0, 3).map((variation, idx) => (
-                      <Badge key={idx} className="bg-white border border-grey-400 text-xs">
+                      <Badge key={idx} className="bg-white border border-grey-400 text-mono-xs">
                         {variation}
                       </Badge>
                     ))}
                     {item.common_variations.length > 3 && (
-                      <Badge className="bg-white border border-grey-400 text-xs">
+                      <Badge className="bg-white border border-grey-400 text-mono-xs">
                         +{item.common_variations.length - 3} more
                       </Badge>
                     )}

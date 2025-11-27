@@ -129,7 +129,7 @@ export default function SocialWallPage() {
                       </Stack>
                       {post.mediaType && (
                         <Card className="h-32 bg-grey-800 flex items-center justify-center">
-                          <Label className="text-4xl">{post.mediaType === "video" ? "🎬" : "🖼️"}</Label>
+                          <Label className="text-h3-md">{post.mediaType === "video" ? "🎬" : "🖼️"}</Label>
                         </Card>
                       )}
                       <Body className="text-grey-200">{post.content}</Body>
@@ -161,7 +161,7 @@ export default function SocialWallPage() {
             <Stack gap={4}>
               <Stack direction="horizontal" gap={3}>
                 <Card className="w-12 h-12 bg-grey-800 flex items-center justify-center rounded-full">
-                  <Label className="text-2xl">{getPlatformIcon(selectedPost.platform)}</Label>
+                  <Label className="text-h5-md">{getPlatformIcon(selectedPost.platform)}</Label>
                 </Card>
                 <Stack gap={0}>
                   <Label className="font-bold">{selectedPost.author}</Label>
@@ -170,7 +170,7 @@ export default function SocialWallPage() {
               </Stack>
               {selectedPost.mediaType && (
                 <Card className="h-48 bg-grey-800 flex items-center justify-center">
-                  <Label className="text-6xl">{selectedPost.mediaType === "video" ? "🎬" : "🖼️"}</Label>
+                  <Label className="text-h1-sm">{selectedPost.mediaType === "video" ? "🎬" : "🖼️"}</Label>
                 </Card>
               )}
               <Body>{selectedPost.content}</Body>

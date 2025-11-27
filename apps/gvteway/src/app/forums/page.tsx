@@ -184,8 +184,8 @@ export default function ForumsPage() {
                   >
                     <Stack gap={2}>
                       <Body className="font-medium">{cat.name}</Body>
-                      <Body className="text-grey-400 text-sm">{cat.description}</Body>
-                      <Body className="text-grey-500 text-xs">
+                      <Body className="text-grey-400 text-body-sm">{cat.description}</Body>
+                      <Body className="text-grey-500 text-mono-xs">
                         {cat.thread_count} threads • {cat.post_count} posts
                       </Body>
                     </Stack>
@@ -252,7 +252,7 @@ export default function ForumsPage() {
                           {thread.is_locked && <Badge variant="ghost">Locked</Badge>}
                           <Body className="text-white font-medium">{thread.title}</Body>
                         </Stack>
-                        <Body className="text-grey-500 text-sm">
+                        <Body className="text-grey-500 text-body-sm">
                           by {thread.author_name} • {formatTimeAgo(thread.created_at)}
                         </Body>
                       </Stack>
@@ -268,9 +268,9 @@ export default function ForumsPage() {
                     </TableCell>
                     <TableCell className="text-grey-400">
                       <Stack gap={1}>
-                        <Body className="text-sm">{formatTimeAgo(thread.last_reply_at)}</Body>
+                        <Body className="text-body-sm">{formatTimeAgo(thread.last_reply_at)}</Body>
                         {thread.last_reply_by && (
-                          <Body className="text-grey-500 text-xs">by {thread.last_reply_by}</Body>
+                          <Body className="text-grey-500 text-mono-xs">by {thread.last_reply_by}</Body>
                         )}
                       </Stack>
                     </TableCell>

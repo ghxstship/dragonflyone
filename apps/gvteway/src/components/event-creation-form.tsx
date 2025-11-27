@@ -155,7 +155,7 @@ export function EventCreationForm() {
       <Button type="submit" disabled={isSubmitting} variant="outline">
         {isSubmitting ? "Saving…" : "Create event"}
       </Button>
-      {message ? <Body className="text-sm text-ink-300">{message}</Body> : null}
+      {message ? <Body className="text-body-sm text-ink-300">{message}</Body> : null}
       </Stack>
     </Form>
   );

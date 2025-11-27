@@ -152,7 +152,7 @@ export default function DashboardPage() {
 
               <Card className="p-6">
                 <H2 className="mb-4">RECENT ACTIVITY</H2>
-                <Stack gap={2} className="text-sm">
+                <Stack gap={2} className="text-body-sm">
                   <Body variant="muted">New event created: Summer Fest</Body>
                   <Body variant="muted">User registered: john@example.com</Body>
                   <Body variant="muted">Order completed: #12847</Body>
@@ -195,13 +195,13 @@ export default function DashboardPage() {
                 <Stack gap={3}>
                   <Stack gap={1} className="border-l-4 border-black pl-4">
                     <Body className="font-bold">Summer Music Festival</Body>
-                    <Body variant="muted" className="text-sm">
+                    <Body variant="muted" className="text-body-sm">
                       June 15, 2024 • 342 tickets sold
                     </Body>
                   </Stack>
                   <Stack gap={1} className="border-l-4 border-grey-400 pl-4">
                     <Body className="font-bold">Rock Concert Series</Body>
-                    <Body variant="muted" className="text-sm">
+                    <Body variant="muted" className="text-body-sm">
                       July 20, 2024 • 156 tickets sold
                     </Body>
                   </Stack>
@@ -226,7 +226,7 @@ export default function DashboardPage() {
               <H2 className="mb-4">YOUR VENUES</H2>
               <Stack gap={4}>
                 <Card className="border-2 border-black p-4">
-                  <Body className="font-bold text-lg">Main Stage Theater</Body>
+                  <Body className="font-bold text-body-md">Main Stage Theater</Body>
                   <Body variant="muted">Capacity: 2,000 • Next Event: 3 days</Body>
                   <Stack gap={2} className="mt-2">
                     <Button variant="outline" size="sm" onClick={() => router.push('/venues/main-stage')}>
@@ -318,13 +318,13 @@ export default function DashboardPage() {
                 <Stack gap={3}>
                   <Stack gap={1} className="border-l-4 border-black pl-4">
                     <Body className="font-bold">Electronic Night</Body>
-                    <Body variant="muted" className="text-sm">
+                    <Body variant="muted" className="text-body-sm">
                       Based on your preferences
                     </Body>
                   </Stack>
                   <Stack gap={1} className="border-l-4 border-grey-400 pl-4">
                     <Body className="font-bold">Jazz in the Park</Body>
-                    <Body variant="muted" className="text-sm">
+                    <Body variant="muted" className="text-body-sm">
                       Nearby • This Weekend
                     </Body>
                   </Stack>

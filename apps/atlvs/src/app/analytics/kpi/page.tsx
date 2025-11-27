@@ -193,13 +193,13 @@ export default function KPILibraryPage() {
                 <Stack className="flex-1">
                   <Stack direction="horizontal" gap={3} className="items-center mb-2">
                     <H3>{kpi.name}</H3>
-                    <Badge variant="outline" className="font-mono text-xs">
+                    <Badge variant="outline" className="font-mono text-mono-xs">
                       {kpi.code}
                     </Badge>
                     {getDirectionBadge(kpi.targetDirection)}
                   </Stack>
                   <Body className="text-grey-600 mb-3">{kpi.description}</Body>
-                  <Stack direction="horizontal" gap={4} className="items-center text-sm">
+                  <Stack direction="horizontal" gap={4} className="items-center text-body-sm">
                     <Body className="text-grey-500">
                       <strong>Unit:</strong> {getUnitDisplay(kpi.unit)}
                     </Body>
@@ -258,23 +258,23 @@ export default function KPILibraryPage() {
           <Grid cols={4} gap={4}>
             <Card className="p-6 bg-success-50">
               <H3 className="text-success-700">45</H3>
-              <Body className="text-sm">Financial KPIs</Body>
+              <Body className="text-body-sm">Financial KPIs</Body>
             </Card>
             <Card className="p-6 bg-info-50">
               <H3 className="text-info-700">45</H3>
-              <Body className="text-sm">Ticket & Attendance</Body>
+              <Body className="text-body-sm">Ticket & Attendance</Body>
             </Card>
             <Card className="p-6 bg-purple-50">
               <H3 className="text-purple-700">55</H3>
-              <Body className="text-sm">Operational</Body>
+              <Body className="text-body-sm">Operational</Body>
             </Card>
             <Card className="p-6 bg-warning-50">
               <H3 className="text-warning-700">30</H3>
-              <Body className="text-sm">Marketing</Body>
+              <Body className="text-body-sm">Marketing</Body>
             </Card>
             <Card className="p-6 bg-pink-50">
               <H3 className="text-pink-700">25</H3>
-              <Body className="text-sm">Customer Experience</Body>
+              <Body className="text-body-sm">Customer Experience</Body>
             </Card>
           </Grid>
         </Stack>

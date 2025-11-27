@@ -75,7 +75,7 @@ export default function LanguageSettingsPage() {
               <Stack direction="horizontal" className="justify-between items-center">
                 <Stack gap={1}>
                   <Label className="text-grey-500">Current Language</Label>
-                  <Body className="font-bold text-xl">{currentLanguage?.nativeName} ({currentLanguage?.name})</Body>
+                  <Body className="font-bold text-h6-md">{currentLanguage?.nativeName} ({currentLanguage?.name})</Body>
                 </Stack>
                 <Badge variant="solid">Active</Badge>
               </Stack>
@@ -166,7 +166,7 @@ export default function LanguageSettingsPage() {
                     <Label className="text-grey-500">From</Label>
                     <Body>{currentLanguage?.nativeName}</Body>
                   </Stack>
-                  <Label className="text-2xl">→</Label>
+                  <Label className="text-h5-md">→</Label>
                   <Stack gap={1}>
                     <Label className="text-grey-500">To</Label>
                     <Body className="font-bold">{pendingLanguage.nativeName}</Body>

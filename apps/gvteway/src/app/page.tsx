@@ -66,20 +66,20 @@ export default function Home() {
         {/* Hero Section */}
         <Stack gap={8} className="text-center">
           <Stack gap={4}>
-            <Label className="text-xs uppercase tracking-display text-ink-400">{consumerHero.kicker}</Label>
-            <H1 className="font-display text-6xl uppercase text-white md:text-8xl">{consumerHero.headline}</H1>
-            <Body className="mx-auto max-w-2xl text-base text-ink-300 md:text-lg">{consumerHero.subhead}</Body>
+            <Label size="xs" className="tracking-display text-ink-400">{consumerHero.kicker}</Label>
+            <H1 size="lg" className="text-white">{consumerHero.headline}</H1>
+            <Body size="md" className="mx-auto max-w-2xl text-ink-300">{consumerHero.subhead}</Body>
           </Stack>
           <Stack direction="horizontal" gap={4} className="flex-col items-center justify-center md:flex-row">
             <Link
               href="/events"
-              className="border border-white px-8 py-4 text-xs uppercase tracking-kicker transition hover:-translate-y-1 hover:bg-white hover:text-black"
+              className="border border-white px-8 py-4 text-mono-xs uppercase tracking-kicker transition hover:-translate-y-1 hover:bg-white hover:text-black"
             >
               Browse Events
             </Link>
             <Link
               href="/search"
-              className="border border-ink-600 px-8 py-4 text-xs uppercase tracking-kicker text-ink-400 transition hover:-translate-y-1 hover:border-white hover:text-white"
+              className="border border-ink-600 px-8 py-4 text-mono-xs uppercase tracking-kicker text-ink-400 transition hover:-translate-y-1 hover:border-white hover:text-white"
             >
               Search by Artist
             </Link>
@@ -91,8 +91,8 @@ export default function Home() {
           <Grid cols={3} gap={6}>
             {consumerHero.stats.map((stat) => (
               <Card key={stat.label} className="space-y-2 bg-transparent text-center">
-                <Body className="font-display text-4xl text-white">{stat.value}</Body>
-                <Label className="text-xs uppercase tracking-display text-ink-500">{stat.label}</Label>
+                <Body className="font-display text-h3-md text-white">{stat.value}</Body>
+                <Label size="xs" className="tracking-display text-ink-500">{stat.label}</Label>
               </Card>
             ))}
           </Grid>
@@ -113,8 +113,8 @@ export default function Home() {
                 href={category.href}
                 className="flex flex-col items-center gap-3 border border-ink-800 p-6 text-center transition hover:-translate-y-1 hover:border-white"
               >
-                <Body className="text-3xl">{category.icon}</Body>
-                <Label className="text-xs uppercase tracking-kicker text-ink-300">{category.label}</Label>
+                <Body className="text-h3-md">{category.icon}</Body>
+                <Label size="xs" className="tracking-kicker text-ink-300">{category.label}</Label>
               </Link>
             ))}
           </Grid>
@@ -143,11 +143,11 @@ export default function Home() {
           <Grid cols={1} gap={6} className="md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
             {consumerFeatures.map((feature) => (
               <Article key={feature.title} className="border border-ink-800 p-6">
-                <H3 className="text-2xl uppercase">{feature.title}</H3>
-                <Body className="mt-3 text-sm text-ink-300">{feature.description}</Body>
+                <H3 size="sm">{feature.title}</H3>
+                <Body size="sm" className="mt-3 text-ink-300">{feature.description}</Body>
                 <Stack gap={2} className="mt-4">
                   {feature.bullets.map((bullet) => (
-                    <Body key={bullet} className="flex items-center gap-2 text-sm text-ink-200">
+                    <Body key={bullet} size="sm" className="flex items-center gap-2 text-ink-200">
                       <Box className="h-1 w-1 rounded-full bg-ink-500" />
                       {bullet}
                     </Body>
@@ -175,7 +175,7 @@ export default function Home() {
           <Stack className="text-center">
             <Link
               href="/events?filter=trending"
-              className="inline-flex border border-ink-600 px-8 py-4 text-xs uppercase tracking-kicker text-ink-400 transition hover:-translate-y-1 hover:border-white hover:text-white"
+              className="inline-flex border border-ink-600 px-8 py-4 text-mono-xs uppercase tracking-kicker text-ink-400 transition hover:-translate-y-1 hover:border-white hover:text-white"
             >
               View All Trending Events
             </Link>
@@ -193,13 +193,13 @@ export default function Home() {
           <Stack direction="horizontal" gap={4} className="mt-8 flex-col items-center justify-center md:flex-row">
             <Link
               href="/creators"
-              className="border border-white px-8 py-4 text-xs uppercase tracking-kicker transition hover:-translate-y-1 hover:bg-white hover:text-black"
+              className="border border-white px-8 py-4 text-mono-xs uppercase tracking-kicker transition hover:-translate-y-1 hover:bg-white hover:text-black"
             >
               Start Selling Tickets
             </Link>
             <Link
               href="/creators#pricing"
-              className="border border-ink-600 px-8 py-4 text-xs uppercase tracking-kicker text-ink-400 transition hover:-translate-y-1 hover:border-white hover:text-white"
+              className="border border-ink-600 px-8 py-4 text-mono-xs uppercase tracking-kicker text-ink-400 transition hover:-translate-y-1 hover:border-white hover:text-white"
             >
               View Pricing
             </Link>

@@ -152,7 +152,7 @@ export default function GroupTicketsPage() {
                           </Stack>
                           <Stack gap={1}>
                             <Label className="text-grey-500">Discount</Label>
-                            <Label className="font-mono text-success-600 text-xl">{tier.discount}%</Label>
+                            <Label className="font-mono text-success-600 text-h6-md">{tier.discount}%</Label>
                           </Stack>
                           <Stack gap={1}>
                             <Label className="text-grey-500">Example Savings</Label>

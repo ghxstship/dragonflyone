@@ -150,7 +150,7 @@ function NewReviewContent() {
             key={star}
             type="button"
             variant="ghost"
-            className={`text-2xl p-1 ${star <= rating ? 'text-warning-500' : 'text-grey-600'}`}
+            className={`text-h5-md p-1 ${star <= rating ? 'text-warning-500' : 'text-grey-600'}`}
             onClick={() => setRating(star)}
           >
             ★
@@ -335,8 +335,8 @@ function NewReviewContent() {
                 </Figure>
               )}
               <Body className="font-bold">{event.title}</Body>
-              <Body className="text-grey-600 text-sm">{event.date}</Body>
-              <Body className="text-grey-500 text-sm">{event.venue}</Body>
+              <Body className="text-grey-600 text-body-sm">{event.date}</Body>
+              <Body className="text-grey-500 text-body-sm">{event.venue}</Body>
             </Card>
           </Stack>
         </Grid>

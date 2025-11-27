@@ -51,7 +51,7 @@ export class ErrorBoundary extends Component<Props, State> {
         <div className="flex min-h-screen items-center justify-center bg-ink-950 p-6">
           <div className="w-full max-w-md space-y-6 border-2 border-error-500 bg-ink-900 p-8">
             <div className="space-y-2">
-              <h1 className="font-display text-4xl text-white">
+              <h1 className="font-display text-h2-md text-white">
                 Something went wrong
               </h1>
               <p className="text-ink-300">
@@ -61,15 +61,15 @@ export class ErrorBoundary extends Component<Props, State> {
 
             {process.env.NODE_ENV === 'development' && this.state.error && (
               <div className="space-y-2">
-                <p className="font-mono text-xs uppercase tracking-wider text-error-400">
+                <p className="font-mono text-mono-xs uppercase tracking-widest text-error-400">
                   Error Details
                 </p>
                 <div className="max-h-48 overflow-auto border border-ink-700 bg-ink-950 p-4">
-                  <pre className="font-mono text-xs text-error-400">
+                  <pre className="font-mono text-mono-xs text-error-400">
                     {this.state.error.message}
                   </pre>
                   {this.state.error.stack && (
-                    <pre className="mt-2 font-mono text-xs text-ink-500">
+                    <pre className="mt-2 font-mono text-mono-xs text-ink-500">
                       {this.state.error.stack}
                     </pre>
                   )}

@@ -181,7 +181,7 @@ export default function QACheckpointsPage() {
         <ModalBody>
           {selectedCheckpoint && (
             <Stack gap={4}>
-              <Body className="font-display text-white text-lg">{selectedCheckpoint.name}</Body>
+              <Body className="font-display text-white text-body-md">{selectedCheckpoint.name}</Body>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}><Label size="xs" className="text-ink-500">Department</Label><Badge variant="outline">{selectedCheckpoint.department}</Badge></Stack>
                 <Stack gap={1}><Label size="xs" className="text-ink-500">Phase</Label><Badge variant="outline">{selectedCheckpoint.phase}</Badge></Stack>

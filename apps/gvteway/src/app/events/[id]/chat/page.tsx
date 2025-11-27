@@ -173,12 +173,12 @@ export default function EventChatPage() {
               {messages.map(message => (
                 <Stack key={message.id} direction="horizontal" gap={3}>
                   <Stack className="w-8 h-8 bg-grey-200 rounded-full flex-shrink-0 flex items-center justify-center">
-                    <Body className="text-xs">{message.user_name.charAt(0)}</Body>
+                    <Body className="text-mono-xs">{message.user_name.charAt(0)}</Body>
                   </Stack>
                   <Stack>
                     <Stack direction="horizontal" gap={2} className="items-center">
-                      <Body className="font-medium text-sm">{message.user_name}</Body>
-                      <Body className="text-xs text-grey-600">{formatTime(message.created_at)}</Body>
+                      <Body className="font-medium text-body-sm">{message.user_name}</Body>
+                      <Body className="text-mono-xs text-grey-600">{formatTime(message.created_at)}</Body>
                     </Stack>
                     <Body className="text-grey-600">{message.content}</Body>
                   </Stack>
@@ -226,7 +226,7 @@ export default function EventChatPage() {
             <H3 className="mb-2">CHAT RULES</H3>
             <Stack gap={1}>
               {chatRoom.rules.map((rule, index) => (
-                <Body key={index} className="text-sm">• {rule}</Body>
+                <Body key={index} className="text-body-sm">• {rule}</Body>
               ))}
             </Stack>
           </Card>
@@ -257,12 +257,12 @@ export default function EventChatPage() {
                       <Stack direction="horizontal" gap={2} className="items-center">
                         <Body className="font-medium">{message.user_name}</Body>
                         {message.is_moderator && (
-                          <Badge className="bg-purple-500 text-white text-xs">MOD</Badge>
+                          <Badge className="bg-purple-500 text-white text-mono-xs">MOD</Badge>
                         )}
                         {message.is_pinned && (
-                          <Badge className="bg-warning-500 text-white text-xs">PINNED</Badge>
+                          <Badge className="bg-warning-500 text-white text-mono-xs">PINNED</Badge>
                         )}
-                        <Body className="text-xs text-grey-600">{formatTime(message.created_at)}</Body>
+                        <Body className="text-mono-xs text-grey-600">{formatTime(message.created_at)}</Body>
                       </Stack>
                       <Body>{message.content}</Body>
                     </Stack>
@@ -299,7 +299,7 @@ export default function EventChatPage() {
             <Card className="p-4">
               <H3 className="mb-4">EVENT INFO</H3>
               <Stack gap={2}>
-                <Body className="text-sm text-grey-600">{chatRoom.event_date}</Body>
+                <Body className="text-body-sm text-grey-600">{chatRoom.event_date}</Body>
                 <Button
                   variant="outline"
                   size="sm"
@@ -332,9 +332,9 @@ export default function EventChatPage() {
             <Card className="p-4 bg-grey-50">
               <H3 className="mb-2">CHAT TIPS</H3>
               <Stack gap={1}>
-                <Body className="text-xs text-grey-600">• Be respectful to other fans</Body>
-                <Body className="text-xs text-grey-600">• No spoilers for setlists</Body>
-                <Body className="text-xs text-grey-600">• Report inappropriate content</Body>
+                <Body className="text-mono-xs text-grey-600">• Be respectful to other fans</Body>
+                <Body className="text-mono-xs text-grey-600">• No spoilers for setlists</Body>
+                <Body className="text-mono-xs text-grey-600">• Report inappropriate content</Body>
               </Stack>
             </Card>
           </Stack>

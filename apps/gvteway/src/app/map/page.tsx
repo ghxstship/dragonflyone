@@ -139,7 +139,7 @@ function MapViewContent() {
       <Stack className="absolute inset-0 flex items-center justify-center">
         <Stack className="text-center">
           <Body className="text-grey-500 mb-2">Interactive Map</Body>
-          <Body className="text-sm text-grey-600">
+          <Body className="text-body-sm text-grey-600">
             Center: {mapCenter.lat.toFixed(4)}, {mapCenter.lng.toFixed(4)}
           </Body>
         </Stack>
@@ -168,7 +168,7 @@ function MapViewContent() {
             <Stack className={`w-full h-full rounded-full flex items-center justify-center ${
               selectedEvent?.id === event.id ? 'bg-black' : 'bg-error-500'
             }`}>
-              <Body className="text-white text-xs">●</Body>
+              <Body className="text-white text-mono-xs">●</Body>
             </Stack>
           </Stack>
         );
@@ -305,8 +305,8 @@ function MapViewContent() {
                 <Stack gap={2}>
                   <Body className="font-bold">{selectedEvent.title}</Body>
                   <Body className="text-grey-600">{selectedEvent.date}</Body>
-                  <Body className="text-grey-500 text-sm">{selectedEvent.venue}</Body>
-                  <Body className="text-grey-500 text-sm">{selectedEvent.city}</Body>
+                  <Body className="text-grey-500 text-body-sm">{selectedEvent.venue}</Body>
+                  <Body className="text-grey-500 text-body-sm">{selectedEvent.city}</Body>
                   <Stack direction="horizontal" className="justify-between items-center mt-4">
                     <Badge>{selectedEvent.category}</Badge>
                     <Body className="font-bold">From ${selectedEvent.price_min}</Body>
@@ -337,9 +337,9 @@ function MapViewContent() {
                     className="p-3 border border-grey-200 rounded cursor-pointer hover:bg-grey-50"
                     onClick={() => handleEventClick(event)}
                   >
-                    <Body className="font-medium text-sm">{event.title}</Body>
-                    <Body className="text-xs text-grey-500">{event.date}</Body>
-                    <Body className="text-xs text-grey-600">{event.venue}</Body>
+                    <Body className="font-medium text-body-sm">{event.title}</Body>
+                    <Body className="text-mono-xs text-grey-500">{event.date}</Body>
+                    <Body className="text-mono-xs text-grey-600">{event.venue}</Body>
                   </Stack>
                 ))}
                 {events.length === 0 && (

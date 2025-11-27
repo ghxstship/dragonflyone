@@ -107,14 +107,14 @@ export default function SocialAmplificationPage() {
                   <Stack gap={4}>
                     <Stack direction="horizontal" className="justify-between items-start">
                       <Stack gap={1}>
-                        <Body className="font-display text-white text-lg">{artist.name}</Body>
+                        <Body className="font-display text-white text-body-md">{artist.name}</Body>
                         <Badge variant="outline">{artist.genre}</Badge>
                       </Stack>
                       <Label className={getStatusColor(artist.status)}>{artist.status}</Label>
                     </Stack>
                     <Stack gap={1}>
                       <Label size="xs" className="text-ink-500">Total Followers</Label>
-                      <Label className="font-mono text-white text-xl">{formatNumber(artist.followers)}</Label>
+                      <Label className="font-mono text-white text-h6-md">{formatNumber(artist.followers)}</Label>
                     </Stack>
                     <Stack gap={2}>
                       <Label size="xs" className="text-ink-500">Platforms</Label>
@@ -176,7 +176,7 @@ export default function SocialAmplificationPage() {
               {["Promo Graphics", "Video Clips", "Story Templates", "Post Captions", "Hashtag Sets", "Bio Links", "Press Photos", "Logo Pack"].map((item, idx) => (
                 <Card key={idx} className="border-2 border-ink-800 bg-ink-900/50 p-4 cursor-pointer hover:border-white">
                   <Stack gap={2} className="text-center">
-                    <Label className="text-4xl">{["🖼️", "🎬", "📱", "📝", "#️⃣", "🔗", "📷", "🎨"][idx]}</Label>
+                    <Label className="text-h3-md">{["🖼️", "🎬", "📱", "📝", "#️⃣", "🔗", "📷", "🎨"][idx]}</Label>
                     <Label className="text-white">{item}</Label>
                     <Label size="xs" className="text-ink-500">{Math.floor(Math.random() * 20) + 5} items</Label>
                   </Stack>
@@ -204,7 +204,7 @@ export default function SocialAmplificationPage() {
               </Stack>
               <Stack gap={1}>
                 <Label size="xs" className="text-ink-500">Total Reach</Label>
-                <Label className="font-mono text-white text-2xl">{formatNumber(selectedArtist.followers)}</Label>
+                <Label className="font-mono text-white text-h5-md">{formatNumber(selectedArtist.followers)}</Label>
               </Stack>
               <Stack gap={2}>
                 <Label className="text-ink-400">Platform Breakdown</Label>

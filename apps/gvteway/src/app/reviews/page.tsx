@@ -44,8 +44,8 @@ export default function ReviewsPage() {
           logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
           cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/auth/signin')}>SIGN IN</Button>}
         >
-          <Link href="/" className="font-heading text-sm uppercase tracking-wider hover:text-grey-400">Home</Link>
-          <Link href="/events" className="font-heading text-sm uppercase tracking-wider hover:text-grey-400">Events</Link>
+          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Home</Link>
+          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Events</Link>
         </Navigation>
       }
       footer={
@@ -82,7 +82,7 @@ export default function ReviewsPage() {
                     <Stack gap={2} direction="horizontal" className="justify-between items-start">
                       <Stack gap={1}>
                         <H3 className="text-white">{review.event}</H3>
-                        <Body className="text-sm text-grey-400">{review.user} • {review.date}</Body>
+                        <Body className="text-body-sm text-grey-400">{review.user} • {review.date}</Body>
                       </Stack>
                       <Badge>{"⭐".repeat(review.rating)}</Badge>
                     </Stack>

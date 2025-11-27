@@ -112,7 +112,7 @@ export default function PixelsPage() {
                       <Stack gap={4}>
                         <Stack direction="horizontal" className="justify-between">
                           <Stack direction="horizontal" gap={3}>
-                            <Label className="text-3xl">{getPlatformIcon(pixel.platform)}</Label>
+                            <Label className="text-h4-md">{getPlatformIcon(pixel.platform)}</Label>
                             <Stack gap={1}>
                               <Body className="font-bold">{pixel.name}</Body>
                               <Label className="font-mono text-grey-500">{pixel.pixelId}</Label>
@@ -218,7 +218,7 @@ export default function PixelsPage() {
           {selectedPixel && (
             <Stack gap={4}>
               <Stack direction="horizontal" gap={3}>
-                <Label className="text-3xl">{getPlatformIcon(selectedPixel.platform)}</Label>
+                <Label className="text-h4-md">{getPlatformIcon(selectedPixel.platform)}</Label>
                 <Stack gap={1}>
                   <Body className="font-bold">{selectedPixel.name}</Body>
                   <Badge variant="outline">{selectedPixel.platform}</Badge>

@@ -206,7 +206,7 @@ export default function EntryInfoPage() {
                       <Stack direction="horizontal" className="justify-between">
                         <Stack>
                           <Body className="font-bold">{lot.name}</Body>
-                          <Body className="text-grey-600 text-sm">{lot.address}</Body>
+                          <Body className="text-grey-600 text-body-sm">{lot.address}</Body>
                         </Stack>
                         {lot.price && <Badge>{lot.price}</Badge>}
                       </Stack>
@@ -214,7 +214,7 @@ export default function EntryInfoPage() {
                   ))}
                 </Stack>
                 {info.parking_info.tips && (
-                  <Body className="mt-4 text-grey-600 text-sm">
+                  <Body className="mt-4 text-grey-600 text-body-sm">
                     💡 {info.parking_info.tips}
                   </Body>
                 )}
@@ -302,7 +302,7 @@ export default function EntryInfoPage() {
                   {info.tips.map((tip, index) => (
                     <Stack key={index} direction="horizontal" gap={2}>
                       <Body>💡</Body>
-                      <Body className="text-sm">{tip}</Body>
+                      <Body className="text-body-sm">{tip}</Body>
                     </Stack>
                   ))}
                 </Stack>

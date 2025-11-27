@@ -13,3 +13,453 @@
    Collecting page data ...
  ⚠ Using edge runtime on a page currently disables static generation for that page
    Generating static pages (0/305) ...
+Get user error: q [Error]: Dynamic server usage: Route /api/auth/me couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
+    at p (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/api/auth/me/route.js:1:553)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062)
+    at ContextAPI.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:518)
+    at NoopTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18093)
+    at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18854)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/server/lib/trace/tracer.js:122:103
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062) {
+  description: "Route /api/auth/me couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error fetching activity feed: q [Error]: Dynamic server usage: Route /api/crew-social/activity couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
+    at l (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/api/crew-social/activity/route.js:1:575)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062)
+    at ContextAPI.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:518)
+    at NoopTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18093)
+    at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18854)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/server/lib/trace/tracer.js:122:103
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062) {
+  description: "Route /api/crew-social/activity couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error fetching languages: q [Error]: Dynamic server usage: Route /api/directory/languages couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
+    at p (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/api/directory/languages/route.js:1:575)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062)
+    at ContextAPI.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:518)
+    at NoopTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18093)
+    at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18854)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/server/lib/trace/tracer.js:122:103
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062) {
+  description: "Route /api/directory/languages couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error fetching specialties: q [Error]: Dynamic server usage: Route /api/directory/specialties couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
+    at p (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/api/directory/specialties/route.js:1:575)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062)
+    at ContextAPI.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:518)
+    at NoopTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18093)
+    at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18854)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/server/lib/trace/tracer.js:122:103
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062) {
+  description: "Route /api/directory/specialties couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error searching directory: q [Error]: Dynamic server usage: Route /api/directory/search couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
+    at c (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/api/directory/search/route.js:1:575)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062)
+    at ContextAPI.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:518)
+    at NoopTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18093)
+    at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18854)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/server/lib/trace/tracer.js:122:103
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062) {
+  description: "Route /api/directory/search couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+   Generating static pages (76/305) 
+Error fetching translations: q [Error]: Dynamic server usage: Route /api/i18n/translations couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
+    at p (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/api/i18n/translations/route.js:1:575)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062)
+    at ContextAPI.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:518)
+    at NoopTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18093)
+    at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18854)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/server/lib/trace/tracer.js:122:103
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062) {
+  description: "Route /api/i18n/translations couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error fetching locales: q [Error]: Dynamic server usage: Route /api/i18n/locales couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
+    at u (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/api/i18n/locales/route.js:1:575)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062)
+    at ContextAPI.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:518)
+    at NoopTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18093)
+    at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18854)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/server/lib/trace/tracer.js:122:103
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062) {
+  description: "Route /api/i18n/locales couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+   Generating static pages (152/305) 
+   Generating static pages (228/305) 
+API route error: q [Error]: Dynamic server usage: Route /api/advancing/catalog couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
+    at /Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8298.js:1:4523
+    at /Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8298.js:1:4848
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062)
+    at ContextAPI.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:518)
+    at NoopTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18093)
+    at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18854)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/server/lib/trace/tracer.js:122:103 {
+  description: "Route /api/advancing/catalog couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+ ✓ Generating static pages (305/305)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                              Size     First Load JS
+┌ ƒ /                                    1.48 kB         209 kB
+├ ○ /_not-found                          143 B          87.4 kB
+├ ○ /advancing                           1.39 kB         238 kB
+├ ƒ /advancing/[id]                      2.2 kB          239 kB
+├ ○ /advancing/catalog                   3.55 kB         152 kB
+├ ○ /advancing/new                       2.38 kB         239 kB
+├ ƒ /api/advancing                       0 B                0 B
+├ ƒ /api/advancing/[id]                  0 B                0 B
+├ ƒ /api/advancing/[id]/fulfill          0 B                0 B
+├ ƒ /api/advancing/catalog               0 B                0 B
+├ ƒ /api/ai/scheduling                   0 B                0 B
+├ ƒ /api/application-tracking            0 B                0 B
+├ ƒ /api/artists                         0 B                0 B
+├ ƒ /api/assets                          0 B                0 B
+├ ƒ /api/assets/[id]                     0 B                0 B
+├ ƒ /api/audience-flow                   0 B                0 B
+├ ƒ /api/audio-lines                     0 B                0 B
+├ ƒ /api/auth/callback                   0 B                0 B
+├ ƒ /api/auth/invite                     0 B                0 B
+├ ƒ /api/auth/magic-link                 0 B                0 B
+├ ƒ /api/auth/me                         0 B                0 B
+├ ƒ /api/auth/oauth/[provider]           0 B                0 B
+├ ƒ /api/auth/password/reset             0 B                0 B
+├ ƒ /api/auth/password/update            0 B                0 B
+├ ƒ /api/auth/refresh                    0 B                0 B
+├ ƒ /api/auth/signin                     0 B                0 B
+├ ƒ /api/auth/signout                    0 B                0 B
+├ ƒ /api/auth/signup                     0 B                0 B
+├ ƒ /api/auth/verify-email               0 B                0 B
+├ ƒ /api/availability                    0 B                0 B
+├ ƒ /api/background-checks               0 B                0 B
+├ ƒ /api/batch                           0 B                0 B
+├ ƒ /api/best-practices                  0 B                0 B
+├ ƒ /api/bid-decision                    0 B                0 B
+├ ƒ /api/bid-submission                  0 B                0 B
+├ ƒ /api/bookmarks                       0 B                0 B
+├ ƒ /api/budget/forecast                 0 B                0 B
+├ ƒ /api/cable-runs                      0 B                0 B
+├ ƒ /api/candidate-communication         0 B                0 B
+├ ƒ /api/case-studies                    0 B                0 B
+├ ƒ /api/catering                        0 B                0 B
+├ ƒ /api/catering-vendors                0 B                0 B
+├ ƒ /api/certifications                  0 B                0 B
+├ ƒ /api/change-orders                   0 B                0 B
+├ ƒ /api/channels                        0 B                0 B
+├ ƒ /api/chat/messages                   0 B                0 B
+├ ƒ /api/chat/presence                   0 B                0 B
+├ ƒ /api/chat/rooms                      0 B                0 B
+├ ƒ /api/client-requirements             0 B                0 B
+├ ƒ /api/client-walkthrough              0 B                0 B
+├ ƒ /api/code-regulations                0 B                0 B
+├ ƒ /api/collaboration/comments          0 B                0 B
+├ ƒ /api/collaborative-proposals         0 B                0 B
+├ ƒ /api/credential-badges               0 B                0 B
+├ ƒ /api/crew                            0 B                0 B
+├ ƒ /api/crew-availability               0 B                0 B
+├ ƒ /api/crew-calls                      0 B                0 B
+├ ƒ /api/crew-manifest                   0 B                0 B
+├ ƒ /api/crew-mobile                     0 B                0 B
+├ ƒ /api/crew-performance                0 B                0 B
+├ ƒ /api/crew-ratings                    0 B                0 B
+├ ƒ /api/crew-rehire                     0 B                0 B
+├ ƒ /api/crew-settlement                 0 B                0 B
+├ ƒ /api/crew-social/activity            0 B                0 B
+├ ƒ /api/crew-social/connections         0 B                0 B
+├ ƒ /api/crew-social/kudos               0 B                0 B
+├ ƒ /api/crew-social/photos              0 B                0 B
+├ ƒ /api/crew-social/roster              0 B                0 B
+├ ƒ /api/crew/[id]                       0 B                0 B
+├ ƒ /api/crew/assign                     0 B                0 B
+├ ƒ /api/crew/enhanced                   0 B                0 B
+├ ƒ /api/critical-path                   0 B                0 B
+├ ƒ /api/cross-platform/gvteway-sync     0 B                0 B
+├ ƒ /api/damage-assessment               0 B                0 B
+├ ƒ /api/debrief-scheduling              0 B                0 B
+├ ƒ /api/deliveries                      0 B                0 B
+├ ƒ /api/delivery-tracking               0 B                0 B
+├ ƒ /api/department-groups               0 B                0 B
+├ ƒ /api/department-groups/[id]          0 B                0 B
+├ ƒ /api/department-groups/[id]/members  0 B                0 B
+├ ƒ /api/direct-messaging                0 B                0 B
+├ ƒ /api/directory/languages             0 B                0 B
+├ ƒ /api/directory/search                0 B                0 B
+├ ƒ /api/directory/specialties           0 B                0 B
+├ ƒ /api/emergency-contacts              0 B                0 B
+├ ƒ /api/emergency-directory             0 B                0 B
+├ ƒ /api/emergency-procedures            0 B                0 B
+├ ƒ /api/encore-management               0 B                0 B
+├ ƒ /api/equipment                       0 B                0 B
+├ ƒ /api/equipment-manuals               0 B                0 B
+├ ƒ /api/equipment-return                0 B                0 B
+├ ƒ /api/equipment-specs                 0 B                0 B
+├ ƒ /api/faq-database                    0 B                0 B
+├ ƒ /api/file-management                 0 B                0 B
+├ ƒ /api/final-inspection                0 B                0 B
+├ ƒ /api/freelancer-marketplace          0 B                0 B
+├ ƒ /api/ground-plans                    0 B                0 B
+├ ƒ /api/guest-artist                    0 B                0 B
+├ ○ /api/health                          0 B                0 B
+├ ƒ /api/i18n/locales                    0 B                0 B
+├ ƒ /api/i18n/translations               0 B                0 B
+├ ƒ /api/incidents                       0 B                0 B
+├ ƒ /api/industry-associations           0 B                0 B
+├ ƒ /api/industry-glossary               0 B                0 B
+├ ƒ /api/integrations/drone              0 B                0 B
+├ ƒ /api/integrations/project-to-event   0 B                0 B
+├ ƒ /api/internship-programs             0 B                0 B
+├ ƒ /api/interview-scheduling            0 B                0 B
+├ ƒ /api/issue-tracking                  0 B                0 B
+├ ƒ /api/issues                          0 B                0 B
+├ ƒ /api/knowledge-base                  0 B                0 B
+├ ƒ /api/language-filter                 0 B                0 B
+├ ƒ /api/learning-paths                  0 B                0 B
+├ ƒ /api/lighting-focus                  0 B                0 B
+├ ƒ /api/load-in-out                     0 B                0 B
+├ ƒ /api/load-out                        0 B                0 B
+├ ƒ /api/maintenance/schedule            0 B                0 B
+├ ƒ /api/marketplace                     0 B                0 B
+├ ƒ /api/marketplace/opportunities       0 B                0 B
+├ ƒ /api/meal-breaks                     0 B                0 B
+├ ƒ /api/medical-coordination            0 B                0 B
+├ ƒ /api/merch-coordination              0 B                0 B
+├ ƒ /api/mobile-jobs                     0 B                0 B
+├ ƒ /api/multilingual                    0 B                0 B
+├ ƒ /api/multilingual-content            0 B                0 B
+├ ƒ /api/notifications                   0 B                0 B
+├ ƒ /api/offer-letters                   0 B                0 B
+├ ƒ /api/offline-access                  0 B                0 B
+├ ƒ /api/onboarding-workflow             0 B                0 B
+├ ƒ /api/onboarding/complete             0 B                0 B
+├ ƒ /api/onboarding/organization         0 B                0 B
+├ ƒ /api/onboarding/preferences          0 B                0 B
+├ ƒ /api/onboarding/profile              0 B                0 B
+├ ƒ /api/onboarding/role                 0 B                0 B
+├ ƒ /api/opportunities                   0 B                0 B
+├ ƒ /api/opportunities/[id]/share        0 B                0 B
+├ ƒ /api/opportunity-alerts              0 B                0 B
+├ ƒ /api/opportunity-analytics           0 B                0 B
+├ ƒ /api/overtime-calc                   0 B                0 B
+├ ƒ /api/partnership-opportunities       0 B                0 B
+├ ƒ /api/pdf-generation                  0 B                0 B
+├ ƒ /api/per-diem                        0 B                0 B
+├ ƒ /api/performance-capture             0 B                0 B
+├ ƒ /api/permit-authorities              0 B                0 B
+├ ƒ /api/permits                         0 B                0 B
+├ ƒ /api/photo-documentation             0 B                0 B
+├ ƒ /api/portfolios                      0 B                0 B
+├ ƒ /api/post-event-reporting            0 B                0 B
+├ ƒ /api/post-production                 0 B                0 B
+├ ƒ /api/post-show                       0 B                0 B
+├ ƒ /api/power-distribution              0 B                0 B
+├ ƒ /api/product-datasheets              0 B                0 B
+├ ƒ /api/production                      0 B                0 B
+├ ƒ /api/production-book                 0 B                0 B
+├ ƒ /api/production-docs/checklists      0 B                0 B
+├ ƒ /api/production-docs/notes           0 B                0 B
+├ ƒ /api/production-docs/photos          0 B                0 B
+├ ƒ /api/production-meetings             0 B                0 B
+├ ƒ /api/production-templates            0 B                0 B
+├ ƒ /api/projects                        0 B                0 B
+├ ƒ /api/projects/[id]                   0 B                0 B
+├ ƒ /api/projects/create                 0 B                0 B
+├ ƒ /api/projects/publish                0 B                0 B
+├ ƒ /api/proposal-templates              0 B                0 B
+├ ƒ /api/proximity-search                0 B                0 B
+├ ƒ /api/punch-list                      0 B                0 B
+├ ƒ /api/qa-checkpoints                  0 B                0 B
+├ ƒ /api/rate-cards                      0 B                0 B
+├ ƒ /api/ratings                         0 B                0 B
+├ ƒ /api/rehire-notes                    0 B                0 B
+├ ƒ /api/resources/allocate              0 B                0 B
+├ ƒ /api/resume-database                 0 B                0 B
+├ ƒ /api/reviews-ratings                 0 B                0 B
+├ ƒ /api/rigging-calc                    0 B                0 B
+├ ƒ /api/risk-detection                  0 B                0 B
+├ ƒ /api/risk-register                   0 B                0 B
+├ ƒ /api/run-of-show                     0 B                0 B
+├ ƒ /api/run-of-show/[id]                0 B                0 B
+├ ƒ /api/run-of-show/[id]/cues           0 B                0 B
+├ ƒ /api/run-of-show/[id]/cues/[cueId]   0 B                0 B
+├ ƒ /api/run-of-show/cue-system          0 B                0 B
+├ ƒ /api/safety-compliance               0 B                0 B
+├ ƒ /api/safety/incidents                0 B                0 B
+├ ƒ /api/salary-transparency             0 B                0 B
+├ ƒ /api/schedule                        0 B                0 B
+├ ƒ /api/search                          0 B                0 B
+├ ƒ /api/set-changes                     0 B                0 B
+├ ƒ /api/settlement-calc                 0 B                0 B
+├ ƒ /api/share/[code]                    0 B                0 B
+├ ƒ /api/show-reports                    0 B                0 B
+├ ƒ /api/show-timing                     0 B                0 B
+├ ƒ /api/site-restoration                0 B                0 B
+├ ƒ /api/site-surveys                    0 B                0 B
+├ ƒ /api/social-sharing                  0 B                0 B
+├ ƒ /api/sound-monitoring                0 B                0 B
+├ ƒ /api/soundcheck                      0 B                0 B
+├ ƒ /api/spec-sheets                     0 B                0 B
+├ ƒ /api/stage-management                0 B                0 B
+├ ƒ /api/staging-areas                   0 B                0 B
+├ ƒ /api/stakeholder-portal              0 B                0 B
+├ ƒ /api/subcontractor-opportunities     0 B                0 B
+├ ƒ /api/subcontractors                  0 B                0 B
+├ ƒ /api/talent-pool                     0 B                0 B
+├ ƒ /api/technical-escalation            0 B                0 B
+├ ƒ /api/technical-rehearsal             0 B                0 B
+├ ƒ /api/technical-rehearsals            0 B                0 B
+├ ƒ /api/technical-riders                0 B                0 B
+├ ƒ /api/template-library                0 B                0 B
+├ ƒ /api/timekeeping                     0 B                0 B
+├ ƒ /api/training                        0 B                0 B
+├ ƒ /api/training-videos                 0 B                0 B
+├ ƒ /api/transportation-providers        0 B                0 B
+├ ƒ /api/travel                          0 B                0 B
+├ ƒ /api/troubleshooting                 0 B                0 B
+├ ƒ /api/union-compliance                0 B                0 B
+├ ƒ /api/union-directory                 0 B                0 B
+├ ƒ /api/union-rules                     0 B                0 B
+├ ƒ /api/user-contributions              0 B                0 B
+├ ƒ /api/users/[id]/languages            0 B                0 B
+├ ƒ /api/users/[id]/specialties          0 B                0 B
+├ ƒ /api/vendor-compare                  0 B                0 B
+├ ƒ /api/vendor-documentation            0 B                0 B
+├ ƒ /api/vendor-hub                      0 B                0 B
+├ ƒ /api/venues                          0 B                0 B
+├ ƒ /api/verified-badges                 0 B                0 B
+├ ƒ /api/version-control                 0 B                0 B
+├ ƒ /api/video-interviews                0 B                0 B
+├ ƒ /api/video-io                        0 B                0 B
+├ ƒ /api/waste-disposal                  0 B                0 B
+├ ƒ /api/weather                         0 B                0 B
+├ ƒ /api/weather-contingency             0 B                0 B
+├ ƒ /api/win-loss-tracking               0 B                0 B
+├ ○ /artists                             4.43 kB         144 kB
+├ ○ /auth/forgot-password                3.67 kB         142 kB
+├ ○ /auth/magic-link                     3.73 kB         142 kB
+├ ○ /auth/reset-password                 3.78 kB         142 kB
+├ ○ /auth/signin                         1.6 kB          238 kB
+├ ○ /auth/signup                         4 kB            142 kB
+├ ○ /auth/verify-email                   3.47 kB         142 kB
+├ ○ /availability                        2.02 kB         239 kB
+├ ○ /background-checks                   2.24 kB         240 kB
+├ ○ /backup-plans                        4.66 kB         144 kB
+├ ○ /best-practices                      3.93 kB         144 kB
+├ ○ /bid-portal                          4.2 kB          144 kB
+├ ○ /build-strike                        3.36 kB         143 kB
+├ ○ /case-studies                        4.44 kB         144 kB
+├ ○ /catering                            4.32 kB         144 kB
+├ ○ /certifications                      4.16 kB         144 kB
+├ ○ /channels                            5.11 kB         145 kB
+├ ○ /communications                      4.65 kB         144 kB
+├ ○ /communications/channels             4.31 kB         144 kB
+├ ○ /crew                                2.91 kB         241 kB
+├ ○ /crew-social                         5.51 kB         145 kB
+├ ○ /crew/assign                         3.59 kB         142 kB
+├ ○ /crew/background-checks              4.58 kB         144 kB
+├ ○ /crew/social                         4.83 kB         144 kB
+├ ○ /dashboard                           2.12 kB         240 kB
+├ ○ /deliveries                          4.71 kB         144 kB
+├ ○ /directory                           2.93 kB         239 kB
+├ ○ /directory/availability              4.36 kB         144 kB
+├ ○ /directory/filters                   4.08 kB         144 kB
+├ ○ /drawings                            4.57 kB         144 kB
+├ ○ /emergency                           5.13 kB         145 kB
+├ ○ /equipment                           2.33 kB         240 kB
+├ ○ /expenses                            4.21 kB         144 kB
+├ ○ /files                               4.35 kB         144 kB
+├ ○ /glossary                            4.95 kB         145 kB
+├ ○ /incidents                           2.03 kB         240 kB
+├ ○ /integrations                        3.78 kB         143 kB
+├ ○ /issues                              2.6 kB          240 kB
+├ ○ /knowledge                           4.6 kB          144 kB
+├ ○ /knowledge/brand-guidelines          4.66 kB         144 kB
+├ ○ /knowledge/multilingual              4.67 kB         144 kB
+├ ○ /knowledge/offline                   4.86 kB         144 kB
+├ ○ /knowledge/regulations               4.52 kB         144 kB
+├ ○ /logistics                           1.79 kB         240 kB
+├ ○ /maintenance                         1.98 kB         240 kB
+├ ○ /mentorship                          4.93 kB         145 kB
+├ ○ /messages                            4.08 kB         144 kB
+├ ○ /offline                             2.93 kB         141 kB
+├ ○ /onboarding                          3.43 kB         240 kB
+├ ○ /opportunities                       5.28 kB         145 kB
+├ ○ /opportunities/bid-decision          4.27 kB         144 kB
+├ ○ /opportunities/mobile                4.88 kB         144 kB
+├ ○ /opportunities/proposals             4.54 kB         144 kB
+├ ○ /opportunities/win-loss              4.52 kB         144 kB
+├ ○ /permits                             4.26 kB         144 kB
+├ ○ /photo-documentation                 4.78 kB         144 kB
+├ ○ /projects                            1.46 kB         238 kB
+├ ○ /projects/new                        3.49 kB         142 kB
+├ ○ /punch-list                          4.91 kB         145 kB
+├ ○ /qa-checkpoints                      4.77 kB         144 kB
+├ ○ /risk-register                       5.36 kB         145 kB
+├ ○ /run-of-show                         1.53 kB         239 kB
+├ ○ /safety                              4.91 kB         145 kB
+├ ○ /schedule                            1.38 kB         239 kB
+├ ○ /set-times                           4.81 kB         144 kB
+├ ○ /settings                            3.4 kB          143 kB
+├ ○ /settlement                          4.81 kB         144 kB
+├ ○ /show-call                           4.21 kB         144 kB
+├ ○ /site-access                         4.63 kB         144 kB
+├ ○ /site-surveys                        4.23 kB         144 kB
+├ ○ /skills                              2.19 kB         240 kB
+├ ○ /social-amplification                4.62 kB         144 kB
+├ ○ /soundcheck                          4.94 kB         145 kB
+├ ○ /spec-sheets                         4.28 kB         144 kB
+├ ○ /stage-management                    2.52 kB         142 kB
+├ ○ /stakeholder-portal                  4.73 kB         144 kB
+├ ○ /subcontractors                      4.11 kB         144 kB
+├ ○ /tech-rehearsal                      5.23 kB         145 kB
+├ ○ /templates                           4.98 kB         145 kB
+├ ○ /timekeeping                         1.94 kB         240 kB
+├ ○ /travel                              1.82 kB         240 kB
+├ ○ /troubleshooting                     4.09 kB         144 kB
+├ ○ /vendors/compare                     4.23 kB         144 kB
+├ ○ /venues                              2.89 kB         142 kB
+├ ○ /vip-management                      4.26 kB         144 kB
+├ ○ /weather                             3.68 kB         143 kB
+└ ○ /weather-contingency                 4.92 kB         145 kB
++ First Load JS shared by all            87.3 kB
+  ├ chunks/5683-f169a61ded8854be.js      31.6 kB
+  ├ chunks/849bd656-b49e66270961753f.js  53.6 kB
+  └ other shared chunks (total)          1.99 kB
+
+
+ƒ Middleware                             76.2 kB
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

@@ -28,20 +28,6 @@ API route error: q [Error]: Dynamic server usage: Route /api/advances couldn't b
   description: "Route /api/advances couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
   digest: 'DYNAMIC_SERVER_USAGE'
 }
-Asset utilization error: q [Error]: Dynamic server usage: Route /api/asset-utilization couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
-    at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
-    at c (/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/app/api/asset-utilization/route.js:1:573)
-    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
-    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/server/lib/trace/tracer.js:140:36
-    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062)
-    at ContextAPI.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:518)
-    at NoopTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18093)
-    at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18854)
-    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/server/lib/trace/tracer.js:122:103
-    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062) {
-  description: "Route /api/asset-utilization couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
-  digest: 'DYNAMIC_SERVER_USAGE'
-}
 API route error: q [Error]: Dynamic server usage: Route /api/analytics couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
     at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
     at /Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/chunks/8298.js:1:4523
@@ -56,3 +42,548 @@ API route error: q [Error]: Dynamic server usage: Route /api/analytics couldn't 
   description: "Route /api/analytics couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
   digest: 'DYNAMIC_SERVER_USAGE'
 }
+Asset utilization error: q [Error]: Dynamic server usage: Route /api/asset-utilization couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
+    at c (/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/app/api/asset-utilization/route.js:1:573)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062)
+    at ContextAPI.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:518)
+    at NoopTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18093)
+    at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18854)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/server/lib/trace/tracer.js:122:103
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062) {
+  description: "Route /api/asset-utilization couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+   Generating static pages (88/353) 
+Error fetching KPI definitions: q [Error]: Dynamic server usage: Route /api/kpi couldn't be rendered statically because it accessed `nextUrl.searchParams`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:38289)
+    at p (/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/app/api/kpi/route.js:1:541)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062)
+    at ContextAPI.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:518)
+    at NoopTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18093)
+    at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18854)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/server/lib/trace/tracer.js:122:103
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062) {
+  description: "Route /api/kpi couldn't be rendered statically because it accessed `nextUrl.searchParams`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Metrics error: q [Error]: Dynamic server usage: Route /api/metrics couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
+    at u (/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/app/api/metrics/route.js:1:552)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062)
+    at ContextAPI.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:518)
+    at NoopTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18093)
+    at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18854)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/server/lib/trace/tracer.js:122:103
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062) {
+  description: "Route /api/metrics couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+   Generating static pages (176/353) 
+Export data error: q [Error]: Dynamic server usage: Route /api/privacy/export couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
+    at p (/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/app/api/privacy/export/route.js:1:552)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062)
+    at ContextAPI.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:518)
+    at NoopTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18093)
+    at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18854)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/server/lib/trace/tracer.js:122:103
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062) {
+  description: "Route /api/privacy/export couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+OIDC login error: q [Error]: Dynamic server usage: Route /api/sso/oidc/login couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
+    at u (/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/app/api/sso/oidc/login/route.js:1:631)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062)
+    at ContextAPI.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:518)
+    at NoopTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18093)
+    at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18854)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/server/lib/trace/tracer.js:122:103
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062) {
+  description: "Route /api/sso/oidc/login couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Spend analytics error: q [Error]: Dynamic server usage: Route /api/spend-analytics couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
+    at c (/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/app/api/spend-analytics/route.js:1:574)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062)
+    at ContextAPI.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:518)
+    at NoopTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18093)
+    at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18854)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/server/lib/trace/tracer.js:122:103
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062) {
+  description: "Route /api/spend-analytics couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+SAML login error: q [Error]: Dynamic server usage: Route /api/sso/saml/login couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
+    at d (/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/app/api/sso/saml/login/route.js:1:627)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062)
+    at ContextAPI.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:518)
+    at NoopTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18093)
+    at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18854)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/server/lib/trace/tracer.js:122:103
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062) {
+  description: "Route /api/sso/saml/login couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+OAuth authorize error: q [Error]: Dynamic server usage: Route /api/zapier/oauth/authorize couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
+    at c (/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/app/api/zapier/oauth/authorize/route.js:1:631)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062)
+    at ContextAPI.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:518)
+    at NoopTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18093)
+    at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18854)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/server/lib/trace/tracer.js:122:103
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062) {
+  description: "Route /api/zapier/oauth/authorize couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Integration analytics error: q [Error]: Dynamic server usage: Route /api/zapier/analytics couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
+    at l (/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/app/api/zapier/analytics/route.js:1:552)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062)
+    at ContextAPI.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:518)
+    at NoopTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18093)
+    at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18854)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/server/lib/trace/tracer.js:122:103
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062) {
+  description: "Route /api/zapier/analytics couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+   Generating static pages (264/353) 
+ ✓ Generating static pages (353/353)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                   Size     First Load JS
+┌ ƒ /                                         2.15 kB         274 kB
+├ ○ /_not-found                               138 B           212 kB
+├ ○ /advances                                 1.63 kB         273 kB
+├ ƒ /advances/[id]                            1.95 kB         273 kB
+├ ○ /advancing                                1.51 kB         273 kB
+├ ƒ /advancing/requests/[id]                  1.36 kB         273 kB
+├ ○ /alignment                                2.76 kB         274 kB
+├ ○ /analytics                                1.39 kB         273 kB
+├ ○ /analytics/client-retention               1.96 kB         273 kB
+├ ○ /analytics/dashboard-builder              1.74 kB         273 kB
+├ ○ /analytics/data-warehouse                 1.86 kB         273 kB
+├ ○ /analytics/kpi                            2.24 kB         274 kB
+├ ƒ /analytics/kpi/[code]                     1.91 kB         273 kB
+├ ƒ /api/account-health                       0 B                0 B
+├ ƒ /api/accounts-payable                     0 B                0 B
+├ ƒ /api/accounts-receivable                  0 B                0 B
+├ ƒ /api/admin/notification-routing           0 B                0 B
+├ ƒ /api/advances                             0 B                0 B
+├ ƒ /api/advances/[id]                        0 B                0 B
+├ ƒ /api/advances/[id]/approve                0 B                0 B
+├ ƒ /api/advances/[id]/reject                 0 B                0 B
+├ ƒ /api/advancing/analytics                  0 B                0 B
+├ ƒ /api/advancing/batch                      0 B                0 B
+├ ƒ /api/advancing/catalog                    0 B                0 B
+├ ƒ /api/advancing/catalog/[id]               0 B                0 B
+├ ƒ /api/advancing/catalog/categories         0 B                0 B
+├ ƒ /api/advancing/requests                   0 B                0 B
+├ ƒ /api/advancing/requests/[id]              0 B                0 B
+├ ƒ /api/advancing/requests/[id]/approve      0 B                0 B
+├ ƒ /api/advancing/requests/[id]/fulfill      0 B                0 B
+├ ƒ /api/advancing/requests/[id]/reject       0 B                0 B
+├ ƒ /api/ai/asset-maintenance                 0 B                0 B
+├ ƒ /api/ai/competitive-intelligence          0 B                0 B
+├ ƒ /api/ai/demand-forecasting                0 B                0 B
+├ ƒ /api/ai/financial-forecasting             0 B                0 B
+├ ƒ /api/ai/portfolio-planning                0 B                0 B
+├ ƒ /api/ai/predictive-analytics              0 B                0 B
+├ ƒ /api/ai/resource-optimization             0 B                0 B
+├ ƒ /api/alignment                            0 B                0 B
+├ ƒ /api/alignment/metrics                    0 B                0 B
+├ ƒ /api/analytics                            0 B                0 B
+├ ƒ /api/analytics/advanced-dashboard         0 B                0 B
+├ ƒ /api/analytics/cross-platform             0 B                0 B
+├ ƒ /api/analytics/dashboard                  0 B                0 B
+├ ƒ /api/analytics/predictions                0 B                0 B
+├ ƒ /api/analytics/predictive                 0 B                0 B
+├ ƒ /api/anomaly-detection                    0 B                0 B
+├ ƒ /api/app-store                            0 B                0 B
+├ ƒ /api/asset-analytics                      0 B                0 B
+├ ƒ /api/asset-checkout                       0 B                0 B
+├ ƒ /api/asset-damage                         0 B                0 B
+├ ƒ /api/asset-insurance                      0 B                0 B
+├ ƒ /api/asset-lifecycle                      0 B                0 B
+├ ƒ /api/asset-location                       0 B                0 B
+├ ƒ /api/asset-maintenance                    0 B                0 B
+├ ƒ /api/asset-maintenance/schedule           0 B                0 B
+├ ƒ /api/asset-specs                          0 B                0 B
+├ ƒ /api/asset-tracking                       0 B                0 B
+├ ƒ /api/asset-utilization                    0 B                0 B
+├ ƒ /api/assets                               0 B                0 B
+├ ƒ /api/assets/[id]                          0 B                0 B
+├ ƒ /api/assets/depreciation                  0 B                0 B
+├ ƒ /api/assets/optimization                  0 B                0 B
+├ ƒ /api/assets/scan                          0 B                0 B
+├ ƒ /api/assets/tracking                      0 B                0 B
+├ ƒ /api/audit-findings                       0 B                0 B
+├ ƒ /api/auth/callback                        0 B                0 B
+├ ƒ /api/auth/invite                          0 B                0 B
+├ ƒ /api/auth/magic-link                      0 B                0 B
+├ ƒ /api/auth/me                              0 B                0 B
+├ ƒ /api/auth/oauth/[provider]                0 B                0 B
+├ ƒ /api/auth/password/reset                  0 B                0 B
+├ ƒ /api/auth/password/update                 0 B                0 B
+├ ƒ /api/auth/refresh                         0 B                0 B
+├ ƒ /api/auth/signin                          0 B                0 B
+├ ƒ /api/auth/signout                         0 B                0 B
+├ ƒ /api/auth/signup                          0 B                0 B
+├ ƒ /api/auth/verify-email                    0 B                0 B
+├ ƒ /api/automated-insights                   0 B                0 B
+├ ƒ /api/availability                         0 B                0 B
+├ ƒ /api/background-checks                    0 B                0 B
+├ ƒ /api/bad-debt                             0 B                0 B
+├ ƒ /api/bank-reconciliation                  0 B                0 B
+├ ƒ /api/batch                                0 B                0 B
+├ ƒ /api/batch/operations                     0 B                0 B
+├ ƒ /api/benchmarking                         0 B                0 B
+├ ƒ /api/benefits                             0 B                0 B
+├ ƒ /api/bi-integration                       0 B                0 B
+├ ƒ /api/bid-comparison                       0 B                0 B
+├ ƒ /api/blanket-po                           0 B                0 B
+├ ƒ /api/budget-variance                      0 B                0 B
+├ ƒ /api/budgets                              0 B                0 B
+├ ƒ /api/business-continuity                  0 B                0 B
+├ ƒ /api/calendar-integration                 0 B                0 B
+├ ƒ /api/calibration-schedules                0 B                0 B
+├ ƒ /api/calibration-schedules/[id]           0 B                0 B
+├ ƒ /api/calibration-schedules/[id]/record    0 B                0 B
+├ ƒ /api/capacity-planning                    0 B                0 B
+├ ƒ /api/cash-flow                            0 B                0 B
+├ ƒ /api/churn-analysis                       0 B                0 B
+├ ƒ /api/client-onboarding                    0 B                0 B
+├ ƒ /api/cohort-analysis                      0 B                0 B
+├ ƒ /api/commissions                          0 B                0 B
+├ ƒ /api/communication-history                0 B                0 B
+├ ƒ /api/compensation-planning                0 B                0 B
+├ ƒ /api/compliance                           0 B                0 B
+├ ƒ /api/compliance-training                  0 B                0 B
+├ ƒ /api/compliance/regional                  0 B                0 B
+├ ƒ /api/contacts                             0 B                0 B
+├ ƒ /api/contacts/[id]                        0 B                0 B
+├ ƒ /api/contract-negotiation                 0 B                0 B
+├ ƒ /api/contracts                            0 B                0 B
+├ ƒ /api/contracts/[id]                       0 B                0 B
+├ ƒ /api/cost-allocation                      0 B                0 B
+├ ƒ /api/credential-alerts                    0 B                0 B
+├ ƒ /api/credentials                          0 B                0 B
+├ ƒ /api/credit-card-reconciliation           0 B                0 B
+├ ƒ /api/crew-mobile                          0 B                0 B
+├ ƒ /api/crm                                  0 B                0 B
+├ ƒ /api/crm/pipeline-forecasting             0 B                0 B
+├ ƒ /api/cross-platform/compvss-sync          0 B                0 B
+├ ƒ /api/cross-platform/gvteway-sync          0 B                0 B
+├ ƒ /api/currencies                           0 B                0 B
+├ ƒ /api/damage-reports                       0 B                0 B
+├ ƒ /api/dashboard-builder                    0 B                0 B
+├ ƒ /api/data-export                          0 B                0 B
+├ ƒ /api/data-warehouse/bi-keys               0 B                0 B
+├ ƒ /api/data-warehouse/connections           0 B                0 B
+├ ƒ /api/data-warehouse/exports               0 B                0 B
+├ ƒ /api/data-warehouse/pipelines             0 B                0 B
+├ ƒ /api/deals                                0 B                0 B
+├ ƒ /api/deals/[id]                           0 B                0 B
+├ ƒ /api/deals/handoff                        0 B                0 B
+├ ƒ /api/deferred-revenue                     0 B                0 B
+├ ƒ /api/departments                          0 B                0 B
+├ ƒ /api/departments/[id]                     0 B                0 B
+├ ƒ /api/documents                            0 B                0 B
+├ ƒ /api/documents/e-signature                0 B                0 B
+├ ƒ /api/email-integration                    0 B                0 B
+├ ƒ /api/emergency-contacts                   0 B                0 B
+├ ƒ /api/employees                            0 B                0 B
+├ ƒ /api/employees/[id]                       0 B                0 B
+├ ƒ /api/enterprise/data-residency            0 B                0 B
+├ ƒ /api/enterprise/white-label               0 B                0 B
+├ ƒ /api/equipment-certifications             0 B                0 B
+├ ƒ /api/equipment-certifications/[id]        0 B                0 B
+├ ƒ /api/equipment-certifications/[id]/renew  0 B                0 B
+├ ƒ /api/expenses                             0 B                0 B
+├ ƒ /api/expenses/[id]                        0 B                0 B
+├ ƒ /api/expenses/[id]/approve                0 B                0 B
+├ ƒ /api/finance/enhanced                     0 B                0 B
+├ ƒ /api/fixed-assets                         0 B                0 B
+├ ƒ /api/freelancers                          0 B                0 B
+├ ƒ /api/governance                           0 B                0 B
+├ ƒ /api/grants                               0 B                0 B
+├ ƒ /api/handbook                             0 B                0 B
+├ ƒ /api/handbook/[id]                        0 B                0 B
+├ ƒ /api/handbook/[id]/acknowledge            0 B                0 B
+├ ○ /api/health                               0 B                0 B
+├ ƒ /api/incident-reports                     0 B                0 B
+├ ƒ /api/insurance-coi                        0 B                0 B
+├ ƒ /api/integrations/analytics               0 B                0 B
+├ ƒ /api/integrations/crm-sync                0 B                0 B
+├ ƒ /api/integrations/deal-to-project         0 B                0 B
+├ ƒ /api/integrations/erp-sync                0 B                0 B
+├ ƒ /api/integrations/hr-systems              0 B                0 B
+├ ƒ /api/integrations/payroll                 0 B                0 B
+├ ƒ /api/integrations/slack-teams             0 B                0 B
+├ ƒ /api/integrations/stripe-reconciliation   0 B                0 B
+├ ƒ /api/intercompany                         0 B                0 B
+├ ƒ /api/invoices                             0 B                0 B
+├ ƒ /api/invoices/[id]                        0 B                0 B
+├ ƒ /api/ip-tracking                          0 B                0 B
+├ ƒ /api/job-costing                          0 B                0 B
+├ ƒ /api/kpi                                  0 B                0 B
+├ ƒ /api/kpi/[code]                           0 B                0 B
+├ ƒ /api/kpi/data                             0 B                0 B
+├ ƒ /api/kpi/reports                          0 B                0 B
+├ ƒ /api/kpi/trend/[code]                     0 B                0 B
+├ ƒ /api/labor-compliance                     0 B                0 B
+├ ƒ /api/late-payments                        0 B                0 B
+├ ƒ /api/lead-scoring                         0 B                0 B
+├ ƒ /api/leads/scoring                        0 B                0 B
+├ ƒ /api/ledger-accounts                      0 B                0 B
+├ ƒ /api/ledger-entries                       0 B                0 B
+├ ƒ /api/maintenance-history                  0 B                0 B
+├ ƒ /api/make/modules                         0 B                0 B
+├ ƒ /api/marketing-attribution                0 B                0 B
+├ ƒ /api/mass-email                           0 B                0 B
+├ ƒ /api/meeting-notes                        0 B                0 B
+├ ƒ /api/meetings                             0 B                0 B
+├ ƒ /api/metrics                              0 B                0 B
+├ ƒ /api/multi-entity                         0 B                0 B
+├ ƒ /api/n8n/nodes                            0 B                0 B
+├ ƒ /api/nda                                  0 B                0 B
+├ ƒ /api/nl-query                             0 B                0 B
+├ ƒ /api/notifications/unified                0 B                0 B
+├ ƒ /api/nps                                  0 B                0 B
+├ ƒ /api/nps-surveys                          0 B                0 B
+├ ƒ /api/onboarding                           0 B                0 B
+├ ƒ /api/onboarding/complete                  0 B                0 B
+├ ƒ /api/onboarding/organization              0 B                0 B
+├ ƒ /api/onboarding/preferences               0 B                0 B
+├ ƒ /api/onboarding/profile                   0 B                0 B
+├ ƒ /api/onboarding/role                      0 B                0 B
+├ ƒ /api/opportunities                        0 B                0 B
+├ ƒ /api/opportunity-tracking                 0 B                0 B
+├ ƒ /api/organizations                        0 B                0 B
+├ ƒ /api/organizations/[id]                   0 B                0 B
+├ ƒ /api/payment-processing                   0 B                0 B
+├ ƒ /api/payroll                              0 B                0 B
+├ ƒ /api/payroll/[id]                         0 B                0 B
+├ ƒ /api/payroll/entries                      0 B                0 B
+├ ƒ /api/payroll/periods                      0 B                0 B
+├ ƒ /api/payroll/providers                    0 B                0 B
+├ ƒ /api/pcard                                0 B                0 B
+├ ƒ /api/performance                          0 B                0 B
+├ ƒ /api/platform-users                       0 B                0 B
+├ ƒ /api/po-receiving                         0 B                0 B
+├ ƒ /api/policies                             0 B                0 B
+├ ƒ /api/policies/[id]                        0 B                0 B
+├ ƒ /api/policies/[id]/acknowledge            0 B                0 B
+├ ƒ /api/predictive-analytics                 0 B                0 B
+├ ƒ /api/preferred-vendors                    0 B                0 B
+├ ƒ /api/privacy/consent                      0 B                0 B
+├ ƒ /api/privacy/delete                       0 B                0 B
+├ ƒ /api/privacy/dsr                          0 B                0 B
+├ ƒ /api/privacy/export                       0 B                0 B
+├ ƒ /api/procurement/automation               0 B                0 B
+├ ƒ /api/profit-sharing                       0 B                0 B
+├ ƒ /api/project-dependencies                 0 B                0 B
+├ ƒ /api/projects                             0 B                0 B
+├ ƒ /api/projects/[id]                        0 B                0 B
+├ ƒ /api/projects/enhanced                    0 B                0 B
+├ ƒ /api/pto-balances                         0 B                0 B
+├ ƒ /api/purchase-orders                      0 B                0 B
+├ ƒ /api/purchase-orders/[id]                 0 B                0 B
+├ ƒ /api/purchase-orders/[id]/approve         0 B                0 B
+├ ƒ /api/quotes                               0 B                0 B
+├ ƒ /api/quotes/[id]                          0 B                0 B
+├ ƒ /api/quotes/[id]/convert                  0 B                0 B
+├ ƒ /api/ratings                              0 B                0 B
+├ ƒ /api/referral-program                     0 B                0 B
+├ ƒ /api/referral-tracking                    0 B                0 B
+├ ƒ /api/rental-equipment                     0 B                0 B
+├ ƒ /api/reports                              0 B                0 B
+├ ƒ /api/reports/generate                     0 B                0 B
+├ ƒ /api/resource-optimization                0 B                0 B
+├ ƒ /api/resource-utilization                 0 B                0 B
+├ ƒ /api/retainers                            0 B                0 B
+├ ƒ /api/retrospectives                       0 B                0 B
+├ ƒ /api/revenue-recognition                  0 B                0 B
+├ ƒ /api/rfp                                  0 B                0 B
+├ ƒ /api/risks                                0 B                0 B
+├ ƒ /api/sales-forecast                       0 B                0 B
+├ ƒ /api/scenarios                            0 B                0 B
+├ ƒ /api/scheduled-reports                    0 B                0 B
+├ ƒ /api/search                               0 B                0 B
+├ ƒ /api/serialized-components                0 B                0 B
+├ ƒ /api/serialized-components/[id]           0 B                0 B
+├ ƒ /api/serialized-components/[id]/service   0 B                0 B
+├ ƒ /api/serialized-components/[id]/transfer  0 B                0 B
+├ ƒ /api/shift-scheduling                     0 B                0 B
+├ ƒ /api/skills-matrix                        0 B                0 B
+├ ƒ /api/spend-analytics                      0 B                0 B
+├ ƒ /api/sso/domains                          0 B                0 B
+├ ƒ /api/sso/oidc/login                       0 B                0 B
+├ ƒ /api/sso/providers                        0 B                0 B
+├ ƒ /api/sso/saml/login                       0 B                0 B
+├ ƒ /api/stakeholder-hub                      0 B                0 B
+├ ƒ /api/stakeholders                         0 B                0 B
+├ ƒ /api/stakeholders/communications          0 B                0 B
+├ ○ /api/status                               0 B                0 B
+├ ƒ /api/strategic-alignment                  0 B                0 B
+├ ƒ /api/strategic-goals                      0 B                0 B
+├ ƒ /api/succession-planning                  0 B                0 B
+├ ƒ /api/succession-planning/candidates       0 B                0 B
+├ ƒ /api/succession-planning/positions        0 B                0 B
+├ ƒ /api/succession-planning/positions/[id]   0 B                0 B
+├ ƒ /api/succession-planning/talent-pools     0 B                0 B
+├ ƒ /api/talent-acquisition                   0 B                0 B
+├ ƒ /api/task-management                      0 B                0 B
+├ ƒ /api/tax/compliance                       0 B                0 B
+├ ƒ /api/territory-management                 0 B                0 B
+├ ƒ /api/time-off                             0 B                0 B
+├ ƒ /api/timesheets                           0 B                0 B
+├ ƒ /api/training                             0 B                0 B
+├ ƒ /api/trend-analysis                       0 B                0 B
+├ ƒ /api/vendor-compliance                    0 B                0 B
+├ ƒ /api/vendor-contracts                     0 B                0 B
+├ ƒ /api/vendor-onboarding                    0 B                0 B
+├ ƒ /api/vendor-payment-terms                 0 B                0 B
+├ ƒ /api/vendor-portal                        0 B                0 B
+├ ƒ /api/vendor-scorecards                    0 B                0 B
+├ ƒ /api/vendor-scoring                       0 B                0 B
+├ ƒ /api/vendor-selection                     0 B                0 B
+├ ƒ /api/vendors                              0 B                0 B
+├ ƒ /api/vendors/[id]                         0 B                0 B
+├ ƒ /api/venue-booking                        0 B                0 B
+├ ƒ /api/workers-comp                         0 B                0 B
+├ ƒ /api/workflow-automation                  0 B                0 B
+├ ƒ /api/workflows                            0 B                0 B
+├ ƒ /api/workflows/[id]/execute               0 B                0 B
+├ ƒ /api/workflows/automation                 0 B                0 B
+├ ƒ /api/workforce-productivity               0 B                0 B
+├ ƒ /api/zapier/actions                       0 B                0 B
+├ ƒ /api/zapier/analytics                     0 B                0 B
+├ ƒ /api/zapier/oauth/authorize               0 B                0 B
+├ ƒ /api/zapier/oauth/token                   0 B                0 B
+├ ƒ /api/zapier/search                        0 B                0 B
+├ ƒ /api/zapier/triggers                      0 B                0 B
+├ ƒ /api/zapier/webhooks                      0 B                0 B
+├ ○ /assets                                   2.27 kB         274 kB
+├ ○ /assets/calibration                       1.81 kB         273 kB
+├ ○ /assets/damage-reports                    2.11 kB         274 kB
+├ ○ /assets/idle-analysis                     1.76 kB         273 kB
+├ ○ /assets/kits                              2.09 kB         274 kB
+├ ○ /assets/maintenance                       2.45 kB         274 kB
+├ ○ /assets/optimization                      2.43 kB         274 kB
+├ ○ /assets/performance                       1.75 kB         273 kB
+├ ○ /assets/rentals                           2.06 kB         274 kB
+├ ○ /assets/scan                              2.53 kB         274 kB
+├ ○ /assets/serialized                        3.09 kB         275 kB
+├ ○ /assets/specifications                    2.94 kB         274 kB
+├ ○ /assets/storage                           1.68 kB         273 kB
+├ ○ /assets/tracking                          2.01 kB         274 kB
+├ ○ /assets/utilization                       1.84 kB         273 kB
+├ ○ /audit                                    1.45 kB         273 kB
+├ ○ /auth/forgot-password                     1.29 kB         273 kB
+├ ○ /auth/magic-link                          1.36 kB         273 kB
+├ ○ /auth/reset-password                      1.4 kB          273 kB
+├ ○ /auth/signin                              1.57 kB         273 kB
+├ ○ /auth/signup                              1.9 kB          273 kB
+├ ○ /auth/verify-email                        987 B           273 kB
+├ ○ /billing                                  2.06 kB         274 kB
+├ ○ /budgets                                  2.06 kB         274 kB
+├ ○ /compliance                               1.97 kB         273 kB
+├ ○ /contacts                                 1.79 kB         273 kB
+├ ○ /contacts/relationships                   2.85 kB         274 kB
+├ ○ /contracts                                2.42 kB         274 kB
+├ ○ /crm                                      1.43 kB         273 kB
+├ ○ /crm/calendar                             1.94 kB         273 kB
+├ ○ /crm/email-integration                    1.77 kB         273 kB
+├ ○ /crm/lead-scoring                         2.15 kB         274 kB
+├ ○ /crm/relationships                        1.69 kB         273 kB
+├ ○ /crm/tasks                                2.4 kB          274 kB
+├ ○ /dashboard                                2.84 kB         274 kB
+├ ○ /deals                                    1.71 kB         273 kB
+├ ○ /design-system                            2.96 kB         274 kB
+├ ○ /documents                                1.93 kB         273 kB
+├ ○ /employees                                2.02 kB         274 kB
+├ ○ /finance                                  1.67 kB         273 kB
+├ ○ /finance/accounts-receivable              1.83 kB         273 kB
+├ ○ /finance/bank-reconciliation              1.61 kB         273 kB
+├ ○ /finance/commissions                      2.03 kB         274 kB
+├ ○ /finance/credit-cards                     1.66 kB         273 kB
+├ ○ /governance                               1.73 kB         273 kB
+├ ○ /integrations                             1.64 kB         273 kB
+├ ○ /invoices                                 2.4 kB          274 kB
+├ ○ /ip-tracking                              1.94 kB         273 kB
+├ ○ /leads/scoring                            4 kB            276 kB
+├ ○ /marketing/attribution                    2.28 kB         274 kB
+├ ○ /okrs                                     1.5 kB          273 kB
+├ ○ /onboarding                               2.6 kB          274 kB
+├ ○ /partnerships                             1.61 kB         273 kB
+├ ○ /payroll                                  2.02 kB         274 kB
+├ ○ /performance                              1.75 kB         273 kB
+├ ○ /pipeline                                 1.57 kB         273 kB
+├ ○ /portfolio                                2.45 kB         274 kB
+├ ○ /procurement                              2.4 kB          274 kB
+├ ○ /procurement/categories                   2.7 kB          274 kB
+├ ○ /procurement/emergency                    2.59 kB         274 kB
+├ ○ /procurement/logistics                    2.52 kB         274 kB
+├ ○ /procurement/vendor-audits                2.39 kB         274 kB
+├ ○ /procurement/vendor-selection             2.85 kB         274 kB
+├ ○ /projects                                 1.89 kB         273 kB
+├ ƒ /projects/[id]                            2.37 kB         274 kB
+├ ○ /quotes                                   1.85 kB         273 kB
+├ ○ /reports                                  2.31 kB         274 kB
+├ ○ /reports/scheduled                        2.24 kB         274 kB
+├ ○ /revenue-recognition                      2.54 kB         274 kB
+├ ○ /rfp                                      1.91 kB         273 kB
+├ ○ /risks                                    1.75 kB         273 kB
+├ ○ /scenarios                                1.78 kB         273 kB
+├ ○ /settings                                 1.6 kB          273 kB
+├ ○ /stakeholders                             1.83 kB         273 kB
+├ ○ /subsidiaries                             1.82 kB         273 kB
+├ ○ /taxes                                    1.78 kB         273 kB
+├ ○ /training                                 1.82 kB         273 kB
+├ ○ /vendors                                  2.16 kB         274 kB
+├ ○ /vendors/contracts                        2.22 kB         274 kB
+├ ○ /vendors/rate-cards                       2.45 kB         274 kB
+├ ○ /workforce                                1.12 kB         273 kB
+├ ○ /workforce/background-checks              2.68 kB         274 kB
+├ ○ /workforce/compensation                   1.75 kB         273 kB
+├ ○ /workforce/handbook                       3.25 kB         275 kB
+├ ○ /workforce/labor-laws                     1.86 kB         273 kB
+├ ○ /workforce/referrals                      2.2 kB          274 kB
+├ ○ /workforce/succession                     2.12 kB         274 kB
+├ ○ /workforce/union-compliance               2.39 kB         274 kB
+└ ○ /workforce/union-rules                    1.82 kB         273 kB
++ First Load JS shared by all                 212 kB
+  ├ chunks/lib-8b7e14b1deed6933.js            210 kB
+  └ other shared chunks (total)               1.99 kB
+
+
+ƒ Middleware                                  76.4 kB
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

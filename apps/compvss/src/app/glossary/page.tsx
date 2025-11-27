@@ -109,7 +109,7 @@ export default function GlossaryPage() {
               <Card key={term.id} className={`border-2 p-4 cursor-pointer hover:border-white transition-colors ${getCategoryColor(term.category)}`} onClick={() => setSelectedTerm(term)}>
                 <Stack gap={3}>
                   <Stack direction="horizontal" className="justify-between items-start">
-                    <Body className="font-display text-white text-lg">{term.term}</Body>
+                    <Body className="font-display text-white text-body-md">{term.term}</Body>
                     <Badge variant="outline">{term.category}</Badge>
                   </Stack>
                   <Body className="text-ink-300 line-clamp-2">{term.definition}</Body>

@@ -45,14 +45,14 @@ const sizeClasses = {
   sm: {
     trigger: "p-1",
     item: "px-3 py-2 text-mono-xs",
-    icon: "text-base",
-    triggerIcon: "text-sm",
+    icon: "text-body-sm",
+    triggerIcon: "text-mono-sm",
   },
   md: {
     trigger: "p-1.5",
     item: "px-4 py-2.5 text-mono-sm",
-    icon: "text-base",
-    triggerIcon: "text-xl",
+    icon: "text-body-sm",
+    triggerIcon: "text-body-lg",
   },
 };
 
@@ -153,7 +153,7 @@ export function RowActions<T = unknown>({
           aria-expanded={isOpen}
           aria-haspopup="menu"
         >
-          <span className={size === "sm" ? "text-sm" : "text-base"}>⚙️</span>
+          <span className={size === "sm" ? "text-mono-sm" : "text-body-sm"}>⚙️</span>
         </button>
       );
     }
@@ -219,7 +219,7 @@ export function RowActions<T = unknown>({
                   )}
                 >
                   <span className="flex items-center gap-2">
-                    {action.icon && <span className="text-sm">{action.icon}</span>}
+                    {action.icon && <span className="text-mono-sm">{action.icon}</span>}
                     {action.label}
                   </span>
                   {action.shortcut && (

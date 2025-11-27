@@ -61,9 +61,9 @@ export default function ArtistsPage() {
           logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
           cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/auth/signin')}>SIGN IN</Button>}
         >
-          <Link href="/" className="font-heading text-sm uppercase tracking-wider hover:text-grey-400">Home</Link>
-          <Link href="/events" className="font-heading text-sm uppercase tracking-wider hover:text-grey-400">Events</Link>
-          <Link href="/artists" className="font-heading text-sm uppercase tracking-wider hover:text-grey-400">Artists</Link>
+          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Home</Link>
+          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Events</Link>
+          <Link href="/artists" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Artists</Link>
         </Navigation>
       }
       footer={
@@ -115,15 +115,15 @@ export default function ArtistsPage() {
                           <Badge className="w-fit">Verified</Badge>
                         )}
                       </Stack>
-                      <Body className="text-sm text-grey-400">{artist.genre}</Body>
+                      <Body className="text-body-sm text-grey-400">{artist.genre}</Body>
                       <Stack direction="horizontal" className="justify-between border-t border-grey-800 pt-4">
                         <Stack gap={1}>
                           <Label size="xs" className="text-grey-500">Followers</Label>
-                          <Body className="font-display text-lg text-white">{((artist.followers || 0) / 1000000).toFixed(1)}M</Body>
+                          <Body className="font-display text-body-md text-white">{((artist.followers || 0) / 1000000).toFixed(1)}M</Body>
                         </Stack>
                         <Stack gap={1}>
                           <Label size="xs" className="text-grey-500">Upcoming Shows</Label>
-                          <Body className="font-display text-lg text-white">{artist.upcoming_shows || 0}</Body>
+                          <Body className="font-display text-body-md text-white">{artist.upcoming_shows || 0}</Body>
                         </Stack>
                       </Stack>
                       <Button variant="outline" className="w-full border-grey-700 text-grey-400 hover:border-white hover:text-white" onClick={(e) => { e.preventDefault(); addNotification({ type: 'success', title: 'Following', message: `Now following ${artist.name}` }); }}>

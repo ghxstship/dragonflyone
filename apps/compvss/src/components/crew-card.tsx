@@ -16,19 +16,19 @@ export function CrewCard({ member }: CrewCardProps) {
     <Article variant="bordered" className="p-6">
       <Stack direction="horizontal" className="items-start justify-between">
         <Stack>
-          <Label className="font-mono text-xs uppercase tracking-wider text-ink-500">{member.id}</Label>
-          <H3 className="mt-1 font-display text-2xl text-white">{member.name}</H3>
-          <Body className="mt-1 text-sm text-ink-300">{member.role}</Body>
+          <Label className="font-mono text-mono-xs uppercase tracking-widest text-ink-500">{member.id}</Label>
+          <H3 className="mt-1 font-display text-h5-md text-white">{member.name}</H3>
+          <Body className="mt-1 text-body-sm text-ink-300">{member.role}</Body>
         </Stack>
         <Stack className="text-right">
           <Stack direction="horizontal" className="items-center gap-1">
-            <Body className="font-display text-2xl text-white">{member.rating}</Body>
+            <Body className="font-display text-h5-md text-white">{member.rating}</Body>
             <Body className="text-ink-500">★</Body>
           </Stack>
         </Stack>
       </Stack>
       <Stack direction="horizontal" className="mt-4 items-center justify-between">
-        <Body className="text-sm text-ink-500">{member.department}</Body>
+        <Body className="text-body-sm text-ink-500">{member.department}</Body>
         <Badge variant={member.availability === "Available" ? "solid" : "outline"}>
           {member.availability}
         </Badge>

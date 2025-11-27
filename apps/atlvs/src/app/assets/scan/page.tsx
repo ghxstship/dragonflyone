@@ -251,7 +251,7 @@ export default function AssetScanPage() {
                       }
                     }}
                     placeholder="Scan barcode or enter manually..."
-                    className="text-2xl py-4 text-center font-mono"
+                    className="text-h5-md py-4 text-center font-mono"
                     autoFocus
                   />
                 </Field>
@@ -268,7 +268,7 @@ export default function AssetScanPage() {
               <Card className="p-4 bg-grey-50 border">
                 <Stack gap={2}>
                   <Label className="text-grey-500">Instructions</Label>
-                  <Body className="text-sm text-grey-600">
+                  <Body className="text-body-sm text-grey-600">
                     1. Select scan mode above<br />
                     2. Scan barcode with scanner or enter manually<br />
                     3. Confirm action in popup<br />
@@ -291,7 +291,7 @@ export default function AssetScanPage() {
                     </Stack>
                     <Stack className="text-right" gap={1}>
                       {getActionBadge(scan.action)}
-                      <Label className="text-xs text-grey-600">
+                      <Label className="text-mono-xs text-grey-600">
                         {new Date(scan.timestamp).toLocaleTimeString()}
                       </Label>
                     </Stack>
@@ -319,7 +319,7 @@ export default function AssetScanPage() {
             <Stack gap={6}>
               <Card className="p-4 bg-grey-50 border">
                 <Stack gap={2}>
-                  <Body className="font-mono text-lg">{scannedAsset.barcode}</Body>
+                  <Body className="font-mono text-body-md">{scannedAsset.barcode}</Body>
                   <H3>{scannedAsset.name}</H3>
                   <Stack direction="horizontal" gap={2}>
                     <Badge variant="outline">{scannedAsset.category}</Badge>

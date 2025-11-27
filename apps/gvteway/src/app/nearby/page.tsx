@@ -257,7 +257,7 @@ export default function NearbyEventsPage() {
                   <Stack className="p-4 border-t">
                     <Stack direction="horizontal" className="justify-between items-center">
                       <Stack>
-                        <Body className="text-sm text-grey-500">{event.city}</Body>
+                        <Body className="text-body-sm text-grey-500">{event.city}</Body>
                       </Stack>
                       <Body className="font-bold">From ${event.price}</Body>
                     </Stack>

@@ -174,7 +174,7 @@ export default function BundlesPage() {
                   <Stack gap={4}>
                     <Stack direction="horizontal" className="justify-between items-start">
                       <Stack gap={1}>
-                        <Body className="font-bold text-xl">{bundle.name}</Body>
+                        <Body className="font-bold text-h6-md">{bundle.name}</Body>
                         {bundle.event_name && (
                           <Badge variant="outline">{bundle.event_name}</Badge>
                         )}
@@ -209,7 +209,7 @@ export default function BundlesPage() {
                         </Stack>
                         <Stack gap={1}>
                           <Label className="text-grey-500">Bundle Price</Label>
-                          <Body className="font-bold text-xl text-success-600">${bundle.bundle_price}</Body>
+                          <Body className="font-bold text-h6-md text-success-600">${bundle.bundle_price}</Body>
                         </Stack>
                         <Stack gap={1}>
                           <Label className="text-grey-500">Savings</Label>
@@ -256,7 +256,7 @@ export default function BundlesPage() {
                       <Body className="font-bold">{cs.trigger_product_name}</Body>
                     </Stack>
                     <Stack className="items-center">
-                      <Body className="text-2xl">→</Body>
+                      <Body className="text-h5-md">→</Body>
                     </Stack>
                     <Stack gap={1}>
                       <Label className="text-grey-500">Recommend</Label>
@@ -390,7 +390,7 @@ export default function BundlesPage() {
             </Field>
             <Stack gap={2}>
               <Label>Products to Include</Label>
-              <Body className="text-grey-500 text-sm">Select products to add to this bundle</Body>
+              <Body className="text-grey-500 text-body-sm">Select products to add to this bundle</Body>
               <Button variant="outline" size="sm">Add Product</Button>
             </Stack>
             <Grid cols={2} gap={4}>

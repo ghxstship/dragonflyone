@@ -292,7 +292,7 @@ export default function DesignSystemPage() {
 
             <Stack direction="horizontal" gap={2} className="items-center">
               <Checkbox id="terms" />
-              <Label className="cursor-pointer text-sm">
+              <Label className="cursor-pointer text-body-sm">
                 I agree to the terms and conditions
               </Label>
             </Stack>

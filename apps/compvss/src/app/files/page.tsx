@@ -121,7 +121,7 @@ export default function FileSharingPage() {
                 <TableRow key={file.id} className="border-ink-800">
                   <TableCell>
                     <Stack direction="horizontal" gap={2}>
-                      <Label className={`text-xl ${getTypeColor(file.type)}`}>{getTypeIcon(file.type)}</Label>
+                      <Label className={`text-h6-md ${getTypeColor(file.type)}`}>{getTypeIcon(file.type)}</Label>
                       <Label className="text-white">{file.name}</Label>
                     </Stack>
                   </TableCell>
@@ -160,7 +160,7 @@ export default function FileSharingPage() {
           {selectedFile && (
             <Stack gap={4}>
               <Stack direction="horizontal" gap={2}>
-                <Label className={`text-2xl ${getTypeColor(selectedFile.type)}`}>{getTypeIcon(selectedFile.type)}</Label>
+                <Label className={`text-h5-md ${getTypeColor(selectedFile.type)}`}>{getTypeIcon(selectedFile.type)}</Label>
                 <Badge variant="outline">{selectedFile.type}</Badge>
                 <Badge variant="solid">v{selectedFile.version}</Badge>
               </Stack>
@@ -204,7 +204,7 @@ export default function FileSharingPage() {
           <Stack gap={4}>
             <Card className="p-8 border-2 border-dashed border-ink-700 text-center">
               <Stack gap={2}>
-                <Label className="text-4xl">📁</Label>
+                <Label className="text-h3-md">📁</Label>
                 <Label className="text-ink-400">Drag and drop files here or click to browse</Label>
                 <Button variant="outline">Browse Files</Button>
               </Stack>

@@ -53,8 +53,8 @@ export default function WalletPage() {
           logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
           cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/profile')}>PROFILE</Button>}
         >
-          <Link href="/" className="font-heading text-sm uppercase tracking-wider hover:text-grey-400">Home</Link>
-          <Link href="/events" className="font-heading text-sm uppercase tracking-wider hover:text-grey-400">Events</Link>
+          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Home</Link>
+          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Events</Link>
         </Navigation>
       }
       footer={
@@ -119,10 +119,10 @@ export default function WalletPage() {
                   <Stack gap={2} direction="horizontal" className="justify-between items-center">
                     <Stack gap={1}>
                       <Stack gap={3} direction="horizontal" className="items-center">
-                        <Body className="font-heading text-lg uppercase text-white">{method.brand} •••• {method.last4}</Body>
+                        <Body className="font-heading text-body-md uppercase text-white">{method.brand} •••• {method.last4}</Body>
                         {method.isDefault && <Badge>Default</Badge>}
                       </Stack>
-                      <Body className="font-mono text-sm text-grey-400">Expires {method.expiry}</Body>
+                      <Body className="font-mono text-body-sm text-grey-400">Expires {method.expiry}</Body>
                     </Stack>
                     <Stack direction="horizontal" gap={2}>
                       {!method.isDefault && (

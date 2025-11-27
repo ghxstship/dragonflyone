@@ -297,7 +297,7 @@ export default function AntiScalpingPage() {
                       </Stack>
                       <Stack gap={1}>
                         <Label className="text-grey-500">Details</Label>
-                        <Body className="text-sm">{alert.details}</Body>
+                        <Body className="text-body-sm">{alert.details}</Body>
                       </Stack>
                       <Stack gap={1}>
                         <Label className="text-grey-500">Tickets</Label>
@@ -305,7 +305,7 @@ export default function AntiScalpingPage() {
                       </Stack>
                       <Stack gap={1}>
                         {getStatusBadge(alert.status)}
-                        <Label className="text-xs text-grey-600">
+                        <Label className="text-mono-xs text-grey-600">
                           {new Date(alert.created_at).toLocaleString()}
                         </Label>
                       </Stack>
@@ -345,7 +345,7 @@ export default function AntiScalpingPage() {
                         {rule.action.replace('_', ' ')}
                       </Badge>
                       {rule.threshold && (
-                        <Label className="text-xs text-grey-600">Threshold: {rule.threshold}</Label>
+                        <Label className="text-mono-xs text-grey-600">Threshold: {rule.threshold}</Label>
                       )}
                     </Stack>
                     <Stack direction="horizontal" gap={2} className="justify-end">
@@ -460,7 +460,7 @@ export default function AntiScalpingPage() {
                 {getTypeBadge(selectedAlert.type)}
                 {getStatusBadge(selectedAlert.status)}
               </Stack>
-              <Body className="font-bold text-xl">{selectedAlert.event_name}</Body>
+              <Body className="font-bold text-h6-md">{selectedAlert.event_name}</Body>
               <Body>{selectedAlert.details}</Body>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>

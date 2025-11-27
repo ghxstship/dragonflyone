@@ -278,7 +278,7 @@ export default function SavedSearchesPage() {
                         <Badge variant="outline">{search.alert_frequency}</Badge>
                       )}
                       {search.last_run && (
-                        <Body className="text-sm text-grey-500">
+                        <Body className="text-body-sm text-grey-500">
                           Last checked: {new Date(search.last_run).toLocaleDateString()}
                         </Body>
                       )}

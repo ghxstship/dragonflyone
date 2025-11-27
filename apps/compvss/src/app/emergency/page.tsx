@@ -84,21 +84,21 @@ export default function EmergencyPage() {
           <Grid cols={3} gap={4}>
             <Card className="border-2 border-error-800 bg-error-900/20 p-4 cursor-pointer hover:bg-error-900/30" onClick={() => setSelectedProcedure(mockProcedures.find(p => p.type === "Medical") || null)}>
               <Stack gap={2} className="text-center">
-                <Label className="text-error-400 text-2xl">🚑</Label>
+                <Label className="text-error-400 text-h5-md">🚑</Label>
                 <Body className="font-bold text-white">MEDICAL</Body>
                 <Label size="xs" className="text-error-300">Tap for procedure</Label>
               </Stack>
             </Card>
             <Card className="border-2 border-warning-800 bg-warning-900/20 p-4 cursor-pointer hover:bg-warning-900/30" onClick={() => setSelectedProcedure(mockProcedures.find(p => p.type === "Fire") || null)}>
               <Stack gap={2} className="text-center">
-                <Label className="text-warning-400 text-2xl">🔥</Label>
+                <Label className="text-warning-400 text-h5-md">🔥</Label>
                 <Body className="font-bold text-white">FIRE</Body>
                 <Label size="xs" className="text-warning-300">Tap for procedure</Label>
               </Stack>
             </Card>
             <Card className="border-2 border-info-800 bg-info-900/20 p-4 cursor-pointer hover:bg-info-900/30" onClick={() => setSelectedProcedure(mockProcedures.find(p => p.type === "Evacuation") || null)}>
               <Stack gap={2} className="text-center">
-                <Label className="text-info-400 text-2xl">🚨</Label>
+                <Label className="text-info-400 text-h5-md">🚨</Label>
                 <Body className="font-bold text-white">EVACUATION</Body>
                 <Label size="xs" className="text-info-300">Tap for procedure</Label>
               </Stack>
@@ -250,10 +250,10 @@ export default function EmergencyPage() {
         <ModalBody>
           {selectedContact && (
             <Stack gap={4} className="text-center">
-              <Body className="text-white font-display text-xl">{selectedContact.name}</Body>
+              <Body className="text-white font-display text-h6-md">{selectedContact.name}</Body>
               <Label className="text-ink-400">{selectedContact.role}</Label>
               <Card className="p-4 bg-ink-800 border border-ink-700">
-                <Label className="font-mono text-white text-2xl">{selectedContact.phone}</Label>
+                <Label className="font-mono text-white text-h5-md">{selectedContact.phone}</Label>
               </Card>
               <Button variant="solid" className="w-full">Call Now</Button>
             </Stack>

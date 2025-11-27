@@ -171,7 +171,7 @@ export default function FavoritesPage() {
                   </Stack>
                   <Stack className="p-4 border-t">
                     <Stack direction="horizontal" className="justify-between items-center">
-                      <Body className="text-sm text-grey-500">{favorite.city}</Body>
+                      <Body className="text-body-sm text-grey-500">{favorite.city}</Body>
                       <Body className="font-bold">From ${favorite.price_min}</Body>
                     </Stack>
                   </Stack>
@@ -189,7 +189,7 @@ export default function FavoritesPage() {
                 <Card key={favorite.id} className="p-4 opacity-60">
                   <Stack gap={2}>
                     <Stack direction="horizontal" className="justify-between">
-                      <Badge variant="outline" className="text-xs">Past</Badge>
+                      <Badge variant="outline" className="text-mono-xs">Past</Badge>
                       <Button
                         variant="ghost"
                         size="sm"
@@ -198,8 +198,8 @@ export default function FavoritesPage() {
                         ×
                       </Button>
                     </Stack>
-                    <H3 className="text-base">{favorite.title}</H3>
-                    <Body className="text-sm text-grey-500">{favorite.date}</Body>
+                    <H3 className="text-body-sm">{favorite.title}</H3>
+                    <Body className="text-body-sm text-grey-500">{favorite.date}</Body>
                   </Stack>
                 </Card>
               ))}

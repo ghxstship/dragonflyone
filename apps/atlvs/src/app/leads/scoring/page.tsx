@@ -445,7 +445,7 @@ export default function LeadScoringPage() {
                 <Stack gap={2}>
                   <Stack direction="horizontal" className="justify-between">
                     <Body>Total Pipeline</Body>
-                    <Body className="font-bold text-xl">
+                    <Body className="font-bold text-h6-md">
                       ${leads.reduce((sum, l) => sum + l.estimated_value, 0).toLocaleString()}
                     </Body>
                   </Stack>
@@ -557,7 +557,7 @@ export default function LeadScoringPage() {
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>
                   <Label className="text-grey-500">Estimated Value</Label>
-                  <Body className="font-bold text-xl">${selectedLead.estimated_value.toLocaleString()}</Body>
+                  <Body className="font-bold text-h6-md">${selectedLead.estimated_value.toLocaleString()}</Body>
                 </Stack>
                 <Stack gap={1}>
                   <Label className="text-grey-500">Source</Label>

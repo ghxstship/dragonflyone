@@ -50,8 +50,8 @@ export default function ReferralsPage() {
           logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
           cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/profile')}>PROFILE</Button>}
         >
-          <Link href="/" className="font-heading text-sm uppercase tracking-wider hover:text-grey-400">Home</Link>
-          <Link href="/events" className="font-heading text-sm uppercase tracking-wider hover:text-grey-400">Events</Link>
+          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Home</Link>
+          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Events</Link>
         </Navigation>
       }
       footer={
@@ -110,7 +110,7 @@ export default function ReferralsPage() {
                   <H3 className="text-white">Your Referral Code</H3>
                   <Stack gap={4} direction="horizontal" className="items-center">
                     <Card className="flex-1 border-2 border-grey-700 bg-black p-4">
-                      <Body className="font-mono text-xl text-white">
+                      <Body className="font-mono text-h6-md text-white">
                         {(referrals && referrals[0]?.referral_code) || "GHXST-USER"}
                       </Body>
                     </Card>
@@ -144,14 +144,14 @@ export default function ReferralsPage() {
                       <Card key={referral.id} className="border-2 border-grey-800 p-6 bg-black">
                         <Stack gap={4} direction="horizontal" className="justify-between items-start">
                           <Stack gap={1}>
-                            <Body className="font-display text-lg text-white">
+                            <Body className="font-display text-body-md text-white">
                               Referral #{referral.referral_code}
                             </Body>
-                            <Body className="text-sm text-grey-400">
+                            <Body className="text-body-sm text-grey-400">
                               Created {referral.created_at ? new Date(referral.created_at).toLocaleDateString() : "—"}
                             </Body>
                             {referral.completed_at && (
-                              <Body className="text-sm text-grey-400">
+                              <Body className="text-body-sm text-grey-400">
                                 Completed: {new Date(referral.completed_at).toLocaleDateString()}
                               </Body>
                             )}
@@ -161,7 +161,7 @@ export default function ReferralsPage() {
                               {referral.status}
                             </Badge>
                             {(referral.reward_amount || 0) > 0 && (
-                              <Body className="font-mono text-lg text-white">${referral.reward_amount}</Body>
+                              <Body className="font-mono text-body-md text-white">${referral.reward_amount}</Body>
                             )}
                           </Stack>
                         </Stack>

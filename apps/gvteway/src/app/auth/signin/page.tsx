@@ -128,7 +128,7 @@ export default function SignInPage() {
                 />
               </Field>
 
-              <Stack direction="horizontal" className="justify-between items-center text-sm">
+              <Stack direction="horizontal" className="justify-between items-center text-body-sm">
                 <Stack direction="horizontal" gap={2} className="items-center">
                   <Checkbox id="remember" />
                   <Body size="sm" className="text-grey-400">Remember me</Body>
@@ -147,7 +147,7 @@ export default function SignInPage() {
               {loading ? "Signing In..." : "Sign In"}
             </Button>
 
-              <Stack className="text-center text-sm text-grey-400">
+              <Stack className="text-center text-body-sm text-grey-400">
                 <Body size="sm" className="text-grey-400">
                   Don&apos;t have an account?{" "}
                   <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/signup'} className="text-white hover:text-grey-400 inline">

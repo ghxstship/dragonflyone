@@ -261,14 +261,14 @@ export default function FriendsPage() {
                       {friend.avatar_url ? (
                         <Image src={friend.avatar_url} alt={friend.name} fill className="object-cover" />
                       ) : (
-                        <Body className="text-xl">👤</Body>
+                        <Body className="text-h6-md">👤</Body>
                       )}
                     </Stack>
                     <Stack className="flex-1">
                       <Body className="font-bold">{friend.name}</Body>
-                      <Body className="text-sm text-grey-600">{friend.current_event_name}</Body>
+                      <Body className="text-body-sm text-grey-600">{friend.current_event_name}</Body>
                       {friend.location?.section && (
-                        <Body className="text-xs text-grey-500">Section: {friend.location.section}</Body>
+                        <Body className="text-mono-xs text-grey-500">Section: {friend.location.section}</Body>
                       )}
                     </Stack>
                     <Button
@@ -317,7 +317,7 @@ export default function FriendsPage() {
                         <Stack>
                           <Body className="font-bold">{friend.name}</Body>
                           {friend.last_seen && friend.status === 'offline' && (
-                            <Body className="text-xs text-grey-500">
+                            <Body className="text-mono-xs text-grey-500">
                               Last seen: {new Date(friend.last_seen).toLocaleDateString()}
                             </Body>
                           )}
@@ -345,7 +345,7 @@ export default function FriendsPage() {
                     <Stack direction="horizontal" className="justify-between items-start mb-4">
                       <Stack gap={1}>
                         <H3>{meetup.event_name}</H3>
-                        <Body className="text-grey-600 text-sm">
+                        <Body className="text-grey-600 text-body-sm">
                           {new Date(meetup.event_date).toLocaleDateString()}
                         </Body>
                       </Stack>
@@ -482,7 +482,7 @@ export default function FriendsPage() {
                 </Stack>
               </Card>
 
-              <Body className="text-grey-600 text-sm">
+              <Body className="text-grey-600 text-body-sm">
                 Your friend is currently at the event. Use the directions below to find them.
               </Body>
 

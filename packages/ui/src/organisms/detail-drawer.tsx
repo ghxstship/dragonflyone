@@ -180,7 +180,7 @@ export function DetailDrawer<T = unknown>({
           <button
             type="button"
             onClick={onClose}
-            className="p-2 bg-transparent border-none text-white cursor-pointer text-xl leading-none hover:text-grey-300"
+            className="p-2 bg-transparent border-none text-white cursor-pointer text-body-lg leading-none hover:text-grey-300"
             aria-label="Close drawer"
           >
             ✕
@@ -280,7 +280,7 @@ function DetailSectionComponent({ section }: { section: DetailSection }) {
           <button
             type="button"
             onClick={() => setCollapsed(!collapsed)}
-            className="p-1 bg-transparent border-none cursor-pointer text-xs text-grey-500 hover:text-grey-700"
+            className="p-1 bg-transparent border-none cursor-pointer text-mono-xs text-grey-500 hover:text-grey-700"
             aria-expanded={!collapsed}
           >
             {collapsed ? "▼" : "▲"}

@@ -51,7 +51,7 @@ export function CreatorNavigationAuthenticated({
   return (
     <UnifiedHeader
       logo={
-        <Link href="/dashboard" className="font-display text-2xl uppercase tracking-tight text-white">
+        <Link href="/dashboard" className="font-display text-h5-md uppercase tracking-tight text-white">
           COMPVSS
         </Link>
       }

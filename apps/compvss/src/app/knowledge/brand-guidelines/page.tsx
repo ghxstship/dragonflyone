@@ -99,7 +99,7 @@ export default function BrandGuidelinesPage() {
                   <Card key={asset.id} className="border-2 border-ink-800 bg-ink-900/50 p-4">
                     <Stack gap={3}>
                       <Card className="h-24 bg-ink-800 flex items-center justify-center">
-                        <Label className="text-4xl">{getTypeIcon(asset.type)}</Label>
+                        <Label className="text-h3-md">{getTypeIcon(asset.type)}</Label>
                       </Card>
                       <Stack gap={1}>
                         <Label className="text-white">{asset.name}</Label>
@@ -208,7 +208,7 @@ export default function BrandGuidelinesPage() {
           {selectedAsset && (
             <Stack gap={4}>
               <Card className="h-40 bg-ink-800 flex items-center justify-center">
-                <Label className="text-6xl">{getTypeIcon(selectedAsset.type)}</Label>
+                <Label className="text-h1-sm">{getTypeIcon(selectedAsset.type)}</Label>
               </Card>
               <Badge variant="outline">{selectedAsset.type}</Badge>
               {selectedAsset.format && <Stack gap={1}><Label className="text-ink-600">Formats</Label><Label className="text-white">{selectedAsset.format}</Label></Stack>}

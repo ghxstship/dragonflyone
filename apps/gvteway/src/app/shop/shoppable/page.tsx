@@ -84,7 +84,7 @@ export default function ShoppablePostsPage() {
                 {filteredPosts.map((post) => (
                   <Card key={post.id} className="border-2 border-black overflow-hidden">
                     <Card className="h-64 bg-grey-100 relative flex items-center justify-center cursor-pointer" onClick={() => setSelectedPost(post)}>
-                      <Label className="text-6xl">🖼️</Label>
+                      <Label className="text-h1-sm">🖼️</Label>
                       <Card className="absolute top-2 right-2 px-2 py-1 bg-black text-white">
                         <Label size="xs">{getPlatformIcon(post.platform)} {post.platform}</Label>
                       </Card>
@@ -135,7 +135,7 @@ export default function ShoppablePostsPage() {
           {selectedPost && (
             <Stack gap={4}>
               <Card className="h-64 bg-grey-100 flex items-center justify-center">
-                <Label className="text-6xl">🖼️</Label>
+                <Label className="text-h1-sm">🖼️</Label>
               </Card>
               <Stack direction="horizontal" className="justify-between">
                 <Stack gap={1}>
@@ -180,10 +180,10 @@ export default function ShoppablePostsPage() {
           {selectedProduct && (
             <Stack gap={4}>
               <Card className="h-48 bg-grey-100 flex items-center justify-center">
-                <Label className="text-6xl">🛍️</Label>
+                <Label className="text-h1-sm">🛍️</Label>
               </Card>
-              <Body className="font-bold text-xl">{selectedProduct.name}</Body>
-              <Label className="font-mono text-2xl">${selectedProduct.price}</Label>
+              <Body className="font-bold text-h6-md">{selectedProduct.name}</Body>
+              <Label className="font-mono text-h5-md">${selectedProduct.price}</Label>
               <Label className={selectedProduct.inStock ? "text-success-600" : "text-error-600"}>
                 {selectedProduct.inStock ? "In Stock" : "Out of Stock"}
               </Label>

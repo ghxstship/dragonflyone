@@ -49,8 +49,8 @@ export default function HelpPage() {
           logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
           cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/auth/signin')}>SIGN IN</Button>}
         >
-          <Link href="/" className="font-heading text-sm uppercase tracking-wider hover:text-grey-400">Home</Link>
-          <Link href="/events" className="font-heading text-sm uppercase tracking-wider hover:text-grey-400">Events</Link>
+          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Home</Link>
+          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Events</Link>
         </Navigation>
       }
       footer={
@@ -100,9 +100,9 @@ export default function HelpPage() {
               {filteredFAQs.map((faq) => (
                 <Card key={faq.id} className="border-2 border-grey-800 p-6 bg-black">
                   <Stack gap={3}>
-                    <Body className="font-display text-lg text-white">{faq.question}</Body>
+                    <Body className="font-display text-body-md text-white">{faq.question}</Body>
                     <Body className="text-grey-300">{faq.answer}</Body>
-                    <Body className="text-sm text-grey-500">Category: {faq.category}</Body>
+                    <Body className="text-body-sm text-grey-500">Category: {faq.category}</Body>
                   </Stack>
                 </Card>
               ))}

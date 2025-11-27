@@ -207,26 +207,26 @@ export default function CateringPage() {
                 <Grid cols={2} gap={4}>
                   <Card className="p-4 bg-grey-900 border-grey-700">
                     <Stack gap={2}>
-                      <Body className="text-grey-400 text-sm uppercase tracking-wider">Vegetarian</Body>
-                      <Body className="text-2xl font-bold">12</Body>
+                      <Body className="text-grey-400 text-body-sm uppercase tracking-widest">Vegetarian</Body>
+                      <Body className="text-h5-md font-bold">12</Body>
                     </Stack>
                   </Card>
                   <Card className="p-4 bg-grey-900 border-grey-700">
                     <Stack gap={2}>
-                      <Body className="text-grey-400 text-sm uppercase tracking-wider">Vegan</Body>
-                      <Body className="text-2xl font-bold">5</Body>
+                      <Body className="text-grey-400 text-body-sm uppercase tracking-widest">Vegan</Body>
+                      <Body className="text-h5-md font-bold">5</Body>
                     </Stack>
                   </Card>
                   <Card className="p-4 bg-grey-900 border-grey-700">
                     <Stack gap={2}>
-                      <Body className="text-grey-400 text-sm uppercase tracking-wider">Gluten-Free</Body>
-                      <Body className="text-2xl font-bold">8</Body>
+                      <Body className="text-grey-400 text-body-sm uppercase tracking-widest">Gluten-Free</Body>
+                      <Body className="text-h5-md font-bold">8</Body>
                     </Stack>
                   </Card>
                   <Card className="p-4 bg-grey-900 border-grey-700">
                     <Stack gap={2}>
-                      <Body className="text-grey-400 text-sm uppercase tracking-wider">Allergies</Body>
-                      <Body className="text-2xl font-bold">3</Body>
+                      <Body className="text-grey-400 text-body-sm uppercase tracking-widest">Allergies</Body>
+                      <Body className="text-h5-md font-bold">3</Body>
                     </Stack>
                   </Card>
                 </Grid>
@@ -240,7 +240,7 @@ export default function CateringPage() {
                   <Card className="p-4 bg-grey-900 border-grey-700">
                     <Stack gap={1} direction="horizontal" className="items-center justify-between">
                       <Stack gap={1} direction="horizontal" className="items-center">
-                        <Body className="text-2xl">🌅</Body>
+                        <Body className="text-h5-md">🌅</Body>
                         <Body className="font-medium">Breakfast</Body>
                       </Stack>
                       <Body className="text-grey-400">6:00 AM - 45 pax</Body>
@@ -249,7 +249,7 @@ export default function CateringPage() {
                   <Card className="p-4 bg-grey-900 border-grey-700">
                     <Stack gap={1} direction="horizontal" className="items-center justify-between">
                       <Stack gap={1} direction="horizontal" className="items-center">
-                        <Body className="text-2xl">☀️</Body>
+                        <Body className="text-h5-md">☀️</Body>
                         <Body className="font-medium">Lunch</Body>
                       </Stack>
                       <Body className="text-grey-400">12:00 PM - 52 pax</Body>
@@ -258,7 +258,7 @@ export default function CateringPage() {
                   <Card className="p-4 bg-grey-900 border-grey-700">
                     <Stack gap={1} direction="horizontal" className="items-center justify-between">
                       <Stack gap={1} direction="horizontal" className="items-center">
-                        <Body className="text-2xl">🌙</Body>
+                        <Body className="text-h5-md">🌙</Body>
                         <Body className="font-medium">Dinner</Body>
                       </Stack>
                       <Body className="text-grey-400">6:00 PM - 48 pax</Body>
@@ -318,7 +318,7 @@ export default function CateringPage() {
                   <TableRow key={service.id} className="bg-black text-white hover:bg-grey-900">
                     <TableCell>
                       <Stack gap={1} direction="horizontal" className="items-center">
-                        <Body className="text-xl">{getMealIcon(service.meal_type)}</Body>
+                        <Body className="text-h6-md">{getMealIcon(service.meal_type)}</Body>
                         <Body className="text-white">{service.meal_type}</Body>
                       </Stack>
                     </TableCell>

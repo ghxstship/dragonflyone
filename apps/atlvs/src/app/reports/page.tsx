@@ -144,7 +144,7 @@ export default function ReportsPage() {
               <Display size="md">${(analytics.totalRevenue / 1000000).toFixed(2)}M</Display>
               <Stack gap={2} direction="horizontal" className="items-center">
                 <TrendingUp className="w-4 h-4 text-black" />
-                <Body className="text-sm">Total revenue</Body>
+                <Body className="text-body-sm">Total revenue</Body>
               </Stack>
             </Stack>
           </Card>
@@ -157,7 +157,7 @@ export default function ReportsPage() {
               <Display size="md">${(analytics.totalProfit / 1000000).toFixed(2)}M</Display>
               <Stack gap={2} direction="horizontal" className="items-center">
                 <TrendingUp className="w-4 h-4 text-black" />
-                <Body className="text-sm">Net profit</Body>
+                <Body className="text-body-sm">Net profit</Body>
               </Stack>
             </Stack>
           </Card>
@@ -168,7 +168,7 @@ export default function ReportsPage() {
                 <Package className="w-6 h-6 text-grey-600" />
               </Stack>
               <Display size="md">{analytics.projectsCompleted}</Display>
-              <Body className="text-sm text-grey-600">Completed</Body>
+              <Body className="text-body-sm text-grey-600">Completed</Body>
             </Stack>
           </Card>
           <Card className="p-6">
@@ -178,7 +178,7 @@ export default function ReportsPage() {
                 <Users className="w-6 h-6 text-grey-600" />
               </Stack>
               <Display size="md">{analytics.activeMembers}</Display>
-              <Body className="text-sm text-grey-600">Team members</Body>
+              <Body className="text-body-sm text-grey-600">Team members</Body>
             </Stack>
           </Card>
         </Grid>
@@ -216,7 +216,7 @@ export default function ReportsPage() {
                     <Stack gap={2} className="items-center">
                       <Card className={`w-12 h-12 ${dept.color}`} />
                       <H3>{dept.count}</H3>
-                      <Body className="text-sm text-grey-600">{dept.label}</Body>
+                      <Body className="text-body-sm text-grey-600">{dept.label}</Body>
                     </Stack>
                   </Card>
                 ))}
@@ -239,10 +239,10 @@ export default function ReportsPage() {
                 <Stack key={idx} gap={1}>
                   <Stack gap={2} direction="horizontal" className="justify-between">
                     <Body className="font-bold">{asset.category}</Body>
-                    <Body className="text-sm text-grey-600">{asset.utilization}%</Body>
+                    <Body className="text-body-sm text-grey-600">{asset.utilization}%</Body>
                   </Stack>
                   <ProgressBar value={asset.utilization} size="lg" />
-                  <Body className="text-xs text-grey-500">{asset.total} total assets</Body>
+                  <Body className="text-mono-xs text-grey-500">{asset.total} total assets</Body>
                 </Stack>
               ))}
             </Grid>

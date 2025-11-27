@@ -188,7 +188,7 @@ export default function EmergencyProcurementPage() {
                 <Stack gap={1}><Label className="text-ink-400">Requestor</Label><Label className="text-white">{selectedRequest.requestor}</Label></Stack>
                 <Stack gap={1}><Label className="text-ink-400">Department</Label><Label className="text-white">{selectedRequest.department}</Label></Stack>
               </Grid>
-              <Stack gap={1}><Label className="text-ink-400">Amount</Label><Label className="font-mono text-white text-xl">${selectedRequest.amount.toLocaleString()}</Label></Stack>
+              <Stack gap={1}><Label className="text-ink-400">Amount</Label><Label className="font-mono text-white text-h6-md">${selectedRequest.amount.toLocaleString()}</Label></Stack>
               <Stack gap={1}><Label className="text-ink-400">Reason</Label><Body className="text-ink-300">{selectedRequest.reason}</Body></Stack>
               {selectedRequest.vendor && <Stack gap={1}><Label className="text-ink-400">Vendor</Label><Label className="text-white">{selectedRequest.vendor}</Label></Stack>}
               {selectedRequest.approver && <Stack gap={1}><Label className="text-ink-400">Approved By</Label><Label className="text-white">{selectedRequest.approver}</Label></Stack>}

@@ -134,14 +134,14 @@ export default function CurrencyPage() {
                             <Card key={lpIdx} className="p-3 border border-grey-200 text-center">
                               <Stack gap={1}>
                                 <Badge variant="outline">{lp.currency}</Badge>
-                                <Label className="font-mono text-xl">{curr?.symbol}{lp.price}</Label>
+                                <Label className="font-mono text-h6-md">{curr?.symbol}{lp.price}</Label>
                               </Stack>
                             </Card>
                           );
                         })}
                         <Card className="p-3 border border-dashed border-grey-300 text-center cursor-pointer">
                           <Stack gap={1}>
-                            <Label className="text-2xl">+</Label>
+                            <Label className="text-h5-md">+</Label>
                             <Label className="text-grey-500">Add Price</Label>
                           </Stack>
                         </Card>

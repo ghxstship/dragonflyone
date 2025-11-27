@@ -102,7 +102,7 @@ export const AppNavigation = forwardRef<HTMLElement, AppNavigationProps>(
               <Stack
                 direction="horizontal"
                 gap={8}
-                className={clsx("text-sm uppercase tracking-[0.3em]", textClass)}
+                className={clsx("text-mono-sm uppercase tracking-kicker", textClass)}
               >
                 {navItems.map((item) => (
                   <Link
@@ -126,7 +126,7 @@ export const AppNavigation = forwardRef<HTMLElement, AppNavigationProps>(
               {primaryCta && (
                 <Link
                   href={primaryCta.href}
-                  className="hidden md:inline-flex border border-white px-6 py-2 text-xs uppercase tracking-[0.3em] transition hover:-translate-y-0.5 hover:bg-white hover:text-black"
+                  className="hidden md:inline-flex border border-white px-6 py-2 text-mono-xs uppercase tracking-kicker transition hover:-translate-y-0.5 hover:bg-white hover:text-black"
                 >
                   {primaryCta.label}
                 </Link>
@@ -135,7 +135,7 @@ export const AppNavigation = forwardRef<HTMLElement, AppNavigationProps>(
                 <Link
                   href={secondaryCta.href}
                   className={clsx(
-                    "hidden md:inline-flex border px-6 py-2 text-xs uppercase tracking-[0.3em] transition hover:border-white hover:text-white",
+                    "hidden md:inline-flex border px-6 py-2 text-mono-xs uppercase tracking-kicker transition hover:border-white hover:text-white",
                     colorScheme === "black" ? "border-grey-700 text-grey-400" : "border-ink-700 text-ink-400"
                   )}
                 >
@@ -188,7 +188,7 @@ export const AppNavigation = forwardRef<HTMLElement, AppNavigationProps>(
                     key={item.label}
                     href={item.href}
                     className={clsx(
-                      "block border-b pb-4 text-2xl uppercase tracking-[0.3em]",
+                      "block border-b pb-4 text-h4-md uppercase tracking-kicker",
                       borderClass,
                       isActive(item.href) ? "text-white" : textClass
                     )}
@@ -202,7 +202,7 @@ export const AppNavigation = forwardRef<HTMLElement, AppNavigationProps>(
                 {primaryCta && (
                   <Link
                     href={primaryCta.href}
-                    className="block w-full border border-white px-6 py-4 text-center text-xs uppercase tracking-[0.3em] text-white"
+                    className="block w-full border border-white px-6 py-4 text-center text-mono-xs uppercase tracking-kicker text-white"
                     onClick={handleClose}
                   >
                     {primaryCta.label}
@@ -212,7 +212,7 @@ export const AppNavigation = forwardRef<HTMLElement, AppNavigationProps>(
                   <Link
                     href={secondaryCta.href}
                     className={clsx(
-                      "block w-full border px-6 py-4 text-center text-xs uppercase tracking-[0.3em]",
+                      "block w-full border px-6 py-4 text-center text-mono-xs uppercase tracking-kicker",
                       colorScheme === "black" ? "border-grey-700 text-grey-400" : "border-ink-700 text-ink-400"
                     )}
                     onClick={handleClose}

@@ -104,7 +104,7 @@ export default function FanClubPage() {
                   <Card key={club.id} className="border-2 border-black overflow-hidden">
                     <Card className="p-4 bg-black text-white">
                       <Stack gap={2}>
-                        <Body className="font-bold text-lg">{club.name}</Body>
+                        <Body className="font-bold text-body-md">{club.name}</Body>
                         {club.artistName && <Label className="text-grey-600">{club.artistName}</Label>}
                       </Stack>
                     </Card>
@@ -123,20 +123,20 @@ export default function FanClubPage() {
                         {club.benefits.slice(0, 3).map((benefit, idx) => (
                           <Stack key={idx} direction="horizontal" gap={2}>
                             <Label className="text-success-600">✓</Label>
-                            <Label className="text-sm">{benefit}</Label>
+                            <Label className="text-body-sm">{benefit}</Label>
                           </Stack>
                         ))}
                         {club.benefits.length > 3 && (
-                          <Label className="text-grey-500 text-sm">+{club.benefits.length - 3} more</Label>
+                          <Label className="text-grey-500 text-body-sm">+{club.benefits.length - 3} more</Label>
                         )}
                       </Stack>
                       <Grid cols={2} gap={2}>
                         <Card className="p-2 bg-grey-50 text-center">
-                          <Label className="font-mono text-lg">{club.exclusiveContent}</Label>
+                          <Label className="font-mono text-body-md">{club.exclusiveContent}</Label>
                           <Label size="xs" className="text-grey-500">Content</Label>
                         </Card>
                         <Card className="p-2 bg-grey-50 text-center">
-                          <Label className="font-mono text-lg">{club.upcomingPerks}</Label>
+                          <Label className="font-mono text-body-md">{club.upcomingPerks}</Label>
                           <Label size="xs" className="text-grey-500">Perks</Label>
                         </Card>
                       </Grid>
@@ -156,7 +156,7 @@ export default function FanClubPage() {
                     <Grid cols={4} gap={4} className="items-center">
                       <Stack gap={1}>
                         <Body className="font-bold">{perk.title}</Body>
-                        <Label className="text-grey-600 text-sm">{perk.description}</Label>
+                        <Label className="text-grey-600 text-body-sm">{perk.description}</Label>
                       </Stack>
                       <Stack gap={1}>
                         <Badge className={getPerkTypeColor(perk.type)}>{perk.type}</Badge>
@@ -204,11 +204,11 @@ export default function FanClubPage() {
                   </Stack>
                   {selectedClub.monthlyPrice ? (
                     <Stack gap={0} className="text-right">
-                      <Label className="font-mono text-2xl">${selectedClub.monthlyPrice}</Label>
+                      <Label className="font-mono text-h5-md">${selectedClub.monthlyPrice}</Label>
                       <Label size="xs" className="text-grey-500">per month</Label>
                     </Stack>
                   ) : (
-                    <Label className="text-success-600 text-xl">Free</Label>
+                    <Label className="text-success-600 text-h6-md">Free</Label>
                   )}
                 </Stack>
               </Card>

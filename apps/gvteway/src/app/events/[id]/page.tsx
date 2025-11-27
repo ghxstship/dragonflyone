@@ -113,8 +113,8 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
           logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
           cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/auth/signin')}>SIGN IN</Button>}
         >
-          <Link href="/" className="font-heading text-sm uppercase tracking-wider hover:text-grey-400">Home</Link>
-          <Link href="/events" className="font-heading text-sm uppercase tracking-wider hover:text-grey-400">Events</Link>
+          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Home</Link>
+          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Events</Link>
         </Navigation>
       }
       footer={
@@ -165,11 +165,11 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
                 <H3 className="mb-4 text-white">Event Info</H3>
                 <Stack gap={3}>
                   <Stack>
-                    <Label className="text-grey-500 text-sm">Capacity</Label>
+                    <Label className="text-grey-500 text-body-sm">Capacity</Label>
                     <Body className="text-white">{event.capacity} attendees</Body>
                   </Stack>
                   <Stack>
-                    <Label className="text-grey-500 text-sm">Genre</Label>
+                    <Label className="text-grey-500 text-body-sm">Genre</Label>
                     <Badge>{event.genre}</Badge>
                   </Stack>
                 </Stack>
@@ -179,7 +179,7 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
             <Stack gap={6}>
               <Card className="border-2 border-grey-800 p-6">
                 <H3 className="mb-4 text-white">Event Details</H3>
-                <Stack gap={3} className="text-sm">
+                <Stack gap={3} className="text-body-sm">
                   <Stack>
                     <Label className="text-grey-500">Date</Label>
                     <Body className="mt-1 text-white">{new Date(event.event_date).toLocaleDateString()}</Body>
@@ -205,8 +205,8 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
                         <Stack direction="horizontal" className="items-start justify-between">
                           <Stack>
                             <Label className="text-white">{tier.name}</Label>
-                            <Body className="mt-1 font-mono text-2xl text-white">${tier.price}</Body>
-                            <Body className="mt-1 text-xs text-grey-400">{tier.available_quantity} remaining</Body>
+                            <Body className="mt-1 font-mono text-h5-md text-white">${tier.price}</Body>
+                            <Body className="mt-1 text-mono-xs text-grey-400">{tier.available_quantity} remaining</Body>
                           </Stack>
                           {tier.available_quantity > 0 ? (
                             <Badge variant="solid">Available</Badge>

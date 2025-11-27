@@ -172,7 +172,7 @@ export default function VIPManagementPage() {
         <ModalBody>
           {selectedGuest && (
             <Stack gap={4}>
-              <Body className="text-white font-display text-lg">{selectedGuest.name}</Body>
+              <Body className="text-white font-display text-body-md">{selectedGuest.name}</Body>
               <Label className="text-ink-600">{selectedGuest.email}</Label>
               <Badge variant="outline">{selectedGuest.passType}</Badge>
               <Label className={getStatusColor(selectedGuest.status)}>{selectedGuest.status}</Label>

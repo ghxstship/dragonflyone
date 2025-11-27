@@ -100,7 +100,7 @@ export default function AccessibilityPage() {
               {mockServices.map((service) => (
                 <Card key={service.id} className="border-2 border-black p-4">
                   <Stack gap={3} className="text-center">
-                    <Label className="text-4xl">{service.icon}</Label>
+                    <Label className="text-h3-md">{service.icon}</Label>
                     <Body className="font-bold">{service.name}</Body>
                     <Label className="text-grey-500">{service.description}</Label>
                     <Badge variant={service.available ? "solid" : "outline"}>

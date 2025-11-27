@@ -74,8 +74,8 @@ export default function MembershipPage() {
           logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
           cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/profile')}>PROFILE</Button>}
         >
-          <Link href="/" className="font-heading text-sm uppercase tracking-wider hover:text-grey-400">Home</Link>
-          <Link href="/events" className="font-heading text-sm uppercase tracking-wider hover:text-grey-400">Events</Link>
+          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Home</Link>
+          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Events</Link>
         </Navigation>
       }
       footer={
@@ -119,7 +119,7 @@ export default function MembershipPage() {
                         <Stack gap={2} direction="horizontal" className="items-baseline">
                           <Display size="md" className="text-white">${tier.price}</Display>
                           {tier.price > 0 && (
-                            <Body className="font-mono text-sm text-grey-400">/month</Body>
+                            <Body className="font-mono text-body-sm text-grey-400">/month</Body>
                           )}
                         </Stack>
                       </Stack>
@@ -128,7 +128,7 @@ export default function MembershipPage() {
                         {tier.features.map((feature, idx) => (
                           <Stack key={idx} gap={2} direction="horizontal" className="items-start">
                             <Body className="text-white">✓</Body>
-                            <Body className="text-sm text-grey-300">{feature}</Body>
+                            <Body className="text-body-sm text-grey-300">{feature}</Body>
                           </Stack>
                         ))}
                       </Stack>

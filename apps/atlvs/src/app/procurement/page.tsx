@@ -155,7 +155,7 @@ export default function ProcurementPage() {
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
                 variant="ghost"
-                className={`pb-4 px-6 font-heading text-lg tracking-wider rounded-none ${
+                className={`pb-4 px-6 font-heading text-body-md tracking-wider rounded-none ${
                   activeTab === tab.id
                     ? 'border-b-4 border-white -mb-0.5 text-white'
                     : 'text-ink-500 hover:text-white'
@@ -179,25 +179,25 @@ export default function ProcurementPage() {
                       </Badge>
                     </Stack>
                     <H3 className="text-white mb-1">{po.description}</H3>
-                    <Body className="text-sm text-ink-600">Vendor: {(po as any).vendor}</Body>
+                    <Body className="text-body-sm text-ink-600">Vendor: {(po as any).vendor}</Body>
                   </Stack>
                   <Stack className="text-right">
                     <Display size="md" className="text-white mb-1">${(po.amount / 1000).toFixed(0)}K</Display>
-                    <Body className="text-sm text-ink-600">Due: {new Date((po as any).dueDate).toLocaleDateString()}</Body>
+                    <Body className="text-body-sm text-ink-600">Due: {new Date((po as any).dueDate).toLocaleDateString()}</Body>
                   </Stack>
               </Stack>
 
                 <Grid cols={3} gap={6} className="mb-4">
                   <Stack gap={1}>
-                    <Body className="text-sm text-ink-500">Category</Body>
+                    <Body className="text-body-sm text-ink-500">Category</Body>
                     <Body className="font-bold text-white">{po.category}</Body>
                   </Stack>
                   <Stack gap={1}>
-                    <Body className="text-sm text-ink-500">Requested By</Body>
+                    <Body className="text-body-sm text-ink-500">Requested By</Body>
                     <Body className="font-bold text-white">{(po as any).requestedBy}</Body>
                   </Stack>
                   <Stack gap={1}>
-                    <Body className="text-sm text-ink-500">Status</Body>
+                    <Body className="text-body-sm text-ink-500">Status</Body>
                     <Body className="font-bold text-white">{po.status.toUpperCase()}</Body>
                   </Stack>
                 </Grid>

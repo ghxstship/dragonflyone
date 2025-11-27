@@ -185,7 +185,7 @@ export default function ScenariosPage() {
                     <Stack gap={4} direction="horizontal" className="justify-between items-start">
                       <Stack gap={1}>
                         <H3 className="text-white">{scenario.name}</H3>
-                        <Body className="font-mono text-xs uppercase tracking-wider text-grey-500">
+                        <Body className="font-mono text-mono-xs uppercase tracking-widest text-grey-500">
                           {scenario.scenario_type?.replace("_", " ")}
                         </Body>
                       </Stack>
@@ -195,7 +195,7 @@ export default function ScenariosPage() {
                     <Grid cols={3} gap={4}>
                       <Card className="bg-grey-900 border-grey-700">
                         <CardBody>
-                          <Body className="font-mono text-xs uppercase tracking-wider text-grey-500">
+                          <Body className="font-mono text-mono-xs uppercase tracking-widest text-grey-500">
                             Revenue Forecast
                           </Body>
                           <H3 className="mt-2 text-white">
@@ -205,7 +205,7 @@ export default function ScenariosPage() {
                       </Card>
                       <Card className="bg-grey-900 border-grey-700">
                         <CardBody>
-                          <Body className="font-mono text-xs uppercase tracking-wider text-grey-500">
+                          <Body className="font-mono text-mono-xs uppercase tracking-widest text-grey-500">
                             Probability
                           </Body>
                           <H3 className="mt-2 text-white">{scenario.probability || 0}%</H3>
@@ -213,7 +213,7 @@ export default function ScenariosPage() {
                       </Card>
                       <Card className="bg-grey-900 border-grey-700">
                         <CardBody>
-                          <Body className="font-mono text-xs uppercase tracking-wider text-grey-500">
+                          <Body className="font-mono text-mono-xs uppercase tracking-widest text-grey-500">
                             Impact
                           </Body>
                           <Stack gap={2} direction="horizontal" className="mt-2 items-center">
@@ -227,12 +227,12 @@ export default function ScenariosPage() {
 
                     {scenario.assumptions && scenario.assumptions.length > 0 && (
                       <Stack gap={2}>
-                        <Body className="font-mono text-xs uppercase tracking-wider text-grey-500">
+                        <Body className="font-mono text-mono-xs uppercase tracking-widest text-grey-500">
                           Key Assumptions
                         </Body>
                         <Stack gap={2}>
                           {scenario.assumptions.map((assumption, idx) => (
-                            <Body key={idx} className="text-sm text-grey-300">
+                            <Body key={idx} className="text-body-sm text-grey-300">
                               • {assumption}
                             </Body>
                           ))}

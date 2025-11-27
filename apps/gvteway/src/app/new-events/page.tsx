@@ -168,14 +168,14 @@ export default function NewEventsPage() {
                   </Stack>
                   {event.presale_date && new Date(event.presale_date) > new Date() && (
                     <Stack className="p-3 bg-grey-50 border-t">
-                      <Body className="text-sm text-grey-600">
+                      <Body className="text-body-sm text-grey-600">
                         Presale: {new Date(event.presale_date).toLocaleDateString()}
                       </Body>
                     </Stack>
                   )}
                   {event.on_sale_date && new Date(event.on_sale_date) > new Date() && (
                     <Stack className="p-3 bg-grey-50 border-t">
-                      <Body className="text-sm text-grey-600">
+                      <Body className="text-body-sm text-grey-600">
                         On Sale: {new Date(event.on_sale_date).toLocaleDateString()}
                       </Body>
                     </Stack>

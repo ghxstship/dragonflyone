@@ -106,7 +106,7 @@ export default function MentorshipPage() {
                     <Stack gap={4}>
                       <Stack direction="horizontal" className="justify-between items-start">
                         <Stack gap={1}>
-                          <Body className="font-display text-white text-lg">{mentor.name}</Body>
+                          <Body className="font-display text-white text-body-md">{mentor.name}</Body>
                           <Label className="text-ink-400">{mentor.role}</Label>
                         </Stack>
                         <Label className={getAvailabilityColor(mentor.availability)}>{mentor.availability}</Label>
@@ -140,7 +140,7 @@ export default function MentorshipPage() {
                   <Card key={program.id} className={`border-2 p-6 ${getLevelColor(program.level)}`}>
                     <Grid cols={4} gap={6} className="items-center">
                       <Stack gap={2}>
-                        <Body className="font-display text-white text-lg">{program.name}</Body>
+                        <Body className="font-display text-white text-body-md">{program.name}</Body>
                         <Badge variant="outline">{program.level}</Badge>
                       </Stack>
                       <Stack gap={1}>
@@ -171,7 +171,7 @@ export default function MentorshipPage() {
                 ].map((resource, idx) => (
                   <Card key={idx} className="border-2 border-ink-800 bg-ink-900/50 p-6 cursor-pointer hover:border-white">
                     <Stack gap={3} className="text-center">
-                      <Label className="text-4xl">{resource.icon}</Label>
+                      <Label className="text-h3-md">{resource.icon}</Label>
                       <Body className="font-display text-white">{resource.title}</Body>
                       <Label className="text-ink-400">{resource.desc}</Label>
                     </Stack>
@@ -190,7 +190,7 @@ export default function MentorshipPage() {
         <ModalBody>
           {selectedMentor && (
             <Stack gap={4}>
-              <Body className="font-display text-white text-xl">{selectedMentor.name}</Body>
+              <Body className="font-display text-white text-h6-md">{selectedMentor.name}</Body>
               <Label className="text-ink-400">{selectedMentor.role} • {selectedMentor.department}</Label>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}><Label size="xs" className="text-ink-500">Experience</Label><Label className="text-white">{selectedMentor.yearsExperience} years</Label></Stack>

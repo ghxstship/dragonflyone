@@ -90,7 +90,7 @@ export default function SetTimesPage() {
             <Card className="p-4 bg-ink-800 border border-ink-700">
               <Stack gap={1} className="text-center">
                 <Label size="xs" className="text-ink-500">Current Time</Label>
-                <Label className="font-mono text-white text-2xl">
+                <Label className="font-mono text-white text-h5-md">
                   {currentTime.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}
                 </Label>
               </Stack>
@@ -110,7 +110,7 @@ export default function SetTimesPage() {
                 <Stack direction="horizontal" className="justify-between items-center">
                   <Stack gap={1}>
                     <Label className="text-info-400">NOW ON STAGE</Label>
-                    <Body className="font-display text-white text-2xl">{onStage[0].artistName}</Body>
+                    <Body className="font-display text-white text-h5-md">{onStage[0].artistName}</Body>
                     <Label className="text-ink-400">{onStage[0].stage}</Label>
                   </Stack>
                   <Stack gap={2} className="text-right">
@@ -242,7 +242,7 @@ export default function SetTimesPage() {
         <ModalBody>
           {selectedSet && (
             <Stack gap={4}>
-              <Body className="font-display text-white text-lg">{selectedSet.artistName}</Body>
+              <Body className="font-display text-white text-body-md">{selectedSet.artistName}</Body>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}><Label size="xs" className="text-ink-500">Stage</Label><Label className="text-white">{selectedSet.stage}</Label></Stack>
                 <Stack gap={1}><Label size="xs" className="text-ink-500">Status</Label><Label className={getStatusColor(selectedSet.status)}>{selectedSet.status}</Label></Stack>

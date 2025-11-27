@@ -191,26 +191,26 @@ export default function SubcontractorsPage() {
               <Grid cols={4} gap={4}>
                 <Card className="p-4 bg-grey-900 border-grey-700">
                   <Stack gap={2}>
-                    <Body className="text-grey-400 text-sm uppercase tracking-wider">Audio</Body>
-                    <Body className="text-2xl font-bold">12</Body>
+                    <Body className="text-grey-400 text-body-sm uppercase tracking-widest">Audio</Body>
+                    <Body className="text-h5-md font-bold">12</Body>
                   </Stack>
                 </Card>
                 <Card className="p-4 bg-grey-900 border-grey-700">
                   <Stack gap={2}>
-                    <Body className="text-grey-400 text-sm uppercase tracking-wider">Lighting</Body>
-                    <Body className="text-2xl font-bold">8</Body>
+                    <Body className="text-grey-400 text-body-sm uppercase tracking-widest">Lighting</Body>
+                    <Body className="text-h5-md font-bold">8</Body>
                   </Stack>
                 </Card>
                 <Card className="p-4 bg-grey-900 border-grey-700">
                   <Stack gap={2}>
-                    <Body className="text-grey-400 text-sm uppercase tracking-wider">Video</Body>
-                    <Body className="text-2xl font-bold">6</Body>
+                    <Body className="text-grey-400 text-body-sm uppercase tracking-widest">Video</Body>
+                    <Body className="text-h5-md font-bold">6</Body>
                   </Stack>
                 </Card>
                 <Card className="p-4 bg-grey-900 border-grey-700">
                   <Stack gap={2}>
-                    <Body className="text-grey-400 text-sm uppercase tracking-wider">Staging</Body>
-                    <Body className="text-2xl font-bold">10</Body>
+                    <Body className="text-grey-400 text-body-sm uppercase tracking-widest">Staging</Body>
+                    <Body className="text-h5-md font-bold">10</Body>
                   </Stack>
                 </Card>
               </Grid>
@@ -268,7 +268,7 @@ export default function SubcontractorsPage() {
                     <TableCell>
                       <Stack gap={1}>
                         <Body className="text-white font-medium">{sub.company_name}</Body>
-                        <Body className="text-grey-500 text-sm">{sub.email}</Body>
+                        <Body className="text-grey-500 text-body-sm">{sub.email}</Body>
                       </Stack>
                     </TableCell>
                     <TableCell className="text-grey-400">

@@ -127,7 +127,7 @@ export default function WishlistPage() {
                     <Stack direction="horizontal" className="items-start justify-between mb-3">
                       <Stack>
                         <H2 className="mb-2">{event.event_name}</H2>
-                        <Stack direction="horizontal" gap={4} className="text-sm text-grey-600">
+                        <Stack direction="horizontal" gap={4} className="text-body-sm text-grey-600">
                           <Stack direction="horizontal" gap={1} className="items-center">
                             <Calendar className="w-4 h-4" />
                             <Body>{new Date(event.date).toLocaleDateString('en-US', { 
@@ -188,7 +188,7 @@ export default function WishlistPage() {
             <Stack direction="horizontal" className="items-center justify-between">
               <Stack>
                 <H3 className="mb-1">PRICE ALERTS ENABLED</H3>
-                <Body className="text-sm text-grey-600">
+                <Body className="text-body-sm text-grey-600">
                   We&apos;ll notify you when prices drop for events on your wishlist
                 </Body>
               </Stack>

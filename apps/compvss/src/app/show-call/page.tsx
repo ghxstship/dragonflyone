@@ -88,7 +88,7 @@ export default function ShowCallPage() {
             <Card className="p-4 bg-ink-800 border border-ink-700">
               <Stack gap={1} className="text-center">
                 <Label size="xs" className="text-ink-500">Current Time</Label>
-                <Label className="font-mono text-white text-2xl">
+                <Label className="font-mono text-white text-h5-md">
                   {currentTime.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}
                 </Label>
               </Stack>
@@ -105,19 +105,19 @@ export default function ShowCallPage() {
           <Card className="p-4 border-2 border-ink-800 bg-ink-900/50">
             <Grid cols={4} gap={4}>
               <Stack gap={1} className="text-center">
-                <Label className="text-success-400 text-3xl font-mono">{checkedInCount}</Label>
+                <Label className="text-success-400 text-h4-md font-mono">{checkedInCount}</Label>
                 <Label size="xs" className="text-ink-400">Present</Label>
               </Stack>
               <Stack gap={1} className="text-center">
-                <Label className="text-warning-400 text-3xl font-mono">{lateCount}</Label>
+                <Label className="text-warning-400 text-h4-md font-mono">{lateCount}</Label>
                 <Label size="xs" className="text-ink-400">Late</Label>
               </Stack>
               <Stack gap={1} className="text-center">
-                <Label className="text-error-400 text-3xl font-mono">{noShowCount}</Label>
+                <Label className="text-error-400 text-h4-md font-mono">{noShowCount}</Label>
                 <Label size="xs" className="text-ink-400">Missing</Label>
               </Stack>
               <Stack gap={1} className="text-center">
-                <Label className="text-white text-3xl font-mono">{mockCrew.length}</Label>
+                <Label className="text-white text-h4-md font-mono">{mockCrew.length}</Label>
                 <Label size="xs" className="text-ink-400">Total Crew</Label>
               </Stack>
             </Grid>

@@ -211,7 +211,7 @@ function AccessibilityRequestContent() {
                             }`}>
                               {service.label}
                             </Body>
-                            <Body className={`text-sm ${
+                            <Body className={`text-body-sm ${
                               selectedServices.includes(service.id) ? 'text-grey-600' : 'text-grey-500'
                             }`}>
                               {service.description}
@@ -275,33 +275,33 @@ function AccessibilityRequestContent() {
                     <Card key={request.id} className="p-3">
                       <Stack gap={2}>
                         <Stack direction="horizontal" className="justify-between items-start">
-                          <Body className="font-medium text-sm">{request.event_title}</Body>
+                          <Body className="font-medium text-body-sm">{request.event_title}</Body>
                           {getStatusBadge(request.status)}
                         </Stack>
-                        <Body className="text-xs text-grey-500">{request.event_date}</Body>
-                        <Body className="text-xs text-grey-600">{request.request_type}</Body>
+                        <Body className="text-mono-xs text-grey-500">{request.event_date}</Body>
+                        <Body className="text-mono-xs text-grey-600">{request.request_type}</Body>
                       </Stack>
                     </Card>
                   ))}
                 </Stack>
               ) : (
-                <Body className="text-grey-500 text-sm">No previous requests</Body>
+                <Body className="text-grey-500 text-body-sm">No previous requests</Body>
               )}
             </Card>
 
             <Card className="p-6 bg-grey-50">
               <H3 className="mb-4">NEED HELP?</H3>
-              <Body className="text-sm text-grey-600 mb-4">
+              <Body className="text-body-sm text-grey-600 mb-4">
                 Our accessibility team is here to assist you.
               </Body>
               <Stack gap={2}>
-                <Body className="text-sm">
+                <Body className="text-body-sm">
                   <strong>Phone:</strong> 1-800-555-0123
                 </Body>
-                <Body className="text-sm">
+                <Body className="text-body-sm">
                   <strong>Email:</strong> accessibility@ghxstship.com
                 </Body>
-                <Body className="text-sm">
+                <Body className="text-body-sm">
                   <strong>TTY:</strong> 1-800-555-0124
                 </Body>
               </Stack>

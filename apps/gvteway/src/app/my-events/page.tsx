@@ -202,7 +202,7 @@ END:VCALENDAR`;
                         </Stack>
                         <Stack className="items-end">
                           <Badge>{event.ticket_count} ticket{event.ticket_count > 1 ? 's' : ''}</Badge>
-                          <Body className="text-sm text-grey-500 mt-1">{event.ticket_type}</Body>
+                          <Body className="text-body-sm text-grey-500 mt-1">{event.ticket_type}</Body>
                         </Stack>
                       </Stack>
 
@@ -212,7 +212,7 @@ END:VCALENDAR`;
                             checked={event.reminder_enabled}
                             onChange={() => handleToggleReminder(event)}
                           />
-                          <Label className="text-sm">
+                          <Label className="text-body-sm">
                             {event.reminder_enabled 
                               ? `Reminder: ${event.reminder_time} before`
                               : 'Set reminder'}
@@ -253,9 +253,9 @@ END:VCALENDAR`;
               {pastEvents.slice(0, 6).map(event => (
                 <Card key={event.id} className="p-4">
                   <Stack gap={2}>
-                    <H3 className="text-lg">{event.title}</H3>
-                    <Body className="text-grey-600 text-sm">{event.date}</Body>
-                    <Body className="text-grey-500 text-sm">{event.venue}</Body>
+                    <H3 className="text-body-md">{event.title}</H3>
+                    <Body className="text-grey-600 text-body-sm">{event.date}</Body>
+                    <Body className="text-grey-500 text-body-sm">{event.venue}</Body>
                     <Stack direction="horizontal" gap={2} className="mt-2">
                       <Button
                         variant="ghost"

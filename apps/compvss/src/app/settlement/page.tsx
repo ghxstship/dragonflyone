@@ -154,7 +154,7 @@ export default function SettlementPage() {
                       <Stack gap={4}>
                         <Stack direction="horizontal" className="justify-between items-start">
                           <Stack gap={1}>
-                            <Body className="font-display text-white text-lg">{settlement.projectName}</Body>
+                            <Body className="font-display text-white text-body-md">{settlement.projectName}</Body>
                             <Label className="text-ink-500">Event Date: {settlement.eventDate}</Label>
                           </Stack>
                           <Label className={getStatusColor(settlement.status)}>{settlement.status}</Label>
@@ -164,25 +164,25 @@ export default function SettlementPage() {
                           <Card className="p-3 bg-ink-800 border border-ink-700">
                             <Stack gap={1}>
                               <Label size="xs" className="text-ink-500">Contract Value</Label>
-                              <Label className="font-mono text-white text-lg">${settlement.contractValue.toLocaleString()}</Label>
+                              <Label className="font-mono text-white text-body-md">${settlement.contractValue.toLocaleString()}</Label>
                             </Stack>
                           </Card>
                           <Card className="p-3 bg-ink-800 border border-ink-700">
                             <Stack gap={1}>
                               <Label size="xs" className="text-ink-500">Actual Costs</Label>
-                              <Label className="font-mono text-white text-lg">${settlement.actualCosts.toLocaleString()}</Label>
+                              <Label className="font-mono text-white text-body-md">${settlement.actualCosts.toLocaleString()}</Label>
                             </Stack>
                           </Card>
                           <Card className="p-3 bg-ink-800 border border-ink-700">
                             <Stack gap={1}>
                               <Label size="xs" className="text-ink-500">Gross Profit</Label>
-                              <Label className="font-mono text-success-400 text-lg">${settlement.grossProfit.toLocaleString()}</Label>
+                              <Label className="font-mono text-success-400 text-body-md">${settlement.grossProfit.toLocaleString()}</Label>
                             </Stack>
                           </Card>
                           <Card className="p-3 bg-ink-800 border border-ink-700">
                             <Stack gap={1}>
                               <Label size="xs" className="text-ink-500">Margin</Label>
-                              <Label className="font-mono text-white text-lg">{settlement.marginPct}%</Label>
+                              <Label className="font-mono text-white text-body-md">{settlement.marginPct}%</Label>
                             </Stack>
                           </Card>
                         </Grid>
@@ -229,7 +229,7 @@ export default function SettlementPage() {
         <ModalBody>
           {selectedSettlement && (
             <Stack gap={4}>
-              <Body className="font-display text-white text-lg">{selectedSettlement.projectName}</Body>
+              <Body className="font-display text-white text-body-md">{selectedSettlement.projectName}</Body>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}><Label size="xs" className="text-ink-500">Event Date</Label><Label className="font-mono text-white">{selectedSettlement.eventDate}</Label></Stack>
                 <Stack gap={1}><Label size="xs" className="text-ink-500">Status</Label><Label className={getStatusColor(selectedSettlement.status)}>{selectedSettlement.status}</Label></Stack>

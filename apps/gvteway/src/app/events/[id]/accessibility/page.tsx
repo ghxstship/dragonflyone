@@ -79,7 +79,7 @@ export default function AccessibilityPage() {
               <Stack direction="horizontal" className="justify-between items-start">
                 <Stack gap={2}>
                   <H3>AGE RESTRICTION</H3>
-                  <Badge variant="solid" className="text-lg px-4 py-2">{mockAgeRestriction.type}</Badge>
+                  <Badge variant="solid" className="text-body-md px-4 py-2">{mockAgeRestriction.type}</Badge>
                 </Stack>
                 {mockAgeRestriction.idRequired && (
                   <Alert variant="warning" className="w-auto">ID Required</Alert>
@@ -125,7 +125,7 @@ export default function AccessibilityPage() {
                           {service.available ? "Available" : "Not Available"}
                         </Badge>
                       </Stack>
-                      <Body className="text-grey-600 text-sm">{service.description}</Body>
+                      <Body className="text-grey-600 text-body-sm">{service.description}</Body>
                       {service.requiresRequest && service.leadTime && (
                         <Label size="xs" className="text-grey-500">Requires {service.leadTime} advance notice</Label>
                       )}
@@ -237,7 +237,7 @@ export default function AccessibilityPage() {
             {selectedService ? (
               <Card className="p-3 bg-grey-50 border border-grey-200">
                 <Body className="font-bold">{selectedService.name}</Body>
-                <Label className="text-grey-600 text-sm">{selectedService.description}</Label>
+                <Label className="text-grey-600 text-body-sm">{selectedService.description}</Label>
               </Card>
             ) : (
               <Select>

@@ -102,11 +102,11 @@ export default function PhotoBoothPage() {
                       <Grid cols={2} gap={4}>
                         <Stack gap={1}>
                           <Label size="xs" className="text-grey-500">Sessions</Label>
-                          <Label className="font-mono text-xl">{booth.sessionCount}</Label>
+                          <Label className="font-mono text-h6-md">{booth.sessionCount}</Label>
                         </Stack>
                         <Stack gap={1}>
                           <Label size="xs" className="text-grey-500">Photos</Label>
-                          <Label className="font-mono text-xl">{booth.photosTaken}</Label>
+                          <Label className="font-mono text-h6-md">{booth.photosTaken}</Label>
                         </Stack>
                       </Grid>
                       <Button variant="outline" onClick={() => setSelectedBooth(booth)}>View Details</Button>
@@ -122,7 +122,7 @@ export default function PhotoBoothPage() {
                   {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((i) => (
                     <Card key={i} className="aspect-square bg-grey-100 border-2 border-black flex items-center justify-center cursor-pointer hover:bg-grey-200">
                       <Stack gap={2} className="text-center">
-                        <Label className="text-4xl">📸</Label>
+                        <Label className="text-h3-md">📸</Label>
                         <Label size="xs" className="text-grey-500">Photo {i}</Label>
                       </Stack>
                     </Card>
@@ -186,14 +186,14 @@ export default function PhotoBoothPage() {
         <ModalBody>
           {selectedBooth && (
             <Stack gap={4}>
-              <Body className="font-bold text-lg">{selectedBooth.name}</Body>
+              <Body className="font-bold text-body-md">{selectedBooth.name}</Body>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}><Label size="xs" className="text-grey-500">Location</Label><Label>{selectedBooth.location}</Label></Stack>
                 <Stack gap={1}><Label size="xs" className="text-grey-500">Status</Label><Label className={getStatusColor(selectedBooth.status)}>{selectedBooth.status}</Label></Stack>
               </Grid>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-grey-500">Sessions Today</Label><Label className="font-mono text-xl">{selectedBooth.sessionCount}</Label></Stack>
-                <Stack gap={1}><Label size="xs" className="text-grey-500">Photos Taken</Label><Label className="font-mono text-xl">{selectedBooth.photosTaken}</Label></Stack>
+                <Stack gap={1}><Label size="xs" className="text-grey-500">Sessions Today</Label><Label className="font-mono text-h6-md">{selectedBooth.sessionCount}</Label></Stack>
+                <Stack gap={1}><Label size="xs" className="text-grey-500">Photos Taken</Label><Label className="font-mono text-h6-md">{selectedBooth.photosTaken}</Label></Stack>
               </Grid>
               <Stack gap={2}>
                 <Label className="text-grey-500">Recent Activity</Label>

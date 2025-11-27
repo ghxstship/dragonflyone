@@ -236,7 +236,7 @@ export const UnifiedHeader = forwardRef<HTMLElement, UnifiedHeaderProps>(
                     href={item.href}
                     onClick={handleMobileClose}
                     className={clsx(
-                      "flex items-center gap-3 px-4 py-3 text-lg font-medium rounded transition-colors",
+                      "flex items-center gap-3 px-4 py-3 text-body-lg font-medium rounded transition-colors",
                       isActive(item.href)
                         ? inverted
                           ? "bg-grey-800 text-white"
@@ -250,7 +250,7 @@ export const UnifiedHeader = forwardRef<HTMLElement, UnifiedHeaderProps>(
                     <span>{item.label}</span>
                     {item.badge && (
                       <span className={clsx(
-                        "ml-auto px-2 py-0.5 text-sm font-mono rounded",
+                        "ml-auto px-2 py-0.5 text-mono-sm rounded",
                         inverted ? "bg-grey-700 text-grey-300" : "bg-grey-200 text-grey-600"
                       )}>
                         {item.badge}
@@ -269,7 +269,7 @@ export const UnifiedHeader = forwardRef<HTMLElement, UnifiedHeaderProps>(
                     handleMobileClose();
                   }}
                   className={clsx(
-                    "flex items-center justify-center px-6 py-4 text-lg font-medium transition-colors",
+                    "flex items-center justify-center px-6 py-4 text-body-lg font-medium transition-colors",
                     inverted
                       ? "bg-white text-black"
                       : "bg-black text-white"

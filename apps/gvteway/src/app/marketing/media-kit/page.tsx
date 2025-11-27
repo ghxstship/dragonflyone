@@ -110,7 +110,7 @@ export default function MediaKitPage() {
                     <Card key={asset.id} className="border-2 border-black p-4">
                       <Stack gap={3}>
                         <Card className="h-24 bg-grey-100 flex items-center justify-center">
-                          <Label className="text-4xl">{getTypeIcon(asset.type)}</Label>
+                          <Label className="text-h3-md">{getTypeIcon(asset.type)}</Label>
                         </Card>
                         <Stack gap={1}>
                           <Label className="font-bold">{asset.name}</Label>
@@ -222,7 +222,7 @@ export default function MediaKitPage() {
           {selectedAsset && (
             <Stack gap={4}>
               <Card className="h-48 bg-grey-100 flex items-center justify-center">
-                <Label className="text-6xl">{getTypeIcon(selectedAsset.type)}</Label>
+                <Label className="text-h1-sm">{getTypeIcon(selectedAsset.type)}</Label>
               </Card>
               <Body className="font-bold">{selectedAsset.name}</Body>
               <Grid cols={2} gap={4}>
@@ -249,7 +249,7 @@ export default function MediaKitPage() {
           <Stack gap={4}>
             <Card className="p-8 border-2 border-dashed border-grey-300 text-center">
               <Stack gap={2}>
-                <Label className="text-4xl">📁</Label>
+                <Label className="text-h3-md">📁</Label>
                 <Label className="text-grey-500">Drag and drop files here</Label>
                 <Button variant="outline">Browse Files</Button>
               </Stack>

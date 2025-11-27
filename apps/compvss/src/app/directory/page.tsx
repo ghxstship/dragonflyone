@@ -344,7 +344,7 @@ export default function DirectoryPage() {
                 <Card key={item.id} className="p-6">
                   <Grid cols={4} gap={4}>
                     <Stack gap={2}>
-                      <Body className="font-bold text-lg">{item.name || item.full_name}</Body>
+                      <Body className="font-bold text-body-md">{item.name || item.full_name}</Body>
                       <Stack direction="horizontal" gap={2}>
                         <Badge>CREW</Badge>
                         {item.availability === 'available' && (
@@ -353,20 +353,20 @@ export default function DirectoryPage() {
                       </Stack>
                     </Stack>
                     <Stack gap={1}>
-                      <Body className="text-sm font-medium">{item.role || 'N/A'}</Body>
-                      <Body className="text-sm" variant="muted">{item.department || ''}</Body>
+                      <Body className="text-body-sm font-medium">{item.role || 'N/A'}</Body>
+                      <Body className="text-body-sm" variant="muted">{item.department || ''}</Body>
                     </Stack>
                     <Stack gap={1}>
-                      <Body className="text-sm font-medium">Languages</Body>
-                      <Body className="text-sm" variant="muted">
+                      <Body className="text-body-sm font-medium">Languages</Body>
+                      <Body className="text-body-sm" variant="muted">
                         {Array.isArray(item.languages) 
                           ? item.languages.join(', ') 
                           : item.languages || 'English'}
                       </Body>
                     </Stack>
                     <Stack gap={1}>
-                      <Body className="text-sm font-medium">Skills</Body>
-                      <Body className="text-sm" variant="muted">
+                      <Body className="text-body-sm font-medium">Skills</Body>
+                      <Body className="text-body-sm" variant="muted">
                         {Array.isArray(item.skills) 
                           ? item.skills.slice(0, 3).join(', ')
                           : item.specialty || 'N/A'}

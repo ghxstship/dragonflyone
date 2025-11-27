@@ -69,7 +69,7 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(
             <div key={section.section} className="mb-6">
               {!collapsed && (
                 <div className={clsx(
-                  "px-4 mb-2 text-xs font-mono uppercase tracking-wider",
+                  "px-4 mb-2 text-mono-xs uppercase tracking-widest",
                   inverted ? "text-grey-500" : "text-grey-400"
                 )}>
                   {section.section}
@@ -83,7 +83,7 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(
                       <a
                         href={item.href}
                         className={clsx(
-                          "flex items-center gap-3 px-4 py-2 text-sm transition-colors",
+                          "flex items-center gap-3 px-4 py-2 text-body-sm transition-colors",
                           collapsed && "justify-center",
                           isActive
                             ? inverted
@@ -98,7 +98,7 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(
                         {item.icon && (
                           <span className="w-5 h-5 flex items-center justify-center">
                             {/* Icon placeholder - integrate with your icon system */}
-                            <span className="text-xs">{item.icon.charAt(0)}</span>
+                            <span className="text-mono-xs">{item.icon.charAt(0)}</span>
                           </span>
                         )}
                         {!collapsed && (

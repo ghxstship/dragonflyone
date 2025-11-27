@@ -96,7 +96,7 @@ export default function ChannelsPage() {
                 <Stack gap={4}>
                   <Stack direction="horizontal" className="justify-between">
                     <Stack direction="horizontal" gap={3}>
-                      <Label className="text-2xl">{getTypeIcon(channel.type)}</Label>
+                      <Label className="text-h5-md">{getTypeIcon(channel.type)}</Label>
                       <Stack gap={1}>
                         <Body className="font-display text-white">{channel.name}</Body>
                         <Label className="text-ink-400">{channel.department}</Label>
@@ -139,7 +139,7 @@ export default function ChannelsPage() {
               </Stack>
               <Stack gap={1}><Label className="text-ink-400">Description</Label><Body className="text-white">{selectedChannel.description}</Body></Stack>
               {selectedChannel.frequency && (
-                <Stack gap={1}><Label className="text-ink-400">Frequency/Channel</Label><Label className="font-mono text-white text-xl">{selectedChannel.frequency}</Label></Stack>
+                <Stack gap={1}><Label className="text-ink-400">Frequency/Channel</Label><Label className="font-mono text-white text-h6-md">{selectedChannel.frequency}</Label></Stack>
               )}
               <Stack gap={1}><Label className="text-ink-400">Members</Label><Label className="text-white">{selectedChannel.members}</Label></Stack>
               <Stack gap={2}>

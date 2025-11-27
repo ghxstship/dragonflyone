@@ -254,8 +254,8 @@ export default function CategoryManagementPage() {
                 {selectedCategory.parentCategory && <Badge variant="outline">{selectedCategory.parentCategory}</Badge>}
               </Stack>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label className="text-ink-400">Annual Spend</Label><Label className="font-mono text-white text-xl">${selectedCategory.spend.toLocaleString()}</Label></Stack>
-                <Stack gap={1}><Label className="text-ink-400">Active Vendors</Label><Label className="font-mono text-white text-xl">{selectedCategory.vendors}</Label></Stack>
+                <Stack gap={1}><Label className="text-ink-400">Annual Spend</Label><Label className="font-mono text-white text-h6-md">${selectedCategory.spend.toLocaleString()}</Label></Stack>
+                <Stack gap={1}><Label className="text-ink-400">Active Vendors</Label><Label className="font-mono text-white text-h6-md">{selectedCategory.vendors}</Label></Stack>
               </Grid>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}><Label className="text-ink-400">Category Owner</Label><Label className="text-white">{selectedCategory.owner}</Label></Stack>

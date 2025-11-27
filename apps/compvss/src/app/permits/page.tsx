@@ -203,26 +203,26 @@ export default function PermitsPage() {
               <Grid cols={4} gap={4}>
                 <Card className="p-4 bg-grey-900 border-grey-700">
                   <Stack gap={2}>
-                    <Body className="text-grey-400 text-sm uppercase tracking-wider">Special Events</Body>
-                    <Body className="text-2xl font-bold">8</Body>
+                    <Body className="text-grey-400 text-body-sm uppercase tracking-widest">Special Events</Body>
+                    <Body className="text-h5-md font-bold">8</Body>
                   </Stack>
                 </Card>
                 <Card className="p-4 bg-grey-900 border-grey-700">
                   <Stack gap={2}>
-                    <Body className="text-grey-400 text-sm uppercase tracking-wider">Noise/Sound</Body>
-                    <Body className="text-2xl font-bold">5</Body>
+                    <Body className="text-grey-400 text-body-sm uppercase tracking-widest">Noise/Sound</Body>
+                    <Body className="text-h5-md font-bold">5</Body>
                   </Stack>
                 </Card>
                 <Card className="p-4 bg-grey-900 border-grey-700">
                   <Stack gap={2}>
-                    <Body className="text-grey-400 text-sm uppercase tracking-wider">Fire/Safety</Body>
-                    <Body className="text-2xl font-bold">12</Body>
+                    <Body className="text-grey-400 text-body-sm uppercase tracking-widest">Fire/Safety</Body>
+                    <Body className="text-h5-md font-bold">12</Body>
                   </Stack>
                 </Card>
                 <Card className="p-4 bg-grey-900 border-grey-700">
                   <Stack gap={2}>
-                    <Body className="text-grey-400 text-sm uppercase tracking-wider">Street Closure</Body>
-                    <Body className="text-2xl font-bold">3</Body>
+                    <Body className="text-grey-400 text-body-sm uppercase tracking-widest">Street Closure</Body>
+                    <Body className="text-h5-md font-bold">3</Body>
                   </Stack>
                 </Card>
               </Grid>

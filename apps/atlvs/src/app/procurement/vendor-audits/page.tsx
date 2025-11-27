@@ -149,7 +149,7 @@ export default function VendorAuditsPage() {
             <Stack gap={4}>
               <Stack gap={1}>
                 <Label className="text-ink-400">Vendor</Label>
-                <Body className="text-white text-lg">{selectedAudit.vendorName}</Body>
+                <Body className="text-white text-body-md">{selectedAudit.vendorName}</Body>
               </Stack>
               <Stack direction="horizontal" gap={2}>
                 <Badge variant="outline">{selectedAudit.category}</Badge>

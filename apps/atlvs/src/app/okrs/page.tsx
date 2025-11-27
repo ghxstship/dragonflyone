@@ -94,9 +94,9 @@ export default function OKRsPage() {
                 <Stack gap={4}>
                   <Stack gap={2} direction="horizontal" className="justify-between items-start">
                     <Stack gap={2}>
-                      <Body className="font-mono text-xs text-grey-500">{okr.id}</Body>
+                      <Body className="font-mono text-mono-xs text-grey-500">{okr.id}</Body>
                       <H3 className="text-white">{okr.objective}</H3>
-                      <Body className="text-sm text-grey-400">Owner: {okr.owner}</Body>
+                      <Body className="text-body-sm text-grey-400">Owner: {okr.owner}</Body>
                     </Stack>
                     <Badge variant={okr.progress >= 70 ? "solid" : "outline"}>
                       {okr.progress}% Complete
@@ -106,15 +106,15 @@ export default function OKRsPage() {
                   <ProgressBar value={okr.progress} variant="inverse" />
 
                   <Stack gap={3}>
-                    <Body className="font-mono text-xs text-grey-500">Key Results</Body>
+                    <Body className="font-mono text-mono-xs text-grey-500">Key Results</Body>
                     {okr.keyResults.map((kr, idx) => (
                       <Stack key={idx} gap={3} direction="horizontal" className="justify-between items-center border-l-2 border-grey-700 pl-4">
-                        <Body className="text-sm text-grey-300">{kr.kr}</Body>
+                        <Body className="text-body-sm text-grey-300">{kr.kr}</Body>
                         <Stack gap={3} direction="horizontal" className="items-center">
                           <Stack className="w-24">
                             <ProgressBar value={kr.progress} variant="inverse" size="sm" />
                           </Stack>
-                          <Body className="font-mono text-xs text-grey-400">{kr.progress}%</Body>
+                          <Body className="font-mono text-mono-xs text-grey-400">{kr.progress}%</Body>
                         </Stack>
                       </Stack>
                     ))}

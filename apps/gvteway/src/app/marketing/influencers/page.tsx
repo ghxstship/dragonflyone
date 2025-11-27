@@ -126,8 +126,8 @@ export default function InfluencersPage() {
                 <Badge variant="outline">{selectedInfluencer.platform}</Badge>
               </Stack>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label className="text-grey-600">Followers</Label><Label className="font-mono text-xl">{formatNumber(selectedInfluencer.followers)}</Label></Stack>
-                <Stack gap={1}><Label className="text-grey-600">Engagement</Label><Label className="font-mono text-xl">{selectedInfluencer.engagement}%</Label></Stack>
+                <Stack gap={1}><Label className="text-grey-600">Followers</Label><Label className="font-mono text-h6-md">{formatNumber(selectedInfluencer.followers)}</Label></Stack>
+                <Stack gap={1}><Label className="text-grey-600">Engagement</Label><Label className="font-mono text-h6-md">{selectedInfluencer.engagement}%</Label></Stack>
               </Grid>
               <Stack gap={2}>
                 <Label className="text-grey-600">Performance</Label>

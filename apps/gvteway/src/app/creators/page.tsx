@@ -97,13 +97,13 @@ export default function CreatorsPage() {
         {/* Hero Section */}
         <Stack direction="horizontal" gap={10} className="flex-col lg:flex-row lg:items-end lg:justify-between">
           <Stack gap={6}>
-            <Label className="text-xs uppercase tracking-display text-ink-400">{creatorHero.kicker}</Label>
-            <H1 className="font-display text-6xl uppercase text-white md:text-8xl">{creatorHero.headline}</H1>
-            <Body className="max-w-2xl text-base text-ink-300 md:text-lg">{creatorHero.subhead}</Body>
+            <Label size="xs" className="tracking-display text-ink-400">{creatorHero.kicker}</Label>
+            <H1 size="lg" className="text-white">{creatorHero.headline}</H1>
+            <Body size="md" className="max-w-2xl text-ink-300">{creatorHero.subhead}</Body>
           </Stack>
           <Stack gap={5} className="text-right">
-            <Label className="text-xs tracking-display text-ink-500">FOR CREATORS</Label>
-            <Stack gap={3} className="text-xs uppercase tracking-display text-white">
+            <Label size="xs" className="tracking-display text-ink-500">FOR CREATORS</Label>
+            <Stack gap={3} className="text-mono-xs uppercase tracking-display text-white">
               <Link
                 href="/auth/signup?type=creator"
                 className="border border-white px-8 py-4 tracking-kicker transition hover:-translate-y-1 hover:bg-white hover:text-black"
@@ -125,8 +125,8 @@ export default function CreatorsPage() {
           <Grid cols={3} gap={6}>
             {creatorHero.stats.map((stat) => (
               <Card key={stat.label} className="space-y-2 bg-transparent">
-                <Label className="text-xs uppercase tracking-display text-ink-500">{stat.label}</Label>
-                <Body className="font-display text-4xl text-white">{stat.value}</Body>
+                <Label size="xs" className="tracking-display text-ink-500">{stat.label}</Label>
+                <Body className="font-display text-h3-md text-white">{stat.value}</Body>
               </Card>
             ))}
           </Grid>
@@ -142,10 +142,10 @@ export default function CreatorsPage() {
           <Grid cols={3} gap={6}>
             {gvtewayEventBlueprint.map((card) => (
               <Article key={card.title} className="border border-ink-800 bg-ink-950/60 p-6">
-                <Label className="text-xs uppercase tracking-display text-ink-500">Feature</Label>
-                <H3 className="mt-4 text-2xl uppercase">{card.title}</H3>
-                <Body className="mt-3 text-sm text-ink-300">{card.description}</Body>
-                <List className="mt-4 space-y-2 text-sm text-ink-200">
+                <Label size="xs" className="tracking-display text-ink-500">Feature</Label>
+                <H3 size="sm" className="mt-4">{card.title}</H3>
+                <Body size="sm" className="mt-3 text-ink-300">{card.description}</Body>
+                <List className="mt-4 space-y-2 text-body-sm text-ink-200">
                   {card.bullets.map((item) => (
                     <ListItem key={item} className="flex gap-2">
                       <Text className="text-ink-500">{"//"}</Text>
@@ -180,10 +180,10 @@ export default function CreatorsPage() {
               <Article key={node.id} className="space-y-4 border border-ink-800 p-6">
                 <Stack direction="horizontal" className="items-center justify-between">
                   <Stack>
-                    <Label className="font-code text-xs uppercase tracking-display text-ink-500">{node.access}</Label>
-                    <H3 className="text-2xl uppercase">{node.label}</H3>
+                    <Label size="xs" className="font-code tracking-display text-ink-500">{node.access}</Label>
+                    <H3 size="sm">{node.label}</H3>
                   </Stack>
-                  <Stack className="text-right text-sm text-ink-400">
+                  <Stack className="text-right text-body-sm text-ink-400">
                     <Body>Capacity {node.capacity}</Body>
                     <Body>Available {node.availability}</Body>
                   </Stack>
@@ -192,8 +192,8 @@ export default function CreatorsPage() {
                   value={Math.max(0, Math.min(100, (node.availability / node.capacity) * 100))}
                   variant="inverse"
                 />
-                <Body className="text-sm text-ink-400">Price band {node.priceRange}</Body>
-                <List className="text-sm text-ink-200">
+                <Body size="sm" className="text-ink-400">Price band {node.priceRange}</Body>
+                <List className="text-body-sm text-ink-200">
                   {node.perks.map((perk) => (
                     <ListItem key={perk} className="flex gap-2">
                       <Text className="text-ink-500">{"//"}</Text>
@@ -214,7 +214,7 @@ export default function CreatorsPage() {
             description="Create GA, VIP, and premium tiers with custom pricing, fees, and inventory controls."
           />
           <Box className="overflow-x-auto border border-ink-800">
-            <Table className="min-w-full text-left text-sm">
+            <Table className="min-w-full text-left text-body-sm">
               <TableHeader className="bg-ink-900 text-ink-500">
                 <TableRow>
                   <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Ticket</TableHead>
@@ -257,10 +257,10 @@ export default function CreatorsPage() {
                 key={tier.name} 
                 className={`border p-6 ${tier.highlighted ? 'border-white bg-ink-900' : 'border-ink-800'}`}
               >
-                <Label className="text-xs uppercase tracking-display text-ink-500">{tier.name}</Label>
-                <H3 className="mt-2 font-display text-4xl text-white">{tier.price}</H3>
-                <Body className="mt-2 text-sm text-ink-300">{tier.description}</Body>
-                <List className="mt-6 space-y-2 text-sm text-ink-200">
+                <Label size="xs" className="tracking-display text-ink-500">{tier.name}</Label>
+                <H3 className="mt-2 font-display text-h3-md text-white">{tier.price}</H3>
+                <Body size="sm" className="mt-2 text-ink-300">{tier.description}</Body>
+                <List className="mt-6 space-y-2 text-body-sm text-ink-200">
                   {tier.features.map((feature) => (
                     <ListItem key={feature} className="flex gap-2">
                       <Text className="text-ink-500">{"//"}</Text>
@@ -270,7 +270,7 @@ export default function CreatorsPage() {
                 </List>
                 <Link
                   href={tier.name === "Enterprise" ? "mailto:sales@ghxstship.com" : "/auth/signup?type=creator"}
-                  className={`mt-6 block w-full border px-6 py-3 text-center text-xs uppercase tracking-kicker transition hover:-translate-y-0.5 ${
+                  className={`mt-6 block w-full border px-6 py-3 text-center text-mono-xs uppercase tracking-kicker transition hover:-translate-y-0.5 ${
                     tier.highlighted 
                       ? 'border-white bg-white text-black hover:bg-transparent hover:text-white' 
                       : 'border-ink-600 text-ink-400 hover:border-white hover:text-white'
@@ -293,9 +293,9 @@ export default function CreatorsPage() {
           <Grid cols={3} gap={6}>
             {gvtewayTicketingStack.map((card) => (
               <Article key={card.title} className="border border-ink-800 p-6">
-                <H3 className="text-2xl uppercase">{card.title}</H3>
-                <Body className="mt-3 text-sm text-ink-300">{card.description}</Body>
-                <List className="mt-4 space-y-2 text-sm text-ink-200">
+                <H3 size="sm">{card.title}</H3>
+                <Body size="sm" className="mt-3 text-ink-300">{card.description}</Body>
+                <List className="mt-4 space-y-2 text-body-sm text-ink-200">
                   {card.bullets.map((bullet) => (
                     <ListItem key={bullet} className="flex gap-2">
                       <Text className="text-ink-500">{"//"}</Text>
@@ -318,8 +318,8 @@ export default function CreatorsPage() {
           <Grid cols={3} gap={6}>
             {gvtewayCommerceLanes.map((lane) => (
               <Article key={lane.title} className="border border-ink-800 p-6">
-                <H3 className="text-2xl uppercase">{lane.title}</H3>
-                <List className="mt-4 space-y-2 text-sm text-ink-200">
+                <H3 size="sm">{lane.title}</H3>
+                <List className="mt-4 space-y-2 text-body-sm text-ink-200">
                   {lane.bullets.map((bullet) => (
                     <ListItem key={bullet}>• {bullet}</ListItem>
                   ))}
@@ -339,14 +339,14 @@ export default function CreatorsPage() {
           <Grid cols={3} gap={6}>
             {gvtewayRevenuePanels.map((panel) => (
               <Article key={panel.title} className="border border-ink-800 p-6">
-                <Label className="font-code text-xs uppercase tracking-display text-ink-500">{panel.kicker}</Label>
-                <H3 className="mt-4 text-2xl uppercase">{panel.title}</H3>
-                <Body className="mt-3 text-sm text-ink-300">{panel.description}</Body>
+                <Label size="xs" className="font-code tracking-display text-ink-500">{panel.kicker}</Label>
+                <H3 size="sm" className="mt-4">{panel.title}</H3>
+                <Body size="sm" className="mt-3 text-ink-300">{panel.description}</Body>
                 <Stack direction="horizontal" gap={6} className="mt-6">
                   {panel.metrics.map((metric) => (
                     <Stack key={metric.label}>
-                      <Label className="text-xs uppercase tracking-kicker text-ink-500">{metric.label}</Label>
-                      <Body className="font-display text-3xl text-white">{metric.value}</Body>
+                      <Label size="xs" className="tracking-kicker text-ink-500">{metric.label}</Label>
+                      <Body className="font-display text-h4-md text-white">{metric.value}</Body>
                     </Stack>
                   ))}
                 </Stack>
@@ -365,14 +365,14 @@ export default function CreatorsPage() {
           <Grid cols={3} gap={4}>
             {gvtewayReconciliationInsights.stats.map((stat) => (
               <Article key={stat.label} className="border border-ink-800 p-6">
-                <Label className="text-xs uppercase tracking-display text-ink-500">{stat.label}</Label>
-                <Body className="mt-3 font-display text-4xl text-white">{stat.value}</Body>
-                <Body className="text-sm text-ink-400">{stat.delta}</Body>
+                <Label size="xs" className="tracking-display text-ink-500">{stat.label}</Label>
+                <Body className="mt-3 font-display text-h3-md text-white">{stat.value}</Body>
+                <Body size="sm" className="text-ink-400">{stat.delta}</Body>
               </Article>
             ))}
           </Grid>
           <Box className="overflow-x-auto border border-ink-800">
-            <Table className="min-w-full text-left text-sm">
+            <Table className="min-w-full text-left text-body-sm">
               <TableHeader className="bg-ink-900 text-ink-500">
                 <TableRow>
                   <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Run</TableHead>
@@ -421,11 +421,11 @@ export default function CreatorsPage() {
           <Grid cols={3} gap={6}>
             {testimonials.map((testimonial) => (
               <Article key={testimonial.author} className="border border-ink-800 p-6">
-                <Body className="text-sm italic text-ink-200">&ldquo;{testimonial.quote}&rdquo;</Body>
+                <Body size="sm" className="italic text-ink-200">&ldquo;{testimonial.quote}&rdquo;</Body>
                 <Stack className="mt-6">
-                  <Body className="text-sm font-semibold text-white">{testimonial.author}</Body>
-                  <Body className="text-xs text-ink-400">{testimonial.role}</Body>
-                  <Body className="text-xs text-ink-500">{testimonial.company}</Body>
+                  <Body size="sm" className="text-white">{testimonial.author}</Body>
+                  <Body size="xs" className="text-ink-400">{testimonial.role}</Body>
+                  <Body size="xs" className="text-ink-500">{testimonial.company}</Body>
                 </Stack>
               </Article>
             ))}
@@ -442,10 +442,10 @@ export default function CreatorsPage() {
           <Grid cols={3} gap={6}>
             {gvtewayAutomationProgram.map((program) => (
               <Article key={program.title} className="border border-ink-800 p-6">
-                <Label className="font-code text-xs uppercase tracking-display text-ink-500">{program.title}</Label>
-                <H3 className="mt-4 text-2xl uppercase">{program.title}</H3>
-                <Body className="mt-3 text-sm text-ink-300">{program.description}</Body>
-                <List className="mt-4 space-y-2 text-sm text-ink-200">
+                <Label size="xs" className="font-code tracking-display text-ink-500">{program.title}</Label>
+                <H3 size="sm" className="mt-4">{program.title}</H3>
+                <Body size="sm" className="mt-3 text-ink-300">{program.description}</Body>
+                <List className="mt-4 space-y-2 text-body-sm text-ink-200">
                   {program.bullets.map((bullet) => (
                     <ListItem key={bullet}>• {bullet}</ListItem>
                   ))}
@@ -465,8 +465,8 @@ export default function CreatorsPage() {
           <Grid cols={3} gap={6}>
             {gvtewayIntegrationLinks.map((block) => (
               <Article key={block.title} className="border border-ink-800 p-6">
-                <H3 className="text-xl uppercase">{block.title}</H3>
-                <List className="mt-4 space-y-2 text-sm text-ink-200">
+                <H3 size="sm">{block.title}</H3>
+                <List className="mt-4 space-y-2 text-body-sm text-ink-200">
                   {block.bullets.map((bullet) => (
                     <ListItem key={bullet}>• {bullet}</ListItem>
                   ))}
@@ -486,9 +486,9 @@ export default function CreatorsPage() {
           <Grid cols={2} gap={6}>
             {gvtewayDevelopmentPhases.map((phase) => (
               <Article key={phase.phase} className="border border-ink-800 p-6">
-                <Label className="font-code text-xs uppercase tracking-display text-ink-500">{phase.phase}</Label>
-                <H3 className="mt-4 text-2xl uppercase">{phase.focus}</H3>
-                <List className="mt-4 space-y-2 text-sm text-ink-200">
+                <Label size="xs" className="font-code tracking-display text-ink-500">{phase.phase}</Label>
+                <H3 size="sm" className="mt-4">{phase.focus}</H3>
+                <List className="mt-4 space-y-2 text-body-sm text-ink-200">
                   {phase.bullets.map((bullet) => (
                     <ListItem key={bullet}>• {bullet}</ListItem>
                   ))}
@@ -502,10 +502,10 @@ export default function CreatorsPage() {
               title="Payment Infrastructure"
               description="Enterprise-grade payment processing with Stripe for secure, compliant transactions."
             />
-            <List className="space-y-4 text-sm text-ink-200">
+            <List className="space-y-4 text-body-sm text-ink-200">
               {gvtewayStripePlan.map((step) => (
                 <ListItem key={step.step} className="flex flex-col gap-2 border border-ink-800 p-4">
-                  <Text className="font-display text-xl uppercase text-white">{step.step}</Text>
+                  <Text className="font-display text-h5-md uppercase text-white">{step.step}</Text>
                   <Body>{step.detail}</Body>
                 </ListItem>
               ))}
@@ -524,13 +524,13 @@ export default function CreatorsPage() {
           <Stack direction="horizontal" gap={4} className="mt-8 flex-col items-center justify-center md:flex-row">
             <Link
               href="/auth/signup?type=creator"
-              className="border border-white px-8 py-4 text-xs uppercase tracking-kicker transition hover:-translate-y-1 hover:bg-white hover:text-black"
+              className="border border-white px-8 py-4 text-mono-xs uppercase tracking-kicker transition hover:-translate-y-1 hover:bg-white hover:text-black"
             >
               Create Free Account
             </Link>
             <Link
               href="mailto:sales@ghxstship.com"
-              className="border border-ink-600 px-8 py-4 text-xs uppercase tracking-kicker text-ink-400 transition hover:-translate-y-1 hover:border-white hover:text-white"
+              className="border border-ink-600 px-8 py-4 text-mono-xs uppercase tracking-kicker text-ink-400 transition hover:-translate-y-1 hover:border-white hover:text-white"
             >
               Contact Sales
             </Link>

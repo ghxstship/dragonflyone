@@ -226,7 +226,7 @@ export default function PhotoGalleriesPage() {
                       />
                     ) : (
                       <Stack className="w-full h-full flex items-center justify-center">
-                        <Body className="text-4xl">📷</Body>
+                        <Body className="text-h3-md">📷</Body>
                       </Stack>
                     )}
                     <Stack className="absolute top-2 right-2">
@@ -235,11 +235,11 @@ export default function PhotoGalleriesPage() {
                   </Stack>
                   <Stack className="p-4" gap={2}>
                     <H3>{gallery.event_name}</H3>
-                    <Body className="text-sm text-grey-600">
+                    <Body className="text-body-sm text-grey-600">
                       {new Date(gallery.event_date).toLocaleDateString()}
                     </Body>
                     <Stack direction="horizontal" className="justify-between items-center">
-                      <Body className="text-sm text-grey-500">
+                      <Body className="text-body-sm text-grey-500">
                         {gallery.photo_count} photos
                       </Body>
                       <Button variant="ghost" size="sm">
@@ -283,9 +283,9 @@ export default function PhotoGalleriesPage() {
                     )}
                   </Stack>
                   <Stack className="p-3" gap={1}>
-                    <Body className="text-sm font-bold truncate">{photo.event_name}</Body>
+                    <Body className="text-body-sm font-bold truncate">{photo.event_name}</Body>
                     <Stack direction="horizontal" className="justify-between items-center">
-                      <Body className="text-xs text-grey-500">
+                      <Body className="text-mono-xs text-grey-500">
                         by {photo.uploaded_by_name}
                       </Body>
                       <Stack direction="horizontal" gap={1} className="items-center">
@@ -362,7 +362,7 @@ export default function PhotoGalleriesPage() {
                 />
               </Field>
 
-              <Body className="text-sm text-grey-500">
+              <Body className="text-body-sm text-grey-500">
                 By uploading, you agree to our content guidelines. Photos are reviewed before publishing.
               </Body>
 
@@ -399,10 +399,10 @@ export default function PhotoGalleriesPage() {
                   <Body>{selectedPhoto.caption}</Body>
                 )}
                 <Stack direction="horizontal" gap={4}>
-                  <Body className="text-sm text-grey-500">
+                  <Body className="text-body-sm text-grey-500">
                     by {selectedPhoto.uploaded_by_name}
                   </Body>
-                  <Body className="text-sm text-grey-500">
+                  <Body className="text-body-sm text-grey-500">
                     {new Date(selectedPhoto.created_at).toLocaleDateString()}
                   </Body>
                 </Stack>

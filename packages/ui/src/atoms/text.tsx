@@ -19,18 +19,20 @@ export const Text = forwardRef<HTMLSpanElement, TextProps>(
     };
 
     const sizeClasses = {
-      xs: "text-xs",
-      sm: "text-sm",
-      md: "text-base",
-      lg: "text-lg",
-      xl: "text-xl",
+      xs: "text-mono-xs",
+      sm: "text-body-sm",
+      md: "text-body-sm",
+      lg: "text-body-md",
+      xl: "text-body-lg",
     };
 
+    // Note: Font weights have no effect on design system fonts (Anton, Bebas Neue, Share Tech)
+    // These are kept for semantic purposes but will not visually change the text
     const weightClasses = {
-      normal: "font-normal",
-      medium: "font-medium",
-      semibold: "font-semibold",
-      bold: "font-bold",
+      normal: "",
+      medium: "",
+      semibold: "",
+      bold: "",
     };
 
     return (

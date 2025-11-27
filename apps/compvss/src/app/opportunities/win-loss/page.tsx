@@ -89,11 +89,11 @@ export default function WinLossPage() {
                 </Stack>
                 <Grid cols={2} gap={4}>
                   <Card className="p-3 border border-success-800 bg-success-900/20 text-center">
-                    <Label className="font-mono text-success-400 text-2xl">{wonRecords.length}</Label>
+                    <Label className="font-mono text-success-400 text-h5-md">{wonRecords.length}</Label>
                     <Label className="text-ink-400">Won</Label>
                   </Card>
                   <Card className="p-3 border border-error-800 bg-error-900/20 text-center">
-                    <Label className="font-mono text-error-400 text-2xl">{lostRecords.length}</Label>
+                    <Label className="font-mono text-error-400 text-h5-md">{lostRecords.length}</Label>
                     <Label className="text-ink-400">Lost</Label>
                   </Card>
                 </Grid>

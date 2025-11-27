@@ -67,13 +67,13 @@ export default function EventsPage() {
             </Button>
           }
         >
-          <Link href="/" className="font-heading text-sm uppercase tracking-wider hover:text-grey-400">
+          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">
             Home
           </Link>
-          <Link href="/events" className="font-heading text-sm uppercase tracking-wider text-white">
+          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest text-white">
             Events
           </Link>
-          <Link href="/venues" className="font-heading text-sm uppercase tracking-wider hover:text-grey-400">
+          <Link href="/venues" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">
             Venues
           </Link>
         </Navigation>
@@ -162,7 +162,7 @@ export default function EventsPage() {
               </Stack>
             </Grid>
 
-            <Body className="text-grey-400 text-sm font-mono uppercase tracking-wider">
+            <Body className="text-grey-400 text-body-sm font-mono uppercase tracking-widest">
               {filteredEvents.length} {filteredEvents.length === 1 ? "Event" : "Events"} Found
             </Body>
 
@@ -202,7 +202,7 @@ export default function EventsPage() {
                         <Body className="text-grey-400">
                           {event.venue} • {event.address}
                         </Body>
-                        <Body className="text-grey-500 font-mono text-sm uppercase tracking-wider">
+                        <Body className="text-grey-500 font-mono text-body-sm uppercase tracking-widest">
                           {new Date(event.start_date).toLocaleDateString()}
                         </Body>
                       </Stack>
@@ -212,11 +212,11 @@ export default function EventsPage() {
                       </Stack>
                       <Stack gap={4} direction="horizontal" className="items-center justify-between">
                         <Stack gap={1}>
-                          <Body className="text-grey-400 text-sm">Venue</Body>
+                          <Body className="text-grey-400 text-body-sm">Venue</Body>
                           <Body className="text-white font-mono">{event.venue}</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-grey-400 text-sm">Capacity</Body>
+                          <Body className="text-grey-400 text-body-sm">Capacity</Body>
                           <Body className="text-white font-mono">{event.capacity.toLocaleString()}</Body>
                         </Stack>
                         <Button 

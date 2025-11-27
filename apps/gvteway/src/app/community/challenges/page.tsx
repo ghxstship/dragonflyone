@@ -147,7 +147,7 @@ export default function ChallengesPage() {
                       <Grid cols={2} gap={4}>
                         <Stack gap={1}>
                           <Label size="xs" className="text-grey-500">Reward</Label>
-                          <Label className="text-sm">{challenge.reward}</Label>
+                          <Label className="text-body-sm">{challenge.reward}</Label>
                         </Stack>
                         <Stack gap={1}>
                           <Label size="xs" className="text-grey-500">Participants</Label>
@@ -182,13 +182,13 @@ export default function ChallengesPage() {
                       <Card key={entry.rank} className={`p-4 ${entry.rank <= 3 ? "bg-warning-50 border-warning-200" : "bg-grey-50"} border`}>
                         <Grid cols={4} gap={4} className="items-center">
                           <Stack direction="horizontal" gap={3} className="items-center">
-                            <Label className={`font-mono text-2xl ${entry.rank === 1 ? "text-warning-600" : entry.rank === 2 ? "text-grey-500" : entry.rank === 3 ? "text-warning-600" : "text-grey-600"}`}>
+                            <Label className={`font-mono text-h5-md ${entry.rank === 1 ? "text-warning-600" : entry.rank === 2 ? "text-grey-500" : entry.rank === 3 ? "text-warning-600" : "text-grey-600"}`}>
                               #{entry.rank}
                             </Label>
                             <Body className="font-bold">{entry.userName}</Body>
                           </Stack>
                           <Stack gap={0}>
-                            <Label className="font-mono text-xl">{entry.points.toLocaleString()}</Label>
+                            <Label className="font-mono text-h6-md">{entry.points.toLocaleString()}</Label>
                             <Label size="xs" className="text-grey-500">points</Label>
                           </Stack>
                           <Stack gap={0}>
@@ -203,11 +203,11 @@ export default function ChallengesPage() {
                   <Card className="p-4 bg-black text-white">
                     <Grid cols={4} gap={4} className="items-center">
                       <Stack direction="horizontal" gap={3} className="items-center">
-                        <Label className="font-mono text-2xl">#42</Label>
+                        <Label className="font-mono text-h5-md">#42</Label>
                         <Body className="font-bold">You</Body>
                       </Stack>
                       <Stack gap={0}>
-                        <Label className="font-mono text-xl">2,450</Label>
+                        <Label className="font-mono text-h6-md">2,450</Label>
                         <Label size="xs" className="text-grey-600">points</Label>
                       </Stack>
                       <Stack gap={0}>

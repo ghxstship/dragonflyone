@@ -161,7 +161,7 @@ export default function PhotoDocumentationPage() {
             <Stack gap={4}>
               <Stack direction="horizontal" className="justify-between items-start">
                 <Stack gap={1}>
-                  <Body className="font-display text-white text-lg">{selectedSet.projectName}</Body>
+                  <Body className="font-display text-white text-body-md">{selectedSet.projectName}</Body>
                   <Badge variant="outline">{selectedSet.phase}</Badge>
                 </Stack>
                 {!selectedSet.approved && <Badge variant="solid">Pending Approval</Badge>}
@@ -213,7 +213,7 @@ export default function PhotoDocumentationPage() {
             <Input placeholder="Tags (comma separated)" className="border-ink-700 bg-black text-white" />
             <Card className="p-8 border-2 border-dashed border-ink-700 text-center cursor-pointer">
               <Stack gap={2}>
-                <Label className="text-ink-400 text-2xl">📷</Label>
+                <Label className="text-ink-400 text-h5-md">📷</Label>
                 <Label className="text-ink-400">Drop photos here or click to upload</Label>
                 <Label size="xs" className="text-ink-500">Supports JPG, PNG, HEIC up to 50MB each</Label>
               </Stack>

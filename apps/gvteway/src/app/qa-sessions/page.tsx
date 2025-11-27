@@ -268,7 +268,7 @@ export default function QASessionsPage() {
                         <Image src={session.artist_image} alt={session.artist_name} fill className="object-cover" />
                       ) : (
                         <Stack className="w-full h-full flex items-center justify-center">
-                          <Body className="text-2xl">🎤</Body>
+                          <Body className="text-h5-md">🎤</Body>
                         </Stack>
                       )}
                     </Stack>
@@ -279,7 +279,7 @@ export default function QASessionsPage() {
                       </Stack>
                       <H3 className="mt-2">{session.title}</H3>
                       <Body className="text-grey-600">{session.artist_name}</Body>
-                      <Stack direction="horizontal" gap={4} className="mt-2 text-sm text-grey-500">
+                      <Stack direction="horizontal" gap={4} className="mt-2 text-body-sm text-grey-500">
                         <Body>{session.attendees_count} watching</Body>
                         <Body>{session.questions_count} questions</Body>
                       </Stack>
@@ -303,7 +303,7 @@ export default function QASessionsPage() {
                   <Image src={session.artist_image} alt={session.artist_name} fill className="object-cover" />
                 ) : (
                   <Stack className="w-full h-full flex items-center justify-center">
-                    <Body className="text-4xl">🎤</Body>
+                    <Body className="text-h3-md">🎤</Body>
                   </Stack>
                 )}
                 <Stack className="absolute top-2 right-2">
@@ -313,15 +313,15 @@ export default function QASessionsPage() {
               <Stack className="p-4" gap={2}>
                 <H3 className="line-clamp-1">{session.title}</H3>
                 <Body className="text-grey-600">{session.artist_name}</Body>
-                <Body className="text-sm text-grey-500">
+                <Body className="text-body-sm text-grey-500">
                   {formatDate(session.scheduled_at)}
                 </Body>
                 <Stack direction="horizontal" className="justify-between items-center mt-2">
-                  <Body className="text-xs text-grey-500">
+                  <Body className="text-mono-xs text-grey-500">
                     {session.questions_count} questions
                   </Body>
                   {session.is_member_only && (
-                    <Badge variant="outline" className="text-xs">Members</Badge>
+                    <Badge variant="outline" className="text-mono-xs">Members</Badge>
                   )}
                 </Stack>
               </Stack>
@@ -357,7 +357,7 @@ export default function QASessionsPage() {
                     <Image src={selectedSession.artist_image} alt={selectedSession.artist_name} fill className="object-cover" />
                   ) : (
                     <Stack className="w-full h-full flex items-center justify-center">
-                      <Body className="text-xl">🎤</Body>
+                      <Body className="text-h6-md">🎤</Body>
                     </Stack>
                   )}
                 </Stack>
@@ -391,7 +391,7 @@ export default function QASessionsPage() {
                           <Stack direction="horizontal" className="justify-between items-start">
                             <Stack>
                               <Body className="font-bold">{question.content}</Body>
-                              <Body className="text-xs text-grey-500">
+                              <Body className="text-mono-xs text-grey-500">
                                 Asked by {question.user_name}
                               </Body>
                             </Stack>
@@ -405,8 +405,8 @@ export default function QASessionsPage() {
                           </Stack>
                           {question.is_answered && question.answer && (
                             <Card className="p-3 bg-white border-l-4 border-success-500 mt-2">
-                              <Body className="text-sm font-bold text-success-700">Answer:</Body>
-                              <Body className="text-sm">{question.answer}</Body>
+                              <Body className="text-body-sm font-bold text-success-700">Answer:</Body>
+                              <Body className="text-body-sm">{question.answer}</Body>
                             </Card>
                           )}
                         </Stack>
@@ -438,7 +438,7 @@ export default function QASessionsPage() {
                   required
                 />
               </Field>
-              <Body className="text-sm text-grey-500">
+              <Body className="text-body-sm text-grey-500">
                 Questions are moderated. Be respectful and keep it relevant.
               </Body>
               <Stack direction="horizontal" gap={4}>

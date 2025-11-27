@@ -53,7 +53,7 @@ export function TaskBoard({ tasks, onUpdateTask: _onUpdateTask }: TaskBoardProps
                   gap={2}
                 >
                   <H4>{task.title}</H4>
-                  <Body className="text-sm text-grey-600">
+                  <Body className="text-body-sm text-grey-600">
                     Assigned to: {task.assignee}
                   </Body>
                   <Badge variant="outline" size="sm" className="self-start">

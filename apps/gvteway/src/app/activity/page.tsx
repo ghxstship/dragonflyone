@@ -177,7 +177,7 @@ export default function ActivityFeedPage() {
                             className="w-full h-full rounded-full object-cover"
                           />
                         ) : (
-                          <Body className="text-lg">{activity.user_name.charAt(0)}</Body>
+                          <Body className="text-body-md">{activity.user_name.charAt(0)}</Body>
                         )}
                       </Stack>
 
@@ -212,14 +212,14 @@ export default function ActivityFeedPage() {
                               )}
                               <Stack>
                                 <Body className="font-medium">{activity.event_title}</Body>
-                                <Body className="text-sm text-grey-500">View Event →</Body>
+                                <Body className="text-body-sm text-grey-500">View Event →</Body>
                               </Stack>
                             </Stack>
                           </Card>
                         )}
 
                         <Stack direction="horizontal" gap={3} className="mt-3 items-center">
-                          <Body className="text-xs text-grey-600">
+                          <Body className="text-mono-xs text-grey-600">
                             {getActivityIcon(activity.type)} {formatTimeAgo(activity.created_at)}
                           </Body>
                         </Stack>
@@ -250,8 +250,8 @@ export default function ActivityFeedPage() {
                     <Stack direction="horizontal" gap={3} className="items-center">
                       <Stack className="w-10 h-10 bg-grey-200 rounded-full" />
                       <Stack>
-                        <Body className="font-medium text-sm">Friend {i}</Body>
-                        <Body className="text-xs text-grey-500">3 mutual friends</Body>
+                        <Body className="font-medium text-body-sm">Friend {i}</Body>
+                        <Body className="text-mono-xs text-grey-500">3 mutual friends</Body>
                       </Stack>
                     </Stack>
                     <Button variant="outline" size="sm" onClick={() => addNotification({ type: 'success', title: 'Following', message: 'You are now following this user' })}>
@@ -270,8 +270,8 @@ export default function ActivityFeedPage() {
               <Stack gap={3}>
                 {[1, 2, 3].map(i => (
                   <Stack key={i} className="p-3 border border-grey-200 rounded cursor-pointer hover:bg-grey-50">
-                    <Body className="font-medium text-sm">Popular Event {i}</Body>
-                    <Body className="text-xs text-grey-500">{i * 5} friends interested</Body>
+                    <Body className="font-medium text-body-sm">Popular Event {i}</Body>
+                    <Body className="text-mono-xs text-grey-500">{i * 5} friends interested</Body>
                   </Stack>
                 ))}
               </Stack>

@@ -84,27 +84,27 @@ export default function FloorConfigPage() {
                   <Card className="h-96 bg-grey-100 border border-grey-200 relative overflow-hidden">
                     <Stack className="absolute inset-0 items-center justify-center">
                       <Label className="text-grey-500">Interactive Floor Plan Editor</Label>
-                      <Body className="text-grey-600 text-sm">Drag and drop sections to configure layout</Body>
+                      <Body className="text-grey-600 text-body-sm">Drag and drop sections to configure layout</Body>
                     </Stack>
                     <Card className="absolute top-4 left-4 w-32 h-20 bg-info-500/20 border-2 border-info-500 flex items-center justify-center">
-                      <Label className="text-info-700 text-xs">STAGE</Label>
+                      <Label className="text-info-700 text-mono-xs">STAGE</Label>
                     </Card>
                     <Card className="absolute top-28 left-1/4 w-48 h-32 border-2 flex items-center justify-center" style={{ '--section-bg': `${mockSections[1].color}20`, '--section-border': mockSections[1].color, backgroundColor: 'var(--section-bg)', borderColor: 'var(--section-border)' } as React.CSSProperties}>
                       <Stack gap={1} className="text-center">
-                        <Label className="text-xs font-bold">{mockSections[1].name}</Label>
-                        <Label className="text-xs">{mockSections[1].capacity} cap</Label>
+                        <Label className="text-mono-xs font-bold">{mockSections[1].name}</Label>
+                        <Label className="text-mono-xs">{mockSections[1].capacity} cap</Label>
                       </Stack>
                     </Card>
                     <Card className="absolute top-28 right-4 w-24 h-32 border-2 flex items-center justify-center" style={{ '--section-bg': `${mockSections[2].color}20`, '--section-border': mockSections[2].color, backgroundColor: 'var(--section-bg)', borderColor: 'var(--section-border)' } as React.CSSProperties}>
                       <Stack gap={1} className="text-center">
-                        <Label className="text-xs font-bold">VIP</Label>
-                        <Label className="text-xs">{mockSections[2].capacity}</Label>
+                        <Label className="text-mono-xs font-bold">VIP</Label>
+                        <Label className="text-mono-xs">{mockSections[2].capacity}</Label>
                       </Stack>
                     </Card>
                     <Card className="absolute bottom-4 left-4 right-4 h-32 border-2 flex items-center justify-center" style={{ '--section-bg': `${mockSections[0].color}20`, '--section-border': mockSections[0].color, backgroundColor: 'var(--section-bg)', borderColor: 'var(--section-border)' } as React.CSSProperties}>
                       <Stack gap={1} className="text-center">
                         <Label className="font-bold">{mockSections[0].name}</Label>
-                        <Label className="text-sm">{mockSections[0].capacity.toLocaleString()} capacity</Label>
+                        <Label className="text-body-sm">{mockSections[0].capacity.toLocaleString()} capacity</Label>
                       </Stack>
                     </Card>
                   </Card>

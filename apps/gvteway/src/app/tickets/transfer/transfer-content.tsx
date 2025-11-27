@@ -115,7 +115,7 @@ export default function TicketTransferContent() {
         <Container>
           <Stack className="items-center justify-center min-h-[60vh]" gap={6}>
             <Stack className="w-24 h-24 bg-black rounded-full items-center justify-center">
-              <Body className="text-white text-4xl">✓</Body>
+              <Body className="text-white text-h3-md">✓</Body>
             </Stack>
             <Display>TRANSFER COMPLETE</Display>
             <Body className="text-center text-grey-600 max-w-md">
@@ -181,7 +181,7 @@ export default function TicketTransferContent() {
                             : 'border-grey-300'
                         }`}>
                           {selectedTicket === ticket.id && (
-                            <Body className="text-white text-center text-sm">✓</Body>
+                            <Body className="text-white text-center text-body-sm">✓</Body>
                           )}
                         </Stack>
                       </Stack>
@@ -253,16 +253,16 @@ export default function TicketTransferContent() {
             <Card className="p-6 bg-grey-50">
               <H3 className="mb-4">TRANSFER POLICY</H3>
               <Stack gap={2}>
-                <Body className="text-sm text-grey-600">
+                <Body className="text-body-sm text-grey-600">
                   • Transfers are final and cannot be undone
                 </Body>
-                <Body className="text-sm text-grey-600">
+                <Body className="text-body-sm text-grey-600">
                   • The recipient will receive an email to claim the ticket
                 </Body>
-                <Body className="text-sm text-grey-600">
+                <Body className="text-body-sm text-grey-600">
                   • Original ticket will be invalidated after transfer
                 </Body>
-                <Body className="text-sm text-grey-600">
+                <Body className="text-body-sm text-grey-600">
                   • Some events may restrict ticket transfers
                 </Body>
               </Stack>

@@ -128,7 +128,7 @@ export default function POSPage() {
                       {filteredItems.map(item => (
                         <Card key={item.id} className="p-3 border border-grey-200 cursor-pointer hover:border-black transition-all" onClick={() => addToCart(item)}>
                           <Stack gap={1}>
-                            <Body className="font-bold text-sm">{item.name}</Body>
+                            <Body className="font-bold text-body-sm">{item.name}</Body>
                             <Label className="text-grey-600">${item.price}</Label>
                           </Stack>
                         </Card>
@@ -273,7 +273,7 @@ export default function POSPage() {
             {paymentMethod === "Cash" && (
               <Stack gap={2}>
                 <Label>Amount Tendered</Label>
-                <Input type="number" placeholder="0.00" className="text-right text-xl" />
+                <Input type="number" placeholder="0.00" className="text-right text-h6-md" />
               </Stack>
             )}
           </Stack>

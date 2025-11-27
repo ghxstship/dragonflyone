@@ -45,8 +45,8 @@ export function TicketCard({
         <Stack direction="horizontal" className="items-start justify-between">
           <Stack gap={1}>
             <H3>{eventTitle}</H3>
-            <Body className="text-sm font-mono">{new Date(eventDate).toLocaleDateString()}</Body>
-            <Body className="text-sm text-grey-600">{venue}</Body>
+            <Body className="text-body-sm font-mono">{new Date(eventDate).toLocaleDateString()}</Body>
+            <Body className="text-body-sm text-grey-600">{venue}</Body>
           </Stack>
           <StatusBadge status={getStatusVariant(status)} size="sm">
             {status}
@@ -56,20 +56,20 @@ export function TicketCard({
         <Divider />
 
         <Stack gap={2}>
-          <Body className="text-sm">
+          <Body className="text-body-sm">
             <Label className="font-bold">Type:</Label> {ticketType}
           </Body>
-          <Body className="text-sm">
+          <Body className="text-body-sm">
             <Label className="font-bold">Quantity:</Label> {quantity}
           </Body>
-          <Body className="text-xs font-mono text-grey-500">ID: {id}</Body>
+          <Body className="text-mono-xs text-grey-500">ID: {id}</Body>
         </Stack>
 
         {qrCode && status === 'valid' && (
           <>
             <Divider />
             <Stack className="flex h-32 w-32 items-center justify-center border-2 border-black bg-white">
-              <Body className="text-xs">QR Code</Body>
+              <Body className="text-mono-xs">QR Code</Body>
             </Stack>
           </>
         )}

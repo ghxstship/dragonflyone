@@ -51,8 +51,8 @@ export default function MerchPage() {
             logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
             cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/cart')}>CART (0)</Button>}
           >
-            <Link href="/" className="font-heading text-sm uppercase tracking-wider hover:text-grey-400">Home</Link>
-            <Link href="/events" className="font-heading text-sm uppercase tracking-wider hover:text-grey-400">Events</Link>
+            <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Home</Link>
+            <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Events</Link>
           </Navigation>
         }
         footer={
@@ -83,8 +83,8 @@ export default function MerchPage() {
             logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
             cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/cart')}>CART (0)</Button>}
           >
-            <Link href="/" className="font-heading text-sm uppercase tracking-wider hover:text-grey-400">Home</Link>
-            <Link href="/events" className="font-heading text-sm uppercase tracking-wider hover:text-grey-400">Events</Link>
+            <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Home</Link>
+            <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Events</Link>
           </Navigation>
         }
         footer={
@@ -118,8 +118,8 @@ export default function MerchPage() {
           logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
           cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/cart')}>CART (0)</Button>}
         >
-          <Link href="/" className="font-heading text-sm uppercase tracking-wider hover:text-grey-400">Home</Link>
-          <Link href="/events" className="font-heading text-sm uppercase tracking-wider hover:text-grey-400">Events</Link>
+          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Home</Link>
+          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Events</Link>
         </Navigation>
       }
       footer={
@@ -176,11 +176,11 @@ export default function MerchPage() {
                     <Stack gap={4}>
                       <Stack className="aspect-square bg-grey-900" />
                       <Stack gap={2} direction="horizontal" className="justify-between items-start">
-                        <Body className="font-display text-lg text-white">{item.name}</Body>
+                        <Body className="font-display text-body-md text-white">{item.name}</Body>
                         <Badge variant="outline">{item.category}</Badge>
                       </Stack>
-                      <Body className="font-mono text-2xl text-white">${item.price}</Body>
-                      <Body className="text-sm text-grey-400">{item.stock} in stock</Body>
+                      <Body className="font-mono text-h5-md text-white">${item.price}</Body>
+                      <Body className="text-body-sm text-grey-400">{item.stock} in stock</Body>
                       <Button variant="solid" className="w-full" onClick={() => { addNotification({ type: 'success', title: 'Added', message: `${item.name} added to cart` }); }}>Add to Cart</Button>
                     </Stack>
                   </Card>

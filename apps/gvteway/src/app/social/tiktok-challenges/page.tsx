@@ -121,7 +121,7 @@ export default function TikTokChallengesPage() {
           {selectedChallenge && (
             <Stack gap={4}>
               <Stack direction="horizontal" className="justify-between">
-                <Label className="text-info-600 text-lg">{selectedChallenge.hashtag}</Label>
+                <Label className="text-info-600 text-body-md">{selectedChallenge.hashtag}</Label>
                 <Label className={getStatusColor(selectedChallenge.status)}>{selectedChallenge.status}</Label>
               </Stack>
               <Stack gap={1}><Label className="text-grey-500">Event</Label><Label>{selectedChallenge.eventName}</Label></Stack>
@@ -130,9 +130,9 @@ export default function TikTokChallengesPage() {
                 <Stack gap={1}><Label className="text-grey-500">End Date</Label><Label>{selectedChallenge.endDate}</Label></Stack>
               </Grid>
               <Grid cols={3} gap={4}>
-                <Stack gap={1}><Label className="text-grey-500">Participants</Label><Label className="font-mono text-xl">{formatNumber(selectedChallenge.participants)}</Label></Stack>
-                <Stack gap={1}><Label className="text-grey-500">Views</Label><Label className="font-mono text-xl">{formatNumber(selectedChallenge.views)}</Label></Stack>
-                <Stack gap={1}><Label className="text-grey-500">Engagement</Label><Label className="font-mono text-xl">{selectedChallenge.engagement}%</Label></Stack>
+                <Stack gap={1}><Label className="text-grey-500">Participants</Label><Label className="font-mono text-h6-md">{formatNumber(selectedChallenge.participants)}</Label></Stack>
+                <Stack gap={1}><Label className="text-grey-500">Views</Label><Label className="font-mono text-h6-md">{formatNumber(selectedChallenge.views)}</Label></Stack>
+                <Stack gap={1}><Label className="text-grey-500">Engagement</Label><Label className="font-mono text-h6-md">{selectedChallenge.engagement}%</Label></Stack>
               </Grid>
               {selectedChallenge.engagement > 0 && (
                 <Stack gap={2}>

@@ -127,7 +127,7 @@ export default function OpportunitiesPage() {
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
               variant={activeTab === tab.id ? 'solid' : 'ghost'}
-              className={`pb-4 px-6 font-heading text-lg tracking-wider ${
+              className={`pb-4 px-6 font-heading text-body-md tracking-wider ${
                 activeTab === tab.id ? 'border-b-4 border-black -mb-0.5' : ''
               }`}
             >
@@ -174,15 +174,15 @@ export default function OpportunitiesPage() {
                     <Body className="text-grey-600">{rfp.client}</Body>
                     
                     <Grid cols={3} gap={4}>
-                      <Stack gap={2} direction="horizontal" className="items-center text-sm">
+                      <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
                         <DollarSign className="w-4 h-4 text-grey-600" />
                         <Body>{rfp.budget}</Body>
                       </Stack>
-                      <Stack gap={2} direction="horizontal" className="items-center text-sm">
+                      <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
                         <MapPin className="w-4 h-4 text-grey-600" />
                         <Body>{rfp.location}</Body>
                       </Stack>
-                      <Stack gap={2} direction="horizontal" className="items-center text-sm">
+                      <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
                         <Clock className="w-4 h-4 text-grey-600" />
                         <Body>Due {new Date(rfp.deadline).toLocaleDateString()}</Body>
                       </Stack>
@@ -212,15 +212,15 @@ export default function OpportunitiesPage() {
                     </Stack>
                     
                     <Grid cols={3} gap={4} className="mt-4">
-                      <Stack gap={2} direction="horizontal" className="items-center text-sm">
+                      <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
                         <MapPin className="w-4 h-4 text-grey-600" />
                         <Body>{job.location}</Body>
                       </Stack>
-                      <Stack gap={2} direction="horizontal" className="items-center text-sm">
+                      <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
                         <DollarSign className="w-4 h-4 text-grey-600" />
                         <Body>{job.salary}</Body>
                       </Stack>
-                      <Stack gap={2} direction="horizontal" className="items-center text-sm">
+                      <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
                         <Clock className="w-4 h-4 text-grey-600" />
                         <Body>Posted {new Date(job.posted).toLocaleDateString()}</Body>
                       </Stack>
@@ -246,20 +246,20 @@ export default function OpportunitiesPage() {
                     <H2 className="mb-4">{gig.title}</H2>
                     
                     <Grid cols={4} gap={4}>
-                      <Stack gap={2} direction="horizontal" className="items-center text-sm">
+                      <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
                         <Clock className="w-4 h-4 text-grey-600" />
                         <Body>{new Date(gig.date).toLocaleDateString()}</Body>
                       </Stack>
-                      <Stack gap={2} direction="horizontal" className="items-center text-sm">
+                      <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
                         <MapPin className="w-4 h-4 text-grey-600" />
                         <Body>{gig.location}</Body>
                       </Stack>
-                      <Stack gap={2} direction="horizontal" className="items-center text-sm">
+                      <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
                         <DollarSign className="w-4 h-4 text-grey-600" />
                         <Body>{gig.rate}</Body>
                       </Stack>
                       <Stack>
-                        <Body className="text-sm text-grey-600">Duration: {gig.duration}</Body>
+                        <Body className="text-body-sm text-grey-600">Duration: {gig.duration}</Body>
                       </Stack>
                     </Grid>
                   </Stack>

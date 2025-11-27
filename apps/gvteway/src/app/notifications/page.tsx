@@ -107,8 +107,8 @@ export default function NotificationsPage() {
             logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
             cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/profile')}>PROFILE</Button>}
           >
-            <Link href="/" className="font-heading text-sm uppercase tracking-wider hover:text-grey-400">Home</Link>
-            <Link href="/events" className="font-heading text-sm uppercase tracking-wider hover:text-grey-400">Events</Link>
+            <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Home</Link>
+            <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Events</Link>
           </Navigation>
         }
         footer={
@@ -134,8 +134,8 @@ export default function NotificationsPage() {
             logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
             cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/profile')}>PROFILE</Button>}
           >
-            <Link href="/" className="font-heading text-sm uppercase tracking-wider hover:text-grey-400">Home</Link>
-            <Link href="/events" className="font-heading text-sm uppercase tracking-wider hover:text-grey-400">Events</Link>
+            <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Home</Link>
+            <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Events</Link>
           </Navigation>
         }
         footer={
@@ -164,8 +164,8 @@ export default function NotificationsPage() {
           logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
           cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/profile')}>PROFILE</Button>}
         >
-          <Link href="/" className="font-heading text-sm uppercase tracking-wider hover:text-grey-400">Home</Link>
-          <Link href="/events" className="font-heading text-sm uppercase tracking-wider hover:text-grey-400">Events</Link>
+          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Home</Link>
+          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Events</Link>
         </Navigation>
       }
       footer={
@@ -215,11 +215,11 @@ export default function NotificationsPage() {
                     <Stack gap={4} direction="horizontal" className="justify-between items-start">
                       <Stack gap={2} className="flex-1">
                         <Stack gap={3} direction="horizontal" className="items-center">
-                          <Body className="font-display text-lg text-white">{notification.title}</Body>
+                          <Body className="font-display text-body-md text-white">{notification.title}</Body>
                           {!notification.read && <Badge variant="solid">New</Badge>}
                         </Stack>
                         <Body className="text-grey-300">{notification.message}</Body>
-                        <Body className="text-sm text-grey-500">
+                        <Body className="text-body-sm text-grey-500">
                           {notification.type} • {new Date(notification.created_at).toLocaleDateString()}
                         </Body>
                       </Stack>

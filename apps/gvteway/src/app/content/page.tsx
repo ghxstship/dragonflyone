@@ -262,7 +262,7 @@ export default function ExclusiveContentPage() {
                     />
                   ) : (
                     <Stack className="w-full h-full flex items-center justify-center">
-                      <Body className="text-4xl">
+                      <Body className="text-h3-md">
                         {item.type === 'video' ? '🎬' : item.type === 'audio' ? '🎵' : '📸'}
                       </Body>
                     </Stack>
@@ -286,14 +286,14 @@ export default function ExclusiveContentPage() {
                     {getTypeBadge(item.type)}
                   </Stack>
                   <H3 className="line-clamp-2">{item.title}</H3>
-                  <Body className="text-sm text-grey-600 line-clamp-2">
+                  <Body className="text-body-sm text-grey-600 line-clamp-2">
                     {item.description}
                   </Body>
-                  <Body className="text-xs text-grey-500">
+                  <Body className="text-mono-xs text-grey-500">
                     {item.event_name}
                   </Body>
                   <Stack direction="horizontal" className="justify-between items-center mt-2">
-                    <Body className="text-xs text-grey-500">
+                    <Body className="text-mono-xs text-grey-500">
                       {item.views.toLocaleString()} views
                     </Body>
                     <Stack direction="horizontal" gap={2}>
@@ -342,7 +342,7 @@ export default function ExclusiveContentPage() {
                   />
                 ) : (
                   <Stack className="w-full h-full flex items-center justify-center">
-                    <Body className="text-6xl">
+                    <Body className="text-h1-sm">
                       {selectedContent.type === 'video' ? '▶️' : selectedContent.type === 'audio' ? '🎵' : '📸'}
                     </Body>
                   </Stack>
@@ -362,7 +362,7 @@ export default function ExclusiveContentPage() {
                 </Stack>
                 <H2>{selectedContent.title}</H2>
                 <Body className="text-grey-600">{selectedContent.description}</Body>
-                <Stack direction="horizontal" gap={4} className="text-sm text-grey-500">
+                <Stack direction="horizontal" gap={4} className="text-body-sm text-grey-500">
                   <Body>{selectedContent.event_name}</Body>
                   <Body>{new Date(selectedContent.release_date).toLocaleDateString()}</Body>
                   {selectedContent.duration && <Body>{selectedContent.duration}</Body>}

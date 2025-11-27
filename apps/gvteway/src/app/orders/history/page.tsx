@@ -244,24 +244,24 @@ export default function OrderHistoryPage() {
                     <Body className="text-grey-600">{order.event_date} • {order.event_venue}</Body>
                     <Stack direction="horizontal" gap={4} className="mt-2">
                       <Stack>
-                        <Label className="text-grey-500 text-xs">Order #</Label>
-                        <Body className="font-mono text-sm">{order.order_number}</Body>
+                        <Label className="text-grey-500 text-mono-xs">Order #</Label>
+                        <Body className="font-mono text-body-sm">{order.order_number}</Body>
                       </Stack>
                       <Stack>
-                        <Label className="text-grey-500 text-xs">Date</Label>
-                        <Body className="text-sm">
+                        <Label className="text-grey-500 text-mono-xs">Date</Label>
+                        <Body className="text-body-sm">
                           {new Date(order.created_at).toLocaleDateString()}
                         </Body>
                       </Stack>
                       <Stack>
-                        <Label className="text-grey-500 text-xs">Items</Label>
-                        <Body className="text-sm">{order.items.length}</Body>
+                        <Label className="text-grey-500 text-mono-xs">Items</Label>
+                        <Body className="text-body-sm">{order.items.length}</Body>
                       </Stack>
                     </Stack>
                   </Stack>
                   <Stack className="items-end">
                     <H2>${order.total.toFixed(2)}</H2>
-                    <Body className="text-sm text-grey-500">{order.payment_method}</Body>
+                    <Body className="text-body-sm text-grey-500">{order.payment_method}</Body>
                   </Stack>
                 </Stack>
 
@@ -277,7 +277,7 @@ export default function OrderHistoryPage() {
                           className="justify-between py-2 border-b border-grey-200"
                         >
                           <Stack direction="horizontal" gap={2}>
-                            <Badge variant="outline" className="text-xs">
+                            <Badge variant="outline" className="text-mono-xs">
                               {item.type}
                             </Badge>
                             <Body>{item.name}</Body>

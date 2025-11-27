@@ -218,7 +218,7 @@ export default function StrategicAlignmentPage() {
                     <Stack direction="horizontal" className="justify-between items-start mb-4">
                       <Stack gap={1}>
                         <H3>{goal.name}</H3>
-                        <Body className="text-grey-600 text-sm">{goal.description}</Body>
+                        <Body className="text-grey-600 text-body-sm">{goal.description}</Body>
                       </Stack>
                       {getStatusBadge(goal.status)}
                     </Stack>
@@ -234,10 +234,10 @@ export default function StrategicAlignmentPage() {
                         />
                       </Stack>
                       <Stack direction="horizontal" className="justify-between mt-2">
-                        <Body className="text-xs text-grey-500">
+                        <Body className="text-mono-xs text-grey-500">
                           Owner: {goal.owner}
                         </Body>
-                        <Body className="text-xs text-grey-500">
+                        <Body className="text-mono-xs text-grey-500">
                           Target: {new Date(goal.target_date).toLocaleDateString()}
                         </Body>
                       </Stack>
@@ -261,7 +261,7 @@ export default function StrategicAlignmentPage() {
                     <Stack direction="horizontal" className="justify-between items-start mb-4">
                       <Stack gap={1}>
                         <H3>{project.name}</H3>
-                        <Body className="text-grey-600 text-sm">
+                        <Body className="text-grey-600 text-body-sm">
                           Budget: ${project.budget?.toLocaleString() || 0}
                         </Body>
                       </Stack>
@@ -281,7 +281,7 @@ export default function StrategicAlignmentPage() {
                           })}
                         </Stack>
                       ) : (
-                        <Body className="text-sm text-grey-400">No goals aligned</Body>
+                        <Body className="text-body-sm text-grey-400">No goals aligned</Body>
                       )}
                     </Stack>
                     <Button
@@ -382,7 +382,7 @@ export default function StrategicAlignmentPage() {
                       <Stack direction="horizontal" className="justify-between items-center">
                         <Stack gap={1}>
                           <Body className="font-bold">{goal.name}</Body>
-                          <Body className="text-sm text-grey-600">{goal.category}</Body>
+                          <Body className="text-body-sm text-grey-600">{goal.category}</Body>
                         </Stack>
                         {selectedProject.aligned_goals?.includes(goal.id) && (
                           <Badge className="bg-black text-white">Selected</Badge>

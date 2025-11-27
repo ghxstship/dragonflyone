@@ -190,7 +190,7 @@ export default function CommunityPollsPage() {
                     <Stack gap={1}>
                       <Badge variant="outline">{poll.category}</Badge>
                       {poll.event_title && (
-                        <Body className="text-sm text-grey-500">{poll.event_title}</Body>
+                        <Body className="text-body-sm text-grey-500">{poll.event_title}</Body>
                       )}
                     </Stack>
                     {poll.status === 'active' && poll.ends_at && (
@@ -251,7 +251,7 @@ export default function CommunityPollsPage() {
                     })}
                   </Stack>
 
-                  <Body className="text-sm text-grey-500">
+                  <Body className="text-body-sm text-grey-500">
                     {poll.total_votes} vote{poll.total_votes !== 1 ? 's' : ''}
                   </Body>
                 </Stack>

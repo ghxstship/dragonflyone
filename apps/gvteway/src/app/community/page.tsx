@@ -159,7 +159,7 @@ export default function CommunityPage() {
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
               variant="ghost"
-              className={`pb-4 px-6 font-heading text-lg tracking-wider rounded-none ${
+              className={`pb-4 px-6 font-heading text-body-md tracking-wider rounded-none ${
                 activeTab === tab.id
                   ? 'border-b-4 border-black -mb-0.5'
                   : 'text-grey-500 hover:text-black'
@@ -202,16 +202,16 @@ export default function CommunityPage() {
                         </Badge>
                       )}
                     </Stack>
-                    <Stack gap={6} direction="horizontal" className="text-sm text-grey-600">
+                    <Stack gap={6} direction="horizontal" className="text-body-sm text-grey-600">
                       <Stack gap={2} direction="horizontal" className="items-center">
                         <MessageCircle className="w-4 h-4" />
-                        <Body className="text-sm">{forum.posts.toLocaleString()} posts</Body>
+                        <Body className="text-body-sm">{forum.posts.toLocaleString()} posts</Body>
                       </Stack>
                       <Stack gap={2} direction="horizontal" className="items-center">
                         <Users className="w-4 h-4" />
-                        <Body className="text-sm">{forum.members.toLocaleString()} members</Body>
+                        <Body className="text-body-sm">{forum.members.toLocaleString()} members</Body>
                       </Stack>
-                      <Body className="text-sm">Last active: {forum.lastActive}</Body>
+                      <Body className="text-body-sm">Last active: {forum.lastActive}</Body>
                     </Stack>
                   </Stack>
                   <Button variant="outline" onClick={() => handleJoinForum(forum.id)}>JOIN DISCUSSION</Button>
@@ -243,9 +243,9 @@ export default function CommunityPage() {
                 </Stack>
                 <Body className="text-grey-600 mb-4">{group.description}</Body>
                 <Stack gap={4} direction="horizontal" className="justify-between items-center">
-                  <Stack gap={2} direction="horizontal" className="items-center text-sm text-grey-600">
+                  <Stack gap={2} direction="horizontal" className="items-center text-body-sm text-grey-600">
                     <Users className="w-4 h-4" />
-                    <Body className="text-sm">{group.members_count.toLocaleString()} members</Body>
+                    <Body className="text-body-sm">{group.members_count.toLocaleString()} members</Body>
                   </Stack>
                   <Button variant="outline" size="sm" onClick={() => handleJoinGroup(group.id)}>JOIN GROUP</Button>
                 </Stack>

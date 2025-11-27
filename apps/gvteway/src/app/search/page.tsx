@@ -47,8 +47,8 @@ export default function SearchPage() {
           logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
           cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/auth/signin')}>SIGN IN</Button>}
         >
-          <Link href="/" className="font-heading text-sm uppercase tracking-wider hover:text-grey-400">Home</Link>
-          <Link href="/events" className="font-heading text-sm uppercase tracking-wider hover:text-grey-400">Events</Link>
+          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Home</Link>
+          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Events</Link>
         </Navigation>
       }
       footer={
@@ -71,11 +71,11 @@ export default function SearchPage() {
               placeholder="Search events, venues, artists..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="border-grey-700 bg-black text-white text-lg"
+              className="border-grey-700 bg-black text-white text-body-md"
             />
             {debouncedQuery && (
               <Stack gap={4}>
-                <Body className="font-mono text-sm uppercase tracking-wider text-grey-400">
+                <Body className="font-mono text-body-sm uppercase tracking-widest text-grey-400">
                   {results.length} {results.length === 1 ? "Result" : "Results"}
                 </Body>
                 {results.map((result) => (

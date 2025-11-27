@@ -125,7 +125,7 @@ export default function SeatingPage() {
             <Card className="p-6">
               <Stack gap={4} className="items-center mb-8">
                 <Stack className="w-full max-w-md h-8 bg-black rounded-t-lg items-center justify-center">
-                  <Label className="text-white text-sm">STAGE</Label>
+                  <Label className="text-white text-body-sm">STAGE</Label>
                 </Stack>
               </Stack>
 
@@ -147,7 +147,7 @@ export default function SeatingPage() {
                                     <Button
                                       key={seat.id}
                                       onClick={() => handleSeatClick(seat.id, seat.status)}
-                                      className={`w-8 h-8 text-xs font-mono transition-colors ${getSeatColor(seat.status, selectedSeats.includes(seat.id))}`}
+                                      className={`w-8 h-8 text-mono-xs transition-colors ${getSeatColor(seat.status, selectedSeats.includes(seat.id))}`}
                                       disabled={seat.status !== 'available'}
                                       title={`${section} Row ${row} Seat ${seat.number}`}
                                       variant="ghost"
@@ -167,7 +167,7 @@ export default function SeatingPage() {
               ) : (
                 <Stack className="items-center py-12">
                   <Body className="text-grey-500">No seating chart available for this event.</Body>
-                  <Body className="text-grey-600 text-sm">This may be a general admission event.</Body>
+                  <Body className="text-grey-600 text-body-sm">This may be a general admission event.</Body>
                 </Stack>
               )}
 
@@ -241,7 +241,7 @@ export default function SeatingPage() {
             <Card className="p-6">
               <H3 className="mb-4">NEED HELP?</H3>
               <Stack gap={2}>
-                <Body className="text-sm text-grey-600">
+                <Body className="text-body-sm text-grey-600">
                   Having trouble selecting seats? Contact our support team.
                 </Body>
                 <Button variant="outline" className="w-full" onClick={() => router.push('/help')}>

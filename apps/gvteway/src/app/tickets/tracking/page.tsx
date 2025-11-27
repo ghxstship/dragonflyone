@@ -133,7 +133,7 @@ export default function TicketTrackingPage() {
               }`}
             >
               {step.status === 'completed' ? (
-                <Body className="text-white text-sm">✓</Body>
+                <Body className="text-white text-body-sm">✓</Body>
               ) : step.status === 'current' ? (
                 <Stack className="w-3 h-3 bg-white rounded-full" />
               ) : (
@@ -152,11 +152,11 @@ export default function TicketTrackingPage() {
             <Body className={`font-medium ${step.status === 'pending' ? 'text-grey-600' : ''}`}>
               {step.title}
             </Body>
-            <Body className={`text-sm ${step.status === 'pending' ? 'text-grey-600' : 'text-grey-600'}`}>
+            <Body className={`text-body-sm ${step.status === 'pending' ? 'text-grey-600' : 'text-grey-600'}`}>
               {step.description}
             </Body>
             {step.timestamp && (
-              <Body className="text-xs text-grey-500 mt-1">{step.timestamp}</Body>
+              <Body className="text-mono-xs text-grey-500 mt-1">{step.timestamp}</Body>
             )}
           </Stack>
         </Stack>
@@ -260,19 +260,19 @@ export default function TicketTrackingPage() {
                     <Body className="text-grey-600">{delivery.event_date}</Body>
                     <Stack direction="horizontal" gap={4} className="mt-2">
                       <Stack>
-                        <Label className="text-grey-500 text-xs">Method</Label>
-                        <Body className="text-sm">{getDeliveryMethodLabel(delivery.delivery_method)}</Body>
+                        <Label className="text-grey-500 text-mono-xs">Method</Label>
+                        <Body className="text-body-sm">{getDeliveryMethodLabel(delivery.delivery_method)}</Body>
                       </Stack>
                       {delivery.tracking_number && (
                         <Stack>
-                          <Label className="text-grey-500 text-xs">Tracking</Label>
-                          <Body className="text-sm font-mono">{delivery.tracking_number}</Body>
+                          <Label className="text-grey-500 text-mono-xs">Tracking</Label>
+                          <Body className="text-body-sm font-mono">{delivery.tracking_number}</Body>
                         </Stack>
                       )}
                       {delivery.estimated_delivery && (
                         <Stack>
-                          <Label className="text-grey-500 text-xs">Est. Delivery</Label>
-                          <Body className="text-sm">{delivery.estimated_delivery}</Body>
+                          <Label className="text-grey-500 text-mono-xs">Est. Delivery</Label>
+                          <Body className="text-body-sm">{delivery.estimated_delivery}</Body>
                         </Stack>
                       )}
                     </Stack>

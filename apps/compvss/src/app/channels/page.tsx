@@ -208,7 +208,7 @@ export default function ChannelsPage() {
                   <Select
                     value={filter}
                     onChange={(e) => setFilter(e.target.value)}
-                    className="w-32 border-ink-700 bg-black text-white text-sm"
+                    className="w-32 border-ink-700 bg-black text-white text-body-sm"
                   >
                     <option value="all">All</option>
                     <option value="department">Department</option>
@@ -230,7 +230,7 @@ export default function ChannelsPage() {
                           <Stack direction="horizontal" gap={2} className="items-center">
                             <Body className="font-display text-white">{channel.name}</Body>
                             {channel.unread_count > 0 && (
-                              <Badge className="bg-error-500 text-white text-xs">{channel.unread_count}</Badge>
+                              <Badge className="bg-error-500 text-white text-mono-xs">{channel.unread_count}</Badge>
                             )}
                           </Stack>
                           <Label size="xs" className="text-ink-500">{channel.members.length} members</Label>

@@ -225,12 +225,12 @@ export default function CrewSocialPage() {
                       </Stack>
 
                       {member.bio && (
-                        <Body className="text-ink-300 text-sm line-clamp-2">{member.bio}</Body>
+                        <Body className="text-ink-300 text-body-sm line-clamp-2">{member.bio}</Body>
                       )}
 
                       <Stack direction="horizontal" gap={2} className="flex-wrap">
                         {member.skills.slice(0, 3).map(skill => (
-                          <Badge key={skill} className="bg-ink-800 text-ink-300 text-xs">{skill}</Badge>
+                          <Badge key={skill} className="bg-ink-800 text-ink-300 text-mono-xs">{skill}</Badge>
                         ))}
                       </Stack>
 
@@ -310,7 +310,7 @@ export default function CrewSocialPage() {
                           <Stack direction="horizontal" gap={2} className="items-center">
                             <Body className="font-display text-white">{member.name}</Body>
                             {member.is_online && (
-                              <Badge className="bg-success-500 text-white text-xs">Online</Badge>
+                              <Badge className="bg-success-500 text-white text-mono-xs">Online</Badge>
                             )}
                           </Stack>
                           <Label className="text-ink-400">{member.role}</Label>
@@ -346,11 +346,11 @@ export default function CrewSocialPage() {
             <Stack gap={4}>
               <Stack direction="horizontal" gap={4} className="items-center">
                 <Card className="w-16 h-16 rounded-full bg-ink-700 flex items-center justify-center">
-                  <Body className="text-white text-2xl">{selectedMember.name.charAt(0)}</Body>
+                  <Body className="text-white text-h5-md">{selectedMember.name.charAt(0)}</Body>
                 </Card>
                 <Stack gap={1}>
                   <Stack direction="horizontal" gap={2} className="items-center">
-                    <Body className="font-display text-white text-xl">{selectedMember.name}</Body>
+                    <Body className="font-display text-white text-h6-md">{selectedMember.name}</Body>
                     {selectedMember.is_online && (
                       <Badge className="bg-success-500 text-white">Online</Badge>
                     )}
@@ -386,11 +386,11 @@ export default function CrewSocialPage() {
 
               <Grid cols={2} gap={4}>
                 <Card className="p-3 bg-ink-800 text-center">
-                  <Body className="text-2xl font-bold text-white">{selectedMember.projects_count}</Body>
+                  <Body className="text-h5-md font-bold text-white">{selectedMember.projects_count}</Body>
                   <Label size="xs" className="text-ink-500">Projects</Label>
                 </Card>
                 <Card className="p-3 bg-ink-800 text-center">
-                  <Body className="text-2xl font-bold text-white">{selectedMember.connections.length}</Body>
+                  <Body className="text-h5-md font-bold text-white">{selectedMember.connections.length}</Body>
                   <Label size="xs" className="text-ink-500">Connections</Label>
                 </Card>
               </Grid>

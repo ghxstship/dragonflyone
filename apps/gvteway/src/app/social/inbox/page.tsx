@@ -114,7 +114,7 @@ export default function SocialInboxPage() {
               <Card key={message.id} className={`border-2 ${message.priority === "High" ? "border-error-300" : "border-black"} p-4`}>
                 <Grid cols={6} gap={4} className="items-center">
                   <Stack direction="horizontal" gap={3}>
-                    <Label className="text-2xl">{getPlatformIcon(message.platform)}</Label>
+                    <Label className="text-h5-md">{getPlatformIcon(message.platform)}</Label>
                     <Stack gap={1}>
                       <Label className="font-bold">{message.author}</Label>
                       <Label size="xs" className="text-grey-500">{message.authorHandle}</Label>
@@ -144,7 +144,7 @@ export default function SocialInboxPage() {
           {selectedMessage && (
             <Stack gap={4}>
               <Stack direction="horizontal" gap={2}>
-                <Label className="text-xl">{getPlatformIcon(selectedMessage.platform)}</Label>
+                <Label className="text-h6-md">{getPlatformIcon(selectedMessage.platform)}</Label>
                 <Badge variant="outline">{selectedMessage.platform}</Badge>
                 <Badge variant="outline">{selectedMessage.type}</Badge>
               </Stack>

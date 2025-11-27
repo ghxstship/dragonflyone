@@ -109,7 +109,7 @@ export default function StakeholderPortalPage() {
                   <Stack gap={4}>
                     <Stack direction="horizontal" className="justify-between">
                       <Stack direction="horizontal" gap={3}>
-                        <Label className="text-2xl">{getUpdateIcon(update.type)}</Label>
+                        <Label className="text-h5-md">{getUpdateIcon(update.type)}</Label>
                         <Stack gap={1}>
                           <Body className="font-display text-white">{update.title}</Body>
                           <Badge variant="outline">{update.projectName}</Badge>
@@ -160,7 +160,7 @@ export default function StakeholderPortalPage() {
                 <Card key={idx} className="border-2 border-ink-800 bg-ink-900/50 p-4">
                   <Stack direction="horizontal" className="justify-between items-center">
                     <Stack direction="horizontal" gap={3}>
-                      <Label className="text-xl">📄</Label>
+                      <Label className="text-h6-md">📄</Label>
                       <Stack gap={1}>
                         <Label className="text-white">{doc}</Label>
                         <Label size="xs" className="text-ink-500">Updated 2024-11-{20 + idx}</Label>

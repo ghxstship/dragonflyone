@@ -108,7 +108,7 @@ export function StatsDashboard({
               {stat.label}
             </span>
             {stat.icon && (
-              <span className={clsx("text-grey-500", compact ? "text-base" : "text-xl")}>
+              <span className={clsx("text-grey-500", compact ? "text-body-sm" : "text-body-lg")}>
                 {stat.icon}
               </span>
             )}
@@ -193,7 +193,7 @@ export function StatCard({
           {label}
         </span>
         {icon && (
-          <span className="text-xl text-grey-500">{icon}</span>
+          <span className="text-body-lg text-grey-500">{icon}</span>
         )}
       </div>
 

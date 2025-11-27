@@ -152,7 +152,7 @@ export function MobileJobSearch({ initialJobs = [], onApply }: MobileJobSearchPr
           >
             <Filter className="w-4 h-4" />
             {activeFilterCount > 0 && (
-              <Badge className="absolute -top-2 -right-2 w-5 h-5 flex items-center justify-center text-xs">
+              <Badge className="absolute -top-2 -right-2 w-5 h-5 flex items-center justify-center text-mono-xs">
                 {activeFilterCount}
               </Badge>
             )}
@@ -198,7 +198,7 @@ export function MobileJobSearch({ initialJobs = [], onApply }: MobileJobSearchPr
 
       {/* Results Count */}
       <Container className="py-4">
-        <Body variant="muted" className="text-sm">
+        <Body variant="muted" className="text-body-sm">
           {filteredJobs.length} {filteredJobs.length === 1 ? 'opportunity' : 'opportunities'} found
         </Body>
       </Container>
@@ -230,9 +230,9 @@ export function MobileJobSearch({ initialJobs = [], onApply }: MobileJobSearchPr
                   {/* Header */}
                   <Stack direction="horizontal" className="justify-between items-start">
                     <Stack gap={1} className="flex-1">
-                      <H3 className="text-base">{job.title}</H3>
+                      <H3 className="text-body-sm">{job.title}</H3>
                       {job.company && (
-                        <Body className="text-sm" variant="muted">{job.company}</Body>
+                        <Body className="text-body-sm" variant="muted">{job.company}</Body>
                       )}
                     </Stack>
                     <Button
@@ -262,20 +262,20 @@ export function MobileJobSearch({ initialJobs = [], onApply }: MobileJobSearchPr
                   <Stack gap={2}>
                     <Stack direction="horizontal" gap={2} className="items-center">
                       <MapPin className="w-4 h-4 text-grey-500" />
-                      <Body className="text-sm">{job.location}</Body>
+                      <Body className="text-body-sm">{job.location}</Body>
                     </Stack>
                     
                     {(job.salary || job.rate) && (
                       <Stack direction="horizontal" gap={2} className="items-center">
                         <DollarSign className="w-4 h-4 text-grey-500" />
-                        <Body className="text-sm">{job.salary || job.rate}</Body>
+                        <Body className="text-body-sm">{job.salary || job.rate}</Body>
                       </Stack>
                     )}
 
                     {job.date && (
                       <Stack direction="horizontal" gap={2} className="items-center">
                         <Clock className="w-4 h-4 text-grey-500" />
-                        <Body className="text-sm">
+                        <Body className="text-body-sm">
                           {new Date(job.date).toLocaleDateString()}
                           {job.duration && ` • ${job.duration}`}
                         </Body>
@@ -287,12 +287,12 @@ export function MobileJobSearch({ initialJobs = [], onApply }: MobileJobSearchPr
                   {job.skills && job.skills.length > 0 && (
                     <Stack direction="horizontal" gap={1} className="flex-wrap">
                       {job.skills.slice(0, 3).map((skill, idx) => (
-                        <Badge key={idx} variant="outline" className="text-xs">
+                        <Badge key={idx} variant="outline" className="text-mono-xs">
                           {skill}
                         </Badge>
                       ))}
                       {job.skills.length > 3 && (
-                        <Badge variant="outline" className="text-xs">
+                        <Badge variant="outline" className="text-mono-xs">
                           +{job.skills.length - 3}
                         </Badge>
                       )}
@@ -329,7 +329,7 @@ export function MobileJobSearch({ initialJobs = [], onApply }: MobileJobSearchPr
           onClick={() => router.push('/opportunities')}
         >
           <Search className="w-5 h-5" />
-          <Body className="text-xs">Search</Body>
+          <Body className="text-mono-xs">Search</Body>
         </Button>
         <Button
           variant="ghost"
@@ -337,8 +337,8 @@ export function MobileJobSearch({ initialJobs = [], onApply }: MobileJobSearchPr
           className="flex-col gap-1"
           onClick={() => router.push('/opportunities/saved')}
         >
-          <span className="text-lg">★</span>
-          <Body className="text-xs">Saved ({savedJobs.length})</Body>
+          <span className="text-body-md">★</span>
+          <Body className="text-mono-xs">Saved ({savedJobs.length})</Body>
         </Button>
         <Button
           variant="ghost"
@@ -347,7 +347,7 @@ export function MobileJobSearch({ initialJobs = [], onApply }: MobileJobSearchPr
           onClick={() => router.push('/opportunities/applications')}
         >
           <Briefcase className="w-5 h-5" />
-          <Body className="text-xs">Applied</Body>
+          <Body className="text-mono-xs">Applied</Body>
         </Button>
         <Button
           variant="ghost"
@@ -355,8 +355,8 @@ export function MobileJobSearch({ initialJobs = [], onApply }: MobileJobSearchPr
           className="flex-col gap-1"
           onClick={() => router.push('/profile')}
         >
-          <span className="text-lg">👤</span>
-          <Body className="text-xs">Profile</Body>
+          <span className="text-body-md">👤</span>
+          <Body className="text-mono-xs">Profile</Body>
         </Button>
       </Stack>
     </Section>

@@ -164,7 +164,7 @@ export default function VendorContractsPage() {
                 <Stack gap={1}><Label className="text-ink-400">Start Date</Label><Label className="text-white">{selectedContract.startDate}</Label></Stack>
                 <Stack gap={1}><Label className="text-ink-400">Expiry Date</Label><Label className={getStatusColor(selectedContract.status)}>{selectedContract.expiryDate}</Label></Stack>
               </Grid>
-              <Stack gap={1}><Label className="text-ink-400">Contract Value</Label><Label className="font-mono text-white text-xl">{formatCurrency(selectedContract.value)}</Label></Stack>
+              <Stack gap={1}><Label className="text-ink-400">Contract Value</Label><Label className="font-mono text-white text-h6-md">{formatCurrency(selectedContract.value)}</Label></Stack>
               <Stack gap={1}>
                 <Label className="text-ink-400">Auto-Renewal</Label>
                 <Label className={selectedContract.autoRenew ? "text-success-400" : "text-ink-400"}>{selectedContract.autoRenew ? "Enabled" : "Disabled"}</Label>

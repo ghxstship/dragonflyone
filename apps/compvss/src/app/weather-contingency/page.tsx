@@ -162,7 +162,7 @@ export default function WeatherContingencyPage() {
                   <Card className="p-4 bg-ink-800/50 border-b border-ink-700">
                     <Stack direction="horizontal" className="justify-between items-center">
                       <Stack gap={1}>
-                        <Body className="font-display text-white text-lg">{plan.projectName}</Body>
+                        <Body className="font-display text-white text-body-md">{plan.projectName}</Body>
                         <Stack direction="horizontal" gap={2}>
                           <Badge variant="outline">{plan.venueType}</Badge>
                           <Label className="text-ink-400">{plan.venue}</Label>
@@ -235,7 +235,7 @@ export default function WeatherContingencyPage() {
         <ModalBody>
           {selectedPlan && (
             <Stack gap={4}>
-              <Body className="font-display text-white text-lg">{selectedPlan.projectName}</Body>
+              <Body className="font-display text-white text-body-md">{selectedPlan.projectName}</Body>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}><Label size="xs" className="text-ink-500">Venue</Label><Label className="text-white">{selectedPlan.venue}</Label></Stack>
                 <Stack gap={1}><Label size="xs" className="text-ink-500">Type</Label><Badge variant="outline">{selectedPlan.venueType}</Badge></Stack>

@@ -73,15 +73,15 @@ export default function ReferralProgramPage() {
               <H3>Referral Bonus Structure</H3>
               <Grid cols={3} gap={4}>
                 <Card className="p-4 border border-ink-700 text-center">
-                  <Label className="font-mono text-white text-2xl">$2,500</Label>
+                  <Label className="font-mono text-white text-h5-md">$2,500</Label>
                   <Label className="text-ink-400">Standard Positions</Label>
                 </Card>
                 <Card className="p-4 border border-ink-700 text-center">
-                  <Label className="font-mono text-white text-2xl">$5,000</Label>
+                  <Label className="font-mono text-white text-h5-md">$5,000</Label>
                   <Label className="text-ink-400">Senior/Lead Positions</Label>
                 </Card>
                 <Card className="p-4 border border-ink-700 text-center">
-                  <Label className="font-mono text-white text-2xl">$7,500</Label>
+                  <Label className="font-mono text-white text-h5-md">$7,500</Label>
                   <Label className="text-ink-400">Director+ Positions</Label>
                 </Card>
               </Grid>

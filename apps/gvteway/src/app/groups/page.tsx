@@ -205,19 +205,19 @@ export default function GroupsPage() {
                   <Stack gap={4}>
                     <Stack gap={2}>
                       <Stack gap={2} direction="horizontal" className="justify-between items-start">
-                        <H2 className="text-lg">{group.name}</H2>
+                        <H2 className="text-body-md">{group.name}</H2>
                         {group.is_private && (
                           <Badge variant="ghost">Private</Badge>
                         )}
                       </Stack>
-                      <Body className="text-grey-400 text-sm line-clamp-2">
+                      <Body className="text-grey-400 text-body-sm line-clamp-2">
                         {group.description}
                       </Body>
                     </Stack>
 
                     <Stack gap={2}>
                       <Badge variant="outline">{group.category}</Badge>
-                      <Stack gap={1} direction="horizontal" className="text-grey-500 text-sm">
+                      <Stack gap={1} direction="horizontal" className="text-grey-500 text-body-sm">
                         <Body>{group.member_count} members</Body>
                         <Body>•</Body>
                         <Body>{group.event_count} events</Body>

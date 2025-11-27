@@ -163,7 +163,7 @@ export default function ArtistPage() {
                 </Figure>
               ) : (
                 <Stack className="aspect-square bg-black items-center justify-center">
-                  <Body className="text-white text-6xl">
+                  <Body className="text-white text-h1-sm">
                     {artist.name.charAt(0)}
                   </Body>
                 </Stack>
@@ -249,7 +249,7 @@ export default function ArtistPage() {
           ) : (
             <Card className="p-8 text-center">
               <Body className="text-grey-500">No upcoming events scheduled.</Body>
-              <Body className="text-grey-600 text-sm mt-2">
+              <Body className="text-grey-600 text-body-sm mt-2">
                 Follow {artist.name} to get notified when new events are announced.
               </Body>
             </Card>

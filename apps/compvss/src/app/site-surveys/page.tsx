@@ -200,26 +200,26 @@ export default function SiteSurveysPage() {
               <Grid cols={4} gap={4}>
                 <Card className="p-4 bg-grey-900 border-grey-700">
                   <Stack gap={2}>
-                    <Body className="text-grey-400 text-sm uppercase tracking-wider">Power/Electrical</Body>
-                    <Body className="text-sm text-grey-300">Main service, distro, generator access</Body>
+                    <Body className="text-grey-400 text-body-sm uppercase tracking-widest">Power/Electrical</Body>
+                    <Body className="text-body-sm text-grey-300">Main service, distro, generator access</Body>
                   </Stack>
                 </Card>
                 <Card className="p-4 bg-grey-900 border-grey-700">
                   <Stack gap={2}>
-                    <Body className="text-grey-400 text-sm uppercase tracking-wider">Rigging Points</Body>
-                    <Body className="text-sm text-grey-300">Grid height, weight limits, motor positions</Body>
+                    <Body className="text-grey-400 text-body-sm uppercase tracking-widest">Rigging Points</Body>
+                    <Body className="text-body-sm text-grey-300">Grid height, weight limits, motor positions</Body>
                   </Stack>
                 </Card>
                 <Card className="p-4 bg-grey-900 border-grey-700">
                   <Stack gap={2}>
-                    <Body className="text-grey-400 text-sm uppercase tracking-wider">Load-In Access</Body>
-                    <Body className="text-sm text-grey-300">Dock, doors, floor load, staging areas</Body>
+                    <Body className="text-grey-400 text-body-sm uppercase tracking-widest">Load-In Access</Body>
+                    <Body className="text-body-sm text-grey-300">Dock, doors, floor load, staging areas</Body>
                   </Stack>
                 </Card>
                 <Card className="p-4 bg-grey-900 border-grey-700">
                   <Stack gap={2}>
-                    <Body className="text-grey-400 text-sm uppercase tracking-wider">FOH/BOH</Body>
-                    <Body className="text-sm text-grey-300">Mix position, dressing rooms, green room</Body>
+                    <Body className="text-grey-400 text-body-sm uppercase tracking-widest">FOH/BOH</Body>
+                    <Body className="text-body-sm text-grey-300">Mix position, dressing rooms, green room</Body>
                   </Stack>
                 </Card>
               </Grid>
@@ -281,7 +281,7 @@ export default function SiteSurveysPage() {
                     <TableCell>
                       <Stack gap={1}>
                         <Body className="text-white">{survey.venue_name}</Body>
-                        <Body className="text-grey-500 text-sm">{survey.venue_address}</Body>
+                        <Body className="text-grey-500 text-body-sm">{survey.venue_address}</Body>
                       </Stack>
                     </TableCell>
                     <TableCell className="text-grey-400">

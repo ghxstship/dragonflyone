@@ -243,19 +243,19 @@ export default function LostFoundPage() {
                   
                   <Stack gap={1}>
                     <Body className="font-bold">{item.category}</Body>
-                    <Body className="text-grey-600 text-sm line-clamp-2">
+                    <Body className="text-grey-600 text-body-sm line-clamp-2">
                       {item.description}
                     </Body>
                   </Stack>
 
                   {item.event_title && (
-                    <Body className="text-sm text-grey-500">
+                    <Body className="text-body-sm text-grey-500">
                       Event: {item.event_title}
                     </Body>
                   )}
 
                   <Stack direction="horizontal" className="justify-between items-center">
-                    <Body className="text-xs text-grey-600">
+                    <Body className="text-mono-xs text-grey-600">
                       {new Date(item.date_lost_found).toLocaleDateString()}
                     </Body>
                     <Button variant="ghost" size="sm" onClick={() => router.push(`/lost-found/${item.id}`)}>

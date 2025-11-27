@@ -311,17 +311,17 @@ export default function GiftCardsPage() {
             <Stack>
               <Card className={`p-8 ${GIFT_CARD_DESIGNS.find(d => d.id === selectedDesign)?.color || 'bg-black'} text-white sticky top-6`}>
                 <Stack gap={4}>
-                  <Body className="text-white/60 text-sm">GHXSTSHIP GIFT CARD</Body>
-                  <H1 className="text-white text-5xl">
+                  <Body className="text-white/60 text-body-sm">GHXSTSHIP GIFT CARD</Body>
+                  <H1 className="text-white text-h2-md">
                     ${customAmount || selectedAmount}
                   </H1>
                   {recipientName && (
                     <Body className="text-white">To: {recipientName}</Body>
                   )}
                   {message && (
-                    <Body className="text-white/80 text-sm italic">&quot;{message}&quot;</Body>
+                    <Body className="text-white/80 text-body-sm italic">&quot;{message}&quot;</Body>
                   )}
-                  <Body className="text-white/60 text-xs mt-4">
+                  <Body className="text-white/60 text-mono-xs mt-4">
                     Valid for tickets, merchandise, and experiences
                   </Body>
                 </Stack>
@@ -339,7 +339,7 @@ export default function GiftCardsPage() {
                     value={redeemCode}
                     onChange={(e) => setRedeemCode(e.target.value.toUpperCase())}
                     placeholder="XXXX-XXXX-XXXX-XXXX"
-                    className="text-center font-mono text-lg"
+                    className="text-center font-mono text-body-md"
                     required
                   />
                 </Field>
@@ -362,25 +362,25 @@ export default function GiftCardsPage() {
                   <Card key={card.id} className="p-6">
                     <Stack gap={3}>
                       <Stack direction="horizontal" className="justify-between items-start">
-                        <Body className="font-mono text-sm">{card.code}</Body>
+                        <Body className="font-mono text-body-sm">{card.code}</Body>
                         {getStatusBadge(card.status)}
                       </Stack>
                       <Stack>
                         <Label className="text-grey-500">Balance</Label>
                         <H2>${card.current_balance.toFixed(2)}</H2>
                         {card.current_balance !== card.initial_balance && (
-                          <Body className="text-sm text-grey-500">
+                          <Body className="text-body-sm text-grey-500">
                             of ${card.initial_balance.toFixed(2)}
                           </Body>
                         )}
                       </Stack>
                       {card.recipient_name && (
-                        <Body className="text-sm text-grey-600">
+                        <Body className="text-body-sm text-grey-600">
                           Sent to: {card.recipient_name}
                         </Body>
                       )}
                       {card.expires_at && (
-                        <Body className="text-xs text-grey-600">
+                        <Body className="text-mono-xs text-grey-600">
                           Expires: {new Date(card.expires_at).toLocaleDateString()}
                         </Body>
                       )}

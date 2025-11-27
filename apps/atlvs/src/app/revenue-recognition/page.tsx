@@ -133,7 +133,7 @@ export default function RevenueRecognitionPage() {
                   >
                     <Stack gap={1}>
                       <Label className="font-semibold">{entry.description}</Label>
-                      <Body className="text-sm text-grey-500">
+                      <Body className="text-body-sm text-grey-500">
                         {formatDate(entry.recognition_date)}
                       </Body>
                     </Stack>
@@ -191,26 +191,26 @@ export default function RevenueRecognitionPage() {
                       
                       <Stack direction="horizontal" gap={6} className="flex-wrap mt-4">
                         <Stack gap={1}>
-                          <Label className="text-xs text-grey-500">Type</Label>
+                          <Label className="text-mono-xs text-grey-500">Type</Label>
                           <Body className="font-semibold capitalize">
                             {rule.revenue_type.replace('_', ' ')}
                           </Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Label className="text-xs text-grey-500">Total Amount</Label>
+                          <Label className="text-mono-xs text-grey-500">Total Amount</Label>
                           <Body className="font-semibold">
                             {formatCurrency(rule.total_amount)}
                           </Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Label className="text-xs text-grey-500">Start Date</Label>
+                          <Label className="text-mono-xs text-grey-500">Start Date</Label>
                           <Body className="font-semibold">
                             {formatDate(rule.recognition_start_date)}
                           </Body>
                         </Stack>
                         {rule.recognition_end_date && (
                           <Stack gap={1}>
-                            <Label className="text-xs text-grey-500">End Date</Label>
+                            <Label className="text-mono-xs text-grey-500">End Date</Label>
                             <Body className="font-semibold">
                               {formatDate(rule.recognition_end_date)}
                             </Body>
@@ -227,7 +227,7 @@ export default function RevenueRecognitionPage() {
                   {/* Milestones for milestone-based rules */}
                   {rule.revenue_type === 'milestone' && rule.milestones && rule.milestones.length > 0 && (
                     <Stack gap={2} className="pt-4 border-t border-grey-200">
-                      <Label className="text-sm font-semibold">
+                      <Label className="text-body-sm font-semibold">
                         Milestones
                       </Label>
                       <Stack direction="horizontal" gap={3} className="flex-wrap">
@@ -275,7 +275,7 @@ export default function RevenueRecognitionPage() {
                     >
                       <Stack gap={1}>
                         <Body className="font-semibold">{entry.description}</Body>
-                        <Label className="text-sm text-grey-500">
+                        <Label className="text-body-sm text-grey-500">
                           {formatDate(entry.recognition_date)}
                         </Label>
                       </Stack>

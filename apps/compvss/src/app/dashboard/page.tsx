@@ -161,8 +161,8 @@ export default function CompvssDashboardPage() {
               <Card className="p-6 border-l-4 border-black">
                 <Stack gap={4} direction="horizontal" className="justify-between items-start">
                   <Stack gap={2}>
-                    <Body className="font-bold text-lg">Summer Music Festival 2024</Body>
-                    <Body className="text-sm">
+                    <Body className="font-bold text-body-md">Summer Music Festival 2024</Body>
+                    <Body className="text-body-sm">
                       Load-in: June 12 • Event: June 15-17 • Load-out: June 18
                     </Body>
                     <Stack gap={2} direction="horizontal">
@@ -181,8 +181,8 @@ export default function CompvssDashboardPage() {
               <Card className="p-6 border-l-4 border-grey-700">
                 <Stack gap={4} direction="horizontal" className="justify-between items-start">
                   <Stack gap={2}>
-                    <Body className="font-bold text-lg">Corporate Product Launch</Body>
-                    <Body className="text-sm">
+                    <Body className="font-bold text-body-md">Corporate Product Launch</Body>
+                    <Body className="text-body-sm">
                       Setup: June 10 • Event: June 11 • Strike: June 12
                     </Body>
                     <Stack gap={2} direction="horizontal">
@@ -201,8 +201,8 @@ export default function CompvssDashboardPage() {
               <Card className="p-6 border-l-4 border-grey-400">
                 <Stack gap={4} direction="horizontal" className="justify-between items-start">
                   <Stack gap={2}>
-                    <Body className="font-bold text-lg">Theater Production: Hamilton</Body>
-                    <Body className="text-sm">
+                    <Body className="font-bold text-body-md">Theater Production: Hamilton</Body>
+                    <Body className="text-body-sm">
                       Tech Week: June 8-13 • Opening: June 14 • Run: Through July
                     </Body>
                     <Stack gap={2} direction="horizontal">
@@ -245,12 +245,12 @@ export default function CompvssDashboardPage() {
 
               <Card className="p-6">
                 <H2 className="mb-4">RECENT ACTIVITY</H2>
-                <Stack gap={2} className="text-sm">
-                  <Body className="text-sm">• Check-in: Mike Johnson - Lighting Tech</Body>
-                  <Body className="text-sm">• Project created: Fall Concert Series</Body>
-                  <Body className="text-sm">• Crew assigned: Summer Festival (8 new)</Body>
-                  <Body className="text-sm">• Equipment checked out: Sound Package A</Body>
-                  <Body className="text-sm">• Show report submitted: Corporate Event #1247</Body>
+                <Stack gap={2} className="text-body-sm">
+                  <Body className="text-body-sm">• Check-in: Mike Johnson - Lighting Tech</Body>
+                  <Body className="text-body-sm">• Project created: Fall Concert Series</Body>
+                  <Body className="text-body-sm">• Crew assigned: Summer Festival (8 new)</Body>
+                  <Body className="text-body-sm">• Equipment checked out: Sound Package A</Body>
+                  <Body className="text-body-sm">• Show report submitted: Corporate Event #1247</Body>
                 </Stack>
               </Card>
             </Grid>

@@ -326,7 +326,7 @@ export default function PriceAlertsPage() {
                 <Body>1</Body>
               </Stack>
               <Body className="font-medium">Set Your Target</Body>
-              <Body className="text-sm text-grey-600">
+              <Body className="text-body-sm text-grey-600">
                 Choose the price you want to pay for tickets to an event.
               </Body>
             </Stack>
@@ -335,7 +335,7 @@ export default function PriceAlertsPage() {
                 <Body>2</Body>
               </Stack>
               <Body className="font-medium">We Monitor Prices</Body>
-              <Body className="text-sm text-grey-600">
+              <Body className="text-body-sm text-grey-600">
                 We check prices regularly and track any changes.
               </Body>
             </Stack>
@@ -344,7 +344,7 @@ export default function PriceAlertsPage() {
                 <Body>3</Body>
               </Stack>
               <Body className="font-medium">Get Notified</Body>
-              <Body className="text-sm text-grey-600">
+              <Body className="text-body-sm text-grey-600">
                 Receive an alert when the price drops to your target or below.
               </Body>
             </Stack>

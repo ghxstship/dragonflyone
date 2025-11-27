@@ -268,19 +268,19 @@ function DirectionsContent() {
                           <H3>{lot.name}</H3>
                           {getParkingTypeBadge(lot.type)}
                         </Stack>
-                        <Body className="text-sm text-grey-600">{lot.address}</Body>
+                        <Body className="text-body-sm text-grey-600">{lot.address}</Body>
                         <Stack direction="horizontal" gap={4}>
-                          <Body className="text-sm">
+                          <Body className="text-body-sm">
                             <Label className="text-grey-500">Distance:</Label> {lot.distance}
                           </Body>
-                          <Body className="text-sm">
+                          <Body className="text-body-sm">
                             <Label className="text-grey-500">Price:</Label> {lot.price}
                           </Body>
                         </Stack>
                         {lot.amenities.length > 0 && (
                           <Stack direction="horizontal" gap={2} className="flex-wrap">
                             {lot.amenities.map(amenity => (
-                              <Badge key={amenity} variant="outline" className="text-xs">
+                              <Badge key={amenity} variant="outline" className="text-mono-xs">
                                 {amenity}
                               </Badge>
                             ))}
@@ -288,10 +288,10 @@ function DirectionsContent() {
                         )}
                       </Stack>
                       <Stack className="text-right">
-                        <Body className={`text-2xl font-bold ${getAvailabilityColor(lot.spaces_available, lot.total_spaces)}`}>
+                        <Body className={`text-h5-md font-bold ${getAvailabilityColor(lot.spaces_available, lot.total_spaces)}`}>
                           {lot.spaces_available}
                         </Body>
-                        <Body className="text-xs text-grey-500">
+                        <Body className="text-mono-xs text-grey-500">
                           of {lot.total_spaces} spaces
                         </Body>
                       </Stack>
@@ -311,12 +311,12 @@ function DirectionsContent() {
                 {transportOptions.map(option => (
                   <Card key={option.id} className="p-4">
                     <Stack direction="horizontal" gap={4} className="items-center">
-                      <Body className="text-2xl">{getTransportIcon(option.type)}</Body>
+                      <Body className="text-h5-md">{getTransportIcon(option.type)}</Body>
                       <Stack className="flex-1">
                         <Body className="font-bold">{option.name}</Body>
-                        <Body className="text-sm text-grey-600">{option.description}</Body>
+                        <Body className="text-body-sm text-grey-600">{option.description}</Body>
                         {option.pickup_location && (
-                          <Body className="text-xs text-grey-500">
+                          <Body className="text-mono-xs text-grey-500">
                             Pickup: {option.pickup_location}
                           </Body>
                         )}
@@ -324,7 +324,7 @@ function DirectionsContent() {
                       <Stack className="text-right">
                         <Body className="font-bold">{option.estimated_time}</Body>
                         {option.estimated_cost && (
-                          <Body className="text-sm text-grey-500">{option.estimated_cost}</Body>
+                          <Body className="text-body-sm text-grey-500">{option.estimated_cost}</Body>
                         )}
                       </Stack>
                     </Stack>
@@ -373,13 +373,13 @@ function DirectionsContent() {
                   {directions.map((step, index) => (
                     <Stack key={index} direction="horizontal" gap={4}>
                       <Stack className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center flex-shrink-0">
-                        <Body className="text-sm font-bold">{index + 1}</Body>
+                        <Body className="text-body-sm font-bold">{index + 1}</Body>
                       </Stack>
                       <Stack className="flex-1">
                         <Body>{step.instruction}</Body>
                         <Stack direction="horizontal" gap={4}>
-                          <Body className="text-sm text-grey-500">{step.distance}</Body>
-                          <Body className="text-sm text-grey-500">{step.duration}</Body>
+                          <Body className="text-body-sm text-grey-500">{step.distance}</Body>
+                          <Body className="text-body-sm text-grey-500">{step.duration}</Body>
                         </Stack>
                       </Stack>
                     </Stack>
@@ -420,7 +420,7 @@ function DirectionsContent() {
                 <H3 className="mb-4">SELECTED PARKING</H3>
                 <Stack gap={3}>
                   <Body className="font-bold">{selectedParking.name}</Body>
-                  <Body className="text-sm text-grey-600">{selectedParking.address}</Body>
+                  <Body className="text-body-sm text-grey-600">{selectedParking.address}</Body>
                   <Stack direction="horizontal" className="justify-between">
                     <Body>Price</Body>
                     <Body className="font-bold">{selectedParking.price}</Body>

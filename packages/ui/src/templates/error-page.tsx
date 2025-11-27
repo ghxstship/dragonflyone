@@ -60,7 +60,7 @@ export function ErrorPage({
           </Alert>
 
           {error.digest && (
-            <Body className="text-center font-mono text-xs text-grey-500">
+            <Body className="text-center font-mono text-mono-xs text-grey-500">
               Error ID: {error.digest}
             </Body>
           )}

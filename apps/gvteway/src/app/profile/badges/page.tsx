@@ -141,15 +141,15 @@ export default function BadgesPage() {
         <Card className="p-6 mb-8 bg-gradient-to-r from-black to-gray-800 text-white">
           <Grid cols={3} gap={6}>
             <Stack className="items-center">
-              <Body className="text-grey-600 text-sm">TOTAL BADGES</Body>
+              <Body className="text-grey-600 text-body-sm">TOTAL BADGES</Body>
               <H2 className="text-white">{earnedBadges.length}</H2>
             </Stack>
             <Stack className="items-center">
-              <Body className="text-grey-600 text-sm">FAN POINTS</Body>
+              <Body className="text-grey-600 text-body-sm">FAN POINTS</Body>
               <H2 className="text-white">{currentPoints.toLocaleString()}</H2>
             </Stack>
             <Stack className="items-center">
-              <Body className="text-grey-600 text-sm">CURRENT TIER</Body>
+              <Body className="text-grey-600 text-body-sm">CURRENT TIER</Body>
               <H2 className="text-white">
                 {fanTiers.find(t => t.is_current)?.name || 'New Fan'}
               </H2>
@@ -185,16 +185,16 @@ export default function BadgesPage() {
                 <Card key={badge.id} className="p-4 text-center">
                   <Stack className="items-center" gap={3}>
                     <Stack className={`w-16 h-16 rounded-full ${getTierColor(badge.tier)} flex items-center justify-center`}>
-                      <Body className="text-3xl">{badge.icon}</Body>
+                      <Body className="text-h4-md">{badge.icon}</Body>
                     </Stack>
                     <Stack>
                       <Body className="font-bold">{badge.name}</Body>
-                      <Body className="text-xs text-grey-500">{badge.description}</Body>
+                      <Body className="text-mono-xs text-grey-500">{badge.description}</Body>
                     </Stack>
                     <Badge className={getTierColor(badge.tier) + ' text-white'}>
                       {badge.tier.toUpperCase()}
                     </Badge>
-                    <Body className="text-xs text-grey-600">
+                    <Body className="text-mono-xs text-grey-600">
                       Earned {new Date(badge.earned_at).toLocaleDateString()}
                     </Body>
                     <Button
@@ -227,12 +227,12 @@ export default function BadgesPage() {
               <Card key={badge.id} className="p-4">
                 <Stack direction="horizontal" gap={4}>
                   <Stack className="w-12 h-12 bg-grey-200 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Body className="text-2xl opacity-50">{badge.icon}</Body>
+                    <Body className="text-h5-md opacity-50">{badge.icon}</Body>
                   </Stack>
                   <Stack className="flex-1">
                     <Body className="font-bold">{badge.name}</Body>
-                    <Body className="text-xs text-grey-500">{badge.description}</Body>
-                    <Body className="text-xs text-grey-600 mt-1">{badge.requirement}</Body>
+                    <Body className="text-mono-xs text-grey-500">{badge.description}</Body>
+                    <Body className="text-mono-xs text-grey-600 mt-1">{badge.requirement}</Body>
                     <Stack className="mt-2">
                       <Stack className="w-full bg-grey-200 h-2 rounded-full overflow-hidden">
                         <Stack
@@ -240,7 +240,7 @@ export default function BadgesPage() {
                           style={{ '--progress-width': `${(badge.progress / badge.total) * 100}%`, width: 'var(--progress-width)' } as React.CSSProperties}
                         />
                       </Stack>
-                      <Body className="text-xs text-grey-500 mt-1">
+                      <Body className="text-mono-xs text-grey-500 mt-1">
                         {badge.progress} / {badge.total}
                       </Body>
                     </Stack>
@@ -269,7 +269,7 @@ export default function BadgesPage() {
                     <Stack className={`w-20 h-20 rounded-full flex items-center justify-center ${
                       isUnlocked ? 'bg-black text-white' : 'bg-grey-200'
                     }`}>
-                      <Body className="text-3xl">{tier.icon}</Body>
+                      <Body className="text-h4-md">{tier.icon}</Body>
                     </Stack>
                     <Stack className="flex-1">
                       <Stack direction="horizontal" className="justify-between items-start">
@@ -284,13 +284,13 @@ export default function BadgesPage() {
                             {tier.points_required.toLocaleString()} points required
                           </Body>
                         </Stack>
-                        <Body className="text-2xl font-bold">Level {tier.level}</Body>
+                        <Body className="text-h5-md font-bold">Level {tier.level}</Body>
                       </Stack>
                       <Stack className="mt-4">
                         <Label className="text-grey-500 mb-2">PERKS</Label>
                         <Grid cols={2} gap={2}>
                           {tier.perks.map((perk, i) => (
-                            <Body key={i} className="text-sm">✓ {perk}</Body>
+                            <Body key={i} className="text-body-sm">✓ {perk}</Body>
                           ))}
                         </Grid>
                       </Stack>
@@ -302,7 +302,7 @@ export default function BadgesPage() {
                               style={{ '--progress-width': `${Math.min(progress, 100)}%`, width: 'var(--progress-width)' } as React.CSSProperties}
                             />
                           </Stack>
-                          <Body className="text-xs text-grey-500 mt-1">
+                          <Body className="text-mono-xs text-grey-500 mt-1">
                             {nextTier.points_required - currentPoints} points to {nextTier.name}
                           </Body>
                         </Stack>

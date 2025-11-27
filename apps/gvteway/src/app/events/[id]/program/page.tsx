@@ -191,20 +191,20 @@ export default function EventProgramPage() {
                             <Body className="font-medium">
                               {item.title}
                               {item.is_encore && (
-                                <Badge className="ml-2 bg-warning-500 text-white text-xs">
+                                <Badge className="ml-2 bg-warning-500 text-white text-mono-xs">
                                   ENCORE
                                 </Badge>
                               )}
                             </Body>
                             {item.artist && (
-                              <Body className="text-sm text-grey-500">{item.artist}</Body>
+                              <Body className="text-body-sm text-grey-500">{item.artist}</Body>
                             )}
                             {item.notes && (
-                              <Body className="text-xs text-grey-600 mt-1">{item.notes}</Body>
+                              <Body className="text-mono-xs text-grey-600 mt-1">{item.notes}</Body>
                             )}
                           </Stack>
                           {item.duration && (
-                            <Body className="text-sm text-grey-600">{item.duration}</Body>
+                            <Body className="text-body-sm text-grey-600">{item.duration}</Body>
                           )}
                         </Stack>
                       ))}
@@ -234,7 +234,7 @@ export default function EventProgramPage() {
                       <Stack>
                         <Body className="font-medium">{performer.name}</Body>
                         {performer.role && (
-                          <Body className="text-sm text-grey-500">{performer.role}</Body>
+                          <Body className="text-body-sm text-grey-500">{performer.role}</Body>
                         )}
                       </Stack>
                     </Stack>
@@ -260,8 +260,8 @@ export default function EventProgramPage() {
                         </Figure>
                       )}
                       <Stack>
-                        <Body className="text-sm">{sponsor.name}</Body>
-                        <Body className="text-xs text-grey-600">{sponsor.tier}</Body>
+                        <Body className="text-body-sm">{sponsor.name}</Body>
+                        <Body className="text-mono-xs text-grey-600">{sponsor.tier}</Body>
                       </Stack>
                     </Stack>
                   ))}

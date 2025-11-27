@@ -231,24 +231,24 @@ function MessagesContent() {
                           }`}>
                             {conv.participant_name}
                             {conv.participant_verified && (
-                              <Badge className="ml-1 text-xs bg-info-500 text-white">✓</Badge>
+                              <Badge className="ml-1 text-mono-xs bg-info-500 text-white">✓</Badge>
                             )}
                           </Body>
                           {conv.unread_count > 0 && (
-                            <Badge className="bg-error-500 text-white text-xs">
+                            <Badge className="bg-error-500 text-white text-mono-xs">
                               {conv.unread_count}
                             </Badge>
                           )}
                         </Stack>
                         {conv.last_message && (
-                          <Body className={`text-sm truncate ${
+                          <Body className={`text-body-sm truncate ${
                             activeConversation?.id === conv.id ? 'text-grey-600' : 'text-grey-500'
                           }`}>
                             {conv.last_message}
                           </Body>
                         )}
                         {conv.last_message_at && (
-                          <Body className={`text-xs ${
+                          <Body className={`text-mono-xs ${
                             activeConversation?.id === conv.id ? 'text-grey-600' : 'text-grey-600'
                           }`}>
                             {formatTime(conv.last_message_at)}
@@ -298,7 +298,7 @@ function MessagesContent() {
                       <Body className="font-medium">
                         {activeConversation.participant_name}
                         {activeConversation.participant_verified && (
-                          <Badge className="ml-2 text-xs bg-info-500 text-white">Verified</Badge>
+                          <Badge className="ml-2 text-mono-xs bg-info-500 text-white">Verified</Badge>
                         )}
                       </Body>
                     </Stack>
@@ -326,7 +326,7 @@ function MessagesContent() {
                           {message.content}
                         </Body>
                       </Card>
-                      <Body className={`text-xs mt-1 ${
+                      <Body className={`text-mono-xs mt-1 ${
                         message.sender_id !== activeConversation.participant_id ? 'text-right' : ''
                       } text-grey-600`}>
                         {formatTime(message.created_at)}

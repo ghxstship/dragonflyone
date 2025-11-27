@@ -119,19 +119,19 @@ export default function MarketingAnalyticsPage() {
                     <H3>Key Metrics</H3>
                     <Grid cols={2} gap={4}>
                       <Card className="p-4 border border-grey-200 text-center">
-                        <Label className="font-mono text-2xl">{(mockCampaigns.reduce((s, c) => s + c.ctr, 0) / mockCampaigns.length).toFixed(2)}%</Label>
+                        <Label className="font-mono text-h5-md">{(mockCampaigns.reduce((s, c) => s + c.ctr, 0) / mockCampaigns.length).toFixed(2)}%</Label>
                         <Label className="text-grey-500">Avg CTR</Label>
                       </Card>
                       <Card className="p-4 border border-grey-200 text-center">
-                        <Label className="font-mono text-2xl">${(totalSpend / totalConversions).toFixed(2)}</Label>
+                        <Label className="font-mono text-h5-md">${(totalSpend / totalConversions).toFixed(2)}</Label>
                         <Label className="text-grey-500">Cost per Conversion</Label>
                       </Card>
                       <Card className="p-4 border border-grey-200 text-center">
-                        <Label className="font-mono text-2xl">${(totalRevenue / totalConversions).toFixed(0)}</Label>
+                        <Label className="font-mono text-h5-md">${(totalRevenue / totalConversions).toFixed(0)}</Label>
                         <Label className="text-grey-500">Avg Order Value</Label>
                       </Card>
                       <Card className="p-4 border border-grey-200 text-center">
-                        <Label className="font-mono text-2xl">{((totalConversions / mockCampaigns.reduce((s, c) => s + c.clicks, 0)) * 100).toFixed(1)}%</Label>
+                        <Label className="font-mono text-h5-md">{((totalConversions / mockCampaigns.reduce((s, c) => s + c.clicks, 0)) * 100).toFixed(1)}%</Label>
                         <Label className="text-grey-500">Conversion Rate</Label>
                       </Card>
                     </Grid>

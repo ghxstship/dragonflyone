@@ -137,7 +137,7 @@ export default function DiscoverPage() {
                 className="p-6 text-center cursor-pointer hover:bg-grey-50 transition-colors"
                 onClick={() => handleCategoryClick(category.id)}
               >
-                <Body className="text-4xl mb-2">{category.emoji}</Body>
+                <Body className="text-h3-md mb-2">{category.emoji}</Body>
                 <Body className="font-medium">{category.name}</Body>
               </Card>
             ))}

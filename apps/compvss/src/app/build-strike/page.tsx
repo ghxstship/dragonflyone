@@ -87,8 +87,8 @@ export default function BuildStrikePage() {
               >
                 <Grid cols={4} gap={4}>
                   <Stack gap={1} className="col-span-2">
-                    <Body className="font-bold text-lg">{task.task}</Body>
-                    <Body className="text-sm text-grey-600">{task.area} • {task.assignedTo}</Body>
+                    <Body className="font-bold text-body-md">{task.task}</Body>
+                    <Body className="text-body-sm text-grey-600">{task.area} • {task.assignedTo}</Body>
                   </Stack>
                   <Stack gap={0}>
                     <Badge>{task.priority.toUpperCase()}</Badge>

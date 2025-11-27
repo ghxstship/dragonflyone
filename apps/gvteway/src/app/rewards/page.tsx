@@ -125,7 +125,7 @@ export default function RewardsPage() {
             <Grid cols={2} gap={8}>
               <Stack gap={2}>
                 <Body className="text-grey-600">Your Points</Body>
-                <H1 className="text-5xl text-white">{userPoints.toLocaleString()}</H1>
+                <H1 className="text-h2-md text-white">{userPoints.toLocaleString()}</H1>
                 <Badge variant="outline" className="mt-4 border-white text-white bg-transparent">
                   {userTier} Member
                 </Badge>
@@ -145,7 +145,7 @@ export default function RewardsPage() {
                   <Stack key={tier.name} gap={2} className="relative">
                     <Stack gap={2} direction="horizontal" className="justify-between">
                       <Body className="font-bold">{tier.name}</Body>
-                      <Body className="text-sm text-grey-600">{tier.minPoints.toLocaleString()} pts</Body>
+                      <Body className="text-body-sm text-grey-600">{tier.minPoints.toLocaleString()} pts</Body>
                     </Stack>
                     <Stack className="relative">
                       <ProgressBar 
@@ -180,7 +180,7 @@ export default function RewardsPage() {
                       </Badge>
                       <Stack className="text-right">
                         <H2>{reward.points}</H2>
-                        <Body className="text-sm text-grey-600">points</Body>
+                        <Body className="text-body-sm text-grey-600">points</Body>
                       </Stack>
                     </Stack>
                     <H3>{reward.name}</H3>

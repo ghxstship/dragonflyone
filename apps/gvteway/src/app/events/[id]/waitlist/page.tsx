@@ -237,7 +237,7 @@ export default function WaitlistPage() {
                   <Stack className="w-8 h-8 bg-black text-white rounded-full items-center justify-center flex-shrink-0">
                     <Body>1</Body>
                   </Stack>
-                  <Body className="text-sm text-grey-600">
+                  <Body className="text-body-sm text-grey-600">
                     Join the waitlist with your email and ticket preferences
                   </Body>
                 </Stack>
@@ -245,7 +245,7 @@ export default function WaitlistPage() {
                   <Stack className="w-8 h-8 bg-black text-white rounded-full items-center justify-center flex-shrink-0">
                     <Body>2</Body>
                   </Stack>
-                  <Body className="text-sm text-grey-600">
+                  <Body className="text-body-sm text-grey-600">
                     When tickets become available, you will be notified by email
                   </Body>
                 </Stack>
@@ -253,7 +253,7 @@ export default function WaitlistPage() {
                   <Stack className="w-8 h-8 bg-black text-white rounded-full items-center justify-center flex-shrink-0">
                     <Body>3</Body>
                   </Stack>
-                  <Body className="text-sm text-grey-600">
+                  <Body className="text-body-sm text-grey-600">
                     Complete your purchase within 24 hours to secure your tickets
                   </Body>
                 </Stack>
@@ -282,7 +282,7 @@ export default function WaitlistPage() {
                         </Stack>
                         <Stack>
                           <Body className="font-medium">{entry.name}</Body>
-                          <Body className="text-sm text-grey-500">
+                          <Body className="text-body-sm text-grey-500">
                             {entry.ticket_type} x {entry.quantity}
                           </Body>
                         </Stack>
@@ -291,7 +291,7 @@ export default function WaitlistPage() {
                     </Stack>
                   ))}
                   {waitlist.length > 10 && (
-                    <Body className="text-center text-grey-500 text-sm">
+                    <Body className="text-center text-grey-500 text-body-sm">
                       +{waitlist.length - 10} more in waitlist
                     </Body>
                   )}
@@ -299,7 +299,7 @@ export default function WaitlistPage() {
               ) : (
                 <Stack className="items-center py-8">
                   <Body className="text-grey-500">No one on the waitlist yet.</Body>
-                  <Body className="text-grey-600 text-sm">Be the first to join!</Body>
+                  <Body className="text-grey-600 text-body-sm">Be the first to join!</Body>
                 </Stack>
               )}
             </Card>

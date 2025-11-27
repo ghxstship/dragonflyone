@@ -74,7 +74,7 @@ export default function StoryTemplatesPage() {
             {filteredTemplates.map((template) => (
               <Card key={template.id} className="border-2 border-black overflow-hidden">
                 <Card className="h-48 bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
-                  <Label className="text-6xl">{template.preview}</Label>
+                  <Label className="text-h1-sm">{template.preview}</Label>
                 </Card>
                 <Stack className="p-4" gap={3}>
                   <Stack direction="horizontal" className="justify-between">
@@ -108,7 +108,7 @@ export default function StoryTemplatesPage() {
           {selectedTemplate && (
             <Stack gap={4}>
               <Card className="h-64 bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
-                <Label className="text-8xl">{selectedTemplate.preview}</Label>
+                <Label className="text-display-md">{selectedTemplate.preview}</Label>
               </Card>
               <Stack direction="horizontal" gap={2}>
                 <Badge variant="outline">{selectedTemplate.platform}</Badge>

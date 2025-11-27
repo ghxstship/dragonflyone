@@ -73,7 +73,7 @@ export default function PrintAtHomePage() {
                 ].map((feature, idx) => (
                   <Card key={idx} className="p-4 border border-grey-200 text-center">
                     <Stack gap={2}>
-                      <Label className="text-2xl">{feature.icon}</Label>
+                      <Label className="text-h5-md">{feature.icon}</Label>
                       <Label className="font-bold">{feature.name}</Label>
                       <Label className="text-grey-500">{feature.desc}</Label>
                     </Stack>
@@ -135,7 +135,7 @@ export default function PrintAtHomePage() {
                       <Badge variant="outline">{selectedTicket.ticketType}</Badge>
                     </Stack>
                     <Card className="w-24 h-24 bg-black flex items-center justify-center">
-                      <Label className="text-white text-xs">QR CODE</Label>
+                      <Label className="text-white text-mono-xs">QR CODE</Label>
                     </Card>
                   </Stack>
                   <Grid cols={2} gap={4}>
@@ -144,7 +144,7 @@ export default function PrintAtHomePage() {
                   </Grid>
                   <Stack gap={1}><Label className="text-grey-500">Attendee</Label><Label className="font-bold">{selectedTicket.purchaserName}</Label></Stack>
                   <Card className="p-2 bg-grey-200 text-center">
-                    <Label className="font-mono text-xs">||||||||||||||||||||||||</Label>
+                    <Label className="font-mono text-mono-xs">||||||||||||||||||||||||</Label>
                   </Card>
                   <Label className="text-grey-600 text-center">This ticket contains security features to prevent counterfeiting</Label>
                 </Stack>

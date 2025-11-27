@@ -95,7 +95,7 @@ export default function EarlyBirdPage() {
                   { label: "Seconds", value: countdown.seconds },
                 ].map((item) => (
                   <Card key={item.label} className="p-4 border-2 border-black text-center bg-white">
-                    <Label className="font-mono text-4xl">{String(item.value).padStart(2, "0")}</Label>
+                    <Label className="font-mono text-h3-md">{String(item.value).padStart(2, "0")}</Label>
                     <Label className="text-grey-500">{item.label}</Label>
                   </Card>
                 ))}
@@ -191,7 +191,7 @@ export default function EarlyBirdPage() {
               </Stack>
               <Stack gap={1}>
                 <Label className="text-grey-500">Revenue Generated</Label>
-                <Label className="font-mono text-xl">{formatCurrency(selectedCampaign.ticketsSold * selectedCampaign.discountedPrice)}</Label>
+                <Label className="font-mono text-h6-md">{formatCurrency(selectedCampaign.ticketsSold * selectedCampaign.discountedPrice)}</Label>
               </Stack>
             </Stack>
           )}

@@ -175,36 +175,36 @@ export default function PackagesPage() {
               <Grid cols={4} gap={4}>
                 <Card className="p-4 bg-grey-900 border-grey-700">
                   <Stack gap={2}>
-                    <Body className="text-2xl">⭐</Body>
+                    <Body className="text-h5-md">⭐</Body>
                     <Body className="font-medium">VIP Experience</Body>
-                    <Body className="text-grey-400 text-sm">
+                    <Body className="text-grey-400 text-body-sm">
                       Premium seats, backstage access, meet & greet
                     </Body>
                   </Stack>
                 </Card>
                 <Card className="p-4 bg-grey-900 border-grey-700">
                   <Stack gap={2}>
-                    <Body className="text-2xl">✈️</Body>
+                    <Body className="text-h5-md">✈️</Body>
                     <Body className="font-medium">Travel Package</Body>
-                    <Body className="text-grey-400 text-sm">
+                    <Body className="text-grey-400 text-body-sm">
                       Tickets + hotel + transportation
                     </Body>
                   </Stack>
                 </Card>
                 <Card className="p-4 bg-grey-900 border-grey-700">
                   <Stack gap={2}>
-                    <Body className="text-2xl">👥</Body>
+                    <Body className="text-h5-md">👥</Body>
                     <Body className="font-medium">Group Package</Body>
-                    <Body className="text-grey-400 text-sm">
+                    <Body className="text-grey-400 text-body-sm">
                       Discounted rates for groups of 4+
                     </Body>
                   </Stack>
                 </Card>
                 <Card className="p-4 bg-grey-900 border-grey-700">
                   <Stack gap={2}>
-                    <Body className="text-2xl">🎁</Body>
+                    <Body className="text-h5-md">🎁</Body>
                     <Body className="font-medium">Gift Package</Body>
-                    <Body className="text-grey-400 text-sm">
+                    <Body className="text-grey-400 text-body-sm">
                       Perfect for special occasions
                     </Body>
                   </Stack>
@@ -248,7 +248,7 @@ export default function PackagesPage() {
                     <Stack gap={2} direction="horizontal" className="justify-between items-start">
                       <Stack gap={1}>
                         <Badge variant="outline">{pkg.ticket_type}</Badge>
-                        <H2 className="text-xl">{pkg.name}</H2>
+                        <H2 className="text-h6-md">{pkg.name}</H2>
                       </Stack>
                       {pkg.savings > 0 && (
                         <Badge variant="solid">Save {pkg.savings}%</Badge>
@@ -258,18 +258,18 @@ export default function PackagesPage() {
                     <Stack gap={1}>
                       <Body className="text-white font-medium">{pkg.event_name}</Body>
                       <Body className="text-grey-400">{pkg.venue_name}</Body>
-                      <Body className="text-grey-500 text-sm">{formatDate(pkg.event_date)}</Body>
+                      <Body className="text-grey-500 text-body-sm">{formatDate(pkg.event_date)}</Body>
                     </Stack>
 
-                    <Body className="text-grey-400 text-sm">
+                    <Body className="text-grey-400 text-body-sm">
                       {pkg.description}
                     </Body>
 
                     <Stack gap={2}>
-                      <Body className="text-grey-500 text-sm uppercase tracking-wider">Includes</Body>
+                      <Body className="text-grey-500 text-body-sm uppercase tracking-widest">Includes</Body>
                       <Grid cols={2} gap={2}>
                         {pkg.includes.map((item, idx) => (
-                          <Body key={idx} className="text-grey-300 text-sm">
+                          <Body key={idx} className="text-grey-300 text-body-sm">
                             ✓ {item}
                           </Body>
                         ))}
@@ -285,13 +285,13 @@ export default function PackagesPage() {
 
                     <Stack gap={2} direction="horizontal" className="justify-between items-center border-t border-grey-800 pt-4">
                       <Stack gap={1}>
-                        <Body className="text-grey-500 text-sm line-through">
+                        <Body className="text-grey-500 text-body-sm line-through">
                           {formatCurrency(pkg.original_price)}
                         </Body>
-                        <Body className="text-2xl font-bold">
+                        <Body className="text-h5-md font-bold">
                           {formatCurrency(pkg.package_price)}
                         </Body>
-                        <Body className="text-grey-500 text-xs">
+                        <Body className="text-grey-500 text-mono-xs">
                           {pkg.availability} available
                         </Body>
                       </Stack>

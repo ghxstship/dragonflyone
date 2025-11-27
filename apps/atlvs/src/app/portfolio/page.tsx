@@ -125,7 +125,7 @@ export default function PortfolioPage() {
               {featuredProjects.map((project) => (
                 <Card key={project.id} className="border-2 border-ink-800 bg-ink-900/50 overflow-hidden cursor-pointer hover:border-white transition-colors" onClick={() => setSelectedProject(project)}>
                   <Card className="h-48 bg-ink-800 flex items-center justify-center">
-                    <Label className="text-6xl">🎪</Label>
+                    <Label className="text-h1-sm">🎪</Label>
                   </Card>
                   <Stack className="p-4" gap={3}>
                     <Stack gap={1}>
@@ -188,7 +188,7 @@ export default function PortfolioPage() {
           {selectedProject && (
             <Stack gap={4}>
               <Card className="h-48 bg-ink-800 flex items-center justify-center">
-                <Label className="text-6xl">🎪</Label>
+                <Label className="text-h1-sm">🎪</Label>
               </Card>
               <Stack direction="horizontal" className="justify-between">
                 <Stack gap={1}>
@@ -211,7 +211,7 @@ export default function PortfolioPage() {
               <Grid cols={3} gap={4}>
                 {selectedProject.metrics.map((m, idx) => (
                   <Card key={idx} className="p-3 border border-ink-700 text-center">
-                    <Label className="font-mono text-white text-xl">{m.value}</Label>
+                    <Label className="font-mono text-white text-h6-md">{m.value}</Label>
                     <Label size="xs" className="text-ink-500">{m.label}</Label>
                   </Card>
                 ))}

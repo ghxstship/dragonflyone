@@ -36,9 +36,9 @@ export default function TicketsPage() {
           logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
           cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/profile')}>PROFILE</Button>}
         >
-          <Link href="/" className="font-heading text-sm uppercase tracking-wider hover:text-grey-600">Home</Link>
-          <Link href="/events" className="font-heading text-sm uppercase tracking-wider hover:text-grey-600">Events</Link>
-          <Link href="/tickets" className="font-heading text-sm uppercase tracking-wider text-white">Tickets</Link>
+          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-600">Home</Link>
+          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-600">Events</Link>
+          <Link href="/tickets" className="font-heading text-body-sm uppercase tracking-widest text-white">Tickets</Link>
         </Navigation>
       }
       footer={
@@ -76,20 +76,20 @@ export default function TicketsPage() {
                           </Stack>
                           <Grid cols={2} gap={2}>
                             <Stack gap={1} direction="horizontal">
-                              <Body className="text-grey-500 text-sm">Date:</Body>
-                              <Body className="text-white text-sm">{ticket.event?.start_date ? new Date(ticket.event.start_date).toLocaleDateString() : 'TBD'}</Body>
+                              <Body className="text-grey-500 text-body-sm">Date:</Body>
+                              <Body className="text-white text-body-sm">{ticket.event?.start_date ? new Date(ticket.event.start_date).toLocaleDateString() : 'TBD'}</Body>
                             </Stack>
                             <Stack gap={1} direction="horizontal">
-                              <Body className="text-grey-500 text-sm">Section:</Body>
-                              <Body className="text-white text-sm">{ticket.ticket_type?.name || 'General'}</Body>
+                              <Body className="text-grey-500 text-body-sm">Section:</Body>
+                              <Body className="text-white text-body-sm">{ticket.ticket_type?.name || 'General'}</Body>
                             </Stack>
                             <Stack gap={1} direction="horizontal">
-                              <Body className="text-grey-500 text-sm">Seat:</Body>
-                              <Body className="text-white text-sm">{ticket.seat_number || 'General Admission'}</Body>
+                              <Body className="text-grey-500 text-body-sm">Seat:</Body>
+                              <Body className="text-white text-body-sm">{ticket.seat_number || 'General Admission'}</Body>
                             </Stack>
                             <Stack gap={1} direction="horizontal">
-                              <Body className="text-grey-500 text-sm">Ticket ID:</Body>
-                              <Body className="font-mono text-white text-sm">{ticket.id.substring(0, 12).toUpperCase()}</Body>
+                              <Body className="text-grey-500 text-body-sm">Ticket ID:</Body>
+                              <Body className="font-mono text-white text-body-sm">{ticket.id.substring(0, 12).toUpperCase()}</Body>
                             </Stack>
                           </Grid>
                         </Stack>

@@ -71,12 +71,12 @@ export const ContentCard = forwardRef<HTMLElement, ContentCardProps>(
         {...props}
       >
         {kicker && <Kicker className="mb-4">{kicker}</Kicker>}
-        <H3 className="text-2xl">{title}</H3>
+        <H3 size="sm">{title}</H3>
         {description && (
-          <Body className="mt-2 text-sm text-ink-300">{description}</Body>
+          <Body size="sm" className="mt-2 text-ink-300">{description}</Body>
         )}
         {bullets && bullets.length > 0 && (
-          <List className="mt-4 space-y-2 text-sm text-ink-200">
+          <List className="mt-4 space-y-2 text-body-sm text-ink-200">
             {bullets.map((bullet) => (
               <ListItem key={bullet} className="flex gap-2">
                 {typeof bulletPrefix === "string" ? (
@@ -114,7 +114,7 @@ export const FeatureCard = forwardRef<HTMLElement, FeatureCardProps>(
             {metrics.map((metric) => (
               <Stack key={metric.label}>
                 <Kicker size="sm" variant="muted">{metric.label}</Kicker>
-                <Body className="font-display text-3xl text-ink-50">{metric.value}</Body>
+                <Body className="font-display text-h3-md text-ink-50">{metric.value}</Body>
               </Stack>
             ))}
           </Stack>

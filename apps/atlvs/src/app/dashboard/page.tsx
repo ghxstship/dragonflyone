@@ -114,7 +114,7 @@ export default function DashboardPage() {
           <Stack gap={6} direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between">
             <Stack gap={2}>
               <H1>Executive Dashboard</H1>
-              <Body className="text-ink-400 font-mono text-sm uppercase tracking-wider">
+              <Body className="text-ink-400 font-mono text-body-sm uppercase tracking-widest">
                 Real-time operations command center
               </Body>
             </Stack>
@@ -224,7 +224,7 @@ export default function DashboardPage() {
                 <Stack gap={1}>
                   <H3 className="text-white">{activity.action}</H3>
                   <Body size="sm" className="text-ink-300">{activity.detail}</Body>
-                  <Body size="xs" className="font-mono text-ink-500 uppercase tracking-wider mt-2">
+                  <Body size="xs" className="font-mono text-ink-500 uppercase tracking-widest mt-2">
                     {activity.user} • {activity.time}
                   </Body>
                 </Stack>
@@ -273,15 +273,15 @@ export default function DashboardPage() {
             <Stack gap={3}>
               <Card className="border-2 border-black p-4">
                 <StatusBadge status="error" size="sm" className="mb-2">High Priority</StatusBadge>
-                <Body className="mt-2 text-sm text-white">Budget approval needed for F1 Miami GP expansion</Body>
+                <Body className="mt-2 text-body-sm text-white">Budget approval needed for F1 Miami GP expansion</Body>
               </Card>
               <Card className="border-2 border-grey-700 p-4">
                 <StatusBadge status="warning" size="sm" className="mb-2">Medium Priority</StatusBadge>
-                <Body className="mt-2 text-sm text-white">3 asset maintenance schedules due this week</Body>
+                <Body className="mt-2 text-body-sm text-white">3 asset maintenance schedules due this week</Body>
               </Card>
               <Card className="border-2 border-ink-700 p-4">
-                <Body className="font-mono text-xs uppercase tracking-wider text-ink-400">Info</Body>
-                <Body className="mt-2 text-sm text-ink-200">Monthly financial reports ready for review</Body>
+                <Body className="font-mono text-mono-xs uppercase tracking-widest text-ink-400">Info</Body>
+                <Body className="mt-2 text-body-sm text-ink-200">Monthly financial reports ready for review</Body>
               </Card>
             </Stack>
           </Section>

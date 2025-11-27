@@ -116,9 +116,9 @@ export default function ParkingTransportPage() {
                     <Stack className="p-4" gap={4}>
                       <Stack direction="horizontal" className="justify-between items-center">
                         {option.price > 0 ? (
-                          <Label className="font-mono text-2xl">${option.price}</Label>
+                          <Label className="font-mono text-h5-md">${option.price}</Label>
                         ) : (
-                          <Label className="text-success-600 text-xl">Free</Label>
+                          <Label className="text-success-600 text-h6-md">Free</Label>
                         )}
                         {option.type !== "Rideshare" && (
                           <Label className={getAvailabilityColor(option.spotsAvailable, option.totalSpots)}>
@@ -130,11 +130,11 @@ export default function ParkingTransportPage() {
                         {option.features.map((feature, idx) => (
                           <Stack key={idx} direction="horizontal" gap={2}>
                             <Label className="text-success-600">✓</Label>
-                            <Label className="text-sm">{feature}</Label>
+                            <Label className="text-body-sm">{feature}</Label>
                           </Stack>
                         ))}
                       </Stack>
-                      {option.address && <Label className="text-grey-500 text-sm">{option.address}</Label>}
+                      {option.address && <Label className="text-grey-500 text-body-sm">{option.address}</Label>}
                       {option.type !== "Rideshare" && option.spotsAvailable > 0 && (
                         <Button variant="solid" onClick={() => { setSelectedParking(option); setShowReserveModal(true); }}>
                           Reserve Parking
@@ -156,7 +156,7 @@ export default function ParkingTransportPage() {
                     <Grid cols={3} gap={6} className="items-start">
                       <Stack gap={2}>
                         <Stack direction="horizontal" gap={2} className="items-center">
-                          <Body className="font-bold text-lg">{option.name}</Body>
+                          <Body className="font-bold text-body-md">{option.name}</Body>
                           <Badge variant="outline">{option.type}</Badge>
                         </Stack>
                         <Body className="text-grey-600">{option.description}</Body>
@@ -182,7 +182,7 @@ export default function ParkingTransportPage() {
                         {option.features.map((feature, idx) => (
                           <Stack key={idx} direction="horizontal" gap={2}>
                             <Label className="text-success-600">✓</Label>
-                            <Label className="text-sm">{feature}</Label>
+                            <Label className="text-body-sm">{feature}</Label>
                           </Stack>
                         ))}
                       </Stack>
@@ -198,16 +198,16 @@ export default function ParkingTransportPage() {
                   <H3>Venue Area Map</H3>
                   <Card className="h-96 bg-grey-100 flex items-center justify-center">
                     <Stack gap={2} className="text-center">
-                      <Label className="text-grey-500 text-4xl">🗺️</Label>
+                      <Label className="text-grey-500 text-h3-md">🗺️</Label>
                       <Label className="text-grey-500">Interactive map would display here</Label>
-                      <Label className="text-grey-600 text-sm">Showing parking lots, transit stops, and venue entrance</Label>
+                      <Label className="text-grey-600 text-body-sm">Showing parking lots, transit stops, and venue entrance</Label>
                     </Stack>
                   </Card>
                   <Grid cols={4} gap={2}>
-                    <Card className="p-2 bg-info-100 text-center"><Label className="text-sm">🅿️ Parking</Label></Card>
-                    <Card className="p-2 bg-success-100 text-center"><Label className="text-sm">🚌 Shuttle</Label></Card>
-                    <Card className="p-2 bg-purple-100 text-center"><Label className="text-sm">🚇 Metro</Label></Card>
-                    <Card className="p-2 bg-warning-100 text-center"><Label className="text-sm">🚗 Rideshare</Label></Card>
+                    <Card className="p-2 bg-info-100 text-center"><Label className="text-body-sm">🅿️ Parking</Label></Card>
+                    <Card className="p-2 bg-success-100 text-center"><Label className="text-body-sm">🚌 Shuttle</Label></Card>
+                    <Card className="p-2 bg-purple-100 text-center"><Label className="text-body-sm">🚇 Metro</Label></Card>
+                    <Card className="p-2 bg-warning-100 text-center"><Label className="text-body-sm">🚗 Rideshare</Label></Card>
                   </Grid>
                 </Stack>
               </Card>
@@ -232,7 +232,7 @@ export default function ParkingTransportPage() {
                     <Body className="font-bold">{selectedParking.name}</Body>
                     <Badge className={getTypeColor(selectedParking.type)}>{selectedParking.type}</Badge>
                   </Stack>
-                  <Label className="font-mono text-2xl">${selectedParking.price}</Label>
+                  <Label className="font-mono text-h5-md">${selectedParking.price}</Label>
                 </Stack>
               </Card>
               <Stack gap={2}>

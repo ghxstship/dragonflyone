@@ -130,7 +130,7 @@ export default function RiskRegisterPage() {
                           <Label size="xs" className="text-ink-500">P: {risk.probability} / I: {risk.impact}</Label>
                         </Stack>
                         <Card className={`p-2 text-center ${getRiskScoreColor(risk.riskScore)}`}>
-                          <Label className="font-mono text-lg">{risk.riskScore}</Label>
+                          <Label className="font-mono text-body-md">{risk.riskScore}</Label>
                         </Card>
                         <Stack gap={1}>
                           <Label className={getStatusColor(risk.status)}>{risk.status}</Label>
@@ -194,7 +194,7 @@ export default function RiskRegisterPage() {
         <ModalBody>
           {selectedRisk && (
             <Stack gap={4}>
-              <Body className="font-display text-white text-lg">{selectedRisk.title}</Body>
+              <Body className="font-display text-white text-body-md">{selectedRisk.title}</Body>
               <Body className="text-ink-300">{selectedRisk.description}</Body>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}><Label size="xs" className="text-ink-500">Category</Label><Badge variant="outline">{selectedRisk.category}</Badge></Stack>

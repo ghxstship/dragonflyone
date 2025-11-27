@@ -103,7 +103,7 @@ export default function UrgencyTacticsPage() {
                   { label: "Seconds", value: countdown.seconds },
                 ].map((item) => (
                   <Card key={item.label} className="p-3 border-2 border-error-300 text-center bg-white">
-                    <Label className="font-mono text-3xl text-error-600">{String(item.value).padStart(2, "0")}</Label>
+                    <Label className="font-mono text-h4-md text-error-600">{String(item.value).padStart(2, "0")}</Label>
                     <Label className="text-grey-500">{item.label}</Label>
                   </Card>
                 ))}
@@ -134,7 +134,7 @@ export default function UrgencyTacticsPage() {
               <Card key={tactic.id} className="border-2 border-black p-6">
                 <Grid cols={6} gap={4} className="items-center">
                   <Stack direction="horizontal" gap={3}>
-                    <Label className="text-2xl">{getTypeIcon(tactic.type)}</Label>
+                    <Label className="text-h5-md">{getTypeIcon(tactic.type)}</Label>
                     <Stack gap={1}>
                       <Body className="font-bold">{tactic.eventName}</Body>
                       <Badge variant="outline">{tactic.type}</Badge>
@@ -170,7 +170,7 @@ export default function UrgencyTacticsPage() {
               <Grid cols={2} gap={4}>
                 <Card className="p-4 border-2 border-warning-500 bg-warning-50">
                   <Stack direction="horizontal" gap={3}>
-                    <Label className="text-2xl">🔥</Label>
+                    <Label className="text-h5-md">🔥</Label>
                     <Stack gap={1}>
                       <Label className="font-bold text-warning-600">Only 23 VIP tickets left!</Label>
                       <Label className="text-grey-600">High demand - selling fast</Label>
@@ -179,7 +179,7 @@ export default function UrgencyTacticsPage() {
                 </Card>
                 <Card className="p-4 border-2 border-error-500 bg-error-50">
                   <Stack direction="horizontal" gap={3}>
-                    <Label className="text-2xl">⚡</Label>
+                    <Label className="text-h5-md">⚡</Label>
                     <Stack gap={1}>
                       <Label className="font-bold text-error-600">Final 12 tickets available!</Label>
                       <Label className="text-grey-600">Last chance to attend</Label>
@@ -200,7 +200,7 @@ export default function UrgencyTacticsPage() {
           {selectedTactic && (
             <Stack gap={4}>
               <Stack direction="horizontal" gap={3}>
-                <Label className="text-2xl">{getTypeIcon(selectedTactic.type)}</Label>
+                <Label className="text-h5-md">{getTypeIcon(selectedTactic.type)}</Label>
                 <Stack gap={1}>
                   <Body className="font-bold">{selectedTactic.eventName}</Body>
                   <Badge variant="outline">{selectedTactic.type}</Badge>

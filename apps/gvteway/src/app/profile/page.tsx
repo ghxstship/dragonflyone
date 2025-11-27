@@ -91,13 +91,13 @@ export default function ProfilePage() {
             </Button>
           }
         >
-          <Link href="/" className="font-heading text-sm uppercase tracking-wider hover:text-grey-400">
+          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">
             Home
           </Link>
-          <Link href="/events" className="font-heading text-sm uppercase tracking-wider hover:text-grey-400">
+          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">
             Events
           </Link>
-          <Link href="/profile" className="font-heading text-sm uppercase tracking-wider text-white">
+          <Link href="/profile" className="font-heading text-body-sm uppercase tracking-widest text-white">
             Profile
           </Link>
         </Navigation>
@@ -146,7 +146,7 @@ export default function ProfilePage() {
                 <Stack gap={6}>
                   <Grid cols={2} gap={4}>
                     <Stack gap={2}>
-                      <Label className="font-heading text-sm uppercase tracking-wider text-grey-400">
+                      <Label className="font-heading text-body-sm uppercase tracking-widest text-grey-400">
                         First Name
                       </Label>
                       {isEditing ? (
@@ -160,7 +160,7 @@ export default function ProfilePage() {
                       )}
                     </Stack>
                     <Stack gap={2}>
-                      <Label className="font-heading text-sm uppercase tracking-wider text-grey-400">
+                      <Label className="font-heading text-body-sm uppercase tracking-widest text-grey-400">
                         Last Name
                       </Label>
                       {isEditing ? (
@@ -176,7 +176,7 @@ export default function ProfilePage() {
                   </Grid>
 
                   <Stack gap={2}>
-                    <Label className="font-heading text-sm uppercase tracking-wider text-grey-400">
+                    <Label className="font-heading text-body-sm uppercase tracking-widest text-grey-400">
                       Email
                     </Label>
                     {isEditing ? (
@@ -192,7 +192,7 @@ export default function ProfilePage() {
                   </Stack>
 
                   <Stack gap={2}>
-                    <Label className="font-heading text-sm uppercase tracking-wider text-grey-400">
+                    <Label className="font-heading text-body-sm uppercase tracking-widest text-grey-400">
                       Phone
                     </Label>
                     {isEditing ? (
@@ -209,7 +209,7 @@ export default function ProfilePage() {
 
                   <Grid cols={2} gap={4}>
                     <Stack gap={2}>
-                      <Label className="font-heading text-sm uppercase tracking-wider text-grey-400">
+                      <Label className="font-heading text-body-sm uppercase tracking-widest text-grey-400">
                         City
                       </Label>
                       {isEditing ? (
@@ -223,7 +223,7 @@ export default function ProfilePage() {
                       )}
                     </Stack>
                     <Stack gap={2}>
-                      <Label className="font-heading text-sm uppercase tracking-wider text-grey-400">
+                      <Label className="font-heading text-body-sm uppercase tracking-widest text-grey-400">
                         State
                       </Label>
                       {isEditing ? (
@@ -269,7 +269,7 @@ export default function ProfilePage() {
                   </Stack>
                   <Stack gap={1}>
                     <Label size="xs" className="text-grey-500">Membership</Label>
-                    <Display size="md" className="text-white text-2xl">{profile.membershipTier}</Display>
+                    <Display size="md" className="text-white text-h5-md">{profile.membershipTier}</Display>
                   </Stack>
                 </Stack>
               </Card>

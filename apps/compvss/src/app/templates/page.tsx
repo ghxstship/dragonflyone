@@ -116,7 +116,7 @@ export default function TemplatesPage() {
                     </Stack>
                     <Badge variant="outline">{template.fileType}</Badge>
                   </Stack>
-                  <Body className="text-ink-300 text-sm">{template.description}</Body>
+                  <Body className="text-ink-300 text-body-sm">{template.description}</Body>
                   <Stack direction="horizontal" gap={2} className="flex-wrap">
                     {template.tags.slice(0, 3).map(tag => <Badge key={tag} variant="outline">{tag}</Badge>)}
                   </Stack>
@@ -156,7 +156,7 @@ export default function TemplatesPage() {
         <ModalBody>
           {selectedTemplate && (
             <Stack gap={4}>
-              <Body className="font-display text-white text-lg">{selectedTemplate.name}</Body>
+              <Body className="font-display text-white text-body-md">{selectedTemplate.name}</Body>
               <Stack direction="horizontal" gap={2}>
                 <Badge variant="outline">{selectedTemplate.category}</Badge>
                 <Badge variant="outline">{selectedTemplate.fileType}</Badge>
@@ -202,7 +202,7 @@ export default function TemplatesPage() {
             <Input placeholder="Version (e.g., 1.0)" className="border-ink-700 bg-black text-white" />
             <Card className="p-8 border-2 border-dashed border-ink-700 text-center cursor-pointer">
               <Stack gap={2}>
-                <Label className="text-ink-400 text-2xl">📄</Label>
+                <Label className="text-ink-400 text-h5-md">📄</Label>
                 <Label className="text-ink-400">Drop file here or click to upload</Label>
                 <Label size="xs" className="text-ink-500">Supports PDF, DOCX, XLSX up to 25MB</Label>
               </Stack>

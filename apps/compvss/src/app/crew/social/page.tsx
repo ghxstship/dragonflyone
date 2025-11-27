@@ -123,14 +123,14 @@ export default function CrewSocialPage() {
                             </Stack>
                           </Stack>
                           <Stack direction="horizontal" gap={2}>
-                            <Label className="text-2xl">{getPostIcon(post.type)}</Label>
+                            <Label className="text-h5-md">{getPostIcon(post.type)}</Label>
                             <Label size="xs" className="text-ink-500">{post.timestamp}</Label>
                           </Stack>
                         </Stack>
                         <Body className="text-ink-200">{post.content}</Body>
                         {post.type === "Photo" && (
                           <Card className="h-48 bg-ink-800 flex items-center justify-center">
-                            <Label className="text-4xl">🖼️</Label>
+                            <Label className="text-h3-md">🖼️</Label>
                           </Card>
                         )}
                         <Stack direction="horizontal" gap={4}>
@@ -186,7 +186,7 @@ export default function CrewSocialPage() {
                   <Card key={member.id} className="border-2 border-ink-800 bg-ink-900/50 p-4 cursor-pointer hover:border-white" onClick={() => setSelectedMember(member)}>
                     <Stack gap={3} className="text-center">
                       <Card className="w-16 h-16 bg-ink-700 rounded-full flex items-center justify-center mx-auto relative">
-                        <Label className="text-xl">{member.avatar}</Label>
+                        <Label className="text-h6-md">{member.avatar}</Label>
                         <Card className={`absolute bottom-0 right-0 w-4 h-4 rounded-full border-2 border-ink-900 ${getStatusColor(member.status)}`} />
                       </Card>
                       <Stack gap={1}>
@@ -208,7 +208,7 @@ export default function CrewSocialPage() {
               <Grid cols={4} gap={4}>
                 {Array.from({ length: 8 }).map((_, idx) => (
                   <Card key={idx} className="aspect-square bg-ink-800 border-2 border-ink-700 flex items-center justify-center cursor-pointer hover:border-white">
-                    <Label className="text-4xl">📷</Label>
+                    <Label className="text-h3-md">📷</Label>
                   </Card>
                 ))}
               </Grid>
@@ -249,7 +249,7 @@ export default function CrewSocialPage() {
           {selectedMember && (
             <Stack gap={4}>
               <Card className="w-20 h-20 bg-ink-700 rounded-full flex items-center justify-center mx-auto">
-                <Label className="text-2xl">{selectedMember.avatar}</Label>
+                <Label className="text-h5-md">{selectedMember.avatar}</Label>
               </Card>
               <Stack gap={1} className="text-center">
                 <Label className="text-ink-400">{selectedMember.role}</Label>
@@ -258,11 +258,11 @@ export default function CrewSocialPage() {
               {selectedMember.bio && <Body className="text-ink-300 text-center">{selectedMember.bio}</Body>}
               <Grid cols={2} gap={4}>
                 <Card className="p-3 border border-ink-700 text-center">
-                  <Label className="font-mono text-white text-xl">{selectedMember.connections}</Label>
+                  <Label className="font-mono text-white text-h6-md">{selectedMember.connections}</Label>
                   <Label size="xs" className="text-ink-500">Connections</Label>
                 </Card>
                 <Card className="p-3 border border-ink-700 text-center">
-                  <Label className="font-mono text-white text-xl">{selectedMember.projects}</Label>
+                  <Label className="font-mono text-white text-h6-md">{selectedMember.projects}</Label>
                   <Label size="xs" className="text-ink-500">Projects</Label>
                 </Card>
               </Grid>

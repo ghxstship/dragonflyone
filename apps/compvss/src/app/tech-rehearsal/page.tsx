@@ -297,7 +297,7 @@ export default function TechRehearsalPage() {
         <ModalBody>
           {selectedSession && (
             <Stack gap={4}>
-              <Body className="font-display text-white text-lg">{selectedSession.name}</Body>
+              <Body className="font-display text-white text-body-md">{selectedSession.name}</Body>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}><Label size="xs" className="text-ink-500">Type</Label><Badge variant="outline">{selectedSession.type}</Badge></Stack>
                 <Stack gap={1}><Label size="xs" className="text-ink-500">Status</Label><Label className={getStatusColor(selectedSession.status)}>{selectedSession.status}</Label></Stack>

@@ -148,7 +148,7 @@ export default function RateCardsPage() {
                     <Card className="p-4 bg-ink-800 border-b border-ink-700">
                       <Stack direction="horizontal" className="justify-between items-center">
                         <Stack gap={1}>
-                          <Body className="font-display text-white text-lg">{rateCard.vendorName}</Body>
+                          <Body className="font-display text-white text-body-md">{rateCard.vendorName}</Body>
                           <Stack direction="horizontal" gap={2}>
                             <Badge variant="outline">{rateCard.category}</Badge>
                             <Label className="text-ink-400">Valid: {rateCard.effectiveDate} - {rateCard.expirationDate}</Label>
@@ -206,7 +206,7 @@ export default function RateCardsPage() {
         <ModalBody>
           {selectedRateCard && (
             <Stack gap={4}>
-              <Body className="font-display text-white text-lg">{selectedRateCard.vendorName}</Body>
+              <Body className="font-display text-white text-body-md">{selectedRateCard.vendorName}</Body>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}><Label size="xs" className="text-ink-500">Category</Label><Badge variant="outline">{selectedRateCard.category}</Badge></Stack>
                 <Stack gap={1}><Label size="xs" className="text-ink-500">Status</Label><Label className={getStatusColor(selectedRateCard.status)}>{selectedRateCard.status}</Label></Stack>

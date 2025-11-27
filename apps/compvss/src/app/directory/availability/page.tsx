@@ -190,7 +190,7 @@ export default function AvailabilityPage() {
           {selectedCrew && (
             <Stack gap={4}>
               <Card className="w-16 h-16 bg-ink-700 rounded-full flex items-center justify-center mx-auto">
-                <Label className="text-xl">{selectedCrew.avatar}</Label>
+                <Label className="text-h6-md">{selectedCrew.avatar}</Label>
               </Card>
               <Stack gap={1} className="text-center">
                 <Label className="text-ink-400">{selectedCrew.role}</Label>

@@ -230,7 +230,7 @@ export default function PunchListPage() {
         <ModalBody>
           {selectedItem && (
             <Stack gap={4}>
-              <Body className="font-display text-white text-lg">{selectedItem.title}</Body>
+              <Body className="font-display text-white text-body-md">{selectedItem.title}</Body>
               <Body className="text-ink-300">{selectedItem.description}</Body>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}><Label size="xs" className="text-ink-500">Location</Label><Label className="text-white">{selectedItem.location}</Label></Stack>

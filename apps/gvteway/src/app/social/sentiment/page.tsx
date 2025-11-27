@@ -128,7 +128,7 @@ export default function SentimentAnalysisPage() {
                     <H3>Trending Keywords</H3>
                     <Stack direction="horizontal" gap={2} className="flex-wrap">
                       {mockMetrics.trending.map((keyword, idx) => (
-                        <Badge key={idx} variant="outline" className="text-lg py-2 px-4">{keyword}</Badge>
+                        <Badge key={idx} variant="outline" className="text-body-md py-2 px-4">{keyword}</Badge>
                       ))}
                     </Stack>
                     <Stack gap={2}>

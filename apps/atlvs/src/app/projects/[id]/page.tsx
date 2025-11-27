@@ -143,7 +143,7 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
               <Badge variant="outline">{project.id}</Badge>
             </Stack>
             <H1 className="mt-4 text-white">{project.name}</H1>
-            <Body className="mt-2 font-mono text-sm uppercase tracking-wider text-grey-400">{project.client?.name || project.client_name || "—"}</Body>
+            <Body className="mt-2 font-mono text-body-sm uppercase tracking-widest text-grey-400">{project.client?.name || project.client_name || "—"}</Body>
           </Stack>
           <StatusBadge
             status={
@@ -160,23 +160,23 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
 
         <Grid cols={4} gap={6}>
           <Card className="border-2 border-ink-800 p-6">
-            <Label className="font-mono text-xs uppercase tracking-wider text-ink-500">Budget</Label>
-            <Body className="mt-3 font-display text-3xl text-white">${(budget / 1000).toFixed(0)}K</Body>
+            <Label className="font-mono text-mono-xs uppercase tracking-widest text-ink-500">Budget</Label>
+            <Body className="mt-3 font-display text-h4-md text-white">${(budget / 1000).toFixed(0)}K</Body>
           </Card>
           <Card className="border-2 border-ink-800 p-6">
-            <Label className="font-mono text-xs uppercase tracking-wider text-ink-500">Actual</Label>
-            <Body className="mt-3 font-display text-3xl text-white">${(actual / 1000).toFixed(0)}K</Body>
+            <Label className="font-mono text-mono-xs uppercase tracking-widest text-ink-500">Actual</Label>
+            <Body className="mt-3 font-display text-h4-md text-white">${(actual / 1000).toFixed(0)}K</Body>
           </Card>
           <Card className="border-2 border-ink-800 p-6">
-            <Label className="font-mono text-xs uppercase tracking-wider text-ink-500">Variance</Label>
-            <Body className={`mt-3 font-display text-3xl ${variance > 0 ? "text-error-400" : "text-success-400"}`}>
+            <Label className="font-mono text-mono-xs uppercase tracking-widest text-ink-500">Variance</Label>
+            <Body className={`mt-3 font-display text-h4-md ${variance > 0 ? "text-error-400" : "text-success-400"}`}>
               {variance > 0 ? "+" : ""}
               {variance}%
             </Body>
           </Card>
           <Card className="border-2 border-ink-800 p-6">
-            <Label className="font-mono text-xs uppercase tracking-wider text-ink-500">Progress</Label>
-            <Body className="mt-3 font-display text-3xl text-white">{progress}%</Body>
+            <Label className="font-mono text-mono-xs uppercase tracking-widest text-ink-500">Progress</Label>
+            <Body className="mt-3 font-display text-h4-md text-white">{progress}%</Body>
           </Card>
         </Grid>
 
@@ -186,7 +186,7 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
               <H2 className="mb-4 text-white">Project Overview</H2>
               <Stack gap={4} className="text-ink-300">
                 <Body>{project.description}</Body>
-                <Grid gap={3} className="border-t-2 border-ink-800 pt-4 text-sm">
+                <Grid gap={3} className="border-t-2 border-ink-800 pt-4 text-body-sm">
                   <Stack direction="horizontal" className="justify-between">
                     <Label className="text-ink-500">Venue:</Label>
                     <Body className="text-white">{project.venue}</Body>
@@ -215,7 +215,7 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
                     <Stack direction="horizontal" className="items-center justify-between">
                       <Stack>
                         <H3 className="text-white">{milestone.name}</H3>
-                        <Body className="mt-1 font-mono text-xs text-ink-500">{milestone.date}</Body>
+                        <Body className="mt-1 font-mono text-mono-xs text-ink-500">{milestone.date}</Body>
                       </Stack>
                       <Badge variant="outline">{milestone.status}</Badge>
                     </Stack>
@@ -234,9 +234,9 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
               <Stack gap={3}>
                 {team.map((member) => (
                   <Card key={member.name} className="border-2 border-ink-800 p-4">
-                    <Body className="font-display text-lg text-white">{member.name}</Body>
-                    <Body className="mt-1 text-sm text-ink-300">{member.role}</Body>
-                    <Label className="mt-1 font-mono text-xs uppercase tracking-wider text-ink-500">
+                    <Body className="font-display text-body-md text-white">{member.name}</Body>
+                    <Body className="mt-1 text-body-sm text-ink-300">{member.role}</Body>
+                    <Label className="mt-1 font-mono text-mono-xs uppercase tracking-widest text-ink-500">
                       {member.department}
                     </Label>
                   </Card>

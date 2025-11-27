@@ -91,7 +91,7 @@ export default function ProjectsPage() {
               <Stack gap={4} direction="horizontal" className="justify-between items-start">
                 <Stack gap={2} className="flex-1">
                   <Stack gap={4} direction="horizontal" className="items-center">
-                    <H3 className="text-xl font-bold uppercase">{project.name}</H3>
+                    <H3 className="text-h6-md font-bold uppercase">{project.name}</H3>
                     <Badge>{project.code}</Badge>
                     <Badge>{project.phase}</Badge>
                   </Stack>
@@ -100,12 +100,12 @@ export default function ProjectsPage() {
                     <Body>Crew: {project.crew_count} assigned</Body>
                   )}
                   {project.start_date && (
-                    <Body className="text-sm">
+                    <Body className="text-body-sm">
                       Start: {new Date(project.start_date).toLocaleDateString()}
                     </Body>
                   )}
                   {project.event_date && (
-                    <Body className="text-sm">
+                    <Body className="text-body-sm">
                       Event: {new Date(project.event_date).toLocaleDateString()}
                     </Body>
                   )}

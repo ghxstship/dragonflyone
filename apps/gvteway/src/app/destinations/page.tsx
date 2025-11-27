@@ -154,30 +154,30 @@ export default function DestinationsPage() {
               <Grid cols={4} gap={4}>
                 <Card className="p-4 bg-grey-900 border-grey-700 cursor-pointer hover:border-grey-600">
                   <Stack gap={2}>
-                    <Body className="text-2xl">🗽</Body>
+                    <Body className="text-h5-md">🗽</Body>
                     <Body className="font-medium">New York</Body>
-                    <Body className="text-grey-400 text-sm">1,234 events</Body>
+                    <Body className="text-grey-400 text-body-sm">1,234 events</Body>
                   </Stack>
                 </Card>
                 <Card className="p-4 bg-grey-900 border-grey-700 cursor-pointer hover:border-grey-600">
                   <Stack gap={2}>
-                    <Body className="text-2xl">🌴</Body>
+                    <Body className="text-h5-md">🌴</Body>
                     <Body className="font-medium">Los Angeles</Body>
-                    <Body className="text-grey-400 text-sm">987 events</Body>
+                    <Body className="text-grey-400 text-body-sm">987 events</Body>
                   </Stack>
                 </Card>
                 <Card className="p-4 bg-grey-900 border-grey-700 cursor-pointer hover:border-grey-600">
                   <Stack gap={2}>
-                    <Body className="text-2xl">🎸</Body>
+                    <Body className="text-h5-md">🎸</Body>
                     <Body className="font-medium">Nashville</Body>
-                    <Body className="text-grey-400 text-sm">654 events</Body>
+                    <Body className="text-grey-400 text-body-sm">654 events</Body>
                   </Stack>
                 </Card>
                 <Card className="p-4 bg-grey-900 border-grey-700 cursor-pointer hover:border-grey-600">
                   <Stack gap={2}>
-                    <Body className="text-2xl">🎰</Body>
+                    <Body className="text-h5-md">🎰</Body>
                     <Body className="font-medium">Las Vegas</Body>
-                    <Body className="text-grey-400 text-sm">543 events</Body>
+                    <Body className="text-grey-400 text-body-sm">543 events</Body>
                   </Stack>
                 </Card>
               </Grid>
@@ -224,7 +224,7 @@ export default function DestinationsPage() {
                   <Stack gap={4}>
                     <Stack gap={2} direction="horizontal" className="justify-between items-start">
                       <Stack gap={1}>
-                        <H2 className="text-xl">{dest.name}</H2>
+                        <H2 className="text-h6-md">{dest.name}</H2>
                         <Body className="text-grey-400">
                           {dest.city}, {dest.state || dest.country}
                         </Body>
@@ -234,21 +234,21 @@ export default function DestinationsPage() {
                       )}
                     </Stack>
 
-                    <Body className="text-grey-400 text-sm line-clamp-2">
+                    <Body className="text-grey-400 text-body-sm line-clamp-2">
                       {dest.description}
                     </Body>
 
                     <Stack gap={2}>
                       <Stack gap={1} direction="horizontal" className="flex-wrap">
                         {dest.popular_genres.slice(0, 3).map((genre) => (
-                          <Badge key={genre} variant="outline" className="text-xs">
+                          <Badge key={genre} variant="outline" className="text-mono-xs">
                             {genre}
                           </Badge>
                         ))}
                       </Stack>
                     </Stack>
 
-                    <Stack gap={2} direction="horizontal" className="justify-between text-grey-500 text-sm border-t border-grey-800 pt-4">
+                    <Stack gap={2} direction="horizontal" className="justify-between text-grey-500 text-body-sm border-t border-grey-800 pt-4">
                       <Stack gap={1}>
                         <Body>{dest.venue_count} venues</Body>
                         <Body>{dest.upcoming_events} upcoming events</Body>

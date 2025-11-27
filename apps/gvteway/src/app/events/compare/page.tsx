@@ -191,7 +191,7 @@ function CompareEventsContent() {
                 {events.map(event => (
                   <Stack key={event.id} className="flex-1 px-2">
                     <Body>{event.date}</Body>
-                    <Body className="text-grey-500 text-sm">{event.time}</Body>
+                    <Body className="text-grey-500 text-body-sm">{event.time}</Body>
                   </Stack>
                 ))}
               </Stack>
@@ -201,7 +201,7 @@ function CompareEventsContent() {
                 {events.map(event => (
                   <Stack key={event.id} className="flex-1 px-2">
                     <Body>{event.venue}</Body>
-                    <Body className="text-grey-500 text-sm">{event.city}</Body>
+                    <Body className="text-grey-500 text-body-sm">{event.city}</Body>
                   </Stack>
                 ))}
               </Stack>
@@ -226,7 +226,7 @@ function CompareEventsContent() {
                       <Badge className={`${status.color} text-white`}>
                         {status.label}
                       </Badge>
-                      <Body className="text-sm text-grey-500 mt-1">
+                      <Body className="text-body-sm text-grey-500 mt-1">
                         {event.tickets_available} / {event.capacity}
                       </Body>
                     </Stack>

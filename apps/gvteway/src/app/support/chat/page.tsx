@@ -208,13 +208,13 @@ function SupportChatContent() {
                       {getStatusBadge(conv.status)}
                     </Stack>
                     {conv.event_title && (
-                      <Body className={`text-sm ${
+                      <Body className={`text-body-sm ${
                         activeConversation?.id === conv.id ? 'text-grey-600' : 'text-grey-500'
                       }`}>
                         {conv.event_title}
                       </Body>
                     )}
-                    <Body className={`text-xs mt-1 ${
+                    <Body className={`text-mono-xs mt-1 ${
                       activeConversation?.id === conv.id ? 'text-grey-600' : 'text-grey-600'
                     }`}>
                       {new Date(conv.created_at).toLocaleDateString()}
@@ -237,7 +237,7 @@ function SupportChatContent() {
                     <Stack>
                       <H3>{activeConversation.subject}</H3>
                       {activeConversation.event_title && (
-                        <Body className="text-sm text-grey-500">
+                        <Body className="text-body-sm text-grey-500">
                           Re: {activeConversation.event_title}
                         </Body>
                       )}
@@ -255,7 +255,7 @@ function SupportChatContent() {
                       }`}
                     >
                       {message.sender === 'system' ? (
-                        <Body className="text-center text-grey-500 text-sm py-2">
+                        <Body className="text-center text-grey-500 text-body-sm py-2">
                           {message.content}
                         </Body>
                       ) : (
@@ -267,14 +267,14 @@ function SupportChatContent() {
                           }`}
                         >
                           {message.sender === 'agent' && message.agent_name && (
-                            <Body className="text-xs text-grey-500 mb-1">
+                            <Body className="text-mono-xs text-grey-500 mb-1">
                               {message.agent_name}
                             </Body>
                           )}
                           <Body className={message.sender === 'user' ? 'text-white' : ''}>
                             {message.content}
                           </Body>
-                          <Body className={`text-xs mt-2 ${
+                          <Body className={`text-mono-xs mt-2 ${
                             message.sender === 'user' ? 'text-grey-600' : 'text-grey-500'
                           }`}>
                             {new Date(message.timestamp).toLocaleTimeString()}

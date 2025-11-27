@@ -112,20 +112,20 @@ export default function EarlyBirdPage() {
                   </TableCell>
                   <TableCell>
                     <Stack gap={0}>
-                      <Label className="font-mono text-sm">{campaign.startDate}</Label>
-                      <Label className="font-mono text-sm text-grey-500">to {campaign.endDate}</Label>
+                      <Label className="font-mono text-body-sm">{campaign.startDate}</Label>
+                      <Label className="font-mono text-body-sm text-grey-500">to {campaign.endDate}</Label>
                     </Stack>
                   </TableCell>
                   <TableCell>
                     {campaign.ticketLimit ? (
                       <Stack gap={1}>
-                        <Label className="text-sm">{campaign.ticketsSold}/{campaign.ticketLimit}</Label>
+                        <Label className="text-body-sm">{campaign.ticketsSold}/{campaign.ticketLimit}</Label>
                         <Card className="h-2 bg-grey-200 rounded-full overflow-hidden w-20">
                           <Card className="h-full bg-black" style={{ '--progress-width': `${(campaign.ticketsSold / campaign.ticketLimit) * 100}%`, width: 'var(--progress-width)' } as React.CSSProperties} />
                         </Card>
                       </Stack>
                     ) : (
-                      <Label className="text-sm">{campaign.ticketsSold} sold</Label>
+                      <Label className="text-body-sm">{campaign.ticketsSold} sold</Label>
                     )}
                   </TableCell>
                   <TableCell>
@@ -154,12 +154,12 @@ export default function EarlyBirdPage() {
                   <Grid cols={4} gap={4}>
                     {[{ value: "05", label: "DAYS" }, { value: "12", label: "HOURS" }, { value: "34", label: "MINS" }, { value: "56", label: "SECS" }].map((item) => (
                       <Stack key={item.label} gap={1}>
-                        <Label className="text-4xl font-mono">{item.value}</Label>
+                        <Label className="text-h3-md font-mono">{item.value}</Label>
                         <Label size="xs" className="text-grey-600">{item.label}</Label>
                       </Stack>
                     ))}
                   </Grid>
-                  <Body className="text-lg">Save 20% on Summer Fest 2024 tickets!</Body>
+                  <Body className="text-body-md">Save 20% on Summer Fest 2024 tickets!</Body>
                   <Button variant="solid" className="bg-warning-400 text-black">GET TICKETS NOW</Button>
                 </Stack>
               </Card>
@@ -217,7 +217,7 @@ export default function EarlyBirdPage() {
         <ModalBody>
           {selectedCampaign && (
             <Stack gap={4}>
-              <Body className="font-bold text-lg">{selectedCampaign.name}</Body>
+              <Body className="font-bold text-body-md">{selectedCampaign.name}</Body>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}><Label size="xs" className="text-grey-500">Event</Label><Label>{selectedCampaign.eventName}</Label></Stack>
                 <Stack gap={1}><Label size="xs" className="text-grey-500">Status</Label><Label className={getStatusColor(selectedCampaign.status)}>{selectedCampaign.status}</Label></Stack>
@@ -233,7 +233,7 @@ export default function EarlyBirdPage() {
                   <Card className="h-3 bg-grey-200 rounded-full overflow-hidden">
                     <Card className="h-full bg-black" style={{ '--progress-width': `${(selectedCampaign.ticketsSold / selectedCampaign.ticketLimit) * 100}%`, width: 'var(--progress-width)' } as React.CSSProperties} />
                   </Card>
-                  <Label className="text-sm">{selectedCampaign.ticketsSold} of {selectedCampaign.ticketLimit} tickets sold</Label>
+                  <Label className="text-body-sm">{selectedCampaign.ticketsSold} of {selectedCampaign.ticketLimit} tickets sold</Label>
                 </Stack>
               )}
             </Stack>

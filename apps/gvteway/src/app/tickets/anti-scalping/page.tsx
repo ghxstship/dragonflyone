@@ -169,10 +169,10 @@ export default function AntiScalpingPage() {
                   <Stack gap={4}>
                     <H3>Detection Summary (Last 30 Days)</H3>
                     <Grid cols={2} gap={4}>
-                      <Stack gap={1}><Label className="text-grey-500">Total Flagged</Label><Label className="font-mono text-2xl">247</Label></Stack>
-                      <Stack gap={1}><Label className="text-grey-500">Blocked</Label><Label className="font-mono text-2xl text-error-600">89</Label></Stack>
-                      <Stack gap={1}><Label className="text-grey-500">Cleared</Label><Label className="font-mono text-2xl text-success-600">142</Label></Stack>
-                      <Stack gap={1}><Label className="text-grey-500">Pending</Label><Label className="font-mono text-2xl text-warning-600">16</Label></Stack>
+                      <Stack gap={1}><Label className="text-grey-500">Total Flagged</Label><Label className="font-mono text-h5-md">247</Label></Stack>
+                      <Stack gap={1}><Label className="text-grey-500">Blocked</Label><Label className="font-mono text-h5-md text-error-600">89</Label></Stack>
+                      <Stack gap={1}><Label className="text-grey-500">Cleared</Label><Label className="font-mono text-h5-md text-success-600">142</Label></Stack>
+                      <Stack gap={1}><Label className="text-grey-500">Pending</Label><Label className="font-mono text-h5-md text-warning-600">16</Label></Stack>
                     </Grid>
                   </Stack>
                 </Card>

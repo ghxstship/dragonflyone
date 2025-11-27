@@ -88,7 +88,7 @@ export default function FanContentPage() {
             {filteredContent.map((content) => (
               <Card key={content.id} className="border-2 border-black overflow-hidden cursor-pointer" onClick={() => setSelectedContent(content)}>
                 <Card className="h-48 bg-grey-100 flex items-center justify-center">
-                  <Label className="text-6xl">{getTypeIcon(content.type)}</Label>
+                  <Label className="text-h1-sm">{getTypeIcon(content.type)}</Label>
                 </Card>
                 <Stack className="p-4" gap={3}>
                   <Stack direction="horizontal" className="justify-between items-start">
@@ -119,7 +119,7 @@ export default function FanContentPage() {
           {selectedContent && (
             <Stack gap={4}>
               <Card className="h-64 bg-grey-100 flex items-center justify-center">
-                <Label className="text-6xl">{getTypeIcon(selectedContent.type)}</Label>
+                <Label className="text-h1-sm">{getTypeIcon(selectedContent.type)}</Label>
               </Card>
               <Stack direction="horizontal" className="justify-between">
                 <Stack gap={1}>

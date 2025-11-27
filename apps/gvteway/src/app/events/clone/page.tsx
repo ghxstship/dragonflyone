@@ -91,7 +91,7 @@ function EventCloneContent() {
                   <Card key={template.id} className="border-2 border-black p-6 cursor-pointer hover:bg-grey-50" onClick={() => setSelectedTemplate(template)}>
                     <Stack gap={4}>
                       <Stack direction="horizontal" className="justify-between">
-                        <Label className="text-3xl">{getTypeIcon(template.type)}</Label>
+                        <Label className="text-h4-md">{getTypeIcon(template.type)}</Label>
                         <Badge variant="outline">{template.type}</Badge>
                       </Stack>
                       <Stack gap={1}>
@@ -108,7 +108,7 @@ function EventCloneContent() {
                 ))}
                 <Card className="border-2 border-dashed border-grey-300 p-6 cursor-pointer hover:border-black" onClick={() => setShowCreateModal(true)}>
                   <Stack gap={4} className="items-center justify-center h-full">
-                    <Label className="text-4xl">➕</Label>
+                    <Label className="text-h3-md">➕</Label>
                     <Body className="text-grey-500">Create Custom Template</Body>
                   </Stack>
                 </Card>
@@ -122,7 +122,7 @@ function EventCloneContent() {
                   <Card key={event.id} className="border-2 border-black p-4 cursor-pointer hover:bg-grey-50" onClick={() => setSelectedEvent(event)}>
                     <Grid cols={4} gap={4} className="items-center">
                       <Stack direction="horizontal" gap={3}>
-                        <Label className="text-2xl">{getTypeIcon(event.type)}</Label>
+                        <Label className="text-h5-md">{getTypeIcon(event.type)}</Label>
                         <Stack gap={1}>
                           <Body className="font-bold">{event.name}</Body>
                           <Badge variant="outline">{event.type}</Badge>
@@ -178,7 +178,7 @@ function EventCloneContent() {
           {selectedTemplate && (
             <Stack gap={4}>
               <Stack direction="horizontal" gap={3}>
-                <Label className="text-3xl">{getTypeIcon(selectedTemplate.type)}</Label>
+                <Label className="text-h4-md">{getTypeIcon(selectedTemplate.type)}</Label>
                 <Stack gap={1}>
                   <Body className="font-bold">{selectedTemplate.name}</Body>
                   <Badge variant="outline">{selectedTemplate.type}</Badge>
@@ -217,7 +217,7 @@ function EventCloneContent() {
           {selectedEvent && (
             <Stack gap={4}>
               <Stack direction="horizontal" gap={3}>
-                <Label className="text-3xl">{getTypeIcon(selectedEvent.type)}</Label>
+                <Label className="text-h4-md">{getTypeIcon(selectedEvent.type)}</Label>
                 <Stack gap={1}>
                   <Body className="font-bold">{selectedEvent.name}</Body>
                   <Badge variant="outline">{selectedEvent.type}</Badge>

@@ -124,7 +124,7 @@ export default function CommunicationsPage() {
                       <Radio className="w-6 h-6 text-grey-600" />
                       <Stack gap={1}>
                         <H3>{channel.name}</H3>
-                        <Body className="text-sm text-grey-600">{channel.frequency}</Body>
+                        <Body className="text-body-sm text-grey-600">{channel.frequency}</Body>
                       </Stack>
                     </Stack>
                     <Badge className={getPriorityColor(channel.priority)}>
@@ -133,9 +133,9 @@ export default function CommunicationsPage() {
                   </Stack>
                   
                   <Stack gap={4} direction="horizontal" className="justify-between items-center">
-                    <Stack gap={2} direction="horizontal" className="items-center text-sm text-grey-600">
+                    <Stack gap={2} direction="horizontal" className="items-center text-body-sm text-grey-600">
                       <Users className="w-4 h-4" />
-                      <Body className="text-sm">{channel.users} users</Body>
+                      <Body className="text-body-sm">{channel.users} users</Body>
                     </Stack>
                     <Button variant="outline" size="sm" onClick={() => router.push(`/communications/channels/${channel.id}`)}>
                       {channel.status === 'active' ? 'JOIN' : 'STANDBY'}
@@ -155,7 +155,7 @@ export default function CommunicationsPage() {
                     <Badge className="bg-white text-black border-2 border-black">
                       {msg.channel}
                     </Badge>
-                    <Body className="text-sm text-grey-600">{msg.timestamp}</Body>
+                    <Body className="text-body-sm text-grey-600">{msg.timestamp}</Body>
                   </Stack>
                   <Body className="font-bold mb-1">{msg.sender}</Body>
                   <Body className="text-grey-600">{msg.message}</Body>
@@ -184,7 +184,7 @@ export default function CommunicationsPage() {
                   <contact.icon className="w-6 h-6" />
                   <Stack gap={1}>
                     <Body className="font-bold">{contact.name}</Body>
-                    <Body className="text-sm text-grey-600">{contact.number}</Body>
+                    <Body className="text-body-sm text-grey-600">{contact.number}</Body>
                   </Stack>
                 </Stack>
               </Card>

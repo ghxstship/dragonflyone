@@ -192,16 +192,16 @@ export default function MarketingAttributionPage() {
             <Stack gap={4}>
               <Badge variant="outline">{selectedSource.channel}</Badge>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label className="text-ink-400">Leads</Label><Label className="font-mono text-white text-xl">{selectedSource.leads}</Label></Stack>
-                <Stack gap={1}><Label className="text-ink-400">Conversions</Label><Label className="font-mono text-white text-xl">{selectedSource.conversions}</Label></Stack>
+                <Stack gap={1}><Label className="text-ink-400">Leads</Label><Label className="font-mono text-white text-h6-md">{selectedSource.leads}</Label></Stack>
+                <Stack gap={1}><Label className="text-ink-400">Conversions</Label><Label className="font-mono text-white text-h6-md">{selectedSource.conversions}</Label></Stack>
               </Grid>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label className="text-ink-400">Revenue</Label><Label className="font-mono text-success-400 text-xl">{formatCurrency(selectedSource.revenue)}</Label></Stack>
-                <Stack gap={1}><Label className="text-ink-400">Cost</Label><Label className="font-mono text-ink-400 text-xl">{formatCurrency(selectedSource.cost)}</Label></Stack>
+                <Stack gap={1}><Label className="text-ink-400">Revenue</Label><Label className="font-mono text-success-400 text-h6-md">{formatCurrency(selectedSource.revenue)}</Label></Stack>
+                <Stack gap={1}><Label className="text-ink-400">Cost</Label><Label className="font-mono text-ink-400 text-h6-md">{formatCurrency(selectedSource.cost)}</Label></Stack>
               </Grid>
               <Stack gap={1}>
                 <Label className="text-ink-400">ROI</Label>
-                <Label className={`font-mono text-2xl ${selectedSource.roi > 500 ? "text-success-400" : "text-warning-400"}`}>
+                <Label className={`font-mono text-h5-md ${selectedSource.roi > 500 ? "text-success-400" : "text-warning-400"}`}>
                   {selectedSource.roi > 0 ? `${selectedSource.roi}%` : "N/A (Organic)"}
                 </Label>
               </Stack>

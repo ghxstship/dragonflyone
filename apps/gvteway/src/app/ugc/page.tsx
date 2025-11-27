@@ -310,12 +310,12 @@ export default function UGCPage() {
                         />
                       ) : (
                         <Stack className="w-full h-full flex items-center justify-center">
-                          <Body className="text-4xl">{getPlatformIcon(post.platform)}</Body>
+                          <Body className="text-h3-md">{getPlatformIcon(post.platform)}</Body>
                         </Stack>
                       )}
                       {post.content_type === 'video' || post.content_type === 'reel' && (
                         <Stack className="absolute inset-0 flex items-center justify-center">
-                          <Body className="text-4xl text-white drop-shadow-lg">▶️</Body>
+                          <Body className="text-h3-md text-white drop-shadow-lg">▶️</Body>
                         </Stack>
                       )}
                       {post.is_featured && (
@@ -333,15 +333,15 @@ export default function UGCPage() {
                           {post.author_avatar ? (
                             <Image src={post.author_avatar} alt={post.author_name} fill className="object-cover" />
                           ) : (
-                            <Stack className="w-full h-full flex items-center justify-center text-xs">👤</Stack>
+                            <Stack className="w-full h-full flex items-center justify-center text-mono-xs">👤</Stack>
                           )}
                         </Stack>
-                        <Body className="text-sm font-bold truncate">{post.author_name}</Body>
+                        <Body className="text-body-sm font-bold truncate">{post.author_name}</Body>
                       </Stack>
                       {post.caption && (
-                        <Body className="text-xs text-grey-600 line-clamp-2">{post.caption}</Body>
+                        <Body className="text-mono-xs text-grey-600 line-clamp-2">{post.caption}</Body>
                       )}
-                      <Stack direction="horizontal" gap={3} className="text-xs text-grey-500">
+                      <Stack direction="horizontal" gap={3} className="text-mono-xs text-grey-500">
                         <Body>❤️ {formatNumber(post.likes)}</Body>
                         <Body>💬 {formatNumber(post.comments)}</Body>
                         <Body>🔄 {formatNumber(post.shares)}</Body>
@@ -379,12 +379,12 @@ export default function UGCPage() {
                     </Stack>
                     <Grid cols={2} gap={4}>
                       <Stack>
-                        <Body className="text-2xl font-bold">{formatNumber(hashtag.post_count)}</Body>
-                        <Body className="text-xs text-grey-500">Posts</Body>
+                        <Body className="text-h5-md font-bold">{formatNumber(hashtag.post_count)}</Body>
+                        <Body className="text-mono-xs text-grey-500">Posts</Body>
                       </Stack>
                       <Stack>
-                        <Body className="text-2xl font-bold">{formatNumber(hashtag.engagement)}</Body>
-                        <Body className="text-xs text-grey-500">Engagement</Body>
+                        <Body className="text-h5-md font-bold">{formatNumber(hashtag.engagement)}</Body>
+                        <Body className="text-mono-xs text-grey-500">Engagement</Body>
                       </Stack>
                     </Grid>
                   </Stack>
@@ -418,23 +418,23 @@ export default function UGCPage() {
                           {campaign.status}
                         </Badge>
                       </Stack>
-                      <Body className="text-xl font-bold">#{campaign.hashtag}</Body>
+                      <Body className="text-h6-md font-bold">#{campaign.hashtag}</Body>
                       {campaign.event_name && (
-                        <Body className="text-sm text-grey-600">{campaign.event_name}</Body>
+                        <Body className="text-body-sm text-grey-600">{campaign.event_name}</Body>
                       )}
-                      <Body className="text-xs text-grey-500">
+                      <Body className="text-mono-xs text-grey-500">
                         {new Date(campaign.start_date).toLocaleDateString()}
                         {campaign.end_date && ` - ${new Date(campaign.end_date).toLocaleDateString()}`}
                       </Body>
                     </Stack>
                     <Grid cols={2} gap={6}>
                       <Stack className="text-center">
-                        <Body className="text-3xl font-bold">{formatNumber(campaign.post_count)}</Body>
-                        <Body className="text-xs text-grey-500">Posts</Body>
+                        <Body className="text-h4-md font-bold">{formatNumber(campaign.post_count)}</Body>
+                        <Body className="text-mono-xs text-grey-500">Posts</Body>
                       </Stack>
                       <Stack className="text-center">
-                        <Body className="text-3xl font-bold">{formatNumber(campaign.total_engagement)}</Body>
-                        <Body className="text-xs text-grey-500">Engagement</Body>
+                        <Body className="text-h4-md font-bold">{formatNumber(campaign.total_engagement)}</Body>
+                        <Body className="text-mono-xs text-grey-500">Engagement</Body>
                       </Stack>
                     </Grid>
                   </Stack>
@@ -477,7 +477,7 @@ export default function UGCPage() {
                       />
                     ) : (
                       <Stack className="w-full h-full flex items-center justify-center">
-                        <Body className="text-4xl">{getPlatformIcon(post.platform)}</Body>
+                        <Body className="text-h3-md">{getPlatformIcon(post.platform)}</Body>
                       </Stack>
                     )}
                   </Stack>
@@ -488,7 +488,7 @@ export default function UGCPage() {
                     </Stack>
                     <Body className="font-bold">{post.author_name}</Body>
                     {post.caption && (
-                      <Body className="text-sm text-grey-600 line-clamp-2">{post.caption}</Body>
+                      <Body className="text-body-sm text-grey-600 line-clamp-2">{post.caption}</Body>
                     )}
                   </Stack>
                 </Card>
@@ -521,7 +521,7 @@ export default function UGCPage() {
                   />
                 ) : (
                   <Stack className="w-full h-full flex items-center justify-center">
-                    <Body className="text-6xl">{getPlatformIcon(selectedPost.platform)}</Body>
+                    <Body className="text-h1-sm">{getPlatformIcon(selectedPost.platform)}</Body>
                   </Stack>
                 )}
               </Stack>
@@ -536,7 +536,7 @@ export default function UGCPage() {
                   </Stack>
                   <Stack>
                     <Body className="font-bold">{selectedPost.author_name}</Body>
-                    <Body className="text-sm text-grey-500">@{selectedPost.author_handle}</Body>
+                    <Body className="text-body-sm text-grey-500">@{selectedPost.author_handle}</Body>
                   </Stack>
                   {getPlatformBadge(selectedPost.platform)}
                 </Stack>
@@ -561,7 +561,7 @@ export default function UGCPage() {
                   <Body>🔄 {formatNumber(selectedPost.shares)}</Body>
                 </Stack>
                 {selectedPost.event_name && (
-                  <Body className="text-sm text-grey-500">
+                  <Body className="text-body-sm text-grey-500">
                     Event: {selectedPost.event_name}
                   </Body>
                 )}

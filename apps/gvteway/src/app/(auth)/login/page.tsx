@@ -84,7 +84,7 @@ export default function LoginPage() {
 
             <Stack direction="horizontal" className="items-center justify-between">
               <Checkbox label="Remember me" />
-              <Link href="/forgot-password" className="text-sm">
+              <Link href="/forgot-password" className="text-body-sm">
                 Forgot password?
               </Link>
             </Stack>

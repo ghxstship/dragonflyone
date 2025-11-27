@@ -114,7 +114,7 @@ export default function CompvssIntegrationsPage() {
                       <TableCell>{getStatusBadge(job.status)}</TableCell>
                       <TableCell>{new Date(job.created_at).toLocaleString()}</TableCell>
                       <TableCell>
-                        <Body className="font-mono text-xs">{job.payload.action}</Body>
+                        <Body className="font-mono text-mono-xs">{job.payload.action}</Body>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -137,7 +137,7 @@ export default function CompvssIntegrationsPage() {
               <Card className="p-4 border border-grey-800">
                 <Stack gap={4}>
                   <H3>Event Publishing</H3>
-                  <Body className="text-sm">
+                  <Body className="text-body-sm">
                     Publish production project details to GVTEWAY for ticket sales and guest experience.
                   </Body>
                   <Button variant="solid" className="w-full" onClick={() => { addNotification({ type: 'success', title: 'Publishing', message: 'Event data being synced to GVTEWAY' }); }}>
@@ -149,7 +149,7 @@ export default function CompvssIntegrationsPage() {
               <Card className="p-4 border border-grey-800">
                 <Stack gap={4}>
                   <H3>Asset Request</H3>
-                  <Body className="text-sm">
+                  <Body className="text-body-sm">
                     Check availability and request asset allocation from ATLVS inventory.
                   </Body>
                   <Button variant="outline" className="w-full" onClick={() => router.push('/advancing/requests/new')}>
@@ -161,7 +161,7 @@ export default function CompvssIntegrationsPage() {
               <Card className="p-4 border border-grey-800">
                 <Stack gap={4}>
                   <H3>Expense Submission</H3>
-                  <Body className="text-sm">
+                  <Body className="text-body-sm">
                     Submit production expenses directly to ATLVS finance for approval and payment.
                   </Body>
                   <Button variant="outline" className="w-full" onClick={() => router.push('/expenses/new')}>
@@ -173,7 +173,7 @@ export default function CompvssIntegrationsPage() {
               <Card className="p-4 border border-grey-800">
                 <Stack gap={4}>
                   <H3>Crew Sync</H3>
-                  <Body className="text-sm">
+                  <Body className="text-body-sm">
                     Synchronize crew assignments and time tracking with ATLVS payroll system.
                   </Body>
                   <Button variant="outline" className="w-full" onClick={() => { addNotification({ type: 'info', title: 'Syncing', message: 'Crew data sync initiated' }); }}>

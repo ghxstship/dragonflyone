@@ -149,12 +149,12 @@ export default function ReputationPage() {
             <Stack className="col-span-2">
               <Stack direction="horizontal" gap={4} className="items-center">
                 <Stack className="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center">
-                  <Body className="text-4xl">{currentLevel.icon}</Body>
+                  <Body className="text-h3-md">{currentLevel.icon}</Body>
                 </Stack>
                 <Stack>
-                  <Body className="text-grey-600 text-sm">LEVEL {currentLevel.level}</Body>
+                  <Body className="text-grey-600 text-body-sm">LEVEL {currentLevel.level}</Body>
                   <H2 className="text-white">{currentLevel.name}</H2>
-                  <Body className="text-2xl font-bold text-white">
+                  <Body className="text-h5-md font-bold text-white">
                     {stats?.total_karma.toLocaleString() || 0} karma
                   </Body>
                 </Stack>
@@ -167,18 +167,18 @@ export default function ReputationPage() {
                       style={{ '--progress-width': `${progressToNext}%`, width: 'var(--progress-width)' } as React.CSSProperties}
                     />
                   </Stack>
-                  <Body className="text-grey-600 text-sm mt-2">
+                  <Body className="text-grey-600 text-body-sm mt-2">
                     {nextLevel.min - (stats?.total_karma || 0)} karma to {nextLevel.name}
                   </Body>
                 </Stack>
               )}
             </Stack>
             <Stack className="items-center justify-center border-l border-white/20">
-              <Body className="text-grey-600 text-sm">RANK</Body>
+              <Body className="text-grey-600 text-body-sm">RANK</Body>
               <H2 className="text-white">Top {stats?.rank_percentile || 50}%</H2>
             </Stack>
             <Stack className="items-center justify-center border-l border-white/20">
-              <Body className="text-grey-600 text-sm">HELPFUL VOTES</Body>
+              <Body className="text-grey-600 text-body-sm">HELPFUL VOTES</Body>
               <H2 className="text-white">{stats?.helpful_votes || 0}</H2>
             </Stack>
           </Grid>
@@ -235,20 +235,20 @@ export default function ReputationPage() {
               <H3 className="mb-6">YOUR CONTRIBUTIONS</H3>
               <Grid cols={2} gap={4}>
                 <Card className="p-4 bg-grey-50 text-center">
-                  <Body className="text-3xl font-bold">{stats?.reviews_count || 0}</Body>
-                  <Body className="text-grey-500 text-sm">Reviews</Body>
+                  <Body className="text-h4-md font-bold">{stats?.reviews_count || 0}</Body>
+                  <Body className="text-grey-500 text-body-sm">Reviews</Body>
                 </Card>
                 <Card className="p-4 bg-grey-50 text-center">
-                  <Body className="text-3xl font-bold">{stats?.answers_count || 0}</Body>
-                  <Body className="text-grey-500 text-sm">Answers</Body>
+                  <Body className="text-h4-md font-bold">{stats?.answers_count || 0}</Body>
+                  <Body className="text-grey-500 text-body-sm">Answers</Body>
                 </Card>
                 <Card className="p-4 bg-grey-50 text-center">
-                  <Body className="text-3xl font-bold">{stats?.events_attended || 0}</Body>
-                  <Body className="text-grey-500 text-sm">Events</Body>
+                  <Body className="text-h4-md font-bold">{stats?.events_attended || 0}</Body>
+                  <Body className="text-grey-500 text-body-sm">Events</Body>
                 </Card>
                 <Card className="p-4 bg-grey-50 text-center">
-                  <Body className="text-3xl font-bold">{stats?.helpful_votes || 0}</Body>
-                  <Body className="text-grey-500 text-sm">Helpful Votes</Body>
+                  <Body className="text-h4-md font-bold">{stats?.helpful_votes || 0}</Body>
+                  <Body className="text-grey-500 text-body-sm">Helpful Votes</Body>
                 </Card>
               </Grid>
             </Card>
@@ -263,11 +263,11 @@ export default function ReputationPage() {
                       currentLevel.level >= level.level ? 'bg-black text-white' : 'bg-grey-100'
                     }`}
                   >
-                    <Body className="text-2xl mb-2">{level.icon}</Body>
+                    <Body className="text-h5-md mb-2">{level.icon}</Body>
                     <Body className={`font-bold ${currentLevel.level >= level.level ? 'text-white' : ''}`}>
                       {level.name}
                     </Body>
-                    <Body className={`text-xs ${currentLevel.level >= level.level ? 'text-grey-600' : 'text-grey-500'}`}>
+                    <Body className={`text-mono-xs ${currentLevel.level >= level.level ? 'text-grey-600' : 'text-grey-500'}`}>
                       {level.min.toLocaleString()}+ karma
                     </Body>
                   </Card>
@@ -290,7 +290,7 @@ export default function ReputationPage() {
                   >
                     <Stack>
                       <Body className="font-medium">{tx.description}</Body>
-                      <Body className="text-xs text-grey-500">
+                      <Body className="text-mono-xs text-grey-500">
                         {new Date(tx.created_at).toLocaleDateString()}
                       </Body>
                     </Stack>
@@ -319,17 +319,17 @@ export default function ReputationPage() {
                   <Stack className={`w-16 h-16 rounded-full flex items-center justify-center ${
                     achievement.earned_at ? 'bg-black' : 'bg-grey-200'
                   }`}>
-                    <Body className="text-3xl">{achievement.icon}</Body>
+                    <Body className="text-h4-md">{achievement.icon}</Body>
                   </Stack>
                   <Stack>
                     <Body className="font-bold">{achievement.name}</Body>
-                    <Body className="text-xs text-grey-500">{achievement.description}</Body>
+                    <Body className="text-mono-xs text-grey-500">{achievement.description}</Body>
                   </Stack>
                   <Badge className={achievement.earned_at ? 'bg-success-500 text-white' : 'bg-grey-300'}>
                     +{achievement.karma_reward} karma
                   </Badge>
                   {achievement.earned_at ? (
-                    <Body className="text-xs text-grey-600">
+                    <Body className="text-mono-xs text-grey-600">
                       Earned {new Date(achievement.earned_at).toLocaleDateString()}
                     </Body>
                   ) : achievement.progress !== undefined && (
@@ -340,7 +340,7 @@ export default function ReputationPage() {
                           style={{ '--progress-width': `${(achievement.progress / (achievement.total || 1)) * 100}%`, width: 'var(--progress-width)' } as React.CSSProperties}
                         />
                       </Stack>
-                      <Body className="text-xs text-grey-500 mt-1">
+                      <Body className="text-mono-xs text-grey-500 mt-1">
                         {achievement.progress} / {achievement.total}
                       </Body>
                     </Stack>

@@ -80,14 +80,14 @@ export default function RunOfShowPage() {
               >
                 <Grid cols={6} gap={4}>
                   <Stack gap={0}>
-                    <Body className="text-white font-bold text-2xl">{cue.time}</Body>
+                    <Body className="text-white font-bold text-h5-md">{cue.time}</Body>
                   </Stack>
                   <Stack gap={1} className="col-span-2">
                     <Body className="text-white font-bold">{cue.cue}</Body>
-                    <Body className="text-grey-400 text-sm">{cue.department}</Body>
+                    <Body className="text-grey-400 text-body-sm">{cue.department}</Body>
                   </Stack>
                   <Stack gap={0} className="col-span-2">
-                    <Body className="text-grey-300 text-sm">{cue.notes}</Body>
+                    <Body className="text-grey-300 text-body-sm">{cue.notes}</Body>
                   </Stack>
                   <Stack gap={2} direction="horizontal" className="justify-end">
                     {cue.status === 'pending' && (

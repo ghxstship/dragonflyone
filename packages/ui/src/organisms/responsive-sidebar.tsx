@@ -40,7 +40,7 @@ function NavIcon({ name, className }: { name: string; className?: string }) {
   // Simplified icon rendering - in production, integrate with your icon library
   return (
     <span className={clsx("flex items-center justify-center", className)} aria-hidden="true">
-      <span className="text-xs font-mono">{name.substring(0, 2).toUpperCase()}</span>
+      <span className="text-mono-xs">{name.substring(0, 2).toUpperCase()}</span>
     </span>
   );
 }
@@ -136,7 +136,7 @@ export const ResponsiveSidebar = forwardRef<HTMLElement, ResponsiveSidebarProps>
             }
           }}
           className={clsx(
-            "flex items-center gap-3 py-2 text-sm transition-all duration-150",
+            "flex items-center gap-3 py-2 text-body-sm transition-all duration-150",
             indent ? "pl-10 pr-4" : "px-4",
             collapsed && !isMobile && "justify-center px-2",
             active
@@ -157,7 +157,7 @@ export const ResponsiveSidebar = forwardRef<HTMLElement, ResponsiveSidebarProps>
               {item.badge && (
                 <span
                   className={clsx(
-                    "px-2 py-0.5 text-xs rounded-full flex-shrink-0",
+                    "px-2 py-0.5 text-mono-xs rounded-full flex-shrink-0",
                     inverted ? "bg-grey-800 text-white" : "bg-grey-200 text-black"
                   )}
                 >
@@ -181,7 +181,7 @@ export const ResponsiveSidebar = forwardRef<HTMLElement, ResponsiveSidebarProps>
             type="button"
             onClick={() => hasSubsections && toggleSection(section.section)}
             className={clsx(
-              "w-full flex items-center gap-2 px-4 py-2 text-xs font-mono uppercase tracking-wider transition-colors",
+              "w-full flex items-center gap-2 px-4 py-2 text-mono-xs uppercase tracking-widest transition-colors",
               collapsed && !isMobile && "justify-center px-2",
               inverted
                 ? "text-grey-500 hover:text-grey-300"
@@ -273,7 +273,7 @@ export const ResponsiveSidebar = forwardRef<HTMLElement, ResponsiveSidebarProps>
                     }
                   }}
                   className={clsx(
-                    "flex items-center gap-1 px-2 py-1 text-xs rounded transition-colors",
+                    "flex items-center gap-1 px-2 py-1 text-mono-xs rounded transition-colors",
                     inverted
                       ? "bg-grey-900 text-grey-300 hover:bg-grey-800 hover:text-white"
                       : "bg-grey-100 text-grey-600 hover:bg-grey-200 hover:text-black"

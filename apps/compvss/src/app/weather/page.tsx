@@ -177,18 +177,18 @@ export default function WeatherPage() {
             <Grid cols={3} gap={6}>
               {forecasts.map((day: Forecast, idx: number) => (
                 <Card key={idx} className="border-2 border-ink-800 p-6 bg-black">
-                  <Body className="font-mono text-xs uppercase tracking-wider text-ink-500">{day.date}</Body>
+                  <Body className="font-mono text-mono-xs uppercase tracking-widest text-ink-500">{day.date}</Body>
                   <Stack gap={2} direction="horizontal" className="mt-4 items-baseline">
-                    <Body className="font-display text-4xl text-white">{day.high}°</Body>
+                    <Body className="font-display text-h3-md text-white">{day.high}°</Body>
                     <Body className="text-ink-400">/ {day.low}°</Body>
                   </Stack>
-                  <Body className="mt-3 text-sm text-white">{day.condition}</Body>
+                  <Body className="mt-3 text-body-sm text-white">{day.condition}</Body>
                   <Stack gap={2} className="mt-4 border-t border-ink-800 pt-4">
-                    <Stack gap={2} direction="horizontal" className="justify-between text-sm">
+                    <Stack gap={2} direction="horizontal" className="justify-between text-body-sm">
                       <Body className="text-ink-500">Precipitation</Body>
                       <Body className="text-white">{day.precipitation}%</Body>
                     </Stack>
-                    <Stack gap={2} direction="horizontal" className="justify-between text-sm">
+                    <Stack gap={2} direction="horizontal" className="justify-between text-body-sm">
                       <Body className="text-ink-500">Wind</Body>
                       <Body className="text-white">{day.wind} mph</Body>
                     </Stack>

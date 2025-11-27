@@ -167,7 +167,7 @@ export default function BidDecisionPage() {
                 <Stack gap={2}>
                   <Stack direction="horizontal" className="justify-between">
                     <Label className="text-ink-400">Overall Score</Label>
-                    <Label className={`font-mono text-xl ${getScoreColor(selectedOpp.score || calculateScore(selectedOpp.criteria))}`}>
+                    <Label className={`font-mono text-h6-md ${getScoreColor(selectedOpp.score || calculateScore(selectedOpp.criteria))}`}>
                       {selectedOpp.score || calculateScore(selectedOpp.criteria)}/100
                     </Label>
                   </Stack>

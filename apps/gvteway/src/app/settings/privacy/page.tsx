@@ -287,7 +287,7 @@ export default function PrivacySettingsPage() {
                 <Stack direction="horizontal" className="justify-between items-center py-2">
                   <Stack>
                     <Body className="font-medium">Show Activity</Body>
-                    <Body className="text-sm text-grey-500">Let others see your recent activity</Body>
+                    <Body className="text-body-sm text-grey-500">Let others see your recent activity</Body>
                   </Stack>
                   <Switch
                     checked={settings.show_activity}
@@ -298,7 +298,7 @@ export default function PrivacySettingsPage() {
                 <Stack direction="horizontal" className="justify-between items-center py-2">
                   <Stack>
                     <Body className="font-medium">Show Events Attended</Body>
-                    <Body className="text-sm text-grey-500">Display events on your profile</Body>
+                    <Body className="text-body-sm text-grey-500">Display events on your profile</Body>
                   </Stack>
                   <Switch
                     checked={settings.show_events_attended}
@@ -309,7 +309,7 @@ export default function PrivacySettingsPage() {
                 <Stack direction="horizontal" className="justify-between items-center py-2">
                   <Stack>
                     <Body className="font-medium">Show Reviews</Body>
-                    <Body className="text-sm text-grey-500">Display your reviews publicly</Body>
+                    <Body className="text-body-sm text-grey-500">Display your reviews publicly</Body>
                   </Stack>
                   <Switch
                     checked={settings.show_reviews}
@@ -355,7 +355,7 @@ export default function PrivacySettingsPage() {
                         </Stack>
                         <Stack>
                           <Body className="font-medium">{blocked.user_name}</Body>
-                          <Body className="text-xs text-grey-500">
+                          <Body className="text-mono-xs text-grey-500">
                             Blocked {new Date(blocked.blocked_at).toLocaleDateString()}
                           </Body>
                         </Stack>
@@ -395,8 +395,8 @@ export default function PrivacySettingsPage() {
                         <Body className="font-medium">{report.reported_user_name}</Body>
                         {getStatusBadge(report.status)}
                       </Stack>
-                      <Body className="text-sm text-grey-600">{report.reason}</Body>
-                      <Body className="text-xs text-grey-600 mt-2">
+                      <Body className="text-body-sm text-grey-600">{report.reason}</Body>
+                      <Body className="text-mono-xs text-grey-600 mt-2">
                         {new Date(report.created_at).toLocaleDateString()}
                       </Body>
                     </Card>

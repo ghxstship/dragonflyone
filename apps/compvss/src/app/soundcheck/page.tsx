@@ -91,7 +91,7 @@ export default function SoundcheckPage() {
                 <Stack direction="horizontal" className="justify-between items-center">
                   <Stack gap={1}>
                     <Label className="text-info-400">NOW SOUNDCHECKING</Label>
-                    <Body className="font-display text-white text-2xl">{inProgress.artistName}</Body>
+                    <Body className="font-display text-white text-h5-md">{inProgress.artistName}</Body>
                     <Label className="text-ink-400">{inProgress.stage} • Engineer: {inProgress.engineer}</Label>
                   </Stack>
                   <Stack gap={2} className="text-right">
@@ -202,7 +202,7 @@ export default function SoundcheckPage() {
         <ModalBody>
           {selectedSlot && (
             <Stack gap={4}>
-              <Body className="font-display text-white text-lg">{selectedSlot.artistName}</Body>
+              <Body className="font-display text-white text-body-md">{selectedSlot.artistName}</Body>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}><Label size="xs" className="text-ink-500">Stage</Label><Label className="text-white">{selectedSlot.stage}</Label></Stack>
                 <Stack gap={1}><Label size="xs" className="text-ink-500">Status</Label><Label className={getStatusColor(selectedSlot.status)}>{selectedSlot.status}</Label></Stack>

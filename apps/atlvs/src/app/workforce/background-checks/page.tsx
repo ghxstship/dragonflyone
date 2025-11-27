@@ -260,7 +260,7 @@ export default function BackgroundChecksPage() {
             <Stack gap={4}>
               <Stack gap={1}>
                 <Label className="text-ink-400">Employee</Label>
-                <Label className="text-white text-lg">{selectedCheck.employeeName}</Label>
+                <Label className="text-white text-body-md">{selectedCheck.employeeName}</Label>
                 <Label className="text-ink-500">{selectedCheck.employeeId}</Label>
               </Stack>
               <Stack direction="horizontal" gap={2}>

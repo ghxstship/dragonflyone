@@ -122,7 +122,7 @@ export default function CaseStudiesPage() {
                 <Grid cols={2} gap={4}>
                   {selectedStudy.metrics.map((m, idx) => (
                     <Card key={idx} className="p-3 border border-ink-700 text-center">
-                      <Label className="font-mono text-white text-xl">{m.value}</Label>
+                      <Label className="font-mono text-white text-h6-md">{m.value}</Label>
                       <Label size="xs" className="text-ink-500">{m.label}</Label>
                     </Card>
                   ))}

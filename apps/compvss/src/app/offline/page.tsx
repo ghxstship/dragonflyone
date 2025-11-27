@@ -22,7 +22,7 @@ export default function OfflinePage() {
         <Card className="p-8 text-center">
           <Stack gap={6} className="items-center">
             <Stack gap={2} className="items-center">
-              <Display className="text-6xl">📡</Display>
+              <Display className="text-h1-sm">📡</Display>
               <H2>YOU&apos;RE OFFLINE</H2>
             </Stack>
             
@@ -36,10 +36,10 @@ export default function OfflinePage() {
                 <Stack gap={2}>
                   <Body className="font-bold">Available Offline:</Body>
                   <Stack gap={1}>
-                    <Body className="text-sm">• View cached crew data</Body>
-                    <Body className="text-sm">• Access saved schedules</Body>
-                    <Body className="text-sm">• Log time entries (syncs when online)</Body>
-                    <Body className="text-sm">• View knowledge base articles</Body>
+                    <Body className="text-body-sm">• View cached crew data</Body>
+                    <Body className="text-body-sm">• Access saved schedules</Body>
+                    <Body className="text-body-sm">• Log time entries (syncs when online)</Body>
+                    <Body className="text-body-sm">• View knowledge base articles</Body>
                   </Stack>
                 </Stack>
               </Card>
@@ -48,10 +48,10 @@ export default function OfflinePage() {
                 <Stack gap={2}>
                   <Body className="font-bold">Unavailable Offline:</Body>
                   <Stack gap={1}>
-                    <Body className="text-sm text-grey-600">• Real-time updates</Body>
-                    <Body className="text-sm text-grey-600">• New data fetching</Body>
-                    <Body className="text-sm text-grey-600">• File uploads</Body>
-                    <Body className="text-sm text-grey-600">• Live communications</Body>
+                    <Body className="text-body-sm text-grey-600">• Real-time updates</Body>
+                    <Body className="text-body-sm text-grey-600">• New data fetching</Body>
+                    <Body className="text-body-sm text-grey-600">• File uploads</Body>
+                    <Body className="text-body-sm text-grey-600">• Live communications</Body>
                   </Stack>
                 </Stack>
               </Card>
@@ -66,7 +66,7 @@ export default function OfflinePage() {
               </Button>
             </Stack>
 
-            <Body className="text-xs text-grey-500">
+            <Body className="text-mono-xs text-grey-500">
               Your data will automatically sync when you&apos;re back online.
             </Body>
           </Stack>

@@ -128,7 +128,7 @@ export default function CommunityGuidelinesPage() {
 
         <Card className="p-6 mb-8 bg-black text-white">
           <Stack direction="horizontal" gap={4} className="items-center">
-            <Body className="text-4xl">📜</Body>
+            <Body className="text-h3-md">📜</Body>
             <Stack>
               <H3 className="text-white">Our Community Promise</H3>
               <Body className="text-grey-600">
@@ -154,7 +154,7 @@ export default function CommunityGuidelinesPage() {
                 )}
               >
                 <Stack direction="horizontal" gap={4} className="items-start">
-                  <Body className="text-3xl">{guideline.icon}</Body>
+                  <Body className="text-h4-md">{guideline.icon}</Body>
                   <Stack className="flex-1">
                     <Stack direction="horizontal" className="justify-between items-center">
                       <H3>{guideline.title}</H3>
@@ -210,11 +210,11 @@ export default function CommunityGuidelinesPage() {
                     className="items-center py-3 border-b border-grey-100 last:border-0"
                   >
                     <Stack className="w-8 h-8 bg-black text-white rounded-full flex items-center justify-center flex-shrink-0">
-                      <Body className="text-sm font-bold">{index + 1}</Body>
+                      <Body className="text-body-sm font-bold">{index + 1}</Body>
                     </Stack>
                     <Stack className="flex-1 ml-4">
                       <Body className="font-bold">{level.level}</Body>
-                      <Body className="text-sm text-grey-600">{level.description}</Body>
+                      <Body className="text-body-sm text-grey-600">{level.description}</Body>
                     </Stack>
                     <Badge variant="outline">{level.action}</Badge>
                   </Stack>
@@ -273,7 +273,7 @@ export default function CommunityGuidelinesPage() {
 
             <Card className="p-6 bg-warning-50">
               <H3 className="mb-4">REPORT VIOLATIONS</H3>
-              <Body className="text-sm text-grey-600 mb-4">
+              <Body className="text-body-sm text-grey-600 mb-4">
                 See something that violates our guidelines? Let us know.
               </Body>
               <Button

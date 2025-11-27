@@ -241,7 +241,7 @@ export default function MatchPage() {
                     <Image src={event.image_url} alt={event.title} fill className="object-cover" />
                   ) : (
                     <Stack className="w-full h-full flex items-center justify-center">
-                      <Body className="text-3xl">🎫</Body>
+                      <Body className="text-h4-md">🎫</Body>
                     </Stack>
                   )}
                   <Stack className="absolute top-2 right-2">
@@ -250,8 +250,8 @@ export default function MatchPage() {
                 </Stack>
                 <Stack className="p-3" gap={1}>
                   <Body className="font-bold line-clamp-1">{event.title}</Body>
-                  <Body className="text-xs text-grey-500">{event.venue_name}</Body>
-                  <Body className="text-xs text-grey-600">{event.match_reason}</Body>
+                  <Body className="text-mono-xs text-grey-500">{event.venue_name}</Body>
+                  <Body className="text-mono-xs text-grey-600">{event.match_reason}</Body>
                 </Stack>
               </Card>
             ))
@@ -277,7 +277,7 @@ export default function MatchPage() {
                       <Image src={match.avatar_url} alt={match.name} fill className="object-cover" />
                     ) : (
                       <Stack className="w-full h-full flex items-center justify-center">
-                        <Body className="text-2xl">👤</Body>
+                        <Body className="text-h5-md">👤</Body>
                       </Stack>
                     )}
                   </Stack>
@@ -286,7 +286,7 @@ export default function MatchPage() {
                       <Stack>
                         <Body className="font-bold">{match.name}</Body>
                         {match.location && (
-                          <Body className="text-xs text-grey-500">📍 {match.location}</Body>
+                          <Body className="text-mono-xs text-grey-500">📍 {match.location}</Body>
                         )}
                       </Stack>
                       <Body className={`font-bold ${getMatchScoreColor(match.match_score)}`}>
@@ -295,17 +295,17 @@ export default function MatchPage() {
                     </Stack>
                     <Stack direction="horizontal" gap={2} className="mt-2 flex-wrap">
                       {match.interests.slice(0, 3).map(interest => (
-                        <Badge key={interest} variant="outline" className="text-xs">
+                        <Badge key={interest} variant="outline" className="text-mono-xs">
                           {interest}
                         </Badge>
                       ))}
                       {match.interests.length > 3 && (
-                        <Badge variant="outline" className="text-xs">
+                        <Badge variant="outline" className="text-mono-xs">
                           +{match.interests.length - 3}
                         </Badge>
                       )}
                     </Stack>
-                    <Stack direction="horizontal" gap={4} className="mt-2 text-xs text-grey-500">
+                    <Stack direction="horizontal" gap={4} className="mt-2 text-mono-xs text-grey-500">
                       <Body>{match.events_attended} events</Body>
                       {match.mutual_friends > 0 && (
                         <Body>{match.mutual_friends} mutual friends</Body>
@@ -376,7 +376,7 @@ export default function MatchPage() {
                     <Image src={selectedMatch.avatar_url} alt={selectedMatch.name} fill className="object-cover" />
                   ) : (
                     <Stack className="w-full h-full flex items-center justify-center">
-                      <Body className="text-4xl">👤</Body>
+                      <Body className="text-h3-md">👤</Body>
                     </Stack>
                   )}
                 </Stack>
@@ -385,7 +385,7 @@ export default function MatchPage() {
                   {selectedMatch.location && (
                     <Body className="text-grey-500">📍 {selectedMatch.location}</Body>
                   )}
-                  <Body className={`text-2xl font-bold ${getMatchScoreColor(selectedMatch.match_score)}`}>
+                  <Body className={`text-h5-md font-bold ${getMatchScoreColor(selectedMatch.match_score)}`}>
                     {selectedMatch.match_score}% Match
                   </Body>
                 </Stack>
@@ -418,12 +418,12 @@ export default function MatchPage() {
 
               <Grid cols={2} gap={4}>
                 <Stack className="text-center p-4 bg-grey-50 rounded">
-                  <Body className="text-2xl font-bold">{selectedMatch.events_attended}</Body>
-                  <Body className="text-xs text-grey-500">Events Attended</Body>
+                  <Body className="text-h5-md font-bold">{selectedMatch.events_attended}</Body>
+                  <Body className="text-mono-xs text-grey-500">Events Attended</Body>
                 </Stack>
                 <Stack className="text-center p-4 bg-grey-50 rounded">
-                  <Body className="text-2xl font-bold">{selectedMatch.mutual_friends}</Body>
-                  <Body className="text-xs text-grey-500">Mutual Friends</Body>
+                  <Body className="text-h5-md font-bold">{selectedMatch.mutual_friends}</Body>
+                  <Body className="text-mono-xs text-grey-500">Mutual Friends</Body>
                 </Stack>
               </Grid>
 

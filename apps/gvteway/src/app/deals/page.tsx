@@ -189,10 +189,10 @@ export default function DealsPage() {
                   <Stack className="p-4 bg-grey-50 border-t">
                     <Stack direction="horizontal" className="justify-between items-center">
                       <Stack>
-                        <Body className="text-grey-500 line-through text-sm">
+                        <Body className="text-grey-500 line-through text-body-sm">
                           ${deal.original_price}
                         </Body>
-                        <Body className="font-bold text-xl text-error-600">
+                        <Body className="font-bold text-h6-md text-error-600">
                           ${deal.deal_price}
                         </Body>
                       </Stack>
@@ -201,7 +201,7 @@ export default function DealsPage() {
                       </Button>
                     </Stack>
                     {deal.quantity_available && deal.quantity_available < 50 && (
-                      <Body className="text-sm text-error-600 mt-2">
+                      <Body className="text-body-sm text-error-600 mt-2">
                         Only {deal.quantity_available} left at this price!
                       </Body>
                     )}
@@ -238,10 +238,10 @@ export default function DealsPage() {
                   <Stack className="p-4 bg-grey-50 border-t">
                     <Stack direction="horizontal" className="justify-between items-center">
                       <Stack>
-                        <Body className="text-grey-500 line-through text-sm">
+                        <Body className="text-grey-500 line-through text-body-sm">
                           ${deal.original_price}
                         </Body>
-                        <Body className="font-bold text-xl">
+                        <Body className="font-bold text-h6-md">
                           ${deal.deal_price}
                         </Body>
                       </Stack>
@@ -279,10 +279,10 @@ export default function DealsPage() {
                   <Stack className="p-4 bg-grey-50 border-t">
                     <Stack direction="horizontal" className="justify-between items-center">
                       <Stack>
-                        <Body className="text-grey-500 line-through text-sm">
+                        <Body className="text-grey-500 line-through text-body-sm">
                           ${deal.original_price}
                         </Body>
-                        <Body className="font-bold text-xl">
+                        <Body className="font-bold text-h6-md">
                           ${deal.deal_price}
                         </Body>
                       </Stack>
@@ -293,7 +293,7 @@ export default function DealsPage() {
                     {deal.promo_code && (
                       <Stack className="mt-2 p-2 bg-grey-100 rounded">
                         <Stack direction="horizontal" gap={1}>
-                          <Body className="text-sm text-grey-600">Use code:</Body>
+                          <Body className="text-body-sm text-grey-600">Use code:</Body>
                           <Label className="font-mono font-bold">{deal.promo_code}</Label>
                         </Stack>
                       </Stack>

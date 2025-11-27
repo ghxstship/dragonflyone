@@ -152,7 +152,7 @@ function UniversalSearchContent() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search events, artists, venues, genres..."
-                className="text-xl py-4"
+                className="text-h6-md py-4"
               />
             </Field>
           </Stack>
@@ -240,7 +240,7 @@ function UniversalSearchContent() {
                     <Stack className="p-4" gap={2}>
                       <Stack direction="horizontal" gap={2} className="items-center">
                         <Body>{getTypeIcon(result.type)}</Body>
-                        <Badge variant="outline" className="text-xs">
+                        <Badge variant="outline" className="text-mono-xs">
                           {result.type}
                         </Badge>
                       </Stack>
@@ -249,12 +249,12 @@ function UniversalSearchContent() {
                         <Body className="text-grey-600">{result.subtitle}</Body>
                       )}
                       {result.metadata && (
-                        <Body className="text-sm text-grey-500">{result.metadata}</Body>
+                        <Body className="text-body-sm text-grey-500">{result.metadata}</Body>
                       )}
                       {result.tags && result.tags.length > 0 && (
                         <Stack direction="horizontal" gap={1} className="flex-wrap mt-2">
                           {result.tags.map((tag, i) => (
-                            <Badge key={i} variant="outline" className="text-xs">
+                            <Badge key={i} variant="outline" className="text-mono-xs">
                               {tag}
                             </Badge>
                           ))}

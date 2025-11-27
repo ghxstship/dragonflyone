@@ -47,8 +47,8 @@ export function EventCard({
             {category}
           </Badge>
         )}
-        <H3 className="text-xl font-bold uppercase">{title}</H3>
-        <Stack gap={2} className="text-sm">
+        <H3 className="text-h6-md font-bold uppercase">{title}</H3>
+        <Stack gap={2} className="text-body-sm">
           <Body className="font-mono">{date}</Body>
           <Body className="text-grey-600">{venue}</Body>
           <Body className="font-bold">From ${price}</Body>

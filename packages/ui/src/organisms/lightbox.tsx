@@ -190,7 +190,7 @@ export const Lightbox = forwardRef<HTMLDivElement, LightboxProps>(
 
         {/* Counter */}
         {showCounter && images.length > 1 && (
-          <div className="absolute top-4 left-4 z-10 px-4 py-2 bg-white text-black font-mono text-sm">
+          <div className="absolute top-4 left-4 z-10 px-4 py-2 bg-white text-black font-mono text-mono-sm">
             {activeIndex + 1} / {images.length}
           </div>
         )}
@@ -248,7 +248,7 @@ export const Lightbox = forwardRef<HTMLDivElement, LightboxProps>(
           {(currentImage.title || currentImage.caption) && (
             <div className="mt-4 text-center text-white">
               {currentImage.title && (
-                <h3 className="font-heading text-xl uppercase tracking-wider">
+                <h3 className="font-heading text-h5-md uppercase tracking-widest">
                   {currentImage.title}
                 </h3>
               )}

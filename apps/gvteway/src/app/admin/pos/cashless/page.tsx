@@ -264,7 +264,7 @@ export default function CashlessPaymentPage() {
                         <Label className="text-grey-500">Supported Methods</Label>
                         <Stack direction="horizontal" gap={1}>
                           {terminal.supported_methods.map(method => (
-                            <Label key={method} className="text-lg">{getMethodIcon(method)}</Label>
+                            <Label key={method} className="text-body-md">{getMethodIcon(method)}</Label>
                           ))}
                         </Stack>
                       </Stack>
@@ -329,7 +329,7 @@ export default function CashlessPaymentPage() {
                     </TableCell>
                     <TableCell>
                       <Stack direction="horizontal" gap={2}>
-                        <Label className="text-lg">{getMethodIcon(txn.payment_method)}</Label>
+                        <Label className="text-body-md">{getMethodIcon(txn.payment_method)}</Label>
                         <Label className="capitalize">{txn.payment_method}</Label>
                       </Stack>
                     </TableCell>
@@ -360,7 +360,7 @@ export default function CashlessPaymentPage() {
                 <Card key={method.id} className={`p-4 border-2 ${method.enabled ? 'border-success-300' : 'border-grey-200 opacity-60'}`}>
                   <Grid cols={6} gap={4} className="items-center">
                     <Stack direction="horizontal" gap={3}>
-                      <Label className="text-3xl">{method.icon}</Label>
+                      <Label className="text-h4-md">{method.icon}</Label>
                       <Stack gap={1}>
                         <Body className="font-bold">{method.name}</Body>
                         <Badge variant="outline" className="capitalize">{method.type}</Badge>
@@ -450,7 +450,7 @@ export default function CashlessPaymentPage() {
           {selectedTerminal && (
             <Stack gap={4}>
               <Stack direction="horizontal" className="justify-between">
-                <Body className="font-bold text-xl">{selectedTerminal.name}</Body>
+                <Body className="font-bold text-h6-md">{selectedTerminal.name}</Body>
                 {getStatusBadge(selectedTerminal.status)}
               </Stack>
               <Grid cols={2} gap={4}>

@@ -250,7 +250,7 @@ export default function DiscoveryQuizPage() {
                             </Badge>
                           </Stack>
                           <Body className="text-grey-600">{event.date}</Body>
-                          <Body className="text-grey-500 text-sm">{event.venue}</Body>
+                          <Body className="text-grey-500 text-body-sm">{event.venue}</Body>
                         </Stack>
                       </Stack>
                     </Card>
@@ -359,7 +359,7 @@ export default function DiscoveryQuizPage() {
                   onClick={() => handleOptionSelect(option.id)}
                 >
                   <Stack direction="horizontal" gap={3} className="items-center">
-                    {option.icon && <Body className="text-2xl">{option.icon}</Body>}
+                    {option.icon && <Body className="text-h5-md">{option.icon}</Body>}
                     <Body className={selectedOptions.includes(option.id) ? 'text-white' : ''}>
                       {option.label}
                     </Body>
@@ -393,5 +393,5 @@ export default function DiscoveryQuizPage() {
 }
 
 function Label({ children, className }: { children: React.ReactNode; className?: string }) {
-  return <Body className={`text-sm font-medium ${className || ''}`}>{children}</Body>;
+  return <Body className={`text-body-sm font-medium ${className || ''}`}>{children}</Body>;
 }
