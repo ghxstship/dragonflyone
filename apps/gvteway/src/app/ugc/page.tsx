@@ -27,6 +27,7 @@ import {
   Tabs,
   TabsList,
   Tab,
+  Form,
 } from '@ghxstship/ui';
 
 interface UGCPost {
@@ -124,8 +125,7 @@ export default function UGCPage() {
     fetchData();
   }, [fetchData]);
 
-  const handleHashtagSearch = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleHashtagSearch = () => {
     if (searchHashtag.trim()) {
       setFilter({ ...filter, hashtag: searchHashtag.replace('#', '') });
     }
@@ -217,7 +217,7 @@ export default function UGCPage() {
         </Grid>
 
         <Stack className="mb-6">
-        <form onSubmit={handleHashtagSearch}>
+        <Form onSubmit={handleHashtagSearch}>
           <Stack direction="horizontal" gap={4}>
             <Field label="" className="flex-1">
               <Input
@@ -242,7 +242,7 @@ export default function UGCPage() {
               </Button>
             )}
           </Stack>
-        </form>
+        </Form>
         </Stack>
 
         <Tabs>

@@ -16,6 +16,7 @@ import {
   Checkbox,
   Link,
   Alert,
+  Form,
 } from '@ghxstship/ui';
 import { useAuth } from '@ghxstship/config/auth-context';
 
@@ -27,8 +28,7 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     setError('');
     setIsLoading(true);
 
@@ -59,7 +59,7 @@ export default function LoginPage() {
             </Alert>
           )}
 
-          <form onSubmit={handleSubmit}><Stack gap={6}>
+          <Form onSubmit={handleSubmit}><Stack gap={6}>
             <Field label="Email" required>
               <Input
                 type="email"
@@ -97,7 +97,7 @@ export default function LoginPage() {
             >
               {isLoading ? 'Signing in...' : 'Sign In'}
             </Button>
-          </Stack></form>
+          </Stack></Form>
 
           <Stack className="mt-6 text-center">
             <Body className="text-grey-500">

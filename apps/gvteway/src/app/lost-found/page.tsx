@@ -24,6 +24,7 @@ import {
   Modal,
   LoadingSpinner,
   Figure,
+  Form,
 } from '@ghxstship/ui';
 import Image from 'next/image';
 
@@ -95,8 +96,7 @@ export default function LostFoundPage() {
     fetchItems();
   }, [fetchItems]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     setSubmitting(true);
     setError(null);
 
@@ -282,7 +282,7 @@ export default function LostFoundPage() {
           onClose={() => setShowReportModal(false)}
           title={`Report ${reportType === 'lost' ? 'Lost' : 'Found'} Item`}
         >
-          <form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit}>
             <Stack gap={4}>
               <Field label="Category" required>
                 <Select
@@ -345,7 +345,7 @@ export default function LostFoundPage() {
                 </Button>
               </Stack>
             </Stack>
-          </form>
+          </Form>
         </Modal>
         </Stack>
       </Container>

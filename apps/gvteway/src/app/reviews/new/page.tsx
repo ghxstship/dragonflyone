@@ -22,6 +22,7 @@ import {
   Alert,
   LoadingSpinner,
   Figure,
+  Form,
 } from '@ghxstship/ui';
 import Image from 'next/image';
 
@@ -90,9 +91,7 @@ function NewReviewContent() {
     fetchEvent();
   }, [fetchEvent]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
+  const handleSubmit = async () => {
     if (overallRating === 0) {
       setError('Please provide an overall rating');
       return;
@@ -226,7 +225,7 @@ function NewReviewContent() {
 
         <Grid cols={3} gap={8}>
           <Stack className="col-span-2">
-            <form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit}>
               <Stack gap={6}>
                 <Card className="p-6">
                   <H3 className="mb-6">OVERALL RATING</H3>
@@ -319,7 +318,7 @@ function NewReviewContent() {
                   </Button>
                 </Stack>
               </Stack>
-            </form>
+            </Form>
           </Stack>
 
           <Stack>

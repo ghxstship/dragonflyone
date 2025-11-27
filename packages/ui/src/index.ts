@@ -17,6 +17,8 @@ export { Checkbox } from "./atoms/checkbox.js";
 export type { CheckboxProps } from "./atoms/checkbox.js";
 export { Radio } from "./atoms/radio.js";
 export type { RadioProps } from "./atoms/radio.js";
+export { Form } from "./atoms/form.js";
+export type { FormProps } from "./atoms/form.js";
 export { Switch } from "./atoms/switch.js";
 export type { SwitchProps } from "./atoms/switch.js";
 export { Badge } from "./atoms/badge.js";

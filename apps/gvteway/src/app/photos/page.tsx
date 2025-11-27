@@ -24,6 +24,7 @@ import {
   Modal,
   LoadingSpinner,
   StatCard,
+  Form,
 } from '@ghxstship/ui';
 
 interface Photo {
@@ -97,8 +98,7 @@ export default function PhotoGalleriesPage() {
     fetchData();
   }, [fetchData]);
 
-  const handleUpload = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleUpload = async () => {
     // In production, this would handle file upload
     setSuccess('Photo uploaded successfully! It will appear after moderation.');
     setShowUploadModal(false);
@@ -323,7 +323,7 @@ export default function PhotoGalleriesPage() {
           onClose={() => setShowUploadModal(false)}
           title="Upload Photo"
         >
-          <form onSubmit={handleUpload}>
+          <Form onSubmit={handleUpload}>
             <Stack gap={4}>
               <Field label="Select Event" required>
                 <Select
@@ -375,7 +375,7 @@ export default function PhotoGalleriesPage() {
                 </Button>
               </Stack>
             </Stack>
-          </form>
+          </Form>
         </Modal>
 
         <Modal

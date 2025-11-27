@@ -26,6 +26,7 @@ import {
   LoadingSpinner,
   StatCard,
   Checkbox,
+  Form,
 } from '@ghxstship/ui';
 
 interface WatchParty {
@@ -105,8 +106,7 @@ export default function WatchPartiesPage() {
     fetchParties();
   }, [fetchParties]);
 
-  const handleCreate = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleCreate = async () => {
     try {
       const response = await fetch('/api/watch-parties', {
         method: 'POST',
@@ -413,7 +413,7 @@ export default function WatchPartiesPage() {
           onClose={() => setShowCreateModal(false)}
           title="Host a Watch Party"
         >
-          <form onSubmit={handleCreate}>
+          <Form onSubmit={handleCreate}>
             <Stack gap={4}>
               <Field label="Party Title" required>
                 <Input
@@ -500,7 +500,7 @@ export default function WatchPartiesPage() {
                 </Button>
               </Stack>
             </Stack>
-          </form>
+          </Form>
         </Modal>
 
         <Modal

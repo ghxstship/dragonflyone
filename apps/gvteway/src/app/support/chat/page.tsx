@@ -23,6 +23,7 @@ import {
   LoadingSpinner,
   Box,
   Modal,
+  Form,
 } from '@ghxstship/ui';
 
 interface Message {
@@ -89,8 +90,7 @@ function SupportChatContent() {
     }
   }, [activeConversation?.messages]);
 
-  const handleSendMessage = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSendMessage = async () => {
     if (!newMessage.trim() || !activeConversation) return;
 
     setSending(true);
@@ -112,8 +112,7 @@ function SupportChatContent() {
     }
   };
 
-  const handleStartNewChat = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleStartNewChat = async () => {
     if (!newSubject.trim()) return;
 
     setSending(true);
@@ -289,7 +288,7 @@ function SupportChatContent() {
 
                 {activeConversation.status !== 'resolved' && (
                   <Stack className="p-4 border-t border-grey-200">
-                    <form onSubmit={handleSendMessage}>
+                    <Form onSubmit={handleSendMessage}>
                       <Stack direction="horizontal" gap={2}>
                         <Input
                           value={newMessage}
@@ -302,7 +301,7 @@ function SupportChatContent() {
                           {sending ? 'Sending...' : 'Send'}
                         </Button>
                       </Stack>
-                    </form>
+                    </Form>
                   </Stack>
                 )}
               </>
@@ -321,7 +320,7 @@ function SupportChatContent() {
         </Grid>
 
         <Modal open={showNewChat} onClose={() => setShowNewChat(false)} title="NEW CONVERSATION">
-          <form onSubmit={handleStartNewChat}>
+          <Form onSubmit={handleStartNewChat}>
             <Stack gap={4}>
               <Field label="Subject" required>
                 <Input
@@ -359,7 +358,7 @@ function SupportChatContent() {
                 </Button>
               </Stack>
             </Stack>
-          </form>
+          </Form>
         </Modal>
         </Stack>
       </Container>

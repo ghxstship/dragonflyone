@@ -19,6 +19,7 @@ import {
   Badge,
   Alert,
   LoadingSpinner,
+  Form,
 } from '@ghxstship/ui';
 
 interface WaitlistEntry {
@@ -87,8 +88,7 @@ export default function WaitlistPage() {
     fetchData();
   }, [fetchData]);
 
-  const handleJoinWaitlist = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleJoinWaitlist = async () => {
     setSubmitting(true);
     setError(null);
     setSuccess(null);
@@ -177,7 +177,7 @@ export default function WaitlistPage() {
                 when tickets become available.
               </Body>
 
-              <form onSubmit={handleJoinWaitlist}>
+              <Form onSubmit={handleJoinWaitlist}>
                 <Stack gap={4}>
                   <Field label="Email Address" required>
                     <Input
@@ -227,7 +227,7 @@ export default function WaitlistPage() {
                     {submitting ? 'Joining...' : 'JOIN WAITLIST'}
                   </Button>
                 </Stack>
-              </form>
+              </Form>
             </Card>
 
             <Card className="p-6 bg-grey-50">

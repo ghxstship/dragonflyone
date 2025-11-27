@@ -19,6 +19,7 @@ import {
   Stack,
   Alert,
   Spinner,
+  Form,
 } from '@ghxstship/ui';
 
 export default function CreateEventPage() {
@@ -37,8 +38,7 @@ export default function CreateEventPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     setIsSubmitting(true);
     setError(null);
     
@@ -79,7 +79,7 @@ export default function CreateEventPage() {
           </Alert>
         )}
 
-        <form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit}>
           <Grid cols={2} className="mb-8">
             <Card className="p-6 col-span-2">
               <H2 className="mb-6">EVENT DETAILS</H2>
@@ -209,7 +209,7 @@ export default function CreateEventPage() {
               Cancel
             </Button>
           </Stack>
-        </form>
+        </Form>
         </Stack>
       </Container>
     </Section>

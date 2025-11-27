@@ -25,6 +25,7 @@ import {
   Modal,
   LoadingSpinner,
   StatCard,
+  Form,
 } from '@ghxstship/ui';
 
 interface QASession {
@@ -107,8 +108,7 @@ export default function QASessionsPage() {
     }
   }, [selectedSession, fetchQuestions]);
 
-  const handleAskQuestion = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleAskQuestion = async () => {
     if (!selectedSession || !newQuestion.trim()) return;
 
     try {
@@ -427,7 +427,7 @@ export default function QASessionsPage() {
           onClose={() => setShowAskModal(false)}
           title="Ask a Question"
         >
-          <form onSubmit={handleAskQuestion}>
+          <Form onSubmit={handleAskQuestion}>
             <Stack gap={4}>
               <Field label="Your Question" required>
                 <Textarea
@@ -450,7 +450,7 @@ export default function QASessionsPage() {
                 </Button>
               </Stack>
             </Stack>
-          </form>
+          </Form>
         </Modal>
         </Stack>
       </Container>

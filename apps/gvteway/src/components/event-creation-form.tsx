@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
-import { Button, Field, Input, Select, Stack, Grid, Body } from "@ghxstship/ui";
+import { useState } from "react";
+import { Button, Field, Input, Select, Stack, Grid, Body, Form } from "@ghxstship/ui";
 
 const statusOptions = [
   { label: "Draft", value: "draft" },
@@ -48,8 +48,7 @@ export function EventCreationForm() {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  async function handleSubmit() {
     setIsSubmitting(true);
     setMessage(null);
 
@@ -91,7 +90,7 @@ export function EventCreationForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit}>
       <Stack gap={4}>
       <Grid cols={2} gap={4}>
         <Field label="Title">
@@ -158,6 +157,6 @@ export function EventCreationForm() {
       </Button>
       {message ? <Body className="text-sm text-ink-300">{message}</Body> : null}
       </Stack>
-    </form>
+    </Form>
   );
 }

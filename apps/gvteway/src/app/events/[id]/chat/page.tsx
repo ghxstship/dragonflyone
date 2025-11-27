@@ -21,6 +21,7 @@ import {
   LoadingSpinner,
   Figure,
   Box,
+  Form,
 } from '@ghxstship/ui';
 import Image from 'next/image';
 
@@ -90,8 +91,7 @@ export default function EventChatPage() {
     }
   }, [messages]);
 
-  const handleSendMessage = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSendMessage = async () => {
     if (!newMessage.trim() || !chatRoom) return;
 
     setSending(true);
@@ -273,7 +273,7 @@ export default function EventChatPage() {
             </Stack>
 
             <Stack className="p-4 border-t border-grey-200">
-              <form onSubmit={handleSendMessage}>
+              <Form onSubmit={handleSendMessage}>
                 <Stack direction="horizontal" gap={2}>
                   <Input
                     value={newMessage}
@@ -291,7 +291,7 @@ export default function EventChatPage() {
                     {sending ? 'Sending...' : 'Send'}
                   </Button>
                 </Stack>
-              </form>
+              </Form>
             </Stack>
           </Card>
 

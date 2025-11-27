@@ -17,6 +17,7 @@ import {
   Alert,
   Spinner,
   Stack,
+  Form,
 } from '@ghxstship/ui';
 
 export default function NewProjectPage() {
@@ -35,8 +36,7 @@ export default function NewProjectPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     setIsSubmitting(true);
     setError(null);
     
@@ -73,7 +73,7 @@ export default function NewProjectPage() {
           </Alert>
         )}
 
-        <form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit}>
           <Card className="p-6 mb-6">
             <H2 className="mb-6">PROJECT INFORMATION</H2>
             
@@ -200,7 +200,7 @@ export default function NewProjectPage() {
               Cancel
             </Button>
           </Stack>
-        </form>
+        </Form>
       </Container>
     </Section>
   );

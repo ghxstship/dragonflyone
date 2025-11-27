@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@ghxstship/config";
+import { Check } from "lucide-react";
 import {
   PageLayout,
   Navigation,
@@ -21,6 +22,7 @@ import {
   Stack,
   Field,
   Grid,
+  Select,
 } from "@ghxstship/ui";
 
 type OnboardingStep = 'profile' | 'interests' | 'preferences' | 'complete';
@@ -55,9 +57,17 @@ export default function OnboardingPage() {
     setLoading(true);
     setError('');
     try {
-      if (currentStep === 'profile') await fetch('/api/onboarding/profile', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(profile) });
-      else if (currentStep === 'interests') await fetch('/api/onboarding/interests', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ interests }) });
-      else if (currentStep === 'preferences') await fetch('/api/onboarding/preferences', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(preferences) });
+      const token = localStorage.getItem("ghxstship_access_token");
+      const headers: HeadersInit = { "Content-Type": "application/json" };
+      if (token) headers["Authorization"] = `Bearer ${token}`;
+
+      if (currentStep === 'profile') {
+        await fetch('/api/onboarding/profile', { method: 'POST', headers, body: JSON.stringify(profile) });
+      } else if (currentStep === 'interests') {
+        await fetch('/api/onboarding/interests', { method: 'POST', headers, body: JSON.stringify({ interests }) });
+      } else if (currentStep === 'preferences') {
+        await fetch('/api/onboarding/preferences', { method: 'POST', headers, body: JSON.stringify(preferences) });
+      }
       const nextIndex = currentStepIndex + 1;
       if (nextIndex < STEPS.length) setCurrentStep(STEPS[nextIndex].id);
     } catch (err) {
@@ -70,7 +80,11 @@ export default function OnboardingPage() {
   const handleComplete = async () => {
     setLoading(true);
     try {
-      await fetch('/api/onboarding/complete', { method: 'POST' });
+      const token = localStorage.getItem("ghxstship_access_token");
+      const headers: HeadersInit = { "Content-Type": "application/json" };
+      if (token) headers["Authorization"] = `Bearer ${token}`;
+
+      await fetch('/api/onboarding/complete', { method: 'POST', headers });
       router.push('/');
     } catch (err) {
       setError('Failed to complete onboarding.');
@@ -159,11 +173,15 @@ export default function OnboardingPage() {
           {currentStep === 'preferences' && (
             <Stack gap={6}>
               <Field label="Theme" className="text-white">
-                <select value={preferences.theme} onChange={(e) => setPreferences({ ...preferences, theme: e.target.value })} className="w-full px-4 py-3 border border-grey-700 bg-black text-white focus:outline-none focus:border-white">
+                <Select
+                  value={preferences.theme}
+                  onChange={(e) => setPreferences({ ...preferences, theme: e.target.value })}
+                  className="border-grey-700 bg-black text-white"
+                >
                   <option value="dark">Dark</option>
                   <option value="light">Light</option>
                   <option value="system">System Default</option>
-                </select>
+                </Select>
               </Field>
               <Stack gap={4}>
                 <Stack direction="horizontal" gap={3} className="items-center">
@@ -186,9 +204,7 @@ export default function OnboardingPage() {
           {currentStep === 'complete' && (
             <Stack gap={6} className="text-center">
               <Stack className="w-20 h-20 mx-auto bg-grey-800 rounded-full items-center justify-center">
-                <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
+                <Check className="w-10 h-10 text-white" />
               </Stack>
               <H3 className="text-white">Welcome to GVTEWAY!</H3>
               <Body className="text-grey-400">Your account is all set up. Discover amazing events and experiences.</Body>

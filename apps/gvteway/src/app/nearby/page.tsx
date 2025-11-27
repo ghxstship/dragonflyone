@@ -22,6 +22,7 @@ import {
   Alert,
   LoadingSpinner,
   ProjectCard,
+  Form,
 } from '@ghxstship/ui';
 
 interface NearbyEvent {
@@ -139,8 +140,7 @@ export default function NearbyEventsPage() {
     }
   }, [location, fetchNearbyEvents]);
 
-  const handleManualSearch = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleManualSearch = () => {
     if (manualLocation.trim()) {
       searchByLocation(manualLocation);
     }
@@ -178,7 +178,7 @@ export default function NearbyEventsPage() {
         <Card className="p-6 mb-8">
           <Grid cols={4} gap={4}>
             <Stack className="col-span-2">
-              <form onSubmit={handleManualSearch}>
+              <Form onSubmit={handleManualSearch}>
                 <Field label="Location">
                   <Stack direction="horizontal" gap={2}>
                     <Input
@@ -192,7 +192,7 @@ export default function NearbyEventsPage() {
                     </Button>
                   </Stack>
                 </Field>
-              </form>
+              </Form>
             </Stack>
 
             <Field label="Radius">

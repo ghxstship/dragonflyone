@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Check } from "lucide-react";
 import {
   PageLayout,
   Navigation,
@@ -91,9 +92,7 @@ export default function ResetPasswordPage() {
           {success ? (
             <Stack gap={6} className="text-center">
               <Stack className="w-16 h-16 mx-auto bg-grey-200 rounded-full items-center justify-center">
-                <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
+                <Check className="w-8 h-8" />
               </Stack>
               <H2>Password Reset</H2>
               <Body className="text-grey-600">Your password has been successfully reset. Redirecting to sign in...</Body>

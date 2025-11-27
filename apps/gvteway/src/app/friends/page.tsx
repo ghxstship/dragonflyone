@@ -23,6 +23,7 @@ import {
   Modal,
   LoadingSpinner,
   StatCard,
+  Form,
 } from '@ghxstship/ui';
 
 interface Friend {
@@ -101,8 +102,7 @@ export default function FriendsPage() {
     fetchData();
   }, [fetchData]);
 
-  const handleCreateMeetup = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleCreateMeetup = async () => {
     try {
       const response = await fetch('/api/friends/meetups', {
         method: 'POST',
@@ -393,7 +393,7 @@ export default function FriendsPage() {
           onClose={() => setShowMeetupModal(false)}
           title="Plan a Meetup"
         >
-          <form onSubmit={handleCreateMeetup}>
+          <Form onSubmit={handleCreateMeetup}>
             <Stack gap={4}>
               <Field label="Meeting Location" required>
                 <Input
@@ -450,7 +450,7 @@ export default function FriendsPage() {
                 </Button>
               </Stack>
             </Stack>
-          </form>
+          </Form>
         </Modal>
 
         <Modal

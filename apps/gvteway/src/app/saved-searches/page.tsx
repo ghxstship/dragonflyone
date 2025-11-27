@@ -23,6 +23,7 @@ import {
   Alert,
   Modal,
   LoadingSpinner,
+  Form,
 } from '@ghxstship/ui';
 
 interface SavedSearch {
@@ -85,8 +86,7 @@ export default function SavedSearchesPage() {
     fetchSearches();
   }, [fetchSearches]);
 
-  const handleCreate = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleCreate = async () => {
     setError(null);
 
     try {
@@ -314,7 +314,7 @@ export default function SavedSearchesPage() {
           onClose={() => { setShowCreateModal(false); resetForm(); }}
           title="Create Saved Search"
         >
-          <form onSubmit={handleCreate}>
+          <Form onSubmit={handleCreate}>
             <Stack gap={4}>
               <Field label="Search Name" required>
                 <Input
@@ -434,7 +434,7 @@ export default function SavedSearchesPage() {
                 </Button>
               </Stack>
             </Stack>
-          </form>
+          </Form>
         </Modal>
         </Stack>
       </Container>

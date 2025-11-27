@@ -23,6 +23,7 @@ import {
   Switch,
   Alert,
   LoadingSpinner,
+  Form,
 } from '@ghxstship/ui';
 
 interface AccessibilityRequest {
@@ -87,9 +88,7 @@ function AccessibilityRequestContent() {
     fetchRequests();
   }, [fetchRequests]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const handleSubmit = async () => {
     if (selectedServices.length === 0) {
       setError('Please select at least one service');
       return;
@@ -191,7 +190,7 @@ function AccessibilityRequestContent() {
           <Stack className="col-span-2" gap={6}>
             <Card className="p-6">
               <H2 className="mb-6">REQUEST SERVICES</H2>
-              <form onSubmit={handleSubmit}>
+              <Form onSubmit={handleSubmit}>
                 <Stack gap={6}>
                   <Stack gap={4}>
                     <H3>SELECT SERVICES NEEDED</H3>
@@ -263,7 +262,7 @@ function AccessibilityRequestContent() {
                     {submitting ? 'Submitting...' : 'Submit Request'}
                   </Button>
                 </Stack>
-              </form>
+              </Form>
             </Card>
           </Stack>
 

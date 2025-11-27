@@ -1,5 +1,6 @@
 
+
 > atlvs@0.1.0 lint /Users/julianclarkson/Documents/Dragonflyone/apps/atlvs
 > next lint
 
-✔ No ESLint warnings or errors
+[32m✔ No ESLint warnings or errors[39m
