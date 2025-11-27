@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 // Validation schema
 const timeEntrySchema = z.object({
@@ -26,6 +21,7 @@ const timeEntrySchema = z.object({
 
 // GET /api/timekeeping - List time entries
 export async function GET(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status');
@@ -104,6 +100,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/timekeeping - Clock in/create time entry
 export async function POST(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const body = await request.json();
 
@@ -199,6 +196,7 @@ export async function POST(request: NextRequest) {
 
 // PATCH /api/timekeeping - Bulk approve/reject time entries
 export async function PATCH(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const body = await request.json();
     const { entry_ids, action, notes } = body;

@@ -2,10 +2,20 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+function getSupabaseClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+}
+
+
+// Lazy getter for supabase client - only accessed at runtime
+const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
+  get(_target, prop) {
+    return (getSupabaseClient() as any)[prop];
+  }
+});
 
 const updateProfileSchema = z.object({
   first_name: z.string().min(1).optional(),
@@ -41,6 +51,7 @@ const updateProfileSchema = z.object({
 // GET /api/profile - Get current user's profile
 export async function GET(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -112,6 +123,7 @@ export async function GET(request: NextRequest) {
 // PATCH /api/profile - Update current user's profile
 export async function PATCH(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -172,6 +184,7 @@ export async function PATCH(request: NextRequest) {
 // DELETE /api/profile - Delete account (soft delete)
 export async function DELETE(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

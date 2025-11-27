@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 const VenueSchema = z.object({
   name: z.string().min(1),
@@ -38,6 +33,7 @@ const VenueSchema = z.object({
 
 // GET /api/venues - List venues
 export async function GET(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const { searchParams } = new URL(request.url);
     const venueType = searchParams.get('venue_type');
@@ -118,6 +114,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/venues - Create venue
 export async function POST(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const body = await request.json();
     const validated = VenueSchema.parse(body);
@@ -159,6 +156,7 @@ export async function POST(request: NextRequest) {
 
 // PATCH /api/venues - Update venue
 export async function PATCH(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const body = await request.json();
     const { venue_id, updates } = body;
@@ -190,6 +188,7 @@ export async function PATCH(request: NextRequest) {
 
 // DELETE /api/venues - Deactivate venue
 export async function DELETE(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const { searchParams } = new URL(request.url);
     const venueId = searchParams.get('venue_id');

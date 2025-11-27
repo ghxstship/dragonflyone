@@ -4,8 +4,12 @@ import { PlatformRole } from '@ghxstship/config/roles';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+function getSupabaseClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+}
 
 const createEventSchema = z.object({
   title: z.string().min(3),
@@ -22,7 +26,7 @@ const createEventSchema = z.object({
 export const GET = apiRoute(
   async (request: NextRequest) => {
     try {
-      const supabase = createClient(supabaseUrl, supabaseServiceKey);
+      const supabase = getSupabaseClient();
       const { searchParams } = new URL(request.url);
       
       const status = searchParams.get('status');
@@ -74,7 +78,7 @@ export const GET = apiRoute(
 export const POST = apiRoute(
   async (request: NextRequest, context: any) => {
     try {
-      const supabase = createClient(supabaseUrl, supabaseServiceKey);
+      const supabase = getSupabaseClient();
       const payload = context.validated;
 
       const { data, error } = await supabase

@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 const PerformanceReviewSchema = z.object({
   crew_id: z.string().uuid(),
@@ -24,6 +19,7 @@ const PerformanceReviewSchema = z.object({
 
 // GET /api/crew-performance - Get performance data
 export async function GET(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -196,6 +192,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/crew-performance - Submit review or update metrics
 export async function POST(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {

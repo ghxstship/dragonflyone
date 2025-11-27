@@ -2,10 +2,20 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+function getSupabaseClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+}
+
+
+// Lazy getter for supabase client - only accessed at runtime
+const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
+  get(_target, prop) {
+    return (getSupabaseClient() as any)[prop];
+  }
+});
 
 const FanProfileSchema = z.object({
   display_name: z.string().optional(),
@@ -35,6 +45,7 @@ const FanProfileSchema = z.object({
 // GET /api/fan-profiles - Get fan profile and activity
 export async function GET(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get('user_id');
     const action = searchParams.get('action');
@@ -237,6 +248,7 @@ export async function GET(request: NextRequest) {
 // POST /api/fan-profiles - Create or update profile, add favorites
 export async function POST(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -366,6 +378,7 @@ export async function POST(request: NextRequest) {
 // DELETE /api/fan-profiles - Delete profile data
 export async function DELETE(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
-);
 
 const breakSchema = z.object({
   timesheet_id: z.string().uuid(),
@@ -17,6 +12,7 @@ const breakSchema = z.object({
 });
 
 export async function GET(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const { searchParams } = new URL(request.url);
     const timesheetId = searchParams.get('timesheet_id');
@@ -120,6 +116,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const body = await request.json();
     const validated = breakSchema.parse(body);
@@ -150,6 +147,7 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PATCH(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const body = await request.json();
     const { id, ...updates } = body;
@@ -176,6 +174,7 @@ export async function PATCH(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');

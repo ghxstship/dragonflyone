@@ -2,10 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+function getSupabaseClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+}
 
 const updatePromoCodeSchema = z.object({
   status: z.enum(['active', 'disabled']).optional(),
@@ -18,6 +20,7 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
+    const supabase = getSupabaseClient();
     const { data, error } = await supabase
       .from('promo_codes')
       .select(`
@@ -53,6 +56,7 @@ export async function PATCH(
   { params }: { params: { id: string } }
 ) {
   try {
+    const supabase = getSupabaseClient();
     const body = await request.json();
     const validated = updatePromoCodeSchema.parse(body);
 
@@ -87,6 +91,7 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
+    const supabase = getSupabaseClient();
     const { error } = await supabase
       .from('promo_codes')
       .delete()

@@ -2,10 +2,20 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+function getSupabaseClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+}
+
+
+// Lazy getter for supabase client - only accessed at runtime
+const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
+  get(_target, prop) {
+    return (getSupabaseClient() as any)[prop];
+  }
+});
 
 const createPromoCodeSchema = z.object({
   code: z.string().min(3).max(20).transform(val => val.toUpperCase()),
@@ -35,6 +45,7 @@ const validatePromoCodeSchema = z.object({
 // GET /api/promo-codes - List promo codes (admin)
 export async function GET(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
     const { searchParams } = new URL(request.url);
     const eventId = searchParams.get('event_id');
     const isActive = searchParams.get('is_active');
@@ -86,6 +97,7 @@ export async function GET(request: NextRequest) {
 // POST /api/promo-codes - Create promo code or validate
 export async function POST(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
     const body = await request.json();
     const { searchParams } = new URL(request.url);
     const action = searchParams.get('action');
@@ -188,6 +200,7 @@ export async function POST(request: NextRequest) {
 // PATCH /api/promo-codes - Update promo code
 export async function PATCH(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
     const body = await request.json();
     const { id, ...updates } = body;
 
@@ -232,6 +245,7 @@ export async function PATCH(request: NextRequest) {
 // DELETE /api/promo-codes - Delete or deactivate promo code
 export async function DELETE(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
     const hardDelete = searchParams.get('hard') === 'true';

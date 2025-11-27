@@ -2,10 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+function getSupabaseClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+}
 
 const SearchFiltersSchema = z.object({
   query: z.string().optional(),
@@ -32,6 +34,7 @@ const SearchFiltersSchema = z.object({
 // GET /api/advanced-search - Search events, artists, venues
 export async function GET(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
     const { searchParams } = new URL(request.url);
     const action = searchParams.get('action');
 
@@ -282,6 +285,7 @@ export async function GET(request: NextRequest) {
 // POST /api/advanced-search - Advanced search with filters
 export async function POST(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
     const body = await request.json();
     const filters = SearchFiltersSchema.parse(body);
 

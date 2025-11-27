@@ -1,13 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getServerSupabase } from '@ghxstship/config';
 import { apiRoute } from '@ghxstship/config/middleware';
 import { PlatformRole } from '@ghxstship/config/roles';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 const OpportunitySchema = z.object({
   title: z.string().min(1),
@@ -171,6 +166,7 @@ export const POST = apiRoute(
 );
 
 export async function PATCH(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const body = await request.json();
     const { opportunity_id, action, updates } = body;

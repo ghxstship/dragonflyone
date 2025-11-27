@@ -2,10 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+function getSupabaseClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+}
 
 // Validation schema
 const reviewSchema = z.object({
@@ -26,6 +28,7 @@ const reviewSchema = z.object({
 // GET /api/reviews - List reviews
 export async function GET(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
     const { searchParams } = new URL(request.url);
     const reviewType = searchParams.get('review_type');
     const targetId = searchParams.get('target_id');
@@ -115,6 +118,7 @@ export async function GET(request: NextRequest) {
 // POST /api/reviews - Create new review
 export async function POST(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
     const body = await request.json();
 
     // Validate input
@@ -201,6 +205,7 @@ export async function POST(request: NextRequest) {
 // PATCH /api/reviews - Moderate reviews (admin/moderator only)
 export async function PATCH(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
     const body = await request.json();
     const { review_ids, action, notes } = body;
 

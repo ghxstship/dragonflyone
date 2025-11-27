@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 const EquipmentSchema = z.object({
   name: z.string().min(1),
@@ -37,6 +32,7 @@ const EquipmentSchema = z.object({
 
 // GET /api/equipment - List equipment
 export async function GET(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status');
@@ -118,6 +114,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/equipment - Create equipment
 export async function POST(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const body = await request.json();
     const validated = EquipmentSchema.parse(body);
@@ -158,6 +155,7 @@ export async function POST(request: NextRequest) {
 
 // PATCH /api/equipment - Update equipment or checkout/checkin
 export async function PATCH(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const body = await request.json();
     const { equipment_id, action, updates } = body;

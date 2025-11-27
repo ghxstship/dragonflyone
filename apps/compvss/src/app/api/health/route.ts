@@ -1,10 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+import { getServerSupabase } from '@ghxstship/config';
 
 interface HealthCheck {
   status: 'healthy' | 'degraded' | 'unhealthy';
@@ -13,7 +8,7 @@ interface HealthCheck {
 }
 
 export async function GET(request: NextRequest) {
-  const startTime = Date.now();
+  const supabase = getServerSupabase();const startTime = Date.now();
   const checks: Record<string, HealthCheck> = {};
   
   // Database health check

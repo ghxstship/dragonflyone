@@ -2,10 +2,20 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { randomBytes } from 'crypto';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+function getSupabaseClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+}
+
+
+// Lazy getter for supabase client - only accessed at runtime
+const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
+  get(_target, prop) {
+    return (getSupabaseClient() as any)[prop];
+  }
+});
 
 function generateGiftCardCode(): string {
   const bytes = randomBytes(8);
@@ -15,6 +25,7 @@ function generateGiftCardCode(): string {
 
 export async function POST(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

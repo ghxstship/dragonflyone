@@ -1,14 +1,25 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+function getSupabaseClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+}
+
+
+// Lazy getter for supabase client - only accessed at runtime
+const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
+  get(_target, prop) {
+    return (getSupabaseClient() as any)[prop];
+  }
+});
 
 // GET - Fetch accessibility services for an event or user requests
 export async function GET(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
     const { searchParams } = new URL(request.url);
     const eventId = searchParams.get('event_id');
     const authHeader = request.headers.get('authorization');
@@ -86,6 +97,7 @@ export async function GET(request: NextRequest) {
 // POST - Request accessibility services
 export async function POST(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -160,6 +172,7 @@ export async function POST(request: NextRequest) {
 // PATCH - Update request status (admin) or user preferences
 export async function PATCH(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

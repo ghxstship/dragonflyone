@@ -1999,6 +1999,133 @@ export type Database = {
         }
         Relationships: []
       }
+      // Marketing tables
+      marketing_automations: {
+        Row: {
+          id: string
+          organization_id: string | null
+          name: string
+          trigger_type: 'ticket_purchase' | 'lapsed_fan' | 'vip_upsell' | 'event_reminder' | 'post_event' | 'birthday' | 'custom'
+          trigger_conditions: Json
+          actions: Json
+          is_active: boolean | null
+          last_triggered_at: string | null
+          trigger_count: number | null
+          created_by: string | null
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          organization_id?: string | null
+          name: string
+          trigger_type: 'ticket_purchase' | 'lapsed_fan' | 'vip_upsell' | 'event_reminder' | 'post_event' | 'birthday' | 'custom'
+          trigger_conditions: Json
+          actions: Json
+          is_active?: boolean | null
+          last_triggered_at?: string | null
+          trigger_count?: number | null
+          created_by?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          organization_id?: string | null
+          name?: string
+          trigger_type?: 'ticket_purchase' | 'lapsed_fan' | 'vip_upsell' | 'event_reminder' | 'post_event' | 'birthday' | 'custom'
+          trigger_conditions?: Json
+          actions?: Json
+          is_active?: boolean | null
+          last_triggered_at?: string | null
+          trigger_count?: number | null
+          created_by?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      marketing_campaigns: {
+        Row: {
+          id: string
+          event_id: string | null
+          name: string
+          utm_source: string | null
+          utm_medium: string | null
+          utm_campaign: string | null
+          budget: number | null
+          spent: number | null
+          status: string | null
+          start_date: string | null
+          end_date: string | null
+          created_at: string | null
+        }
+        Insert: {
+          id?: string
+          event_id?: string | null
+          name: string
+          utm_source?: string | null
+          utm_medium?: string | null
+          utm_campaign?: string | null
+          budget?: number | null
+          spent?: number | null
+          status?: string | null
+          start_date?: string | null
+          end_date?: string | null
+          created_at?: string | null
+        }
+        Update: {
+          id?: string
+          event_id?: string | null
+          name?: string
+          utm_source?: string | null
+          utm_medium?: string | null
+          utm_campaign?: string | null
+          budget?: number | null
+          spent?: number | null
+          status?: string | null
+          start_date?: string | null
+          end_date?: string | null
+          created_at?: string | null
+        }
+        Relationships: []
+      }
+      marketing_automation_logs: {
+        Row: {
+          id: string
+          automation_id: string
+          user_id: string | null
+          email: string | null
+          trigger_data: Json | null
+          actions_executed: Json | null
+          status: 'pending' | 'executing' | 'completed' | 'failed' | null
+          error_message: string | null
+          executed_at: string | null
+        }
+        Insert: {
+          id?: string
+          automation_id: string
+          user_id?: string | null
+          email?: string | null
+          trigger_data?: Json | null
+          actions_executed?: Json | null
+          status?: 'pending' | 'executing' | 'completed' | 'failed' | null
+          error_message?: string | null
+          executed_at?: string | null
+        }
+        Update: {
+          id?: string
+          automation_id?: string
+          user_id?: string | null
+          email?: string | null
+          trigger_data?: Json | null
+          actions_executed?: Json | null
+          status?: 'pending' | 'executing' | 'completed' | 'failed' | null
+          error_message?: string | null
+          executed_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       user_event_roles: {

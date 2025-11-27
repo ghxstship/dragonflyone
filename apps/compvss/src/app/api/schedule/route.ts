@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 const ScheduleItemSchema = z.object({
   project_id: z.string().uuid().optional(),
@@ -26,6 +21,7 @@ const ScheduleItemSchema = z.object({
 
 // GET /api/schedule - List schedule items
 export async function GET(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const { searchParams } = new URL(request.url);
     const projectId = searchParams.get('project_id');
@@ -113,6 +109,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/schedule - Create schedule item
 export async function POST(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const body = await request.json();
     const validated = ScheduleItemSchema.parse(body);
@@ -159,6 +156,7 @@ export async function POST(request: NextRequest) {
 
 // PATCH /api/schedule - Bulk update schedule items
 export async function PATCH(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const body = await request.json();
     const { schedule_ids, action, updates } = body;

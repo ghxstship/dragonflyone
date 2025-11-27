@@ -2,8 +2,20 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+function getSupabaseClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+}
+
+
+// Lazy getter for supabase client - only accessed at runtime
+const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
+  get(_target, prop) {
+    return (getSupabaseClient() as any)[prop];
+  }
+});
 
 const updateEventSchema = z.object({
   title: z.string().min(3).optional(),
@@ -19,7 +31,7 @@ const updateEventSchema = z.object({
 
 export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
   try {
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabase = getSupabaseClient();
     const { data, error } = await supabase.from('gvteway_events').select('*').eq('id', params.id).single();
     if (error) {
       if (error.code === 'PGRST116') return NextResponse.json({ error: 'Event not found' }, { status: 404 });
@@ -33,7 +45,7 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
 
 export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
   try {
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabase = getSupabaseClient();
     const body = await request.json();
     const payload = updateEventSchema.parse(body);
     const { data, error } = await supabase.from('gvteway_events').update(payload).eq('id', params.id).select().single();
@@ -50,7 +62,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
 
 export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
   try {
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabase = getSupabaseClient();
     const { error } = await supabase.from('gvteway_events').delete().eq('id', params.id);
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
     return NextResponse.json({ success: true }, { status: 200 });

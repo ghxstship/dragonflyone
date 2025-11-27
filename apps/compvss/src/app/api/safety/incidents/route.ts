@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 const IncidentSchema = z.object({
   incident_type: z.enum(['near_miss', 'equipment_malfunction', 'injury', 'property_damage', 'environmental', 'security', 'fire', 'other']),
@@ -26,6 +21,7 @@ const IncidentSchema = z.object({
 
 // GET /api/safety/incidents - List safety incidents
 export async function GET(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status');
@@ -121,6 +117,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/safety/incidents - Report new incident
 export async function POST(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const body = await request.json();
     const validated = IncidentSchema.parse(body);
@@ -182,6 +179,7 @@ export async function POST(request: NextRequest) {
 
 // PATCH /api/safety/incidents - Update incident or start investigation
 export async function PATCH(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const body = await request.json();
     const { incident_id, action, updates } = body;

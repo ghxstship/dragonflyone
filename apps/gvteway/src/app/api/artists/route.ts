@@ -2,10 +2,20 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+function getSupabaseClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+}
+
+
+// Lazy getter for supabase client - only accessed at runtime
+const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
+  get(_target, prop) {
+    return (getSupabaseClient() as any)[prop];
+  }
+});
 
 const artistSchema = z.object({
   name: z.string().min(1),
@@ -39,6 +49,7 @@ const artistSchema = z.object({
 // GET /api/artists - List artists
 export async function GET(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
     const { searchParams } = new URL(request.url);
     const genre = searchParams.get('genre');
     const search = searchParams.get('search');
@@ -113,6 +124,7 @@ export async function GET(request: NextRequest) {
 // POST /api/artists - Create artist
 export async function POST(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
     const body = await request.json();
     const validated = artistSchema.parse(body);
 
@@ -156,6 +168,7 @@ export async function POST(request: NextRequest) {
 // PATCH /api/artists - Update artist or follow/unfollow
 export async function PATCH(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
     const body = await request.json();
     const { artist_id, action, updates } = body;
     const userId = body.user_id || '00000000-0000-0000-0000-000000000000';

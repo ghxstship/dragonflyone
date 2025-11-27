@@ -2,10 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+function getSupabaseClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+}
 
 const updateSchema = z.object({
   partner_type_id: z.string().uuid().optional(),
@@ -41,6 +43,7 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
+    const supabase = getSupabaseClient();
     const { data, error } = await supabase
       .from('local_partners')
       .select(`
@@ -85,6 +88,7 @@ export async function PATCH(
   { params }: { params: { id: string } }
 ) {
   try {
+    const supabase = getSupabaseClient();
     const body = await request.json();
     const validated = updateSchema.parse(body);
 
@@ -126,6 +130,7 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
+    const supabase = getSupabaseClient();
     // Soft delete by setting status to terminated
     const { error } = await supabase
       .from('local_partners')

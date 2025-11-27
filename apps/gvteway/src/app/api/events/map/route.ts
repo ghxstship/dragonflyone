@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+function getSupabaseClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+}
 
 // Haversine formula for distance calculation
 function calculateDistance(lat1: number, lng1: number, lat2: number, lng2: number): number {
@@ -21,6 +23,7 @@ function calculateDistance(lat1: number, lng1: number, lat2: number, lng2: numbe
 
 export async function GET(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
     const { searchParams } = new URL(request.url);
     const lat = parseFloat(searchParams.get('lat') || '0');
     const lng = parseFloat(searchParams.get('lng') || '0');

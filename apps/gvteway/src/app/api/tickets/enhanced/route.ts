@@ -4,8 +4,12 @@ import { PlatformRole } from '@ghxstship/config/roles';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+function getSupabaseClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+}
 
 const generateTicketsSchema = z.object({
   event_id: z.string().uuid(),
@@ -17,7 +21,7 @@ const generateTicketsSchema = z.object({
 export const GET = apiRoute(
   async (request: NextRequest, context: any) => {
     try {
-      const supabase = createClient(supabaseUrl, supabaseServiceKey);
+      const supabase = getSupabaseClient();
       const { searchParams } = new URL(request.url);
       
       const eventId = searchParams.get('event_id');
@@ -70,7 +74,7 @@ export const GET = apiRoute(
 export const POST = apiRoute(
   async (request: NextRequest, context: any) => {
     try {
-      const supabase = createClient(supabaseUrl, supabaseServiceKey);
+      const supabase = getSupabaseClient();
       const payload = context.validated;
 
       const { data: ticketType, error: typeError } = await supabase

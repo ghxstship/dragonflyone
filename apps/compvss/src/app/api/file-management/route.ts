@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 const FileSchema = z.object({
   project_id: z.string().uuid(),
@@ -30,6 +25,7 @@ const FolderSchema = z.object({
 
 // GET /api/file-management - Get files and folders
 export async function GET(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -152,6 +148,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/file-management - Create file or folder
 export async function POST(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -312,6 +309,7 @@ export async function POST(request: NextRequest) {
 
 // PATCH /api/file-management - Update file or folder
 export async function PATCH(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -372,6 +370,7 @@ export async function PATCH(request: NextRequest) {
 
 // DELETE /api/file-management - Delete file or folder
 export async function DELETE(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {

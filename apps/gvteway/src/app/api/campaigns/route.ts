@@ -1,13 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
 import { apiRoute } from '@ghxstship/config/middleware';
 import { PlatformRole } from '@ghxstship/config/roles';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-) as any;
+import { getServerSupabase } from '@ghxstship/config';
 
 const campaignSchema = z.object({
   name: z.string().min(1),
@@ -80,6 +75,7 @@ const automationRuleSchema = z.object({
 // GET - List campaigns or automation rules
 export const GET = apiRoute(
   async (request: NextRequest) => {
+    const supabase = getServerSupabase();
     const { searchParams } = new URL(request.url);
     const type = searchParams.get('type');
     const status = searchParams.get('status');
@@ -150,6 +146,7 @@ export const GET = apiRoute(
 // POST - Create campaign or automation rule
 export const POST = apiRoute(
   async (request: NextRequest, context: any) => {
+    const supabase = getServerSupabase();
     const body = await request.json();
     const { type } = body;
 
@@ -159,7 +156,11 @@ export const POST = apiRoute(
       const { data: automation, error } = await supabase
         .from('marketing_automations')
         .insert({
-          ...validated,
+          name: validated.name,
+          trigger_type: validated.trigger as 'ticket_purchase' | 'lapsed_fan' | 'vip_upsell' | 'event_reminder' | 'post_event' | 'birthday' | 'custom',
+          trigger_conditions: validated.conditions || {},
+          actions: validated.actions,
+          is_active: validated.active,
           created_by: context.user.id
         })
         .select()
@@ -179,7 +180,7 @@ export const POST = apiRoute(
     const validated = campaignSchema.parse(body.data || body);
 
     // Build audience query
-    const audience = await buildAudienceQuery(validated.target_audience);
+    const audience = await buildAudienceQuery(supabase, validated.target_audience);
 
     const { data: campaign, error } = await supabase
       .from('marketing_campaigns')
@@ -197,7 +198,7 @@ export const POST = apiRoute(
 
     // Schedule or send immediately
     if (validated.schedule.send_immediately) {
-      await processCampaign(campaign.id, audience.recipients);
+      await processCampaign(supabase, campaign.id, audience.recipients);
     }
 
     return NextResponse.json({
@@ -214,7 +215,7 @@ export const POST = apiRoute(
 );
 
 // Helper function to build audience
-async function buildAudienceQuery(targetAudience: any) {
+async function buildAudienceQuery(supabase: ReturnType<typeof getServerSupabase>, targetAudience: any) {
   let query = supabase.from('platform_users').select('id, email, phone');
 
   switch (targetAudience.segment) {
@@ -260,7 +261,7 @@ async function buildAudienceQuery(targetAudience: any) {
 }
 
 // Helper function to process campaign
-async function processCampaign(campaignId: string, recipients: any[]) {
+async function processCampaign(supabase: ReturnType<typeof getServerSupabase>, campaignId: string, recipients: any[]) {
   // Update status
   await supabase
     .from('marketing_campaigns')
@@ -296,6 +297,7 @@ async function processCampaign(campaignId: string, recipients: any[]) {
 // PUT - Update campaign or pause/resume
 export const PUT = apiRoute(
   async (request: NextRequest) => {
+    const supabase = getServerSupabase();
     const body = await request.json();
     const { id, type, action, updates } = body;
 
@@ -355,6 +357,7 @@ export const PUT = apiRoute(
 // DELETE - Cancel campaign or delete automation
 export const DELETE = apiRoute(
   async (request: NextRequest) => {
+    const supabase = getServerSupabase();
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
     const type = searchParams.get('type');

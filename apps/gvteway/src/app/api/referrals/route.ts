@@ -2,10 +2,20 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+function getSupabaseClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+}
+
+
+// Lazy getter for supabase client - only accessed at runtime
+const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
+  get(_target, prop) {
+    return (getSupabaseClient() as any)[prop];
+  }
+});
 
 // Validation schema
 const referralCodeSchema = z.object({
@@ -33,6 +43,7 @@ const createReferralSchema = z.object({
 // GET /api/referrals - Get user's referral program data
 export async function GET(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get('user_id');
     const type = searchParams.get('type'); // 'codes', 'referrals', 'rewards', 'stats'
@@ -153,6 +164,7 @@ export async function GET(request: NextRequest) {
 // POST /api/referrals - Create referral code or register referral
 export async function POST(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
     const body = await request.json();
     const { action } = body;
 
@@ -296,6 +308,7 @@ async function registerReferral(body: any) {
 // PATCH /api/referrals - Update referral status or redeem reward
 export async function PATCH(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
     const body = await request.json();
     const { action, referral_id, reward_id, user_id } = body;
 

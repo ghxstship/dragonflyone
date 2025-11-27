@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 const TranslationSchema = z.object({
   content_type: z.enum(['knowledge_article', 'sop', 'training', 'faq', 'template', 'regulation']),
@@ -21,6 +16,7 @@ const TranslationSchema = z.object({
 
 // GET /api/multilingual-content - Get content in specified language
 export async function GET(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -104,6 +100,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/multilingual-content - Create translation
 export async function POST(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -237,6 +234,7 @@ export async function POST(request: NextRequest) {
 
 // PATCH /api/multilingual-content - Update translation
 export async function PATCH(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -281,6 +279,7 @@ export async function PATCH(request: NextRequest) {
 
 // DELETE /api/multilingual-content - Delete translation
 export async function DELETE(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {

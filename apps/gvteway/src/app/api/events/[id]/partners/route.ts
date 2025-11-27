@@ -2,10 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+function getSupabaseClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+}
 
 const associationSchema = z.object({
   partner_id: z.string().uuid(),
@@ -23,6 +25,7 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
+    const supabase = getSupabaseClient();
     const { searchParams } = new URL(request.url);
     const association_type = searchParams.get('association_type');
     const status = searchParams.get('status');
@@ -77,6 +80,7 @@ export async function POST(
   { params }: { params: { id: string } }
 ) {
   try {
+    const supabase = getSupabaseClient();
     const body = await request.json();
     const validated = associationSchema.parse(body);
 
@@ -160,6 +164,7 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
+    const supabase = getSupabaseClient();
     const { searchParams } = new URL(request.url);
     const partner_id = searchParams.get('partner_id');
     const association_type = searchParams.get('association_type');

@@ -1,16 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+import { getServerSupabase } from '@ghxstship/config';
 
 /**
  * Automated Risk Detection API
  * AI-powered risk assessment for production projects
  */
 export async function GET(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -120,6 +116,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {

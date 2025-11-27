@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 const showReportSchema = z.object({
   event_id: z.string().uuid(),
@@ -28,6 +23,7 @@ const showReportSchema = z.object({
 
 // GET /api/show-reports - List show reports
 export async function GET(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const { searchParams } = new URL(request.url);
     const eventId = searchParams.get('event_id');
@@ -106,6 +102,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/show-reports - Create show report
 export async function POST(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const body = await request.json();
     const validated = showReportSchema.parse(body);
@@ -156,6 +153,7 @@ export async function POST(request: NextRequest) {
 
 // PATCH /api/show-reports - Update or submit report
 export async function PATCH(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const body = await request.json();
     const { report_id, action, updates } = body;

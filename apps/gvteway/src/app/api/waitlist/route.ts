@@ -2,10 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+function getSupabaseClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+}
 
 const joinWaitlistSchema = z.object({
   event_id: z.string().uuid(),
@@ -20,6 +22,7 @@ const joinWaitlistSchema = z.object({
 // GET /api/waitlist - Get waitlist entries for an event
 export async function GET(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
     const { searchParams } = new URL(request.url);
     const eventId = searchParams.get('event_id');
     const email = searchParams.get('email');
@@ -98,6 +101,7 @@ export async function GET(request: NextRequest) {
 // POST /api/waitlist - Join waitlist
 export async function POST(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
     const body = await request.json();
     const validated = joinWaitlistSchema.parse(body);
 
@@ -179,6 +183,7 @@ export async function POST(request: NextRequest) {
 // DELETE /api/waitlist - Leave waitlist
 export async function DELETE(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
     const { searchParams } = new URL(request.url);
     const entryId = searchParams.get('id');
     const email = searchParams.get('email');
@@ -220,6 +225,7 @@ export async function DELETE(request: NextRequest) {
 // PATCH /api/waitlist - Update waitlist entry (admin)
 export async function PATCH(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
     const body = await request.json();
     const { id, status, priority, notes } = body;
 

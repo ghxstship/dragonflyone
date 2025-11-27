@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 const updateSchema = z.object({
   name: z.string().min(1).max(255).optional(),
@@ -22,6 +17,7 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const supabase = getServerSupabase();
   try {
     const { data, error } = await supabase
       .from('department_groups')
@@ -63,6 +59,7 @@ export async function PATCH(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const supabase = getServerSupabase();
   try {
     const body = await request.json();
     const validated = updateSchema.parse(body);
@@ -104,6 +101,7 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const supabase = getServerSupabase();
   try {
     // Soft delete by setting is_active to false
     const { error } = await supabase

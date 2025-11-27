@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 // Validation schema
 const certificationSchema = z.object({
@@ -25,6 +20,7 @@ const certificationSchema = z.object({
 
 // GET /api/certifications - List certifications
 export async function GET(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const { searchParams } = new URL(request.url);
     const crewMemberId = searchParams.get('crew_member_id');
@@ -113,6 +109,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/certifications - Create new certification
 export async function POST(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const body = await request.json();
 
@@ -164,6 +161,7 @@ export async function POST(request: NextRequest) {
 
 // PATCH /api/certifications - Bulk verify/update certifications
 export async function PATCH(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const body = await request.json();
     const { certification_ids, action, updates } = body;

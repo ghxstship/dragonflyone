@@ -2,10 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+function getSupabaseClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+}
 
 const offerSchema = z.object({
   title: z.string().min(1).max(255),
@@ -28,6 +30,7 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
+    const supabase = getSupabaseClient();
     const { searchParams } = new URL(request.url);
     const is_active = searchParams.get('is_active');
     const include_expired = searchParams.get('include_expired') === 'true';
@@ -64,6 +67,7 @@ export async function POST(
   { params }: { params: { id: string } }
 ) {
   try {
+    const supabase = getSupabaseClient();
     const body = await request.json();
     const validated = offerSchema.parse(body);
 

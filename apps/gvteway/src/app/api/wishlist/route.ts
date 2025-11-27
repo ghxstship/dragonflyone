@@ -2,10 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+function getSupabaseClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+}
 
 const WishlistItemSchema = z.object({
   event_id: z.string().uuid(),
@@ -17,6 +19,7 @@ const WishlistItemSchema = z.object({
 // GET /api/wishlist - Get user's wishlist
 export async function GET(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get('user_id');
 
@@ -110,6 +113,7 @@ export async function GET(request: NextRequest) {
 // POST /api/wishlist - Add to wishlist
 export async function POST(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
     const body = await request.json();
     const validated = WishlistItemSchema.parse(body);
     const userId = body.user_id;
@@ -166,6 +170,7 @@ export async function POST(request: NextRequest) {
 // PATCH /api/wishlist - Update wishlist item preferences
 export async function PATCH(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
     const body = await request.json();
     const { item_id, updates } = body;
 
@@ -200,6 +205,7 @@ export async function PATCH(request: NextRequest) {
 // DELETE /api/wishlist - Remove from wishlist
 export async function DELETE(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
     const { searchParams } = new URL(request.url);
     const itemId = searchParams.get('id');
     const eventId = searchParams.get('event_id');

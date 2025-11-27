@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 const cateringOrderSchema = z.object({
   event_id: z.string().uuid(),
@@ -34,6 +29,7 @@ const cateringOrderSchema = z.object({
 
 // GET /api/catering - List catering orders
 export async function GET(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const { searchParams } = new URL(request.url);
     const eventId = searchParams.get('event_id');
@@ -108,6 +104,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/catering - Create catering order
 export async function POST(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const body = await request.json();
     const validated = cateringOrderSchema.parse(body);
@@ -151,6 +148,7 @@ export async function POST(request: NextRequest) {
 
 // PATCH /api/catering - Update catering order status
 export async function PATCH(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const body = await request.json();
     const { order_id, action, updates } = body;
@@ -201,6 +199,7 @@ export async function PATCH(request: NextRequest) {
 
 // DELETE /api/catering - Delete catering order
 export async function DELETE(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const { searchParams } = new URL(request.url);
     const orderId = searchParams.get('order_id');

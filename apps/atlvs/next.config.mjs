@@ -25,6 +25,7 @@ const nextConfig = {
   },
   typescript: {
     ignoreBuildErrors: true,
+    tsconfigPath: 'tsconfig.build.json',
   },
   
   webpack: (config, { isServer }) => {

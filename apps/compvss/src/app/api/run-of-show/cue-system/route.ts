@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 const CueSchema = z.object({
   run_of_show_id: z.string().uuid(),
@@ -24,6 +19,7 @@ const CueSchema = z.object({
 
 // GET /api/run-of-show/cue-system - Get cues and cue sheets
 export async function GET(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -142,6 +138,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/run-of-show/cue-system - Create cue or manage live show
 export async function POST(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -369,6 +366,7 @@ export async function POST(request: NextRequest) {
 
 // PATCH /api/run-of-show/cue-system - Update cue
 export async function PATCH(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -406,6 +404,7 @@ export async function PATCH(request: NextRequest) {
 
 // DELETE /api/run-of-show/cue-system - Delete cue
 export async function DELETE(request: NextRequest) {
+  const supabase = getServerSupabase();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {

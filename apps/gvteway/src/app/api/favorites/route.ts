@@ -2,10 +2,20 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+function getSupabaseClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+}
+
+
+// Lazy getter for supabase client - only accessed at runtime
+const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
+  get(_target, prop) {
+    return (getSupabaseClient() as any)[prop];
+  }
+});
 
 const addFavoriteSchema = z.object({
   favorite_type: z.enum(['event', 'artist', 'venue']),
@@ -17,6 +27,7 @@ const addFavoriteSchema = z.object({
 // GET /api/favorites - Get user's favorites
 export async function GET(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get('user_id');
     const favoriteType = searchParams.get('type');
@@ -98,6 +109,7 @@ export async function GET(request: NextRequest) {
 // POST /api/favorites - Add to favorites
 export async function POST(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
     const body = await request.json();
     const validated = addFavoriteSchema.parse(body);
     const userId = body.user_id;
@@ -201,6 +213,7 @@ export async function POST(request: NextRequest) {
 // DELETE /api/favorites - Remove from favorites
 export async function DELETE(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get('user_id');
     const favoriteId = searchParams.get('id');
