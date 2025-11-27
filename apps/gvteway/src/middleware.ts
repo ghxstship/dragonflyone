@@ -3,9 +3,10 @@ import type { NextRequest } from 'next/server';
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
 
 const publicPaths = [
+  // Home
   '/',
-  '/events',
-  '/design-system',
+  
+  // Auth flows
   '/auth/signin',
   '/auth/signup',
   '/auth/forgot-password',
@@ -14,13 +15,47 @@ const publicPaths = [
   '/auth/verify-email',
   '/auth/callback',
   '/api/auth',
+  '/(auth)/login',
+  
+  // Public discovery & browsing (SEO + user acquisition)
+  '/events',
+  '/artists',
+  '/venues',
+  '/browse',
+  '/search',
+  '/calendar',
+  '/tours',
+  '/destinations',
+  '/discover',
+  '/collections',
+  '/nearby',
+  '/new-events',
+  '/deals',
+  '/packages',
+  
+  // Public commerce (browsing only)
+  '/merch',
+  '/gift-cards',
+  '/resale', // Browsing resale listings
+  
+  // Public community content
+  '/community/guidelines',
+  '/fan-clubs', // Browsing fan clubs
+  
+  // Support & accessibility (must be public)
+  '/help',
+  '/support/chat',
+  '/accessibility',
+  
+  // Development
+  '/design-system',
 ];
 
 const onboardingPath = '/onboarding';
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  let response = NextResponse.next({ request });
+  const response = NextResponse.next({ request });
 
   const isPublicPath = publicPaths.some(path => pathname === path || pathname.startsWith(path + '/'));
   const isOnboardingPath = pathname.startsWith(onboardingPath);

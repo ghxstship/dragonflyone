@@ -94,6 +94,8 @@ export { Alert } from "./molecules/alert.js";
 export type { AlertProps } from "./molecules/alert.js";
 export { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "./molecules/table.js";
 export type { TableProps } from "./molecules/table.js";
+export { ScrollableTableWrapper } from "./molecules/scrollable-table-wrapper.js";
+export type { ScrollableTableWrapperProps } from "./molecules/scrollable-table-wrapper.js";
 export { Pagination } from "./molecules/pagination.js";
 export type { PaginationProps } from "./molecules/pagination.js";
 export { Breadcrumb, BreadcrumbItem } from "./molecules/breadcrumb.js";

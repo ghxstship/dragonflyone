@@ -16,7 +16,7 @@ export const PageLayout = forwardRef<HTMLDivElement, PageLayoutProps>(
         ref={ref}
         className={clsx(
           "min-h-screen flex flex-col",
-          background === "black" ? "bg-surface-inverse text-text-inverse" : "bg-surface-primary text-text-primary",
+          background === "black" ? "bg-ink-950 text-ink-50" : "bg-ink-50 text-ink-950",
           className
         )}
         {...props}

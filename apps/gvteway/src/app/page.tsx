@@ -1,5 +1,5 @@
 import { ConsumerNavigationPublic } from "../components/navigation";
-import { Badge, Stack, Grid, Card, Container, Display, H1, H2, H3, Body, Label, Link, Button, Article, Box, Section, SectionHeader } from "@ghxstship/ui";
+import { Badge, Stack, Grid, Card, Container, Display, H2, H3, Body, Label, Link, Article, Box, Section, SectionHeader } from "@ghxstship/ui";
 import { ExperienceDiscovery } from "../components/experience-discovery";
 
 export const runtime = "edge";
@@ -105,7 +105,7 @@ export default function Home() {
             description="Explore events across genres, from intimate concerts to massive festivals."
             align="center"
           />
-          <Grid cols={6} gap={4} className="md:grid-cols-3 lg:grid-cols-6">
+          <Grid cols={6} gap={4}>
             {featuredCategories.map((category) => (
               <Link
                 key={category.label}

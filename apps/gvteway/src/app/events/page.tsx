@@ -114,37 +114,39 @@ export default function EventsPage() {
               </Body>
             </Stack>
 
-            <Grid cols={3} gap={4}>
-            <Input
-              type="search"
-              placeholder="Search events or venues..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="border-ink-700 bg-black text-white"
-            />
-            <Select
-              value={selectedGenre}
-              onChange={(e) => setSelectedGenre(e.target.value)}
-              className="border-ink-700 bg-black text-white"
-            >
-              {genres.map((genre) => (
-                <option key={genre} value={genre}>
-                  {genre}
-                </option>
-              ))}
-            </Select>
-            <Select
-              value={selectedCity}
-              onChange={(e) => setSelectedCity(e.target.value)}
-              className="border-ink-700 bg-black text-white"
-            >
-              {cities.map((city) => (
-                <option key={city} value={city}>
-                  {city}
-                </option>
-              ))}
-            </Select>
-              <Stack gap={2} direction="horizontal" className="border-2 border-ink-700 p-2">
+            <Stack gap={4}>
+              <Grid cols={1} gap={4} className="md:grid-cols-3">
+                <Input
+                  type="search"
+                  placeholder="Search events or venues..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="border-ink-700 bg-black text-white"
+                />
+                <Select
+                  value={selectedGenre}
+                  onChange={(e) => setSelectedGenre(e.target.value)}
+                  className="border-ink-700 bg-black text-white"
+                >
+                  {genres.map((genre) => (
+                    <option key={genre} value={genre}>
+                      {genre}
+                    </option>
+                  ))}
+                </Select>
+                <Select
+                  value={selectedCity}
+                  onChange={(e) => setSelectedCity(e.target.value)}
+                  className="border-ink-700 bg-black text-white"
+                >
+                  {cities.map((city) => (
+                    <option key={city} value={city}>
+                      {city}
+                    </option>
+                  ))}
+                </Select>
+              </Grid>
+              <Stack gap={2} direction="horizontal" className="border-2 border-ink-700 p-2 w-fit">
                 <Button
                   onClick={() => setViewMode("grid")}
                   variant={viewMode === "grid" ? "solid" : "ghost"}
@@ -160,7 +162,7 @@ export default function EventsPage() {
                   List
                 </Button>
               </Stack>
-            </Grid>
+            </Stack>
 
             <Body className="text-ink-400 text-body-sm font-mono uppercase tracking-widest">
               {filteredEvents.length} {filteredEvents.length === 1 ? "Event" : "Events"} Found
@@ -236,8 +238,8 @@ export default function EventsPage() {
 
             {filteredEvents.length === 0 && (
               <Stack gap={2} className="text-center py-16">
-                <H3 className="text-ink-600">No events found</H3>
-                <Body className="text-ink-500">Try adjusting your search or filters</Body>
+                <H3 className="text-ink-300">No events found</H3>
+                <Body className="text-ink-400">Try adjusting your search or filters</Body>
               </Stack>
             )}
           </Stack>

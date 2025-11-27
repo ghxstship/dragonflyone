@@ -154,8 +154,8 @@ function CheckoutContent() {
 
           {/* Cart Step */}
           {step === 'cart' && (
-            <Grid cols={3} gap={6}>
-              <Card className="col-span-2">
+            <Grid cols={1} gap={6} className="lg:grid-cols-3">
+              <Card className="lg:col-span-2">
                 <Card className="p-6">
                   <H2 className="mb-4">ORDER SUMMARY</H2>
                   {cartItems.length > 0 ? (
@@ -202,8 +202,8 @@ function CheckoutContent() {
 
           {/* Payment Step */}
           {step === 'payment' && (
-            <Grid cols={3} gap={6}>
-              <Card className="col-span-2 p-6">
+            <Grid cols={1} gap={6} className="lg:grid-cols-3">
+              <Card className="lg:col-span-2 p-6">
                 <H2 className="mb-6">PAYMENT INFORMATION</H2>
                 <Stack gap={4}>
                   <Stack gap={2}>

@@ -145,7 +145,7 @@ export function ExperienceDiscovery() {
 
   return (
     <Stack gap={8}>
-      <Grid cols={2} gap={6} className="lg:grid-cols-[2fr_1fr]">
+      <Grid cols={1} gap={6} className="md:grid-cols-2 lg:grid-cols-[2fr_1fr]">
         <Stack gap={4}>
           <Label className="text-mono-xs uppercase tracking-kicker text-ink-500">Universal Search</Label>
           <Input
@@ -196,7 +196,7 @@ export function ExperienceDiscovery() {
         </Stack>
       </Grid>
 
-      <Grid cols={4} gap={4} className="md:grid-cols-2 lg:grid-cols-4">
+      <Grid cols={2} gap={4} className="md:grid-cols-4">
         <Switch label="Near me <50mi" checked={nearbyOnly} onChange={() => setNearbyOnly((prev) => !prev)} />
         <Switch label="Last-minute deals" checked={lastMinuteOnly} onChange={() => setLastMinuteOnly((prev) => !prev)} />
         <Switch label="Trending now" checked={trendingOnly} onChange={() => setTrendingOnly((prev) => !prev)} />

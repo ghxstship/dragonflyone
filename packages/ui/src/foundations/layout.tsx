@@ -61,9 +61,9 @@ export const Section = forwardRef<HTMLElement, SectionProps>(
     ...props 
   }, ref) {
     const bgClasses: Record<string, string> = {
-      white: "bg-surface-primary text-text-primary",
-      black: "bg-surface-inverse text-text-inverse",
-      grey: "bg-surface-secondary text-text-primary",
+      white: "bg-ink-50 text-ink-950",
+      black: "bg-ink-950 text-ink-50",
+      grey: "bg-ink-100 text-ink-950",
       ink: "bg-ink-950 text-ink-50",
     };
 
