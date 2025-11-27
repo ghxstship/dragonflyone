@@ -85,43 +85,39 @@ export function ExperienceDiscovery() {
   }, [filters]);
 
   useEffect(() => {
-    fetch("/api/saved-searches")
-      .then((response) => response.json())
-      .then((payload: { savedSearches: SavedSearch[] }) => setSavedSearches(payload.savedSearches))
-      .catch(() => {
-        setSavedSearches([
-          {
-            name: "Near Me Weekend",
-            criteria: {
-              query: "",
-              priceFilter: "all",
-              nearbyOnly: true,
-              lastMinuteOnly: false,
-              trendingOnly: true,
-              newOnly: false,
-              cadence: "daily",
-            },
-          },
-          {
-            name: "VIP Immersion",
-            criteria: {
-              query: "VIP",
-              priceFilter: "$$$",
-              nearbyOnly: false,
-              lastMinuteOnly: false,
-              trendingOnly: true,
-              newOnly: false,
-              cadence: "instant",
-            },
-          },
-        ]);
-      });
+    // Use default saved searches for demo - API requires authentication
+    setSavedSearches([
+      {
+        name: "Near Me Weekend",
+        criteria: {
+          query: "",
+          priceFilter: "all",
+          nearbyOnly: true,
+          lastMinuteOnly: false,
+          trendingOnly: true,
+          newOnly: false,
+          cadence: "daily",
+        },
+      },
+      {
+        name: "VIP Immersion",
+        criteria: {
+          query: "VIP",
+          priceFilter: "$$$",
+          nearbyOnly: false,
+          lastMinuteOnly: false,
+          trendingOnly: true,
+          newOnly: false,
+          cadence: "instant",
+        },
+      },
+    ]);
   }, []);
 
   const handleSaveSearch = () => {
     const trimmed = newSavedSearch.trim();
     if (trimmed && !savedSearches.find((search) => search.name === trimmed)) {
-      const payload = {
+      const payload: SavedSearch = {
         name: trimmed,
         criteria: {
           query,
@@ -133,23 +129,9 @@ export function ExperienceDiscovery() {
           cadence: selectedCadence,
         },
       };
-      fetch("/api/saved-searches", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      })
-        .then((response) => {
-          if (!response.ok) throw new Error("Failed to save search");
-          return response.json();
-        })
-        .then((data: { savedSearches: SavedSearch[] }) => {
-          setSavedSearches(data.savedSearches);
-          setNewSavedSearch("");
-        })
-        .catch(() => {
-          setSavedSearches((prev) => [...prev, payload]);
-          setNewSavedSearch("");
-        });
+      // Add to local state for demo (API requires authentication)
+      setSavedSearches((prev) => [...prev, payload]);
+      setNewSavedSearch("");
     }
   };
 
