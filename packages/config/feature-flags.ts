@@ -3,7 +3,8 @@
  * Control feature rollouts, A/B testing, and gradual deployments
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { SupabaseClient } from '@supabase/supabase-js';
+import type { Database, Json } from './supabase-types';
 
 export type FlagType = 'boolean' | 'string' | 'number' | 'json';
 export type FlagStatus = 'active' | 'inactive' | 'archived';
@@ -55,7 +56,7 @@ export class FeatureFlagsManager {
   private cacheExpiry: number = 5 * 60 * 1000; // 5 minutes
   private lastCacheUpdate: number = 0;
 
-  constructor(private supabase: ReturnType<typeof createClient>) {}
+  constructor(private supabase: SupabaseClient<Database>) {}
 
   /**
    * Create feature flag
@@ -470,7 +471,7 @@ export class FeatureFlagsManager {
  * Export feature flags utilities
  */
 export const featureFlags = {
-  createManager: (supabase: ReturnType<typeof createClient>) =>
+  createManager: (supabase: SupabaseClient<Database>) =>
     new FeatureFlagsManager(supabase),
 };
 

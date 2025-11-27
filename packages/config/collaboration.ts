@@ -3,7 +3,8 @@
  * Real-time collaborative editing with conflict resolution and presence
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { SupabaseClient } from '@supabase/supabase-js';
+import type { Database, Json } from './supabase-types';
 
 export interface CollaborationUser {
   id: string;
@@ -49,7 +50,7 @@ export class CollaborativeDocument {
   private changeCallback?: (operation: EditOperation) => void;
 
   constructor(
-    private supabase: ReturnType<typeof createClient>,
+    private supabase: SupabaseClient<Database>,
     documentId: string,
     user: CollaborationUser
   ) {
@@ -167,7 +168,7 @@ export class CollaborativeDocument {
  * Prevents concurrent edits to the same field
  */
 export class DocumentLockService {
-  constructor(private supabase: ReturnType<typeof createClient>) {}
+  constructor(private supabase: SupabaseClient<Database>) {}
 
   /**
    * Acquire lock on a document field
@@ -371,9 +372,9 @@ export class OperationalTransform {
  * Export collaboration utilities
  */
 export const collaboration = {
-  createDocument: (supabase: ReturnType<typeof createClient>, documentId: string, user: CollaborationUser) =>
+  createDocument: (supabase: SupabaseClient<Database>, documentId: string, user: CollaborationUser) =>
     new CollaborativeDocument(supabase, documentId, user),
-  createLockService: (supabase: ReturnType<typeof createClient>) => new DocumentLockService(supabase),
+  createLockService: (supabase: SupabaseClient<Database>) => new DocumentLockService(supabase),
   OperationalTransform,
 };
 

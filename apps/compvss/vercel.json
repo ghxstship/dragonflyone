@@ -2,7 +2,7 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
   "installCommand": "pnpm install --frozen-lockfile",
-  "buildCommand": "pnpm turbo run build --filter=compvss...",
+  "buildCommand": "NODE_OPTIONS='--max-old-space-size=7168' pnpm turbo run build --filter=compvss...",
   "outputDirectory": ".next",
   "regions": ["iad1"],
   "headers": [

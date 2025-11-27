@@ -3,7 +3,8 @@
  * Export data to CSV, Excel, PDF, and JSON formats with filtering and templates
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { SupabaseClient } from '@supabase/supabase-js';
+import type { Database, Json } from './supabase-types';
 
 export type ExportFormat = 'csv' | 'excel' | 'pdf' | 'json';
 
@@ -48,7 +49,7 @@ export interface ExportTemplate {
  * Handles export operations with multiple format support
  */
 export class DataExportEngine {
-  constructor(private supabase: ReturnType<typeof createClient>) {}
+  constructor(private supabase: SupabaseClient<Database>) {}
 
   /**
    * Create export job
@@ -468,7 +469,7 @@ export class DataExportEngine {
  * Export utilities
  */
 export const dataExport = {
-  createEngine: (supabase: ReturnType<typeof createClient>) => new DataExportEngine(supabase),
+  createEngine: (supabase: SupabaseClient<Database>) => new DataExportEngine(supabase),
 };
 
 export default dataExport;

@@ -3,7 +3,8 @@
  * CSV/Excel file parsing and bulk data import with validation and error handling
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { SupabaseClient } from '@supabase/supabase-js';
+import type { Database, Json } from './supabase-types';
 
 export type ImportFormat = 'csv' | 'excel' | 'json';
 export type ImportAction = 'create' | 'update' | 'upsert';
@@ -61,7 +62,7 @@ export interface ImportTemplate {
  * Handles CSV/Excel parsing and bulk data imports
  */
 export class DataImportEngine {
-  constructor(private supabase: ReturnType<typeof createClient>) {}
+  constructor(private supabase: SupabaseClient<Database>) {}
 
   /**
    * Create a new import job
@@ -574,7 +575,7 @@ export class DataImportEngine {
  * Export data import utilities
  */
 export const dataImport = {
-  createEngine: (supabase: ReturnType<typeof createClient>) =>
+  createEngine: (supabase: SupabaseClient<Database>) =>
     new DataImportEngine(supabase),
 };
 

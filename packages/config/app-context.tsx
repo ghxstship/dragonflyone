@@ -369,7 +369,7 @@ export function AppContextProvider({
         id: p.id,
         name: p.name,
         slug: p.name.toLowerCase().replace(/\s+/g, '-'),
-        badge: p.status,
+        badge: p.phase,
       }));
     }
     
@@ -381,7 +381,7 @@ export function AppContextProvider({
       id: p.id,
       name: p.name,
       slug: p.name.toLowerCase().replace(/\s+/g, '-'),
-      badge: p.status,
+      badge: p.phase,
     }));
   }, [projects]);
 

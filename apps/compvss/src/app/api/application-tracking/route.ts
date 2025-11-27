@@ -11,9 +11,9 @@ export async function GET(request: NextRequest) {
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-    const { data, error } = await supabase.from('job_applications').select(`
-      *, opportunity:opportunities(id, title, company)
-    `).eq('applicant_id', user.id).order('applied_at', { ascending: false });
+    const { data, error } = await supabase.from('opportunity_applications').select(`
+      *, opportunity:opportunities(id, title, client_name)
+    `).eq('applicant_id', user.id).order('created_at', { ascending: false });
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
     return NextResponse.json({ applications: data });
@@ -34,9 +34,9 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { opportunity_id, cover_letter, resume_url } = body;
 
-    const { data, error } = await supabase.from('job_applications').insert({
+    const { data, error } = await supabase.from('opportunity_applications').insert({
       opportunity_id, applicant_id: user.id, cover_letter, resume_url,
-      status: 'pending', applied_at: new Date().toISOString()
+      status: 'pending'
     }).select().single();
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });

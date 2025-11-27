@@ -8,6 +8,14 @@ function getSupabaseClient() {
   );
 }
 
+
+// Lazy getter for supabase client - only accessed at runtime
+const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
+  get(_target, prop) {
+    return (getSupabaseClient() as any)[prop];
+  }
+});
+
 // Sample tax rates by jurisdiction
 const taxRates: Record<string, { state: number; county?: number; city?: number; special?: number }> = {
   'CA': { state: 0.0725, county: 0.01, city: 0.0125 },

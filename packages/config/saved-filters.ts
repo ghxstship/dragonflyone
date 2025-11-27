@@ -3,7 +3,8 @@
  * Save and manage user-configured filters and table views
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { SupabaseClient } from '@supabase/supabase-js';
+import type { Database, Json } from './supabase-types';
 
 export type FilterOperator =
   | 'equals'
@@ -70,7 +71,7 @@ export interface SavedView {
  * Manage user-saved filters for data tables
  */
 export class SavedFiltersManager {
-  constructor(private supabase: ReturnType<typeof createClient>) {}
+  constructor(private supabase: SupabaseClient<Database>) {}
 
   /**
    * Create saved filter
@@ -281,7 +282,7 @@ export class SavedFiltersManager {
  * Manage user-saved table views and layouts
  */
 export class SavedViewsManager {
-  constructor(private supabase: ReturnType<typeof createClient>) {}
+  constructor(private supabase: SupabaseClient<Database>) {}
 
   /**
    * Create saved view
@@ -472,9 +473,9 @@ export class SavedViewsManager {
  * Export saved filters and views utilities
  */
 export const savedFilters = {
-  createFiltersManager: (supabase: ReturnType<typeof createClient>) =>
+  createFiltersManager: (supabase: SupabaseClient<Database>) =>
     new SavedFiltersManager(supabase),
-  createViewsManager: (supabase: ReturnType<typeof createClient>) =>
+  createViewsManager: (supabase: SupabaseClient<Database>) =>
     new SavedViewsManager(supabase),
 };
 

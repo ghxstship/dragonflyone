@@ -3,7 +3,8 @@
  * File uploads, versioning, access control, and metadata management
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { SupabaseClient } from '@supabase/supabase-js';
+import type { Database, Json } from './supabase-types';
 
 export type DocumentType =
   | 'contract'
@@ -57,7 +58,7 @@ export interface DocumentVersion {
  */
 export class DocumentManager {
   constructor(
-    private supabase: ReturnType<typeof createClient>,
+    private supabase: SupabaseClient<Database>,
     private storageBucket: string = 'documents'
   ) {}
 
@@ -498,7 +499,7 @@ export class DocumentManager {
  * Export document management utilities
  */
 export const documentManagement = {
-  createManager: (supabase: ReturnType<typeof createClient>, storageBucket?: string) =>
+  createManager: (supabase: SupabaseClient<Database>, storageBucket?: string) =>
     new DocumentManager(supabase, storageBucket),
 };
 

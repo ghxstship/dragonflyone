@@ -3,7 +3,8 @@
  * Real-time status tracking and updates for projects, events, and resources
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { SupabaseClient } from '@supabase/supabase-js';
+import type { Database, Json } from './supabase-types';
 
 export type StatusType =
   | 'project'
@@ -53,7 +54,7 @@ export class LiveStatusManager {
   private subscriptions: Map<string, StatusSubscription[]> = new Map();
   private channels: Map<string, any> = new Map();
 
-  constructor(private supabase: ReturnType<typeof createClient>) {}
+  constructor(private supabase: SupabaseClient<Database>) {}
 
   /**
    * Subscribe to status updates for an entity
@@ -105,9 +106,9 @@ export class LiveStatusManager {
             entity_type: payload.new.entity_type,
             entity_id: payload.new.entity_id,
             status: payload.new.status,
-            message: payload.new.message,
-            metadata: payload.new.metadata,
-            updated_by: payload.new.updated_by,
+            message: payload.new.message ?? undefined,
+            metadata: payload.new.metadata ?? undefined,
+            updated_by: payload.new.updated_by ?? undefined,
             updated_at: payload.new.updated_at,
           };
 
@@ -201,9 +202,9 @@ export class LiveStatusManager {
       entity_type: data.entity_type,
       entity_id: data.entity_id,
       status: data.status,
-      message: data.message,
-      metadata: data.metadata,
-      updated_by: data.updated_by,
+      message: data.message ?? undefined,
+      metadata: data.metadata ?? undefined,
+      updated_by: data.updated_by ?? undefined,
       updated_at: data.updated_at,
     };
   }
@@ -231,9 +232,9 @@ export class LiveStatusManager {
       entity_type: row.entity_type,
       entity_id: row.entity_id,
       status: row.status,
-      message: row.message,
-      metadata: row.metadata,
-      updated_by: row.updated_by,
+      message: row.message ?? undefined,
+      metadata: row.metadata ?? undefined,
+      updated_by: row.updated_by ?? undefined,
       updated_at: row.updated_at,
     }));
   }
@@ -333,7 +334,7 @@ export const getStatusBadgeProps = (status: StatusValue) => {
  * Aggregates status across multiple entities
  */
 export class StatusAggregator {
-  constructor(private supabase: ReturnType<typeof createClient>) {}
+  constructor(private supabase: SupabaseClient<Database>) {}
 
   /**
    * Get status summary for multiple entities
@@ -366,9 +367,9 @@ export class StatusAggregator {
           entity_type: row.entity_type,
           entity_id: row.entity_id,
           status: row.status,
-          message: row.message,
-          metadata: row.metadata,
-          updated_by: row.updated_by,
+          message: row.message ?? undefined,
+          metadata: row.metadata ?? undefined,
+          updated_by: row.updated_by ?? undefined,
           updated_at: row.updated_at,
         });
       }
@@ -426,8 +427,8 @@ export class StatusAggregator {
  * Export live status utilities
  */
 export const liveStatus = {
-  createManager: (supabase: ReturnType<typeof createClient>) => new LiveStatusManager(supabase),
-  createAggregator: (supabase: ReturnType<typeof createClient>) => new StatusAggregator(supabase),
+  createManager: (supabase: SupabaseClient<Database>) => new LiveStatusManager(supabase),
+  createAggregator: (supabase: SupabaseClient<Database>) => new StatusAggregator(supabase),
   getStatusBadgeProps,
 };
 

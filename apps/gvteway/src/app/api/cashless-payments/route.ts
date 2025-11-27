@@ -9,6 +9,14 @@ function getSupabaseClient() {
   );
 }
 
+
+// Lazy getter for supabase client - only accessed at runtime
+const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
+  get(_target, prop) {
+    return (getSupabaseClient() as any)[prop];
+  }
+});
+
 const paymentSchema = z.object({
   amount: z.number().min(0.01),
   payment_method: z.enum(['tap', 'chip', 'swipe', 'nfc', 'apple_pay', 'google_pay']),

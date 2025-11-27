@@ -3,7 +3,8 @@
  * Outbound webhooks for real-time event notifications to external systems
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { SupabaseClient } from '@supabase/supabase-js';
+import type { Database, Json } from './supabase-types';
 
 export type WebhookEvent =
   | 'project.created'
@@ -60,7 +61,7 @@ export interface WebhookDelivery {
  * Handles webhook registration, delivery, and retry logic
  */
 export class WebhookManager {
-  constructor(private supabase: ReturnType<typeof createClient>) {}
+  constructor(private supabase: SupabaseClient<Database>) {}
 
   /**
    * Register a new webhook
@@ -446,7 +447,7 @@ export class WebhookManager {
  * Export webhook utilities
  */
 export const webhooks = {
-  createManager: (supabase: ReturnType<typeof createClient>) => new WebhookManager(supabase),
+  createManager: (supabase: SupabaseClient<Database>) => new WebhookManager(supabase),
 };
 
 export default webhooks;

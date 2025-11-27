@@ -11,6 +11,14 @@ function getSupabaseClient() {
   );
 }
 
+
+// Lazy getter for supabase client - only accessed at runtime
+const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
+  get(_target, prop) {
+    return (getSupabaseClient() as any)[prop];
+  }
+});
+
 const generateTicketsSchema = z.object({
   event_id: z.string().uuid(),
   ticket_type_id: z.string().uuid(),

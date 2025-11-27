@@ -3,7 +3,8 @@
  * Execute bulk operations on multiple entities with progress tracking
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { SupabaseClient } from '@supabase/supabase-js';
+import type { Database, Json } from './supabase-types';
 
 export type BatchOperationType =
   | 'update'
@@ -46,7 +47,7 @@ export interface BatchOperation {
  * Handles bulk operations with progress tracking and error handling
  */
 export class BatchOperationsEngine {
-  constructor(private supabase: ReturnType<typeof createClient>) {}
+  constructor(private supabase: SupabaseClient<Database>) {}
 
   /**
    * Create and execute a batch operation
@@ -508,7 +509,7 @@ export class BatchOperationsEngine {
  * Export batch operations utilities
  */
 export const batchOperations = {
-  createEngine: (supabase: ReturnType<typeof createClient>) => new BatchOperationsEngine(supabase),
+  createEngine: (supabase: SupabaseClient<Database>) => new BatchOperationsEngine(supabase),
 };
 
 export default batchOperations;

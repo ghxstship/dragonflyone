@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
+import type { StoreApi, UseBoundStore } from 'zustand';
 
 /**
  * Filters Store
@@ -69,7 +70,7 @@ const defaultCrewFilters = {
   sortOrder: 'asc' as const,
 };
 
-export const useFiltersStore = create<FiltersState>()(
+export const useFiltersStore: UseBoundStore<StoreApi<FiltersState>> = create<FiltersState>()(
   devtools(
     persist(
       immer((set) => ({

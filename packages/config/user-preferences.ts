@@ -3,7 +3,8 @@
  * Centralized user settings and preferences management
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { SupabaseClient } from '@supabase/supabase-js';
+import type { Database, Json } from './supabase-types';
 
 export type ThemeMode = 'light' | 'dark' | 'system';
 export type Language = 'en' | 'es' | 'fr' | 'de' | 'zh' | 'ja';
@@ -68,7 +69,7 @@ export interface PreferenceSetting {
  * Handles user preferences CRUD and validation
  */
 export class UserPreferencesManager {
-  constructor(private supabase: ReturnType<typeof createClient>) {}
+  constructor(private supabase: SupabaseClient<Database>) {}
 
   /**
    * Get user preferences
@@ -476,7 +477,7 @@ export class UserPreferencesManager {
  * Export user preferences utilities
  */
 export const userPreferences = {
-  createManager: (supabase: ReturnType<typeof createClient>) =>
+  createManager: (supabase: SupabaseClient<Database>) =>
     new UserPreferencesManager(supabase),
 };
 

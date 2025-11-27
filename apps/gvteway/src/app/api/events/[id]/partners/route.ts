@@ -9,6 +9,14 @@ function getSupabaseClient() {
   );
 }
 
+
+// Lazy getter for supabase client - only accessed at runtime
+const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
+  get(_target, prop) {
+    return (getSupabaseClient() as any)[prop];
+  }
+});
+
 const associationSchema = z.object({
   partner_id: z.string().uuid(),
   association_type: z.enum(['sponsor', 'vendor', 'accommodation', 'transportation', 'dining', 'attraction', 'promotion']),

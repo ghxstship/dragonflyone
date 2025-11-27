@@ -8,6 +8,14 @@ function getSupabaseClient() {
   );
 }
 
+
+// Lazy getter for supabase client - only accessed at runtime
+const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
+  get(_target, prop) {
+    return (getSupabaseClient() as any)[prop];
+  }
+});
+
 const platformSpecs = {
   instagram: {
     post: { maxLength: 2200, imageRatio: '1:1', videoMaxLength: 60 },

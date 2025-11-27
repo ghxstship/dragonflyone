@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
+import type { StoreApi, UseBoundStore } from 'zustand';
 
 /**
  * UI State Store
@@ -58,7 +59,7 @@ interface Notification {
   createdAt: number;
 }
 
-export const useUIStore = create<UIState>()(
+export const useUIStore: UseBoundStore<StoreApi<UIState>> = create<UIState>()(
   devtools(
     persist(
       immer((set) => ({
@@ -138,10 +139,10 @@ export const useUIStore = create<UIState>()(
             state.theme = theme;
           }),
 
-        setGlobalLoading: (loading, message = null) =>
+        setGlobalLoading: (loading, message) =>
           set((state) => {
             state.globalLoading = loading;
-            state.loadingMessage = message;
+            state.loadingMessage = message ?? null;
           }),
 
         setSearchOpen: (open) =>

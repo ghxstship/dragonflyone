@@ -3,7 +3,8 @@
  * Allows users to create personalized dashboards with configurable widgets
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { SupabaseClient } from '@supabase/supabase-js';
+import type { Database, Json } from './supabase-types';
 
 export type WidgetType =
   | 'kpi_card'
@@ -58,7 +59,7 @@ export interface WidgetDataSource {
  * Handles dashboard creation, widget management, and data fetching
  */
 export class DashboardManager {
-  constructor(private supabase: ReturnType<typeof createClient>) {}
+  constructor(private supabase: SupabaseClient<Database>) {}
 
   /**
    * Create a new dashboard
@@ -491,7 +492,7 @@ export class DashboardManager {
  * Handles fetching data for different widget types
  */
 export class WidgetDataFetcher {
-  constructor(private supabase: ReturnType<typeof createClient>) {}
+  constructor(private supabase: SupabaseClient<Database>) {}
 
   /**
    * Fetch data for a widget based on its data source
@@ -563,9 +564,9 @@ export class WidgetDataFetcher {
  * Export dashboard management utilities
  */
 export const customDashboards = {
-  createManager: (supabase: ReturnType<typeof createClient>) =>
+  createManager: (supabase: SupabaseClient<Database>) =>
     new DashboardManager(supabase),
-  createDataFetcher: (supabase: ReturnType<typeof createClient>) =>
+  createDataFetcher: (supabase: SupabaseClient<Database>) =>
     new WidgetDataFetcher(supabase),
 };
 

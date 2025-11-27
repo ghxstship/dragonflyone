@@ -3,7 +3,8 @@
  * Manage API keys for external integrations and third-party access
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { SupabaseClient } from '@supabase/supabase-js';
+import type { Database, Json } from './supabase-types';
 
 export type ApiKeyScope =
   | 'read:projects'
@@ -55,7 +56,7 @@ export interface ApiKeyUsage {
  * Handles API key generation, validation, and usage tracking
  */
 export class ApiKeyManager {
-  constructor(private supabase: ReturnType<typeof createClient>) {}
+  constructor(private supabase: SupabaseClient<Database>) {}
 
   /**
    * Generate new API key
@@ -106,11 +107,11 @@ export class ApiKeyManager {
           name: data.name,
           key_prefix: data.key_prefix,
           key_hash: data.key_hash,
-          scopes: data.scopes,
-          is_active: data.is_active,
-          rate_limit: data.rate_limit,
-          last_used_at: data.last_used_at,
-          expires_at: data.expires_at,
+          scopes: (data.scopes as string[]) as ApiKeyScope[],
+          is_active: data.is_active ?? false,
+          rate_limit: data.rate_limit ?? 1000,
+          last_used_at: data.last_used_at ?? undefined,
+          expires_at: data.expires_at ?? undefined,
           created_at: data.created_at,
           updated_at: data.updated_at,
         },
@@ -186,11 +187,11 @@ export class ApiKeyManager {
           name: data.name,
           key_prefix: data.key_prefix,
           key_hash: data.key_hash,
-          scopes: data.scopes,
-          is_active: data.is_active,
-          rate_limit: data.rate_limit,
-          last_used_at: data.last_used_at,
-          expires_at: data.expires_at,
+          scopes: (data.scopes as string[]) as ApiKeyScope[],
+          is_active: data.is_active ?? false,
+          rate_limit: data.rate_limit ?? 1000,
+          last_used_at: data.last_used_at ?? undefined,
+          expires_at: data.expires_at ?? undefined,
           created_at: data.created_at,
           updated_at: data.updated_at,
         },
@@ -422,8 +423,8 @@ export class ApiKeyManager {
       const result = await this.createApiKey(
         userId,
         oldKey.name,
-        oldKey.scopes,
-        oldKey.rate_limit,
+        (oldKey.scopes as string[]) as ApiKeyScope[],
+        oldKey.rate_limit ?? 1000,
         oldKey.expires_at
           ? Math.ceil((new Date(oldKey.expires_at).getTime() - Date.now()) / (24 * 60 * 60 * 1000))
           : undefined
@@ -445,7 +446,7 @@ export class ApiKeyManager {
  * Export API key utilities
  */
 export const apiKeys = {
-  createManager: (supabase: ReturnType<typeof createClient>) => new ApiKeyManager(supabase),
+  createManager: (supabase: SupabaseClient<Database>) => new ApiKeyManager(supabase),
 };
 
 export default apiKeys;

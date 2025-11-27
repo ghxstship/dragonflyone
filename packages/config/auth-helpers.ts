@@ -4,6 +4,9 @@ import type { Database } from './supabase-types';
 export type TypedSupabaseClient = SupabaseClient<Database>;
 export type UntypedSupabaseClient = SupabaseClient<Record<string, unknown>>;
 
+// Type for untyped query builder
+type UntypedQueryBuilder = ReturnType<SupabaseClient['from']>;
+
 // Re-export for convenience
 export { SupabaseClient };
 
@@ -11,8 +14,13 @@ export { SupabaseClient };
  * Helper to access tables not yet in the generated types.
  * Use this for tables that exist in the database but haven't been
  * added to supabase-types.ts yet.
+ *
+ * Returns a query builder for the specified table.
  */
-export function fromUntyped(client: TypedSupabaseClient, table: string) {
+export function fromUntyped(
+  client: TypedSupabaseClient,
+  table: string
+): UntypedQueryBuilder {
   return (client as unknown as SupabaseClient).from(table);
 }
 

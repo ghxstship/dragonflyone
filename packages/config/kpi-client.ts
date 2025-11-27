@@ -39,10 +39,10 @@ export async function recordKPIDataPoint(
     p_kpi_name: params.kpi_name,
     p_value: params.value,
     p_unit: params.unit,
-    p_project_id: params.project_id || null,
-    p_event_id: params.event_id || null,
-    p_period_start: params.period_start || null,
-    p_period_end: params.period_end || null,
+    p_project_id: params.project_id,
+    p_event_id: params.event_id,
+    p_period_start: params.period_start,
+    p_period_end: params.period_end,
     p_metadata: (params.metadata || {}) as Json
   });
 
@@ -64,7 +64,7 @@ export async function getKPITrend(
     p_organization_id: organizationId,
     p_kpi_code: kpi_code,
     p_days: days,
-    p_project_id: project_id || null
+    p_project_id: project_id
   });
 
   if (error) throw error;

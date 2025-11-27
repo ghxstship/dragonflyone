@@ -3,7 +3,8 @@
  * Universal search with faceted filters, saved searches, and search history
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { SupabaseClient } from '@supabase/supabase-js';
+import type { Database, Json } from './supabase-types';
 
 export interface SearchFilter {
   field: string;
@@ -58,7 +59,7 @@ export interface SearchHistory {
  * Provides universal search with filters, ranking, and relevance scoring
  */
 export class AdvancedSearchEngine {
-  constructor(private supabase: ReturnType<typeof createClient>) {}
+  constructor(private supabase: SupabaseClient<Database>) {}
 
   /**
    * Execute universal search across multiple entity types
@@ -209,8 +210,8 @@ export class AdvancedSearchEngine {
         .insert({
           user_id: userId,
           name,
-          description,
-          query,
+          description: description ?? null,
+          query: query as unknown as Json,
           is_public: isPublic,
         })
         .select()
@@ -226,9 +227,9 @@ export class AdvancedSearchEngine {
           id: data.id,
           user_id: data.user_id,
           name: data.name,
-          description: data.description,
-          query: data.query,
-          is_public: data.is_public,
+          description: data.description ?? undefined,
+          query: data.query as unknown as SearchQuery,
+          is_public: data.is_public ?? false,
           created_at: data.created_at,
           updated_at: data.updated_at,
         },
@@ -276,7 +277,7 @@ export class AdvancedSearchEngine {
     await this.supabase.from('search_history').insert({
       user_id: userId,
       query,
-      filters,
+      filters: filters as unknown as Json,
       result_count: resultCount,
       executed_at: new Date().toISOString(),
     });
@@ -414,7 +415,7 @@ export class AdvancedSearchEngine {
  * Export advanced search utilities
  */
 export const advancedSearch = {
-  createEngine: (supabase: ReturnType<typeof createClient>) => new AdvancedSearchEngine(supabase),
+  createEngine: (supabase: SupabaseClient<Database>) => new AdvancedSearchEngine(supabase),
 };
 
 export default advancedSearch;

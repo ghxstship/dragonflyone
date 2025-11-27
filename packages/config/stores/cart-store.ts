@@ -1,6 +1,7 @@
-import { create } from 'zustand';
+import { create, type StateCreator } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
+import type { StoreApi, UseBoundStore } from 'zustand';
 
 /**
  * Cart State Store (GVTEWAY)
@@ -41,7 +42,7 @@ interface CartState {
 
 const TAX_RATE = 0.07; // 7% tax
 
-export const useCartStore = create<CartState>()(
+export const useCartStore: UseBoundStore<StoreApi<CartState>> = create<CartState>()(
   devtools(
     persist(
       immer((set, get) => ({

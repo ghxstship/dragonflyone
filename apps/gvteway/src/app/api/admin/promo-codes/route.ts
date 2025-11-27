@@ -9,6 +9,14 @@ function getSupabaseClient() {
   );
 }
 
+
+// Lazy getter for supabase client - only accessed at runtime
+const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
+  get(_target, prop) {
+    return (getSupabaseClient() as any)[prop];
+  }
+});
+
 const createPromoCodeSchema = z.object({
   code: z.string().min(3).max(20),
   discount_type: z.enum(['percentage', 'fixed']),
