@@ -1,7 +1,7 @@
 // apps/atlvs/src/app/api/advancing/requests/[id]/reject/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { supabaseAdmin } from '@/lib/supabase';
+import { createAdminClient } from '@/lib/supabase';
 
 export const dynamic = 'force-dynamic';
 
@@ -17,8 +17,8 @@ export async function POST(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const supabase = createAdminClient();
   try {
-    const supabase = supabaseAdmin;
     const { id } = params;
     const body = await request.json();
 

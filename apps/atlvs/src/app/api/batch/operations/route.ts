@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { supabaseAdmin } from '@/lib/supabase';
+import { createAdminClient } from '@/lib/supabase';
 import { apiRoute } from '@ghxstship/config/middleware';
 import { PlatformRole } from '@ghxstship/config/roles';
 
@@ -18,6 +18,7 @@ const batchOperationSchema = z.object({
 });
 
 async function executeBatchOperation(
+  supabaseAdmin: ReturnType<typeof createAdminClient>,
   operation: string,
   entityType: string,
   records: any[],
@@ -108,6 +109,7 @@ async function executeBatchOperation(
 
 export const POST = apiRoute(
   async (request: NextRequest, context: any) => {
+    const supabaseAdmin = createAdminClient();
     const body = await request.json();
     const data = batchOperationSchema.parse(body);
 
@@ -115,6 +117,7 @@ export const POST = apiRoute(
 
     try {
       const batchResult = await executeBatchOperation(
+        supabaseAdmin,
         data.operation,
         data.entity_type,
         data.records,

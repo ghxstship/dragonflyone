@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 const COISchema = z.object({
   vendor_id: z.string().uuid().optional(),
@@ -40,6 +35,7 @@ const COIRequirementSchema = z.object({
 
 // GET /api/insurance-coi - Get COIs and requirements
 export async function GET(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -160,6 +156,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/insurance-coi - Create COI or requirement
 export async function POST(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -372,6 +369,7 @@ export async function POST(request: NextRequest) {
 
 // PATCH /api/insurance-coi - Update COI
 export async function PATCH(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {

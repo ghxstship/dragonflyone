@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
-);
 
 // Validation schemas
 const maintenanceRecordSchema = z.object({
@@ -57,6 +52,7 @@ const serviceRecordSchema = z.object({
 
 // GET - Get maintenance history and service records
 export async function GET(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const { searchParams } = new URL(request.url);
     const type = searchParams.get('type'); // 'history' | 'upcoming' | 'overdue' | 'costs' | 'service_records'
@@ -355,6 +351,7 @@ export async function GET(request: NextRequest) {
 
 // POST - Create maintenance record or service record
 export async function POST(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const body = await request.json();
     const action = body.action;
@@ -509,6 +506,7 @@ export async function POST(request: NextRequest) {
 
 // PATCH - Update maintenance record
 export async function PATCH(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const body = await request.json();
     const { id, ...updates } = body;
@@ -547,6 +545,7 @@ export async function PATCH(request: NextRequest) {
 
 // DELETE - Cancel or delete maintenance record
 export async function DELETE(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');

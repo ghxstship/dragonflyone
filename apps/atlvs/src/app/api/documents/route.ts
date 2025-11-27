@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 const DocumentSchema = z.object({
   name: z.string().min(1),
@@ -25,6 +20,7 @@ const DocumentSchema = z.object({
 
 // GET /api/documents - List documents
 export async function GET(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const { searchParams } = new URL(request.url);
     const folderId = searchParams.get('folder_id');
@@ -102,6 +98,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/documents - Create document
 export async function POST(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const body = await request.json();
     const validated = DocumentSchema.parse(body);
@@ -157,6 +154,7 @@ export async function POST(request: NextRequest) {
 
 // PATCH /api/documents - Update documents
 export async function PATCH(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const body = await request.json();
     const { document_id, action, updates } = body;
@@ -221,6 +219,7 @@ export async function PATCH(request: NextRequest) {
 
 // DELETE /api/documents - Delete document
 export async function DELETE(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const { searchParams } = new URL(request.url);
     const documentId = searchParams.get('document_id');

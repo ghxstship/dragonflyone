@@ -1,13 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
 import { apiRoute } from '@ghxstship/config/middleware';
 import { PlatformRole } from '@ghxstship/config/roles';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 const depreciationSchema = z.object({
   asset_id: z.string().uuid(),
@@ -24,6 +19,7 @@ const depreciationSchema = z.object({
 // GET - Calculate depreciation or list schedules
 export const GET = apiRoute(
   async (request: NextRequest) => {
+    const supabase = createAdminClient();
     const { searchParams } = new URL(request.url);
     const asset_id = searchParams.get('asset_id');
     const action = searchParams.get('action');
@@ -84,6 +80,7 @@ export const GET = apiRoute(
 // POST - Create depreciation schedule
 export const POST = apiRoute(
   async (request: NextRequest, context: any) => {
+    const supabase = createAdminClient();
     const body = await request.json();
     const validated = depreciationSchema.parse(body);
 

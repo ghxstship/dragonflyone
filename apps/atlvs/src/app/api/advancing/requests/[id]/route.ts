@@ -1,7 +1,7 @@
 // apps/atlvs/src/app/api/advancing/requests/[id]/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { supabaseAdmin } from '@/lib/supabase';
+import { createAdminClient } from '@/lib/supabase';
 
 export const dynamic = 'force-dynamic';
 
@@ -20,8 +20,8 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const supabase = createAdminClient();
   try {
-    const supabase = supabaseAdmin;
     const { id } = params;
 
     const { data, error } = await supabase
@@ -74,8 +74,8 @@ export async function PATCH(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const supabase = createAdminClient();
   try {
-    const supabase = supabaseAdmin;
     const { id } = params;
     const body = await request.json();
 
@@ -144,8 +144,8 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const supabase = createAdminClient();
   try {
-    const supabase = supabaseAdmin;
     const { id } = params;
 
     // Check current status

@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 const VendorContractSchema = z.object({
   vendor_id: z.string().uuid(),
@@ -29,6 +24,7 @@ const VendorContractSchema = z.object({
 
 // GET /api/vendor-contracts - Get vendor contracts with expiration alerts
 export async function GET(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -133,6 +129,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/vendor-contracts - Create contract or renewal
 export async function POST(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -265,6 +262,7 @@ export async function POST(request: NextRequest) {
 
 // PATCH /api/vendor-contracts - Update contract
 export async function PATCH(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -302,6 +300,7 @@ export async function PATCH(request: NextRequest) {
 
 // DELETE /api/vendor-contracts - Terminate contract
 export async function DELETE(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {

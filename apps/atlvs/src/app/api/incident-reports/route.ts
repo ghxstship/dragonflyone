@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 const incidentReportSchema = z.object({
   incident_type: z.enum(['workplace_injury', 'property_damage', 'near_miss', 'security_breach', 'data_breach', 'environmental', 'vehicle_accident', 'theft', 'harassment', 'other']),
@@ -27,6 +22,7 @@ const incidentReportSchema = z.object({
 
 // GET /api/incident-reports - List incident reports
 export async function GET(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status');
@@ -112,6 +108,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/incident-reports - Create incident report
 export async function POST(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const body = await request.json();
     const validated = incidentReportSchema.parse(body);
@@ -173,6 +170,7 @@ export async function POST(request: NextRequest) {
 
 // PATCH /api/incident-reports - Update incident report
 export async function PATCH(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const body = await request.json();
     const { incident_id, action, updates } = body;

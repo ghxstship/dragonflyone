@@ -5,7 +5,7 @@
 
 -- Search Index Table (Full-text search)
 CREATE TABLE IF NOT EXISTS search_index (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   entity_type TEXT NOT NULL,
   entity_id TEXT NOT NULL,
   title TEXT NOT NULL,
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS search_index (
 
 -- Saved Searches Table
 CREATE TABLE IF NOT EXISTS saved_searches (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES platform_users(id) ON DELETE CASCADE,
   name TEXT NOT NULL,
   description TEXT,
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS saved_searches (
 
 -- Search History Table
 CREATE TABLE IF NOT EXISTS search_history (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES platform_users(id) ON DELETE CASCADE,
   query TEXT NOT NULL,
   filters JSONB,
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS search_history (
 
 -- Export Jobs Table
 CREATE TABLE IF NOT EXISTS export_jobs (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES platform_users(id) ON DELETE CASCADE,
   entity_type TEXT NOT NULL,
   format TEXT NOT NULL CHECK (format IN ('csv', 'excel', 'pdf', 'json')),
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS export_jobs (
 
 -- Export Templates Table
 CREATE TABLE IF NOT EXISTS export_templates (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES platform_users(id) ON DELETE CASCADE,
   name TEXT NOT NULL,
   entity_type TEXT NOT NULL,
@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS export_templates (
 
 -- Batch Operations Table
 CREATE TABLE IF NOT EXISTS batch_operations (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES platform_users(id) ON DELETE CASCADE,
   operation_type TEXT NOT NULL,
   entity_type TEXT NOT NULL,
@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS batch_operations (
 
 -- Audit Trail Table (Enhanced)
 CREATE TABLE IF NOT EXISTS audit_trail (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID REFERENCES platform_users(id) ON DELETE SET NULL,
   entity_type TEXT NOT NULL,
   entity_id TEXT NOT NULL,
@@ -109,7 +109,7 @@ CREATE TABLE IF NOT EXISTS audit_trail (
 
 -- Custom Dashboard Widgets Table
 CREATE TABLE IF NOT EXISTS dashboard_widgets (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES platform_users(id) ON DELETE CASCADE,
   dashboard_id UUID,
   widget_type TEXT NOT NULL,

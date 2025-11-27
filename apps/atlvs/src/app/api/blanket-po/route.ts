@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 const BlanketPOSchema = z.object({
   vendor_id: z.string().uuid(),
@@ -26,6 +21,7 @@ const ReleaseSchema = z.object({
 
 // GET /api/blanket-po - Get blanket POs and releases
 export async function GET(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -115,6 +111,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/blanket-po - Create blanket PO or release
 export async function POST(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -249,6 +246,7 @@ export async function POST(request: NextRequest) {
 
 // PATCH /api/blanket-po - Update blanket PO or release
 export async function PATCH(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {

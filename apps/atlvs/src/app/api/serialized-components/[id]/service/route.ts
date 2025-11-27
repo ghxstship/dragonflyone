@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 const serviceSchema = z.object({
   service_type: z.enum(['repair', 'maintenance', 'calibration', 'firmware_update', 'inspection', 'replacement', 'refurbishment']),
@@ -36,6 +31,7 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const supabase = createAdminClient();
   try {
     const { searchParams } = new URL(request.url);
     const service_type = searchParams.get('service_type');
@@ -75,6 +71,7 @@ export async function POST(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const supabase = createAdminClient();
   try {
     const body = await request.json();
     const validated = serviceSchema.parse(body);

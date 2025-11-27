@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/supabase';
 import crypto from 'crypto';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 // Webhook delivery function
 async function deliverWebhook(
@@ -61,6 +56,7 @@ function generateSignature(payload: any, timestamp: number): string {
 
 // POST /api/zapier/webhooks - Trigger webhooks for an event
 export async function POST(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     // Allow internal service calls with service key
@@ -136,6 +132,7 @@ export async function POST(request: NextRequest) {
 
 // GET /api/zapier/webhooks - Get webhook delivery logs
 export async function GET(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {

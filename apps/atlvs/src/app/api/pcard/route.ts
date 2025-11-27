@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 const PCardSchema = z.object({
   cardholder_id: z.string().uuid(),
@@ -39,6 +34,7 @@ const PCardTransactionSchema = z.object({
 
 // GET /api/pcard - Get P-cards and transactions
 export async function GET(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -180,6 +176,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/pcard - Create P-card or transaction
 export async function POST(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -333,6 +330,7 @@ export async function POST(request: NextRequest) {
 
 // PATCH /api/pcard - Update P-card or transaction
 export async function PATCH(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {

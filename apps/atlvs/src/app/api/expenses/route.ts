@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 const expenseSchema = z.object({
   project_id: z.string().uuid().optional(),
@@ -28,6 +23,7 @@ const expenseSchema = z.object({
 
 // GET /api/expenses - List all expenses
 export async function GET(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status');
@@ -129,6 +125,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/expenses - Create new expense
 export async function POST(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const body = await request.json();
     const validated = expenseSchema.parse(body);
@@ -205,6 +202,7 @@ export async function POST(request: NextRequest) {
 
 // PATCH /api/expenses - Submit for approval or bulk actions
 export async function PATCH(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const body = await request.json();
     const { expense_ids, action } = body;

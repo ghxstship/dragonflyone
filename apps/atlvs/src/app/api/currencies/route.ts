@@ -1,13 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
 import { apiRoute } from '@ghxstship/config/middleware';
 import { PlatformRole } from '@ghxstship/config/roles';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 const exchangeRateSchema = z.object({
   from_currency: z.string().length(3),
@@ -21,6 +16,7 @@ const exchangeRateSchema = z.object({
 // GET - List exchange rates or convert amount
 export const GET = apiRoute(
   async (request: NextRequest) => {
+    const supabase = createAdminClient();
     const { searchParams } = new URL(request.url);
     const action = searchParams.get('action');
     const from = searchParams.get('from');
@@ -99,6 +95,7 @@ export const GET = apiRoute(
 // POST - Add exchange rate or sync from API
 export const POST = apiRoute(
   async (request: NextRequest, context: any) => {
+    const supabase = createAdminClient();
     const body = await request.json();
     const { action } = body;
 
@@ -205,6 +202,7 @@ async function fetchMultipleRates(base: string, targets: string[]): Promise<any[
 // PUT - Update exchange rate
 export const PUT = apiRoute(
   async (request: NextRequest) => {
+    const supabase = createAdminClient();
     const body = await request.json();
     const { id, updates } = body;
 
@@ -235,6 +233,7 @@ export const PUT = apiRoute(
 // DELETE - Deactivate exchange rate
 export const DELETE = apiRoute(
   async (request: NextRequest) => {
+    const supabase = createAdminClient();
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
 

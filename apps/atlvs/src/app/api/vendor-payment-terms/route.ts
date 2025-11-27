@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
-);
 
 // Validation schemas
 const paymentTermSchema = z.object({
@@ -19,6 +14,7 @@ const paymentTermSchema = z.object({
 
 // GET - Get vendor payment terms
 export async function GET(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const { searchParams } = new URL(request.url);
     const type = searchParams.get('type'); // 'all' | 'vendor' | 'summary'
@@ -92,6 +88,7 @@ export async function GET(request: NextRequest) {
 
 // POST - Create payment term
 export async function POST(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const body = await request.json();
     const validated = paymentTermSchema.parse(body);
@@ -128,6 +125,7 @@ export async function POST(request: NextRequest) {
 
 // PATCH - Update payment term
 export async function PATCH(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const body = await request.json();
     const { id, ...updates } = body;
@@ -167,6 +165,7 @@ export async function PATCH(request: NextRequest) {
 
 // DELETE - Delete payment term
 export async function DELETE(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');

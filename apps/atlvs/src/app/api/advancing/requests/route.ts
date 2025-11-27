@@ -1,7 +1,7 @@
 // apps/atlvs/src/app/api/advancing/requests/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { supabaseAdmin } from '@/lib/supabase';
+import { createAdminClient } from '@/lib/supabase';
 
 export const dynamic = 'force-dynamic';
 
@@ -28,8 +28,8 @@ const createAdvanceSchema = z.object({
  * List production advance requests with filters
  */
 export async function GET(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
-    const supabase = supabaseAdmin;
     const searchParams = request.nextUrl.searchParams;
 
     // Extract filters
@@ -101,8 +101,8 @@ export async function GET(request: NextRequest) {
  * Create a new production advance request
  */
 export async function POST(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
-    const supabase = supabaseAdmin;
     const body = await request.json();
 
     // Validate request body

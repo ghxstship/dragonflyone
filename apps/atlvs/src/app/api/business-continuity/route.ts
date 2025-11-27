@@ -1,13 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+import { createAdminClient } from '@/lib/supabase';
 
 // GET - Fetch business continuity and disaster recovery plans
 export async function GET(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -75,6 +71,7 @@ export async function GET(request: NextRequest) {
 
 // POST - Create business continuity plan
 export async function POST(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -170,6 +167,7 @@ export async function POST(request: NextRequest) {
 
 // PATCH - Update plan, schedule test, or record test results
 export async function PATCH(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {

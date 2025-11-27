@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { supabaseAdmin, fromDynamic } from '@/lib/supabase';
+import { createAdminClient, fromDynamic } from '@/lib/supabase';
 
 // Validation schema
 const riskSchema = z.object({
@@ -30,6 +30,7 @@ const riskSchema = z.object({
 
 // GET /api/risks - List all risks
 export async function GET(request: NextRequest) {
+  const supabaseAdmin = createAdminClient();
   try {
     const { searchParams } = new URL(request.url);
     const category = searchParams.get('category');
@@ -131,6 +132,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/risks - Create new risk
 export async function POST(request: NextRequest) {
+  const supabaseAdmin = createAdminClient();
   try {
     const body = await request.json();
 
@@ -187,6 +189,7 @@ export async function POST(request: NextRequest) {
 
 // PATCH /api/risks - Bulk update risks
 export async function PATCH(request: NextRequest) {
+  const supabaseAdmin = createAdminClient();
   try {
     const body = await request.json();
     const { risk_ids, updates } = body;

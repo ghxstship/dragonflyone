@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 const approvalSchema = z.object({
   user_id: z.string().uuid().optional(),
@@ -19,6 +14,7 @@ export async function POST(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const supabase = createAdminClient();
   try {
     const { id } = params;
     const body = await request.json();

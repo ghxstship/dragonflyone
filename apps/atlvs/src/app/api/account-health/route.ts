@@ -1,13 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+function getSupabaseClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+}
 
 // Account health scoring with predictive analytics
 export async function GET(request: NextRequest) {
+  const supabase = getSupabaseClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -17,7 +20,7 @@ export async function GET(request: NextRequest) {
 
     if (clientId) {
       // Get single client health score
-      const healthScore = await calculateClientHealth(clientId);
+      const healthScore = await calculateClientHealth(supabase, clientId);
       return NextResponse.json({ client_id: clientId, ...healthScore });
     }
 
@@ -27,7 +30,7 @@ export async function GET(request: NextRequest) {
     const healthScores = await Promise.all(
       (clients || []).map(async (client) => ({
         client,
-        ...await calculateClientHealth(client.id)
+        ...await calculateClientHealth(supabase, client.id)
       }))
     );
 
@@ -45,7 +48,7 @@ export async function GET(request: NextRequest) {
   }
 }
 
-async function calculateClientHealth(clientId: string) {
+async function calculateClientHealth(supabase: SupabaseClient, clientId: string) {
   // Get recent activity
   const thirtyDaysAgo = new Date();
   thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
@@ -66,7 +69,7 @@ async function calculateClientHealth(clientId: string) {
   const engagementScore = Math.min(100, (communications?.length || 0) * 10);
   const projectScore = recentProjects?.length ? 80 : 40;
   const paymentScore = calculatePaymentScore(recentInvoices || []);
-  const npsScore = npsScores?.length ? (npsScores.reduce((s, n) => s + n.score, 0) / npsScores.length) * 10 : 50;
+  const npsScore = npsScores?.length ? (npsScores.reduce((s: number, n: { score: number }) => s + n.score, 0) / npsScores.length) * 10 : 50;
 
   // Weighted average
   const score = Math.round(

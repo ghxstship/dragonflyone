@@ -15,8 +15,9 @@ export const supabase = configSupabase;
 /**
  * Typed Supabase admin client for server usage.
  * Use this for tables defined in supabase-types.ts
+ * Note: This is a function to avoid module-level initialization during build
  */
-export const supabaseAdmin = getServerSupabase();
+export const getSupabaseAdmin = getServerSupabase;
 
 /**
  * Helper to access tables dynamically or tables not in generated types.
@@ -42,7 +43,15 @@ export function getUntypedClient(): UntypedSupabaseClient {
  * Only use this when you need complete flexibility with table names.
  */
 export function getUntypedAdminClient(): UntypedSupabaseClient {
-  return supabaseAdmin as unknown as UntypedSupabaseClient;
+  return getSupabaseAdmin() as unknown as UntypedSupabaseClient;
+}
+
+/**
+ * Create a Supabase admin client for API routes.
+ * Call this inside request handlers, not at module level.
+ */
+export function createAdminClient() {
+  return getServerSupabase();
 }
 
 export { getServerSupabase, fromUntyped };

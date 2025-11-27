@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 const AttributionEventSchema = z.object({
   contact_id: z.string().uuid().optional(),
@@ -24,6 +19,7 @@ const AttributionEventSchema = z.object({
 
 // GET /api/marketing-attribution - Get attribution data and reports
 export async function GET(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -181,6 +177,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/marketing-attribution - Track attribution event
 export async function POST(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const body = await request.json();
     const validated = AttributionEventSchema.parse(body);

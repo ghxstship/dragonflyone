@@ -28,6 +28,7 @@ end;
 $$;
 
 -- Create function to analyze slow queries
+-- Note: pg_stat_statements extension may not be available on all Supabase plans
 create or replace function analyze_slow_queries(
   min_duration_ms int default 1000,
   limit_rows int default 100
@@ -39,19 +40,29 @@ returns table (
   mean_time double precision,
   max_time double precision
 )
-language sql
+language plpgsql
 security definer
 as $$
-  select 
-    query,
-    calls,
-    total_exec_time as total_time,
-    mean_exec_time as mean_time,
-    max_exec_time as max_time
-  from pg_stat_statements
-  where mean_exec_time > min_duration_ms
-  order by total_exec_time desc
-  limit limit_rows;
+begin
+  -- Check if pg_stat_statements extension exists
+  if exists (select 1 from pg_extension where extname = 'pg_stat_statements') then
+    return query execute format('
+      select 
+        query,
+        calls,
+        total_exec_time as total_time,
+        mean_exec_time as mean_time,
+        max_exec_time as max_time
+      from pg_stat_statements
+      where mean_exec_time > %s
+      order by total_exec_time desc
+      limit %s
+    ', min_duration_ms, limit_rows);
+  else
+    -- Return empty result if extension not available
+    return;
+  end if;
+end;
 $$;
 
 -- Create function to monitor table bloat

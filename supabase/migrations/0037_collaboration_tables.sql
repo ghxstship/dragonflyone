@@ -5,7 +5,7 @@
 
 -- Document Locks Table
 CREATE TABLE IF NOT EXISTS document_locks (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   document_id TEXT NOT NULL,
   field_name TEXT NOT NULL,
   user_id UUID NOT NULL REFERENCES platform_users(id) ON DELETE CASCADE,
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS document_locks (
 
 -- Status Updates Table  
 CREATE TABLE IF NOT EXISTS status_updates (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   entity_type TEXT NOT NULL CHECK (entity_type IN ('project', 'event', 'task', 'asset', 'crew_member', 'venue', 'order', 'ticket')),
   entity_id TEXT NOT NULL,
   status TEXT NOT NULL CHECK (status IN ('idle', 'active', 'in_progress', 'pending', 'completed', 'cancelled', 'failed', 'on_hold', 'delayed', 'at_risk', 'critical')),

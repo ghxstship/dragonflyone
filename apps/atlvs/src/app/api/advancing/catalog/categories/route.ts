@@ -1,6 +1,6 @@
 // apps/atlvs/src/app/api/advancing/catalog/categories/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { supabaseAdmin } from '@/lib/supabase';
+import { createAdminClient } from '@/lib/supabase';
 
 export const dynamic = 'force-dynamic';
 
@@ -9,8 +9,8 @@ export const dynamic = 'force-dynamic';
  * Get unique categories and subcategories from catalog
  */
 export async function GET(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
-    const supabase = supabaseAdmin;
 
     // Get all categories with their subcategories
     const { data, error } = await supabase

@@ -1,6 +1,6 @@
 // apps/atlvs/src/app/api/advancing/catalog/[id]/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { supabaseAdmin } from '@/lib/supabase';
+import { createAdminClient } from '@/lib/supabase';
 
 export const dynamic = 'force-dynamic';
 
@@ -12,8 +12,8 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const supabase = createAdminClient();
   try {
-    const supabase = supabaseAdmin;
     const { id } = params;
 
     const { data, error } = await supabase

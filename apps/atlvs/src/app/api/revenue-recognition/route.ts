@@ -1,13 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
 import { apiRoute } from '@ghxstship/config/middleware';
 import { PlatformRole } from '@ghxstship/config/roles';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 // Revenue recognition rule schema
 const revenueRuleSchema = z.object({
@@ -28,6 +23,7 @@ const revenueRuleSchema = z.object({
 // GET - List revenue recognition rules
 export const GET = apiRoute(
   async (request: NextRequest) => {
+    const supabase = createAdminClient();
     const { searchParams } = new URL(request.url);
     const project_id = searchParams.get('project_id');
     const status = searchParams.get('status');
@@ -71,6 +67,7 @@ export const GET = apiRoute(
 // POST - Create revenue recognition rule
 export const POST = apiRoute(
   async (request: NextRequest, context: any) => {
+    const supabase = createAdminClient();
     const body = await request.json();
     const validated = revenueRuleSchema.parse(body);
 

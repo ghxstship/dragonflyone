@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 const CompetitorSchema = z.object({
   name: z.string(),
@@ -20,6 +15,7 @@ const CompetitorSchema = z.object({
 
 // GET /api/ai/competitive-intelligence - Competitive intelligence and market analysis
 export async function GET(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -301,6 +297,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/ai/competitive-intelligence - Add competitors or updates
 export async function POST(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {

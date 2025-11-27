@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 const ptoBalanceSchema = z.object({
   employee_id: z.string().uuid(),
@@ -18,6 +13,7 @@ const ptoBalanceSchema = z.object({
 
 // GET /api/pto-balances - Get PTO balances
 export async function GET(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const { searchParams } = new URL(request.url);
     const employeeId = searchParams.get('employee_id');
@@ -118,6 +114,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/pto-balances - Create or update PTO balance
 export async function POST(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const body = await request.json();
     const validated = ptoBalanceSchema.parse(body);
@@ -162,6 +159,7 @@ export async function POST(request: NextRequest) {
 
 // PATCH /api/pto-balances - Bulk accrual or adjustment
 export async function PATCH(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const body = await request.json();
     const { action, employee_ids, pto_type, hours, year } = body;

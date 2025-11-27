@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/supabase';
 import crypto from 'crypto';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 function generateCodeVerifier(): string {
   return crypto.randomBytes(32).toString('base64url');
@@ -16,6 +11,7 @@ function generateCodeChallenge(verifier: string): string {
 }
 
 export async function GET(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const { searchParams } = new URL(request.url);
     const provider_id = searchParams.get('provider_id');

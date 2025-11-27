@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
-);
 
 // Validation schemas
 const jobCostSchema = z.object({
@@ -37,6 +32,7 @@ const costCodeSchema = z.object({
 
 // GET - Get job costing data
 export async function GET(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const { searchParams } = new URL(request.url);
     const type = searchParams.get('type'); // 'project' | 'codes' | 'summary' | 'profitability' | 'wip'
@@ -309,6 +305,7 @@ export async function GET(request: NextRequest) {
 
 // POST - Create job cost or cost code
 export async function POST(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const body = await request.json();
     const action = body.action;
@@ -458,6 +455,7 @@ export async function POST(request: NextRequest) {
 
 // PATCH - Update cost or code
 export async function PATCH(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const body = await request.json();
     const { id, type, ...updates } = body;
@@ -497,6 +495,7 @@ export async function PATCH(request: NextRequest) {
 
 // DELETE - Delete cost entry
 export async function DELETE(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');

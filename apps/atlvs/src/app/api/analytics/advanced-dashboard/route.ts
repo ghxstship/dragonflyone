@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 const DashboardWidgetSchema = z.object({
   widget_type: z.enum([
@@ -57,6 +52,7 @@ const DashboardSchema = z.object({
 
 // GET /api/analytics/advanced-dashboard - Get dashboards and widget data
 export async function GET(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -155,6 +151,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/analytics/advanced-dashboard - Create or update dashboard
 export async function POST(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -301,6 +298,7 @@ export async function POST(request: NextRequest) {
 
 // PATCH /api/analytics/advanced-dashboard - Update dashboard or widget
 export async function PATCH(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -371,6 +369,7 @@ export async function PATCH(request: NextRequest) {
 
 // DELETE /api/analytics/advanced-dashboard - Delete dashboard or widget
 export async function DELETE(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {

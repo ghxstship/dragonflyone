@@ -1,12 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+import { createAdminClient } from '@/lib/supabase';
 
 export async function POST(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const body = await request.json();
     const { token, type } = body;
@@ -47,6 +43,7 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
+  const supabase = createAdminClient();
   const { searchParams } = new URL(request.url);
   const token = searchParams.get('token');
   const type = searchParams.get('type') || 'signup';

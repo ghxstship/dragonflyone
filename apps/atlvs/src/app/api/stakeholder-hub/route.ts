@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
-);
 
 // Validation schemas
 const stakeholderSchema = z.object({
@@ -41,6 +36,7 @@ const communicationSchema = z.object({
 
 // GET - List stakeholders and communications
 export async function GET(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const { searchParams } = new URL(request.url);
     const projectId = searchParams.get('project_id');
@@ -172,6 +168,7 @@ export async function GET(request: NextRequest) {
 
 // POST - Add stakeholder or send communication
 export async function POST(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const body = await request.json();
     const action = body.action; // 'add_stakeholder' | 'send_communication'
@@ -294,6 +291,7 @@ export async function POST(request: NextRequest) {
 
 // PATCH - Update stakeholder or acknowledge communication
 export async function PATCH(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const body = await request.json();
     const action = body.action;
@@ -362,6 +360,7 @@ export async function PATCH(request: NextRequest) {
 
 // DELETE - Remove stakeholder
 export async function DELETE(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const { searchParams } = new URL(request.url);
     const stakeholderId = searchParams.get('stakeholder_id');

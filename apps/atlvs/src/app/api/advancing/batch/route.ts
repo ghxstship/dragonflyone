@@ -1,7 +1,7 @@
 // apps/atlvs/src/app/api/advancing/batch/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { supabaseAdmin } from '@/lib/supabase';
+import { createAdminClient } from '@/lib/supabase';
 
 export const dynamic = 'force-dynamic';
 
@@ -26,6 +26,7 @@ const batchStatusUpdateSchema = z.object({
  * Batch operations for advance requests
  */
 export async function POST(request: NextRequest) {
+  const supabaseAdmin = createAdminClient();
   try {
     const userId = request.headers.get('x-user-id');
     const orgId = request.headers.get('x-organization-id');
@@ -42,11 +43,11 @@ export async function POST(request: NextRequest) {
 
     switch (operation) {
       case 'approve':
-        return await handleBatchApprove(body, userId, orgId);
+        return await handleBatchApprove(supabaseAdmin, body, userId, orgId);
       case 'reject':
-        return await handleBatchReject(body, userId, orgId);
+        return await handleBatchReject(supabaseAdmin, body, userId, orgId);
       case 'update_status':
-        return await handleBatchStatusUpdate(body, userId, orgId);
+        return await handleBatchStatusUpdate(supabaseAdmin, body, userId, orgId);
       default:
         return NextResponse.json(
           { error: 'Invalid operation' },
@@ -70,6 +71,7 @@ export async function POST(request: NextRequest) {
 }
 
 async function handleBatchApprove(
+  supabaseAdmin: ReturnType<typeof createAdminClient>,
   body: any,
   userId: string,
   orgId: string
@@ -147,6 +149,7 @@ async function handleBatchApprove(
 }
 
 async function handleBatchReject(
+  supabaseAdmin: ReturnType<typeof createAdminClient>,
   body: any,
   userId: string,
   orgId: string
@@ -216,6 +219,7 @@ async function handleBatchReject(
 }
 
 async function handleBatchStatusUpdate(
+  supabaseAdmin: ReturnType<typeof createAdminClient>,
   body: any,
   userId: string,
   orgId: string

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { supabaseAdmin } from '@/lib/supabase';
+import { createAdminClient } from '@/lib/supabase';
 import { apiRoute } from '@ghxstship/config/middleware';
 import { PlatformRole } from '@ghxstship/config/roles';
 
@@ -14,7 +14,7 @@ const generateReportSchema = z.object({
   metrics: z.array(z.string()).optional(),
 });
 
-async function generateFinancialReport(start: string, end: string, filters: any) {
+async function generateFinancialReport(supabaseAdmin: ReturnType<typeof createAdminClient>, start: string, end: string, filters: any) {
   const { data: revenue } = await supabaseAdmin
     .from('ledger_entries')
     .select('amount, type, created_at, account_id')
@@ -49,7 +49,7 @@ async function generateFinancialReport(start: string, end: string, filters: any)
   };
 }
 
-async function generateProjectReport(start: string, end: string, filters: Record<string, unknown>) {
+async function generateProjectReport(supabaseAdmin: ReturnType<typeof createAdminClient>, start: string, end: string, filters: Record<string, unknown>) {
   let query = (supabaseAdmin as any)
     .from('projects')
     .select('id, name, status, estimated_budget, actual_cost, start_date, end_date, created_at')
@@ -87,7 +87,7 @@ async function generateProjectReport(start: string, end: string, filters: Record
   return { summary, projects };
 }
 
-async function generateAssetReport(start: string, end: string, filters: Record<string, unknown>) {
+async function generateAssetReport(supabaseAdmin: ReturnType<typeof createAdminClient>, start: string, end: string, filters: Record<string, unknown>) {
   const { data } = await (supabaseAdmin as any)
     .from('assets')
     .select('id, name, type, status, value, purchase_date, location');
@@ -120,7 +120,7 @@ async function generateAssetReport(start: string, end: string, filters: Record<s
   return { summary, assets };
 }
 
-async function generateWorkforceReport(start: string, end: string, filters: Record<string, unknown>) {
+async function generateWorkforceReport(supabaseAdmin: ReturnType<typeof createAdminClient>, start: string, end: string, filters: Record<string, unknown>) {
   const { data } = await (supabaseAdmin as any)
     .from('workforce_employees')
     .select('id, full_name, role, status, salary, hire_date, department');
@@ -156,6 +156,7 @@ async function generateWorkforceReport(start: string, end: string, filters: Reco
 
 export const POST = apiRoute(
   async (request: NextRequest, context: any) => {
+    const supabaseAdmin = createAdminClient();
     const body = await request.json();
     const data = generateReportSchema.parse(body);
 
@@ -164,6 +165,7 @@ export const POST = apiRoute(
     switch (data.report_type) {
       case 'financial':
         reportData = await generateFinancialReport(
+          supabaseAdmin,
           data.period_start,
           data.period_end,
           data.filters || {}
@@ -171,6 +173,7 @@ export const POST = apiRoute(
         break;
       case 'project':
         reportData = await generateProjectReport(
+          supabaseAdmin,
           data.period_start,
           data.period_end,
           data.filters || {}
@@ -178,6 +181,7 @@ export const POST = apiRoute(
         break;
       case 'asset':
         reportData = await generateAssetReport(
+          supabaseAdmin,
           data.period_start,
           data.period_end,
           data.filters || {}
@@ -185,6 +189,7 @@ export const POST = apiRoute(
         break;
       case 'workforce':
         reportData = await generateWorkforceReport(
+          supabaseAdmin,
           data.period_start,
           data.period_end,
           data.filters || {}

@@ -1,6 +1,6 @@
 // apps/atlvs/src/app/api/advancing/catalog/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { supabaseAdmin } from '@/lib/supabase';
+import { createAdminClient } from '@/lib/supabase';
 import type { IndustryVertical, ProcurementType } from '@ghxstship/config/types/advancing';
 
 export const dynamic = 'force-dynamic';
@@ -11,8 +11,8 @@ export const dynamic = 'force-dynamic';
  * Supports multi-industry universal catalog with enhanced filters
  */
 export async function GET(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
-    const supabase = supabaseAdmin;
     const searchParams = request.nextUrl.searchParams;
 
     // Extract filters

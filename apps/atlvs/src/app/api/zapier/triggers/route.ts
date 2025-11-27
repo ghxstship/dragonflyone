@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 const WebhookSubscriptionSchema = z.object({
   trigger_type: z.enum([
@@ -28,6 +23,7 @@ const WebhookSubscriptionSchema = z.object({
 
 // GET /api/zapier/triggers - List available triggers and subscriptions
 export async function GET(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -218,6 +214,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/zapier/triggers - Subscribe to a trigger
 export async function POST(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -261,6 +258,7 @@ export async function POST(request: NextRequest) {
 
 // DELETE /api/zapier/triggers - Unsubscribe from a trigger
 export async function DELETE(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {

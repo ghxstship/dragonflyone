@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 const RatingSchema = z.object({
   entity_type: z.enum(['vendor', 'crew', 'client', 'venue']),
@@ -23,6 +18,7 @@ const RatingSchema = z.object({
 
 // GET /api/ratings - Get ratings for vendors/crew
 export async function GET(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const { searchParams } = new URL(request.url);
     const entityType = searchParams.get('entity_type');
@@ -134,6 +130,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/ratings - Submit rating
 export async function POST(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {

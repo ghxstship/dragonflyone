@@ -5,7 +5,7 @@
 
 -- Documents Table
 CREATE TABLE IF NOT EXISTS documents (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name TEXT NOT NULL,
   description TEXT,
   file_path TEXT NOT NULL UNIQUE,
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS documents (
 
 -- Document Versions Table
 CREATE TABLE IF NOT EXISTS document_versions (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   document_id UUID NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
   version INTEGER NOT NULL,
   file_path TEXT NOT NULL,
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS document_versions (
 
 -- Activity Feed Table
 CREATE TABLE IF NOT EXISTS activity_feed (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID REFERENCES platform_users(id) ON DELETE CASCADE,
   actor_id UUID REFERENCES platform_users(id) ON DELETE SET NULL,
   action_type TEXT NOT NULL CHECK (action_type IN ('created', 'updated', 'deleted', 'commented', 'shared', 'assigned', 'completed', 'approved', 'rejected', 'uploaded', 'downloaded', 'mentioned', 'joined', 'left')),
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS activity_feed (
 
 -- Email Templates Table
 CREATE TABLE IF NOT EXISTS email_templates (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name TEXT NOT NULL UNIQUE,
   subject TEXT NOT NULL,
   html_body TEXT NOT NULL,
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS email_templates (
 
 -- Email Log Table
 CREATE TABLE IF NOT EXISTS email_log (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   template_id UUID REFERENCES email_templates(id) ON DELETE SET NULL,
   recipient_email TEXT NOT NULL,
   subject TEXT NOT NULL,
@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS email_log (
 
 -- Entity Comments Table (generic comments for any entity)
 CREATE TABLE IF NOT EXISTS entity_comments (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   entity_type TEXT NOT NULL,
   entity_id TEXT NOT NULL,
   user_id UUID NOT NULL REFERENCES platform_users(id) ON DELETE CASCADE,
@@ -306,7 +306,7 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 
 -- Import Jobs Table
 CREATE TABLE IF NOT EXISTS import_jobs (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES platform_users(id) ON DELETE CASCADE,
   entity_type TEXT NOT NULL,
   file_name TEXT NOT NULL,
@@ -328,7 +328,7 @@ CREATE TABLE IF NOT EXISTS import_jobs (
 
 -- Import Templates Table
 CREATE TABLE IF NOT EXISTS import_templates (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name TEXT NOT NULL,
   entity_type TEXT NOT NULL,
   field_mapping JSONB NOT NULL,

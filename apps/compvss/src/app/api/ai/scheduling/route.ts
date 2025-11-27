@@ -1,10 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+function getSupabaseClient(): SupabaseClient {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  
+  if (!supabaseUrl || !supabaseKey) {
+    throw new Error('Missing Supabase environment variables');
+  }
+  
+  return createClient(supabaseUrl, supabaseKey);
+}
 
 interface CrewMember {
   id: string;
@@ -36,6 +42,8 @@ interface Assignment {
 // GET /api/ai/scheduling - AI-powered scheduling optimization
 export async function GET(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
+    
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -249,6 +257,8 @@ export async function GET(request: NextRequest) {
 // POST /api/ai/scheduling - Apply optimized schedule
 export async function POST(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient();
+    
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

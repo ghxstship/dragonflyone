@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { supabaseAdmin } from '@/lib/supabase';
+import { createAdminClient } from '@/lib/supabase';
 import { apiRoute } from '@ghxstship/config/middleware';
 import { PlatformRole } from '@ghxstship/config/roles';
 
@@ -11,6 +11,7 @@ const dashboardQuerySchema = z.object({
 
 export const GET = apiRoute(
   async (request: NextRequest) => {
+    const supabaseAdmin = createAdminClient();
     const { searchParams } = new URL(request.url);
     const params = dashboardQuerySchema.parse({
       period: searchParams.get('period') || 'month',

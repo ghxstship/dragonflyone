@@ -1,13 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
 import { apiRoute } from '@ghxstship/config/middleware';
 import { PlatformRole } from '@ghxstship/config/roles';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+// Lazy-loaded supabase client for helper functions
+let _supabase: ReturnType<typeof createAdminClient> | null = null;
+function getSupabase() {
+  if (!_supabase) _supabase = createAdminClient();
+  return _supabase;
+}
 
 const taxReportSchema = z.object({
   report_type: z.enum(['1099', 'w2', 'sales_tax', 'vat', 'quarterly', 'annual']),
@@ -20,6 +22,7 @@ const taxReportSchema = z.object({
 // GET - Generate tax reports or retrieve tax data
 export const GET = apiRoute(
   async (request: NextRequest) => {
+    const supabase = createAdminClient();
     const { searchParams } = new URL(request.url);
     const action = searchParams.get('action');
     const year = searchParams.get('year');
@@ -50,7 +53,7 @@ export const GET = apiRoute(
     }
 
     // List all tax filings
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from('tax_filings')
       .select('*')
       .order('filing_date', { ascending: false })
@@ -72,13 +75,14 @@ export const GET = apiRoute(
 // POST - File tax return or record payment
 export const POST = apiRoute(
   async (request: NextRequest, context: any) => {
+    const supabase = createAdminClient();
     const body = await request.json();
     const { action } = body;
 
     if (action === 'file_return') {
       const { report_type, fiscal_year, quarter, amount_due, forms_data } = body;
 
-      const { data: filing, error } = await supabase
+      const { data: filing, error } = await getSupabase()
         .from('tax_filings')
         .insert({
           report_type,
@@ -106,7 +110,7 @@ export const POST = apiRoute(
     if (action === 'record_payment') {
       const { filing_id, amount, payment_method, confirmation_number } = body;
 
-      const { error } = await supabase
+      const { error } = await getSupabase()
         .from('tax_filings')
         .update({
           amount_paid: amount,
@@ -163,7 +167,7 @@ async function generateTaxReport(config: any) {
 
 async function generate1099Report(startDate: Date, endDate: Date) {
   // Get contractor payments
-  const { data: payments } = await supabase
+  const { data: payments } = await getSupabase()
     .from('contractor_payments')
     .select(`
       contractor_id,
@@ -187,7 +191,7 @@ async function generate1099Report(startDate: Date, endDate: Date) {
 
 async function generateW2Report(year: number) {
   // Get employee wages
-  const { data: employees } = await supabase
+  const { data: employees } = await getSupabase()
     .from('employees')
     .select(`
       id,
@@ -222,7 +226,7 @@ async function generateW2Report(year: number) {
 
 async function generateSalesTaxReport(startDate: Date, endDate: Date, jurisdiction: string) {
   // Get taxable sales
-  const { data: orders } = await supabase
+  const { data: orders } = await getSupabase()
     .from('orders')
     .select('total_amount, tax_amount, jurisdiction')
     .gte('created_at', startDate.toISOString())
@@ -250,7 +254,7 @@ async function generateSalesTaxReport(startDate: Date, endDate: Date, jurisdicti
 
 async function generateVATReport(startDate: Date, endDate: Date, jurisdiction: string) {
   // Similar to sales tax but with VAT calculations
-  const { data: transactions } = await supabase
+  const { data: transactions } = await getSupabase()
     .from('transactions')
     .select('amount, vat_amount, vat_rate')
     .gte('transaction_date', startDate.toISOString())
@@ -265,7 +269,7 @@ async function generateVATReport(startDate: Date, endDate: Date, jurisdiction: s
 }
 
 async function generateQuarterlyReport(startDate: Date, endDate: Date) {
-  const { data: financials } = await supabase
+  const { data: financials } = await getSupabase()
     .from('ledger_entries')
     .select('entry_type, amount')
     .gte('entry_date', startDate.toISOString().split('T')[0])
@@ -294,7 +298,7 @@ async function generateAnnualReport(year: number) {
   const endDate = new Date(year, 11, 31);
 
   // Aggregate all financial data
-  const { data: financials } = await supabase
+  const { data: financials } = await getSupabase()
     .from('ledger_entries')
     .select('entry_type, amount, category')
     .gte('entry_date', startDate.toISOString().split('T')[0])
@@ -325,14 +329,14 @@ async function calculateTaxLiability(year: number) {
   const startDate = new Date(year, 0, 1);
   const endDate = new Date();
 
-  const { data: revenue } = await supabase
+  const { data: revenue } = await getSupabase()
     .from('ledger_entries')
     .select('amount')
     .eq('entry_type', 'revenue')
     .gte('entry_date', startDate.toISOString().split('T')[0])
     .lte('entry_date', endDate.toISOString().split('T')[0]);
 
-  const { data: expenses } = await supabase
+  const { data: expenses } = await getSupabase()
     .from('ledger_entries')
     .select('amount')
     .eq('entry_type', 'expense')
@@ -364,7 +368,7 @@ export const PUT = apiRoute(
       return NextResponse.json({ error: 'ID is required' }, { status: 400 });
     }
 
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from('tax_filings')
       .update(updates)
       .eq('id', id)

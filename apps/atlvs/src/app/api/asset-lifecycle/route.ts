@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
-);
 
 // Validation schemas
 const replacementPlanSchema = z.object({
@@ -44,6 +39,7 @@ const transferSchema = z.object({
 
 // GET - Get lifecycle data
 export async function GET(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const { searchParams } = new URL(request.url);
     const type = searchParams.get('type'); // 'replacement_plans' | 'retirements' | 'transfers' | 'lifecycle_analysis' | 'end_of_life'
@@ -289,6 +285,7 @@ export async function GET(request: NextRequest) {
 
 // POST - Create replacement plan, retirement, or transfer
 export async function POST(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const body = await request.json();
     const action = body.action;
@@ -379,6 +376,7 @@ export async function POST(request: NextRequest) {
 
 // PATCH - Update replacement plan
 export async function PATCH(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const body = await request.json();
     const { id, type, ...updates } = body;
@@ -408,6 +406,7 @@ export async function PATCH(request: NextRequest) {
 
 // DELETE - Cancel replacement plan
 export async function DELETE(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const { searchParams } = new URL(request.url);
     const planId = searchParams.get('plan_id');

@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 const QuerySchema = z.object({
   query: z.string().min(3).max(500),
@@ -95,6 +90,7 @@ const queryPatterns: Record<string, { pattern: RegExp; handler: (matches: RegExp
 
 // GET /api/nl-query - Get query history and suggestions
 export async function GET(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -141,6 +137,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/nl-query - Execute natural language query
 export async function POST(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -243,6 +240,7 @@ export async function POST(request: NextRequest) {
 
 // PATCH /api/nl-query - Provide feedback on query
 export async function PATCH(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {

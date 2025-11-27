@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { supabaseAdmin } from '@/lib/supabase';
+import { createAdminClient } from '@/lib/supabase';
 import { apiRoute } from '@ghxstship/config/middleware';
 import { PlatformRole } from '@ghxstship/config/roles';
 
@@ -8,7 +8,7 @@ const executeSchema = z.object({
   input_data: z.record(z.any()).optional(),
 });
 
-async function executeWorkflowAction(action: any, context: any): Promise<any> {
+async function executeWorkflowAction(supabaseAdmin: ReturnType<typeof createAdminClient>, action: any, context: any): Promise<any> {
   switch (action.type) {
     case 'send_email':
       return { status: 'completed', result: { sent: true, recipient: action.config.to } };
@@ -48,6 +48,7 @@ async function executeWorkflowAction(action: any, context: any): Promise<any> {
 
 export const POST = apiRoute(
   async (request: NextRequest, context: any) => {
+    const supabaseAdmin = createAdminClient();
     const { id: workflowId } = context.params;
     const body = await request.json();
     const { input_data } = executeSchema.parse(body);
@@ -111,7 +112,7 @@ export const POST = apiRoute(
 
     for (const action of actions) {
       try {
-        const result = await executeWorkflowAction(action, workflowContext);
+        const result = await executeWorkflowAction(supabaseAdmin, action, workflowContext);
         actionResults.push({
           action_id: action.id,
           action_type: action.type,

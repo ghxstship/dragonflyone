@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 const TaskSchema = z.object({
   title: z.string(),
@@ -27,6 +22,7 @@ const TaskSchema = z.object({
 
 // GET /api/task-management - Get tasks with filters
 export async function GET(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -143,6 +139,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/task-management - Create task
 export async function POST(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -206,6 +203,7 @@ export async function POST(request: NextRequest) {
 
 // PATCH /api/task-management - Update task
 export async function PATCH(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -297,6 +295,7 @@ export async function PATCH(request: NextRequest) {
 
 // DELETE /api/task-management - Delete task
 export async function DELETE(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {

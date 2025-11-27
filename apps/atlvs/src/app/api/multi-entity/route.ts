@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 const EntitySchema = z.object({
   name: z.string(),
@@ -30,6 +25,7 @@ const EntitySchema = z.object({
 
 // GET /api/multi-entity - Get entities and hierarchy
 export async function GET(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -188,6 +184,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/multi-entity - Create entity or manage access
 export async function POST(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -343,6 +340,7 @@ export async function POST(request: NextRequest) {
 
 // PATCH /api/multi-entity - Update entity
 export async function PATCH(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -380,6 +378,7 @@ export async function PATCH(request: NextRequest) {
 
 // DELETE /api/multi-entity - Deactivate entity
 export async function DELETE(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {

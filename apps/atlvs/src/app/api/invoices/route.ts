@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 const invoiceSchema = z.object({
   client_id: z.string().uuid(),
@@ -30,6 +25,7 @@ const lineItemSchema = z.object({
 
 // GET /api/invoices - List all invoices
 export async function GET(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status');
@@ -114,6 +110,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/invoices - Create new invoice
 export async function POST(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const body = await request.json();
     const validated = invoiceSchema.parse(body);

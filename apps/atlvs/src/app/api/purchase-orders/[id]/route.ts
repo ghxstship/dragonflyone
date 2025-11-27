@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { supabaseAdmin } from '@/lib/supabase';
+import { createAdminClient } from '@/lib/supabase';
 import { apiRoute } from '@ghxstship/config/middleware';
 import { PlatformRole } from '@ghxstship/config/roles';
 
@@ -15,6 +15,7 @@ const updatePOSchema = z.object({
 
 export const GET = apiRoute(
   async (request: NextRequest, context: any) => {
+    const supabaseAdmin = createAdminClient();
     const { id } = context.params;
 
     const { data: po, error } = await supabaseAdmin
@@ -46,6 +47,7 @@ export const GET = apiRoute(
 
 export const PATCH = apiRoute(
   async (request: NextRequest, context: any) => {
+    const supabaseAdmin = createAdminClient();
     const { id } = context.params;
     const body = await request.json();
     
@@ -116,6 +118,7 @@ export const PATCH = apiRoute(
 
 export const DELETE = apiRoute(
   async (request: NextRequest, context: any) => {
+    const supabaseAdmin = createAdminClient();
     const { id } = context.params;
 
     // Check if PO can be deleted (only draft or pending)

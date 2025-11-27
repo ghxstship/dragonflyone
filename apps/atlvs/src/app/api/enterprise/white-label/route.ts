@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 const WhiteLabelConfigSchema = z.object({
   organization_id: z.string().uuid(),
@@ -35,6 +30,7 @@ const WhiteLabelConfigSchema = z.object({
 
 // GET /api/enterprise/white-label - Get white-label configuration
 export async function GET(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -179,6 +175,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/enterprise/white-label - Create or update white-label config
 export async function POST(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -355,6 +352,7 @@ body {
 
 // DELETE /api/enterprise/white-label - Deactivate white-label config
 export async function DELETE(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {

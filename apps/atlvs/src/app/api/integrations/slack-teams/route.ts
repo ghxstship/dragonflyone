@@ -1,12 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
 import crypto from 'crypto';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 const NotificationConfigSchema = z.object({
   platform: z.enum(['slack', 'teams', 'email']),
@@ -30,6 +25,7 @@ const NotificationPayloadSchema = z.object({
 
 // GET /api/integrations/slack-teams - Get notification configs
 export async function GET(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -90,6 +86,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/integrations/slack-teams - Create config or send notification
 export async function POST(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -258,6 +255,7 @@ export async function POST(request: NextRequest) {
 
 // PATCH /api/integrations/slack-teams - Update config
 export async function PATCH(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -295,6 +293,7 @@ export async function PATCH(request: NextRequest) {
 
 // DELETE /api/integrations/slack-teams - Delete config
 export async function DELETE(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {

@@ -1,6 +1,6 @@
 // apps/atlvs/src/app/api/advancing/analytics/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { supabaseAdmin } from '@/lib/supabase';
+import { createAdminClient } from '@/lib/supabase';
 
 export const dynamic = 'force-dynamic';
 
@@ -9,6 +9,7 @@ export const dynamic = 'force-dynamic';
  * Get analytics data for advancing requests
  */
 export async function GET(request: NextRequest) {
+  const supabaseAdmin = createAdminClient();
   try {
     const searchParams = request.nextUrl.searchParams;
     const startDate = searchParams.get('start_date');

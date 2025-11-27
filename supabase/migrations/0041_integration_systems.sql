@@ -5,7 +5,7 @@
 
 -- Webhooks Table
 CREATE TABLE IF NOT EXISTS webhooks (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES platform_users(id) ON DELETE CASCADE,
   name TEXT NOT NULL,
   url TEXT NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS webhooks (
 
 -- Webhook Deliveries Table
 CREATE TABLE IF NOT EXISTS webhook_deliveries (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   webhook_id UUID NOT NULL REFERENCES webhooks(id) ON DELETE CASCADE,
   event_type TEXT NOT NULL,
   payload JSONB NOT NULL,
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS webhook_deliveries (
 
 -- API Keys Table
 CREATE TABLE IF NOT EXISTS api_keys (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES platform_users(id) ON DELETE CASCADE,
   name TEXT NOT NULL,
   key_prefix TEXT NOT NULL,
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS api_keys (
 
 -- API Key Usage Table
 CREATE TABLE IF NOT EXISTS api_key_usage (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   api_key_id UUID NOT NULL REFERENCES api_keys(id) ON DELETE CASCADE,
   endpoint TEXT NOT NULL,
   method TEXT NOT NULL,
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS api_key_usage (
 
 -- Scheduled Jobs Table
 CREATE TABLE IF NOT EXISTS scheduled_jobs (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name TEXT NOT NULL,
   job_type TEXT NOT NULL,
   schedule TEXT NOT NULL, -- cron expression
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS scheduled_jobs (
 
 -- Job Executions Table
 CREATE TABLE IF NOT EXISTS job_executions (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   job_id UUID NOT NULL REFERENCES scheduled_jobs(id) ON DELETE CASCADE,
   status TEXT NOT NULL CHECK (status IN ('running', 'completed', 'failed')),
   started_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS job_executions (
 
 -- Notification Preferences Table
 CREATE TABLE IF NOT EXISTS notification_preferences (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES platform_users(id) ON DELETE CASCADE,
   channel TEXT NOT NULL CHECK (channel IN ('email', 'sms', 'push', 'in_app')),
   event_type TEXT NOT NULL,

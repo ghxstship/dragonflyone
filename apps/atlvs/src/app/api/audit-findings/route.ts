@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 const auditFindingSchema = z.object({
   audit_type: z.enum(['internal', 'external', 'regulatory', 'financial', 'operational', 'compliance', 'security']),
@@ -25,6 +20,7 @@ const auditFindingSchema = z.object({
 
 // GET /api/audit-findings - List audit findings
 export async function GET(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status');
@@ -110,6 +106,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/audit-findings - Create audit finding
 export async function POST(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const body = await request.json();
     const validated = auditFindingSchema.parse(body);
@@ -165,6 +162,7 @@ export async function POST(request: NextRequest) {
 
 // PATCH /api/audit-findings - Update audit finding
 export async function PATCH(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const body = await request.json();
     const { finding_id, action, updates } = body;

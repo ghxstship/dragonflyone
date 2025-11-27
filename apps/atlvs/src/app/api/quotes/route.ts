@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 // Validation schema
 const quoteSchema = z.object({
@@ -55,6 +50,7 @@ const lineItemSchema = z.object({
 
 // GET /api/quotes - List all quotes
 export async function GET(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status');
@@ -151,6 +147,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/quotes - Create new quote with line items
 export async function POST(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const body = await request.json();
 
@@ -242,6 +239,7 @@ export async function POST(request: NextRequest) {
 
 // PATCH /api/quotes - Update quote or bulk actions
 export async function PATCH(request: NextRequest) {
+  const supabase = createAdminClient();
   try {
     const body = await request.json();
     const { quote_id, action, updates } = body;

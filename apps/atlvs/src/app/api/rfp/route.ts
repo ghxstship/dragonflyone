@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { supabaseAdmin } from '@/lib/supabase';
+import { createAdminClient } from '@/lib/supabase';
 import { apiRoute } from '@ghxstship/config/middleware';
 import { PlatformRole } from '@ghxstship/config/roles';
 
@@ -18,6 +18,7 @@ const createRFPSchema = z.object({
 
 export const GET = apiRoute(
   async (request: NextRequest) => {
+    const supabaseAdmin = createAdminClient();
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status');
     const type = searchParams.get('type');
@@ -58,6 +59,7 @@ export const GET = apiRoute(
 
 export const POST = apiRoute(
   async (request: NextRequest, context: any) => {
+    const supabaseAdmin = createAdminClient();
     const body = await request.json();
     const data = createRFPSchema.parse(body);
 
