@@ -119,6 +119,66 @@ export type Database = {
         }
         Relationships: []
       }
+      user_invitations: {
+        Row: {
+          id: string
+          organization_id: string | null
+          invite_code: string
+          email: string | null
+          role: string | null
+          expires_at: string | null
+          used_at: string | null
+          created_at: string | null
+          created_by: string | null
+        }
+        Insert: {
+          id?: string
+          organization_id?: string | null
+          invite_code: string
+          email?: string | null
+          role?: string | null
+          expires_at?: string | null
+          used_at?: string | null
+          created_at?: string | null
+          created_by?: string | null
+        }
+        Update: {
+          id?: string
+          organization_id?: string | null
+          invite_code?: string
+          email?: string | null
+          role?: string | null
+          expires_at?: string | null
+          used_at?: string | null
+          created_at?: string | null
+          created_by?: string | null
+        }
+        Relationships: []
+      }
+      user_organizations: {
+        Row: {
+          id: string
+          user_id: string
+          organization_id: string
+          role: string | null
+          created_at: string | null
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          organization_id: string
+          role?: string | null
+          created_at?: string | null
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          organization_id?: string
+          role?: string | null
+          created_at?: string | null
+        }
+        Relationships: []
+      }
       projects: {
         Row: {
           id: string
@@ -413,23 +473,179 @@ export type Database = {
         Update: Record<string, unknown>
         Relationships: []
       }
-      kpi_data: {
-        Row: Record<string, unknown>
-        Insert: Record<string, unknown>
-        Update: Record<string, unknown>
-        Relationships: []
-      }
-      kpi_definitions: {
-        Row: Record<string, unknown>
-        Insert: Record<string, unknown>
-        Update: Record<string, unknown>
-        Relationships: []
+      kpi_data_points: {
+        Row: {
+          id: string
+          organization_id: string
+          kpi_code: string
+          kpi_name: string
+          value: number
+          unit: string
+          project_id: string | null
+          event_id: string | null
+          period_start: string | null
+          period_end: string | null
+          metadata: Json | null
+          calculated_at: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          organization_id: string
+          kpi_code: string
+          kpi_name: string
+          value: number
+          unit: string
+          project_id?: string | null
+          event_id?: string | null
+          period_start?: string | null
+          period_end?: string | null
+          metadata?: Json | null
+          calculated_at?: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          organization_id?: string
+          kpi_code?: string
+          kpi_name?: string
+          value?: number
+          unit?: string
+          project_id?: string | null
+          event_id?: string | null
+          period_start?: string | null
+          period_end?: string | null
+          metadata?: Json | null
+          calculated_at?: string
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'kpi_data_points_organization_id_fkey'
+            columns: ['organization_id']
+            referencedRelation: 'organizations'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'kpi_data_points_project_id_fkey'
+            columns: ['project_id']
+            referencedRelation: 'projects'
+            referencedColumns: ['id']
+          }
+        ]
       }
       kpi_reports: {
-        Row: Record<string, unknown>
-        Insert: Record<string, unknown>
-        Update: Record<string, unknown>
-        Relationships: []
+        Row: {
+          id: string
+          organization_id: string
+          name: string
+          description: string | null
+          kpi_codes: string[]
+          category: string | null
+          filters: Json | null
+          is_global: boolean
+          created_by: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          organization_id: string
+          name: string
+          description?: string | null
+          kpi_codes: string[]
+          category?: string | null
+          filters?: Json | null
+          is_global?: boolean
+          created_by?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          organization_id?: string
+          name?: string
+          description?: string | null
+          kpi_codes?: string[]
+          category?: string | null
+          filters?: Json | null
+          is_global?: boolean
+          created_by?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'kpi_reports_organization_id_fkey'
+            columns: ['organization_id']
+            referencedRelation: 'organizations'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'kpi_reports_created_by_fkey'
+            columns: ['created_by']
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          }
+        ]
+      }
+      kpi_targets: {
+        Row: {
+          id: string
+          organization_id: string
+          kpi_code: string
+          target_value: number
+          warning_threshold: number | null
+          critical_threshold: number | null
+          project_id: string | null
+          event_id: string | null
+          valid_from: string
+          valid_to: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          organization_id: string
+          kpi_code: string
+          target_value: number
+          warning_threshold?: number | null
+          critical_threshold?: number | null
+          project_id?: string | null
+          event_id?: string | null
+          valid_from?: string
+          valid_to?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          organization_id?: string
+          kpi_code?: string
+          target_value?: number
+          warning_threshold?: number | null
+          critical_threshold?: number | null
+          project_id?: string | null
+          event_id?: string | null
+          valid_from?: string
+          valid_to?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'kpi_targets_organization_id_fkey'
+            columns: ['organization_id']
+            referencedRelation: 'organizations'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'kpi_targets_project_id_fkey'
+            columns: ['project_id']
+            referencedRelation: 'projects'
+            referencedColumns: ['id']
+          }
+        ]
       }
       workforce_employees: {
         Row: Record<string, unknown>

@@ -1,0 +1,150 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import {
+  PageLayout,
+  Navigation,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
+  H2,
+  Body,
+  Button,
+  Input,
+  SectionLayout,
+  Alert,
+  Stack,
+  Field,
+} from "@ghxstship/ui";
+
+export default function ResetPasswordPage() {
+  const router = useRouter();
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      setLoading(false);
+      return;
+    }
+
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/auth/password/update', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || 'Failed to reset password');
+      }
+
+      setSuccess(true);
+      setTimeout(() => router.push('/auth/signin'), 3000);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to reset password. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <PageLayout
+      background="black"
+      header={
+        <Navigation
+          logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
+          cta={<></>}
+        />
+      }
+      footer={
+        <Footer
+          logo={<Display size="md" className="text-white text-display-md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Legal">
+            <FooterLink href="#">Privacy</FooterLink>
+            <FooterLink href="#">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <SectionLayout background="black">
+        <Stack gap={8} className="mx-auto max-w-md">
+          {success ? (
+            <Stack gap={6} className="text-center">
+              <Stack className="w-16 h-16 mx-auto bg-grey-800 rounded-full items-center justify-center">
+                <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              </Stack>
+              <H2 className="text-white">Password Reset</H2>
+              <Body className="text-grey-400">Your password has been successfully reset. Redirecting to sign in...</Body>
+            </Stack>
+          ) : (
+            <>
+              <Stack gap={4} className="text-center">
+                <H2 className="text-white">New Password</H2>
+                <Body className="text-grey-400">Enter your new password below.</Body>
+              </Stack>
+
+              {error && <Alert variant="error">{error}</Alert>}
+
+              <Stack gap={6}>
+                <Field label="New Password" className="text-white">
+                  <Input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Enter new password"
+                    required
+                    className="border-grey-700 bg-black text-white"
+                  />
+                  <Body size="sm" className="text-grey-500 mt-1">Minimum 8 characters</Body>
+                </Field>
+
+                <Field label="Confirm Password" className="text-white">
+                  <Input
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="Re-enter new password"
+                    required
+                    className="border-grey-700 bg-black text-white"
+                  />
+                </Field>
+
+                <Button variant="solid" className="w-full" disabled={loading} onClick={handleSubmit}>
+                  {loading ? "Resetting..." : "Reset Password"}
+                </Button>
+
+                <Stack className="text-center">
+                  <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/signin'} className="text-grey-400 hover:text-white">
+                    Back to Sign In
+                  </Button>
+                </Stack>
+              </Stack>
+            </>
+          )}
+        </Stack>
+      </SectionLayout>
+    </PageLayout>
+  );
+}

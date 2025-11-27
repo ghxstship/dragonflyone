@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useNotifications } from "@ghxstship/ui";
+import { useAuthContext } from "@ghxstship/config";
 import {
   PageLayout,
   Navigation,
@@ -16,12 +18,13 @@ import {
   SectionLayout,
   Alert,
   Stack,
-  Card,
   Field,
   Checkbox,
 } from "@ghxstship/ui";
 
 export default function SignInPage() {
+  const router = useRouter();
+  const { login } = useAuthContext();
   const { addNotification } = useNotifications();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,16 +36,31 @@ export default function SignInPage() {
     setError("");
     setLoading(true);
 
-    // Simulated authentication - replace with actual Supabase auth
-    setTimeout(() => {
-      if (email && password) {
-        // Redirect to dashboard or home
-        window.location.href = "/";
-      } else {
-        setError("Please enter both email and password");
-      }
+    try {
+      await login(email, password);
+      router.push("/dashboard");
+    } catch (err) {
+      setError("Invalid email or password. Please try again.");
+    } finally {
       setLoading(false);
-    }, 1000);
+    }
+  };
+
+  const handleOAuthSignIn = async (provider: 'google' | 'apple') => {
+    setLoading(true);
+    try {
+      const response = await fetch(`/api/auth/oauth/${provider}`, { method: 'POST' });
+      const data = await response.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        addNotification({ type: 'info', title: 'Coming Soon', message: `${provider} sign-in will be available once OAuth is configured` });
+        setLoading(false);
+      }
+    } catch (err) {
+      setError('OAuth sign-in failed. Please try again.');
+      setLoading(false);
+    }
   };
 
   return (
@@ -149,10 +167,10 @@ export default function SignInPage() {
           </Stack>
 
           <Stack gap={3}>
-            <Button variant="outline" className="w-full border-grey-700 text-grey-400 hover:border-white hover:text-white" onClick={() => addNotification({ type: 'info', title: 'Coming Soon', message: 'Google sign-in will be available soon' })}>
+            <Button variant="outline" className="w-full border-grey-700 text-grey-400 hover:border-white hover:text-white" onClick={() => handleOAuthSignIn('google')} disabled={loading}>
               Continue with Google
             </Button>
-            <Button variant="outline" className="w-full border-grey-700 text-grey-400 hover:border-white hover:text-white" onClick={() => addNotification({ type: 'info', title: 'Coming Soon', message: 'Apple sign-in will be available soon' })}>
+            <Button variant="outline" className="w-full border-grey-700 text-grey-400 hover:border-white hover:text-white" onClick={() => handleOAuthSignIn('apple')} disabled={loading}>
               Continue with Apple
             </Button>
           </Stack>

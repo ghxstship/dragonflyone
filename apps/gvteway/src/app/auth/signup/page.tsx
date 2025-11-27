@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useNotifications } from "@ghxstship/ui";
 import {
   PageLayout,
@@ -22,6 +23,7 @@ import {
 } from "@ghxstship/ui";
 
 export default function SignUpPage() {
+  const router = useRouter();
   const { addNotification } = useNotifications();
   const [formData, setFormData] = useState({
     firstName: "",
@@ -43,6 +45,11 @@ export default function SignUpPage() {
       return;
     }
 
+    if (formData.password.length < 8) {
+      setError("Password must be at least 8 characters");
+      return;
+    }
+
     if (!formData.agreeToTerms) {
       setError("You must agree to the terms and conditions");
       return;
@@ -50,10 +57,47 @@ export default function SignUpPage() {
 
     setLoading(true);
 
-    setTimeout(() => {
-      window.location.href = "/";
+    try {
+      const response = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Registration failed');
+      }
+
+      router.push('/auth/verify-email?email=' + encodeURIComponent(formData.email));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Registration failed. Please try again.');
+    } finally {
       setLoading(false);
-    }, 1000);
+    }
+  };
+
+  const handleOAuthSignUp = async (provider: 'google' | 'apple') => {
+    setLoading(true);
+    try {
+      const response = await fetch(`/api/auth/oauth/${provider}`, { method: 'POST' });
+      const data = await response.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        addNotification({ type: 'info', title: 'Coming Soon', message: `${provider} sign-up will be available once OAuth is configured` });
+        setLoading(false);
+      }
+    } catch (err) {
+      setError('OAuth sign-up failed. Please try again.');
+      setLoading(false);
+    }
   };
 
   return (
@@ -195,10 +239,10 @@ export default function SignUpPage() {
           </Stack>
 
           <Stack gap={3}>
-            <Button variant="outline" className="w-full border-grey-700 text-grey-400 hover:border-white hover:text-white" onClick={() => addNotification({ type: 'info', title: 'Coming Soon', message: 'Google sign-up will be available soon' })}>
+            <Button variant="outline" className="w-full border-grey-700 text-grey-400 hover:border-white hover:text-white" onClick={() => handleOAuthSignUp('google')} disabled={loading}>
               Sign up with Google
             </Button>
-            <Button variant="outline" className="w-full border-grey-700 text-grey-400 hover:border-white hover:text-white" onClick={() => addNotification({ type: 'info', title: 'Coming Soon', message: 'Apple sign-up will be available soon' })}>
+            <Button variant="outline" className="w-full border-grey-700 text-grey-400 hover:border-white hover:text-white" onClick={() => handleOAuthSignUp('apple')} disabled={loading}>
               Sign up with Apple
             </Button>
           </Stack>

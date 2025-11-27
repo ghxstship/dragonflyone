@@ -10,11 +10,11 @@
    Linting and checking validity of types ...
    Collecting page data ...
  ⚠ Using edge runtime on a page currently disables static generation for that page
-   Generating static pages (0/285) ...
-   Generating static pages (71/285) 
-   Generating static pages (142/285) 
-   Generating static pages (213/285) 
- ✓ Generating static pages (285/285)
+   Generating static pages (0/297) ...
+   Generating static pages (74/297) 
+   Generating static pages (148/297) 
+   Generating static pages (222/297) 
+ ✓ Generating static pages (297/297)
    Finalizing page optimization ...
    Collecting build traces ...
 
@@ -22,8 +22,8 @@ Route (app)                              Size     First Load JS
 ┌ ƒ /                                    42.4 kB         202 kB
 ├ ○ /_not-found                          143 B          87.3 kB
 ├ ○ /advancing                           1.88 kB         189 kB
-├ ƒ /advancing/[id]                      5.33 kB         189 kB
-├ ○ /advancing/catalog                   6.59 kB         102 kB
+├ ƒ /advancing/[id]                      5.51 kB         189 kB
+├ ○ /advancing/catalog                   6.74 kB         102 kB
 ├ ○ /advancing/new                       3.99 kB         191 kB
 ├ ƒ /api/advancing                       0 B                0 B
 ├ ƒ /api/advancing/[id]                  0 B                0 B
@@ -36,8 +36,14 @@ Route (app)                              Size     First Load JS
 ├ ƒ /api/assets/[id]                     0 B                0 B
 ├ ƒ /api/audience-flow                   0 B                0 B
 ├ ƒ /api/audio-lines                     0 B                0 B
+├ ƒ /api/auth/callback                   0 B                0 B
 ├ ƒ /api/auth/me                         0 B                0 B
+├ ƒ /api/auth/password/reset             0 B                0 B
+├ ƒ /api/auth/password/update            0 B                0 B
+├ ƒ /api/auth/refresh                    0 B                0 B
 ├ ƒ /api/auth/signin                     0 B                0 B
+├ ƒ /api/auth/signout                    0 B                0 B
+├ ƒ /api/auth/signup                     0 B                0 B
 ├ ƒ /api/availability                    0 B                0 B
 ├ ƒ /api/background-checks               0 B                0 B
 ├ ƒ /api/batch                           0 B                0 B
@@ -236,94 +242,100 @@ Route (app)                              Size     First Load JS
 ├ ƒ /api/weather                         0 B                0 B
 ├ ƒ /api/weather-contingency             0 B                0 B
 ├ ƒ /api/win-loss-tracking               0 B                0 B
-├ ○ /artists                             5.14 kB         100 kB
-├ ○ /auth/signin                         2.64 kB        89.8 kB
-├ ○ /availability                        4.12 kB         191 kB
-├ ○ /background-checks                   4.36 kB         195 kB
-├ ○ /backup-plans                        4.75 kB        95.7 kB
-├ ○ /best-practices                      3.98 kB          95 kB
-├ ○ /bid-portal                          4.05 kB          95 kB
-├ ○ /build-strike                        2.26 kB        93.2 kB
-├ ○ /case-studies                        4.46 kB        95.4 kB
+├ ○ /artists                             4.95 kB         100 kB
+├ ○ /auth/forgot-password                1.6 kB         91.8 kB
+├ ○ /auth/magic-link                     1.67 kB        91.9 kB
+├ ○ /auth/reset-password                 1.71 kB        95.7 kB
+├ ○ /auth/signin                         3.21 kB         190 kB
+├ ○ /auth/signup                         3.62 kB        93.9 kB
+├ ○ /auth/verify-email                   1.23 kB        95.2 kB
+├ ○ /availability                        4.3 kB          192 kB
+├ ○ /background-checks                   4.33 kB         196 kB
+├ ○ /backup-plans                        4.56 kB        95.7 kB
+├ ○ /best-practices                      3.79 kB        94.9 kB
+├ ○ /bid-portal                          3.85 kB          95 kB
+├ ○ /build-strike                        2.07 kB        93.2 kB
+├ ○ /case-studies                        4.26 kB        95.4 kB
 ├ ○ /catering                            2.21 kB        96.7 kB
-├ ○ /certifications                      4.86 kB        99.9 kB
-├ ○ /channels                            5.28 kB        96.3 kB
-├ ○ /communications                      3.82 kB        94.8 kB
-├ ○ /communications/channels             4.67 kB        95.6 kB
-├ ○ /crew                                5.38 kB         196 kB
-├ ○ /crew-social                         5.93 kB        96.9 kB
+├ ○ /certifications                      4.67 kB        99.9 kB
+├ ○ /channels                            5.09 kB        96.2 kB
+├ ○ /communications                      3.66 kB        94.8 kB
+├ ○ /communications/channels             4.48 kB        95.6 kB
+├ ○ /crew                                5.38 kB         197 kB
+├ ○ /crew-social                         5.74 kB        96.9 kB
 ├ ○ /crew/assign                         4.04 kB        91.2 kB
-├ ○ /crew/background-checks              5.18 kB        96.1 kB
-├ ○ /crew/social                         4.61 kB        95.6 kB
-├ ○ /dashboard                           3.33 kB         190 kB
-├ ○ /deliveries                          5.37 kB         100 kB
-├ ○ /directory                           5.47 kB         189 kB
-├ ○ /directory/availability              4.19 kB        95.2 kB
-├ ○ /directory/filters                   3.44 kB        94.4 kB
-├ ○ /drawings                            4.65 kB        95.6 kB
-├ ○ /emergency                           4.83 kB        95.8 kB
+├ ○ /crew/background-checks              4.99 kB        96.1 kB
+├ ○ /crew/social                         4.42 kB        95.6 kB
+├ ○ /dashboard                           3.33 kB         191 kB
+├ ○ /deliveries                          5.18 kB         100 kB
+├ ○ /directory                           5.63 kB         189 kB
+├ ○ /directory/availability              4 kB           95.2 kB
+├ ○ /directory/filters                   3.25 kB        94.4 kB
+├ ○ /drawings                            4.46 kB        95.6 kB
+├ ○ /emergency                           4.64 kB        95.8 kB
 ├ ○ /equipment                           4.82 kB         196 kB
-├ ○ /expenses                            5.7 kB          101 kB
-├ ○ /files                               4.5 kB         95.5 kB
-├ ○ /glossary                            4.98 kB          96 kB
+├ ○ /expenses                            5.51 kB         101 kB
+├ ○ /files                               4.3 kB         95.5 kB
+├ ○ /glossary                            4.79 kB        95.9 kB
 ├ ○ /incidents                           4.51 kB         196 kB
-├ ○ /integrations                        4.12 kB        95.1 kB
+├ ○ /integrations                        3.92 kB        95.1 kB
 ├ ○ /issues                              4.68 kB         196 kB
-├ ○ /knowledge                           4.09 kB        95.1 kB
-├ ○ /knowledge/brand-guidelines          4.76 kB        95.7 kB
-├ ○ /knowledge/multilingual              5.28 kB        96.2 kB
-├ ○ /knowledge/offline                   5.71 kB        96.7 kB
-├ ○ /knowledge/regulations               4.54 kB        95.5 kB
-├ ○ /logistics                           3.85 kB         195 kB
-├ ○ /maintenance                         4.04 kB         195 kB
-├ ○ /mentorship                          5.4 kB         96.4 kB
-├ ○ /messages                            3.17 kB        94.1 kB
+├ ○ /knowledge                           3.93 kB        95.1 kB
+├ ○ /knowledge/brand-guidelines          4.56 kB        95.7 kB
+├ ○ /knowledge/multilingual              5.08 kB        96.2 kB
+├ ○ /knowledge/offline                   5.51 kB        96.7 kB
+├ ○ /knowledge/regulations               4.35 kB        95.5 kB
+├ ○ /logistics                           3.86 kB         196 kB
+├ ○ /maintenance                         4.04 kB         196 kB
+├ ○ /mentorship                          5.2 kB         96.4 kB
+├ ○ /messages                            2.98 kB        94.1 kB
 ├ ○ /offline                             2.61 kB        89.8 kB
-├ ○ /opportunities                       5.85 kB        96.8 kB
-├ ○ /opportunities/bid-decision          4.24 kB        95.2 kB
-├ ○ /opportunities/mobile                5.28 kB        96.3 kB
-├ ○ /opportunities/proposals             4.95 kB        95.9 kB
-├ ○ /opportunities/win-loss              4.71 kB        95.7 kB
+├ ○ /onboarding                          2.67 kB         193 kB
+├ ○ /opportunities                       5.68 kB        96.8 kB
+├ ○ /opportunities/bid-decision          4.05 kB        95.2 kB
+├ ○ /opportunities/mobile                5.08 kB        96.2 kB
+├ ○ /opportunities/proposals             4.76 kB        95.9 kB
+├ ○ /opportunities/win-loss              4.52 kB        95.7 kB
 ├ ○ /permits                             2.15 kB        96.6 kB
-├ ○ /photo-documentation                 5.11 kB        96.1 kB
-├ ○ /projects                            3.39 kB         187 kB
+├ ○ /photo-documentation                 4.92 kB        96.1 kB
+├ ○ /projects                            3.57 kB         187 kB
 ├ ○ /projects/new                        4.52 kB        91.7 kB
-├ ○ /punch-list                          5.79 kB        96.8 kB
-├ ○ /qa-checkpoints                      4.98 kB          96 kB
-├ ○ /risk-register                       5.81 kB        96.8 kB
-├ ○ /run-of-show                         2.15 kB         189 kB
-├ ○ /safety                              4.73 kB        95.7 kB
-├ ○ /schedule                            2.84 kB         190 kB
-├ ○ /set-times                           5.01 kB          96 kB
-├ ○ /settings                            3.49 kB        94.5 kB
-├ ○ /settlement                          4.8 kB         95.8 kB
-├ ○ /show-call                           3.53 kB        94.5 kB
-├ ○ /site-access                         5.01 kB          96 kB
+├ ○ /punch-list                          5.59 kB        96.8 kB
+├ ○ /qa-checkpoints                      4.79 kB        95.9 kB
+├ ○ /risk-register                       5.62 kB        96.8 kB
+├ ○ /run-of-show                         2.15 kB         190 kB
+├ ○ /safety                              4.57 kB        95.7 kB
+├ ○ /schedule                            2.83 kB         190 kB
+├ ○ /set-times                           4.82 kB          96 kB
+├ ○ /settings                            3.29 kB        94.5 kB
+├ ○ /settlement                          4.61 kB        95.8 kB
+├ ○ /show-call                           3.33 kB        94.5 kB
+├ ○ /site-access                         4.81 kB          96 kB
 ├ ○ /site-surveys                        2.11 kB        96.6 kB
-├ ○ /skills                              3.98 kB         191 kB
-├ ○ /social-amplification                4.96 kB        95.9 kB
-├ ○ /soundcheck                          5.3 kB         96.3 kB
-├ ○ /spec-sheets                         4.43 kB        95.4 kB
-├ ○ /stage-management                    685 B          91.7 kB
-├ ○ /stakeholder-portal                  5.08 kB        96.1 kB
-├ ○ /subcontractors                      5.18 kB        96.2 kB
-├ ○ /tech-rehearsal                      6.12 kB        97.1 kB
-├ ○ /templates                           5.06 kB          96 kB
+├ ○ /skills                              3.98 kB         192 kB
+├ ○ /social-amplification                4.77 kB        95.9 kB
+├ ○ /soundcheck                          5.11 kB        96.3 kB
+├ ○ /spec-sheets                         4.23 kB        95.4 kB
+├ ○ /stage-management                    498 B          91.7 kB
+├ ○ /stakeholder-portal                  4.89 kB          96 kB
+├ ○ /subcontractors                      4.99 kB        96.2 kB
+├ ○ /tech-rehearsal                      5.92 kB        97.1 kB
+├ ○ /templates                           4.87 kB          96 kB
 ├ ○ /timekeeping                         3.55 kB         191 kB
 ├ ○ /travel                              1.83 kB         193 kB
-├ ○ /troubleshooting                     4.14 kB        95.1 kB
-├ ○ /vendors/compare                     3.41 kB        94.4 kB
-├ ○ /venues                              1.54 kB        92.5 kB
-├ ○ /vip-management                      4.68 kB        95.7 kB
-├ ○ /weather                             3.59 kB        94.6 kB
-└ ○ /weather-contingency                 5.33 kB        96.3 kB
+├ ○ /troubleshooting                     3.95 kB        95.1 kB
+├ ○ /vendors/compare                     3.22 kB        94.4 kB
+├ ○ /venues                              1.35 kB        92.5 kB
+├ ○ /vip-management                      4.51 kB        95.7 kB
+├ ○ /weather                             3.4 kB         94.6 kB
+└ ○ /weather-contingency                 5.13 kB        96.3 kB
 + First Load JS shared by all            87.2 kB
-  ├ chunks/5683-70196865dd049ed5.js      31.6 kB
-  ├ chunks/849bd656-f14af1d72582cba5.js  53.6 kB
+  ├ chunks/5683-4b6119a3c0a11295.js      31.6 kB
+  ├ chunks/849bd656-b49e66270961753f.js  53.6 kB
   └ other shared chunks (total)          1.99 kB
 
 
-ƒ Middleware                             28.7 kB
+ƒ Middleware                             76.2 kB
 
 ○  (Static)   prerendered as static content
 ƒ  (Dynamic)  server-rendered on demand

@@ -1,26 +1,61 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import {
+  PageLayout,
+  Navigation,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
+  H2,
+  Body,
+  Button,
+  Input,
+  SectionLayout,
+  Alert,
+  Stack,
+  Field,
+} from "@ghxstship/ui";
 
 export default function ResetPasswordPage() {
   const router = useRouter();
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
-    if (password !== confirmPassword) { setError('Passwords do not match'); setLoading(false); return; }
-    if (password.length < 8) { setError('Password must be at least 8 characters'); setLoading(false); return; }
+    setError("");
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      setLoading(false);
+      return;
+    }
+
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters");
+      setLoading(false);
+      return;
+    }
+
     try {
-      const response = await fetch('/api/auth/password/update', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password }) });
-      if (!response.ok) { const data = await response.json(); throw new Error(data.error || 'Failed to reset password'); }
+      const response = await fetch('/api/auth/password/update', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || 'Failed to reset password');
+      }
+
       setSuccess(true);
       setTimeout(() => router.push('/auth/signin'), 3000);
     } catch (err) {
@@ -31,31 +66,83 @@ export default function ResetPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-grey-100">
-      <header className="py-6 px-8 border-b border-grey-200 bg-white"><Link href="/" className="font-heading text-h4 uppercase tracking-widest">COMPVSS</Link></header>
-      <main className="flex-1 flex items-center justify-center px-4 py-12">
-        <div className="max-w-md w-full space-y-8 bg-white p-8 border border-grey-200">
+    <PageLayout
+      background="white"
+      header={
+        <Navigation
+          logo={<Display size="md" className="text-display-md text-black">COMPVSS</Display>}
+          cta={<></>}
+        />
+      }
+      footer={
+        <Footer
+          logo={<Display size="md" className="text-black text-display-md">COMPVSS</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Legal">
+            <FooterLink href="/privacy">Privacy</FooterLink>
+            <FooterLink href="/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <SectionLayout background="grey">
+        <Stack gap={8} className="mx-auto max-w-md bg-white p-8 border border-grey-200">
           {success ? (
-            <div className="text-center space-y-6">
-              <div className="w-16 h-16 mx-auto bg-grey-100 rounded-full flex items-center justify-center"><svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg></div>
-              <h1 className="font-heading text-h2 uppercase tracking-widest">Password Reset</h1>
-              <p className="font-body text-body-md text-grey-600">Your password has been successfully reset. Redirecting to sign in...</p>
-            </div>
+            <Stack gap={6} className="text-center">
+              <Stack className="w-16 h-16 mx-auto bg-grey-200 rounded-full items-center justify-center">
+                <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              </Stack>
+              <H2>Password Reset</H2>
+              <Body className="text-grey-600">Your password has been successfully reset. Redirecting to sign in...</Body>
+            </Stack>
           ) : (
             <>
-              <div className="text-center"><h1 className="font-heading text-h2 uppercase tracking-widest">New Password</h1><p className="mt-2 font-body text-body-md text-grey-600">Enter your new password below.</p></div>
-              {error && <div className="p-4 bg-grey-100 border border-grey-300"><p className="font-code text-mono-sm text-black uppercase tracking-wider">{error}</p></div>}
-              <form className="space-y-6" onSubmit={handleSubmit}>
-                <div><label htmlFor="password" className="font-heading text-h6-sm uppercase tracking-wider">New Password</label><input id="password" type="password" autoComplete="new-password" required value={password} onChange={(e) => setPassword(e.target.value)} className="mt-2 block w-full px-4 py-3 border border-grey-300 font-body text-body-md focus:outline-none focus:border-black transition-colors" placeholder="••••••••" /><p className="mt-1 font-code text-mono-xs text-grey-500">Minimum 8 characters</p></div>
-                <div><label htmlFor="confirmPassword" className="font-heading text-h6-sm uppercase tracking-wider">Confirm Password</label><input id="confirmPassword" type="password" autoComplete="new-password" required value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className="mt-2 block w-full px-4 py-3 border border-grey-300 font-body text-body-md focus:outline-none focus:border-black transition-colors" placeholder="••••••••" /></div>
-                <button type="submit" disabled={loading} className="w-full py-3 px-4 bg-black text-white font-heading text-h6-sm uppercase tracking-widest hover:bg-grey-800 disabled:bg-grey-400 transition-colors">{loading ? 'Resetting...' : 'Reset Password'}</button>
-              </form>
-              <div className="text-center"><Link href="/auth/signin" className="font-code text-mono-xs uppercase tracking-wider text-grey-600 hover:text-black transition-colors">Back to Sign In</Link></div>
+              <Stack gap={4} className="text-center">
+                <H2>New Password</H2>
+                <Body className="text-grey-600">Enter your new password below.</Body>
+              </Stack>
+
+              {error && <Alert variant="error">{error}</Alert>}
+
+              <Stack gap={6}>
+                <Field label="New Password">
+                  <Input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Enter new password"
+                    required
+                  />
+                  <Body size="sm" className="text-grey-500 mt-1">Minimum 8 characters</Body>
+                </Field>
+
+                <Field label="Confirm Password">
+                  <Input
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="Re-enter new password"
+                    required
+                  />
+                </Field>
+
+                <Button variant="solid" className="w-full" disabled={loading} onClick={handleSubmit}>
+                  {loading ? "Resetting..." : "Reset Password"}
+                </Button>
+
+                <Stack className="text-center">
+                  <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/signin'} className="text-grey-600 hover:text-black">
+                    Back to Sign In
+                  </Button>
+                </Stack>
+              </Stack>
             </>
           )}
-        </div>
-      </main>
-      <footer className="py-6 px-8 border-t border-grey-200 bg-white"><div className="flex justify-center space-x-8"><Link href="/privacy" className="font-code text-mono-xs uppercase tracking-wider text-grey-500 hover:text-black">Privacy</Link><Link href="/terms" className="font-code text-mono-xs uppercase tracking-wider text-grey-500 hover:text-black">Terms</Link><Link href="/support" className="font-code text-mono-xs uppercase tracking-wider text-grey-500 hover:text-black">Support</Link></div></footer>
-    </div>
+        </Stack>
+      </SectionLayout>
+    </PageLayout>
   );
 }

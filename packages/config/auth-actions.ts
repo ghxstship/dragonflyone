@@ -23,7 +23,10 @@ import type {
 } from './auth-schemas';
 
 // Untyped Supabase client for flexibility with tables not in generated types
-type UntypedSupabaseClient = SupabaseClient<Record<string, unknown>>;
+// Using 'any' for database generic allows flexible table access without type errors
+// eslint-disable-next-line
+type UntypedSupabaseClient = SupabaseClient<any>;
+
 
 // Create Supabase client for server-side operations
 function getSupabaseAdmin(): UntypedSupabaseClient {
@@ -124,7 +127,7 @@ export async function signUp(
         return { success: false, error: createAuthError('expired_token', 'Invite code expired') };
       }
 
-      organizationId = invite.organization_id;
+      organizationId = invite.organization_id ?? undefined;
       if (invite.role) {
         assignedRoles = [invite.role];
       }

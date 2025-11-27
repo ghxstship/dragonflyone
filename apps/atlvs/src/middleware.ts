@@ -1,5 +1,19 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { createServerClient, type CookieOptions } from '@supabase/ssr';
+
+const publicPaths = [
+  '/auth/signin',
+  '/auth/signup',
+  '/auth/forgot-password',
+  '/auth/reset-password',
+  '/auth/magic-link',
+  '/auth/verify-email',
+  '/auth/callback',
+  '/api/auth',
+];
+
+const onboardingPath = '/onboarding';
 
 const ROLE_ACCESS_MAP: Record<string, string[]> = {
   '/finance': ['ATLVS_ADMIN', 'ATLVS_SUPER_ADMIN', 'LEGEND_SUPER_ADMIN'],
@@ -9,35 +23,84 @@ const ROLE_ACCESS_MAP: Record<string, string[]> = {
   '/projects': ['ATLVS_TEAM_MEMBER', 'ATLVS_ADMIN', 'ATLVS_SUPER_ADMIN'],
 };
 
-export function middleware(request: NextRequest) {
-  const path = request.nextUrl.pathname;
+export async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+  let response = NextResponse.next({ request });
 
-  const publicPaths = ['/', '/auth/signin', '/auth/signup'];
-  const isPublicPath = publicPaths.includes(path);
+  // Check if the path is public
+  const isPublicPath = publicPaths.some(path => pathname.startsWith(path));
+  const isOnboardingPath = pathname.startsWith(onboardingPath);
 
-  const token = request.cookies.get('auth-token')?.value || '';
-  const userRole = request.cookies.get('user-role')?.value || '';
+  // Create Supabase client for middleware
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
+        },
+        setAll(cookiesToSet: { name: string; value: string; options: CookieOptions }[]) {
+          cookiesToSet.forEach(({ name, value, options }) => {
+            request.cookies.set(name, value);
+            response.cookies.set(name, value, options);
+          });
+        },
+      },
+    }
+  );
 
-  if (!isPublicPath && !token) {
-    return NextResponse.redirect(new URL('/auth/signin', request.url));
+  // Get session
+  const { data: { session } } = await supabase.auth.getSession();
+
+  // Redirect to signin if not authenticated and trying to access protected route
+  if (!isPublicPath && !session) {
+    const redirectUrl = new URL('/auth/signin', request.url);
+    redirectUrl.searchParams.set('redirectTo', pathname);
+    return NextResponse.redirect(redirectUrl);
   }
 
-  if (isPublicPath && token && path !== '/') {
+  // Redirect to dashboard if authenticated and trying to access auth pages
+  if (isPublicPath && session && !pathname.startsWith('/api')) {
     return NextResponse.redirect(new URL('/dashboard', request.url));
   }
 
-  // Role-based access control
+  // Check onboarding status for authenticated users
+  if (session && !isPublicPath && !isOnboardingPath) {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('onboarding_completed')
+      .eq('id', session.user.id)
+      .single();
+
+    if (profile && !profile.onboarding_completed) {
+      return NextResponse.redirect(new URL('/onboarding', request.url));
+    }
+  }
+
+  // Role-based access control for admin routes
   for (const [protectedPath, allowedRoles] of Object.entries(ROLE_ACCESS_MAP)) {
-    if (path.startsWith(protectedPath)) {
-      if (!allowedRoles.includes(userRole) && !userRole.startsWith('LEGEND_')) {
+    if (pathname.startsWith(protectedPath)) {
+      const { data: platformUser } = await supabase
+        .from('platform_users')
+        .select('platform_roles')
+        .eq('auth_user_id', session?.user?.id)
+        .single();
+
+      const roles = platformUser?.platform_roles || [];
+      const isAdmin = roles.some((role: string) => role.includes('ADMIN') || role.startsWith('LEGEND_'));
+
+      if (!allowedRoles.some(role => roles.includes(role) || role.startsWith('LEGEND_'))) {
         return NextResponse.redirect(new URL('/dashboard', request.url));
       }
     }
   }
 
-  return NextResponse.next();
+  return response;
 }
 
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
+  matcher: [
+    '/((?!_next/static|_next/image|favicon.ico|public).*)',
+  ],
 };

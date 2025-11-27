@@ -6,30 +6,31 @@
   - Environments: .env.local
 
    Creating an optimized production build ...
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (128kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
  ✓ Compiled successfully
    Linting and checking validity of types ...
    Collecting page data ...
  ⚠ Using edge runtime on a page currently disables static generation for that page
-   Generating static pages (0/339) ...
-   Generating static pages (84/339) 
-   Generating static pages (169/339) 
-   Generating static pages (254/339) 
- ✓ Generating static pages (339/339)
+   Generating static pages (0/348) ...
+   Generating static pages (87/348) 
+   Generating static pages (174/348) 
+   Generating static pages (261/348) 
+ ✓ Generating static pages (348/348)
    Finalizing page optimization ...
    Collecting build traces ...
 
 Route (app)                                   Size     First Load JS
-┌ ƒ /                                         2.38 kB         137 kB
+┌ ƒ /                                         2.19 kB         137 kB
 ├ ○ /_not-found                               143 B          87.3 kB
-├ ○ /advances                                 2.44 kB         106 kB
-├ ƒ /advances/[id]                            5.19 kB         102 kB
-├ ○ /advancing                                4.98 kB         186 kB
-├ ƒ /advancing/requests/[id]                  4.82 kB         186 kB
-├ ○ /alignment                                5.22 kB        95.4 kB
-├ ○ /analytics                                2.6 kB         92.8 kB
-├ ○ /analytics/client-retention               2.32 kB         190 kB
-├ ○ /analytics/dashboard-builder              4.22 kB        98.3 kB
-├ ○ /analytics/data-warehouse                 4.19 kB         192 kB
+├ ○ /advances                                 2.43 kB         106 kB
+├ ƒ /advances/[id]                            5.37 kB         102 kB
+├ ○ /advancing                                5.16 kB         187 kB
+├ ƒ /advancing/requests/[id]                  5.01 kB         187 kB
+├ ○ /alignment                                5.05 kB        95.4 kB
+├ ○ /analytics                                2.41 kB        92.7 kB
+├ ○ /analytics/client-retention               2.32 kB         191 kB
+├ ○ /analytics/dashboard-builder              4.03 kB        98.2 kB
+├ ○ /analytics/data-warehouse                 4.19 kB         193 kB
 ├ ○ /analytics/kpi                            4.76 kB        91.9 kB
 ├ ƒ /analytics/kpi/[code]                     3.79 kB          91 kB
 ├ ƒ /api/account-health                       0 B                0 B
@@ -85,6 +86,7 @@ Route (app)                                   Size     First Load JS
 ├ ƒ /api/assets/scan                          0 B                0 B
 ├ ƒ /api/assets/tracking                      0 B                0 B
 ├ ƒ /api/audit-findings                       0 B                0 B
+├ ƒ /api/auth/callback                        0 B                0 B
 ├ ƒ /api/auth/invite                          0 B                0 B
 ├ ƒ /api/auth/me                              0 B                0 B
 ├ ƒ /api/auth/password/reset                  0 B                0 B
@@ -215,6 +217,8 @@ Route (app)                                   Size     First Load JS
 ├ ƒ /api/nps                                  0 B                0 B
 ├ ƒ /api/nps-surveys                          0 B                0 B
 ├ ƒ /api/onboarding                           0 B                0 B
+├ ƒ /api/onboarding/organization              0 B                0 B
+├ ƒ /api/onboarding/profile                   0 B                0 B
 ├ ƒ /api/opportunities                        0 B                0 B
 ├ ƒ /api/opportunity-tracking                 0 B                0 B
 ├ ƒ /api/organizations                        0 B                0 B
@@ -322,96 +326,102 @@ Route (app)                                   Size     First Load JS
 ├ ƒ /api/zapier/search                        0 B                0 B
 ├ ƒ /api/zapier/triggers                      0 B                0 B
 ├ ƒ /api/zapier/webhooks                      0 B                0 B
-├ ○ /assets                                   2.44 kB        99.5 kB
-├ ○ /assets/calibration                       2.17 kB         190 kB
-├ ○ /assets/damage-reports                    2.47 kB         190 kB
-├ ○ /assets/idle-analysis                     2.29 kB        96.3 kB
-├ ○ /assets/kits                              4.39 kB         192 kB
+├ ○ /assets                                   2.25 kB        99.5 kB
+├ ○ /assets/calibration                       2.17 kB         191 kB
+├ ○ /assets/damage-reports                    2.47 kB         191 kB
+├ ○ /assets/idle-analysis                     2.1 kB         96.3 kB
+├ ○ /assets/kits                              4.4 kB          193 kB
 ├ ○ /assets/maintenance                       4.79 kB         193 kB
 ├ ○ /assets/optimization                      2.79 kB         191 kB
-├ ○ /assets/performance                       2.29 kB        96.3 kB
-├ ○ /assets/rentals                           4.4 kB          192 kB
+├ ○ /assets/performance                       2.1 kB         96.3 kB
+├ ○ /assets/rentals                           4.4 kB          193 kB
 ├ ○ /assets/scan                              5.93 kB        93.1 kB
-├ ○ /assets/serialized                        5.57 kB        95.7 kB
-├ ○ /assets/specifications                    5.39 kB        95.5 kB
-├ ○ /assets/storage                           2.05 kB         190 kB
-├ ○ /assets/tracking                          2.36 kB         190 kB
-├ ○ /assets/utilization                       2.37 kB        96.4 kB
-├ ○ /audit                                    1.98 kB          96 kB
-├ ○ /auth/signin                              2.63 kB        89.8 kB
-├ ○ /billing                                  2.22 kB         100 kB
-├ ○ /budgets                                  4.41 kB         192 kB
-├ ○ /compliance                               2.12 kB         100 kB
-├ ○ /contacts                                 2 kB            193 kB
+├ ○ /assets/serialized                        5.37 kB        95.7 kB
+├ ○ /assets/specifications                    5.2 kB         95.5 kB
+├ ○ /assets/storage                           2.05 kB         191 kB
+├ ○ /assets/tracking                          2.36 kB         191 kB
+├ ○ /assets/utilization                       2.18 kB        96.4 kB
+├ ○ /audit                                    1.79 kB          96 kB
+├ ○ /auth/forgot-password                     1.41 kB        91.8 kB
+├ ○ /auth/magic-link                          1.47 kB        91.9 kB
+├ ○ /auth/reset-password                      1.55 kB          92 kB
+├ ○ /auth/signin                              5.75 kB         187 kB
+├ ○ /auth/signup                              6.06 kB        93.2 kB
+├ ○ /auth/verify-email                        3.51 kB        90.7 kB
+├ ○ /billing                                  2.04 kB         100 kB
+├ ○ /budgets                                  4.41 kB         193 kB
+├ ○ /compliance                               1.93 kB         100 kB
+├ ○ /contacts                                 2 kB            194 kB
 ├ ○ /contacts/relationships                   6.46 kB        93.6 kB
-├ ○ /contracts                                2.47 kB         194 kB
-├ ○ /crm                                      2.07 kB         190 kB
-├ ○ /crm/calendar                             4.44 kB        98.5 kB
-├ ○ /crm/email-integration                    2.12 kB         190 kB
-├ ○ /crm/lead-scoring                         2.69 kB        96.7 kB
-├ ○ /crm/relationships                        4.19 kB        98.2 kB
-├ ○ /crm/tasks                                2.59 kB        99.7 kB
+├ ○ /contracts                                2.47 kB         195 kB
+├ ○ /crm                                      2.07 kB         191 kB
+├ ○ /crm/calendar                             4.25 kB        98.5 kB
+├ ○ /crm/email-integration                    2.13 kB         191 kB
+├ ○ /crm/lead-scoring                         2.49 kB        96.7 kB
+├ ○ /crm/relationships                        4 kB           98.2 kB
+├ ○ /crm/tasks                                2.4 kB         99.7 kB
 ├ ○ /dashboard                                3.31 kB         239 kB
-├ ○ /deals                                    1.91 kB         193 kB
+├ ○ /deals                                    1.91 kB         194 kB
 ├ ○ /design-system                            4.78 kB         100 kB
-├ ○ /documents                                2.09 kB        99.2 kB
-├ ○ /employees                                2.23 kB         193 kB
-├ ○ /finance                                  2.07 kB         190 kB
-├ ○ /finance/accounts-receivable              2.18 kB         190 kB
-├ ○ /finance/bank-reconciliation              1.96 kB         190 kB
-├ ○ /finance/commissions                      4.39 kB         192 kB
-├ ○ /finance/credit-cards                     2.02 kB         190 kB
-├ ○ /governance                               2.09 kB         190 kB
-├ ○ /integrations                             3.05 kB        93.2 kB
-├ ○ /invoices                                 2.56 kB         100 kB
-├ ○ /ip-tracking                              2.3 kB          190 kB
+├ ○ /documents                                1.9 kB         99.2 kB
+├ ○ /employees                                2.23 kB         194 kB
+├ ○ /finance                                  2.07 kB         191 kB
+├ ○ /finance/accounts-receivable              2.19 kB         191 kB
+├ ○ /finance/bank-reconciliation              1.97 kB         191 kB
+├ ○ /finance/commissions                      4.39 kB         193 kB
+├ ○ /finance/credit-cards                     2.02 kB         191 kB
+├ ○ /governance                               2.09 kB         191 kB
+├ ○ /integrations                             2.86 kB        93.2 kB
+├ ○ /invoices                                 2.37 kB         100 kB
+├ ○ /ip-tracking                              2.31 kB         191 kB
 ├ ○ /leads/scoring                            7.88 kB        95.1 kB
-├ ○ /marketing/attribution                    4.47 kB        94.6 kB
-├ ○ /okrs                                     3.15 kB        93.3 kB
-├ ○ /partnerships                             4.39 kB         188 kB
-├ ○ /payroll                                  5.25 kB        99.3 kB
-├ ○ /performance                              2.11 kB         190 kB
-├ ○ /pipeline                                 2.15 kB         190 kB
-├ ○ /portfolio                                4.35 kB        94.5 kB
-├ ○ /procurement                              5.08 kB         189 kB
-├ ○ /procurement/categories                   5.07 kB        95.2 kB
-├ ○ /procurement/emergency                    4.92 kB        95.1 kB
-├ ○ /procurement/logistics                    5.17 kB        95.3 kB
-├ ○ /procurement/vendor-audits                5.3 kB         95.5 kB
-├ ○ /procurement/vendor-selection             5.14 kB        95.3 kB
-├ ○ /projects                                 2.23 kB         193 kB
-├ ƒ /projects/[id]                            3.39 kB         145 kB
-├ ○ /quotes                                   2.21 kB         190 kB
+├ ○ /marketing/attribution                    4.26 kB        94.6 kB
+├ ○ /okrs                                     2.96 kB        93.3 kB
+├ ○ /onboarding                               9.51 kB         191 kB
+├ ○ /partnerships                             4.39 kB         189 kB
+├ ○ /payroll                                  5.07 kB        99.3 kB
+├ ○ /performance                              2.11 kB         191 kB
+├ ○ /pipeline                                 2.15 kB         191 kB
+├ ○ /portfolio                                4.15 kB        94.5 kB
+├ ○ /procurement                              5.08 kB         190 kB
+├ ○ /procurement/categories                   4.88 kB        95.2 kB
+├ ○ /procurement/emergency                    4.73 kB        95.1 kB
+├ ○ /procurement/logistics                    4.98 kB        95.3 kB
+├ ○ /procurement/vendor-audits                5.11 kB        95.4 kB
+├ ○ /procurement/vendor-selection             4.93 kB        95.3 kB
+├ ○ /projects                                 2.23 kB         194 kB
+├ ƒ /projects/[id]                            3.23 kB         145 kB
+├ ○ /quotes                                   2.22 kB         191 kB
 ├ ○ /reports                                  5.79 kB         190 kB
-├ ○ /reports/scheduled                        4.96 kB        95.1 kB
-├ ○ /revenue-recognition                      4.07 kB        94.2 kB
-├ ○ /rfp                                      2.27 kB         190 kB
-├ ○ /risks                                    2.14 kB         190 kB
-├ ○ /scenarios                                3.61 kB        93.8 kB
-├ ○ /settings                                 2.66 kB         144 kB
-├ ○ /stakeholders                             4.13 kB         189 kB
-├ ○ /subsidiaries                             2.18 kB         190 kB
-├ ○ /taxes                                    2.14 kB         190 kB
-├ ○ /training                                 2.18 kB         190 kB
-├ ○ /vendors                                  2.29 kB         190 kB
-├ ○ /vendors/contracts                        4.39 kB        94.5 kB
-├ ○ /vendors/rate-cards                       4.86 kB          95 kB
-├ ○ /workforce                                2.17 kB         186 kB
-├ ○ /workforce/background-checks              5.11 kB        95.3 kB
-├ ○ /workforce/compensation                   2.29 kB        96.3 kB
-├ ○ /workforce/handbook                       6.11 kB        96.3 kB
-├ ○ /workforce/labor-laws                     2.38 kB        96.4 kB
-├ ○ /workforce/referrals                      4.62 kB        94.8 kB
-├ ○ /workforce/succession                     4.27 kB        94.4 kB
-├ ○ /workforce/union-compliance               4.55 kB        94.7 kB
-└ ○ /workforce/union-rules                    2.34 kB        96.4 kB
+├ ○ /reports/scheduled                        4.75 kB        95.1 kB
+├ ○ /revenue-recognition                      3.88 kB        94.2 kB
+├ ○ /rfp                                      2.27 kB         191 kB
+├ ○ /risks                                    2.14 kB         191 kB
+├ ○ /scenarios                                3.41 kB        93.7 kB
+├ ○ /settings                                 2.5 kB          144 kB
+├ ○ /stakeholders                             4.31 kB         190 kB
+├ ○ /subsidiaries                             2.18 kB         191 kB
+├ ○ /taxes                                    2.14 kB         191 kB
+├ ○ /training                                 2.18 kB         191 kB
+├ ○ /vendors                                  2.48 kB         191 kB
+├ ○ /vendors/contracts                        4.2 kB         94.5 kB
+├ ○ /vendors/rate-cards                       4.66 kB          95 kB
+├ ○ /workforce                                2.17 kB         187 kB
+├ ○ /workforce/background-checks              4.91 kB        95.2 kB
+├ ○ /workforce/compensation                   2.09 kB        96.3 kB
+├ ○ /workforce/handbook                       5.91 kB        96.2 kB
+├ ○ /workforce/labor-laws                     2.19 kB        96.4 kB
+├ ○ /workforce/referrals                      4.42 kB        94.8 kB
+├ ○ /workforce/succession                     4.07 kB        94.4 kB
+├ ○ /workforce/union-compliance               4.35 kB        94.7 kB
+└ ○ /workforce/union-rules                    2.15 kB        96.4 kB
 + First Load JS shared by all                 87.2 kB
-  ├ chunks/5683-70196865dd049ed5.js           31.6 kB
-  ├ chunks/849bd656-f14af1d72582cba5.js       53.6 kB
+  ├ chunks/5683-4b6119a3c0a11295.js           31.6 kB
+  ├ chunks/849bd656-b49e66270961753f.js       53.6 kB
   └ other shared chunks (total)               1.99 kB
 
 
-ƒ Middleware                                  28.8 kB
+ƒ Middleware                                  76.4 kB
 
 ○  (Static)   prerendered as static content
 ƒ  (Dynamic)  server-rendered on demand

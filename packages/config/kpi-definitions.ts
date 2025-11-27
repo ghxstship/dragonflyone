@@ -6,6 +6,14 @@
 
 import type { KPIDefinition } from './types/kpi-types';
 
+// Import KPIs from separate category files
+import { OPERATIONAL_KPIS } from './kpi-operational';
+import { MARKETING_KPIS } from './kpi-marketing';
+import { CUSTOMER_EXPERIENCE_KPIS } from './kpi-customer-experience';
+
+// Re-export for external use
+export { OPERATIONAL_KPIS, MARKETING_KPIS, CUSTOMER_EXPERIENCE_KPIS };
+
 /**
  * FINANCIAL PERFORMANCE KPIs (1-45)
  * Revenue Metrics (1-10), Cost Management (11-25), Profitability (26-45)
@@ -1581,187 +1589,6 @@ export const TICKET_ATTENDANCE_KPIS: KPIDefinition[] = [
     calculation: '((Dynamic Revenue - Static Baseline) / Static Baseline) × 100',
     updateFrequency: 'DAILY',
     visualizations: ['NUMBER', 'COMPARISON'],
-    enabled: true
-  }
-];
-
-/**
- * OPERATIONAL EFFICIENCY KPIs (91-145)
- * Project Management, Team Performance, Vendor & Supply Chain
- */
-export const OPERATIONAL_KPIS: KPIDefinition[] = [
-  {
-    id: 91,
-    code: 'OPS_PM_001',
-    name: 'Schedule Adherence Rate',
-    description: 'Percentage of milestones completed on or before due date',
-    category: 'OPERATIONAL_EFFICIENCY',
-    subcategory: 'PROJECT_MANAGEMENT',
-    unit: 'PERCENTAGE',
-    targetDirection: 'HIGHER_IS_BETTER',
-    dataSources: [
-      { table: 'project_milestones', fields: ['due_date', 'completed_at', 'is_completed'] }
-    ],
-    calculation: '(On-time Milestones / Total Completed Milestones) × 100',
-    updateFrequency: 'DAILY',
-    visualizations: ['GAUGE', 'LINE_CHART'],
-    targetValue: 90,
-    warningThreshold: 80,
-    criticalThreshold: 70,
-    enabled: true
-  },
-  {
-    id: 111,
-    code: 'OPS_TEAM_001',
-    name: 'Staff Utilization Rate',
-    description: 'Percentage of available staff hours that were billable/productive',
-    category: 'OPERATIONAL_EFFICIENCY',
-    subcategory: 'TEAM_PERFORMANCE',
-    unit: 'PERCENTAGE',
-    targetDirection: 'TARGET_RANGE',
-    dataSources: [
-      { table: 'time_entries', fields: ['duration_minutes', 'is_billable'] },
-      { table: 'staff_assignments', fields: ['scheduled_hours'] }
-    ],
-    calculation: '(Billable Hours / Total Available Hours) × 100',
-    updateFrequency: 'DAILY',
-    visualizations: ['GAUGE', 'LINE_CHART'],
-    targetValue: 82.5,
-    warningThreshold: 75,
-    criticalThreshold: 65,
-    enabled: true
-  },
-  {
-    id: 131,
-    code: 'OPS_VENDOR_001',
-    name: 'Vendor Reliability Score',
-    description: 'Percentage of on-time vendor deliveries',
-    category: 'OPERATIONAL_EFFICIENCY',
-    subcategory: 'VENDOR_SUPPLY_CHAIN',
-    unit: 'PERCENTAGE',
-    targetDirection: 'HIGHER_IS_BETTER',
-    dataSources: [
-      { table: 'vendor_deliverables', fields: ['due_date', 'delivered_at'] }
-    ],
-    calculation: '(On-time Deliveries / Total Deliveries) × 100',
-    updateFrequency: 'DAILY',
-    visualizations: ['GAUGE', 'BAR_CHART'],
-    targetValue: 95,
-    warningThreshold: 90,
-    criticalThreshold: 85,
-    enabled: true
-  }
-];
-
-/**
- * MARKETING & ENGAGEMENT KPIs (146-175)
- * Digital Marketing, Audience Insights, Brand Experience
- */
-export const MARKETING_KPIS: KPIDefinition[] = [
-  {
-    id: 146,
-    code: 'MKT_DIG_001',
-    name: 'Social Media Engagement Rate',
-    description: 'Total interactions divided by total impressions',
-    category: 'MARKETING_ENGAGEMENT',
-    subcategory: 'DIGITAL_MARKETING',
-    unit: 'PERCENTAGE',
-    targetDirection: 'HIGHER_IS_BETTER',
-    dataSources: [
-      { table: 'social_media_posts', fields: ['likes', 'comments', 'shares', 'impressions'] }
-    ],
-    calculation: '(SUM(likes + comments + shares) / SUM(impressions)) × 100',
-    updateFrequency: 'HOURLY',
-    visualizations: ['LINE_CHART', 'GAUGE'],
-    targetValue: 3.5,
-    warningThreshold: 2,
-    criticalThreshold: 1,
-    enabled: true
-  },
-  {
-    id: 156,
-    code: 'MKT_AUD_001',
-    name: 'Net Promoter Score (NPS)',
-    description: 'Likelihood of attendees recommending event',
-    category: 'MARKETING_ENGAGEMENT',
-    subcategory: 'AUDIENCE_INSIGHTS',
-    unit: 'SCORE',
-    targetDirection: 'HIGHER_IS_BETTER',
-    dataSources: [
-      { table: 'survey_responses', fields: ['nps_score'], filters: ['survey_type = nps'] }
-    ],
-    calculation: '(% Promoters [9-10] - % Detractors [0-6])',
-    updateFrequency: 'AFTER_EVENT',
-    visualizations: ['GAUGE', 'DISTRIBUTION'],
-    targetValue: 50,
-    warningThreshold: 30,
-    criticalThreshold: 10,
-    enabled: true
-  }
-];
-
-/**
- * CUSTOMER EXPERIENCE KPIs (176-200)
- * Experience Quality, Customer Service
- */
-export const CUSTOMER_EXPERIENCE_KPIS: KPIDefinition[] = [
-  {
-    id: 176,
-    code: 'CX_EXP_001',
-    name: 'Overall Satisfaction Score',
-    description: 'Average rating of overall event experience',
-    category: 'CUSTOMER_EXPERIENCE',
-    subcategory: 'EXPERIENCE_QUALITY',
-    unit: 'SCORE',
-    targetDirection: 'HIGHER_IS_BETTER',
-    dataSources: [
-      { table: 'survey_responses', fields: ['satisfaction_rating'] }
-    ],
-    calculation: 'AVG(satisfaction_rating)',
-    updateFrequency: 'AFTER_EVENT',
-    visualizations: ['NUMBER', 'DISTRIBUTION'],
-    targetValue: 8,
-    warningThreshold: 7,
-    criticalThreshold: 6,
-    enabled: true
-  },
-  {
-    id: 191,
-    code: 'CX_SVC_001',
-    name: 'Support Ticket Resolution Time',
-    description: 'Average hours to resolve customer support tickets',
-    category: 'CUSTOMER_EXPERIENCE',
-    subcategory: 'CUSTOMER_SERVICE',
-    unit: 'HOURS',
-    targetDirection: 'LOWER_IS_BETTER',
-    dataSources: [
-      { table: 'communications', fields: ['created_at', 'resolved_at'] }
-    ],
-    calculation: 'AVG(resolved_at - created_at) in hours',
-    updateFrequency: 'DAILY',
-    visualizations: ['NUMBER', 'LINE_CHART'],
-    targetValue: 12,
-    warningThreshold: 24,
-    criticalThreshold: 48,
-    enabled: true
-  },
-  {
-    id: 194,
-    code: 'CX_SVC_004',
-    name: 'Refund Request Rate',
-    description: 'Percentage of tickets with refund requests',
-    category: 'CUSTOMER_EXPERIENCE',
-    subcategory: 'CUSTOMER_SERVICE',
-    unit: 'PERCENTAGE',
-    targetDirection: 'LOWER_IS_BETTER',
-    dataSources: [
-      { table: 'tickets', fields: ['ticket_status', 'refund_amount'] }
-    ],
-    calculation: '(Refund Requests / Total Tickets Sold) × 100',
-    updateFrequency: 'DAILY',
-    visualizations: ['GAUGE'],
-    warningThreshold: 3,
-    criticalThreshold: 5,
     enabled: true
   }
 ];
