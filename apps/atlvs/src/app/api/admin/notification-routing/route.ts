@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import crypto from 'crypto';
 
 // Admin UI for notification routing rules and secrets management
 export async function GET(request: NextRequest) {
@@ -200,6 +201,5 @@ export async function POST(request: NextRequest) {
 }
 
 function hashSecret(value: string): string {
-  const crypto = require('crypto');
   return crypto.createHash('sha256').update(value).digest('hex').substring(0, 16);
 }

@@ -61,9 +61,9 @@ export default function ArtistsPage() {
           logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
           cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/auth/signin')}>SIGN IN</Button>}
         >
-          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Home</Link>
-          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Events</Link>
-          <Link href="/artists" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Artists</Link>
+          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Home</Link>
+          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Events</Link>
+          <Link href="/artists" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Artists</Link>
         </Navigation>
       }
       footer={
@@ -89,12 +89,12 @@ export default function ArtistsPage() {
                 placeholder="Search artists..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="flex-1 bg-black text-white border-grey-700"
+                className="flex-1 bg-black text-white border-ink-700"
               />
               <Select
                 value={filterGenre}
                 onChange={(e) => setFilterGenre(e.target.value)}
-                className="border-grey-700 bg-black text-white"
+                className="border-ink-700 bg-black text-white"
               >
                 <option value="all">All Genres</option>
                 <option value="trance">Trance</option>
@@ -105,9 +105,9 @@ export default function ArtistsPage() {
 
             <Grid cols={3} gap={6}>
               {filteredArtists.map((artist: any) => (
-                <Card key={artist.id} className="border-2 border-grey-800 hover:border-white transition-colors bg-black">
+                <Card key={artist.id} className="border-2 border-ink-800 hover:border-white transition-colors bg-black">
                   <NextLink href={`/artists/${artist.id}`} className="block">
-                    <Card className="aspect-square bg-grey-900 rounded-none" />
+                    <Card className="aspect-square bg-ink-900 rounded-none" />
                     <Stack gap={3} className="p-6">
                       <Stack gap={2}>
                         <H3 className="text-white">{artist.name}</H3>
@@ -115,18 +115,18 @@ export default function ArtistsPage() {
                           <Badge className="w-fit">Verified</Badge>
                         )}
                       </Stack>
-                      <Body className="text-body-sm text-grey-400">{artist.genre}</Body>
-                      <Stack direction="horizontal" className="justify-between border-t border-grey-800 pt-4">
+                      <Body className="text-body-sm text-ink-400">{artist.genre}</Body>
+                      <Stack direction="horizontal" className="justify-between border-t border-ink-800 pt-4">
                         <Stack gap={1}>
-                          <Label size="xs" className="text-grey-500">Followers</Label>
+                          <Label size="xs" className="text-ink-500">Followers</Label>
                           <Body className="font-display text-body-md text-white">{((artist.followers || 0) / 1000000).toFixed(1)}M</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Label size="xs" className="text-grey-500">Upcoming Shows</Label>
+                          <Label size="xs" className="text-ink-500">Upcoming Shows</Label>
                           <Body className="font-display text-body-md text-white">{artist.upcoming_shows || 0}</Body>
                         </Stack>
                       </Stack>
-                      <Button variant="outline" className="w-full border-grey-700 text-grey-400 hover:border-white hover:text-white" onClick={(e) => { e.preventDefault(); addNotification({ type: 'success', title: 'Following', message: `Now following ${artist.name}` }); }}>
+                      <Button variant="outlineInk" fullWidth onClick={(e) => { e.preventDefault(); addNotification({ type: 'success', title: 'Following', message: `Now following ${artist.name}` }); }}>
                         Follow
                       </Button>
                     </Stack>

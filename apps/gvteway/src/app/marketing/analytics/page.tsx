@@ -66,7 +66,7 @@ export default function MarketingAnalyticsPage() {
           <Stack direction="horizontal" className="justify-between items-start">
             <Stack gap={2}>
               <H1>MARKETING ANALYTICS</H1>
-              <Body className="text-grey-600">Campaign performance and attribution dashboard</Body>
+              <Body className="text-ink-600">Campaign performance and attribution dashboard</Body>
             </Stack>
             <Select value={dateRange} onChange={(e) => setDateRange(e.target.value)} className="border-2 border-black">
               <option value="7d">Last 7 Days</option>
@@ -118,21 +118,21 @@ export default function MarketingAnalyticsPage() {
                   <Stack gap={4}>
                     <H3>Key Metrics</H3>
                     <Grid cols={2} gap={4}>
-                      <Card className="p-4 border border-grey-200 text-center">
+                      <Card className="p-4 border border-ink-200 text-center">
                         <Label className="font-mono text-h5-md">{(mockCampaigns.reduce((s, c) => s + c.ctr, 0) / mockCampaigns.length).toFixed(2)}%</Label>
-                        <Label className="text-grey-500">Avg CTR</Label>
+                        <Label className="text-ink-500">Avg CTR</Label>
                       </Card>
-                      <Card className="p-4 border border-grey-200 text-center">
+                      <Card className="p-4 border border-ink-200 text-center">
                         <Label className="font-mono text-h5-md">${(totalSpend / totalConversions).toFixed(2)}</Label>
-                        <Label className="text-grey-500">Cost per Conversion</Label>
+                        <Label className="text-ink-500">Cost per Conversion</Label>
                       </Card>
-                      <Card className="p-4 border border-grey-200 text-center">
+                      <Card className="p-4 border border-ink-200 text-center">
                         <Label className="font-mono text-h5-md">${(totalRevenue / totalConversions).toFixed(0)}</Label>
-                        <Label className="text-grey-500">Avg Order Value</Label>
+                        <Label className="text-ink-500">Avg Order Value</Label>
                       </Card>
-                      <Card className="p-4 border border-grey-200 text-center">
+                      <Card className="p-4 border border-ink-200 text-center">
                         <Label className="font-mono text-h5-md">{((totalConversions / mockCampaigns.reduce((s, c) => s + c.clicks, 0)) * 100).toFixed(1)}%</Label>
-                        <Label className="text-grey-500">Conversion Rate</Label>
+                        <Label className="text-ink-500">Conversion Rate</Label>
                       </Card>
                     </Grid>
                   </Stack>
@@ -204,12 +204,12 @@ export default function MarketingAnalyticsPage() {
                       <option value="decay">Time Decay</option>
                       <option value="position">Position Based</option>
                     </Select>
-                    <Body className="text-grey-600">
+                    <Body className="text-ink-600">
                       Last Click attribution assigns 100% of the conversion credit to the last touchpoint before conversion.
                     </Body>
-                    <Card className="p-4 border border-grey-200">
+                    <Card className="p-4 border border-ink-200">
                       <Stack gap={2}>
-                        <Label className="text-grey-500">Top Converting Path</Label>
+                        <Label className="text-ink-500">Top Converting Path</Label>
                         <Stack direction="horizontal" gap={2}>
                           <Badge variant="outline">Paid Social</Badge>
                           <Label>→</Label>
@@ -242,7 +242,7 @@ export default function MarketingAnalyticsPage() {
                           <Label className="font-medium">{stage.stage}</Label>
                           <Stack direction="horizontal" gap={4}>
                             <Label className="font-mono">{stage.count.toLocaleString()}</Label>
-                            <Label className="font-mono text-grey-500">{stage.pct}%</Label>
+                            <Label className="font-mono text-ink-500">{stage.pct}%</Label>
                           </Stack>
                         </Stack>
                         <ProgressBar value={Math.log10(stage.count) * 15} className="h-6" />

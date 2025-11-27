@@ -27,7 +27,7 @@ export const ImageGallery = forwardRef<HTMLDivElement, ImageGalleryProps>(
 
     return (
       <>
-        <div ref={ref} className={clsx("grid gap-4", gridClasses[columns], className)} {...props}>
+        <div ref={ref} className={clsx("grid gap-gap-md", gridClasses[columns], className)} {...props}>
           {images.map((image, index) => (
             <button
               key={index}
@@ -49,12 +49,12 @@ export const ImageGallery = forwardRef<HTMLDivElement, ImageGalleryProps>(
         {/* Lightbox */}
         {selectedImage && (
           <div
-            className="fixed inset-0 bg-black z-[1400] flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black z-modal flex items-center justify-center p-spacing-4"
             onClick={() => setSelectedImage(null)}
           >
             <button
               type="button"
-              className="absolute top-4 right-4 text-white text-4xl hover:opacity-70"
+              className="absolute top-spacing-4 right-spacing-4 text-white text-h2-sm hover:opacity-70"
               onClick={() => setSelectedImage(null)}
             >
               ×
@@ -66,7 +66,7 @@ export const ImageGallery = forwardRef<HTMLDivElement, ImageGalleryProps>(
                 className="w-full h-auto grayscale contrast-125"
               />
               {selectedImage.caption && (
-                <p className="mt-4 font-code text-[0.875rem] uppercase tracking-widest text-white text-center">
+                <p className="mt-4 font-code text-mono-md uppercase tracking-widest text-white text-center">
                   {selectedImage.caption}
                 </p>
               )}

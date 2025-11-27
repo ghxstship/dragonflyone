@@ -145,7 +145,7 @@ function AccessibilityRequestContent() {
       case 'denied':
         return <Badge className="bg-error-500 text-white">Denied</Badge>;
       case 'completed':
-        return <Badge className="bg-grey-500 text-white">Completed</Badge>;
+        return <Badge className="bg-ink-500 text-white">Completed</Badge>;
       default:
         return <Badge>{status}</Badge>;
     }
@@ -169,7 +169,7 @@ function AccessibilityRequestContent() {
         <Stack gap={8}>
         <Stack gap={2} className="border-b-2 border-black pb-8">
           <H1>Accessibility Services</H1>
-          <Body className="text-grey-600">
+          <Body className="text-ink-600">
             Request accommodations for your upcoming events
           </Body>
         </Stack>
@@ -201,7 +201,7 @@ function AccessibilityRequestContent() {
                           className={`p-4 cursor-pointer transition-colors ${
                             selectedServices.includes(service.id)
                               ? 'bg-black text-white'
-                              : 'hover:bg-grey-50'
+                              : 'hover:bg-ink-50'
                           }`}
                           onClick={() => toggleService(service.id)}
                         >
@@ -212,7 +212,7 @@ function AccessibilityRequestContent() {
                               {service.label}
                             </Body>
                             <Body className={`text-body-sm ${
-                              selectedServices.includes(service.id) ? 'text-grey-600' : 'text-grey-500'
+                              selectedServices.includes(service.id) ? 'text-ink-600' : 'text-ink-500'
                             }`}>
                               {service.description}
                             </Body>
@@ -278,20 +278,20 @@ function AccessibilityRequestContent() {
                           <Body className="font-medium text-body-sm">{request.event_title}</Body>
                           {getStatusBadge(request.status)}
                         </Stack>
-                        <Body className="text-mono-xs text-grey-500">{request.event_date}</Body>
-                        <Body className="text-mono-xs text-grey-600">{request.request_type}</Body>
+                        <Body className="text-mono-xs text-ink-500">{request.event_date}</Body>
+                        <Body className="text-mono-xs text-ink-600">{request.request_type}</Body>
                       </Stack>
                     </Card>
                   ))}
                 </Stack>
               ) : (
-                <Body className="text-grey-500 text-body-sm">No previous requests</Body>
+                <Body className="text-ink-500 text-body-sm">No previous requests</Body>
               )}
             </Card>
 
-            <Card className="p-6 bg-grey-50">
+            <Card className="p-6 bg-ink-50">
               <H3 className="mb-4">NEED HELP?</H3>
-              <Body className="text-body-sm text-grey-600 mb-4">
+              <Body className="text-body-sm text-ink-600 mb-4">
                 Our accessibility team is here to assist you.
               </Body>
               <Stack gap={2}>

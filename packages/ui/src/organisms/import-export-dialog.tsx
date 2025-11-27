@@ -136,7 +136,7 @@ export function ImportExportDialog({
 
   return (
     <div
-      className={clsx("fixed inset-0 z-modal flex items-center justify-center p-4", className)}
+      className={clsx("fixed inset-0 z-modal flex items-center justify-center p-spacing-4", className)}
       role="dialog"
       aria-modal="true"
     >
@@ -145,9 +145,9 @@ export function ImportExportDialog({
         onClick={processing ? undefined : onClose}
       />
       
-      <div className="relative bg-white border-2 border-black shadow-hard-lg w-full max-w-[600px] max-h-[90vh] flex flex-col">
+      <div className="relative bg-surface-primary text-text-primary border-2 border-border-primary shadow-hard-lg w-full max-w-container-3xl max-h-screen flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-5 border-b-2 border-black">
+        <div className="flex items-center justify-between px-spacing-6 py-spacing-5 border-b-2 border-black">
           <h2 className="font-heading text-h4-md tracking-wider uppercase">
             {mode === "import" ? `Import ${label}` : `Export ${label}`}
           </h2>
@@ -155,16 +155,16 @@ export function ImportExportDialog({
             type="button"
             onClick={onClose}
             disabled={processing}
-            className={clsx("p-2 bg-transparent border-none text-xl", processing ? "cursor-not-allowed" : "cursor-pointer")}
+            className={clsx("p-spacing-2 bg-transparent border-none text-h5-md", processing ? "cursor-not-allowed" : "cursor-pointer")}
           >
             ✕
           </button>
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-auto p-6">
+        <div className="flex-1 overflow-auto p-spacing-6">
           {error && (
-            <div className="px-4 py-3 mb-4 bg-grey-100 border border-grey-300 font-code text-mono-sm text-grey-700">
+            <div className="px-spacing-4 py-spacing-3 mb-spacing-4 bg-surface-secondary border border-border-secondary font-code text-mono-sm text-text-secondary">
               ⚠️ {error}
             </div>
           )}
@@ -179,8 +179,8 @@ export function ImportExportDialog({
                   onDrop={handleDrop}
                   onClick={() => document.getElementById("file-input")?.click()}
                   className={clsx(
-                    "px-8 py-12 border-2 border-dashed text-center cursor-pointer transition-colors duration-base",
-                    dragActive ? "border-black bg-grey-100" : "border-grey-400 bg-white hover:border-black"
+                    "px-spacing-8 py-spacing-12 border-2 border-dashed text-center cursor-pointer transition-colors duration-base",
+                    dragActive ? "border-border-primary bg-surface-secondary" : "border-border-secondary bg-surface-primary hover:border-border-primary"
                   )}
                 >
                   <input
@@ -190,8 +190,8 @@ export function ImportExportDialog({
                     onChange={(e) => e.target.files?.[0] && handleFileSelect(e.target.files[0])}
                     className="hidden"
                   />
-                  <div className="text-[32px] mb-4">⬆️</div>
-                  <div className="font-code text-mono-md tracking-widest mb-2">
+                  <div className="text-h2-md mb-spacing-4">⬆️</div>
+                  <div className="font-code text-mono-md tracking-widest mb-spacing-2">
                     DROP FILE HERE OR CLICK TO UPLOAD
                   </div>
                   <div className="font-body text-body-sm text-grey-500">
@@ -202,14 +202,14 @@ export function ImportExportDialog({
 
               {importStep === "mapping" && selectedFile && (
                 <div>
-                  <div className="mb-6 p-4 bg-grey-100 border border-grey-200">
+                  <div className="mb-spacing-6 p-spacing-4 bg-surface-secondary border border-border-secondary">
                     <div className="font-code text-mono-sm text-grey-600">Selected file:</div>
-                    <div className="font-body text-body-md font-semibold">{selectedFile.name}</div>
+                    <div className="font-body text-body-md font-weight-semibold">{selectedFile.name}</div>
                   </div>
 
                   {importTemplates.length > 0 && (
-                    <div className="mb-6">
-                      <label className="block mb-2 font-heading text-body-sm tracking-wider uppercase">
+                    <div className="mb-spacing-6">
+                      <label className="block mb-spacing-2 font-heading text-body-sm tracking-wider uppercase">
                         Use Template
                       </label>
                       <select
@@ -219,7 +219,7 @@ export function ImportExportDialog({
                           const template = importTemplates.find(t => t.id === e.target.value);
                           if (template) setFieldMapping(template.mapping);
                         }}
-                        className="w-full px-4 py-3 font-body text-body-md border-2 border-black"
+                        className="w-full px-spacing-4 py-spacing-3 font-body text-body-md border-2 border-black"
                       >
                         <option value="">Manual mapping</option>
                         {importTemplates.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
@@ -229,12 +229,12 @@ export function ImportExportDialog({
 
                   {sampleFields.length > 0 && (
                     <div>
-                      <div className="font-heading text-body-sm tracking-wider uppercase mb-3">
+                      <div className="font-heading text-body-sm tracking-wider uppercase mb-spacing-3">
                         Field Mapping
                       </div>
-                      <div className="flex flex-col gap-2">
+                      <div className="flex flex-col gap-gap-xs">
                         {sampleFields.map(field => (
-                          <div key={field} className="flex items-center gap-3">
+                          <div key={field} className="flex items-center gap-gap-sm">
                             <span className="flex-1 font-code text-mono-sm">{field}</span>
                             <span className="text-grey-400">→</span>
                             <input
@@ -242,7 +242,7 @@ export function ImportExportDialog({
                               value={fieldMapping[field] || ""}
                               onChange={(e) => setFieldMapping(prev => ({ ...prev, [field]: e.target.value }))}
                               placeholder="Database field"
-                              className="flex-1 p-2 font-code text-mono-sm border border-grey-300"
+                              className="flex-1 p-spacing-2 font-code text-mono-sm border border-grey-300"
                             />
                           </div>
                         ))}
@@ -255,19 +255,19 @@ export function ImportExportDialog({
           ) : (
             <>
               {/* Export Format */}
-              <div className="mb-6">
-                <div className="font-heading text-body-sm tracking-wider uppercase mb-3">
+              <div className="mb-spacing-6">
+                <div className="font-heading text-body-sm tracking-wider uppercase mb-spacing-3">
                   Export Format
                 </div>
-                <div className="flex gap-2 flex-wrap">
+                <div className="flex gap-gap-xs flex-wrap">
                   {exportFormats.map(format => (
                     <button
                       key={format}
                       type="button"
                       onClick={() => setSelectedFormat(format)}
                       className={clsx(
-                        "px-4 py-2 font-code text-mono-sm tracking-wide uppercase border-2 border-black cursor-pointer",
-                        selectedFormat === format ? "bg-black text-white" : "bg-white text-black hover:bg-grey-100"
+                        "px-spacing-4 py-spacing-2 font-code text-mono-sm tracking-wide uppercase border-2 border-black cursor-pointer",
+                        selectedFormat === format ? "bg-surface-inverse text-text-inverse" : "bg-surface-primary text-text-primary hover:bg-surface-secondary"
                       )}
                     >
                       {format}
@@ -279,19 +279,19 @@ export function ImportExportDialog({
               {/* Column Selection */}
               {columns.length > 0 && (
                 <div>
-                  <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center justify-between mb-spacing-3">
                     <div className="font-heading text-body-sm tracking-wider uppercase">
                       Select Columns ({selectedColumns.size}/{columns.length})
                     </div>
-                    <div className="flex gap-2">
+                    <div className="flex gap-gap-xs">
                       <button type="button" onClick={selectAllColumns} className="font-code text-mono-xs text-grey-600 bg-transparent border-none cursor-pointer underline">All</button>
                       <button type="button" onClick={deselectAllColumns} className="font-code text-mono-xs text-grey-600 bg-transparent border-none cursor-pointer underline">None</button>
                     </div>
                   </div>
-                  <div className="grid grid-cols-2 gap-2 max-h-[200px] overflow-auto p-2 border border-grey-200">
+                  <div className="grid grid-cols-2 gap-gap-xs max-h-container-sm overflow-auto p-spacing-2 border border-grey-200">
                     {columns.map(col => (
-                      <label key={col.key} className="flex items-center gap-2 cursor-pointer">
-                        <input type="checkbox" checked={selectedColumns.has(col.key)} onChange={() => toggleColumn(col.key)} className="w-4 h-4" />
+                      <label key={col.key} className="flex items-center gap-gap-xs cursor-pointer">
+                        <input type="checkbox" checked={selectedColumns.has(col.key)} onChange={() => toggleColumn(col.key)} className="w-spacing-4 h-spacing-4" />
                         <span className="font-body text-body-sm">{col.label}</span>
                       </label>
                     ))}
@@ -300,7 +300,7 @@ export function ImportExportDialog({
               )}
 
               {totalRecords !== undefined && (
-                <div className="mt-4 font-code text-mono-sm text-grey-600">
+                <div className="mt-spacing-4 font-code text-mono-sm text-grey-600">
                   {totalRecords.toLocaleString()} records will be exported
                 </div>
               )}
@@ -309,13 +309,13 @@ export function ImportExportDialog({
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-end gap-3 px-6 py-4 border-t-2 border-grey-200">
+        <div className="flex items-center justify-end gap-gap-sm px-spacing-6 py-spacing-4 border-t-2 border-grey-200">
           <button
             type="button"
             onClick={onClose}
             disabled={processing}
             className={clsx(
-              "px-6 py-3 font-heading text-body-md tracking-wider uppercase bg-white text-black border-2 border-black",
+              "px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase bg-surface-primary text-text-primary border-2 border-border-primary",
               processing ? "cursor-not-allowed" : "cursor-pointer hover:bg-grey-100"
             )}
           >
@@ -326,13 +326,13 @@ export function ImportExportDialog({
             onClick={mode === "import" ? handleImport : handleExport}
             disabled={processing || loading || (mode === "import" && !selectedFile) || (mode === "export" && selectedColumns.size === 0)}
             className={clsx(
-              "px-6 py-3 font-heading text-body-md tracking-wider uppercase bg-black text-white border-2 border-black flex items-center gap-2",
+              "px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase bg-black text-white border-2 border-black flex items-center gap-gap-xs",
               processing || (mode === "import" && !selectedFile) || (mode === "export" && selectedColumns.size === 0)
                 ? "cursor-not-allowed opacity-50"
                 : "cursor-pointer hover:bg-grey-900"
             )}
           >
-            {processing && <span className="inline-block w-3.5 h-3.5 border-2 border-grey-500 border-t-white rounded-full animate-spin" />}
+            {processing && <span className="inline-block w-spacing-3 h-spacing-3 border-2 border-grey-500 border-t-white rounded-full animate-spin" />}
             {mode === "import" ? "Import" : "Export"}
           </button>
         </div>

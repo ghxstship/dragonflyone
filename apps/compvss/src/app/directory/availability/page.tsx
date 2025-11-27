@@ -51,8 +51,8 @@ export default function AvailabilityPage() {
       case "Available": return "bg-success-500";
       case "Busy": return "bg-error-500";
       case "Tentative": return "bg-warning-500";
-      case "Unavailable": return "bg-grey-500";
-      default: return "bg-grey-500";
+      case "Unavailable": return "bg-ink-500";
+      default: return "bg-ink-500";
     }
   };
 
@@ -61,8 +61,8 @@ export default function AvailabilityPage() {
       case "Available": return "text-success-400";
       case "Busy": return "text-error-400";
       case "Tentative": return "text-warning-400";
-      case "Unavailable": return "text-grey-400";
-      default: return "text-grey-400";
+      case "Unavailable": return "text-ink-400";
+      default: return "text-ink-400";
     }
   };
 
@@ -170,7 +170,7 @@ export default function AvailabilityPage() {
                 <Label className="text-ink-400">Busy</Label>
               </Stack>
               <Stack direction="horizontal" gap={2}>
-                <Card className="w-4 h-4 bg-grey-500 rounded" />
+                <Card className="w-4 h-4 bg-ink-500 rounded" />
                 <Label className="text-ink-400">Unavailable</Label>
               </Stack>
             </Stack>

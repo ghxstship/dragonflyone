@@ -172,24 +172,24 @@ function MessagesContent() {
   return (
     <Section className="min-h-screen bg-white">
       <ConsumerNavigationPublic />
-      <Container className="py-16">
+      <Container className="py-spacing-16">
         <Stack gap={8}>
-          <Stack gap={2} className="border-b-2 border-black pb-8">
+          <Stack gap={2} className="border-b-2 border-black pb-spacing-8">
             <H1>Messages</H1>
-            <Body className="text-grey-600">
+            <Body className="text-ink-600">
               Connect with other fans
             </Body>
           </Stack>
 
         {error && (
-          <Alert variant="error" className="mb-6">
+          <Alert variant="error" className="mb-spacing-6">
             {error}
           </Alert>
         )}
 
-        <Grid cols={3} gap={6} className="min-h-[600px]">
-          <Card className="p-4 overflow-y-auto max-h-[600px]">
-            <Stack direction="horizontal" className="justify-between items-center mb-4">
+        <Grid cols={3} gap={6} className="min-h-panel-lg">
+          <Card className="p-spacing-4 overflow-y-auto max-h-panel-lg">
+            <Stack direction="horizontal" className="justify-between items-center mb-spacing-4">
               <H3>CONVERSATIONS</H3>
               <Button variant="ghost" size="sm" onClick={() => router.push('/community')}>
                 Find Fans
@@ -201,15 +201,15 @@ function MessagesContent() {
                 {conversations.map(conv => (
                   <Card
                     key={conv.id}
-                    className={`p-3 cursor-pointer transition-colors ${
+                    className={`p-spacing-3 cursor-pointer transition-colors ${
                       activeConversation?.id === conv.id
                         ? 'bg-black text-white'
-                        : 'hover:bg-grey-100'
+                        : 'hover:bg-ink-100'
                     }`}
                     onClick={() => setActiveConversation(conv)}
                   >
                     <Stack direction="horizontal" gap={3}>
-                      <Stack className="w-10 h-10 bg-grey-200 rounded-full flex-shrink-0 flex items-center justify-center">
+                      <Stack className="w-spacing-10 h-spacing-10 bg-ink-200 rounded-full flex-shrink-0 flex items-center justify-center">
                         {conv.participant_avatar ? (
                           <Image
                             src={conv.participant_avatar}
@@ -242,14 +242,14 @@ function MessagesContent() {
                         </Stack>
                         {conv.last_message && (
                           <Body className={`text-body-sm truncate ${
-                            activeConversation?.id === conv.id ? 'text-grey-600' : 'text-grey-500'
+                            activeConversation?.id === conv.id ? 'text-ink-600' : 'text-ink-500'
                           }`}>
                             {conv.last_message}
                           </Body>
                         )}
                         {conv.last_message_at && (
                           <Body className={`text-mono-xs ${
-                            activeConversation?.id === conv.id ? 'text-grey-600' : 'text-grey-600'
+                            activeConversation?.id === conv.id ? 'text-ink-600' : 'text-ink-600'
                           }`}>
                             {formatTime(conv.last_message_at)}
                           </Body>
@@ -260,14 +260,14 @@ function MessagesContent() {
                 ))}
               </Stack>
             ) : (
-              <Stack className="items-center py-8">
-                <Body className="text-grey-500 text-center">
+              <Stack className="items-center py-spacing-8">
+                <Body className="text-ink-500 text-center">
                   No conversations yet
                 </Body>
                 <Button
                   variant="outline"
                   size="sm"
-                  className="mt-4"
+                  className="mt-spacing-4"
                   onClick={() => router.push('/community')}
                 >
                   Find Fans to Connect
@@ -279,9 +279,9 @@ function MessagesContent() {
           <Card className="col-span-2 flex flex-col">
             {activeConversation ? (
               <>
-                <Stack className="p-4 border-b border-grey-200">
+                <Stack className="p-spacing-4 border-b border-ink-200">
                   <Stack direction="horizontal" gap={3} className="items-center">
-                    <Stack className="w-10 h-10 bg-grey-200 rounded-full flex items-center justify-center">
+                    <Stack className="w-spacing-10 h-spacing-10 bg-ink-200 rounded-full flex items-center justify-center">
                       {activeConversation.participant_avatar ? (
                         <Image
                           src={activeConversation.participant_avatar}
@@ -305,7 +305,7 @@ function MessagesContent() {
                   </Stack>
                 </Stack>
 
-                <Stack className="flex-1 overflow-y-auto p-4 max-h-[400px]" gap={3}>
+                <Stack className="flex-1 overflow-y-auto p-spacing-4 max-h-chat" gap={3}>
                   {messages.map(message => (
                     <Stack
                       key={message.id}
@@ -314,10 +314,10 @@ function MessagesContent() {
                       }`}
                     >
                       <Card
-                        className={`p-3 ${
+                        className={`p-spacing-3 ${
                           message.sender_id !== activeConversation.participant_id
                             ? 'bg-black text-white'
-                            : 'bg-grey-100'
+                            : 'bg-ink-100'
                         }`}
                       >
                         <Body className={
@@ -326,9 +326,9 @@ function MessagesContent() {
                           {message.content}
                         </Body>
                       </Card>
-                      <Body className={`text-mono-xs mt-1 ${
+                      <Body className={`text-mono-xs mt-spacing-1 ${
                         message.sender_id !== activeConversation.participant_id ? 'text-right' : ''
-                      } text-grey-600`}>
+                      } text-ink-600`}>
                         {formatTime(message.created_at)}
                       </Body>
                     </Stack>
@@ -336,7 +336,7 @@ function MessagesContent() {
                   <Box ref={messagesEndRef} />
                 </Stack>
 
-                <Stack className="p-4 border-t border-grey-200">
+                <Stack className="p-spacing-4 border-t border-ink-200">
                   <Stack direction="horizontal" gap={2}>
                     <Input
                       value={newMessage}
@@ -362,9 +362,9 @@ function MessagesContent() {
                 </Stack>
               </>
             ) : (
-              <Stack className="flex-1 items-center justify-center p-8">
-                <H3 className="mb-4">SELECT A CONVERSATION</H3>
-                <Body className="text-grey-600 text-center">
+              <Stack className="flex-1 items-center justify-center p-spacing-8">
+                <H3 className="mb-spacing-4">SELECT A CONVERSATION</H3>
+                <Body className="text-ink-600 text-center">
                   Choose a conversation from the list or find new fans to connect with.
                 </Body>
               </Stack>

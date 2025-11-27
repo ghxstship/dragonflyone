@@ -38,7 +38,7 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(
         ref={ref}
         className={clsx(
           "flex min-h-screen",
-          inverted ? "bg-ink-950 text-white" : "bg-white text-black",
+          inverted ? "bg-ink-950 text-white" : "bg-surface-primary text-text-primary",
           className
         )}
       >
@@ -70,14 +70,14 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(
         <div className="flex-1 flex flex-col min-w-0">
           {/* Mobile Header */}
           <header className={clsx(
-            "md:hidden flex items-center justify-between h-16 px-4 border-b-2",
-            inverted ? "bg-black border-grey-800" : "bg-white border-grey-200"
+            "md:hidden flex items-center justify-between h-spacing-16 px-spacing-4 border-b-2",
+            inverted ? "bg-surface-inverse border-border-secondary" : "bg-surface-primary border-border-secondary"
           )}>
             <button
               type="button"
               onClick={() => setMobileMenuOpen(true)}
               className={clsx(
-                "p-2",
+                "p-spacing-2",
                 inverted ? "text-white" : "text-black"
               )}
               aria-label="Open menu"
@@ -87,7 +87,7 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(
               </svg>
             </button>
             {logo}
-            <div className="w-10" /> {/* Spacer for centering */}
+            <div className="w-spacing-10" /> {/* Spacer for centering */}
           </header>
 
           {/* Optional Desktop Header */}

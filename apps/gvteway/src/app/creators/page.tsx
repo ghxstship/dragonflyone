@@ -1,7 +1,32 @@
 import { CreatorNavigationPublic } from "../../components/navigation";
-import { Section, SectionHeader } from "../../components/section";
-import { Badge, StatusBadge, Stack, Grid, Card, Container, H1, H2, H3, Body, Label, Link, Text, List, ListItem, Article, Box, Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@ghxstship/ui";
-import { ProgressBar } from "@ghxstship/ui";
+import { 
+  Badge, 
+  StatusBadge, 
+  Stack, 
+  Grid, 
+  Card, 
+  Container, 
+  H1, 
+  H2, 
+  H3, 
+  Body, 
+  Label, 
+  Link, 
+  Text, 
+  List, 
+  ListItem, 
+  Article, 
+  Box, 
+  Table, 
+  TableHeader, 
+  TableBody, 
+  TableRow, 
+  TableHead, 
+  TableCell,
+  ProgressBar,
+  Section,
+  SectionHeader,
+} from "@ghxstship/ui";
 import { EventCreationForm } from "../../components/event-creation-form";
 import {
   gvtewayCommunityTracks,

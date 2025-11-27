@@ -182,7 +182,7 @@ export default function UGCPage() {
         <Stack gap={8}>
         <Stack gap={2} className="border-b-2 border-black pb-8">
           <H1>User Content</H1>
-          <Body className="text-grey-600">
+          <Body className="text-ink-600">
             Fan photos, videos, and social posts from events
           </Body>
         </Stack>
@@ -300,7 +300,7 @@ export default function UGCPage() {
                     className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow"
                     onClick={() => setSelectedPost(post)}
                   >
-                    <Stack className="relative aspect-square bg-grey-100">
+                    <Stack className="relative aspect-square bg-ink-100">
                       {post.thumbnail_url || post.content_url ? (
                         <Image
                           src={post.thumbnail_url || post.content_url}
@@ -329,7 +329,7 @@ export default function UGCPage() {
                     </Stack>
                     <Stack className="p-3" gap={2}>
                       <Stack direction="horizontal" gap={2} className="items-center">
-                        <Stack className="w-6 h-6 rounded-full bg-grey-200 overflow-hidden relative">
+                        <Stack className="w-6 h-6 rounded-full bg-ink-200 overflow-hidden relative">
                           {post.author_avatar ? (
                             <Image src={post.author_avatar} alt={post.author_name} fill className="object-cover" />
                           ) : (
@@ -339,9 +339,9 @@ export default function UGCPage() {
                         <Body className="text-body-sm font-bold truncate">{post.author_name}</Body>
                       </Stack>
                       {post.caption && (
-                        <Body className="text-mono-xs text-grey-600 line-clamp-2">{post.caption}</Body>
+                        <Body className="text-mono-xs text-ink-600 line-clamp-2">{post.caption}</Body>
                       )}
-                      <Stack direction="horizontal" gap={3} className="text-mono-xs text-grey-500">
+                      <Stack direction="horizontal" gap={3} className="text-mono-xs text-ink-500">
                         <Body>❤️ {formatNumber(post.likes)}</Body>
                         <Body>💬 {formatNumber(post.comments)}</Body>
                         <Body>🔄 {formatNumber(post.shares)}</Body>
@@ -352,7 +352,7 @@ export default function UGCPage() {
               ) : (
                 <Card className="col-span-4 p-12 text-center">
                   <H3 className="mb-4">NO CONTENT FOUND</H3>
-                  <Body className="text-grey-600">
+                  <Body className="text-ink-600">
                     Share your event experience with our hashtags!
                   </Body>
                 </Card>
@@ -380,11 +380,11 @@ export default function UGCPage() {
                     <Grid cols={2} gap={4}>
                       <Stack>
                         <Body className="text-h5-md font-bold">{formatNumber(hashtag.post_count)}</Body>
-                        <Body className="text-mono-xs text-grey-500">Posts</Body>
+                        <Body className="text-mono-xs text-ink-500">Posts</Body>
                       </Stack>
                       <Stack>
                         <Body className="text-h5-md font-bold">{formatNumber(hashtag.engagement)}</Body>
-                        <Body className="text-mono-xs text-grey-500">Engagement</Body>
+                        <Body className="text-mono-xs text-ink-500">Engagement</Body>
                       </Stack>
                     </Grid>
                   </Stack>
@@ -393,7 +393,7 @@ export default function UGCPage() {
             ) : (
               <Card className="col-span-3 p-12 text-center">
                 <H3 className="mb-4">NO HASHTAGS</H3>
-                <Body className="text-grey-600">
+                <Body className="text-ink-600">
                   Hashtag data will appear here
                 </Body>
               </Card>
@@ -413,16 +413,16 @@ export default function UGCPage() {
                         <Badge className={
                           campaign.status === 'active' ? 'bg-success-500 text-white' :
                           campaign.status === 'scheduled' ? 'bg-info-500 text-white' :
-                          'bg-grey-500 text-white'
+                          'bg-ink-500 text-white'
                         }>
                           {campaign.status}
                         </Badge>
                       </Stack>
                       <Body className="text-h6-md font-bold">#{campaign.hashtag}</Body>
                       {campaign.event_name && (
-                        <Body className="text-body-sm text-grey-600">{campaign.event_name}</Body>
+                        <Body className="text-body-sm text-ink-600">{campaign.event_name}</Body>
                       )}
-                      <Body className="text-mono-xs text-grey-500">
+                      <Body className="text-mono-xs text-ink-500">
                         {new Date(campaign.start_date).toLocaleDateString()}
                         {campaign.end_date && ` - ${new Date(campaign.end_date).toLocaleDateString()}`}
                       </Body>
@@ -430,11 +430,11 @@ export default function UGCPage() {
                     <Grid cols={2} gap={6}>
                       <Stack className="text-center">
                         <Body className="text-h4-md font-bold">{formatNumber(campaign.post_count)}</Body>
-                        <Body className="text-mono-xs text-grey-500">Posts</Body>
+                        <Body className="text-mono-xs text-ink-500">Posts</Body>
                       </Stack>
                       <Stack className="text-center">
                         <Body className="text-h4-md font-bold">{formatNumber(campaign.total_engagement)}</Body>
-                        <Body className="text-mono-xs text-grey-500">Engagement</Body>
+                        <Body className="text-mono-xs text-ink-500">Engagement</Body>
                       </Stack>
                     </Grid>
                   </Stack>
@@ -450,7 +450,7 @@ export default function UGCPage() {
             ) : (
               <Card className="p-12 text-center">
                 <H3 className="mb-4">NO CAMPAIGNS</H3>
-                <Body className="text-grey-600">
+                <Body className="text-ink-600">
                   Hashtag campaigns will appear here
                 </Body>
               </Card>
@@ -467,7 +467,7 @@ export default function UGCPage() {
                   className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow"
                   onClick={() => setSelectedPost(post)}
                 >
-                  <Stack className="relative aspect-video bg-grey-100">
+                  <Stack className="relative aspect-video bg-ink-100">
                     {post.thumbnail_url || post.content_url ? (
                       <Image
                         src={post.thumbnail_url || post.content_url}
@@ -488,7 +488,7 @@ export default function UGCPage() {
                     </Stack>
                     <Body className="font-bold">{post.author_name}</Body>
                     {post.caption && (
-                      <Body className="text-body-sm text-grey-600 line-clamp-2">{post.caption}</Body>
+                      <Body className="text-body-sm text-ink-600 line-clamp-2">{post.caption}</Body>
                     )}
                   </Stack>
                 </Card>
@@ -496,7 +496,7 @@ export default function UGCPage() {
             ) : (
               <Card className="col-span-3 p-12 text-center">
                 <H3 className="mb-4">NO FEATURED CONTENT</H3>
-                <Body className="text-grey-600">
+                <Body className="text-ink-600">
                   Featured posts will appear here
                 </Body>
               </Card>
@@ -511,7 +511,7 @@ export default function UGCPage() {
         >
           {selectedPost && (
             <Stack gap={4}>
-              <Stack className="relative aspect-video bg-grey-100 rounded overflow-hidden">
+              <Stack className="relative aspect-video bg-ink-100 rounded overflow-hidden">
                 {selectedPost.thumbnail_url || selectedPost.content_url ? (
                   <Image
                     src={selectedPost.thumbnail_url || selectedPost.content_url}
@@ -527,7 +527,7 @@ export default function UGCPage() {
               </Stack>
               <Stack gap={2}>
                 <Stack direction="horizontal" gap={2} className="items-center">
-                  <Stack className="w-10 h-10 rounded-full bg-grey-200 overflow-hidden relative">
+                  <Stack className="w-10 h-10 rounded-full bg-ink-200 overflow-hidden relative">
                     {selectedPost.author_avatar ? (
                       <Image src={selectedPost.author_avatar} alt={selectedPost.author_name} fill className="object-cover" />
                     ) : (
@@ -536,7 +536,7 @@ export default function UGCPage() {
                   </Stack>
                   <Stack>
                     <Body className="font-bold">{selectedPost.author_name}</Body>
-                    <Body className="text-body-sm text-grey-500">@{selectedPost.author_handle}</Body>
+                    <Body className="text-body-sm text-ink-500">@{selectedPost.author_handle}</Body>
                   </Stack>
                   {getPlatformBadge(selectedPost.platform)}
                 </Stack>
@@ -555,13 +555,13 @@ export default function UGCPage() {
                     ))}
                   </Stack>
                 )}
-                <Stack direction="horizontal" gap={6} className="text-grey-500">
+                <Stack direction="horizontal" gap={6} className="text-ink-500">
                   <Body>❤️ {formatNumber(selectedPost.likes)}</Body>
                   <Body>💬 {formatNumber(selectedPost.comments)}</Body>
                   <Body>🔄 {formatNumber(selectedPost.shares)}</Body>
                 </Stack>
                 {selectedPost.event_name && (
-                  <Body className="text-body-sm text-grey-500">
+                  <Body className="text-body-sm text-ink-500">
                     Event: {selectedPost.event_name}
                   </Body>
                 )}

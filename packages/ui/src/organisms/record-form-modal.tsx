@@ -177,13 +177,13 @@ export function RecordFormModal<T = Record<string, unknown>>({
     const value = formData[field.name];
     const error = errors[field.name];
     const baseInputClasses = clsx(
-      "w-full px-4 py-3 font-body text-body-md bg-white border-2 outline-none transition-colors duration-fast",
+      "w-full px-spacing-4 py-spacing-3 font-body text-body-md bg-surface-primary text-text-primary border-2 outline-none transition-colors duration-fast",
       error ? "border-grey-700" : "border-black focus:border-grey-700"
     );
 
     return (
       <div key={field.name} className={field.colSpan === 2 ? "col-span-2" : "col-span-1"}>
-        <label className="block mb-2 font-heading text-body-sm tracking-wider uppercase">
+        <label className="block mb-spacing-2 font-heading text-body-sm tracking-wider uppercase">
           {field.label}
           {field.required && <span className="ml-1 text-black">*</span>}
         </label>
@@ -210,13 +210,13 @@ export function RecordFormModal<T = Record<string, unknown>>({
             ))}
           </select>
         ) : field.type === "checkbox" ? (
-          <label className="flex items-center gap-2 cursor-pointer">
+          <label className="flex items-center gap-gap-xs cursor-pointer">
             <input
               type="checkbox"
               checked={Boolean(value)}
               onChange={(e) => handleChange(field.name, e.target.checked)}
               disabled={field.disabled || submitting}
-              className="w-[18px] h-[18px]"
+              className="w-spacing-4 h-spacing-4"
             />
             <span className="font-body text-body-md">{field.placeholder}</span>
           </label>
@@ -232,10 +232,10 @@ export function RecordFormModal<T = Record<string, unknown>>({
         )}
 
         {field.hint && !error && (
-          <span className="block mt-1 font-code text-mono-xs text-grey-500">{field.hint}</span>
+          <span className="block mt-spacing-1 font-code text-mono-xs text-grey-500">{field.hint}</span>
         )}
         {error && (
-          <span className="block mt-1 font-code text-mono-xs text-grey-700 uppercase">{error}</span>
+          <span className="block mt-spacing-1 font-code text-mono-xs text-grey-700 uppercase">{error}</span>
         )}
       </div>
     );
@@ -245,21 +245,21 @@ export function RecordFormModal<T = Record<string, unknown>>({
 
   return (
     <div
-      className={clsx("fixed inset-0 z-modal flex items-center justify-center p-4", className)}
+      className={clsx("fixed inset-0 z-modal flex items-center justify-center p-spacing-4", className)}
       role="dialog"
       aria-modal="true"
     >
       <div className="absolute inset-0 bg-black/50" onClick={submitting ? undefined : onClose} />
       
-      <div className={clsx("relative bg-white border-2 border-black shadow-hard-lg w-full max-h-[90vh] flex flex-col", sizeClasses[size])}>
+      <div className={clsx("relative bg-surface-primary text-text-primary border-2 border-border-primary shadow-hard-lg w-full max-h-[90vh] flex flex-col", sizeClasses[size])}>
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-5 border-b-2 border-black">
+        <div className="flex items-center justify-between px-spacing-6 py-spacing-5 border-b-2 border-black">
           <h2 className="font-heading text-h4-md tracking-wider uppercase">{modalTitle}</h2>
           <button
             type="button"
             onClick={onClose}
             disabled={submitting}
-            className={clsx("p-2 bg-transparent border-none text-xl", submitting ? "cursor-not-allowed" : "cursor-pointer")}
+            className={clsx("p-spacing-2 bg-transparent border-none text-h4-md", submitting ? "cursor-not-allowed" : "cursor-pointer")}
           >
             ✕
           </button>
@@ -267,12 +267,12 @@ export function RecordFormModal<T = Record<string, unknown>>({
 
         {/* Step indicator */}
         {isMultiStep && (
-          <div className="flex px-6 py-4 border-b border-grey-200 gap-2">
+          <div className="flex px-spacing-6 py-spacing-4 border-b border-grey-200 gap-gap-xs">
             {steps.map((step, idx) => (
-              <div key={step.id} className="flex-1 flex items-center gap-2">
+              <div key={step.id} className="flex-1 flex items-center gap-gap-xs">
                 <div
                   className={clsx(
-                    "w-6 h-6 rounded-full flex items-center justify-center font-code text-mono-xs",
+                    "w-spacing-6 h-spacing-6 rounded-full flex items-center justify-center font-code text-mono-xs",
                     idx <= currentStep ? "bg-black text-white" : "bg-grey-200 text-grey-500"
                   )}
                 >
@@ -292,33 +292,33 @@ export function RecordFormModal<T = Record<string, unknown>>({
         )}
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="flex-1 overflow-auto p-6 flex flex-col">
-          <div className="grid grid-cols-2 gap-4 flex-1">
+        <form onSubmit={handleSubmit} className="flex-1 overflow-auto p-spacing-6 flex flex-col">
+          <div className="grid grid-cols-2 gap-gap-md flex-1">
             {currentFields.map(renderField)}
           </div>
         </form>
 
         {/* Footer */}
-        <div className="flex items-center justify-between px-6 py-4 border-t-2 border-grey-200">
+        <div className="flex items-center justify-between px-spacing-6 py-spacing-4 border-t-2 border-grey-200">
           <div>
             {isMultiStep && currentStep > 0 && (
               <button
                 type="button"
                 onClick={handlePrev}
                 disabled={submitting}
-                className="px-6 py-3 font-heading text-body-md tracking-wider uppercase bg-white text-black border-2 border-black cursor-pointer hover:bg-grey-100"
+                className="px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase bg-surface-primary text-text-primary border-2 border-border-primary cursor-pointer hover:bg-surface-secondary"
               >
                 Previous
               </button>
             )}
           </div>
-          <div className="flex gap-3">
+          <div className="flex gap-gap-sm">
             <button
               type="button"
               onClick={onClose}
               disabled={submitting}
               className={clsx(
-                "px-6 py-3 font-heading text-body-md tracking-wider uppercase bg-white text-black border-2 border-black",
+                "px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase bg-surface-primary text-text-primary border-2 border-border-primary",
                 submitting ? "cursor-not-allowed" : "cursor-pointer hover:bg-grey-100"
               )}
             >
@@ -328,7 +328,7 @@ export function RecordFormModal<T = Record<string, unknown>>({
               <button
                 type="button"
                 onClick={handleNext}
-                className="px-6 py-3 font-heading text-body-md tracking-wider uppercase bg-black text-white border-2 border-black cursor-pointer hover:bg-grey-900"
+                className="px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase bg-black text-white border-2 border-black cursor-pointer hover:bg-grey-900"
               >
                 Next
               </button>
@@ -338,11 +338,11 @@ export function RecordFormModal<T = Record<string, unknown>>({
                 onClick={handleSubmit}
                 disabled={submitting || loading}
                 className={clsx(
-                  "px-6 py-3 font-heading text-body-md tracking-wider uppercase bg-black text-white border-2 border-black flex items-center gap-2",
+                  "px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase bg-black text-white border-2 border-black flex items-center gap-gap-xs",
                   submitting ? "cursor-not-allowed opacity-70" : "cursor-pointer hover:bg-grey-900"
                 )}
               >
-                {submitting && <span className="inline-block w-3.5 h-3.5 border-2 border-grey-500 border-t-white rounded-full animate-spin" />}
+                {submitting && <span className="inline-block w-spacing-3 h-spacing-3 border-2 border-grey-500 border-t-white rounded-full animate-spin" />}
                 {submitText}
               </button>
             )}

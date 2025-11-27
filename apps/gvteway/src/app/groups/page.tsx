@@ -140,7 +140,7 @@ export default function GroupsPage() {
         <Stack gap={8}>
           <Stack gap={2}>
             <H1>Groups</H1>
-            <Body className="text-grey-400">
+            <Body className="text-ink-400">
               Connect with fans who share your interests
             </Body>
           </Stack>
@@ -149,22 +149,22 @@ export default function GroupsPage() {
             <StatCard
               value={summary?.total_groups || 0}
               label="Total Groups"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={summary?.my_groups || 0}
               label="My Groups"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={summary?.trending_count || 0}
               label="Trending"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={summary?.new_this_week || 0}
               label="New This Week"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
           </Grid>
 
@@ -174,13 +174,13 @@ export default function GroupsPage() {
                 placeholder="Search groups..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-black text-white border-grey-700"
+                className="bg-black text-white border-ink-700"
               />
             </Field>
             <Select
               value={filterCategory}
               onChange={(e) => setFilterCategory(e.target.value)}
-              className="bg-black text-white border-grey-700"
+              className="bg-black text-white border-ink-700"
             >
               <option value="all">All Categories</option>
               <option value="music">Music</option>
@@ -201,7 +201,7 @@ export default function GroupsPage() {
           ) : (
             <Grid cols={3} gap={6}>
               {groups.map((group) => (
-                <Card key={group.id} className="p-6 bg-black border-grey-800 hover:border-grey-700 transition-colors">
+                <Card key={group.id} className="p-6 bg-black border-ink-800 hover:border-ink-700 transition-colors">
                   <Stack gap={4}>
                     <Stack gap={2}>
                       <Stack gap={2} direction="horizontal" className="justify-between items-start">
@@ -210,14 +210,14 @@ export default function GroupsPage() {
                           <Badge variant="ghost">Private</Badge>
                         )}
                       </Stack>
-                      <Body className="text-grey-400 text-body-sm line-clamp-2">
+                      <Body className="text-ink-400 text-body-sm line-clamp-2">
                         {group.description}
                       </Body>
                     </Stack>
 
                     <Stack gap={2}>
                       <Badge variant="outline">{group.category}</Badge>
-                      <Stack gap={1} direction="horizontal" className="text-grey-500 text-body-sm">
+                      <Stack gap={1} direction="horizontal" className="text-ink-500 text-body-sm">
                         <Body>{group.member_count} members</Body>
                         <Body>•</Body>
                         <Body>{group.event_count} events</Body>

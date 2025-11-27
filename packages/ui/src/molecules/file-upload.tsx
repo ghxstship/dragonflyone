@@ -188,7 +188,7 @@ export function FileUpload({
   };
 
   return (
-    <div className={clsx("flex flex-col gap-4", className)}>
+    <div className={clsx("flex flex-col gap-gap-md", className)}>
       {/* Dropzone */}
       <div
         onClick={handleClick}
@@ -198,7 +198,7 @@ export function FileUpload({
         onDrop={handleDrop}
         className={clsx(
           "border-2 border-dashed text-center transition-colors duration-base",
-          compact ? "p-6" : "p-10",
+          compact ? "p-spacing-6" : "p-spacing-10",
           isDragging ? "border-black bg-grey-100" : disabled ? "border-grey-300" : "border-grey-500 bg-white hover:border-black hover:bg-grey-50",
           disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"
         )}
@@ -214,14 +214,14 @@ export function FileUpload({
         />
 
         {/* Upload icon */}
-        <div className={compact ? "text-2xl mb-2" : "text-[32px] mb-4"}>
+        <div className={compact ? "text-h2-sm mb-spacing-2" : "text-h1-sm mb-spacing-4"}>
           ⬆️
         </div>
 
         {/* Label */}
         <div
           className={clsx(
-            "font-code text-black tracking-widest mb-2",
+            "font-code text-black tracking-widest mb-spacing-2",
             compact ? "text-mono-sm" : "text-mono-md"
           )}
         >
@@ -236,7 +236,7 @@ export function FileUpload({
         )}
 
         {/* Constraints info */}
-        <div className="font-code text-mono-xs text-grey-500 mt-3 flex justify-center gap-4 flex-wrap">
+        <div className="font-code text-mono-xs text-grey-500 mt-spacing-3 flex justify-center gap-gap-md flex-wrap">
           {accept && <span>FORMATS: {accept.replace(/,/g, ", ")}</span>}
           {maxSize && <span>MAX: {formatFileSize(maxSize)}</span>}
           {maxFiles && <span>LIMIT: {maxFiles} FILES</span>}
@@ -245,17 +245,17 @@ export function FileUpload({
 
       {/* File list */}
       {showFileList && files.length > 0 && (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-gap-xs">
           {files.map((file) => (
             <div
               key={file.id}
               className={clsx(
-                "flex items-center gap-3 px-4 py-3 border",
+                "flex items-center gap-gap-sm px-spacing-4 py-spacing-3 border",
                 file.status === "error" ? "bg-grey-100 border-grey-400" : "bg-white border-grey-200"
               )}
             >
               {/* File icon */}
-              <span className="text-xl">{getFileIcon(file.type)}</span>
+              <span className="text-h4-md">{getFileIcon(file.type)}</span>
 
               {/* File info */}
               <div className="flex-1 min-w-0">
@@ -275,7 +275,7 @@ export function FileUpload({
 
                 {/* Progress bar */}
                 {file.status === "uploading" && file.progress !== undefined && (
-                  <div className="h-1 bg-grey-200 mt-1.5">
+                  <div className="h-spacing-1 bg-grey-200 mt-spacing-1">
                     <div
                       className="h-full bg-black transition-all duration-fast"
                       style={{ width: `${file.progress}%` }}
@@ -292,7 +292,7 @@ export function FileUpload({
               ) : (
                 <button
                   onClick={() => onFileRemove?.(file.id)}
-                  className="w-6 h-6 bg-transparent border-none cursor-pointer text-grey-500 text-sm flex items-center justify-center transition-colors duration-fast hover:text-black"
+                  className="w-icon-lg h-icon-lg bg-transparent border-none cursor-pointer text-grey-500 text-mono-sm flex items-center justify-center transition-colors duration-fast hover:text-black"
                   aria-label={`Remove ${file.name}`}
                 >
                   ✕

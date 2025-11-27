@@ -156,13 +156,13 @@ export function DetailDrawer<T = unknown>({
         ref={drawerRef}
         tabIndex={-1}
         className={clsx(
-          "relative w-full h-full bg-white flex flex-col overflow-hidden",
+          "relative w-full h-full bg-surface-primary text-text-primary flex flex-col overflow-hidden",
           widthClasses[width],
           position === "right" ? "border-l-2 border-black" : "border-r-2 border-black"
         )}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-5 border-b-2 border-black bg-black text-white">
+        <div className="flex items-center justify-between px-spacing-6 py-spacing-5 border-b-2 border-black bg-black text-white">
           <div className="flex-1 min-w-0">
             <h2
               id="drawer-title"
@@ -171,7 +171,7 @@ export function DetailDrawer<T = unknown>({
               {getTitle()}
             </h2>
             {getSubtitle() && (
-              <p className="font-code text-mono-sm text-grey-400 mt-1">
+              <p className="font-code text-mono-sm text-grey-400 mt-spacing-1">
                 {getSubtitle()}
               </p>
             )}
@@ -180,7 +180,7 @@ export function DetailDrawer<T = unknown>({
           <button
             type="button"
             onClick={onClose}
-            className="p-2 bg-transparent border-none text-white cursor-pointer text-body-lg leading-none hover:text-grey-300"
+            className="p-spacing-2 bg-transparent border-none text-white cursor-pointer text-body-lg leading-none hover:text-grey-300"
             aria-label="Close drawer"
           >
             ✕
@@ -189,12 +189,12 @@ export function DetailDrawer<T = unknown>({
 
         {/* Actions bar */}
         {(actions.length > 0 || onEdit || onDelete) && record && (
-          <div className="flex items-center gap-2 px-6 py-3 border-b border-grey-200 bg-grey-100 flex-wrap">
+          <div className="flex items-center gap-gap-xs px-spacing-6 py-spacing-3 border-b border-border-secondary bg-surface-secondary flex-wrap">
             {onEdit && (
               <button
                 type="button"
                 onClick={() => onEdit(record)}
-                className="flex items-center gap-1.5 px-3 py-2 font-code text-mono-sm tracking-wide uppercase bg-black text-white border-2 border-black cursor-pointer transition-colors duration-fast hover:bg-grey-900"
+                className="flex items-center gap-gap-xs px-spacing-3 py-spacing-2 font-code text-mono-sm tracking-wide uppercase bg-black text-white border-2 border-black cursor-pointer transition-colors duration-fast hover:bg-grey-900"
               >
                 ✏️ Edit
               </button>
@@ -207,12 +207,12 @@ export function DetailDrawer<T = unknown>({
                 onClick={() => onAction?.(action.id, record)}
                 disabled={action.disabled}
                 className={clsx(
-                  "flex items-center gap-1.5 px-3 py-2 font-code text-mono-sm tracking-wide uppercase border-2 border-black transition-colors duration-fast",
+                  "flex items-center gap-gap-xs px-spacing-3 py-spacing-2 font-code text-mono-sm tracking-wide uppercase border-2 border-black transition-colors duration-fast",
                   action.variant === "primary"
                     ? "bg-black text-white hover:bg-grey-900"
                     : action.variant === "danger"
-                    ? "bg-white text-grey-700 hover:bg-grey-100"
-                    : "bg-white text-black hover:bg-grey-100",
+                    ? "bg-surface-primary text-text-secondary hover:bg-surface-secondary"
+                    : "bg-surface-primary text-text-primary hover:bg-surface-secondary",
                   action.disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"
                 )}
               >
@@ -225,7 +225,7 @@ export function DetailDrawer<T = unknown>({
               <button
                 type="button"
                 onClick={() => onDelete(record)}
-                className="flex items-center gap-1.5 px-3 py-2 font-code text-mono-sm tracking-wide uppercase bg-white text-grey-700 border-2 border-grey-400 cursor-pointer transition-colors duration-fast ml-auto hover:bg-grey-100"
+                className="flex items-center gap-gap-xs px-spacing-3 py-spacing-2 font-code text-mono-sm tracking-wide uppercase bg-surface-primary text-text-secondary border-2 border-border-secondary cursor-pointer transition-colors duration-fast ml-auto hover:bg-surface-secondary"
               >
                 🗑️ Delete
               </button>
@@ -234,10 +234,10 @@ export function DetailDrawer<T = unknown>({
         )}
 
         {/* Content */}
-        <div className="flex-1 overflow-auto p-6">
+        <div className="flex-1 overflow-auto p-spacing-6">
           {loading ? (
-            <div className="flex items-center justify-center h-[200px]">
-              <div className="w-8 h-8 border-[3px] border-grey-300 border-t-black rounded-full animate-spin" />
+            <div className="flex items-center justify-center h-spacing-48">
+              <div className="w-spacing-8 h-spacing-8 border-2 border-grey-300 border-t-black rounded-full animate-spin" />
             </div>
           ) : record ? (
             <>
@@ -250,7 +250,7 @@ export function DetailDrawer<T = unknown>({
               {children}
             </>
           ) : (
-            <div className="text-center p-12 text-grey-500 font-code text-mono-md">
+            <div className="text-center p-spacing-12 text-grey-500 font-code text-mono-md">
               No record selected
             </div>
           )}
@@ -265,11 +265,11 @@ function DetailSectionComponent({ section }: { section: DetailSection }) {
   const [collapsed, setCollapsed] = React.useState(section.defaultCollapsed ?? false);
 
   return (
-    <div className="mb-6 border-b border-grey-200 pb-6">
+    <div className="mb-spacing-6 border-b border-grey-200 pb-spacing-6">
       <div
         className={clsx(
           "flex items-center justify-between",
-          collapsed ? "mb-0" : "mb-4"
+          collapsed ? "mb-spacing-0" : "mb-spacing-4"
         )}
       >
         <h3 className="font-code text-mono-md tracking-widest uppercase text-grey-600">
@@ -280,7 +280,7 @@ function DetailSectionComponent({ section }: { section: DetailSection }) {
           <button
             type="button"
             onClick={() => setCollapsed(!collapsed)}
-            className="p-1 bg-transparent border-none cursor-pointer text-mono-xs text-grey-500 hover:text-grey-700"
+            className="p-spacing-1 bg-transparent border-none cursor-pointer text-mono-xs text-grey-500 hover:text-grey-700"
             aria-expanded={!collapsed}
           >
             {collapsed ? "▼" : "▲"}

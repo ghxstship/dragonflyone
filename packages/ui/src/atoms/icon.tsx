@@ -10,11 +10,11 @@ export type IconProps = SVGAttributes<SVGElement> & {
 export const Icon = forwardRef<SVGSVGElement, IconProps>(
   function Icon({ size = "md", strokeWidth = "regular", className, children, ...props }, ref) {
     const sizeClasses = {
-      xs: "w-3 h-3",
-      sm: "w-4 h-4",
-      md: "w-5 h-5",
-      lg: "w-6 h-6",
-      xl: "w-8 h-8",
+      xs: "w-spacing-3 h-spacing-3",
+      sm: "w-spacing-4 h-spacing-4",
+      md: "w-spacing-5 h-spacing-5",
+      lg: "w-spacing-6 h-spacing-6",
+      xl: "w-spacing-8 h-spacing-8",
     };
 
     const strokeClasses = {

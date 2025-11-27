@@ -48,9 +48,9 @@ export default function BuildStrikePage() {
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case 'high': return 'border-l-4 border-l-black';
-      case 'medium': return 'border-l-4 border-l-grey-600';
-      case 'low': return 'border-l-4 border-l-grey-400';
-      default: return 'border-l-4 border-l-grey-400';
+      case 'medium': return 'border-l-4 border-l-ink-600';
+      case 'low': return 'border-l-4 border-l-ink-400';
+      default: return 'border-l-4 border-l-ink-400';
     }
   };
 
@@ -59,9 +59,9 @@ export default function BuildStrikePage() {
       <CreatorNavigationAuthenticated />
       <Container className="py-16">
         <Stack gap={8}>
-          <Stack gap={2} className="border-b border-grey-800 pb-8">
+          <Stack gap={2} className="border-b border-ink-800 pb-8">
             <H1>Build & Strike</H1>
-            <Body className="text-grey-400">Build Progress: 45%</Body>
+            <Body className="text-ink-400">Build Progress: 45%</Body>
           </Stack>
 
           <Grid cols={3} gap={6}>
@@ -88,7 +88,7 @@ export default function BuildStrikePage() {
                 <Grid cols={4} gap={4}>
                   <Stack gap={1} className="col-span-2">
                     <Body className="font-bold text-body-md">{task.task}</Body>
-                    <Body className="text-body-sm text-grey-600">{task.area} • {task.assignedTo}</Body>
+                    <Body className="text-body-sm text-ink-600">{task.area} • {task.assignedTo}</Body>
                   </Stack>
                   <Stack gap={0}>
                     <Badge>{task.priority.toUpperCase()}</Badge>

@@ -13,7 +13,7 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(
         <table
           ref={ref}
           className={clsx(
-            "w-full text-left text-sm",
+            "w-full text-left text-body-sm",
             variant === "striped" && "[&_tbody_tr:nth-child(even)]:bg-grey-50",
             className
           )}
@@ -74,7 +74,7 @@ export const TableHead = forwardRef<HTMLTableCellElement, ThHTMLAttributes<HTMLT
       <th
         ref={ref}
         className={clsx(
-          "px-4 py-3 font-heading text-sm uppercase tracking-wider text-left",
+          "px-spacing-4 py-spacing-3 font-heading text-mono-sm uppercase tracking-wider text-left",
           sortable && "cursor-pointer hover:bg-grey-900",
           className
         )}
@@ -91,7 +91,7 @@ export const TableCell = forwardRef<HTMLTableCellElement, TdHTMLAttributes<HTMLT
     return (
       <td
         ref={ref}
-        className={clsx("px-4 py-3 font-body text-sm", className)}
+        className={clsx("px-spacing-4 py-spacing-3 font-body text-body-sm", className)}
         {...props}
       >
         {children}

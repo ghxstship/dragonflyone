@@ -166,7 +166,7 @@ export default function GiftCardsPage() {
       case 'active':
         return <Badge className="bg-success-500 text-white">Active</Badge>;
       case 'redeemed':
-        return <Badge className="bg-grey-500 text-white">Redeemed</Badge>;
+        return <Badge className="bg-ink-500 text-white">Redeemed</Badge>;
       case 'expired':
         return <Badge className="bg-error-500 text-white">Expired</Badge>;
       default:
@@ -177,28 +177,28 @@ export default function GiftCardsPage() {
   return (
     <Section className="min-h-screen bg-white">
       <ConsumerNavigationPublic />
-      <Container className="py-16">
+      <Container className="py-spacing-16">
         <Stack gap={8}>
-          <Stack gap={2} className="border-b-2 border-black pb-8">
+          <Stack gap={2} className="border-b-2 border-black pb-spacing-8">
             <H1>Gift Cards</H1>
-            <Body className="text-grey-600">
+            <Body className="text-ink-600">
               Give the gift of experiences
             </Body>
           </Stack>
 
         {error && (
-          <Alert variant="error" className="mb-6">
+          <Alert variant="error" className="mb-spacing-6">
             {error}
           </Alert>
         )}
 
         {success && (
-          <Alert variant="success" className="mb-6">
+          <Alert variant="success" className="mb-spacing-6">
             {success}
           </Alert>
         )}
 
-        <Stack direction="horizontal" gap={2} className="mb-8">
+        <Stack direction="horizontal" gap={2} className="mb-spacing-8">
           <Button
             variant={activeTab === 'buy' ? 'solid' : 'outline'}
             onClick={() => setActiveTab('buy')}
@@ -222,8 +222,8 @@ export default function GiftCardsPage() {
         {activeTab === 'buy' && (
           <Grid cols={2} gap={8}>
             <Stack gap={6}>
-              <Card className="p-6">
-                <H3 className="mb-6">SELECT AMOUNT</H3>
+              <Card className="p-spacing-6">
+                <H3 className="mb-spacing-6">SELECT AMOUNT</H3>
                 <Grid cols={4} gap={3}>
                   {GIFT_CARD_AMOUNTS.map(amount => (
                     <Button
@@ -235,7 +235,7 @@ export default function GiftCardsPage() {
                     </Button>
                   ))}
                 </Grid>
-                <Field label="Or enter custom amount" className="mt-4">
+                <Field label="Or enter custom amount" className="mt-spacing-4">
                   <Input
                     type="number"
                     value={customAmount}
@@ -247,13 +247,13 @@ export default function GiftCardsPage() {
                 </Field>
               </Card>
 
-              <Card className="p-6">
-                <H3 className="mb-6">CHOOSE DESIGN</H3>
+              <Card className="p-spacing-6">
+                <H3 className="mb-spacing-6">CHOOSE DESIGN</H3>
                 <Grid cols={3} gap={3}>
                   {GIFT_CARD_DESIGNS.map(design => (
                     <Stack
                       key={design.id}
-                      className={`h-20 rounded cursor-pointer border-2 ${
+                      className={`h-spacing-20 rounded cursor-pointer border-2 ${
                         selectedDesign === design.id ? 'border-black' : 'border-transparent'
                       } ${design.color}`}
                       onClick={() => setSelectedDesign(design.id)}
@@ -262,8 +262,8 @@ export default function GiftCardsPage() {
                 </Grid>
               </Card>
 
-              <Card className="p-6">
-                <H3 className="mb-6">RECIPIENT DETAILS</H3>
+              <Card className="p-spacing-6">
+                <H3 className="mb-spacing-6">RECIPIENT DETAILS</H3>
                 <Stack gap={4}>
                     <Field label="Recipient Email" required>
                       <Input
@@ -309,7 +309,7 @@ export default function GiftCardsPage() {
             </Stack>
 
             <Stack>
-              <Card className={`p-8 ${GIFT_CARD_DESIGNS.find(d => d.id === selectedDesign)?.color || 'bg-black'} text-white sticky top-6`}>
+              <Card className={`p-spacing-8 ${GIFT_CARD_DESIGNS.find(d => d.id === selectedDesign)?.color || 'bg-black'} text-white sticky top-spacing-6`}>
                 <Stack gap={4}>
                   <Body className="text-white/60 text-body-sm">GHXSTSHIP GIFT CARD</Body>
                   <H1 className="text-white text-h2-md">
@@ -321,7 +321,7 @@ export default function GiftCardsPage() {
                   {message && (
                     <Body className="text-white/80 text-body-sm italic">&quot;{message}&quot;</Body>
                   )}
-                  <Body className="text-white/60 text-mono-xs mt-4">
+                  <Body className="text-white/60 text-mono-xs mt-spacing-4">
                     Valid for tickets, merchandise, and experiences
                   </Body>
                 </Stack>
@@ -331,8 +331,8 @@ export default function GiftCardsPage() {
         )}
 
         {activeTab === 'redeem' && (
-          <Card className="p-8 max-w-md mx-auto">
-            <H3 className="mb-6 text-center">REDEEM GIFT CARD</H3>
+          <Card className="p-spacing-8 max-w-md mx-auto">
+            <H3 className="mb-spacing-6 text-center">REDEEM GIFT CARD</H3>
             <Stack gap={4}>
                 <Field label="Gift Card Code">
                   <Input
@@ -353,7 +353,7 @@ export default function GiftCardsPage() {
         {activeTab === 'my-cards' && (
           <Stack gap={4}>
             {loading ? (
-              <Stack className="items-center py-12">
+              <Stack className="items-center py-spacing-12">
                 <LoadingSpinner size="lg" />
               </Stack>
             ) : myCards.length > 0 ? (
@@ -366,21 +366,21 @@ export default function GiftCardsPage() {
                         {getStatusBadge(card.status)}
                       </Stack>
                       <Stack>
-                        <Label className="text-grey-500">Balance</Label>
+                        <Label className="text-ink-500">Balance</Label>
                         <H2>${card.current_balance.toFixed(2)}</H2>
                         {card.current_balance !== card.initial_balance && (
-                          <Body className="text-body-sm text-grey-500">
+                          <Body className="text-body-sm text-ink-500">
                             of ${card.initial_balance.toFixed(2)}
                           </Body>
                         )}
                       </Stack>
                       {card.recipient_name && (
-                        <Body className="text-body-sm text-grey-600">
+                        <Body className="text-body-sm text-ink-600">
                           Sent to: {card.recipient_name}
                         </Body>
                       )}
                       {card.expires_at && (
-                        <Body className="text-mono-xs text-grey-600">
+                        <Body className="text-mono-xs text-ink-600">
                           Expires: {new Date(card.expires_at).toLocaleDateString()}
                         </Body>
                       )}
@@ -389,9 +389,9 @@ export default function GiftCardsPage() {
                 ))}
               </Grid>
             ) : (
-              <Card className="p-12 text-center">
-                <H3 className="mb-4">NO GIFT CARDS</H3>
-                <Body className="text-grey-600 mb-6">
+              <Card className="p-spacing-12 text-center">
+                <H3 className="mb-spacing-4">NO GIFT CARDS</H3>
+                <Body className="text-ink-600 mb-spacing-6">
                   You haven&apos;t purchased or received any gift cards yet.
                 </Body>
                 <Button variant="solid" onClick={() => setActiveTab('buy')}>

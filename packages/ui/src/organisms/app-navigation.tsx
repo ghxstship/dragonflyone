@@ -79,7 +79,7 @@ export const AppNavigation = forwardRef<HTMLElement, AppNavigationProps>(
         <header
           ref={ref}
           className={clsx(
-            "sticky top-0 z-50 border-b backdrop-blur",
+            "sticky top-0 z-modal border-b backdrop-blur",
             bgClass,
             borderClass,
             className
@@ -88,11 +88,11 @@ export const AppNavigation = forwardRef<HTMLElement, AppNavigationProps>(
         >
           <Stack
             direction="horizontal"
-            className="mx-auto max-w-6xl items-center justify-between px-6 py-6 lg:px-8"
+            className="mx-auto max-w-6xl items-center justify-between px-spacing-6 py-spacing-6 lg:px-spacing-8"
           >
             {/* Logo */}
             {logoComponent || (
-              <Link href="/" className="font-display text-3xl uppercase tracking-tight text-white">
+              <Link href="/" className="font-display text-h2-md uppercase tracking-tight text-white">
                 {logo}
               </Link>
             )}
@@ -126,7 +126,7 @@ export const AppNavigation = forwardRef<HTMLElement, AppNavigationProps>(
               {primaryCta && (
                 <Link
                   href={primaryCta.href}
-                  className="hidden md:inline-flex border border-white px-6 py-2 text-mono-xs uppercase tracking-kicker transition hover:-translate-y-0.5 hover:bg-white hover:text-black"
+                  className="hidden md:inline-flex border border-white px-spacing-6 py-spacing-2 text-mono-xs uppercase tracking-kicker transition hover:-translate-y-0.5 hover:bg-white hover:text-black"
                 >
                   {primaryCta.label}
                 </Link>
@@ -135,7 +135,7 @@ export const AppNavigation = forwardRef<HTMLElement, AppNavigationProps>(
                 <Link
                   href={secondaryCta.href}
                   className={clsx(
-                    "hidden md:inline-flex border px-6 py-2 text-mono-xs uppercase tracking-kicker transition hover:border-white hover:text-white",
+                    "hidden md:inline-flex border px-spacing-6 py-spacing-2 text-mono-xs uppercase tracking-kicker transition hover:border-white hover:text-white",
                     colorScheme === "black" ? "border-grey-700 text-grey-400" : "border-ink-700 text-ink-400"
                   )}
                 >
@@ -152,7 +152,7 @@ export const AppNavigation = forwardRef<HTMLElement, AppNavigationProps>(
                 onClick={handleToggle}
               >
                 <Body className="sr-only">{isOpen ? "Close navigation" : "Open navigation"}</Body>
-                <Stack className="h-5 w-6 gap-1.5">
+                <Stack className="h-spacing-5 w-spacing-6 gap-gap-xs">
                   {[0, 1, 2].map((idx) => (
                     <Box
                       key={idx}
@@ -177,18 +177,18 @@ export const AppNavigation = forwardRef<HTMLElement, AppNavigationProps>(
         {isOpen && (
           <Stack
             className={clsx(
-              "fixed inset-0 z-40 p-6 animate-in fade-in md:hidden",
+              "fixed inset-0 z-modal-backdrop p-spacing-6 animate-in fade-in md:hidden",
               overlayBgClass
             )}
           >
-            <Stack className="h-full justify-between pt-16">
+            <Stack className="h-full justify-between pt-spacing-16">
               <Stack gap={6}>
                 {navItems.map((item) => (
                   <Link
                     key={item.label}
                     href={item.href}
                     className={clsx(
-                      "block border-b pb-4 text-h4-md uppercase tracking-kicker",
+                      "block border-b pb-spacing-4 text-h4-md uppercase tracking-kicker",
                       borderClass,
                       isActive(item.href) ? "text-white" : textClass
                     )}
@@ -202,7 +202,7 @@ export const AppNavigation = forwardRef<HTMLElement, AppNavigationProps>(
                 {primaryCta && (
                   <Link
                     href={primaryCta.href}
-                    className="block w-full border border-white px-6 py-4 text-center text-mono-xs uppercase tracking-kicker text-white"
+                    className="block w-full border border-white px-spacing-6 py-spacing-4 text-center text-mono-xs uppercase tracking-kicker text-white"
                     onClick={handleClose}
                   >
                     {primaryCta.label}
@@ -212,7 +212,7 @@ export const AppNavigation = forwardRef<HTMLElement, AppNavigationProps>(
                   <Link
                     href={secondaryCta.href}
                     className={clsx(
-                      "block w-full border px-6 py-4 text-center text-mono-xs uppercase tracking-kicker",
+                      "block w-full border px-spacing-6 py-spacing-4 text-center text-mono-xs uppercase tracking-kicker",
                       colorScheme === "black" ? "border-grey-700 text-grey-400" : "border-ink-700 text-ink-400"
                     )}
                     onClick={handleClose}

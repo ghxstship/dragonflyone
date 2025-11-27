@@ -68,18 +68,18 @@ export default function MagicLinkPage() {
       }
     >
       <SectionLayout background="grey">
-        <Stack gap={8} className="mx-auto max-w-md bg-white p-8 border border-grey-200">
+        <Stack gap={8} className="mx-auto max-w-md bg-white p-8 border border-ink-200">
           {submitted ? (
             <Stack gap={6} className="text-center">
-              <Stack className="w-16 h-16 mx-auto bg-grey-200 rounded-full items-center justify-center">
+              <Stack className="w-16 h-16 mx-auto bg-ink-200 rounded-full items-center justify-center">
                 <Mail className="w-8 h-8" />
               </Stack>
               <H2>Check Your Email</H2>
-              <Body className="text-grey-600">
+              <Body className="text-ink-600">
                 We&apos;ve sent a magic link to <strong className="text-black">{email}</strong>. Click the link in the email to sign in.
               </Body>
-              <Body size="sm" className="text-grey-500">Link expires in 1 hour</Body>
-              <Button variant="ghost" onClick={() => setSubmitted(false)} className="text-grey-600 hover:text-black">
+              <Body size="sm" className="text-ink-500">Link expires in 1 hour</Body>
+              <Button variant="ghost" onClick={() => setSubmitted(false)} className="text-ink-600 hover:text-black">
                 Use a different email
               </Button>
             </Stack>
@@ -87,7 +87,7 @@ export default function MagicLinkPage() {
             <>
               <Stack gap={4} className="text-center">
                 <H2>Magic Link</H2>
-                <Body className="text-grey-600">
+                <Body className="text-ink-600">
                   Sign in without a password. We&apos;ll email you a magic link.
                 </Body>
               </Stack>
@@ -110,12 +110,12 @@ export default function MagicLinkPage() {
                 </Button>
 
                 <Stack gap={3} className="text-center">
-                  <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/signin'} className="text-grey-600 hover:text-black">
+                  <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/signin'} className="text-ink-600 hover:text-black">
                     Sign in with password instead
                   </Button>
-                  <Body size="sm" className="text-grey-600">
+                  <Body size="sm" className="text-ink-600">
                     Don&apos;t have an account?{" "}
-                    <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/signup'} className="text-black hover:text-grey-600 inline">
+                    <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/signup'} className="text-black hover:text-ink-600 inline">
                       Sign up
                     </Button>
                   </Body>

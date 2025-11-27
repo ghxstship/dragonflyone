@@ -117,7 +117,7 @@ export default function NewEventsPage() {
         <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
           <Stack gap={2}>
             <H1>New & Announced</H1>
-            <Body className="text-grey-600">
+            <Body className="text-ink-600">
               Be the first to know about upcoming events
             </Body>
           </Stack>
@@ -167,15 +167,15 @@ export default function NewEventsPage() {
                     />
                   </Stack>
                   {event.presale_date && new Date(event.presale_date) > new Date() && (
-                    <Stack className="p-3 bg-grey-50 border-t">
-                      <Body className="text-body-sm text-grey-600">
+                    <Stack className="p-3 bg-ink-50 border-t">
+                      <Body className="text-body-sm text-ink-600">
                         Presale: {new Date(event.presale_date).toLocaleDateString()}
                       </Body>
                     </Stack>
                   )}
                   {event.on_sale_date && new Date(event.on_sale_date) > new Date() && (
-                    <Stack className="p-3 bg-grey-50 border-t">
-                      <Body className="text-body-sm text-grey-600">
+                    <Stack className="p-3 bg-ink-50 border-t">
+                      <Body className="text-body-sm text-ink-600">
                         On Sale: {new Date(event.on_sale_date).toLocaleDateString()}
                       </Body>
                     </Stack>
@@ -231,7 +231,7 @@ export default function NewEventsPage() {
         {events.length === 0 && (
           <Card className="p-12 text-center">
             <H3 className="mb-4">NO NEW EVENTS</H3>
-            <Body className="text-grey-600 mb-6">
+            <Body className="text-ink-600 mb-6">
               No new events have been announced in the selected time period.
             </Body>
             <Button variant="outline" onClick={() => router.push('/browse')}>
@@ -244,7 +244,7 @@ export default function NewEventsPage() {
           <Stack direction="horizontal" className="justify-between items-center">
             <Stack>
               <H3 className="text-white">NEVER MISS AN ANNOUNCEMENT</H3>
-              <Body className="text-grey-600">
+              <Body className="text-ink-600">
                 Follow your favorite artists and venues to get notified first.
               </Body>
             </Stack>

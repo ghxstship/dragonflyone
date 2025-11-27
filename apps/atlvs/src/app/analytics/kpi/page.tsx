@@ -111,7 +111,7 @@ export default function KPILibraryPage() {
       case 'OPERATIONAL_EFFICIENCY': return 'bg-purple-100 border-purple-500';
       case 'MARKETING_ENGAGEMENT': return 'bg-warning-100 border-warning-500';
       case 'CUSTOMER_EXPERIENCE': return 'bg-pink-100 border-pink-500';
-      default: return 'bg-grey-100 border-grey-500';
+      default: return 'bg-ink-100 border-ink-500';
     }
   };
 
@@ -154,7 +154,7 @@ export default function KPILibraryPage() {
                 onClick={() => setSelectedReport(selectedReport === report.id ? null : report.id)}
               >
                 <H3 className="mb-2">{report.name}</H3>
-                <Body className="mb-3 text-grey-600">{report.description}</Body>
+                <Body className="mb-3 text-ink-600">{report.description}</Body>
                 <Badge variant="outline">{report.kpi_codes.length} KPIs</Badge>
               </Card>
             ))}
@@ -168,7 +168,7 @@ export default function KPILibraryPage() {
             <Select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="min-w-[300px]"
+              className="min-w-card-sm"
             >
               {categories.map((cat) => (
                 <option key={cat.value} value={cat.value}>
@@ -176,7 +176,7 @@ export default function KPILibraryPage() {
                 </option>
               ))}
             </Select>
-            <Body className="text-grey-600">
+            <Body className="text-ink-600">
               Showing {filteredKPIs.length} of {kpis.length} KPIs
             </Body>
           </Stack>
@@ -198,21 +198,21 @@ export default function KPILibraryPage() {
                     </Badge>
                     {getDirectionBadge(kpi.targetDirection)}
                   </Stack>
-                  <Body className="text-grey-600 mb-3">{kpi.description}</Body>
+                  <Body className="text-ink-600 mb-3">{kpi.description}</Body>
                   <Stack direction="horizontal" gap={4} className="items-center text-body-sm">
-                    <Body className="text-grey-500">
+                    <Body className="text-ink-500">
                       <strong>Unit:</strong> {getUnitDisplay(kpi.unit)}
                     </Body>
-                    <Body className="text-grey-500">
+                    <Body className="text-ink-500">
                       <strong>Update:</strong> {kpi.updateFrequency.replace(/_/g, ' ')}
                     </Body>
-                    <Body className="text-grey-500">
+                    <Body className="text-ink-500">
                       <strong>Subcategory:</strong> {kpi.subcategory.replace(/_/g, ' ')}
                     </Body>
                   </Stack>
                   {(kpi.targetValue || kpi.warningThreshold) && (
-                    <Stack className="mt-3 pt-3 border-t border-grey-200">
-                      <Body size="sm" className="text-grey-600">
+                    <Stack className="mt-3 pt-3 border-t border-ink-200">
+                      <Body size="sm" className="text-ink-600">
                         {kpi.targetValue && (
                           <Body className="mr-4 inline">
                             <strong>Target:</strong> {kpi.targetValue}{getUnitDisplay(kpi.unit)}
@@ -246,7 +246,7 @@ export default function KPILibraryPage() {
 
         {filteredKPIs.length === 0 && (
           <Card className="p-12 text-center">
-            <Body className="text-grey-500">
+            <Body className="text-ink-500">
               No KPIs found for the selected category.
             </Body>
           </Card>

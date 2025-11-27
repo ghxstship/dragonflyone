@@ -107,8 +107,8 @@ export default function NotificationsPage() {
             logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
             cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/profile')}>PROFILE</Button>}
           >
-            <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Home</Link>
-            <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Events</Link>
+            <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Home</Link>
+            <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Events</Link>
           </Navigation>
         }
         footer={
@@ -134,8 +134,8 @@ export default function NotificationsPage() {
             logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
             cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/profile')}>PROFILE</Button>}
           >
-            <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Home</Link>
-            <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Events</Link>
+            <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Home</Link>
+            <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Events</Link>
           </Navigation>
         }
         footer={
@@ -164,8 +164,8 @@ export default function NotificationsPage() {
           logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
           cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/profile')}>PROFILE</Button>}
         >
-          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Home</Link>
-          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Events</Link>
+          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Home</Link>
+          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Events</Link>
         </Navigation>
       }
       footer={
@@ -187,7 +187,7 @@ export default function NotificationsPage() {
               <Select
                 value={filterType}
                 onChange={(e) => setFilterType(e.target.value)}
-                className="bg-black text-white border-grey-700"
+                className="bg-black text-white border-ink-700"
               >
                 <option value="all">All Types</option>
                 <option value="event_update">Event Updates</option>
@@ -210,7 +210,7 @@ export default function NotificationsPage() {
                 {filteredNotifications.map((notification) => (
                   <Card
                     key={notification.id}
-                    className={`border-2 p-6 ${notification.read ? 'border-grey-800 bg-transparent' : 'border-white bg-grey-900'}`}
+                    className={`border-2 p-6 ${notification.read ? 'border-ink-800 bg-transparent' : 'border-white bg-ink-900'}`}
                   >
                     <Stack gap={4} direction="horizontal" className="justify-between items-start">
                       <Stack gap={2} className="flex-1">
@@ -218,8 +218,8 @@ export default function NotificationsPage() {
                           <Body className="font-display text-body-md text-white">{notification.title}</Body>
                           {!notification.read && <Badge variant="solid">New</Badge>}
                         </Stack>
-                        <Body className="text-grey-300">{notification.message}</Body>
-                        <Body className="text-body-sm text-grey-500">
+                        <Body className="text-ink-300">{notification.message}</Body>
+                        <Body className="text-body-sm text-ink-500">
                           {notification.type} • {new Date(notification.created_at).toLocaleDateString()}
                         </Body>
                       </Stack>

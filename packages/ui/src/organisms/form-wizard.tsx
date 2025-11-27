@@ -32,12 +32,12 @@ export const FormWizard = forwardRef<HTMLDivElement, FormWizardProps>(
       <div ref={ref} className={clsx("w-full", className)} {...props}>
         {/* Progress bar */}
         <div className="mb-8">
-          <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center justify-between mb-spacing-2">
             {steps.map((_, index) => (
               <div key={index} className="flex-1">
                 <div
                   className={clsx(
-                    "h-1 transition-colors",
+                    "h-spacing-1 transition-colors",
                     index <= currentStep ? "bg-black" : "bg-grey-300"
                   )}
                 />
@@ -51,7 +51,7 @@ export const FormWizard = forwardRef<HTMLDivElement, FormWizardProps>(
                   <span
                     key={index}
                     className={clsx(
-                      "font-code text-xs uppercase tracking-widest",
+                      "font-code text-mono-xs uppercase tracking-widest",
                       index <= currentStep ? "text-black" : "text-grey-400"
                     )}
                   >

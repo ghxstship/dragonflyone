@@ -462,7 +462,7 @@ export default function LandingBuilderPage() {
           </Tabs>
 
           <Grid cols={3} gap={4}>
-            <Button variant="outline" className="border-ink-700 text-ink-400 hover:border-white hover:text-white" onClick={() => router.push(`/events/${eventId}`)}>
+            <Button variant="outlineInk" onClick={() => router.push(`/events/${eventId}`)}>
               Back to Event
             </Button>
             <Button variant="outline" onClick={() => setShowPreview(true)}>

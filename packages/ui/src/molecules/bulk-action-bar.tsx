@@ -63,15 +63,15 @@ export function BulkActionBar({
   return (
     <div
       className={clsx(
-        "flex items-center justify-between gap-4 px-4 py-3 bg-black text-white border-2 border-black",
+        "flex items-center justify-between gap-gap-md px-spacing-4 py-spacing-3 bg-black text-white border-2 border-black",
         positionClasses[position],
         className
       )}
     >
       {/* Selection info */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-gap-md">
         <span className="font-code text-mono-md tracking-wide">
-          <strong className="font-bold">{selectedCount}</strong> {entityName} selected
+          <strong className="font-weight-bold">{selectedCount}</strong> {entityName} selected
         </span>
 
         <button
@@ -79,7 +79,7 @@ export function BulkActionBar({
           onClick={onClearSelection}
           disabled={loading}
           className={clsx(
-            "px-2 py-1 font-code text-mono-sm tracking-wide uppercase bg-transparent text-grey-300 border-none underline transition-colors duration-fast",
+            "px-spacing-2 py-spacing-1 font-code text-mono-sm tracking-wide uppercase bg-transparent text-grey-300 border-none underline transition-colors duration-fast",
             loading ? "cursor-not-allowed" : "cursor-pointer hover:text-white"
           )}
         >
@@ -88,7 +88,7 @@ export function BulkActionBar({
       </div>
 
       {/* Actions */}
-      <div className="flex items-center gap-2 flex-wrap">
+      <div className="flex items-center gap-gap-xs flex-wrap">
         {actions.map((action) => {
           const isLoading = loading && loadingActionId === action.id;
           const isDisabled = action.disabled || loading;
@@ -100,7 +100,7 @@ export function BulkActionBar({
               onClick={() => onAction(action.id)}
               disabled={isDisabled}
               className={clsx(
-                "flex items-center gap-1.5 px-3 py-2 font-code text-mono-sm tracking-wide uppercase border whitespace-nowrap transition-colors duration-fast",
+                "flex items-center gap-gap-xs px-spacing-3 py-spacing-2 font-code text-mono-sm tracking-wide uppercase border whitespace-nowrap transition-colors duration-fast",
                 action.variant === "danger"
                   ? "bg-white text-black border-white hover:bg-grey-100"
                   : "bg-grey-800 text-white border-grey-600 hover:bg-grey-700",
@@ -108,9 +108,9 @@ export function BulkActionBar({
               )}
             >
               {isLoading ? (
-                <span className="inline-block w-3 h-3 border-2 border-grey-500 border-t-white rounded-full animate-spin" />
+                <span className="inline-block w-spacing-3 h-spacing-3 border-2 border-grey-500 border-t-white rounded-full animate-spin" />
               ) : action.icon ? (
-                <span className="text-sm">{action.icon}</span>
+                <span className="text-body-sm">{action.icon}</span>
               ) : null}
               {action.label}
             </button>

@@ -38,7 +38,7 @@ const mockWindows: ExclusiveWindow[] = [
 const mockTiers: FanClubTier[] = [
   { name: "Platinum", members: 245, benefits: ["48-hour early access", "Meet & greet priority", "Exclusive merch", "VIP lounge access"], accessWindow: "48 hours", color: "bg-purple-100 border-purple-500" },
   { name: "Gold", members: 1250, benefits: ["24-hour early access", "Priority entry", "Member discounts", "Exclusive content"], accessWindow: "24 hours", color: "bg-warning-100 border-warning-500" },
-  { name: "Silver", members: 4520, benefits: ["12-hour early access", "Member discounts", "Newsletter"], accessWindow: "12 hours", color: "bg-grey-100 border-grey-400" },
+  { name: "Silver", members: 4520, benefits: ["12-hour early access", "Member discounts", "Newsletter"], accessWindow: "12 hours", color: "bg-ink-100 border-ink-400" },
 ];
 
 export default function ExclusiveAccessPage() {
@@ -55,8 +55,8 @@ export default function ExclusiveAccessPage() {
     switch (status) {
       case "Active": return "text-success-600";
       case "Upcoming": return "text-info-600";
-      case "Ended": return "text-grey-600";
-      default: return "text-grey-600";
+      case "Ended": return "text-ink-600";
+      default: return "text-ink-600";
     }
   };
 
@@ -64,7 +64,7 @@ export default function ExclusiveAccessPage() {
     switch (tier) {
       case "Platinum": return "bg-purple-100 text-purple-800";
       case "Gold": return "bg-warning-100 text-warning-800";
-      case "Silver": return "bg-grey-100 text-grey-800";
+      case "Silver": return "bg-ink-100 text-ink-800";
       default: return "bg-info-100 text-info-800";
     }
   };
@@ -75,7 +75,7 @@ export default function ExclusiveAccessPage() {
         <Stack gap={8}>
           <Stack gap={2}>
             <H1>EXCLUSIVE ACCESS</H1>
-            <Body className="text-grey-600">Fan club presale windows and member benefits</Body>
+            <Body className="text-ink-600">Fan club presale windows and member benefits</Body>
           </Stack>
 
           <Grid cols={4} gap={6}>
@@ -102,16 +102,16 @@ export default function ExclusiveAccessPage() {
                     <Grid cols={6} gap={4} className="items-center">
                       <Stack gap={1}>
                         <Body className="font-bold">{window.eventName}</Body>
-                        <Label className="text-grey-500">{window.windowName}</Label>
+                        <Label className="text-ink-500">{window.windowName}</Label>
                       </Stack>
                       <Badge className={getTierColor(window.tier)}>{window.tier}</Badge>
                       <Stack gap={1}>
-                        <Label className="text-grey-500">Window</Label>
+                        <Label className="text-ink-500">Window</Label>
                         <Label>{window.startDate.split(" ")[0]}</Label>
                       </Stack>
                       <Stack gap={2}>
                         <Stack direction="horizontal" className="justify-between">
-                          <Label className="text-grey-500">Claimed</Label>
+                          <Label className="text-ink-500">Claimed</Label>
                           <Label>{window.ticketsClaimed} / {window.ticketsAllocated}</Label>
                         </Stack>
                         <ProgressBar value={(window.ticketsClaimed / window.ticketsAllocated) * 100} className="h-2" />
@@ -134,11 +134,11 @@ export default function ExclusiveAccessPage() {
                         <Label className="font-mono">{tier.members.toLocaleString()} members</Label>
                       </Stack>
                       <Stack gap={1}>
-                        <Label className="text-grey-500">Early Access Window</Label>
+                        <Label className="text-ink-500">Early Access Window</Label>
                         <Label className="font-bold">{tier.accessWindow} before public</Label>
                       </Stack>
                       <Stack gap={2}>
-                        <Label className="text-grey-500">Benefits</Label>
+                        <Label className="text-ink-500">Benefits</Label>
                         <Stack gap={1}>
                           {tier.benefits.map((benefit, idx) => (
                             <Label key={idx}>✓ {benefit}</Label>
@@ -165,11 +165,11 @@ export default function ExclusiveAccessPage() {
                       { benefit: "Member Discounts", description: "Percentage off ticket purchases", enabled: true },
                       { benefit: "Exclusive Content", description: "Behind-the-scenes and exclusive videos", enabled: true },
                     ].map((item, idx) => (
-                      <Card key={idx} className="p-4 border border-grey-200">
+                      <Card key={idx} className="p-4 border border-ink-200">
                         <Stack direction="horizontal" className="justify-between items-start">
                           <Stack gap={1}>
                             <Label className="font-bold">{item.benefit}</Label>
-                            <Label className="text-grey-500">{item.description}</Label>
+                            <Label className="text-ink-500">{item.description}</Label>
                           </Stack>
                           <Button variant={item.enabled ? "solid" : "outline"} size="sm">
                             {item.enabled ? "Enabled" : "Disabled"}
@@ -202,18 +202,18 @@ export default function ExclusiveAccessPage() {
               </Select>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>
-                  <Label className="text-grey-500">Start</Label>
+                  <Label className="text-ink-500">Start</Label>
                   <Input type="datetime-local" defaultValue={selectedWindow.startDate.replace(" ", "T")} className="border-2 border-black" />
                 </Stack>
                 <Stack gap={1}>
-                  <Label className="text-grey-500">End</Label>
+                  <Label className="text-ink-500">End</Label>
                   <Input type="datetime-local" defaultValue={selectedWindow.endDate.replace(" ", "T")} className="border-2 border-black" />
                 </Stack>
               </Grid>
               <Input type="number" defaultValue={selectedWindow.ticketsAllocated} placeholder="Tickets Allocated" className="border-2 border-black" />
               <Stack gap={2}>
                 <Stack direction="horizontal" className="justify-between">
-                  <Label className="text-grey-500">Tickets Claimed</Label>
+                  <Label className="text-ink-500">Tickets Claimed</Label>
                   <Label>{selectedWindow.ticketsClaimed} / {selectedWindow.ticketsAllocated}</Label>
                 </Stack>
                 <ProgressBar value={(selectedWindow.ticketsClaimed / selectedWindow.ticketsAllocated) * 100} className="h-3" />

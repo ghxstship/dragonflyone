@@ -67,13 +67,13 @@ export default function EventsPage() {
             </Button>
           }
         >
-          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">
+          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">
             Home
           </Link>
           <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest text-white">
             Events
           </Link>
-          <Link href="/venues" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">
+          <Link href="/venues" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">
             Venues
           </Link>
         </Navigation>
@@ -109,7 +109,7 @@ export default function EventsPage() {
           <Stack gap={8}>
             <Stack gap={4} className="text-center">
               <H2 className="text-white">Discover Experiences</H2>
-              <Body className="text-grey-400 mx-auto max-w-2xl">
+              <Body className="text-ink-400 mx-auto max-w-2xl">
                 Explore unforgettable live events, festivals, and performances happening now and coming soon.
               </Body>
             </Stack>
@@ -120,12 +120,12 @@ export default function EventsPage() {
               placeholder="Search events or venues..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="border-grey-700 bg-black text-white"
+              className="border-ink-700 bg-black text-white"
             />
             <Select
               value={selectedGenre}
               onChange={(e) => setSelectedGenre(e.target.value)}
-              className="border-grey-700 bg-black text-white"
+              className="border-ink-700 bg-black text-white"
             >
               {genres.map((genre) => (
                 <option key={genre} value={genre}>
@@ -136,7 +136,7 @@ export default function EventsPage() {
             <Select
               value={selectedCity}
               onChange={(e) => setSelectedCity(e.target.value)}
-              className="border-grey-700 bg-black text-white"
+              className="border-ink-700 bg-black text-white"
             >
               {cities.map((city) => (
                 <option key={city} value={city}>
@@ -144,7 +144,7 @@ export default function EventsPage() {
                 </option>
               ))}
             </Select>
-              <Stack gap={2} direction="horizontal" className="border-2 border-grey-700 p-2">
+              <Stack gap={2} direction="horizontal" className="border-2 border-ink-700 p-2">
                 <Button
                   onClick={() => setViewMode("grid")}
                   variant={viewMode === "grid" ? "solid" : "ghost"}
@@ -162,7 +162,7 @@ export default function EventsPage() {
               </Stack>
             </Grid>
 
-            <Body className="text-grey-400 text-body-sm font-mono uppercase tracking-widest">
+            <Body className="text-ink-400 text-body-sm font-mono uppercase tracking-widest">
               {filteredEvents.length} {filteredEvents.length === 1 ? "Event" : "Events"} Found
             </Body>
 
@@ -186,9 +186,9 @@ export default function EventsPage() {
           ) : (
             <Stack gap={4}>
               {filteredEvents.map((event) => (
-                <Card key={event.id} className="border-2 border-grey-800 p-6 hover:border-white transition-colors bg-transparent">
+                <Card key={event.id} className="border-2 border-ink-800 p-6 hover:border-white transition-colors bg-transparent">
                   <Stack gap={6} direction="horizontal" className="flex-col md:flex-row">
-                    <Figure className="w-full md:w-48 h-48 bg-grey-900 relative overflow-hidden">
+                    <Figure className="w-full md:w-48 h-48 bg-ink-900 relative overflow-hidden">
                       <Image
                         src={event.image_url || 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800'}
                         alt={event.name}
@@ -199,10 +199,10 @@ export default function EventsPage() {
                     <Stack gap={4} className="flex-1">
                       <Stack gap={2}>
                         <H3 className="text-white">{event.name}</H3>
-                        <Body className="text-grey-400">
+                        <Body className="text-ink-400">
                           {event.venue} • {event.address}
                         </Body>
-                        <Body className="text-grey-500 font-mono text-body-sm uppercase tracking-widest">
+                        <Body className="text-ink-500 font-mono text-body-sm uppercase tracking-widest">
                           {new Date(event.start_date).toLocaleDateString()}
                         </Body>
                       </Stack>
@@ -212,11 +212,11 @@ export default function EventsPage() {
                       </Stack>
                       <Stack gap={4} direction="horizontal" className="items-center justify-between">
                         <Stack gap={1}>
-                          <Body className="text-grey-400 text-body-sm">Venue</Body>
+                          <Body className="text-ink-400 text-body-sm">Venue</Body>
                           <Body className="text-white font-mono">{event.venue}</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-grey-400 text-body-sm">Capacity</Body>
+                          <Body className="text-ink-400 text-body-sm">Capacity</Body>
                           <Body className="text-white font-mono">{event.capacity.toLocaleString()}</Body>
                         </Stack>
                         <Button 
@@ -236,8 +236,8 @@ export default function EventsPage() {
 
             {filteredEvents.length === 0 && (
               <Stack gap={2} className="text-center py-16">
-                <H3 className="text-grey-600">No events found</H3>
-                <Body className="text-grey-500">Try adjusting your search or filters</Body>
+                <H3 className="text-ink-600">No events found</H3>
+                <Body className="text-ink-500">Try adjusting your search or filters</Body>
               </Stack>
             )}
           </Stack>

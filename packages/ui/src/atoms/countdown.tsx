@@ -42,18 +42,18 @@ function calculateTimeLeft(targetDate: Date): TimeLeft {
 
 const sizeConfig = {
   default: {
-    container: "gap-4",
-    number: "text-h2-md px-5 py-4 min-w-14",
+    container: "gap-gap-md",
+    number: "text-h2-md px-spacing-5 py-spacing-4 min-w-spacing-14",
     label: "text-mono-sm",
   },
   compact: {
-    container: "gap-2",
-    number: "text-h4-md px-3 py-2 min-w-10",
+    container: "gap-gap-xs",
+    number: "text-h4-md px-spacing-3 py-spacing-2 min-w-spacing-10",
     label: "text-mono-xs",
   },
   large: {
-    container: "gap-6",
-    number: "text-h1-md px-8 py-6 min-w-20",
+    container: "gap-gap-lg",
+    number: "text-h1-md px-spacing-8 py-spacing-6 min-w-spacing-20",
     label: "text-mono-md",
   },
 };
@@ -92,10 +92,10 @@ export function Countdown({
   const config = sizeConfig[variant];
 
   const TimeUnit = ({ value, label }: { value: number; label: string }) => (
-    <div className="flex flex-col items-center gap-2">
+    <div className="flex flex-col items-center gap-gap-xs">
       <div
         className={clsx(
-          "font-heading font-normal border-2 text-center tracking-wide uppercase",
+          "font-heading font-weight-normal border-2 text-center tracking-wide uppercase",
           config.number,
           inverted
             ? "bg-black text-white border-white"
@@ -123,7 +123,7 @@ export function Countdown({
       className={clsx(
         "font-heading",
         variant === "large" ? "text-h1-md" : variant === "compact" ? "text-h4-md" : "text-h2-md",
-        showLabels ? "self-start pt-4" : "self-center",
+        showLabels ? "self-start pt-spacing-4" : "self-center",
         inverted ? "text-white" : "text-black"
       )}
     >

@@ -133,7 +133,7 @@ export default function ReputationPage() {
         <Stack gap={8}>
         <Stack gap={2} className="border-b-2 border-black pb-8">
           <H1>Reputation</H1>
-          <Body className="text-grey-600">
+          <Body className="text-ink-600">
             Your community standing and karma
           </Body>
         </Stack>
@@ -152,7 +152,7 @@ export default function ReputationPage() {
                   <Body className="text-h3-md">{currentLevel.icon}</Body>
                 </Stack>
                 <Stack>
-                  <Body className="text-grey-600 text-body-sm">LEVEL {currentLevel.level}</Body>
+                  <Body className="text-ink-600 text-body-sm">LEVEL {currentLevel.level}</Body>
                   <H2 className="text-white">{currentLevel.name}</H2>
                   <Body className="text-h5-md font-bold text-white">
                     {stats?.total_karma.toLocaleString() || 0} karma
@@ -167,18 +167,18 @@ export default function ReputationPage() {
                       style={{ '--progress-width': `${progressToNext}%`, width: 'var(--progress-width)' } as React.CSSProperties}
                     />
                   </Stack>
-                  <Body className="text-grey-600 text-body-sm mt-2">
+                  <Body className="text-ink-600 text-body-sm mt-2">
                     {nextLevel.min - (stats?.total_karma || 0)} karma to {nextLevel.name}
                   </Body>
                 </Stack>
               )}
             </Stack>
             <Stack className="items-center justify-center border-l border-white/20">
-              <Body className="text-grey-600 text-body-sm">RANK</Body>
+              <Body className="text-ink-600 text-body-sm">RANK</Body>
               <H2 className="text-white">Top {stats?.rank_percentile || 50}%</H2>
             </Stack>
             <Stack className="items-center justify-center border-l border-white/20">
-              <Body className="text-grey-600 text-body-sm">HELPFUL VOTES</Body>
+              <Body className="text-ink-600 text-body-sm">HELPFUL VOTES</Body>
               <H2 className="text-white">{stats?.helpful_votes || 0}</H2>
             </Stack>
           </Grid>
@@ -222,7 +222,7 @@ export default function ReputationPage() {
                   <Stack
                     key={index}
                     direction="horizontal"
-                    className="justify-between items-center py-2 border-b border-grey-100"
+                    className="justify-between items-center py-2 border-b border-ink-100"
                   >
                     <Body>{item.action}</Body>
                     <Badge className="bg-success-500 text-white">{item.karma}</Badge>
@@ -234,21 +234,21 @@ export default function ReputationPage() {
             <Card className="p-6">
               <H3 className="mb-6">YOUR CONTRIBUTIONS</H3>
               <Grid cols={2} gap={4}>
-                <Card className="p-4 bg-grey-50 text-center">
+                <Card className="p-4 bg-ink-50 text-center">
                   <Body className="text-h4-md font-bold">{stats?.reviews_count || 0}</Body>
-                  <Body className="text-grey-500 text-body-sm">Reviews</Body>
+                  <Body className="text-ink-500 text-body-sm">Reviews</Body>
                 </Card>
-                <Card className="p-4 bg-grey-50 text-center">
+                <Card className="p-4 bg-ink-50 text-center">
                   <Body className="text-h4-md font-bold">{stats?.answers_count || 0}</Body>
-                  <Body className="text-grey-500 text-body-sm">Answers</Body>
+                  <Body className="text-ink-500 text-body-sm">Answers</Body>
                 </Card>
-                <Card className="p-4 bg-grey-50 text-center">
+                <Card className="p-4 bg-ink-50 text-center">
                   <Body className="text-h4-md font-bold">{stats?.events_attended || 0}</Body>
-                  <Body className="text-grey-500 text-body-sm">Events</Body>
+                  <Body className="text-ink-500 text-body-sm">Events</Body>
                 </Card>
-                <Card className="p-4 bg-grey-50 text-center">
+                <Card className="p-4 bg-ink-50 text-center">
                   <Body className="text-h4-md font-bold">{stats?.helpful_votes || 0}</Body>
-                  <Body className="text-grey-500 text-body-sm">Helpful Votes</Body>
+                  <Body className="text-ink-500 text-body-sm">Helpful Votes</Body>
                 </Card>
               </Grid>
             </Card>
@@ -259,15 +259,15 @@ export default function ReputationPage() {
                 {KARMA_LEVELS.map(level => (
                   <Card
                     key={level.level}
-                    className={`p-4 min-w-[140px] text-center ${
-                      currentLevel.level >= level.level ? 'bg-black text-white' : 'bg-grey-100'
+                    className={`p-4 min-w-36 text-center ${
+                      currentLevel.level >= level.level ? 'bg-black text-white' : 'bg-ink-100'
                     }`}
                   >
                     <Body className="text-h5-md mb-2">{level.icon}</Body>
                     <Body className={`font-bold ${currentLevel.level >= level.level ? 'text-white' : ''}`}>
                       {level.name}
                     </Body>
-                    <Body className={`text-mono-xs ${currentLevel.level >= level.level ? 'text-grey-600' : 'text-grey-500'}`}>
+                    <Body className={`text-mono-xs ${currentLevel.level >= level.level ? 'text-ink-600' : 'text-ink-500'}`}>
                       {level.min.toLocaleString()}+ karma
                     </Body>
                   </Card>
@@ -286,11 +286,11 @@ export default function ReputationPage() {
                   <Stack
                     key={tx.id}
                     direction="horizontal"
-                    className="justify-between items-center py-3 border-b border-grey-100"
+                    className="justify-between items-center py-3 border-b border-ink-100"
                   >
                     <Stack>
                       <Body className="font-medium">{tx.description}</Body>
-                      <Body className="text-mono-xs text-grey-500">
+                      <Body className="text-mono-xs text-ink-500">
                         {new Date(tx.created_at).toLocaleDateString()}
                       </Body>
                     </Stack>
@@ -301,7 +301,7 @@ export default function ReputationPage() {
                 ))}
               </Stack>
             ) : (
-              <Body className="text-grey-500 text-center py-8">
+              <Body className="text-ink-500 text-center py-8">
                 No karma transactions yet
               </Body>
             )}
@@ -317,30 +317,30 @@ export default function ReputationPage() {
               >
                 <Stack className="items-center text-center" gap={3}>
                   <Stack className={`w-16 h-16 rounded-full flex items-center justify-center ${
-                    achievement.earned_at ? 'bg-black' : 'bg-grey-200'
+                    achievement.earned_at ? 'bg-black' : 'bg-ink-200'
                   }`}>
                     <Body className="text-h4-md">{achievement.icon}</Body>
                   </Stack>
                   <Stack>
                     <Body className="font-bold">{achievement.name}</Body>
-                    <Body className="text-mono-xs text-grey-500">{achievement.description}</Body>
+                    <Body className="text-mono-xs text-ink-500">{achievement.description}</Body>
                   </Stack>
-                  <Badge className={achievement.earned_at ? 'bg-success-500 text-white' : 'bg-grey-300'}>
+                  <Badge className={achievement.earned_at ? 'bg-success-500 text-white' : 'bg-ink-300'}>
                     +{achievement.karma_reward} karma
                   </Badge>
                   {achievement.earned_at ? (
-                    <Body className="text-mono-xs text-grey-600">
+                    <Body className="text-mono-xs text-ink-600">
                       Earned {new Date(achievement.earned_at).toLocaleDateString()}
                     </Body>
                   ) : achievement.progress !== undefined && (
                     <Stack className="w-full">
-                      <Stack className="w-full bg-grey-200 h-2 rounded-full overflow-hidden">
+                      <Stack className="w-full bg-ink-200 h-2 rounded-full overflow-hidden">
                         <Stack
                           className="bg-black h-full"
                           style={{ '--progress-width': `${(achievement.progress / (achievement.total || 1)) * 100}%`, width: 'var(--progress-width)' } as React.CSSProperties}
                         />
                       </Stack>
-                      <Body className="text-mono-xs text-grey-500 mt-1">
+                      <Body className="text-mono-xs text-ink-500 mt-1">
                         {achievement.progress} / {achievement.total}
                       </Body>
                     </Stack>

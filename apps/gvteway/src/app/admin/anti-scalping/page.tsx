@@ -201,7 +201,7 @@ export default function AntiScalpingPage() {
           <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
             <Stack gap={2}>
               <H1>Anti-Scalping Protection</H1>
-              <Body className="text-grey-600">Monitor and prevent ticket scalping and fraud</Body>
+              <Body className="text-ink-600">Monitor and prevent ticket scalping and fraud</Body>
             </Stack>
             <Stack direction="horizontal" gap={2}>
               <Button variant="outline" onClick={() => setShowBlockModal(true)}>
@@ -286,7 +286,7 @@ export default function AntiScalpingPage() {
 
               <Stack gap={4}>
                 {filteredAlerts.map(alert => (
-                  <Card key={alert.id} className={`p-4 border-2 ${alert.severity === 'critical' ? 'border-error-500' : alert.severity === 'high' ? 'border-error-300' : 'border-grey-200'}`}>
+                  <Card key={alert.id} className={`p-4 border-2 ${alert.severity === 'critical' ? 'border-error-500' : alert.severity === 'high' ? 'border-error-300' : 'border-ink-200'}`}>
                     <Grid cols={6} gap={4} className="items-center">
                       <Stack gap={2}>
                         <Stack direction="horizontal" gap={2}>
@@ -296,16 +296,16 @@ export default function AntiScalpingPage() {
                         <Body className="font-bold">{alert.event_name}</Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Label className="text-grey-500">Details</Label>
+                        <Label className="text-ink-500">Details</Label>
                         <Body className="text-body-sm">{alert.details}</Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Label className="text-grey-500">Tickets</Label>
+                        <Label className="text-ink-500">Tickets</Label>
                         <Body className="font-bold">{alert.ticket_count}</Body>
                       </Stack>
                       <Stack gap={1}>
                         {getStatusBadge(alert.status)}
-                        <Label className="text-mono-xs text-grey-600">
+                        <Label className="text-mono-xs text-ink-600">
                           {new Date(alert.created_at).toLocaleString()}
                         </Label>
                       </Stack>
@@ -329,23 +329,23 @@ export default function AntiScalpingPage() {
           {activeTab === 'rules' && (
             <Stack gap={4}>
               {rules.map(rule => (
-                <Card key={rule.id} className={`p-4 border-2 ${rule.enabled ? 'border-success-300' : 'border-grey-200'}`}>
+                <Card key={rule.id} className={`p-4 border-2 ${rule.enabled ? 'border-success-300' : 'border-ink-200'}`}>
                   <Grid cols={4} gap={4} className="items-center">
                     <Stack gap={1}>
                       <Body className="font-bold">{rule.name}</Body>
-                      <Label className="text-grey-500">{rule.description}</Label>
+                      <Label className="text-ink-500">{rule.description}</Label>
                     </Stack>
                     <Stack gap={1}>
-                      <Label className="text-grey-500">Type</Label>
+                      <Label className="text-ink-500">Type</Label>
                       <Badge variant="outline">{rule.type.replace('_', ' ')}</Badge>
                     </Stack>
                     <Stack gap={1}>
-                      <Label className="text-grey-500">Action</Label>
+                      <Label className="text-ink-500">Action</Label>
                       <Badge variant={rule.action === 'block' ? 'solid' : 'outline'}>
                         {rule.action.replace('_', ' ')}
                       </Badge>
                       {rule.threshold && (
-                        <Label className="text-mono-xs text-grey-600">Threshold: {rule.threshold}</Label>
+                        <Label className="text-mono-xs text-ink-600">Threshold: {rule.threshold}</Label>
                       )}
                     </Stack>
                     <Stack direction="horizontal" gap={2} className="justify-end">
@@ -387,7 +387,7 @@ export default function AntiScalpingPage() {
                       </TableCell>
                       <TableCell>{block.reason}</TableCell>
                       <TableCell>
-                        <Label className="text-grey-500">
+                        <Label className="text-ink-500">
                           {new Date(block.blocked_at).toLocaleString()}
                         </Label>
                       </TableCell>
@@ -464,22 +464,22 @@ export default function AntiScalpingPage() {
               <Body>{selectedAlert.details}</Body>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>
-                  <Label className="text-grey-500">Ticket Count</Label>
+                  <Label className="text-ink-500">Ticket Count</Label>
                   <Body className="font-bold">{selectedAlert.ticket_count}</Body>
                 </Stack>
                 <Stack gap={1}>
-                  <Label className="text-grey-500">Detected At</Label>
+                  <Label className="text-ink-500">Detected At</Label>
                   <Body>{new Date(selectedAlert.created_at).toLocaleString()}</Body>
                 </Stack>
                 {selectedAlert.ip_address && (
                   <Stack gap={1}>
-                    <Label className="text-grey-500">IP Address</Label>
+                    <Label className="text-ink-500">IP Address</Label>
                     <Body className="font-mono">{selectedAlert.ip_address}</Body>
                   </Stack>
                 )}
                 {selectedAlert.user_email && (
                   <Stack gap={1}>
-                    <Label className="text-grey-500">Email</Label>
+                    <Label className="text-ink-500">Email</Label>
                     <Body>{selectedAlert.user_email}</Body>
                   </Stack>
                 )}

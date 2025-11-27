@@ -36,7 +36,7 @@ export default function NotFound() {
           <Stack gap={8} className="flex min-h-[60vh] flex-col items-center justify-center text-center">
             <Display size="xl" className="text-white">404</Display>
             <H2 className="text-white">Page Not Found</H2>
-            <Body className="max-w-md text-grey-400">
+            <Body className="max-w-md text-ink-400">
               The page you are looking for doesn&apos;t exist or has been moved.
             </Body>
             <Stack gap={4} direction="horizontal">

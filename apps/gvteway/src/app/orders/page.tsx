@@ -40,23 +40,23 @@ export default function OrdersPage() {
           <BreadcrumbItem active>Orders</BreadcrumbItem>
         </Breadcrumb>
 
-        <Stack gap={2} className="border-b-2 border-grey-800 pb-8">
+        <Stack gap={2} className="border-b-2 border-ink-800 pb-8">
           <H1>My Orders</H1>
-          <Body className="text-grey-400">Order history and ticket management</Body>
+          <Body className="text-ink-400">Order history and ticket management</Body>
         </Stack>
 
         <Grid cols={3} gap={6} className="mb-8">
-          <Card className="p-6 text-center bg-black border-grey-800">
+          <Card className="p-6 text-center bg-black border-ink-800">
             <H2 className="text-white">{displayOrders.length}</H2>
-            <Body className="text-grey-400">Total Orders</Body>
+            <Body className="text-ink-400">Total Orders</Body>
           </Card>
-          <Card className="p-6 text-center bg-black border-grey-800">
+          <Card className="p-6 text-center bg-black border-ink-800">
             <H2 className="text-white">${totalSpent.toLocaleString()}</H2>
-            <Body className="text-grey-400">Total Spent</Body>
+            <Body className="text-ink-400">Total Spent</Body>
           </Card>
-          <Card className="p-6 text-center bg-black border-grey-800">
+          <Card className="p-6 text-center bg-black border-ink-800">
             <H2 className="text-white">{displayOrders.reduce((sum, o) => sum + (o.ticket_count || 0), 0)}</H2>
-            <Body className="text-grey-400">Tickets Purchased</Body>
+            <Body className="text-ink-400">Tickets Purchased</Body>
           </Card>
         </Grid>
 

@@ -37,20 +37,22 @@ export interface RowActionsProps<T = unknown> {
   align?: "left" | "right";
   /** Size variant */
   size?: "sm" | "md";
+  /** Inverted theme (dark background) */
+  inverted?: boolean;
   /** Custom className */
   className?: string;
 }
 
 const sizeClasses = {
   sm: {
-    trigger: "p-1",
-    item: "px-3 py-2 text-mono-xs",
+    trigger: "p-spacing-1",
+    item: "px-spacing-3 py-spacing-2 text-mono-xs",
     icon: "text-body-sm",
     triggerIcon: "text-mono-sm",
   },
   md: {
-    trigger: "p-1.5",
-    item: "px-4 py-2.5 text-mono-sm",
+    trigger: "p-spacing-1",
+    item: "px-spacing-4 py-spacing-2 text-mono-sm",
     icon: "text-body-sm",
     triggerIcon: "text-body-lg",
   },
@@ -64,6 +66,7 @@ export function RowActions<T = unknown>({
   triggerLabel = "Actions",
   align = "right",
   size = "md",
+  inverted = false,
   className = "",
 }: RowActionsProps<T>) {
   const [isOpen, setIsOpen] = useState(false);
@@ -119,7 +122,9 @@ export function RowActions<T = unknown>({
     const baseClasses = clsx(
       "flex items-center justify-center border-none cursor-pointer transition-colors duration-fast",
       config.trigger,
-      isOpen ? "bg-grey-100" : "bg-transparent hover:bg-grey-100"
+      isOpen
+        ? inverted ? "bg-grey-800" : "bg-grey-100"
+        : inverted ? "bg-transparent hover:bg-grey-800" : "bg-transparent hover:bg-grey-100"
     );
 
     if (triggerVariant === "dots") {
@@ -167,14 +172,14 @@ export function RowActions<T = unknown>({
         }}
         className={clsx(
           baseClasses,
-          "px-3 font-code tracking-wide uppercase border border-grey-300",
+          "px-spacing-3 font-code tracking-wide uppercase border border-grey-300",
           size === "sm" ? "text-mono-xs" : "text-mono-sm"
         )}
         aria-expanded={isOpen}
         aria-haspopup="menu"
       >
         {triggerLabel}
-        <span className="ml-1 text-[10px]">{isOpen ? "▲" : "▼"}</span>
+        <span className="ml-spacing-1 text-micro">{isOpen ? "▲" : "▼"}</span>
       </button>
     );
   };
@@ -193,7 +198,8 @@ export function RowActions<T = unknown>({
         <div
           role="menu"
           className={clsx(
-            "absolute top-full mt-1 min-w-[160px] bg-white border-2 border-black shadow-hard z-dropdown",
+            "absolute top-full mt-spacing-1 min-w-container-sm border-2 shadow-hard z-dropdown",
+            inverted ? "bg-ink-900 border-grey-600" : "bg-white border-black",
             align === "right" ? "right-0" : "left-0"
           )}
         >
@@ -204,7 +210,7 @@ export function RowActions<T = unknown>({
             return (
               <React.Fragment key={action.id}>
                 {action.divider && index > 0 && (
-                  <div className="h-px bg-grey-200 my-1" />
+                  <div className={clsx("h-px my-spacing-1", inverted ? "bg-grey-700" : "bg-grey-200")} />
                 )}
                 <button
                   type="button"
@@ -212,18 +218,23 @@ export function RowActions<T = unknown>({
                   onClick={(e) => !isDisabled && handleActionClick(action.id, e)}
                   disabled={isDisabled}
                   className={clsx(
-                    "flex items-center justify-between w-full text-left bg-white border-none border-b border-grey-200 transition-colors duration-fast",
+                    "flex items-center justify-between w-full text-left border-none border-b transition-colors duration-fast",
+                    inverted ? "bg-ink-900 border-grey-700" : "bg-white border-grey-200",
                     config.item,
-                    action.variant === "danger" ? "text-grey-700" : "text-grey-800",
-                    isDisabled ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:bg-grey-100"
+                    action.variant === "danger"
+                      ? inverted ? "text-grey-400" : "text-grey-700"
+                      : inverted ? "text-grey-200" : "text-grey-800",
+                    isDisabled
+                      ? "cursor-not-allowed opacity-50"
+                      : inverted ? "cursor-pointer hover:bg-grey-800" : "cursor-pointer hover:bg-grey-100"
                   )}
                 >
-                  <span className="flex items-center gap-2">
+                  <span className="flex items-center gap-gap-xs">
                     {action.icon && <span className="text-mono-sm">{action.icon}</span>}
                     {action.label}
                   </span>
                   {action.shortcut && (
-                    <span className="font-code text-mono-xs text-grey-500">
+                    <span className={clsx("font-code text-mono-xs", inverted ? "text-grey-500" : "text-grey-500")}>
                       {action.shortcut}
                     </span>
                   )}

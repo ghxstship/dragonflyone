@@ -90,19 +90,19 @@ export default function ResetPasswordPage() {
         <Stack gap={8} className="mx-auto max-w-md">
           {success ? (
             <Stack gap={6} className="text-center">
-              <Stack className="w-16 h-16 mx-auto bg-grey-800 rounded-full items-center justify-center">
+              <Stack className="w-16 h-16 mx-auto bg-ink-800 rounded-full items-center justify-center">
                 <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </Stack>
               <H2 className="text-white">Password Reset</H2>
-              <Body className="text-grey-400">Your password has been successfully reset. Redirecting to sign in...</Body>
+              <Body className="text-ink-400">Your password has been successfully reset. Redirecting to sign in...</Body>
             </Stack>
           ) : (
             <>
               <Stack gap={4} className="text-center">
                 <H2 className="text-white">New Password</H2>
-                <Body className="text-grey-400">Enter your new password below.</Body>
+                <Body className="text-ink-400">Enter your new password below.</Body>
               </Stack>
 
               {error && <Alert variant="error">{error}</Alert>}
@@ -115,9 +115,9 @@ export default function ResetPasswordPage() {
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter new password"
                     required
-                    className="border-grey-700 bg-black text-white"
+                    className="border-ink-700 bg-black text-white"
                   />
-                  <Body size="sm" className="text-grey-500 mt-1">Minimum 8 characters</Body>
+                  <Body size="sm" className="text-ink-500 mt-1">Minimum 8 characters</Body>
                 </Field>
 
                 <Field label="Confirm Password" className="text-white">
@@ -127,7 +127,7 @@ export default function ResetPasswordPage() {
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     placeholder="Re-enter new password"
                     required
-                    className="border-grey-700 bg-black text-white"
+                    className="border-ink-700 bg-black text-white"
                   />
                 </Field>
 
@@ -136,7 +136,7 @@ export default function ResetPasswordPage() {
                 </Button>
 
                 <Stack className="text-center">
-                  <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/signin'} className="text-grey-400 hover:text-white">
+                  <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/signin'} className="text-ink-400 hover:text-white">
                     Back to Sign In
                   </Button>
                 </Stack>

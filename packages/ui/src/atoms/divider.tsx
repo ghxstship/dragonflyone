@@ -5,14 +5,15 @@ import type { HTMLAttributes } from "react";
 export type DividerProps = HTMLAttributes<HTMLHRElement> & {
   orientation?: "horizontal" | "vertical";
   weight?: "thin" | "medium" | "thick";
+  inverted?: boolean;
 };
 
 export const Divider = forwardRef<HTMLHRElement, DividerProps>(
-  function Divider({ orientation = "horizontal", weight = "thin", className, ...props }, ref) {
+  function Divider({ orientation = "horizontal", weight = "thin", inverted = false, className, ...props }, ref) {
     const weightClasses = {
       thin: orientation === "horizontal" ? "border-t" : "border-l",
       medium: orientation === "horizontal" ? "border-t-2" : "border-l-2",
-      thick: orientation === "horizontal" ? "border-t-[3px]" : "border-l-[3px]",
+      thick: orientation === "horizontal" ? "border-t-3" : "border-l-3",
     };
 
     const orientationClasses = {
@@ -24,7 +25,7 @@ export const Divider = forwardRef<HTMLHRElement, DividerProps>(
       <hr
         ref={ref}
         className={clsx(
-          "border-black",
+          inverted ? "border-grey-700" : "border-black",
           orientationClasses[orientation],
           weightClasses[weight],
           className

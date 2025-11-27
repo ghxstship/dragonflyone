@@ -24,19 +24,19 @@ export const ProjectCard = forwardRef<HTMLDivElement, ProjectCardProps>(
           />
           <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-30 transition-opacity" />
         </div>
-        <div className="p-4 border-2 border-t-0 border-black">
-          <h3 className="font-heading text-[1.5rem] uppercase tracking-wider mb-2">{title}</h3>
+        <div className="p-spacing-4 border-2 border-t-0 border-black">
+          <h3 className="font-heading text-h4-sm uppercase tracking-wider mb-spacing-2">{title}</h3>
           {metadata && (
-            <p className="font-code text-[0.75rem] uppercase tracking-widest text-grey-600 mb-3">
+            <p className="font-code text-mono-xs uppercase tracking-widest text-grey-600 mb-spacing-3">
               {metadata}
             </p>
           )}
           {tags && tags.length > 0 && (
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-gap-xs">
               {tags.map((tag) => (
                 <span
                   key={tag}
-                  className="px-2 py-1 border border-black font-code text-[0.6875rem] uppercase tracking-widest"
+                  className="px-spacing-2 py-spacing-1 border border-black font-code text-mono-xxs uppercase tracking-widest"
                 >
                   {tag}
                 </span>

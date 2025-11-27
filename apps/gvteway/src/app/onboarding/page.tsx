@@ -114,10 +114,10 @@ export default function OnboardingPage() {
           <Stack direction="horizontal" className="justify-between items-center">
             {STEPS.map((step, index) => (
               <Stack key={step.id} direction="horizontal" className="items-center">
-                <Stack className={`w-10 h-10 rounded-full items-center justify-center ${index <= currentStepIndex ? 'bg-white text-black' : 'bg-grey-800 text-grey-500'}`}>
+                <Stack className={`w-10 h-10 rounded-full items-center justify-center ${index <= currentStepIndex ? 'bg-white text-black' : 'bg-ink-800 text-ink-500'}`}>
                   <Body size="sm" className="font-bold">{index < currentStepIndex ? '✓' : index + 1}</Body>
                 </Stack>
-                {index < STEPS.length - 1 && <Stack className={`w-16 h-0.5 mx-2 ${index < currentStepIndex ? 'bg-white' : 'bg-grey-800'}`} />}
+                {index < STEPS.length - 1 && <Stack className={`w-16 h-0.5 mx-2 ${index < currentStepIndex ? 'bg-white' : 'bg-ink-800'}`} />}
               </Stack>
             ))}
           </Stack>
@@ -125,7 +125,7 @@ export default function OnboardingPage() {
           {/* Step Header */}
           <Stack gap={2} className="text-center">
             <H2 className="text-white">{STEPS[currentStepIndex].label}</H2>
-            <Body className="text-grey-600">{STEPS[currentStepIndex].description}</Body>
+            <Body className="text-ink-600">{STEPS[currentStepIndex].description}</Body>
           </Stack>
 
           {error && <Alert variant="error">{error}</Alert>}
@@ -135,17 +135,17 @@ export default function OnboardingPage() {
             <Stack gap={6}>
               <Grid cols={2} gap={4}>
                 <Field label="First Name" className="text-white">
-                  <Input type="text" value={profile.firstName} onChange={(e) => setProfile({ ...profile, firstName: e.target.value })} placeholder="John" className="border-grey-700 bg-black text-white" />
+                  <Input type="text" value={profile.firstName} onChange={(e) => setProfile({ ...profile, firstName: e.target.value })} placeholder="John" className="border-ink-700 bg-black text-white" />
                 </Field>
                 <Field label="Last Name" className="text-white">
-                  <Input type="text" value={profile.lastName} onChange={(e) => setProfile({ ...profile, lastName: e.target.value })} placeholder="Doe" className="border-grey-700 bg-black text-white" />
+                  <Input type="text" value={profile.lastName} onChange={(e) => setProfile({ ...profile, lastName: e.target.value })} placeholder="Doe" className="border-ink-700 bg-black text-white" />
                 </Field>
               </Grid>
               <Field label="Phone (Optional)" className="text-white">
-                <Input type="tel" value={profile.phone} onChange={(e) => setProfile({ ...profile, phone: e.target.value })} placeholder="+1 (555) 000-0000" className="border-grey-700 bg-black text-white" />
+                <Input type="tel" value={profile.phone} onChange={(e) => setProfile({ ...profile, phone: e.target.value })} placeholder="+1 (555) 000-0000" className="border-ink-700 bg-black text-white" />
               </Field>
               <Field label="Location (Optional)" className="text-white">
-                <Input type="text" value={profile.location} onChange={(e) => setProfile({ ...profile, location: e.target.value })} placeholder="City, Country" className="border-grey-700 bg-black text-white" />
+                <Input type="text" value={profile.location} onChange={(e) => setProfile({ ...profile, location: e.target.value })} placeholder="City, Country" className="border-ink-700 bg-black text-white" />
               </Field>
             </Stack>
           )}
@@ -153,14 +153,14 @@ export default function OnboardingPage() {
           {/* Interests Step */}
           {currentStep === 'interests' && (
             <Stack gap={4}>
-              <Body className="text-grey-600 text-center">Select the types of events you&apos;re interested in:</Body>
+              <Body className="text-ink-600 text-center">Select the types of events you&apos;re interested in:</Body>
               <Grid cols={2} gap={3}>
                 {EVENT_INTERESTS.map((interest) => (
                   <Button
                     key={interest}
                     variant={interests.includes(interest) ? 'solid' : 'outline'}
                     onClick={() => toggleInterest(interest)}
-                    className={interests.includes(interest) ? '' : 'border-grey-700 text-grey-600 hover:border-white hover:text-white'}
+                    className={interests.includes(interest) ? '' : 'border-ink-700 text-ink-600 hover:border-white hover:text-white'}
                   >
                     {interest}
                   </Button>
@@ -176,7 +176,7 @@ export default function OnboardingPage() {
                 <Select
                   value={preferences.theme}
                   onChange={(e) => setPreferences({ ...preferences, theme: e.target.value })}
-                  className="border-grey-700 bg-black text-white"
+                  className="border-ink-700 bg-black text-white"
                 >
                   <option value="dark">Dark</option>
                   <option value="light">Light</option>
@@ -186,15 +186,15 @@ export default function OnboardingPage() {
               <Stack gap={4}>
                 <Stack direction="horizontal" gap={3} className="items-center">
                   <Checkbox id="email" checked={preferences.emailNotifications} onChange={(e) => setPreferences({ ...preferences, emailNotifications: e.target.checked })} />
-                  <Body className="text-grey-600">Email notifications for event updates</Body>
+                  <Body className="text-ink-600">Email notifications for event updates</Body>
                 </Stack>
                 <Stack direction="horizontal" gap={3} className="items-center">
                   <Checkbox id="push" checked={preferences.pushNotifications} onChange={(e) => setPreferences({ ...preferences, pushNotifications: e.target.checked })} />
-                  <Body className="text-grey-600">Push notifications for ticket sales</Body>
+                  <Body className="text-ink-600">Push notifications for ticket sales</Body>
                 </Stack>
                 <Stack direction="horizontal" gap={3} className="items-center">
                   <Checkbox id="marketing" checked={preferences.marketingEmails} onChange={(e) => setPreferences({ ...preferences, marketingEmails: e.target.checked })} />
-                  <Body className="text-grey-600">Receive personalized event recommendations</Body>
+                  <Body className="text-ink-600">Receive personalized event recommendations</Body>
                 </Stack>
               </Stack>
             </Stack>
@@ -203,18 +203,18 @@ export default function OnboardingPage() {
           {/* Complete Step */}
           {currentStep === 'complete' && (
             <Stack gap={6} className="text-center">
-              <Stack className="w-20 h-20 mx-auto bg-grey-800 rounded-full items-center justify-center">
+              <Stack className="w-20 h-20 mx-auto bg-ink-800 rounded-full items-center justify-center">
                 <Check className="w-10 h-10 text-white" />
               </Stack>
               <H3 className="text-white">Welcome to GVTEWAY!</H3>
-              <Body className="text-grey-600">Your account is all set up. Discover amazing events and experiences.</Body>
+              <Body className="text-ink-600">Your account is all set up. Discover amazing events and experiences.</Body>
             </Stack>
           )}
 
           {/* Navigation */}
-          <Stack direction="horizontal" className="justify-between pt-8 border-t border-grey-800">
+          <Stack direction="horizontal" className="justify-between pt-8 border-t border-ink-800">
             {currentStep !== 'complete' && currentStep !== 'profile' && (
-              <Button variant="outline" onClick={() => setCurrentStep(STEPS[currentStepIndex - 1].id)} className="border-grey-700 text-grey-600 hover:border-white hover:text-white">
+              <Button variant="outlineInk" onClick={() => setCurrentStep(STEPS[currentStepIndex - 1].id)}>
                 Back
               </Button>
             )}
@@ -227,7 +227,7 @@ export default function OnboardingPage() {
             ) : (
               <Stack direction="horizontal" gap={3}>
                 {currentStep !== 'profile' && (
-                  <Button variant="ghost" onClick={handleSkip} className="text-grey-500 hover:text-white">Skip</Button>
+                  <Button variant="ghost" onClick={handleSkip} className="text-ink-500 hover:text-white">Skip</Button>
                 )}
                 <Button variant="solid" onClick={handleNext} disabled={loading}>
                   {loading ? 'Saving...' : 'Continue'}

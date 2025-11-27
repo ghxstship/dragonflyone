@@ -48,7 +48,7 @@ export default function SentimentAnalysisPage() {
       case "High": return "text-warning-600 bg-warning-100";
       case "Medium": return "text-warning-600 bg-warning-100";
       case "Low": return "text-success-600 bg-success-100";
-      default: return "text-grey-600 bg-grey-100";
+      default: return "text-ink-600 bg-ink-100";
     }
   };
 
@@ -57,7 +57,7 @@ export default function SentimentAnalysisPage() {
       case "Active": return "text-error-600";
       case "Acknowledged": return "text-warning-600";
       case "Resolved": return "text-success-600";
-      default: return "text-grey-600";
+      default: return "text-ink-600";
     }
   };
 
@@ -70,7 +70,7 @@ export default function SentimentAnalysisPage() {
         <Stack gap={8}>
           <Stack gap={2}>
             <H1>SENTIMENT ANALYSIS</H1>
-            <Body className="text-grey-600">Real-time social sentiment monitoring with alert triggers</Body>
+            <Body className="text-ink-600">Real-time social sentiment monitoring with alert triggers</Body>
           </Stack>
 
           {criticalAlerts > 0 && (
@@ -109,9 +109,9 @@ export default function SentimentAnalysisPage() {
                       <Stack gap={1}>
                         <Stack direction="horizontal" className="justify-between">
                           <Label>Neutral</Label>
-                          <Label className="text-grey-600">{mockMetrics.neutral}%</Label>
+                          <Label className="text-ink-600">{mockMetrics.neutral}%</Label>
                         </Stack>
-                        <ProgressBar value={mockMetrics.neutral} className="h-3 bg-grey-100" />
+                        <ProgressBar value={mockMetrics.neutral} className="h-3 bg-ink-100" />
                       </Stack>
                       <Stack gap={1}>
                         <Stack direction="horizontal" className="justify-between">
@@ -132,7 +132,7 @@ export default function SentimentAnalysisPage() {
                       ))}
                     </Stack>
                     <Stack gap={2}>
-                      <Label className="text-grey-500">Top Sources</Label>
+                      <Label className="text-ink-500">Top Sources</Label>
                       {["Twitter (45%)", "Instagram (32%)", "TikTok (18%)", "Facebook (5%)"].map((src, idx) => (
                         <Label key={idx}>{src}</Label>
                       ))}
@@ -179,7 +179,7 @@ export default function SentimentAnalysisPage() {
                   <H3>Monitored Keywords</H3>
                   <Grid cols={3} gap={4}>
                     {["Summer Fest", "tickets", "lineup", "VIP", "refund", "parking", "merch", "security", "weather"].map((kw, idx) => (
-                      <Card key={idx} className="p-3 border border-grey-200">
+                      <Card key={idx} className="p-3 border border-ink-200">
                         <Stack direction="horizontal" className="justify-between items-center">
                           <Label>{kw}</Label>
                           <Button variant="ghost" size="sm">Remove</Button>
@@ -210,15 +210,15 @@ export default function SentimentAnalysisPage() {
                 <Badge variant="outline" className={getSeverityColor(selectedAlert.severity)}>{selectedAlert.severity}</Badge>
               </Stack>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label className="text-grey-500">Source</Label><Label>{selectedAlert.source}</Label></Stack>
-                <Stack gap={1}><Label className="text-grey-500">Keyword</Label><Label className="font-mono">{selectedAlert.keyword}</Label></Stack>
+                <Stack gap={1}><Label className="text-ink-500">Source</Label><Label>{selectedAlert.source}</Label></Stack>
+                <Stack gap={1}><Label className="text-ink-500">Keyword</Label><Label className="font-mono">{selectedAlert.keyword}</Label></Stack>
               </Grid>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label className="text-grey-500">Mentions</Label><Label className="font-mono">{selectedAlert.mentions}</Label></Stack>
-                <Stack gap={1}><Label className="text-grey-500">Sentiment</Label><Label className={selectedAlert.sentiment < 0 ? "text-error-600" : "text-success-600"}>{(selectedAlert.sentiment * 100).toFixed(0)}%</Label></Stack>
+                <Stack gap={1}><Label className="text-ink-500">Mentions</Label><Label className="font-mono">{selectedAlert.mentions}</Label></Stack>
+                <Stack gap={1}><Label className="text-ink-500">Sentiment</Label><Label className={selectedAlert.sentiment < 0 ? "text-error-600" : "text-success-600"}>{(selectedAlert.sentiment * 100).toFixed(0)}%</Label></Stack>
               </Grid>
-              <Stack gap={1}><Label className="text-grey-500">Status</Label><Label className={getStatusColor(selectedAlert.status)}>{selectedAlert.status}</Label></Stack>
-              <Stack gap={1}><Label className="text-grey-500">Detected</Label><Label>{selectedAlert.timestamp}</Label></Stack>
+              <Stack gap={1}><Label className="text-ink-500">Status</Label><Label className={getStatusColor(selectedAlert.status)}>{selectedAlert.status}</Label></Stack>
+              <Stack gap={1}><Label className="text-ink-500">Detected</Label><Label>{selectedAlert.timestamp}</Label></Stack>
             </Stack>
           )}
         </ModalBody>

@@ -88,6 +88,118 @@ The text color visibility system has been fully implemented across the codebase:
 
 ---
 
+### Raw Tailwind Migration ✅ COMPLETE
+**Status:** Fully remediated
+**Identified:** November 27, 2025
+**Completed:** November 27, 2025
+
+The design system architecture has been updated to support proper component variants:
+
+**Completed:**
+- [x] Added `outlineWhite` and `outlineInk` Button variants to `packages/ui`
+- [x] Enhanced `Section` component with `kicker`, `title`, `description`, `align`, `gap` props
+- [x] Removed local `section.tsx` wrapper files from all apps
+- [x] All apps import `Section`, `SectionHeader` from `@ghxstship/ui`
+- [x] Semantic CSS variables added to all `globals.css` files (surface, text, border tokens)
+- [x] Semantic CSS variable tokens added to `packages/config-tailwind/index.js`
+
+**Files Fixed (Button raw Tailwind → outlineInk variant):**
+- [x] `atlvs/src/app/settings/page.tsx`
+- [x] `atlvs/src/app/dashboard/page.tsx`
+- [x] `compvss/src/app/settings/page.tsx`
+- [x] `compvss/src/app/crew/social/page.tsx`
+- [x] `compvss/src/app/knowledge/regulations/page.tsx`
+- [x] `gvteway/src/app/profile/page.tsx`
+- [x] `gvteway/src/app/auth/signin/page.tsx`
+- [x] `gvteway/src/app/auth/signup/page.tsx`
+- [x] `gvteway/src/app/artists/page.tsx`
+- [x] `gvteway/src/app/events/[id]/landing-builder/page.tsx`
+- [x] `gvteway/src/app/onboarding/page.tsx`
+
+**Pattern established:**
+```tsx
+// Before (raw Tailwind)
+<Button variant="outline" className="border-ink-700 text-ink-400 hover:border-white hover:text-white">
+
+// After (design system variant)
+<Button variant="outlineInk">
+```
+
+**Note:** 3 remaining `hover:border-white` instances are on `Card` components (interactive cards), which is a valid pattern for clickable cards.
+
+---
+
+### Theme-Aware Background Migration ✅ COMPLETE
+**Status:** Complete - all components migrated or use inverted prop pattern
+**Identified:** November 27, 2025
+**Completed:** November 27, 2025
+
+**Completed:**
+- [x] Added semantic CSS variable tokens to `config-tailwind/index.js`:
+  - `semanticSurfaceColors` (surface-primary, surface-secondary, surface-elevated, etc.)
+  - `semanticTextColors` (text-primary, text-secondary, text-muted, etc.)
+  - `semanticBorderColors` (border-primary, border-secondary, border-focus, etc.)
+  - `semanticInteractiveColors` (hover-surface, active-surface, focus-ring)
+  - `semanticShadowTokens` (shadow-sm, shadow-md, shadow-lg)
+- [x] Added CSS variable definitions to all app `globals.css` files:
+  - Dark mode default (GHXSTSHIP aesthetic)
+  - Light mode override (`.light`, `[data-theme="light"]`)
+- [x] Migrated organisms to semantic tokens:
+  - `DataGrid`, `DetailDrawer`, `ImportExportDialog`, `Lightbox`
+  - `RecordFormModal`, `Calendar`
+- [x] Migrated molecules to semantic tokens:
+  - `LanguageSelector`
+- [x] Migrated foundations/templates to semantic tokens:
+  - `Section`, `Main`, `PageLayout`, `AppShell`
+- [x] Verified all other components use `inverted` prop pattern correctly:
+  - Atoms: `Button`, `Input`, `Select`, `Textarea`, `Checkbox`, `Radio`, `Switch`, `Badge`, etc.
+  - Molecules: `Card`, `Tabs`, `Dropdown`, `RowActions`, `DataTable`, `Pagination`, etc.
+  - Organisms: `Modal`, `Sidebar`, `Navigation`, `UnifiedHeader`, `ResponsiveSidebar`, etc.
+
+**Usage Pattern:**
+```tsx
+// Semantic tokens (auto theme-aware)
+<div className="bg-surface-primary text-text-primary border-border-primary">
+
+// Inverted prop pattern (explicit theme control)
+<Button inverted>Dark background button</Button>
+<Card inverted>Dark background card</Card>
+```
+
+**Theme Switching:**
+- Add `class="light"` or `data-theme="light"` to `<html>` for light mode
+- Default is dark mode (GHXSTSHIP aesthetic)
+
+---
+
+### Design System Enforcement - ESLint Rules 🔄 IN PROGRESS
+**Status:** ESLint rules implemented, violations being tracked
+**Identified:** November 27, 2025
+**Target:** Upgrade from warnings to errors once all violations are fixed
+
+**ESLint Configuration:**
+- [x] Comprehensive ESLint rules added to `.eslintrc.js`
+- [x] Rules detect raw Tailwind typography, colors, spacing, shadows, border-radius
+- [x] Rules detect arbitrary values (square brackets)
+- [x] Tailwindcss plugin configured with design system whitelist
+- [x] UI components (`packages/ui/src/**`) exempt (encapsulated design system internals)
+
+**Current Violations (as of Nov 27, 2025):**
+- ~33 errors (currently set to warnings during transition)
+- Primary violations: `font-normal`, `font-medium`, `rounded-lg`, `rounded-full`, `tracking-wide`
+
+**Remediation Plan:**
+- [ ] Phase 1: Fix font weight violations → use `font-weight-normal`, `font-weight-medium`, etc.
+- [ ] Phase 2: Fix border radius violations → use `rounded-radius-*`, `rounded-button`, `rounded-card`
+- [ ] Phase 3: Fix letter spacing violations → use `tracking-label`, `tracking-kicker`, `tracking-display`
+- [ ] Phase 4: Upgrade ESLint rules from "warn" to "error"
+
+**Reference Documents:**
+- `ZERO-RAW-TAILWIND-ENFORCEMENT.md` - Zero tolerance policy
+- `DESIGN-SYSTEM-ENFORCEMENT-AUDIT.md` - Full audit checklist
+
+---
+
 ## Notes
 
 - Vercel Hobby plan allows 2 cron jobs total across all projects

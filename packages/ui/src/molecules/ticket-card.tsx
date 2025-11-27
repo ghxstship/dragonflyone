@@ -84,13 +84,13 @@ export function TicketCard({
       tabIndex={onClick ? 0 : undefined}
     >
       {/* Header with Status */}
-      <div className="flex justify-between items-center px-5 py-4 border-b border-grey-200">
+      <div className="flex justify-between items-center px-spacing-5 py-spacing-4 border-b border-grey-200">
         <div className="font-code text-mono-sm text-grey-600 tracking-widest">
           {ticketType}
         </div>
         <div
           className={clsx(
-            "font-code text-mono-xs tracking-widest px-2 py-1",
+            "font-code text-mono-xs tracking-widest px-spacing-2 py-spacing-1",
             statusInfo.bgClass,
             statusInfo.textClass
           )}
@@ -100,14 +100,14 @@ export function TicketCard({
       </div>
 
       {/* Main Content */}
-      <div className="p-5 flex gap-6">
+      <div className="p-spacing-5 flex gap-gap-lg">
         {/* Event Info */}
-        <div className="flex-1 flex flex-col gap-3">
+        <div className="flex-1 flex flex-col gap-gap-sm">
           <h3 className="font-heading text-h4-md text-black uppercase tracking-wide leading-snug">
             {eventTitle}
           </h3>
 
-          <div className="flex flex-col gap-1.5">
+          <div className="flex flex-col gap-gap-xs">
             <div className="font-code text-mono-sm text-black tracking-wide">
               {formatDate(date)}
               {time && ` // ${time}`}
@@ -123,7 +123,7 @@ export function TicketCard({
           </div>
 
           {attendeeName && (
-            <div className="font-body text-body-sm text-grey-700 mt-2">
+            <div className="font-body text-body-sm text-grey-700 mt-spacing-2">
               {attendeeName}
             </div>
           )}
@@ -131,19 +131,19 @@ export function TicketCard({
 
         {/* QR Code */}
         {showQR && qrCode && isActive && (
-          <div className="w-[100px] h-[100px] bg-white border border-grey-300 flex items-center justify-center flex-shrink-0">
+          <div className="w-spacing-24 h-spacing-24 bg-white border border-grey-300 flex items-center justify-center flex-shrink-0">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={qrCode}
               alt="Ticket QR Code"
-              className="w-[90%] h-[90%] object-contain"
+              className="w-full h-full p-spacing-1 object-contain"
             />
           </div>
         )}
       </div>
 
       {/* Footer with Order Info */}
-      <div className="flex justify-between items-center px-5 py-3 bg-grey-100 border-t border-grey-200">
+      <div className="flex justify-between items-center px-spacing-5 py-spacing-3 bg-grey-100 border-t border-grey-200">
         <div className="font-code text-mono-xs text-grey-500 tracking-widest">
           {orderNumber && `ORDER #${orderNumber}`}
         </div>
@@ -154,7 +154,7 @@ export function TicketCard({
 
       {/* Perforated Edge Effect - keeping inline style for complex gradient */}
       <div
-        className="h-2 border-t border-dashed border-grey-300"
+        className="h-spacing-2 border-t border-dashed border-grey-300"
         style={{
           background: `repeating-linear-gradient(90deg, white 0px, white 8px, transparent 8px, transparent 16px)`,
         }}

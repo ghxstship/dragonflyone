@@ -7,15 +7,29 @@ export interface TextProps extends HTMLAttributes<HTMLSpanElement> {
   variant?: "default" | "muted" | "mono" | "accent";
   size?: "xs" | "sm" | "md" | "lg" | "xl";
   weight?: "normal" | "medium" | "semibold" | "bold";
+  inverted?: boolean;
 }
 
 export const Text = forwardRef<HTMLSpanElement, TextProps>(
-  function Text({ as: Component = "span", variant = "default", size = "md", weight = "normal", className, children, ...props }, ref) {
-    const variantClasses = {
-      default: "text-current",
-      muted: "text-grey-500",
-      mono: "font-code",
-      accent: "text-white",
+  function Text({ as: Component = "span", variant = "default", size = "md", weight = "normal", inverted = false, className, children, ...props }, ref) {
+    const getVariantClasses = () => {
+      if (inverted) {
+        switch (variant) {
+          case "default": return "text-current";
+          case "muted": return "text-grey-400";
+          case "mono": return "font-code";
+          case "accent": return "text-black";
+          default: return "";
+        }
+      } else {
+        switch (variant) {
+          case "default": return "text-current";
+          case "muted": return "text-grey-500";
+          case "mono": return "font-code";
+          case "accent": return "text-white";
+          default: return "";
+        }
+      }
     };
 
     const sizeClasses = {
@@ -39,7 +53,7 @@ export const Text = forwardRef<HTMLSpanElement, TextProps>(
       <Component
         ref={ref as any}
         className={clsx(
-          variantClasses[variant],
+          getVariantClasses(),
           sizeClasses[size],
           weightClasses[weight],
           className

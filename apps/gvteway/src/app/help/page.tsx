@@ -49,8 +49,8 @@ export default function HelpPage() {
           logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
           cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/auth/signin')}>SIGN IN</Button>}
         >
-          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Home</Link>
-          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Events</Link>
+          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Home</Link>
+          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Events</Link>
         </Navigation>
       }
       footer={
@@ -70,7 +70,7 @@ export default function HelpPage() {
           <Stack gap={8}>
             <Stack gap={2}>
               <H2 className="text-white">Help Center</H2>
-              <Body className="text-grey-400">
+              <Body className="text-ink-400">
                 Find answers to frequently asked questions and get support
               </Body>
             </Stack>
@@ -81,12 +81,12 @@ export default function HelpPage() {
                 placeholder="Search for help..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="flex-1 border-grey-700 bg-black text-white"
+                className="flex-1 border-ink-700 bg-black text-white"
               />
               <Select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="bg-black text-white border-grey-700"
+                className="bg-black text-white border-ink-700"
               >
                 <option value="all">All Topics</option>
                 <option value="tickets">Tickets</option>
@@ -98,20 +98,20 @@ export default function HelpPage() {
             <Stack gap={4}>
               <H3 className="text-white">Frequently Asked Questions</H3>
               {filteredFAQs.map((faq) => (
-                <Card key={faq.id} className="border-2 border-grey-800 p-6 bg-black">
+                <Card key={faq.id} className="border-2 border-ink-800 p-6 bg-black">
                   <Stack gap={3}>
                     <Body className="font-display text-body-md text-white">{faq.question}</Body>
-                    <Body className="text-grey-300">{faq.answer}</Body>
-                    <Body className="text-body-sm text-grey-500">Category: {faq.category}</Body>
+                    <Body className="text-ink-300">{faq.answer}</Body>
+                    <Body className="text-body-sm text-ink-500">Category: {faq.category}</Body>
                   </Stack>
                 </Card>
               ))}
             </Stack>
 
-            <Card className="border-2 border-grey-800 p-8 text-center bg-black">
+            <Card className="border-2 border-ink-800 p-8 text-center bg-black">
               <Stack gap={4} className="items-center">
                 <H3 className="text-white">Still need help?</H3>
-                <Body className="text-grey-400">Our support team is here to assist you</Body>
+                <Body className="text-ink-400">Our support team is here to assist you</Body>
                 <Stack gap={4} direction="horizontal" className="justify-center">
                   <Button variant="solid" onClick={() => router.push('/contact')}>Contact Support</Button>
                   <Button variant="outline" onClick={() => window.open('https://support.gvteway.com/chat', '_blank')}>Live Chat</Button>

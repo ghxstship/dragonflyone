@@ -15,11 +15,11 @@ export function Skeleton({ width = "100%", height = "1rem", className = "" }: Sk
 
 export function SkeletonCard() {
   return (
-    <div className="border-2 border-grey-800 p-6">
-      <Skeleton height="2rem" width="60%" className="mb-4" />
-      <Skeleton height="1rem" width="40%" className="mb-6" />
-      <Skeleton height="1rem" width="100%" className="mb-2" />
-      <Skeleton height="1rem" width="90%" className="mb-2" />
+    <div className="border-2 border-grey-800 p-spacing-6">
+      <Skeleton height="2rem" width="60%" className="mb-spacing-4" />
+      <Skeleton height="1rem" width="40%" className="mb-spacing-6" />
+      <Skeleton height="1rem" width="100%" className="mb-spacing-2" />
+      <Skeleton height="1rem" width="90%" className="mb-spacing-2" />
       <Skeleton height="1rem" width="80%" />
     </div>
   );
@@ -28,8 +28,8 @@ export function SkeletonCard() {
 export function SkeletonTable({ rows = 5 }: { rows?: number }) {
   return (
     <div className="border-2 border-grey-800">
-      <div className="border-b-2 border-grey-800 p-4">
-        <div className="flex gap-4">
+      <div className="border-b-2 border-grey-800 p-spacing-4">
+        <div className="flex gap-gap-md">
           <Skeleton height="1rem" width="20%" />
           <Skeleton height="1rem" width="30%" />
           <Skeleton height="1rem" width="25%" />
@@ -37,8 +37,8 @@ export function SkeletonTable({ rows = 5 }: { rows?: number }) {
         </div>
       </div>
       {Array.from({ length: rows }).map((_, i) => (
-        <div key={i} className="border-b-2 border-grey-800 p-4">
-          <div className="flex gap-4">
+        <div key={i} className="border-b-2 border-grey-800 p-spacing-4">
+          <div className="flex gap-gap-md">
             <Skeleton height="1rem" width="20%" />
             <Skeleton height="1rem" width="30%" />
             <Skeleton height="1rem" width="25%" />

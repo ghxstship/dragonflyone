@@ -61,7 +61,7 @@ export default function ShoppablePostsPage() {
         <Stack gap={8}>
           <Stack gap={2}>
             <H1>SHOP THE LOOK</H1>
-            <Body className="text-grey-600">Shop products featured in fan posts and social content</Body>
+            <Body className="text-ink-600">Shop products featured in fan posts and social content</Body>
           </Stack>
 
           <Grid cols={4} gap={6}>
@@ -83,7 +83,7 @@ export default function ShoppablePostsPage() {
               <Grid cols={2} gap={6}>
                 {filteredPosts.map((post) => (
                   <Card key={post.id} className="border-2 border-black overflow-hidden">
-                    <Card className="h-64 bg-grey-100 relative flex items-center justify-center cursor-pointer" onClick={() => setSelectedPost(post)}>
+                    <Card className="h-64 bg-ink-100 relative flex items-center justify-center cursor-pointer" onClick={() => setSelectedPost(post)}>
                       <Label className="text-h1-sm">🖼️</Label>
                       <Card className="absolute top-2 right-2 px-2 py-1 bg-black text-white">
                         <Label size="xs">{getPlatformIcon(post.platform)} {post.platform}</Label>
@@ -95,17 +95,17 @@ export default function ShoppablePostsPage() {
                     <Stack className="p-4" gap={3}>
                       <Stack direction="horizontal" className="justify-between">
                         <Label className="font-bold">{post.creator}</Label>
-                        <Label className="text-grey-500">❤️ {post.likes.toLocaleString()}</Label>
+                        <Label className="text-ink-500">❤️ {post.likes.toLocaleString()}</Label>
                       </Stack>
-                      <Body className="text-grey-600 line-clamp-2">{post.caption}</Body>
+                      <Body className="text-ink-600 line-clamp-2">{post.caption}</Body>
                       {post.eventName && <Badge variant="outline">{post.eventName}</Badge>}
                       <Stack gap={2}>
-                        <Label size="xs" className="text-grey-500">Shop Products:</Label>
+                        <Label size="xs" className="text-ink-500">Shop Products:</Label>
                         <Grid cols={3} gap={2}>
                           {post.products.map((product) => (
-                            <Card key={product.id} className="p-2 border border-grey-200 cursor-pointer hover:border-black" onClick={() => setSelectedProduct(product)}>
+                            <Card key={product.id} className="p-2 border border-ink-200 cursor-pointer hover:border-black" onClick={() => setSelectedProduct(product)}>
                               <Stack gap={1} className="text-center">
-                                <Card className="h-12 bg-grey-100 flex items-center justify-center">
+                                <Card className="h-12 bg-ink-100 flex items-center justify-center">
                                   <Label>🛍️</Label>
                                 </Card>
                                 <Label size="xs" className="truncate">{product.name}</Label>
@@ -134,7 +134,7 @@ export default function ShoppablePostsPage() {
         <ModalBody>
           {selectedPost && (
             <Stack gap={4}>
-              <Card className="h-64 bg-grey-100 flex items-center justify-center">
+              <Card className="h-64 bg-ink-100 flex items-center justify-center">
                 <Label className="text-h1-sm">🖼️</Label>
               </Card>
               <Stack direction="horizontal" className="justify-between">
@@ -148,10 +148,10 @@ export default function ShoppablePostsPage() {
               <Stack gap={2}>
                 <Label className="font-bold">Products in this post:</Label>
                 {selectedPost.products.map((product) => (
-                  <Card key={product.id} className="p-3 border border-grey-200">
+                  <Card key={product.id} className="p-3 border border-ink-200">
                     <Stack direction="horizontal" className="justify-between items-center">
                       <Stack direction="horizontal" gap={3}>
-                        <Card className="w-12 h-12 bg-grey-100 flex items-center justify-center">
+                        <Card className="w-12 h-12 bg-ink-100 flex items-center justify-center">
                           <Label>🛍️</Label>
                         </Card>
                         <Stack gap={1}>
@@ -179,7 +179,7 @@ export default function ShoppablePostsPage() {
         <ModalBody>
           {selectedProduct && (
             <Stack gap={4}>
-              <Card className="h-48 bg-grey-100 flex items-center justify-center">
+              <Card className="h-48 bg-ink-100 flex items-center justify-center">
                 <Label className="text-h1-sm">🛍️</Label>
               </Card>
               <Body className="font-bold text-h6-md">{selectedProduct.name}</Body>

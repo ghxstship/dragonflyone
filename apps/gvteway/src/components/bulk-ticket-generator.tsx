@@ -74,7 +74,7 @@ export default function BulkTicketGenerator({
       <Stack gap={6}>
         <Stack>
           <H3 className="mb-2">Bulk Ticket Generator</H3>
-          <Body className="text-grey-600">
+          <Body className="text-ink-600">
             Generate multiple tickets at once for efficient inventory management
           </Body>
         </Stack>
@@ -148,9 +148,9 @@ export default function BulkTicketGenerator({
           </Button>
         </Stack>
 
-        <Card className="bg-grey-100 p-4">
-          <Label className="mb-2 text-body-sm font-bold uppercase text-grey-700">Preview</Label>
-          <Body className="text-grey-600">
+        <Card className="bg-ink-100 p-4">
+          <Label className="mb-2 text-body-sm font-bold uppercase text-ink-700">Preview</Label>
+          <Body className="text-ink-600">
             {selectedType && ticketTypes.find((t) => t.id === selectedType)
               ? `Ticket codes will be generated as: ${
                   prefix || ticketTypes.find((t) => t.id === selectedType)!.name.substring(0, 3).toUpperCase()

@@ -137,12 +137,12 @@ export default function LeadScoringPage() {
   const getScoreBadge = (score: number) => {
     if (score >= 80) return <Badge className="bg-success-500 text-white">Hot ({score})</Badge>;
     if (score >= 50) return <Badge className="bg-warning-500 text-black">Warm ({score})</Badge>;
-    return <Badge className="bg-grey-500 text-white">Cold ({score})</Badge>;
+    return <Badge className="bg-ink-500 text-white">Cold ({score})</Badge>;
   };
 
   const getQualificationBadge = (status: string) => {
     const colors: Record<string, string> = {
-      unqualified: 'bg-grey-500 text-white',
+      unqualified: 'bg-ink-500 text-white',
       mql: 'bg-info-500 text-white',
       sql: 'bg-purple-500 text-white',
       opportunity: 'bg-success-500 text-white',
@@ -178,7 +178,7 @@ export default function LeadScoringPage() {
           <Stack direction="horizontal" className="justify-between items-center">
             <Stack>
               <Display>LEAD SCORING</Display>
-              <Body className="mt-2 text-grey-600">
+              <Body className="mt-2 text-ink-600">
                 Automated lead qualification and scoring
               </Body>
             </Stack>
@@ -301,7 +301,7 @@ export default function LeadScoringPage() {
                     <TableCell>
                       <Stack gap={1}>
                         <Body className="font-bold">{lead.company}</Body>
-                        <Label className="text-grey-500">{lead.contact_name} • {lead.contact_title}</Label>
+                        <Label className="text-ink-500">{lead.contact_name} • {lead.contact_title}</Label>
                       </Stack>
                     </TableCell>
                     <TableCell>
@@ -317,7 +317,7 @@ export default function LeadScoringPage() {
                       <Body className="font-bold">${lead.estimated_value.toLocaleString()}</Body>
                     </TableCell>
                     <TableCell>
-                      <Label className="text-grey-500">
+                      <Label className="text-ink-500">
                         {new Date(lead.last_activity).toLocaleDateString()}
                       </Label>
                     </TableCell>
@@ -352,7 +352,7 @@ export default function LeadScoringPage() {
                         <Stack direction="horizontal" className="justify-between items-center">
                           <Stack gap={1}>
                             <Body className="font-bold">{rule.name}</Body>
-                            <Label className="text-grey-500 font-mono">{rule.condition}</Label>
+                            <Label className="text-ink-500 font-mono">{rule.condition}</Label>
                           </Stack>
                           <Stack direction="horizontal" gap={4} className="items-center">
                             <Badge className={getCategoryColor(category)}>+{rule.points} pts</Badge>
@@ -522,7 +522,7 @@ export default function LeadScoringPage() {
               <Stack gap={2}>
                 <H2>{selectedLead.company}</H2>
                 <Body>{selectedLead.contact_name} • {selectedLead.contact_title}</Body>
-                <Body className="text-grey-500">{selectedLead.contact_email}</Body>
+                <Body className="text-ink-500">{selectedLead.contact_email}</Body>
               </Stack>
 
               <Stack direction="horizontal" gap={4}>
@@ -535,19 +535,19 @@ export default function LeadScoringPage() {
                   <H3>Score Breakdown</H3>
                   <Grid cols={2} gap={4}>
                     <Stack gap={1}>
-                      <Label className="text-grey-500">Demographic</Label>
+                      <Label className="text-ink-500">Demographic</Label>
                       <Body className="font-bold">{selectedLead.score_breakdown.demographic} pts</Body>
                     </Stack>
                     <Stack gap={1}>
-                      <Label className="text-grey-500">Behavioral</Label>
+                      <Label className="text-ink-500">Behavioral</Label>
                       <Body className="font-bold">{selectedLead.score_breakdown.behavioral} pts</Body>
                     </Stack>
                     <Stack gap={1}>
-                      <Label className="text-grey-500">Engagement</Label>
+                      <Label className="text-ink-500">Engagement</Label>
                       <Body className="font-bold">{selectedLead.score_breakdown.engagement} pts</Body>
                     </Stack>
                     <Stack gap={1}>
-                      <Label className="text-grey-500">Fit</Label>
+                      <Label className="text-ink-500">Fit</Label>
                       <Body className="font-bold">{selectedLead.score_breakdown.fit} pts</Body>
                     </Stack>
                   </Grid>
@@ -556,11 +556,11 @@ export default function LeadScoringPage() {
 
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>
-                  <Label className="text-grey-500">Estimated Value</Label>
+                  <Label className="text-ink-500">Estimated Value</Label>
                   <Body className="font-bold text-h6-md">${selectedLead.estimated_value.toLocaleString()}</Body>
                 </Stack>
                 <Stack gap={1}>
-                  <Label className="text-grey-500">Source</Label>
+                  <Label className="text-ink-500">Source</Label>
                   <Body className="capitalize">{selectedLead.source.replace('_', ' ')}</Body>
                 </Stack>
               </Grid>

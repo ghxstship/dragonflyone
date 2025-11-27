@@ -79,6 +79,8 @@ export interface ListPageProps<T> {
   emptyAction?: { label: string; onClick: () => void };
   /** Header content (navigation, etc.) */
   header?: React.ReactNode;
+  /** Inverted theme (dark background) - defaults to true for dark-first design */
+  inverted?: boolean;
   /** Custom className */
   className?: string;
 }
@@ -106,6 +108,7 @@ export function ListPage<T>({
   emptyMessage = "No records found",
   emptyAction,
   header,
+  inverted = true,
   className = "",
 }: ListPageProps<T>) {
   const [searchValue, setSearchValue] = useState("");
@@ -205,18 +208,29 @@ export function ListPage<T>({
 
   const activeFilterCount = Object.values(activeFilters).filter(v => v && (Array.isArray(v) ? v.length > 0 : true)).length;
 
+  // Theme-aware classes
+  const bgClass = inverted ? "bg-black text-white" : "bg-white text-black";
+  const borderClass = inverted ? "border-grey-700" : "border-grey-300";
+  const mutedTextClass = inverted ? "text-grey-400" : "text-grey-600";
+  const primaryBtnClass = inverted
+    ? "bg-white text-black border-2 border-white hover:bg-grey-100"
+    : "bg-black text-white border-2 border-black hover:bg-grey-900";
+  const secondaryBtnClass = inverted
+    ? "bg-transparent text-grey-400 border border-grey-700 hover:border-grey-500"
+    : "bg-transparent text-grey-600 border border-grey-300 hover:border-grey-500";
+
   // Error state
   if (error) {
     return (
-      <div className={clsx("min-h-screen bg-black text-white", className)}>
+      <div className={clsx("min-h-screen", bgClass, className)}>
         {header}
-        <div className="px-8 py-16 text-center">
-          <h2 className="font-heading text-h3-md mb-4">Error Loading Data</h2>
-          <p className="font-body text-grey-400 mb-8">{error.message}</p>
+        <div className="px-spacing-8 py-spacing-16 text-center">
+          <h2 className="font-heading text-h3-md mb-spacing-4">Error Loading Data</h2>
+          <p className={clsx("font-body mb-spacing-8", mutedTextClass)}>{error.message}</p>
           {onRetry && (
             <button
               onClick={onRetry}
-              className="px-6 py-3 font-heading text-body-md tracking-wider uppercase bg-white text-black border-2 border-white cursor-pointer hover:bg-grey-100"
+              className={clsx("px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase cursor-pointer", primaryBtnClass)}
             >
               Retry
             </button>
@@ -229,12 +243,15 @@ export function ListPage<T>({
   // Loading state
   if (loading) {
     return (
-      <div className={clsx("min-h-screen bg-black text-white", className)}>
+      <div className={clsx("min-h-screen", bgClass, className)}>
         {header}
-        <div className="flex items-center justify-center min-h-[60vh]">
+        <div className="flex items-center justify-center min-h-screen-60">
           <div className="text-center">
-            <div className="w-12 h-12 border-[3px] border-grey-700 border-t-white rounded-full animate-spin mx-auto mb-4" />
-            <p className="font-code text-mono-md text-grey-400">Loading...</p>
+            <div className={clsx(
+              "w-spacing-12 h-spacing-12 border-3 rounded-full animate-spin mx-auto mb-spacing-4",
+              inverted ? "border-grey-700 border-t-white" : "border-grey-300 border-t-black"
+            )} />
+            <p className={clsx("font-code text-mono-md", mutedTextClass)}>Loading...</p>
           </div>
         </div>
       </div>
@@ -242,67 +259,75 @@ export function ListPage<T>({
   }
 
   return (
-    <div className={clsx("min-h-screen bg-black text-white", className)}>
+    <div className={clsx("min-h-screen", bgClass, className)}>
       {header}
       
-      <div className="p-8 max-w-[1400px] mx-auto">
+      <div className="p-spacing-8 max-w-content mx-auto">
         {/* Page Header */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-2">
+        <div className="mb-spacing-8">
+          <div className="flex items-center justify-between mb-spacing-2">
             <h1 className="font-display text-h1-sm tracking-tight">{title}</h1>
-            <div className="flex gap-3">
+            <div className="flex gap-gap-sm">
               {onImport && (
-                <button onClick={onImport} className="px-4 py-2 font-code text-mono-sm bg-transparent text-grey-400 border border-grey-700 cursor-pointer hover:border-grey-500">
+                <button onClick={onImport} className={clsx("px-spacing-4 py-spacing-2 font-code text-mono-sm cursor-pointer", secondaryBtnClass)}>
                   ⬆️ Import
                 </button>
               )}
               {onExport && (
-                <button onClick={onExport} className="px-4 py-2 font-code text-mono-sm bg-transparent text-grey-400 border border-grey-700 cursor-pointer hover:border-grey-500">
+                <button onClick={onExport} className={clsx("px-spacing-4 py-spacing-2 font-code text-mono-sm cursor-pointer", secondaryBtnClass)}>
                   ⬇️ Export
                 </button>
               )}
               {onCreate && (
-                <button onClick={onCreate} className="px-6 py-3 font-heading text-body-md tracking-wider uppercase bg-white text-black border-2 border-white cursor-pointer hover:bg-grey-100">
+                <button onClick={onCreate} className={clsx("px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase cursor-pointer", primaryBtnClass)}>
                   + {createLabel}
                 </button>
               )}
             </div>
           </div>
           {subtitle && (
-            <p className="font-body text-body-md text-grey-400">{subtitle}</p>
+            <p className={clsx("font-body text-body-md", mutedTextClass)}>{subtitle}</p>
           )}
         </div>
 
         {/* Stats */}
         {stats.length > 0 && (
-          <div className={clsx("grid gap-4 mb-8", stats.length <= 2 ? "grid-cols-2" : stats.length === 3 ? "grid-cols-3" : "grid-cols-4")}>
+          <div className={clsx("grid gap-gap-md mb-spacing-8", stats.length <= 2 ? "grid-cols-2" : stats.length === 3 ? "grid-cols-3" : "grid-cols-4")}>
             {stats.map((stat, idx) => (
-              <div key={idx} className="p-6 border border-grey-800 bg-black">
-                <div className="font-display text-h2-sm text-white">{stat.value}</div>
-                <div className="font-code text-mono-sm text-grey-500 uppercase tracking-widest">{stat.label}</div>
+              <div key={idx} className={clsx("p-spacing-6 border", inverted ? "border-grey-800 bg-black" : "border-grey-200 bg-white")}>
+                <div className="font-display text-h2-sm">{stat.value}</div>
+                <div className={clsx("font-code text-mono-sm uppercase tracking-widest", inverted ? "text-grey-500" : "text-grey-400")}>{stat.label}</div>
               </div>
             ))}
           </div>
         )}
 
         {/* Search and Filters */}
-        <div className="flex gap-3 mb-4 flex-wrap">
-          <div className="flex-[1_1_300px] relative">
+        <div className="flex gap-gap-sm mb-spacing-4 flex-wrap">
+          <div className="flex-1 min-w-card-sm relative">
             <input
               type="text"
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
               placeholder={searchPlaceholder}
-              className="w-full py-3 px-4 pl-10 font-body text-body-md bg-black text-white border border-grey-700 outline-none focus:border-grey-500"
+              className={clsx(
+                "w-full py-spacing-3 px-spacing-4 pl-spacing-10 font-body text-body-md border outline-none",
+                inverted
+                  ? "bg-black text-white border-grey-700 focus:border-grey-500"
+                  : "bg-white text-black border-grey-300 focus:border-grey-500"
+              )}
             />
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-grey-500">🔍</span>
+            <span className={clsx("absolute left-spacing-3 top-1/2 -translate-y-1/2", inverted ? "text-grey-500" : "text-grey-400")}>🔍</span>
           </div>
           {filters.map(filter => (
             <select
               key={filter.key}
               value={String(activeFilters[filter.key] || "All")}
               onChange={(e) => handleFilterChange(filter.key, e.target.value)}
-              className="px-4 py-3 font-body text-body-md bg-black text-white border border-grey-700"
+              className={clsx(
+                "px-spacing-4 py-spacing-3 font-body text-body-md border",
+                inverted ? "bg-black text-white border-grey-700" : "bg-white text-black border-grey-300"
+              )}
             >
               <option value="All">{filter.label}: All</option>
               {filter.options.map(opt => (
@@ -311,7 +336,7 @@ export function ListPage<T>({
             </select>
           ))}
           {activeFilterCount > 0 && (
-            <button onClick={clearFilters} className="px-4 py-3 font-code text-mono-sm bg-transparent text-grey-400 border-none cursor-pointer underline">
+            <button onClick={clearFilters} className={clsx("px-spacing-4 py-spacing-3 font-code text-mono-sm bg-transparent border-none cursor-pointer underline", mutedTextClass)}>
               Clear ({activeFilterCount})
             </button>
           )}
@@ -319,19 +344,24 @@ export function ListPage<T>({
 
         {/* Bulk Action Bar */}
         {selectedKeys.length > 0 && bulkActions.length > 0 && (
-          <div className="flex items-center justify-between px-4 py-3 bg-white text-black mb-4">
+          <div className={clsx(
+            "flex items-center justify-between px-spacing-4 py-spacing-3 mb-spacing-4",
+            inverted ? "bg-white text-black" : "bg-black text-white"
+          )}>
             <span className="font-code text-mono-md">
               <strong>{selectedKeys.length}</strong> selected
-              <button onClick={() => setSelectedKeys([])} className="ml-4 bg-transparent border-none text-grey-600 cursor-pointer underline">Clear</button>
+              <button onClick={() => setSelectedKeys([])} className={clsx("ml-spacing-4 bg-transparent border-none cursor-pointer underline", inverted ? "text-grey-600" : "text-grey-400")}>Clear</button>
             </span>
-            <div className="flex gap-2">
+            <div className="flex gap-gap-xs">
               {bulkActions.map(action => (
                 <button
                   key={action.id}
                   onClick={() => onBulkAction?.(action.id, selectedKeys)}
                   className={clsx(
-                    "px-3 py-2 font-code text-mono-sm border-none cursor-pointer",
-                    action.variant === "danger" ? "bg-grey-100 text-grey-700" : "bg-grey-800 text-white"
+                    "px-spacing-3 py-spacing-2 font-code text-mono-sm border-none cursor-pointer",
+                    action.variant === "danger"
+                      ? inverted ? "bg-grey-100 text-grey-700" : "bg-grey-800 text-grey-300"
+                      : inverted ? "bg-grey-800 text-white" : "bg-grey-200 text-black"
                   )}
                 >
                   {action.icon} {action.label}
@@ -342,27 +372,27 @@ export function ListPage<T>({
         )}
 
         {/* Results count */}
-        <div className="mb-4 font-code text-mono-sm text-grey-500">
+        <div className={clsx("mb-spacing-4 font-code text-mono-sm", inverted ? "text-grey-500" : "text-grey-400")}>
           {filteredData.length} {filteredData.length === 1 ? "result" : "results"}
         </div>
 
         {/* Table */}
         {filteredData.length === 0 ? (
-          <div className="text-center px-8 py-16 border border-grey-800">
-            <h3 className="font-heading text-h4-md text-grey-500 mb-2">{emptyMessage}</h3>
+          <div className={clsx("text-center px-spacing-8 py-spacing-16 border", inverted ? "border-grey-800" : "border-grey-200")}>
+            <h3 className={clsx("font-heading text-h4-md mb-spacing-2", inverted ? "text-grey-500" : "text-grey-400")}>{emptyMessage}</h3>
             {emptyAction && (
-              <button onClick={emptyAction.onClick} className="mt-4 px-6 py-3 font-heading text-body-md tracking-wider uppercase bg-white text-black border-2 border-white cursor-pointer hover:bg-grey-100">
+              <button onClick={emptyAction.onClick} className={clsx("mt-spacing-4 px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase cursor-pointer", primaryBtnClass)}>
                 {emptyAction.label}
               </button>
             )}
           </div>
         ) : (
-          <div className="border border-grey-800 overflow-auto">
+          <div className={clsx("border overflow-auto", inverted ? "border-grey-800" : "border-grey-200")}>
             <table className="w-full border-collapse font-body text-body-md">
               <thead>
-                <tr className="bg-grey-900">
+                <tr className={inverted ? "bg-grey-900" : "bg-grey-100"}>
                   {bulkActions.length > 0 && (
-                    <th className="px-4 py-3.5 w-12 text-center">
+                    <th className="px-spacing-4 py-spacing-3 w-spacing-12 text-center">
                       <input type="checkbox" checked={selectedKeys.length === filteredData.length && filteredData.length > 0} onChange={handleSelectAll} className="cursor-pointer" />
                     </th>
                   )}
@@ -371,22 +401,23 @@ export function ListPage<T>({
                       key={col.key}
                       onClick={() => col.sortable && handleSort(col.key)}
                       className={clsx(
-                        "px-4 py-3.5 text-left font-code text-mono-sm font-normal tracking-widest uppercase text-grey-400",
+                        "px-spacing-4 py-spacing-3 text-left font-code text-mono-sm font-weight-normal tracking-widest uppercase",
+                        inverted ? "text-grey-400" : "text-grey-500",
                         col.sortable && "cursor-pointer"
                       )}
                       style={{ width: col.width }}
                     >
-                      <span className="flex items-center gap-2">
+                      <span className="flex items-center gap-gap-xs">
                         {col.label}
                         {col.sortable && (
-                          <span className={clsx("text-[8px]", sortColumn === col.key ? "opacity-100" : "opacity-30")}>
+                          <span className={clsx("text-micro", sortColumn === col.key ? "opacity-100" : "opacity-30")}>
                             {sortColumn === col.key && sortDirection === "asc" ? "▲" : sortColumn === col.key && sortDirection === "desc" ? "▼" : "▲▼"}
                           </span>
                         )}
                       </span>
                     </th>
                   ))}
-                  {rowActions.length > 0 && <th className="px-4 py-3.5 w-[60px]" />}
+                  {rowActions.length > 0 && <th className="px-spacing-4 py-spacing-3 w-spacing-16" />}
                 </tr>
               </thead>
               <tbody>
@@ -398,13 +429,16 @@ export function ListPage<T>({
                       key={key}
                       onClick={() => onRowClick?.(row)}
                       className={clsx(
-                        "border-b border-grey-800 transition-colors duration-fast",
-                        isSelected ? "bg-grey-900" : "bg-transparent",
-                        onRowClick && "cursor-pointer hover:bg-grey-900"
+                        "border-b transition-colors duration-fast",
+                        inverted ? "border-grey-800" : "border-grey-200",
+                        isSelected
+                          ? inverted ? "bg-grey-900" : "bg-grey-100"
+                          : "bg-transparent",
+                        onRowClick && (inverted ? "cursor-pointer hover:bg-grey-900" : "cursor-pointer hover:bg-grey-100")
                       )}
                     >
                       {bulkActions.length > 0 && (
-                        <td className="px-4 py-3 text-center" onClick={(e) => e.stopPropagation()}>
+                        <td className="px-spacing-4 py-spacing-3 text-center" onClick={(e) => e.stopPropagation()}>
                           <input type="checkbox" checked={isSelected} onChange={() => handleSelectRow(key)} className="cursor-pointer" />
                         </td>
                       )}
@@ -412,14 +446,14 @@ export function ListPage<T>({
                         const value = typeof col.accessor === "function" ? col.accessor(row) : row[col.accessor];
                         const rendered = col.render ? col.render(value, row) : value;
                         return (
-                          <td key={col.key} className="px-4 py-3 text-grey-300">
+                          <td key={col.key} className={clsx("px-spacing-4 py-spacing-3", inverted ? "text-grey-300" : "text-grey-700")}>
                             {rendered as React.ReactNode}
                           </td>
                         );
                       })}
                       {rowActions.length > 0 && (
-                        <td className="px-4 py-3 text-center" onClick={(e) => e.stopPropagation()}>
-                          <RowActionsMenu row={row} actions={rowActions} />
+                        <td className="px-spacing-4 py-spacing-3 text-center" onClick={(e) => e.stopPropagation()}>
+                          <RowActionsMenu row={row} actions={rowActions} inverted={inverted} />
                         </td>
                       )}
                     </tr>
@@ -435,20 +469,36 @@ export function ListPage<T>({
 }
 
 // Inline row actions menu
-function RowActionsMenu<T>({ row, actions }: { row: T; actions: ListPageAction<T>[] }) {
+function RowActionsMenu<T>({ row, actions, inverted = true }: { row: T; actions: ListPageAction<T>[]; inverted?: boolean }) {
   const [open, setOpen] = useState(false);
   return (
     <div className="relative inline-block">
-      <button onClick={() => setOpen(!open)} className="p-1 bg-transparent border-none cursor-pointer text-grey-400 text-base hover:text-grey-300">⋮</button>
+      <button
+        onClick={() => setOpen(!open)}
+        className={clsx(
+          "p-spacing-1 bg-transparent border-none cursor-pointer text-body-md",
+          inverted ? "text-grey-400 hover:text-grey-300" : "text-grey-500 hover:text-grey-700"
+        )}
+      >
+        ⋮
+      </button>
       {open && (
-        <div className="absolute top-full right-0 min-w-[140px] bg-grey-900 border border-grey-700 z-dropdown">
+        <div className={clsx(
+          "absolute top-full right-0 min-w-container-xs border z-dropdown",
+          inverted ? "bg-grey-900 border-grey-700" : "bg-white border-grey-300"
+        )}>
           {actions.map(action => (
             <button
               key={action.id}
               onClick={() => { setOpen(false); action.onClick(row); }}
               className={clsx(
-                "block w-full px-3 py-2 text-left font-body text-body-sm bg-transparent border-none border-b border-grey-800 cursor-pointer hover:bg-grey-800",
-                action.variant === "danger" ? "text-grey-400" : "text-grey-300"
+                "block w-full px-spacing-3 py-spacing-2 text-left font-body text-body-sm bg-transparent border-none border-b cursor-pointer",
+                inverted
+                  ? "border-grey-800 hover:bg-grey-800"
+                  : "border-grey-200 hover:bg-grey-100",
+                action.variant === "danger"
+                  ? inverted ? "text-grey-400" : "text-grey-500"
+                  : inverted ? "text-grey-300" : "text-grey-700"
               )}
             >
               {action.icon} {action.label}

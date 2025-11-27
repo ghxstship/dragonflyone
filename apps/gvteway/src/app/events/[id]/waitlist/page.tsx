@@ -150,7 +150,7 @@ export default function WaitlistPage() {
         <Section className="border-b-2 border-black py-8 mb-8">
           <Display>WAITLIST</Display>
           {event && (
-            <Body className="mt-2 text-grey-600">
+            <Body className="mt-2 text-ink-600">
               {event.title} - {event.date}
             </Body>
           )}
@@ -172,7 +172,7 @@ export default function WaitlistPage() {
           <Stack gap={6}>
             <Card className="p-6">
               <H2 className="mb-6">JOIN THE WAITLIST</H2>
-              <Body className="text-grey-600 mb-6">
+              <Body className="text-ink-600 mb-6">
                 This event is currently sold out. Join the waitlist to be notified 
                 when tickets become available.
               </Body>
@@ -230,14 +230,14 @@ export default function WaitlistPage() {
               </Form>
             </Card>
 
-            <Card className="p-6 bg-grey-50">
+            <Card className="p-6 bg-ink-50">
               <H3 className="mb-4">HOW IT WORKS</H3>
               <Stack gap={3}>
                 <Stack direction="horizontal" gap={3} className="items-start">
                   <Stack className="w-8 h-8 bg-black text-white rounded-full items-center justify-center flex-shrink-0">
                     <Body>1</Body>
                   </Stack>
-                  <Body className="text-body-sm text-grey-600">
+                  <Body className="text-body-sm text-ink-600">
                     Join the waitlist with your email and ticket preferences
                   </Body>
                 </Stack>
@@ -245,7 +245,7 @@ export default function WaitlistPage() {
                   <Stack className="w-8 h-8 bg-black text-white rounded-full items-center justify-center flex-shrink-0">
                     <Body>2</Body>
                   </Stack>
-                  <Body className="text-body-sm text-grey-600">
+                  <Body className="text-body-sm text-ink-600">
                     When tickets become available, you will be notified by email
                   </Body>
                 </Stack>
@@ -253,7 +253,7 @@ export default function WaitlistPage() {
                   <Stack className="w-8 h-8 bg-black text-white rounded-full items-center justify-center flex-shrink-0">
                     <Body>3</Body>
                   </Stack>
-                  <Body className="text-body-sm text-grey-600">
+                  <Body className="text-body-sm text-ink-600">
                     Complete your purchase within 24 hours to secure your tickets
                   </Body>
                 </Stack>
@@ -274,15 +274,15 @@ export default function WaitlistPage() {
                     <Stack
                       key={entry.id}
                       direction="horizontal"
-                      className="justify-between items-center py-3 border-b border-grey-200"
+                      className="justify-between items-center py-3 border-b border-ink-200"
                     >
                       <Stack direction="horizontal" gap={3} className="items-center">
-                        <Stack className="w-8 h-8 bg-grey-100 rounded-full items-center justify-center">
+                        <Stack className="w-8 h-8 bg-ink-100 rounded-full items-center justify-center">
                           <Label>#{entry.position}</Label>
                         </Stack>
                         <Stack>
                           <Body className="font-medium">{entry.name}</Body>
-                          <Body className="text-body-sm text-grey-500">
+                          <Body className="text-body-sm text-ink-500">
                             {entry.ticket_type} x {entry.quantity}
                           </Body>
                         </Stack>
@@ -291,15 +291,15 @@ export default function WaitlistPage() {
                     </Stack>
                   ))}
                   {waitlist.length > 10 && (
-                    <Body className="text-center text-grey-500 text-body-sm">
+                    <Body className="text-center text-ink-500 text-body-sm">
                       +{waitlist.length - 10} more in waitlist
                     </Body>
                   )}
                 </Stack>
               ) : (
                 <Stack className="items-center py-8">
-                  <Body className="text-grey-500">No one on the waitlist yet.</Body>
-                  <Body className="text-grey-600 text-body-sm">Be the first to join!</Body>
+                  <Body className="text-ink-500">No one on the waitlist yet.</Body>
+                  <Body className="text-ink-600 text-body-sm">Be the first to join!</Body>
                 </Stack>
               )}
             </Card>

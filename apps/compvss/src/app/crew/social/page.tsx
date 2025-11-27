@@ -57,8 +57,8 @@ export default function CrewSocialPage() {
     switch (status) {
       case "Online": return "bg-success-500";
       case "Away": return "bg-warning-500";
-      case "Offline": return "bg-grey-500";
-      default: return "bg-grey-500";
+      case "Offline": return "bg-ink-500";
+      default: return "bg-ink-500";
     }
   };
 
@@ -239,7 +239,7 @@ export default function CrewSocialPage() {
             </TabPanel>
           </Tabs>
 
-          <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/crew")}>Crew Directory</Button>
+          <Button variant="outlineInk" onClick={() => router.push("/crew")}>Crew Directory</Button>
         </Stack>
       </Container>
 

@@ -156,7 +156,7 @@ export default function TimekeepingPage() {
             <Button variant="outlineWhite" onClick={() => router.push('/timekeeping/log')}>
               Log Time
             </Button>
-            <Button variant="ghost" className="text-grey-400 hover:text-white" onClick={() => router.push('/timekeeping/export')}>
+            <Button variant="ghost" className="text-ink-400 hover:text-white" onClick={() => router.push('/timekeeping/export')}>
               Export Timesheet
             </Button>
           </Stack>

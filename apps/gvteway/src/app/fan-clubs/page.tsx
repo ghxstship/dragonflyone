@@ -128,7 +128,7 @@ export default function FanClubsPage() {
         <Stack gap={8}>
           <Stack gap={2}>
             <H1>Fan Clubs</H1>
-            <Body className="text-grey-400">
+            <Body className="text-ink-400">
               Join official fan clubs for exclusive access, presales, and VIP experiences
             </Body>
           </Stack>
@@ -137,54 +137,54 @@ export default function FanClubsPage() {
             <StatCard
               value={summary?.total_clubs || 0}
               label="Fan Clubs"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={summary?.my_memberships || 0}
               label="My Memberships"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={summary?.exclusive_events || 0}
               label="Exclusive Events"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={summary?.presales_available || 0}
               label="Active Presales"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
           </Grid>
 
-          <Card className="p-6 bg-black border-grey-800">
+          <Card className="p-6 bg-black border-ink-800">
             <Stack gap={4}>
               <H2>Member Benefits</H2>
               <Grid cols={4} gap={4}>
                 <Stack gap={2}>
                   <Body className="text-h5-md">🎫</Body>
                   <Body className="font-medium">Presale Access</Body>
-                  <Body className="text-grey-400 text-body-sm">
+                  <Body className="text-ink-400 text-body-sm">
                     Get tickets before the general public
                   </Body>
                 </Stack>
                 <Stack gap={2}>
                   <Body className="text-h5-md">⭐</Body>
                   <Body className="font-medium">Exclusive Events</Body>
-                  <Body className="text-grey-400 text-body-sm">
+                  <Body className="text-ink-400 text-body-sm">
                     Members-only shows and meet & greets
                   </Body>
                 </Stack>
                 <Stack gap={2}>
                   <Body className="text-h5-md">🎁</Body>
                   <Body className="font-medium">Merch Discounts</Body>
-                  <Body className="text-grey-400 text-body-sm">
+                  <Body className="text-ink-400 text-body-sm">
                     Special pricing on official merchandise
                   </Body>
                 </Stack>
                 <Stack gap={2}>
                   <Body className="text-h5-md">📱</Body>
                   <Body className="font-medium">Exclusive Content</Body>
-                  <Body className="text-grey-400 text-body-sm">
+                  <Body className="text-ink-400 text-body-sm">
                     Behind-the-scenes and early releases
                   </Body>
                 </Stack>
@@ -198,13 +198,13 @@ export default function FanClubsPage() {
                 placeholder="Search artists..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-black text-white border-grey-700"
+                className="bg-black text-white border-ink-700"
               />
             </Field>
             <Select
               value={filterGenre}
               onChange={(e) => setFilterGenre(e.target.value)}
-              className="bg-black text-white border-grey-700"
+              className="bg-black text-white border-ink-700"
             >
               <option value="all">All Genres</option>
               <option value="rock">Rock</option>
@@ -224,48 +224,48 @@ export default function FanClubsPage() {
           ) : (
             <Grid cols={2} gap={6}>
               {clubs.map((club) => (
-                <Card key={club.id} className="p-6 bg-black border-grey-800">
+                <Card key={club.id} className="p-6 bg-black border-ink-800">
                   <Stack gap={4}>
                     <Stack gap={2} direction="horizontal" className="justify-between items-start">
                       <Stack gap={1}>
                         <H2 className="text-h6-md">{club.artist_name}</H2>
-                        <Body className="text-grey-400">{club.name}</Body>
+                        <Body className="text-ink-400">{club.name}</Body>
                       </Stack>
                       {club.is_member && (
                         <Badge variant="solid">{club.membership_tier}</Badge>
                       )}
                     </Stack>
 
-                    <Body className="text-grey-400 text-body-sm">
+                    <Body className="text-ink-400 text-body-sm">
                       {club.description}
                     </Body>
 
                     <Stack gap={2}>
-                      <Body className="text-grey-500 text-body-sm uppercase tracking-widest">Benefits</Body>
+                      <Body className="text-ink-500 text-body-sm uppercase tracking-widest">Benefits</Body>
                       <Stack gap={1}>
                         {club.benefits.slice(0, 4).map((benefit, idx) => (
-                          <Body key={idx} className="text-grey-300 text-body-sm">
+                          <Body key={idx} className="text-ink-300 text-body-sm">
                             ✓ {benefit}
                           </Body>
                         ))}
                       </Stack>
                     </Stack>
 
-                    <Stack gap={2} direction="horizontal" className="text-grey-500 text-body-sm">
+                    <Stack gap={2} direction="horizontal" className="text-ink-500 text-body-sm">
                       <Body>{club.member_count.toLocaleString()} members</Body>
                       <Body>•</Body>
                       <Body>{club.exclusive_events} exclusive events</Body>
                     </Stack>
 
-                    <Stack gap={2} direction="horizontal" className="justify-between items-center border-t border-grey-800 pt-4">
+                    <Stack gap={2} direction="horizontal" className="justify-between items-center border-t border-ink-800 pt-4">
                       <Stack gap={1}>
                         {club.monthly_price && (
-                          <Body className="text-grey-400 text-body-sm">
+                          <Body className="text-ink-400 text-body-sm">
                             {formatCurrency(club.monthly_price)}/month
                           </Body>
                         )}
                         {club.annual_price && (
-                          <Body className="text-grey-500 text-mono-xs">
+                          <Body className="text-ink-500 text-mono-xs">
                             or {formatCurrency(club.annual_price)}/year (save 20%)
                           </Body>
                         )}

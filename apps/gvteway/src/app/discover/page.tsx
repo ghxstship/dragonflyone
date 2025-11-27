@@ -119,25 +119,25 @@ export default function DiscoverPage() {
   return (
     <Section className="min-h-screen bg-white">
       <ConsumerNavigationPublic />
-      <Container className="py-16">
+      <Container className="py-spacing-16">
         <Stack gap={8}>
-          <Stack gap={2} className="border-b-2 border-black pb-8">
+          <Stack gap={2} className="border-b-2 border-black pb-spacing-8">
             <H1>Discover</H1>
-            <Body className="text-grey-600">
+            <Body className="text-ink-600">
               Find your next unforgettable experience
             </Body>
           </Stack>
 
-        <Section className="mb-12">
-          <H2 className="mb-6">BROWSE BY CATEGORY</H2>
+        <Section className="mb-spacing-12">
+          <H2 className="mb-spacing-6">BROWSE BY CATEGORY</H2>
           <Grid cols={6} gap={4}>
             {categories.map(category => (
               <Card
                 key={category.id}
-                className="p-6 text-center cursor-pointer hover:bg-grey-50 transition-colors"
+                className="p-spacing-6 text-center cursor-pointer hover:bg-ink-50 transition-colors"
                 onClick={() => handleCategoryClick(category.id)}
               >
-                <Body className="text-h3-md mb-2">{category.emoji}</Body>
+                <Body className="text-h3-md mb-spacing-2">{category.emoji}</Body>
                 <Body className="font-medium">{category.name}</Body>
               </Card>
             ))}
@@ -145,11 +145,11 @@ export default function DiscoverPage() {
         </Section>
 
         {trendingEvents.length > 0 && (
-          <Section className="mb-12">
-            <Stack direction="horizontal" className="justify-between items-center mb-6">
+          <Section className="mb-spacing-12">
+            <Stack direction="horizontal" className="justify-between items-center mb-spacing-6">
               <Stack>
                 <H2>TRENDING NOW</H2>
-                <Body className="text-grey-600">Most popular events this week</Body>
+                <Body className="text-ink-600">Most popular events this week</Body>
               </Stack>
               <Button variant="outline" onClick={() => router.push('/browse?sort=trending')}>
                 View All
@@ -170,11 +170,11 @@ export default function DiscoverPage() {
         )}
 
         {recommendedEvents.length > 0 && (
-          <Section className="mb-12">
-            <Stack direction="horizontal" className="justify-between items-center mb-6">
+          <Section className="mb-spacing-12">
+            <Stack direction="horizontal" className="justify-between items-center mb-spacing-6">
               <Stack>
                 <H2>RECOMMENDED FOR YOU</H2>
-                <Body className="text-grey-600">Based on your interests and history</Body>
+                <Body className="text-ink-600">Based on your interests and history</Body>
               </Stack>
               <Button variant="outline" onClick={() => router.push('/browse?sort=recommended')}>
                 View All
@@ -195,13 +195,13 @@ export default function DiscoverPage() {
         )}
 
         {collections.length > 0 && (
-          <Section className="mb-12">
-            <H2 className="mb-6">CURATED COLLECTIONS</H2>
+          <Section className="mb-spacing-12">
+            <H2 className="mb-spacing-6">CURATED COLLECTIONS</H2>
             <Grid cols={2} gap={6}>
               {collections.map(collection => (
-                <Card key={collection.id} className="p-6">
-                  <H3 className="mb-2">{collection.name}</H3>
-                  <Body className="text-grey-600 mb-4">{collection.description}</Body>
+                <Card key={collection.id} className="p-spacing-6">
+                  <H3 className="mb-spacing-2">{collection.name}</H3>
+                  <Body className="text-ink-600 mb-spacing-4">{collection.description}</Body>
                   <Stack direction="horizontal" gap={2}>
                     <Badge>{collection.events.length} events</Badge>
                     <Button
@@ -219,11 +219,11 @@ export default function DiscoverPage() {
         )}
 
         {nearbyEvents.length > 0 && (
-          <Section className="mb-12">
-            <Stack direction="horizontal" className="justify-between items-center mb-6">
+          <Section className="mb-spacing-12">
+            <Stack direction="horizontal" className="justify-between items-center mb-spacing-6">
               <Stack>
                 <H2>NEAR YOU</H2>
-                <Body className="text-grey-600">Events happening in your area</Body>
+                <Body className="text-ink-600">Events happening in your area</Body>
               </Stack>
               <Button variant="outline" onClick={() => router.push('/browse?nearby=true')}>
                 View All
@@ -243,10 +243,10 @@ export default function DiscoverPage() {
           </Section>
         )}
 
-          <Section className="mb-12">
-            <Card className="p-8 bg-black text-white text-center">
-              <H2 className="text-white mb-4">NOT SURE WHAT TO DO?</H2>
-              <Body className="text-grey-600 mb-6 max-w-md mx-auto">
+          <Section className="mb-spacing-12">
+            <Card className="p-spacing-8 bg-black text-white text-center">
+              <H2 className="text-white mb-spacing-4">NOT SURE WHAT TO DO?</H2>
+              <Body className="text-ink-600 mb-spacing-6 max-w-md mx-auto">
                 Take our quick quiz to get personalized event recommendations based on your preferences.
               </Body>
               <Button variant="outline" className="border-white text-white hover:bg-white hover:text-black" onClick={() => router.push('/quiz')}>

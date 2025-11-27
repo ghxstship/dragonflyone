@@ -76,24 +76,24 @@ export function OfflineIndicator({
 
   if (variant === 'badge') {
     return (
-      <div className={`inline-flex items-center gap-2 ${className}`}>
+      <div className={`inline-flex items-center gap-gap-xs ${className}`}>
         {isOffline ? (
-          <span className="inline-flex items-center gap-1 px-2 py-1 text-mono-xs uppercase tracking-widest bg-grey-200 text-grey-700 border border-grey-400">
-            <WifiOff className="h-3 w-3" />
+          <span className="inline-flex items-center gap-gap-xs px-spacing-2 py-spacing-1 text-mono-xs uppercase tracking-widest bg-grey-200 text-grey-700 border border-grey-400">
+            <WifiOff className="h-spacing-3 w-spacing-3" />
             Offline
           </span>
         ) : pendingSyncCount > 0 ? (
           <button
             onClick={handleSync}
             disabled={isSyncing}
-            className="inline-flex items-center gap-1 px-2 py-1 text-mono-xs uppercase tracking-widest bg-warning-100 text-warning-800 border border-warning-400 hover:bg-warning-200 transition-colors"
+            className="inline-flex items-center gap-gap-xs px-spacing-2 py-spacing-1 text-mono-xs uppercase tracking-widest bg-warning-100 text-warning-800 border border-warning-400 hover:bg-warning-200 transition-colors"
           >
-            <RefreshCw className={`h-3 w-3 ${isSyncing ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`h-spacing-3 w-spacing-3 ${isSyncing ? 'animate-spin' : ''}`} />
             {isSyncing ? 'Syncing...' : `Sync ${pendingSyncCount}`}
           </button>
         ) : showSyncSuccess ? (
-          <span className="inline-flex items-center gap-1 px-2 py-1 text-mono-xs uppercase tracking-widest bg-success-100 text-success-800 border border-success-400">
-            <Check className="h-3 w-3" />
+          <span className="inline-flex items-center gap-gap-xs px-spacing-2 py-spacing-1 text-mono-xs uppercase tracking-widest bg-success-100 text-success-800 border border-success-400">
+            <Check className="h-spacing-3 w-spacing-3" />
             Synced
           </span>
         ) : null}
@@ -103,10 +103,10 @@ export function OfflineIndicator({
 
   if (variant === 'toast') {
     return (
-      <div className={`fixed bottom-4 right-4 z-50 ${className}`}>
+      <div className={`fixed bottom-spacing-4 right-spacing-4 z-popover ${className}`}>
         {isOffline && (
-          <div className="flex items-center gap-3 px-4 py-3 bg-grey-900 text-white border-2 border-black shadow-hard">
-            <WifiOff className="h-5 w-5 text-grey-500" />
+          <div className="flex items-center gap-gap-sm px-spacing-4 py-spacing-3 bg-grey-900 text-white border-2 border-black shadow-hard">
+            <WifiOff className="h-spacing-5 w-spacing-5 text-grey-500" />
             <div>
               <div className="font-heading text-mono-sm uppercase tracking-widest">Offline Mode</div>
               <div className="text-mono-xs text-grey-500">Changes will sync when online</div>
@@ -115,8 +115,8 @@ export function OfflineIndicator({
         )}
         
         {!isOffline && pendingSyncCount > 0 && (
-          <div className="flex items-center gap-3 px-4 py-3 bg-warning-50 text-warning-900 border-2 border-warning-400 shadow-hard">
-            <AlertCircle className="h-5 w-5" />
+          <div className="flex items-center gap-gap-sm px-spacing-4 py-spacing-3 bg-warning-50 text-warning-900 border-2 border-warning-400 shadow-hard">
+            <AlertCircle className="h-spacing-5 w-spacing-5" />
             <div className="flex-1">
               <div className="font-heading text-mono-sm uppercase tracking-widest">
                 {pendingSyncCount} Pending Changes
@@ -128,7 +128,7 @@ export function OfflineIndicator({
             <button
               onClick={handleSync}
               disabled={isSyncing}
-              className="px-3 py-1 text-mono-xs font-heading uppercase tracking-widest bg-warning-400 hover:bg-warning-500 transition-colors disabled:opacity-50"
+              className="px-spacing-3 py-spacing-1 text-mono-xs font-heading uppercase tracking-widest bg-warning-400 hover:bg-warning-500 transition-colors disabled:opacity-50"
             >
               {isSyncing ? 'Syncing...' : 'Sync Now'}
             </button>
@@ -136,8 +136,8 @@ export function OfflineIndicator({
         )}
 
         {showSyncSuccess && (
-          <div className="flex items-center gap-3 px-4 py-3 bg-success-50 text-success-900 border-2 border-success-400 shadow-hard">
-            <Check className="h-5 w-5" />
+          <div className="flex items-center gap-gap-sm px-spacing-4 py-spacing-3 bg-success-50 text-success-900 border-2 border-success-400 shadow-hard">
+            <Check className="h-spacing-5 w-spacing-5" />
             <div className="font-heading text-mono-sm uppercase tracking-widest">
               All Changes Synced
             </div>
@@ -151,8 +151,8 @@ export function OfflineIndicator({
   return (
     <div className={`w-full ${className}`}>
       {isOffline && (
-        <div className="flex items-center justify-center gap-3 px-4 py-2 bg-grey-900 text-white">
-          <WifiOff className="h-4 w-4" />
+        <div className="flex items-center justify-center gap-gap-sm px-spacing-4 py-spacing-2 bg-grey-900 text-white">
+          <WifiOff className="h-spacing-4 w-spacing-4" />
           <span className="font-heading text-mono-sm uppercase tracking-widest">
             You&apos;re offline - Changes will sync automatically
           </span>
@@ -160,25 +160,25 @@ export function OfflineIndicator({
       )}
       
       {!isOffline && pendingSyncCount > 0 && (
-        <div className="flex items-center justify-center gap-3 px-4 py-2 bg-warning-100 text-warning-900 border-b-2 border-warning-400">
-          <AlertCircle className="h-4 w-4" />
+        <div className="flex items-center justify-center gap-gap-sm px-spacing-4 py-spacing-2 bg-warning-100 text-warning-900 border-b-2 border-warning-400">
+          <AlertCircle className="h-spacing-4 w-spacing-4" />
           <span className="font-heading text-mono-sm uppercase tracking-widest">
             {pendingSyncCount} changes pending sync
           </span>
           <button
             onClick={handleSync}
             disabled={isSyncing}
-            className="flex items-center gap-1 px-2 py-1 text-mono-xs font-heading uppercase tracking-widest bg-warning-400 hover:bg-warning-500 transition-colors disabled:opacity-50"
+            className="flex items-center gap-gap-xs px-spacing-2 py-spacing-1 text-mono-xs font-heading uppercase tracking-widest bg-warning-400 hover:bg-warning-500 transition-colors disabled:opacity-50"
           >
-            <RefreshCw className={`h-3 w-3 ${isSyncing ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`h-spacing-3 w-spacing-3 ${isSyncing ? 'animate-spin' : ''}`} />
             {isSyncing ? 'Syncing...' : 'Sync Now'}
           </button>
         </div>
       )}
 
       {showSyncSuccess && (
-        <div className="flex items-center justify-center gap-3 px-4 py-2 bg-success-100 text-success-900 border-b-2 border-success-400">
-          <Check className="h-4 w-4" />
+        <div className="flex items-center justify-center gap-gap-sm px-spacing-4 py-spacing-2 bg-success-100 text-success-900 border-b-2 border-success-400">
+          <Check className="h-spacing-4 w-spacing-4" />
           <span className="font-heading text-mono-sm uppercase tracking-widest">
             All changes synced successfully
           </span>

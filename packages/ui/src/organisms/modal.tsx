@@ -10,10 +10,11 @@ export type ModalProps = HTMLAttributes<HTMLDivElement> & {
   title?: string;
   size?: "sm" | "md" | "lg" | "xl";
   showClose?: boolean;
+  inverted?: boolean;
 };
 
 export const Modal = forwardRef<HTMLDivElement, ModalProps>(
-  function Modal({ open, onClose, title, size = "md", showClose = true, className, children, ...props }, ref) {
+  function Modal({ open, onClose, title, size = "md", showClose = true, inverted = false, className, children, ...props }, ref) {
     useEffect(() => {
       if (open) {
         document.body.style.overflow = "hidden";
@@ -36,30 +37,38 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
 
     return (
       <div
-        className="fixed inset-0 z-modal flex items-center justify-center p-4"
+        className="fixed inset-0 z-modal flex items-center justify-center p-spacing-4"
         role="dialog"
         aria-modal="true"
         aria-labelledby={title ? "modal-title" : undefined}
       >
         <div
-          className="absolute inset-0 bg-black/50"
+          className={clsx("absolute inset-0", inverted ? "bg-white/20" : "bg-black/50")}
           onClick={onClose}
           aria-hidden="true"
         />
         <div
           ref={ref}
           className={clsx(
-            "relative bg-white border-2 border-black w-full",
+            "relative border-2 w-full",
+            inverted
+              ? "bg-ink-900 border-grey-600 text-white shadow-hard-lg-white"
+              : "bg-white border-black text-black shadow-hard-lg",
             sizeClasses[size],
-            "shadow-hard-lg",
             className
           )}
           {...props}
         >
           {(title || showClose) ? (
-            <div className="flex items-center justify-between p-6 border-b-2 border-black">
+            <div className={clsx(
+              "flex items-center justify-between p-spacing-6 border-b-2",
+              inverted ? "border-grey-700" : "border-black"
+            )}>
               {title ? (
-                <h2 id="modal-title" className="font-heading text-h4-sm uppercase tracking-wider">
+                <h2 id="modal-title" className={clsx(
+                  "font-heading text-h4-sm uppercase tracking-wider",
+                  inverted ? "text-white" : "text-black"
+                )}>
                   {title}
                 </h2>
               ) : <div />}
@@ -67,7 +76,10 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
                 <button
                   type="button"
                   onClick={onClose}
-                  className="hover:opacity-70 transition-opacity"
+                  className={clsx(
+                    "hover:opacity-70 transition-opacity",
+                    inverted ? "text-grey-300" : "text-black"
+                  )}
                   aria-label="Close modal"
                 >
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -77,37 +89,53 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
               ) : null}
             </div>
           ) : null}
-          <div className="p-6">{children}</div>
+          <div className={clsx("p-spacing-6", inverted ? "text-grey-200" : "text-grey-800")}>{children}</div>
         </div>
       </div>
     );
   }
 );
 
-export const ModalHeader = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
-  function ModalHeader({ className, children, ...props }, ref) {
+export type ModalHeaderProps = HTMLAttributes<HTMLDivElement> & {
+  inverted?: boolean;
+};
+
+export const ModalHeader = forwardRef<HTMLDivElement, ModalHeaderProps>(
+  function ModalHeader({ inverted = false, className, children, ...props }, ref) {
     return (
-      <div ref={ref} className={clsx("mb-4", className)} {...props}>
+      <div ref={ref} className={clsx("mb-spacing-4", inverted ? "text-white" : "text-black", className)} {...props}>
         {children}
       </div>
     );
   }
 );
 
-export const ModalBody = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
-  function ModalBody({ className, children, ...props }, ref) {
+export type ModalBodyProps = HTMLAttributes<HTMLDivElement> & {
+  inverted?: boolean;
+};
+
+export const ModalBody = forwardRef<HTMLDivElement, ModalBodyProps>(
+  function ModalBody({ inverted = false, className, children, ...props }, ref) {
     return (
-      <div ref={ref} className={clsx(className)} {...props}>
+      <div ref={ref} className={clsx(inverted ? "text-grey-200" : "text-grey-800", className)} {...props}>
         {children}
       </div>
     );
   }
 );
 
-export const ModalFooter = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
-  function ModalFooter({ className, children, ...props }, ref) {
+export type ModalFooterProps = HTMLAttributes<HTMLDivElement> & {
+  inverted?: boolean;
+};
+
+export const ModalFooter = forwardRef<HTMLDivElement, ModalFooterProps>(
+  function ModalFooter({ inverted = false, className, children, ...props }, ref) {
     return (
-      <div ref={ref} className={clsx("mt-6 pt-4 border-t-2 border-grey-200 flex gap-3 justify-end", className)} {...props}>
+      <div ref={ref} className={clsx(
+        "mt-spacing-6 pt-spacing-4 border-t-2 flex gap-spacing-3 justify-end",
+        inverted ? "border-grey-700" : "border-grey-200",
+        className
+      )} {...props}>
         {children}
       </div>
     );

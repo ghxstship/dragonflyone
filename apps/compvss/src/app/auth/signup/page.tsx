@@ -130,10 +130,10 @@ export default function SignUpPage() {
       }
     >
       <SectionLayout background="grey">
-        <Stack gap={8} className="mx-auto max-w-md bg-white p-8 border border-grey-200">
+        <Stack gap={8} className="mx-auto max-w-md bg-white p-8 border border-ink-200">
           <Stack gap={4} className="text-center">
             <H2>Create Account</H2>
-            <Body className="text-grey-600">
+            <Body className="text-ink-600">
               Join COMPVSS to manage your crew and resources.
             </Body>
           </Stack>
@@ -198,13 +198,13 @@ export default function SignUpPage() {
                 checked={formData.agreeToTerms}
                 onChange={(e) => setFormData({ ...formData, agreeToTerms: e.target.checked })}
               />
-              <Body size="sm" className="cursor-pointer text-grey-600">
+              <Body size="sm" className="cursor-pointer text-ink-600">
                 I agree to the{" "}
-                <Button variant="ghost" size="sm" onClick={() => window.location.href = '/legal/terms'} className="text-black hover:text-grey-600 inline p-0">
+                <Button variant="ghost" size="sm" onClick={() => window.location.href = '/legal/terms'} className="text-black hover:text-ink-600 inline p-0">
                   Terms of Service
                 </Button>{" "}
                 and{" "}
-                <Button variant="ghost" size="sm" onClick={() => window.location.href = '/legal/privacy'} className="text-black hover:text-grey-600 inline p-0">
+                <Button variant="ghost" size="sm" onClick={() => window.location.href = '/legal/privacy'} className="text-black hover:text-ink-600 inline p-0">
                   Privacy Policy
                 </Button>
               </Body>
@@ -215,9 +215,9 @@ export default function SignUpPage() {
             </Button>
 
             <Stack className="text-center">
-              <Body size="sm" className="text-grey-600">
+              <Body size="sm" className="text-ink-600">
                 Already have an account?{" "}
-                <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/signin'} className="text-black hover:text-grey-600 inline">
+                <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/signin'} className="text-black hover:text-ink-600 inline">
                   Sign in
                 </Button>
               </Body>
@@ -226,10 +226,10 @@ export default function SignUpPage() {
 
           <Stack className="relative">
             <Stack className="absolute inset-0 items-center justify-center">
-              <Stack className="w-full border-t border-grey-300" />
+              <Stack className="w-full border-t border-ink-300" />
             </Stack>
             <Stack className="relative justify-center">
-              <Body size="sm" className="bg-white px-4 text-grey-500 text-center">OR</Body>
+              <Body size="sm" className="bg-white px-4 text-ink-500 text-center">OR</Body>
             </Stack>
           </Stack>
 

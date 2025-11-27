@@ -9,6 +9,7 @@
   },
   "exports": {
     ".": "./index.ts",
+    "./globals.css": "./globals.css",
     "./auth-helpers": "./auth-helpers.ts",
     "./rpc-client": "./rpc-client.ts",
     "./supabase-client": "./supabase-client.ts",

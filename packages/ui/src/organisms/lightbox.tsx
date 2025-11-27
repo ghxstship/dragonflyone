@@ -160,7 +160,7 @@ export const Lightbox = forwardRef<HTMLDivElement, LightboxProps>(
       <div
         ref={ref}
         className={clsx(
-          "fixed inset-0 z-50 flex items-center justify-center",
+          "fixed inset-0 z-modal flex items-center justify-center",
           "bg-black",
           className
         )}
@@ -180,17 +180,17 @@ export const Lightbox = forwardRef<HTMLDivElement, LightboxProps>(
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-10 w-12 h-12 flex items-center justify-center bg-white text-black hover:bg-grey-200 transition-colors"
+          className="absolute top-spacing-4 right-spacing-4 z-10 w-spacing-12 h-spacing-12 flex items-center justify-center bg-surface-primary text-text-primary hover:bg-surface-secondary transition-colors"
           aria-label="Close lightbox"
         >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-spacing-6 h-spacing-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="square" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
 
         {/* Counter */}
         {showCounter && images.length > 1 && (
-          <div className="absolute top-4 left-4 z-10 px-4 py-2 bg-white text-black font-mono text-mono-sm">
+          <div className="absolute top-spacing-4 left-spacing-4 z-10 px-spacing-4 py-spacing-2 bg-surface-primary text-text-primary font-mono text-mono-sm">
             {activeIndex + 1} / {images.length}
           </div>
         )}
@@ -199,10 +199,10 @@ export const Lightbox = forwardRef<HTMLDivElement, LightboxProps>(
         {showNavigation && images.length > 1 && (
           <button
             onClick={goToPrev}
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 flex items-center justify-center bg-white text-black hover:bg-grey-200 transition-colors"
+            className="absolute left-spacing-4 top-1/2 -translate-y-1/2 z-10 w-spacing-12 h-spacing-12 flex items-center justify-center bg-surface-primary text-text-primary hover:bg-surface-secondary transition-colors"
             aria-label="Previous image"
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-spacing-6 h-spacing-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="square" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
@@ -212,10 +212,10 @@ export const Lightbox = forwardRef<HTMLDivElement, LightboxProps>(
         {showNavigation && images.length > 1 && (
           <button
             onClick={goToNext}
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 flex items-center justify-center bg-white text-black hover:bg-grey-200 transition-colors"
+            className="absolute right-spacing-4 top-1/2 -translate-y-1/2 z-10 w-spacing-12 h-spacing-12 flex items-center justify-center bg-surface-primary text-text-primary hover:bg-surface-secondary transition-colors"
             aria-label="Next image"
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-spacing-6 h-spacing-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="square" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </button>
@@ -226,7 +226,7 @@ export const Lightbox = forwardRef<HTMLDivElement, LightboxProps>(
           {/* Loading indicator */}
           {isLoading && (
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-12 h-12 border-4 border-white border-t-transparent animate-spin" />
+              <div className="w-spacing-12 h-spacing-12 border-4 border-white border-t-transparent animate-spin" />
             </div>
           )}
 
@@ -246,14 +246,14 @@ export const Lightbox = forwardRef<HTMLDivElement, LightboxProps>(
 
           {/* Caption */}
           {(currentImage.title || currentImage.caption) && (
-            <div className="mt-4 text-center text-white">
+            <div className="mt-spacing-4 text-center text-white">
               {currentImage.title && (
                 <h3 className="font-heading text-h5-md uppercase tracking-widest">
                   {currentImage.title}
                 </h3>
               )}
               {currentImage.caption && (
-                <p className="mt-2 font-body text-grey-400 max-w-lg">
+                <p className="mt-spacing-2 font-body text-grey-400 max-w-lg">
                   {currentImage.caption}
                 </p>
               )}
@@ -263,13 +263,13 @@ export const Lightbox = forwardRef<HTMLDivElement, LightboxProps>(
 
         {/* Thumbnails */}
         {showThumbnails && images.length > 1 && (
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 p-2 bg-black/50">
+          <div className="absolute bottom-spacing-4 left-1/2 -translate-x-1/2 flex gap-gap-xs p-spacing-2 bg-black/50">
             {images.map((image, index) => (
               <button
                 key={index}
                 onClick={() => goToIndex(index)}
                 className={clsx(
-                  "w-16 h-16 overflow-hidden transition-all",
+                  "w-spacing-16 h-spacing-16 overflow-hidden transition-all",
                   index === activeIndex
                     ? "ring-2 ring-white"
                     : "opacity-50 hover:opacity-100"

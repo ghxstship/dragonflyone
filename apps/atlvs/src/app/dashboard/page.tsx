@@ -2,8 +2,30 @@
 
 import { useState } from "react";
 import { CreatorNavigationAuthenticated } from "../../components/navigation";
-import { Section, SectionHeader } from "../../components/section";
-import { Badge, ProgressBar, StatusBadge, Button, H1, H2, H3, Body, Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Container, Stack, Card, StatCard, LoadingSpinner, Grid } from "@ghxstship/ui";
+import { 
+  Badge, 
+  ProgressBar, 
+  StatusBadge, 
+  Button, 
+  H1, 
+  H2, 
+  H3, 
+  Body, 
+  Table, 
+  TableHeader, 
+  TableBody, 
+  TableRow, 
+  TableHead, 
+  TableCell, 
+  Container, 
+  Stack, 
+  Card, 
+  StatCard, 
+  LoadingSpinner, 
+  Grid,
+  Section,
+  SectionHeader,
+} from "@ghxstship/ui";
 import { useProjects } from "../../hooks/useProjects";
 
 const mockProjects = [
@@ -198,7 +220,7 @@ export default function DashboardPage() {
                   <TableCell>
                     <Stack gap={1}>
                       <ProgressBar value={project.progress || 0} variant="inverse" size="sm" className="w-24" />
-                      <Body size="xs" className="font-mono text-grey-400">{project.progress}%</Body>
+                      <Body size="xs" className="font-mono text-ink-400">{project.progress}%</Body>
                     </Stack>
                   </TableCell>
                   <TableCell>
@@ -239,28 +261,32 @@ export default function DashboardPage() {
             <Stack gap={3}>
               <Button 
                 variant="outlineWhite" 
-                className="w-full justify-start text-left"
+                fullWidth
+                className="justify-start text-left"
                 onClick={() => window.location.href = '/projects'}
               >
                 Create New Project
               </Button>
               <Button 
-                variant="outline" 
-                className="w-full justify-start text-left border-grey-700 text-grey-400 hover:border-white hover:text-white"
+                variant="outlineInk" 
+                fullWidth
+                className="justify-start text-left"
                 onClick={() => window.location.href = '/finance'}
               >
                 Submit Expense Report
               </Button>
               <Button 
-                variant="outline" 
-                className="w-full justify-start text-left border-grey-700 text-grey-400 hover:border-white hover:text-white"
+                variant="outlineInk" 
+                fullWidth
+                className="justify-start text-left"
                 onClick={() => window.location.href = '/assets'}
               >
                 Check Asset Availability
               </Button>
               <Button 
-                variant="outline" 
-                className="w-full justify-start text-left border-grey-700 text-grey-400 hover:border-white hover:text-white"
+                variant="outlineInk" 
+                fullWidth
+                className="justify-start text-left"
                 onClick={() => window.location.href = '/reports'}
               >
                 Generate Financial Report
@@ -275,7 +301,7 @@ export default function DashboardPage() {
                 <StatusBadge status="error" size="sm" className="mb-2">High Priority</StatusBadge>
                 <Body className="mt-2 text-body-sm text-white">Budget approval needed for F1 Miami GP expansion</Body>
               </Card>
-              <Card className="border-2 border-grey-700 p-4">
+              <Card className="border-2 border-ink-700 p-4">
                 <StatusBadge status="warning" size="sm" className="mb-2">Medium Priority</StatusBadge>
                 <Body className="mt-2 text-body-sm text-white">3 asset maintenance schedules due this week</Body>
               </Card>

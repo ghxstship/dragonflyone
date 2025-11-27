@@ -38,7 +38,7 @@ export function NotFoundPage({
       <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
       {navigation}
       <Container className="py-16">
-        <Stack gap={8} className="flex min-h-[60vh] flex-col items-center justify-center text-center">
+        <Stack gap={8} className="flex min-h-screen flex-col items-center justify-center text-center">
           <Display size="xl" className="text-white">404</Display>
           <H2 className="text-white">Page Not Found</H2>
           <Body className="max-w-md text-grey-400">

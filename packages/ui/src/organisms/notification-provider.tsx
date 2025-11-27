@@ -44,7 +44,7 @@ export function NotificationProvider({ children }: NotificationProviderProps) {
       
       {/* Toast Container */}
       <div
-        className="pointer-events-none fixed bottom-0 right-0 z-50 flex flex-col gap-4 p-6"
+        className="pointer-events-none fixed bottom-0 right-0 z-modal flex flex-col gap-gap-md p-spacing-6"
         aria-live="polite"
         aria-atomic="true"
       >

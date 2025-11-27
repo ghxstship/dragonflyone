@@ -99,7 +99,7 @@ export default function CatalogPage() {
         <Stack direction="horizontal" className="justify-between items-start mb-8">
           <Stack gap={2}>
             <Display>PRODUCTION ADVANCING CATALOG</Display>
-            <Body className="text-grey-600">
+            <Body className="text-ink-600">
               Browse {data?.total || 329} standardized production items across all categories
             </Body>
           </Stack>
@@ -122,7 +122,7 @@ export default function CatalogPage() {
         <Card className="p-6 mb-8">
           <Stack direction="horizontal" gap={4} className="mb-4">
             <Stack className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-grey-600" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-ink-600" />
               <Input
                 placeholder="Search catalog items by name, ID, or specification..."
                 value={searchTerm}
@@ -175,7 +175,7 @@ export default function CatalogPage() {
           {/* Subcategory Pills - Show when category is selected */}
           {selectedCategory && subcategories.length > 0 && (
             <Stack gap={2}>
-              <Body className="text-body-sm text-grey-600 font-bold">SUBCATEGORIES:</Body>
+              <Body className="text-body-sm text-ink-600 font-bold">SUBCATEGORIES:</Body>
               <Stack direction="horizontal" className="flex-wrap gap-2">
                 <Badge
                   variant={!selectedSubcategory ? 'solid' : 'outline'}
@@ -200,7 +200,7 @@ export default function CatalogPage() {
 
           {/* Advanced Filters Panel */}
           {showFilters && (
-            <Stack gap={4} className="mt-4 pt-4 border-t border-grey-200">
+            <Stack gap={4} className="mt-4 pt-4 border-t border-ink-200">
               <Grid cols={3} gap={4}>
                 <Field label="View Mode">
                   <Select value={viewMode} onChange={(e) => setViewMode(e.target.value as 'grid' | 'list')}>
@@ -230,8 +230,8 @@ export default function CatalogPage() {
               >
                 <Stack direction="horizontal" className="justify-between items-start mb-3">
                   <Stack direction="horizontal" gap={2} className="items-center">
-                    <Package className="h-4 w-4 text-grey-600" />
-                    <Body className="text-mono-xs text-grey-600">
+                    <Package className="h-4 w-4 text-ink-600" />
+                    <Body className="text-mono-xs text-ink-600">
                       {item.item_id}
                     </Body>
                   </Stack>
@@ -243,7 +243,7 @@ export default function CatalogPage() {
                 <H3 className="mb-2">{item.item_name}</H3>
                 
                 <Stack direction="horizontal" gap={2} className="items-center mb-3">
-                  <Badge className="bg-grey-200 text-black text-mono-xs">
+                  <Badge className="bg-ink-200 text-black text-mono-xs">
                     {item.category.toUpperCase()}
                   </Badge>
                   <Badge className="bg-white border-2 border-black text-mono-xs">
@@ -252,25 +252,25 @@ export default function CatalogPage() {
                 </Stack>
 
                 {item.specifications && (
-                  <Body className="text-body-sm text-grey-600 line-clamp-2 mb-3">
+                  <Body className="text-body-sm text-ink-600 line-clamp-2 mb-3">
                     {item.specifications}
                   </Body>
                 )}
 
                 <Stack direction="horizontal" gap={1}>
-                  <Body className="text-mono-xs text-grey-600">Unit:</Body>
+                  <Body className="text-mono-xs text-ink-600">Unit:</Body>
                   <Label className="text-mono-xs font-bold">{item.standard_unit}</Label>
                 </Stack>
 
                 {item.common_variations && item.common_variations.length > 0 && (
                   <Stack direction="horizontal" className="mt-3 flex-wrap gap-1">
                     {item.common_variations.slice(0, 3).map((variation, idx) => (
-                      <Badge key={idx} className="bg-white border border-grey-400 text-mono-xs">
+                      <Badge key={idx} className="bg-white border border-ink-400 text-mono-xs">
                         {variation}
                       </Badge>
                     ))}
                     {item.common_variations.length > 3 && (
-                      <Badge className="bg-white border border-grey-400 text-mono-xs">
+                      <Badge className="bg-white border border-ink-400 text-mono-xs">
                         +{item.common_variations.length - 3} more
                       </Badge>
                     )}
@@ -283,13 +283,13 @@ export default function CatalogPage() {
           <EmptyState
             title="NO ITEMS FOUND"
             description="Try adjusting your search or filters"
-            icon={<Package className="h-12 w-12 text-grey-600" />}
+            icon={<Package className="h-12 w-12 text-ink-600" />}
           />
         )}
 
         {/* Results Summary */}
         {data && (
-          <Body className="text-center text-grey-600 mt-8">
+          <Body className="text-center text-ink-600 mt-8">
             Showing {data.items?.length || 0} of {data.total} items
             {selectedCategory && ` in ${selectedCategory}`}
           </Body>

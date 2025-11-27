@@ -96,7 +96,7 @@ export default function SignInPage() {
         <Stack gap={8} className="mx-auto max-w-md">
           <Stack gap={4} className="text-center">
             <H2 className="text-white">Sign In</H2>
-            <Body className="text-grey-400">
+            <Body className="text-ink-400">
               Access your GVTEWAY account to manage events, tickets, and experiences.
             </Body>
           </Stack>
@@ -113,7 +113,7 @@ export default function SignInPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="your@email.com"
                   required
-                  className="border-grey-700 bg-black text-white"
+                  className="border-ink-700 bg-black text-white"
                 />
               </Field>
 
@@ -124,16 +124,16 @@ export default function SignInPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter your password"
                   required
-                  className="border-grey-700 bg-black text-white"
+                  className="border-ink-700 bg-black text-white"
                 />
               </Field>
 
               <Stack direction="horizontal" className="justify-between items-center text-body-sm">
                 <Stack direction="horizontal" gap={2} className="items-center">
                   <Checkbox id="remember" />
-                  <Body size="sm" className="text-grey-400">Remember me</Body>
+                  <Body size="sm" className="text-ink-400">Remember me</Body>
                 </Stack>
-                <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/reset-password'} className="text-white hover:text-grey-400">
+                <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/reset-password'} className="text-white hover:text-ink-400">
                   Forgot password?
                 </Button>
               </Stack>
@@ -147,10 +147,10 @@ export default function SignInPage() {
               {loading ? "Signing In..." : "Sign In"}
             </Button>
 
-              <Stack className="text-center text-body-sm text-grey-400">
-                <Body size="sm" className="text-grey-400">
+              <Stack className="text-center text-body-sm text-ink-400">
+                <Body size="sm" className="text-ink-400">
                   Don&apos;t have an account?{" "}
-                  <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/signup'} className="text-white hover:text-grey-400 inline">
+                  <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/signup'} className="text-white hover:text-ink-400 inline">
                     Sign up
                   </Button>
                 </Body>
@@ -159,18 +159,18 @@ export default function SignInPage() {
 
           <Stack className="relative">
             <Stack className="absolute inset-0 items-center justify-center">
-              <Stack className="w-full border-t-2 border-grey-800" />
+              <Stack className="w-full border-t-2 border-ink-800" />
             </Stack>
             <Stack className="relative justify-center">
-              <Body size="sm" className="bg-black px-4 text-grey-500 text-center">OR</Body>
+              <Body size="sm" className="bg-black px-4 text-ink-500 text-center">OR</Body>
             </Stack>
           </Stack>
 
           <Stack gap={3}>
-            <Button variant="outline" className="w-full border-grey-700 text-grey-400 hover:border-white hover:text-white" onClick={() => handleOAuthSignIn('google')} disabled={loading}>
+            <Button variant="outlineInk" fullWidth onClick={() => handleOAuthSignIn('google')} disabled={loading}>
               Continue with Google
             </Button>
-            <Button variant="outline" className="w-full border-grey-700 text-grey-400 hover:border-white hover:text-white" onClick={() => handleOAuthSignIn('apple')} disabled={loading}>
+            <Button variant="outlineInk" fullWidth onClick={() => handleOAuthSignIn('apple')} disabled={loading}>
               Continue with Apple
             </Button>
           </Stack>

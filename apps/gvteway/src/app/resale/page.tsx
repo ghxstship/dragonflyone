@@ -112,7 +112,7 @@ export default function ResalePage() {
 
   const detailSections: DetailSection[] = selectedListing ? [
     { id: 'overview', title: 'Listing Details', content: (
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-spacing-4">
         <div><strong>Event:</strong> {selectedListing.event_name}</div>
         <div><strong>Venue:</strong> {selectedListing.venue_name}</div>
         <div><strong>Date:</strong> {new Date(selectedListing.event_date).toLocaleDateString()}</div>

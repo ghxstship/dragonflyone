@@ -53,7 +53,7 @@ export default function CompvssDashboardPage() {
         {/* Header */}
         <Stack gap={2} className="border-b-2 border-black pb-8">
           <H1>Production Operations</H1>
-          <Body className="text-grey-600">Welcome back, {user.name}</Body>
+          <Body className="text-ink-600">Welcome back, {user.name}</Body>
         </Stack>
 
         {/* Production Manager View */}
@@ -178,7 +178,7 @@ export default function CompvssDashboardPage() {
                 </Stack>
               </Card>
 
-              <Card className="p-6 border-l-4 border-grey-700">
+              <Card className="p-6 border-l-4 border-ink-700">
                 <Stack gap={4} direction="horizontal" className="justify-between items-start">
                   <Stack gap={2}>
                     <Body className="font-bold text-body-md">Corporate Product Launch</Body>
@@ -198,7 +198,7 @@ export default function CompvssDashboardPage() {
                 </Stack>
               </Card>
 
-              <Card className="p-6 border-l-4 border-grey-400">
+              <Card className="p-6 border-l-4 border-ink-400">
                 <Stack gap={4} direction="horizontal" className="justify-between items-start">
                   <Stack gap={2}>
                     <Body className="font-bold text-body-md">Theater Production: Hamilton</Body>

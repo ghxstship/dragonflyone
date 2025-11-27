@@ -62,9 +62,9 @@ export default function CommunicationsPage() {
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case 'critical': return 'bg-black text-white';
-      case 'high': return 'bg-grey-900 text-white';
+      case 'high': return 'bg-ink-900 text-white';
       case 'medium': return 'bg-white text-black border-2 border-black';
-      default: return 'bg-grey-200 text-black';
+      default: return 'bg-ink-200 text-black';
     }
   };
 
@@ -73,10 +73,10 @@ export default function CommunicationsPage() {
       <CreatorNavigationAuthenticated />
       <Container className="py-16">
         <Stack gap={8}>
-          <Stack gap={4} direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b border-grey-800 pb-8">
+          <Stack gap={4} direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b border-ink-800 pb-8">
             <Stack gap={2}>
               <H1>Communications</H1>
-              <Body className="text-grey-600">Radio channels and team messaging</Body>
+              <Body className="text-ink-600">Radio channels and team messaging</Body>
             </Stack>
             <Stack gap={3} direction="horizontal">
               <Button variant="outline" onClick={() => router.push('/communications/alerts')}>
@@ -92,19 +92,19 @@ export default function CommunicationsPage() {
 
         <Grid cols={4} gap={6} className="mb-8">
           <Card className="p-6 text-center">
-            <Radio className="w-8 h-8 mx-auto mb-2 text-grey-600" />
+            <Radio className="w-8 h-8 mx-auto mb-2 text-ink-600" />
             <H2>{channels.filter(c => c.status === 'active').length}</H2>
-            <Body className="text-grey-600">Active Channels</Body>
+            <Body className="text-ink-600">Active Channels</Body>
           </Card>
           <Card className="p-6 text-center">
-            <Users className="w-8 h-8 mx-auto mb-2 text-grey-600" />
+            <Users className="w-8 h-8 mx-auto mb-2 text-ink-600" />
             <H2>{channels.reduce((sum, c) => sum + c.users, 0)}</H2>
-            <Body className="text-grey-600">Connected Users</Body>
+            <Body className="text-ink-600">Connected Users</Body>
           </Card>
           <Card className="p-6 text-center">
-            <MessageSquare className="w-8 h-8 mx-auto mb-2 text-grey-600" />
+            <MessageSquare className="w-8 h-8 mx-auto mb-2 text-ink-600" />
             <H2>{messages.length}</H2>
-            <Body className="text-grey-600">Recent Messages</Body>
+            <Body className="text-ink-600">Recent Messages</Body>
           </Card>
           <Card className="p-6 text-center bg-black text-white">
             <AlertCircle className="w-8 h-8 mx-auto mb-2" />
@@ -121,10 +121,10 @@ export default function CommunicationsPage() {
                 <Card key={channel.id} className="p-6">
                   <Stack gap={3} direction="horizontal" className="justify-between items-start mb-3">
                     <Stack gap={3} direction="horizontal" className="items-center">
-                      <Radio className="w-6 h-6 text-grey-600" />
+                      <Radio className="w-6 h-6 text-ink-600" />
                       <Stack gap={1}>
                         <H3>{channel.name}</H3>
-                        <Body className="text-body-sm text-grey-600">{channel.frequency}</Body>
+                        <Body className="text-body-sm text-ink-600">{channel.frequency}</Body>
                       </Stack>
                     </Stack>
                     <Badge className={getPriorityColor(channel.priority)}>
@@ -133,7 +133,7 @@ export default function CommunicationsPage() {
                   </Stack>
                   
                   <Stack gap={4} direction="horizontal" className="justify-between items-center">
-                    <Stack gap={2} direction="horizontal" className="items-center text-body-sm text-grey-600">
+                    <Stack gap={2} direction="horizontal" className="items-center text-body-sm text-ink-600">
                       <Users className="w-4 h-4" />
                       <Body className="text-body-sm">{channel.users} users</Body>
                     </Stack>
@@ -155,23 +155,23 @@ export default function CommunicationsPage() {
                     <Badge className="bg-white text-black border-2 border-black">
                       {msg.channel}
                     </Badge>
-                    <Body className="text-body-sm text-grey-600">{msg.timestamp}</Body>
+                    <Body className="text-body-sm text-ink-600">{msg.timestamp}</Body>
                   </Stack>
                   <Body className="font-bold mb-1">{msg.sender}</Body>
-                  <Body className="text-grey-600">{msg.message}</Body>
+                  <Body className="text-ink-600">{msg.message}</Body>
                 </Card>
               ))}
             </Stack>
 
-            <Card className="p-6 mt-4 border-2 border-dashed border-grey-300">
-              <MessageSquare className="w-8 h-8 mx-auto mb-3 text-grey-600" />
+            <Card className="p-6 mt-4 border-2 border-dashed border-ink-300">
+              <MessageSquare className="w-8 h-8 mx-auto mb-3 text-ink-600" />
               <H3 className="text-center mb-2">Send Broadcast Message</H3>
               <Button className="w-full" onClick={() => router.push('/communications/broadcast')}>COMPOSE</Button>
             </Card>
           </Stack>
         </Grid>
 
-        <Card className="p-6 bg-grey-50">
+        <Card className="p-6 bg-ink-50">
           <H3 className="mb-4">EMERGENCY CONTACTS</H3>
           <Grid cols={3} gap={6}>
             {[
@@ -184,7 +184,7 @@ export default function CommunicationsPage() {
                   <contact.icon className="w-6 h-6" />
                   <Stack gap={1}>
                     <Body className="font-bold">{contact.name}</Body>
-                    <Body className="text-body-sm text-grey-600">{contact.number}</Body>
+                    <Body className="text-body-sm text-ink-600">{contact.number}</Body>
                   </Stack>
                 </Stack>
               </Card>

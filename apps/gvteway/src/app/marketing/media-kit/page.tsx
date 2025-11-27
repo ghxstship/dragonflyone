@@ -67,8 +67,8 @@ export default function MediaKitPage() {
     switch (status) {
       case "Published": return "text-success-600";
       case "Distributed": return "text-info-600";
-      case "Draft": return "text-grey-600";
-      default: return "text-grey-600";
+      case "Draft": return "text-ink-600";
+      default: return "text-ink-600";
     }
   };
 
@@ -78,7 +78,7 @@ export default function MediaKitPage() {
         <Stack gap={8}>
           <Stack gap={2}>
             <H1>MEDIA KIT</H1>
-            <Body className="text-grey-600">Press materials and media asset distribution</Body>
+            <Body className="text-ink-600">Press materials and media asset distribution</Body>
           </Stack>
 
           <Grid cols={4} gap={6}>
@@ -109,7 +109,7 @@ export default function MediaKitPage() {
                   {mockAssets.map((asset) => (
                     <Card key={asset.id} className="border-2 border-black p-4">
                       <Stack gap={3}>
-                        <Card className="h-24 bg-grey-100 flex items-center justify-center">
+                        <Card className="h-24 bg-ink-100 flex items-center justify-center">
                           <Label className="text-h3-md">{getTypeIcon(asset.type)}</Label>
                         </Card>
                         <Stack gap={1}>
@@ -117,8 +117,8 @@ export default function MediaKitPage() {
                           <Badge variant="outline">{asset.type}</Badge>
                         </Stack>
                         <Stack direction="horizontal" className="justify-between">
-                          <Label className="text-grey-500">{asset.format}</Label>
-                          <Label className="text-grey-500">{asset.size}</Label>
+                          <Label className="text-ink-500">{asset.format}</Label>
+                          <Label className="text-ink-500">{asset.size}</Label>
                         </Stack>
                         <Stack direction="horizontal" gap={2}>
                           <Button variant="outline" size="sm" onClick={() => setSelectedAsset(asset)}>Preview</Button>
@@ -141,12 +141,12 @@ export default function MediaKitPage() {
                     <Grid cols={4} gap={4} className="items-center">
                       <Stack gap={1}>
                         <Body className="font-bold">{release.title}</Body>
-                        <Label className="text-grey-500">{release.event}</Label>
+                        <Label className="text-ink-500">{release.event}</Label>
                       </Stack>
-                      <Label className="text-grey-600">{release.date}</Label>
+                      <Label className="text-ink-600">{release.date}</Label>
                       <Stack direction="horizontal" gap={2}>
                         <Label className={getStatusColor(release.status)}>{release.status}</Label>
-                        {release.downloads > 0 && <Label className="text-grey-500">{release.downloads} downloads</Label>}
+                        {release.downloads > 0 && <Label className="text-ink-500">{release.downloads} downloads</Label>}
                       </Stack>
                       <Stack direction="horizontal" gap={2}>
                         <Button variant="outline" size="sm">Edit</Button>
@@ -164,14 +164,14 @@ export default function MediaKitPage() {
                 <Stack gap={6}>
                   <H3>Press Contact Information</H3>
                   <Grid cols={2} gap={6}>
-                    <Card className="p-4 border border-grey-200">
+                    <Card className="p-4 border border-ink-200">
                       <Stack gap={2}>
                         <Label className="font-bold">Media Inquiries</Label>
                         <Label>press@company.com</Label>
                         <Label>+1 (555) 123-4567</Label>
                       </Stack>
                     </Card>
-                    <Card className="p-4 border border-grey-200">
+                    <Card className="p-4 border border-ink-200">
                       <Stack gap={2}>
                         <Label className="font-bold">Press Contact</Label>
                         <Label>Sarah Johnson</Label>
@@ -187,10 +187,10 @@ export default function MediaKitPage() {
                         { name: "Local Media", count: 89 },
                         { name: "Industry Publications", count: 56 },
                       ].map((list, idx) => (
-                        <Card key={idx} className="p-3 border border-grey-200">
+                        <Card key={idx} className="p-3 border border-ink-200">
                           <Stack direction="horizontal" className="justify-between">
                             <Label>{list.name}</Label>
-                            <Label className="text-grey-500">{list.count} contacts</Label>
+                            <Label className="text-ink-500">{list.count} contacts</Label>
                           </Stack>
                         </Card>
                       ))}
@@ -204,7 +204,7 @@ export default function MediaKitPage() {
           <Card className="border-2 border-black p-6">
             <Stack gap={4}>
               <H3>Download Complete Media Kit</H3>
-              <Body className="text-grey-600">Get all media assets, press releases, and fact sheets in one download.</Body>
+              <Body className="text-ink-600">Get all media assets, press releases, and fact sheets in one download.</Body>
               <Stack direction="horizontal" gap={4}>
                 <Button variant="solid">Download Full Kit (ZIP)</Button>
                 <Button variant="outline">Generate Custom Kit</Button>
@@ -221,19 +221,19 @@ export default function MediaKitPage() {
         <ModalBody>
           {selectedAsset && (
             <Stack gap={4}>
-              <Card className="h-48 bg-grey-100 flex items-center justify-center">
+              <Card className="h-48 bg-ink-100 flex items-center justify-center">
                 <Label className="text-h1-sm">{getTypeIcon(selectedAsset.type)}</Label>
               </Card>
               <Body className="font-bold">{selectedAsset.name}</Body>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label className="text-grey-500">Type</Label><Badge variant="outline">{selectedAsset.type}</Badge></Stack>
-                <Stack gap={1}><Label className="text-grey-500">Format</Label><Label>{selectedAsset.format}</Label></Stack>
+                <Stack gap={1}><Label className="text-ink-500">Type</Label><Badge variant="outline">{selectedAsset.type}</Badge></Stack>
+                <Stack gap={1}><Label className="text-ink-500">Format</Label><Label>{selectedAsset.format}</Label></Stack>
               </Grid>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label className="text-grey-500">Size</Label><Label>{selectedAsset.size}</Label></Stack>
-                <Stack gap={1}><Label className="text-grey-500">Updated</Label><Label>{selectedAsset.lastUpdated}</Label></Stack>
+                <Stack gap={1}><Label className="text-ink-500">Size</Label><Label>{selectedAsset.size}</Label></Stack>
+                <Stack gap={1}><Label className="text-ink-500">Updated</Label><Label>{selectedAsset.lastUpdated}</Label></Stack>
               </Grid>
-              {selectedAsset.event && <Stack gap={1}><Label className="text-grey-500">Event</Label><Label>{selectedAsset.event}</Label></Stack>}
+              {selectedAsset.event && <Stack gap={1}><Label className="text-ink-500">Event</Label><Label>{selectedAsset.event}</Label></Stack>}
             </Stack>
           )}
         </ModalBody>
@@ -247,10 +247,10 @@ export default function MediaKitPage() {
         <ModalHeader><H3>Upload Media Asset</H3></ModalHeader>
         <ModalBody>
           <Stack gap={4}>
-            <Card className="p-8 border-2 border-dashed border-grey-300 text-center">
+            <Card className="p-8 border-2 border-dashed border-ink-300 text-center">
               <Stack gap={2}>
                 <Label className="text-h3-md">📁</Label>
-                <Label className="text-grey-500">Drag and drop files here</Label>
+                <Label className="text-ink-500">Drag and drop files here</Label>
                 <Button variant="outline">Browse Files</Button>
               </Stack>
             </Card>

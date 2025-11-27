@@ -55,7 +55,7 @@ export function CrewAssignmentModal({
     <Modal open={isOpen} onClose={onClose}>
       <ModalHeader>
         <H2 className="uppercase">Assign Crew to Project</H2>
-        <Body className="text-body-sm text-grey-600">Project ID: {projectId}</Body>
+        <Body className="text-body-sm text-ink-600">Project ID: {projectId}</Body>
       </ModalHeader>
 
       <ModalBody>
@@ -63,11 +63,11 @@ export function CrewAssignmentModal({
           {availableCrew.map(crew => (
             <Label
               key={crew.id}
-              className="flex cursor-pointer items-center justify-between border-2 border-grey-300 p-4 hover:border-black transition-colors"
+              className="flex cursor-pointer items-center justify-between border-2 border-ink-300 p-4 hover:border-black transition-colors"
             >
               <Stack gap={1}>
                 <Body className="font-bold">{crew.name}</Body>
-                <Body className="text-body-sm text-grey-600">{crew.role}</Body>
+                <Body className="text-body-sm text-ink-600">{crew.role}</Body>
               </Stack>
               <Checkbox
                 checked={selectedCrew.includes(crew.id)}

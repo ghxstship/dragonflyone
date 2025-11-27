@@ -28,23 +28,23 @@ export default function VenuesPage() {
           <H1>Venue Directory</H1>
           <Grid cols={3} gap={6}>
             {venues.map((venue) => (
-              <Card key={venue.id} className="border-2 border-grey-800 p-6 bg-black">
+              <Card key={venue.id} className="border-2 border-ink-800 p-6 bg-black">
                 <Stack gap={4}>
                   <Stack gap={2}>
                     <H3 className="text-white">{venue.name}</H3>
-                    <Body className="text-grey-400">{venue.city}</Body>
+                    <Body className="text-ink-400">{venue.city}</Body>
                   </Stack>
                   <Stack gap={2}>
                     <Stack gap={2} direction="horizontal" className="justify-between text-body-sm">
-                      <Body className="text-grey-500">Capacity:</Body>
+                      <Body className="text-ink-500">Capacity:</Body>
                       <Body className="font-mono text-white">{venue.capacity.toLocaleString()}</Body>
                     </Stack>
                     <Stack gap={2} direction="horizontal" className="justify-between text-body-sm">
-                      <Body className="text-grey-500">Type:</Body>
+                      <Body className="text-ink-500">Type:</Body>
                       <Badge variant="outline">{venue.type}</Badge>
                     </Stack>
                     <Stack gap={2} direction="horizontal" className="justify-between text-body-sm">
-                      <Body className="text-grey-500">Status:</Body>
+                      <Body className="text-ink-500">Status:</Body>
                       <Badge variant={venue.status === "Available" ? "solid" : "outline"}>{venue.status}</Badge>
                     </Stack>
                   </Stack>

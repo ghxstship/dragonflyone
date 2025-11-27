@@ -44,10 +44,10 @@ export function SocialProofWidget({ eventId, variant = "compact" }: SocialProofP
         {data.trending && (
           <Badge variant="solid" className="bg-error-500">🔥 Trending</Badge>
         )}
-        <Label size="xs" className="text-grey-500">
+        <Label size="xs" className="text-ink-500">
           👥 {data.viewingNow} viewing now
         </Label>
-        <Label size="xs" className="text-grey-500">
+        <Label size="xs" className="text-ink-500">
           🎟️ {data.recentPurchases} bought in last hour
         </Label>
         {data.friendsAttending > 0 && (
@@ -69,17 +69,17 @@ export function SocialProofWidget({ eventId, variant = "compact" }: SocialProofP
         
         <Stack gap={3}>
           <Stack direction="horizontal" className="justify-between">
-            <Label className="text-grey-600">👥 People viewing</Label>
+            <Label className="text-ink-600">👥 People viewing</Label>
             <Label className="font-mono">{data.viewingNow}</Label>
           </Stack>
           
           <Stack direction="horizontal" className="justify-between">
-            <Label className="text-grey-600">🎟️ Bought in last hour</Label>
+            <Label className="text-ink-600">🎟️ Bought in last hour</Label>
             <Label className="font-mono">{data.recentPurchases}</Label>
           </Stack>
           
           <Stack direction="horizontal" className="justify-between">
-            <Label className="text-grey-600">✅ Total attending</Label>
+            <Label className="text-ink-600">✅ Total attending</Label>
             <Label className="font-mono">{data.attendeeCount.toLocaleString()}</Label>
           </Stack>
           
@@ -93,10 +93,10 @@ export function SocialProofWidget({ eventId, variant = "compact" }: SocialProofP
 
         <Stack gap={2}>
           <Stack direction="horizontal" className="justify-between">
-            <Label size="xs" className="text-grey-500">Tickets sold</Label>
-            <Label size="xs" className="text-grey-500">{data.soldPercentage}%</Label>
+            <Label size="xs" className="text-ink-500">Tickets sold</Label>
+            <Label size="xs" className="text-ink-500">{data.soldPercentage}%</Label>
           </Stack>
-          <Card className="h-2 bg-grey-200 overflow-hidden">
+          <Card className="h-2 bg-ink-200 overflow-hidden">
             <Card className={`h-full ${data.soldPercentage > 80 ? "bg-error-500" : data.soldPercentage > 50 ? "bg-warning-500" : "bg-success-500"}`} style={{ '--progress-width': `${data.soldPercentage}%`, width: 'var(--progress-width)' } as React.CSSProperties} />
           </Card>
           {data.soldPercentage > 75 && (
@@ -140,7 +140,7 @@ export function RecentPurchaseToast() {
         </Card>
         <Stack gap={1}>
           <Label className="font-bold">{purchase.name} from {purchase.location}</Label>
-          <Label size="xs" className="text-grey-500">
+          <Label size="xs" className="text-ink-500">
             Just purchased {purchase.tickets} ticket{purchase.tickets > 1 ? "s" : ""}
           </Label>
         </Stack>
@@ -155,11 +155,11 @@ export function AttendeeAvatars({ count = 5 }: { count?: number }) {
   return (
     <Stack direction="horizontal" gap={0}>
       {avatars.slice(0, count).map((avatar, idx) => (
-        <Card key={idx} className="w-8 h-8 bg-grey-100 border-2 border-white rounded-full flex items-center justify-center -ml-2 first:ml-0">
+        <Card key={idx} className="w-8 h-8 bg-ink-100 border-2 border-white rounded-full flex items-center justify-center -ml-2 first:ml-0">
           <Label size="xs">{avatar}</Label>
         </Card>
       ))}
-      <Label size="xs" className="ml-2 text-grey-500">+2,842 attending</Label>
+      <Label size="xs" className="ml-2 text-ink-500">+2,842 attending</Label>
     </Stack>
   );
 }

@@ -115,7 +115,7 @@ export const DuotoneImage = forwardRef<HTMLImageElement, DuotoneImageProps>(
           <div className="absolute inset-0 flex items-center justify-center">
             {placeholderType === 'geometric' && (
               <div className="w-full h-full bg-grey-200 flex items-center justify-center">
-                <div className="w-16 h-16 border-4 border-black" />
+                <div className="w-spacing-16 h-spacing-16 border-4 border-black" />
               </div>
             )}
             {placeholderType === 'halftone' && (
@@ -133,12 +133,12 @@ export const DuotoneImage = forwardRef<HTMLImageElement, DuotoneImageProps>(
         {hasError && (
           <div className="absolute inset-0 flex items-center justify-center bg-grey-200">
             <div className="text-center">
-              <div className="w-12 h-12 mx-auto mb-2 border-2 border-black flex items-center justify-center">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-spacing-12 h-spacing-12 mx-auto mb-spacing-2 border-2 border-black flex items-center justify-center">
+                <svg className="w-spacing-6 h-spacing-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="square" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </div>
-              <span className="font-mono text-xs uppercase tracking-wider text-grey-600">
+              <span className="font-code text-mono-xs uppercase tracking-wider text-grey-600">
                 Image unavailable
               </span>
             </div>
@@ -223,7 +223,7 @@ export const ImageWithOverlay = forwardRef<HTMLDivElement, ImageWithOverlayProps
         {overlay && (
           <div
             className={clsx(
-              'absolute z-10 p-4 transition-opacity duration-300',
+              'absolute z-10 p-spacing-4 transition-opacity duration-300',
               overlayPositionClasses[overlayPosition],
               overlayBackgroundClasses[overlayBackground],
               overlayOnHover && 'opacity-0 group-hover:opacity-100'

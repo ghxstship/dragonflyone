@@ -48,8 +48,8 @@ export default function InfluencersPage() {
     switch (status) {
       case "Active": return "text-success-600";
       case "Pending": return "text-warning-600";
-      case "Completed": return "text-grey-500";
-      default: return "text-grey-600";
+      case "Completed": return "text-ink-500";
+      default: return "text-ink-600";
     }
   };
 
@@ -61,7 +61,7 @@ export default function InfluencersPage() {
         <Stack gap={8}>
           <Stack gap={2}>
             <H1>INFLUENCER PARTNERSHIPS</H1>
-            <Body className="text-grey-600">Track and manage influencer marketing campaigns</Body>
+            <Body className="text-ink-600">Track and manage influencer marketing campaigns</Body>
           </Stack>
 
           <Grid cols={4} gap={6}>
@@ -90,7 +90,7 @@ export default function InfluencersPage() {
                   <Stack direction="horizontal" className="justify-between">
                     <Stack gap={1}>
                       <Body className="font-bold">{influencer.name}</Body>
-                      <Label className="text-grey-500">{influencer.handle}</Label>
+                      <Label className="text-ink-500">{influencer.handle}</Label>
                     </Stack>
                     <Stack gap={1} className="text-right">
                       <Badge variant="outline">{influencer.platform}</Badge>
@@ -98,13 +98,13 @@ export default function InfluencersPage() {
                     </Stack>
                   </Stack>
                   <Grid cols={3} gap={4}>
-                    <Stack gap={1}><Label size="xs" className="text-grey-600">Followers</Label><Label className="font-mono">{formatNumber(influencer.followers)}</Label></Stack>
-                    <Stack gap={1}><Label size="xs" className="text-grey-600">Engagement</Label><Label className="font-mono">{influencer.engagement}%</Label></Stack>
-                    <Stack gap={1}><Label size="xs" className="text-grey-600">Niche</Label><Badge variant="outline">{influencer.niche}</Badge></Stack>
+                    <Stack gap={1}><Label size="xs" className="text-ink-600">Followers</Label><Label className="font-mono">{formatNumber(influencer.followers)}</Label></Stack>
+                    <Stack gap={1}><Label size="xs" className="text-ink-600">Engagement</Label><Label className="font-mono">{influencer.engagement}%</Label></Stack>
+                    <Stack gap={1}><Label size="xs" className="text-ink-600">Niche</Label><Badge variant="outline">{influencer.niche}</Badge></Stack>
                   </Grid>
                   <Grid cols={2} gap={4}>
-                    <Stack gap={1}><Label size="xs" className="text-grey-600">Campaigns</Label><Label className="font-mono">{influencer.campaigns}</Label></Stack>
-                    <Stack gap={1}><Label size="xs" className="text-grey-600">Revenue</Label><Label className="font-mono">${formatNumber(influencer.revenue)}</Label></Stack>
+                    <Stack gap={1}><Label size="xs" className="text-ink-600">Campaigns</Label><Label className="font-mono">{influencer.campaigns}</Label></Stack>
+                    <Stack gap={1}><Label size="xs" className="text-ink-600">Revenue</Label><Label className="font-mono">${formatNumber(influencer.revenue)}</Label></Stack>
                   </Grid>
                   <Button variant="outline" size="sm" onClick={() => setSelectedInfluencer(influencer)}>View Details</Button>
                 </Stack>
@@ -122,20 +122,20 @@ export default function InfluencersPage() {
           {selectedInfluencer && (
             <Stack gap={4}>
               <Stack direction="horizontal" className="justify-between">
-                <Label className="text-grey-500">{selectedInfluencer.handle}</Label>
+                <Label className="text-ink-500">{selectedInfluencer.handle}</Label>
                 <Badge variant="outline">{selectedInfluencer.platform}</Badge>
               </Stack>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label className="text-grey-600">Followers</Label><Label className="font-mono text-h6-md">{formatNumber(selectedInfluencer.followers)}</Label></Stack>
-                <Stack gap={1}><Label className="text-grey-600">Engagement</Label><Label className="font-mono text-h6-md">{selectedInfluencer.engagement}%</Label></Stack>
+                <Stack gap={1}><Label className="text-ink-600">Followers</Label><Label className="font-mono text-h6-md">{formatNumber(selectedInfluencer.followers)}</Label></Stack>
+                <Stack gap={1}><Label className="text-ink-600">Engagement</Label><Label className="font-mono text-h6-md">{selectedInfluencer.engagement}%</Label></Stack>
               </Grid>
               <Stack gap={2}>
-                <Label className="text-grey-600">Performance</Label>
+                <Label className="text-ink-600">Performance</Label>
                 <ProgressBar value={selectedInfluencer.engagement * 10} className="h-2" />
               </Stack>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label className="text-grey-600">Campaigns</Label><Label className="font-mono">{selectedInfluencer.campaigns}</Label></Stack>
-                <Stack gap={1}><Label className="text-grey-600">Revenue Generated</Label><Label className="font-mono">${formatNumber(selectedInfluencer.revenue)}</Label></Stack>
+                <Stack gap={1}><Label className="text-ink-600">Campaigns</Label><Label className="font-mono">{selectedInfluencer.campaigns}</Label></Stack>
+                <Stack gap={1}><Label className="text-ink-600">Revenue Generated</Label><Label className="font-mono">${formatNumber(selectedInfluencer.revenue)}</Label></Stack>
               </Grid>
             </Stack>
           )}

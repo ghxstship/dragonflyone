@@ -40,7 +40,7 @@ export default function Error({
           <Stack gap={8} className="mx-auto max-w-2xl">
             <Stack gap={4} className="text-center">
               <H2 className="text-white">Something Went Wrong</H2>
-              <Body className="text-grey-400">
+              <Body className="text-ink-400">
                 We encountered an unexpected error. Please try again.
               </Body>
             </Stack>

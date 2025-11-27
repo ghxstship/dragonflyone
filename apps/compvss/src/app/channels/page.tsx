@@ -150,7 +150,7 @@ export default function ChannelsPage() {
       department: 'bg-info-500 text-white',
       project: 'bg-purple-500 text-white',
       broadcast: 'bg-warning-500 text-white',
-      private: 'bg-grey-500 text-white',
+      private: 'bg-ink-500 text-white',
     };
     return <Badge className={colors[type] || ''}>{type}</Badge>;
   };
@@ -377,7 +377,7 @@ export default function ChannelsPage() {
                     <Body className="text-white">{member.name}</Body>
                     <Label size="xs" className="text-ink-500">{member.role}</Label>
                   </Stack>
-                  <Badge className={member.is_online ? 'bg-success-500 text-white' : 'bg-grey-500 text-white'}>
+                  <Badge className={member.is_online ? 'bg-success-500 text-white' : 'bg-ink-500 text-white'}>
                     {member.is_online ? 'Online' : 'Offline'}
                   </Badge>
                 </Stack>

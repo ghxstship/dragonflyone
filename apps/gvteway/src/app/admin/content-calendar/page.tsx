@@ -42,8 +42,8 @@ export default function ContentCalendarPage() {
     switch (status) {
       case "Published": return "text-success-600";
       case "Scheduled": return "text-info-600";
-      case "Draft": return "text-grey-500";
-      default: return "text-grey-600";
+      case "Draft": return "text-ink-500";
+      default: return "text-ink-600";
     }
   };
 
@@ -54,7 +54,7 @@ export default function ContentCalendarPage() {
         <Stack gap={8}>
           <Stack gap={2} className="border-b-2 border-black pb-8">
             <H1>Content Calendar</H1>
-            <Body className="text-grey-600">Schedule and manage social media content</Body>
+            <Body className="text-ink-600">Schedule and manage social media content</Body>
           </Stack>
 
           <Grid cols={4} gap={6}>
@@ -80,12 +80,12 @@ export default function ContentCalendarPage() {
                 <Grid cols={6} gap={4} className="items-center">
                   <Stack gap={1}>
                     <Body className="font-bold">{post.title}</Body>
-                    <Label className="text-grey-500">{post.author}</Label>
+                    <Label className="text-ink-500">{post.author}</Label>
                   </Stack>
                   <Badge variant="outline">{post.platform}</Badge>
                   <Stack gap={1}>
                     <Label>{post.scheduledDate}</Label>
-                    <Label className="text-grey-500">{post.scheduledTime}</Label>
+                    <Label className="text-ink-500">{post.scheduledTime}</Label>
                   </Stack>
                   <Badge variant="outline">{post.mediaType}</Badge>
                   <Label className={getStatusColor(post.status)}>{post.status}</Label>

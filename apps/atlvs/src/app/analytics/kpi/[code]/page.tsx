@@ -117,7 +117,7 @@ export default function KPIDetailPage() {
           <Stack direction="horizontal" className="items-start justify-between">
             <Stack>
               <Display>{kpi.name}</Display>
-              <Body className="mt-4 text-grey-600">{kpi.description}</Body>
+              <Body className="mt-4 text-ink-600">{kpi.description}</Body>
               <Stack direction="horizontal" gap={3} className="mt-4 items-center">
                 <Badge variant="outline" className="font-mono">
                   {kpi.code}
@@ -143,7 +143,7 @@ export default function KPIDetailPage() {
         {latestValue !== null && (
           <Grid cols={4} className="mb-8">
             <Card className="p-6 bg-info-50">
-              <Body className="text-body-sm text-grey-600 mb-2">CURRENT VALUE</Body>
+              <Body className="text-body-sm text-ink-600 mb-2">CURRENT VALUE</Body>
               <H2 className="text-info-700">
                 {latestValue.toFixed(2)}{getUnitDisplay(kpi.unit)}
               </H2>
@@ -156,12 +156,12 @@ export default function KPIDetailPage() {
 
             {kpi.targetValue && (
               <Card className="p-6">
-                <Body className="text-body-sm text-grey-600 mb-2">TARGET VALUE</Body>
-                <H3 className="text-grey-900">
+                <Body className="text-body-sm text-ink-600 mb-2">TARGET VALUE</Body>
+                <H3 className="text-ink-900">
                   {kpi.targetValue}{getUnitDisplay(kpi.unit)}
                 </H3>
                 {latestValue && (
-                  <Body className="text-body-sm mt-2 text-grey-600">
+                  <Body className="text-body-sm mt-2 text-ink-600">
                     {((latestValue / kpi.targetValue) * 100).toFixed(0)}% of target
                   </Body>
                 )}
@@ -170,7 +170,7 @@ export default function KPIDetailPage() {
 
             {kpi.warningThreshold && (
               <Card className="p-6 bg-warning-50">
-                <Body className="text-body-sm text-grey-600 mb-2">WARNING THRESHOLD</Body>
+                <Body className="text-body-sm text-ink-600 mb-2">WARNING THRESHOLD</Body>
                 <H3 className="text-warning-700">
                   {kpi.warningThreshold}{getUnitDisplay(kpi.unit)}
                 </H3>
@@ -179,7 +179,7 @@ export default function KPIDetailPage() {
 
             {kpi.criticalThreshold && (
               <Card className="p-6 bg-error-50">
-                <Body className="text-body-sm text-grey-600 mb-2">CRITICAL THRESHOLD</Body>
+                <Body className="text-body-sm text-ink-600 mb-2">CRITICAL THRESHOLD</Body>
                 <H3 className="text-error-700">
                   {kpi.criticalThreshold}{getUnitDisplay(kpi.unit)}
                 </H3>
@@ -210,8 +210,8 @@ export default function KPIDetailPage() {
         {/* Trend Chart Placeholder */}
         <Card className="p-6 mb-8">
           <H3 className="mb-4">TREND ANALYSIS</H3>
-          <Stack className="h-64 bg-grey-100 rounded items-center justify-center">
-            <Body className="text-grey-500">
+          <Stack className="h-64 bg-ink-100 rounded items-center justify-center">
+            <Body className="text-ink-500">
               Chart visualization: {trendData.length} data points over {days} days
             </Body>
           </Stack>
@@ -221,7 +221,7 @@ export default function KPIDetailPage() {
         <Grid cols={2} className="mb-8">
           <Card className="p-6">
             <H3 className="mb-4">CALCULATION METHOD</H3>
-            <Body className="font-mono text-body-sm bg-grey-50 p-4 rounded">
+            <Body className="font-mono text-body-sm bg-ink-50 p-4 rounded">
               {kpi.calculation}
             </Body>
           </Card>
@@ -230,13 +230,13 @@ export default function KPIDetailPage() {
             <H3 className="mb-4">DATA SOURCES</H3>
             <Stack gap={3}>
               {kpi.dataSources.map((source, idx) => (
-                <Card key={idx} className="bg-grey-50 p-3 rounded">
+                <Card key={idx} className="bg-ink-50 p-3 rounded">
                   <Body className="font-bold text-body-sm">Table: {source.table}</Body>
-                  <Body className="text-body-sm text-grey-600">
+                  <Body className="text-body-sm text-ink-600">
                     Fields: {source.fields.join(', ')}
                   </Body>
                   {source.filters && source.filters.length > 0 && (
-                    <Body className="text-body-sm text-grey-500 mt-1">
+                    <Body className="text-body-sm text-ink-500 mt-1">
                       Filters: {source.filters.join(', ')}
                     </Body>
                   )}
@@ -252,35 +252,35 @@ export default function KPIDetailPage() {
           <Grid cols={3}>
             <Stack>
               <Label className="font-bold mb-2">Update Frequency</Label>
-              <Body className="text-grey-600">
+              <Body className="text-ink-600">
                 {kpi.updateFrequency.replace(/_/g, ' ')}
               </Body>
             </Stack>
             <Stack>
               <Label className="font-bold mb-2">Target Direction</Label>
-              <Body className="text-grey-600">
+              <Body className="text-ink-600">
                 {kpi.targetDirection.replace(/_/g, ' ')}
               </Body>
             </Stack>
             <Stack>
               <Label className="font-bold mb-2">Unit</Label>
-              <Body className="text-grey-600">{kpi.unit}</Body>
+              <Body className="text-ink-600">{kpi.unit}</Body>
             </Stack>
             <Stack>
               <Label className="font-bold mb-2">Category</Label>
-              <Body className="text-grey-600">
+              <Body className="text-ink-600">
                 {kpi.category.replace(/_/g, ' ')}
               </Body>
             </Stack>
             <Stack>
               <Label className="font-bold mb-2">Subcategory</Label>
-              <Body className="text-grey-600">
+              <Body className="text-ink-600">
                 {kpi.subcategory.replace(/_/g, ' ')}
               </Body>
             </Stack>
             <Stack>
               <Label className="font-bold mb-2">Visualizations</Label>
-              <Body className="text-grey-600">
+              <Body className="text-ink-600">
                 {kpi.visualizations.join(', ')}
               </Body>
             </Stack>

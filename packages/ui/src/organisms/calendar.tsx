@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from "react";
 import clsx from "clsx";
+import { ink } from "../tokens.js";
 
 export interface CalendarEvent {
   id: string;
@@ -136,12 +137,12 @@ export function Calendar({
   }
 
   return (
-    <div className={clsx("bg-white border-2 border-black", className)}>
+    <div className={clsx("bg-surface-primary text-text-primary border-2 border-border-primary", className)}>
       {/* Header */}
-      <div className="flex justify-between items-center px-5 py-4 border-b border-grey-200">
+      <div className="flex justify-between items-center px-spacing-5 py-spacing-4 border-b border-grey-200">
         <button
           onClick={() => navigateMonth(-1)}
-          className="w-10 h-10 bg-transparent border-2 border-black cursor-pointer font-heading text-h5-md flex items-center justify-center transition-colors duration-fast hover:bg-grey-100"
+          className="w-spacing-10 h-spacing-10 bg-transparent border-2 border-border-primary cursor-pointer font-heading text-h5-md flex items-center justify-center transition-colors duration-fast hover:bg-surface-secondary"
           aria-label="Previous month"
         >
           ←
@@ -158,7 +159,7 @@ export function Calendar({
 
         <button
           onClick={() => navigateMonth(1)}
-          className="w-10 h-10 bg-transparent border-2 border-black cursor-pointer font-heading text-h5-md flex items-center justify-center transition-colors duration-fast hover:bg-grey-100"
+          className="w-spacing-10 h-spacing-10 bg-transparent border-2 border-border-primary cursor-pointer font-heading text-h5-md flex items-center justify-center transition-colors duration-fast hover:bg-surface-secondary"
           aria-label="Next month"
         >
           →
@@ -171,14 +172,14 @@ export function Calendar({
         style={{ gridTemplateColumns: showWeekNumbers ? "40px repeat(7, 1fr)" : "repeat(7, 1fr)" }}
       >
         {showWeekNumbers && (
-          <div className="px-2 py-3 font-code text-mono-xs text-grey-400 text-center">
+          <div className="px-spacing-2 py-spacing-3 font-code text-mono-xs text-grey-400 text-center">
             WK
           </div>
         )}
         {daysOfWeek.map((day) => (
           <div
             key={day}
-            className="px-2 py-3 font-code text-mono-xs text-grey-600 tracking-widest text-center"
+            className="px-spacing-2 py-spacing-3 font-code text-mono-xs text-grey-600 tracking-widest text-center"
           >
             {day}
           </div>
@@ -194,7 +195,7 @@ export function Calendar({
             style={{ gridTemplateColumns: showWeekNumbers ? "40px repeat(7, 1fr)" : "repeat(7, 1fr)" }}
           >
             {showWeekNumbers && (
-              <div className="p-2 font-code text-mono-xs text-grey-400 text-center flex items-center justify-center">
+              <div className="p-spacing-2 font-code text-mono-xs text-grey-400 text-center flex items-center justify-center">
                 {week[0] ? getWeekNumber(week[0]) : ""}
               </div>
             )}
@@ -203,7 +204,7 @@ export function Calendar({
                 return (
                   <div
                     key={`empty-${dayIndex}`}
-                    className="p-2 min-h-[60px] bg-grey-100"
+                    className="p-spacing-2 min-h-calendar-cell bg-grey-100"
                   />
                 );
               }
@@ -219,7 +220,7 @@ export function Calendar({
                   onClick={() => !isDisabled && onDateSelect?.(date)}
                   disabled={isDisabled}
                   className={clsx(
-                    "p-2 min-h-[60px] border-none flex flex-col items-start gap-1 transition-colors duration-fast",
+                    "p-spacing-2 min-h-calendar-cell border-none flex flex-col items-start gap-gap-xs transition-colors duration-fast",
                     isSelected ? "bg-black" : isToday ? "bg-grey-100" : "bg-white hover:bg-grey-50",
                     dayIndex < 6 && "border-r border-grey-100",
                     isDisabled ? "cursor-not-allowed opacity-40" : "cursor-pointer"
@@ -237,14 +238,14 @@ export function Calendar({
                         e.stopPropagation();
                         onEventClick?.(event);
                       }}
-                      className="w-full px-1 py-0.5 text-white font-code text-[10px] tracking-wide text-left overflow-hidden text-ellipsis whitespace-nowrap cursor-pointer"
-                      style={{ backgroundColor: event.color || "#1F2937" }}
+                      className="w-full px-spacing-1 py-spacing-0.5 text-white font-code text-micro tracking-wide text-left overflow-hidden text-ellipsis whitespace-nowrap cursor-pointer"
+                      style={{ backgroundColor: event.color || ink[800] }}
                     >
                       {event.title}
                     </div>
                   ))}
                   {dayEvents.length > 2 && (
-                    <span className={clsx("font-code text-[10px]", isSelected ? "text-grey-400" : "text-grey-500")}>
+                    <span className={clsx("font-code text-micro", isSelected ? "text-grey-400" : "text-grey-500")}>
                       +{dayEvents.length - 2} more
                     </span>
                   )}
@@ -256,10 +257,10 @@ export function Calendar({
       </div>
 
       {/* Footer */}
-      <div className="flex justify-center py-3 border-t border-grey-200">
+      <div className="flex justify-center py-spacing-3 border-t border-grey-200">
         <button
           onClick={goToToday}
-          className="px-4 py-2 bg-transparent border-2 border-black font-code text-mono-sm tracking-widest cursor-pointer transition-colors duration-fast hover:bg-grey-100"
+          className="px-spacing-4 py-spacing-2 bg-transparent border-2 border-black font-code text-mono-sm tracking-widest cursor-pointer transition-colors duration-fast hover:bg-grey-100"
         >
           TODAY
         </button>

@@ -61,7 +61,7 @@ export default function AntiScalpingPage() {
       case "Cleared": return "text-success-600";
       case "Under Review": case "Flagged": return "text-warning-600";
       case "Blocked": return "text-error-600";
-      default: return "text-grey-600";
+      default: return "text-ink-600";
     }
   };
 
@@ -77,7 +77,7 @@ export default function AntiScalpingPage() {
         <Stack gap={8}>
           <Stack gap={2}>
             <H1>ANTI-SCALPING PROTECTION</H1>
-            <Body className="text-grey-600">Protect ticket sales from scalpers and bots</Body>
+            <Body className="text-ink-600">Protect ticket sales from scalpers and bots</Body>
           </Stack>
 
           <Grid cols={4} gap={6}>
@@ -117,7 +117,7 @@ export default function AntiScalpingPage() {
                     <TableRow key={txn.id}>
                       <TableCell><Label className="font-mono">{txn.orderId}</Label></TableCell>
                       <TableCell><Label>{txn.eventName}</Label></TableCell>
-                      <TableCell><Label className="text-grey-500">{txn.buyerEmail}</Label></TableCell>
+                      <TableCell><Label className="text-ink-500">{txn.buyerEmail}</Label></TableCell>
                       <TableCell><Label className="font-mono">{txn.quantity}</Label></TableCell>
                       <TableCell><Badge variant="outline">{txn.flagReason}</Badge></TableCell>
                       <TableCell><Label className={getRiskColor(txn.riskScore)}>{txn.riskScore}%</Label></TableCell>
@@ -136,15 +136,15 @@ export default function AntiScalpingPage() {
             <TabPanel active={activeTab === "rules"}>
               <Stack gap={4}>
                 {mockRules.map((rule) => (
-                  <Card key={rule.id} className={`border-2 p-4 ${rule.enabled ? "border-black" : "border-grey-200"}`}>
+                  <Card key={rule.id} className={`border-2 p-4 ${rule.enabled ? "border-black" : "border-ink-200"}`}>
                     <Grid cols={4} gap={4} className="items-center">
                       <Stack gap={1}>
                         <Body className="font-bold">{rule.name}</Body>
-                        <Label className="text-grey-500">{rule.description}</Label>
+                        <Label className="text-ink-500">{rule.description}</Label>
                       </Stack>
                       {rule.threshold && (
                         <Stack gap={1}>
-                          <Label className="text-grey-500">Threshold</Label>
+                          <Label className="text-ink-500">Threshold</Label>
                           <Label className="font-mono">{rule.threshold}{rule.id === "RULE-007" ? "%" : ""}</Label>
                         </Stack>
                       )}
@@ -169,10 +169,10 @@ export default function AntiScalpingPage() {
                   <Stack gap={4}>
                     <H3>Detection Summary (Last 30 Days)</H3>
                     <Grid cols={2} gap={4}>
-                      <Stack gap={1}><Label className="text-grey-500">Total Flagged</Label><Label className="font-mono text-h5-md">247</Label></Stack>
-                      <Stack gap={1}><Label className="text-grey-500">Blocked</Label><Label className="font-mono text-h5-md text-error-600">89</Label></Stack>
-                      <Stack gap={1}><Label className="text-grey-500">Cleared</Label><Label className="font-mono text-h5-md text-success-600">142</Label></Stack>
-                      <Stack gap={1}><Label className="text-grey-500">Pending</Label><Label className="font-mono text-h5-md text-warning-600">16</Label></Stack>
+                      <Stack gap={1}><Label className="text-ink-500">Total Flagged</Label><Label className="font-mono text-h5-md">247</Label></Stack>
+                      <Stack gap={1}><Label className="text-ink-500">Blocked</Label><Label className="font-mono text-h5-md text-error-600">89</Label></Stack>
+                      <Stack gap={1}><Label className="text-ink-500">Cleared</Label><Label className="font-mono text-h5-md text-success-600">142</Label></Stack>
+                      <Stack gap={1}><Label className="text-ink-500">Pending</Label><Label className="font-mono text-h5-md text-warning-600">16</Label></Stack>
                     </Grid>
                   </Stack>
                 </Card>
@@ -212,17 +212,17 @@ export default function AntiScalpingPage() {
           {selectedTransaction && (
             <Stack gap={4}>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label className="text-grey-500">Order ID</Label><Label className="font-mono">{selectedTransaction.orderId}</Label></Stack>
-                <Stack gap={1}><Label className="text-grey-500">Risk Score</Label><Label className={getRiskColor(selectedTransaction.riskScore)}>{selectedTransaction.riskScore}%</Label></Stack>
+                <Stack gap={1}><Label className="text-ink-500">Order ID</Label><Label className="font-mono">{selectedTransaction.orderId}</Label></Stack>
+                <Stack gap={1}><Label className="text-ink-500">Risk Score</Label><Label className={getRiskColor(selectedTransaction.riskScore)}>{selectedTransaction.riskScore}%</Label></Stack>
               </Grid>
-              <Stack gap={1}><Label className="text-grey-500">Event</Label><Label>{selectedTransaction.eventName}</Label></Stack>
-              <Stack gap={1}><Label className="text-grey-500">Buyer</Label><Label>{selectedTransaction.buyerEmail}</Label></Stack>
+              <Stack gap={1}><Label className="text-ink-500">Event</Label><Label>{selectedTransaction.eventName}</Label></Stack>
+              <Stack gap={1}><Label className="text-ink-500">Buyer</Label><Label>{selectedTransaction.buyerEmail}</Label></Stack>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label className="text-grey-500">Quantity</Label><Label className="font-mono">{selectedTransaction.quantity}</Label></Stack>
-                <Stack gap={1}><Label className="text-grey-500">Timestamp</Label><Label>{selectedTransaction.timestamp}</Label></Stack>
+                <Stack gap={1}><Label className="text-ink-500">Quantity</Label><Label className="font-mono">{selectedTransaction.quantity}</Label></Stack>
+                <Stack gap={1}><Label className="text-ink-500">Timestamp</Label><Label>{selectedTransaction.timestamp}</Label></Stack>
               </Grid>
-              <Stack gap={1}><Label className="text-grey-500">Flag Reason</Label><Badge variant="outline">{selectedTransaction.flagReason}</Badge></Stack>
-              <Stack gap={1}><Label className="text-grey-500">Current Status</Label><Label className={getStatusColor(selectedTransaction.status)}>{selectedTransaction.status}</Label></Stack>
+              <Stack gap={1}><Label className="text-ink-500">Flag Reason</Label><Badge variant="outline">{selectedTransaction.flagReason}</Badge></Stack>
+              <Stack gap={1}><Label className="text-ink-500">Current Status</Label><Label className={getStatusColor(selectedTransaction.status)}>{selectedTransaction.status}</Label></Stack>
             </Stack>
           )}
         </ModalBody>

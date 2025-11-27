@@ -46,7 +46,7 @@ export const WorkflowTimeline = forwardRef<HTMLDivElement, WorkflowTimelineProps
     ref
   ) {
     const cardClasses = clsx(
-      "flex flex-col gap-3 p-4 md:flex-row md:items-start md:gap-6",
+      "flex flex-col gap-gap-sm p-spacing-4 md:flex-row md:items-start md:gap-gap-lg",
       cardVariant === "bordered" && "border border-ink-800",
       cardVariant === "surface" && "surface"
     );
@@ -59,7 +59,7 @@ export const WorkflowTimeline = forwardRef<HTMLDivElement, WorkflowTimelineProps
             <Stack gap={3} className="flex-1">
               <Stack>
                 <H3 size="sm">{stage.title}</H3>
-                <Body size="sm" className="mt-2 text-ink-300">{stage.description}</Body>
+                <Body size="sm" className="mt-spacing-2 text-ink-300">{stage.description}</Body>
               </Stack>
               {stage.tags && stage.tags.length > 0 && (
                 <Stack

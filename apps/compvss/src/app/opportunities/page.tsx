@@ -97,27 +97,27 @@ export default function OpportunitiesPage() {
   return (
     <Section className="min-h-screen bg-white">
       <CreatorNavigationAuthenticated />
-      <Section className="py-8">
+      <Section className="py-spacing-8">
         <Container>
           {/* Breadcrumb */}
-          <Breadcrumb className="mb-6">
+          <Breadcrumb className="mb-spacing-6">
             <BreadcrumbItem href="/dashboard">Dashboard</BreadcrumbItem>
             <BreadcrumbItem active>Opportunities</BreadcrumbItem>
           </Breadcrumb>
 
-          <Stack gap={4} direction="horizontal" className="justify-between items-start mb-8">
+          <Stack gap={4} direction="horizontal" className="justify-between items-start mb-spacing-8">
             <Stack gap={2}>
               <Display>OPPORTUNITIES</Display>
-              <Body className="text-grey-600">RFPs, careers, and gig board</Body>
+              <Body className="text-ink-600">RFPs, careers, and gig board</Body>
             </Stack>
             <Button onClick={() => router.push('/opportunities/new')}>
-              <FileText className="w-4 h-4 mr-2" />
+              <FileText className="w-spacing-4 h-spacing-4 mr-spacing-2" />
               POST OPPORTUNITY
             </Button>
           </Stack>
 
         {/* Tabs */}
-        <Stack gap={4} direction="horizontal" className="mb-8 border-b-2 border-grey-200">
+        <Stack gap={4} direction="horizontal" className="mb-spacing-8 border-b-2 border-ink-200">
           {[
             { id: 'rfps', label: 'RFPs & BIDS' },
             { id: 'jobs', label: 'FULL-TIME JOBS' },
@@ -127,7 +127,7 @@ export default function OpportunitiesPage() {
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
               variant={activeTab === tab.id ? 'solid' : 'ghost'}
-              className={`pb-4 px-6 font-heading text-body-md tracking-wider ${
+              className={`pb-spacing-4 px-spacing-6 font-heading text-body-md tracking-wider ${
                 activeTab === tab.id ? 'border-b-4 border-black -mb-0.5' : ''
               }`}
             >
@@ -137,10 +137,10 @@ export default function OpportunitiesPage() {
         </Stack>
 
         {/* Search and Filters */}
-        <Card className="p-6 mb-8">
+        <Card className="p-spacing-6 mb-spacing-8">
           <Stack gap={4} direction="horizontal">
             <Stack className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-grey-500" />
+              <Search className="absolute left-spacing-3 top-1/2 -translate-y-1/2 w-spacing-5 h-spacing-5 text-ink-500" />
               <Input placeholder="Search opportunities..." className="pl-10 w-full" />
             </Stack>
             <Select className="w-48">
@@ -162,8 +162,8 @@ export default function OpportunitiesPage() {
         {activeTab === 'rfps' && (
           <Stack gap={4}>
             {rfps.map((rfp) => (
-              <Card key={rfp.id} className="p-6 hover:shadow-hard-lg transition-shadow">
-                <Stack gap={4} direction="horizontal" className="justify-between items-start mb-4">
+              <Card key={rfp.id} className="p-spacing-6 hover:shadow-hard-lg transition-shadow">
+                <Stack gap={4} direction="horizontal" className="justify-between items-start mb-spacing-4">
                   <Stack gap={2} className="flex-1">
                     <Stack gap={3} direction="horizontal" className="items-center">
                       <H2>{rfp.title}</H2>
@@ -171,24 +171,24 @@ export default function OpportunitiesPage() {
                         {rfp.status === 'closing_soon' ? 'CLOSING SOON' : 'OPEN'}
                       </Badge>
                     </Stack>
-                    <Body className="text-grey-600">{rfp.client}</Body>
+                    <Body className="text-ink-600">{rfp.client}</Body>
                     
                     <Grid cols={3} gap={4}>
                       <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
-                        <DollarSign className="w-4 h-4 text-grey-600" />
+                        <DollarSign className="w-spacing-4 h-spacing-4 text-ink-600" />
                         <Body>{rfp.budget}</Body>
                       </Stack>
                       <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
-                        <MapPin className="w-4 h-4 text-grey-600" />
+                        <MapPin className="w-spacing-4 h-spacing-4 text-ink-600" />
                         <Body>{rfp.location}</Body>
                       </Stack>
                       <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
-                        <Clock className="w-4 h-4 text-grey-600" />
+                        <Clock className="w-spacing-4 h-spacing-4 text-ink-600" />
                         <Body>Due {new Date(rfp.deadline).toLocaleDateString()}</Body>
                       </Stack>
                     </Grid>
                   </Stack>
-                  <Stack gap={2} direction="horizontal" className="ml-6">
+                  <Stack gap={2} direction="horizontal" className="ml-spacing-6">
                     <Button variant="outline" size="sm" onClick={() => router.push(`/opportunities/rfp/${rfp.id}`)}>VIEW RFP</Button>
                     <Button size="sm" onClick={() => handleApply(rfp, 'rfp')}>SUBMIT BID</Button>
                   </Stack>
@@ -213,20 +213,20 @@ export default function OpportunitiesPage() {
                     
                     <Grid cols={3} gap={4} className="mt-4">
                       <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
-                        <MapPin className="w-4 h-4 text-grey-600" />
+                        <MapPin className="w-spacing-4 h-spacing-4 text-ink-600" />
                         <Body>{job.location}</Body>
                       </Stack>
                       <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
-                        <DollarSign className="w-4 h-4 text-grey-600" />
+                        <DollarSign className="w-spacing-4 h-spacing-4 text-ink-600" />
                         <Body>{job.salary}</Body>
                       </Stack>
                       <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
-                        <Clock className="w-4 h-4 text-grey-600" />
+                        <Clock className="w-spacing-4 h-spacing-4 text-ink-600" />
                         <Body>Posted {new Date(job.posted).toLocaleDateString()}</Body>
                       </Stack>
                     </Grid>
                   </Stack>
-                  <Stack gap={2} direction="horizontal" className="ml-6">
+                  <Stack gap={2} direction="horizontal" className="ml-spacing-6">
                     <Button variant="outline" size="sm" onClick={() => router.push(`/opportunities/job/${job.id}`)}>VIEW JOB</Button>
                     <Button size="sm" onClick={() => handleApply(job, 'job')}>APPLY</Button>
                   </Stack>
@@ -247,19 +247,19 @@ export default function OpportunitiesPage() {
                     
                     <Grid cols={4} gap={4}>
                       <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
-                        <Clock className="w-4 h-4 text-grey-600" />
+                        <Clock className="w-spacing-4 h-spacing-4 text-ink-600" />
                         <Body>{new Date(gig.date).toLocaleDateString()}</Body>
                       </Stack>
                       <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
-                        <MapPin className="w-4 h-4 text-grey-600" />
+                        <MapPin className="w-spacing-4 h-spacing-4 text-ink-600" />
                         <Body>{gig.location}</Body>
                       </Stack>
                       <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
-                        <DollarSign className="w-4 h-4 text-grey-600" />
+                        <DollarSign className="w-spacing-4 h-spacing-4 text-ink-600" />
                         <Body>{gig.rate}</Body>
                       </Stack>
                       <Stack>
-                        <Body className="text-body-sm text-grey-600">Duration: {gig.duration}</Body>
+                        <Body className="text-body-sm text-ink-600">Duration: {gig.duration}</Body>
                       </Stack>
                     </Grid>
                   </Stack>
@@ -279,7 +279,7 @@ export default function OpportunitiesPage() {
             {selectedOpportunity?.type === 'rfp' ? 'Submit Bid' : 'Apply Now'}
           </Display>
           {selectedOpportunity && (
-            <Body className="text-grey-600 mt-2">{selectedOpportunity.title}</Body>
+            <Body className="text-ink-600 mt-2">{selectedOpportunity.title}</Body>
           )}
         </ModalHeader>
         <ModalBody>

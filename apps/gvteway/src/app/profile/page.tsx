@@ -91,10 +91,10 @@ export default function ProfilePage() {
             </Button>
           }
         >
-          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">
+          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">
             Home
           </Link>
-          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">
+          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">
             Events
           </Link>
           <Link href="/profile" className="font-heading text-body-sm uppercase tracking-widest text-white">
@@ -129,7 +129,7 @@ export default function ProfilePage() {
             <Stack gap={4} direction="horizontal" className="justify-between items-center">
               <Stack gap={2}>
                 <H2 className="text-white">My Profile</H2>
-                <Body className="text-grey-400">Manage your account information and preferences</Body>
+                <Body className="text-ink-400">Manage your account information and preferences</Body>
               </Stack>
               {!isEditing && (
                 <Button variant="outlineWhite" onClick={() => setIsEditing(true)}>
@@ -141,33 +141,33 @@ export default function ProfilePage() {
             {saved && <Alert variant="success">Profile updated successfully</Alert>}
 
             <Grid cols={3} gap={8}>
-              <Card className="border-2 border-grey-800 p-6 bg-transparent col-span-2">
+              <Card className="border-2 border-ink-800 p-6 bg-transparent col-span-2">
                 <H3 className="mb-6 text-white">Personal Information</H3>
                 <Stack gap={6}>
                   <Grid cols={2} gap={4}>
                     <Stack gap={2}>
-                      <Label className="font-heading text-body-sm uppercase tracking-widest text-grey-400">
+                      <Label className="font-heading text-body-sm uppercase tracking-widest text-ink-400">
                         First Name
                       </Label>
                       {isEditing ? (
                         <Input
                           value={profile.firstName}
                           onChange={(e) => setProfile({ ...profile, firstName: e.target.value })}
-                          className="border-grey-700 bg-black text-white"
+                          className="border-ink-700 bg-black text-white"
                         />
                       ) : (
                         <Body className="font-mono text-white">{profile.firstName}</Body>
                       )}
                     </Stack>
                     <Stack gap={2}>
-                      <Label className="font-heading text-body-sm uppercase tracking-widest text-grey-400">
+                      <Label className="font-heading text-body-sm uppercase tracking-widest text-ink-400">
                         Last Name
                       </Label>
                       {isEditing ? (
                         <Input
                           value={profile.lastName}
                           onChange={(e) => setProfile({ ...profile, lastName: e.target.value })}
-                          className="border-grey-700 bg-black text-white"
+                          className="border-ink-700 bg-black text-white"
                         />
                       ) : (
                         <Body className="font-mono text-white">{profile.lastName}</Body>
@@ -176,7 +176,7 @@ export default function ProfilePage() {
                   </Grid>
 
                   <Stack gap={2}>
-                    <Label className="font-heading text-body-sm uppercase tracking-widest text-grey-400">
+                    <Label className="font-heading text-body-sm uppercase tracking-widest text-ink-400">
                       Email
                     </Label>
                     {isEditing ? (
@@ -184,7 +184,7 @@ export default function ProfilePage() {
                         type="email"
                         value={profile.email}
                         onChange={(e) => setProfile({ ...profile, email: e.target.value })}
-                        className="border-grey-700 bg-black text-white"
+                        className="border-ink-700 bg-black text-white"
                       />
                     ) : (
                       <Body className="font-mono text-white">{profile.email}</Body>
@@ -192,7 +192,7 @@ export default function ProfilePage() {
                   </Stack>
 
                   <Stack gap={2}>
-                    <Label className="font-heading text-body-sm uppercase tracking-widest text-grey-400">
+                    <Label className="font-heading text-body-sm uppercase tracking-widest text-ink-400">
                       Phone
                     </Label>
                     {isEditing ? (
@@ -200,7 +200,7 @@ export default function ProfilePage() {
                         type="tel"
                         value={profile.phone}
                         onChange={(e) => setProfile({ ...profile, phone: e.target.value })}
-                        className="border-grey-700 bg-black text-white"
+                        className="border-ink-700 bg-black text-white"
                       />
                     ) : (
                       <Body className="font-mono text-white">{profile.phone}</Body>
@@ -209,28 +209,28 @@ export default function ProfilePage() {
 
                   <Grid cols={2} gap={4}>
                     <Stack gap={2}>
-                      <Label className="font-heading text-body-sm uppercase tracking-widest text-grey-400">
+                      <Label className="font-heading text-body-sm uppercase tracking-widest text-ink-400">
                         City
                       </Label>
                       {isEditing ? (
                         <Input
                           value={profile.city}
                           onChange={(e) => setProfile({ ...profile, city: e.target.value })}
-                          className="border-grey-700 bg-black text-white"
+                          className="border-ink-700 bg-black text-white"
                         />
                       ) : (
                         <Body className="font-mono text-white">{profile.city}</Body>
                       )}
                     </Stack>
                     <Stack gap={2}>
-                      <Label className="font-heading text-body-sm uppercase tracking-widest text-grey-400">
+                      <Label className="font-heading text-body-sm uppercase tracking-widest text-ink-400">
                         State
                       </Label>
                       {isEditing ? (
                         <Input
                           value={profile.state}
                           onChange={(e) => setProfile({ ...profile, state: e.target.value })}
-                          className="border-grey-700 bg-black text-white"
+                          className="border-ink-700 bg-black text-white"
                         />
                       ) : (
                         <Body className="font-mono text-white">{profile.state}</Body>
@@ -252,50 +252,50 @@ export default function ProfilePage() {
               </Card>
 
             <Stack gap={6}>
-              <Card className="border-2 border-grey-800 p-6 bg-transparent">
+              <Card className="border-2 border-ink-800 p-6 bg-transparent">
                 <H3 className="mb-4 text-white">Roles & Access</H3>
                 <Stack gap={3}>
                   <Stack gap={2}>
-                    <Label size="xs" className="text-grey-500">Platform Roles</Label>
+                    <Label size="xs" className="text-ink-500">Platform Roles</Label>
                     <Stack direction="horizontal" gap={2} className="flex-wrap">
                       {userRoles.length > 0 ? (
                         userRoles.map(role => (
                           <Badge key={role} variant="outline">{role}</Badge>
                         ))
                       ) : (
-                        <Label size="xs" className="text-grey-500">{profile.role}</Label>
+                        <Label size="xs" className="text-ink-500">{profile.role}</Label>
                       )}
                     </Stack>
                   </Stack>
                   <Stack gap={1}>
-                    <Label size="xs" className="text-grey-500">Membership</Label>
+                    <Label size="xs" className="text-ink-500">Membership</Label>
                     <Display size="md" className="text-white text-h5-md">{profile.membershipTier}</Display>
                   </Stack>
                 </Stack>
               </Card>
 
-              <Card className="border-2 border-grey-800 p-6 bg-transparent">
+              <Card className="border-2 border-ink-800 p-6 bg-transparent">
                 <H3 className="mb-4 text-white">Quick Stats</H3>
                 <Stack gap={4}>
                   <StatCard label="Events Attended" value={23} className="bg-transparent border-0 p-0" />
                   <StatCard label="Active Tickets" value={4} className="bg-transparent border-0 p-0" />
                   <Stack gap={1}>
-                    <Label size="xs" className="text-grey-500">Member Since</Label>
+                    <Label size="xs" className="text-ink-500">Member Since</Label>
                     <Label className="text-white">Jan 2024</Label>
                   </Stack>
                 </Stack>
               </Card>
 
-              <Card className="border-2 border-grey-800 p-6 bg-transparent">
+              <Card className="border-2 border-ink-800 p-6 bg-transparent">
                 <H3 className="mb-4 text-white">Preferences</H3>
                 <Stack gap={3}>
-                  <Button variant="outline" className="w-full justify-start text-left border-grey-700 text-grey-400 hover:border-white hover:text-white" onClick={() => router.push('/settings/notifications')}>
+                  <Button variant="outlineInk" fullWidth className="justify-start text-left" onClick={() => router.push('/settings/notifications')}>
                     Notifications
                   </Button>
-                  <Button variant="outline" className="w-full justify-start text-left border-grey-700 text-grey-400 hover:border-white hover:text-white" onClick={() => router.push('/settings/privacy')}>
+                  <Button variant="outlineInk" fullWidth className="justify-start text-left" onClick={() => router.push('/settings/privacy')}>
                     Privacy
                   </Button>
-                  <Button variant="outline" className="w-full justify-start text-left border-grey-700 text-grey-400 hover:border-white hover:text-white" onClick={() => router.push('/settings/payment-methods')}>
+                  <Button variant="outlineInk" fullWidth className="justify-start text-left" onClick={() => router.push('/settings/payment-methods')}>
                     Payment Methods
                   </Button>
                 </Stack>

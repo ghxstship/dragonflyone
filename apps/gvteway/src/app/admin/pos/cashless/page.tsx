@@ -128,7 +128,7 @@ export default function CashlessPaymentPage() {
       completed: 'bg-success-500 text-white',
       pending: 'bg-warning-500 text-black',
       failed: 'bg-error-500 text-white',
-      refunded: 'bg-grey-500 text-white',
+      refunded: 'bg-ink-500 text-white',
     };
     return <Badge className={colors[status] || ''}>{status}</Badge>;
   };
@@ -164,7 +164,7 @@ export default function CashlessPaymentPage() {
           <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
             <Stack gap={2}>
               <H1>Cashless Payments</H1>
-              <Body className="text-grey-600">Manage payment terminals and cashless transactions</Body>
+              <Body className="text-ink-600">Manage payment terminals and cashless transactions</Body>
             </Stack>
             <Stack direction="horizontal" gap={2}>
               <Button variant="outline" onClick={() => router.push('/admin/pos')}>
@@ -241,12 +241,12 @@ export default function CashlessPaymentPage() {
 
               <Grid cols={3} gap={4}>
                 {filteredTerminals.map(terminal => (
-                  <Card key={terminal.id} className={`p-4 border-2 ${terminal.status === 'online' ? 'border-success-300' : terminal.status === 'offline' ? 'border-error-300' : 'border-grey-200'}`}>
+                  <Card key={terminal.id} className={`p-4 border-2 ${terminal.status === 'online' ? 'border-success-300' : terminal.status === 'offline' ? 'border-error-300' : 'border-ink-200'}`}>
                     <Stack gap={4}>
                       <Stack direction="horizontal" className="justify-between items-start">
                         <Stack gap={1}>
                           <Body className="font-bold">{terminal.name}</Body>
-                          <Label className="text-grey-500">{terminal.location}</Label>
+                          <Label className="text-ink-500">{terminal.location}</Label>
                         </Stack>
                         {getStatusBadge(terminal.status)}
                       </Stack>
@@ -261,7 +261,7 @@ export default function CashlessPaymentPage() {
                       </Stack>
 
                       <Stack gap={1}>
-                        <Label className="text-grey-500">Supported Methods</Label>
+                        <Label className="text-ink-500">Supported Methods</Label>
                         <Stack direction="horizontal" gap={1}>
                           {terminal.supported_methods.map(method => (
                             <Label key={method} className="text-body-md">{getMethodIcon(method)}</Label>
@@ -271,11 +271,11 @@ export default function CashlessPaymentPage() {
 
                       <Grid cols={2} gap={4}>
                         <Stack gap={1}>
-                          <Label className="text-grey-500">Transactions</Label>
+                          <Label className="text-ink-500">Transactions</Label>
                           <Body className="font-bold">{terminal.transactions_today}</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Label className="text-grey-500">Revenue</Label>
+                          <Label className="text-ink-500">Revenue</Label>
                           <Body className="font-bold text-success-600">${terminal.revenue_today.toLocaleString()}</Body>
                         </Stack>
                       </Grid>
@@ -324,7 +324,7 @@ export default function CashlessPaymentPage() {
                       {txn.tip_amount ? (
                         <Body className="text-success-600">+${txn.tip_amount.toFixed(2)}</Body>
                       ) : (
-                        <Label className="text-grey-600">-</Label>
+                        <Label className="text-ink-600">-</Label>
                       )}
                     </TableCell>
                     <TableCell>
@@ -338,11 +338,11 @@ export default function CashlessPaymentPage() {
                         <Stack gap={1}>
                           <Label>{txn.card_type}</Label>
                           {txn.card_last_four && (
-                            <Label className="text-grey-600 font-mono">****{txn.card_last_four}</Label>
+                            <Label className="text-ink-600 font-mono">****{txn.card_last_four}</Label>
                           )}
                         </Stack>
                       ) : (
-                        <Label className="text-grey-600">-</Label>
+                        <Label className="text-ink-600">-</Label>
                       )}
                     </TableCell>
                     <TableCell>
@@ -357,7 +357,7 @@ export default function CashlessPaymentPage() {
           {activeTab === 'methods' && (
             <Stack gap={4}>
               {paymentMethods.map(method => (
-                <Card key={method.id} className={`p-4 border-2 ${method.enabled ? 'border-success-300' : 'border-grey-200 opacity-60'}`}>
+                <Card key={method.id} className={`p-4 border-2 ${method.enabled ? 'border-success-300' : 'border-ink-200 opacity-60'}`}>
                   <Grid cols={6} gap={4} className="items-center">
                     <Stack direction="horizontal" gap={3}>
                       <Label className="text-h4-md">{method.icon}</Label>
@@ -367,16 +367,16 @@ export default function CashlessPaymentPage() {
                       </Stack>
                     </Stack>
                     <Stack gap={1}>
-                      <Label className="text-grey-500">Processing Fee</Label>
+                      <Label className="text-ink-500">Processing Fee</Label>
                       <Body className="font-bold">{method.fee_percent}%</Body>
                     </Stack>
                     <Stack gap={1}>
-                      <Label className="text-grey-500">Speed</Label>
+                      <Label className="text-ink-500">Speed</Label>
                       <Body>{method.processing_time}</Body>
                     </Stack>
                     <Stack gap={1}>
-                      <Label className="text-grey-500">Status</Label>
-                      <Badge className={method.enabled ? 'bg-success-500 text-white' : 'bg-grey-500 text-white'}>
+                      <Label className="text-ink-500">Status</Label>
+                      <Badge className={method.enabled ? 'bg-success-500 text-white' : 'bg-ink-500 text-white'}>
                         {method.enabled ? 'Enabled' : 'Disabled'}
                       </Badge>
                     </Stack>
@@ -455,24 +455,24 @@ export default function CashlessPaymentPage() {
               </Stack>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>
-                  <Label className="text-grey-500">Location</Label>
+                  <Label className="text-ink-500">Location</Label>
                   <Body>{selectedTerminal.location}</Body>
                 </Stack>
                 <Stack gap={1}>
-                  <Label className="text-grey-500">Type</Label>
+                  <Label className="text-ink-500">Type</Label>
                   <Badge variant="outline" className="capitalize">{selectedTerminal.type}</Badge>
                 </Stack>
                 <Stack gap={1}>
-                  <Label className="text-grey-500">Transactions Today</Label>
+                  <Label className="text-ink-500">Transactions Today</Label>
                   <Body className="font-bold">{selectedTerminal.transactions_today}</Body>
                 </Stack>
                 <Stack gap={1}>
-                  <Label className="text-grey-500">Revenue Today</Label>
+                  <Label className="text-ink-500">Revenue Today</Label>
                   <Body className="font-bold text-success-600">${selectedTerminal.revenue_today.toLocaleString()}</Body>
                 </Stack>
               </Grid>
               <Stack gap={2}>
-                <Label className="text-grey-500">Supported Payment Methods</Label>
+                <Label className="text-ink-500">Supported Payment Methods</Label>
                 <Stack direction="horizontal" gap={2}>
                   {selectedTerminal.supported_methods.map(method => (
                     <Badge key={method} variant="outline">
@@ -483,7 +483,7 @@ export default function CashlessPaymentPage() {
               </Stack>
               {selectedTerminal.last_transaction && (
                 <Stack gap={1}>
-                  <Label className="text-grey-500">Last Transaction</Label>
+                  <Label className="text-ink-500">Last Transaction</Label>
                   <Body>{new Date(selectedTerminal.last_transaction).toLocaleString()}</Body>
                 </Stack>
               )}

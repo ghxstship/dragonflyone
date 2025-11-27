@@ -202,7 +202,7 @@ export default function WeatherPage() {
             <Button variant="outlineWhite" onClick={() => router.push('/weather/alerts/configure')}>
               Configure Alerts
             </Button>
-            <Button variant="ghost" className="text-grey-400 hover:text-white" onClick={() => router.push('/weather/contingency')}>
+            <Button variant="ghost" className="text-ink-400 hover:text-white" onClick={() => router.push('/weather/contingency')}>
               View Contingency Plans
             </Button>
           </Stack>

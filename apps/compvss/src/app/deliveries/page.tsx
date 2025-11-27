@@ -176,7 +176,7 @@ export default function DeliveriesPage() {
       content: (
         <div>
           {selectedDelivery.items.map((item, idx) => (
-            <div key={idx} className="py-2 border-b border-grey-700">
+            <div key={idx} className="py-2 border-b border-ink-700">
               <strong>{item.name}</strong> — Qty: {item.quantity} {item.received !== undefined && `(Received: ${item.received})`}
             </div>
           ))}

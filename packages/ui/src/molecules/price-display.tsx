@@ -80,7 +80,7 @@ export function PriceDisplay({
     : discountPercent;
 
   return (
-    <div className={clsx("flex flex-col gap-1", className)}>
+    <div className={clsx("flex flex-col gap-gap-xs", className)}>
       {/* From label */}
       {showFrom && (
         <span
@@ -95,7 +95,7 @@ export function PriceDisplay({
       )}
 
       {/* Price row */}
-      <div className="flex items-baseline gap-2 flex-wrap">
+      <div className="flex items-baseline gap-gap-xs flex-wrap">
         {/* Current price */}
         <span
           className={clsx(
@@ -138,7 +138,7 @@ export function PriceDisplay({
       {calculatedDiscount && calculatedDiscount > 0 && (
         <span
           className={clsx(
-            "inline-flex self-start font-code tracking-widest px-1.5 py-0.5",
+            "inline-flex self-start font-code tracking-widest px-spacing-1 py-spacing-0.5",
             config.label,
             inverted ? "text-black bg-white" : "text-white bg-black"
           )}
@@ -188,7 +188,7 @@ export function PriceRange({
   }
 
   return (
-    <div className={clsx("flex items-baseline gap-1.5", className)}>
+    <div className={clsx("flex items-baseline gap-gap-xs", className)}>
       <span
         className={clsx(
           "font-heading",

@@ -7,16 +7,20 @@ export type SpinnerProps = HTMLAttributes<HTMLDivElement> & {
   variant?: "black" | "white" | "grey";
   /** Optional loading text displayed below the spinner */
   text?: string;
+  /** Inverted theme (for dark backgrounds) - auto-selects appropriate variant */
+  inverted?: boolean;
 };
 
 export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
-  function Spinner({ size = "md", variant = "black", text, className, ...props }, ref) {
+  function Spinner({ size = "md", variant, text, inverted = false, className, ...props }, ref) {
+    // Auto-select variant based on inverted prop if not explicitly set
+    const effectiveVariant = variant ?? (inverted ? "white" : "black");
     const sizeClasses = {
-      xs: "w-3 h-3 border-2",
-      sm: "w-4 h-4 border-2",
-      md: "w-6 h-6 border-2",
-      lg: "w-8 h-8 border-3",
-      xl: "w-12 h-12 border-3",
+      xs: "w-icon-xs h-icon-xs border-2",
+      sm: "w-icon-sm h-icon-sm border-2",
+      md: "w-icon-lg h-icon-lg border-2",
+      lg: "w-icon-xl h-icon-xl border-3",
+      xl: "w-icon-2xl h-icon-2xl border-3",
     };
 
     const variantClasses = {
@@ -26,11 +30,11 @@ export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
     };
 
     const gapClasses = {
-      xs: "gap-1",
-      sm: "gap-2",
-      md: "gap-3",
-      lg: "gap-4",
-      xl: "gap-5",
+      xs: "gap-gap-xs",
+      sm: "gap-gap-sm",
+      md: "gap-gap-md",
+      lg: "gap-gap-lg",
+      xl: "gap-gap-xl",
     };
 
     const textColorClasses = {
@@ -44,7 +48,7 @@ export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
         className={clsx(
           "inline-block rounded-full animate-spin",
           sizeClasses[size],
-          variantClasses[variant]
+          variantClasses[effectiveVariant]
         )}
         role="status"
         aria-label="Loading"
@@ -68,7 +72,7 @@ export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
         {...props}
       >
         {spinner}
-        <p className={clsx("font-code text-sm uppercase tracking-wider", textColorClasses[variant])}>
+        <p className={clsx("font-code text-mono-sm uppercase tracking-wider", textColorClasses[effectiveVariant])}>
           {text}
         </p>
       </div>

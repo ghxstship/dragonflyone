@@ -14,6 +14,8 @@ export interface TooltipProps {
   children: React.ReactNode;
   /** Disable the tooltip */
   disabled?: boolean;
+  /** Inverted theme (for dark backgrounds) */
+  inverted?: boolean;
   /** Custom className for tooltip */
   className?: string;
 }
@@ -24,6 +26,7 @@ export function Tooltip({
   delay = 200,
   children,
   disabled = false,
+  inverted = false,
   className = "",
 }: TooltipProps) {
   const [isVisible, setIsVisible] = useState(false);
@@ -116,8 +119,9 @@ export function Tooltip({
           ref={tooltipRef}
           role="tooltip"
           className={clsx(
-            "fixed z-tooltip bg-black text-white font-code text-mono-sm tracking-wide",
-            "px-3 py-2 max-w-[250px] pointer-events-none transition-opacity duration-fast",
+            "fixed z-tooltip font-code text-mono-sm tracking-wide",
+            "px-spacing-3 py-spacing-2 max-w-container-sm pointer-events-none transition-opacity duration-fast",
+            inverted ? "bg-white text-black border-2 border-black" : "bg-black text-white",
             isVisible ? "opacity-100" : "opacity-0",
             className
           )}

@@ -15,7 +15,7 @@ export const Display = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHeading
       <h1
         ref={ref}
         className={clsx(
-          "font-display uppercase tracking-tightest text-black",
+          "font-display uppercase tracking-tighter",
           sizeClasses[size],
           className
         )}
@@ -40,7 +40,7 @@ export const H1 = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHeadingEleme
       <h1
         ref={ref}
         className={clsx(
-          "font-display uppercase tracking-tight leading-snug",
+          "font-display uppercase tracking-tight",
           sizeClasses[size],
           className
         )}
@@ -182,7 +182,7 @@ export const Body = forwardRef<HTMLParagraphElement, HTMLAttributes<HTMLParagrap
   size?: "lg" | "md" | "sm" | "xs";
   variant?: "default" | "muted" | "subtle" | "inverted";
 }>(
-  function Body({ size = "md", variant = "default", className, children, ...props }, ref) {
+  function Body({ size = "md", variant, className, children, ...props }, ref) {
     const sizeClasses = {
       lg: "text-body-lg",
       md: "text-body-sm md:text-body-md",
@@ -190,8 +190,8 @@ export const Body = forwardRef<HTMLParagraphElement, HTMLAttributes<HTMLParagrap
       xs: "text-body-xs",
     };
 
+    // Only apply variant colors when explicitly set - otherwise inherit from parent
     const variantClasses = {
-      default: "text-grey-800",
       muted: "text-grey-600",
       subtle: "text-grey-500",
       inverted: "text-white",
@@ -201,9 +201,9 @@ export const Body = forwardRef<HTMLParagraphElement, HTMLAttributes<HTMLParagrap
       <p
         ref={ref}
         className={clsx(
-          "font-body leading-body max-w-[65ch]",
+          "font-body leading-body",
           sizeClasses[size],
-          variantClasses[variant],
+          variant && variantClasses[variant as keyof typeof variantClasses],
           className
         )}
         {...props}

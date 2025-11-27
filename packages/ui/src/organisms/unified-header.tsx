@@ -77,7 +77,7 @@ export const UnifiedHeader = forwardRef<HTMLElement, UnifiedHeaderProps>(
         <header
           ref={ref}
           className={clsx(
-            "sticky top-0 z-50 border-b-2",
+            "sticky top-0 z-modal border-b-2",
             inverted
               ? "bg-black border-grey-800"
               : "bg-white border-grey-200",
@@ -85,10 +85,10 @@ export const UnifiedHeader = forwardRef<HTMLElement, UnifiedHeaderProps>(
           )}
           {...props}
         >
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="flex h-16 items-center justify-between gap-4">
+          <div className="mx-auto max-w-7xl px-spacing-4 sm:px-spacing-6 lg:px-spacing-8">
+            <div className="flex h-spacing-16 items-center justify-between gap-gap-md">
               {/* Left: Logo + Context Breadcrumb */}
-              <div className="flex items-center gap-2 min-w-0 flex-1">
+              <div className="flex items-center gap-gap-xs min-w-0 flex-1">
                 {/* Logo */}
                 <div className="flex-shrink-0">{logo}</div>
 
@@ -96,7 +96,7 @@ export const UnifiedHeader = forwardRef<HTMLElement, UnifiedHeaderProps>(
                 {contextLevels.length > 0 && (
                   <div className="hidden md:flex items-center">
                     <span className={clsx(
-                      "mx-3 text-body-sm",
+                      "mx-spacing-3 text-body-sm",
                       inverted ? "text-grey-600" : "text-grey-300"
                     )}>
                       /
@@ -118,15 +118,15 @@ export const UnifiedHeader = forwardRef<HTMLElement, UnifiedHeaderProps>(
               )}
 
               {/* Right: Nav Items + CTA + User Menu */}
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-gap-xs">
                 {/* Desktop Nav Items */}
-                <nav className="hidden md:flex items-center gap-1">
+                <nav className="hidden md:flex items-center gap-gap-xs">
                   {navItems.map((item) => (
                     <a
                       key={item.href}
                       href={item.href}
                       className={clsx(
-                        "flex items-center gap-2 px-3 py-2 text-body-sm font-medium rounded transition-colors",
+                        "flex items-center gap-gap-xs px-spacing-3 py-spacing-2 text-body-sm font-weight-medium rounded transition-colors",
                         isActive(item.href)
                           ? inverted
                             ? "bg-grey-800 text-white"
@@ -140,7 +140,7 @@ export const UnifiedHeader = forwardRef<HTMLElement, UnifiedHeaderProps>(
                       <span>{item.label}</span>
                       {item.badge && (
                         <span className={clsx(
-                          "px-1.5 py-0.5 text-micro font-mono rounded",
+                          "px-spacing-1 py-spacing-0.5 text-micro font-mono rounded",
                           inverted ? "bg-grey-700 text-grey-300" : "bg-grey-200 text-grey-600"
                         )}>
                           {item.badge}
@@ -156,7 +156,7 @@ export const UnifiedHeader = forwardRef<HTMLElement, UnifiedHeaderProps>(
                     href={primaryCta.href}
                     onClick={primaryCta.onClick}
                     className={clsx(
-                      "hidden sm:flex items-center px-4 py-2 text-body-sm font-medium transition-colors",
+                      "hidden sm:flex items-center px-spacing-4 py-spacing-2 text-body-sm font-weight-medium transition-colors",
                       inverted
                         ? "bg-white text-black hover:bg-grey-100"
                         : "bg-black text-white hover:bg-grey-900"
@@ -178,7 +178,7 @@ export const UnifiedHeader = forwardRef<HTMLElement, UnifiedHeaderProps>(
                   type="button"
                   onClick={handleMobileToggle}
                   className={clsx(
-                    "md:hidden p-2 rounded transition-colors",
+                    "md:hidden p-spacing-2 rounded transition-colors",
                     inverted
                       ? "text-grey-400 hover:text-white hover:bg-grey-800"
                       : "text-grey-600 hover:text-black hover:bg-grey-100"
@@ -187,7 +187,7 @@ export const UnifiedHeader = forwardRef<HTMLElement, UnifiedHeaderProps>(
                   aria-expanded={mobileMenuOpen}
                 >
                   <svg
-                    className="w-6 h-6"
+                    className="w-spacing-6 h-spacing-6"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -209,15 +209,15 @@ export const UnifiedHeader = forwardRef<HTMLElement, UnifiedHeaderProps>(
         {mobileMenuOpen && (
           <div
             className={clsx(
-              "fixed inset-0 z-40 md:hidden",
+              "fixed inset-0 z-modal-backdrop md:hidden",
               inverted ? "bg-black/95" : "bg-white/95"
             )}
           >
-            <div className="flex flex-col h-full pt-20 px-6 pb-6">
+            <div className="flex flex-col h-full pt-spacing-20 px-spacing-6 pb-spacing-6">
               {/* Mobile Context Breadcrumb */}
               {contextLevels.length > 0 && (
                 <div className={clsx(
-                  "pb-4 mb-4 border-b",
+                  "pb-spacing-4 mb-spacing-4 border-b",
                   inverted ? "border-grey-800" : "border-grey-200"
                 )}>
                   <ContextBreadcrumb
@@ -229,14 +229,14 @@ export const UnifiedHeader = forwardRef<HTMLElement, UnifiedHeaderProps>(
               )}
 
               {/* Mobile Nav Items */}
-              <nav className="flex-1 space-y-1">
+              <nav className="flex-1 space-y-spacing-1">
                 {navItems.map((item) => (
                   <a
                     key={item.href}
                     href={item.href}
                     onClick={handleMobileClose}
                     className={clsx(
-                      "flex items-center gap-3 px-4 py-3 text-body-lg font-medium rounded transition-colors",
+                      "flex items-center gap-gap-sm px-spacing-4 py-spacing-3 text-body-lg font-weight-medium rounded transition-colors",
                       isActive(item.href)
                         ? inverted
                           ? "bg-grey-800 text-white"
@@ -250,7 +250,7 @@ export const UnifiedHeader = forwardRef<HTMLElement, UnifiedHeaderProps>(
                     <span>{item.label}</span>
                     {item.badge && (
                       <span className={clsx(
-                        "ml-auto px-2 py-0.5 text-mono-sm rounded",
+                        "ml-auto px-spacing-2 py-spacing-0.5 text-mono-sm rounded",
                         inverted ? "bg-grey-700 text-grey-300" : "bg-grey-200 text-grey-600"
                       )}>
                         {item.badge}
@@ -269,7 +269,7 @@ export const UnifiedHeader = forwardRef<HTMLElement, UnifiedHeaderProps>(
                     handleMobileClose();
                   }}
                   className={clsx(
-                    "flex items-center justify-center px-6 py-4 text-body-lg font-medium transition-colors",
+                    "flex items-center justify-center px-spacing-6 py-spacing-4 text-body-lg font-weight-medium transition-colors",
                     inverted
                       ? "bg-white text-black"
                       : "bg-black text-white"

@@ -150,7 +150,7 @@ function NewReviewContent() {
             key={star}
             type="button"
             variant="ghost"
-            className={`text-h5-md p-1 ${star <= rating ? 'text-warning-500' : 'text-grey-600'}`}
+            className={`text-h5-md p-1 ${star <= rating ? 'text-warning-500' : 'text-ink-600'}`}
             onClick={() => setRating(star)}
           >
             ★
@@ -178,7 +178,7 @@ function NewReviewContent() {
         <Container className="py-16">
           <Card className="p-12 text-center mt-12">
             <H2 className="mb-4">EVENT NOT FOUND</H2>
-            <Body className="text-grey-600 mb-6">
+            <Body className="text-ink-600 mb-6">
               Please select an event to review.
             </Body>
             <Button variant="solid" onClick={() => router.push('/my-events')}>
@@ -197,7 +197,7 @@ function NewReviewContent() {
         <Container className="py-16">
           <Card className="p-12 text-center mt-12">
             <H2 className="mb-4">THANK YOU!</H2>
-            <Body className="text-grey-600 mb-6">
+            <Body className="text-ink-600 mb-6">
               Your review has been submitted successfully.
             </Body>
             <LoadingSpinner size="sm" />
@@ -214,7 +214,7 @@ function NewReviewContent() {
         <Stack gap={8}>
         <Stack gap={2} className="border-b-2 border-black pb-8">
           <H1>Write a Review</H1>
-          <Body className="text-grey-600">Share your experience</Body>
+          <Body className="text-ink-600">Share your experience</Body>
         </Stack>
 
         {error && (
@@ -265,7 +265,7 @@ function NewReviewContent() {
 
                 <Card className="p-6">
                   <H3 className="mb-6">HIGHLIGHTS</H3>
-                  <Body className="text-grey-600 mb-4">
+                  <Body className="text-ink-600 mb-4">
                     What stood out about this event?
                   </Body>
                   <Stack direction="horizontal" gap={2} className="flex-wrap">
@@ -325,7 +325,7 @@ function NewReviewContent() {
             <Card className="p-6 sticky top-6">
               <H3 className="mb-4">REVIEWING</H3>
               {event.image && (
-                <Figure className="relative h-40 bg-grey-100 mb-4 overflow-hidden">
+                <Figure className="relative h-40 bg-ink-100 mb-4 overflow-hidden">
                   <Image
                     src={event.image}
                     alt={event.title}
@@ -335,8 +335,8 @@ function NewReviewContent() {
                 </Figure>
               )}
               <Body className="font-bold">{event.title}</Body>
-              <Body className="text-grey-600 text-body-sm">{event.date}</Body>
-              <Body className="text-grey-500 text-body-sm">{event.venue}</Body>
+              <Body className="text-ink-600 text-body-sm">{event.date}</Body>
+              <Body className="text-ink-500 text-body-sm">{event.venue}</Body>
             </Card>
           </Stack>
         </Grid>

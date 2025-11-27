@@ -69,9 +69,9 @@ export default function CompvssIntegrationsPage() {
       <CreatorNavigationAuthenticated />
       <Container className="py-16">
         <Stack gap={8}>
-          <Stack gap={2} className="border-b border-grey-800 pb-8">
+          <Stack gap={2} className="border-b border-ink-800 pb-8">
             <H1>Platform Integrations</H1>
-            <Body className="text-grey-400">
+            <Body className="text-ink-400">
               Monitor cross-platform data synchronization and manage production workflows.
             </Body>
           </Stack>
@@ -134,7 +134,7 @@ export default function CompvssIntegrationsPage() {
             </Stack>
 
             <Grid cols={2} gap={4}>
-              <Card className="p-4 border border-grey-800">
+              <Card className="p-4 border border-ink-800">
                 <Stack gap={4}>
                   <H3>Event Publishing</H3>
                   <Body className="text-body-sm">
@@ -146,7 +146,7 @@ export default function CompvssIntegrationsPage() {
                 </Stack>
               </Card>
 
-              <Card className="p-4 border border-grey-800">
+              <Card className="p-4 border border-ink-800">
                 <Stack gap={4}>
                   <H3>Asset Request</H3>
                   <Body className="text-body-sm">
@@ -158,7 +158,7 @@ export default function CompvssIntegrationsPage() {
                 </Stack>
               </Card>
 
-              <Card className="p-4 border border-grey-800">
+              <Card className="p-4 border border-ink-800">
                 <Stack gap={4}>
                   <H3>Expense Submission</H3>
                   <Body className="text-body-sm">
@@ -170,7 +170,7 @@ export default function CompvssIntegrationsPage() {
                 </Stack>
               </Card>
 
-              <Card className="p-4 border border-grey-800">
+              <Card className="p-4 border border-ink-800">
                 <Stack gap={4}>
                   <H3>Crew Sync</H3>
                   <Body className="text-body-sm">

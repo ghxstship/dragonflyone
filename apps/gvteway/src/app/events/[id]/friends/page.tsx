@@ -54,14 +54,14 @@ export default function FriendFinderPage() {
         <Stack gap={8}>
           <Stack gap={2}>
             <H1>FRIEND FINDER</H1>
-            <Body className="text-grey-600">Find and meet up with friends at this event</Body>
+            <Body className="text-ink-600">Find and meet up with friends at this event</Body>
           </Stack>
 
           <Card className="p-4 border-2 border-black">
             <Stack direction="horizontal" className="justify-between items-center">
               <Stack gap={1}>
                 <Label className="font-bold">Share My Location</Label>
-                <Label size="xs" className="text-grey-500">Let friends see where you are</Label>
+                <Label size="xs" className="text-ink-500">Let friends see where you are</Label>
               </Stack>
               <Button variant={shareLocation ? "solid" : "outline"} onClick={() => setShareLocation(!shareLocation)}>
                 {shareLocation ? "Sharing" : "Off"}
@@ -83,7 +83,7 @@ export default function FriendFinderPage() {
                       <Stack gap={1}>
                         <Body className="font-bold">{friend.name}</Body>
                         {friend.shareLocation && friend.location && (
-                          <Label size="xs" className="text-grey-500">
+                          <Label size="xs" className="text-ink-500">
                             Section {friend.location.section}{friend.location.row && `, Row ${friend.location.row}`}
                           </Label>
                         )}
@@ -108,10 +108,10 @@ export default function FriendFinderPage() {
             <H3>SUGGESTED MEETUP SPOTS</H3>
             <Grid cols={3} gap={4}>
               {meetupSpots.map((spot) => (
-                <Card key={spot.id} className="p-4 border border-grey-200">
+                <Card key={spot.id} className="p-4 border border-ink-200">
                   <Stack gap={2}>
                     <Body className="font-bold">{spot.name}</Body>
-                    <Label size="xs" className="text-grey-500">{spot.description}</Label>
+                    <Label size="xs" className="text-ink-500">{spot.description}</Label>
                     <Badge variant="outline">{spot.type}</Badge>
                   </Stack>
                 </Card>
@@ -121,12 +121,12 @@ export default function FriendFinderPage() {
 
           <Stack gap={4}>
             <H3>INVITE FRIENDS</H3>
-            <Card className="p-4 border border-grey-200">
+            <Card className="p-4 border border-ink-200">
               <Stack gap={4}>
-                <Input placeholder="Search contacts..." className="border-grey-300" />
+                <Input placeholder="Search contacts..." className="border-ink-300" />
                 <Grid cols={2} gap={2}>
                   {mockFriends.filter(f => f.status !== "attending").map((friend) => (
-                    <Card key={friend.id} className="p-3 border border-grey-200">
+                    <Card key={friend.id} className="p-3 border border-ink-200">
                       <Stack direction="horizontal" className="justify-between items-center">
                         <Label>{friend.name}</Label>
                         <Button variant="outline" size="sm">
@@ -153,15 +153,15 @@ export default function FriendFinderPage() {
               <Stack gap={2}>
                 <Label>Select Location</Label>
                 {meetupSpots.map((spot) => (
-                  <Card key={spot.id} className="p-3 border border-grey-200 cursor-pointer hover:border-black">
+                  <Card key={spot.id} className="p-3 border border-ink-200 cursor-pointer hover:border-black">
                     <Stack gap={1}>
                       <Label className="font-bold">{spot.name}</Label>
-                      <Label size="xs" className="text-grey-500">{spot.description}</Label>
+                      <Label size="xs" className="text-ink-500">{spot.description}</Label>
                     </Stack>
                   </Card>
                 ))}
               </Stack>
-              <Input type="time" className="border-grey-300" />
+              <Input type="time" className="border-ink-300" />
             </Stack>
           )}
         </ModalBody>

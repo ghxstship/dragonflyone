@@ -50,8 +50,8 @@ export default function ReferralsPage() {
           logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
           cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/profile')}>PROFILE</Button>}
         >
-          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Home</Link>
-          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Events</Link>
+          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Home</Link>
+          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Events</Link>
         </Navigation>
       }
       footer={
@@ -83,7 +83,7 @@ export default function ReferralsPage() {
           <Container>
             <Stack gap={8} className="max-w-4xl mx-auto">
               <H2 className="text-white">Referral Program</H2>
-              <Body className="text-grey-400">
+              <Body className="text-ink-400">
                 Invite friends to join GVTEWAY and earn $50 credit for each friend who attends their first event!
               </Body>
 
@@ -91,25 +91,25 @@ export default function ReferralsPage() {
                 <StatCard
                   value={(referrals || []).length}
                   label="Total Referrals"
-                  className="bg-black text-white border-grey-800"
+                  className="bg-black text-white border-ink-800"
                 />
                 <StatCard
                   value={completedCount}
                   label="Completed"
-                  className="bg-black text-white border-grey-800"
+                  className="bg-black text-white border-ink-800"
                 />
                 <StatCard
                   value={`$${totalEarned}`}
                   label="Rewards Earned"
-                  className="bg-black text-white border-grey-800"
+                  className="bg-black text-white border-ink-800"
                 />
               </Grid>
 
-              <Card className="border-2 border-grey-800 p-6 bg-black">
+              <Card className="border-2 border-ink-800 p-6 bg-black">
                 <Stack gap={4}>
                   <H3 className="text-white">Your Referral Code</H3>
                   <Stack gap={4} direction="horizontal" className="items-center">
-                    <Card className="flex-1 border-2 border-grey-700 bg-black p-4">
+                    <Card className="flex-1 border-2 border-ink-700 bg-black p-4">
                       <Body className="font-mono text-h6-md text-white">
                         {(referrals && referrals[0]?.referral_code) || "GHXST-USER"}
                       </Body>
@@ -125,7 +125,7 @@ export default function ReferralsPage() {
                   <Select
                     value={filterStatus}
                     onChange={(e) => setFilterStatus(e.target.value)}
-                    className="bg-black text-white border-grey-700"
+                    className="bg-black text-white border-ink-700"
                   >
                     <option value="all">All</option>
                     <option value="pending">Pending</option>
@@ -141,17 +141,17 @@ export default function ReferralsPage() {
                 ) : (
                   <Stack gap={3}>
                     {filteredReferrals.map((referral) => (
-                      <Card key={referral.id} className="border-2 border-grey-800 p-6 bg-black">
+                      <Card key={referral.id} className="border-2 border-ink-800 p-6 bg-black">
                         <Stack gap={4} direction="horizontal" className="justify-between items-start">
                           <Stack gap={1}>
                             <Body className="font-display text-body-md text-white">
                               Referral #{referral.referral_code}
                             </Body>
-                            <Body className="text-body-sm text-grey-400">
+                            <Body className="text-body-sm text-ink-400">
                               Created {referral.created_at ? new Date(referral.created_at).toLocaleDateString() : "—"}
                             </Body>
                             {referral.completed_at && (
-                              <Body className="text-body-sm text-grey-400">
+                              <Body className="text-body-sm text-ink-400">
                                 Completed: {new Date(referral.completed_at).toLocaleDateString()}
                               </Body>
                             )}

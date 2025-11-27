@@ -129,11 +129,11 @@ export default function RevenueRecognitionPage() {
                   <Stack 
                     key={entry.id}
                     direction="horizontal"
-                    className="justify-between items-center p-4 border border-grey-200 rounded"
+                    className="justify-between items-center p-4 border border-ink-200 rounded"
                   >
                     <Stack gap={1}>
                       <Label className="font-semibold">{entry.description}</Label>
-                      <Body className="text-body-sm text-grey-500">
+                      <Body className="text-body-sm text-ink-500">
                         {formatDate(entry.recognition_date)}
                       </Body>
                     </Stack>
@@ -163,7 +163,7 @@ export default function RevenueRecognitionPage() {
           <CardBody>
             {rules.length === 0 ? (
               <Stack gap={4} className="items-center py-12">
-                <Body className="text-grey-500">No revenue recognition rules found</Body>
+                <Body className="text-ink-500">No revenue recognition rules found</Body>
                 <Button 
                   variant="solid" 
                   onClick={() => setShowCreateForm(true)}
@@ -176,7 +176,7 @@ export default function RevenueRecognitionPage() {
               {rules.map((rule) => (
                 <Stack
                   key={rule.id}
-                  className="p-6 border-2 border-grey-200 rounded-lg transition-colors hover:border-grey-400 cursor-pointer"
+                  className="p-6 border-2 border-ink-200 rounded-lg transition-colors hover:border-ink-400 cursor-pointer"
                   onClick={() => handleViewSchedule(rule.id)}
                   gap={4}
                 >
@@ -185,32 +185,32 @@ export default function RevenueRecognitionPage() {
                       <H3>
                         {rule.projects?.name || 'Project'}
                       </H3>
-                      <Body className="text-grey-500">
+                      <Body className="text-ink-500">
                         {rule.projects?.client_name || 'Client'}
                       </Body>
                       
                       <Stack direction="horizontal" gap={6} className="flex-wrap mt-4">
                         <Stack gap={1}>
-                          <Label className="text-mono-xs text-grey-500">Type</Label>
+                          <Label className="text-mono-xs text-ink-500">Type</Label>
                           <Body className="font-semibold capitalize">
                             {rule.revenue_type.replace('_', ' ')}
                           </Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Label className="text-mono-xs text-grey-500">Total Amount</Label>
+                          <Label className="text-mono-xs text-ink-500">Total Amount</Label>
                           <Body className="font-semibold">
                             {formatCurrency(rule.total_amount)}
                           </Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Label className="text-mono-xs text-grey-500">Start Date</Label>
+                          <Label className="text-mono-xs text-ink-500">Start Date</Label>
                           <Body className="font-semibold">
                             {formatDate(rule.recognition_start_date)}
                           </Body>
                         </Stack>
                         {rule.recognition_end_date && (
                           <Stack gap={1}>
-                            <Label className="text-mono-xs text-grey-500">End Date</Label>
+                            <Label className="text-mono-xs text-ink-500">End Date</Label>
                             <Body className="font-semibold">
                               {formatDate(rule.recognition_end_date)}
                             </Body>
@@ -226,7 +226,7 @@ export default function RevenueRecognitionPage() {
 
                   {/* Milestones for milestone-based rules */}
                   {rule.revenue_type === 'milestone' && rule.milestones && rule.milestones.length > 0 && (
-                    <Stack gap={2} className="pt-4 border-t border-grey-200">
+                    <Stack gap={2} className="pt-4 border-t border-ink-200">
                       <Label className="text-body-sm font-semibold">
                         Milestones
                       </Label>
@@ -271,11 +271,11 @@ export default function RevenueRecognitionPage() {
                     <Stack
                       key={entry.id}
                       direction="horizontal"
-                      className={`justify-between items-center p-4 border rounded ${entry.status === 'recognized' ? 'bg-grey-100 border-grey-300' : 'bg-white border-grey-200'}`}
+                      className={`justify-between items-center p-4 border rounded ${entry.status === 'recognized' ? 'bg-ink-100 border-ink-300' : 'bg-white border-ink-200'}`}
                     >
                       <Stack gap={1}>
                         <Body className="font-semibold">{entry.description}</Body>
-                        <Label className="text-body-sm text-grey-500">
+                        <Label className="text-body-sm text-ink-500">
                           {formatDate(entry.recognition_date)}
                         </Label>
                       </Stack>

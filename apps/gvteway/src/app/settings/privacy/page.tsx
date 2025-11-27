@@ -240,7 +240,7 @@ export default function PrivacySettingsPage() {
         <Stack gap={8}>
           <Stack gap={2} className="border-b-2 border-black pb-8">
             <H1>Privacy & Safety</H1>
-            <Body className="text-grey-600">
+            <Body className="text-ink-600">
               Control your privacy settings and manage blocked users
             </Body>
           </Stack>
@@ -287,7 +287,7 @@ export default function PrivacySettingsPage() {
                 <Stack direction="horizontal" className="justify-between items-center py-2">
                   <Stack>
                     <Body className="font-medium">Show Activity</Body>
-                    <Body className="text-body-sm text-grey-500">Let others see your recent activity</Body>
+                    <Body className="text-body-sm text-ink-500">Let others see your recent activity</Body>
                   </Stack>
                   <Switch
                     checked={settings.show_activity}
@@ -298,7 +298,7 @@ export default function PrivacySettingsPage() {
                 <Stack direction="horizontal" className="justify-between items-center py-2">
                   <Stack>
                     <Body className="font-medium">Show Events Attended</Body>
-                    <Body className="text-body-sm text-grey-500">Display events on your profile</Body>
+                    <Body className="text-body-sm text-ink-500">Display events on your profile</Body>
                   </Stack>
                   <Switch
                     checked={settings.show_events_attended}
@@ -309,7 +309,7 @@ export default function PrivacySettingsPage() {
                 <Stack direction="horizontal" className="justify-between items-center py-2">
                   <Stack>
                     <Body className="font-medium">Show Reviews</Body>
-                    <Body className="text-body-sm text-grey-500">Display your reviews publicly</Body>
+                    <Body className="text-body-sm text-ink-500">Display your reviews publicly</Body>
                   </Stack>
                   <Switch
                     checked={settings.show_reviews}
@@ -337,10 +337,10 @@ export default function PrivacySettingsPage() {
                     <Stack
                       key={blocked.id}
                       direction="horizontal"
-                      className="justify-between items-center py-2 border-b border-grey-100"
+                      className="justify-between items-center py-2 border-b border-ink-100"
                     >
                       <Stack direction="horizontal" gap={3} className="items-center">
-                        <Stack className="w-10 h-10 bg-grey-200 rounded-full flex items-center justify-center">
+                        <Stack className="w-10 h-10 bg-ink-200 rounded-full flex items-center justify-center">
                           {blocked.user_avatar ? (
                             <Image
                               src={blocked.user_avatar}
@@ -355,7 +355,7 @@ export default function PrivacySettingsPage() {
                         </Stack>
                         <Stack>
                           <Body className="font-medium">{blocked.user_name}</Body>
-                          <Body className="text-mono-xs text-grey-500">
+                          <Body className="text-mono-xs text-ink-500">
                             Blocked {new Date(blocked.blocked_at).toLocaleDateString()}
                           </Body>
                         </Stack>
@@ -371,7 +371,7 @@ export default function PrivacySettingsPage() {
                   ))}
                 </Stack>
               ) : (
-                <Body className="text-grey-500 text-center py-4">
+                <Body className="text-ink-500 text-center py-4">
                   No blocked users
                 </Body>
               )}
@@ -395,23 +395,23 @@ export default function PrivacySettingsPage() {
                         <Body className="font-medium">{report.reported_user_name}</Body>
                         {getStatusBadge(report.status)}
                       </Stack>
-                      <Body className="text-body-sm text-grey-600">{report.reason}</Body>
-                      <Body className="text-mono-xs text-grey-600 mt-2">
+                      <Body className="text-body-sm text-ink-600">{report.reason}</Body>
+                      <Body className="text-mono-xs text-ink-600 mt-2">
                         {new Date(report.created_at).toLocaleDateString()}
                       </Body>
                     </Card>
                   ))}
                 </Stack>
               ) : (
-                <Body className="text-grey-500 text-center py-4">
+                <Body className="text-ink-500 text-center py-4">
                   No reports submitted
                 </Body>
               )}
             </Card>
 
-            <Card className="p-6 bg-grey-50">
+            <Card className="p-6 bg-ink-50">
               <H3 className="mb-4">NEED HELP?</H3>
-              <Body className="text-grey-600 mb-4">
+              <Body className="text-ink-600 mb-4">
                 If you&apos;re experiencing harassment or safety concerns, please contact our support team.
               </Body>
               <Button variant="outline" onClick={() => router.push('/support/chat')}>
@@ -428,7 +428,7 @@ export default function PrivacySettingsPage() {
         >
           <Stack>
             <Stack gap={4}>
-              <Body className="text-grey-600">
+              <Body className="text-ink-600">
                 Blocked users cannot message you or see your activity.
               </Body>
               <Field label="Username or User ID" required>

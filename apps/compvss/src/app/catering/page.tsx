@@ -172,7 +172,7 @@ export default function CateringPage() {
         <Stack gap={8}>
           <Stack gap={2}>
             <H1>Catering & Hospitality</H1>
-            <Body className="text-grey-400">
+            <Body className="text-ink-400">
               Manage crew meals, dietary requirements, and hospitality services
             </Body>
           </Stack>
@@ -181,51 +181,51 @@ export default function CateringPage() {
             <StatCard
               value={summary?.upcoming_meals || 0}
               label="Upcoming Meals"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={summary?.total_headcount || 0}
               label="Total Headcount"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={formatCurrency(summary?.average_cost_per_head || 0)}
               label="Avg Cost/Head"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={formatCurrency(summary?.total_cost || 0)}
               label="Total Cost"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
           </Grid>
 
           <Grid cols={2} gap={6}>
-            <Card className="p-6 bg-black border-grey-800">
+            <Card className="p-6 bg-black border-ink-800">
               <Stack gap={4}>
                 <H2>Dietary Requirements</H2>
                 <Grid cols={2} gap={4}>
-                  <Card className="p-4 bg-grey-900 border-grey-700">
+                  <Card className="p-4 bg-ink-900 border-ink-700">
                     <Stack gap={2}>
-                      <Body className="text-grey-400 text-body-sm uppercase tracking-widest">Vegetarian</Body>
+                      <Body className="text-ink-400 text-body-sm uppercase tracking-widest">Vegetarian</Body>
                       <Body className="text-h5-md font-bold">12</Body>
                     </Stack>
                   </Card>
-                  <Card className="p-4 bg-grey-900 border-grey-700">
+                  <Card className="p-4 bg-ink-900 border-ink-700">
                     <Stack gap={2}>
-                      <Body className="text-grey-400 text-body-sm uppercase tracking-widest">Vegan</Body>
+                      <Body className="text-ink-400 text-body-sm uppercase tracking-widest">Vegan</Body>
                       <Body className="text-h5-md font-bold">5</Body>
                     </Stack>
                   </Card>
-                  <Card className="p-4 bg-grey-900 border-grey-700">
+                  <Card className="p-4 bg-ink-900 border-ink-700">
                     <Stack gap={2}>
-                      <Body className="text-grey-400 text-body-sm uppercase tracking-widest">Gluten-Free</Body>
+                      <Body className="text-ink-400 text-body-sm uppercase tracking-widest">Gluten-Free</Body>
                       <Body className="text-h5-md font-bold">8</Body>
                     </Stack>
                   </Card>
-                  <Card className="p-4 bg-grey-900 border-grey-700">
+                  <Card className="p-4 bg-ink-900 border-ink-700">
                     <Stack gap={2}>
-                      <Body className="text-grey-400 text-body-sm uppercase tracking-widest">Allergies</Body>
+                      <Body className="text-ink-400 text-body-sm uppercase tracking-widest">Allergies</Body>
                       <Body className="text-h5-md font-bold">3</Body>
                     </Stack>
                   </Card>
@@ -233,35 +233,35 @@ export default function CateringPage() {
               </Stack>
             </Card>
 
-            <Card className="p-6 bg-black border-grey-800">
+            <Card className="p-6 bg-black border-ink-800">
               <Stack gap={4}>
                 <H2>Today&apos;s Schedule</H2>
                 <Stack gap={3}>
-                  <Card className="p-4 bg-grey-900 border-grey-700">
+                  <Card className="p-4 bg-ink-900 border-ink-700">
                     <Stack gap={1} direction="horizontal" className="items-center justify-between">
                       <Stack gap={1} direction="horizontal" className="items-center">
                         <Body className="text-h5-md">🌅</Body>
                         <Body className="font-medium">Breakfast</Body>
                       </Stack>
-                      <Body className="text-grey-400">6:00 AM - 45 pax</Body>
+                      <Body className="text-ink-400">6:00 AM - 45 pax</Body>
                     </Stack>
                   </Card>
-                  <Card className="p-4 bg-grey-900 border-grey-700">
+                  <Card className="p-4 bg-ink-900 border-ink-700">
                     <Stack gap={1} direction="horizontal" className="items-center justify-between">
                       <Stack gap={1} direction="horizontal" className="items-center">
                         <Body className="text-h5-md">☀️</Body>
                         <Body className="font-medium">Lunch</Body>
                       </Stack>
-                      <Body className="text-grey-400">12:00 PM - 52 pax</Body>
+                      <Body className="text-ink-400">12:00 PM - 52 pax</Body>
                     </Stack>
                   </Card>
-                  <Card className="p-4 bg-grey-900 border-grey-700">
+                  <Card className="p-4 bg-ink-900 border-ink-700">
                     <Stack gap={1} direction="horizontal" className="items-center justify-between">
                       <Stack gap={1} direction="horizontal" className="items-center">
                         <Body className="text-h5-md">🌙</Body>
                         <Body className="font-medium">Dinner</Body>
                       </Stack>
-                      <Body className="text-grey-400">6:00 PM - 48 pax</Body>
+                      <Body className="text-ink-400">6:00 PM - 48 pax</Body>
                     </Stack>
                   </Card>
                 </Stack>
@@ -273,7 +273,7 @@ export default function CateringPage() {
             <Select
               value={filterProject}
               onChange={(e) => setFilterProject(e.target.value)}
-              className="bg-black text-white border-grey-700"
+              className="bg-black text-white border-ink-700"
             >
               <option value="all">All Projects</option>
               <option value="proj-001">Summer Festival 2024</option>
@@ -283,7 +283,7 @@ export default function CateringPage() {
             <Select
               value={filterMealType}
               onChange={(e) => setFilterMealType(e.target.value)}
-              className="bg-black text-white border-grey-700"
+              className="bg-black text-white border-ink-700"
             >
               <option value="all">All Meals</option>
               <option value="breakfast">Breakfast</option>
@@ -315,26 +315,26 @@ export default function CateringPage() {
               </TableHeader>
               <TableBody>
                 {services.map((service) => (
-                  <TableRow key={service.id} className="bg-black text-white hover:bg-grey-900">
+                  <TableRow key={service.id} className="bg-black text-white hover:bg-ink-900">
                     <TableCell>
                       <Stack gap={1} direction="horizontal" className="items-center">
                         <Body className="text-h6-md">{getMealIcon(service.meal_type)}</Body>
                         <Body className="text-white">{service.meal_type}</Body>
                       </Stack>
                     </TableCell>
-                    <TableCell className="text-grey-400">
+                    <TableCell className="text-ink-400">
                       {service.project_name}
                     </TableCell>
-                    <TableCell className="font-mono text-grey-400">
+                    <TableCell className="font-mono text-ink-400">
                       {formatDate(service.service_date)}
                     </TableCell>
-                    <TableCell className="text-grey-400">
+                    <TableCell className="text-ink-400">
                       {service.location}
                     </TableCell>
                     <TableCell className="font-mono text-white">
                       {service.headcount}
                     </TableCell>
-                    <TableCell className="text-grey-400">
+                    <TableCell className="text-ink-400">
                       {service.vendor_name || "TBD"}
                     </TableCell>
                     <TableCell className="font-mono text-white">
@@ -355,10 +355,10 @@ export default function CateringPage() {
             <Button variant="outlineWhite" onClick={() => router.push('/catering/schedule')}>
               Schedule Meal
             </Button>
-            <Button variant="ghost" className="text-grey-400 hover:text-white" onClick={() => router.push('/catering/dietary')}>
+            <Button variant="ghost" className="text-ink-400 hover:text-white" onClick={() => router.push('/catering/dietary')}>
               Manage Dietary
             </Button>
-            <Button variant="ghost" className="text-grey-400 hover:text-white" onClick={() => router.push('/catering/vendors')}>
+            <Button variant="ghost" className="text-ink-400 hover:text-white" onClick={() => router.push('/catering/vendors')}>
               Vendor Directory
             </Button>
           </Stack>

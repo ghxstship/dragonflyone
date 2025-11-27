@@ -120,7 +120,7 @@ export default function DestinationsPage() {
         <Stack gap={8}>
           <Stack gap={2}>
             <H1>Event Destinations</H1>
-            <Body className="text-grey-400">
+            <Body className="text-ink-400">
               Discover amazing events in cities around the world
             </Body>
           </Stack>
@@ -129,55 +129,55 @@ export default function DestinationsPage() {
             <StatCard
               value={summary?.total_destinations || 0}
               label="Destinations"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={summary?.trending_count || 0}
               label="Trending"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={summary?.total_events || 0}
               label="Upcoming Events"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={summary?.featured_count || 0}
               label="Featured"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
           </Grid>
 
-          <Card className="p-6 bg-black border-grey-800">
+          <Card className="p-6 bg-black border-ink-800">
             <Stack gap={4}>
               <H2>Trending Destinations</H2>
               <Grid cols={4} gap={4}>
-                <Card className="p-4 bg-grey-900 border-grey-700 cursor-pointer hover:border-grey-600">
+                <Card className="p-4 bg-ink-900 border-ink-700 cursor-pointer hover:border-ink-600">
                   <Stack gap={2}>
                     <Body className="text-h5-md">🗽</Body>
                     <Body className="font-medium">New York</Body>
-                    <Body className="text-grey-400 text-body-sm">1,234 events</Body>
+                    <Body className="text-ink-400 text-body-sm">1,234 events</Body>
                   </Stack>
                 </Card>
-                <Card className="p-4 bg-grey-900 border-grey-700 cursor-pointer hover:border-grey-600">
+                <Card className="p-4 bg-ink-900 border-ink-700 cursor-pointer hover:border-ink-600">
                   <Stack gap={2}>
                     <Body className="text-h5-md">🌴</Body>
                     <Body className="font-medium">Los Angeles</Body>
-                    <Body className="text-grey-400 text-body-sm">987 events</Body>
+                    <Body className="text-ink-400 text-body-sm">987 events</Body>
                   </Stack>
                 </Card>
-                <Card className="p-4 bg-grey-900 border-grey-700 cursor-pointer hover:border-grey-600">
+                <Card className="p-4 bg-ink-900 border-ink-700 cursor-pointer hover:border-ink-600">
                   <Stack gap={2}>
                     <Body className="text-h5-md">🎸</Body>
                     <Body className="font-medium">Nashville</Body>
-                    <Body className="text-grey-400 text-body-sm">654 events</Body>
+                    <Body className="text-ink-400 text-body-sm">654 events</Body>
                   </Stack>
                 </Card>
-                <Card className="p-4 bg-grey-900 border-grey-700 cursor-pointer hover:border-grey-600">
+                <Card className="p-4 bg-ink-900 border-ink-700 cursor-pointer hover:border-ink-600">
                   <Stack gap={2}>
                     <Body className="text-h5-md">🎰</Body>
                     <Body className="font-medium">Las Vegas</Body>
-                    <Body className="text-grey-400 text-body-sm">543 events</Body>
+                    <Body className="text-ink-400 text-body-sm">543 events</Body>
                   </Stack>
                 </Card>
               </Grid>
@@ -190,13 +190,13 @@ export default function DestinationsPage() {
                 placeholder="Search destinations..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-black text-white border-grey-700"
+                className="bg-black text-white border-ink-700"
               />
             </Field>
             <Select
               value={filterRegion}
               onChange={(e) => setFilterRegion(e.target.value)}
-              className="bg-black text-white border-grey-700"
+              className="bg-black text-white border-ink-700"
             >
               <option value="all">All Regions</option>
               <option value="northeast">Northeast</option>
@@ -218,14 +218,14 @@ export default function DestinationsPage() {
               {destinations.map((dest) => (
                 <Card 
                   key={dest.id} 
-                  className="p-6 bg-black border-grey-800 cursor-pointer hover:border-grey-700 transition-colors"
+                  className="p-6 bg-black border-ink-800 cursor-pointer hover:border-ink-700 transition-colors"
                   onClick={() => router.push(`/events?location=${dest.city}`)}
                 >
                   <Stack gap={4}>
                     <Stack gap={2} direction="horizontal" className="justify-between items-start">
                       <Stack gap={1}>
                         <H2 className="text-h6-md">{dest.name}</H2>
-                        <Body className="text-grey-400">
+                        <Body className="text-ink-400">
                           {dest.city}, {dest.state || dest.country}
                         </Body>
                       </Stack>
@@ -234,7 +234,7 @@ export default function DestinationsPage() {
                       )}
                     </Stack>
 
-                    <Body className="text-grey-400 text-body-sm line-clamp-2">
+                    <Body className="text-ink-400 text-body-sm line-clamp-2">
                       {dest.description}
                     </Body>
 
@@ -248,13 +248,13 @@ export default function DestinationsPage() {
                       </Stack>
                     </Stack>
 
-                    <Stack gap={2} direction="horizontal" className="justify-between text-grey-500 text-body-sm border-t border-grey-800 pt-4">
+                    <Stack gap={2} direction="horizontal" className="justify-between text-ink-500 text-body-sm border-t border-ink-800 pt-4">
                       <Stack gap={1}>
                         <Body>{dest.venue_count} venues</Body>
                         <Body>{dest.upcoming_events} upcoming events</Body>
                       </Stack>
                       <Stack gap={1} className="text-right">
-                        <Body className="text-grey-400">Avg. ticket</Body>
+                        <Body className="text-ink-400">Avg. ticket</Body>
                         <Body className="text-white font-mono">
                           {formatCurrency(dest.average_ticket_price)}
                         </Body>

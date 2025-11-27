@@ -133,55 +133,55 @@ export default function AnalyticsPage() {
             <StatCard
               value={formatCurrency(summary?.revenue || 0)}
               label="Revenue (YTD)"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={formatCurrency(summary?.expenses || 0)}
               label="Expenses (YTD)"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={formatCurrency(summary?.profit || 0)}
               label="Net Profit"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={`${summary?.margin || 0}%`}
               label="Margin"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
           </Grid>
 
           <Grid cols={2} gap={6}>
-            <Card className="border-2 border-grey-800 p-6 bg-black">
+            <Card className="border-2 border-ink-800 p-6 bg-black">
               <H2 className="text-white mb-4">Project Status</H2>
               <Stack gap={3}>
                 <Stack gap={2} direction="horizontal" className="justify-between">
-                  <Body className="text-grey-400">In Progress</Body>
+                  <Body className="text-ink-400">In Progress</Body>
                   <Body className="font-mono text-white">{summary?.projectsInProgress || 0}</Body>
                 </Stack>
                 <Stack gap={2} direction="horizontal" className="justify-between">
-                  <Body className="text-grey-400">Planning</Body>
+                  <Body className="text-ink-400">Planning</Body>
                   <Body className="font-mono text-white">{summary?.projectsPlanning || 0}</Body>
                 </Stack>
                 <Stack gap={2} direction="horizontal" className="justify-between">
-                  <Body className="text-grey-400">Completed (YTD)</Body>
+                  <Body className="text-ink-400">Completed (YTD)</Body>
                   <Body className="font-mono text-white">{summary?.projectsCompleted || 0}</Body>
                 </Stack>
               </Stack>
             </Card>
 
-            <Card className="border-2 border-grey-800 p-6 bg-black">
+            <Card className="border-2 border-ink-800 p-6 bg-black">
               <H2 className="text-white mb-4">Active KPIs</H2>
               <Stack gap={3}>
                 {kpis.slice(0, 5).map((kpi) => (
                   <Stack key={kpi.code} gap={2} direction="horizontal" className="justify-between">
-                    <Body className="text-grey-400">{kpi.name}</Body>
+                    <Body className="text-ink-400">{kpi.name}</Body>
                     <Body className="font-mono text-white text-mono-xs">{kpi.code}</Body>
                   </Stack>
                 ))}
                 {kpis.length > 5 && (
-                  <Body className="text-grey-500 text-body-sm">+{kpis.length - 5} more KPIs</Body>
+                  <Body className="text-ink-500 text-body-sm">+{kpis.length - 5} more KPIs</Body>
                 )}
               </Stack>
             </Card>

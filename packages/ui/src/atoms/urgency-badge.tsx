@@ -12,6 +12,8 @@ export interface UrgencyBadgeProps {
   animated?: boolean;
   /** Size variant */
   size?: "sm" | "md" | "lg";
+  /** Inverted theme (for dark backgrounds) */
+  inverted?: boolean;
   /** Custom className */
   className?: string;
 }
@@ -62,15 +64,15 @@ const urgencyConfig = {
 };
 
 const sizeClasses = {
-  sm: "text-mono-xs px-2 py-1",
-  md: "text-mono-sm px-3 py-1.5",
-  lg: "text-mono-md px-4 py-2",
+  sm: "text-mono-xs px-spacing-2 py-spacing-1",
+  md: "text-mono-sm px-spacing-3 py-spacing-1",
+  lg: "text-mono-md px-spacing-4 py-spacing-2",
 };
 
 const dotSizeClasses = {
-  sm: "w-1.5 h-1.5",
-  md: "w-2 h-2",
-  lg: "w-2.5 h-2.5",
+  sm: "w-spacing-1 h-spacing-1",
+  md: "w-spacing-2 h-spacing-2",
+  lg: "w-spacing-2 h-spacing-2",
 };
 
 export function UrgencyBadge({
@@ -78,6 +80,7 @@ export function UrgencyBadge({
   count,
   animated = true,
   size = "md",
+  inverted = false,
   className = "",
 }: UrgencyBadgeProps) {
   const config = urgencyConfig[type];
@@ -85,14 +88,20 @@ export function UrgencyBadge({
   const shouldPulse = animated && config.pulse;
   const showDot = type === "low-stock" || type === "selling-fast" || type === "last-chance";
 
+  // Inverted theme adjustments for "new" badge
+  const bgClass = inverted && type === "new" ? "bg-black" : config.bgClass;
+  const textClass = inverted && type === "new" ? "text-white" : config.textClass;
+  const borderClass = type === "new" ? (inverted ? "border-2 border-white" : "border-2 border-black") : "";
+  const dotClass = inverted ? "bg-black" : "bg-white";
+
   return (
     <span
       className={clsx(
-        "inline-flex items-center gap-1.5 font-code font-normal tracking-widest uppercase transition-colors duration-base",
-        config.bgClass,
-        config.textClass,
+        "inline-flex items-center gap-gap-xs font-code font-weight-normal tracking-widest uppercase transition-colors duration-base",
+        bgClass,
+        textClass,
         sizeClasses[size],
-        type === "new" && "border-2 border-black",
+        borderClass,
         shouldPulse && "animate-pulse",
         className
       )}
@@ -100,7 +109,8 @@ export function UrgencyBadge({
       {showDot && (
         <span
           className={clsx(
-            "bg-white rounded-full",
+            "rounded-full",
+            dotClass,
             dotSizeClasses[size],
             shouldPulse && "animate-pulse"
           )}

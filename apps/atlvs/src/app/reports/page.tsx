@@ -139,7 +139,7 @@ export default function ReportsPage() {
             <Stack gap={2}>
               <Stack gap={2} direction="horizontal" className="items-center justify-between">
                 <H3>REVENUE</H3>
-                <DollarSign className="w-6 h-6 text-grey-600" />
+                <DollarSign className="w-6 h-6 text-ink-600" />
               </Stack>
               <Display size="md">${(analytics.totalRevenue / 1000000).toFixed(2)}M</Display>
               <Stack gap={2} direction="horizontal" className="items-center">
@@ -152,7 +152,7 @@ export default function ReportsPage() {
             <Stack gap={2}>
               <Stack gap={2} direction="horizontal" className="items-center justify-between">
                 <H3>PROFIT</H3>
-                <DollarSign className="w-6 h-6 text-grey-600" />
+                <DollarSign className="w-6 h-6 text-ink-600" />
               </Stack>
               <Display size="md">${(analytics.totalProfit / 1000000).toFixed(2)}M</Display>
               <Stack gap={2} direction="horizontal" className="items-center">
@@ -165,20 +165,20 @@ export default function ReportsPage() {
             <Stack gap={2}>
               <Stack gap={2} direction="horizontal" className="items-center justify-between">
                 <H3>PROJECTS</H3>
-                <Package className="w-6 h-6 text-grey-600" />
+                <Package className="w-6 h-6 text-ink-600" />
               </Stack>
               <Display size="md">{analytics.projectsCompleted}</Display>
-              <Body className="text-body-sm text-grey-600">Completed</Body>
+              <Body className="text-body-sm text-ink-600">Completed</Body>
             </Stack>
           </Card>
           <Card className="p-6">
             <Stack gap={2}>
               <Stack gap={2} direction="horizontal" className="items-center justify-between">
                 <H3>TEAM</H3>
-                <Users className="w-6 h-6 text-grey-600" />
+                <Users className="w-6 h-6 text-ink-600" />
               </Stack>
               <Display size="md">{analytics.activeMembers}</Display>
-              <Body className="text-body-sm text-grey-600">Team members</Body>
+              <Body className="text-body-sm text-ink-600">Team members</Body>
             </Stack>
           </Card>
         </Grid>
@@ -208,15 +208,15 @@ export default function ReportsPage() {
               <Grid cols={2} gap={6}>
                 {[
                   { label: 'Design', count: 12, color: 'bg-black' },
-                  { label: 'Development', count: 15, color: 'bg-grey-700' },
-                  { label: 'Direction', count: 10, color: 'bg-grey-500' },
-                  { label: 'Disruption', count: 8, color: 'bg-grey-300' },
+                  { label: 'Development', count: 15, color: 'bg-ink-700' },
+                  { label: 'Direction', count: 10, color: 'bg-ink-500' },
+                  { label: 'Disruption', count: 8, color: 'bg-ink-300' },
                 ].map((dept, idx) => (
-                  <Card key={idx} className="text-center p-4 border-2 border-grey-200">
+                  <Card key={idx} className="text-center p-4 border-2 border-ink-200">
                     <Stack gap={2} className="items-center">
                       <Card className={`w-12 h-12 ${dept.color}`} />
                       <H3>{dept.count}</H3>
-                      <Body className="text-body-sm text-grey-600">{dept.label}</Body>
+                      <Body className="text-body-sm text-ink-600">{dept.label}</Body>
                     </Stack>
                   </Card>
                 ))}
@@ -239,10 +239,10 @@ export default function ReportsPage() {
                 <Stack key={idx} gap={1}>
                   <Stack gap={2} direction="horizontal" className="justify-between">
                     <Body className="font-bold">{asset.category}</Body>
-                    <Body className="text-body-sm text-grey-600">{asset.utilization}%</Body>
+                    <Body className="text-body-sm text-ink-600">{asset.utilization}%</Body>
                   </Stack>
                   <ProgressBar value={asset.utilization} size="lg" />
-                  <Body className="text-mono-xs text-grey-500">{asset.total} total assets</Body>
+                  <Body className="text-mono-xs text-ink-500">{asset.total} total assets</Body>
                 </Stack>
               ))}
             </Grid>
@@ -258,15 +258,15 @@ export default function ReportsPage() {
                 <H3>INCOME</H3>
                 <Stack gap={2}>
                   <Stack gap={2} direction="horizontal" className="justify-between">
-                    <Body className="text-grey-600">Event Revenue</Body>
+                    <Body className="text-ink-600">Event Revenue</Body>
                     <Body>$4.8M</Body>
                   </Stack>
                   <Stack gap={2} direction="horizontal" className="justify-between">
-                    <Body className="text-grey-600">Production Fees</Body>
+                    <Body className="text-ink-600">Production Fees</Body>
                     <Body>$1.5M</Body>
                   </Stack>
                   <Stack gap={2} direction="horizontal" className="justify-between">
-                    <Body className="text-grey-600">Consulting</Body>
+                    <Body className="text-ink-600">Consulting</Body>
                     <Body>$0.35M</Body>
                   </Stack>
                 </Stack>
@@ -275,15 +275,15 @@ export default function ReportsPage() {
                 <H3>EXPENSES</H3>
                 <Stack gap={2}>
                   <Stack gap={2} direction="horizontal" className="justify-between">
-                    <Body className="text-grey-600">Labor</Body>
+                    <Body className="text-ink-600">Labor</Body>
                     <Body>$3.2M</Body>
                   </Stack>
                   <Stack gap={2} direction="horizontal" className="justify-between">
-                    <Body className="text-grey-600">Equipment</Body>
+                    <Body className="text-ink-600">Equipment</Body>
                     <Body>$1.1M</Body>
                   </Stack>
                   <Stack gap={2} direction="horizontal" className="justify-between">
-                    <Body className="text-grey-600">Operations</Body>
+                    <Body className="text-ink-600">Operations</Body>
                     <Body>$1.32M</Body>
                   </Stack>
                 </Stack>
@@ -292,15 +292,15 @@ export default function ReportsPage() {
                 <H3>MARGINS</H3>
                 <Stack gap={2}>
                   <Stack gap={2} direction="horizontal" className="justify-between">
-                    <Body className="text-grey-600">Gross Margin</Body>
+                    <Body className="text-ink-600">Gross Margin</Body>
                     <Body>22.4%</Body>
                   </Stack>
                   <Stack gap={2} direction="horizontal" className="justify-between">
-                    <Body className="text-grey-600">Operating Margin</Body>
+                    <Body className="text-ink-600">Operating Margin</Body>
                     <Body>18.1%</Body>
                   </Stack>
                   <Stack gap={2} direction="horizontal" className="justify-between">
-                    <Body className="text-grey-600">Net Margin</Body>
+                    <Body className="text-ink-600">Net Margin</Body>
                     <Body className="font-bold">15.5%</Body>
                   </Stack>
                 </Stack>

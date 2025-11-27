@@ -113,8 +113,8 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
           logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
           cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/auth/signin')}>SIGN IN</Button>}
         >
-          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Home</Link>
-          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Events</Link>
+          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Home</Link>
+          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Events</Link>
         </Navigation>
       }
       footer={
@@ -131,7 +131,7 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
     >
       <SectionLayout background="black">
         <Stack gap={8}>
-          <Card className="relative h-96 overflow-hidden border-2 border-grey-800">
+          <Card className="relative h-96 overflow-hidden border-2 border-ink-800">
             <Image 
               src={event.image_url || "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=1200"} 
               alt={event.title} 
@@ -144,10 +144,10 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
             <Stack gap={6} className="lg:col-span-2">
               <Stack>
                 <Stack className="mb-4">
-                  <Link href="/events" className="text-grey-400 hover:text-white">← Back to Events</Link>
+                  <Link href="/events" className="text-ink-400 hover:text-white">← Back to Events</Link>
                 </Stack>
                 <H2 className="text-white">{event.title}</H2>
-                <Stack direction="horizontal" gap={4} className="mt-4 items-center text-grey-400">
+                <Stack direction="horizontal" gap={4} className="mt-4 items-center text-ink-400">
                   <Body>{event.venue_name}</Body>
                   <Body>•</Body>
                   <Body>{event.city}, {event.state}</Body>
@@ -156,20 +156,20 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
                 </Stack>
               </Stack>
 
-              <Card className="border-2 border-grey-800 p-6">
+              <Card className="border-2 border-ink-800 p-6">
                 <H3 className="mb-4 text-white">About</H3>
-                <Body className="text-grey-300">{event.description}</Body>
+                <Body className="text-ink-300">{event.description}</Body>
               </Card>
 
-              <Card className="border-2 border-grey-800 p-6">
+              <Card className="border-2 border-ink-800 p-6">
                 <H3 className="mb-4 text-white">Event Info</H3>
                 <Stack gap={3}>
                   <Stack>
-                    <Label className="text-grey-500 text-body-sm">Capacity</Label>
+                    <Label className="text-ink-500 text-body-sm">Capacity</Label>
                     <Body className="text-white">{event.capacity} attendees</Body>
                   </Stack>
                   <Stack>
-                    <Label className="text-grey-500 text-body-sm">Genre</Label>
+                    <Label className="text-ink-500 text-body-sm">Genre</Label>
                     <Badge>{event.genre}</Badge>
                   </Stack>
                 </Stack>
@@ -177,36 +177,36 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
             </Stack>
 
             <Stack gap={6}>
-              <Card className="border-2 border-grey-800 p-6">
+              <Card className="border-2 border-ink-800 p-6">
                 <H3 className="mb-4 text-white">Event Details</H3>
                 <Stack gap={3} className="text-body-sm">
                   <Stack>
-                    <Label className="text-grey-500">Date</Label>
+                    <Label className="text-ink-500">Date</Label>
                     <Body className="mt-1 text-white">{new Date(event.event_date).toLocaleDateString()}</Body>
                   </Stack>
                   <Stack>
-                    <Label className="text-grey-500">Time</Label>
+                    <Label className="text-ink-500">Time</Label>
                     <Body className="mt-1 text-white">{event.event_time}</Body>
                   </Stack>
                   <Stack>
-                    <Label className="text-grey-500">Venue</Label>
+                    <Label className="text-ink-500">Venue</Label>
                     <Body className="mt-1 text-white">{event.venue_name}</Body>
-                    <Body className="mt-1 text-grey-400">{event.city}, {event.state}</Body>
+                    <Body className="mt-1 text-ink-400">{event.city}, {event.state}</Body>
                   </Stack>
                 </Stack>
               </Card>
 
-              <Card className="border-2 border-grey-800 p-6">
+              <Card className="border-2 border-ink-800 p-6">
                 <H3 className="mb-4 text-white">Tickets</H3>
                 <Stack gap={4}>
                   {event.ticket_types && event.ticket_types.length > 0 ? (
                     event.ticket_types.map((tier) => (
-                      <Card key={tier.id} className="border-2 border-grey-700 p-4">
+                      <Card key={tier.id} className="border-2 border-ink-700 p-4">
                         <Stack direction="horizontal" className="items-start justify-between">
                           <Stack>
                             <Label className="text-white">{tier.name}</Label>
                             <Body className="mt-1 font-mono text-h5-md text-white">${tier.price}</Body>
-                            <Body className="mt-1 text-mono-xs text-grey-400">{tier.available_quantity} remaining</Body>
+                            <Body className="mt-1 text-mono-xs text-ink-400">{tier.available_quantity} remaining</Body>
                           </Stack>
                           {tier.available_quantity > 0 ? (
                             <Badge variant="solid">Available</Badge>
@@ -226,7 +226,7 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
                       </Card>
                     ))
                   ) : (
-                    <Body className="text-grey-400">No tickets available</Body>
+                    <Body className="text-ink-400">No tickets available</Body>
                   )}
                 </Stack>
               </Card>

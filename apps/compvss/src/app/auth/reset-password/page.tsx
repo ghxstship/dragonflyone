@@ -88,20 +88,20 @@ export default function ResetPasswordPage() {
       }
     >
       <SectionLayout background="grey">
-        <Stack gap={8} className="mx-auto max-w-md bg-white p-8 border border-grey-200">
+        <Stack gap={8} className="mx-auto max-w-md bg-white p-8 border border-ink-200">
           {success ? (
             <Stack gap={6} className="text-center">
-              <Stack className="w-16 h-16 mx-auto bg-grey-200 rounded-full items-center justify-center">
+              <Stack className="w-16 h-16 mx-auto bg-ink-200 rounded-full items-center justify-center">
                 <Check className="w-8 h-8" />
               </Stack>
               <H2>Password Reset</H2>
-              <Body className="text-grey-600">Your password has been successfully reset. Redirecting to sign in...</Body>
+              <Body className="text-ink-600">Your password has been successfully reset. Redirecting to sign in...</Body>
             </Stack>
           ) : (
             <>
               <Stack gap={4} className="text-center">
                 <H2>New Password</H2>
-                <Body className="text-grey-600">Enter your new password below.</Body>
+                <Body className="text-ink-600">Enter your new password below.</Body>
               </Stack>
 
               {error && <Alert variant="error">{error}</Alert>}
@@ -115,7 +115,7 @@ export default function ResetPasswordPage() {
                     placeholder="Enter new password"
                     required
                   />
-                  <Body size="sm" className="text-grey-500 mt-1">Minimum 8 characters</Body>
+                  <Body size="sm" className="text-ink-500 mt-1">Minimum 8 characters</Body>
                 </Field>
 
                 <Field label="Confirm Password">
@@ -133,7 +133,7 @@ export default function ResetPasswordPage() {
                 </Button>
 
                 <Stack className="text-center">
-                  <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/signin'} className="text-grey-600 hover:text-black">
+                  <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/signin'} className="text-ink-600 hover:text-black">
                     Back to Sign In
                   </Button>
                 </Stack>

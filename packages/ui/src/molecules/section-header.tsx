@@ -55,9 +55,9 @@ export const SectionHeader = forwardRef<HTMLDivElement, SectionHeaderProps>(
     };
 
     const titleSizeClasses = {
-      md: "text-2xl md:text-3xl",
-      lg: "text-3xl md:text-4xl",
-      xl: "text-4xl md:text-5xl uppercase",
+      md: "text-h3-sm md:text-h3-md",
+      lg: "text-h2-sm md:text-h2-md",
+      xl: "text-h1-sm md:text-h1-md uppercase",
     };
 
     const gapValues = {
@@ -88,7 +88,7 @@ export const SectionHeader = forwardRef<HTMLDivElement, SectionHeaderProps>(
         {kicker && <Kicker colorScheme={colorScheme}>{kicker}</Kicker>}
         {title && (
           typeof title === "string" ? (
-            <H2 className={titleSizeClasses[titleSize]}>{title}</H2>
+            <H2 className={clsx(titleSizeClasses[titleSize], colorScheme === "on-dark" ? "text-white" : "text-black")}>{title}</H2>
           ) : (
             title
           )

@@ -2,6 +2,7 @@
 
 import React from "react";
 import clsx from "clsx";
+import { colors } from "../tokens.js";
 
 export interface HalftonePatternProps {
   /** Pattern type */
@@ -25,9 +26,9 @@ export interface HalftonePatternProps {
 }
 
 const colorMap: Record<string, string> = {
-  black: "#000000",
-  white: "#FFFFFF",
-  grey: "#737373",
+  black: colors.black,
+  white: colors.white,
+  grey: colors.grey[500],
 };
 
 function getColorValue(color: string): string {

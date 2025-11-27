@@ -54,6 +54,8 @@ export interface SearchFilterProps {
   suggestions?: string[];
   /** Suggestion selection handler */
   onSuggestionSelect?: (suggestion: string) => void;
+  /** Inverted theme (dark background) */
+  inverted?: boolean;
   /** Custom className */
   className?: string;
 }
@@ -69,6 +71,7 @@ export function SearchFilter({
   debounceMs = 300,
   showCounts = true,
   compact = false,
+  inverted = false,
   className = "",
 }: SearchFilterProps) {
   const [localSearch, setLocalSearch] = useState(searchValue);
@@ -140,26 +143,29 @@ export function SearchFilter({
   const activeCount = getActiveCount();
 
   return (
-    <div className={clsx("flex flex-col", compact ? "gap-3" : "gap-4", className)}>
+    <div className={clsx("flex flex-col", compact ? "gap-gap-sm" : "gap-gap-md", className)}>
       {/* Search and Filter Bar */}
-      <div className="flex gap-3 flex-wrap">
+      <div className="flex gap-gap-sm flex-wrap">
         {/* Search Input */}
-        <div className="flex-1 min-w-[300px] relative">
+        <div className="flex-1 min-w-card-sm relative">
           <input
             type="text"
             value={localSearch}
             onChange={(e) => handleSearchChange(e.target.value)}
             placeholder={placeholder}
             className={clsx(
-              "w-full font-body bg-white border-2 border-black outline-none transition-colors duration-fast focus:border-grey-700",
-              compact ? "py-2 px-3 pl-10 text-body-sm" : "py-3 px-4 pl-12 text-body-md"
+              "w-full font-body border-2 outline-none transition-colors duration-fast",
+              inverted
+                ? "bg-ink-900 text-white border-grey-700 focus:border-grey-500"
+                : "bg-white text-black border-black focus:border-grey-700",
+              compact ? "py-spacing-2 px-spacing-3 pl-spacing-10 text-body-sm" : "py-spacing-3 px-spacing-4 pl-spacing-12 text-body-md"
             )}
           />
           {/* Search Icon */}
           <span
             className={clsx(
               "absolute top-1/2 -translate-y-1/2 text-grey-500",
-              compact ? "left-3 text-sm" : "left-4 text-base"
+              compact ? "left-spacing-3 text-body-sm" : "left-spacing-4 text-body-md"
             )}
           >
             🔍
@@ -169,8 +175,8 @@ export function SearchFilter({
             <button
               onClick={() => handleSearchChange("")}
               className={clsx(
-                "absolute top-1/2 -translate-y-1/2 bg-transparent border-none cursor-pointer text-grey-500 p-1 hover:text-grey-700",
-                compact ? "right-2 text-sm" : "right-3 text-base"
+                "absolute top-1/2 -translate-y-1/2 bg-transparent border-none cursor-pointer text-grey-500 p-spacing-1 hover:text-grey-700",
+                compact ? "right-spacing-2 text-body-sm" : "right-spacing-3 text-body-md"
               )}
               aria-label="Clear search"
             >
@@ -180,7 +186,7 @@ export function SearchFilter({
         </div>
 
         {/* Filter Dropdowns */}
-        <div ref={filterRef} className="flex gap-2 flex-wrap">
+        <div ref={filterRef} className="flex gap-gap-xs flex-wrap">
           {filters.map((group) => {
             const isExpanded = expandedFilter === group.key;
             const groupActiveCount = Array.isArray(activeFilters[group.key])
@@ -194,25 +200,32 @@ export function SearchFilter({
                 <button
                   onClick={() => setExpandedFilter(isExpanded ? null : group.key)}
                   className={clsx(
-                    "flex items-center gap-2 font-code tracking-wide uppercase border-2 border-black cursor-pointer transition-colors duration-fast whitespace-nowrap",
-                    compact ? "px-3 py-2 text-mono-sm" : "px-4 py-3 text-mono-md",
+                    "flex items-center gap-gap-xs font-code tracking-wide uppercase border-2 cursor-pointer transition-colors duration-fast whitespace-nowrap",
+                    inverted ? "border-grey-600" : "border-black",
+                    compact ? "px-spacing-3 py-spacing-2 text-mono-sm" : "px-spacing-4 py-spacing-3 text-mono-md",
                     groupActiveCount > 0
-                      ? "bg-black text-white"
-                      : "bg-white text-black hover:bg-grey-100"
+                      ? inverted ? "bg-white text-black" : "bg-black text-white"
+                      : inverted ? "bg-transparent text-grey-300 hover:bg-grey-800" : "bg-white text-black hover:bg-grey-100"
                   )}
                 >
                   {group.label}
                   {showCounts && groupActiveCount > 0 && (
-                    <span className="bg-white text-black px-1.5 py-0.5 text-mono-xs font-bold">
+                    <span className={clsx(
+                      "px-spacing-1 py-spacing-0.5 text-mono-xs font-weight-bold",
+                      inverted ? "bg-black text-white" : "bg-white text-black"
+                    )}>
                       {groupActiveCount}
                     </span>
                   )}
-                  <span className="text-[10px]">{isExpanded ? "▲" : "▼"}</span>
+                  <span className="text-micro">{isExpanded ? "▲" : "▼"}</span>
                 </button>
 
                 {/* Dropdown */}
                 {isExpanded && (
-                  <div className="absolute top-full left-0 mt-1 min-w-[200px] max-h-[300px] overflow-y-auto bg-white border-2 border-black z-dropdown">
+                  <div className={clsx(
+                    "absolute top-full left-0 mt-spacing-1 min-w-container-sm max-h-container-lg overflow-y-auto border-2 z-dropdown",
+                    inverted ? "bg-ink-900 border-grey-600" : "bg-white border-black"
+                  )}>
                     {group.options.map((option) => {
                       const isActive = isOptionActive(group.key, option.value);
 
@@ -223,16 +236,20 @@ export function SearchFilter({
                             handleFilterToggle(group.key, option.value, group.multiple || false)
                           }
                           className={clsx(
-                            "flex justify-between items-center w-full px-4 py-3 font-body text-body-sm text-black border-none border-b border-grey-200 cursor-pointer text-left transition-colors duration-fast",
-                            isActive ? "bg-grey-100" : "bg-white hover:bg-grey-50"
+                            "flex justify-between items-center w-full px-spacing-4 py-spacing-3 font-body text-body-sm border-none border-b cursor-pointer text-left transition-colors duration-fast",
+                            inverted
+                              ? clsx("text-grey-200 border-grey-700", isActive ? "bg-grey-800" : "hover:bg-grey-800")
+                              : clsx("text-black border-grey-200", isActive ? "bg-grey-100" : "bg-white hover:bg-grey-50")
                           )}
                         >
-                          <span className="flex items-center gap-2">
+                          <span className="flex items-center gap-gap-xs">
                             {group.multiple && (
                               <span
                                 className={clsx(
-                                  "w-4 h-4 border-2 border-black flex items-center justify-center text-[10px]",
-                                  isActive ? "bg-black text-white" : "bg-white"
+                                  "w-spacing-4 h-spacing-4 border-2 flex items-center justify-center text-micro",
+                                  inverted
+                                    ? clsx("border-grey-500", isActive ? "bg-white text-black" : "bg-transparent")
+                                    : clsx("border-black", isActive ? "bg-black text-white" : "bg-white")
                                 )}
                               >
                                 {isActive && "✓"}
@@ -241,7 +258,7 @@ export function SearchFilter({
                             {option.label}
                           </span>
                           {showCounts && option.count !== undefined && (
-                            <span className="font-code text-mono-xs text-grey-500">
+                            <span className={clsx("font-code text-mono-xs", inverted ? "text-grey-400" : "text-grey-500")}>
                               {option.count}
                             </span>
                           )}
@@ -258,8 +275,8 @@ export function SearchFilter({
 
       {/* Active Filters Summary */}
       {activeCount > 0 && (
-        <div className="flex items-center gap-2 flex-wrap">
-          <span className="font-code text-mono-sm text-grey-600 tracking-wide">
+        <div className="flex items-center gap-gap-xs flex-wrap">
+          <span className={clsx("font-code text-mono-sm tracking-wide", inverted ? "text-grey-400" : "text-grey-600")}>
             ACTIVE FILTERS:
           </span>
 
@@ -275,10 +292,15 @@ export function SearchFilter({
                 <button
                   key={`${group.key}-${v}`}
                   onClick={() => handleFilterToggle(group.key, v, group.multiple || false)}
-                  className="flex items-center gap-1.5 px-2 py-1 font-code text-mono-xs tracking-wide bg-grey-100 text-grey-700 border border-grey-300 cursor-pointer transition-colors duration-fast hover:bg-grey-200"
+                  className={clsx(
+                    "flex items-center gap-gap-xs px-spacing-2 py-spacing-1 font-code text-mono-xs tracking-wide border cursor-pointer transition-colors duration-fast",
+                    inverted
+                      ? "bg-grey-800 text-grey-300 border-grey-600 hover:bg-grey-700"
+                      : "bg-grey-100 text-grey-700 border-grey-300 hover:bg-grey-200"
+                  )}
                 >
                   {option.label}
-                  <span className="text-grey-500">✕</span>
+                  <span className={inverted ? "text-grey-500" : "text-grey-500"}>✕</span>
                 </button>
               );
             });
@@ -286,7 +308,10 @@ export function SearchFilter({
 
           <button
             onClick={onClearAll}
-            className="px-2 py-1 font-code text-mono-xs tracking-wide bg-transparent text-grey-600 border-none cursor-pointer underline hover:text-black"
+            className={clsx(
+              "px-spacing-2 py-spacing-1 font-code text-mono-xs tracking-wide bg-transparent border-none cursor-pointer underline",
+              inverted ? "text-grey-400 hover:text-white" : "text-grey-600 hover:text-black"
+            )}
           >
             CLEAR ALL
           </button>

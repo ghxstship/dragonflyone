@@ -136,28 +136,28 @@ export const ResponsiveSidebar = forwardRef<HTMLElement, ResponsiveSidebarProps>
             }
           }}
           className={clsx(
-            "flex items-center gap-3 py-2 text-body-sm transition-all duration-150",
-            indent ? "pl-10 pr-4" : "px-4",
-            collapsed && !isMobile && "justify-center px-2",
+            "flex items-center gap-spacing-3 py-spacing-2 text-body-sm transition-all duration-150",
+            indent ? "pl-spacing-md pr-spacing-sm" : "px-spacing-sm",
+            collapsed && !isMobile && "justify-center px-spacing-2",
             active
               ? inverted
-                ? "bg-white text-black font-medium"
-                : "bg-black text-white font-medium"
+                ? "bg-white text-black font-weight-medium"
+                : "bg-black text-white font-weight-medium"
               : inverted
                 ? "text-grey-300 hover:bg-grey-900 hover:text-white"
                 : "text-grey-600 hover:bg-grey-100 hover:text-black",
-            item.primary && !active && "font-medium"
+            item.primary && !active && "font-weight-medium"
           )}
           title={collapsed && !isMobile ? item.label : undefined}
         >
-          {item.icon && <NavIcon name={item.icon} className="w-5 h-5 flex-shrink-0" />}
+          {item.icon && <NavIcon name={item.icon} className="w-spacing-sm h-spacing-sm flex-shrink-0" />}
           {(!collapsed || isMobile) && (
             <>
               <span className="flex-1 truncate">{item.label}</span>
               {item.badge && (
                 <span
                   className={clsx(
-                    "px-2 py-0.5 text-mono-xs rounded-full flex-shrink-0",
+                    "px-spacing-xs py-spacing-xs text-mono-xs rounded-full flex-shrink-0",
                     inverted ? "bg-grey-800 text-white" : "bg-grey-200 text-black"
                   )}
                 >
@@ -175,28 +175,28 @@ export const ResponsiveSidebar = forwardRef<HTMLElement, ResponsiveSidebarProps>
       const hasSubsections = section.subsections && section.subsections.length > 0;
 
       return (
-        <div key={section.section} className="mb-2">
+        <div key={section.section} className="mb-spacing-md">
           {/* Section Header */}
           <button
             type="button"
             onClick={() => hasSubsections && toggleSection(section.section)}
             className={clsx(
-              "w-full flex items-center gap-2 px-4 py-2 text-mono-xs uppercase tracking-widest transition-colors",
-              collapsed && !isMobile && "justify-center px-2",
+              "w-full flex items-center gap-gap-xs px-spacing-sm py-spacing-2 text-mono-xs uppercase tracking-widest transition-colors",
+              collapsed && !isMobile && "justify-center px-spacing-2",
               inverted
                 ? "text-grey-500 hover:text-grey-300"
                 : "text-grey-400 hover:text-grey-600",
               hasSubsections && "cursor-pointer"
             )}
           >
-            {section.icon && <NavIcon name={section.icon} className="w-4 h-4" />}
+            {section.icon && <NavIcon name={section.icon} className="w-spacing-md h-spacing-md" />}
             {(!collapsed || isMobile) && (
               <>
                 <span className="flex-1 text-left">{section.section}</span>
                 {hasSubsections && (
                   <svg
                     className={clsx(
-                      "w-4 h-4 transition-transform",
+                      "w-spacing-4 h-spacing-4 transition-transform",
                       isExpanded && "rotate-180"
                     )}
                     fill="none"
@@ -211,24 +211,24 @@ export const ResponsiveSidebar = forwardRef<HTMLElement, ResponsiveSidebarProps>
           </button>
 
           {/* Primary Items - Always visible */}
-          <div className="space-y-0.5">
+          <div className="space-y-spacing-0.5">
             {section.items.map((item) => renderNavItem(item))}
           </div>
 
           {/* Subsections - Collapsible */}
           {hasSubsections && isExpanded && (!collapsed || isMobile) && (
-            <div className="mt-2 space-y-3">
+            <div className="mt-spacing-md space-y-spacing-sm">
               {section.subsections!.map((subsection) => (
                 <div key={subsection.label}>
                   <div
                     className={clsx(
-                      "px-4 py-1 text-[10px] font-mono uppercase tracking-wider",
+                      "px-spacing-sm py-spacing-xs text-micro font-mono uppercase tracking-wider",
                       inverted ? "text-grey-600" : "text-grey-400"
                     )}
                   >
                     {subsection.label}
                   </div>
-                  <div className="space-y-0.5">
+                  <div className="space-y-spacing-0.5">
                     {subsection.items.map((item) => renderNavItem(item, true))}
                   </div>
                 </div>
@@ -245,7 +245,7 @@ export const ResponsiveSidebar = forwardRef<HTMLElement, ResponsiveSidebarProps>
         {logo && (
           <div
             className={clsx(
-              "flex items-center h-16 px-4 border-b-2 flex-shrink-0",
+              "flex items-center h-spacing-lg px-spacing-sm border-b-2 flex-shrink-0",
               inverted ? "border-grey-800" : "border-grey-200"
             )}
           >
@@ -257,11 +257,11 @@ export const ResponsiveSidebar = forwardRef<HTMLElement, ResponsiveSidebarProps>
         {quickActions && quickActions.length > 0 && !collapsed && !isMobile && (
           <div
             className={clsx(
-              "px-4 py-3 border-b-2 flex-shrink-0",
+              "px-spacing-sm py-spacing-sm border-b-2 flex-shrink-0",
               inverted ? "border-grey-800" : "border-grey-200"
             )}
           >
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-gap-xs">
               {quickActions.slice(0, 3).map((action) => (
                 <a
                   key={action.href}
@@ -273,14 +273,14 @@ export const ResponsiveSidebar = forwardRef<HTMLElement, ResponsiveSidebarProps>
                     }
                   }}
                   className={clsx(
-                    "flex items-center gap-1 px-2 py-1 text-mono-xs rounded transition-colors",
+                    "flex items-center gap-gap-xs px-spacing-2 py-spacing-1 text-mono-xs rounded-sm transition-colors",
                     inverted
                       ? "bg-grey-900 text-grey-300 hover:bg-grey-800 hover:text-white"
                       : "bg-grey-100 text-grey-600 hover:bg-grey-200 hover:text-black"
                   )}
                   title={action.shortcut ? `${action.label} (${action.shortcut})` : action.label}
                 >
-                  {action.icon && <NavIcon name={action.icon} className="w-3 h-3" />}
+                  {action.icon && <NavIcon name={action.icon} className="w-spacing-3 h-spacing-3" />}
                   <span>{action.label}</span>
                 </a>
               ))}
@@ -289,7 +289,7 @@ export const ResponsiveSidebar = forwardRef<HTMLElement, ResponsiveSidebarProps>
         )}
 
         {/* Navigation Sections */}
-        <nav className="flex-1 overflow-y-auto py-4 scrollbar-thin">
+        <nav className="flex-1 overflow-y-auto py-spacing-4 scrollbar-thin">
           {sections.map(renderSection)}
         </nav>
 
@@ -299,7 +299,7 @@ export const ResponsiveSidebar = forwardRef<HTMLElement, ResponsiveSidebarProps>
             type="button"
             onClick={() => setCollapsed(!collapsed)}
             className={clsx(
-              "flex items-center justify-center h-12 border-t-2 transition-colors flex-shrink-0",
+              "flex items-center justify-center h-spacing-12 border-t-2 transition-colors flex-shrink-0",
               inverted
                 ? "border-grey-800 text-grey-400 hover:text-white hover:bg-grey-900"
                 : "border-grey-200 text-grey-500 hover:text-black hover:bg-grey-100"
@@ -324,7 +324,7 @@ export const ResponsiveSidebar = forwardRef<HTMLElement, ResponsiveSidebarProps>
         {footer && (
           <div
             className={clsx(
-              "px-4 py-4 border-t-2 flex-shrink-0",
+              "px-spacing-4 py-spacing-4 border-t-2 flex-shrink-0",
               inverted ? "border-grey-800" : "border-grey-200"
             )}
           >
@@ -341,7 +341,7 @@ export const ResponsiveSidebar = forwardRef<HTMLElement, ResponsiveSidebarProps>
           type="button"
           onClick={() => setMobileOpen(true)}
           className={clsx(
-            "fixed top-4 left-4 z-40 p-2 rounded-lg md:hidden",
+            "fixed top-spacing-4 left-spacing-4 z-fixed p-spacing-2 rounded-sm md:hidden",
             inverted ? "bg-black text-white" : "bg-white text-black",
             "shadow-lg"
           )}
@@ -355,7 +355,7 @@ export const ResponsiveSidebar = forwardRef<HTMLElement, ResponsiveSidebarProps>
         {/* Mobile Overlay */}
         {mobileOpen && (
           <div
-            className="fixed inset-0 z-40 bg-black/50 md:hidden"
+            className="fixed inset-0 z-modal-backdrop bg-black/50 md:hidden"
             onClick={() => setMobileOpen(false)}
             aria-hidden="true"
           />
@@ -364,7 +364,7 @@ export const ResponsiveSidebar = forwardRef<HTMLElement, ResponsiveSidebarProps>
         {/* Mobile Sidebar */}
         <aside
           className={clsx(
-            "fixed inset-y-0 left-0 z-50 flex flex-col w-72 transform transition-transform duration-300 md:hidden",
+            "fixed inset-y-0 left-0 z-modal flex flex-col w-spacing-72 transform transition-transform duration-300 md:hidden",
             mobileOpen ? "translate-x-0" : "-translate-x-full",
             inverted ? "bg-black border-grey-800 text-white" : "bg-white border-grey-200 text-black"
           )}
@@ -374,7 +374,7 @@ export const ResponsiveSidebar = forwardRef<HTMLElement, ResponsiveSidebarProps>
             type="button"
             onClick={() => setMobileOpen(false)}
             className={clsx(
-              "absolute top-4 right-4 p-2",
+              "absolute top-spacing-4 right-spacing-4 p-spacing-2",
               inverted ? "text-grey-400 hover:text-white" : "text-grey-500 hover:text-black"
             )}
             aria-label="Close menu"
@@ -427,13 +427,13 @@ export const BottomNavigation = forwardRef<HTMLElement, BottomNavigationProps>(
       <nav
         ref={ref}
         className={clsx(
-          "fixed bottom-0 left-0 right-0 z-30 md:hidden border-t-2",
+          "fixed bottom-0 left-0 right-0 z-sticky md:hidden border-t-2",
           inverted ? "bg-black border-grey-800" : "bg-white border-grey-200",
           className
         )}
         {...props}
       >
-        <div className="flex items-center justify-around h-16 px-2 safe-area-inset-bottom">
+        <div className="flex items-center justify-around h-spacing-16 px-spacing-2 safe-area-inset-bottom">
           {items.slice(0, 5).map((item) => {
             const active = currentPath === item.href || currentPath.startsWith(item.href + "/");
             return (
@@ -447,7 +447,7 @@ export const BottomNavigation = forwardRef<HTMLElement, BottomNavigationProps>(
                   }
                 }}
                 className={clsx(
-                  "flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-lg transition-colors min-w-[64px]",
+                  "flex flex-col items-center justify-center gap-gap-xs px-spacing-3 py-spacing-2 rounded-sm transition-colors min-w-spacing-16",
                   active
                     ? inverted
                       ? "bg-white text-black"
@@ -457,8 +457,8 @@ export const BottomNavigation = forwardRef<HTMLElement, BottomNavigationProps>(
                       : "text-grey-500 hover:text-black"
                 )}
               >
-                <NavIcon name={item.icon} className="w-6 h-6" />
-                <span className="text-[10px] font-medium truncate max-w-full">{item.label}</span>
+                <NavIcon name={item.icon} className="w-spacing-6 h-spacing-6" />
+                <span className="text-micro truncate max-w-full">{item.label}</span>
               </a>
             );
           })}

@@ -126,7 +126,7 @@ export function AdvanceRequestDetail({ requestId }: AdvanceRequestDetailProps) {
                     {item.fulfillment_status}
                   </Badge>
                   {item.quantity_fulfilled > 0 && (
-                    <Body className="text-body-sm text-grey-600">
+                    <Body className="text-body-sm text-ink-600">
                       {item.quantity_fulfilled} / {item.quantity}
                     </Body>
                   )}

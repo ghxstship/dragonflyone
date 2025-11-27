@@ -169,7 +169,7 @@ export default function PermitsPage() {
         <Stack gap={8}>
           <Stack gap={2}>
             <H1>Permit Management</H1>
-            <Body className="text-grey-400">
+            <Body className="text-ink-400">
               Track permit applications, approvals, and compliance requirements
             </Body>
           </Stack>
@@ -178,50 +178,50 @@ export default function PermitsPage() {
             <StatCard
               value={summary?.total_permits || 0}
               label="Total Permits"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={summary?.pending_applications || 0}
               label="Pending"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={summary?.expiring_soon || 0}
               label="Expiring Soon"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={formatCurrency(summary?.total_fees || 0)}
               label="Total Fees"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
           </Grid>
 
-          <Card className="p-6 bg-black border-grey-800">
+          <Card className="p-6 bg-black border-ink-800">
             <Stack gap={4}>
               <H2>Permit Types</H2>
               <Grid cols={4} gap={4}>
-                <Card className="p-4 bg-grey-900 border-grey-700">
+                <Card className="p-4 bg-ink-900 border-ink-700">
                   <Stack gap={2}>
-                    <Body className="text-grey-400 text-body-sm uppercase tracking-widest">Special Events</Body>
+                    <Body className="text-ink-400 text-body-sm uppercase tracking-widest">Special Events</Body>
                     <Body className="text-h5-md font-bold">8</Body>
                   </Stack>
                 </Card>
-                <Card className="p-4 bg-grey-900 border-grey-700">
+                <Card className="p-4 bg-ink-900 border-ink-700">
                   <Stack gap={2}>
-                    <Body className="text-grey-400 text-body-sm uppercase tracking-widest">Noise/Sound</Body>
+                    <Body className="text-ink-400 text-body-sm uppercase tracking-widest">Noise/Sound</Body>
                     <Body className="text-h5-md font-bold">5</Body>
                   </Stack>
                 </Card>
-                <Card className="p-4 bg-grey-900 border-grey-700">
+                <Card className="p-4 bg-ink-900 border-ink-700">
                   <Stack gap={2}>
-                    <Body className="text-grey-400 text-body-sm uppercase tracking-widest">Fire/Safety</Body>
+                    <Body className="text-ink-400 text-body-sm uppercase tracking-widest">Fire/Safety</Body>
                     <Body className="text-h5-md font-bold">12</Body>
                   </Stack>
                 </Card>
-                <Card className="p-4 bg-grey-900 border-grey-700">
+                <Card className="p-4 bg-ink-900 border-ink-700">
                   <Stack gap={2}>
-                    <Body className="text-grey-400 text-body-sm uppercase tracking-widest">Street Closure</Body>
+                    <Body className="text-ink-400 text-body-sm uppercase tracking-widest">Street Closure</Body>
                     <Body className="text-h5-md font-bold">3</Body>
                   </Stack>
                 </Card>
@@ -233,7 +233,7 @@ export default function PermitsPage() {
             <Select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="bg-black text-white border-grey-700"
+              className="bg-black text-white border-ink-700"
             >
               <option value="all">All Statuses</option>
               <option value="draft">Draft</option>
@@ -245,7 +245,7 @@ export default function PermitsPage() {
             <Select
               value={filterType}
               onChange={(e) => setFilterType(e.target.value)}
-              className="bg-black text-white border-grey-700"
+              className="bg-black text-white border-ink-700"
             >
               <option value="all">All Types</option>
               <option value="special_event">Special Event</option>
@@ -280,23 +280,23 @@ export default function PermitsPage() {
               </TableHeader>
               <TableBody>
                 {permits.map((permit) => (
-                  <TableRow key={permit.id} className="bg-black text-white hover:bg-grey-900">
+                  <TableRow key={permit.id} className="bg-black text-white hover:bg-ink-900">
                     <TableCell className="font-mono text-white">
                       {permit.permit_number || "—"}
                     </TableCell>
-                    <TableCell className="text-grey-400">
+                    <TableCell className="text-ink-400">
                       {permit.permit_type}
                     </TableCell>
                     <TableCell className="text-white">
                       {permit.project_name}
                     </TableCell>
-                    <TableCell className="text-grey-400">
+                    <TableCell className="text-ink-400">
                       {permit.venue_name}
                     </TableCell>
-                    <TableCell className="text-grey-400">
+                    <TableCell className="text-ink-400">
                       {permit.jurisdiction}
                     </TableCell>
-                    <TableCell className="font-mono text-grey-400">
+                    <TableCell className="font-mono text-ink-400">
                       {permit.expiration_date ? formatDate(permit.expiration_date) : "—"}
                     </TableCell>
                     <TableCell className="font-mono text-white">
@@ -333,10 +333,10 @@ export default function PermitsPage() {
             <Button variant="outlineWhite" onClick={() => router.push('/permits/new')}>
               New Application
             </Button>
-            <Button variant="ghost" className="text-grey-400 hover:text-white" onClick={() => router.push('/permits/calendar')}>
+            <Button variant="ghost" className="text-ink-400 hover:text-white" onClick={() => router.push('/permits/calendar')}>
               Permit Calendar
             </Button>
-            <Button variant="ghost" className="text-grey-400 hover:text-white" onClick={() => router.push('/permits/contacts')}>
+            <Button variant="ghost" className="text-ink-400 hover:text-white" onClick={() => router.push('/permits/contacts')}>
               Authority Contacts
             </Button>
           </Stack>

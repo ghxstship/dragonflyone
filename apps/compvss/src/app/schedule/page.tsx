@@ -104,7 +104,7 @@ export default function SchedulePage() {
     return (
       <Section className="relative min-h-screen bg-black text-white">
         <CreatorNavigationAuthenticated />
-        <Container className="py-16">
+        <Container className="py-spacing-16">
           <EmptyState
             title="Error Loading Schedule"
             description={error}
@@ -126,22 +126,22 @@ export default function SchedulePage() {
             <StatCard
               value={summary?.total || 0}
               label="Total Items"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={summary?.by_status?.in_progress || 0}
               label="In Progress"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={summary?.by_status?.scheduled || 0}
               label="Scheduled"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={summary?.by_status?.completed || 0}
               label="Completed"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
           </Grid>
 
@@ -154,12 +154,12 @@ export default function SchedulePage() {
           ) : (
             <Stack gap={6}>
               {schedule.map((item) => (
-                <Card key={item.id} className="border-2 border-grey-800 p-6 bg-black">
+                <Card key={item.id} className="border-2 border-ink-800 p-spacing-6 bg-black">
                   <Stack gap={4}>
                     <Stack gap={2} direction="horizontal" className="justify-between items-start">
                       <Stack gap={2}>
                         <H3 className="text-white">{item.title}</H3>
-                        <Body className="font-mono text-body-sm text-grey-400">
+                        <Body className="font-mono text-body-sm text-ink-400">
                           {formatTime(item.start_time)} - {formatTime(item.end_time)}
                         </Body>
                       </Stack>
@@ -167,14 +167,14 @@ export default function SchedulePage() {
                         <Badge variant={getStatusVariant(item.status)}>
                           {item.status?.replace('_', ' ').toUpperCase()}
                         </Badge>
-                        <Body className="font-mono text-body-sm text-grey-400">
+                        <Body className="font-mono text-body-sm text-ink-400">
                           {item.assignments?.length || 0} crew
                         </Body>
                       </Stack>
                     </Stack>
 
                     <ProgressBar value={getProgress(item)} variant="inverse" size="lg" />
-                    <Body className="font-mono text-mono-xs text-grey-500">
+                    <Body className="font-mono text-mono-xs text-ink-500">
                       {getProgress(item)}% complete
                     </Body>
                   </Stack>

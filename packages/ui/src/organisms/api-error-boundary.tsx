@@ -22,9 +22,9 @@ export function ApiErrorBoundary({ children, onRetry }: ApiErrorBoundaryProps) {
   };
 
   const fallback = (
-    <div className="flex min-h-[400px] items-center justify-center p-6">
-      <div className="w-full max-w-md space-y-4 border-2 border-warning-500 bg-ink-900 p-6">
-        <div className="space-y-2">
+    <div className="flex min-h-panel-sm items-center justify-center p-spacing-6">
+      <div className="w-full max-w-md space-y-spacing-4 border-2 border-warning-500 bg-ink-900 p-spacing-6">
+        <div className="space-y-spacing-2">
           <h2 className="font-display text-h4-md text-white">
             Connection Error
           </h2>
@@ -33,7 +33,7 @@ export function ApiErrorBoundary({ children, onRetry }: ApiErrorBoundaryProps) {
           </p>
         </div>
 
-        <div className="flex gap-3">
+        <div className="flex gap-gap-sm">
           {onRetry && (
             <Button onClick={onRetry} variant="solid">
               Retry

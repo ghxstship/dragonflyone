@@ -6,6 +6,7 @@ export interface ListProps extends HTMLAttributes<HTMLUListElement | HTMLOListEl
   as?: "ul" | "ol";
   variant?: "default" | "none" | "disc" | "decimal" | "check";
   spacing?: "none" | "sm" | "md" | "lg";
+  inverted?: boolean;
 }
 
 export const List = forwardRef<HTMLUListElement | HTMLOListElement, ListProps>(
@@ -19,10 +20,10 @@ export const List = forwardRef<HTMLUListElement | HTMLOListElement, ListProps>(
     };
 
     const spacingClasses = {
-      none: "space-y-0",
-      sm: "space-y-1",
-      md: "space-y-2",
-      lg: "space-y-4",
+      none: "space-y-spacing-0",
+      sm: "space-y-spacing-1",
+      md: "space-y-spacing-2",
+      lg: "space-y-spacing-4",
     };
 
     return (
@@ -31,7 +32,7 @@ export const List = forwardRef<HTMLUListElement | HTMLOListElement, ListProps>(
         className={clsx(
           variantClasses[variant],
           spacingClasses[spacing],
-          variant !== "none" && variant !== "check" && "pl-4",
+          variant !== "none" && variant !== "check" && "pl-spacing-4",
           className
         )}
         {...props}
@@ -44,18 +45,19 @@ export const List = forwardRef<HTMLUListElement | HTMLOListElement, ListProps>(
 
 export interface ListItemProps extends LiHTMLAttributes<HTMLLIElement> {
   icon?: React.ReactNode;
+  inverted?: boolean;
 }
 
 export const ListItem = forwardRef<HTMLLIElement, ListItemProps>(
-  function ListItem({ icon, className, children, ...props }, ref) {
+  function ListItem({ icon, inverted = false, className, children, ...props }, ref) {
     if (icon) {
       return (
         <li
           ref={ref}
-          className={clsx("flex gap-2 items-start", className)}
+          className={clsx("flex gap-gap-xs items-start", className)}
           {...props}
         >
-          <span className="flex-shrink-0 text-ink-500">{icon}</span>
+          <span className={clsx("flex-shrink-0", inverted ? "text-grey-400" : "text-ink-500")}>{icon}</span>
           <span>{children}</span>
         </li>
       );

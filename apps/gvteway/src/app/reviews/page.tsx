@@ -44,8 +44,8 @@ export default function ReviewsPage() {
           logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
           cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/auth/signin')}>SIGN IN</Button>}
         >
-          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Home</Link>
-          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Events</Link>
+          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Home</Link>
+          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Events</Link>
         </Navigation>
       }
       footer={
@@ -67,7 +67,7 @@ export default function ReviewsPage() {
             <Select
               value={filterRating}
               onChange={(e) => setFilterRating(e.target.value)}
-              className="bg-black text-white border-grey-700 w-48"
+              className="bg-black text-white border-ink-700 w-48"
             >
               <option value="all">All Ratings</option>
               <option value="5">5 Stars</option>
@@ -77,16 +77,16 @@ export default function ReviewsPage() {
 
             <Stack gap={4}>
               {filteredReviews.map((review) => (
-                <Card key={review.id} className="border-2 border-grey-800 p-6 bg-black">
+                <Card key={review.id} className="border-2 border-ink-800 p-6 bg-black">
                   <Stack gap={4}>
                     <Stack gap={2} direction="horizontal" className="justify-between items-start">
                       <Stack gap={1}>
                         <H3 className="text-white">{review.event}</H3>
-                        <Body className="text-body-sm text-grey-400">{review.user} • {review.date}</Body>
+                        <Body className="text-body-sm text-ink-400">{review.user} • {review.date}</Body>
                       </Stack>
                       <Badge>{"⭐".repeat(review.rating)}</Badge>
                     </Stack>
-                    <Body className="text-grey-300">{review.comment}</Body>
+                    <Body className="text-ink-300">{review.comment}</Body>
                   </Stack>
                 </Card>
               ))}

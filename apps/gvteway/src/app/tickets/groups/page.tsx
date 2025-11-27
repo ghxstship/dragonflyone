@@ -46,8 +46,8 @@ export default function GroupTicketsPage() {
       case "Completed": return "text-success-600";
       case "Paid": return "text-info-600";
       case "Confirmed": return "text-warning-600";
-      case "Pending": return "text-grey-600";
-      default: return "text-grey-600";
+      case "Pending": return "text-ink-600";
+      default: return "text-ink-600";
     }
   };
 
@@ -59,7 +59,7 @@ export default function GroupTicketsPage() {
         <Stack gap={8}>
           <Stack gap={2}>
             <H1>GROUP TICKETS</H1>
-            <Body className="text-grey-600">Group organizer tools and registration management</Body>
+            <Body className="text-ink-600">Group organizer tools and registration management</Body>
           </Stack>
 
           <Grid cols={4} gap={6}>
@@ -100,7 +100,7 @@ export default function GroupTicketsPage() {
                         <TableCell>
                           <Stack gap={0}>
                             <Label className="font-medium">{group.organizerName}</Label>
-                            <Label className="text-grey-500">{group.organizerEmail}</Label>
+                            <Label className="text-ink-500">{group.organizerEmail}</Label>
                           </Stack>
                         </TableCell>
                         <TableCell>
@@ -144,18 +144,18 @@ export default function GroupTicketsPage() {
                       { min: 50, max: 99, discount: 15 },
                       { min: 100, max: null, discount: 20 },
                     ].map((tier, idx) => (
-                      <Card key={idx} className="p-4 border border-grey-200">
+                      <Card key={idx} className="p-4 border border-ink-200">
                         <Grid cols={4} gap={4} className="items-center">
                           <Stack gap={1}>
-                            <Label className="text-grey-500">Group Size</Label>
+                            <Label className="text-ink-500">Group Size</Label>
                             <Label className="font-bold">{tier.min} - {tier.max || "∞"} tickets</Label>
                           </Stack>
                           <Stack gap={1}>
-                            <Label className="text-grey-500">Discount</Label>
+                            <Label className="text-ink-500">Discount</Label>
                             <Label className="font-mono text-success-600 text-h6-md">{tier.discount}%</Label>
                           </Stack>
                           <Stack gap={1}>
-                            <Label className="text-grey-500">Example Savings</Label>
+                            <Label className="text-ink-500">Example Savings</Label>
                             <Label className="font-mono">{formatCurrency(150 * tier.min * (tier.discount / 100))}</Label>
                           </Stack>
                           <Button variant="outline" size="sm">Edit</Button>
@@ -222,29 +222,29 @@ export default function GroupTicketsPage() {
             <Stack gap={4}>
               <Stack gap={1}>
                 <Body className="font-bold">{selectedGroup.organizerName}</Body>
-                <Label className="text-grey-500">{selectedGroup.organizerEmail}</Label>
+                <Label className="text-ink-500">{selectedGroup.organizerEmail}</Label>
               </Stack>
               <Stack gap={1}>
-                <Label className="text-grey-500">Event</Label>
+                <Label className="text-ink-500">Event</Label>
                 <Label>{selectedGroup.eventName}</Label>
                 <Badge variant="outline">{selectedGroup.ticketType}</Badge>
               </Stack>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label className="text-grey-500">Group Size</Label><Label className="font-mono">{selectedGroup.groupSize}</Label></Stack>
-                <Stack gap={1}><Label className="text-grey-500">Registered</Label><Label className="font-mono">{selectedGroup.attendeesRegistered}</Label></Stack>
+                <Stack gap={1}><Label className="text-ink-500">Group Size</Label><Label className="font-mono">{selectedGroup.groupSize}</Label></Stack>
+                <Stack gap={1}><Label className="text-ink-500">Registered</Label><Label className="font-mono">{selectedGroup.attendeesRegistered}</Label></Stack>
               </Grid>
               <Stack gap={2}>
                 <Stack direction="horizontal" className="justify-between">
-                  <Label className="text-grey-500">Registration Progress</Label>
+                  <Label className="text-ink-500">Registration Progress</Label>
                   <Label>{Math.round((selectedGroup.attendeesRegistered / selectedGroup.groupSize) * 100)}%</Label>
                 </Stack>
                 <ProgressBar value={(selectedGroup.attendeesRegistered / selectedGroup.groupSize) * 100} className="h-3" />
               </Stack>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label className="text-grey-500">Total Amount</Label><Label className="font-mono">{formatCurrency(selectedGroup.totalAmount)}</Label></Stack>
-                <Stack gap={1}><Label className="text-grey-500">Discount Applied</Label><Label className="text-success-600">{selectedGroup.discount}%</Label></Stack>
+                <Stack gap={1}><Label className="text-ink-500">Total Amount</Label><Label className="font-mono">{formatCurrency(selectedGroup.totalAmount)}</Label></Stack>
+                <Stack gap={1}><Label className="text-ink-500">Discount Applied</Label><Label className="text-success-600">{selectedGroup.discount}%</Label></Stack>
               </Grid>
-              <Stack gap={1}><Label className="text-grey-500">Status</Label><Label className={getStatusColor(selectedGroup.status)}>{selectedGroup.status}</Label></Stack>
+              <Stack gap={1}><Label className="text-ink-500">Status</Label><Label className={getStatusColor(selectedGroup.status)}>{selectedGroup.status}</Label></Stack>
             </Stack>
           )}
         </ModalBody>

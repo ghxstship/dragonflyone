@@ -202,23 +202,23 @@ export function DataGrid<T>({
   }, 0);
 
   return (
-    <div className={clsx("flex flex-col gap-4", className)}>
+    <div className={clsx("flex flex-col gap-gap-md", className)}>
       {/* Toolbar */}
       {(searchable || filters.length > 0 || columnVisibility) && (
-        <div className="flex gap-3 flex-wrap items-center">
+        <div className="flex gap-gap-sm flex-wrap items-center">
           {searchable && (
-            <div className="flex-[1_1_300px] relative">
+            <div className="flex-1 min-w-card-sm relative">
               <input
                 type="text"
                 value={localSearch}
                 onChange={(e) => handleSearchChange(e.target.value)}
                 placeholder={searchPlaceholder}
                 className={clsx(
-                  "w-full pl-10 bg-white border-2 border-black outline-none",
-                  compact ? "py-2 px-3 text-body-sm" : "py-3 px-4 text-body-md"
+                  "w-full pl-spacing-10 bg-surface-primary border-2 border-border-primary text-text-primary outline-none",
+                  compact ? "py-spacing-2 px-spacing-3 text-body-sm" : "py-spacing-3 px-spacing-4 text-body-md"
                 )}
               />
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-grey-500">🔍</span>
+              <span className="absolute left-spacing-3 top-1/2 -translate-y-1/2 text-grey-500">🔍</span>
             </div>
           )}
 
@@ -228,21 +228,21 @@ export function DataGrid<T>({
                 onClick={() => setExpandedFilter(expandedFilter === group.key ? null : group.key)}
                 className={clsx(
                   "font-code text-mono-sm tracking-wide uppercase border-2 border-black cursor-pointer",
-                  compact ? "px-3 py-2" : "px-4 py-3",
-                  activeFilters[group.key] ? "bg-black text-white" : "bg-white text-black"
+                  compact ? "px-spacing-3 py-spacing-2" : "px-spacing-4 py-spacing-3",
+                  activeFilters[group.key] ? "bg-surface-inverse text-text-inverse" : "bg-surface-primary text-text-primary"
                 )}
               >
                 {group.label} {expandedFilter === group.key ? "▲" : "▼"}
               </button>
               {expandedFilter === group.key && (
-                <div className="absolute top-full left-0 mt-1 min-w-[200px] max-h-[300px] overflow-y-auto bg-white border-2 border-black z-dropdown">
+                <div className="absolute top-full left-0 mt-spacing-1 min-w-container-sm max-h-container-lg overflow-y-auto bg-surface-elevated border-2 border-border-primary z-dropdown">
                   {group.options.map((option) => (
                     <button
                       key={option.value}
                       onClick={() => onFilterChange?.(group.key, option.value)}
                       className={clsx(
-                        "block w-full px-4 py-3 font-body text-body-sm border-none border-b border-grey-200 cursor-pointer text-left hover:bg-grey-100",
-                        activeFilters[group.key] === option.value ? "bg-grey-100" : "bg-white"
+                        "block w-full px-spacing-4 py-spacing-3 font-body text-body-sm border-none border-b border-grey-200 cursor-pointer text-left hover:bg-grey-100",
+                        activeFilters[group.key] === option.value ? "bg-surface-secondary" : "bg-surface-primary"
                       )}
                     >
                       {option.label}
@@ -254,7 +254,7 @@ export function DataGrid<T>({
           ))}
 
           {activeFilterCount > 0 && (
-            <button onClick={onClearFilters} className="px-2 py-1 font-code text-mono-xs bg-transparent text-grey-600 border-none cursor-pointer underline">
+            <button onClick={onClearFilters} className="px-spacing-2 py-spacing-1 font-code text-mono-xs bg-transparent text-grey-600 border-none cursor-pointer underline">
               CLEAR ALL ({activeFilterCount})
             </button>
           )}
@@ -263,19 +263,19 @@ export function DataGrid<T>({
 
       {/* Bulk Action Bar */}
       {selectable && selectedKeys.length > 0 && bulkActions.length > 0 && (
-        <div className="flex items-center justify-between px-4 py-3 bg-black text-white">
+        <div className="flex items-center justify-between px-spacing-4 py-spacing-3 bg-black text-white">
           <span className="font-code text-mono-md">
             <strong>{selectedKeys.length}</strong> selected
-            <button onClick={() => onSelectionChange?.([])} className="ml-4 px-2 py-1 bg-transparent text-grey-400 border-none cursor-pointer underline">Clear</button>
+            <button onClick={() => onSelectionChange?.([])} className="ml-spacing-4 px-spacing-2 py-spacing-1 bg-transparent text-grey-400 border-none cursor-pointer underline">Clear</button>
           </span>
-          <div className="flex gap-2">
+          <div className="flex gap-gap-xs">
             {bulkActions.map((action) => (
               <button
                 key={action.id}
                 onClick={() => onBulkAction?.(action.id, selectedKeys)}
                 disabled={action.disabled}
                 className={clsx(
-                  "px-3 py-2 font-code text-mono-sm border border-grey-600",
+                  "px-spacing-3 py-spacing-2 font-code text-mono-sm border border-grey-600",
                   action.variant === "danger" ? "bg-white text-black" : "bg-grey-800 text-white",
                   action.disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"
                 )}
@@ -288,12 +288,12 @@ export function DataGrid<T>({
       )}
 
       {/* Table */}
-      <div className="border-2 border-black bg-white overflow-auto">
+      <div className="border-2 border-border-primary bg-surface-primary overflow-auto">
         <table className={clsx("w-full border-collapse font-body", compact ? "text-body-sm" : "text-body-md")}>
           <thead>
             <tr className="bg-black text-white">
               {selectable && (
-                <th className={clsx("w-12 text-center", compact ? "px-3 py-2.5" : "px-4 py-3.5")}>
+                <th className={clsx("w-12 text-center", compact ? "px-spacing-3 py-spacing-2" : "px-spacing-4 py-spacing-3")}>
                   <input type="checkbox" checked={selectedKeys.length === data.length && data.length > 0} onChange={handleSelectAll} className="cursor-pointer" />
                 </th>
               )}
@@ -302,8 +302,8 @@ export function DataGrid<T>({
                   key={column.key}
                   onClick={() => sortable && handleSort(column.key)}
                   className={clsx(
-                    "font-code text-mono-sm font-normal tracking-widest uppercase select-none",
-                    compact ? "px-3 py-2.5" : "px-4 py-3.5",
+                    "font-code text-mono-sm font-weight-normal tracking-widest uppercase select-none",
+                    compact ? "px-spacing-3 py-spacing-2" : "px-spacing-4 py-spacing-3",
                     column.sortable ? "cursor-pointer" : "cursor-default",
                     column.align === "center" && "text-center",
                     column.align === "right" && "text-right",
@@ -311,10 +311,10 @@ export function DataGrid<T>({
                   )}
                   style={{ width: column.width, minWidth: column.minWidth }}
                 >
-                  <span className="flex items-center gap-2">
+                  <span className="flex items-center gap-gap-xs">
                     {column.label}
                     {column.sortable && (
-                      <span className="flex flex-col text-[8px] leading-none">
+                      <span className="flex flex-col text-micro-xs leading-none">
                         <span className={sortColumn === column.key && sortDirection === "asc" ? "opacity-100" : "opacity-30"}>▲</span>
                         <span className={sortColumn === column.key && sortDirection === "desc" ? "opacity-100" : "opacity-30"}>▼</span>
                       </span>
@@ -322,19 +322,19 @@ export function DataGrid<T>({
                   </span>
                 </th>
               ))}
-              {rowActions.length > 0 && <th className={clsx("w-[60px]", compact ? "px-3 py-2.5" : "px-4 py-3.5")} />}
+              {rowActions.length > 0 && <th className={clsx("w-spacing-14", compact ? "px-spacing-3 py-spacing-2" : "px-spacing-4 py-spacing-3")} />}
             </tr>
           </thead>
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={visibleColumns.length + (selectable ? 1 : 0) + (rowActions.length > 0 ? 1 : 0)} className="p-12 text-center">
-                  <div className="inline-block w-6 h-6 border-2 border-grey-300 border-t-black rounded-full animate-spin" />
+                <td colSpan={visibleColumns.length + (selectable ? 1 : 0) + (rowActions.length > 0 ? 1 : 0)} className="p-spacing-12 text-center">
+                  <div className="inline-block w-spacing-6 h-spacing-6 border-2 border-grey-300 border-t-black rounded-full animate-spin" />
                 </td>
               </tr>
             ) : sortedData.length === 0 ? (
               <tr>
-                <td colSpan={visibleColumns.length + (selectable ? 1 : 0) + (rowActions.length > 0 ? 1 : 0)} className="p-12 text-center font-code text-grey-500">
+                <td colSpan={visibleColumns.length + (selectable ? 1 : 0) + (rowActions.length > 0 ? 1 : 0)} className="p-spacing-12 text-center font-code text-grey-500">
                   {emptyMessage}
                 </td>
               </tr>
@@ -348,12 +348,12 @@ export function DataGrid<T>({
                     onClick={() => onRowClick?.(row)}
                     className={clsx(
                       "border-b border-grey-200 transition-colors duration-fast",
-                      isSelected ? "bg-grey-100" : striped && index % 2 === 1 ? "bg-grey-100" : "bg-white",
+                      isSelected ? "bg-surface-secondary" : striped && index % 2 === 1 ? "bg-surface-secondary" : "bg-surface-primary",
                       onRowClick && "cursor-pointer hover:bg-grey-100"
                     )}
                   >
                     {selectable && (
-                      <td className={clsx("text-center", compact ? "px-3 py-2" : "px-4 py-3")} onClick={(e) => e.stopPropagation()}>
+                      <td className={clsx("text-center", compact ? "px-spacing-3 py-spacing-2" : "px-spacing-4 py-spacing-3")} onClick={(e) => e.stopPropagation()}>
                         <input type="checkbox" checked={isSelected} onChange={() => handleSelectRow(key)} className="cursor-pointer" />
                       </td>
                     )}
@@ -364,8 +364,8 @@ export function DataGrid<T>({
                         <td
                           key={column.key}
                           className={clsx(
-                            "text-grey-800",
-                            compact ? "px-3 py-2" : "px-4 py-3",
+                            "text-text-secondary",
+                            compact ? "px-spacing-3 py-spacing-2" : "px-spacing-4 py-spacing-3",
                             column.align === "center" && "text-center",
                             column.align === "right" && "text-right",
                             !column.align && "text-left"
@@ -376,7 +376,7 @@ export function DataGrid<T>({
                       );
                     })}
                     {rowActions.length > 0 && (
-                      <td className={clsx("text-center", compact ? "px-3 py-2" : "px-4 py-3")} onClick={(e) => e.stopPropagation()}>
+                      <td className={clsx("text-center", compact ? "px-spacing-3 py-spacing-2" : "px-spacing-4 py-spacing-3")} onClick={(e) => e.stopPropagation()}>
                         <RowActionsDropdown row={row} actions={rowActions} onAction={onRowAction} />
                       </td>
                     )}
@@ -390,16 +390,16 @@ export function DataGrid<T>({
 
       {/* Pagination */}
       {pagination && (
-        <div className="flex items-center justify-between flex-wrap gap-4">
+        <div className="flex items-center justify-between flex-wrap gap-gap-md">
           <span className="font-code text-mono-sm text-grey-600">
             Showing {((pagination.page - 1) * pagination.pageSize) + 1} - {Math.min(pagination.page * pagination.pageSize, pagination.total)} of {pagination.total}
           </span>
-          <div className="flex gap-2">
+          <div className="flex gap-gap-xs">
             <button
               onClick={() => onPageChange?.(pagination.page - 1)}
               disabled={pagination.page === 1}
               className={clsx(
-                "px-4 py-2 border-2 border-black bg-white",
+                "px-spacing-4 py-spacing-2 border-2 border-border-primary bg-surface-primary text-text-primary",
                 pagination.page === 1 ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:bg-grey-100"
               )}
             >
@@ -409,7 +409,7 @@ export function DataGrid<T>({
               onClick={() => onPageChange?.(pagination.page + 1)}
               disabled={pagination.page * pagination.pageSize >= pagination.total}
               className={clsx(
-                "px-4 py-2 border-2 border-black bg-white",
+                "px-spacing-4 py-spacing-2 border-2 border-border-primary bg-surface-primary text-text-primary",
                 pagination.page * pagination.pageSize >= pagination.total ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:bg-grey-100"
               )}
             >
@@ -430,9 +430,9 @@ function RowActionsDropdown<T>({ row, actions, onAction }: { row: T; actions: Ro
 
   return (
     <div className="relative inline-block">
-      <button onClick={() => setOpen(!open)} className="p-1 bg-transparent border-none cursor-pointer text-base hover:text-grey-600">⋮</button>
+      <button onClick={() => setOpen(!open)} className="p-spacing-1 bg-transparent border-none cursor-pointer text-body-md hover:text-grey-600">⋮</button>
       {open && (
-        <div className="absolute top-full right-0 min-w-[140px] bg-white border-2 border-black z-dropdown">
+        <div className="absolute top-full right-0 min-w-container-xs bg-surface-elevated border-2 border-border-primary z-dropdown">
           {visibleActions.map((action) => {
             const disabled = typeof action.disabled === "function" ? action.disabled(row) : action.disabled;
             return (
@@ -441,7 +441,7 @@ function RowActionsDropdown<T>({ row, actions, onAction }: { row: T; actions: Ro
                 onClick={() => { setOpen(false); onAction?.(action.id, row); }}
                 disabled={disabled}
                 className={clsx(
-                  "block w-full px-3 py-2 text-left bg-white border-none border-b border-grey-200 hover:bg-grey-100",
+                  "block w-full px-spacing-3 py-spacing-2 text-left bg-surface-primary text-text-primary border-none border-b border-border-secondary hover:bg-surface-secondary",
                   disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"
                 )}
               >

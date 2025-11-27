@@ -205,7 +205,7 @@ export default function SavedSearchesPage() {
         <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
           <Stack gap={2}>
             <H1>Saved Searches</H1>
-            <Body className="text-grey-600">
+            <Body className="text-ink-600">
               Get notified when new events match your criteria
             </Body>
           </Stack>
@@ -240,7 +240,7 @@ export default function SavedSearchesPage() {
                     </Stack>
 
                     {search.query && (
-                      <Body className="text-grey-600">
+                      <Body className="text-ink-600">
                         Search: &quot;{search.query}&quot;
                       </Body>
                     )}
@@ -278,7 +278,7 @@ export default function SavedSearchesPage() {
                         <Badge variant="outline">{search.alert_frequency}</Badge>
                       )}
                       {search.last_run && (
-                        <Body className="text-body-sm text-grey-500">
+                        <Body className="text-body-sm text-ink-500">
                           Last checked: {new Date(search.last_run).toLocaleDateString()}
                         </Body>
                       )}
@@ -300,7 +300,7 @@ export default function SavedSearchesPage() {
         ) : (
           <Card className="p-12 text-center">
             <H3 className="mb-4">NO SAVED SEARCHES</H3>
-            <Body className="text-grey-600 mb-6">
+            <Body className="text-ink-600 mb-6">
               Save your search criteria to get notified when new events match.
             </Body>
             <Button variant="solid" onClick={() => setShowCreateModal(true)}>
@@ -395,7 +395,7 @@ export default function SavedSearchesPage() {
                 </Field>
               </Grid>
 
-              <Stack className="border-t border-grey-200 pt-4">
+              <Stack className="border-t border-ink-200 pt-4">
                 <Stack direction="horizontal" gap={4} className="items-center mb-4">
                   <Switch
                     checked={formData.alerts_enabled}

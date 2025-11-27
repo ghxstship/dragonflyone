@@ -159,21 +159,21 @@ export default function CalendarPage() {
               <Stack className="grid grid-cols-7 gap-1">
                 {dayNames.map(day => (
                   <Stack key={day} className="p-2 text-center">
-                    <Label className="text-grey-500">{day}</Label>
+                    <Label className="text-ink-500">{day}</Label>
                   </Stack>
                 ))}
 
                 {calendarDays.map((day, index) => (
                   <Card
                     key={index}
-                    className={`p-2 min-h-[80px] cursor-pointer transition-colors ${
-                      !day.isCurrentMonth ? 'bg-grey-50 opacity-50' : ''
+                    className={`p-2 min-h-card cursor-pointer transition-colors ${
+                      !day.isCurrentMonth ? 'bg-ink-50 opacity-50' : ''
                     } ${
                       day.isToday ? 'border-2 border-black' : ''
                     } ${
                       selectedDate?.toDateString() === day.date.toDateString() 
                         ? 'bg-black text-white' 
-                        : 'hover:bg-grey-100'
+                        : 'hover:bg-ink-100'
                     }`}
                     onClick={() => handleDayClick(day)}
                   >
@@ -201,8 +201,8 @@ export default function CalendarPage() {
                         {day.events.length > 2 && (
                           <Body className={`text-mono-xs ${
                             selectedDate?.toDateString() === day.date.toDateString()
-                              ? 'text-grey-200'
-                              : 'text-grey-500'
+                              ? 'text-ink-200'
+                              : 'text-ink-500'
                           }`}>
                             +{day.events.length - 2} more
                           </Body>
@@ -234,11 +234,11 @@ export default function CalendarPage() {
                     {selectedDayEvents.map(event => (
                       <Card
                         key={event.id}
-                        className="p-4 cursor-pointer hover:bg-grey-50 transition-colors"
+                        className="p-4 cursor-pointer hover:bg-ink-50 transition-colors"
                         onClick={() => handleEventClick(event.id)}
                       >
                         <H3 className="mb-1">{event.title}</H3>
-                        <Body className="text-grey-600 text-body-sm mb-2">
+                        <Body className="text-ink-600 text-body-sm mb-2">
                           {event.venue}
                         </Body>
                         <Stack direction="horizontal" gap={2}>
@@ -249,10 +249,10 @@ export default function CalendarPage() {
                     ))}
                   </Stack>
                 ) : (
-                  <Body className="text-grey-500">No events on this date.</Body>
+                  <Body className="text-ink-500">No events on this date.</Body>
                 )
               ) : (
-                <Body className="text-grey-500">
+                <Body className="text-ink-500">
                   Click on a date to see events.
                 </Body>
               )}
@@ -273,12 +273,12 @@ export default function CalendarPage() {
                     <Stack
                       key={event.id}
                       direction="horizontal"
-                      className="justify-between items-center py-2 border-b border-grey-200 cursor-pointer hover:bg-grey-50"
+                      className="justify-between items-center py-2 border-b border-ink-200 cursor-pointer hover:bg-ink-50"
                       onClick={() => handleEventClick(event.id)}
                     >
                       <Stack>
                         <Body className="font-medium">{event.title || event.name}</Body>
-                        <Body className="text-body-sm text-grey-500">
+                        <Body className="text-body-sm text-ink-500">
                           {new Date(event.date || event.start_date).toLocaleDateString()}
                         </Body>
                       </Stack>

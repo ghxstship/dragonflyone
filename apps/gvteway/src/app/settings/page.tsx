@@ -42,16 +42,16 @@ export default function SettingsPage() {
   return (
     <Section className="min-h-screen bg-white">
       <ConsumerNavigationPublic />
-      <Container className="py-16">
+      <Container className="py-spacing-16">
         <Stack gap={8}>
-          <Stack gap={2} className="border-b-2 border-black pb-8">
+          <Stack gap={2} className="border-b-2 border-black pb-spacing-8">
             <H1>Settings</H1>
-            <Body className="text-grey-600">Manage your account preferences</Body>
+            <Body className="text-ink-600">Manage your account preferences</Body>
           </Stack>
 
         <Grid cols={1} className="max-w-3xl">
-          <Card className="p-6 mb-6">
-            <H2 className="mb-6">NOTIFICATIONS</H2>
+          <Card className="p-spacing-6 mb-spacing-6">
+            <H2 className="mb-spacing-6">NOTIFICATIONS</H2>
             
             <Stack gap={4}>
               <Stack gap={2} direction="horizontal" className="justify-between items-center">
@@ -80,8 +80,8 @@ export default function SettingsPage() {
             </Stack>
           </Card>
 
-          <Card className="p-6 mb-6">
-            <H2 className="mb-6">PREFERENCES</H2>
+          <Card className="p-spacing-6 mb-spacing-6">
+            <H2 className="mb-spacing-6">PREFERENCES</H2>
             
             <Stack gap={6}>
               <Field label="Language">

@@ -72,14 +72,14 @@ export default function ForgotPasswordPage() {
       }
     >
       <SectionLayout background="grey">
-        <Stack gap={8} className="mx-auto max-w-md bg-white p-8 border border-grey-200">
+        <Stack gap={8} className="mx-auto max-w-md bg-white p-8 border border-ink-200">
           {submitted ? (
             <Stack gap={6} className="text-center">
-              <Stack className="w-16 h-16 mx-auto bg-grey-200 rounded-full items-center justify-center">
+              <Stack className="w-16 h-16 mx-auto bg-ink-200 rounded-full items-center justify-center">
                 <Mail className="w-8 h-8" />
               </Stack>
               <H2>Check Your Email</H2>
-              <Body className="text-grey-600">
+              <Body className="text-ink-600">
                 If an account exists with <strong className="text-black">{email}</strong>, you will receive a password reset link shortly.
               </Body>
               <Button variant="solid" onClick={() => window.location.href = '/auth/signin'}>
@@ -90,7 +90,7 @@ export default function ForgotPasswordPage() {
             <>
               <Stack gap={4} className="text-center">
                 <H2>Reset Password</H2>
-                <Body className="text-grey-600">
+                <Body className="text-ink-600">
                   Enter your email address and we&apos;ll send you a link to reset your password.
                 </Body>
               </Stack>
@@ -113,7 +113,7 @@ export default function ForgotPasswordPage() {
                 </Button>
 
                 <Stack className="text-center">
-                  <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/signin'} className="text-grey-600 hover:text-black">
+                  <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/signin'} className="text-ink-600 hover:text-black">
                     Back to Sign In
                   </Button>
                 </Stack>

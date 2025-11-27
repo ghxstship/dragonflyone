@@ -58,7 +58,7 @@ export default function CurrencyPage() {
         <Stack gap={8}>
           <Stack gap={2} className="border-b-2 border-black pb-8">
             <H1>International Currency</H1>
-            <Body className="text-grey-600">Multi-currency support with localized pricing</Body>
+            <Body className="text-ink-600">Multi-currency support with localized pricing</Body>
           </Stack>
 
           <Grid cols={4} gap={6}>
@@ -99,8 +99,8 @@ export default function CurrencyPage() {
                         <TableCell><Badge variant="outline">{currency.code}</Badge></TableCell>
                         <TableCell><Label className="font-mono">{currency.symbol}</Label></TableCell>
                         <TableCell><Label className="font-mono">{currency.rate.toFixed(2)}</Label></TableCell>
-                        <TableCell><Label className={currency.enabled ? "text-success-600" : "text-grey-600"}>{currency.enabled ? "Enabled" : "Disabled"}</Label></TableCell>
-                        <TableCell><Label className="text-grey-500">{currency.lastUpdated}</Label></TableCell>
+                        <TableCell><Label className={currency.enabled ? "text-success-600" : "text-ink-600"}>{currency.enabled ? "Enabled" : "Disabled"}</Label></TableCell>
+                        <TableCell><Label className="text-ink-500">{currency.lastUpdated}</Label></TableCell>
                         <TableCell>
                           <Stack direction="horizontal" gap={2}>
                             <Button variant="outline" size="sm" onClick={() => setSelectedCurrency(currency)}>Edit</Button>
@@ -122,7 +122,7 @@ export default function CurrencyPage() {
                       <Stack direction="horizontal" className="justify-between">
                         <Body className="font-bold">{price.eventName}</Body>
                         <Stack direction="horizontal" gap={2}>
-                          <Label className="text-grey-500">Base:</Label>
+                          <Label className="text-ink-500">Base:</Label>
                           <Label className="font-mono font-bold">${price.basePrice}</Label>
                           <Badge variant="outline">{price.baseCurrency}</Badge>
                         </Stack>
@@ -131,7 +131,7 @@ export default function CurrencyPage() {
                         {price.localizedPrices.map((lp, lpIdx) => {
                           const curr = mockCurrencies.find(c => c.code === lp.currency);
                           return (
-                            <Card key={lpIdx} className="p-3 border border-grey-200 text-center">
+                            <Card key={lpIdx} className="p-3 border border-ink-200 text-center">
                               <Stack gap={1}>
                                 <Badge variant="outline">{lp.currency}</Badge>
                                 <Label className="font-mono text-h6-md">{curr?.symbol}{lp.price}</Label>
@@ -139,10 +139,10 @@ export default function CurrencyPage() {
                             </Card>
                           );
                         })}
-                        <Card className="p-3 border border-dashed border-grey-300 text-center cursor-pointer">
+                        <Card className="p-3 border border-dashed border-ink-300 text-center cursor-pointer">
                           <Stack gap={1}>
                             <Label className="text-h5-md">+</Label>
-                            <Label className="text-grey-500">Add Price</Label>
+                            <Label className="text-ink-500">Add Price</Label>
                           </Stack>
                         </Card>
                       </Grid>
@@ -219,11 +219,11 @@ export default function CurrencyPage() {
               </Stack>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>
-                  <Label className="text-grey-500">Symbol</Label>
+                  <Label className="text-ink-500">Symbol</Label>
                   <Input defaultValue={selectedCurrency.symbol} className="border-2 border-black" />
                 </Stack>
                 <Stack gap={1}>
-                  <Label className="text-grey-500">Exchange Rate (to USD)</Label>
+                  <Label className="text-ink-500">Exchange Rate (to USD)</Label>
                   <Input type="number" step="0.01" defaultValue={selectedCurrency.rate} className="border-2 border-black" />
                 </Stack>
               </Grid>

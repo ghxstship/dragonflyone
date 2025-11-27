@@ -157,7 +157,7 @@ export default function SubcontractorsPage() {
         <Stack gap={8}>
           <Stack gap={2}>
             <H1>Subcontractor Management</H1>
-            <Body className="text-grey-400">
+            <Body className="text-ink-400">
               Manage subcontractor relationships, contracts, and performance tracking
             </Body>
           </Stack>
@@ -166,50 +166,50 @@ export default function SubcontractorsPage() {
             <StatCard
               value={summary?.total_subcontractors || 0}
               label="Total Subcontractors"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={summary?.active_engagements || 0}
               label="Active Engagements"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={formatCurrency(summary?.total_spend_ytd || 0)}
               label="YTD Spend"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={summary?.average_rating?.toFixed(1) || "0.0"}
               label="Avg Rating"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
           </Grid>
 
-          <Card className="p-6 bg-black border-grey-800">
+          <Card className="p-6 bg-black border-ink-800">
             <Stack gap={4}>
               <H2>Specialties</H2>
               <Grid cols={4} gap={4}>
-                <Card className="p-4 bg-grey-900 border-grey-700">
+                <Card className="p-4 bg-ink-900 border-ink-700">
                   <Stack gap={2}>
-                    <Body className="text-grey-400 text-body-sm uppercase tracking-widest">Audio</Body>
+                    <Body className="text-ink-400 text-body-sm uppercase tracking-widest">Audio</Body>
                     <Body className="text-h5-md font-bold">12</Body>
                   </Stack>
                 </Card>
-                <Card className="p-4 bg-grey-900 border-grey-700">
+                <Card className="p-4 bg-ink-900 border-ink-700">
                   <Stack gap={2}>
-                    <Body className="text-grey-400 text-body-sm uppercase tracking-widest">Lighting</Body>
+                    <Body className="text-ink-400 text-body-sm uppercase tracking-widest">Lighting</Body>
                     <Body className="text-h5-md font-bold">8</Body>
                   </Stack>
                 </Card>
-                <Card className="p-4 bg-grey-900 border-grey-700">
+                <Card className="p-4 bg-ink-900 border-ink-700">
                   <Stack gap={2}>
-                    <Body className="text-grey-400 text-body-sm uppercase tracking-widest">Video</Body>
+                    <Body className="text-ink-400 text-body-sm uppercase tracking-widest">Video</Body>
                     <Body className="text-h5-md font-bold">6</Body>
                   </Stack>
                 </Card>
-                <Card className="p-4 bg-grey-900 border-grey-700">
+                <Card className="p-4 bg-ink-900 border-ink-700">
                   <Stack gap={2}>
-                    <Body className="text-grey-400 text-body-sm uppercase tracking-widest">Staging</Body>
+                    <Body className="text-ink-400 text-body-sm uppercase tracking-widest">Staging</Body>
                     <Body className="text-h5-md font-bold">10</Body>
                   </Stack>
                 </Card>
@@ -223,13 +223,13 @@ export default function SubcontractorsPage() {
                 placeholder="Search subcontractors..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-black text-white border-grey-700"
+                className="bg-black text-white border-ink-700"
               />
             </Field>
             <Select
               value={filterSpecialty}
               onChange={(e) => setFilterSpecialty(e.target.value)}
-              className="bg-black text-white border-grey-700"
+              className="bg-black text-white border-ink-700"
             >
               <option value="all">All Specialties</option>
               <option value="audio">Audio</option>
@@ -264,20 +264,20 @@ export default function SubcontractorsPage() {
               </TableHeader>
               <TableBody>
                 {subcontractors.map((sub) => (
-                  <TableRow key={sub.id} className="bg-black text-white hover:bg-grey-900">
+                  <TableRow key={sub.id} className="bg-black text-white hover:bg-ink-900">
                     <TableCell>
                       <Stack gap={1}>
                         <Body className="text-white font-medium">{sub.company_name}</Body>
-                        <Body className="text-grey-500 text-body-sm">{sub.email}</Body>
+                        <Body className="text-ink-500 text-body-sm">{sub.email}</Body>
                       </Stack>
                     </TableCell>
-                    <TableCell className="text-grey-400">
+                    <TableCell className="text-ink-400">
                       {sub.contact_name}
                     </TableCell>
-                    <TableCell className="text-grey-400">
+                    <TableCell className="text-ink-400">
                       {sub.specialty}
                     </TableCell>
-                    <TableCell className="text-grey-400">
+                    <TableCell className="text-ink-400">
                       {sub.location}
                     </TableCell>
                     <TableCell className="text-warning-400">
@@ -306,10 +306,10 @@ export default function SubcontractorsPage() {
             <Button variant="outlineWhite" onClick={() => router.push('/subcontractors/new')}>
               Add Subcontractor
             </Button>
-            <Button variant="ghost" className="text-grey-400 hover:text-white" onClick={() => router.push('/subcontractors/insurance')}>
+            <Button variant="ghost" className="text-ink-400 hover:text-white" onClick={() => router.push('/subcontractors/insurance')}>
               Insurance Report
             </Button>
-            <Button variant="ghost" className="text-grey-400 hover:text-white" onClick={() => router.push('/subcontractors/export')}>
+            <Button variant="ghost" className="text-ink-400 hover:text-white" onClick={() => router.push('/subcontractors/export')}>
               Export Directory
             </Button>
           </Stack>

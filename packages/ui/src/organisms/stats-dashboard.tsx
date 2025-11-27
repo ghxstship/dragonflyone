@@ -93,12 +93,12 @@ export function StatsDashboard({
           tabIndex={onStatClick ? 0 : undefined}
           className={clsx(
             "bg-white border-2 border-black flex flex-col transition-colors duration-base",
-            compact ? "p-4 gap-2" : "p-6 gap-3",
+            compact ? "p-spacing-4 gap-gap-xs" : "p-spacing-6 gap-gap-sm",
             onStatClick && "cursor-pointer hover:bg-grey-50"
           )}
         >
           {/* Header with icon */}
-          <div className="flex items-start justify-between gap-2">
+          <div className="flex items-start justify-between gap-gap-xs">
             <span
               className={clsx(
                 "font-code text-grey-600 tracking-widest uppercase",
@@ -126,11 +126,11 @@ export function StatsDashboard({
 
           {/* Trend and change */}
           {showTrends && (stat.change !== undefined || stat.previousValue !== undefined) && (
-            <div className="flex items-center gap-2 flex-wrap">
+            <div className="flex items-center gap-gap-xs flex-wrap">
               {stat.change !== undefined && (
                 <span
                   className={clsx(
-                    "inline-flex items-center gap-1 font-code text-mono-xs tracking-wide",
+                    "inline-flex items-center gap-gap-xs font-code text-mono-xs tracking-wide",
                     trendClasses[stat.trend || "neutral"]
                   )}
                 >
@@ -188,7 +188,7 @@ export function StatCard({
       role={onClick ? "button" : undefined}
       tabIndex={onClick ? 0 : undefined}
     >
-      <div className="flex items-start justify-between mb-3">
+      <div className="flex items-start justify-between mb-spacing-3">
         <span className="font-code text-mono-sm text-grey-600 tracking-widest uppercase">
           {label}
         </span>
@@ -209,7 +209,7 @@ export function StatCard({
       {change !== undefined && (
         <span
           className={clsx(
-            "inline-flex items-center gap-1 font-code text-mono-xs tracking-wide",
+            "inline-flex items-center gap-gap-xs font-code text-mono-xs tracking-wide",
             trendClasses[trend || "neutral"]
           )}
         >

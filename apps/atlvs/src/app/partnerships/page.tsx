@@ -28,9 +28,9 @@ export default function PartnershipsPage() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'active': return 'bg-white text-black border-2 border-black';
-      case 'pending': return 'bg-grey-400 text-white';
-      case 'inactive': return 'bg-grey-900 text-white';
-      default: return 'bg-grey-200 text-black';
+      case 'pending': return 'bg-ink-400 text-white';
+      case 'inactive': return 'bg-ink-900 text-white';
+      default: return 'bg-ink-200 text-black';
     }
   };
 

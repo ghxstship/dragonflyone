@@ -28,8 +28,8 @@ export const Navigation = forwardRef<HTMLElement, NavigationProps>(
           )}
           {...props}
         >
-          <div className="container mx-auto px-4">
-            <div className="flex items-center justify-between h-16 md:h-20">
+          <div className="container mx-auto px-spacing-4">
+            <div className="flex items-center justify-between h-spacing-16 md:h-spacing-20">
               {logo ? (
                 <div className="flex-shrink-0">
                   {logo}
@@ -37,7 +37,7 @@ export const Navigation = forwardRef<HTMLElement, NavigationProps>(
               ) : null}
 
               {/* Desktop Navigation */}
-              <div className="hidden md:flex items-center gap-8 flex-1 justify-center">
+              <div className="hidden md:flex items-center gap-gap-lg flex-1 justify-center">
                 {children}
               </div>
 
@@ -51,7 +51,7 @@ export const Navigation = forwardRef<HTMLElement, NavigationProps>(
               <button
                 type="button"
                 className={clsx(
-                  "md:hidden p-2",
+                  "md:hidden p-spacing-2",
                   inverted ? "text-white" : "text-black"
                 )}
                 onClick={() => setMobileOpen(!mobileOpen)}
@@ -74,13 +74,13 @@ export const Navigation = forwardRef<HTMLElement, NavigationProps>(
         {mobileOpen ? (
           <div
             className={clsx(
-              "md:hidden fixed inset-0 z-sticky pt-16",
+              "md:hidden fixed inset-0 z-sticky pt-spacing-16",
               inverted ? "bg-black" : "bg-white"
             )}
           >
-            <div className="flex flex-col gap-4 p-8">
+            <div className="flex flex-col gap-gap-md p-spacing-8">
               {children}
-              {cta ? <div className="mt-4">{cta}</div> : null}
+              {cta ? <div className="mt-spacing-4">{cta}</div> : null}
             </div>
           </div>
         ) : null}

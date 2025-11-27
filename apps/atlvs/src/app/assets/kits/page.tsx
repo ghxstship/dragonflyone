@@ -96,7 +96,7 @@ export default function AssetKitsPage() {
     { id: 'contents', title: 'Kit Contents', content: (
       <div>
         {selected.items.map((item, idx) => (
-          <div key={idx} className="py-2 border-b border-grey-700">
+          <div key={idx} className="py-2 border-b border-ink-700">
             <strong>{item.name}</strong> ({item.category}) - Qty: {item.quantity}
           </div>
         ))}

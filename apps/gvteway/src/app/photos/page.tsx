@@ -120,7 +120,7 @@ export default function PhotoGalleriesPage() {
     const variants: Record<string, string> = {
       collecting: 'bg-warning-500 text-white',
       published: 'bg-success-500 text-white',
-      archived: 'bg-grey-500 text-white',
+      archived: 'bg-ink-500 text-white',
     };
     return <Badge className={variants[status] || ''}>{status}</Badge>;
   };
@@ -148,7 +148,7 @@ export default function PhotoGalleriesPage() {
         <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
           <Stack gap={2}>
             <H1>Photo Galleries</H1>
-            <Body className="text-grey-600">
+            <Body className="text-ink-600">
               Share and discover photos from events
             </Body>
           </Stack>
@@ -216,7 +216,7 @@ export default function PhotoGalleriesPage() {
                   className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow"
                   onClick={() => router.push(`/photos/gallery/${gallery.id}`)}
                 >
-                  <Stack className="relative h-48 bg-grey-100">
+                  <Stack className="relative h-48 bg-ink-100">
                     {gallery.cover_photo ? (
                       <Image
                         src={gallery.cover_photo}
@@ -235,11 +235,11 @@ export default function PhotoGalleriesPage() {
                   </Stack>
                   <Stack className="p-4" gap={2}>
                     <H3>{gallery.event_name}</H3>
-                    <Body className="text-body-sm text-grey-600">
+                    <Body className="text-body-sm text-ink-600">
                       {new Date(gallery.event_date).toLocaleDateString()}
                     </Body>
                     <Stack direction="horizontal" className="justify-between items-center">
-                      <Body className="text-body-sm text-grey-500">
+                      <Body className="text-body-sm text-ink-500">
                         {gallery.photo_count} photos
                       </Body>
                       <Button variant="ghost" size="sm">
@@ -252,7 +252,7 @@ export default function PhotoGalleriesPage() {
             ) : (
               <Card className="col-span-3 p-12 text-center">
                 <H3 className="mb-4">NO GALLERIES YET</H3>
-                <Body className="text-grey-600 mb-6">
+                <Body className="text-ink-600 mb-6">
                   Photo galleries will appear here after events
                 </Body>
               </Card>
@@ -269,7 +269,7 @@ export default function PhotoGalleriesPage() {
                   className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow"
                   onClick={() => setSelectedPhoto(photo)}
                 >
-                  <Stack className="relative aspect-square bg-grey-100">
+                  <Stack className="relative aspect-square bg-ink-100">
                     <Image
                       src={photo.thumbnail_url || photo.url}
                       alt={photo.caption || 'Event photo'}
@@ -285,7 +285,7 @@ export default function PhotoGalleriesPage() {
                   <Stack className="p-3" gap={1}>
                     <Body className="text-body-sm font-bold truncate">{photo.event_name}</Body>
                     <Stack direction="horizontal" className="justify-between items-center">
-                      <Body className="text-mono-xs text-grey-500">
+                      <Body className="text-mono-xs text-ink-500">
                         by {photo.uploaded_by_name}
                       </Body>
                       <Stack direction="horizontal" gap={1} className="items-center">
@@ -307,7 +307,7 @@ export default function PhotoGalleriesPage() {
             ) : (
               <Card className="col-span-4 p-12 text-center">
                 <H3 className="mb-4">NO PHOTOS YET</H3>
-                <Body className="text-grey-600 mb-6">
+                <Body className="text-ink-600 mb-6">
                   Be the first to share photos from an event!
                 </Body>
                 <Button variant="solid" onClick={() => setShowUploadModal(true)}>
@@ -362,7 +362,7 @@ export default function PhotoGalleriesPage() {
                 />
               </Field>
 
-              <Body className="text-body-sm text-grey-500">
+              <Body className="text-body-sm text-ink-500">
                 By uploading, you agree to our content guidelines. Photos are reviewed before publishing.
               </Body>
 
@@ -385,7 +385,7 @@ export default function PhotoGalleriesPage() {
         >
           {selectedPhoto && (
             <Stack gap={4}>
-              <Stack className="relative aspect-video bg-grey-100 rounded overflow-hidden">
+              <Stack className="relative aspect-video bg-ink-100 rounded overflow-hidden">
                 <Image
                   src={selectedPhoto.url}
                   alt={selectedPhoto.caption || 'Event photo'}
@@ -399,10 +399,10 @@ export default function PhotoGalleriesPage() {
                   <Body>{selectedPhoto.caption}</Body>
                 )}
                 <Stack direction="horizontal" gap={4}>
-                  <Body className="text-body-sm text-grey-500">
+                  <Body className="text-body-sm text-ink-500">
                     by {selectedPhoto.uploaded_by_name}
                   </Body>
-                  <Body className="text-body-sm text-grey-500">
+                  <Body className="text-body-sm text-ink-500">
                     {new Date(selectedPhoto.created_at).toLocaleDateString()}
                   </Body>
                 </Stack>

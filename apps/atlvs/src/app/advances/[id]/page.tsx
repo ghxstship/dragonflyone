@@ -79,7 +79,7 @@ export default function AdvanceReviewDetailPage({ params }: { params: { id: stri
             <H1>
               {advance.activation_name || advance.project?.name || 'Production Advance Review'}
             </H1>
-            <Body className="text-grey-600">
+            <Body className="text-ink-600">
               Review request details and approve or reject
             </Body>
           </Stack>
@@ -107,36 +107,36 @@ export default function AdvanceReviewDetailPage({ params }: { params: { id: stri
         <Stack gap={6}>
           <Grid cols={2} gap={6}>
             <Stack gap={1}>
-              <Body size="sm" className="font-medium text-grey-500">Organization</Body>
+              <Body size="sm" className="font-medium text-ink-500">Organization</Body>
               <Body size="lg">{advance.organization?.name || 'N/A'}</Body>
             </Stack>
             <Stack gap={1}>
-              <Body size="sm" className="font-medium text-grey-500">Project</Body>
+              <Body size="sm" className="font-medium text-ink-500">Project</Body>
               <Body size="lg">{advance.project?.name || 'N/A'}</Body>
               {advance.project?.budget && (
-                <Body size="sm" className="text-grey-600">
+                <Body size="sm" className="text-ink-600">
                   Budget: ${advance.project.budget.toLocaleString()}
                 </Body>
               )}
             </Stack>
             <Stack gap={1}>
-              <Body size="sm" className="font-medium text-grey-500">Team/Workspace</Body>
+              <Body size="sm" className="font-medium text-ink-500">Team/Workspace</Body>
               <Body size="lg">{advance.team_workspace || 'N/A'}</Body>
             </Stack>
             <Stack gap={1}>
-              <Body size="sm" className="font-medium text-grey-500">Activation</Body>
+              <Body size="sm" className="font-medium text-ink-500">Activation</Body>
               <Body size="lg">{advance.activation_name || 'N/A'}</Body>
             </Stack>
           </Grid>
 
           <Stack direction="horizontal" className="justify-between items-center border-t pt-6">
             <Stack gap={1}>
-              <Body size="sm" className="font-medium text-grey-500">Submitted By</Body>
+              <Body size="sm" className="font-medium text-ink-500">Submitted By</Body>
               <Body size="lg">{advance.submitter?.full_name || 'Unknown'}</Body>
-              <Body size="sm" className="text-grey-600">{advance.submitter?.email}</Body>
+              <Body size="sm" className="text-ink-600">{advance.submitter?.email}</Body>
             </Stack>
             <Stack className="text-right">
-              <Body size="sm" className="font-medium text-grey-500">Estimated Cost</Body>
+              <Body size="sm" className="font-medium text-ink-500">Estimated Cost</Body>
               <Display>${cost.toLocaleString()}</Display>
             </Stack>
           </Stack>
@@ -153,10 +153,10 @@ export default function AdvanceReviewDetailPage({ params }: { params: { id: stri
                 <Stack gap={1} className="flex-1">
                   <H3>{item.item_name}</H3>
                   {item.description && (
-                    <Body size="sm" className="text-grey-600 mt-1">{item.description}</Body>
+                    <Body size="sm" className="text-ink-600 mt-1">{item.description}</Body>
                   )}
                   {item.catalog_item && (
-                    <Body size="xs" className="text-grey-500 mt-1">
+                    <Body size="xs" className="text-ink-500 mt-1">
                       Catalog: {item.catalog_item.category} → {item.catalog_item.subcategory}
                     </Body>
                   )}
@@ -166,7 +166,7 @@ export default function AdvanceReviewDetailPage({ params }: { params: { id: stri
                     {item.quantity} {item.unit}
                   </Body>
                   {item.unit_cost && (
-                    <Body size="sm" className="text-grey-600">
+                    <Body size="sm" className="text-ink-600">
                       ${item.unit_cost.toLocaleString()} / {item.unit}
                     </Body>
                   )}
@@ -179,7 +179,7 @@ export default function AdvanceReviewDetailPage({ params }: { params: { id: stri
               </Stack>
               {item.notes && (
                 <Stack className="mt-3 pt-3 border-t">
-                  <Body size="sm" className="text-grey-600"><strong>Notes:</strong> {item.notes}</Body>
+                  <Body size="sm" className="text-ink-600"><strong>Notes:</strong> {item.notes}</Body>
                 </Stack>
               )}
             </Card>
@@ -195,7 +195,7 @@ export default function AdvanceReviewDetailPage({ params }: { params: { id: stri
         <ModalBody>
           <Stack gap={4}>
             <Stack gap={1}>
-              <Body size="sm" className="font-medium text-grey-700">
+              <Body size="sm" className="font-medium text-ink-700">
                 Reviewer Notes (Optional)
               </Body>
               <Textarea
@@ -206,7 +206,7 @@ export default function AdvanceReviewDetailPage({ params }: { params: { id: stri
               />
             </Stack>
             <Stack gap={1}>
-              <Body size="sm" className="font-medium text-grey-700">
+              <Body size="sm" className="font-medium text-ink-700">
                 Approved Cost (Optional)
               </Body>
               <Input
@@ -243,7 +243,7 @@ export default function AdvanceReviewDetailPage({ params }: { params: { id: stri
         <ModalBody>
           <Stack gap={4}>
             <Stack gap={1}>
-              <Body size="sm" className="font-medium text-grey-700">
+              <Body size="sm" className="font-medium text-ink-700">
                 Reason for Rejection (Required)
               </Body>
               <Textarea

@@ -136,7 +136,7 @@ export default function ActivityFeedPage() {
         <Stack gap={8}>
           <Stack gap={2} className="border-b-2 border-black pb-8">
             <H1>Activity Feed</H1>
-            <Body className="text-grey-600">
+            <Body className="text-ink-600">
               See what your friends are up to
             </Body>
           </Stack>
@@ -167,7 +167,7 @@ export default function ActivityFeedPage() {
                 {activities.map(activity => (
                   <Card key={activity.id} className="p-4">
                     <Stack direction="horizontal" gap={4}>
-                      <Stack className="w-12 h-12 bg-grey-200 rounded-full flex-shrink-0 flex items-center justify-center">
+                      <Stack className="w-12 h-12 bg-ink-200 rounded-full flex-shrink-0 flex items-center justify-center">
                         {activity.user_avatar ? (
                           <Image
                             src={activity.user_avatar}
@@ -184,23 +184,23 @@ export default function ActivityFeedPage() {
                       <Stack className="flex-1">
                         <Stack direction="horizontal" gap={2} className="items-center flex-wrap">
                           <Body className="font-bold">{activity.user_name}</Body>
-                          <Body className="text-grey-600">{getActivityText(activity)}</Body>
+                          <Body className="text-ink-600">{getActivityText(activity)}</Body>
                         </Stack>
 
                         {activity.content && (
-                          <Body className="text-grey-600 mt-2 italic">
+                          <Body className="text-ink-600 mt-2 italic">
                             &quot;{activity.content}&quot;
                           </Body>
                         )}
 
                         {activity.event_id && (
                           <Card
-                            className="mt-3 p-3 bg-grey-50 cursor-pointer hover:bg-grey-100"
+                            className="mt-3 p-3 bg-ink-50 cursor-pointer hover:bg-ink-100"
                             onClick={() => router.push(`/events/${activity.event_id}`)}
                           >
                             <Stack direction="horizontal" gap={3}>
                               {activity.event_image && (
-                                <Stack className="w-16 h-16 bg-grey-200 rounded overflow-hidden flex-shrink-0">
+                                <Stack className="w-16 h-16 bg-ink-200 rounded overflow-hidden flex-shrink-0">
                                   <Image
                                     src={activity.event_image}
                                     alt={activity.event_title || ''}
@@ -212,14 +212,14 @@ export default function ActivityFeedPage() {
                               )}
                               <Stack>
                                 <Body className="font-medium">{activity.event_title}</Body>
-                                <Body className="text-body-sm text-grey-500">View Event →</Body>
+                                <Body className="text-body-sm text-ink-500">View Event →</Body>
                               </Stack>
                             </Stack>
                           </Card>
                         )}
 
                         <Stack direction="horizontal" gap={3} className="mt-3 items-center">
-                          <Body className="text-mono-xs text-grey-600">
+                          <Body className="text-mono-xs text-ink-600">
                             {getActivityIcon(activity.type)} {formatTimeAgo(activity.created_at)}
                           </Body>
                         </Stack>
@@ -231,7 +231,7 @@ export default function ActivityFeedPage() {
             ) : (
               <Card className="p-12 text-center">
                 <H3 className="mb-4">NO ACTIVITY YET</H3>
-                <Body className="text-grey-600 mb-6">
+                <Body className="text-ink-600 mb-6">
                   Follow friends and artists to see their activity here.
                 </Body>
                 <Button variant="solid" onClick={() => router.push('/community')}>
@@ -248,10 +248,10 @@ export default function ActivityFeedPage() {
                 {[1, 2, 3].map(i => (
                   <Stack key={i} direction="horizontal" className="justify-between items-center">
                     <Stack direction="horizontal" gap={3} className="items-center">
-                      <Stack className="w-10 h-10 bg-grey-200 rounded-full" />
+                      <Stack className="w-10 h-10 bg-ink-200 rounded-full" />
                       <Stack>
                         <Body className="font-medium text-body-sm">Friend {i}</Body>
-                        <Body className="text-mono-xs text-grey-500">3 mutual friends</Body>
+                        <Body className="text-mono-xs text-ink-500">3 mutual friends</Body>
                       </Stack>
                     </Stack>
                     <Button variant="outline" size="sm" onClick={() => addNotification({ type: 'success', title: 'Following', message: 'You are now following this user' })}>
@@ -269,9 +269,9 @@ export default function ActivityFeedPage() {
               <H3 className="mb-4">TRENDING EVENTS</H3>
               <Stack gap={3}>
                 {[1, 2, 3].map(i => (
-                  <Stack key={i} className="p-3 border border-grey-200 rounded cursor-pointer hover:bg-grey-50">
+                  <Stack key={i} className="p-3 border border-ink-200 rounded cursor-pointer hover:bg-ink-50">
                     <Body className="font-medium text-body-sm">Popular Event {i}</Body>
-                    <Body className="text-mono-xs text-grey-500">{i * 5} friends interested</Body>
+                    <Body className="text-mono-xs text-ink-500">{i * 5} friends interested</Body>
                   </Stack>
                 ))}
               </Stack>

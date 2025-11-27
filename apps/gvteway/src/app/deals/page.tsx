@@ -130,7 +130,7 @@ export default function DealsPage() {
         <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
           <Stack gap={2}>
             <H1>Deals & Offers</H1>
-            <Body className="text-grey-600">
+            <Body className="text-ink-600">
               Score amazing discounts on upcoming events
             </Body>
           </Stack>
@@ -186,10 +186,10 @@ export default function DealsPage() {
                     metadata={`${deal.event_date} • ${deal.event_venue}`}
                     onClick={() => handleEventClick(deal.event_id)}
                   />
-                  <Stack className="p-4 bg-grey-50 border-t">
+                  <Stack className="p-4 bg-ink-50 border-t">
                     <Stack direction="horizontal" className="justify-between items-center">
                       <Stack>
-                        <Body className="text-grey-500 line-through text-body-sm">
+                        <Body className="text-ink-500 line-through text-body-sm">
                           ${deal.original_price}
                         </Body>
                         <Body className="font-bold text-h6-md text-error-600">
@@ -216,7 +216,7 @@ export default function DealsPage() {
           <Section className="mb-12">
             <Stack direction="horizontal" gap={3} className="items-center mb-6">
               <H2>LAST MINUTE DEALS</H2>
-              <Body className="text-grey-600">Events happening soon</Body>
+              <Body className="text-ink-600">Events happening soon</Body>
             </Stack>
             <Grid cols={3} gap={6}>
               {lastMinute.map(deal => (
@@ -235,10 +235,10 @@ export default function DealsPage() {
                     metadata={`${deal.event_date} • ${deal.event_venue}`}
                     onClick={() => handleEventClick(deal.event_id)}
                   />
-                  <Stack className="p-4 bg-grey-50 border-t">
+                  <Stack className="p-4 bg-ink-50 border-t">
                     <Stack direction="horizontal" className="justify-between items-center">
                       <Stack>
-                        <Body className="text-grey-500 line-through text-body-sm">
+                        <Body className="text-ink-500 line-through text-body-sm">
                           ${deal.original_price}
                         </Body>
                         <Body className="font-bold text-h6-md">
@@ -276,10 +276,10 @@ export default function DealsPage() {
                     metadata={`${deal.event_date} • ${deal.event_venue}`}
                     onClick={() => handleEventClick(deal.event_id)}
                   />
-                  <Stack className="p-4 bg-grey-50 border-t">
+                  <Stack className="p-4 bg-ink-50 border-t">
                     <Stack direction="horizontal" className="justify-between items-center">
                       <Stack>
-                        <Body className="text-grey-500 line-through text-body-sm">
+                        <Body className="text-ink-500 line-through text-body-sm">
                           ${deal.original_price}
                         </Body>
                         <Body className="font-bold text-h6-md">
@@ -291,9 +291,9 @@ export default function DealsPage() {
                       </Button>
                     </Stack>
                     {deal.promo_code && (
-                      <Stack className="mt-2 p-2 bg-grey-100 rounded">
+                      <Stack className="mt-2 p-2 bg-ink-100 rounded">
                         <Stack direction="horizontal" gap={1}>
-                          <Body className="text-body-sm text-grey-600">Use code:</Body>
+                          <Body className="text-body-sm text-ink-600">Use code:</Body>
                           <Label className="font-mono font-bold">{deal.promo_code}</Label>
                         </Stack>
                       </Stack>
@@ -308,7 +308,7 @@ export default function DealsPage() {
         {deals.length === 0 && (
           <Card className="p-12 text-center">
             <H3 className="mb-4">NO DEALS AVAILABLE</H3>
-            <Body className="text-grey-600 mb-6">
+            <Body className="text-ink-600 mb-6">
               Check back soon for new deals and offers.
             </Body>
             <Button variant="outline" onClick={() => router.push('/browse')}>
@@ -321,7 +321,7 @@ export default function DealsPage() {
           <Stack direction="horizontal" className="justify-between items-center">
             <Stack>
               <H3 className="text-white">GET DEAL ALERTS</H3>
-              <Body className="text-grey-600">
+              <Body className="text-ink-600">
                 Be the first to know about flash sales and special offers.
               </Body>
             </Stack>

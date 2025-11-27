@@ -57,7 +57,7 @@ export default function FloorConfigPage() {
         <Stack gap={8}>
           <Stack gap={2} className="border-b-2 border-black pb-8">
             <H1>Floor Configuration</H1>
-            <Body className="text-grey-600">Configure general admission areas and floor sections</Body>
+            <Body className="text-ink-600">Configure general admission areas and floor sections</Body>
           </Stack>
 
           <Grid cols={4} gap={6}>
@@ -81,10 +81,10 @@ export default function FloorConfigPage() {
                     <H3>Visual Floor Plan</H3>
                     <Button variant="outline" size="sm" onClick={() => setShowAddModal(true)}>Add Section</Button>
                   </Stack>
-                  <Card className="h-96 bg-grey-100 border border-grey-200 relative overflow-hidden">
+                  <Card className="h-96 bg-ink-100 border border-ink-200 relative overflow-hidden">
                     <Stack className="absolute inset-0 items-center justify-center">
-                      <Label className="text-grey-500">Interactive Floor Plan Editor</Label>
-                      <Body className="text-grey-600 text-body-sm">Drag and drop sections to configure layout</Body>
+                      <Label className="text-ink-500">Interactive Floor Plan Editor</Label>
+                      <Body className="text-ink-600 text-body-sm">Drag and drop sections to configure layout</Body>
                     </Stack>
                     <Card className="absolute top-4 left-4 w-32 h-20 bg-info-500/20 border-2 border-info-500 flex items-center justify-center">
                       <Label className="text-info-700 text-mono-xs">STAGE</Label>
@@ -123,15 +123,15 @@ export default function FloorConfigPage() {
                         <Badge variant="outline">{section.type}</Badge>
                       </Stack>
                       <Stack gap={1}>
-                        <Label size="xs" className="text-grey-500">Capacity</Label>
+                        <Label size="xs" className="text-ink-500">Capacity</Label>
                         <Label className="font-mono">{section.capacity.toLocaleString()}</Label>
                       </Stack>
                       <Stack gap={1}>
-                        <Label size="xs" className="text-grey-500">Sold</Label>
+                        <Label size="xs" className="text-ink-500">Sold</Label>
                         <Label className="font-mono">{section.sold.toLocaleString()}</Label>
                       </Stack>
                       <Stack gap={1}>
-                        <Label size="xs" className="text-grey-500">Price</Label>
+                        <Label size="xs" className="text-ink-500">Price</Label>
                         <Label className="font-mono">${section.price}</Label>
                       </Stack>
                       <Label className={getStatusColor(section.status)}>{section.status}</Label>
@@ -156,7 +156,7 @@ export default function FloorConfigPage() {
                           <Label>{section.name}</Label>
                           <Label className="font-mono">{section.sold}/{section.capacity}</Label>
                         </Stack>
-                        <Card className="h-3 bg-grey-200 rounded-full overflow-hidden">
+                        <Card className="h-3 bg-ink-200 rounded-full overflow-hidden">
                           <Card className="h-full rounded-full" style={{ '--progress-width': `${(section.sold / section.capacity) * 100}%`, '--section-color': section.color, width: 'var(--progress-width)', backgroundColor: 'var(--section-color)' } as React.CSSProperties} />
                         </Card>
                       </Stack>
@@ -169,7 +169,7 @@ export default function FloorConfigPage() {
                     <Alert variant="info">Oversell protection is enabled. Sales will automatically stop when capacity is reached.</Alert>
                     <Stack gap={2}>
                       <Label>Buffer Percentage</Label>
-                      <Select className="border-grey-300">
+                      <Select className="border-ink-300">
                         <option value="0">No buffer (100% capacity)</option>
                         <option value="5">5% buffer (95% sellable)</option>
                         <option value="10">10% buffer (90% sellable)</option>
@@ -177,8 +177,8 @@ export default function FloorConfigPage() {
                     </Stack>
                     <Stack gap={2}>
                       <Label>Low Inventory Alert</Label>
-                      <Input type="number" defaultValue="50" className="border-grey-300" />
-                      <Label size="xs" className="text-grey-500">Alert when remaining tickets fall below this number</Label>
+                      <Input type="number" defaultValue="50" className="border-ink-300" />
+                      <Label size="xs" className="text-ink-500">Alert when remaining tickets fall below this number</Label>
                     </Stack>
                   </Stack>
                 </Card>

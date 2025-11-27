@@ -70,7 +70,7 @@ export default function CreateEventPage() {
         <Stack gap={8}>
         <Stack gap={2} className="border-b-2 border-black pb-8">
           <H1>Create Event</H1>
-          <Body className="text-grey-600">Set up your new event</Body>
+          <Body className="text-ink-600">Set up your new event</Body>
         </Stack>
 
         {error && (

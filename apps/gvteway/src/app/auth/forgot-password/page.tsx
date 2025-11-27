@@ -75,13 +75,13 @@ export default function ForgotPasswordPage() {
         <Stack gap={8} className="mx-auto max-w-md">
           {submitted ? (
             <Stack gap={6} className="text-center">
-              <Stack className="w-16 h-16 mx-auto bg-grey-800 rounded-full items-center justify-center">
+              <Stack className="w-16 h-16 mx-auto bg-ink-800 rounded-full items-center justify-center">
                 <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
               </Stack>
               <H2 className="text-white">Check Your Email</H2>
-              <Body className="text-grey-400">
+              <Body className="text-ink-400">
                 If an account exists with <strong className="text-white">{email}</strong>, you will receive a password reset link shortly.
               </Body>
               <Button variant="solid" onClick={() => window.location.href = '/auth/signin'}>
@@ -92,7 +92,7 @@ export default function ForgotPasswordPage() {
             <>
               <Stack gap={4} className="text-center">
                 <H2 className="text-white">Reset Password</H2>
-                <Body className="text-grey-400">
+                <Body className="text-ink-400">
                   Enter your email address and we&apos;ll send you a link to reset your password.
                 </Body>
               </Stack>
@@ -107,7 +107,7 @@ export default function ForgotPasswordPage() {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="your@email.com"
                     required
-                    className="border-grey-700 bg-black text-white"
+                    className="border-ink-700 bg-black text-white"
                   />
                 </Field>
 
@@ -116,7 +116,7 @@ export default function ForgotPasswordPage() {
                 </Button>
 
                 <Stack className="text-center">
-                  <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/signin'} className="text-grey-400 hover:text-white">
+                  <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/signin'} className="text-ink-400 hover:text-white">
                     Back to Sign In
                   </Button>
                 </Stack>

@@ -76,7 +76,7 @@ export default function PipelinePage() {
 
   const detailSections: DetailSection[] = selectedDeal ? [
     { id: 'overview', title: 'Deal Details', content: (
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-spacing-4">
         <div><strong>Opportunity:</strong> {selectedDeal.name}</div>
         <div><strong>Client:</strong> {selectedDeal.client}</div>
         <div><strong>Value:</strong> {formatCurrency(selectedDeal.value || 0)}</div>

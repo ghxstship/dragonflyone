@@ -104,7 +104,7 @@ export default function SalesReportingPage() {
     { id: 'top_items', title: 'Top Items', content: (
       <div>
         {selectedPeriod.top_items.map((item, idx) => (
-          <div key={idx} className="flex justify-between py-2 border-b border-grey-200">
+          <div key={idx} className="flex justify-between py-2 border-b border-ink-200">
             <span>{item.name} ({item.quantity} sold)</span>
             <strong>{formatCurrency(item.revenue)}</strong>
           </div>

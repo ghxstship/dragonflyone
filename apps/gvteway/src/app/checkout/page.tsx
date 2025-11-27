@@ -137,17 +137,17 @@ function CheckoutContent() {
         <Stack gap={8} className="max-w-4xl mx-auto">
           <Stack gap={2} className="border-b-2 border-black pb-8">
             <H1>Checkout</H1>
-            <Body className="text-grey-600">Complete your purchase securely</Body>
+            <Body className="text-ink-600">Complete your purchase securely</Body>
           </Stack>
 
           {/* Progress Steps */}
           <Stack gap={2} direction="horizontal" className="justify-between">
             {['cart', 'payment', 'confirm'].map((s, idx) => (
               <Stack key={s} gap={2} direction="horizontal" className="flex-1 items-center">
-                <Card className={`flex items-center justify-center w-10 h-10 rounded-full border-2 ${step === s ? 'bg-black text-white border-black' : 'border-grey-300 text-grey-600'}`}>
+                <Card className={`flex items-center justify-center w-10 h-10 rounded-full border-2 ${step === s ? 'bg-black text-white border-black' : 'border-ink-300 text-ink-600'}`}>
                   <Body>{idx + 1}</Body>
                 </Card>
-                {idx < 2 && <Card className={`flex-1 h-0.5 ${step !== 'cart' && idx === 0 || step === 'confirm' && idx === 1 ? 'bg-black' : 'bg-grey-300'} mx-2`} />}
+                {idx < 2 && <Card className={`flex-1 h-0.5 ${step !== 'cart' && idx === 0 || step === 'confirm' && idx === 1 ? 'bg-black' : 'bg-ink-300'} mx-2`} />}
               </Stack>
             ))}
           </Stack>
@@ -160,17 +160,17 @@ function CheckoutContent() {
                   <H2 className="mb-4">ORDER SUMMARY</H2>
                   {cartItems.length > 0 ? (
                     cartItems.map(item => (
-                      <Stack key={item.id} gap={4} direction="horizontal" className="justify-between items-start py-4 border-b border-grey-200">
+                      <Stack key={item.id} gap={4} direction="horizontal" className="justify-between items-start py-4 border-b border-ink-200">
                         <Stack gap={1} className="flex-1">
                           <H3>{item.event_title}</H3>
-                          <Body className="text-grey-600">{item.ticket_type_name}</Body>
-                          <Body className="text-body-sm text-grey-500">Qty: {item.qty}</Body>
+                          <Body className="text-ink-600">{item.ticket_type_name}</Body>
+                          <Body className="text-body-sm text-ink-500">Qty: {item.qty}</Body>
                         </Stack>
                         <Body className="font-bold">${(item.price * item.qty).toFixed(2)}</Body>
                       </Stack>
                     ))
                   ) : (
-                    <Body className="text-grey-500">Your cart is empty</Body>
+                    <Body className="text-ink-500">Your cart is empty</Body>
                   )}
                 </Card>
               </Card>
@@ -234,7 +234,7 @@ function CheckoutContent() {
                         onChange={(e) => setFormData({...formData, cvv: e.target.value})}
                       />
                   </Grid>
-                  <Stack gap={4} className="pt-4 border-t border-grey-200">
+                  <Stack gap={4} className="pt-4 border-t border-ink-200">
                     <H3>BILLING ADDRESS</H3>
                     <Stack gap={4}>
                         <Input 
@@ -276,12 +276,12 @@ function CheckoutContent() {
                     </Stack>
                   </Stack>
                 </Card>
-                <Card className="p-6 bg-grey-100">
+                <Card className="p-6 bg-ink-100">
                   <Stack gap={2} direction="horizontal" className="items-center mb-2">
                     <Lock className="w-4 h-4" />
                     <Body className="font-bold text-body-sm">SECURE CHECKOUT</Body>
                   </Stack>
-                  <Body className="text-mono-xs text-grey-600">Your payment information is encrypted and secure</Body>
+                  <Body className="text-mono-xs text-ink-600">Your payment information is encrypted and secure</Body>
                 </Card>
                 <Button 
                   className="w-full mt-4" 
@@ -302,8 +302,8 @@ function CheckoutContent() {
                 <Check className="w-8 h-8 text-white" />
               </Card>
               <H1 className="mb-2">Order Confirmed!</H1>
-              <Body className="text-grey-600 mb-6">Order #{orderId || 'PROCESSING'}</Body>
-              <Card className="p-6 bg-grey-50 mb-6">
+              <Body className="text-ink-600 mb-6">Order #{orderId || 'PROCESSING'}</Body>
+              <Card className="p-6 bg-ink-50 mb-6">
                 <Body className="mb-4">Tickets have been sent to:</Body>
                 <Body className="font-bold">user@example.com</Body>
               </Card>

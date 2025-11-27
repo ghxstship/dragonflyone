@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from "react";
 import clsx from "clsx";
+import { colors, ink } from "../tokens.js";
 
 export interface Seat {
   id: string;
@@ -45,11 +46,11 @@ export interface SeatingChartProps {
 }
 
 const statusColors = {
-  available: "#FFFFFF",
-  selected: "#000000",
-  sold: "#9CA3AF",
-  reserved: "#D1D5DB",
-  accessible: "#374151",
+  available: colors.white,
+  selected: colors.black,
+  sold: colors.grey[400],
+  reserved: colors.grey[300],
+  accessible: colors.grey[700],
 };
 
 const statusLabels = {
@@ -124,7 +125,7 @@ export function SeatingChart({
   const seatGap = 4 * zoom;
 
   return (
-    <div className={clsx("flex flex-col gap-6", className)}>
+    <div className={clsx("flex flex-col gap-gap-lg", className)}>
       {/* Stage */}
       {showStage && (
         <div
@@ -188,12 +189,12 @@ export function SeatingChart({
                         onMouseEnter={() => setHoveredSeat(seat)}
                         onMouseLeave={() => setHoveredSeat(null)}
                         disabled={!isClickable}
-                        className="relative p-0 rounded-sm transition-transform duration-fast"
+                        className="relative p-spacing-0 rounded-sm transition-transform duration-fast"
                         style={{
                           width: `${seatSize}px`,
                           height: `${seatSize}px`,
                           backgroundColor: statusColors[status],
-                          border: `2px solid ${status === "selected" ? "#000000" : "#9CA3AF"}`,
+                          border: `2px solid ${status === "selected" ? colors.black : colors.grey[400]}`,
                           cursor: isClickable ? "pointer" : "not-allowed",
                           transform: isHovered && isClickable ? "scale(1.15)" : "scale(1)",
                         }}
@@ -227,7 +228,7 @@ export function SeatingChart({
 
       {/* Hovered Seat Info */}
       {hoveredSeat && (
-        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-black text-white px-5 py-3 font-code text-mono-sm tracking-wide flex gap-6 z-tooltip">
+        <div className="fixed bottom-spacing-4 left-1/2 -translate-x-1/2 bg-black text-white px-spacing-5 py-spacing-3 font-code text-mono-sm tracking-wide flex gap-gap-lg z-tooltip">
           <span>
             ROW {hoveredSeat.row} / SEAT {hoveredSeat.number}
           </span>
@@ -246,14 +247,14 @@ export function SeatingChart({
 
       {/* Legend */}
       {showLegend && (
-        <div className="flex justify-center gap-6 flex-wrap p-4 border-t border-grey-200">
+        <div className="flex justify-center gap-gap-lg flex-wrap p-spacing-4 border-t border-grey-200">
           {(Object.keys(statusColors) as Array<keyof typeof statusColors>).map((status) => (
-            <div key={status} className="flex items-center gap-2">
+            <div key={status} className="flex items-center gap-gap-xs">
               <div
-                className="w-4 h-4 rounded-sm"
+                className="w-spacing-4 h-spacing-4 rounded-sm"
                 style={{
                   backgroundColor: statusColors[status],
-                  border: `2px solid ${status === "selected" ? "#000000" : "#9CA3AF"}`,
+                  border: `2px solid ${status === "selected" ? colors.black : colors.grey[400]}`,
                 }}
               />
               <span className="font-code text-mono-xs text-grey-600 tracking-wide uppercase">
@@ -266,7 +267,7 @@ export function SeatingChart({
 
       {/* Selection Summary */}
       {selectedSeats.length > 0 && (
-        <div className="flex justify-between items-center px-5 py-4 bg-grey-100 border-2 border-black">
+        <div className="flex justify-between items-center px-spacing-5 py-spacing-4 bg-grey-100 border-2 border-black">
           <div className="font-code text-mono-sm text-grey-700 tracking-wide">
             {selectedSeats.length} SEAT{selectedSeats.length !== 1 ? "S" : ""} SELECTED
             {maxSelection && ` (MAX ${maxSelection})`}

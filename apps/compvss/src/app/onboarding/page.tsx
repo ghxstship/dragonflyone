@@ -147,12 +147,12 @@ export default function OnboardingPage() {
       }
     >
       <SectionLayout background="grey">
-        <Stack gap={8} className="mx-auto max-w-2xl bg-white p-8 border border-grey-200">
+        <Stack gap={8} className="mx-auto max-w-2xl bg-white p-8 border border-ink-200">
           <Stepper steps={stepperSteps} currentStep={currentStepIndex} />
 
           <Stack gap={2} className="text-center">
             <H2>{STEPS[currentStepIndex].label}</H2>
-            <Body className="text-grey-600">{STEPS[currentStepIndex].description}</Body>
+            <Body className="text-ink-600">{STEPS[currentStepIndex].description}</Body>
           </Stack>
 
           {error && <Alert variant="error">{error}</Alert>}
@@ -245,7 +245,7 @@ export default function OnboardingPage() {
 
           {currentStep === "role" && (
             <Stack gap={4}>
-              <Body className="text-grey-600 text-center">Select your primary role in COMPVSS:</Body>
+              <Body className="text-ink-600 text-center">Select your primary role in COMPVSS:</Body>
               <Stack gap={3}>
                 {COMPVSS_ROLES.map((role) => (
                   <Stack
@@ -253,7 +253,7 @@ export default function OnboardingPage() {
                     direction="horizontal"
                     gap={3}
                     className={`p-4 border cursor-pointer transition-colors ${
-                      selectedRole === role ? "border-black bg-grey-100" : "border-grey-300 hover:border-grey-400"
+                      selectedRole === role ? "border-black bg-ink-100" : "border-ink-300 hover:border-ink-400"
                     }`}
                     onClick={() => setSelectedRole(role)}
                   >
@@ -313,15 +313,15 @@ export default function OnboardingPage() {
 
           {currentStep === "complete" && (
             <Stack gap={6} className="text-center">
-              <Stack className="w-20 h-20 mx-auto bg-grey-100 rounded-full items-center justify-center">
+              <Stack className="w-20 h-20 mx-auto bg-ink-100 rounded-full items-center justify-center">
                 <Check className="w-10 h-10" />
               </Stack>
               <H3>Welcome to COMPVSS!</H3>
-              <Body className="text-grey-600">Your account is all set up. You&apos;re ready to start managing your crew.</Body>
+              <Body className="text-ink-600">Your account is all set up. You&apos;re ready to start managing your crew.</Body>
             </Stack>
           )}
 
-          <Stack direction="horizontal" className="justify-between pt-8 border-t border-grey-200">
+          <Stack direction="horizontal" className="justify-between pt-8 border-t border-ink-200">
             {currentStep !== "complete" && currentStep !== "profile" && (
               <Button variant="outline" onClick={() => setCurrentStep(STEPS[currentStepIndex - 1].id)}>
                 Back

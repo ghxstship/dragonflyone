@@ -21,14 +21,14 @@ export const ServiceCard = forwardRef<HTMLDivElement, ServiceCardProps>(
       <div
         ref={ref}
         className={clsx(
-          "p-6 border-2 hover:shadow-hard-lg hover:-translate-y-1 transition-all group",
+          "p-spacing-6 border-2 hover:shadow-hard-lg hover:-translate-y-1 transition-all group",
           bgClasses[background],
           className
         )}
         {...props}
       >
-        <div className="mb-4 text-4xl">{icon}</div>
-        <h3 className="font-heading text-h3-sm uppercase tracking-wider mb-3">{title}</h3>
+        <div className="mb-spacing-4 text-h2-lg">{icon}</div>
+        <h3 className="font-heading text-h3-sm uppercase tracking-wider mb-spacing-3">{title}</h3>
         <p className="font-body text-body-sm leading-body">{description}</p>
       </div>
     );

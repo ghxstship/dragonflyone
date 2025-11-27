@@ -58,9 +58,9 @@ export default function SafetyPage() {
       case 'high':
       case 'critical':
         return 'bg-black text-white';
-      case 'medium': return 'bg-grey-600 text-white';
-      case 'low': return 'bg-grey-300 text-black';
-      default: return 'bg-grey-200 text-black';
+      case 'medium': return 'bg-ink-600 text-white';
+      case 'low': return 'bg-ink-300 text-black';
+      default: return 'bg-ink-200 text-black';
     }
   };
 
@@ -105,7 +105,7 @@ export default function SafetyPage() {
           <Stack gap={4} direction="horizontal" className="justify-between items-start mb-8">
             <Stack gap={2}>
               <Display>SAFETY MANAGEMENT</Display>
-              <Body className="text-grey-600">Incident reporting and safety compliance</Body>
+              <Body className="text-ink-600">Incident reporting and safety compliance</Body>
             </Stack>
             <Button onClick={() => router.push('/safety/report')}>
               <AlertTriangle className="w-4 h-4 mr-2" />
@@ -120,19 +120,19 @@ export default function SafetyPage() {
             <Body>Days Since Incident</Body>
           </Card>
           <Card className="p-6 text-center">
-            <AlertCircle className="w-8 h-8 mx-auto mb-2 text-grey-600" />
+            <AlertCircle className="w-8 h-8 mx-auto mb-2 text-ink-600" />
             <H2>{activeIncidents}</H2>
-            <Body className="text-grey-600">Active Incidents</Body>
+            <Body className="text-ink-600">Active Incidents</Body>
           </Card>
           <Card className="p-6 text-center">
-            <CheckCircle className="w-8 h-8 mx-auto mb-2 text-grey-600" />
+            <CheckCircle className="w-8 h-8 mx-auto mb-2 text-ink-600" />
             <H2>{resolvedIncidents}</H2>
-            <Body className="text-grey-600">Resolved (YTD)</Body>
+            <Body className="text-ink-600">Resolved (YTD)</Body>
           </Card>
           <Card className="p-6 text-center">
-            <Users className="w-8 h-8 mx-auto mb-2 text-grey-600" />
+            <Users className="w-8 h-8 mx-auto mb-2 text-ink-600" />
             <H2>68</H2>
-            <Body className="text-grey-600">Certified Crew</Body>
+            <Body className="text-ink-600">Certified Crew</Body>
           </Card>
         </Grid>
 
@@ -144,7 +144,7 @@ export default function SafetyPage() {
             </Stack>
             <Stack gap={4}>
               {incidents.map((incident) => (
-                <Card key={incident.id} className="p-4 border-2 border-grey-200">
+                <Card key={incident.id} className="p-4 border-2 border-ink-200">
                   <Stack gap={2} direction="horizontal" className="justify-between items-start mb-2">
                     <Stack gap={1} className="flex-1">
                       <Stack gap={2} direction="horizontal" className="items-center">
@@ -154,14 +154,14 @@ export default function SafetyPage() {
                         </Badge>
                       </Stack>
                       <Body className="text-body-sm">{incident.description}</Body>
-                      <Body className="text-mono-xs text-grey-600">{incident.location}</Body>
+                      <Body className="text-mono-xs text-ink-600">{incident.location}</Body>
                     </Stack>
                   </Stack>
                   <Stack gap={2} direction="horizontal" className="justify-between items-center text-body-sm mt-3">
-                    <Body className="text-grey-600">
+                    <Body className="text-ink-600">
                       Reported by {incident.reported_by}
                     </Body>
-                    <Body className="text-grey-600">{new Date(incident.date).toLocaleDateString()}</Body>
+                    <Body className="text-ink-600">{new Date(incident.date).toLocaleDateString()}</Body>
                   </Stack>
                 </Card>
               ))}
@@ -175,16 +175,16 @@ export default function SafetyPage() {
                 <Stack key={idx} gap={2}>
                   <Stack gap={2} direction="horizontal" className="justify-between">
                     <Body className="font-bold">{cert.name}</Body>
-                    <Body className="text-body-sm text-grey-600">
+                    <Body className="text-body-sm text-ink-600">
                       {cert.current} certified
                     </Body>
                   </Stack>
                   <Grid cols={3} gap={2} className="text-center">
-                    <Card className={`p-2 ${cert.expired > 0 ? 'bg-black text-white' : 'bg-grey-100'}`}>
+                    <Card className={`p-2 ${cert.expired > 0 ? 'bg-black text-white' : 'bg-ink-100'}`}>
                       <Body className="text-body-sm font-bold">{cert.expired}</Body>
                       <Body className="text-mono-xs">Expired</Body>
                     </Card>
-                    <Card className={`p-2 ${cert.expiring > 0 ? 'bg-grey-600 text-white' : 'bg-grey-100'}`}>
+                    <Card className={`p-2 ${cert.expiring > 0 ? 'bg-ink-600 text-white' : 'bg-ink-100'}`}>
                       <Body className="text-body-sm font-bold">{cert.expiring}</Body>
                       <Body className="text-mono-xs">Expiring</Body>
                     </Card>
@@ -208,9 +208,9 @@ export default function SafetyPage() {
               { title: 'Training Materials', icon: FileText, docs: 18 },
             ].map((resource, idx) => (
               <Card key={idx} className="p-6 text-center hover:shadow-hard-lg transition-shadow cursor-pointer">
-                <resource.icon className="w-12 h-12 mx-auto mb-3 text-grey-600" />
+                <resource.icon className="w-12 h-12 mx-auto mb-3 text-ink-600" />
                 <H3 className="mb-2">{resource.title}</H3>
-                <Body className="text-body-sm text-grey-600 mb-4">{resource.docs} documents</Body>
+                <Body className="text-body-sm text-ink-600 mb-4">{resource.docs} documents</Body>
                 <Button variant="outline" size="sm" className="w-full" onClick={() => router.push(`/safety/resources/${resource.title.toLowerCase().replace(' ', '-')}`)}>ACCESS</Button>
               </Card>
             ))}

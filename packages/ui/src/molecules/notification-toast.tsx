@@ -49,16 +49,16 @@ export function NotificationToast({
 
   return (
     <div
-      className={`pointer-events-auto flex w-full max-w-sm border-2 ${colors[type]} p-4`}
+      className={`pointer-events-auto flex w-full max-w-container-sm border-2 ${colors[type]} p-spacing-4`}
       role="alert"
     >
       <div className="flex-1">
-        <div className="flex items-start gap-3">
-          <span className="text-xl">{icons[type]}</span>
+        <div className="flex items-start gap-spacing-3">
+          <span className="text-h4-md">{icons[type]}</span>
           <div className="flex-1">
-            <p className="font-display text-sm text-white">{title}</p>
+            <p className="font-display text-mono-sm text-white">{title}</p>
             {message && (
-              <p className="mt-1 text-xs text-ink-300">{message}</p>
+              <p className="mt-spacing-1 text-mono-xs text-ink-300">{message}</p>
             )}
           </div>
           <button

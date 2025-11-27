@@ -98,7 +98,7 @@ export default function EntryInfoPage() {
         <Container className="py-16">
           <Card className="p-12 text-center">
             <H2 className="mb-4">INFORMATION NOT AVAILABLE</H2>
-            <Body className="text-grey-600 mb-6">
+            <Body className="text-ink-600 mb-6">
               Entry information for this event is not yet available.
             </Body>
             <Button variant="solid" onClick={() => router.back()}>
@@ -116,9 +116,9 @@ export default function EntryInfoPage() {
       <Container className="py-16">
         <Stack gap={8}>
         <Stack gap={2} className="border-b-2 border-black pb-8">
-          <Body className="text-grey-500">{info.event_date}</Body>
+          <Body className="text-ink-500">{info.event_date}</Body>
           <H1>{info.event_title}</H1>
-          <Body className="text-grey-600">
+          <Body className="text-ink-600">
             {info.venue_name} • {info.venue_city}
           </Body>
         </Stack>
@@ -134,16 +134,16 @@ export default function EntryInfoPage() {
             <Card className="p-6">
               <H2 className="mb-6">TIMING</H2>
               <Grid cols={2} gap={6}>
-                <Stack className="p-4 bg-grey-50 rounded">
-                  <Label className="text-grey-500">Doors Open</Label>
+                <Stack className="p-4 bg-ink-50 rounded">
+                  <Label className="text-ink-500">Doors Open</Label>
                   <H3>{info.doors_open}</H3>
                 </Stack>
-                <Stack className="p-4 bg-grey-50 rounded">
-                  <Label className="text-grey-500">Show Starts</Label>
+                <Stack className="p-4 bg-ink-50 rounded">
+                  <Label className="text-ink-500">Show Starts</Label>
                   <H3>{info.show_starts}</H3>
                 </Stack>
               </Grid>
-              <Body className="mt-4 text-grey-600">
+              <Body className="mt-4 text-ink-600">
                 We recommend arriving at least 30 minutes before doors open to allow time for parking and entry.
               </Body>
             </Card>
@@ -152,11 +152,11 @@ export default function EntryInfoPage() {
               <H2 className="mb-6">ENTRY GATES</H2>
               <Stack gap={4}>
                 {info.entry_gates.map((gate, index) => (
-                  <Stack key={index} className="p-4 border border-grey-200 rounded">
+                  <Stack key={index} className="p-4 border border-ink-200 rounded">
                     <Stack direction="horizontal" className="justify-between items-start">
                       <Stack>
                         <Body className="font-bold">{gate.name}</Body>
-                        <Body className="text-grey-600">{gate.location}</Body>
+                        <Body className="text-ink-600">{gate.location}</Body>
                       </Stack>
                       {gate.recommended_for && (
                         <Badge variant="outline">{gate.recommended_for}</Badge>
@@ -202,11 +202,11 @@ export default function EntryInfoPage() {
                 <H2 className="mb-6">PARKING</H2>
                 <Stack gap={4}>
                   {info.parking_info.lots.map((lot, index) => (
-                    <Stack key={index} className="p-4 border border-grey-200 rounded">
+                    <Stack key={index} className="p-4 border border-ink-200 rounded">
                       <Stack direction="horizontal" className="justify-between">
                         <Stack>
                           <Body className="font-bold">{lot.name}</Body>
-                          <Body className="text-grey-600 text-body-sm">{lot.address}</Body>
+                          <Body className="text-ink-600 text-body-sm">{lot.address}</Body>
                         </Stack>
                         {lot.price && <Badge>{lot.price}</Badge>}
                       </Stack>
@@ -214,7 +214,7 @@ export default function EntryInfoPage() {
                   ))}
                 </Stack>
                 {info.parking_info.tips && (
-                  <Body className="mt-4 text-grey-600 text-body-sm">
+                  <Body className="mt-4 text-ink-600 text-body-sm">
                     💡 {info.parking_info.tips}
                   </Body>
                 )}
@@ -225,20 +225,20 @@ export default function EntryInfoPage() {
               <H2 className="mb-6">GETTING THERE</H2>
               <Stack gap={4}>
                 {info.transit_info.subway && (
-                  <Stack className="p-4 bg-grey-50 rounded">
-                    <Label className="text-grey-500">Subway</Label>
+                  <Stack className="p-4 bg-ink-50 rounded">
+                    <Label className="text-ink-500">Subway</Label>
                     <Body>{info.transit_info.subway}</Body>
                   </Stack>
                 )}
                 {info.transit_info.bus && (
-                  <Stack className="p-4 bg-grey-50 rounded">
-                    <Label className="text-grey-500">Bus</Label>
+                  <Stack className="p-4 bg-ink-50 rounded">
+                    <Label className="text-ink-500">Bus</Label>
                     <Body>{info.transit_info.bus}</Body>
                   </Stack>
                 )}
                 {info.transit_info.rideshare_dropoff && (
-                  <Stack className="p-4 bg-grey-50 rounded">
-                    <Label className="text-grey-500">Rideshare Drop-off</Label>
+                  <Stack className="p-4 bg-ink-50 rounded">
+                    <Label className="text-ink-500">Rideshare Drop-off</Label>
                     <Body>{info.transit_info.rideshare_dropoff}</Body>
                   </Stack>
                 )}
@@ -250,9 +250,9 @@ export default function EntryInfoPage() {
                 <H2 className="mb-6">FAQ</H2>
                 <Stack gap={4}>
                   {info.faq.map((item, index) => (
-                    <Stack key={index} className="pb-4 border-b border-grey-200 last:border-0">
+                    <Stack key={index} className="pb-4 border-b border-ink-200 last:border-0">
                       <Body className="font-bold mb-2">{item.question}</Body>
-                      <Body className="text-grey-600">{item.answer}</Body>
+                      <Body className="text-ink-600">{item.answer}</Body>
                     </Stack>
                   ))}
                 </Stack>
@@ -264,8 +264,8 @@ export default function EntryInfoPage() {
             <Card className="p-6 bg-black text-white sticky top-6">
               <H3 className="text-white mb-4">VENUE ADDRESS</H3>
               <Body className="text-white">{info.venue_name}</Body>
-              <Body className="text-grey-600">{info.venue_address}</Body>
-              <Body className="text-grey-600">{info.venue_city}</Body>
+              <Body className="text-ink-600">{info.venue_address}</Body>
+              <Body className="text-ink-600">{info.venue_city}</Body>
               <Button
                 variant="outline"
                 className="mt-4 w-full border-white text-white hover:bg-white hover:text-black"
@@ -281,13 +281,13 @@ export default function EntryInfoPage() {
                 <Stack gap={3}>
                   {info.age_restriction && (
                     <Stack>
-                      <Label className="text-grey-500">Age Restriction</Label>
+                      <Label className="text-ink-500">Age Restriction</Label>
                       <Body>{info.age_restriction}</Body>
                     </Stack>
                   )}
                   {info.dress_code && (
                     <Stack>
-                      <Label className="text-grey-500">Dress Code</Label>
+                      <Label className="text-ink-500">Dress Code</Label>
                       <Body>{info.dress_code}</Body>
                     </Stack>
                   )}

@@ -117,7 +117,7 @@ export default function ExclusiveContentPage() {
       video: { color: 'bg-error-500 text-white', icon: '🎬' },
       audio: { color: 'bg-purple-500 text-white', icon: '🎵' },
       photo_gallery: { color: 'bg-info-500 text-white', icon: '📸' },
-      document: { color: 'bg-grey-500 text-white', icon: '📄' },
+      document: { color: 'bg-ink-500 text-white', icon: '📄' },
       behind_the_scenes: { color: 'bg-warning-500 text-white', icon: '🎭' },
     };
     const variant = variants[type] || { color: '', icon: '📁' };
@@ -163,7 +163,7 @@ export default function ExclusiveContentPage() {
         <Stack gap={8}>
         <Stack gap={2} className="border-b-2 border-black pb-8">
           <H1>Exclusive Content</H1>
-          <Body className="text-grey-600">
+          <Body className="text-ink-600">
             Recordings, highlights, and behind-the-scenes from your events
           </Body>
         </Stack>
@@ -252,7 +252,7 @@ export default function ExclusiveContentPage() {
                 className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow"
                 onClick={() => setSelectedContent(item)}
               >
-                <Stack className="relative h-48 bg-grey-100">
+                <Stack className="relative h-48 bg-ink-100">
                   {item.thumbnail_url ? (
                     <Image
                       src={item.thumbnail_url}
@@ -286,14 +286,14 @@ export default function ExclusiveContentPage() {
                     {getTypeBadge(item.type)}
                   </Stack>
                   <H3 className="line-clamp-2">{item.title}</H3>
-                  <Body className="text-body-sm text-grey-600 line-clamp-2">
+                  <Body className="text-body-sm text-ink-600 line-clamp-2">
                     {item.description}
                   </Body>
-                  <Body className="text-mono-xs text-grey-500">
+                  <Body className="text-mono-xs text-ink-500">
                     {item.event_name}
                   </Body>
                   <Stack direction="horizontal" className="justify-between items-center mt-2">
-                    <Body className="text-mono-xs text-grey-500">
+                    <Body className="text-mono-xs text-ink-500">
                       {item.views.toLocaleString()} views
                     </Body>
                     <Stack direction="horizontal" gap={2}>
@@ -315,7 +315,7 @@ export default function ExclusiveContentPage() {
           ) : (
             <Card className="col-span-3 p-12 text-center">
               <H3 className="mb-4">NO CONTENT AVAILABLE</H3>
-              <Body className="text-grey-600 mb-6">
+              <Body className="text-ink-600 mb-6">
                 Exclusive content from your events will appear here
               </Body>
               <Button variant="solid" onClick={() => router.push('/events')}>
@@ -332,7 +332,7 @@ export default function ExclusiveContentPage() {
         >
           {selectedContent && (
             <Stack gap={4}>
-              <Stack className="relative aspect-video bg-grey-100 rounded overflow-hidden">
+              <Stack className="relative aspect-video bg-ink-100 rounded overflow-hidden">
                 {selectedContent.thumbnail_url ? (
                   <Image
                     src={selectedContent.thumbnail_url}
@@ -361,8 +361,8 @@ export default function ExclusiveContentPage() {
                   {getAccessBadge(selectedContent.access_level)}
                 </Stack>
                 <H2>{selectedContent.title}</H2>
-                <Body className="text-grey-600">{selectedContent.description}</Body>
-                <Stack direction="horizontal" gap={4} className="text-body-sm text-grey-500">
+                <Body className="text-ink-600">{selectedContent.description}</Body>
+                <Stack direction="horizontal" gap={4} className="text-body-sm text-ink-500">
                   <Body>{selectedContent.event_name}</Body>
                   <Body>{new Date(selectedContent.release_date).toLocaleDateString()}</Body>
                   {selectedContent.duration && <Body>{selectedContent.duration}</Body>}

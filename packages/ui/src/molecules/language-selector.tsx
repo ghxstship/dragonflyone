@@ -51,22 +51,22 @@ export function LanguageSelector({
       <div ref={dropdownRef} className={`relative inline-block ${className}`}>
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center gap-1 px-2 py-1 text-mono-sm font-mono uppercase tracking-widest hover:bg-grey-100 transition-colors"
+          className="flex items-center gap-gap-xs px-spacing-2 py-spacing-1 text-mono-sm font-mono uppercase tracking-widest hover:bg-grey-100 transition-colors"
           aria-label="Select language"
         >
           <span>{currentLang.flag}</span>
           <span>{currentLang.code.toUpperCase()}</span>
-          <ChevronDown className={`h-3 w-3 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+          <ChevronDown className={`h-spacing-3 w-spacing-3 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
         </button>
         
         {isOpen && (
-          <div className="absolute right-0 top-full mt-1 min-w-[120px] bg-white border-2 border-black shadow-hard z-50">
+          <div className="absolute right-0 top-full mt-spacing-1 min-w-container-xs bg-surface-elevated text-text-primary border-2 border-border-primary shadow-hard z-popover">
             {languages.map((lang) => (
               <button
                 key={lang.code}
                 onClick={() => handleSelect(lang.code)}
-                className={`w-full flex items-center gap-2 px-3 py-2 text-body-sm text-left hover:bg-grey-100 transition-colors ${
-                  lang.code === currentLanguage ? 'bg-grey-100 font-bold' : ''
+                className={`w-full flex items-center gap-gap-xs px-spacing-3 py-spacing-2 text-left hover:bg-grey-100 transition-colors ${
+                  lang.code === currentLanguage ? 'bg-grey-100 font-weight-bold' : ''
                 }`}
               >
                 <span>{lang.flag}</span>
@@ -84,21 +84,21 @@ export function LanguageSelector({
       <div ref={dropdownRef} className={`relative inline-block ${className}`}>
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center gap-2 px-3 py-2 border-2 border-black bg-white hover:bg-grey-100 transition-colors"
+          className="flex items-center gap-gap-xs px-spacing-3 py-spacing-2 border-2 border-border-primary bg-surface-primary text-text-primary hover:bg-surface-secondary transition-colors"
           aria-label="Select language"
         >
           <span className="text-body-lg">{currentLang.flag}</span>
           <span className="font-heading text-mono-sm uppercase tracking-widest">{currentLang.code}</span>
-          <ChevronDown className={`h-4 w-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+          <ChevronDown className={`h-spacing-4 w-spacing-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
         </button>
         
         {isOpen && (
-          <div className="absolute right-0 top-full mt-1 min-w-[160px] bg-white border-2 border-black shadow-hard z-50">
+          <div className="absolute right-0 top-full mt-spacing-1 min-w-container-sm bg-surface-elevated text-text-primary border-2 border-border-primary shadow-hard z-popover">
             {languages.map((lang) => (
               <button
                 key={lang.code}
                 onClick={() => handleSelect(lang.code)}
-                className={`w-full flex items-center gap-3 px-3 py-2 text-left hover:bg-grey-100 transition-colors ${
+                className={`w-full flex items-center gap-gap-sm px-spacing-3 py-spacing-2 text-left hover:bg-grey-100 transition-colors ${
                   lang.code === currentLanguage ? 'bg-grey-100' : ''
                 }`}
               >
@@ -117,7 +117,7 @@ export function LanguageSelector({
     <div ref={dropdownRef} className={`relative inline-block ${className}`}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-3 px-4 py-3 border-2 border-black bg-white hover:bg-grey-100 transition-colors min-w-[200px]"
+        className="flex items-center gap-gap-sm px-spacing-4 py-spacing-3 border-2 border-border-primary bg-surface-primary text-text-primary hover:bg-surface-secondary transition-colors min-w-container-sm"
         aria-label="Select language"
       >
         <span className="text-body-lg">{currentLang.flag}</span>
@@ -125,16 +125,16 @@ export function LanguageSelector({
           <div className="font-heading text-mono-sm uppercase tracking-widest">{currentLang.name}</div>
           <div className="font-body text-mono-xs text-grey-600">{currentLang.nativeName}</div>
         </div>
-        <ChevronDown className={`h-5 w-5 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        <ChevronDown className={`h-spacing-5 w-spacing-5 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
       
       {isOpen && (
-        <div className="absolute left-0 top-full mt-1 w-full bg-white border-2 border-black shadow-hard z-50 max-h-[300px] overflow-y-auto">
+        <div className="absolute left-0 top-full mt-spacing-1 w-full bg-surface-elevated text-text-primary border-2 border-border-primary shadow-hard z-popover max-h-container-lg overflow-y-auto">
           {languages.map((lang) => (
             <button
               key={lang.code}
               onClick={() => handleSelect(lang.code)}
-              className={`w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-grey-100 transition-colors border-b border-grey-200 last:border-b-0 ${
+              className={`w-full flex items-center gap-gap-sm px-spacing-4 py-spacing-3 text-left hover:bg-grey-100 transition-colors border-b border-grey-200 last:border-b-0 ${
                 lang.code === currentLanguage ? 'bg-grey-100' : ''
               }`}
             >
@@ -144,7 +144,7 @@ export function LanguageSelector({
                 <div className="font-body text-mono-xs text-grey-600">{lang.nativeName}</div>
               </div>
               {lang.code === currentLanguage && (
-                <span className="text-black font-bold">✓</span>
+                <span className="text-black font-weight-bold">✓</span>
               )}
             </button>
           ))}

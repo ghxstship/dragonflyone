@@ -182,7 +182,7 @@ function UniversalSearchContent() {
 
         {query && (
           <Stack gap={6}>
-            <Stack direction="horizontal" gap={2} className="border-b border-grey-200 pb-4">
+            <Stack direction="horizontal" gap={2} className="border-b border-ink-200 pb-4">
               <Button
                 variant={activeTab === 'all' ? 'solid' : 'ghost'}
                 onClick={() => setActiveTab('all')}
@@ -228,7 +228,7 @@ function UniversalSearchContent() {
                     onClick={() => handleResultClick(result)}
                   >
                     {result.image && (
-                      <Figure className="relative h-40 bg-grey-100 overflow-hidden">
+                      <Figure className="relative h-40 bg-ink-100 overflow-hidden">
                         <Image
                           src={result.image}
                           alt={result.title}
@@ -246,10 +246,10 @@ function UniversalSearchContent() {
                       </Stack>
                       <H3>{result.title}</H3>
                       {result.subtitle && (
-                        <Body className="text-grey-600">{result.subtitle}</Body>
+                        <Body className="text-ink-600">{result.subtitle}</Body>
                       )}
                       {result.metadata && (
-                        <Body className="text-body-sm text-grey-500">{result.metadata}</Body>
+                        <Body className="text-body-sm text-ink-500">{result.metadata}</Body>
                       )}
                       {result.tags && result.tags.length > 0 && (
                         <Stack direction="horizontal" gap={1} className="flex-wrap mt-2">
@@ -267,7 +267,7 @@ function UniversalSearchContent() {
             ) : (
               <Card className="p-12 text-center">
                 <H3 className="mb-4">NO RESULTS FOUND</H3>
-                <Body className="text-grey-600">
+                <Body className="text-ink-600">
                   Try different keywords or browse our categories.
                 </Body>
               </Card>
@@ -282,7 +282,7 @@ function UniversalSearchContent() {
               {['Concerts', 'Festivals', 'Theater', 'Sports', 'Comedy', 'Nightlife', 'Family', 'Arts'].map(category => (
                 <Card
                   key={category}
-                  className="p-6 text-center cursor-pointer hover:bg-grey-50 transition-colors"
+                  className="p-6 text-center cursor-pointer hover:bg-ink-50 transition-colors"
                   onClick={() => router.push(`/browse?category=${category.toLowerCase()}`)}
                 >
                   <H3>{category.toUpperCase()}</H3>

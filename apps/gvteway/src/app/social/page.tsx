@@ -65,37 +65,37 @@ export default function SocialPage() {
         <Stack gap={8}>
         <Stack gap={2} className="border-b-2 border-black pb-8">
           <H1>Social Feed</H1>
-          <Body className="text-grey-600">Connect with the community</Body>
+          <Body className="text-ink-600">Connect with the community</Body>
         </Stack>
 
         <Grid cols={3} gap={6} className="mb-8">
           <Card className="col-span-2">
             <Stack gap={0}>
-              <Card className="p-6 border-b-2 border-grey-200 rounded-none">
+              <Card className="p-6 border-b-2 border-ink-200 rounded-none">
                 <H2>COMMUNITY FEED</H2>
               </Card>
               
               <Stack gap={0}>
                 {posts.map((post) => (
-                  <Card key={post.id} className="p-6 border-b border-grey-200 rounded-none">
+                  <Card key={post.id} className="p-6 border-b border-ink-200 rounded-none">
                     <Stack gap={4}>
                       <Stack gap={4} direction="horizontal" className="items-start">
-                        <Card className="w-12 h-12 bg-grey-300 rounded-full flex-shrink-0" />
+                        <Card className="w-12 h-12 bg-ink-300 rounded-full flex-shrink-0" />
                         <Stack gap={1} className="flex-1">
                           <Body className="font-bold">{post.user}</Body>
-                          <Body className="text-body-sm text-grey-600">{post.timestamp}</Body>
+                          <Body className="text-body-sm text-ink-600">{post.timestamp}</Body>
                         </Stack>
                       </Stack>
                       
                       <Body>{post.content}</Body>
                       
                       {post.image && (
-                        <Card className="w-full h-64 bg-grey-200 flex items-center justify-center">
-                          <ImageIcon className="w-12 h-12 text-grey-600" />
+                        <Card className="w-full h-64 bg-ink-200 flex items-center justify-center">
+                          <ImageIcon className="w-12 h-12 text-ink-600" />
                         </Card>
                       )}
                       
-                      <Stack direction="horizontal" gap={6} className="text-body-sm text-grey-600">
+                      <Stack direction="horizontal" gap={6} className="text-body-sm text-ink-600">
                         <Button variant="ghost" size="sm" onClick={() => handleLike(post.id)}>
                           <ThumbsUp className={`w-4 h-4 mr-2 ${likedPosts.includes(post.id) ? 'fill-black' : ''}`} />
                           {post.likes + (likedPosts.includes(post.id) ? 1 : 0)}
@@ -124,10 +124,10 @@ export default function SocialPage() {
                   {trending.map((item, idx) => (
                     <Stack key={idx} gap={2} direction="horizontal" className="justify-between items-center">
                       <Stack gap={2} direction="horizontal" className="items-center">
-                        <TrendingUp className="w-4 h-4 text-grey-600" />
+                        <TrendingUp className="w-4 h-4 text-ink-600" />
                         <Body className="font-bold">{item.tag}</Body>
                       </Stack>
-                      <Body className="text-body-sm text-grey-600">{item.posts.toLocaleString()} posts</Body>
+                      <Body className="text-body-sm text-ink-600">{item.posts.toLocaleString()} posts</Body>
                     </Stack>
                   ))}
                 </Stack>
@@ -142,11 +142,11 @@ export default function SocialPage() {
                     { name: 'Miami EDM Crew', members: 2345 },
                     { name: 'Festival Veterans', members: 1876 },
                   ].map((group, idx) => (
-                    <Card key={idx} className="pb-4 border-b border-grey-200 last:border-0 last:pb-0 rounded-none">
+                    <Card key={idx} className="pb-4 border-b border-ink-200 last:border-0 last:pb-0 rounded-none">
                       <Stack gap={2}>
                         <H3>{group.name}</H3>
                         <Stack gap={2} direction="horizontal" className="justify-between items-center">
-                          <Stack gap={2} direction="horizontal" className="items-center text-body-sm text-grey-600">
+                          <Stack gap={2} direction="horizontal" className="items-center text-body-sm text-ink-600">
                             <Users className="w-4 h-4" />
                             <Body className="text-body-sm">{group.members.toLocaleString()} members</Body>
                           </Stack>
@@ -163,7 +163,7 @@ export default function SocialPage() {
               <Stack gap={4} className="items-center">
                 <Share2 className="w-12 h-12" />
                 <H3>SHARE YOUR STORY</H3>
-                <Body className="text-grey-600">
+                <Body className="text-ink-600">
                   Connect with fans and share your festival experiences
                 </Body>
                 <Button className="w-full" onClick={() => router.push('/social/new')}>CREATE POST</Button>

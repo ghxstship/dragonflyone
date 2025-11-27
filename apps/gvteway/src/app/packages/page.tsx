@@ -141,7 +141,7 @@ export default function PackagesPage() {
         <Stack gap={8}>
           <Stack gap={2}>
             <H1>Event Packages</H1>
-            <Body className="text-grey-400">
+            <Body className="text-ink-400">
               All-inclusive experiences with tickets, hotels, and VIP perks
             </Body>
           </Stack>
@@ -150,61 +150,61 @@ export default function PackagesPage() {
             <StatCard
               value={summary?.total_packages || 0}
               label="Available Packages"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={summary?.vip_packages || 0}
               label="VIP Experiences"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={summary?.travel_packages || 0}
               label="Travel Packages"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={`${summary?.average_savings || 0}%`}
               label="Avg. Savings"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
           </Grid>
 
-          <Card className="p-6 bg-black border-grey-800">
+          <Card className="p-6 bg-black border-ink-800">
             <Stack gap={4}>
               <H2>Package Types</H2>
               <Grid cols={4} gap={4}>
-                <Card className="p-4 bg-grey-900 border-grey-700">
+                <Card className="p-4 bg-ink-900 border-ink-700">
                   <Stack gap={2}>
                     <Body className="text-h5-md">⭐</Body>
                     <Body className="font-medium">VIP Experience</Body>
-                    <Body className="text-grey-400 text-body-sm">
+                    <Body className="text-ink-400 text-body-sm">
                       Premium seats, backstage access, meet & greet
                     </Body>
                   </Stack>
                 </Card>
-                <Card className="p-4 bg-grey-900 border-grey-700">
+                <Card className="p-4 bg-ink-900 border-ink-700">
                   <Stack gap={2}>
                     <Body className="text-h5-md">✈️</Body>
                     <Body className="font-medium">Travel Package</Body>
-                    <Body className="text-grey-400 text-body-sm">
+                    <Body className="text-ink-400 text-body-sm">
                       Tickets + hotel + transportation
                     </Body>
                   </Stack>
                 </Card>
-                <Card className="p-4 bg-grey-900 border-grey-700">
+                <Card className="p-4 bg-ink-900 border-ink-700">
                   <Stack gap={2}>
                     <Body className="text-h5-md">👥</Body>
                     <Body className="font-medium">Group Package</Body>
-                    <Body className="text-grey-400 text-body-sm">
+                    <Body className="text-ink-400 text-body-sm">
                       Discounted rates for groups of 4+
                     </Body>
                   </Stack>
                 </Card>
-                <Card className="p-4 bg-grey-900 border-grey-700">
+                <Card className="p-4 bg-ink-900 border-ink-700">
                   <Stack gap={2}>
                     <Body className="text-h5-md">🎁</Body>
                     <Body className="font-medium">Gift Package</Body>
-                    <Body className="text-grey-400 text-body-sm">
+                    <Body className="text-ink-400 text-body-sm">
                       Perfect for special occasions
                     </Body>
                   </Stack>
@@ -219,13 +219,13 @@ export default function PackagesPage() {
                 placeholder="Search packages..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-black text-white border-grey-700"
+                className="bg-black text-white border-ink-700"
               />
             </Field>
             <Select
               value={filterType}
               onChange={(e) => setFilterType(e.target.value)}
-              className="bg-black text-white border-grey-700"
+              className="bg-black text-white border-ink-700"
             >
               <option value="all">All Types</option>
               <option value="vip">VIP Experience</option>
@@ -243,7 +243,7 @@ export default function PackagesPage() {
           ) : (
             <Grid cols={2} gap={6}>
               {packages.map((pkg) => (
-                <Card key={pkg.id} className="p-6 bg-black border-grey-800">
+                <Card key={pkg.id} className="p-6 bg-black border-ink-800">
                   <Stack gap={4}>
                     <Stack gap={2} direction="horizontal" className="justify-between items-start">
                       <Stack gap={1}>
@@ -257,19 +257,19 @@ export default function PackagesPage() {
 
                     <Stack gap={1}>
                       <Body className="text-white font-medium">{pkg.event_name}</Body>
-                      <Body className="text-grey-400">{pkg.venue_name}</Body>
-                      <Body className="text-grey-500 text-body-sm">{formatDate(pkg.event_date)}</Body>
+                      <Body className="text-ink-400">{pkg.venue_name}</Body>
+                      <Body className="text-ink-500 text-body-sm">{formatDate(pkg.event_date)}</Body>
                     </Stack>
 
-                    <Body className="text-grey-400 text-body-sm">
+                    <Body className="text-ink-400 text-body-sm">
                       {pkg.description}
                     </Body>
 
                     <Stack gap={2}>
-                      <Body className="text-grey-500 text-body-sm uppercase tracking-widest">Includes</Body>
+                      <Body className="text-ink-500 text-body-sm uppercase tracking-widest">Includes</Body>
                       <Grid cols={2} gap={2}>
                         {pkg.includes.map((item, idx) => (
-                          <Body key={idx} className="text-grey-300 text-body-sm">
+                          <Body key={idx} className="text-ink-300 text-body-sm">
                             ✓ {item}
                           </Body>
                         ))}
@@ -283,15 +283,15 @@ export default function PackagesPage() {
                       {pkg.transportation_included && <Badge variant="ghost">Transportation</Badge>}
                     </Stack>
 
-                    <Stack gap={2} direction="horizontal" className="justify-between items-center border-t border-grey-800 pt-4">
+                    <Stack gap={2} direction="horizontal" className="justify-between items-center border-t border-ink-800 pt-4">
                       <Stack gap={1}>
-                        <Body className="text-grey-500 text-body-sm line-through">
+                        <Body className="text-ink-500 text-body-sm line-through">
                           {formatCurrency(pkg.original_price)}
                         </Body>
                         <Body className="text-h5-md font-bold">
                           {formatCurrency(pkg.package_price)}
                         </Body>
-                        <Body className="text-grey-500 text-mono-xs">
+                        <Body className="text-ink-500 text-mono-xs">
                           {pkg.availability} available
                         </Body>
                       </Stack>

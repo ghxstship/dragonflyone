@@ -1,7 +1,6 @@
 import { CreatorNavigationAuthenticated } from "../components/navigation";
-import { Badge, Section, SectionHeader } from "../components/section";
 import { ContactWizard } from "../components/contact-wizard";
-import { Stack, Grid, Card, Body, H1, H2, H3, Label, Button, Link, Container, Display, Table, TableHeader, TableBody, TableRow, TableHead, TableCell, List, ListItem, Article, Header, Main, Box, Text, Badge as UIBadge, StatusBadge } from "@ghxstship/ui";
+import { Stack, Grid, Card, Body, H1, H2, H3, Label, Button, Link, Container, Display, Table, TableHeader, TableBody, TableRow, TableHead, TableCell, List, ListItem, Article, Header, Main, Box, Text, Badge, Badge as UIBadge, StatusBadge, Section, SectionHeader } from "@ghxstship/ui";
 import {
   atlvsCapabilityPanels,
   atlvsComplianceChecklist,
@@ -45,7 +44,7 @@ export default function Home() {
       <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
       <CreatorNavigationAuthenticated />
 
-      <Container className="relative mx-auto flex max-w-6xl flex-col gap-16 px-6 pt-16 pb-24 lg:px-8">
+      <Container className="relative mx-auto flex max-w-container-6xl flex-col gap-16 px-6 pt-16 pb-24 lg:px-8">
         <Header className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
           <Stack gap={6}>
             <Label className="text-body-sm uppercase tracking-display text-ink-400">{atlvsHero.kicker}</Label>
@@ -62,7 +61,7 @@ export default function Home() {
           <Stack gap={6} className="text-right">
             <Label className="text-mono-xs tracking-display text-ink-500">STATUS</Label>
             <Body className="font-code text-h5-md text-ink-100">{atlvsHero.status}</Body>
-            <Button variant="outline" className="inline-flex items-center gap-2 border border-ink-50 px-8 py-4 text-body-sm uppercase tracking-kicker transition hover:-translate-y-1 hover:bg-ink-50 hover:text-ink-950">
+            <Button variant="outline" className="inline-flex items-center gap-spacing-2 border border-ink-50 px-spacing-8 py-spacing-4 text-body-sm uppercase tracking-kicker transition hover:-translate-y-1 hover:bg-ink-50 hover:text-ink-950">
               {atlvsHero.cta}
             </Button>
           </Stack>
@@ -76,7 +75,7 @@ export default function Home() {
           />
           <Grid cols={2} gap={6}>
             {atlvsEntities.map((entity) => (
-              <Article key={entity.id} className="flex flex-col gap-4 border border-ink-800 p-5">
+              <Article key={entity.id} className="flex flex-col gap-spacing-4 border border-ink-800 p-spacing-5">
                 <Stack direction="horizontal" className="items-center justify-between">
                   <Stack>
                     <Label className="font-code text-mono-xs uppercase tracking-display text-ink-500">{entity.vertical}</Label>
@@ -104,7 +103,7 @@ export default function Home() {
                   <Label className="font-code text-mono-xs uppercase tracking-display text-ink-500">Top OKRs</Label>
                   <List className="mt-2 space-y-1 text-body-sm text-ink-200">
                     {entity.okrs.map((okr) => (
-                      <ListItem key={okr} className="flex gap-2">
+                      <ListItem key={okr} className="flex gap-spacing-2">
                         <Text className="text-ink-500">{"//"}</Text>
                         <Text>{okr}</Text>
                       </ListItem>

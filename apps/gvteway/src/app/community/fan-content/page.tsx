@@ -61,7 +61,7 @@ export default function FanContentPage() {
         <Stack gap={8}>
           <Stack gap={2} className="border-b-2 border-black pb-8">
             <H1>Fan Content Showcase</H1>
-            <Body className="text-grey-600">Discover and share fan-created content from events</Body>
+            <Body className="text-ink-600">Discover and share fan-created content from events</Body>
           </Stack>
 
           <Grid cols={4} gap={6}>
@@ -87,7 +87,7 @@ export default function FanContentPage() {
           <Grid cols={3} gap={4}>
             {filteredContent.map((content) => (
               <Card key={content.id} className="border-2 border-black overflow-hidden cursor-pointer" onClick={() => setSelectedContent(content)}>
-                <Card className="h-48 bg-grey-100 flex items-center justify-center">
+                <Card className="h-48 bg-ink-100 flex items-center justify-center">
                   <Label className="text-h1-sm">{getTypeIcon(content.type)}</Label>
                 </Card>
                 <Stack className="p-4" gap={3}>
@@ -95,8 +95,8 @@ export default function FanContentPage() {
                     <Body className="font-bold">{content.title}</Body>
                     {content.featured && <Badge variant="solid">Featured</Badge>}
                   </Stack>
-                  <Label className="text-grey-500">by {content.creator}</Label>
-                  <Label size="xs" className="text-grey-600">{content.eventName}</Label>
+                  <Label className="text-ink-500">by {content.creator}</Label>
+                  <Label size="xs" className="text-ink-600">{content.eventName}</Label>
                   <Stack direction="horizontal" gap={4}>
                     <Label size="xs">❤️ {content.likes}</Label>
                     <Label size="xs">💬 {content.comments}</Label>
@@ -118,15 +118,15 @@ export default function FanContentPage() {
         <ModalBody>
           {selectedContent && (
             <Stack gap={4}>
-              <Card className="h-64 bg-grey-100 flex items-center justify-center">
+              <Card className="h-64 bg-ink-100 flex items-center justify-center">
                 <Label className="text-h1-sm">{getTypeIcon(selectedContent.type)}</Label>
               </Card>
               <Stack direction="horizontal" className="justify-between">
                 <Stack gap={1}>
                   <Body className="font-bold">{selectedContent.creator}</Body>
-                  <Label className="text-grey-500">{selectedContent.eventName}</Label>
+                  <Label className="text-ink-500">{selectedContent.eventName}</Label>
                 </Stack>
-                <Label className="text-grey-600">{selectedContent.createdAt}</Label>
+                <Label className="text-ink-600">{selectedContent.createdAt}</Label>
               </Stack>
               <Stack direction="horizontal" gap={6}>
                 <Label>❤️ {selectedContent.likes} likes</Label>
@@ -164,8 +164,8 @@ export default function FanContentPage() {
             </Select>
             <Textarea placeholder="Description..." rows={3} className="border-2 border-black" />
             <Input placeholder="Tags (comma separated)" className="border-2 border-black" />
-            <Card className="p-8 border-2 border-dashed border-grey-400 text-center cursor-pointer">
-              <Label className="text-grey-500">Drop file or click to upload</Label>
+            <Card className="p-8 border-2 border-dashed border-ink-400 text-center cursor-pointer">
+              <Label className="text-ink-500">Drop file or click to upload</Label>
             </Card>
           </Stack>
         </ModalBody>

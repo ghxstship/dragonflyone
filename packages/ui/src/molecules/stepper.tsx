@@ -31,25 +31,25 @@ export interface StepperProps {
 
 const sizeClasses = {
   sm: {
-    indicator: "w-6 h-6 text-mono-xs",
+    indicator: "w-spacing-6 h-spacing-6 text-mono-xs",
     label: "text-mono-sm",
-    gap: "gap-2",
-    lineH: "h-0.5",
-    lineW: "w-0.5",
+    gap: "gap-gap-xs",
+    lineH: "h-spacing-0.5",
+    lineW: "w-spacing-0.5",
   },
   md: {
-    indicator: "w-8 h-8 text-mono-sm",
+    indicator: "w-spacing-8 h-spacing-8 text-mono-sm",
     label: "text-mono-md",
-    gap: "gap-3",
-    lineH: "h-0.5",
-    lineW: "w-0.5",
+    gap: "gap-gap-sm",
+    lineH: "h-spacing-0.5",
+    lineW: "w-spacing-0.5",
   },
   lg: {
-    indicator: "w-10 h-10 text-mono-md",
+    indicator: "w-spacing-10 h-spacing-10 text-mono-md",
     label: "text-body-md",
-    gap: "gap-4",
-    lineH: "h-[3px]",
-    lineW: "w-[3px]",
+    gap: "gap-gap-md",
+    lineH: "h-spacing-1",
+    lineW: "w-spacing-1",
   },
 };
 
@@ -117,7 +117,7 @@ export function Stepper({
                 onClick={() => clickable && onStepClick?.(index)}
                 disabled={!clickable}
                 className={clsx(
-                  "rounded-full flex items-center justify-center font-code font-normal tracking-wide border-2 flex-shrink-0 p-0 transition-colors duration-base",
+                  "rounded-full flex items-center justify-center font-code font-weight-normal tracking-wide border-2 flex-shrink-0 p-spacing-0 transition-colors duration-base",
                   config.indicator,
                   status === "completed" && "bg-black text-white border-black",
                   status === "current" && "bg-white text-black border-black",
@@ -128,7 +128,7 @@ export function Stepper({
                 aria-current={status === "current" ? "step" : undefined}
               >
                 {status === "completed" ? (
-                  <span className="text-xs">✓</span>
+                  <span className="text-mono-xs">✓</span>
                 ) : step.icon ? (
                   step.icon
                 ) : (
@@ -141,7 +141,7 @@ export function Stepper({
                 <div
                   className={clsx(
                     "flex-1 transition-colors duration-base",
-                    isHorizontal ? clsx(config.lineH, "min-w-6 mx-2") : clsx(config.lineW, "min-h-6 my-2"),
+                    isHorizontal ? clsx(config.lineH, "min-w-spacing-6 mx-spacing-2") : clsx(config.lineW, "min-h-spacing-6 my-spacing-2"),
                     status === "completed" || (status === "current" && completedSteps.includes(index))
                       ? "bg-black"
                       : "bg-grey-300"
@@ -161,13 +161,13 @@ export function Stepper({
                   "font-code tracking-wide uppercase",
                   config.label,
                   status === "upcoming" ? "text-grey-500" : "text-black",
-                  status === "current" && "font-bold"
+                  status === "current" && "font-weight-bold"
                 )}
               >
                 {step.label}
               </div>
               {step.description && (
-                <div className="font-body text-body-sm text-grey-600 mt-1">
+                <div className="font-body text-body-sm text-grey-600 mt-spacing-1">
                   {step.description}
                 </div>
               )}

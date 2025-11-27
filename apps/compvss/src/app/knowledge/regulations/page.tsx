@@ -144,9 +144,9 @@ export default function RegulationsPage() {
           </Card>
 
           <Grid cols={3} gap={4}>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/knowledge")}>Knowledge Base</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/safety")}>Safety</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/")}>Dashboard</Button>
+            <Button variant="outlineInk" onClick={() => router.push("/knowledge")}>Knowledge Base</Button>
+            <Button variant="outlineInk" onClick={() => router.push("/safety")}>Safety</Button>
+            <Button variant="outlineInk" onClick={() => router.push("/")}>Dashboard</Button>
           </Grid>
         </Stack>
       </Container>

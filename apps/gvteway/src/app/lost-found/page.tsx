@@ -142,7 +142,7 @@ export default function LostFoundPage() {
       case 'claimed':
         return <Badge className="bg-success-500 text-white">Claimed</Badge>;
       case 'closed':
-        return <Badge className="bg-grey-500 text-white">Closed</Badge>;
+        return <Badge className="bg-ink-500 text-white">Closed</Badge>;
       default:
         return <Badge>{status}</Badge>;
     }
@@ -175,7 +175,7 @@ export default function LostFoundPage() {
         <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
           <Stack gap={2}>
             <H1>Lost & Found</H1>
-            <Body className="text-grey-600">
+            <Body className="text-ink-600">
               Report lost items or help reunite found items with their owners
             </Body>
           </Stack>
@@ -224,7 +224,7 @@ export default function LostFoundPage() {
             {filteredItems.map(item => (
               <Card key={item.id} className="overflow-hidden">
                 {item.photos && item.photos.length > 0 && (
-                  <Figure className="relative h-40 bg-grey-100 overflow-hidden">
+                  <Figure className="relative h-40 bg-ink-100 overflow-hidden">
                     <Image
                       src={item.photos[0]}
                       alt={item.description}
@@ -243,19 +243,19 @@ export default function LostFoundPage() {
                   
                   <Stack gap={1}>
                     <Body className="font-bold">{item.category}</Body>
-                    <Body className="text-grey-600 text-body-sm line-clamp-2">
+                    <Body className="text-ink-600 text-body-sm line-clamp-2">
                       {item.description}
                     </Body>
                   </Stack>
 
                   {item.event_title && (
-                    <Body className="text-body-sm text-grey-500">
+                    <Body className="text-body-sm text-ink-500">
                       Event: {item.event_title}
                     </Body>
                   )}
 
                   <Stack direction="horizontal" className="justify-between items-center">
-                    <Body className="text-mono-xs text-grey-600">
+                    <Body className="text-mono-xs text-ink-600">
                       {new Date(item.date_lost_found).toLocaleDateString()}
                     </Body>
                     <Button variant="ghost" size="sm" onClick={() => router.push(`/lost-found/${item.id}`)}>
@@ -269,7 +269,7 @@ export default function LostFoundPage() {
         ) : (
           <Card className="p-12 text-center">
             <H3 className="mb-4">NO ITEMS FOUND</H3>
-            <Body className="text-grey-600 mb-6">
+            <Body className="text-ink-600 mb-6">
               {filter === 'mine'
                 ? "You haven't reported any lost or found items."
                 : 'No items match your current filter.'}

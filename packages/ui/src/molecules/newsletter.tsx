@@ -36,7 +36,7 @@ export const Newsletter = forwardRef<HTMLDivElement, NewsletterProps>(
 
     return (
       <div ref={ref} className={clsx("w-full max-w-md", className)} {...props}>
-        <form onSubmit={handleSubmit} className="flex gap-2">
+        <form onSubmit={handleSubmit} className="flex gap-gap-xs">
           <input
             type="email"
             value={email}
@@ -44,7 +44,7 @@ export const Newsletter = forwardRef<HTMLDivElement, NewsletterProps>(
             placeholder={placeholder}
             required
             className={clsx(
-              "flex-1 px-4 py-3 font-body border-2 focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors",
+              "flex-1 px-spacing-4 py-spacing-3 font-body border-2 focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors",
               inverted
                 ? "bg-transparent border-white text-white placeholder:text-grey-400 focus:ring-white"
                 : "bg-white border-black text-black placeholder:text-grey-500 focus:ring-black"
@@ -55,7 +55,7 @@ export const Newsletter = forwardRef<HTMLDivElement, NewsletterProps>(
             type="submit"
             disabled={loading || success}
             className={clsx(
-              "px-6 py-3 font-heading uppercase tracking-wider border-2 transition-all min-w-[120px]",
+              "px-spacing-6 py-spacing-3 font-heading uppercase tracking-wider border-2 transition-all min-w-container-xs",
               inverted
                 ? "border-white bg-transparent text-white hover:bg-white hover:text-black disabled:opacity-50"
                 : "border-black bg-black text-white hover:bg-white hover:text-black disabled:opacity-50"

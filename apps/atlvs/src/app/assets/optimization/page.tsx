@@ -98,7 +98,7 @@ export default function AssetOptimizationPage() {
     { id: 'actions', title: 'Action Items', content: (
       <div>
         {selected.action_items.map((item, idx) => (
-          <div key={idx} className="py-2 border-b border-grey-700">
+          <div key={idx} className="py-2 border-b border-ink-700">
             {idx + 1}. {item}
           </div>
         ))}

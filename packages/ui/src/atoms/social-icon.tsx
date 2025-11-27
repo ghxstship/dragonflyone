@@ -11,9 +11,9 @@ export type SocialIconProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
 export const SocialIcon = forwardRef<HTMLAnchorElement, SocialIconProps>(
   function SocialIcon({ platform, size = "md", inverted = false, className, ...props }, ref) {
     const sizeClasses = {
-      sm: "w-8 h-8",
-      md: "w-10 h-10",
-      lg: "w-12 h-12",
+      sm: "w-spacing-8 h-spacing-8",
+      md: "w-spacing-10 h-spacing-10",
+      lg: "w-spacing-12 h-spacing-12",
     };
 
     const icons = {

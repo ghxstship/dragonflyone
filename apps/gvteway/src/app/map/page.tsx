@@ -134,12 +134,12 @@ function MapViewContent() {
 
   // Simple map rendering (would integrate with Mapbox/Google Maps in production)
   const renderMap = () => (
-    <Stack className="relative w-full h-[500px] bg-grey-100 rounded-lg overflow-hidden">
+    <Stack className="relative w-full h-panel-md bg-ink-100 rounded-lg overflow-hidden">
       {/* Map placeholder - in production would use Mapbox GL or Google Maps */}
       <Stack className="absolute inset-0 flex items-center justify-center">
         <Stack className="text-center">
-          <Body className="text-grey-500 mb-2">Interactive Map</Body>
-          <Body className="text-body-sm text-grey-600">
+          <Body className="text-ink-500 mb-2">Interactive Map</Body>
+          <Body className="text-body-sm text-ink-600">
             Center: {mapCenter.lat.toFixed(4)}, {mapCenter.lng.toFixed(4)}
           </Body>
         </Stack>
@@ -222,7 +222,7 @@ function MapViewContent() {
         <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
           <Stack gap={2}>
             <H1>Map View</H1>
-            <Body className="text-grey-600">
+            <Body className="text-ink-600">
               Discover events near you
             </Body>
           </Stack>
@@ -280,7 +280,7 @@ function MapViewContent() {
         <Grid cols={3} gap={6}>
           <Stack className="col-span-2">
             {loading ? (
-              <Card className="h-[500px] flex items-center justify-center">
+              <Card className="h-panel-md flex items-center justify-center">
                 <LoadingSpinner size="lg" />
               </Card>
             ) : (
@@ -293,7 +293,7 @@ function MapViewContent() {
               <Card className="p-6">
                 <H3 className="mb-4">SELECTED EVENT</H3>
                 {selectedEvent.image && (
-                  <Figure className="relative h-32 bg-grey-100 mb-4 overflow-hidden rounded">
+                  <Figure className="relative h-32 bg-ink-100 mb-4 overflow-hidden rounded">
                     <Image
                       src={selectedEvent.image}
                       alt={selectedEvent.title}
@@ -304,9 +304,9 @@ function MapViewContent() {
                 )}
                 <Stack gap={2}>
                   <Body className="font-bold">{selectedEvent.title}</Body>
-                  <Body className="text-grey-600">{selectedEvent.date}</Body>
-                  <Body className="text-grey-500 text-body-sm">{selectedEvent.venue}</Body>
-                  <Body className="text-grey-500 text-body-sm">{selectedEvent.city}</Body>
+                  <Body className="text-ink-600">{selectedEvent.date}</Body>
+                  <Body className="text-ink-500 text-body-sm">{selectedEvent.venue}</Body>
+                  <Body className="text-ink-500 text-body-sm">{selectedEvent.city}</Body>
                   <Stack direction="horizontal" className="justify-between items-center mt-4">
                     <Badge>{selectedEvent.category}</Badge>
                     <Body className="font-bold">From ${selectedEvent.price_min}</Body>
@@ -322,7 +322,7 @@ function MapViewContent() {
               </Card>
             ) : (
               <Card className="p-6 text-center">
-                <Body className="text-grey-500">
+                <Body className="text-ink-500">
                   Click on a marker to see event details
                 </Body>
               </Card>
@@ -330,20 +330,20 @@ function MapViewContent() {
 
             <Card className="p-6">
               <H3 className="mb-4">NEARBY EVENTS</H3>
-              <Stack gap={3} className="max-h-[300px] overflow-y-auto">
+              <Stack gap={3} className="max-h-dropdown overflow-y-auto">
                 {events.slice(0, 10).map(event => (
                   <Stack
                     key={event.id}
-                    className="p-3 border border-grey-200 rounded cursor-pointer hover:bg-grey-50"
+                    className="p-3 border border-ink-200 rounded cursor-pointer hover:bg-ink-50"
                     onClick={() => handleEventClick(event)}
                   >
                     <Body className="font-medium text-body-sm">{event.title}</Body>
-                    <Body className="text-mono-xs text-grey-500">{event.date}</Body>
-                    <Body className="text-mono-xs text-grey-600">{event.venue}</Body>
+                    <Body className="text-mono-xs text-ink-500">{event.date}</Body>
+                    <Body className="text-mono-xs text-ink-600">{event.venue}</Body>
                   </Stack>
                 ))}
                 {events.length === 0 && (
-                  <Body className="text-grey-500 text-center">
+                  <Body className="text-ink-500 text-center">
                     No events found in this area
                   </Body>
                 )}

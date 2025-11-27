@@ -126,7 +126,7 @@ export default function ForumsPage() {
     return (
       <Section className="relative min-h-screen bg-black text-white">
         <ConsumerNavigationPublic />
-        <Container className="py-16">
+        <Container className="py-spacing-16">
           <EmptyState
             title="Error Loading Forums"
             description={error}
@@ -144,7 +144,7 @@ export default function ForumsPage() {
         <Stack gap={8}>
           <Stack gap={2}>
             <H1>Community Forums</H1>
-            <Body className="text-grey-400">
+            <Body className="text-ink-400">
               Discuss events, share experiences, and connect with other fans
             </Body>
           </Stack>
@@ -153,39 +153,39 @@ export default function ForumsPage() {
             <StatCard
               value={summary?.total_threads || 0}
               label="Discussions"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={summary?.total_posts || 0}
               label="Posts"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={summary?.active_users || 0}
               label="Active Users"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={summary?.new_today || 0}
               label="New Today"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
           </Grid>
 
-          <Card className="p-6 bg-black border-grey-800">
+          <Card className="p-spacing-6 bg-black border-ink-800">
             <Stack gap={4}>
               <H2>Categories</H2>
               <Grid cols={4} gap={4}>
                 {categories.map((cat) => (
                   <Card 
                     key={cat.id} 
-                    className="p-4 bg-grey-900 border-grey-700 cursor-pointer hover:border-grey-600"
+                    className="p-spacing-4 bg-ink-900 border-ink-700 cursor-pointer hover:border-ink-600"
                     onClick={() => setFilterCategory(cat.id)}
                   >
                     <Stack gap={2}>
                       <Body className="font-medium">{cat.name}</Body>
-                      <Body className="text-grey-400 text-body-sm">{cat.description}</Body>
-                      <Body className="text-grey-500 text-mono-xs">
+                      <Body className="text-ink-400 text-body-sm">{cat.description}</Body>
+                      <Body className="text-ink-500 text-mono-xs">
                         {cat.thread_count} threads • {cat.post_count} posts
                       </Body>
                     </Stack>
@@ -201,13 +201,13 @@ export default function ForumsPage() {
                 placeholder="Search discussions..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-black text-white border-grey-700"
+                className="bg-black text-white border-ink-700"
               />
             </Field>
             <Select
               value={filterCategory}
               onChange={(e) => setFilterCategory(e.target.value)}
-              className="bg-black text-white border-grey-700"
+              className="bg-black text-white border-ink-700"
             >
               <option value="all">All Categories</option>
               <option value="general">General Discussion</option>
@@ -242,7 +242,7 @@ export default function ForumsPage() {
                 {threads.map((thread) => (
                   <TableRow 
                     key={thread.id} 
-                    className="bg-black text-white hover:bg-grey-900 cursor-pointer"
+                    className="bg-black text-white hover:bg-ink-900 cursor-pointer"
                     onClick={() => router.push(`/forums/${thread.id}`)}
                   >
                     <TableCell>
@@ -252,7 +252,7 @@ export default function ForumsPage() {
                           {thread.is_locked && <Badge variant="ghost">Locked</Badge>}
                           <Body className="text-white font-medium">{thread.title}</Body>
                         </Stack>
-                        <Body className="text-grey-500 text-body-sm">
+                        <Body className="text-ink-500 text-body-sm">
                           by {thread.author_name} • {formatTimeAgo(thread.created_at)}
                         </Body>
                       </Stack>
@@ -260,17 +260,17 @@ export default function ForumsPage() {
                     <TableCell>
                       <Badge variant="outline">{thread.category}</Badge>
                     </TableCell>
-                    <TableCell className="font-mono text-grey-400">
+                    <TableCell className="font-mono text-ink-400">
                       {thread.reply_count}
                     </TableCell>
-                    <TableCell className="font-mono text-grey-400">
+                    <TableCell className="font-mono text-ink-400">
                       {thread.view_count}
                     </TableCell>
-                    <TableCell className="text-grey-400">
+                    <TableCell className="text-ink-400">
                       <Stack gap={1}>
                         <Body className="text-body-sm">{formatTimeAgo(thread.last_reply_at)}</Body>
                         {thread.last_reply_by && (
-                          <Body className="text-grey-500 text-mono-xs">by {thread.last_reply_by}</Body>
+                          <Body className="text-ink-500 text-mono-xs">by {thread.last_reply_by}</Body>
                         )}
                       </Stack>
                     </TableCell>

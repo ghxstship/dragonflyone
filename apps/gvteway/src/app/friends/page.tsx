@@ -158,7 +158,7 @@ export default function FriendsPage() {
   const getStatusBadge = (status: string) => {
     const variants: Record<string, string> = {
       online: 'bg-success-500 text-white',
-      offline: 'bg-grey-400 text-white',
+      offline: 'bg-ink-400 text-white',
       at_event: 'bg-purple-500 text-white',
     };
     return <Badge className={variants[status] || ''}>{status.replace('_', ' ')}</Badge>;
@@ -168,7 +168,7 @@ export default function FriendsPage() {
     const variants: Record<string, string> = {
       pending: 'bg-warning-500 text-white',
       confirmed: 'bg-success-500 text-white',
-      completed: 'bg-grey-500 text-white',
+      completed: 'bg-ink-500 text-white',
       cancelled: 'bg-error-500 text-white',
     };
     return <Badge className={variants[status] || ''}>{status}</Badge>;
@@ -201,7 +201,7 @@ export default function FriendsPage() {
         <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
           <Stack gap={2}>
             <H1>Friends & Meetups</H1>
-            <Body className="text-grey-600">
+            <Body className="text-ink-600">
               Find friends at events and coordinate meetups
             </Body>
           </Stack>
@@ -257,7 +257,7 @@ export default function FriendsPage() {
               {friendsAtEvents.map(friend => (
                 <Card key={friend.id} className="p-4">
                   <Stack direction="horizontal" gap={4} className="items-center">
-                    <Stack className="w-12 h-12 rounded-full bg-grey-200 flex items-center justify-center overflow-hidden relative">
+                    <Stack className="w-12 h-12 rounded-full bg-ink-200 flex items-center justify-center overflow-hidden relative">
                       {friend.avatar_url ? (
                         <Image src={friend.avatar_url} alt={friend.name} fill className="object-cover" />
                       ) : (
@@ -266,9 +266,9 @@ export default function FriendsPage() {
                     </Stack>
                     <Stack className="flex-1">
                       <Body className="font-bold">{friend.name}</Body>
-                      <Body className="text-body-sm text-grey-600">{friend.current_event_name}</Body>
+                      <Body className="text-body-sm text-ink-600">{friend.current_event_name}</Body>
                       {friend.location?.section && (
-                        <Body className="text-mono-xs text-grey-500">Section: {friend.location.section}</Body>
+                        <Body className="text-mono-xs text-ink-500">Section: {friend.location.section}</Body>
                       )}
                     </Stack>
                     <Button
@@ -307,7 +307,7 @@ export default function FriendsPage() {
                   <Card key={friend.id} className="p-4">
                     <Stack direction="horizontal" className="justify-between items-center">
                       <Stack direction="horizontal" gap={4} className="items-center">
-                        <Stack className="w-10 h-10 rounded-full bg-grey-200 flex items-center justify-center overflow-hidden relative">
+                        <Stack className="w-10 h-10 rounded-full bg-ink-200 flex items-center justify-center overflow-hidden relative">
                           {friend.avatar_url ? (
                             <Image src={friend.avatar_url} alt={friend.name} fill className="object-cover" />
                           ) : (
@@ -317,7 +317,7 @@ export default function FriendsPage() {
                         <Stack>
                           <Body className="font-bold">{friend.name}</Body>
                           {friend.last_seen && friend.status === 'offline' && (
-                            <Body className="text-mono-xs text-grey-500">
+                            <Body className="text-mono-xs text-ink-500">
                               Last seen: {new Date(friend.last_seen).toLocaleDateString()}
                             </Body>
                           )}
@@ -330,7 +330,7 @@ export default function FriendsPage() {
               </Stack>
             ) : (
               <Card className="p-8 text-center">
-                <Body className="text-grey-600">No friends found</Body>
+                <Body className="text-ink-600">No friends found</Body>
               </Card>
             )}
           </Stack>
@@ -345,7 +345,7 @@ export default function FriendsPage() {
                     <Stack direction="horizontal" className="justify-between items-start mb-4">
                       <Stack gap={1}>
                         <H3>{meetup.event_name}</H3>
-                        <Body className="text-grey-600 text-body-sm">
+                        <Body className="text-ink-600 text-body-sm">
                           {new Date(meetup.event_date).toLocaleDateString()}
                         </Body>
                       </Stack>
@@ -353,15 +353,15 @@ export default function FriendsPage() {
                     </Stack>
                     <Stack gap={2}>
                       <Stack direction="horizontal" gap={2}>
-                        <Label className="text-grey-500">Location:</Label>
+                        <Label className="text-ink-500">Location:</Label>
                         <Body>{meetup.location}</Body>
                       </Stack>
                       <Stack direction="horizontal" gap={2}>
-                        <Label className="text-grey-500">Time:</Label>
+                        <Label className="text-ink-500">Time:</Label>
                         <Body>{meetup.time}</Body>
                       </Stack>
                       <Stack direction="horizontal" gap={2}>
-                        <Label className="text-grey-500">Attendees:</Label>
+                        <Label className="text-ink-500">Attendees:</Label>
                         <Body>{meetup.attendees.length} confirmed</Body>
                       </Stack>
                     </Stack>
@@ -377,7 +377,7 @@ export default function FriendsPage() {
             ) : (
               <Card className="p-8 text-center">
                 <H3 className="mb-4">NO MEETUPS PLANNED</H3>
-                <Body className="text-grey-600 mb-6">
+                <Body className="text-ink-600 mb-6">
                   Plan a meetup with friends at an upcoming event
                 </Body>
                 <Button variant="solid" onClick={() => setShowMeetupModal(true)}>
@@ -420,8 +420,8 @@ export default function FriendsPage() {
                       key={friend.id}
                       className={`p-3 cursor-pointer border-2 transition-colors ${
                         meetupForm.invitees.includes(friend.id)
-                          ? 'border-black bg-grey-50'
-                          : 'border-grey-200 hover:border-grey-400'
+                          ? 'border-black bg-ink-50'
+                          : 'border-ink-200 hover:border-ink-400'
                       }`}
                       onClick={() => {
                         const newInvitees = meetupForm.invitees.includes(friend.id)
@@ -463,26 +463,26 @@ export default function FriendsPage() {
         >
           {selectedFriend && (
             <Stack gap={4}>
-              <Card className="p-6 bg-grey-50">
+              <Card className="p-6 bg-ink-50">
                 <Stack gap={3}>
                   <Stack direction="horizontal" className="justify-between">
-                    <Label className="text-grey-500">Event</Label>
+                    <Label className="text-ink-500">Event</Label>
                     <Body className="font-bold">{selectedFriend.current_event_name}</Body>
                   </Stack>
                   {selectedFriend.location?.section && (
                     <Stack direction="horizontal" className="justify-between">
-                      <Label className="text-grey-500">Section</Label>
+                      <Label className="text-ink-500">Section</Label>
                       <Body className="font-bold">{selectedFriend.location.section}</Body>
                     </Stack>
                   )}
                   <Stack direction="horizontal" className="justify-between">
-                    <Label className="text-grey-500">Status</Label>
+                    <Label className="text-ink-500">Status</Label>
                     {getStatusBadge(selectedFriend.status)}
                   </Stack>
                 </Stack>
               </Card>
 
-              <Body className="text-grey-600 text-body-sm">
+              <Body className="text-ink-600 text-body-sm">
                 Your friend is currently at the event. Use the directions below to find them.
               </Body>
 

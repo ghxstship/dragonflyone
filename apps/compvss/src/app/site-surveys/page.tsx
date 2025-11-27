@@ -129,7 +129,7 @@ export default function SiteSurveysPage() {
       case "inadequate":
         return "text-error-400";
       default:
-        return "text-grey-400";
+        return "text-ink-400";
     }
   };
 
@@ -166,7 +166,7 @@ export default function SiteSurveysPage() {
         <Stack gap={8}>
           <Stack gap={2}>
             <H1>Site Surveys</H1>
-            <Body className="text-grey-400">
+            <Body className="text-ink-400">
               Venue assessments, technical specifications, and site documentation
             </Body>
           </Stack>
@@ -175,51 +175,51 @@ export default function SiteSurveysPage() {
             <StatCard
               value={summary?.total_surveys || 0}
               label="Total Surveys"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={summary?.pending_surveys || 0}
               label="Pending"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={summary?.venues_surveyed || 0}
               label="Venues Surveyed"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={summary?.photos_captured || 0}
               label="Photos Captured"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
           </Grid>
 
-          <Card className="p-6 bg-black border-grey-800">
+          <Card className="p-6 bg-black border-ink-800">
             <Stack gap={4}>
               <H2>Survey Checklist Categories</H2>
               <Grid cols={4} gap={4}>
-                <Card className="p-4 bg-grey-900 border-grey-700">
+                <Card className="p-4 bg-ink-900 border-ink-700">
                   <Stack gap={2}>
-                    <Body className="text-grey-400 text-body-sm uppercase tracking-widest">Power/Electrical</Body>
-                    <Body className="text-body-sm text-grey-300">Main service, distro, generator access</Body>
+                    <Body className="text-ink-400 text-body-sm uppercase tracking-widest">Power/Electrical</Body>
+                    <Body className="text-body-sm text-ink-300">Main service, distro, generator access</Body>
                   </Stack>
                 </Card>
-                <Card className="p-4 bg-grey-900 border-grey-700">
+                <Card className="p-4 bg-ink-900 border-ink-700">
                   <Stack gap={2}>
-                    <Body className="text-grey-400 text-body-sm uppercase tracking-widest">Rigging Points</Body>
-                    <Body className="text-body-sm text-grey-300">Grid height, weight limits, motor positions</Body>
+                    <Body className="text-ink-400 text-body-sm uppercase tracking-widest">Rigging Points</Body>
+                    <Body className="text-body-sm text-ink-300">Grid height, weight limits, motor positions</Body>
                   </Stack>
                 </Card>
-                <Card className="p-4 bg-grey-900 border-grey-700">
+                <Card className="p-4 bg-ink-900 border-ink-700">
                   <Stack gap={2}>
-                    <Body className="text-grey-400 text-body-sm uppercase tracking-widest">Load-In Access</Body>
-                    <Body className="text-body-sm text-grey-300">Dock, doors, floor load, staging areas</Body>
+                    <Body className="text-ink-400 text-body-sm uppercase tracking-widest">Load-In Access</Body>
+                    <Body className="text-body-sm text-ink-300">Dock, doors, floor load, staging areas</Body>
                   </Stack>
                 </Card>
-                <Card className="p-4 bg-grey-900 border-grey-700">
+                <Card className="p-4 bg-ink-900 border-ink-700">
                   <Stack gap={2}>
-                    <Body className="text-grey-400 text-body-sm uppercase tracking-widest">FOH/BOH</Body>
-                    <Body className="text-body-sm text-grey-300">Mix position, dressing rooms, green room</Body>
+                    <Body className="text-ink-400 text-body-sm uppercase tracking-widest">FOH/BOH</Body>
+                    <Body className="text-body-sm text-ink-300">Mix position, dressing rooms, green room</Body>
                   </Stack>
                 </Card>
               </Grid>
@@ -230,7 +230,7 @@ export default function SiteSurveysPage() {
             <Select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="bg-black text-white border-grey-700"
+              className="bg-black text-white border-ink-700"
             >
               <option value="all">All Statuses</option>
               <option value="scheduled">Scheduled</option>
@@ -241,7 +241,7 @@ export default function SiteSurveysPage() {
             <Select
               value={filterType}
               onChange={(e) => setFilterType(e.target.value)}
-              className="bg-black text-white border-grey-700"
+              className="bg-black text-white border-ink-700"
             >
               <option value="all">All Types</option>
               <option value="initial">Initial Survey</option>
@@ -274,23 +274,23 @@ export default function SiteSurveysPage() {
               </TableHeader>
               <TableBody>
                 {surveys.map((survey) => (
-                  <TableRow key={survey.id} className="bg-black text-white hover:bg-grey-900">
+                  <TableRow key={survey.id} className="bg-black text-white hover:bg-ink-900">
                     <TableCell className="font-mono text-white">
                       {survey.survey_number}
                     </TableCell>
                     <TableCell>
                       <Stack gap={1}>
                         <Body className="text-white">{survey.venue_name}</Body>
-                        <Body className="text-grey-500 text-body-sm">{survey.venue_address}</Body>
+                        <Body className="text-ink-500 text-body-sm">{survey.venue_address}</Body>
                       </Stack>
                     </TableCell>
-                    <TableCell className="text-grey-400">
+                    <TableCell className="text-ink-400">
                       {survey.project_name}
                     </TableCell>
-                    <TableCell className="font-mono text-grey-400">
+                    <TableCell className="font-mono text-ink-400">
                       {formatDate(survey.survey_date)}
                     </TableCell>
-                    <TableCell className="text-grey-400">
+                    <TableCell className="text-ink-400">
                       {survey.surveyor_name}
                     </TableCell>
                     <TableCell className={getAssessmentColor(survey.power_assessment)}>
@@ -317,10 +317,10 @@ export default function SiteSurveysPage() {
             <Button variant="outlineWhite" onClick={() => router.push('/site-surveys/schedule')}>
               Schedule Survey
             </Button>
-            <Button variant="ghost" className="text-grey-400 hover:text-white" onClick={() => router.push('/site-surveys/templates')}>
+            <Button variant="ghost" className="text-ink-400 hover:text-white" onClick={() => router.push('/site-surveys/templates')}>
               Survey Templates
             </Button>
-            <Button variant="ghost" className="text-grey-400 hover:text-white" onClick={() => router.push('/site-surveys/export')}>
+            <Button variant="ghost" className="text-ink-400 hover:text-white" onClick={() => router.push('/site-surveys/export')}>
               Export Reports
             </Button>
           </Stack>

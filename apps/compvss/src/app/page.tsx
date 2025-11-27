@@ -1,6 +1,5 @@
 import { CreatorNavigationAuthenticated } from "../components/navigation";
-import { Section, SectionHeader } from "../components/section";
-import { Badge, ProgressBar, Button, StatusBadge, Stack, Grid, Card, Container, Link, H1, H2, H3, H4, Body, Label, Text, List, ListItem, Article, Header, Box, Table, TableHeader, TableBody, TableRow, TableHead, TableCell, WorkflowTimeline, ContentCard, FeatureCard, Kicker } from "@ghxstship/ui";
+import { Badge, ProgressBar, Button, StatusBadge, Stack, Grid, Card, Container, Link, H1, H2, H3, H4, Body, Label, Text, List, ListItem, Article, Header, Box, Table, TableHeader, TableBody, TableRow, TableHead, TableCell, WorkflowTimeline, ContentCard, FeatureCard, Kicker, Section, SectionHeader } from "@ghxstship/ui";
 import { CrewIntelligence } from "../components/crew-intelligence";
 import { getStatusVariant } from "@ghxstship/config";
 import {
@@ -38,8 +37,8 @@ export default function Home() {
       <Card className="grid-overlay pointer-events-none absolute inset-0 opacity-40" />
       <CreatorNavigationAuthenticated />
 
-      <Container className="relative mx-auto flex max-w-6xl flex-col gap-16 px-6 pb-24 pt-16 lg:px-8">
-        <Header className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between" id="command">
+      <Container className="relative mx-auto flex max-w-container-6xl flex-col gap-spacing-16 px-spacing-6 pb-spacing-24 pt-spacing-16 lg:px-spacing-8">
+        <Header className="flex flex-col gap-spacing-10 lg:flex-row lg:items-end lg:justify-between" id="command">
           <Stack gap={6}>
             <Label className="text-body-sm uppercase tracking-display text-ink-400">{compvssHero.kicker}</Label>
             <H1 className="text-h2-md uppercase text-ink-50 md:text-h1-md lg:text-display-md">{compvssHero.headline}</H1>
@@ -69,9 +68,9 @@ export default function Home() {
                 </ListItem>
               ))}
             </List>
-            <Card className="border border-ink-800 p-4">
+            <Card className="border border-ink-800 p-spacing-4">
               <Label className="text-mono-xs uppercase tracking-kicker text-ink-500">Indicators</Label>
-              <Stack gap={4} className="mt-4">
+              <Stack gap={4} className="mt-spacing-4">
                 {compvssSignal.indicators.map((signal) => (
                   <Stack key={signal.label} direction="horizontal" className="items-center justify-between">
                     <Stack>
@@ -94,18 +93,18 @@ export default function Home() {
         >
           <Stack gap={6}>
             {compvssScheduleTracks.map((track) => (
-              <Article key={track.id} className="border border-ink-800 p-6">
-                <Stack direction="horizontal" className="flex-col gap-2 md:flex-row md:items-baseline md:justify-between">
+              <Article key={track.id} className="border border-ink-800 p-spacing-6">
+                <Stack direction="horizontal" className="flex-col gap-spacing-2 md:flex-row md:items-baseline md:justify-between">
                   <Stack>
                     <Label className="text-mono-xs uppercase tracking-display text-ink-500">{track.dateLabel}</Label>
                     <H3 size="sm">{track.location}</H3>
                   </Stack>
                   <Text className="text-mono-xs uppercase tracking-kicker text-ink-400">{track.phases.length} phases</Text>
                 </Stack>
-                <Stack gap={4} className="mt-4">
+                <Stack gap={4} className="mt-spacing-4">
                   {track.phases.map((phase) => (
                     <Card key={`${track.id}-${phase.name}`} className="rounded border border-ink-800 p-4">
-                      <Stack direction="horizontal" className="flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                      <Stack direction="horizontal" className="flex-col gap-spacing-2 md:flex-row md:items-center md:justify-between">
                         <Stack>
                           <Label className="font-code text-mono-xs uppercase tracking-display text-ink-500">{phase.owner}</Label>
                           <H4 size="sm">{phase.name}</H4>
@@ -117,11 +116,11 @@ export default function Home() {
                           <Body className="capitalize">{phase.status}</Body>
                         </Stack>
                       </Stack>
-                      <Box className="mt-3">
+                      <Box className="mt-spacing-3">
                         <ProgressBar value={phase.progress} variant="inverse" />
                       </Box>
                       {phase.dependencies?.length ? (
-                        <Body className="mt-2 text-mono-xs uppercase tracking-kicker text-ink-500">
+                        <Body className="mt-spacing-2 text-mono-xs uppercase tracking-kicker text-ink-500">
                           Depends on: {phase.dependencies.join(", ")}
                         </Body>
                       ) : null}
@@ -141,15 +140,15 @@ export default function Home() {
         >
           <Grid cols={3} gap={4}>
             {compvssFileVaultEntries.map((file) => (
-              <Article key={file.id} className="border border-ink-800 p-4">
+              <Article key={file.id} className="border border-ink-800 p-spacing-4">
                 <Label className="text-mono-xs uppercase tracking-display text-ink-500">{file.type}</Label>
-                <H3 className="mt-2 text-h5-md">{file.filename}</H3>
-                <Body className="mt-1 text-body-sm text-ink-300">{file.department}</Body>
+                <H3 className="mt-spacing-2 text-h5-md">{file.filename}</H3>
+                <Body className="mt-spacing-1 text-body-sm text-ink-300">{file.department}</Body>
                 <Stack direction="horizontal" gap={2} className="mt-3 flex-wrap text-mono-xs uppercase tracking-kicker text-ink-400">
-                  <Text className="border border-ink-800 px-3 py-1">{file.owner}</Text>
-                  <Text className="border border-ink-800 px-3 py-1">{file.updatedAt}</Text>
+                  <Text className="border border-ink-800 px-spacing-3 py-spacing-1">{file.owner}</Text>
+                  <Text className="border border-ink-800 px-spacing-3 py-spacing-1">{file.updatedAt}</Text>
                 </Stack>
-                <Body className="mt-3 text-mono-xs uppercase tracking-kicker text-ink-500">{file.status}</Body>
+                <Body className="mt-spacing-3 text-mono-xs uppercase tracking-kicker text-ink-500">{file.status}</Body>
               </Article>
             ))}
           </Grid>
@@ -169,13 +168,13 @@ export default function Home() {
             <Table className="min-w-full text-left text-body-sm">
               <TableHeader className="font-code text-mono-xs uppercase tracking-kicker text-ink-500">
                 <TableRow>
-                  <TableHead className="px-4 py-3">Crew</TableHead>
-                  <TableHead className="px-4 py-3">Role</TableHead>
-                  <TableHead className="px-4 py-3">Department</TableHead>
-                  <TableHead className="px-4 py-3">Location</TableHead>
-                  <TableHead className="px-4 py-3">Scheduled</TableHead>
-                  <TableHead className="px-4 py-3">Actual</TableHead>
-                  <TableHead className="px-4 py-3">Method</TableHead>
+                  <TableHead className="px-spacing-4 py-spacing-3">Crew</TableHead>
+                  <TableHead className="px-spacing-4 py-spacing-3">Role</TableHead>
+                  <TableHead className="px-spacing-4 py-spacing-3">Department</TableHead>
+                  <TableHead className="px-spacing-4 py-spacing-3">Location</TableHead>
+                  <TableHead className="px-spacing-4 py-spacing-3">Scheduled</TableHead>
+                  <TableHead className="px-spacing-4 py-spacing-3">Actual</TableHead>
+                  <TableHead className="px-spacing-4 py-spacing-3">Method</TableHead>
                   <TableHead className="px-4 py-3">Status</TableHead>
                 </TableRow>
               </TableHeader>

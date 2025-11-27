@@ -186,7 +186,7 @@ export function ContactWizard() {
                       onChange={(event) => handleChange(field.id, event.target.value)}
                     />
                   )}
-                  <Body className="text-[11px] uppercase tracking-kicker text-ink-500">
+                  <Body className="text-micro uppercase tracking-kicker text-ink-500">
                     {errors[field.id] ? (
                       <Body className="text-ink-50">{errors[field.id]}</Body>
                     ) : (

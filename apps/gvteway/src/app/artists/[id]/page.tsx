@@ -135,7 +135,7 @@ export default function ArtistPage() {
         <Container className="py-16">
           <Stack className="items-center justify-center min-h-[40vh]" gap={4}>
             <H1>Artist Not Found</H1>
-            <Body className="text-grey-600">The artist you are looking for does not exist.</Body>
+            <Body className="text-ink-600">The artist you are looking for does not exist.</Body>
             <Button variant="outline" onClick={() => router.push('/artists')}>
               Browse Artists
             </Button>
@@ -153,7 +153,7 @@ export default function ArtistPage() {
         <Grid cols={3} gap={8} className="border-b-2 border-black pb-8">
           <Stack className="col-span-1">
               {artist.image ? (
-                <Figure className="relative aspect-square bg-grey-100 overflow-hidden">
+                <Figure className="relative aspect-square bg-ink-100 overflow-hidden">
                   <Image
                     src={artist.image}
                     alt={artist.name}
@@ -183,17 +183,17 @@ export default function ArtistPage() {
               )}
 
               {artist.bio && (
-                <Body className="text-grey-600 max-w-2xl">{artist.bio}</Body>
+                <Body className="text-ink-600 max-w-2xl">{artist.bio}</Body>
               )}
 
               <Stack direction="horizontal" gap={6} className="mt-4">
                 <Stack>
                   <H2>{artist.followers_count.toLocaleString()}</H2>
-                  <Label className="text-grey-500">Followers</Label>
+                  <Label className="text-ink-500">Followers</Label>
                 </Stack>
                 <Stack>
                   <H2>{events.length}</H2>
-                  <Label className="text-grey-500">Upcoming Events</Label>
+                  <Label className="text-ink-500">Upcoming Events</Label>
                 </Stack>
               </Stack>
 
@@ -248,8 +248,8 @@ export default function ArtistPage() {
             </Grid>
           ) : (
             <Card className="p-8 text-center">
-              <Body className="text-grey-500">No upcoming events scheduled.</Body>
-              <Body className="text-grey-600 text-body-sm mt-2">
+              <Body className="text-ink-500">No upcoming events scheduled.</Body>
+              <Body className="text-ink-600 text-body-sm mt-2">
                 Follow {artist.name} to get notified when new events are announced.
               </Body>
             </Card>

@@ -58,7 +58,7 @@ export default function GvtewayIntegrationsPage() {
         <Stack gap={8}>
           <Stack gap={2} className="border-b-2 border-black pb-8">
             <H1>Platform Integrations</H1>
-            <Body className="text-grey-600">
+            <Body className="text-ink-600">
               Connect ticket sales, guest data, and event operations with backend systems.
             </Body>
           </Stack>
@@ -161,41 +161,41 @@ export default function GvtewayIntegrationsPage() {
             </Stack>
 
             <Stack gap={4}>
-              <Card className="p-4 border border-grey-800">
+              <Card className="p-4 border border-ink-800">
                 <Stack gap={4} direction="horizontal" className="items-center">
                   <Stack gap={1} className="flex-1">
                     <Body className="font-bold">Ticket Sales → Financial Records</Body>
-                    <Body className="text-body-sm text-grey-600">GVTEWAY → ATLVS Ledger</Body>
+                    <Body className="text-body-sm text-ink-600">GVTEWAY → ATLVS Ledger</Body>
                   </Stack>
                   <Badge variant="solid">Real-time</Badge>
                 </Stack>
               </Card>
 
-              <Card className="p-4 border border-grey-800">
+              <Card className="p-4 border border-ink-800">
                 <Stack gap={4} direction="horizontal" className="items-center">
                   <Stack gap={1} className="flex-1">
                     <Body className="font-bold">Event Updates → Production Schedule</Body>
-                    <Body className="text-body-sm text-grey-600">COMPVSS → GVTEWAY Events</Body>
+                    <Body className="text-body-sm text-ink-600">COMPVSS → GVTEWAY Events</Body>
                   </Stack>
                   <Badge variant="solid">Bi-directional</Badge>
                 </Stack>
               </Card>
 
-              <Card className="p-4 border border-grey-800">
+              <Card className="p-4 border border-ink-800">
                 <Stack gap={4} direction="horizontal" className="items-center">
                   <Stack gap={1} className="flex-1">
                     <Body className="font-bold">Guest Profiles → CRM Database</Body>
-                    <Body className="text-body-sm text-grey-600">GVTEWAY → ATLVS Contacts</Body>
+                    <Body className="text-body-sm text-ink-600">GVTEWAY → ATLVS Contacts</Body>
                   </Stack>
                   <Badge variant="outline">Nightly Batch</Badge>
                 </Stack>
               </Card>
 
-              <Card className="p-4 border border-grey-800">
+              <Card className="p-4 border border-ink-800">
                 <Stack gap={4} direction="horizontal" className="items-center">
                   <Stack gap={1} className="flex-1">
                     <Body className="font-bold">Inventory → Merchandise Stock</Body>
-                    <Body className="text-body-sm text-grey-600">ATLVS Assets → GVTEWAY Store</Body>
+                    <Body className="text-body-sm text-ink-600">ATLVS Assets → GVTEWAY Store</Body>
                   </Stack>
                   <Badge variant="solid">Real-time</Badge>
                 </Stack>

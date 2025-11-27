@@ -27,9 +27,9 @@ export function TaskBoard({ tasks, onUpdateTask: _onUpdateTask }: TaskBoardProps
 
   const getPriorityBorder = (priority: string) => {
     switch (priority) {
-      case 'high': return 'border-l-[4px] border-l-black';
-      case 'medium': return 'border-l-[4px] border-l-grey-600';
-      case 'low': return 'border-l-[4px] border-l-grey-400';
+      case 'high': return 'border-l-4 border-l-black';
+      case 'medium': return 'border-l-4 border-l-ink-600';
+      case 'low': return 'border-l-4 border-l-ink-400';
       default: return '';
     }
   };
@@ -48,12 +48,12 @@ export function TaskBoard({ tasks, onUpdateTask: _onUpdateTask }: TaskBoardProps
               {columnTasks.map(task => (
                 <Stack
                   key={task.id}
-                  className={`cursor-pointer border-2 border-grey-300 p-4 hover:border-black transition-colors ${getPriorityBorder(task.priority)}`}
+                  className={`cursor-pointer border-2 border-ink-300 p-spacing-4 hover:border-black transition-colors ${getPriorityBorder(task.priority)}`}
                   onClick={() => _setSelectedTask(task)}
                   gap={2}
                 >
                   <H4>{task.title}</H4>
-                  <Body className="text-body-sm text-grey-600">
+                  <Body className="text-body-sm text-ink-600">
                     Assigned to: {task.assignee}
                   </Body>
                   <Badge variant="outline" size="sm" className="self-start">

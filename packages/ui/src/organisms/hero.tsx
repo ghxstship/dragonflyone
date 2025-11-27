@@ -1,6 +1,7 @@
 import { forwardRef } from "react";
 import clsx from "clsx";
 import type { HTMLAttributes, ReactNode } from "react";
+import { colors } from "../tokens.js";
 
 export type HeroProps = HTMLAttributes<HTMLElement> & {
   title: string | ReactNode;
@@ -13,14 +14,14 @@ export type HeroProps = HTMLAttributes<HTMLElement> & {
 
 export const Hero = forwardRef<HTMLElement, HeroProps>(
   function Hero({ title, subtitle, cta, background = "black", pattern = "none", fullHeight = true, className, ...props }, ref) {
-    const patternColor = background === "black" ? "#FFFFFF" : "#000000";
+    const patternColor = background === "black" ? colors.white : colors.black;
     
     return (
       <section
         ref={ref}
         className={clsx(
           "relative overflow-hidden",
-          fullHeight ? "min-h-screen" : "min-h-[60vh]",
+          fullHeight ? "min-h-screen" : "min-h-spacing-96",
           background === "black" ? "bg-black text-white" : "bg-white text-black",
           className
         )}
@@ -49,10 +50,10 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
           />
         )}
 
-        <div className="container mx-auto px-4 h-full flex items-center justify-center relative z-10">
+        <div className="container mx-auto px-spacing-4 h-full flex items-center justify-center relative z-10">
           <div className="text-center max-w-5xl">
             {typeof title === "string" ? (
-              <h1 className="font-display text-display-md md:text-display-lg lg:text-display-xl uppercase leading-none tracking-tightest mb-6">
+              <h1 className="font-display text-display-md md:text-display-lg lg:text-display-xl uppercase leading-none tracking-tightest mb-spacing-6">
                 {title}
               </h1>
             ) : (
@@ -60,7 +61,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
             )}
             
             {subtitle && (
-              <div className="mb-8">
+              <div className="mb-spacing-8">
                 {typeof subtitle === "string" ? (
                   <p className="font-heading text-h3-sm md:text-h1-md uppercase tracking-wider leading-normal">
                     {subtitle}
@@ -71,7 +72,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
               </div>
             )}
 
-            {cta && <div className="flex justify-center gap-4">{cta}</div>}
+            {cta && <div className="flex justify-center gap-gap-md">{cta}</div>}
           </div>
         </div>
       </section>

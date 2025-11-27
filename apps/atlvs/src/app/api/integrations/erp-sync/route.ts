@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
+import crypto from 'crypto';
 
 const ERPConnectionSchema = z.object({
   provider: z.enum(['netsuite', 'quickbooks', 'xero']),
@@ -425,7 +426,6 @@ export async function PATCH(request: NextRequest) {
 
 // Helper function
 function generateSignature(id: string): string {
-  const crypto = require('crypto');
   const secret = process.env.EXPORT_SIGNING_SECRET || 'default-secret';
   return crypto.createHmac('sha256', secret).update(id).digest('hex').substring(0, 32);
 }

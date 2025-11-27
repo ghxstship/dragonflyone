@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 import clsx from "clsx";
-import type { HTMLAttributes } from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 
 export const Container = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement> & { size?: "sm" | "md" | "lg" | "xl" | "full" }>(
   function Container({ size = "lg", className, children, ...props }, ref) {
@@ -15,7 +15,7 @@ export const Container = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElemen
     return (
       <div
         ref={ref}
-        className={clsx("mx-auto px-4", sizeClasses[size], className)}
+        className={clsx("mx-auto px-spacing-4", sizeClasses[size], className)}
         {...props}
       >
         {children}
@@ -25,33 +25,115 @@ export const Container = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElemen
 );
 
 export type SectionProps = HTMLAttributes<HTMLElement> & {
-  background?: "white" | "black" | "grey" | "ink";
+  /** Background color scheme */
+  background?: "white" | "black" | "grey" | "ink" | "transparent";
+  /** Whether to use full width without container */
   fullWidth?: boolean;
+  /** Remove default vertical padding */
   noPadding?: boolean;
+  /** Add border styling */
   border?: boolean;
+  /** Kicker text above title */
+  kicker?: string;
+  /** Section title */
+  title?: string | ReactNode;
+  /** Description text below title */
+  description?: string | ReactNode;
+  /** Header alignment when using kicker/title/description */
+  align?: "left" | "center" | "right";
+  /** Gap between section elements */
+  gap?: number;
 };
 
 export const Section = forwardRef<HTMLElement, SectionProps>(
-  function Section({ background = "white", fullWidth = false, noPadding = false, border = false, className, children, ...props }, ref) {
-    const bgClasses = {
-      white: "bg-white text-black",
-      black: "bg-black text-white",
-      grey: "bg-grey-100 text-black",
+  function Section({ 
+    background, 
+    fullWidth = false, 
+    noPadding = false, 
+    border = false, 
+    kicker,
+    title,
+    description,
+    align = "left",
+    gap = 6,
+    className, 
+    children, 
+    ...props 
+  }, ref) {
+    const bgClasses: Record<string, string> = {
+      white: "bg-surface-primary text-text-primary",
+      black: "bg-surface-inverse text-text-inverse",
+      grey: "bg-surface-secondary text-text-primary",
       ink: "bg-ink-950 text-ink-50",
     };
+
+    const alignClasses = {
+      left: "text-left",
+      center: "text-center",
+      right: "text-right",
+    };
+
+    const hasHeader = kicker || title || description;
+    // Determine if dark context: explicit dark background, or border (assumes dark parent)
+    const isDark = background === "ink" || background === "black" || (border && !background);
+
+    // Render header content if kicker/title/description provided
+    const headerContent = hasHeader ? (
+      <div className={clsx("flex flex-col gap-spacing-3", alignClasses[align])}>
+        {kicker && (
+          <span className={clsx(
+            "font-mono text-mono-xs uppercase tracking-kicker",
+            isDark ? "text-ink-400" : "text-ink-500"
+          )}>
+            {kicker}
+          </span>
+        )}
+        {title && (
+          typeof title === "string" ? (
+            <h2 className={clsx(
+              "font-display text-h2-sm md:text-h2-md uppercase tracking-tight",
+              isDark ? "text-white" : "text-black"
+            )}>
+              {title}
+            </h2>
+          ) : title
+        )}
+        {description && (
+          typeof description === "string" ? (
+            <p className={clsx(
+              "font-body text-body-md",
+              isDark ? "text-ink-300" : "text-ink-600",
+              align === "center" ? "mx-auto max-w-2xl" : "max-w-3xl"
+            )}>
+              {description}
+            </p>
+          ) : description
+        )}
+      </div>
+    ) : null;
+
+    const content = (
+      <div className={clsx("flex flex-col", `gap-spacing-${gap}`)}>
+        {headerContent}
+        {children}
+      </div>
+    );
+
+    // Only apply background class if explicitly set (bordered sections inherit from parent)
+    const bgClass = background ? bgClasses[background] : (!border ? bgClasses.white : undefined);
 
     return (
       <section
         ref={ref}
         className={clsx(
-          bgClasses[background],
-          !noPadding && "py-16 md:py-24",
-          border && "border border-ink-800 p-6",
+          bgClass,
+          !noPadding && !border && "py-spacing-16 md:py-spacing-24",
+          border && "border border-ink-800 p-spacing-6",
           className
         )}
         {...props}
       >
-        {fullWidth ? children : <div className="container mx-auto px-4">{children}</div>}
+        {fullWidth || border ? content : <div className="container mx-auto px-spacing-4">{content}</div>}
       </section>
     );
   }
@@ -72,13 +154,13 @@ export const Grid = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement> & 
     };
 
     const gapClasses: Record<string, string> = {
-      sm: "gap-2",
-      md: "gap-4",
-      lg: "gap-6",
-      xl: "gap-8",
+      sm: "gap-spacing-2",
+      md: "gap-spacing-4",
+      lg: "gap-spacing-6",
+      xl: "gap-spacing-8",
     };
 
-    const gapClass = typeof gap === "string" ? gapClasses[gap] : `gap-${gap}`;
+    const gapClass = typeof gap === "string" ? gapClasses[gap] : `gap-spacing-${gap}`;
 
     return (
       <div
@@ -100,7 +182,7 @@ export const Stack = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement> &
         className={clsx(
           "flex",
           direction === "vertical" ? "flex-col" : "flex-row",
-          `gap-${gap}`,
+          `gap-spacing-${gap}`,
           className
         )}
         {...props}

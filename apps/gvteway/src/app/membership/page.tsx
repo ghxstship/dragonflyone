@@ -74,8 +74,8 @@ export default function MembershipPage() {
           logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
           cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/profile')}>PROFILE</Button>}
         >
-          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Home</Link>
-          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Events</Link>
+          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Home</Link>
+          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Events</Link>
         </Navigation>
       }
       footer={
@@ -95,7 +95,7 @@ export default function MembershipPage() {
           <Stack gap={12}>
             <Stack gap={4} className="text-center">
               <H2 className="text-white">Membership Tiers</H2>
-              <Body className="text-grey-400">
+              <Body className="text-ink-400">
                 Unlock exclusive benefits and early access to the best events
               </Body>
             </Stack>
@@ -107,7 +107,7 @@ export default function MembershipPage() {
                   <Card
                     key={tier.id}
                     className={`border-2 ${
-                      tier.id === "premium" ? "border-white" : "border-grey-800"
+                      tier.id === "premium" ? "border-white" : "border-ink-800"
                     } p-8 bg-black ${tier.id === "premium" ? "relative" : ""}`}
                   >
                     {tier.id === "premium" && (
@@ -119,7 +119,7 @@ export default function MembershipPage() {
                         <Stack gap={2} direction="horizontal" className="items-baseline">
                           <Display size="md" className="text-white">${tier.price}</Display>
                           {tier.price > 0 && (
-                            <Body className="font-mono text-body-sm text-grey-400">/month</Body>
+                            <Body className="font-mono text-body-sm text-ink-400">/month</Body>
                           )}
                         </Stack>
                       </Stack>
@@ -128,7 +128,7 @@ export default function MembershipPage() {
                         {tier.features.map((feature, idx) => (
                           <Stack key={idx} gap={2} direction="horizontal" className="items-start">
                             <Body className="text-white">✓</Body>
-                            <Body className="text-body-sm text-grey-300">{feature}</Body>
+                            <Body className="text-body-sm text-ink-300">{feature}</Body>
                           </Stack>
                         ))}
                       </Stack>
@@ -154,29 +154,29 @@ export default function MembershipPage() {
               })}
             </Grid>
 
-            <Card className="border-2 border-grey-800 p-8 bg-black">
+            <Card className="border-2 border-ink-800 p-8 bg-black">
               <Stack gap={6}>
                 <H3 className="text-white">Membership Benefits</H3>
                 <Grid cols={2} gap={6}>
                   <StatCard
                     value="Free"
                     label="Current Tier"
-                    className="bg-black text-white border-grey-800"
+                    className="bg-black text-white border-ink-800"
                   />
                   <StatCard
                     value="Jan 2024"
                     label="Member Since"
-                    className="bg-black text-white border-grey-800"
+                    className="bg-black text-white border-ink-800"
                   />
                   <StatCard
                     value={12}
                     label="Events Attended"
-                    className="bg-black text-white border-grey-800"
+                    className="bg-black text-white border-ink-800"
                   />
                   <StatCard
                     value="$0"
                     label="Total Savings"
-                    className="bg-black text-white border-grey-800"
+                    className="bg-black text-white border-ink-800"
                   />
                 </Grid>
               </Stack>

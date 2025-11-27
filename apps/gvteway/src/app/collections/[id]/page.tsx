@@ -88,7 +88,7 @@ export default function CollectionPage() {
         <Container className="py-16">
           <Stack className="items-center justify-center min-h-[40vh]" gap={4}>
             <H1>Collection Not Found</H1>
-            <Body className="text-grey-600">
+            <Body className="text-ink-600">
               The collection you are looking for does not exist.
             </Body>
             <Button variant="outline" onClick={() => router.push('/discover')}>
@@ -109,7 +109,7 @@ export default function CollectionPage() {
           <Stack gap={2}>
             <H1>{collection.name}</H1>
             {collection.description && (
-              <Body className="text-grey-600 max-w-2xl">
+              <Body className="text-ink-600 max-w-2xl">
                 {collection.description}
               </Body>
             )}
@@ -137,7 +137,7 @@ export default function CollectionPage() {
           </Grid>
         ) : (
           <Stack className="items-center py-12">
-            <Body className="text-grey-500">No events in this collection yet.</Body>
+            <Body className="text-ink-500">No events in this collection yet.</Body>
           </Stack>
         )}
         </Stack>

@@ -3,8 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter, notFound } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../../components/navigation";
-import { Badge, Section } from "../../../components/section";
-import { ProgressBar, Button, Stack, StatusBadge, LoadingSpinner, Container, useNotifications, H1, H2, H3, Body, Label, Card, Grid, Link } from "@ghxstship/ui";
+import { ProgressBar, Button, Stack, StatusBadge, LoadingSpinner, Container, useNotifications, H1, H2, H3, Body, Label, Card, Grid, Link, Badge, Section } from "@ghxstship/ui";
 
 interface Project {
   id: string;
@@ -137,13 +136,13 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
         <Stack direction="horizontal" className="items-start justify-between">
           <Stack>
             <Stack direction="horizontal" gap={3} className="items-center">
-              <Link href="/dashboard" className="text-grey-400 hover:text-white">
+              <Link href="/dashboard" className="text-ink-400 hover:text-white">
                 ← Back
               </Link>
               <Badge variant="outline">{project.id}</Badge>
             </Stack>
             <H1 className="mt-4 text-white">{project.name}</H1>
-            <Body className="mt-2 font-mono text-body-sm uppercase tracking-widest text-grey-400">{project.client?.name || project.client_name || "—"}</Body>
+            <Body className="mt-2 font-mono text-body-sm uppercase tracking-widest text-ink-400">{project.client?.name || project.client_name || "—"}</Body>
           </Stack>
           <StatusBadge
             status={

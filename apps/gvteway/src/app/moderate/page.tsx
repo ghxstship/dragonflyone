@@ -51,7 +51,7 @@ export default function ModeratePage() {
         <Stack gap={8}>
         <Stack gap={2} className="border-b-2 border-black pb-8">
           <H1>Moderation</H1>
-          <Body className="text-grey-600">Review and moderate user content</Body>
+          <Body className="text-ink-600">Review and moderate user content</Body>
         </Stack>
 
         <Grid cols={3} className="mb-8">

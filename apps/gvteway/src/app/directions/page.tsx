@@ -210,7 +210,7 @@ function DirectionsContent() {
             <Stack gap={2}>
               <H1>Directions & Parking</H1>
               {venue && (
-                <Body className="text-grey-600">
+                <Body className="text-ink-600">
                   {venue.name} • {venue.address}, {venue.city}, {venue.state}
                 </Body>
               )}
@@ -268,13 +268,13 @@ function DirectionsContent() {
                           <H3>{lot.name}</H3>
                           {getParkingTypeBadge(lot.type)}
                         </Stack>
-                        <Body className="text-body-sm text-grey-600">{lot.address}</Body>
+                        <Body className="text-body-sm text-ink-600">{lot.address}</Body>
                         <Stack direction="horizontal" gap={4}>
                           <Body className="text-body-sm">
-                            <Label className="text-grey-500">Distance:</Label> {lot.distance}
+                            <Label className="text-ink-500">Distance:</Label> {lot.distance}
                           </Body>
                           <Body className="text-body-sm">
-                            <Label className="text-grey-500">Price:</Label> {lot.price}
+                            <Label className="text-ink-500">Price:</Label> {lot.price}
                           </Body>
                         </Stack>
                         {lot.amenities.length > 0 && (
@@ -291,7 +291,7 @@ function DirectionsContent() {
                         <Body className={`text-h5-md font-bold ${getAvailabilityColor(lot.spaces_available, lot.total_spaces)}`}>
                           {lot.spaces_available}
                         </Body>
-                        <Body className="text-mono-xs text-grey-500">
+                        <Body className="text-mono-xs text-ink-500">
                           of {lot.total_spaces} spaces
                         </Body>
                       </Stack>
@@ -301,7 +301,7 @@ function DirectionsContent() {
               </Stack>
             ) : (
               <Card className="p-8 text-center">
-                <Body className="text-grey-600">No parking information available</Body>
+                <Body className="text-ink-600">No parking information available</Body>
               </Card>
             )}
 
@@ -314,9 +314,9 @@ function DirectionsContent() {
                       <Body className="text-h5-md">{getTransportIcon(option.type)}</Body>
                       <Stack className="flex-1">
                         <Body className="font-bold">{option.name}</Body>
-                        <Body className="text-body-sm text-grey-600">{option.description}</Body>
+                        <Body className="text-body-sm text-ink-600">{option.description}</Body>
                         {option.pickup_location && (
-                          <Body className="text-mono-xs text-grey-500">
+                          <Body className="text-mono-xs text-ink-500">
                             Pickup: {option.pickup_location}
                           </Body>
                         )}
@@ -324,7 +324,7 @@ function DirectionsContent() {
                       <Stack className="text-right">
                         <Body className="font-bold">{option.estimated_time}</Body>
                         {option.estimated_cost && (
-                          <Body className="text-body-sm text-grey-500">{option.estimated_cost}</Body>
+                          <Body className="text-body-sm text-ink-500">{option.estimated_cost}</Body>
                         )}
                       </Stack>
                     </Stack>
@@ -333,7 +333,7 @@ function DirectionsContent() {
               </Stack>
             ) : (
               <Card className="p-8 text-center">
-                <Body className="text-grey-600">No alternative transport options available</Body>
+                <Body className="text-ink-600">No alternative transport options available</Body>
               </Card>
             )}
           </Stack>
@@ -360,7 +360,7 @@ function DirectionsContent() {
             {!userLocation ? (
               <Card className="p-8 text-center">
                 <H3 className="mb-4">ENABLE LOCATION</H3>
-                <Body className="text-grey-600 mb-6">
+                <Body className="text-ink-600 mb-6">
                   Allow location access to get turn-by-turn directions
                 </Body>
                 <Button variant="solid" onClick={getUserLocation}>
@@ -378,8 +378,8 @@ function DirectionsContent() {
                       <Stack className="flex-1">
                         <Body>{step.instruction}</Body>
                         <Stack direction="horizontal" gap={4}>
-                          <Body className="text-body-sm text-grey-500">{step.distance}</Body>
-                          <Body className="text-body-sm text-grey-500">{step.duration}</Body>
+                          <Body className="text-body-sm text-ink-500">{step.distance}</Body>
+                          <Body className="text-body-sm text-ink-500">{step.duration}</Body>
                         </Stack>
                       </Stack>
                     </Stack>
@@ -388,16 +388,16 @@ function DirectionsContent() {
               </Card>
             ) : (
               <Card className="p-8 text-center">
-                <Body className="text-grey-600">Calculating route...</Body>
+                <Body className="text-ink-600">Calculating route...</Body>
               </Card>
             )}
 
             {venue && (
-              <Card className="p-6 bg-grey-50">
+              <Card className="p-6 bg-ink-50">
                 <H3 className="mb-4">VENUE INFORMATION</H3>
                 <Stack gap={3}>
                   <Stack direction="horizontal" className="justify-between">
-                    <Label className="text-grey-500">Address</Label>
+                    <Label className="text-ink-500">Address</Label>
                     <Body className="text-right">
                       {venue.address}<br />
                       {venue.city}, {venue.state} {venue.zip}
@@ -420,7 +420,7 @@ function DirectionsContent() {
                 <H3 className="mb-4">SELECTED PARKING</H3>
                 <Stack gap={3}>
                   <Body className="font-bold">{selectedParking.name}</Body>
-                  <Body className="text-body-sm text-grey-600">{selectedParking.address}</Body>
+                  <Body className="text-body-sm text-ink-600">{selectedParking.address}</Body>
                   <Stack direction="horizontal" className="justify-between">
                     <Body>Price</Body>
                     <Body className="font-bold">{selectedParking.price}</Body>

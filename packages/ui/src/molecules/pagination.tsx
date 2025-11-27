@@ -7,10 +7,11 @@ export type PaginationProps = HTMLAttributes<HTMLDivElement> & {
   totalPages: number;
   onPageChange: (page: number) => void;
   siblingCount?: number;
+  inverted?: boolean;
 };
 
 export const Pagination = forwardRef<HTMLDivElement, PaginationProps>(
-  function Pagination({ currentPage, totalPages, onPageChange, siblingCount = 1, className, ...props }, ref) {
+  function Pagination({ currentPage, totalPages, onPageChange, siblingCount = 1, inverted = false, className, ...props }, ref) {
     const range = (start: number, end: number) => {
       const length = end - start + 1;
       return Array.from({ length }, (_, idx) => start + idx);
@@ -54,16 +55,20 @@ export const Pagination = forwardRef<HTMLDivElement, PaginationProps>(
 
     const paginationRange = generatePagination();
 
+    const navButtonClasses = inverted
+      ? "px-spacing-3 py-spacing-2 border-2 border-grey-500 text-grey-200 bg-transparent hover:bg-white hover:text-black hover:border-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-base font-heading uppercase text-mono-sm"
+      : "px-spacing-3 py-spacing-2 border-2 border-black text-black bg-white hover:bg-black hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-base font-heading uppercase text-mono-sm";
+
     return (
       <div
         ref={ref}
-        className={clsx("flex items-center justify-center gap-2", className)}
+        className={clsx("flex flex-wrap items-center justify-center gap-gap-xs", className)}
         {...props}
       >
         <button
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className="px-3 py-2 border-2 border-black text-black bg-white hover:bg-black hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-base font-heading uppercase text-mono-sm"
+          className={navButtonClasses}
         >
           Previous
         </button>
@@ -71,7 +76,7 @@ export const Pagination = forwardRef<HTMLDivElement, PaginationProps>(
         {paginationRange.map((pageNumber, index) => {
           if (pageNumber === "...") {
             return (
-              <span key={`dots-${index}`} className="px-2 text-grey-500">
+              <span key={`dots-${index}`} className={clsx("px-spacing-2", inverted ? "text-grey-500" : "text-grey-500")}>
                 ...
               </span>
             );
@@ -82,10 +87,14 @@ export const Pagination = forwardRef<HTMLDivElement, PaginationProps>(
               key={pageNumber}
               onClick={() => onPageChange(pageNumber as number)}
               className={clsx(
-                "px-4 py-2 border-2 transition-colors duration-base font-heading uppercase text-mono-sm min-w-11",
+                "px-spacing-4 py-spacing-2 border-2 transition-colors duration-base font-heading uppercase text-mono-sm min-w-spacing-11",
                 currentPage === pageNumber
-                  ? "border-black bg-black text-white"
-                  : "border-grey-300 bg-white text-black hover:border-black"
+                  ? inverted
+                    ? "border-white bg-white text-black"
+                    : "border-black bg-black text-white"
+                  : inverted
+                    ? "border-grey-600 bg-transparent text-grey-300 hover:border-grey-400"
+                    : "border-grey-300 bg-white text-black hover:border-black"
               )}
             >
               {pageNumber}
@@ -96,7 +105,7 @@ export const Pagination = forwardRef<HTMLDivElement, PaginationProps>(
         <button
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="px-3 py-2 border-2 border-black text-black bg-white hover:bg-black hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-base font-heading uppercase text-mono-sm"
+          className={navButtonClasses}
         >
           Next
         </button>

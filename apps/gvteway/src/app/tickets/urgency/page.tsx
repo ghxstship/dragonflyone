@@ -58,8 +58,8 @@ export default function UrgencyTacticsPage() {
     switch (status) {
       case "Active": return "text-success-600";
       case "Scheduled": return "text-info-600";
-      case "Ended": return "text-grey-600";
-      default: return "text-grey-600";
+      case "Ended": return "text-ink-600";
+      default: return "text-ink-600";
     }
   };
 
@@ -83,7 +83,7 @@ export default function UrgencyTacticsPage() {
         <Stack gap={8}>
           <Stack gap={2} className="border-b-2 border-black pb-8">
             <H1>Urgency Tactics</H1>
-            <Body className="text-grey-600">Countdown timers and low inventory alerts</Body>
+            <Body className="text-ink-600">Countdown timers and low inventory alerts</Body>
           </Stack>
 
           <Card className="border-2 border-error-500 p-6 bg-error-50">
@@ -104,7 +104,7 @@ export default function UrgencyTacticsPage() {
                 ].map((item) => (
                   <Card key={item.label} className="p-3 border-2 border-error-300 text-center bg-white">
                     <Label className="font-mono text-h4-md text-error-600">{String(item.value).padStart(2, "0")}</Label>
-                    <Label className="text-grey-500">{item.label}</Label>
+                    <Label className="text-ink-500">{item.label}</Label>
                   </Card>
                 ))}
               </Grid>
@@ -141,22 +141,22 @@ export default function UrgencyTacticsPage() {
                     </Stack>
                   </Stack>
                   <Stack gap={1} className="col-span-2">
-                    <Label className="text-grey-500">Message</Label>
+                    <Label className="text-ink-500">Message</Label>
                     <Label>{tactic.message}</Label>
                   </Stack>
                   {tactic.threshold && (
                     <Stack gap={2}>
                       <Stack direction="horizontal" className="justify-between">
-                        <Label className="text-grey-500">Inventory</Label>
+                        <Label className="text-ink-500">Inventory</Label>
                         <Label className={tactic.currentValue && tactic.currentValue < 25 ? "text-error-600" : ""}>{tactic.currentValue} / {tactic.threshold}</Label>
                       </Stack>
                       <ProgressBar value={((tactic.currentValue || 0) / tactic.threshold) * 100} className="h-2" />
                     </Stack>
                   )}
-                  {!tactic.threshold && <Label className="text-grey-500">{tactic.endDate}</Label>}
+                  {!tactic.threshold && <Label className="text-ink-500">{tactic.endDate}</Label>}
                   <Stack gap={1}>
                     <Label className={getStatusColor(tactic.status)}>{tactic.status}</Label>
-                    <Label className="text-grey-500">{tactic.conversions} conversions</Label>
+                    <Label className="text-ink-500">{tactic.conversions} conversions</Label>
                   </Stack>
                   <Button variant="outline" size="sm" onClick={() => setSelectedTactic(tactic)}>Configure</Button>
                 </Grid>
@@ -173,7 +173,7 @@ export default function UrgencyTacticsPage() {
                     <Label className="text-h5-md">🔥</Label>
                     <Stack gap={1}>
                       <Label className="font-bold text-warning-600">Only 23 VIP tickets left!</Label>
-                      <Label className="text-grey-600">High demand - selling fast</Label>
+                      <Label className="text-ink-600">High demand - selling fast</Label>
                     </Stack>
                   </Stack>
                 </Card>
@@ -182,7 +182,7 @@ export default function UrgencyTacticsPage() {
                     <Label className="text-h5-md">⚡</Label>
                     <Stack gap={1}>
                       <Label className="font-bold text-error-600">Final 12 tickets available!</Label>
-                      <Label className="text-grey-600">Last chance to attend</Label>
+                      <Label className="text-ink-600">Last chance to attend</Label>
                     </Stack>
                   </Stack>
                 </Card>
@@ -217,7 +217,7 @@ export default function UrgencyTacticsPage() {
                 <Input type="number" defaultValue={selectedTactic.threshold} placeholder="Threshold" className="border-2 border-black" />
               )}
               <Stack gap={2}>
-                <Label className="text-grey-500">Display Options</Label>
+                <Label className="text-ink-500">Display Options</Label>
                 <Stack gap={1}>
                   {["Show on event page", "Show in checkout", "Show in email", "Show in app notifications"].map((opt, idx) => (
                     <Stack key={idx} direction="horizontal" gap={2}>
@@ -228,7 +228,7 @@ export default function UrgencyTacticsPage() {
                 </Stack>
               </Stack>
               <Stack gap={1}>
-                <Label className="text-grey-500">Performance</Label>
+                <Label className="text-ink-500">Performance</Label>
                 <Label className="font-mono">{selectedTactic.conversions} conversions attributed</Label>
               </Stack>
             </Stack>

@@ -97,7 +97,7 @@ export default function WishlistPage() {
         <Stack gap={4} direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
           <Stack gap={2}>
             <H1>My Wishlist</H1>
-            <Body className="text-grey-600">{wishlist.length} events saved</Body>
+            <Body className="text-ink-600">{wishlist.length} events saved</Body>
           </Stack>
           <Button variant="outline" onClick={() => navigator.share?.({ title: 'My Wishlist', url: window.location.href }) || alert('Share link copied!')}>
             <Heart className="w-4 h-4 mr-2" />
@@ -107,9 +107,9 @@ export default function WishlistPage() {
 
         {wishlist.length === 0 ? (
           <Card className="p-12 text-center">
-            <Heart className="w-16 h-16 mx-auto mb-4 text-grey-600" />
+            <Heart className="w-16 h-16 mx-auto mb-4 text-ink-600" />
             <H2 className="mb-2">NO EVENTS SAVED</H2>
-            <Body className="text-grey-500 mb-6">
+            <Body className="text-ink-500 mb-6">
               Start building your wishlist by saving events you love
             </Body>
             <Button onClick={() => window.location.href = '/events'}>
@@ -121,13 +121,13 @@ export default function WishlistPage() {
             {wishlist.map((event) => (
               <Card key={event.id} className="p-6 hover:shadow-hard-lg transition-shadow">
                 <Stack direction="horizontal" gap={6}>
-                  <Card className="w-48 h-32 bg-grey-200 flex-shrink-0" />
+                  <Card className="w-48 h-32 bg-ink-200 flex-shrink-0" />
                   
                   <Stack className="flex-1">
                     <Stack direction="horizontal" className="items-start justify-between mb-3">
                       <Stack>
                         <H2 className="mb-2">{event.event_name}</H2>
-                        <Stack direction="horizontal" gap={4} className="text-body-sm text-grey-600">
+                        <Stack direction="horizontal" gap={4} className="text-body-sm text-ink-600">
                           <Stack direction="horizontal" gap={1} className="items-center">
                             <Calendar className="w-4 h-4" />
                             <Body>{new Date(event.date).toLocaleDateString('en-US', { 
@@ -150,7 +150,7 @@ export default function WishlistPage() {
                     <Stack direction="horizontal" className="items-center justify-between">
                       <Stack direction="horizontal" gap={4} className="items-center">
                         <Stack direction="horizontal" gap={2} className="items-center">
-                          <DollarSign className="w-5 h-5 text-grey-600" />
+                          <DollarSign className="w-5 h-5 text-ink-600" />
                           <H3>From ${event.price}</H3>
                         </Stack>
                         {event.available ? (
@@ -158,7 +158,7 @@ export default function WishlistPage() {
                             {event.tickets_left} TICKETS LEFT
                           </Badge>
                         ) : (
-                          <Badge className="bg-grey-900 text-white">
+                          <Badge className="bg-ink-900 text-white">
                             SOLD OUT
                           </Badge>
                         )}
@@ -184,11 +184,11 @@ export default function WishlistPage() {
         )}
 
         {wishlist.length > 0 && (
-          <Card className="p-6 mt-8 bg-grey-50">
+          <Card className="p-6 mt-8 bg-ink-50">
             <Stack direction="horizontal" className="items-center justify-between">
               <Stack>
                 <H3 className="mb-1">PRICE ALERTS ENABLED</H3>
-                <Body className="text-body-sm text-grey-600">
+                <Body className="text-body-sm text-ink-600">
                   We&apos;ll notify you when prices drop for events on your wishlist
                 </Body>
               </Stack>

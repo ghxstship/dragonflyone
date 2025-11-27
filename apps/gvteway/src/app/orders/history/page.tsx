@@ -109,7 +109,7 @@ export default function OrderHistoryPage() {
       case 'cancelled':
         return <Badge className="bg-error-500 text-white">Cancelled</Badge>;
       case 'refunded':
-        return <Badge className="bg-grey-500 text-white">Refunded</Badge>;
+        return <Badge className="bg-ink-500 text-white">Refunded</Badge>;
       default:
         return <Badge>{status}</Badge>;
     }
@@ -160,26 +160,26 @@ export default function OrderHistoryPage() {
         <Stack gap={8}>
         <Stack gap={2} className="border-b-2 border-black pb-8">
           <H1>Order History</H1>
-          <Body className="text-grey-600">
+          <Body className="text-ink-600">
             View and manage all your past purchases
           </Body>
         </Stack>
 
         <Grid cols={4} gap={4} className="mb-8">
           <Card className="p-4">
-            <Label className="text-grey-500">Total Orders</Label>
+            <Label className="text-ink-500">Total Orders</Label>
             <H2>{orders.length}</H2>
           </Card>
           <Card className="p-4">
-            <Label className="text-grey-500">Completed</Label>
+            <Label className="text-ink-500">Completed</Label>
             <H2>{orders.filter(o => o.status === 'completed').length}</H2>
           </Card>
           <Card className="p-4">
-            <Label className="text-grey-500">Total Spent</Label>
+            <Label className="text-ink-500">Total Spent</Label>
             <H2>${totalSpent.toFixed(2)}</H2>
           </Card>
           <Card className="p-4">
-            <Label className="text-grey-500">This Year</Label>
+            <Label className="text-ink-500">This Year</Label>
             <H2>
               {orders.filter(o => 
                 new Date(o.created_at).getFullYear() === new Date().getFullYear()
@@ -231,7 +231,7 @@ export default function OrderHistoryPage() {
               <Card key={order.id} className="overflow-hidden">
                 <Stack
                   direction="horizontal"
-                  className="p-6 cursor-pointer hover:bg-grey-50"
+                  className="p-6 cursor-pointer hover:bg-ink-50"
                   onClick={() => setExpandedOrder(
                     expandedOrder === order.id ? null : order.id
                   )}
@@ -241,32 +241,32 @@ export default function OrderHistoryPage() {
                       <H3>{order.event_title}</H3>
                       {getStatusBadge(order.status)}
                     </Stack>
-                    <Body className="text-grey-600">{order.event_date} • {order.event_venue}</Body>
+                    <Body className="text-ink-600">{order.event_date} • {order.event_venue}</Body>
                     <Stack direction="horizontal" gap={4} className="mt-2">
                       <Stack>
-                        <Label className="text-grey-500 text-mono-xs">Order #</Label>
+                        <Label className="text-ink-500 text-mono-xs">Order #</Label>
                         <Body className="font-mono text-body-sm">{order.order_number}</Body>
                       </Stack>
                       <Stack>
-                        <Label className="text-grey-500 text-mono-xs">Date</Label>
+                        <Label className="text-ink-500 text-mono-xs">Date</Label>
                         <Body className="text-body-sm">
                           {new Date(order.created_at).toLocaleDateString()}
                         </Body>
                       </Stack>
                       <Stack>
-                        <Label className="text-grey-500 text-mono-xs">Items</Label>
+                        <Label className="text-ink-500 text-mono-xs">Items</Label>
                         <Body className="text-body-sm">{order.items.length}</Body>
                       </Stack>
                     </Stack>
                   </Stack>
                   <Stack className="items-end">
                     <H2>${order.total.toFixed(2)}</H2>
-                    <Body className="text-body-sm text-grey-500">{order.payment_method}</Body>
+                    <Body className="text-body-sm text-ink-500">{order.payment_method}</Body>
                   </Stack>
                 </Stack>
 
                 {expandedOrder === order.id && (
-                  <Stack className="border-t border-grey-200 p-6 bg-grey-50">
+                  <Stack className="border-t border-ink-200 p-6 bg-ink-50">
                     <H3 className="mb-4">ORDER DETAILS</H3>
                     
                     <Stack gap={2} className="mb-4">
@@ -274,14 +274,14 @@ export default function OrderHistoryPage() {
                         <Stack
                           key={item.id}
                           direction="horizontal"
-                          className="justify-between py-2 border-b border-grey-200"
+                          className="justify-between py-2 border-b border-ink-200"
                         >
                           <Stack direction="horizontal" gap={2}>
                             <Badge variant="outline" className="text-mono-xs">
                               {item.type}
                             </Badge>
                             <Body>{item.name}</Body>
-                            <Body className="text-grey-500">x{item.quantity}</Body>
+                            <Body className="text-ink-500">x{item.quantity}</Body>
                           </Stack>
                           <Body className="font-mono">${(item.price * item.quantity).toFixed(2)}</Body>
                         </Stack>
@@ -290,18 +290,18 @@ export default function OrderHistoryPage() {
 
                     <Stack gap={1} className="mb-4">
                       <Stack direction="horizontal" className="justify-between">
-                        <Body className="text-grey-600">Subtotal</Body>
+                        <Body className="text-ink-600">Subtotal</Body>
                         <Body className="font-mono">${order.subtotal.toFixed(2)}</Body>
                       </Stack>
                       <Stack direction="horizontal" className="justify-between">
-                        <Body className="text-grey-600">Fees</Body>
+                        <Body className="text-ink-600">Fees</Body>
                         <Body className="font-mono">${order.fees.toFixed(2)}</Body>
                       </Stack>
                       <Stack direction="horizontal" className="justify-between">
-                        <Body className="text-grey-600">Tax</Body>
+                        <Body className="text-ink-600">Tax</Body>
                         <Body className="font-mono">${order.tax.toFixed(2)}</Body>
                       </Stack>
-                      <Stack direction="horizontal" className="justify-between pt-2 border-t border-grey-300">
+                      <Stack direction="horizontal" className="justify-between pt-2 border-t border-ink-300">
                         <Body className="font-bold">Total</Body>
                         <Body className="font-mono font-bold">${order.total.toFixed(2)}</Body>
                       </Stack>
@@ -342,7 +342,7 @@ export default function OrderHistoryPage() {
         ) : (
           <Card className="p-12 text-center">
             <H3 className="mb-4">NO ORDERS FOUND</H3>
-            <Body className="text-grey-600 mb-6">
+            <Body className="text-ink-600 mb-6">
               {searchTerm || statusFilter !== 'all'
                 ? 'No orders match your search criteria.'
                 : "You haven't made any purchases yet."}

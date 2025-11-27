@@ -56,16 +56,16 @@ export default function SocialInboxPage() {
       case "In Progress": return "text-warning-600";
       case "Resolved": return "text-success-600";
       case "Escalated": return "text-error-600";
-      default: return "text-grey-600";
+      default: return "text-ink-600";
     }
   };
 
   const getSentimentColor = (sentiment: string) => {
     switch (sentiment) {
       case "Positive": return "text-success-600";
-      case "Neutral": return "text-grey-600";
+      case "Neutral": return "text-ink-600";
       case "Negative": return "text-error-600";
-      default: return "text-grey-600";
+      default: return "text-ink-600";
     }
   };
 
@@ -81,7 +81,7 @@ export default function SocialInboxPage() {
         <Stack gap={8}>
           <Stack gap={2}>
             <H1>SOCIAL INBOX</H1>
-            <Body className="text-grey-600">Unified social customer service inbox</Body>
+            <Body className="text-ink-600">Unified social customer service inbox</Body>
           </Stack>
 
           <Grid cols={4} gap={6}>
@@ -117,12 +117,12 @@ export default function SocialInboxPage() {
                     <Label className="text-h5-md">{getPlatformIcon(message.platform)}</Label>
                     <Stack gap={1}>
                       <Label className="font-bold">{message.author}</Label>
-                      <Label size="xs" className="text-grey-500">{message.authorHandle}</Label>
+                      <Label size="xs" className="text-ink-500">{message.authorHandle}</Label>
                     </Stack>
                   </Stack>
                   <Stack gap={1} className="col-span-2">
                     <Badge variant="outline">{message.type}</Badge>
-                    <Label className="text-grey-700 truncate">{message.content}</Label>
+                    <Label className="text-ink-700 truncate">{message.content}</Label>
                   </Stack>
                   <Label className={getSentimentColor(message.sentiment)}>{message.sentiment}</Label>
                   <Label className={getStatusColor(message.status)}>{message.status}</Label>
@@ -150,15 +150,15 @@ export default function SocialInboxPage() {
               </Stack>
               <Stack gap={1}>
                 <Label className="font-bold">{selectedMessage.author}</Label>
-                <Label className="text-grey-500">{selectedMessage.authorHandle}</Label>
+                <Label className="text-ink-500">{selectedMessage.authorHandle}</Label>
               </Stack>
-              <Card className="p-4 border border-grey-200 bg-grey-50">
+              <Card className="p-4 border border-ink-200 bg-ink-50">
                 <Body>{selectedMessage.content}</Body>
               </Card>
-              <Label className="text-grey-500">{selectedMessage.timestamp}</Label>
+              <Label className="text-ink-500">{selectedMessage.timestamp}</Label>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label className="text-grey-500">Sentiment</Label><Label className={getSentimentColor(selectedMessage.sentiment)}>{selectedMessage.sentiment}</Label></Stack>
-                <Stack gap={1}><Label className="text-grey-500">Priority</Label><Label className={selectedMessage.priority === "High" ? "text-error-600" : "text-grey-600"}>{selectedMessage.priority}</Label></Stack>
+                <Stack gap={1}><Label className="text-ink-500">Sentiment</Label><Label className={getSentimentColor(selectedMessage.sentiment)}>{selectedMessage.sentiment}</Label></Stack>
+                <Stack gap={1}><Label className="text-ink-500">Priority</Label><Label className={selectedMessage.priority === "High" ? "text-error-600" : "text-ink-600"}>{selectedMessage.priority}</Label></Stack>
               </Grid>
               <Textarea placeholder="Type your reply..." rows={3} className="border-2 border-black" />
               <Stack direction="horizontal" gap={2}>

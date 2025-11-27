@@ -51,8 +51,8 @@ export default function MerchPage() {
             logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
             cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/cart')}>CART (0)</Button>}
           >
-            <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Home</Link>
-            <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Events</Link>
+            <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Home</Link>
+            <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Events</Link>
           </Navigation>
         }
         footer={
@@ -83,8 +83,8 @@ export default function MerchPage() {
             logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
             cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/cart')}>CART (0)</Button>}
           >
-            <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Home</Link>
-            <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Events</Link>
+            <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Home</Link>
+            <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Events</Link>
           </Navigation>
         }
         footer={
@@ -118,8 +118,8 @@ export default function MerchPage() {
           logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
           cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/cart')}>CART (0)</Button>}
         >
-          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Home</Link>
-          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Events</Link>
+          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Home</Link>
+          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Events</Link>
         </Navigation>
       }
       footer={
@@ -138,7 +138,7 @@ export default function MerchPage() {
         <Container>
           <Stack gap={8}>
             <H2 className="text-white">Official Merchandise</H2>
-            <Body className="text-grey-400">
+            <Body className="text-ink-400">
               Exclusive gear from your favorite events and festivals
             </Body>
 
@@ -146,7 +146,7 @@ export default function MerchPage() {
               <Select
                 value={filterCategory}
                 onChange={(e) => setFilterCategory(e.target.value)}
-                className="bg-black text-white border-grey-700"
+                className="bg-black text-white border-ink-700"
               >
                 <option value="all">All Categories</option>
                 <option value="apparel">Apparel</option>
@@ -156,7 +156,7 @@ export default function MerchPage() {
               <Select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="bg-black text-white border-grey-700"
+                className="bg-black text-white border-ink-700"
               >
                 <option value="featured">Featured</option>
                 <option value="price-low">Price: Low to High</option>
@@ -172,15 +172,15 @@ export default function MerchPage() {
             ) : (
               <Grid cols={3} gap={6}>
                 {sortedMerch.map((item) => (
-                  <Card key={item.id} className="border-2 border-grey-800 p-6 transition hover:border-white bg-black">
+                  <Card key={item.id} className="border-2 border-ink-800 p-6 transition hover:border-white bg-black">
                     <Stack gap={4}>
-                      <Stack className="aspect-square bg-grey-900" />
+                      <Stack className="aspect-square bg-ink-900" />
                       <Stack gap={2} direction="horizontal" className="justify-between items-start">
                         <Body className="font-display text-body-md text-white">{item.name}</Body>
                         <Badge variant="outline">{item.category}</Badge>
                       </Stack>
                       <Body className="font-mono text-h5-md text-white">${item.price}</Body>
-                      <Body className="text-body-sm text-grey-400">{item.stock} in stock</Body>
+                      <Body className="text-body-sm text-ink-400">{item.stock} in stock</Body>
                       <Button variant="solid" className="w-full" onClick={() => { addNotification({ type: 'success', title: 'Added', message: `${item.name} added to cart` }); }}>Add to Cart</Button>
                     </Stack>
                   </Card>

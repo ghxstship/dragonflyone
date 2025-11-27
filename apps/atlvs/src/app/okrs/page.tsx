@@ -58,29 +58,29 @@ export default function OKRsPage() {
             <StatCard
               value={okrs.length}
               label="Active OKRs"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={`${avgProgress}%`}
               label="Avg Progress"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={okrs.filter(o => o.progress >= 70).length}
               label="On Track"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={okrs.filter(o => o.progress < 50).length}
               label="At Risk"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
           </Grid>
 
           <Select
             value={filterOwner}
             onChange={(e) => setFilterOwner(e.target.value)}
-            className="bg-black text-white border-grey-700 w-48"
+            className="bg-black text-white border-ink-700 w-48"
           >
             <option value="all">All Owners</option>
             <option value="operations">Operations</option>
@@ -90,13 +90,13 @@ export default function OKRsPage() {
 
           <Stack gap={6}>
             {filteredOKRs.map((okr) => (
-              <Card key={okr.id} className="border-2 border-grey-800 p-6 bg-black">
+              <Card key={okr.id} className="border-2 border-ink-800 p-6 bg-black">
                 <Stack gap={4}>
                   <Stack gap={2} direction="horizontal" className="justify-between items-start">
                     <Stack gap={2}>
-                      <Body className="font-mono text-mono-xs text-grey-500">{okr.id}</Body>
+                      <Body className="font-mono text-mono-xs text-ink-500">{okr.id}</Body>
                       <H3 className="text-white">{okr.objective}</H3>
-                      <Body className="text-body-sm text-grey-400">Owner: {okr.owner}</Body>
+                      <Body className="text-body-sm text-ink-400">Owner: {okr.owner}</Body>
                     </Stack>
                     <Badge variant={okr.progress >= 70 ? "solid" : "outline"}>
                       {okr.progress}% Complete
@@ -106,15 +106,15 @@ export default function OKRsPage() {
                   <ProgressBar value={okr.progress} variant="inverse" />
 
                   <Stack gap={3}>
-                    <Body className="font-mono text-mono-xs text-grey-500">Key Results</Body>
+                    <Body className="font-mono text-mono-xs text-ink-500">Key Results</Body>
                     {okr.keyResults.map((kr, idx) => (
-                      <Stack key={idx} gap={3} direction="horizontal" className="justify-between items-center border-l-2 border-grey-700 pl-4">
-                        <Body className="text-body-sm text-grey-300">{kr.kr}</Body>
+                      <Stack key={idx} gap={3} direction="horizontal" className="justify-between items-center border-l-2 border-ink-700 pl-4">
+                        <Body className="text-body-sm text-ink-300">{kr.kr}</Body>
                         <Stack gap={3} direction="horizontal" className="items-center">
                           <Stack className="w-24">
                             <ProgressBar value={kr.progress} variant="inverse" size="sm" />
                           </Stack>
-                          <Body className="font-mono text-mono-xs text-grey-400">{kr.progress}%</Body>
+                          <Body className="font-mono text-mono-xs text-ink-400">{kr.progress}%</Body>
                         </Stack>
                       </Stack>
                     ))}
@@ -128,7 +128,7 @@ export default function OKRsPage() {
             <Button variant="outlineWhite" onClick={() => router.push("/okrs/new")}>
               Create New OKR
             </Button>
-            <Button variant="ghost" className="text-grey-400 hover:text-white" onClick={() => router.push("/okrs/export")}>
+            <Button variant="ghost" className="text-ink-400 hover:text-white" onClick={() => router.push("/okrs/export")}>
               Export Progress Report
             </Button>
           </Stack>

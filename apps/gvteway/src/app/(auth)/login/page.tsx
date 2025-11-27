@@ -50,7 +50,7 @@ export default function LoginPage() {
             <Display size="md" className="mb-2">
               GVTEWAY
             </Display>
-            <Body className="text-grey-500">Sign in to your account</Body>
+            <Body className="text-ink-500">Sign in to your account</Body>
           </Stack>
 
           {error && (
@@ -100,7 +100,7 @@ export default function LoginPage() {
           </Stack></Form>
 
           <Stack className="mt-6 text-center">
-            <Body className="text-grey-500">
+            <Body className="text-ink-500">
               Don&apos;t have an account?{' '}
               <Link href="/signup" className="font-bold">
                 Sign up

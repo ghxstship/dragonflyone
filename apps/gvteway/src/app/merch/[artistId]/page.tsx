@@ -176,7 +176,7 @@ export default function ArtistMerchPage() {
       <Container>
         <Section className="border-b-2 border-black py-8 mb-8">
           <Stack direction="horizontal" gap={6} className="items-center">
-            <Stack className="w-24 h-24 rounded-full bg-grey-200 overflow-hidden relative flex-shrink-0">
+            <Stack className="w-24 h-24 rounded-full bg-ink-200 overflow-hidden relative flex-shrink-0">
               {artist.image_url ? (
                 <Image src={artist.image_url} alt={artist.name} fill className="object-cover" />
               ) : (
@@ -187,7 +187,7 @@ export default function ArtistMerchPage() {
             </Stack>
             <Stack>
               <Display>{artist.name}</Display>
-              <Body className="mt-2 text-grey-600">Official Merchandise</Body>
+              <Body className="mt-2 text-ink-600">Official Merchandise</Body>
             </Stack>
           </Stack>
         </Section>
@@ -263,7 +263,7 @@ export default function ArtistMerchPage() {
                   setSelectedVariant(product.variants[0] || null);
                 }}
               >
-                <Stack className="relative aspect-square bg-grey-100">
+                <Stack className="relative aspect-square bg-ink-100">
                   {product.images[0] ? (
                     <Image
                       src={product.images[0]}
@@ -298,7 +298,7 @@ export default function ArtistMerchPage() {
                   <Stack direction="horizontal" gap={2} className="items-center">
                     <Body className="font-bold text-body-md">${product.price.toFixed(2)}</Body>
                     {product.compare_at_price && product.compare_at_price > product.price && (
-                      <Body className="text-grey-600 line-through text-body-sm">
+                      <Body className="text-ink-600 line-through text-body-sm">
                         ${product.compare_at_price.toFixed(2)}
                       </Body>
                     )}
@@ -309,7 +309,7 @@ export default function ArtistMerchPage() {
           ) : (
             <Card className="col-span-4 p-12 text-center">
               <H3 className="mb-4">NO PRODUCTS FOUND</H3>
-              <Body className="text-grey-600">
+              <Body className="text-ink-600">
                 Check back soon for new merchandise
               </Body>
             </Card>
@@ -328,7 +328,7 @@ export default function ArtistMerchPage() {
           {selectedProduct && (
             <Stack gap={6}>
               <Grid cols={2} gap={6}>
-                <Stack className="relative aspect-square bg-grey-100 rounded overflow-hidden">
+                <Stack className="relative aspect-square bg-ink-100 rounded overflow-hidden">
                   {selectedProduct.images[0] ? (
                     <Image
                       src={selectedProduct.images[0]}
@@ -350,13 +350,13 @@ export default function ArtistMerchPage() {
                     )}
                   </Stack>
                   <H2>{selectedProduct.name}</H2>
-                  <Body className="text-grey-600">{selectedProduct.description}</Body>
+                  <Body className="text-ink-600">{selectedProduct.description}</Body>
                   <Stack direction="horizontal" gap={2} className="items-center">
                     <Body className="font-bold text-h5-md">
                       ${(selectedVariant?.price || selectedProduct.price).toFixed(2)}
                     </Body>
                     {selectedProduct.compare_at_price && (
-                      <Body className="text-grey-600 line-through">
+                      <Body className="text-ink-600 line-through">
                         ${selectedProduct.compare_at_price.toFixed(2)}
                       </Body>
                     )}

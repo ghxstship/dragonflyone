@@ -32,7 +32,7 @@ export default function OfflinePage() {
             </Body>
 
             <Stack gap={4} className="w-full">
-              <Card className="p-4 bg-grey-100">
+              <Card className="p-4 bg-ink-100">
                 <Stack gap={2}>
                   <Body className="font-bold">Available Offline:</Body>
                   <Stack gap={1}>
@@ -44,14 +44,14 @@ export default function OfflinePage() {
                 </Stack>
               </Card>
 
-              <Card className="p-4 bg-grey-100">
+              <Card className="p-4 bg-ink-100">
                 <Stack gap={2}>
                   <Body className="font-bold">Unavailable Offline:</Body>
                   <Stack gap={1}>
-                    <Body className="text-body-sm text-grey-600">• Real-time updates</Body>
-                    <Body className="text-body-sm text-grey-600">• New data fetching</Body>
-                    <Body className="text-body-sm text-grey-600">• File uploads</Body>
-                    <Body className="text-body-sm text-grey-600">• Live communications</Body>
+                    <Body className="text-body-sm text-ink-600">• Real-time updates</Body>
+                    <Body className="text-body-sm text-ink-600">• New data fetching</Body>
+                    <Body className="text-body-sm text-ink-600">• File uploads</Body>
+                    <Body className="text-body-sm text-ink-600">• Live communications</Body>
                   </Stack>
                 </Stack>
               </Card>
@@ -66,7 +66,7 @@ export default function OfflinePage() {
               </Button>
             </Stack>
 
-            <Body className="text-mono-xs text-grey-500">
+            <Body className="text-mono-xs text-ink-500">
               Your data will automatically sync when you&apos;re back online.
             </Body>
           </Stack>

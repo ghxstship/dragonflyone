@@ -105,7 +105,7 @@ export default function DesignSystemPage() {
       <SectionLayout id="typography">
         <Stack gap={12}>
           <Stack>
-            <Label size="sm" className="text-grey-600 mb-4 block">
+            <Label size="sm" className="text-ink-600 mb-4 block">
               Typography System
             </Label>
             <H2>Bold Typography</H2>
@@ -116,19 +116,19 @@ export default function DesignSystemPage() {
 
           <Grid cols={2} gap={8}>
             <Card className="border-2 border-black p-6">
-              <Label className="text-grey-600 mb-2">Display</Label>
+              <Label className="text-ink-600 mb-2">Display</Label>
               <Display size="md">GHXSTSHIP</Display>
             </Card>
             <Card className="border-2 border-black p-6">
-              <Label className="text-grey-600 mb-2">Heading H2</Label>
+              <Label className="text-ink-600 mb-2">Heading H2</Label>
               <H2>We Create Beyond Reality</H2>
             </Card>
             <Card className="border-2 border-black p-6">
-              <Label className="text-grey-600 mb-2">Heading H3</Label>
+              <Label className="text-ink-600 mb-2">Heading H3</Label>
               <H3>Immersive Entertainment</H3>
             </Card>
             <Card className="border-2 border-black p-6">
-              <Label className="text-grey-600 mb-2">Body Text</Label>
+              <Label className="text-ink-600 mb-2">Body Text</Label>
               <Body>
                 We architect impossible experiences that push the boundaries of what audiences expect, transforming abstract concepts into tangible realities.
               </Body>
@@ -140,7 +140,7 @@ export default function DesignSystemPage() {
       <SectionLayout id="components" background="grey">
         <Stack gap={12}>
           <Stack>
-            <Label size="sm" className="text-grey-600 mb-4 block">
+            <Label size="sm" className="text-ink-600 mb-4 block">
               Core Components
             </Label>
             <H2>Buttons & Actions</H2>
@@ -164,7 +164,7 @@ export default function DesignSystemPage() {
               <Badge>Default</Badge>
               <Badge>Status</Badge>
               <Badge>Category</Badge>
-              <Label uppercase={false} className="text-grey-600">
+              <Label uppercase={false} className="text-ink-600">
                 TAMPA, FL // EST. 2022 // 52+ COUNTRIES
               </Label>
             </Stack>
@@ -185,7 +185,7 @@ export default function DesignSystemPage() {
       <SectionLayout id="cards">
         <Stack gap={12}>
           <Stack>
-            <Label size="sm" className="text-grey-600 mb-4 block">
+            <Label size="sm" className="text-ink-600 mb-4 block">
               Card Components
             </Label>
             <H2>Content Cards</H2>
@@ -262,7 +262,7 @@ export default function DesignSystemPage() {
       <SectionLayout id="forms" background="grey">
         <Stack gap={12}>
           <Stack>
-            <Label size="sm" className="text-grey-600 mb-4 block">
+            <Label size="sm" className="text-ink-600 mb-4 block">
               Form Elements
             </Label>
             <H2>Input Components</H2>
@@ -318,7 +318,7 @@ export default function DesignSystemPage() {
       <SectionLayout background="black">
         <Stack gap={8} className="text-center">
           <H2 className="text-white">Ready to Start?</H2>
-          <Body className="text-grey-400 mx-auto max-w-2xl">
+          <Body className="text-ink-400 mx-auto max-w-2xl">
             Connect with our team to discuss your next immersive experience project.
           </Body>
           <Stack direction="horizontal" gap={4} className="justify-center">
@@ -332,7 +332,7 @@ export default function DesignSystemPage() {
 
       <SectionLayout>
         <Stack>
-          <Label size="sm" className="text-grey-600 mb-4 block">
+          <Label size="sm" className="text-ink-600 mb-4 block">
             Data Tables
           </Label>
           <H2 className="mb-8">Table Component</H2>

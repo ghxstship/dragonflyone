@@ -50,10 +50,10 @@ export default function KnowledgePage() {
       <CreatorNavigationAuthenticated />
       <Container className="py-16">
         <Stack gap={8}>
-          <Stack gap={4} direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b border-grey-800 pb-8">
+          <Stack gap={4} direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b border-ink-800 pb-8">
             <Stack gap={2}>
               <H1>Knowledge Base</H1>
-              <Body className="text-grey-600">SOPs, guides, and training materials</Body>
+              <Body className="text-ink-600">SOPs, guides, and training materials</Body>
             </Stack>
             <Button variant="solid" onClick={() => router.push('/knowledge/contribute')}>
               <FileText className="w-4 h-4 mr-2" />
@@ -63,7 +63,7 @@ export default function KnowledgePage() {
 
           <Card className="p-6">
             <Stack className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-grey-500" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-ink-500" />
               <Input placeholder="Search knowledge base..." className="pl-10 w-full" />
             </Stack>
           </Card>
@@ -95,7 +95,7 @@ export default function KnowledgePage() {
                       </Stack>
                     </Stack>
                     <H3>{article.title}</H3>
-                    <Stack gap={4} direction="horizontal" className="text-body-sm text-grey-600">
+                    <Stack gap={4} direction="horizontal" className="text-body-sm text-ink-600">
                       <Stack gap={1} direction="horizontal" className="items-center">
                         {article.type === 'Video' ? <Video className="w-4 h-4" /> : <FileText className="w-4 h-4" />}
                         <Body className="text-body-sm">{article.type}</Body>
@@ -128,7 +128,7 @@ export default function KnowledgePage() {
                           {article.category}
                         </Badge>
                       </Stack>
-                      <Stack gap={4} direction="horizontal" className="text-body-sm text-grey-600">
+                      <Stack gap={4} direction="horizontal" className="text-body-sm text-ink-600">
                         <Body className="text-body-sm">{article.views.toLocaleString()} views</Body>
                         <Stack gap={1} direction="horizontal" className="items-center">
                           <Star className="w-4 h-4" />
@@ -144,7 +144,7 @@ export default function KnowledgePage() {
             </Stack>
           </Stack>
 
-          <Card className="p-6 bg-grey-50">
+          <Card className="p-6 bg-ink-50">
             <Grid cols={4} gap={6}>
               <StatCard value={342} label="Total Articles" />
               <StatCard value={89} label="Video Tutorials" />

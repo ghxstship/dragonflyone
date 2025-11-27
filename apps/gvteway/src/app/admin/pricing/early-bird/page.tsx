@@ -46,9 +46,9 @@ export default function EarlyBirdPage() {
     switch (status) {
       case "Active": return "text-success-600";
       case "Scheduled": return "text-info-600";
-      case "Ended": return "text-grey-500";
+      case "Ended": return "text-ink-500";
       case "Paused": return "text-warning-600";
-      default: return "text-grey-500";
+      default: return "text-ink-500";
     }
   };
 
@@ -61,7 +61,7 @@ export default function EarlyBirdPage() {
         <Stack gap={8}>
           <Stack gap={2} className="border-b-2 border-black pb-8">
             <H1>Early Bird Pricing</H1>
-            <Body className="text-grey-600">Create and manage early bird pricing campaigns with countdown timers</Body>
+            <Body className="text-ink-600">Create and manage early bird pricing campaigns with countdown timers</Body>
           </Stack>
 
           <Grid cols={4} gap={6}>
@@ -103,7 +103,7 @@ export default function EarlyBirdPage() {
                     <Body className="font-bold">{campaign.name}</Body>
                   </TableCell>
                   <TableCell>
-                    <Label className="text-grey-600">{campaign.eventName}</Label>
+                    <Label className="text-ink-600">{campaign.eventName}</Label>
                   </TableCell>
                   <TableCell>
                     <Badge variant="outline">
@@ -113,14 +113,14 @@ export default function EarlyBirdPage() {
                   <TableCell>
                     <Stack gap={0}>
                       <Label className="font-mono text-body-sm">{campaign.startDate}</Label>
-                      <Label className="font-mono text-body-sm text-grey-500">to {campaign.endDate}</Label>
+                      <Label className="font-mono text-body-sm text-ink-500">to {campaign.endDate}</Label>
                     </Stack>
                   </TableCell>
                   <TableCell>
                     {campaign.ticketLimit ? (
                       <Stack gap={1}>
                         <Label className="text-body-sm">{campaign.ticketsSold}/{campaign.ticketLimit}</Label>
-                        <Card className="h-2 bg-grey-200 rounded-full overflow-hidden w-20">
+                        <Card className="h-2 bg-ink-200 rounded-full overflow-hidden w-20">
                           <Card className="h-full bg-black" style={{ '--progress-width': `${(campaign.ticketsSold / campaign.ticketLimit) * 100}%`, width: 'var(--progress-width)' } as React.CSSProperties} />
                         </Card>
                       </Stack>
@@ -155,7 +155,7 @@ export default function EarlyBirdPage() {
                     {[{ value: "05", label: "DAYS" }, { value: "12", label: "HOURS" }, { value: "34", label: "MINS" }, { value: "56", label: "SECS" }].map((item) => (
                       <Stack key={item.label} gap={1}>
                         <Label className="text-h3-md font-mono">{item.value}</Label>
-                        <Label size="xs" className="text-grey-600">{item.label}</Label>
+                        <Label size="xs" className="text-ink-600">{item.label}</Label>
                       </Stack>
                     ))}
                   </Grid>
@@ -163,7 +163,7 @@ export default function EarlyBirdPage() {
                   <Button variant="solid" className="bg-warning-400 text-black">GET TICKETS NOW</Button>
                 </Stack>
               </Card>
-              <Label size="xs" className="text-grey-500">This countdown timer will appear on your event page</Label>
+              <Label size="xs" className="text-ink-500">This countdown timer will appear on your event page</Label>
             </Stack>
           </Card>
 
@@ -201,7 +201,7 @@ export default function EarlyBirdPage() {
             <Stack gap={2}>
               <Label>Ticket Limit (optional)</Label>
               <Input type="number" placeholder="Leave empty for unlimited" />
-              <Label size="xs" className="text-grey-500">Campaign ends when limit is reached or end date passes</Label>
+              <Label size="xs" className="text-ink-500">Campaign ends when limit is reached or end date passes</Label>
             </Stack>
             <Alert variant="info">Countdown timer will automatically appear on the event page during the campaign period</Alert>
           </Stack>
@@ -219,18 +219,18 @@ export default function EarlyBirdPage() {
             <Stack gap={4}>
               <Body className="font-bold text-body-md">{selectedCampaign.name}</Body>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-grey-500">Event</Label><Label>{selectedCampaign.eventName}</Label></Stack>
-                <Stack gap={1}><Label size="xs" className="text-grey-500">Status</Label><Label className={getStatusColor(selectedCampaign.status)}>{selectedCampaign.status}</Label></Stack>
+                <Stack gap={1}><Label size="xs" className="text-ink-500">Event</Label><Label>{selectedCampaign.eventName}</Label></Stack>
+                <Stack gap={1}><Label size="xs" className="text-ink-500">Status</Label><Label className={getStatusColor(selectedCampaign.status)}>{selectedCampaign.status}</Label></Stack>
               </Grid>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-grey-500">Discount</Label><Label>{selectedCampaign.discountType === "Percentage" ? `${selectedCampaign.discountValue}%` : `$${selectedCampaign.discountValue}`}</Label></Stack>
-                <Stack gap={1}><Label size="xs" className="text-grey-500">Revenue</Label><Label className="font-mono">${selectedCampaign.revenue.toLocaleString()}</Label></Stack>
+                <Stack gap={1}><Label size="xs" className="text-ink-500">Discount</Label><Label>{selectedCampaign.discountType === "Percentage" ? `${selectedCampaign.discountValue}%` : `$${selectedCampaign.discountValue}`}</Label></Stack>
+                <Stack gap={1}><Label size="xs" className="text-ink-500">Revenue</Label><Label className="font-mono">${selectedCampaign.revenue.toLocaleString()}</Label></Stack>
               </Grid>
-              <Stack gap={1}><Label size="xs" className="text-grey-500">Period</Label><Label>{selectedCampaign.startDate} to {selectedCampaign.endDate}</Label></Stack>
+              <Stack gap={1}><Label size="xs" className="text-ink-500">Period</Label><Label>{selectedCampaign.startDate} to {selectedCampaign.endDate}</Label></Stack>
               {selectedCampaign.ticketLimit && (
                 <Stack gap={2}>
-                  <Label size="xs" className="text-grey-500">Progress</Label>
-                  <Card className="h-3 bg-grey-200 rounded-full overflow-hidden">
+                  <Label size="xs" className="text-ink-500">Progress</Label>
+                  <Card className="h-3 bg-ink-200 rounded-full overflow-hidden">
                     <Card className="h-full bg-black" style={{ '--progress-width': `${(selectedCampaign.ticketsSold / selectedCampaign.ticketLimit) * 100}%`, width: 'var(--progress-width)' } as React.CSSProperties} />
                   </Card>
                   <Label className="text-body-sm">{selectedCampaign.ticketsSold} of {selectedCampaign.ticketLimit} tickets sold</Label>

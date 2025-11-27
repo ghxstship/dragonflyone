@@ -69,9 +69,9 @@ export default function ProcurementPage() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'active': return 'bg-white text-black border-2 border-black';
-      case 'pending': return 'bg-grey-400 text-white';
+      case 'pending': return 'bg-ink-400 text-white';
       case 'completed': return 'bg-black text-white';
-      default: return 'bg-grey-200 text-black';
+      default: return 'bg-ink-200 text-black';
     }
   };
 

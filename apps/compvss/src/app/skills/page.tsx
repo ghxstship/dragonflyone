@@ -115,22 +115,22 @@ export default function SkillsPage() {
             <StatCard
               value={crewWithSkills.length}
               label="Total Crew"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={expertCount}
               label="Expert Level"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={uniqueSkillNames.size}
               label="Unique Skills"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={totalSkills}
               label="Total Certifications"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
           </Grid>
 
@@ -141,12 +141,12 @@ export default function SkillsPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               fullWidth
-              className="flex-1 bg-black text-white border-grey-700 placeholder:text-grey-500"
+              className="flex-1 bg-black text-white border-ink-700 placeholder:text-ink-500"
             />
             <Select
               value={filterSkill}
               onChange={(e) => setFilterSkill(e.target.value)}
-              className="bg-black text-white border-grey-700"
+              className="bg-black text-white border-ink-700"
             >
               <option value="all">All Skills</option>
               {skillCategories.map(skill => (
@@ -174,7 +174,7 @@ export default function SkillsPage() {
               </TableHeader>
               <TableBody>
                 {filteredCrew.map((member: any) => (
-                  <TableRow key={member.id} className="bg-black text-white hover:bg-grey-900">
+                  <TableRow key={member.id} className="bg-black text-white hover:bg-ink-900">
                     <TableCell className="text-white">
                       {member.full_name || `${member.first_name || ''} ${member.last_name || ''}`.trim() || 'Unknown'}
                     </TableCell>
@@ -197,7 +197,7 @@ export default function SkillsPage() {
                         {member.level?.charAt(0).toUpperCase() + member.level?.slice(1) || 'N/A'}
                       </Badge>
                     </TableCell>
-                    <TableCell className="text-grey-400">
+                    <TableCell className="text-ink-400">
                       {member.status || member.availability || 'Active'}
                     </TableCell>
                     <TableCell>
@@ -220,7 +220,7 @@ export default function SkillsPage() {
             <Button variant="outlineWhite" onClick={() => router.push("/skills/new")}>
               Add Skills
             </Button>
-            <Button variant="ghost" className="text-grey-400 hover:text-white" onClick={() => router.push("/skills/export")}>
+            <Button variant="ghost" className="text-ink-400 hover:text-white" onClick={() => router.push("/skills/export")}>
               Export Matrix
             </Button>
           </Stack>

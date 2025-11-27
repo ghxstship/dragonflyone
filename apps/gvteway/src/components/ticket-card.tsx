@@ -34,8 +34,8 @@ export function TicketCard({
   const getCardBorder = (status: 'valid' | 'used' | 'cancelled'): string => {
     switch (status) {
       case 'valid': return 'border-black';
-      case 'used': return 'border-grey-500';
-      case 'cancelled': return 'border-grey-800';
+      case 'used': return 'border-ink-500';
+      case 'cancelled': return 'border-ink-800';
     }
   };
 
@@ -46,7 +46,7 @@ export function TicketCard({
           <Stack gap={1}>
             <H3>{eventTitle}</H3>
             <Body className="text-body-sm font-mono">{new Date(eventDate).toLocaleDateString()}</Body>
-            <Body className="text-body-sm text-grey-600">{venue}</Body>
+            <Body className="text-body-sm text-ink-600">{venue}</Body>
           </Stack>
           <StatusBadge status={getStatusVariant(status)} size="sm">
             {status}
@@ -62,7 +62,7 @@ export function TicketCard({
           <Body className="text-body-sm">
             <Label className="font-bold">Quantity:</Label> {quantity}
           </Body>
-          <Body className="text-mono-xs text-grey-500">ID: {id}</Body>
+          <Body className="text-mono-xs text-ink-500">ID: {id}</Body>
         </Stack>
 
         {qrCode && status === 'valid' && (

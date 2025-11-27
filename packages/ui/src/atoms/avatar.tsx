@@ -18,6 +18,8 @@ export interface AvatarProps {
   status?: "online" | "offline" | "away" | "busy";
   /** Border style */
   bordered?: boolean;
+  /** Inverted theme (for dark backgrounds) */
+  inverted?: boolean;
   /** Custom className */
   className?: string;
   /** Click handler */
@@ -25,11 +27,11 @@ export interface AvatarProps {
 }
 
 const sizeClasses = {
-  xs: { container: "w-6 h-6", text: "text-mono-xxs", status: "w-1.5 h-1.5" },
-  sm: { container: "w-8 h-8", text: "text-mono-xs", status: "w-2 h-2" },
-  md: { container: "w-10 h-10", text: "text-mono-sm", status: "w-2.5 h-2.5" },
-  lg: { container: "w-14 h-14", text: "text-mono-md", status: "w-3 h-3" },
-  xl: { container: "w-20 h-20", text: "text-body-md", status: "w-4 h-4" },
+  xs: { container: "w-avatar-xs h-avatar-xs", text: "text-mono-xxs", status: "w-spacing-1.5 h-spacing-1.5" },
+  sm: { container: "w-avatar-sm h-avatar-sm", text: "text-mono-xs", status: "w-spacing-2 h-spacing-2" },
+  md: { container: "w-avatar-md h-avatar-md", text: "text-mono-sm", status: "w-spacing-2.5 h-spacing-2.5" },
+  lg: { container: "w-avatar-lg h-avatar-lg", text: "text-mono-md", status: "w-spacing-3 h-spacing-3" },
+  xl: { container: "w-avatar-xl h-avatar-xl", text: "text-body-md", status: "w-spacing-4 h-spacing-4" },
 };
 
 const statusColorClasses = {
@@ -47,6 +49,7 @@ export function Avatar({
   shape = "circle",
   status,
   bordered = false,
+  inverted = false,
   className = "",
   onClick,
 }: AvatarProps) {
@@ -62,8 +65,8 @@ export function Avatar({
         "relative inline-flex items-center justify-center overflow-hidden flex-shrink-0",
         config.container,
         shape === "circle" ? "rounded-full" : "rounded-sm",
-        showFallback && "bg-grey-800",
-        bordered && "border-2 border-black",
+        showFallback && (inverted ? "bg-grey-200" : "bg-grey-800"),
+        bordered && (inverted ? "border-2 border-white" : "border-2 border-black"),
         onClick && "cursor-pointer",
         className
       )}
@@ -74,7 +77,8 @@ export function Avatar({
       {showFallback ? (
         <span
           className={clsx(
-            "font-code font-normal text-white uppercase select-none",
+            "font-code font-weight-normal uppercase select-none",
+            inverted ? "text-black" : "text-white",
             config.text
           )}
         >
@@ -92,7 +96,8 @@ export function Avatar({
       {status && (
         <span
           className={clsx(
-            "absolute rounded-full border-2 border-white",
+            "absolute rounded-full border-2",
+            inverted ? "border-black" : "border-white",
             config.status,
             statusColorClasses[status],
             shape === "circle" ? "bottom-0 right-0" : "-bottom-0.5 -right-0.5"
@@ -109,6 +114,8 @@ export interface AvatarGroupProps {
   max?: number;
   /** Size for all avatars */
   size?: AvatarProps["size"];
+  /** Inverted theme (for dark backgrounds) */
+  inverted?: boolean;
   /** Children (Avatar components) */
   children: React.ReactNode;
   /** Custom className */
@@ -116,16 +123,17 @@ export interface AvatarGroupProps {
 }
 
 const groupOverlapClasses = {
-  xs: "-ml-1.5",
-  sm: "-ml-2",
-  md: "-ml-2.5",
-  lg: "-ml-3.5",
-  xl: "-ml-5",
+  xs: "-ml-spacing-1.5",
+  sm: "-ml-spacing-2",
+  md: "-ml-spacing-2.5",
+  lg: "-ml-spacing-3.5",
+  xl: "-ml-spacing-5",
 };
 
 export function AvatarGroup({
   max = 4,
   size = "md",
+  inverted = false,
   children,
   className = "",
 }: AvatarGroupProps) {
@@ -149,6 +157,7 @@ export function AvatarGroup({
             ? React.cloneElement(child as React.ReactElement<AvatarProps>, {
                 size,
                 bordered: true,
+                inverted,
               })
             : child}
         </div>
@@ -157,7 +166,8 @@ export function AvatarGroup({
       {remainingCount > 0 && (
         <div
           className={clsx(
-            "flex items-center justify-center rounded-full bg-grey-700 border-2 border-white font-code text-white",
+            "flex items-center justify-center rounded-full font-code",
+            inverted ? "bg-grey-300 border-2 border-black text-black" : "bg-grey-700 border-2 border-white text-white",
             config.container,
             config.text,
             groupOverlapClasses[size]

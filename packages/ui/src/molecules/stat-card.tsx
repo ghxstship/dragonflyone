@@ -15,7 +15,7 @@ export const StatCard = forwardRef<HTMLDivElement, StatCardProps>(
     return (
       <div
         ref={ref}
-        className={clsx("bg-white border-2 border-black p-6 flex flex-col gap-3", className)}
+        className={clsx("bg-white border-2 border-black p-spacing-6 flex flex-col gap-gap-sm", className)}
         {...props}
       >
         {icon ? <div className="text-black">{icon}</div> : null}
@@ -26,7 +26,7 @@ export const StatCard = forwardRef<HTMLDivElement, StatCardProps>(
           {label}
         </div>
         {trend && trendValue ? (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-gap-xs">
             <span
               className={clsx(
                 "font-code text-mono-xs uppercase tracking-widest",

@@ -2,10 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useNotifications } from "@ghxstship/ui";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
-import { Section } from "../../components/section";
 import {
+  useNotifications,
   H1,
   H2,
   Body,
@@ -17,7 +15,9 @@ import {
   Stack,
   Grid,
   Card,
+  Section,
 } from "@ghxstship/ui";
+import { CreatorNavigationAuthenticated } from "../../components/navigation";
 
 export default function SettingsPage() {
   const router = useRouter();
@@ -38,16 +38,15 @@ export default function SettingsPage() {
   });
 
   return (
-    <Section className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
+    <Section background="ink" fullWidth noPadding className="relative min-h-screen overflow-hidden">
       <CreatorNavigationAuthenticated />
-      <Container className="py-16">
+      <Container className="py-spacing-16">
         <Stack gap={8}>
           <H1>Settings</H1>
 
-          <Section border>
-            <H2 className="mb-6">Notification Preferences</H2>
+          <Section border noPadding title="Notification Preferences">
             <Stack gap={4}>
-              <Card className="flex items-center justify-between border-ink-800 bg-transparent p-4">
+              <Card className="flex items-center justify-between border-ink-800 bg-transparent p-spacing-4">
                 <Stack gap={1}>
                   <Body className="text-white">Email Notifications</Body>
                   <Body className="text-body-sm text-ink-400">Receive updates via email</Body>
@@ -57,7 +56,7 @@ export default function SettingsPage() {
                   onChange={(e) => setNotificationSettings({ ...notificationSettings, email: e.target.checked })}
                 />
               </Card>
-              <Card className="flex items-center justify-between border-ink-800 bg-transparent p-4">
+              <Card className="flex items-center justify-between border-ink-800 bg-transparent p-spacing-4">
                 <Stack gap={1}>
                   <Body className="text-white">SMS Notifications</Body>
                   <Body className="text-body-sm text-ink-400">Receive urgent alerts via SMS</Body>
@@ -67,7 +66,7 @@ export default function SettingsPage() {
                   onChange={(e) => setNotificationSettings({ ...notificationSettings, sms: e.target.checked })}
                 />
               </Card>
-              <Card className="flex items-center justify-between border-ink-800 bg-transparent p-4">
+              <Card className="flex items-center justify-between border-ink-800 bg-transparent p-spacing-4">
                 <Stack gap={1}>
                   <Body className="text-white">Project Updates</Body>
                   <Body className="text-body-sm text-ink-400">Get notified about project changes</Body>
@@ -77,7 +76,7 @@ export default function SettingsPage() {
                   onChange={(e) => setNotificationSettings({ ...notificationSettings, projectUpdates: e.target.checked })}
                 />
               </Card>
-              <Card className="flex items-center justify-between border-ink-800 bg-transparent p-4">
+              <Card className="flex items-center justify-between border-ink-800 bg-transparent p-spacing-4">
                 <Stack gap={1}>
                   <Body className="text-white">Financial Alerts</Body>
                   <Body className="text-body-sm text-ink-400">Budget and payment notifications</Body>
@@ -90,15 +89,15 @@ export default function SettingsPage() {
             </Stack>
           </Section>
 
-          <Section border>
-            <H2 className="mb-6">General Preferences</H2>
+          <Section border noPadding title="General Preferences">
             <Grid cols={2} gap={6}>
               <Stack gap={2}>
                 <Label>Timezone</Label>
                 <Select
                   value={preferences.timezone}
                   onChange={(e) => setPreferences({ ...preferences, timezone: e.target.value })}
-                  className="bg-black text-white border-ink-700"
+                  inverted
+                  fullWidth
                 >
                   <option value="America/New_York">Eastern Time (ET)</option>
                   <option value="America/Chicago">Central Time (CT)</option>
@@ -111,7 +110,8 @@ export default function SettingsPage() {
                 <Select
                   value={preferences.dateFormat}
                   onChange={(e) => setPreferences({ ...preferences, dateFormat: e.target.value })}
-                  className="bg-black text-white border-ink-700"
+                  inverted
+                  fullWidth
                 >
                   <option value="MM/DD/YYYY">MM/DD/YYYY</option>
                   <option value="DD/MM/YYYY">DD/MM/YYYY</option>
@@ -123,7 +123,8 @@ export default function SettingsPage() {
                 <Select
                   value={preferences.currency}
                   onChange={(e) => setPreferences({ ...preferences, currency: e.target.value })}
-                  className="bg-black text-white border-ink-700"
+                  inverted
+                  fullWidth
                 >
                   <option value="USD">USD - US Dollar</option>
                   <option value="EUR">EUR - Euro</option>
@@ -135,7 +136,8 @@ export default function SettingsPage() {
                 <Select
                   value={preferences.language}
                   onChange={(e) => setPreferences({ ...preferences, language: e.target.value })}
-                  className="bg-black text-white border-ink-700"
+                  inverted
+                  fullWidth
                 >
                   <option value="en">English</option>
                   <option value="es">Spanish</option>
@@ -145,22 +147,21 @@ export default function SettingsPage() {
             </Grid>
           </Section>
 
-          <Section border>
-            <H2 className="mb-6">Security</H2>
+          <Section border noPadding title="Security">
             <Stack gap={4}>
-              <Button variant="outline" className="w-full justify-start text-left border-ink-700 hover:border-white" onClick={() => router.push('/settings/password')}>
+              <Button variant="outlineInk" fullWidth className="justify-start text-left" onClick={() => router.push('/settings/password')}>
                 <Stack gap={1}>
                   <Body className="font-heading uppercase tracking-widest">Change Password</Body>
                   <Body className="text-body-sm text-ink-400">Update your account password</Body>
                 </Stack>
               </Button>
-              <Button variant="outline" className="w-full justify-start text-left border-ink-700 hover:border-white" onClick={() => router.push('/settings/2fa')}>
+              <Button variant="outlineInk" fullWidth className="justify-start text-left" onClick={() => router.push('/settings/2fa')}>
                 <Stack gap={1}>
                   <Body className="font-heading uppercase tracking-widest">Two-Factor Authentication</Body>
                   <Body className="text-body-sm text-ink-400">Add an extra layer of security</Body>
                 </Stack>
               </Button>
-              <Button variant="outline" className="w-full justify-start text-left border-ink-700 hover:border-white" onClick={() => router.push('/settings/sessions')}>
+              <Button variant="outlineInk" fullWidth className="justify-start text-left" onClick={() => router.push('/settings/sessions')}>
                 <Stack gap={1}>
                   <Body className="font-heading uppercase tracking-widest">Active Sessions</Body>
                   <Body className="text-body-sm text-ink-400">Manage devices and active logins</Body>
@@ -171,7 +172,7 @@ export default function SettingsPage() {
 
           <Stack gap={3} direction="horizontal">
             <Button variant="outlineWhite" onClick={() => addNotification({ type: 'success', title: 'Saved', message: 'Settings saved successfully' })}>Save Changes</Button>
-            <Button variant="ghost" className="text-grey-400 hover:text-white" onClick={() => router.push('/dashboard')}>Cancel</Button>
+            <Button variant="ghost" className="text-ink-400 hover:text-white" onClick={() => router.push('/dashboard')}>Cancel</Button>
           </Stack>
         </Stack>
       </Container>

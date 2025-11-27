@@ -71,7 +71,7 @@ export default function AccessibilityPage() {
         <Stack gap={8}>
           <Stack gap={2} className="border-b-2 border-black pb-8">
             <H1>Accessibility & Age Policy</H1>
-            <Body className="text-grey-600">Event accessibility services and age restrictions</Body>
+            <Body className="text-ink-600">Event accessibility services and age restrictions</Body>
           </Stack>
 
           <Card className="border-2 border-black p-6">
@@ -85,19 +85,19 @@ export default function AccessibilityPage() {
                   <Alert variant="warning" className="w-auto">ID Required</Alert>
                 )}
               </Stack>
-              <Body className="text-grey-600">{mockAgeRestriction.description}</Body>
+              <Body className="text-ink-600">{mockAgeRestriction.description}</Body>
               <Grid cols={2} gap={4}>
-                <Card className="p-3 bg-grey-50 border border-grey-200">
+                <Card className="p-3 bg-ink-50 border border-ink-200">
                   <Stack direction="horizontal" gap={2}>
-                    <Label className={mockAgeRestriction.idRequired ? "text-success-600" : "text-grey-600"}>
+                    <Label className={mockAgeRestriction.idRequired ? "text-success-600" : "text-ink-600"}>
                       {mockAgeRestriction.idRequired ? "✓" : "○"}
                     </Label>
                     <Label>Photo ID Required</Label>
                   </Stack>
                 </Card>
-                <Card className="p-3 bg-grey-50 border border-grey-200">
+                <Card className="p-3 bg-ink-50 border border-ink-200">
                   <Stack direction="horizontal" gap={2}>
-                    <Label className={mockAgeRestriction.guardianRequired ? "text-success-600" : "text-grey-600"}>
+                    <Label className={mockAgeRestriction.guardianRequired ? "text-success-600" : "text-ink-600"}>
                       {mockAgeRestriction.guardianRequired ? "✓" : "○"}
                     </Label>
                     <Label>Guardian Required for Minors</Label>
@@ -117,7 +117,7 @@ export default function AccessibilityPage() {
             <TabPanel active={activeTab === "services"}>
               <Grid cols={2} gap={4}>
                 {mockServices.map((service) => (
-                  <Card key={service.id} className={`border-2 p-4 ${service.available ? "border-black" : "border-grey-300 opacity-60"}`}>
+                  <Card key={service.id} className={`border-2 p-4 ${service.available ? "border-black" : "border-ink-300 opacity-60"}`}>
                     <Stack gap={3}>
                       <Stack direction="horizontal" className="justify-between items-start">
                         <Body className="font-bold">{service.name}</Body>
@@ -125,9 +125,9 @@ export default function AccessibilityPage() {
                           {service.available ? "Available" : "Not Available"}
                         </Badge>
                       </Stack>
-                      <Body className="text-grey-600 text-body-sm">{service.description}</Body>
+                      <Body className="text-ink-600 text-body-sm">{service.description}</Body>
                       {service.requiresRequest && service.leadTime && (
-                        <Label size="xs" className="text-grey-500">Requires {service.leadTime} advance notice</Label>
+                        <Label size="xs" className="text-ink-500">Requires {service.leadTime} advance notice</Label>
                       )}
                       {service.available && (
                         <Button 
@@ -152,12 +152,12 @@ export default function AccessibilityPage() {
                       <Grid cols={4} gap={4} className="items-center">
                         <Stack gap={1}>
                           <Body className="font-bold">{request.type}</Body>
-                          <Label size="xs" className="text-grey-500">Requested {request.requestDate}</Label>
+                          <Label size="xs" className="text-ink-500">Requested {request.requestDate}</Label>
                         </Stack>
                         <Badge variant={request.status === "Approved" ? "solid" : "outline"}>
                           {request.status}
                         </Badge>
-                        <Label className="text-grey-600">{request.notes || "-"}</Label>
+                        <Label className="text-ink-600">{request.notes || "-"}</Label>
                         <Button variant="outline" size="sm">View Details</Button>
                       </Grid>
                     </Card>
@@ -166,7 +166,7 @@ export default function AccessibilityPage() {
               ) : (
                 <Card className="border-2 border-black p-8 text-center">
                   <Stack gap={4}>
-                    <Label className="text-grey-500">No accessibility requests submitted</Label>
+                    <Label className="text-ink-500">No accessibility requests submitted</Label>
                     <Button variant="solid" onClick={() => setActiveTab("services")}>Browse Services</Button>
                   </Stack>
                 </Card>
@@ -188,10 +188,10 @@ export default function AccessibilityPage() {
                         { feature: "Tactile Flooring", available: false },
                       ].map((item) => (
                         <Stack key={item.feature} direction="horizontal" gap={2}>
-                          <Label className={item.available ? "text-success-600" : "text-grey-600"}>
+                          <Label className={item.available ? "text-success-600" : "text-ink-600"}>
                             {item.available ? "✓" : "○"}
                           </Label>
-                          <Label className={item.available ? "" : "text-grey-600"}>{item.feature}</Label>
+                          <Label className={item.available ? "" : "text-ink-600"}>{item.feature}</Label>
                         </Stack>
                       ))}
                     </Stack>
@@ -202,15 +202,15 @@ export default function AccessibilityPage() {
                     <H3>CONTACT INFORMATION</H3>
                     <Stack gap={3}>
                       <Stack gap={1}>
-                        <Label size="xs" className="text-grey-500">Accessibility Coordinator</Label>
+                        <Label size="xs" className="text-ink-500">Accessibility Coordinator</Label>
                         <Body>accessibility@venue.com</Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Label size="xs" className="text-grey-500">Phone (TTY Available)</Label>
+                        <Label size="xs" className="text-ink-500">Phone (TTY Available)</Label>
                         <Body>+1 (555) 123-4567</Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Label size="xs" className="text-grey-500">Hours</Label>
+                        <Label size="xs" className="text-ink-500">Hours</Label>
                         <Body>Mon-Fri, 9am-5pm</Body>
                       </Stack>
                     </Stack>
@@ -235,9 +235,9 @@ export default function AccessibilityPage() {
         <ModalBody>
           <Stack gap={4}>
             {selectedService ? (
-              <Card className="p-3 bg-grey-50 border border-grey-200">
+              <Card className="p-3 bg-ink-50 border border-ink-200">
                 <Body className="font-bold">{selectedService.name}</Body>
-                <Label className="text-grey-600 text-body-sm">{selectedService.description}</Label>
+                <Label className="text-ink-600 text-body-sm">{selectedService.description}</Label>
               </Card>
             ) : (
               <Select>

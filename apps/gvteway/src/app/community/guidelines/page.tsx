@@ -121,7 +121,7 @@ export default function CommunityGuidelinesPage() {
         <Stack gap={8}>
         <Stack gap={2} className="border-b-2 border-black pb-8">
           <H1>Community Guidelines</H1>
-          <Body className="text-grey-600">
+          <Body className="text-ink-600">
             Our standards for a positive community experience
           </Body>
         </Stack>
@@ -131,7 +131,7 @@ export default function CommunityGuidelinesPage() {
             <Body className="text-h3-md">📜</Body>
             <Stack>
               <H3 className="text-white">Our Community Promise</H3>
-              <Body className="text-grey-600">
+              <Body className="text-ink-600">
                 We&apos;re committed to creating a welcoming, inclusive, and safe space for all fans 
                 to connect, share experiences, and celebrate their love for live events.
               </Body>
@@ -158,14 +158,14 @@ export default function CommunityGuidelinesPage() {
                   <Stack className="flex-1">
                     <Stack direction="horizontal" className="justify-between items-center">
                       <H3>{guideline.title}</H3>
-                      <Body className="text-grey-600">
+                      <Body className="text-ink-600">
                         {expandedSection === guideline.id ? '−' : '+'}
                       </Body>
                     </Stack>
-                    <Body className="text-grey-600">{guideline.description}</Body>
+                    <Body className="text-ink-600">{guideline.description}</Body>
                     
                     {expandedSection === guideline.id && (
-                      <Stack className="mt-4 pt-4 border-t border-grey-200" gap={2}>
+                      <Stack className="mt-4 pt-4 border-t border-ink-200" gap={2}>
                         {guideline.rules.map((rule, index) => (
                           <Stack key={index} direction="horizontal" gap={2}>
                             <Body className="text-success-500">✓</Body>
@@ -207,14 +207,14 @@ export default function CommunityGuidelinesPage() {
                   <Stack
                     key={level.level}
                     direction="horizontal"
-                    className="items-center py-3 border-b border-grey-100 last:border-0"
+                    className="items-center py-3 border-b border-ink-100 last:border-0"
                   >
                     <Stack className="w-8 h-8 bg-black text-white rounded-full flex items-center justify-center flex-shrink-0">
                       <Body className="text-body-sm font-bold">{index + 1}</Body>
                     </Stack>
                     <Stack className="flex-1 ml-4">
                       <Body className="font-bold">{level.level}</Body>
-                      <Body className="text-body-sm text-grey-600">{level.description}</Body>
+                      <Body className="text-body-sm text-ink-600">{level.description}</Body>
                     </Stack>
                     <Badge variant="outline">{level.action}</Badge>
                   </Stack>
@@ -224,7 +224,7 @@ export default function CommunityGuidelinesPage() {
           </Stack>
 
           <Stack gap={6}>
-            <Card className="p-6 bg-grey-50">
+            <Card className="p-6 bg-ink-50">
               <H3 className="mb-4">NEED HELP?</H3>
               <Stack gap={4}>
                 <Button
@@ -273,7 +273,7 @@ export default function CommunityGuidelinesPage() {
 
             <Card className="p-6 bg-warning-50">
               <H3 className="mb-4">REPORT VIOLATIONS</H3>
-              <Body className="text-body-sm text-grey-600 mb-4">
+              <Body className="text-body-sm text-ink-600 mb-4">
                 See something that violates our guidelines? Let us know.
               </Body>
               <Button

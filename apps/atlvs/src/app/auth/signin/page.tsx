@@ -93,10 +93,10 @@ export default function SignInPage() {
       }
     >
       <SectionLayout background="grey">
-        <Stack gap={8} className="mx-auto max-w-md bg-white p-8 border border-grey-200">
+        <Stack gap={8} className="mx-auto max-w-md bg-white p-8 border border-ink-200">
           <Stack gap={4} className="text-center">
             <H2>Sign In</H2>
-            <Body className="text-grey-600">
+            <Body className="text-ink-600">
               Access your ATLVS account to manage projects and resources.
             </Body>
           </Stack>
@@ -129,9 +129,9 @@ export default function SignInPage() {
             <Stack direction="horizontal" className="justify-between items-center text-body-sm">
               <Stack direction="horizontal" gap={2} className="items-center">
                 <Checkbox id="remember" />
-                <Body size="sm" className="text-grey-600">Remember me</Body>
+                <Body size="sm" className="text-ink-600">Remember me</Body>
               </Stack>
-              <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/forgot-password'} className="text-grey-600 hover:text-black">
+              <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/forgot-password'} className="text-ink-600 hover:text-black">
                 Forgot password?
               </Button>
             </Stack>
@@ -146,9 +146,9 @@ export default function SignInPage() {
             </Button>
 
             <Stack className="text-center text-body-sm">
-              <Body size="sm" className="text-grey-600">
+              <Body size="sm" className="text-ink-600">
                 Don&apos;t have an account?{" "}
-                <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/signup'} className="text-black hover:text-grey-600 inline">
+                <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/signup'} className="text-black hover:text-ink-600 inline">
                   Sign up
                 </Button>
               </Body>
@@ -157,10 +157,10 @@ export default function SignInPage() {
 
           <Stack className="relative">
             <Stack className="absolute inset-0 items-center justify-center">
-              <Stack className="w-full border-t border-grey-300" />
+              <Stack className="w-full border-t border-ink-300" />
             </Stack>
             <Stack className="relative justify-center">
-              <Body size="sm" className="bg-white px-4 text-grey-500 text-center">OR</Body>
+              <Body size="sm" className="bg-white px-4 text-ink-500 text-center">OR</Body>
             </Stack>
           </Stack>
 
@@ -174,7 +174,7 @@ export default function SignInPage() {
           </Stack>
 
           <Stack className="text-center">
-            <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/magic-link'} className="text-grey-600 hover:text-black">
+            <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/magic-link'} className="text-ink-600 hover:text-black">
               Sign in with Magic Link
             </Button>
           </Stack>

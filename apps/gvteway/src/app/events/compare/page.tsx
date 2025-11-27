@@ -118,7 +118,7 @@ function CompareEventsContent() {
         <Container className="py-16">
           <Card className="p-12 text-center">
             <H1 className="mb-4">No Events to Compare</H1>
-            <Body className="text-grey-600 mb-6">
+            <Body className="text-ink-600 mb-6">
               Add events to compare by clicking the compare button on event pages.
             </Body>
             <Button variant="solid" onClick={() => router.push('/browse')}>
@@ -138,7 +138,7 @@ function CompareEventsContent() {
         <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
           <Stack gap={2}>
             <H1>Compare Events</H1>
-            <Body className="text-grey-600">
+            <Body className="text-ink-600">
               Comparing {events.length} events
             </Body>
           </Stack>
@@ -156,9 +156,9 @@ function CompareEventsContent() {
         <Stack className="overflow-x-auto">
           <Grid cols={events.length as 1 | 2 | 3 | 4} gap={4} className="min-w-max">
             {events.map(event => (
-              <Card key={event.id} className="min-w-[300px]">
+              <Card key={event.id} className="min-w-card-sm">
                 {event.image && (
-                  <Figure className="relative h-48 bg-grey-100 overflow-hidden">
+                  <Figure className="relative h-48 bg-ink-100 overflow-hidden">
                     <Image
                       src={event.image}
                       alt={event.title}
@@ -191,22 +191,22 @@ function CompareEventsContent() {
                 {events.map(event => (
                   <Stack key={event.id} className="flex-1 px-2">
                     <Body>{event.date}</Body>
-                    <Body className="text-grey-500 text-body-sm">{event.time}</Body>
+                    <Body className="text-ink-500 text-body-sm">{event.time}</Body>
                   </Stack>
                 ))}
               </Stack>
 
-              <Stack direction="horizontal" className="border-b border-grey-200 py-3">
+              <Stack direction="horizontal" className="border-b border-ink-200 py-3">
                 <Body className="w-40 font-bold">Venue</Body>
                 {events.map(event => (
                   <Stack key={event.id} className="flex-1 px-2">
                     <Body>{event.venue}</Body>
-                    <Body className="text-grey-500 text-body-sm">{event.city}</Body>
+                    <Body className="text-ink-500 text-body-sm">{event.city}</Body>
                   </Stack>
                 ))}
               </Stack>
 
-              <Stack direction="horizontal" className="border-b border-grey-200 py-3">
+              <Stack direction="horizontal" className="border-b border-ink-200 py-3">
                 <Body className="w-40 font-bold">Price Range</Body>
                 {events.map(event => (
                   <Stack key={event.id} className="flex-1 px-2">
@@ -217,7 +217,7 @@ function CompareEventsContent() {
                 ))}
               </Stack>
 
-              <Stack direction="horizontal" className="border-b border-grey-200 py-3">
+              <Stack direction="horizontal" className="border-b border-ink-200 py-3">
                 <Body className="w-40 font-bold">Availability</Body>
                 {events.map(event => {
                   const status = getAvailabilityStatus(event);
@@ -226,7 +226,7 @@ function CompareEventsContent() {
                       <Badge className={`${status.color} text-white`}>
                         {status.label}
                       </Badge>
-                      <Body className="text-body-sm text-grey-500 mt-1">
+                      <Body className="text-body-sm text-ink-500 mt-1">
                         {event.tickets_available} / {event.capacity}
                       </Body>
                     </Stack>
@@ -234,7 +234,7 @@ function CompareEventsContent() {
                 })}
               </Stack>
 
-              <Stack direction="horizontal" className="border-b border-grey-200 py-3">
+              <Stack direction="horizontal" className="border-b border-ink-200 py-3">
                 <Body className="w-40 font-bold">Age Restriction</Body>
                 {events.map(event => (
                   <Stack key={event.id} className="flex-1 px-2">
@@ -243,7 +243,7 @@ function CompareEventsContent() {
                 ))}
               </Stack>
 
-              <Stack direction="horizontal" className="border-b border-grey-200 py-3">
+              <Stack direction="horizontal" className="border-b border-ink-200 py-3">
                 <Body className="w-40 font-bold">Parking</Body>
                 {events.map(event => (
                   <Stack key={event.id} className="flex-1 px-2">
@@ -252,7 +252,7 @@ function CompareEventsContent() {
                 ))}
               </Stack>
 
-              <Stack direction="horizontal" className="border-b border-grey-200 py-3">
+              <Stack direction="horizontal" className="border-b border-ink-200 py-3">
                 <Body className="w-40 font-bold">Accessibility</Body>
                 {events.map(event => (
                   <Stack key={event.id} className="flex-1 px-2">

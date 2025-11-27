@@ -120,7 +120,7 @@ export default function ToursContent() {
       <Container>
         <Section className="border-b-2 border-black py-8 mb-8">
           <Display>TOURS & MULTI-CITY EVENTS</Display>
-          <Body className="mt-2 text-grey-600">
+          <Body className="mt-2 text-ink-600">
             Find your favorite artists on tour across multiple cities
           </Body>
         </Section>
@@ -167,7 +167,7 @@ export default function ToursContent() {
               <Card key={tour.id} className="overflow-hidden">
                 <Stack direction="horizontal" className="border-b-2 border-black">
                   {tour.artist_image && (
-                    <Stack className="w-48 h-48 bg-grey-100 flex-shrink-0 relative">
+                    <Stack className="w-48 h-48 bg-ink-100 flex-shrink-0 relative">
                       <Image
                         src={tour.artist_image}
                         alt={tour.artist_name}
@@ -178,7 +178,7 @@ export default function ToursContent() {
                   )}
                   <Stack className="p-6 flex-1">
                     <H2>{tour.tour_name}</H2>
-                    <Body className="text-grey-600 mt-1">{tour.artist_name}</Body>
+                    <Body className="text-ink-600 mt-1">{tour.artist_name}</Body>
                     <Stack direction="horizontal" gap={4} className="mt-4">
                       <Badge>{tour.total_dates} dates</Badge>
                       <Badge variant="outline">
@@ -196,7 +196,7 @@ export default function ToursContent() {
                         <Stack
                           key={date.id}
                           direction="horizontal"
-                          className="justify-between items-center py-3 border-b border-grey-100 last:border-0"
+                          className="justify-between items-center py-3 border-b border-ink-100 last:border-0"
                         >
                           <Stack direction="horizontal" gap={6} className="items-center">
                             <Stack className="w-24">
@@ -206,7 +206,7 @@ export default function ToursContent() {
                                   day: 'numeric',
                                 })}
                               </Body>
-                              <Body className="text-body-sm text-grey-500">
+                              <Body className="text-body-sm text-ink-500">
                                 {new Date(date.date).toLocaleDateString('en-US', {
                                   weekday: 'short',
                                 })}
@@ -214,7 +214,7 @@ export default function ToursContent() {
                             </Stack>
                             <Stack>
                               <Body className="font-medium">{date.city}, {date.state}</Body>
-                              <Body className="text-body-sm text-grey-500">{date.venue}</Body>
+                              <Body className="text-body-sm text-ink-500">{date.venue}</Body>
                             </Stack>
                           </Stack>
 
@@ -241,7 +241,7 @@ export default function ToursContent() {
         ) : (
           <Card className="p-12 text-center">
             <H3 className="mb-4">NO TOURS FOUND</H3>
-            <Body className="text-grey-600 mb-6">
+            <Body className="text-ink-600 mb-6">
               {searchTerm
                 ? `No tours found for "${searchTerm}". Try a different search.`
                 : 'Search for an artist to see their tour dates.'}

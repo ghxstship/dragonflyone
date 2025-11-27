@@ -30,6 +30,8 @@ export interface CrewCardProps {
   variant?: "default" | "compact" | "detailed";
   /** Click handler */
   onClick?: () => void;
+  /** Inverted theme (dark background) */
+  inverted?: boolean;
   /** Custom className */
   className?: string;
 }
@@ -64,18 +66,22 @@ export function CrewCard({
   rating,
   variant = "default",
   onClick,
+  inverted = false,
   className = "",
 }: CrewCardProps) {
   const statusInfo = statusConfig[status];
   const isCompact = variant === "compact";
   const isDetailed = variant === "detailed";
 
-  const avatarHeightClass = isCompact ? "h-20" : isDetailed ? "h-[200px]" : "h-40";
+  const avatarHeightClass = isCompact ? "h-spacing-20" : isDetailed ? "h-spacing-48" : "h-spacing-40";
 
   return (
     <article
       className={clsx(
-        "flex bg-white border-2 border-black overflow-hidden transition-all duration-base",
+        "flex border-2 overflow-hidden transition-all duration-base",
+        inverted
+          ? "bg-ink-900 border-grey-700 text-white"
+          : "bg-white border-black text-black",
         isCompact ? "flex-row" : "flex-col",
         onClick && "cursor-pointer hover:-translate-y-0.5 hover:shadow-hard",
         className
@@ -88,7 +94,7 @@ export function CrewCard({
       <div
         className={clsx(
           "relative bg-grey-800 flex items-center justify-center flex-shrink-0 overflow-hidden",
-          isCompact ? "w-20 h-20" : "w-full",
+          isCompact ? "w-spacing-20 h-spacing-20" : "w-full",
           !isCompact && avatarHeightClass
         )}
       >
@@ -114,7 +120,7 @@ export function CrewCard({
         {!isCompact && (
           <div
             className={clsx(
-              "absolute top-3 right-3 font-code text-mono-xs tracking-widest px-2 py-1",
+              "absolute top-spacing-3 right-spacing-3 font-code text-mono-xs tracking-widest px-spacing-2 py-spacing-1",
               statusInfo.bgClass,
               statusInfo.textClass
             )}
@@ -128,14 +134,15 @@ export function CrewCard({
       <div
         className={clsx(
           "flex flex-col flex-1",
-          isCompact ? "p-3 gap-1" : "p-5 gap-2"
+          isCompact ? "p-spacing-3 gap-gap-xs" : "p-spacing-5 gap-gap-xs"
         )}
       >
         {/* Name & Role */}
         <div>
           <h3
             className={clsx(
-              "font-heading text-black uppercase tracking-wide leading-snug",
+              "font-heading uppercase tracking-wide leading-snug",
+              inverted ? "text-white" : "text-black",
               isCompact ? "text-h5-md" : "text-h4-md"
             )}
           >
@@ -143,7 +150,8 @@ export function CrewCard({
           </h3>
           <div
             className={clsx(
-              "font-body text-grey-700 mt-1",
+              "font-body mt-spacing-1",
+              inverted ? "text-grey-300" : "text-grey-700",
               isCompact ? "text-body-sm" : "text-body-md"
             )}
           >
@@ -153,7 +161,7 @@ export function CrewCard({
 
         {/* Department */}
         {department && !isCompact && (
-          <div className="font-code text-mono-sm text-grey-500 tracking-wide">
+          <div className={clsx("font-code text-mono-sm tracking-wide", inverted ? "text-grey-400" : "text-grey-500")}>
             {department}
           </div>
         )}
@@ -163,7 +171,9 @@ export function CrewCard({
           <div
             className={clsx(
               "font-code text-mono-xs tracking-widest mt-auto",
-              status === "available" ? "text-black" : "text-grey-600"
+              status === "available"
+                ? inverted ? "text-white" : "text-black"
+                : inverted ? "text-grey-400" : "text-grey-600"
             )}
           >
             {statusInfo.label}
@@ -172,24 +182,30 @@ export function CrewCard({
 
         {/* Current Assignment */}
         {currentAssignment && !isCompact && (
-          <div className="font-code text-mono-sm text-grey-600 tracking-wide p-2 bg-grey-100 mt-2">
+          <div className={clsx(
+            "font-code text-mono-sm tracking-wide p-spacing-2 mt-spacing-2",
+            inverted ? "text-grey-300 bg-grey-800" : "text-grey-600 bg-grey-100"
+          )}>
             ASSIGNED: {currentAssignment}
           </div>
         )}
 
         {/* Skills */}
         {isDetailed && skills.length > 0 && (
-          <div className="flex flex-wrap gap-1.5 mt-2">
+          <div className="flex flex-wrap gap-gap-xs mt-spacing-2">
             {skills.slice(0, 4).map((skill, index) => (
               <span
                 key={index}
-                className="font-code text-mono-xs text-grey-700 tracking-wide px-2 py-1 border border-grey-300"
+                className={clsx(
+                  "font-code text-mono-xs tracking-wide px-spacing-2 py-spacing-1 border",
+                  inverted ? "text-grey-300 border-grey-600" : "text-grey-700 border-grey-300"
+                )}
               >
                 {skill}
               </span>
             ))}
             {skills.length > 4 && (
-              <span className="font-code text-mono-xs text-grey-500 tracking-wide px-2 py-1">
+              <span className={clsx("font-code text-mono-xs tracking-wide px-spacing-2 py-spacing-1", inverted ? "text-grey-400" : "text-grey-500")}>
                 +{skills.length - 4}
               </span>
             )}
@@ -198,14 +214,14 @@ export function CrewCard({
 
         {/* Contact Info (Detailed only) */}
         {isDetailed && (email || phone) && (
-          <div className="flex flex-col gap-1 mt-auto pt-3 border-t border-grey-200">
+          <div className={clsx("flex flex-col gap-gap-xs mt-auto pt-spacing-3 border-t", inverted ? "border-grey-700" : "border-grey-200")}>
             {email && (
-              <div className="font-code text-mono-sm text-grey-600 tracking-wide">
+              <div className={clsx("font-code text-mono-sm tracking-wide", inverted ? "text-grey-400" : "text-grey-600")}>
                 {email}
               </div>
             )}
             {phone && (
-              <div className="font-code text-mono-sm text-grey-600 tracking-wide">
+              <div className={clsx("font-code text-mono-sm tracking-wide", inverted ? "text-grey-400" : "text-grey-600")}>
                 {phone}
               </div>
             )}
@@ -216,20 +232,22 @@ export function CrewCard({
         {rating !== undefined && !isCompact && (
           <div
             className={clsx(
-              "flex items-center gap-1",
-              isDetailed ? "mt-2" : "mt-auto"
+              "flex items-center gap-gap-xs",
+              isDetailed ? "mt-spacing-2" : "mt-auto"
             )}
           >
             {[1, 2, 3, 4, 5].map((star) => (
               <span
                 key={star}
                 className={clsx(
-                  "w-3 h-3",
-                  star <= rating ? "bg-black" : "bg-grey-300"
+                  "w-spacing-3 h-spacing-3",
+                  star <= rating
+                    ? inverted ? "bg-white" : "bg-black"
+                    : inverted ? "bg-grey-600" : "bg-grey-300"
                 )}
               />
             ))}
-            <span className="font-code text-mono-xs text-grey-600 ml-2">
+            <span className={clsx("font-code text-mono-xs ml-spacing-2", inverted ? "text-grey-400" : "text-grey-600")}>
               {rating.toFixed(1)}
             </span>
           </div>

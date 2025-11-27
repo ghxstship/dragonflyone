@@ -6,9 +6,9 @@ import type { HTMLAttributes } from "react";
 export const Main = forwardRef<HTMLElement, HTMLAttributes<HTMLElement> & { background?: "white" | "black" | "grey" | "ink" }>(
   function Main({ background = "white", className, children, ...props }, ref) {
     const bgClasses = {
-      white: "bg-white text-black",
-      black: "bg-black text-white",
-      grey: "bg-grey-100 text-black",
+      white: "bg-surface-primary text-text-primary",
+      black: "bg-surface-inverse text-text-inverse",
+      grey: "bg-surface-secondary text-text-primary",
       ink: "bg-ink-950 text-ink-50",
     };
 
@@ -28,8 +28,8 @@ export const Main = forwardRef<HTMLElement, HTMLAttributes<HTMLElement> & { back
 export const Header = forwardRef<HTMLElement, HTMLAttributes<HTMLElement> & { variant?: "page" | "section" | "card" }>(
   function Header({ variant = "page", className, children, ...props }, ref) {
     const variantClasses = {
-      page: "flex flex-col gap-6 md:flex-row md:items-center md:justify-between",
-      section: "flex flex-col gap-4",
+      page: "flex flex-col gap-spacing-6 md:flex-row md:items-center md:justify-between",
+      section: "flex flex-col gap-spacing-4",
       card: "flex items-center justify-between",
     };
 
@@ -50,8 +50,8 @@ export const Article = forwardRef<HTMLElement, HTMLAttributes<HTMLElement> & { v
   function Article({ variant = "default", className, children, ...props }, ref) {
     const variantClasses = {
       default: "",
-      card: "border border-ink-800 p-6",
-      bordered: "border-2 border-ink-800 p-6 hover:border-ink-600 transition-colors",
+      card: "border-2 border-ink-800 p-spacing-6",
+      bordered: "border-2 border-ink-800 p-spacing-6 hover:border-ink-600 transition-colors",
     };
 
     return (
@@ -85,8 +85,8 @@ export const Aside = forwardRef<HTMLElement, HTMLAttributes<HTMLElement>>(
 export const Nav = forwardRef<HTMLElement, HTMLAttributes<HTMLElement> & { variant?: "horizontal" | "vertical" }>(
   function Nav({ variant = "horizontal", className, children, ...props }, ref) {
     const variantClasses = {
-      horizontal: "flex items-center gap-4",
-      vertical: "flex flex-col gap-2",
+      horizontal: "flex items-center gap-spacing-4",
+      vertical: "flex flex-col gap-spacing-2",
     };
 
     return (
@@ -112,7 +112,7 @@ export const Figure = forwardRef<HTMLElement, HTMLAttributes<HTMLElement> & { ca
       >
         {children}
         {caption && (
-          <figcaption className="mt-2 text-sm text-grey-500 font-code">
+          <figcaption className="mt-spacing-2 text-mono-sm text-grey-500 font-code">
             {caption}
           </figcaption>
         )}
@@ -136,9 +136,9 @@ export const Box = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement> & {
 
     const paddingClasses = {
       none: "",
-      sm: "p-4",
-      md: "p-6",
-      lg: "p-8",
+      sm: "p-spacing-4",
+      md: "p-spacing-6",
+      lg: "p-spacing-8",
     };
 
     return (

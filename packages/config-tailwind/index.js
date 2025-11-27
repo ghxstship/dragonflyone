@@ -220,6 +220,116 @@ const fontFamilies = {
 };
 
 /**
+ * Semantic font weight tokens
+ * Use these instead of raw Tailwind font-weight classes
+ */
+const fontWeightTokens = {
+  'weight-normal': '400',
+  'weight-medium': '500',
+  'weight-semibold': '600',
+  'weight-bold': '700',
+};
+
+/**
+ * Semantic border radius tokens
+ * Use these instead of raw rounded-* classes
+ */
+const borderRadiusTokens = {
+  'radius-none': '0',
+  'radius-subtle': '2px',
+  'radius-sm': '4px',
+  'radius-button': '0',      // Geometric aesthetic - no radius
+  'radius-input': '0',       // Geometric aesthetic - no radius
+  'radius-card': '0',        // Geometric aesthetic - no radius
+  'radius-avatar': '9999px', // Full circle for avatars
+  'radius-badge': '0',       // Geometric aesthetic - no radius
+  'radius-tag': '0',         // Geometric aesthetic - no radius
+};
+
+/**
+ * Semantic line-height tokens
+ * Use these instead of raw leading-* classes
+ */
+const lineHeightTokens = {
+  'leading-display': '0.9',
+  'leading-heading': '1.0',
+  'leading-title': '1.1',
+  'leading-subtitle': '1.2',
+  'leading-body': '1.6',
+  'leading-relaxed': '1.4',
+  'leading-comfortable': '1.8',
+  'leading-none': '1',
+};
+
+/**
+ * Semantic Surface/Background Colors (CSS Variable-based)
+ * These enable automatic theme switching without prop drilling
+ * 
+ * Usage:
+ * - bg-surface-primary: Main content background
+ * - bg-surface-secondary: Subtle differentiation (cards, sections)
+ * - bg-surface-elevated: Modals, dropdowns, popovers
+ * - bg-surface-overlay: Backdrop overlays
+ * - bg-surface-inverse: Inverted sections (headers, CTAs)
+ * - bg-surface-muted: Disabled/inactive states
+ */
+const semanticSurfaceColors = {
+  'surface-primary': 'var(--surface-primary)',
+  'surface-secondary': 'var(--surface-secondary)',
+  'surface-tertiary': 'var(--surface-tertiary)',
+  'surface-elevated': 'var(--surface-elevated)',
+  'surface-overlay': 'var(--surface-overlay)',
+  'surface-inverse': 'var(--surface-inverse)',
+  'surface-muted': 'var(--surface-muted)',
+  'surface-accent': 'var(--surface-accent)',
+};
+
+/**
+ * Semantic Text Colors (CSS Variable-based)
+ * Automatically adjust based on theme
+ */
+const semanticTextColors = {
+  'text-primary': 'var(--text-primary)',
+  'text-secondary': 'var(--text-secondary)',
+  'text-tertiary': 'var(--text-tertiary)',
+  'text-muted': 'var(--text-muted)',
+  'text-inverse': 'var(--text-inverse)',
+  'text-accent': 'var(--text-accent)',
+  'text-link': 'var(--text-link)',
+  'text-link-hover': 'var(--text-link-hover)',
+};
+
+/**
+ * Semantic Border Colors (CSS Variable-based)
+ */
+const semanticBorderColors = {
+  'border-primary': 'var(--border-primary)',
+  'border-secondary': 'var(--border-secondary)',
+  'border-muted': 'var(--border-muted)',
+  'border-focus': 'var(--border-focus)',
+  'border-inverse': 'var(--border-inverse)',
+  'border-accent': 'var(--border-accent)',
+};
+
+/**
+ * Semantic Interactive State Colors (CSS Variable-based)
+ */
+const semanticInteractiveColors = {
+  'hover-surface': 'var(--hover-surface)',
+  'active-surface': 'var(--active-surface)',
+  'focus-ring': 'var(--focus-ring)',
+};
+
+/**
+ * Semantic Shadow tokens (CSS Variable-based)
+ */
+const semanticShadowTokens = {
+  'shadow-sm': 'var(--shadow-sm)',
+  'shadow-md': 'var(--shadow-md)',
+  'shadow-lg': 'var(--shadow-lg)',
+};
+
+/**
  * Typography Scale - based on design tokens
  */
 const fontSizeScale = {
@@ -270,12 +380,148 @@ const shadowTokens = {
   'hard-lg-white': '8px 8px 0 0 #FFFFFF'
 };
 
+/**
+ * Breakpoint tokens - responsive design
+ */
+const breakpointTokens = {
+  xs: '320px',
+  sm: '640px',
+  md: '768px',
+  lg: '1024px',
+  xl: '1280px',
+  '2xl': '1536px',
+};
+
+/**
+ * Opacity tokens - semantic opacity values
+ */
+const opacityTokens = {
+  0: '0',
+  5: '0.05',
+  10: '0.1',
+  15: '0.15',
+  20: '0.2',
+  25: '0.25',
+  30: '0.3',
+  40: '0.4',
+  50: '0.5',
+  60: '0.6',
+  70: '0.7',
+  75: '0.75',
+  80: '0.8',
+  85: '0.85',
+  90: '0.9',
+  95: '0.95',
+  100: '1',
+  // Semantic opacity tokens
+  'overlay-light': '0.3',
+  'overlay': '0.5',
+  'overlay-heavy': '0.7',
+  'disabled': '0.5',
+  'muted': '0.6',
+  'hover': '0.8',
+};
+
+/**
+ * Aspect ratio tokens
+ */
+const aspectRatioTokens = {
+  auto: 'auto',
+  square: '1 / 1',
+  video: '16 / 9',
+  'video-vertical': '9 / 16',
+  photo: '4 / 3',
+  'photo-portrait': '3 / 4',
+  wide: '21 / 9',
+  ultrawide: '32 / 9',
+  golden: '1.618 / 1',
+};
+
+/**
+ * Ring tokens - focus ring configuration for accessibility
+ */
+const ringTokens = {
+  width: {
+    DEFAULT: '2px',
+    0: '0px',
+    1: '1px',
+    2: '2px',
+    4: '4px',
+  },
+  offset: {
+    0: '0px',
+    1: '1px',
+    2: '2px',
+    4: '4px',
+  },
+  colors: {
+    DEFAULT: inkPalette[50],
+    focus: inkPalette[50],
+    'focus-dark': inkPalette[950],
+    error: '#EF4444',
+    success: '#22C55E',
+  },
+};
+
+/**
+ * Outline tokens - outline configuration
+ */
+const outlineTokens = {
+  none: ['2px solid transparent', '0px'],
+  DEFAULT: ['2px solid currentColor', '2px'],
+  dashed: ['2px dashed currentColor', '2px'],
+};
+
+/**
+ * Backdrop blur tokens
+ */
+const backdropBlurTokens = {
+  none: '0',
+  sm: '4px',
+  DEFAULT: '8px',
+  md: '12px',
+  lg: '16px',
+  xl: '24px',
+  '2xl': '40px',
+  '3xl': '64px',
+};
+
+/**
+ * Grid template rows tokens
+ */
+const gridRowTokens = {
+  1: 'repeat(1, minmax(0, 1fr))',
+  2: 'repeat(2, minmax(0, 1fr))',
+  3: 'repeat(3, minmax(0, 1fr))',
+  4: 'repeat(4, minmax(0, 1fr))',
+  5: 'repeat(5, minmax(0, 1fr))',
+  6: 'repeat(6, minmax(0, 1fr))',
+  none: 'none',
+  // Semantic grid rows
+  'header-content': 'auto 1fr',
+  'header-content-footer': 'auto 1fr auto',
+  'sidebar-content': '16rem 1fr',
+};
+
 const baseTailwindConfig = {
   darkMode: 'class',
   future: {
     hoverOnlyWhenSupported: true
   },
   theme: {
+    // Custom breakpoints/screens
+    screens: breakpointTokens,
+    // Container configuration
+    container: {
+      center: true,
+      padding: {
+        DEFAULT: '1rem',
+        sm: '1.5rem',
+        lg: '2rem',
+        xl: '2.5rem',
+        '2xl': '3rem',
+      },
+    },
     extend: {
       colors: {
         black: monochromePalette.black,
@@ -294,6 +540,10 @@ const baseTailwindConfig = {
         teal: accentPalette.teal,
         violet: accentPalette.violet,
         indigo: accentPalette.indigo,
+        // Semantic surface colors (CSS variable-based for theming)
+        ...semanticSurfaceColors,
+        // Semantic interactive state colors (CSS variable-based for theming)
+        ...semanticInteractiveColors,
       },
       // Semantic text colors for WCAG-compliant text/background pairings
       // Usage: text-on-dark-primary, text-on-light-secondary, text-on-mid-muted, etc.
@@ -301,7 +551,41 @@ const baseTailwindConfig = {
         'on-dark': textColorPalette['on-dark'],
         'on-light': textColorPalette['on-light'],
         'on-mid': textColorPalette['on-mid'],
+        // Semantic text colors (CSS variable-based for theming)
+        ...semanticTextColors,
       },
+      // Semantic border colors (CSS variable-based for theming)
+      borderColor: {
+        ...semanticBorderColors,
+      },
+      // Semantic shadows (CSS variable-based for theming)
+      boxShadow: {
+        ...shadowTokens,
+        ...semanticShadowTokens,
+      },
+      // Opacity tokens
+      opacity: opacityTokens,
+      // Aspect ratio tokens
+      aspectRatio: aspectRatioTokens,
+      // Ring (focus) tokens
+      ringWidth: ringTokens.width,
+      ringOffsetWidth: ringTokens.offset,
+      ringColor: ringTokens.colors,
+      ringOffsetColor: {
+        DEFAULT: inkPalette[950],
+        light: inkPalette[50],
+      },
+      // Outline tokens
+      outlineOffset: {
+        0: '0px',
+        1: '1px',
+        2: '2px',
+        4: '4px',
+      },
+      // Backdrop blur tokens
+      backdropBlur: backdropBlurTokens,
+      // Grid template rows
+      gridTemplateRows: gridRowTokens,
       fontFamily: fontFamilies,
       fontSize: fontSizeScale,
       letterSpacing: {
@@ -325,11 +609,136 @@ const baseTailwindConfig = {
         relaxed: '1.2',
         loose: '1.4',
         body: '1.6',
-        comfortable: '1.8'
+        comfortable: '1.8',
+        // Semantic line-height tokens
+        ...lineHeightTokens,
       },
       spacing: {
         15: '3.75rem',
-        18: '4.5rem'
+        18: '4.5rem',
+        // Semantic spacing tokens
+        'spacing-0': '0',
+        'spacing-px': '1px',
+        'spacing-0.5': '0.125rem',
+        'spacing-1': '0.25rem',
+        'spacing-1.5': '0.375rem',
+        'spacing-2': '0.5rem',
+        'spacing-2.5': '0.625rem',
+        'spacing-3': '0.75rem',
+        'spacing-3.5': '0.875rem',
+        'spacing-4': '1rem',
+        'spacing-5': '1.25rem',
+        'spacing-6': '1.5rem',
+        'spacing-7': '1.75rem',
+        'spacing-8': '2rem',
+        'spacing-9': '2.25rem',
+        'spacing-10': '2.5rem',
+        'spacing-11': '2.75rem',
+        'spacing-12': '3rem',
+        'spacing-14': '3.5rem',
+        'spacing-16': '4rem',
+        'spacing-20': '5rem',
+        'spacing-24': '6rem',
+        'spacing-28': '7rem',
+        'spacing-32': '8rem',
+        'spacing-36': '9rem',
+        'spacing-40': '10rem',
+        'spacing-44': '11rem',
+        'spacing-48': '12rem',
+        'spacing-52': '13rem',
+        'spacing-56': '14rem',
+        'spacing-60': '15rem',
+        'spacing-64': '16rem',
+        'spacing-72': '18rem',
+        'spacing-80': '20rem',
+        'spacing-96': '24rem',
+        // Semantic gap tokens
+        'gap-xs': '0.25rem',
+        'gap-sm': '0.5rem',
+        'gap-md': '1rem',
+        'gap-lg': '1.5rem',
+        'gap-xl': '2rem',
+        'gap-2xl': '3rem',
+        'gap-3xl': '4rem',
+      },
+      // Semantic width tokens
+      width: {
+        'icon-xs': '0.75rem',
+        'icon-sm': '1rem',
+        'icon-md': '1.25rem',
+        'icon-lg': '1.5rem',
+        'icon-xl': '2rem',
+        'icon-2xl': '2.5rem',
+        'avatar-xs': '1.5rem',
+        'avatar-sm': '2rem',
+        'avatar-md': '2.5rem',
+        'avatar-lg': '3rem',
+        'avatar-xl': '4rem',
+        'avatar-2xl': '5rem',
+      },
+      // Semantic height tokens
+      height: {
+        'icon-xs': '0.75rem',
+        'icon-sm': '1rem',
+        'icon-md': '1.25rem',
+        'icon-lg': '1.5rem',
+        'icon-xl': '2rem',
+        'icon-2xl': '2.5rem',
+        'avatar-xs': '1.5rem',
+        'avatar-sm': '2rem',
+        'avatar-md': '2.5rem',
+        'avatar-lg': '3rem',
+        'avatar-xl': '4rem',
+        'avatar-2xl': '5rem',
+        'input': '2.5rem',
+        'input-sm': '2rem',
+        'input-lg': '3rem',
+        'button': '2.5rem',
+        'button-sm': '2rem',
+        'button-lg': '3rem',
+      },
+      // Semantic min-width tokens
+      minWidth: {
+        'card-sm': '18.75rem', // 300px
+        'card-md': '20rem', // 320px
+        'card-lg': '24rem', // 384px
+        'sidebar': '16rem', // 256px
+        'select': '18.75rem', // 300px
+      },
+      // Semantic max-width tokens
+      maxWidth: {
+        'container-xs': '20rem',
+        'container-sm': '24rem',
+        'container-md': '28rem',
+        'container-lg': '32rem',
+        'container-xl': '36rem',
+        'container-2xl': '42rem',
+        'container-3xl': '48rem',
+        'container-4xl': '56rem',
+        'container-5xl': '64rem',
+        'container-6xl': '72rem',
+        'container-7xl': '80rem',
+        'prose': '65ch',
+        'content': '80rem',
+      },
+      // Semantic min-height tokens
+      minHeight: {
+        'card': '5rem', // 80px
+        'calendar-cell': '3.75rem', // 60px
+        'panel-sm': '25rem', // 400px
+        'panel-md': '31.25rem', // 500px
+        'panel-lg': '37.5rem', // 600px
+        'chat': '25rem', // 400px
+        'map': '31.25rem', // 500px
+      },
+      // Semantic max-height tokens
+      maxHeight: {
+        'dropdown': '18.75rem', // 300px
+        'modal': '25rem', // 400px
+        'panel-sm': '25rem', // 400px
+        'panel-md': '31.25rem', // 500px
+        'panel-lg': '37.5rem', // 600px
+        'chat': '25rem', // 400px
       },
       borderWidth: {
         3: '3px',
@@ -338,9 +747,11 @@ const baseTailwindConfig = {
       borderRadius: {
         none: '0',
         subtle: '2px',
-        sm: '4px'
+        sm: '4px',
+        // Semantic radius tokens
+        ...borderRadiusTokens,
       },
-      boxShadow: shadowTokens,
+      fontWeight: fontWeightTokens,
       zIndex: {
         base: '0',
         dropdown: '1000',
@@ -404,12 +815,34 @@ const createTailwindConfig = (overrides = {}) => {
 };
 
 module.exports = {
+  // Color palettes
   monochromePalette,
   inkPalette,
   textColorPalette,
+  statusPalette,
+  accentPalette,
+  // Semantic CSS variable-based tokens for theme switching
+  semanticSurfaceColors,
+  semanticTextColors,
+  semanticBorderColors,
+  semanticInteractiveColors,
+  semanticShadowTokens,
+  // Typography tokens
   fontFamilies,
+  fontWeightTokens,
   fontSizeScale,
+  lineHeightTokens,
+  // Layout tokens
+  borderRadiusTokens,
   shadowTokens,
+  breakpointTokens,
+  opacityTokens,
+  aspectRatioTokens,
+  ringTokens,
+  outlineTokens,
+  backdropBlurTokens,
+  gridRowTokens,
+  // Tailwind config
   baseTailwindConfig,
-  createTailwindConfig
+  createTailwindConfig,
 };

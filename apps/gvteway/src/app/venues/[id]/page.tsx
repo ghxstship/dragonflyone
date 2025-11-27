@@ -134,7 +134,7 @@ export default function VenuePage() {
       <Container>
         {venue.image && (
           <Section className="mb-8 -mx-4 md:-mx-8">
-            <Figure className="relative h-64 md:h-96 bg-grey-100 overflow-hidden">
+            <Figure className="relative h-64 md:h-96 bg-ink-100 overflow-hidden">
               <Image
                 src={venue.image}
                 alt={venue.name}
@@ -149,7 +149,7 @@ export default function VenuePage() {
           <Stack direction="horizontal" className="justify-between items-start">
             <Stack gap={4}>
               <Display>{venue.name.toUpperCase()}</Display>
-              <Body className="text-grey-600">
+              <Body className="text-ink-600">
                 {venue.address}, {venue.city}, {venue.state}
               </Body>
               <Stack direction="horizontal" gap={4}>
@@ -179,7 +179,7 @@ export default function VenuePage() {
             {venue.description && (
               <Card className="p-6">
                 <H2 className="mb-4">ABOUT</H2>
-                <Body className="text-grey-600">{venue.description}</Body>
+                <Body className="text-ink-600">{venue.description}</Body>
               </Card>
             )}
 
@@ -199,7 +199,7 @@ export default function VenuePage() {
                 </Grid>
               ) : (
                 <Card className="p-8 text-center">
-                  <Body className="text-grey-500">No upcoming events at this venue.</Body>
+                  <Body className="text-ink-500">No upcoming events at this venue.</Body>
                 </Card>
               )}
             </Section>
@@ -211,7 +211,7 @@ export default function VenuePage() {
                 <H3 className="mb-4">AMENITIES</H3>
                 <Stack gap={2}>
                   {venue.amenities.map((amenity, index) => (
-                    <Body key={index} className="text-grey-600">• {amenity}</Body>
+                    <Body key={index} className="text-ink-600">• {amenity}</Body>
                   ))}
                 </Stack>
               </Card>
@@ -220,27 +220,27 @@ export default function VenuePage() {
             {venue.accessibility_info && (
               <Card className="p-6">
                 <H3 className="mb-4">ACCESSIBILITY</H3>
-                <Body className="text-grey-600">{venue.accessibility_info}</Body>
+                <Body className="text-ink-600">{venue.accessibility_info}</Body>
               </Card>
             )}
 
             {venue.parking_info && (
               <Card className="p-6">
                 <H3 className="mb-4">PARKING</H3>
-                <Body className="text-grey-600">{venue.parking_info}</Body>
+                <Body className="text-ink-600">{venue.parking_info}</Body>
               </Card>
             )}
 
             {venue.public_transit && (
               <Card className="p-6">
                 <H3 className="mb-4">PUBLIC TRANSIT</H3>
-                <Body className="text-grey-600">{venue.public_transit}</Body>
+                <Body className="text-ink-600">{venue.public_transit}</Body>
               </Card>
             )}
 
-            <Card className="p-6 bg-grey-50">
+            <Card className="p-6 bg-ink-50">
               <H3 className="mb-4">NEED HELP?</H3>
-              <Body className="text-grey-600 mb-4">
+              <Body className="text-ink-600 mb-4">
                 Have questions about this venue? Contact our support team.
               </Body>
               <Button variant="outline" className="w-full" onClick={() => router.push('/help')}>

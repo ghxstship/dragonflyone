@@ -43,24 +43,24 @@ function VerifyEmailContent() {
       }
     >
       <SectionLayout background="grey">
-        <Stack gap={8} className="mx-auto max-w-md bg-white p-8 border border-grey-200 text-center">
-          <Stack className="w-16 h-16 mx-auto bg-grey-200 rounded-full items-center justify-center">
+        <Stack gap={8} className="mx-auto max-w-md bg-white p-8 border border-ink-200 text-center">
+          <Stack className="w-16 h-16 mx-auto bg-ink-200 rounded-full items-center justify-center">
             <Mail className="w-8 h-8" />
           </Stack>
           <H2>Verify Your Email</H2>
-          <Body className="text-grey-600">
+          <Body className="text-ink-600">
             We&apos;ve sent a verification email to{" "}
             {email && <strong className="text-black">{email}</strong>}
             {!email && "your email address"}.
             Please click the link in the email to verify your account.
           </Body>
           <Stack gap={4}>
-            <Body size="sm" className="text-grey-500">Didn&apos;t receive the email?</Body>
-            <Button variant="ghost" onClick={() => alert('Verification email resent!')} className="text-black hover:text-grey-600">
+            <Body size="sm" className="text-ink-500">Didn&apos;t receive the email?</Body>
+            <Button variant="ghost" onClick={() => alert('Verification email resent!')} className="text-black hover:text-ink-600">
               Resend Verification Email
             </Button>
           </Stack>
-          <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/signin'} className="text-grey-600 hover:text-black">
+          <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/signin'} className="text-ink-600 hover:text-black">
             Back to Sign In
           </Button>
         </Stack>

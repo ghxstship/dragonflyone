@@ -118,7 +118,7 @@ export default function TicketTransferContent() {
               <Body className="text-white text-h3-md">✓</Body>
             </Stack>
             <Display>TRANSFER COMPLETE</Display>
-            <Body className="text-center text-grey-600 max-w-md">
+            <Body className="text-center text-ink-600 max-w-md">
               Your ticket has been successfully transferred to {recipientEmail}. 
               They will receive an email with instructions to claim their ticket.
             </Body>
@@ -136,7 +136,7 @@ export default function TicketTransferContent() {
       <Container>
         <Section className="border-b-2 border-black py-8 mb-8">
           <Display>TRANSFER TICKET</Display>
-          <Body className="mt-2 text-grey-600">
+          <Body className="mt-2 text-ink-600">
             Send your ticket to a friend or family member
           </Body>
         </Section>
@@ -159,15 +159,15 @@ export default function TicketTransferContent() {
                       key={ticket.id}
                       className={`p-4 cursor-pointer transition-all ${
                         selectedTicket === ticket.id 
-                          ? 'border-2 border-black bg-grey-50' 
-                          : 'border border-grey-200 hover:border-grey-400'
+                          ? 'border-2 border-black bg-ink-50' 
+                          : 'border border-ink-200 hover:border-ink-400'
                       }`}
                       onClick={() => setSelectedTicket(ticket.id)}
                     >
                       <Stack direction="horizontal" className="justify-between items-start">
                         <Stack gap={1}>
                           <H3>{ticket.event_title}</H3>
-                          <Body className="text-grey-600">{ticket.event_date}</Body>
+                          <Body className="text-ink-600">{ticket.event_date}</Body>
                           <Stack direction="horizontal" gap={2} className="mt-2">
                             <Badge>{ticket.ticket_type}</Badge>
                             {ticket.seat_info && (
@@ -178,7 +178,7 @@ export default function TicketTransferContent() {
                         <Stack className={`w-6 h-6 rounded-full border-2 ${
                           selectedTicket === ticket.id 
                             ? 'border-black bg-black' 
-                            : 'border-grey-300'
+                            : 'border-ink-300'
                         }`}>
                           {selectedTicket === ticket.id && (
                             <Body className="text-white text-center text-body-sm">✓</Body>
@@ -190,7 +190,7 @@ export default function TicketTransferContent() {
                 </Stack>
               ) : (
                 <Stack className="items-center py-8">
-                  <Body className="text-grey-500">No transferable tickets found.</Body>
+                  <Body className="text-ink-500">No transferable tickets found.</Body>
                   <Button variant="outline" className="mt-4" onClick={() => router.push('/events')}>
                     Browse Events
                   </Button>
@@ -230,7 +230,7 @@ export default function TicketTransferContent() {
                   />
                 </Field>
 
-                <Stack className="border-t border-grey-200 pt-4 mt-2">
+                <Stack className="border-t border-ink-200 pt-4 mt-2">
                   <Button
                     variant="solid"
                     className="w-full"
@@ -250,19 +250,19 @@ export default function TicketTransferContent() {
               </Stack>
             </Card>
 
-            <Card className="p-6 bg-grey-50">
+            <Card className="p-6 bg-ink-50">
               <H3 className="mb-4">TRANSFER POLICY</H3>
               <Stack gap={2}>
-                <Body className="text-body-sm text-grey-600">
+                <Body className="text-body-sm text-ink-600">
                   • Transfers are final and cannot be undone
                 </Body>
-                <Body className="text-body-sm text-grey-600">
+                <Body className="text-body-sm text-ink-600">
                   • The recipient will receive an email to claim the ticket
                 </Body>
-                <Body className="text-body-sm text-grey-600">
+                <Body className="text-body-sm text-ink-600">
                   • Original ticket will be invalidated after transfer
                 </Body>
-                <Body className="text-body-sm text-grey-600">
+                <Body className="text-body-sm text-ink-600">
                   • Some events may restrict ticket transfers
                 </Body>
               </Stack>

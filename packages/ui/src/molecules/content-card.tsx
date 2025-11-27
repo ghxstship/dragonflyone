@@ -55,9 +55,9 @@ export const ContentCard = forwardRef<HTMLElement, ContentCardProps>(
     };
 
     const paddingClasses = {
-      sm: "p-4",
-      md: "p-6",
-      lg: "p-8",
+      sm: "p-spacing-4",
+      md: "p-spacing-6",
+      lg: "p-spacing-8",
     };
 
     return (
@@ -70,15 +70,15 @@ export const ContentCard = forwardRef<HTMLElement, ContentCardProps>(
         )}
         {...props}
       >
-        {kicker && <Kicker className="mb-4">{kicker}</Kicker>}
+        {kicker && <Kicker className="mb-spacing-4">{kicker}</Kicker>}
         <H3 size="sm">{title}</H3>
         {description && (
-          <Body size="sm" className="mt-2 text-ink-300">{description}</Body>
+          <Body size="sm" className="mt-spacing-2 text-ink-300">{description}</Body>
         )}
         {bullets && bullets.length > 0 && (
-          <List className="mt-4 space-y-2 text-body-sm text-ink-200">
+          <List className="mt-spacing-4 space-y-spacing-2 text-body-sm text-ink-200">
             {bullets.map((bullet) => (
-              <ListItem key={bullet} className="flex gap-2">
+              <ListItem key={bullet} className="flex gap-gap-xs">
                 {typeof bulletPrefix === "string" ? (
                   <Text className="text-ink-500">{bulletPrefix}</Text>
                 ) : (
@@ -90,7 +90,7 @@ export const ContentCard = forwardRef<HTMLElement, ContentCardProps>(
           </List>
         )}
         {children}
-        {footer && <div className="mt-4">{footer}</div>}
+        {footer && <div className="mt-spacing-4">{footer}</div>}
       </article>
     );
   }
@@ -110,7 +110,7 @@ export const FeatureCard = forwardRef<HTMLElement, FeatureCardProps>(
     return (
       <ContentCard ref={ref} {...props}>
         {metrics && metrics.length > 0 && (
-          <Stack direction="horizontal" gap={6} className="mt-4">
+          <Stack direction="horizontal" gap={6} className="mt-spacing-4">
             {metrics.map((metric) => (
               <Stack key={metric.label}>
                 <Kicker size="sm" variant="muted">{metric.label}</Kicker>

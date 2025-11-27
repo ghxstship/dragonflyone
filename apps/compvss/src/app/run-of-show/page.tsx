@@ -63,9 +63,9 @@ export default function RunOfShowPage() {
       <CreatorNavigationAuthenticated />
       <Container className="py-16">
         <Stack gap={8}>
-          <Stack gap={2} className="border-b border-grey-800 pb-8">
+          <Stack gap={2} className="border-b border-ink-800 pb-8">
             <H1>Run of Show</H1>
-            <Body className="text-grey-400">Current Time: {currentTime}</Body>
+            <Body className="text-ink-400">Current Time: {currentTime}</Body>
           </Stack>
 
           <Stack gap={4}>
@@ -73,9 +73,9 @@ export default function RunOfShowPage() {
               <Card
                 key={cue.id}
                 className={`p-6 ${
-                  cue.status === 'complete' ? 'bg-grey-800 opacity-60' :
-                  cue.status === 'ready' ? 'bg-grey-900 border-l-4 border-white' :
-                  'bg-grey-900'
+                  cue.status === 'complete' ? 'bg-ink-800 opacity-60' :
+                  cue.status === 'ready' ? 'bg-ink-900 border-l-4 border-white' :
+                  'bg-ink-900'
                 }`}
               >
                 <Grid cols={6} gap={4}>
@@ -84,10 +84,10 @@ export default function RunOfShowPage() {
                   </Stack>
                   <Stack gap={1} className="col-span-2">
                     <Body className="text-white font-bold">{cue.cue}</Body>
-                    <Body className="text-grey-400 text-body-sm">{cue.department}</Body>
+                    <Body className="text-ink-400 text-body-sm">{cue.department}</Body>
                   </Stack>
                   <Stack gap={0} className="col-span-2">
-                    <Body className="text-grey-300 text-body-sm">{cue.notes}</Body>
+                    <Body className="text-ink-300 text-body-sm">{cue.notes}</Body>
                   </Stack>
                   <Stack gap={2} direction="horizontal" className="justify-end">
                     {cue.status === 'pending' && (

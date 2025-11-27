@@ -114,7 +114,7 @@ function ConfirmationContent() {
         <Container className="py-16 text-center">
           <Stack gap={4} className="items-center">
             <H1>Order Not Found</H1>
-            <Body className="text-grey-400">We couldn&apos;t find this order.</Body>
+            <Body className="text-ink-400">We couldn&apos;t find this order.</Body>
             <Button variant="outline" onClick={() => router.push("/orders")}>
               View All Orders
             </Button>
@@ -132,7 +132,7 @@ function ConfirmationContent() {
           <Stack gap={4} className="text-center">
             <Body className="text-h3-md">✓</Body>
             <H1>Order Confirmed!</H1>
-            <Body className="text-grey-400">
+            <Body className="text-ink-400">
               Thank you for your purchase. Your tickets are on the way!
             </Body>
             <Badge variant="solid" className="mx-auto">
@@ -140,40 +140,40 @@ function ConfirmationContent() {
             </Badge>
           </Stack>
 
-          <Card className="p-6 bg-black border-grey-800">
+          <Card className="p-6 bg-black border-ink-800">
             <Stack gap={6}>
               <Stack gap={2}>
-                <Body className="text-grey-400 text-body-sm uppercase tracking-widest">Order Details</Body>
+                <Body className="text-ink-400 text-body-sm uppercase tracking-widest">Order Details</Body>
                 <Stack gap={1} direction="horizontal" className="justify-between">
-                  <Body className="text-grey-400">Order Date</Body>
+                  <Body className="text-ink-400">Order Date</Body>
                   <Body>{formatDate(order.created_at)}</Body>
                 </Stack>
                 <Stack gap={1} direction="horizontal" className="justify-between">
-                  <Body className="text-grey-400">Confirmation Email</Body>
+                  <Body className="text-ink-400">Confirmation Email</Body>
                   <Body>{order.billing_email}</Body>
                 </Stack>
                 <Stack gap={1} direction="horizontal" className="justify-between">
-                  <Body className="text-grey-400">Payment Method</Body>
+                  <Body className="text-ink-400">Payment Method</Body>
                   <Body>{order.payment_method}</Body>
                 </Stack>
               </Stack>
 
               <Stack gap={4}>
-                <Body className="text-grey-400 text-body-sm uppercase tracking-widest">Tickets</Body>
+                <Body className="text-ink-400 text-body-sm uppercase tracking-widest">Tickets</Body>
                 {order.items.map((item) => (
-                  <Card key={item.id} className="p-4 bg-grey-900 border-grey-700">
+                  <Card key={item.id} className="p-4 bg-ink-900 border-ink-700">
                     <Stack gap={3}>
                       <Stack gap={1}>
                         <H2 className="text-body-md">{item.event_name}</H2>
-                        <Body className="text-grey-400">{item.venue_name}</Body>
-                        <Body className="text-grey-500 text-body-sm">
+                        <Body className="text-ink-400">{item.venue_name}</Body>
+                        <Body className="text-ink-500 text-body-sm">
                           {formatDate(item.event_date)} at {formatTime(item.event_date)}
                         </Body>
                       </Stack>
                       <Stack gap={1} direction="horizontal" className="justify-between">
                         <Stack gap={1}>
                           <Badge variant="outline">{item.ticket_type}</Badge>
-                          <Body className="text-grey-400 text-body-sm">
+                          <Body className="text-ink-400 text-body-sm">
                             {item.quantity} × {formatCurrency(item.unit_price)}
                           </Body>
                         </Stack>
@@ -184,17 +184,17 @@ function ConfirmationContent() {
                 ))}
               </Stack>
 
-              <Stack gap={2} className="border-t border-grey-800 pt-4">
+              <Stack gap={2} className="border-t border-ink-800 pt-4">
                 <Stack gap={1} direction="horizontal" className="justify-between">
-                  <Body className="text-grey-400">Subtotal</Body>
+                  <Body className="text-ink-400">Subtotal</Body>
                   <Body className="font-mono">{formatCurrency(order.subtotal)}</Body>
                 </Stack>
                 <Stack gap={1} direction="horizontal" className="justify-between">
-                  <Body className="text-grey-400">Service Fees</Body>
+                  <Body className="text-ink-400">Service Fees</Body>
                   <Body className="font-mono">{formatCurrency(order.fees)}</Body>
                 </Stack>
                 <Stack gap={1} direction="horizontal" className="justify-between">
-                  <Body className="text-grey-400">Taxes</Body>
+                  <Body className="text-ink-400">Taxes</Body>
                   <Body className="font-mono">{formatCurrency(order.taxes)}</Body>
                 </Stack>
                 {order.discount > 0 && (
@@ -203,7 +203,7 @@ function ConfirmationContent() {
                     <Body className="font-mono text-success-400">-{formatCurrency(order.discount)}</Body>
                   </Stack>
                 )}
-                <Stack gap={1} direction="horizontal" className="justify-between border-t border-grey-800 pt-2">
+                <Stack gap={1} direction="horizontal" className="justify-between border-t border-ink-800 pt-2">
                   <Body className="font-bold">Total Paid</Body>
                   <Body className="font-mono text-h6-md font-bold">{formatCurrency(order.total)}</Body>
                 </Stack>
@@ -211,28 +211,28 @@ function ConfirmationContent() {
             </Stack>
           </Card>
 
-          <Card className="p-6 bg-grey-900 border-grey-700">
+          <Card className="p-6 bg-ink-900 border-ink-700">
             <Stack gap={4}>
               <H2>What&apos;s Next?</H2>
               <Grid cols={3} gap={4}>
                 <Stack gap={2}>
                   <Body className="text-h5-md">📧</Body>
                   <Body className="font-medium">Check Your Email</Body>
-                  <Body className="text-grey-400 text-body-sm">
+                  <Body className="text-ink-400 text-body-sm">
                     Your tickets have been sent to {order.billing_email}
                   </Body>
                 </Stack>
                 <Stack gap={2}>
                   <Body className="text-h5-md">📱</Body>
                   <Body className="font-medium">Add to Wallet</Body>
-                  <Body className="text-grey-400 text-body-sm">
+                  <Body className="text-ink-400 text-body-sm">
                     Save your tickets to Apple Wallet or Google Pay
                   </Body>
                 </Stack>
                 <Stack gap={2}>
                   <Body className="text-h5-md">🎫</Body>
                   <Body className="font-medium">View Tickets</Body>
-                  <Body className="text-grey-400 text-body-sm">
+                  <Body className="text-ink-400 text-body-sm">
                     Access your tickets anytime from your account
                   </Body>
                 </Stack>

@@ -70,17 +70,17 @@ export default function MagicLinkPage() {
         <Stack gap={8} className="mx-auto max-w-md">
           {submitted ? (
             <Stack gap={6} className="text-center">
-              <Stack className="w-16 h-16 mx-auto bg-grey-800 rounded-full items-center justify-center">
+              <Stack className="w-16 h-16 mx-auto bg-ink-800 rounded-full items-center justify-center">
                 <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
               </Stack>
               <H2 className="text-white">Check Your Email</H2>
-              <Body className="text-grey-400">
+              <Body className="text-ink-400">
                 We&apos;ve sent a magic link to <strong className="text-white">{email}</strong>. Click the link in the email to sign in.
               </Body>
-              <Body size="sm" className="text-grey-500">Link expires in 1 hour</Body>
-              <Button variant="ghost" onClick={() => setSubmitted(false)} className="text-grey-400 hover:text-white">
+              <Body size="sm" className="text-ink-500">Link expires in 1 hour</Body>
+              <Button variant="ghost" onClick={() => setSubmitted(false)} className="text-ink-400 hover:text-white">
                 Use a different email
               </Button>
             </Stack>
@@ -88,7 +88,7 @@ export default function MagicLinkPage() {
             <>
               <Stack gap={4} className="text-center">
                 <H2 className="text-white">Magic Link</H2>
-                <Body className="text-grey-400">
+                <Body className="text-ink-400">
                   Sign in without a password. We&apos;ll email you a magic link.
                 </Body>
               </Stack>
@@ -103,7 +103,7 @@ export default function MagicLinkPage() {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="your@email.com"
                     required
-                    className="border-grey-700 bg-black text-white"
+                    className="border-ink-700 bg-black text-white"
                   />
                 </Field>
 
@@ -112,12 +112,12 @@ export default function MagicLinkPage() {
                 </Button>
 
                 <Stack gap={3} className="text-center">
-                  <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/signin'} className="text-grey-400 hover:text-white">
+                  <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/signin'} className="text-ink-400 hover:text-white">
                     Sign in with password instead
                   </Button>
-                  <Body size="sm" className="text-grey-400">
+                  <Body size="sm" className="text-ink-400">
                     Don&apos;t have an account?{" "}
-                    <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/signup'} className="text-white hover:text-grey-400 inline">
+                    <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/signup'} className="text-white hover:text-ink-400 inline">
                       Sign up
                     </Button>
                   </Body>

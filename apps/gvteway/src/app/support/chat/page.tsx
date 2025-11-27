@@ -150,7 +150,7 @@ function SupportChatContent() {
       case 'waiting':
         return <Badge className="bg-warning-500 text-white">Waiting</Badge>;
       case 'resolved':
-        return <Badge className="bg-grey-500 text-white">Resolved</Badge>;
+        return <Badge className="bg-ink-500 text-white">Resolved</Badge>;
       default:
         return <Badge>{status}</Badge>;
     }
@@ -175,7 +175,7 @@ function SupportChatContent() {
         <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
           <Stack gap={2}>
             <H1>Guest Services</H1>
-            <Body className="text-grey-600">
+            <Body className="text-ink-600">
               Chat with our support team
             </Body>
           </Stack>
@@ -184,8 +184,8 @@ function SupportChatContent() {
           </Button>
         </Stack>
 
-        <Grid cols={3} gap={6} className="min-h-[600px]">
-          <Card className="p-4 overflow-y-auto max-h-[600px]">
+        <Grid cols={3} gap={6} className="min-h-panel-lg">
+          <Card className="p-4 overflow-y-auto max-h-panel-lg">
             <H3 className="mb-4">CONVERSATIONS</H3>
             {conversations.length > 0 ? (
               <Stack gap={2}>
@@ -195,7 +195,7 @@ function SupportChatContent() {
                     className={`p-3 cursor-pointer transition-colors ${
                       activeConversation?.id === conv.id
                         ? 'bg-black text-white'
-                        : 'hover:bg-grey-100'
+                        : 'hover:bg-ink-100'
                     }`}
                     onClick={() => setActiveConversation(conv)}
                   >
@@ -209,13 +209,13 @@ function SupportChatContent() {
                     </Stack>
                     {conv.event_title && (
                       <Body className={`text-body-sm ${
-                        activeConversation?.id === conv.id ? 'text-grey-600' : 'text-grey-500'
+                        activeConversation?.id === conv.id ? 'text-ink-600' : 'text-ink-500'
                       }`}>
                         {conv.event_title}
                       </Body>
                     )}
                     <Body className={`text-mono-xs mt-1 ${
-                      activeConversation?.id === conv.id ? 'text-grey-600' : 'text-grey-600'
+                      activeConversation?.id === conv.id ? 'text-ink-600' : 'text-ink-600'
                     }`}>
                       {new Date(conv.created_at).toLocaleDateString()}
                     </Body>
@@ -223,7 +223,7 @@ function SupportChatContent() {
                 ))}
               </Stack>
             ) : (
-              <Body className="text-grey-500 text-center py-8">
+              <Body className="text-ink-500 text-center py-8">
                 No conversations yet
               </Body>
             )}
@@ -232,12 +232,12 @@ function SupportChatContent() {
           <Card className="col-span-2 flex flex-col">
             {activeConversation ? (
               <>
-                <Stack className="p-4 border-b border-grey-200">
+                <Stack className="p-4 border-b border-ink-200">
                   <Stack direction="horizontal" className="justify-between items-center">
                     <Stack>
                       <H3>{activeConversation.subject}</H3>
                       {activeConversation.event_title && (
-                        <Body className="text-body-sm text-grey-500">
+                        <Body className="text-body-sm text-ink-500">
                           Re: {activeConversation.event_title}
                         </Body>
                       )}
@@ -246,7 +246,7 @@ function SupportChatContent() {
                   </Stack>
                 </Stack>
 
-                <Stack className="flex-1 overflow-y-auto p-4 max-h-[400px]" gap={4}>
+                <Stack className="flex-1 overflow-y-auto p-4 max-h-chat" gap={4}>
                   {activeConversation.messages.map(message => (
                     <Stack
                       key={message.id}
@@ -255,7 +255,7 @@ function SupportChatContent() {
                       }`}
                     >
                       {message.sender === 'system' ? (
-                        <Body className="text-center text-grey-500 text-body-sm py-2">
+                        <Body className="text-center text-ink-500 text-body-sm py-2">
                           {message.content}
                         </Body>
                       ) : (
@@ -263,11 +263,11 @@ function SupportChatContent() {
                           className={`p-3 ${
                             message.sender === 'user'
                               ? 'bg-black text-white'
-                              : 'bg-grey-100'
+                              : 'bg-ink-100'
                           }`}
                         >
                           {message.sender === 'agent' && message.agent_name && (
-                            <Body className="text-mono-xs text-grey-500 mb-1">
+                            <Body className="text-mono-xs text-ink-500 mb-1">
                               {message.agent_name}
                             </Body>
                           )}
@@ -275,7 +275,7 @@ function SupportChatContent() {
                             {message.content}
                           </Body>
                           <Body className={`text-mono-xs mt-2 ${
-                            message.sender === 'user' ? 'text-grey-600' : 'text-grey-500'
+                            message.sender === 'user' ? 'text-ink-600' : 'text-ink-500'
                           }`}>
                             {new Date(message.timestamp).toLocaleTimeString()}
                           </Body>
@@ -287,7 +287,7 @@ function SupportChatContent() {
                 </Stack>
 
                 {activeConversation.status !== 'resolved' && (
-                  <Stack className="p-4 border-t border-grey-200">
+                  <Stack className="p-4 border-t border-ink-200">
                     <Form onSubmit={handleSendMessage}>
                       <Stack direction="horizontal" gap={2}>
                         <Input
@@ -308,7 +308,7 @@ function SupportChatContent() {
             ) : (
               <Stack className="flex-1 items-center justify-center p-8">
                 <H3 className="mb-4">SELECT A CONVERSATION</H3>
-                <Body className="text-grey-600 text-center mb-6">
+                <Body className="text-ink-600 text-center mb-6">
                   Choose a conversation from the list or start a new one.
                 </Body>
                 <Button variant="solid" onClick={() => setShowNewChat(true)}>

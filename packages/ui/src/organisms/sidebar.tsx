@@ -56,7 +56,7 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(
         {/* Logo/Header */}
         {logo && (
           <div className={clsx(
-            "flex items-center h-16 px-4 border-b-2",
+            "flex items-center h-spacing-16 px-spacing-4 border-b-2",
             inverted ? "border-grey-800" : "border-grey-200"
           )}>
             {logo}
@@ -64,18 +64,18 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(
         )}
 
         {/* Navigation Sections */}
-        <nav className="flex-1 overflow-y-auto py-4">
+        <nav className="flex-1 overflow-y-auto py-spacing-4">
           {sections.map((section) => (
-            <div key={section.section} className="mb-6">
+            <div key={section.section} className="mb-spacing-6">
               {!collapsed && (
                 <div className={clsx(
-                  "px-4 mb-2 text-mono-xs uppercase tracking-widest",
+                  "px-spacing-4 mb-spacing-2 text-mono-xs uppercase tracking-widest",
                   inverted ? "text-grey-500" : "text-grey-400"
                 )}>
                   {section.section}
                 </div>
               )}
-              <ul className="space-y-1">
+              <ul className="space-y-spacing-1">
                 {section.items.map((item) => {
                   const isActive = currentPath === item.href || currentPath.startsWith(item.href + "/");
                   return (
@@ -83,7 +83,7 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(
                       <a
                         href={item.href}
                         className={clsx(
-                          "flex items-center gap-3 px-4 py-2 text-body-sm transition-colors",
+                          "flex items-center gap-gap-sm px-spacing-4 py-spacing-2 text-body-sm transition-colors",
                           collapsed && "justify-center",
                           isActive
                             ? inverted
@@ -96,7 +96,7 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(
                         title={collapsed ? item.label : undefined}
                       >
                         {item.icon && (
-                          <span className="w-5 h-5 flex items-center justify-center">
+                          <span className="w-spacing-5 h-spacing-5 flex items-center justify-center">
                             {/* Icon placeholder - integrate with your icon system */}
                             <span className="text-mono-xs">{item.icon.charAt(0)}</span>
                           </span>
@@ -106,7 +106,7 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(
                             <span className="flex-1 uppercase tracking-wider">{item.label}</span>
                             {item.badge && (
                               <span className={clsx(
-                                "px-2 py-0.5 text-mono-xs font-code uppercase tracking-widest",
+                                "px-spacing-2 py-spacing-0.5 text-mono-xs font-code uppercase tracking-widest",
                                 inverted ? "bg-grey-800 text-white" : "bg-grey-200 text-black"
                               )}>
                                 {item.badge}
@@ -129,7 +129,7 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(
             type="button"
             onClick={() => onCollapse(!collapsed)}
             className={clsx(
-              "flex items-center justify-center h-12 border-t-2 transition-colors",
+              "flex items-center justify-center h-spacing-12 border-t-2 transition-colors",
               inverted
                 ? "border-grey-800 text-grey-400 hover:text-white hover:bg-grey-900"
                 : "border-grey-200 text-grey-500 hover:text-black hover:bg-grey-100"
@@ -153,7 +153,7 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(
         {/* Footer */}
         {footer && (
           <div className={clsx(
-            "px-4 py-4 border-t-2",
+            "px-spacing-4 py-spacing-4 border-t-2",
             inverted ? "border-grey-800" : "border-grey-200"
           )}>
             {footer}
@@ -177,12 +177,12 @@ export const MobileSidebar = forwardRef<HTMLElement, MobileSidebarProps>(
       <>
         {/* Backdrop */}
         <div
-          className="fixed inset-0 z-40 bg-black/50 md:hidden"
+          className="fixed inset-0 z-modal-backdrop bg-black/50 md:hidden"
           onClick={onClose}
           aria-hidden="true"
         />
         {/* Sidebar */}
-        <div className="fixed inset-y-0 left-0 z-50 md:hidden">
+        <div className="fixed inset-y-0 left-0 z-modal md:hidden">
           <Sidebar ref={ref} {...props} collapsed={false} />
         </div>
       </>

@@ -53,8 +53,8 @@ export default function WalletPage() {
           logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
           cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/profile')}>PROFILE</Button>}
         >
-          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Home</Link>
-          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-grey-400">Events</Link>
+          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Home</Link>
+          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Events</Link>
         </Navigation>
       }
       footer={
@@ -78,17 +78,17 @@ export default function WalletPage() {
               <StatCard
                 value="$0.00"
                 label="Balance"
-                className="bg-black text-white border-grey-800"
+                className="bg-black text-white border-ink-800"
               />
               <StatCard
                 value="$820"
                 label="Total Spent"
-                className="bg-black text-white border-grey-800"
+                className="bg-black text-white border-ink-800"
               />
               <StatCard
                 value={transactionHistory.length}
                 label="Transactions"
-                className="bg-black text-white border-grey-800"
+                className="bg-black text-white border-ink-800"
               />
             </Grid>
 
@@ -101,34 +101,34 @@ export default function WalletPage() {
               </Stack>
 
               {showAddCard && (
-                <Card className="border-2 border-grey-800 p-6 bg-black">
+                <Card className="border-2 border-ink-800 p-6 bg-black">
                   <Stack gap={4}>
-                    <Input type="text" placeholder="Card Number" className="bg-black text-white border-grey-700" />
+                    <Input type="text" placeholder="Card Number" className="bg-black text-white border-ink-700" />
                     <Grid cols={2} gap={4}>
-                      <Input type="text" placeholder="MM/YY" className="bg-black text-white border-grey-700" />
-                      <Input type="text" placeholder="CVV" className="bg-black text-white border-grey-700" />
+                      <Input type="text" placeholder="MM/YY" className="bg-black text-white border-ink-700" />
+                      <Input type="text" placeholder="CVV" className="bg-black text-white border-ink-700" />
                     </Grid>
-                    <Input type="text" placeholder="Cardholder Name" className="bg-black text-white border-grey-700" />
+                    <Input type="text" placeholder="Cardholder Name" className="bg-black text-white border-ink-700" />
                     <Button variant="solid" onClick={() => { alert('Card saved!'); setShowAddCard(false); }}>Save Card</Button>
                   </Stack>
                 </Card>
               )}
 
               {paymentMethods.map((method) => (
-                <Card key={method.id} className="border-2 border-grey-800 p-6 bg-black">
+                <Card key={method.id} className="border-2 border-ink-800 p-6 bg-black">
                   <Stack gap={2} direction="horizontal" className="justify-between items-center">
                     <Stack gap={1}>
                       <Stack gap={3} direction="horizontal" className="items-center">
                         <Body className="font-heading text-body-md uppercase text-white">{method.brand} •••• {method.last4}</Body>
                         {method.isDefault && <Badge>Default</Badge>}
                       </Stack>
-                      <Body className="font-mono text-body-sm text-grey-400">Expires {method.expiry}</Body>
+                      <Body className="font-mono text-body-sm text-ink-400">Expires {method.expiry}</Body>
                     </Stack>
                     <Stack direction="horizontal" gap={2}>
                       {!method.isDefault && (
                         <Button variant="ghost" size="sm" onClick={() => alert(`Set ${method.brand} as default`)}>Set Default</Button>
                       )}
-                      <Button variant="ghost" size="sm" className="text-grey-400" onClick={() => alert(`Remove ${method.brand}?`)}>Remove</Button>
+                      <Button variant="ghost" size="sm" className="text-ink-400" onClick={() => alert(`Remove ${method.brand}?`)}>Remove</Button>
                     </Stack>
                   </Stack>
                 </Card>
@@ -149,7 +149,7 @@ export default function WalletPage() {
                 <TableBody>
                   {transactionHistory.map((txn) => (
                     <TableRow key={txn.id} className="bg-black text-white">
-                      <TableCell className="font-mono text-grey-400">{txn.date}</TableCell>
+                      <TableCell className="font-mono text-ink-400">{txn.date}</TableCell>
                       <TableCell className="text-white">{txn.description}</TableCell>
                       <TableCell className={`font-mono ${txn.amount > 0 ? 'text-white' : 'text-white'}`}>
                         {txn.amount > 0 ? '+' : ''}${Math.abs(txn.amount)}

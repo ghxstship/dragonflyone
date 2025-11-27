@@ -137,22 +137,22 @@ export default function ScenariosPage() {
             <StatCard
               value={summary?.total || scenarios.length}
               label="Active Scenarios"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={formatCurrency(summary?.best_case_revenue || 0)}
               label="Best Case"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={formatCurrency(summary?.base_case_revenue || 0)}
               label="Base Case"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
             <StatCard
               value={formatCurrency(summary?.worst_case_revenue || 0)}
               label="Worst Case"
-              className="bg-black text-white border-grey-800"
+              className="bg-black text-white border-ink-800"
             />
           </Grid>
 
@@ -160,7 +160,7 @@ export default function ScenariosPage() {
             <Select
               value={filterCategory}
               onChange={(e) => setFilterCategory(e.target.value)}
-              className="bg-black text-white border-grey-700"
+              className="bg-black text-white border-ink-700"
             >
               <option value="all">All Categories</option>
               <option value="financial">Financial</option>
@@ -180,12 +180,12 @@ export default function ScenariosPage() {
           ) : (
             <Stack gap={6}>
               {scenarios.map((scenario) => (
-                <Card key={scenario.id} className="bg-black border-grey-800">
+                <Card key={scenario.id} className="bg-black border-ink-800">
                   <CardBody className="space-y-4">
                     <Stack gap={4} direction="horizontal" className="justify-between items-start">
                       <Stack gap={1}>
                         <H3 className="text-white">{scenario.name}</H3>
-                        <Body className="font-mono text-mono-xs uppercase tracking-widest text-grey-500">
+                        <Body className="font-mono text-mono-xs uppercase tracking-widest text-ink-500">
                           {scenario.scenario_type?.replace("_", " ")}
                         </Body>
                       </Stack>
@@ -193,9 +193,9 @@ export default function ScenariosPage() {
                     </Stack>
 
                     <Grid cols={3} gap={4}>
-                      <Card className="bg-grey-900 border-grey-700">
+                      <Card className="bg-ink-900 border-ink-700">
                         <CardBody>
-                          <Body className="font-mono text-mono-xs uppercase tracking-widest text-grey-500">
+                          <Body className="font-mono text-mono-xs uppercase tracking-widest text-ink-500">
                             Revenue Forecast
                           </Body>
                           <H3 className="mt-2 text-white">
@@ -203,17 +203,17 @@ export default function ScenariosPage() {
                           </H3>
                         </CardBody>
                       </Card>
-                      <Card className="bg-grey-900 border-grey-700">
+                      <Card className="bg-ink-900 border-ink-700">
                         <CardBody>
-                          <Body className="font-mono text-mono-xs uppercase tracking-widest text-grey-500">
+                          <Body className="font-mono text-mono-xs uppercase tracking-widest text-ink-500">
                             Probability
                           </Body>
                           <H3 className="mt-2 text-white">{scenario.probability || 0}%</H3>
                         </CardBody>
                       </Card>
-                      <Card className="bg-grey-900 border-grey-700">
+                      <Card className="bg-ink-900 border-ink-700">
                         <CardBody>
-                          <Body className="font-mono text-mono-xs uppercase tracking-widest text-grey-500">
+                          <Body className="font-mono text-mono-xs uppercase tracking-widest text-ink-500">
                             Impact
                           </Body>
                           <Stack gap={2} direction="horizontal" className="mt-2 items-center">
@@ -227,12 +227,12 @@ export default function ScenariosPage() {
 
                     {scenario.assumptions && scenario.assumptions.length > 0 && (
                       <Stack gap={2}>
-                        <Body className="font-mono text-mono-xs uppercase tracking-widest text-grey-500">
+                        <Body className="font-mono text-mono-xs uppercase tracking-widest text-ink-500">
                           Key Assumptions
                         </Body>
                         <Stack gap={2}>
                           {scenario.assumptions.map((assumption, idx) => (
-                            <Body key={idx} className="text-body-sm text-grey-300">
+                            <Body key={idx} className="text-body-sm text-ink-300">
                               • {assumption}
                             </Body>
                           ))}
@@ -249,7 +249,7 @@ export default function ScenariosPage() {
             <Button variant="outlineWhite" onClick={() => router.push("/scenarios/new")}>
               Create Scenario
             </Button>
-            <Button variant="ghost" className="text-grey-400 hover:text-white" onClick={() => router.push("/scenarios/compare")}>
+            <Button variant="ghost" className="text-ink-400 hover:text-white" onClick={() => router.push("/scenarios/compare")}>
               Compare Scenarios
             </Button>
           </Stack>
