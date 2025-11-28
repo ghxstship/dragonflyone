@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { CreatorNavigationAuthenticated } from '../../../components/navigation';
 import {
-  Container, H3, Body, Label, Grid, Stack, StatCard, Select,
+  Container, H3, Body, Label, Grid, Stack, StatCard, Select, Input,
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Button,
   Section, Card, Tabs, TabsList, Tab, Badge, PageLayout, SectionHeader,
   Modal, ModalHeader, ModalBody, ModalFooter, ProgressBar, Alert,

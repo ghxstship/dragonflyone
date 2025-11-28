@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../../components/navigation";
 import {
   Container, H3, Body, Label, Grid, Stack, StatCard, Select, Button,
-  Section, Card, Tabs, TabsList, Tab, Badge, ProgressBar, PageLayout, SectionHeader,
+  Section, Card, Tabs, TabsList, Tab, TabPanel, Badge, ProgressBar, PageLayout, SectionHeader,
   Modal, ModalHeader, ModalBody, ModalFooter,
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
 } from "@ghxstship/ui";

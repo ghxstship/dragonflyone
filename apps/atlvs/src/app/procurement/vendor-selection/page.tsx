@@ -6,8 +6,8 @@ import { CreatorNavigationAuthenticated } from "../../../components/navigation";
 import {
   Container, H3, Body, Label, Grid, Stack, StatCard, Select,
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Button,
-  Section, Card, Tabs, TabsList, Tab, Badge, PageLayout, SectionHeader,
-  Modal, ModalHeader, ModalBody, ModalFooter, Alert, ProgressBar,
+  Section, Card, Tabs, TabsList, Tab, TabPanel, Badge, PageLayout, SectionHeader,
+  Modal, ModalHeader, ModalBody, ModalFooter, Alert, ProgressBar, Textarea,
 } from "@ghxstship/ui";
 
 interface VendorSelection {
