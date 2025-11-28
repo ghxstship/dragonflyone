@@ -395,13 +395,10 @@ export default function MembershipLandingPage() {
           <StaggerChildren staggerDelay={50} animation="slide-up">
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 auto-rows-[140px]">
               {/* Row 1 */}
-              <Card inverted className="col-span-2 row-span-2 flex flex-col justify-end p-6 border-2 border-ink-800 bg-ink-950">
-                <Stack gap={2}>
-                  <Search className="size-6 text-accent" />
-                  <H3 size="sm" className="text-white tracking-wider">DISCOVERY</H3>
-                  <Body size="xs" className="text-on-dark-secondary">
-                    Uncover hidden gems and exclusive opportunities.
-                  </Body>
+              <Card inverted className="col-span-2 row-span-2 flex flex-col justify-end p-5 border-2 border-ink-800 bg-ink-950">
+                <Stack gap={1}>
+                  <Search className="size-5 text-accent" />
+                  <Label size="xs" className="text-white tracking-wider">DISCOVERY</Label>
                 </Stack>
               </Card>
               
@@ -435,20 +432,17 @@ export default function MembershipLandingPage() {
               </Card>
 
               {/* Row 3 */}
-              <Card inverted className="flex flex-col justify-end p-5 border-2 border-ink-800 bg-ink-950">
+              <Card inverted className="row-span-2 flex flex-col justify-end p-5 border-2 border-ink-800 bg-ink-950">
                 <Stack gap={1}>
                   <Target className="size-5 text-accent" />
                   <Label size="xs" className="text-white tracking-wider">DISCIPLINE</Label>
                 </Stack>
               </Card>
               
-              <Card inverted className="col-span-2 row-span-2 flex flex-col justify-end p-6 border-2 border-ink-800 bg-ink-950">
-                <Stack gap={2}>
-                  <Handshake className="size-6 text-accent" />
-                  <H3 size="sm" className="text-white tracking-wider">COLLABORATION</H3>
-                  <Body size="xs" className="text-on-dark-secondary">
-                    Connect with like-minded creators and visionaries.
-                  </Body>
+              <Card inverted className="col-span-2 row-span-2 flex flex-col justify-end p-5 border-2 border-ink-800 bg-ink-950">
+                <Stack gap={1}>
+                  <Handshake className="size-5 text-accent" />
+                  <Label size="xs" className="text-white tracking-wider">COLLABORATION</Label>
                 </Stack>
               </Card>
               
