@@ -51,7 +51,7 @@ export const ProjectCard = forwardRef<HTMLDivElement, ProjectCardProps>(
       return (
         <a
           href={href}
-          className={clsx("block border-2 border-black group hover:shadow-hard-lg transition-all", className)}
+          className={clsx("block border-2 border-black rounded-[var(--radius-card)] shadow-[4px_4px_0_rgba(0,0,0,0.1)] group hover:shadow-[6px_6px_0_rgba(0,0,0,0.15)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 ease-[var(--ease-bounce)] overflow-hidden", className)}
         >
           {Content}
         </a>
@@ -63,8 +63,8 @@ export const ProjectCard = forwardRef<HTMLDivElement, ProjectCardProps>(
         ref={ref}
         onClick={onClick}
         className={clsx(
-          "border-2 border-black group",
-          onClick && "cursor-pointer hover:shadow-hard-lg transition-all",
+          "border-2 border-black rounded-[var(--radius-card)] shadow-[4px_4px_0_rgba(0,0,0,0.1)] group overflow-hidden",
+          onClick && "cursor-pointer hover:shadow-[6px_6px_0_rgba(0,0,0,0.15)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 ease-[var(--ease-bounce)]",
           className
         )}
         {...props}

@@ -29,6 +29,8 @@ export interface CalendarProps {
   showWeekNumbers?: boolean;
   /** Start week on Monday */
   weekStartsOnMonday?: boolean;
+  /** Inverted theme (for dark backgrounds) */
+  inverted?: boolean;
   /** Custom className */
   className?: string;
 }
@@ -56,6 +58,15 @@ function getWeekNumber(date: Date): number {
   return Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7);
 }
 
+/**
+ * Calendar component - Bold Contemporary Pop Art Adventure
+ * 
+ * Features:
+ * - Comic panel aesthetic with bold borders
+ * - Hard offset shadows
+ * - Bold navigation buttons with hover lift
+ * - Accent shadow on selected date
+ */
 export function Calendar({
   events = [],
   selectedDate,
@@ -65,6 +76,7 @@ export function Calendar({
   maxDate,
   showWeekNumbers = false,
   weekStartsOnMonday = false,
+  inverted = false,
   className = "",
 }: CalendarProps) {
   const [viewDate, setViewDate] = useState(selectedDate || new Date());
@@ -136,30 +148,50 @@ export function Calendar({
     weeks.push(calendarDays.slice(i, i + 7));
   }
 
+  // Navigation button classes
+  const navButtonClasses = inverted
+    ? "w-10 h-10 flex items-center justify-center border-2 border-grey-600 bg-transparent text-white rounded-[var(--radius-button)] shadow-[2px_2px_0_rgba(255,255,255,0.1)] cursor-pointer font-heading text-lg transition-all duration-100 ease-[var(--ease-bounce)] hover:bg-white hover:text-black hover:border-white hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[3px_3px_0_rgba(255,255,255,0.2)]"
+    : "w-10 h-10 flex items-center justify-center border-2 border-black bg-transparent text-black rounded-[var(--radius-button)] shadow-[2px_2px_0_rgba(0,0,0,0.08)] cursor-pointer font-heading text-lg transition-all duration-100 ease-[var(--ease-bounce)] hover:bg-grey-100 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[3px_3px_0_rgba(0,0,0,0.12)]";
+
   return (
-    <div className={clsx("bg-surface-primary text-text-primary border-2 border-border-primary", className)}>
+    <div className={clsx(
+      "overflow-hidden border-2 rounded-[var(--radius-card)]",
+      inverted
+        ? "bg-ink-900 text-white border-grey-600 shadow-[4px_4px_0_rgba(255,255,255,0.15)]"
+        : "bg-white text-black border-black shadow-[4px_4px_0_rgba(0,0,0,0.15)]",
+      className
+    )}>
       {/* Header */}
-      <div className="flex justify-between items-center px-spacing-5 py-spacing-4 border-b border-grey-200">
+      <div className={clsx(
+        "flex items-center justify-between px-5 py-4 border-b-2",
+        inverted ? "border-grey-700" : "border-grey-200"
+      )}>
         <button
           onClick={() => navigateMonth(-1)}
-          className="w-spacing-10 h-spacing-10 bg-transparent border-2 border-border-primary cursor-pointer font-heading text-h5-md flex items-center justify-center transition-colors duration-fast hover:bg-surface-secondary"
+          className={navButtonClasses}
           aria-label="Previous month"
         >
           ←
         </button>
 
         <div className="text-center">
-          <div className="font-heading text-h4-md text-black tracking-wide">
+          <div className={clsx(
+            "font-heading text-xl tracking-wide uppercase",
+            inverted ? "text-white" : "text-black"
+          )}>
             {MONTHS[viewDate.getMonth()]}
           </div>
-          <div className="font-code text-mono-sm text-grey-600 tracking-widest">
+          <div className={clsx(
+            "font-code text-sm tracking-widest",
+            inverted ? "text-grey-400" : "text-grey-600"
+          )}>
             {viewDate.getFullYear()}
           </div>
         </div>
 
         <button
           onClick={() => navigateMonth(1)}
-          className="w-spacing-10 h-spacing-10 bg-transparent border-2 border-border-primary cursor-pointer font-heading text-h5-md flex items-center justify-center transition-colors duration-fast hover:bg-surface-secondary"
+          className={navButtonClasses}
           aria-label="Next month"
         >
           →
@@ -168,18 +200,24 @@ export function Calendar({
 
       {/* Days of Week Header */}
       <div
-        className="grid border-b border-grey-200"
+        className={clsx("grid border-b-2", inverted ? "border-grey-700" : "border-grey-200")}
         style={{ gridTemplateColumns: showWeekNumbers ? "40px repeat(7, 1fr)" : "repeat(7, 1fr)" }}
       >
         {showWeekNumbers && (
-          <div className="px-spacing-2 py-spacing-3 font-code text-mono-xs text-grey-400 text-center">
+          <div className={clsx(
+            "px-2 py-3 text-center font-code text-xs",
+            inverted ? "text-grey-500" : "text-grey-400"
+          )}>
             WK
           </div>
         )}
         {daysOfWeek.map((day) => (
           <div
             key={day}
-            className="px-spacing-2 py-spacing-3 font-code text-mono-xs text-grey-600 tracking-widest text-center"
+            className={clsx(
+              "px-2 py-3 text-center font-code text-xs tracking-widest",
+              inverted ? "text-grey-400" : "text-grey-600"
+            )}
           >
             {day}
           </div>
@@ -191,11 +229,17 @@ export function Calendar({
         {weeks.map((week, weekIndex) => (
           <div
             key={weekIndex}
-            className={clsx("grid", weekIndex < weeks.length - 1 && "border-b border-grey-100")}
+            className={clsx(
+              "grid",
+              weekIndex < weeks.length - 1 && (inverted ? "border-b border-grey-800" : "border-b border-grey-100")
+            )}
             style={{ gridTemplateColumns: showWeekNumbers ? "40px repeat(7, 1fr)" : "repeat(7, 1fr)" }}
           >
             {showWeekNumbers && (
-              <div className="p-spacing-2 font-code text-mono-xs text-grey-400 text-center flex items-center justify-center">
+              <div className={clsx(
+                "flex items-center justify-center p-2 text-center font-code text-xs",
+                inverted ? "text-grey-500" : "text-grey-400"
+              )}>
                 {week[0] ? getWeekNumber(week[0]) : ""}
               </div>
             )}
@@ -204,7 +248,10 @@ export function Calendar({
                 return (
                   <div
                     key={`empty-${dayIndex}`}
-                    className="p-spacing-2 min-h-calendar-cell bg-grey-100"
+                    className={clsx(
+                      "min-h-[72px] p-2",
+                      inverted ? "bg-ink-950" : "bg-grey-100"
+                    )}
                   />
                 );
               }
@@ -220,13 +267,24 @@ export function Calendar({
                   onClick={() => !isDisabled && onDateSelect?.(date)}
                   disabled={isDisabled}
                   className={clsx(
-                    "p-spacing-2 min-h-calendar-cell border-none flex flex-col items-start gap-gap-xs transition-colors duration-fast",
-                    isSelected ? "bg-black" : isToday ? "bg-grey-100" : "bg-white hover:bg-grey-50",
-                    dayIndex < 6 && "border-r border-grey-100",
+                    "flex min-h-[72px] flex-col items-start gap-1 border-none p-2 transition-colors duration-100",
+                    isSelected
+                      ? inverted
+                        ? "bg-white shadow-[inset_0_0_0_2px_hsl(239,84%,67%)]"
+                        : "bg-black shadow-[inset_0_0_0_2px_hsl(239,84%,67%)]"
+                      : isToday
+                        ? inverted ? "bg-grey-800" : "bg-grey-100"
+                        : inverted ? "bg-ink-900 hover:bg-grey-800" : "bg-white hover:bg-grey-50",
+                    dayIndex < 6 && (inverted ? "border-r border-grey-800" : "border-r border-grey-100"),
                     isDisabled ? "cursor-not-allowed opacity-40" : "cursor-pointer"
                   )}
                 >
-                  <span className={clsx("font-heading text-h6-md", isSelected ? "text-white" : "text-black")}>
+                  <span className={clsx(
+                    "font-heading text-base",
+                    isSelected
+                      ? inverted ? "text-black" : "text-white"
+                      : inverted ? "text-white" : "text-black"
+                  )}>
                     {date.getDate()}
                   </span>
 
@@ -238,14 +296,19 @@ export function Calendar({
                         e.stopPropagation();
                         onEventClick?.(event);
                       }}
-                      className="w-full px-spacing-1 py-spacing-0.5 text-white font-code text-micro tracking-wide text-left overflow-hidden text-ellipsis whitespace-nowrap cursor-pointer"
+                      className="w-full cursor-pointer truncate px-1 py-0.5 text-left font-code text-[10px] tracking-wide text-white"
                       style={{ backgroundColor: event.color || ink[800] }}
                     >
                       {event.title}
                     </div>
                   ))}
                   {dayEvents.length > 2 && (
-                    <span className={clsx("font-code text-micro", isSelected ? "text-grey-400" : "text-grey-500")}>
+                    <span className={clsx(
+                      "font-code text-[10px]",
+                      isSelected
+                        ? inverted ? "text-grey-600" : "text-grey-400"
+                        : inverted ? "text-grey-500" : "text-grey-500"
+                    )}>
                       +{dayEvents.length - 2} more
                     </span>
                   )}
@@ -257,10 +320,18 @@ export function Calendar({
       </div>
 
       {/* Footer */}
-      <div className="flex justify-center py-spacing-3 border-t border-grey-200">
+      <div className={clsx(
+        "flex justify-center border-t-2 py-3",
+        inverted ? "border-grey-700" : "border-grey-200"
+      )}>
         <button
           onClick={goToToday}
-          className="px-spacing-4 py-spacing-2 bg-transparent border-2 border-black font-code text-mono-sm tracking-widest cursor-pointer transition-colors duration-fast hover:bg-grey-100"
+          className={clsx(
+            "cursor-pointer border-2 rounded-[var(--radius-button)] px-4 py-2 font-code text-sm uppercase tracking-widest transition-all duration-100 ease-[var(--ease-bounce)]",
+            inverted
+              ? "border-grey-500 bg-transparent text-grey-200 shadow-[2px_2px_0_rgba(255,255,255,0.1)] hover:border-white hover:bg-white hover:text-black hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[3px_3px_0_rgba(255,255,255,0.2)]"
+              : "border-black bg-transparent text-black shadow-[2px_2px_0_rgba(0,0,0,0.1)] hover:bg-grey-100 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[3px_3px_0_rgba(0,0,0,0.15)]"
+          )}
         >
           TODAY
         </button>

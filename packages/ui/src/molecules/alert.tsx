@@ -10,25 +10,49 @@ export type AlertProps = HTMLAttributes<HTMLDivElement> & {
   inverted?: boolean;
 };
 
+/**
+ * Alert component - Bold Contemporary Pop Art Adventure
+ * 
+ * Features:
+ * - Panel style with bold borders
+ * - Hard offset shadow
+ * - Icon emphasis
+ * - Uppercase title
+ */
 export const Alert = forwardRef<HTMLDivElement, AlertProps>(
   function Alert({ variant = "info", title, icon, onClose, inverted = false, className, children, ...props }, ref) {
-    // Light mode variant classes
-    const lightVariantClasses = {
-      info: "bg-info-50 border-info-500 text-info-900",
-      success: "bg-success-50 border-success-500 text-success-900",
-      warning: "bg-warning-50 border-warning-500 text-warning-900",
-      error: "bg-error-50 border-error-500 text-error-900",
+    // Get variant-specific styling
+    const getVariantClasses = () => {
+      const baseClasses = "border-2 rounded-[var(--radius-card)]";
+      
+      if (inverted) {
+        switch (variant) {
+          case "info":
+            return clsx(baseClasses, "bg-info-900 border-info-400 text-info-100 shadow-[4px_4px_0_rgba(59,130,246,0.3)]");
+          case "success":
+            return clsx(baseClasses, "bg-success-900 border-success-400 text-success-100 shadow-[4px_4px_0_rgba(34,197,94,0.3)]");
+          case "warning":
+            return clsx(baseClasses, "bg-warning-900 border-warning-400 text-warning-100 shadow-[4px_4px_0_rgba(245,158,11,0.3)]");
+          case "error":
+            return clsx(baseClasses, "bg-error-900 border-error-400 text-error-100 shadow-[4px_4px_0_rgba(239,68,68,0.3)]");
+          default:
+            return baseClasses;
+        }
+      } else {
+        switch (variant) {
+          case "info":
+            return clsx(baseClasses, "bg-info-50 border-info-500 text-info-900 shadow-[4px_4px_0_rgba(59,130,246,0.2)]");
+          case "success":
+            return clsx(baseClasses, "bg-success-50 border-success-500 text-success-900 shadow-[4px_4px_0_rgba(34,197,94,0.2)]");
+          case "warning":
+            return clsx(baseClasses, "bg-warning-50 border-warning-500 text-warning-900 shadow-[4px_4px_0_rgba(245,158,11,0.2)]");
+          case "error":
+            return clsx(baseClasses, "bg-error-50 border-error-500 text-error-900 shadow-[4px_4px_0_rgba(239,68,68,0.2)]");
+          default:
+            return baseClasses;
+        }
+      }
     };
-
-    // Dark mode (inverted) variant classes
-    const darkVariantClasses = {
-      info: "bg-info-900 border-info-400 text-info-100",
-      success: "bg-success-900 border-success-400 text-success-100",
-      warning: "bg-warning-900 border-warning-400 text-warning-100",
-      error: "bg-error-900 border-error-400 text-error-100",
-    };
-
-    const variantClasses = inverted ? darkVariantClasses : lightVariantClasses;
 
     const iconColors = {
       info: inverted ? "text-info-400" : "text-info-500",
@@ -37,41 +61,43 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
       error: inverted ? "text-error-400" : "text-error-500",
     };
 
-    const closeButtonColors = {
-      info: inverted ? "text-info-300 hover:text-info-100" : "text-info-700 hover:text-info-900",
-      success: inverted ? "text-success-300 hover:text-success-100" : "text-success-700 hover:text-success-900",
-      warning: inverted ? "text-warning-300 hover:text-warning-100" : "text-warning-700 hover:text-warning-900",
-      error: inverted ? "text-error-300 hover:text-error-100" : "text-error-700 hover:text-error-900",
-    };
+    const closeButtonClasses = clsx(
+      "flex-shrink-0 p-1 border-2 rounded transition-all duration-100",
+      "hover:-translate-x-0.5 hover:-translate-y-0.5",
+      "active:translate-x-0.5 active:translate-y-0.5",
+      inverted
+        ? "border-current text-current hover:bg-white/10"
+        : "border-current text-current hover:bg-black/10"
+    );
 
     return (
       <div
         ref={ref}
         className={clsx(
-          "flex gap-gap-sm p-spacing-4 border-2",
-          variantClasses[variant],
+          "flex gap-3 p-4",
+          getVariantClasses(),
           className
         )}
         role="alert"
         {...props}
       >
-        {icon ? <div className={clsx("flex-shrink-0", iconColors[variant])}>{icon}</div> : null}
-        <div className="flex-1">
+        {icon ? <div className={clsx("flex-shrink-0 mt-0.5", iconColors[variant])}>{icon}</div> : null}
+        <div className="flex-1 min-w-0">
           {title ? (
-            <div className="font-heading text-h5-sm uppercase tracking-wider mb-spacing-1">
+            <div className="font-heading text-sm uppercase tracking-wider font-bold mb-1">
               {title}
             </div>
           ) : null}
-          <div className="font-body text-body-sm">{children}</div>
+          <div className="font-body text-sm">{children}</div>
         </div>
         {onClose ? (
           <button
             type="button"
             onClick={onClose}
-            className={clsx("flex-shrink-0 transition-colors", closeButtonColors[variant])}
+            className={closeButtonClasses}
             aria-label="Close alert"
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
               <path d="M18 6L6 18M6 6l12 12" />
             </svg>
           </button>

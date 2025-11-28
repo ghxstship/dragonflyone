@@ -91,17 +91,20 @@ export function UrgencyBadge({
   // Inverted theme adjustments for "new" badge
   const bgClass = inverted && type === "new" ? "bg-black" : config.bgClass;
   const textClass = inverted && type === "new" ? "text-white" : config.textClass;
-  const borderClass = type === "new" ? (inverted ? "border-2 border-white" : "border-2 border-black") : "";
+  const _borderClass = type === "new" ? (inverted ? "border-2 border-white" : "border-2 border-black") : "";
   const dotClass = inverted ? "bg-black" : "bg-white";
 
   return (
     <span
       className={clsx(
         "inline-flex items-center gap-gap-xs font-code font-weight-normal tracking-widest uppercase transition-colors duration-base",
+        "border-2 rounded-[var(--radius-badge)]",
         bgClass,
         textClass,
         sizeClasses[size],
-        borderClass,
+        type === "new" 
+          ? (inverted ? "border-white shadow-[2px_2px_0_rgba(255,255,255,0.2)]" : "border-black shadow-[2px_2px_0_rgba(0,0,0,0.15)]")
+          : (inverted ? "border-grey-700 shadow-[2px_2px_0_rgba(255,255,255,0.1)]" : "border-grey-800 shadow-[2px_2px_0_rgba(0,0,0,0.1)]"),
         shouldPulse && "animate-pulse",
         className
       )}

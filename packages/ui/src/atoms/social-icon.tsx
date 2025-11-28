@@ -58,11 +58,14 @@ export const SocialIcon = forwardRef<HTMLAnchorElement, SocialIconProps>(
       <a
         ref={ref}
         className={clsx(
-          "inline-flex items-center justify-center border-2 transition-all hover:scale-110",
+          "inline-flex items-center justify-center border-2 rounded-[var(--radius-button)]",
+          "transition-all duration-100 ease-[var(--ease-bounce)]",
+          "hover:-translate-x-0.5 hover:-translate-y-0.5",
+          "active:translate-x-0 active:translate-y-0",
           sizeClasses[size],
           inverted
-            ? "border-white text-white hover:bg-white hover:text-black"
-            : "border-black text-black hover:bg-black hover:text-white",
+            ? "border-white text-white shadow-[2px_2px_0_rgba(255,255,255,0.2)] hover:bg-white hover:text-black hover:shadow-[3px_3px_0_rgba(255,255,255,0.25)]"
+            : "border-black text-black shadow-[2px_2px_0_rgba(0,0,0,0.15)] hover:bg-black hover:text-white hover:shadow-[3px_3px_0_rgba(0,0,0,0.2)]",
           className
         )}
         target="_blank"

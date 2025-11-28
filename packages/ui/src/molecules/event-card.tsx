@@ -78,12 +78,12 @@ export function EventCard({
   return (
     <article
       className={clsx(
-        "flex border-2 overflow-hidden transition-all duration-base",
+        "flex border-2 overflow-hidden transition-all duration-100 ease-[var(--ease-bounce)] rounded-[var(--radius-card)]",
         inverted
-          ? "bg-ink-900 border-grey-700 text-white"
-          : "bg-white border-black text-black",
+          ? "bg-ink-900 border-grey-700 text-white shadow-[4px_4px_0_rgba(255,255,255,0.1)]"
+          : "bg-white border-black text-black shadow-[4px_4px_0_rgba(0,0,0,0.1)]",
         isFeatured || !isCompact ? "flex-col" : "flex-row",
-        onClick && "cursor-pointer hover:-translate-y-1 hover:shadow-hard",
+        onClick && "cursor-pointer hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_rgba(0,0,0,0.15)]",
         className
       )}
       onClick={onClick}

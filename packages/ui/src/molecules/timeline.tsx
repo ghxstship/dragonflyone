@@ -28,15 +28,26 @@ export interface TimelineProps {
   compact?: boolean;
   /** Item click handler */
   onItemClick?: (item: TimelineItem) => void;
+  /** Inverted theme (for dark backgrounds) */
+  inverted?: boolean;
   /** Custom className */
   className?: string;
 }
 
-const statusConfig = {
-  completed: { bgClass: "bg-black", borderClass: "border-black", textClass: "text-white" },
-  current: { bgClass: "bg-white", borderClass: "border-grey-700", textClass: "text-grey-700" },
-  upcoming: { bgClass: "bg-grey-400", borderClass: "border-grey-400", textClass: "text-white" },
-  error: { bgClass: "bg-grey-500", borderClass: "border-grey-500", textClass: "text-white" },
+// Status config for light mode
+const statusConfigLight = {
+  completed: { bgClass: "bg-black", borderClass: "border-black", textClass: "text-white", shadowClass: "shadow-[2px_2px_0_hsl(239,84%,67%)]" },
+  current: { bgClass: "bg-white", borderClass: "border-black", textClass: "text-black", shadowClass: "shadow-[3px_3px_0_hsl(239,84%,67%)]" },
+  upcoming: { bgClass: "bg-grey-200", borderClass: "border-grey-300", textClass: "text-grey-500", shadowClass: "shadow-[2px_2px_0_rgba(0,0,0,0.08)]" },
+  error: { bgClass: "bg-error-500", borderClass: "border-error-500", textClass: "text-white", shadowClass: "shadow-[2px_2px_0_rgba(239,68,68,0.3)]" },
+};
+
+// Status config for dark/inverted mode
+const statusConfigDark = {
+  completed: { bgClass: "bg-white", borderClass: "border-white", textClass: "text-black", shadowClass: "shadow-[2px_2px_0_hsl(239,84%,67%)]" },
+  current: { bgClass: "bg-ink-900", borderClass: "border-white", textClass: "text-white", shadowClass: "shadow-[3px_3px_0_hsl(239,84%,67%)]" },
+  upcoming: { bgClass: "bg-grey-800", borderClass: "border-grey-600", textClass: "text-grey-400", shadowClass: "shadow-[2px_2px_0_rgba(255,255,255,0.1)]" },
+  error: { bgClass: "bg-error-500", borderClass: "border-error-500", textClass: "text-white", shadowClass: "shadow-[2px_2px_0_rgba(239,68,68,0.3)]" },
 };
 
 function formatTimestamp(timestamp: Date | string): string {
@@ -67,22 +78,33 @@ function getInitials(name: string): string {
     .toUpperCase();
 }
 
+/**
+ * Timeline component - Bold Contemporary Pop Art Adventure
+ * 
+ * Features:
+ * - Bold 2px borders on indicators
+ * - Hard offset shadows with accent color
+ * - Connector lines with proper styling
+ * - Hover lift effect on clickable items
+ */
 export function Timeline({
   items,
   orientation = "vertical",
   showConnectors = true,
   compact = false,
   onItemClick,
+  inverted = false,
   className = "",
 }: TimelineProps) {
   const isVertical = orientation === "vertical";
+  const statusConfig = inverted ? statusConfigDark : statusConfigLight;
 
   return (
     <div
       className={clsx(
         "flex",
         isVertical ? "flex-col" : "flex-row overflow-x-auto",
-        compact ? "gap-gap-sm" : "gap-gap-lg",
+        compact ? "gap-2" : "gap-6",
         className
       )}
     >
@@ -99,26 +121,27 @@ export function Timeline({
             className={clsx(
               "flex",
               isVertical ? "flex-row" : "flex-col",
-              compact ? "gap-gap-sm" : "gap-gap-md",
+              compact ? "gap-2" : "gap-4",
               onItemClick && "cursor-pointer",
-              !isVertical && "min-w-spacing-48 flex-shrink-0"
+              !isVertical && "min-w-48 shrink-0"
             )}
           >
             {/* Timeline indicator */}
             <div
               className={clsx(
-                "flex items-center flex-shrink-0",
+                "flex shrink-0 items-center",
                 isVertical ? "flex-col" : "flex-row"
               )}
             >
               {/* Dot/Icon */}
               <div
                 className={clsx(
-                  "rounded-full border-2 flex items-center justify-center flex-shrink-0",
-                  compact ? "w-spacing-6 h-spacing-6 text-micro" : "w-spacing-8 h-spacing-8 text-mono-xs",
-                  item.status === "current" ? "bg-white" : status.bgClass,
+                  "flex shrink-0 items-center justify-center rounded-full border-2",
+                  compact ? "h-6 w-6 text-[10px]" : "h-8 w-8 text-xs",
+                  status.bgClass,
                   status.borderClass,
-                  item.status === "current" ? status.textClass : "text-white"
+                  status.textClass,
+                  status.shadowClass
                 )}
               >
                 {item.icon || (item.status === "completed" ? "✓" : index + 1)}
@@ -129,8 +152,10 @@ export function Timeline({
                 <div
                   className={clsx(
                     "flex-1",
-                    isVertical ? "w-spacing-0.5 min-h-spacing-6" : "h-spacing-0.5 min-w-spacing-6",
-                    item.status === "completed" ? "bg-black" : "bg-grey-300"
+                    isVertical ? "min-h-6 w-0.5" : "h-0.5 min-w-6",
+                    item.status === "completed"
+                      ? inverted ? "bg-white" : "bg-black"
+                      : inverted ? "bg-grey-700" : "bg-grey-300"
                   )}
                 />
               )}
@@ -140,20 +165,24 @@ export function Timeline({
             <div
               className={clsx(
                 "flex-1",
-                isVertical && !isLast && (compact ? "pb-spacing-3" : "pb-spacing-5")
+                isVertical && !isLast && (compact ? "pb-3" : "pb-5")
               )}
             >
               {/* Header */}
-              <div className="flex items-start justify-between gap-gap-sm mb-spacing-1">
+              <div className="mb-1 flex items-start justify-between gap-2">
                 <h4
                   className={clsx(
-                    "font-heading text-black uppercase tracking-wide leading-relaxed",
-                    compact ? "text-h6-md" : "text-h5-md"
+                    "font-heading uppercase leading-relaxed tracking-wide",
+                    compact ? "text-sm" : "text-base",
+                    inverted ? "text-white" : "text-black"
                   )}
                 >
                   {item.title}
                 </h4>
-                <span className="font-code text-mono-xs text-grey-500 tracking-widest whitespace-nowrap">
+                <span className={clsx(
+                  "whitespace-nowrap font-code text-xs tracking-widest",
+                  inverted ? "text-grey-400" : "text-grey-500"
+                )}>
                   {formatTimestamp(item.timestamp)}
                 </span>
               </div>
@@ -162,8 +191,9 @@ export function Timeline({
               {item.description && (
                 <p
                   className={clsx(
-                    "font-body text-grey-700 mb-spacing-2",
-                    compact ? "text-body-sm" : "text-body-md"
+                    "mb-2 font-body",
+                    compact ? "text-sm" : "text-base",
+                    inverted ? "text-grey-300" : "text-grey-700"
                   )}
                 >
                   {item.description}
@@ -172,20 +202,26 @@ export function Timeline({
 
               {/* User */}
               {item.user && (
-                <div className="flex items-center gap-gap-xs mt-spacing-2">
+                <div className="mt-2 flex items-center gap-1">
                   {item.user.avatar ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
                       src={item.user.avatar}
                       alt={item.user.name}
-                      className="w-spacing-5 h-spacing-5 rounded-full object-cover grayscale"
+                      className="h-5 w-5 rounded-full object-cover grayscale"
                     />
                   ) : (
-                    <div className="w-spacing-5 h-spacing-5 rounded-full bg-grey-700 flex items-center justify-center font-code text-mono-xxs text-white">
+                    <div className={clsx(
+                      "flex h-5 w-5 items-center justify-center rounded-full font-code text-[10px]",
+                      inverted ? "bg-grey-600 text-white" : "bg-grey-700 text-white"
+                    )}>
                       {getInitials(item.user.name)}
                     </div>
                   )}
-                  <span className="font-code text-mono-xs text-grey-600">
+                  <span className={clsx(
+                    "font-code text-xs",
+                    inverted ? "text-grey-400" : "text-grey-600"
+                  )}>
                     {item.user.name}
                   </span>
                 </div>
@@ -193,11 +229,14 @@ export function Timeline({
 
               {/* Metadata */}
               {item.metadata && Object.keys(item.metadata).length > 0 && (
-                <div className="flex flex-wrap gap-gap-xs mt-spacing-2">
+                <div className="mt-2 flex flex-wrap gap-1">
                   {Object.entries(item.metadata).map(([key, value]) => (
                     <span
                       key={key}
-                      className="font-code text-mono-xs text-grey-600 px-spacing-1 py-spacing-0.5 bg-grey-100 tracking-wide"
+                      className={clsx(
+                        "px-1 py-0.5 font-code text-xs tracking-wide",
+                        inverted ? "bg-grey-800 text-grey-400" : "bg-grey-100 text-grey-600"
+                      )}
                     >
                       {key}: {value}
                     </span>

@@ -3,6 +3,16 @@
 import React, { useState, useMemo } from "react";
 import clsx from "clsx";
 
+/**
+ * DataTable component - Bold Contemporary Pop Art Adventure
+ * 
+ * Features:
+ * - Bold 2px border wrapper
+ * - High contrast header
+ * - Hover lift on rows
+ * - Hard offset shadow
+ */
+
 export interface Column<T> {
   /** Unique key for the column */
   key: string;
@@ -159,8 +169,10 @@ export function DataTable<T>({
   return (
     <div
       className={clsx(
-        "border-2 overflow-auto",
-        inverted ? "border-grey-700 bg-ink-900" : "border-black bg-white",
+        "border-2 overflow-auto rounded-[var(--radius-card)]",
+        inverted 
+          ? "border-grey-700 bg-ink-900 shadow-[4px_4px_0_rgba(255,255,255,0.1)]" 
+          : "border-black bg-white shadow-[4px_4px_0_rgba(0,0,0,0.1)]",
         className
       )}
     >

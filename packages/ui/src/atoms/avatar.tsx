@@ -41,6 +41,15 @@ const statusColorClasses = {
   busy: "bg-error-500",
 };
 
+/**
+ * Avatar component - Bold Contemporary Pop Art Adventure
+ * 
+ * Features:
+ * - Bold 2px borders
+ * - Hard offset shadow when bordered
+ * - Grayscale filter for consistent aesthetic
+ * - Pop art status indicators
+ */
 export function Avatar({
   src,
   alt = "",
@@ -62,12 +71,30 @@ export function Avatar({
   return (
     <div
       className={clsx(
-        "relative inline-flex items-center justify-center overflow-hidden flex-shrink-0",
+        "relative inline-flex items-center justify-center overflow-hidden shrink-0",
+        "transition-all duration-100 ease-[var(--ease-bounce)]",
         config.container,
-        shape === "circle" ? "rounded-full" : "rounded-sm",
+        shape === "circle" ? "rounded-full" : "rounded-[var(--radius-badge)]",
         showFallback && (inverted ? "bg-grey-200" : "bg-grey-800"),
-        bordered && (inverted ? "border-2 border-white" : "border-2 border-black"),
-        onClick && "cursor-pointer",
+        // Bold border with shadow
+        bordered && clsx(
+          "border-2",
+          inverted 
+            ? "border-white shadow-[2px_2px_0_rgba(255,255,255,0.2)]" 
+            : "border-black shadow-[2px_2px_0_rgba(0,0,0,0.15)]"
+        ),
+        // Interactive states
+        onClick && clsx(
+          "cursor-pointer",
+          "hover:-translate-x-0.5 hover:-translate-y-0.5",
+          bordered && (inverted 
+            ? "hover:shadow-[3px_3px_0_rgba(255,255,255,0.25)]" 
+            : "hover:shadow-[3px_3px_0_rgba(0,0,0,0.2)]"),
+          "active:translate-x-0 active:translate-y-0",
+          bordered && (inverted 
+            ? "active:shadow-[1px_1px_0_rgba(255,255,255,0.2)]" 
+            : "active:shadow-[1px_1px_0_rgba(0,0,0,0.1)]")
+        ),
         className
       )}
       onClick={onClick}
@@ -77,7 +104,7 @@ export function Avatar({
       {showFallback ? (
         <span
           className={clsx(
-            "font-code font-weight-normal uppercase select-none",
+            "font-code font-bold uppercase select-none",
             inverted ? "text-black" : "text-white",
             config.text
           )}

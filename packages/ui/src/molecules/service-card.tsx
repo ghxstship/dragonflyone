@@ -21,7 +21,7 @@ export const ServiceCard = forwardRef<HTMLDivElement, ServiceCardProps>(
       <div
         ref={ref}
         className={clsx(
-          "p-spacing-6 border-2 hover:shadow-hard-lg hover:-translate-y-1 transition-all group",
+          "p-spacing-6 border-2 rounded-[var(--radius-card)] shadow-[4px_4px_0_rgba(0,0,0,0.1)] hover:shadow-[6px_6px_0_rgba(0,0,0,0.15)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 ease-[var(--ease-bounce)] group",
           bgClasses[background],
           className
         )}

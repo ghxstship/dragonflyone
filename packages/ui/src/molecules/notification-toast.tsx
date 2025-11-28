@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect } from 'react';
+import clsx from 'clsx';
 import { X } from '../atoms/icon.js';
 
 export interface Toast {
@@ -15,6 +16,15 @@ interface NotificationToastProps extends Toast {
   onDismiss: (id: string) => void;
 }
 
+/**
+ * NotificationToast component - Bold Contemporary Pop Art Adventure
+ * 
+ * Features:
+ * - Slide + bounce animation on appear
+ * - Bold 2px borders
+ * - Hard offset shadow
+ * - Bold close button with hover lift
+ */
 export function NotificationToast({
   id,
   type,
@@ -33,11 +43,19 @@ export function NotificationToast({
     }
   }, [id, duration, onDismiss]);
 
-  const colors = {
-    success: 'border-success-500 bg-success-900',
-    error: 'border-error-500 bg-error-900',
-    info: 'border-info-500 bg-info-900',
-    warning: 'border-warning-500 bg-warning-900',
+  const getColorClasses = () => {
+    switch (type) {
+      case 'success':
+        return 'border-success-500 bg-success-900 shadow-[4px_4px_0_rgba(34,197,94,0.3)]';
+      case 'error':
+        return 'border-error-500 bg-error-900 shadow-[4px_4px_0_rgba(239,68,68,0.3)]';
+      case 'info':
+        return 'border-info-500 bg-info-900 shadow-[4px_4px_0_rgba(59,130,246,0.3)]';
+      case 'warning':
+        return 'border-warning-500 bg-warning-900 shadow-[4px_4px_0_rgba(245,158,11,0.3)]';
+      default:
+        return '';
+    }
   };
 
   const icons = {
@@ -49,21 +67,32 @@ export function NotificationToast({
 
   return (
     <div
-      className={`pointer-events-auto flex w-full max-w-container-sm border-2 ${colors[type]} p-spacing-4`}
+      className={clsx(
+        "pointer-events-auto flex w-full max-w-sm",
+        "border-2 rounded-[var(--radius-card)] p-4",
+        "animate-slide-up-bounce",
+        getColorClasses()
+      )}
       role="alert"
     >
       <div className="flex-1">
-        <div className="flex items-start gap-spacing-3">
-          <span className="text-h4-md">{icons[type]}</span>
-          <div className="flex-1">
-            <p className="font-display text-mono-sm text-white">{title}</p>
+        <div className="flex items-start gap-3">
+          <span className="text-xl font-bold">{icons[type]}</span>
+          <div className="flex-1 min-w-0">
+            <p className="font-heading text-sm uppercase tracking-wider font-bold text-white">{title}</p>
             {message && (
-              <p className="mt-spacing-1 text-mono-xs text-ink-300">{message}</p>
+              <p className="mt-1 text-sm text-white/80">{message}</p>
             )}
           </div>
           <button
             onClick={() => onDismiss(id)}
-            className="text-ink-500 transition-colors hover:text-white"
+            className={clsx(
+              "p-1 border-2 border-white/30 rounded",
+              "transition-all duration-100",
+              "hover:-translate-x-0.5 hover:-translate-y-0.5 hover:border-white hover:shadow-[2px_2px_0_rgba(255,255,255,0.2)]",
+              "active:translate-x-0 active:translate-y-0",
+              "text-white/60 hover:text-white"
+            )}
             aria-label="Dismiss notification"
           >
             <X size="sm" />

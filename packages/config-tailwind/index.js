@@ -231,19 +231,27 @@ const fontWeightTokens = {
 };
 
 /**
- * Semantic border radius tokens
- * Use these instead of raw rounded-* classes
+ * Semantic border radius tokens - Bold Contemporary Pop Art Adventure
+ * Sharp to rounded scale with component-specific tokens
  */
 const borderRadiusTokens = {
-  'radius-none': '0',
-  'radius-subtle': '2px',
-  'radius-sm': '4px',
-  'radius-button': '0',      // Geometric aesthetic - no radius
-  'radius-input': '0',       // Geometric aesthetic - no radius
-  'radius-card': '0',        // Geometric aesthetic - no radius
-  'radius-avatar': '9999px', // Full circle for avatars
-  'radius-badge': '0',       // Geometric aesthetic - no radius
-  'radius-tag': '0',         // Geometric aesthetic - no radius
+  'radius-none': '0px',
+  'radius-sm': 'var(--radius-sm, 2px)',        // Subtle rounding
+  'radius-DEFAULT': 'var(--radius-DEFAULT, 4px)', // Default interactive
+  'radius-md': 'var(--radius-md, 6px)',        // Medium elements
+  'radius-lg': 'var(--radius-lg, 8px)',        // Cards, panels
+  'radius-xl': 'var(--radius-xl, 12px)',       // Large cards
+  'radius-2xl': 'var(--radius-2xl, 16px)',     // Modals, feature cards
+  'radius-3xl': 'var(--radius-3xl, 24px)',     // Hero elements
+  'radius-full': '9999px',                      // Pills, avatars
+  // Component-specific
+  'radius-button': 'var(--radius-button, 4px)', // Sharp, bold action
+  'radius-input': 'var(--radius-input, 4px)',   // Matches buttons
+  'radius-card': 'var(--radius-card, 8px)',     // Panel aesthetic
+  'radius-modal': 'var(--radius-modal, 16px)',  // Contained, prominent
+  'radius-badge': 'var(--radius-badge, 2px)',   // Label-like, sharp
+  'radius-avatar': 'var(--radius-avatar, 9999px)', // Always circular
+  'radius-tooltip': 'var(--radius-tooltip, 4px)', // Speech bubble
 };
 
 /**
@@ -368,16 +376,38 @@ const fontSizeScale = {
 };
 
 /**
- * Shadow tokens - hard geometric shadows only
+ * Shadow tokens - Bold Contemporary Pop Art Adventure
+ * Hard offset shadows for comic panel aesthetic
  */
 const shadowTokens = {
-  none: 'none',
+  none: 'var(--shadow-none, none)',
+  xs: 'var(--shadow-xs)',
+  sm: 'var(--shadow-sm)',
+  DEFAULT: 'var(--shadow-DEFAULT)',
+  md: 'var(--shadow-md)',
+  lg: 'var(--shadow-lg)',
+  xl: 'var(--shadow-xl)',
+  '2xl': 'var(--shadow-2xl)',
+  // Accent shadows - POP ART
+  primary: 'var(--shadow-primary)',
+  accent: 'var(--shadow-accent)',
+  // State shadows
+  hover: 'var(--shadow-hover)',
+  active: 'var(--shadow-active)',
+  focus: 'var(--shadow-focus)',
+  inset: 'var(--shadow-inset)',
+  // Legacy compatibility
   outline: '0 0 0 1px #404040',
   'outline-bold': '0 0 0 2px #000000',
-  hard: '4px 4px 0 0 #000000',
-  'hard-lg': '8px 8px 0 0 #000000',
+  hard: 'var(--shadow-md)',
+  'hard-lg': 'var(--shadow-lg)',
   'hard-white': '4px 4px 0 0 #FFFFFF',
-  'hard-lg-white': '8px 8px 0 0 #FFFFFF'
+  'hard-lg-white': '8px 8px 0 0 #FFFFFF',
+  // Pop art specific
+  pop: 'var(--shadow-md)',
+  'pop-lg': 'var(--shadow-lg)',
+  'pop-primary': 'var(--shadow-primary)',
+  'pop-accent': 'var(--shadow-accent)',
 };
 
 /**
@@ -768,11 +798,32 @@ const baseTailwindConfig = {
         slow: '300ms',
         slower: '500ms'
       },
+      // Animation durations - SNAPPY
+      transitionTimingFunction: {
+        'ease-bounce': 'var(--ease-bounce, cubic-bezier(0.34, 1.56, 0.64, 1))',
+        'ease-snap': 'var(--ease-snap, cubic-bezier(0.68, -0.6, 0.32, 1.6))',
+        'ease-spring': 'var(--ease-spring, cubic-bezier(0.175, 0.885, 0.32, 1.1))',
+      },
       animation: {
+        // Legacy
         'hard-fade': 'hardFade 300ms ease-out',
-        scanline: 'scanline 1.5s linear infinite'
+        scanline: 'scanline 1.5s linear infinite',
+        // Bold Contemporary Pop Art Adventure animations
+        'pop-in': 'pop-in 0.3s var(--ease-bounce) forwards',
+        'slide-up-bounce': 'slide-up-bounce 0.4s var(--ease-bounce) forwards',
+        'shake': 'shake 0.5s ease-in-out',
+        'pulse-shadow': 'pulse-shadow 2s ease-in-out infinite',
+        'comic-appear': 'comic-appear 0.4s var(--ease-bounce) forwards',
+        'bounce-subtle': 'bounce-subtle 1s ease-in-out infinite',
+        'fade-in': 'fade-in 0.2s ease-out forwards',
+        'fade-out': 'fade-out 0.2s ease-out forwards',
+        'zoom-in': 'zoom-in 0.2s var(--ease-bounce) forwards',
+        'zoom-out': 'zoom-out 0.15s ease-out forwards',
+        'slide-in-top': 'slide-in-from-top 0.2s var(--ease-bounce) forwards',
+        'slide-in-bottom': 'slide-in-from-bottom 0.2s var(--ease-bounce) forwards',
       },
       keyframes: {
+        // Legacy
         hardFade: {
           '0%': { opacity: 0, transform: 'translateY(6px)' },
           '100%': { opacity: 1, transform: 'translateY(0)' }
@@ -780,6 +831,61 @@ const baseTailwindConfig = {
         scanline: {
           '0%': { transform: 'translateY(-100%)' },
           '100%': { transform: 'translateY(100%)' }
+        },
+        // Bold Contemporary Pop Art Adventure keyframes
+        'pop-in': {
+          '0%': { opacity: 0, transform: 'scale(0.9) translateY(10px)' },
+          '50%': { transform: 'scale(1.02) translateY(-2px)' },
+          '100%': { opacity: 1, transform: 'scale(1) translateY(0)' }
+        },
+        'slide-up-bounce': {
+          '0%': { opacity: 0, transform: 'translateY(20px)' },
+          '60%': { transform: 'translateY(-5px)' },
+          '100%': { opacity: 1, transform: 'translateY(0)' }
+        },
+        'shake': {
+          '0%, 100%': { transform: 'translateX(0)' },
+          '20%': { transform: 'translateX(-4px) rotate(-1deg)' },
+          '40%': { transform: 'translateX(4px) rotate(1deg)' },
+          '60%': { transform: 'translateX(-4px) rotate(-1deg)' },
+          '80%': { transform: 'translateX(4px) rotate(1deg)' }
+        },
+        'pulse-shadow': {
+          '0%, 100%': { boxShadow: 'var(--shadow-md)' },
+          '50%': { boxShadow: 'var(--shadow-lg), 0 0 0 4px hsl(var(--primary) / 0.2)' }
+        },
+        'comic-appear': {
+          '0%': { opacity: 0, transform: 'scale(0.5) rotate(-5deg)' },
+          '60%': { transform: 'scale(1.1) rotate(2deg)' },
+          '100%': { opacity: 1, transform: 'scale(1) rotate(0deg)' }
+        },
+        'bounce-subtle': {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-4px)' }
+        },
+        'fade-in': {
+          from: { opacity: 0 },
+          to: { opacity: 1 }
+        },
+        'fade-out': {
+          from: { opacity: 1 },
+          to: { opacity: 0 }
+        },
+        'slide-in-from-top': {
+          from: { transform: 'translateY(-10px)', opacity: 0 },
+          to: { transform: 'translateY(0)', opacity: 1 }
+        },
+        'slide-in-from-bottom': {
+          from: { transform: 'translateY(10px)', opacity: 0 },
+          to: { transform: 'translateY(0)', opacity: 1 }
+        },
+        'zoom-in': {
+          from: { transform: 'scale(0.95)', opacity: 0 },
+          to: { transform: 'scale(1)', opacity: 1 }
+        },
+        'zoom-out': {
+          from: { transform: 'scale(1)', opacity: 1 },
+          to: { transform: 'scale(0.95)', opacity: 0 }
         }
       },
       backgroundImage: {

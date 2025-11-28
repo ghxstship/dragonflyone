@@ -74,8 +74,8 @@ export function TicketCard({
   return (
     <article
       className={clsx(
-        "flex flex-col bg-white border-2 border-black overflow-hidden transition-all duration-base",
-        onClick && "cursor-pointer",
+        "flex flex-col bg-white border-2 border-black rounded-[var(--radius-card)] shadow-[4px_4px_0_rgba(0,0,0,0.1)] overflow-hidden transition-all duration-100 ease-[var(--ease-bounce)]",
+        onClick && "cursor-pointer hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_rgba(0,0,0,0.15)]",
         !isActive && "opacity-70",
         className
       )}

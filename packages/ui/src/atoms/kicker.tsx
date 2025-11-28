@@ -12,8 +12,10 @@ export type KickerProps = HTMLAttributes<HTMLSpanElement> & {
 };
 
 /**
- * Kicker - A small uppercase label used above headings
- * Commonly used for section labels, category indicators, and metadata
+ * Kicker component - Bold Contemporary Pop Art Adventure
+ * 
+ * A small uppercase label used above headings.
+ * Features bold typography and clear visual hierarchy.
  * 
  * Color scheme determines text color for WCAG AA compliance:
  * - on-dark: For dark backgrounds (ink-700 to ink-950)
@@ -23,27 +25,27 @@ export type KickerProps = HTMLAttributes<HTMLSpanElement> & {
 export const Kicker = forwardRef<HTMLSpanElement, KickerProps>(
   function Kicker({ size = "md", variant = "default", colorScheme = "on-dark", className, children, ...props }, ref) {
     const sizeClasses = {
-      sm: "text-micro tracking-ultra",
-      md: "text-mono-xs tracking-ultra",
-      lg: "text-mono-sm tracking-ultra",
+      sm: "text-[10px] tracking-[0.2em]",
+      md: "text-xs tracking-[0.15em]",
+      lg: "text-sm tracking-[0.1em]",
     };
 
     // WCAG AA compliant color mappings based on background context
     const colorSchemeClasses = {
       "on-dark": {
-        default: "text-ink-400",  // 7.4:1 contrast on ink-950
-        muted: "text-ink-500",    // 4.6:1 contrast on ink-950
-        accent: "text-ink-300",   // 12.6:1 contrast on ink-950
+        default: "text-grey-400",
+        muted: "text-grey-500",
+        accent: "text-grey-300",
       },
       "on-light": {
-        default: "text-ink-600",  // 5.7:1 contrast on ink-50
-        muted: "text-ink-500",    // 4.6:1 contrast on ink-50
-        accent: "text-ink-700",   // 9.7:1 contrast on ink-50
+        default: "text-grey-600",
+        muted: "text-grey-500",
+        accent: "text-grey-700",
       },
       "on-mid": {
-        default: "text-ink-50",   // 7.4:1 contrast on ink-500
-        muted: "text-ink-200",    // 5.3:1 contrast on ink-500
-        accent: "text-ink-50",    // 7.4:1 contrast on ink-500
+        default: "text-white",
+        muted: "text-grey-200",
+        accent: "text-white",
       },
     };
 
@@ -51,7 +53,7 @@ export const Kicker = forwardRef<HTMLSpanElement, KickerProps>(
       <span
         ref={ref}
         className={clsx(
-          "font-code uppercase",
+          "font-code uppercase font-bold",
           sizeClasses[size],
           colorSchemeClasses[colorScheme][variant],
           className

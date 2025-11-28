@@ -24,8 +24,12 @@ export type SectionHeaderProps = HTMLAttributes<HTMLDivElement> & {
 };
 
 /**
- * SectionHeader - Consistent header pattern for page sections
- * Used across ATLVS, COMPVSS, and GVTEWAY landing pages
+ * SectionHeader - Bold Contemporary Pop Art Adventure
+ * 
+ * Consistent header pattern for page sections with:
+ * - Bold uppercase titles
+ * - Clear visual hierarchy
+ * - WCAG AA compliant contrast
  * 
  * Color scheme determines text color for WCAG AA compliance:
  * - on-dark: For dark backgrounds (ink-700 to ink-950) - default

@@ -208,16 +208,16 @@ export function ListPage<T>({
 
   const activeFilterCount = Object.values(activeFilters).filter(v => v && (Array.isArray(v) ? v.length > 0 : true)).length;
 
-  // Theme-aware classes
+  // Theme-aware classes - Bold Contemporary Pop Art Adventure
   const bgClass = inverted ? "bg-black text-white" : "bg-white text-black";
   const borderClass = inverted ? "border-grey-700" : "border-grey-300";
   const mutedTextClass = inverted ? "text-grey-400" : "text-grey-600";
   const primaryBtnClass = inverted
-    ? "bg-white text-black border-2 border-white hover:bg-grey-100"
-    : "bg-black text-white border-2 border-black hover:bg-grey-900";
+    ? "bg-white text-black border-2 border-white shadow-[3px_3px_0_hsl(239,84%,67%)] hover:shadow-[4px_4px_0_hsl(239,84%,67%)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-[var(--radius-button)]"
+    : "bg-black text-white border-2 border-black shadow-[3px_3px_0_hsl(239,84%,67%)] hover:shadow-[4px_4px_0_hsl(239,84%,67%)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-[var(--radius-button)]";
   const secondaryBtnClass = inverted
-    ? "bg-transparent text-grey-400 border border-grey-700 hover:border-grey-500"
-    : "bg-transparent text-grey-600 border border-grey-300 hover:border-grey-500";
+    ? "bg-transparent text-grey-400 border-2 border-grey-700 hover:border-grey-500 hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-[var(--radius-button)]"
+    : "bg-transparent text-grey-600 border-2 border-grey-300 hover:border-grey-500 hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-[var(--radius-button)]";
 
   // Error state
   if (error) {

@@ -9,6 +9,14 @@ export type PageLayoutProps = HTMLAttributes<HTMLDivElement> & {
   background?: "white" | "black";
 };
 
+/**
+ * PageLayout component - Bold Contemporary Pop Art Adventure
+ * 
+ * Features:
+ * - Full-height layout structure
+ * - Clean header/footer integration
+ * - Dark-first design support
+ */
 export const PageLayout = forwardRef<HTMLDivElement, PageLayoutProps>(
   function PageLayout({ header, footer, children, background = "white", className, ...props }, ref) {
     return (
@@ -16,7 +24,7 @@ export const PageLayout = forwardRef<HTMLDivElement, PageLayoutProps>(
         ref={ref}
         className={clsx(
           "min-h-screen flex flex-col",
-          background === "black" ? "bg-ink-950 text-ink-50" : "bg-ink-50 text-ink-950",
+          background === "black" ? "bg-black text-white" : "bg-white text-black",
           className
         )}
         {...props}

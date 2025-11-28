@@ -16,6 +16,14 @@ export type AppShellProps = {
   className?: string;
 };
 
+/**
+ * AppShell component - Bold Contemporary Pop Art Adventure
+ * 
+ * Features:
+ * - Bold sidebar integration
+ * - Clean content area
+ * - Mobile-first responsive design
+ */
 export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(
   function AppShell(
     {
@@ -38,7 +46,7 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(
         ref={ref}
         className={clsx(
           "flex min-h-screen",
-          inverted ? "bg-ink-950 text-white" : "bg-surface-primary text-text-primary",
+          inverted ? "bg-ink-950 text-white" : "bg-white text-black",
           className
         )}
       >
@@ -70,24 +78,28 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(
         <div className="flex-1 flex flex-col min-w-0">
           {/* Mobile Header */}
           <header className={clsx(
-            "md:hidden flex items-center justify-between h-spacing-16 px-spacing-4 border-b-2",
-            inverted ? "bg-surface-inverse border-border-secondary" : "bg-surface-primary border-border-secondary"
+            "md:hidden flex items-center justify-between h-16 px-4 border-b-2",
+            inverted ? "bg-black border-grey-800" : "bg-white border-grey-200"
           )}>
             <button
               type="button"
               onClick={() => setMobileMenuOpen(true)}
               className={clsx(
-                "p-spacing-2",
-                inverted ? "text-white" : "text-black"
+                "p-2 border-2 rounded-[var(--radius-button)]",
+                "transition-all duration-100",
+                "hover:-translate-x-0.5 hover:-translate-y-0.5",
+                inverted 
+                  ? "text-white border-grey-700 hover:bg-grey-800 hover:shadow-[2px_2px_0_rgba(255,255,255,0.1)]" 
+                  : "text-black border-grey-300 hover:bg-grey-100 hover:shadow-[2px_2px_0_rgba(0,0,0,0.1)]"
               )}
               aria-label="Open menu"
             >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M4 6h16M4 12h16M4 18h16" />
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                <path strokeLinecap="square" d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
             {logo}
-            <div className="w-spacing-10" /> {/* Spacer for centering */}
+            <div className="w-10" /> {/* Spacer for centering */}
           </header>
 
           {/* Optional Desktop Header */}

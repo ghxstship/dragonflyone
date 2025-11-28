@@ -1,5 +1,6 @@
 import { ConsumerNavigationPublic } from "../components/navigation";
 import { Badge, Stack, Grid, Card, Container, Display, H2, H3, Body, Label, Link, Article, Box, Section, SectionHeader } from "@ghxstship/ui";
+import { Music, Tent, Trophy, Drama, Laugh, Sparkles } from "lucide-react";
 import { ExperienceDiscovery } from "../components/experience-discovery";
 
 export const runtime = "edge";
@@ -18,12 +19,12 @@ const consumerHero = {
 
 // Featured categories for consumer discovery
 const featuredCategories = [
-  { label: "Concerts", href: "/events?category=concerts", icon: "🎵" },
-  { label: "Festivals", href: "/events?category=festivals", icon: "🎪" },
-  { label: "Sports", href: "/events?category=sports", icon: "⚽" },
-  { label: "Theater", href: "/events?category=theater", icon: "🎭" },
-  { label: "Comedy", href: "/events?category=comedy", icon: "😂" },
-  { label: "Immersive", href: "/events?category=immersive", icon: "✨" },
+  { label: "Concerts", href: "/events?category=concerts", icon: Music },
+  { label: "Festivals", href: "/events?category=festivals", icon: Tent },
+  { label: "Sports", href: "/events?category=sports", icon: Trophy },
+  { label: "Theater", href: "/events?category=theater", icon: Drama },
+  { label: "Comedy", href: "/events?category=comedy", icon: Laugh },
+  { label: "Immersive", href: "/events?category=immersive", icon: Sparkles },
 ];
 
 // Consumer value propositions
@@ -112,7 +113,7 @@ export default function Home() {
                 href={category.href}
                 className="flex flex-col items-center gap-spacing-3 border border-ink-800 p-spacing-6 text-center transition hover:-translate-y-1 hover:border-white"
               >
-                <H3 size="lg" className="text-white">{category.icon}</H3>
+                <category.icon className="h-8 w-8 text-white" />
                 <Label size="xs" className="tracking-widest text-ink-300">{category.label}</Label>
               </Link>
             ))}

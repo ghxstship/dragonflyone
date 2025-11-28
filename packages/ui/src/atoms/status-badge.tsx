@@ -11,6 +11,14 @@ export type StatusBadgeProps = HTMLAttributes<HTMLSpanElement> & {
   inverted?: boolean;
 };
 
+/**
+ * StatusBadge component - Bold Contemporary Pop Art Adventure
+ * 
+ * Features:
+ * - Bold 2px borders
+ * - Sharp corners (2px radius)
+ * - High contrast status colors
+ */
 export const StatusBadge = forwardRef<HTMLSpanElement, StatusBadgeProps>(
   function StatusBadge({ status, size = "md", filled = false, inverted = false, className, children, ...props }, ref) {
     // Light mode status colors with filled and outline variants
@@ -72,16 +80,17 @@ export const StatusBadge = forwardRef<HTMLSpanElement, StatusBadgeProps>(
     const statusClasses = inverted ? darkStatusClasses : lightStatusClasses;
 
     const sizeClasses = {
-      sm: "px-spacing-2 py-spacing-0.5 text-mono-xxs",
-      md: "px-spacing-3 py-spacing-1 text-mono-xs",
-      lg: "px-spacing-3 py-spacing-1.5 text-mono-md",
+      sm: "px-2 py-0.5 text-[10px]",
+      md: "px-3 py-1 text-xs",
+      lg: "px-3 py-1.5 text-sm",
     };
 
     return (
       <span
         ref={ref}
         className={clsx(
-          "inline-flex items-center font-code uppercase tracking-widest leading-none",
+          "inline-flex items-center font-code uppercase tracking-widest leading-none font-bold",
+          "rounded-[var(--radius-badge)]",
           statusClasses[status],
           sizeClasses[size],
           className

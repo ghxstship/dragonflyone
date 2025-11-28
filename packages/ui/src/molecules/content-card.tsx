@@ -49,8 +49,8 @@ export const ContentCard = forwardRef<HTMLElement, ContentCardProps>(
     ref
   ) {
     const variantClasses = {
-      bordered: "border border-ink-800",
-      surface: "surface",
+      bordered: "border-2 border-ink-800 rounded-[var(--radius-card)] shadow-[4px_4px_0_rgba(255,255,255,0.1)]",
+      surface: "surface rounded-[var(--radius-card)]",
       ghost: "",
     };
 

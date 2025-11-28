@@ -9,13 +9,21 @@ export type FooterProps = HTMLAttributes<HTMLElement> & {
   inverted?: boolean;
 };
 
+/**
+ * Footer component - Bold Contemporary Pop Art Adventure
+ * 
+ * Features:
+ * - Substantial 4px top border for maximum impact
+ * - Bold section headers
+ * - Generous spacing
+ */
 export const Footer = forwardRef<HTMLElement, FooterProps>(
   function Footer({ logo, children, copyright, inverted = true, className, ...props }, ref) {
     return (
       <footer
         ref={ref}
         className={clsx(
-          "border-t-2 py-spacing-12",
+          "border-t-4 py-12",
           inverted
             ? "bg-black text-white border-white"
             : "bg-white text-black border-black",
@@ -23,13 +31,13 @@ export const Footer = forwardRef<HTMLElement, FooterProps>(
         )}
         {...props}
       >
-        <div className="container mx-auto px-spacing-4">
-          {logo ? <div className="mb-spacing-8">{logo}</div> : null}
-          {children ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gap-lg mb-spacing-8">{children}</div> : null}
+        <div className="container mx-auto px-4 max-w-7xl">
+          {logo ? <div className="mb-8">{logo}</div> : null}
+          {children ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">{children}</div> : null}
           {copyright ? (
-            <div className={clsx("pt-spacing-8 border-t-2", inverted ? "border-grey-800" : "border-grey-200")}>
+            <div className={clsx("pt-8 border-t-2", inverted ? "border-grey-800" : "border-grey-200")}>
               <p className={clsx(
-                "font-code text-mono-xs uppercase tracking-widest",
+                "font-code text-xs uppercase tracking-widest font-bold",
                 inverted ? "text-grey-500" : "text-grey-400"
               )}>{copyright}</p>
             </div>
@@ -48,9 +56,9 @@ export type FooterColumnProps = HTMLAttributes<HTMLDivElement> & {
 export const FooterColumn = forwardRef<HTMLDivElement, FooterColumnProps>(
   function FooterColumn({ title, inverted = true, className, children, ...props }, ref) {
     return (
-      <div ref={ref} className={clsx("flex flex-col gap-gap-md", className)} {...props}>
+      <div ref={ref} className={clsx("flex flex-col gap-4", className)} {...props}>
         <h3 className={clsx(
-          "font-heading text-h5-sm uppercase tracking-wider",
+          "font-heading text-sm uppercase tracking-wider font-bold",
           inverted ? "text-white" : "text-black"
         )}>{title}</h3>
         {children}
@@ -71,7 +79,8 @@ export const FooterLink = forwardRef<HTMLAnchorElement, FooterLinkProps>(
         ref={ref}
         href={href}
         className={clsx(
-          "font-body text-body-sm transition-colors",
+          "font-body text-sm transition-all duration-100",
+          "hover:-translate-x-0.5",
           inverted
             ? "text-grey-400 hover:text-white"
             : "text-grey-600 hover:text-black",

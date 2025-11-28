@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, useState } from "react";
+import { forwardRef } from "react";
 import clsx from "clsx";
 import type { HTMLAttributes, ReactNode } from "react";
 
@@ -27,6 +27,15 @@ export type SidebarProps = HTMLAttributes<HTMLElement> & {
   inverted?: boolean;
 };
 
+/**
+ * Sidebar component - Bold Contemporary Pop Art Adventure
+ * 
+ * Features:
+ * - Bold 2px border dividers
+ * - Active state with hard offset shadow
+ * - Hover lift effect on nav items
+ * - Bold section headers
+ */
 export const Sidebar = forwardRef<HTMLElement, SidebarProps>(
   function Sidebar(
     {
@@ -46,9 +55,11 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(
       <aside
         ref={ref}
         className={clsx(
-          "flex flex-col h-screen border-r-2 transition-all duration-300",
+          "flex flex-col h-screen border-r-2 transition-all duration-200",
           collapsed ? "w-16" : "w-64",
-          inverted ? "bg-black border-grey-800 text-white" : "bg-white border-grey-200 text-black",
+          inverted 
+            ? "bg-black border-grey-800 text-white" 
+            : "bg-white border-grey-200 text-black",
           className
         )}
         {...props}
@@ -56,7 +67,7 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(
         {/* Logo/Header */}
         {logo && (
           <div className={clsx(
-            "flex items-center h-spacing-16 px-spacing-4 border-b-2",
+            "flex items-center h-16 px-4 border-b-2",
             inverted ? "border-grey-800" : "border-grey-200"
           )}>
             {logo}
@@ -64,18 +75,18 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(
         )}
 
         {/* Navigation Sections */}
-        <nav className="flex-1 overflow-y-auto py-spacing-4">
+        <nav className="flex-1 overflow-y-auto py-4">
           {sections.map((section) => (
-            <div key={section.section} className="mb-spacing-6">
+            <div key={section.section} className="mb-6">
               {!collapsed && (
                 <div className={clsx(
-                  "px-spacing-4 mb-spacing-2 text-mono-xs uppercase tracking-widest",
+                  "px-4 mb-2 text-xs uppercase tracking-widest font-bold",
                   inverted ? "text-grey-500" : "text-grey-400"
                 )}>
                   {section.section}
                 </div>
               )}
-              <ul className="space-y-spacing-1">
+              <ul className="space-y-1 px-2">
                 {section.items.map((item) => {
                   const isActive = currentPath === item.href || currentPath.startsWith(item.href + "/");
                   return (
@@ -83,31 +94,42 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(
                       <a
                         href={item.href}
                         className={clsx(
-                          "flex items-center gap-gap-sm px-spacing-4 py-spacing-2 text-body-sm transition-colors",
+                          "flex items-center gap-3 px-3 py-2 text-sm rounded-[var(--radius-button)]",
+                          "transition-all duration-100 ease-[var(--ease-bounce)]",
                           collapsed && "justify-center",
                           isActive
                             ? inverted
-                              ? "bg-white text-black"
-                              : "bg-black text-white"
+                              ? "bg-white text-black border-2 border-white shadow-[3px_3px_0_hsl(239,84%,67%)]"
+                              : "bg-black text-white border-2 border-black shadow-[3px_3px_0_hsl(239,84%,67%)]"
                             : inverted
-                              ? "text-grey-300 hover:bg-grey-900 hover:text-white"
-                              : "text-grey-600 hover:bg-grey-100 hover:text-black"
+                              ? clsx(
+                                  "text-grey-300 border-2 border-transparent",
+                                  "hover:bg-grey-900 hover:text-white hover:border-grey-700",
+                                  "hover:-translate-x-0.5 hover:-translate-y-0.5"
+                                )
+                              : clsx(
+                                  "text-grey-600 border-2 border-transparent",
+                                  "hover:bg-grey-100 hover:text-black hover:border-grey-300",
+                                  "hover:-translate-x-0.5 hover:-translate-y-0.5"
+                                )
                         )}
                         title={collapsed ? item.label : undefined}
                       >
                         {item.icon && (
-                          <span className="w-spacing-5 h-spacing-5 flex items-center justify-center">
+                          <span className="w-5 h-5 flex items-center justify-center font-bold">
                             {/* Icon placeholder - integrate with your icon system */}
-                            <span className="text-mono-xs">{item.icon.charAt(0)}</span>
+                            <span className="text-xs">{item.icon.charAt(0)}</span>
                           </span>
                         )}
                         {!collapsed && (
                           <>
-                            <span className="flex-1 uppercase tracking-wider">{item.label}</span>
+                            <span className="flex-1 uppercase tracking-wider font-medium">{item.label}</span>
                             {item.badge && (
                               <span className={clsx(
-                                "px-spacing-2 py-spacing-0.5 text-mono-xs font-code uppercase tracking-widest",
-                                inverted ? "bg-grey-800 text-white" : "bg-grey-200 text-black"
+                                "px-2 py-0.5 text-xs font-code uppercase tracking-widest border-2 rounded-[var(--radius-badge)]",
+                                inverted 
+                                  ? "bg-grey-800 text-white border-grey-700" 
+                                  : "bg-grey-200 text-black border-grey-300"
                               )}>
                                 {item.badge}
                               </span>
@@ -129,7 +151,9 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(
             type="button"
             onClick={() => onCollapse(!collapsed)}
             className={clsx(
-              "flex items-center justify-center h-spacing-12 border-t-2 transition-colors",
+              "flex items-center justify-center h-12 border-t-2",
+              "transition-all duration-100",
+              "hover:-translate-y-0.5",
               inverted
                 ? "border-grey-800 text-grey-400 hover:text-white hover:bg-grey-900"
                 : "border-grey-200 text-grey-500 hover:text-black hover:bg-grey-100"
@@ -142,8 +166,8 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              strokeWidth="2"
-              className={clsx("transition-transform", collapsed && "rotate-180")}
+              strokeWidth="3"
+              className={clsx("transition-transform duration-200", collapsed && "rotate-180")}
             >
               <path d="M15 18l-6-6 6-6" />
             </svg>
@@ -153,7 +177,7 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(
         {/* Footer */}
         {footer && (
           <div className={clsx(
-            "px-spacing-4 py-spacing-4 border-t-2",
+            "px-4 py-4 border-t-2",
             inverted ? "border-grey-800" : "border-grey-200"
           )}>
             {footer}
@@ -169,6 +193,13 @@ export type MobileSidebarProps = SidebarProps & {
   onClose: () => void;
 };
 
+/**
+ * MobileSidebar component - Bold Contemporary Pop Art Adventure
+ * 
+ * Features:
+ * - Slide-in animation
+ * - Bold backdrop
+ */
 export const MobileSidebar = forwardRef<HTMLElement, MobileSidebarProps>(
   function MobileSidebar({ open, onClose, ...props }, ref) {
     if (!open) return null;
@@ -177,12 +208,12 @@ export const MobileSidebar = forwardRef<HTMLElement, MobileSidebarProps>(
       <>
         {/* Backdrop */}
         <div
-          className="fixed inset-0 z-modal-backdrop bg-black/50 md:hidden"
+          className="fixed inset-0 z-modal-backdrop bg-black/60 md:hidden animate-fade-in"
           onClick={onClose}
           aria-hidden="true"
         />
         {/* Sidebar */}
-        <div className="fixed inset-y-0 left-0 z-modal md:hidden">
+        <div className="fixed inset-y-0 left-0 z-modal md:hidden animate-slide-in-left">
           <Sidebar ref={ref} {...props} collapsed={false} />
         </div>
       </>

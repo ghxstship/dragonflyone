@@ -5,8 +5,13 @@ import clsx from "clsx";
 import type { HTMLAttributes, ReactNode, KeyboardEvent } from "react";
 
 /**
- * ContextBreadcrumb - Vercel-style hierarchical navigation breadcrumb
- * Features searchable dropdowns, keyboard navigation, and responsive collapse
+ * ContextBreadcrumb - Bold Contemporary Pop Art Adventure
+ * 
+ * Vercel-style hierarchical navigation breadcrumb with:
+ * - Bold 2px borders on dropdowns
+ * - Hard offset shadows
+ * - Hover lift effects
+ * - Snappy animations
  */
 
 // Types

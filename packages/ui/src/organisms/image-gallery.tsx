@@ -33,7 +33,7 @@ export const ImageGallery = forwardRef<HTMLDivElement, ImageGalleryProps>(
               key={index}
               type="button"
               onClick={() => setSelectedImage(image)}
-              className="relative overflow-hidden bg-grey-900 aspect-square border-2 border-black group cursor-pointer hover:scale-105 transition-transform"
+              className="relative overflow-hidden bg-grey-900 aspect-square border-2 border-black rounded-[var(--radius-card)] shadow-[4px_4px_0_rgba(0,0,0,0.1)] group cursor-pointer hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_rgba(0,0,0,0.15)] transition-all duration-100 ease-[var(--ease-bounce)]"
             >
               <img
                 src={image.src}

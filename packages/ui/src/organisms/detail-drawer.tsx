@@ -3,6 +3,16 @@
 import React, { useEffect, useRef } from "react";
 import clsx from "clsx";
 
+/**
+ * DetailDrawer component - Bold Contemporary Pop Art Adventure
+ * 
+ * Features:
+ * - Bold 2px side border
+ * - Slide-in animation
+ * - Bold header with high contrast
+ * - Action buttons with hover lift
+ */
+
 export interface DetailSection {
   /** Section identifier */
   id: string;

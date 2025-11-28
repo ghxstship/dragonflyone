@@ -1,5 +1,7 @@
 /**
  * GHXSTSHIP Design System - Shared Global Styles
+ * Bold Contemporary Pop Art Adventure Aesthetic
+ * 
  * Import this file in each app's globals.css or layout
  * 
  * Usage in app globals.css:
@@ -12,7 +14,9 @@
 :root {
   color-scheme: dark;
   
-  /* Ink Palette */
+  /* ═══════════════════════════════════════════════════════════════════════════
+     INK PALETTE (PRESERVED)
+     ═══════════════════════════════════════════════════════════════════════════ */
   --ink-50: #ffffff;
   --ink-100: #f5f5f5;
   --ink-200: #e5e5e5;
@@ -25,7 +29,27 @@
   --ink-900: #171717;
   --ink-950: #000000;
 
-  /* Semantic Surface Colors - Dark mode default (GHXSTSHIP aesthetic) */
+  /* ═══════════════════════════════════════════════════════════════════════════
+     BRAND COLORS (PRESERVED)
+     ═══════════════════════════════════════════════════════════════════════════ */
+  --primary: 239 84% 67%;        /* #6366f1 - Indigo */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 258 90% 66%;      /* #8b5cf6 - Violet */
+  --secondary-foreground: 0 0% 100%;
+  --accent: 38 92% 50%;          /* #f59e0b - Amber */
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 84% 60%;      /* #ef4444 - Red */
+  --destructive-foreground: 0 0% 100%;
+  
+  /* Status Colors (PRESERVED) */
+  --success: 142 71% 45%;        /* #22c55e - Green */
+  --warning: 38 92% 50%;         /* #f59e0b - Amber */
+  --error: 0 84% 60%;            /* #ef4444 - Red */
+  --info: 217 91% 60%;           /* #3b82f6 - Blue */
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     SEMANTIC SURFACE COLORS - Dark mode default (GHXSTSHIP aesthetic)
+     ═══════════════════════════════════════════════════════════════════════════ */
   --surface-primary: #000000;
   --surface-secondary: #171717;
   --surface-tertiary: #262626;
@@ -34,8 +58,20 @@
   --surface-inverse: #ffffff;
   --surface-muted: #404040;
   --surface-accent: #171717;
+  
+  --background: 0 0% 4%;         /* #0a0a0a */
+  --foreground: 0 0% 100%;       /* #ffffff */
+  --card: 0 0% 9%;               /* #171717 */
+  --card-foreground: 0 0% 100%;
+  --popover: 0 0% 9%;
+  --popover-foreground: 0 0% 100%;
+  --muted: 0 0% 15%;
+  --muted-foreground: 0 0% 64%;
+  --ring: 0 0% 100%;
 
-  /* Semantic Text Colors */
+  /* ═══════════════════════════════════════════════════════════════════════════
+     SEMANTIC TEXT COLORS (PRESERVED)
+     ═══════════════════════════════════════════════════════════════════════════ */
   --text-primary: #ffffff;
   --text-secondary: #d4d4d4;
   --text-tertiary: #a3a3a3;
@@ -45,26 +81,137 @@
   --text-link: #ffffff;
   --text-link-hover: #d4d4d4;
 
-  /* Semantic Border Colors */
+  /* ═══════════════════════════════════════════════════════════════════════════
+     SEMANTIC BORDER COLORS (PRESERVED)
+     ═══════════════════════════════════════════════════════════════════════════ */
   --border-primary: #404040;
   --border-secondary: #262626;
   --border-muted: #171717;
   --border-focus: #737373;
   --border-inverse: #000000;
   --border-accent: #525252;
+  --border: 0 0% 25%;
+  --input: 0 0% 25%;
 
-  /* Interactive States */
+  /* ═══════════════════════════════════════════════════════════════════════════
+     INTERACTIVE STATES (PRESERVED)
+     ═══════════════════════════════════════════════════════════════════════════ */
   --hover-surface: #171717;
   --active-surface: #262626;
   --focus-ring: rgba(255, 255, 255, 0.2);
 
-  /* Shadows (geometric hard shadows) */
-  --shadow-sm: 2px 2px 0 0 #262626;
-  --shadow-md: 4px 4px 0 0 #262626;
-  --shadow-lg: 8px 8px 0 0 #262626;
+  /* ═══════════════════════════════════════════════════════════════════════════
+     SPACING SYSTEM (REBUILT - 4px base unit)
+     ═══════════════════════════════════════════════════════════════════════════ */
+  --spacing-0: 0px;
+  --spacing-1: 4px;      /* 0.25rem - micro */
+  --spacing-2: 8px;      /* 0.5rem - tight */
+  --spacing-3: 12px;     /* 0.75rem - compact */
+  --spacing-4: 16px;     /* 1rem - base */
+  --spacing-5: 20px;     /* 1.25rem - comfortable */
+  --spacing-6: 24px;     /* 1.5rem - relaxed */
+  --spacing-8: 32px;     /* 2rem - spacious */
+  --spacing-10: 40px;    /* 2.5rem - airy */
+  --spacing-12: 48px;    /* 3rem - section gap */
+  --spacing-16: 64px;    /* 4rem - section padding */
+  --spacing-20: 80px;    /* 5rem - large section */
+  --spacing-24: 96px;    /* 6rem - page section */
+  
+  /* Component-specific spacing */
+  --spacing-button-x: 24px;
+  --spacing-button-y: 12px;
+  --spacing-button-sm-x: 16px;
+  --spacing-button-sm-y: 8px;
+  --spacing-button-lg-x: 32px;
+  --spacing-button-lg-y: 16px;
+  --spacing-input-x: 16px;
+  --spacing-input-y: 12px;
+  --spacing-card: 24px;
+  --spacing-card-header: 20px;
+  --spacing-modal: 32px;
+  --spacing-section: 64px;
+  --spacing-page: 96px;
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     BORDER RADIUS SYSTEM (REBUILT - Sharp to rounded scale)
+     ═══════════════════════════════════════════════════════════════════════════ */
+  --radius-none: 0px;
+  --radius-sm: 2px;        /* Subtle rounding */
+  --radius-DEFAULT: 4px;   /* Default interactive */
+  --radius-md: 6px;        /* Medium elements */
+  --radius-lg: 8px;        /* Cards, panels */
+  --radius-xl: 12px;       /* Large cards */
+  --radius-2xl: 16px;      /* Modals, feature cards */
+  --radius-3xl: 24px;      /* Hero elements */
+  --radius-full: 9999px;   /* Pills, avatars */
+  
+  /* Component-specific radius */
+  --radius-button: 4px;    /* Sharp, bold action */
+  --radius-input: 4px;     /* Matches buttons */
+  --radius-card: 8px;      /* Panel aesthetic */
+  --radius-modal: 16px;    /* Contained, prominent */
+  --radius-badge: 2px;     /* Label-like, sharp */
+  --radius-avatar: 9999px; /* Always circular */
+  --radius-tooltip: 4px;   /* Speech bubble */
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     SHADOW SYSTEM (REBUILT - Hard Offset Comic Panel Style)
+     ═══════════════════════════════════════════════════════════════════════════ */
+  --shadow-none: none;
+  
+  /* Hard offset shadows - COMIC PANEL STYLE */
+  --shadow-xs: 2px 2px 0 rgba(255, 255, 255, 0.15);
+  --shadow-sm: 3px 3px 0 rgba(255, 255, 255, 0.2);
+  --shadow-DEFAULT: 4px 4px 0 rgba(255, 255, 255, 0.2);
+  --shadow-md: 4px 4px 0 rgba(255, 255, 255, 0.25);
+  --shadow-lg: 6px 6px 0 rgba(255, 255, 255, 0.25);
+  --shadow-xl: 8px 8px 0 rgba(255, 255, 255, 0.3);
+  --shadow-2xl: 12px 12px 0 rgba(255, 255, 255, 0.35);
+  
+  /* Accent shadows - POP ART */
+  --shadow-primary: 4px 4px 0 hsl(var(--primary));
+  --shadow-accent: 4px 4px 0 hsl(var(--accent));
+  
+  /* State shadows */
+  --shadow-hover: 6px 6px 0 rgba(255, 255, 255, 0.25);
+  --shadow-active: 1px 1px 0 rgba(255, 255, 255, 0.2);
+  --shadow-focus: 0 0 0 3px rgba(255, 255, 255, 0.3);
+  --shadow-inset: inset 2px 2px 0 rgba(255, 255, 255, 0.1);
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     BORDER WIDTH SYSTEM (REBUILT - Bold borders)
+     ═══════════════════════════════════════════════════════════════════════════ */
+  --border-none: 0px;
+  --border-thin: 1px;      /* Subtle dividers only */
+  --border-DEFAULT: 2px;   /* Standard - BOLD DEFAULT */
+  --border-thick: 3px;     /* Emphasis */
+  --border-heavy: 4px;     /* Maximum impact, modals */
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     ANIMATION SYSTEM (REBUILT - Snappy with character)
+     ═══════════════════════════════════════════════════════════════════════════ */
+  /* Durations - SNAPPY */
+  --duration-instant: 50ms;
+  --duration-fast: 100ms;
+  --duration-DEFAULT: 150ms;
+  --duration-normal: 150ms;
+  --duration-slow: 250ms;
+  --duration-slower: 400ms;
+  
+  /* Easings - WITH CHARACTER */
+  --ease-DEFAULT: cubic-bezier(0.2, 0, 0.2, 1);
+  --ease-linear: linear;
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-snap: cubic-bezier(0.68, -0.6, 0.32, 1.6);
+  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.1);
 }
 
-/* Light Mode Override */
+/* ═══════════════════════════════════════════════════════════════════════════
+   LIGHT MODE OVERRIDE
+   ═══════════════════════════════════════════════════════════════════════════ */
 .light,
 [data-theme="light"] {
   color-scheme: light;
@@ -78,6 +225,18 @@
   --surface-inverse: #000000;
   --surface-muted: #d4d4d4;
   --surface-accent: #f5f5f5;
+  
+  --background: 0 0% 98%;        /* #fafafa */
+  --foreground: 0 0% 4%;         /* #0a0a0a */
+  --card: 0 0% 100%;             /* #ffffff */
+  --card-foreground: 0 0% 4%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 4%;
+  --muted: 0 0% 96%;
+  --muted-foreground: 0 0% 45%;
+  --ring: 0 0% 4%;
+  --border: 0 0% 15%;
+  --input: 0 0% 15%;
 
   /* Semantic Text Colors */
   --text-primary: #000000;
@@ -102,10 +261,20 @@
   --active-surface: #e5e5e5;
   --focus-ring: rgba(0, 0, 0, 0.2);
 
-  /* Shadows (geometric hard shadows) */
-  --shadow-sm: 2px 2px 0 0 #000000;
-  --shadow-md: 4px 4px 0 0 #000000;
-  --shadow-lg: 8px 8px 0 0 #000000;
+  /* Shadows (geometric hard shadows - LIGHT MODE) */
+  --shadow-xs: 2px 2px 0 rgba(0, 0, 0, 0.1);
+  --shadow-sm: 3px 3px 0 rgba(0, 0, 0, 0.15);
+  --shadow-DEFAULT: 4px 4px 0 rgba(0, 0, 0, 0.15);
+  --shadow-md: 4px 4px 0 rgba(0, 0, 0, 0.2);
+  --shadow-lg: 6px 6px 0 rgba(0, 0, 0, 0.2);
+  --shadow-xl: 8px 8px 0 rgba(0, 0, 0, 0.25);
+  --shadow-2xl: 12px 12px 0 rgba(0, 0, 0, 0.3);
+  
+  /* State shadows - LIGHT MODE */
+  --shadow-hover: 6px 6px 0 rgba(0, 0, 0, 0.2);
+  --shadow-active: 1px 1px 0 rgba(0, 0, 0, 0.15);
+  --shadow-focus: 0 0 0 3px rgba(0, 0, 0, 0.2);
+  --shadow-inset: inset 2px 2px 0 rgba(0, 0, 0, 0.1);
 }
 
 * {
@@ -202,4 +371,213 @@ a {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   KEYFRAME ANIMATIONS - Bold Contemporary Pop Art Adventure
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@keyframes pop-in {
+  0% { opacity: 0; transform: scale(0.9) translateY(10px); }
+  50% { transform: scale(1.02) translateY(-2px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes slide-up-bounce {
+  0% { opacity: 0; transform: translateY(20px); }
+  60% { transform: translateY(-5px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-4px) rotate(-1deg); }
+  40% { transform: translateX(4px) rotate(1deg); }
+  60% { transform: translateX(-4px) rotate(-1deg); }
+  80% { transform: translateX(4px) rotate(1deg); }
+}
+
+@keyframes pulse-shadow {
+  0%, 100% { box-shadow: var(--shadow-md); }
+  50% { box-shadow: var(--shadow-lg), 0 0 0 4px hsl(var(--primary) / 0.2); }
+}
+
+@keyframes comic-appear {
+  0% { opacity: 0; transform: scale(0.5) rotate(-5deg); }
+  60% { transform: scale(1.1) rotate(2deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+@keyframes bounce-subtle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes slide-in-from-top {
+  from { transform: translateY(-10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slide-in-from-bottom {
+  from { transform: translateY(10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes zoom-in {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes zoom-out {
+  from { transform: scale(1); opacity: 1; }
+  to { transform: scale(0.95); opacity: 0; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ANIMATION UTILITY CLASSES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.animate-pop-in { animation: pop-in 0.3s var(--ease-bounce) forwards; }
+.animate-slide-up-bounce { animation: slide-up-bounce 0.4s var(--ease-bounce) forwards; }
+.animate-shake { animation: shake 0.5s ease-in-out; }
+.animate-pulse-shadow { animation: pulse-shadow 2s ease-in-out infinite; }
+.animate-comic-appear { animation: comic-appear 0.4s var(--ease-bounce) forwards; }
+.animate-bounce-subtle { animation: bounce-subtle 1s ease-in-out infinite; }
+.animate-fade-in { animation: fade-in 0.2s ease-out forwards; }
+.animate-fade-out { animation: fade-out 0.2s ease-out forwards; }
+.animate-zoom-in { animation: zoom-in 0.2s var(--ease-bounce) forwards; }
+.animate-zoom-out { animation: zoom-out 0.15s ease-out forwards; }
+.animate-slide-in-top { animation: slide-in-from-top 0.2s var(--ease-bounce) forwards; }
+.animate-slide-in-bottom { animation: slide-in-from-bottom 0.2s var(--ease-bounce) forwards; }
+
+/* Stagger delays for sequential animations */
+.stagger-1 { animation-delay: 50ms; }
+.stagger-2 { animation-delay: 100ms; }
+.stagger-3 { animation-delay: 150ms; }
+.stagger-4 { animation-delay: 200ms; }
+.stagger-5 { animation-delay: 250ms; }
+.stagger-6 { animation-delay: 300ms; }
+.stagger-7 { animation-delay: 350ms; }
+.stagger-8 { animation-delay: 400ms; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   POP ART BACKGROUND PATTERNS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Halftone Dots - Classic Pop Art */
+.bg-halftone {
+  background-image: radial-gradient(circle, hsl(var(--foreground) / 0.1) 1px, transparent 1px);
+  background-size: 8px 8px;
+}
+.bg-halftone-lg {
+  background-image: radial-gradient(circle, hsl(var(--foreground) / 0.1) 2px, transparent 2px);
+  background-size: 16px 16px;
+}
+.bg-halftone-primary {
+  background-image: radial-gradient(circle, hsl(var(--primary) / 0.15) 1px, transparent 1px);
+  background-size: 8px 8px;
+}
+
+/* Diagonal Stripes */
+.bg-stripes {
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, hsl(var(--foreground) / 0.03) 10px, hsl(var(--foreground) / 0.03) 20px);
+}
+.bg-stripes-bold {
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 8px, hsl(var(--foreground) / 0.06) 8px, hsl(var(--foreground) / 0.06) 16px);
+}
+
+/* Grid Pattern */
+.bg-grid {
+  background-image: linear-gradient(hsl(var(--foreground) / 0.05) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--foreground) / 0.05) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.bg-grid-lg {
+  background-image: linear-gradient(hsl(var(--foreground) / 0.03) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--foreground) / 0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* Ben-Day Dots - Pop Art Classic */
+.bg-benday {
+  background-image: radial-gradient(hsl(var(--primary) / 0.15) 20%, transparent 20%);
+  background-size: 12px 12px;
+}
+.bg-benday-accent {
+  background-image: radial-gradient(hsl(var(--accent) / 0.15) 20%, transparent 20%);
+  background-size: 12px 12px;
+}
+
+/* Cross Hatch */
+.bg-crosshatch {
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, hsl(var(--foreground) / 0.02) 10px, hsl(var(--foreground) / 0.02) 11px), repeating-linear-gradient(-45deg, transparent, transparent 10px, hsl(var(--foreground) / 0.02) 10px, hsl(var(--foreground) / 0.02) 11px);
+}
+
+/* Speed Lines */
+.bg-speed-lines {
+  background-image: repeating-linear-gradient(90deg, transparent, transparent 4px, hsl(var(--foreground) / 0.02) 4px, hsl(var(--foreground) / 0.02) 5px);
+}
+
+/* Action Lines - Radial Burst */
+.bg-action-lines {
+  background-image: repeating-conic-gradient(from 0deg, transparent 0deg 5deg, hsl(var(--foreground) / 0.02) 5deg 10deg);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   INTERACTIVE STATE UTILITIES - Pop Art Style
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Hover lift effect for cards and buttons */
+.hover-lift {
+  transition: transform var(--duration-fast) var(--ease-bounce), box-shadow var(--duration-fast) var(--ease-bounce);
+}
+.hover-lift:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-hover);
+}
+.hover-lift:active {
+  transform: translate(1px, 1px);
+  box-shadow: var(--shadow-active);
+}
+
+/* Pop art button press effect */
+.press-effect {
+  transition: transform var(--duration-fast) var(--ease-bounce), box-shadow var(--duration-fast) var(--ease-bounce);
+}
+.press-effect:active {
+  transform: translate(2px, 2px);
+  box-shadow: var(--shadow-active);
+}
+
+/* Focus ring utility */
+.focus-ring {
+  outline: none;
+}
+.focus-ring:focus-visible {
+  box-shadow: var(--shadow-focus);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   COMPONENT SHADOW UTILITIES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.shadow-pop {
+  box-shadow: var(--shadow-md);
+}
+.shadow-pop-lg {
+  box-shadow: var(--shadow-lg);
+}
+.shadow-pop-primary {
+  box-shadow: var(--shadow-primary);
+}
+.shadow-pop-accent {
+  box-shadow: var(--shadow-accent);
 }

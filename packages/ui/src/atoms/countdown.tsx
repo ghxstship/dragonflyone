@@ -96,10 +96,11 @@ export function Countdown({
       <div
         className={clsx(
           "font-heading font-weight-normal border-2 text-center tracking-wide uppercase",
+          "rounded-[var(--radius-badge)]",
           config.number,
           inverted
-            ? "bg-black text-white border-white"
-            : "bg-white text-black border-black"
+            ? "bg-black text-white border-white shadow-[3px_3px_0_rgba(255,255,255,0.2)]"
+            : "bg-white text-black border-black shadow-[3px_3px_0_rgba(0,0,0,0.15)]"
         )}
       >
         {String(value).padStart(2, "0")}

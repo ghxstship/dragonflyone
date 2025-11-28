@@ -63,7 +63,7 @@ export function BulkActionBar({
   return (
     <div
       className={clsx(
-        "flex items-center justify-between gap-gap-md px-spacing-4 py-spacing-3 bg-black text-white border-2 border-black",
+        "flex items-center justify-between gap-gap-md px-spacing-4 py-spacing-3 bg-black text-white border-2 border-white rounded-[var(--radius-card)] shadow-[4px_4px_0_rgba(255,255,255,0.2)]",
         positionClasses[position],
         className
       )}
@@ -100,10 +100,10 @@ export function BulkActionBar({
               onClick={() => onAction(action.id)}
               disabled={isDisabled}
               className={clsx(
-                "flex items-center gap-gap-xs px-spacing-3 py-spacing-2 font-code text-mono-sm tracking-wide uppercase border whitespace-nowrap transition-colors duration-fast",
+                "flex items-center gap-gap-xs px-spacing-3 py-spacing-2 font-code text-mono-sm tracking-wide uppercase border-2 rounded-[var(--radius-button)] whitespace-nowrap transition-all duration-100 ease-[var(--ease-bounce)]",
                 action.variant === "danger"
-                  ? "bg-white text-black border-white hover:bg-grey-100"
-                  : "bg-grey-800 text-white border-grey-600 hover:bg-grey-700",
+                  ? "bg-white text-black border-white shadow-[2px_2px_0_rgba(255,255,255,0.2)] hover:bg-grey-100 hover:-translate-x-0.5 hover:-translate-y-0.5"
+                  : "bg-grey-800 text-white border-grey-600 shadow-[2px_2px_0_rgba(255,255,255,0.1)] hover:bg-grey-700 hover:-translate-x-0.5 hover:-translate-y-0.5",
                 isDisabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"
               )}
             >

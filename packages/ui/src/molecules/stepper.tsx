@@ -117,12 +117,12 @@ export function Stepper({
                 onClick={() => clickable && onStepClick?.(index)}
                 disabled={!clickable}
                 className={clsx(
-                  "rounded-full flex items-center justify-center font-code font-weight-normal tracking-wide border-2 flex-shrink-0 p-spacing-0 transition-colors duration-base",
+                  "rounded-full flex items-center justify-center font-code font-weight-normal tracking-wide border-2 flex-shrink-0 p-spacing-0 transition-all duration-100 ease-[var(--ease-bounce)]",
                   config.indicator,
-                  status === "completed" && "bg-black text-white border-black",
-                  status === "current" && "bg-white text-black border-black",
-                  status === "upcoming" && "bg-grey-200 text-grey-500 border-grey-300",
-                  clickable ? "cursor-pointer" : "cursor-default"
+                  status === "completed" && "bg-black text-white border-black shadow-[2px_2px_0_hsl(239,84%,67%)]",
+                  status === "current" && "bg-white text-black border-black shadow-[3px_3px_0_hsl(239,84%,67%)]",
+                  status === "upcoming" && "bg-grey-200 text-grey-500 border-grey-300 shadow-[2px_2px_0_rgba(0,0,0,0.08)]",
+                  clickable ? "cursor-pointer hover:-translate-x-0.5 hover:-translate-y-0.5" : "cursor-default"
                 )}
                 aria-label={`Step ${index + 1}: ${step.label}`}
                 aria-current={status === "current" ? "step" : undefined}

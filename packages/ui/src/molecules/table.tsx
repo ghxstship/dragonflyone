@@ -1,19 +1,27 @@
 import { forwardRef } from "react";
 import clsx from "clsx";
-import type { HTMLAttributes, ReactNode, TdHTMLAttributes, ThHTMLAttributes } from "react";
+import type { HTMLAttributes, TdHTMLAttributes, ThHTMLAttributes } from "react";
 
 export type TableProps = HTMLAttributes<HTMLTableElement> & {
   variant?: "default" | "bordered" | "striped";
 };
 
+/**
+ * Table component - Bold Contemporary Pop Art Adventure
+ * 
+ * Features:
+ * - Bold 2px border wrapper
+ * - High contrast header
+ * - Clear row separation
+ */
 export const Table = forwardRef<HTMLTableElement, TableProps>(
   function Table({ variant = "default", className, children, ...props }, ref) {
     return (
-      <div className="w-full overflow-x-auto border-2 border-black">
+      <div className="w-full overflow-x-auto border-2 border-black rounded-[var(--radius-card)] shadow-[4px_4px_0_rgba(0,0,0,0.1)]">
         <table
           ref={ref}
           className={clsx(
-            "w-full text-left text-body-sm",
+            "w-full text-left text-sm",
             variant === "striped" && "[&_tbody_tr:nth-child(even)]:bg-grey-50",
             className
           )}
@@ -43,7 +51,7 @@ export const TableHeader = forwardRef<HTMLTableSectionElement, HTMLAttributes<HT
 export const TableBody = forwardRef<HTMLTableSectionElement, HTMLAttributes<HTMLTableSectionElement>>(
   function TableBody({ className, children, ...props }, ref) {
     return (
-      <tbody ref={ref} className={className} {...props}>
+      <tbody ref={ref} className={clsx("bg-white", className)} {...props}>
         {children}
       </tbody>
     );
@@ -56,8 +64,9 @@ export const TableRow = forwardRef<HTMLTableRowElement, HTMLAttributes<HTMLTable
       <tr
         ref={ref}
         className={clsx(
-          "border-b border-grey-200 transition-colors hover:bg-grey-50",
-          selected && "bg-grey-100",
+          "border-b-2 border-grey-200 transition-all duration-100",
+          "hover:bg-grey-50 hover:-translate-x-0.5",
+          selected && "bg-grey-100 border-l-4 border-l-black",
           className
         )}
         {...props}
@@ -74,8 +83,8 @@ export const TableHead = forwardRef<HTMLTableCellElement, ThHTMLAttributes<HTMLT
       <th
         ref={ref}
         className={clsx(
-          "px-spacing-4 py-spacing-3 font-heading text-mono-sm uppercase tracking-wider text-left",
-          sortable && "cursor-pointer hover:bg-grey-900",
+          "px-4 py-3 font-heading text-xs uppercase tracking-wider text-left font-bold",
+          sortable && "cursor-pointer hover:bg-grey-900 transition-colors",
           className
         )}
         {...props}
@@ -91,7 +100,7 @@ export const TableCell = forwardRef<HTMLTableCellElement, TdHTMLAttributes<HTMLT
     return (
       <td
         ref={ref}
-        className={clsx("px-spacing-4 py-spacing-3 font-body text-body-sm", className)}
+        className={clsx("px-4 py-3 font-body text-sm", className)}
         {...props}
       >
         {children}
