@@ -4,9 +4,29 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge, ProgressBar,
-  Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
+  Container,
+  H3,
+  Body,
+  Grid,
+  Stack,
+  StatCard,
+  Input,
+  Select,
+  Button,
+  Section,
+  Card,
+  Tabs,
+  TabsList,
+  Tab,
+  TabPanel,
+  Badge,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Textarea,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 interface Stakeholder {
@@ -71,138 +91,141 @@ export default function StakeholderPortalPage() {
   };
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Stakeholder Portal</H1>
-            <Label className="text-ink-400">Role-based communication portal for project stakeholders</Label>
-          </Stack>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Stakeholder Portal"
+              description="Role-based communication portal for project stakeholders"
+              colorScheme="on-light"
+              gap="lg"
+            />
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Total Stakeholders" value={mockStakeholders.length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Active" value={activeStakeholders} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Updates Today" value={mockUpdates.filter(u => u.timestamp.includes("2024-11-25")).length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Pending Invites" value={mockStakeholders.filter(s => s.status === "Pending").length} className="bg-transparent border-2 border-ink-800" />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard label="Total Stakeholders" value={mockStakeholders.length.toString()} />
+              <StatCard label="Active" value={activeStakeholders.toString()} />
+              <StatCard label="Updates Today" value={mockUpdates.filter(u => u.timestamp.includes("2024-11-25")).length.toString()} />
+              <StatCard label="Pending Invites" value={mockStakeholders.filter(s => s.status === "Pending").length.toString()} />
+            </Grid>
 
-          <Stack direction="horizontal" className="justify-between">
-            <Tabs>
-              <TabsList>
-                <Tab active={activeTab === "updates"} onClick={() => setActiveTab("updates")}>Updates</Tab>
-                <Tab active={activeTab === "stakeholders"} onClick={() => setActiveTab("stakeholders")}>Stakeholders</Tab>
-                <Tab active={activeTab === "documents"} onClick={() => setActiveTab("documents")}>Documents</Tab>
-              </TabsList>
-            </Tabs>
-            <Stack direction="horizontal" gap={2}>
-              <Button variant="outline" className="border-ink-700">Post Update</Button>
-              <Button variant="outlineWhite" onClick={() => setShowInviteModal(true)}>Invite Stakeholder</Button>
+            <Stack direction="horizontal" className="justify-between">
+              <Tabs>
+                <TabsList>
+                  <Tab active={activeTab === "updates"} onClick={() => setActiveTab("updates")}>Updates</Tab>
+                  <Tab active={activeTab === "stakeholders"} onClick={() => setActiveTab("stakeholders")}>Stakeholders</Tab>
+                  <Tab active={activeTab === "documents"} onClick={() => setActiveTab("documents")}>Documents</Tab>
+                </TabsList>
+              </Tabs>
+              <Stack direction="horizontal" gap={2}>
+                <Button variant="outline">Post Update</Button>
+                <Button variant="solid" onClick={() => setShowInviteModal(true)}>Invite Stakeholder</Button>
+              </Stack>
             </Stack>
-          </Stack>
 
-          <TabPanel active={activeTab === "updates"}>
-            <Stack gap={4}>
-              {mockUpdates.map((update) => (
-                <Card key={update.id} className="border-2 border-ink-800 bg-ink-900/50 p-6">
-                  <Stack gap={4}>
-                    <Stack direction="horizontal" className="justify-between">
-                      <Stack direction="horizontal" gap={3}>
-                        <Label className="text-h5-md">{getUpdateIcon(update.type)}</Label>
-                        <Stack gap={1}>
-                          <Body className="font-display text-white">{update.title}</Body>
-                          <Badge variant="outline">{update.projectName}</Badge>
+            <TabPanel active={activeTab === "updates"}>
+              <Stack gap={4}>
+                {mockUpdates.map((update) => (
+                  <Card key={update.id}>
+                    <Stack gap={4}>
+                      <Stack direction="horizontal" className="justify-between">
+                        <Stack direction="horizontal" gap={3}>
+                          <Body>{getUpdateIcon(update.type)}</Body>
+                          <Stack gap={1}>
+                            <Body className="font-display">{update.title}</Body>
+                            <Badge variant="outline">{update.projectName}</Badge>
+                          </Stack>
+                        </Stack>
+                        <Stack gap={1} className="text-right">
+                          <Badge variant="outline">{update.type}</Badge>
+                          <Body className="text-body-sm">{update.timestamp}</Body>
                         </Stack>
                       </Stack>
-                      <Stack gap={1} className="text-right">
-                        <Badge variant="outline">{update.type}</Badge>
-                        <Label size="xs" className="text-ink-500">{update.timestamp}</Label>
-                      </Stack>
+                      <Body>{update.content}</Body>
+                      <Body className="text-body-sm">Posted by {update.author}</Body>
                     </Stack>
-                    <Body className="text-ink-300">{update.content}</Body>
-                    <Label className="text-ink-500">Posted by {update.author}</Label>
-                  </Stack>
-                </Card>
-              ))}
-            </Stack>
-          </TabPanel>
+                  </Card>
+                ))}
+              </Stack>
+            </TabPanel>
 
-          <TabPanel active={activeTab === "stakeholders"}>
-            <Grid cols={2} gap={4}>
-              {mockStakeholders.map((stakeholder) => (
-                <Card key={stakeholder.id} className={`border-2 ${getRoleColor(stakeholder.role)} p-6`}>
-                  <Stack gap={4}>
-                    <Stack direction="horizontal" className="justify-between">
-                      <Stack gap={1}>
-                        <Body className="font-display text-white">{stakeholder.name}</Body>
-                        <Label className="text-ink-400">{stakeholder.organization}</Label>
+            <TabPanel active={activeTab === "stakeholders"}>
+              <Grid cols={2} gap={4}>
+                {mockStakeholders.map((stakeholder) => (
+                  <Card key={stakeholder.id}>
+                    <Stack gap={4}>
+                      <Stack direction="horizontal" className="justify-between">
+                        <Stack gap={1}>
+                          <Body className="font-display">{stakeholder.name}</Body>
+                          <Body className="text-body-sm">{stakeholder.organization}</Body>
+                        </Stack>
+                        <Stack gap={1} className="text-right">
+                          <Badge variant="outline">{stakeholder.role}</Badge>
+                          <Badge variant={stakeholder.status === "Active" ? "solid" : "outline"}>{stakeholder.status}</Badge>
+                        </Stack>
                       </Stack>
-                      <Stack gap={1} className="text-right">
-                        <Badge variant="outline">{stakeholder.role}</Badge>
-                        <Label className={stakeholder.status === "Active" ? "text-success-400" : "text-warning-400"}>{stakeholder.status}</Label>
+                      <Grid cols={2} gap={4}>
+                        <Stack gap={1}><Body className="text-body-sm">Access Level</Body><Body>{stakeholder.accessLevel}</Body></Stack>
+                        <Stack gap={1}><Body className="text-body-sm">Last Login</Body><Body>{stakeholder.lastLogin || "Never"}</Body></Stack>
+                      </Grid>
+                      <Button variant="outline" size="sm" onClick={() => setSelectedStakeholder(stakeholder)}>Manage Access</Button>
+                    </Stack>
+                  </Card>
+                ))}
+              </Grid>
+            </TabPanel>
+
+            <TabPanel active={activeTab === "documents"}>
+              <Stack gap={4}>
+                {["Production Schedule", "Budget Summary", "Site Plans", "Contact List", "Safety Protocols"].map((doc, idx) => (
+                  <Card key={idx}>
+                    <Stack direction="horizontal" className="justify-between items-center">
+                      <Stack direction="horizontal" gap={3}>
+                        <Body>📄</Body>
+                        <Stack gap={1}>
+                          <Body>{doc}</Body>
+                          <Body className="text-body-sm">Updated 2024-11-{20 + idx}</Body>
+                        </Stack>
+                      </Stack>
+                      <Stack direction="horizontal" gap={2}>
+                        <Badge variant="outline">{["Client", "All", "Vendor", "All", "All"][idx]}</Badge>
+                        <Button variant="outline" size="sm">View</Button>
+                        <Button variant="ghost" size="sm">Download</Button>
                       </Stack>
                     </Stack>
-                    <Grid cols={2} gap={4}>
-                      <Stack gap={1}><Label size="xs" className="text-ink-500">Access Level</Label><Label className="text-white">{stakeholder.accessLevel}</Label></Stack>
-                      <Stack gap={1}><Label size="xs" className="text-ink-500">Last Login</Label><Label className="text-ink-300">{stakeholder.lastLogin || "Never"}</Label></Stack>
-                    </Grid>
-                    <Button variant="outline" size="sm" onClick={() => setSelectedStakeholder(stakeholder)}>Manage Access</Button>
-                  </Stack>
-                </Card>
-              ))}
+                  </Card>
+                ))}
+              </Stack>
+            </TabPanel>
+
+            <Grid cols={3} gap={4}>
+              <Button variant="outline" onClick={() => router.push("/projects")}>Projects</Button>
+              <Button variant="outline" onClick={() => router.push("/communications")}>Communications</Button>
+              <Button variant="outline" onClick={() => router.push("/")}>Dashboard</Button>
             </Grid>
-          </TabPanel>
-
-          <TabPanel active={activeTab === "documents"}>
-            <Stack gap={4}>
-              {["Production Schedule", "Budget Summary", "Site Plans", "Contact List", "Safety Protocols"].map((doc, idx) => (
-                <Card key={idx} className="border-2 border-ink-800 bg-ink-900/50 p-4">
-                  <Stack direction="horizontal" className="justify-between items-center">
-                    <Stack direction="horizontal" gap={3}>
-                      <Label className="text-h6-md">📄</Label>
-                      <Stack gap={1}>
-                        <Label className="text-white">{doc}</Label>
-                        <Label size="xs" className="text-ink-500">Updated 2024-11-{20 + idx}</Label>
-                      </Stack>
-                    </Stack>
-                    <Stack direction="horizontal" gap={2}>
-                      <Badge variant="outline">{["Client", "All", "Vendor", "All", "All"][idx]}</Badge>
-                      <Button variant="outline" size="sm">View</Button>
-                      <Button variant="ghost" size="sm">Download</Button>
-                    </Stack>
-                  </Stack>
-                </Card>
-              ))}
-            </Stack>
-          </TabPanel>
-
-          <Grid cols={3} gap={4}>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/projects")}>Projects</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/communications")}>Communications</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/")}>Dashboard</Button>
-          </Grid>
-        </Stack>
-      </Container>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedStakeholder} onClose={() => setSelectedStakeholder(null)}>
         <ModalHeader><H3>Manage Access</H3></ModalHeader>
         <ModalBody>
           {selectedStakeholder && (
             <Stack gap={4}>
-              <Body className="text-white">{selectedStakeholder.name}</Body>
-              <Label className="text-ink-400">{selectedStakeholder.organization}</Label>
-              <Select defaultValue={selectedStakeholder.accessLevel} className="border-ink-700 bg-black text-white">
+              <Body>{selectedStakeholder.name}</Body>
+              <Body className="text-body-sm">{selectedStakeholder.organization}</Body>
+              <Select defaultValue={selectedStakeholder.accessLevel}>
                 <option value="Full">Full Access</option>
                 <option value="Limited">Limited Access</option>
                 <option value="View Only">View Only</option>
               </Select>
               <Stack gap={2}>
-                <Label className="text-ink-400">Project Access</Label>
+                <Body className="text-body-sm">Project Access</Body>
                 {["Summer Fest 2024", "Corporate Gala"].map((proj, idx) => (
-                  <Card key={idx} className="p-3 border border-ink-700">
+                  <Card key={idx}>
                     <Stack direction="horizontal" className="justify-between">
-                      <Label className="text-white">{proj}</Label>
+                      <Body>{proj}</Body>
                       <Button variant="outline" size="sm">Granted</Button>
                     </Stack>
                   </Card>
@@ -213,7 +236,7 @@ export default function StakeholderPortalPage() {
         </ModalBody>
         <ModalFooter>
           <Button variant="outline" onClick={() => setSelectedStakeholder(null)}>Cancel</Button>
-          <Button variant="ghost" className="text-error-400">Revoke Access</Button>
+          <Button variant="ghost">Revoke Access</Button>
           <Button variant="solid" onClick={() => setSelectedStakeholder(null)}>Save</Button>
         </ModalFooter>
       </Modal>
@@ -222,25 +245,25 @@ export default function StakeholderPortalPage() {
         <ModalHeader><H3>Invite Stakeholder</H3></ModalHeader>
         <ModalBody>
           <Stack gap={4}>
-            <Input placeholder="Name" className="border-ink-700 bg-black text-white" />
-            <Input type="email" placeholder="Email" className="border-ink-700 bg-black text-white" />
-            <Input placeholder="Organization" className="border-ink-700 bg-black text-white" />
+            <Input placeholder="Name" />
+            <Input type="email" placeholder="Email" />
+            <Input placeholder="Organization" />
             <Grid cols={2} gap={4}>
-              <Select className="border-ink-700 bg-black text-white">
+              <Select>
                 <option value="">Role...</option>
                 <option value="Client">Client</option>
                 <option value="Sponsor">Sponsor</option>
                 <option value="Vendor">Vendor</option>
                 <option value="Partner">Partner</option>
               </Select>
-              <Select className="border-ink-700 bg-black text-white">
+              <Select>
                 <option value="">Access Level...</option>
                 <option value="Full">Full Access</option>
                 <option value="Limited">Limited Access</option>
                 <option value="View Only">View Only</option>
               </Select>
             </Grid>
-            <Textarea placeholder="Welcome message (optional)..." rows={2} className="border-ink-700 bg-black text-white" />
+            <Textarea placeholder="Welcome message (optional)..." rows={2} />
           </Stack>
         </ModalBody>
         <ModalFooter>
@@ -248,6 +271,6 @@ export default function StakeholderPortalPage() {
           <Button variant="solid" onClick={() => setShowInviteModal(false)}>Send Invite</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { ConsumerNavigationPublic } from "@/components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
+  Container, H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
+  Section, Card, Badge,
   Modal, ModalHeader, ModalBody, ModalFooter,
+  PageLayout, Footer, FooterColumn, FooterLink, Display, Kicker,
 } from "@ghxstship/ui";
 
 interface EventTemplate {
@@ -32,13 +34,41 @@ export default function EventTemplatesPage() {
   const [showCloneModal, setShowCloneModal] = useState(false);
 
   return (
-    <UISection className="min-h-screen bg-white">
-      <Container className="py-8">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>EVENT TEMPLATES</H1>
-            <Body className="text-ink-600">Create events faster with pre-configured templates</Body>
-          </Stack>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Events">
+            <FooterLink href="/events">Events</FooterLink>
+            <FooterLink href="/events/templates">Templates</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Events</Kicker>
+              <H2 size="lg" className="text-white">Event Templates</H2>
+              <Body className="text-on-dark-muted">Create events faster with pre-configured templates</Body>
+            </Stack>
 
           <Grid cols={4} gap={6}>
             <StatCard label="Templates" value={mockTemplates.length} className="border-2 border-black" />
@@ -78,9 +108,10 @@ export default function EventTemplatesPage() {
             ))}
           </Grid>
 
-          <Button variant="outline" onClick={() => router.push("/events")}>Back to Events</Button>
-        </Stack>
-      </Container>
+          <Button variant="outlineInk" onClick={() => router.push("/events")}>Back to Events</Button>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedTemplate && !showCloneModal} onClose={() => setSelectedTemplate(null)}>
         <ModalHeader><H3>{selectedTemplate?.name}</H3></ModalHeader>
@@ -126,6 +157,6 @@ export default function EventTemplatesPage() {
           <Button variant="solid" onClick={() => router.push("/events/create")}>Create Event</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

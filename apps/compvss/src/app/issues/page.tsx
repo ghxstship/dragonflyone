@@ -8,6 +8,9 @@ import {
   Badge,
   RecordFormModal,
   DetailDrawer,
+  Grid,
+  Stack,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -130,21 +133,21 @@ export default function IssuesPage() {
 
   const detailSections: DetailSection[] = selectedIssue ? [
     { id: 'overview', title: 'Issue Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Title:</strong> {selectedIssue.title}</div>
-        <div><strong>Category:</strong> {selectedIssue.category}</div>
-        <div><strong>Priority:</strong> {selectedIssue.priority}</div>
-        <div><strong>Status:</strong> {selectedIssue.status.replace('_', ' ')}</div>
-        <div><strong>Department:</strong> {selectedIssue.department}</div>
-        <div><strong>Location:</strong> {selectedIssue.location || '—'}</div>
-        <div><strong>Reported By:</strong> {selectedIssue.reported_by}</div>
-        <div><strong>Assigned To:</strong> {selectedIssue.assigned_to || 'Unassigned'}</div>
-        <div><strong>Escalation Level:</strong> {selectedIssue.escalation_level}</div>
-        <div><strong>Created:</strong> {new Date(selectedIssue.created_at).toLocaleString()}</div>
-      </div>
+      <Grid cols={2} gap={4}>
+        <Stack gap={1}><Body className="font-display">Title</Body><Body>{selectedIssue.title}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Category</Body><Body>{selectedIssue.category}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Priority</Body><Body>{selectedIssue.priority}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Status</Body><Body>{selectedIssue.status.replace('_', ' ')}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Department</Body><Body>{selectedIssue.department}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Location</Body><Body>{selectedIssue.location || '—'}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Reported By</Body><Body>{selectedIssue.reported_by}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Assigned To</Body><Body>{selectedIssue.assigned_to || 'Unassigned'}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Escalation Level</Body><Body>{selectedIssue.escalation_level}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Created</Body><Body>{new Date(selectedIssue.created_at).toLocaleString()}</Body></Stack>
+      </Grid>
     )},
-    { id: 'description', title: 'Description', content: <p>{selectedIssue.description}</p> },
-    ...(selectedIssue.resolution ? [{ id: 'resolution', title: 'Resolution', content: <p>{selectedIssue.resolution}</p> }] : []),
+    { id: 'description', title: 'Description', content: <Body>{selectedIssue.description}</Body> },
+    ...(selectedIssue.resolution ? [{ id: 'resolution', title: 'Resolution', content: <Body>{selectedIssue.resolution}</Body> }] : []),
   ] : [];
 
   return (

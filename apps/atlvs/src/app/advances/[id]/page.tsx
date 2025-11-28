@@ -3,7 +3,34 @@
 import { useState } from 'react';
 import { useAdvanceForReview, useApproveAdvance, useRejectAdvance } from '@/hooks/useAdvanceReview';
 import { useRouter } from 'next/navigation';
-import { Alert, Skeleton, SkeletonCard, Button, Card, H1, H2, H3, Body, Container, Stack, Grid, Input, Textarea, Modal, ModalHeader, ModalBody, ModalFooter, Display } from '@ghxstship/ui';
+import { CreatorNavigationAuthenticated } from '../../../components/navigation';
+import {
+  Alert,
+  Skeleton,
+  SkeletonCard,
+  Button,
+  Card,
+  CardBody,
+  H1,
+  H2,
+  H3,
+  Body,
+  Label,
+  Display,
+  Container,
+  Section,
+  Stack,
+  Grid,
+  Input,
+  Textarea,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  PageLayout,
+  SectionHeader,
+  LoadingSpinner,
+} from '@ghxstship/ui';
 
 export default function AdvanceReviewDetailPage({ params }: { params: { id: string } }) {
   const router = useRouter();
@@ -48,22 +75,30 @@ export default function AdvanceReviewDetailPage({ params }: { params: { id: stri
 
   if (isLoading) {
     return (
-      <Container className="p-6">
-        <Stack gap={4}>
-          <Skeleton className="h-8 w-1/3" />
-          <SkeletonCard />
-        </Stack>
-      </Container>
+      <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
+        <Section className="min-h-screen py-16">
+          <Container>
+            <Stack gap={4}>
+              <Skeleton className="h-8 w-1/3" />
+              <SkeletonCard />
+            </Stack>
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   if (error || !data?.advance) {
     return (
-      <Container className="p-6">
-        <Alert variant="error" title="Error Loading Advance">
-          {error?.message || 'Advance not found'}
-        </Alert>
-      </Container>
+      <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
+        <Section className="min-h-screen py-16">
+          <Container>
+            <Alert variant="error" title="Error Loading Advance">
+              {error?.message || 'Advance not found'}
+            </Alert>
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
@@ -71,10 +106,12 @@ export default function AdvanceReviewDetailPage({ params }: { params: { id: stri
   const cost = advance.estimated_cost || 0;
 
   return (
-    <Container className="p-6">
-      <Stack gap={6}>
-        {/* Header */}
-        <Stack direction="horizontal" className="justify-between items-start">
+    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={6}>
+            {/* Header */}
+            <Stack direction="horizontal" className="items-start justify-between">
           <Stack gap={1}>
             <H1>
               {advance.activation_name || advance.project?.name || 'Production Advance Review'}
@@ -276,7 +313,9 @@ export default function AdvanceReviewDetailPage({ params }: { params: { id: stri
           </Button>
         </ModalFooter>
       </Modal>
-      </Stack>
-    </Container>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

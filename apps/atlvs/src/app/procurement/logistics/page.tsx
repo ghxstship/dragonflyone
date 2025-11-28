@@ -4,9 +4,9 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { CreatorNavigationAuthenticated } from '../../../components/navigation';
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select,
+  Container, H3, Body, Label, Grid, Stack, StatCard, Select,
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
+  Section, Card, Tabs, TabsList, Tab, Badge, PageLayout, SectionHeader,
   Modal, ModalHeader, ModalBody, ModalFooter, Alert, ProgressBar,
 } from '@ghxstship/ui';
 
@@ -66,15 +66,17 @@ export default function LogisticsPage() {
   };
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Freight & Logistics</H1>
-            <Label className="text-ink-400">Coordinate shipments and track deliveries</Label>
-          </Stack>
+    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="ATLVS"
+              title="Freight & Logistics"
+              description="Coordinate shipments and track deliveries"
+              colorScheme="on-dark"
+              gap="lg"
+            />
 
           <Grid cols={4} gap={6}>
             <StatCard label="Active Shipments" value={activeShipments.length} className="bg-transparent border-2 border-ink-800" />
@@ -152,9 +154,10 @@ export default function LogisticsPage() {
             </TableBody>
           </Table>
 
-          <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push('/procurement')}>Back to Procurement</Button>
-        </Stack>
-      </Container>
+            <Button variant="outline" className="border-grey-700 text-grey-400" onClick={() => router.push('/procurement')}>Back to Procurement</Button>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedShipment} onClose={() => setSelectedShipment(null)}>
         <ModalHeader><H3>Shipment Details</H3></ModalHeader>
@@ -233,6 +236,6 @@ export default function LogisticsPage() {
           <Button variant="solid" onClick={() => setShowNewShipmentModal(false)}>Create Shipment</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

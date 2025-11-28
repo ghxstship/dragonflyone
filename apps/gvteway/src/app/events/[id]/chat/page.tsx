@@ -2,15 +2,13 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { ConsumerNavigationPublic } from '../../../../components/navigation';
+import { ConsumerNavigationPublic } from '@/components/navigation';
 import {
   Container,
   Section,
-  H1,
   H2,
   H3,
   Body,
-  Label,
   Button,
   Card,
   Input,
@@ -19,9 +17,14 @@ import {
   Badge,
   Alert,
   LoadingSpinner,
-  Figure,
   Box,
   Form,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
+  Kicker,
 } from '@ghxstship/ui';
 import Image from 'next/image';
 
@@ -123,47 +126,63 @@ export default function EventChatPage() {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
+  const footerContent = (
+    <Footer
+      logo={<Display size="md">GVTEWAY</Display>}
+      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+    >
+      <FooterColumn title="Events">
+        <FooterLink href="/events">Events</FooterLink>
+      </FooterColumn>
+      <FooterColumn title="Legal">
+        <FooterLink href="/legal/privacy">Privacy</FooterLink>
+        <FooterLink href="/legal/terms">Terms</FooterLink>
+      </FooterColumn>
+    </Footer>
+  );
+
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
+      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+        <Section background="black" className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading chat..." />
-        </Container>
-      </Section>
+        </Section>
+      </PageLayout>
     );
   }
 
   if (!chatRoom) {
     return (
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="py-16">
-          <Card className="p-12 text-center mt-12">
-            <H2 className="mb-4">CHAT NOT AVAILABLE</H2>
-            <Body className="text-ink-600 mb-6">
-              The chat room for this event is not available yet.
-            </Body>
-            <Button variant="solid" onClick={() => router.back()}>
-              Go Back
-            </Button>
-          </Card>
-        </Container>
-      </Section>
+      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+        <Section background="black" className="min-h-screen py-16">
+          <Container>
+            <Card inverted className="p-12 text-center mt-12">
+              <H2 className="mb-4 text-white">CHAT NOT AVAILABLE</H2>
+              <Body className="text-on-dark-muted mb-6">
+                The chat room for this event is not available yet.
+              </Body>
+              <Button variant="solid" inverted onClick={() => router.back()}>
+                Go Back
+              </Button>
+            </Card>
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   if (chatRoom.status === 'archived') {
     return (
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="py-16">
-          <Stack gap={8}>
-          <Stack gap={2} className="border-b-2 border-black pb-8">
-            <Badge className="bg-ink-500 text-white mb-2">Archived</Badge>
-            <H1>{chatRoom.event_title}</H1>
-            <Body className="text-ink-600">Event Chat Archive</Body>
-          </Stack>
+      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+        <Section background="black" className="min-h-screen py-16">
+          <Container>
+            <Stack gap={8}>
+              <Stack gap={2}>
+                <Kicker colorScheme="on-dark">Events</Kicker>
+                <Badge className="bg-ink-500 text-white mb-2 w-fit">Archived</Badge>
+                <H2 size="lg" className="text-white">{chatRoom.event_title}</H2>
+                <Body className="text-on-dark-muted">Event Chat Archive</Body>
+              </Stack>
 
           <Card className="p-6">
             <Body className="text-ink-500 mb-4">
@@ -185,26 +204,36 @@ export default function EventChatPage() {
                 </Stack>
               ))}
             </Stack>
-          </Card>
-          </Stack>
-        </Container>
-      </Section>
+            </Card>
+            </Stack>
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-        <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
-          <Stack gap={2}>
-            <Badge className="bg-success-500 text-white w-fit">Live</Badge>
-            <H1>{chatRoom.event_title}</H1>
-            <Body className="text-ink-600">
-              {chatRoom.participant_count} fans chatting
-            </Body>
-          </Stack>
+    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack direction="horizontal" className="flex-col items-start justify-between border-b-2 border-ink-800 pb-8 md:flex-row md:items-center">
+              <Stack gap={2}>
+                <Kicker colorScheme="on-dark">Events</Kicker>
+                <Badge className="bg-success-500 text-white w-fit">Live</Badge>
+                <H2 size="lg" className="text-white">{chatRoom.event_title}</H2>
+                <Body className="text-on-dark-muted">
+                  {chatRoom.participant_count} fans chatting
+                </Body>
+              </Stack>
             <Stack direction="horizontal" gap={2}>
               <Button variant="outline" onClick={() => setShowRules(!showRules)}>
                 Rules
@@ -339,8 +368,9 @@ export default function EventChatPage() {
             </Card>
           </Stack>
         </Grid>
-        </Stack>
-      </Container>
-    </Section>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

@@ -2,11 +2,12 @@
 
 import { useState } from "react";
 import { useRouter, useParams } from "next/navigation";
-import { ConsumerNavigationPublic } from "../../../../components/navigation";
+import { ConsumerNavigationPublic } from "@/components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, Button,
+  Container, H2, H3, Body, Label, Grid, Stack, Button,
   Section, Card, Tabs, TabsList, Tab, TabPanel, Badge,
   Modal, ModalHeader, ModalBody, ModalFooter, Input, Select, Textarea, Alert,
+  PageLayout, Footer, FooterColumn, FooterLink, Display, Kicker,
 } from "@ghxstship/ui";
 
 interface AccessibilityService {
@@ -65,14 +66,40 @@ export default function AccessibilityPage() {
   const [selectedService, setSelectedService] = useState<AccessibilityService | null>(null);
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2} className="border-b-2 border-black pb-8">
-            <H1>Accessibility & Age Policy</H1>
-            <Body className="text-ink-600">Event accessibility services and age restrictions</Body>
-          </Stack>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Events">
+            <FooterLink href="/events">Events</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Events</Kicker>
+              <H2 size="lg" className="text-white">Accessibility & Age Policy</H2>
+              <Body className="text-on-dark-muted">Event accessibility services and age restrictions</Body>
+            </Stack>
 
           <Card className="border-2 border-black p-6">
             <Stack gap={4}>
@@ -224,11 +251,12 @@ export default function AccessibilityPage() {
           </Tabs>
 
           <Grid cols={2} gap={4}>
-            <Button variant="outline" onClick={() => router.push(`/events/${eventId}`)}>Back to Event</Button>
-            <Button variant="solid" onClick={() => setShowRequestModal(true)}>Request Accommodation</Button>
+            <Button variant="outlineInk" onClick={() => router.push(`/events/${eventId}`)}>Back to Event</Button>
+            <Button variant="solid" inverted onClick={() => setShowRequestModal(true)}>Request Accommodation</Button>
           </Grid>
-        </Stack>
-      </Container>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={showRequestModal} onClose={() => { setShowRequestModal(false); setSelectedService(null); }}>
         <ModalHeader><H3>Request Accessibility Service</H3></ModalHeader>
@@ -275,6 +303,6 @@ export default function AccessibilityPage() {
           <Button variant="solid" onClick={() => { setShowRequestModal(false); setSelectedService(null); }}>Submit Request</Button>
         </ModalFooter>
       </Modal>
-    </Section>
+    </PageLayout>
   );
 }

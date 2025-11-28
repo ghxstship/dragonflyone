@@ -10,6 +10,9 @@ import {
   RecordFormModal,
   DetailDrawer,
   ConfirmDialog,
+  Grid,
+  Stack,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -84,16 +87,16 @@ export default function LogisticsPage() {
 
   const detailSections: DetailSection[] = selectedShipment ? [
     { id: 'overview', title: 'Shipment Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>ID:</strong> {selectedShipment.id}</div>
-        <div><strong>Status:</strong> {selectedShipment.status}</div>
-        <div><strong>Equipment:</strong> {selectedShipment.equipment}</div>
-        <div><strong>Driver:</strong> {selectedShipment.driver}</div>
-        <div><strong>Origin:</strong> {selectedShipment.origin}</div>
-        <div><strong>Destination:</strong> {selectedShipment.destination}</div>
-        <div><strong>Truck:</strong> {selectedShipment.truck}</div>
-        <div><strong>ETA:</strong> {selectedShipment.eta || '—'}</div>
-      </div>
+      <Grid cols={2} gap={4}>
+        <Stack gap={1}><Body className="font-display">ID</Body><Body>{selectedShipment.id}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Status</Body><Body>{selectedShipment.status}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Equipment</Body><Body>{selectedShipment.equipment}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Driver</Body><Body>{selectedShipment.driver}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Origin</Body><Body>{selectedShipment.origin}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Destination</Body><Body>{selectedShipment.destination}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Truck</Body><Body>{selectedShipment.truck}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">ETA</Body><Body>{selectedShipment.eta || '—'}</Body></Stack>
+      </Grid>
     )},
   ] : [];
 

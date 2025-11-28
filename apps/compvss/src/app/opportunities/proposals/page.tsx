@@ -4,10 +4,33 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge, ProgressBar,
-  Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
-  Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
+  Container,
+  H3,
+  Body,
+  Grid,
+  Stack,
+  StatCard,
+  Input,
+  Select,
+  Button,
+  Section,
+  Card,
+  Tabs,
+  TabsList,
+  Tab,
+  Badge,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 interface Proposal {
@@ -57,80 +80,83 @@ export default function ProposalsPage() {
   const filteredProposals = activeTab === "all" ? mockProposals : mockProposals.filter(p => p.status.toLowerCase().replace(" ", "") === activeTab);
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Proposals</H1>
-            <Label className="text-ink-400">Collaborative proposal creation with version control</Label>
-          </Stack>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Proposals"
+              description="Collaborative proposal creation with version control"
+              colorScheme="on-light"
+              gap="lg"
+            />
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Total Proposals" value={mockProposals.length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Pipeline Value" value={formatCurrency(totalValue)} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Won Value" value={formatCurrency(wonValue)} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Pending" value={pendingCount} className="bg-transparent border-2 border-ink-800" />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard value={mockProposals.length.toString()} label="Total Proposals" />
+              <StatCard value={formatCurrency(totalValue)} label="Pipeline Value" />
+              <StatCard value={formatCurrency(wonValue)} label="Won Value" />
+              <StatCard value={pendingCount.toString()} label="Pending" />
+            </Grid>
 
-          <Stack direction="horizontal" className="justify-between">
-            <Tabs>
-              <TabsList>
-                <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All</Tab>
-                <Tab active={activeTab === "draft"} onClick={() => setActiveTab("draft")}>Draft</Tab>
-                <Tab active={activeTab === "inreview"} onClick={() => setActiveTab("inreview")}>In Review</Tab>
-                <Tab active={activeTab === "submitted"} onClick={() => setActiveTab("submitted")}>Submitted</Tab>
-                <Tab active={activeTab === "won"} onClick={() => setActiveTab("won")}>Won</Tab>
-              </TabsList>
-            </Tabs>
-            <Button variant="outlineWhite" onClick={() => setShowCreateModal(true)}>Create Proposal</Button>
-          </Stack>
+            <Stack direction="horizontal" className="justify-between">
+              <Tabs>
+                <TabsList>
+                  <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All</Tab>
+                  <Tab active={activeTab === "draft"} onClick={() => setActiveTab("draft")}>Draft</Tab>
+                  <Tab active={activeTab === "inreview"} onClick={() => setActiveTab("inreview")}>In Review</Tab>
+                  <Tab active={activeTab === "submitted"} onClick={() => setActiveTab("submitted")}>Submitted</Tab>
+                  <Tab active={activeTab === "won"} onClick={() => setActiveTab("won")}>Won</Tab>
+                </TabsList>
+              </Tabs>
+              <Button variant="solid" onClick={() => setShowCreateModal(true)}>Create Proposal</Button>
+            </Stack>
 
-          <Table className="border-2 border-ink-800">
-            <TableHeader>
-              <TableRow className="bg-ink-900">
-                <TableHead className="text-ink-400">Proposal</TableHead>
-                <TableHead className="text-ink-400">Client</TableHead>
-                <TableHead className="text-ink-400">Value</TableHead>
-                <TableHead className="text-ink-400">Due Date</TableHead>
-                <TableHead className="text-ink-400">Version</TableHead>
-                <TableHead className="text-ink-400">Status</TableHead>
-                <TableHead className="text-ink-400">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredProposals.map((proposal) => (
-                <TableRow key={proposal.id} className="border-ink-800">
-                  <TableCell>
-                    <Stack gap={1}>
-                      <Label className="text-white">{proposal.title}</Label>
-                      {proposal.rfpId && <Label size="xs" className="text-ink-500">{proposal.rfpId}</Label>}
-                    </Stack>
-                  </TableCell>
-                  <TableCell><Label className="text-ink-300">{proposal.client}</Label></TableCell>
-                  <TableCell><Label className="font-mono text-white">{formatCurrency(proposal.value)}</Label></TableCell>
-                  <TableCell><Label className="text-ink-300">{proposal.dueDate}</Label></TableCell>
-                  <TableCell><Badge variant="outline">v{proposal.version}</Badge></TableCell>
-                  <TableCell><Label className={getStatusColor(proposal.status)}>{proposal.status}</Label></TableCell>
-                  <TableCell>
-                    <Stack direction="horizontal" gap={2}>
-                      <Button variant="ghost" size="sm" onClick={() => setSelectedProposal(proposal)}>View</Button>
-                      {proposal.status === "Draft" && <Button variant="solid" size="sm">Edit</Button>}
-                    </Stack>
-                  </TableCell>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Proposal</TableHead>
+                  <TableHead>Client</TableHead>
+                  <TableHead>Value</TableHead>
+                  <TableHead>Due Date</TableHead>
+                  <TableHead>Version</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Actions</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {filteredProposals.map((proposal) => (
+                  <TableRow key={proposal.id}>
+                    <TableCell>
+                      <Stack gap={1}>
+                        <Body>{proposal.title}</Body>
+                        {proposal.rfpId && <Body className="text-body-sm">{proposal.rfpId}</Body>}
+                      </Stack>
+                    </TableCell>
+                    <TableCell><Body className="text-body-sm">{proposal.client}</Body></TableCell>
+                    <TableCell><Body className="font-display">{formatCurrency(proposal.value)}</Body></TableCell>
+                    <TableCell><Body className="text-body-sm">{proposal.dueDate}</Body></TableCell>
+                    <TableCell><Badge variant="outline">v{proposal.version}</Badge></TableCell>
+                    <TableCell><Badge variant={proposal.status === "Won" ? "solid" : "outline"}>{proposal.status}</Badge></TableCell>
+                    <TableCell>
+                      <Stack direction="horizontal" gap={2}>
+                        <Button variant="ghost" size="sm" onClick={() => setSelectedProposal(proposal)}>View</Button>
+                        {proposal.status === "Draft" && <Button variant="solid" size="sm">Edit</Button>}
+                      </Stack>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
 
-          <Grid cols={3} gap={4}>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/opportunities")}>Opportunities</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/rfp")}>RFPs</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/")}>Dashboard</Button>
-          </Grid>
-        </Stack>
-      </Container>
+            <Grid cols={3} gap={4}>
+              <Button variant="outline" onClick={() => router.push("/opportunities")}>Opportunities</Button>
+              <Button variant="outline" onClick={() => router.push("/rfp")}>RFPs</Button>
+              <Button variant="outline" onClick={() => router.push("/dashboard")}>Dashboard</Button>
+            </Grid>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedProposal} onClose={() => setSelectedProposal(null)}>
         <ModalHeader><H3>{selectedProposal?.title}</H3></ModalHeader>
@@ -139,32 +165,49 @@ export default function ProposalsPage() {
             <Stack gap={4}>
               <Stack direction="horizontal" gap={2}>
                 <Badge variant="outline">v{selectedProposal.version}</Badge>
-                <Label className={getStatusColor(selectedProposal.status)}>{selectedProposal.status}</Label>
+                <Badge variant={selectedProposal.status === "Won" ? "solid" : "outline"}>{selectedProposal.status}</Badge>
               </Stack>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label className="text-ink-400">Client</Label><Label className="text-white">{selectedProposal.client}</Label></Stack>
-                <Stack gap={1}><Label className="text-ink-400">Value</Label><Label className="font-mono text-white">{formatCurrency(selectedProposal.value)}</Label></Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Client</Body>
+                  <Body>{selectedProposal.client}</Body>
+                </Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Value</Body>
+                  <Body className="font-display">{formatCurrency(selectedProposal.value)}</Body>
+                </Stack>
               </Grid>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label className="text-ink-400">Due Date</Label><Label className="text-white">{selectedProposal.dueDate}</Label></Stack>
-                <Stack gap={1}><Label className="text-ink-400">Last Modified</Label><Label className="text-white">{selectedProposal.lastModified}</Label></Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Due Date</Body>
+                  <Body>{selectedProposal.dueDate}</Body>
+                </Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Last Modified</Body>
+                  <Body>{selectedProposal.lastModified}</Body>
+                </Stack>
               </Grid>
-              {selectedProposal.rfpId && <Stack gap={1}><Label className="text-ink-400">RFP Reference</Label><Label className="text-white">{selectedProposal.rfpId}</Label></Stack>}
+              {selectedProposal.rfpId && (
+                <Stack gap={1}>
+                  <Body className="text-body-sm">RFP Reference</Body>
+                  <Body>{selectedProposal.rfpId}</Body>
+                </Stack>
+              )}
               <Stack gap={2}>
-                <Label className="text-ink-400">Team</Label>
+                <Body className="font-display">Team</Body>
                 <Stack direction="horizontal" gap={2}>
                   {selectedProposal.team.map((member, idx) => <Badge key={idx} variant="outline">{member}</Badge>)}
                 </Stack>
               </Stack>
               <Stack gap={2}>
-                <Label className="text-ink-400">Version History</Label>
+                <Body className="font-display">Version History</Body>
                 <Stack gap={2}>
                   {Array.from({ length: Math.min(selectedProposal.version, 3) }).map((_, idx) => (
-                    <Card key={idx} className="p-3 border border-ink-700">
+                    <Card key={idx} className="p-3">
                       <Stack direction="horizontal" className="justify-between">
                         <Stack gap={1}>
                           <Badge variant={idx === 0 ? "solid" : "outline"}>v{selectedProposal.version - idx}</Badge>
-                          <Label size="xs" className="text-ink-500">{idx === 0 ? "Current" : `${idx + 1} revision(s) ago`}</Label>
+                          <Body className="text-body-sm">{idx === 0 ? "Current" : `${idx + 1} revision(s) ago`}</Body>
                         </Stack>
                         <Button variant="ghost" size="sm">View</Button>
                       </Stack>
@@ -186,21 +229,21 @@ export default function ProposalsPage() {
         <ModalHeader><H3>Create Proposal</H3></ModalHeader>
         <ModalBody>
           <Stack gap={4}>
-            <Input placeholder="Proposal Title" className="border-ink-700 bg-black text-white" />
-            <Select className="border-ink-700 bg-black text-white">
+            <Input placeholder="Proposal Title" />
+            <Select>
               <option value="">Select Client...</option>
               <option value="festival">Festival Productions</option>
               <option value="tech">Tech Corp</option>
               <option value="live">Live Nation</option>
             </Select>
-            <Select className="border-ink-700 bg-black text-white">
+            <Select>
               <option value="">Link to RFP (optional)...</option>
               <option value="rfp1">RFP-2024-045</option>
               <option value="rfp2">RFP-2024-042</option>
             </Select>
-            <Input type="number" placeholder="Estimated Value" className="border-ink-700 bg-black text-white" />
-            <Input type="date" placeholder="Due Date" className="border-ink-700 bg-black text-white" />
-            <Select className="border-ink-700 bg-black text-white">
+            <Input type="number" placeholder="Estimated Value" />
+            <Input type="date" placeholder="Due Date" />
+            <Select>
               <option value="">Use Template...</option>
               <option value="standard">Standard Production</option>
               <option value="festival">Festival Package</option>
@@ -213,6 +256,6 @@ export default function ProposalsPage() {
           <Button variant="solid" onClick={() => setShowCreateModal(false)}>Create</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

@@ -4,8 +4,22 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge, Input,
+  Container,
+  Body,
+  Grid,
+  Stack,
+  StatCard,
+  Button,
+  Section,
+  Card,
+  Tabs,
+  TabsList,
+  Tab,
+  TabPanel,
+  Badge,
+  Input,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 interface CrewMember {
@@ -75,105 +89,108 @@ export default function ShowCallPage() {
   };
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack direction="horizontal" className="justify-between items-start">
-            <Stack gap={2}>
-              <H1>Show Call Status</H1>
-              <Label className="text-ink-400">Real-time crew check-in and attendance tracking</Label>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <Stack direction="horizontal" className="items-start justify-between">
+              <SectionHeader
+                kicker="COMPVSS"
+                title="Show Call Status"
+                description="Real-time crew check-in and attendance tracking"
+                colorScheme="on-light"
+                gap="lg"
+              />
+              <Card className="p-4">
+                <Stack gap={1} className="text-center">
+                  <Body className="text-body-sm">Current Time</Body>
+                  <Body className="text-h5-md">
+                    {currentTime.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}
+                  </Body>
+                </Stack>
+              </Card>
             </Stack>
-            <Card className="p-4 bg-ink-800 border border-ink-700">
-              <Stack gap={1} className="text-center">
-                <Label size="xs" className="text-ink-500">Current Time</Label>
-                <Label className="font-mono text-white text-h5-md">
-                  {currentTime.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}
-                </Label>
-              </Stack>
-            </Card>
-          </Stack>
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Checked In" value={checkedInCount} trend="up" className="bg-transparent border-2 border-success-800" />
-            <StatCard label="Late" value={lateCount} trend={lateCount > 0 ? "down" : "neutral"} className="bg-transparent border-2 border-warning-800" />
-            <StatCard label="No Show" value={noShowCount} trend={noShowCount > 0 ? "down" : "neutral"} className="bg-transparent border-2 border-error-800" />
-            <StatCard label="Not Due Yet" value={notDueCount} className="bg-transparent border-2 border-ink-800" />
-          </Grid>
-
-          <Card className="p-4 border-2 border-ink-800 bg-ink-900/50">
-            <Grid cols={4} gap={4}>
-              <Stack gap={1} className="text-center">
-                <Label className="text-success-400 text-h4-md font-mono">{checkedInCount}</Label>
-                <Label size="xs" className="text-ink-400">Present</Label>
-              </Stack>
-              <Stack gap={1} className="text-center">
-                <Label className="text-warning-400 text-h4-md font-mono">{lateCount}</Label>
-                <Label size="xs" className="text-ink-400">Late</Label>
-              </Stack>
-              <Stack gap={1} className="text-center">
-                <Label className="text-error-400 text-h4-md font-mono">{noShowCount}</Label>
-                <Label size="xs" className="text-ink-400">Missing</Label>
-              </Stack>
-              <Stack gap={1} className="text-center">
-                <Label className="text-white text-h4-md font-mono">{mockCrew.length}</Label>
-                <Label size="xs" className="text-ink-400">Total Crew</Label>
-              </Stack>
+            <Grid cols={4} gap={6}>
+              <StatCard value={checkedInCount.toString()} label="Checked In" />
+              <StatCard value={lateCount.toString()} label="Late" />
+              <StatCard value={noShowCount.toString()} label="No Show" />
+              <StatCard value={notDueCount.toString()} label="Not Due Yet" />
             </Grid>
-          </Card>
 
-          <Input type="search" placeholder="Search crew..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="border-ink-700 bg-black text-white" />
-
-          <Tabs>
-            <TabsList>
-              <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All ({mockCrew.length})</Tab>
-              <Tab active={activeTab === "present"} onClick={() => setActiveTab("present")}>Present ({checkedInCount})</Tab>
-              <Tab active={activeTab === "missing"} onClick={() => setActiveTab("missing")}>Missing ({lateCount + noShowCount})</Tab>
-              <Tab active={activeTab === "pending"} onClick={() => setActiveTab("pending")}>Pending ({notDueCount})</Tab>
-            </TabsList>
-
-            <TabPanel active={true}>
-              <Grid cols={2} gap={4}>
-                {filteredCrew.map((crew) => (
-                  <Card key={crew.id} className={`border-2 p-4 ${getStatusBg(crew.status)}`}>
-                    <Grid cols={3} gap={4} className="items-center">
-                      <Stack gap={1}>
-                        <Body className="font-display text-white">{crew.name}</Body>
-                        <Label size="xs" className="text-ink-400">{crew.role}</Label>
-                        <Badge variant="outline">{crew.department}</Badge>
-                      </Stack>
-                      <Stack gap={1} className="text-center">
-                        <Label size="xs" className="text-ink-500">Call Time</Label>
-                        <Label className="font-mono text-white">{crew.callTime}</Label>
-                        {crew.checkedInAt && (
-                          <Label size="xs" className="text-success-400">In: {crew.checkedInAt}</Label>
-                        )}
-                      </Stack>
-                      <Stack gap={2} className="items-end">
-                        <Label className={`font-bold ${getStatusColor(crew.status)}`}>{crew.status}</Label>
-                        {(crew.status === "Late" || crew.status === "No Show") && (
-                          <Button variant="outline" size="sm">Contact</Button>
-                        )}
-                        {crew.status === "Not Due" && (
-                          <Button variant="outline" size="sm">Check In</Button>
-                        )}
-                      </Stack>
-                    </Grid>
-                  </Card>
-                ))}
+            <Card className="p-4">
+              <Grid cols={4} gap={4}>
+                <Stack gap={1} className="text-center">
+                  <Body className="text-h4-md font-display">{checkedInCount}</Body>
+                  <Body className="text-body-sm">Present</Body>
+                </Stack>
+                <Stack gap={1} className="text-center">
+                  <Body className="text-h4-md font-display">{lateCount}</Body>
+                  <Body className="text-body-sm">Late</Body>
+                </Stack>
+                <Stack gap={1} className="text-center">
+                  <Body className="text-h4-md font-display">{noShowCount}</Body>
+                  <Body className="text-body-sm">Missing</Body>
+                </Stack>
+                <Stack gap={1} className="text-center">
+                  <Body className="text-h4-md font-display">{mockCrew.length}</Body>
+                  <Body className="text-body-sm">Total Crew</Body>
+                </Stack>
               </Grid>
-            </TabPanel>
-          </Tabs>
+            </Card>
 
-          <Grid cols={4} gap={4}>
-            <Button variant="outlineWhite">Manual Check-In</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400">Send Reminder</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400">Export Report</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/stage-management")}>Stage Management</Button>
-          </Grid>
-        </Stack>
-      </Container>
-    </UISection>
+            <Input type="search" placeholder="Search crew..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+
+            <Tabs>
+              <TabsList>
+                <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All ({mockCrew.length})</Tab>
+                <Tab active={activeTab === "present"} onClick={() => setActiveTab("present")}>Present ({checkedInCount})</Tab>
+                <Tab active={activeTab === "missing"} onClick={() => setActiveTab("missing")}>Missing ({lateCount + noShowCount})</Tab>
+                <Tab active={activeTab === "pending"} onClick={() => setActiveTab("pending")}>Pending ({notDueCount})</Tab>
+              </TabsList>
+
+              <TabPanel active={true}>
+                <Grid cols={2} gap={4}>
+                  {filteredCrew.map((crew) => (
+                    <Card key={crew.id} className="p-4">
+                      <Grid cols={3} gap={4} className="items-center">
+                        <Stack gap={1}>
+                          <Body className="font-display">{crew.name}</Body>
+                          <Body className="text-body-sm">{crew.role}</Body>
+                          <Badge variant="outline">{crew.department}</Badge>
+                        </Stack>
+                        <Stack gap={1} className="text-center">
+                          <Body className="text-body-sm">Call Time</Body>
+                          <Body>{crew.callTime}</Body>
+                          {crew.checkedInAt && (
+                            <Body className="text-body-sm">In: {crew.checkedInAt}</Body>
+                          )}
+                        </Stack>
+                        <Stack gap={2} className="items-end">
+                          <Badge variant={crew.status === "Checked In" || crew.status === "On Site" ? "solid" : "outline"}>{crew.status}</Badge>
+                          {(crew.status === "Late" || crew.status === "No Show") && (
+                            <Button variant="outline" size="sm">Contact</Button>
+                          )}
+                          {crew.status === "Not Due" && (
+                            <Button variant="outline" size="sm">Check In</Button>
+                          )}
+                        </Stack>
+                      </Grid>
+                    </Card>
+                  ))}
+                </Grid>
+              </TabPanel>
+            </Tabs>
+
+            <Grid cols={4} gap={4}>
+              <Button variant="solid">Manual Check-In</Button>
+              <Button variant="outline">Send Reminder</Button>
+              <Button variant="outline">Export Report</Button>
+              <Button variant="outline" onClick={() => router.push("/stage-management")}>Stage Management</Button>
+            </Grid>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

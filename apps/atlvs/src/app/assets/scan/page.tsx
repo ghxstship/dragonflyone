@@ -2,10 +2,10 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import { CreatorNavigationAuthenticated } from '../../../components/navigation';
 import {
   Container,
   Section,
-  Display,
   H2,
   H3,
   Body,
@@ -20,8 +20,9 @@ import {
   Badge,
   Alert,
   Modal,
-  LoadingSpinner,
   StatCard,
+  PageLayout,
+  SectionHeader,
 } from '@ghxstship/ui';
 
 interface ScannedAsset {
@@ -152,21 +153,22 @@ export default function AssetScanPage() {
   }).length;
 
   return (
-    <Section className="min-h-screen bg-white">
-      <Container>
-        <Section className="border-b-2 border-black py-8 mb-8">
-          <Stack direction="horizontal" className="justify-between items-center">
-            <Stack>
-              <Display>BARCODE SCANNER</Display>
-              <Body className="mt-2 text-ink-600">
-                Scan assets for check-in, check-out, and inventory
-              </Body>
+    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <Stack direction="horizontal" className="items-center justify-between">
+              <SectionHeader
+                kicker="ATLVS"
+                title="Barcode Scanner"
+                description="Scan assets for check-in, check-out, and inventory"
+                colorScheme="on-dark"
+                gap="lg"
+              />
+              <Button variant="outline" onClick={() => router.push('/assets')}>
+                Asset List
+              </Button>
             </Stack>
-            <Button variant="outline" onClick={() => router.push('/assets')}>
-              Asset List
-            </Button>
-          </Stack>
-        </Section>
 
         {error && (
           <Alert variant="error" className="mb-6" onClose={() => setError(null)}>
@@ -379,7 +381,9 @@ export default function AssetScanPage() {
             </Stack>
           )}
         </Modal>
-      </Container>
-    </Section>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

@@ -4,10 +4,28 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select,
-  Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel,
-  Modal, ModalHeader, ModalBody, ModalFooter, Badge, Alert, Checkbox,
+  Container,
+  H3,
+  Body,
+  Grid,
+  Stack,
+  StatCard,
+  Input,
+  Button,
+  Section,
+  Card,
+  Tabs,
+  TabsList,
+  Tab,
+  TabPanel,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Badge,
+  Alert,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 interface QACheckpoint {
@@ -101,99 +119,108 @@ export default function QACheckpointsPage() {
   const filteredCheckpoints = activeTab === "all" ? mockCheckpoints : mockCheckpoints.filter(c => c.phase.toLowerCase().replace(" ", "-") === activeTab);
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>QA Checkpoints</H1>
-            <Label className="text-ink-400">Quality assurance and sign-off tracking for production phases</Label>
-          </Stack>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="COMPVSS"
+              title="QA Checkpoints"
+              description="Quality assurance and sign-off tracking for production phases"
+              colorScheme="on-light"
+              gap="lg"
+            />
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Passed" value={passedCount} trend="up" className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Pending" value={pendingCount} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Failed" value={failedCount} trend={failedCount > 0 ? "down" : "neutral"} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Critical Pending" value={criticalPending} trend={criticalPending > 0 ? "down" : "neutral"} className="bg-transparent border-2 border-ink-800" />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard value={passedCount.toString()} label="Passed" />
+              <StatCard value={pendingCount.toString()} label="Pending" />
+              <StatCard value={failedCount.toString()} label="Failed" />
+              <StatCard value={criticalPending.toString()} label="Critical Pending" />
+            </Grid>
 
-          {criticalPending > 0 && (
-            <Alert variant="warning">{criticalPending} checkpoint(s) have critical items pending verification</Alert>
-          )}
+            {criticalPending > 0 && (
+              <Alert variant="warning">{criticalPending} checkpoint(s) have critical items pending verification</Alert>
+            )}
 
-          <Tabs>
-            <TabsList>
-              <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All</Tab>
-              <Tab active={activeTab === "load-in"} onClick={() => setActiveTab("load-in")}>Load-In</Tab>
-              <Tab active={activeTab === "setup"} onClick={() => setActiveTab("setup")}>Setup</Tab>
-              <Tab active={activeTab === "tech-rehearsal"} onClick={() => setActiveTab("tech-rehearsal")}>Tech Rehearsal</Tab>
-              <Tab active={activeTab === "show-ready"} onClick={() => setActiveTab("show-ready")}>Show Ready</Tab>
-            </TabsList>
+            <Tabs>
+              <TabsList>
+                <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All</Tab>
+                <Tab active={activeTab === "load-in"} onClick={() => setActiveTab("load-in")}>Load-In</Tab>
+                <Tab active={activeTab === "setup"} onClick={() => setActiveTab("setup")}>Setup</Tab>
+                <Tab active={activeTab === "tech-rehearsal"} onClick={() => setActiveTab("tech-rehearsal")}>Tech Rehearsal</Tab>
+                <Tab active={activeTab === "show-ready"} onClick={() => setActiveTab("show-ready")}>Show Ready</Tab>
+              </TabsList>
 
-            <TabPanel active={true}>
-              <Stack gap={4}>
-                {filteredCheckpoints.map((checkpoint) => (
-                  <Card key={checkpoint.id} className={`border-2 p-6 ${checkpoint.status === "Failed" ? "border-error-800 bg-error-900/10" : "border-ink-800 bg-ink-900/50"}`}>
-                    <Grid cols={6} gap={4} className="items-center">
-                      <Stack gap={1}>
-                        <Body className="font-display text-white">{checkpoint.name}</Body>
-                        <Stack direction="horizontal" gap={2}>
-                          <Badge variant="outline">{checkpoint.department}</Badge>
-                          <Badge variant="outline">{checkpoint.phase}</Badge>
+              <TabPanel active={true}>
+                <Stack gap={4}>
+                  {filteredCheckpoints.map((checkpoint) => (
+                    <Card key={checkpoint.id} className="p-6">
+                      <Grid cols={6} gap={4} className="items-center">
+                        <Stack gap={1}>
+                          <Body className="font-display">{checkpoint.name}</Body>
+                          <Stack direction="horizontal" gap={2}>
+                            <Badge variant="outline">{checkpoint.department}</Badge>
+                            <Badge variant="outline">{checkpoint.phase}</Badge>
+                          </Stack>
                         </Stack>
-                      </Stack>
-                      <Stack gap={1}>
-                        <Label size="xs" className="text-ink-500">Assignee</Label>
-                        <Label className="text-white">{checkpoint.assignee || "Unassigned"}</Label>
-                      </Stack>
-                      <Stack gap={1}>
-                        <Label size="xs" className="text-ink-500">Items</Label>
-                        <Label className="text-white">{checkpoint.items.filter(i => i.checked).length}/{checkpoint.items.length} complete</Label>
-                      </Stack>
-                      <Stack gap={1}>
-                        <Label size="xs" className="text-ink-500">Status</Label>
-                        <Label className={getStatusColor(checkpoint.status)}>{checkpoint.status}</Label>
-                      </Stack>
-                      <Stack direction="horizontal" gap={2} className="justify-end">
-                        <Button variant="ghost" size="sm" onClick={() => setSelectedCheckpoint(checkpoint)}>Details</Button>
-                        {checkpoint.status !== "Passed" && (
-                          <Button variant="outline" size="sm" onClick={() => { setSelectedCheckpoint(checkpoint); setShowSignOffModal(true); }}>Sign Off</Button>
-                        )}
-                      </Stack>
-                    </Grid>
-                  </Card>
-                ))}
-              </Stack>
-            </TabPanel>
-          </Tabs>
+                        <Stack gap={1}>
+                          <Body className="text-body-sm">Assignee</Body>
+                          <Body>{checkpoint.assignee || "Unassigned"}</Body>
+                        </Stack>
+                        <Stack gap={1}>
+                          <Body className="text-body-sm">Items</Body>
+                          <Body>{checkpoint.items.filter(i => i.checked).length}/{checkpoint.items.length} complete</Body>
+                        </Stack>
+                        <Stack gap={1}>
+                          <Body className="text-body-sm">Status</Body>
+                          <Badge variant={checkpoint.status === "Passed" ? "solid" : "outline"}>{checkpoint.status}</Badge>
+                        </Stack>
+                        <Stack direction="horizontal" gap={2} className="justify-end">
+                          <Button variant="ghost" size="sm" onClick={() => setSelectedCheckpoint(checkpoint)}>Details</Button>
+                          {checkpoint.status !== "Passed" && (
+                            <Button variant="outline" size="sm" onClick={() => { setSelectedCheckpoint(checkpoint); setShowSignOffModal(true); }}>Sign Off</Button>
+                          )}
+                        </Stack>
+                      </Grid>
+                    </Card>
+                  ))}
+                </Stack>
+              </TabPanel>
+            </Tabs>
 
-          <Grid cols={3} gap={4}>
-            <Button variant="outlineWhite">Add Checkpoint</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400">Export Report</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/build-strike")}>Build and Strike</Button>
-          </Grid>
-        </Stack>
-      </Container>
+            <Grid cols={3} gap={4}>
+              <Button variant="solid">Add Checkpoint</Button>
+              <Button variant="outline">Export Report</Button>
+              <Button variant="outline" onClick={() => router.push("/build-strike")}>Build and Strike</Button>
+            </Grid>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedCheckpoint && !showSignOffModal} onClose={() => setSelectedCheckpoint(null)}>
         <ModalHeader><H3>Checkpoint Details</H3></ModalHeader>
         <ModalBody>
           {selectedCheckpoint && (
             <Stack gap={4}>
-              <Body className="font-display text-white text-body-md">{selectedCheckpoint.name}</Body>
+              <Body className="font-display">{selectedCheckpoint.name}</Body>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Department</Label><Badge variant="outline">{selectedCheckpoint.department}</Badge></Stack>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Phase</Label><Badge variant="outline">{selectedCheckpoint.phase}</Badge></Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Department</Body>
+                  <Badge variant="outline">{selectedCheckpoint.department}</Badge>
+                </Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Phase</Body>
+                  <Badge variant="outline">{selectedCheckpoint.phase}</Badge>
+                </Stack>
               </Grid>
               <Stack gap={2}>
-                <Label className="text-ink-400">Checklist Items</Label>
+                <Body className="font-display">Checklist Items</Body>
                 {selectedCheckpoint.items.map((item) => (
-                  <Card key={item.id} className={`p-3 border ${item.checked ? "border-success-800 bg-success-900/10" : "border-ink-700"}`}>
-                    <Stack direction="horizontal" className="justify-between items-center">
+                  <Card key={item.id} className="p-3">
+                    <Stack direction="horizontal" className="items-center justify-between">
                       <Stack direction="horizontal" gap={2}>
-                        <Label className={item.checked ? "text-success-400" : "text-white"}>{item.checked ? "✓" : "○"}</Label>
-                        <Label className={item.checked ? "text-ink-400" : "text-white"}>{item.description}</Label>
+                        <Body>{item.checked ? "✓" : "○"}</Body>
+                        <Body>{item.description}</Body>
                       </Stack>
                       {item.critical && <Badge variant="solid">Critical</Badge>}
                     </Stack>
@@ -201,7 +228,10 @@ export default function QACheckpointsPage() {
                 ))}
               </Stack>
               {selectedCheckpoint.notes && (
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Notes</Label><Body className="text-ink-300">{selectedCheckpoint.notes}</Body></Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Notes</Body>
+                  <Body>{selectedCheckpoint.notes}</Body>
+                </Stack>
               )}
             </Stack>
           )}
@@ -216,15 +246,15 @@ export default function QACheckpointsPage() {
         <ModalBody>
           {selectedCheckpoint && (
             <Stack gap={4}>
-              <Body className="text-white">{selectedCheckpoint.name}</Body>
+              <Body>{selectedCheckpoint.name}</Body>
               <Alert variant="info">By signing off, you confirm all items have been verified</Alert>
               <Stack gap={2}>
-                <Label>Your Name</Label>
-                <Input placeholder="Enter your name" className="border-ink-700 bg-black text-white" />
+                <Body className="font-display">Your Name</Body>
+                <Input placeholder="Enter your name" />
               </Stack>
               <Stack gap={2}>
-                <Label>Notes (optional)</Label>
-                <Input placeholder="Any additional notes" className="border-ink-700 bg-black text-white" />
+                <Body className="font-display">Notes (optional)</Body>
+                <Input placeholder="Any additional notes" />
               </Stack>
             </Stack>
           )}
@@ -234,6 +264,6 @@ export default function QACheckpointsPage() {
           <Button variant="solid" onClick={() => { setShowSignOffModal(false); setSelectedCheckpoint(null); }}>Sign Off</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

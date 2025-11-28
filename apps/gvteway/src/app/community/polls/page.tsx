@@ -2,25 +2,27 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { ConsumerNavigationPublic } from '../../../components/navigation';
+import { ConsumerNavigationPublic } from '@/components/navigation';
 import {
   Container,
   Section,
-  H1,
   H2,
   H3,
   Body,
-  Label,
   Button,
   Card,
-  Field,
-  Input,
   Select,
   Grid,
   Stack,
   Badge,
   Alert,
   LoadingSpinner,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
+  Kicker,
 } from '@ghxstship/ui';
 
 interface PollOption {
@@ -120,28 +122,52 @@ export default function CommunityPollsPage() {
     return 'Ending soon';
   };
 
+  const footerContent = (
+    <Footer
+      logo={<Display size="md">GVTEWAY</Display>}
+      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+    >
+      <FooterColumn title="Community">
+        <FooterLink href="/community">Community</FooterLink>
+        <FooterLink href="/community/polls">Polls</FooterLink>
+      </FooterColumn>
+      <FooterColumn title="Legal">
+        <FooterLink href="/legal/privacy">Privacy</FooterLink>
+        <FooterLink href="/legal/terms">Terms</FooterLink>
+      </FooterColumn>
+    </Footer>
+  );
+
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
+      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+        <Section background="black" className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading polls..." />
-        </Container>
-      </Section>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-        <Stack gap={2} className="border-b-2 border-black pb-8">
-          <H1>Community Polls</H1>
-          <Body className="text-ink-600">
-            Vote on upcoming events, setlists, and more
-          </Body>
-        </Stack>
+    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Community</Kicker>
+              <H2 size="lg" className="text-white">Community Polls</H2>
+              <Body className="text-on-dark-muted">
+                Vote on upcoming events, setlists, and more
+              </Body>
+            </Stack>
 
         {error && (
           <Alert variant="error" className="mb-6">
@@ -155,12 +181,13 @@ export default function CommunityPollsPage() {
           </Alert>
         )}
 
-        <Stack direction="horizontal" gap={4} className="mb-8">
+        <Stack direction="horizontal" gap={4}>
           <Stack direction="horizontal" gap={2}>
             {['active', 'closed', 'all'].map(f => (
               <Button
                 key={f}
-                variant={filter === f ? 'solid' : 'outline'}
+                variant={filter === f ? 'solid' : 'outlineInk'}
+                inverted={filter === f}
                 onClick={() => setFilter(f)}
               >
                 {f.charAt(0).toUpperCase() + f.slice(1)}
@@ -172,6 +199,7 @@ export default function CommunityPollsPage() {
             value={category}
             onChange={(e) => setCategory(e.target.value)}
             className="w-48"
+            inverted
           >
             <option value="all">All Categories</option>
             <option value="setlist">Setlist Requests</option>
@@ -184,28 +212,28 @@ export default function CommunityPollsPage() {
         {polls.length > 0 ? (
           <Grid cols={2} gap={6}>
             {polls.map(poll => (
-              <Card key={poll.id} className="p-6">
+              <Card key={poll.id} inverted className="p-6">
                 <Stack gap={4}>
-                  <Stack direction="horizontal" className="justify-between items-start">
+                  <Stack direction="horizontal" className="items-start justify-between">
                     <Stack gap={1}>
                       <Badge variant="outline">{poll.category}</Badge>
                       {poll.event_title && (
-                        <Body className="text-body-sm text-ink-500">{poll.event_title}</Body>
+                        <Body size="sm" className="text-on-dark-disabled">{poll.event_title}</Body>
                       )}
                     </Stack>
                     {poll.status === 'active' && poll.ends_at && (
-                      <Badge className="bg-info-500 text-white">
+                      <Badge variant="solid">
                         {getTimeRemaining(poll.ends_at)}
                       </Badge>
                     )}
                     {poll.status === 'closed' && (
-                      <Badge className="bg-ink-500 text-white">Closed</Badge>
+                      <Badge variant="outline">Closed</Badge>
                     )}
                   </Stack>
 
-                  <H3>{poll.question}</H3>
+                  <H3 className="text-white">{poll.question}</H3>
                   {poll.description && (
-                    <Body className="text-ink-600">{poll.description}</Body>
+                    <Body className="text-on-dark-muted">{poll.description}</Body>
                   )}
 
                   <Stack gap={2}>
@@ -251,7 +279,7 @@ export default function CommunityPollsPage() {
                     })}
                   </Stack>
 
-                  <Body className="text-body-sm text-ink-500">
+                  <Body size="sm" className="text-on-dark-disabled">
                     {poll.total_votes} vote{poll.total_votes !== 1 ? 's' : ''}
                   </Body>
                 </Stack>
@@ -259,17 +287,18 @@ export default function CommunityPollsPage() {
             ))}
           </Grid>
         ) : (
-          <Card className="p-12 text-center">
-            <H3 className="mb-4">NO POLLS FOUND</H3>
-            <Body className="text-ink-600">
+          <Card inverted className="p-12 text-center">
+            <H3 className="mb-4 text-white">No Polls Found</H3>
+            <Body className="text-on-dark-muted">
               {filter === 'active'
                 ? 'No active polls at the moment. Check back soon!'
                 : 'No polls match your current filters.'}
             </Body>
           </Card>
         )}
-        </Stack>
-      </Container>
-    </Section>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

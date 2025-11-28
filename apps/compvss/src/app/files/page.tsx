@@ -4,10 +4,30 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter,
-  Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
+  Container,
+  H3,
+  Body,
+  Grid,
+  Stack,
+  StatCard,
+  Input,
+  Select,
+  Button,
+  Section,
+  Card,
+  Badge,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 interface ProjectFile {
@@ -45,7 +65,6 @@ const mockVersions: FileVersion[] = [
 
 export default function FileSharingPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("all");
   const [selectedFile, setSelectedFile] = useState<ProjectFile | null>(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
 
@@ -63,124 +82,133 @@ export default function FileSharingPage() {
     }
   };
 
-  const getTypeColor = (type: string) => {
-    switch (type) {
-      case "PDF": return "text-error-400";
-      case "CAD": return "text-info-400";
-      case "Image": return "text-success-400";
-      case "Document": return "text-warning-400";
-      case "Spreadsheet": return "text-purple-400";
-      default: return "text-ink-400";
-    }
-  };
-
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>File Sharing</H1>
-            <Label className="text-ink-400">Project files with version control and cloud storage</Label>
-          </Stack>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            {/* Page Header */}
+            <SectionHeader
+              kicker="COMPVSS"
+              title="File Sharing"
+              description="Project files with version control and cloud storage"
+              colorScheme="on-light"
+              gap="lg"
+            />
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Total Files" value={totalFiles} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Total Size" value={totalSize} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Projects" value={new Set(mockFiles.map(f => f.project)).size} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Updated Today" value={mockFiles.filter(f => f.uploadedAt === "2024-11-24").length} className="bg-transparent border-2 border-ink-800" />
-          </Grid>
+            {/* Stats Grid */}
+            <Grid cols={4} gap={6}>
+              <StatCard value={totalFiles.toString()} label="Total Files" />
+              <StatCard value={totalSize} label="Total Size" />
+              <StatCard value={new Set(mockFiles.map(f => f.project)).size.toString()} label="Projects" />
+              <StatCard value={mockFiles.filter(f => f.uploadedAt === "2024-11-24").length.toString()} label="Updated Today" />
+            </Grid>
 
-          <Stack direction="horizontal" className="justify-between">
-            <Stack direction="horizontal" gap={4}>
-              <Input type="search" placeholder="Search files..." className="border-ink-700 bg-black text-white w-64" />
-              <Select className="border-ink-700 bg-black text-white">
-                <option value="">All Projects</option>
-                <option value="summer">Summer Fest 2024</option>
-                <option value="corporate">Corporate Gala</option>
-              </Select>
+            {/* Filters */}
+            <Stack direction="horizontal" className="justify-between">
+              <Stack direction="horizontal" gap={4}>
+                <Input type="search" placeholder="Search files..." className="w-64" />
+                <Select>
+                  <option value="">All Projects</option>
+                  <option value="summer">Summer Fest 2024</option>
+                  <option value="corporate">Corporate Gala</option>
+                </Select>
+              </Stack>
+              <Button variant="solid" onClick={() => setShowUploadModal(true)}>Upload File</Button>
             </Stack>
-            <Button variant="outlineWhite" onClick={() => setShowUploadModal(true)}>Upload File</Button>
+
+            {/* Files Table */}
+            <Card className="overflow-hidden">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Name</TableHead>
+                    <TableHead>Type</TableHead>
+                    <TableHead>Project</TableHead>
+                    <TableHead>Size</TableHead>
+                    <TableHead>Version</TableHead>
+                    <TableHead>Uploaded</TableHead>
+                    <TableHead>Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {mockFiles.map((file) => (
+                    <TableRow key={file.id}>
+                      <TableCell>
+                        <Stack direction="horizontal" gap={2}>
+                          <Body className="text-h6-md">{getTypeIcon(file.type)}</Body>
+                          <Body>{file.name}</Body>
+                        </Stack>
+                      </TableCell>
+                      <TableCell><Badge variant="outline">{file.type}</Badge></TableCell>
+                      <TableCell><Body className="text-body-sm">{file.project}</Body></TableCell>
+                      <TableCell><Body className="text-body-sm">{file.size}</Body></TableCell>
+                      <TableCell><Badge variant="solid">v{file.version}</Badge></TableCell>
+                      <TableCell>
+                        <Stack gap={0}>
+                          <Body className="text-body-sm">{file.uploadedAt}</Body>
+                          <Body className="text-body-sm">{file.uploadedBy}</Body>
+                        </Stack>
+                      </TableCell>
+                      <TableCell>
+                        <Stack direction="horizontal" gap={2}>
+                          <Button variant="ghost" size="sm" onClick={() => setSelectedFile(file)}>Details</Button>
+                          <Button variant="outline" size="sm">Download</Button>
+                        </Stack>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </Card>
+
+            {/* Quick Links */}
+            <Grid cols={3} gap={4}>
+              <Button variant="outline" onClick={() => router.push("/projects")}>Projects</Button>
+              <Button variant="outline" onClick={() => router.push("/documents")}>Documents</Button>
+              <Button variant="outline" onClick={() => router.push("/dashboard")}>Dashboard</Button>
+            </Grid>
           </Stack>
+        </Container>
+      </Section>
 
-          <Table className="border-2 border-ink-800">
-            <TableHeader>
-              <TableRow className="bg-ink-900">
-                <TableHead className="text-ink-400">Name</TableHead>
-                <TableHead className="text-ink-400">Type</TableHead>
-                <TableHead className="text-ink-400">Project</TableHead>
-                <TableHead className="text-ink-400">Size</TableHead>
-                <TableHead className="text-ink-400">Version</TableHead>
-                <TableHead className="text-ink-400">Uploaded</TableHead>
-                <TableHead className="text-ink-400">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {mockFiles.map((file) => (
-                <TableRow key={file.id} className="border-ink-800">
-                  <TableCell>
-                    <Stack direction="horizontal" gap={2}>
-                      <Label className={`text-h6-md ${getTypeColor(file.type)}`}>{getTypeIcon(file.type)}</Label>
-                      <Label className="text-white">{file.name}</Label>
-                    </Stack>
-                  </TableCell>
-                  <TableCell><Badge variant="outline">{file.type}</Badge></TableCell>
-                  <TableCell><Label className="text-ink-300">{file.project}</Label></TableCell>
-                  <TableCell><Label className="font-mono text-ink-400">{file.size}</Label></TableCell>
-                  <TableCell><Badge variant="solid">v{file.version}</Badge></TableCell>
-                  <TableCell>
-                    <Stack gap={0}>
-                      <Label size="xs" className="text-ink-300">{file.uploadedAt}</Label>
-                      <Label size="xs" className="text-ink-500">{file.uploadedBy}</Label>
-                    </Stack>
-                  </TableCell>
-                  <TableCell>
-                    <Stack direction="horizontal" gap={2}>
-                      <Button variant="ghost" size="sm" onClick={() => setSelectedFile(file)}>Details</Button>
-                      <Button variant="outline" size="sm">Download</Button>
-                    </Stack>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-
-          <Grid cols={3} gap={4}>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/projects")}>Projects</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/documents")}>Documents</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/")}>Dashboard</Button>
-          </Grid>
-        </Stack>
-      </Container>
-
+      {/* File Details Modal */}
       <Modal open={!!selectedFile} onClose={() => setSelectedFile(null)}>
         <ModalHeader><H3>{selectedFile?.name}</H3></ModalHeader>
         <ModalBody>
           {selectedFile && (
             <Stack gap={4}>
               <Stack direction="horizontal" gap={2}>
-                <Label className={`text-h5-md ${getTypeColor(selectedFile.type)}`}>{getTypeIcon(selectedFile.type)}</Label>
+                <Body className="text-h5-md">{getTypeIcon(selectedFile.type)}</Body>
                 <Badge variant="outline">{selectedFile.type}</Badge>
                 <Badge variant="solid">v{selectedFile.version}</Badge>
               </Stack>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label className="text-ink-400">Project</Label><Label className="text-white">{selectedFile.project}</Label></Stack>
-                <Stack gap={1}><Label className="text-ink-400">Size</Label><Label className="font-mono text-white">{selectedFile.size}</Label></Stack>
+                <Stack gap={1}>
+                  <Body className="font-display">Project</Body>
+                  <Body>{selectedFile.project}</Body>
+                </Stack>
+                <Stack gap={1}>
+                  <Body className="font-display">Size</Body>
+                  <Body>{selectedFile.size}</Body>
+                </Stack>
               </Grid>
-              <Stack gap={1}><Label className="text-ink-400">Uploaded By</Label><Label className="text-white">{selectedFile.uploadedBy}</Label></Stack>
+              <Stack gap={1}>
+                <Body className="font-display">Uploaded By</Body>
+                <Body>{selectedFile.uploadedBy}</Body>
+              </Stack>
               <Stack gap={2}>
-                <Label className="text-ink-400">Version History</Label>
+                <Body className="font-display">Version History</Body>
                 <Stack gap={2}>
                   {mockVersions.map((v) => (
-                    <Card key={v.version} className="p-3 border border-ink-700">
-                      <Stack direction="horizontal" className="justify-between items-start">
+                    <Card key={v.version} className="p-3">
+                      <Stack direction="horizontal" className="items-start justify-between">
                         <Stack gap={1}>
                           <Stack direction="horizontal" gap={2}>
                             <Badge variant={v.version === selectedFile.version ? "solid" : "outline"}>v{v.version}</Badge>
-                            <Label size="xs" className="text-ink-500">{v.uploadedAt}</Label>
+                            <Body className="text-body-sm">{v.uploadedAt}</Body>
                           </Stack>
-                          <Label size="xs" className="text-ink-300">{v.changes}</Label>
+                          <Body className="text-body-sm">{v.changes}</Body>
                         </Stack>
                         <Button variant="ghost" size="sm">Download</Button>
                       </Stack>
@@ -198,23 +226,24 @@ export default function FileSharingPage() {
         </ModalFooter>
       </Modal>
 
+      {/* Upload Modal */}
       <Modal open={showUploadModal} onClose={() => setShowUploadModal(false)}>
         <ModalHeader><H3>Upload File</H3></ModalHeader>
         <ModalBody>
           <Stack gap={4}>
-            <Card className="p-8 border-2 border-dashed border-ink-700 text-center">
+            <Card className="border-2 border-dashed p-8 text-center">
               <Stack gap={2}>
-                <Label className="text-h3-md">📁</Label>
-                <Label className="text-ink-400">Drag and drop files here or click to browse</Label>
+                <Body className="text-h3-md">📁</Body>
+                <Body>Drag and drop files here or click to browse</Body>
                 <Button variant="outline">Browse Files</Button>
               </Stack>
             </Card>
-            <Select className="border-ink-700 bg-black text-white">
+            <Select>
               <option value="">Select Project...</option>
               <option value="summer">Summer Fest 2024</option>
               <option value="corporate">Corporate Gala</option>
             </Select>
-            <Input placeholder="Version notes (optional)" className="border-ink-700 bg-black text-white" />
+            <Input placeholder="Version notes (optional)" />
           </Stack>
         </ModalBody>
         <ModalFooter>
@@ -222,6 +251,6 @@ export default function FileSharingPage() {
           <Button variant="solid" onClick={() => setShowUploadModal(false)}>Upload</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

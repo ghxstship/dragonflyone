@@ -14,13 +14,19 @@ import {
   Body,
   Button,
   Input,
-  Checkbox,
-  SectionLayout,
   Alert,
   Stack,
+  Card,
   Field,
+  Checkbox,
+  Section,
+  Container,
+  Divider,
   Grid,
+  Label,
+  Link,
 } from "@ghxstship/ui";
+import NextLink from "next/link";
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -105,149 +111,175 @@ export default function SignUpPage() {
       background="black"
       header={
         <Navigation
-          logo={
-            <Display size="md" className="text-display-md">
-              GVTEWAY
-            </Display>
-          }
+          logo={<Display size="md" className="text-white">GVTEWAY</Display>}
           cta={<></>}
         />
       }
       footer={
         <Footer
-          logo={
-            <Display size="md" className="text-white text-display-md">
-              GVTEWAY
-            </Display>
-          }
+          logo={<Display size="md" className="text-white">GVTEWAY</Display>}
           copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
         >
           <FooterColumn title="Legal">
-            <FooterLink href="#">Privacy</FooterLink>
-            <FooterLink href="#">Terms</FooterLink>
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
           </FooterColumn>
         </Footer>
       }
     >
-      <SectionLayout background="black">
-        <Stack gap={8} className="mx-auto max-w-md">
-          <Stack gap={4} className="text-center">
-            <H2 className="text-white">Create Account</H2>
-            <Body className="text-ink-400">
-              Join GVTEWAY to discover and experience unforgettable live events.
-            </Body>
-          </Stack>
-
-          {error && <Alert variant="error">{error}</Alert>}
-
-          <Stack gap={6}>
-              <Grid cols={2} gap={4}>
-                <Field label="First Name" className="text-white">
-                  <Input
-                    type="text"
-                    value={formData.firstName}
-                    onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                    placeholder="John"
-                    required
-                    className="border-ink-700 bg-black text-white"
-                  />
-                </Field>
-                <Field label="Last Name" className="text-white">
-                  <Input
-                    type="text"
-                    value={formData.lastName}
-                    onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                    placeholder="Doe"
-                    required
-                    className="border-ink-700 bg-black text-white"
-                  />
-                </Field>
-              </Grid>
-
-              <Field label="Email Address" className="text-white">
-                <Input
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  placeholder="your@email.com"
-                  required
-                  className="border-ink-700 bg-black text-white"
-                />
-              </Field>
-
-              <Field label="Password" className="text-white">
-                <Input
-                  type="password"
-                  value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  placeholder="Create a strong password"
-                  required
-                  className="border-ink-700 bg-black text-white"
-                />
-              </Field>
-
-              <Field label="Confirm Password" className="text-white">
-                <Input
-                  type="password"
-                  value={formData.confirmPassword}
-                  onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                  placeholder="Re-enter your password"
-                  required
-                  className="border-ink-700 bg-black text-white"
-                />
-              </Field>
-
-              <Stack direction="horizontal" gap={3} className="items-start">
-                <Checkbox
-                  id="terms"
-                  checked={formData.agreeToTerms}
-                  onChange={(e) => setFormData({ ...formData, agreeToTerms: e.target.checked })}
-                />
-                <Body size="sm" className="cursor-pointer text-ink-400">
-                  I agree to the{" "}
-                  <Button variant="ghost" size="sm" onClick={() => window.location.href = '/legal/terms'} className="text-white hover:text-ink-400 inline p-0">
-                    Terms of Service
-                  </Button>{" "}
-                  and{" "}
-                  <Button variant="ghost" size="sm" onClick={() => window.location.href = '/legal/privacy'} className="text-white hover:text-ink-400 inline p-0">
-                    Privacy Policy
-                  </Button>
+      <Section background="black" className="flex min-h-[80vh] items-center justify-center py-12">
+        <Container className="w-full max-w-lg">
+          {/* Auth Card - Pop Art Style */}
+          <Card inverted variant="elevated" className="p-8">
+            <Stack gap={8}>
+              {/* Header */}
+              <Stack gap={4} className="text-center">
+                <H2 className="text-white">Create Account</H2>
+                <Body className="text-on-dark-muted">
+                  Join GVTEWAY to discover and experience unforgettable live events.
                 </Body>
               </Stack>
 
-              <Button variant="solid" className="w-full" disabled={loading} onClick={handleSignUp}>
-                {loading ? "Creating Account..." : "Create Account"}
-              </Button>
+              {/* Error Alert */}
+              {error && <Alert variant="error">{error}</Alert>}
 
+              {/* Form */}
+              <form onSubmit={handleSignUp}>
+                <Stack gap={6}>
+                  {/* Name Fields - Grid */}
+                  <Grid cols={2} gap={4}>
+                    <Field label="First Name" inverted>
+                      <Input
+                        type="text"
+                        value={formData.firstName}
+                        onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                        placeholder="John"
+                        required
+                        inverted
+                      />
+                    </Field>
+                    <Field label="Last Name" inverted>
+                      <Input
+                        type="text"
+                        value={formData.lastName}
+                        onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                        placeholder="Doe"
+                        required
+                        inverted
+                      />
+                    </Field>
+                  </Grid>
+
+                  {/* Email Field */}
+                  <Field label="Email Address" inverted>
+                    <Input
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      placeholder="your@email.com"
+                      required
+                      inverted
+                    />
+                  </Field>
+
+                  {/* Password Field */}
+                  <Field label="Password" inverted>
+                    <Input
+                      type="password"
+                      value={formData.password}
+                      onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                      placeholder="Create a strong password"
+                      required
+                      inverted
+                    />
+                  </Field>
+
+                  {/* Confirm Password Field */}
+                  <Field label="Confirm Password" inverted>
+                    <Input
+                      type="password"
+                      value={formData.confirmPassword}
+                      onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                      placeholder="Re-enter your password"
+                      required
+                      inverted
+                    />
+                  </Field>
+
+                  {/* Terms Checkbox */}
+                  <Stack direction="horizontal" gap={3} className="items-start">
+                    <Checkbox
+                      id="terms"
+                      checked={formData.agreeToTerms}
+                      onChange={(e) => setFormData({ ...formData, agreeToTerms: e.target.checked })}
+                      inverted
+                    />
+                    <Label size="xs" className="text-on-dark-muted">
+                      I agree to the{" "}
+                      <Link href="/legal/terms" className="text-white">Terms of Service</Link>
+                      {" "}and{" "}
+                      <Link href="/legal/privacy" className="text-white">Privacy Policy</Link>
+                    </Label>
+                  </Stack>
+
+                  {/* Primary CTA */}
+                  <Button
+                    type="submit"
+                    variant="solid"
+                    size="lg"
+                    fullWidth
+                    inverted
+                    disabled={loading}
+                  >
+                    {loading ? "Creating Account..." : "Create Account"}
+                  </Button>
+                </Stack>
+              </form>
+
+              {/* Sign In Link */}
               <Stack className="text-center">
-                <Body size="sm" className="text-ink-400">
+                <Body size="sm" className="text-on-dark-muted">
                   Already have an account?{" "}
-                  <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/signin'} className="text-white hover:text-ink-400 inline">
-                    Sign in
-                  </Button>
+                  <NextLink href="/auth/signin">
+                    <Button variant="ghost" size="sm" inverted className="inline">
+                      Sign in
+                    </Button>
+                  </NextLink>
                 </Body>
               </Stack>
-            </Stack>
 
-          <Stack className="relative">
-            <Stack className="absolute inset-0 items-center justify-center">
-              <Stack className="w-full border-t-2 border-ink-800" />
-            </Stack>
-            <Stack className="relative justify-center">
-              <Body size="sm" className="bg-black px-4 text-ink-500 text-center">OR</Body>
-            </Stack>
-          </Stack>
+              {/* Divider with text */}
+              <Stack direction="horizontal" className="items-center gap-4">
+                <Divider inverted className="flex-1" />
+                <Label size="xs" className="text-on-dark-muted">Or</Label>
+                <Divider inverted className="flex-1" />
+              </Stack>
 
-          <Stack gap={3}>
-            <Button variant="outlineInk" fullWidth onClick={() => handleOAuthSignUp('google')} disabled={loading}>
-              Sign up with Google
-            </Button>
-            <Button variant="outlineInk" fullWidth onClick={() => handleOAuthSignUp('apple')} disabled={loading}>
-              Sign up with Apple
-            </Button>
-          </Stack>
-        </Stack>
-      </SectionLayout>
+              {/* OAuth Buttons */}
+              <Stack gap={3}>
+                <Button
+                  variant="outlineInk"
+                  size="lg"
+                  fullWidth
+                  onClick={() => handleOAuthSignUp('google')}
+                  disabled={loading}
+                >
+                  Sign up with Google
+                </Button>
+                <Button
+                  variant="outlineInk"
+                  size="lg"
+                  fullWidth
+                  onClick={() => handleOAuthSignUp('apple')}
+                  disabled={loading}
+                >
+                  Sign up with Apple
+                </Button>
+              </Stack>
+            </Stack>
+          </Card>
+        </Container>
+      </Section>
     </PageLayout>
   );
 }

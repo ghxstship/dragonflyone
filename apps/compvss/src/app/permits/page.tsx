@@ -4,7 +4,6 @@ import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
-  H1,
   H2,
   Body,
   StatCard,
@@ -25,6 +24,8 @@ import {
   Card,
   Section,
   useNotifications,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 interface Permit {
@@ -138,210 +139,208 @@ export default function PermitsPage() {
 
   if (loading) {
     return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <CreatorNavigationAuthenticated />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading permits..." />
-        </Container>
-      </Section>
+      <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+        <Section className="min-h-screen py-16">
+          <Container className="flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" text="Loading permits..." />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   if (error) {
     return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <CreatorNavigationAuthenticated />
-        <Container className="py-16">
-          <EmptyState
-            title="Error Loading Permits"
-            description={error}
-            action={{ label: "Retry", onClick: fetchPermits }}
-          />
-        </Container>
-      </Section>
+      <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+        <Section className="min-h-screen py-16">
+          <Container>
+            <EmptyState
+              title="Error Loading Permits"
+              description={error}
+              action={{ label: "Retry", onClick: fetchPermits }}
+            />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="relative min-h-screen bg-black text-white">
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Permit Management</H1>
-            <Body className="text-ink-400">
-              Track permit applications, approvals, and compliance requirements
-            </Body>
-          </Stack>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Permit Management"
+              description="Track permit applications, approvals, and compliance requirements"
+              colorScheme="on-light"
+              gap="lg"
+            />
 
-          <Grid cols={4} gap={6}>
-            <StatCard
-              value={summary?.total_permits || 0}
-              label="Total Permits"
-              className="bg-black text-white border-ink-800"
-            />
-            <StatCard
-              value={summary?.pending_applications || 0}
-              label="Pending"
-              className="bg-black text-white border-ink-800"
-            />
-            <StatCard
-              value={summary?.expiring_soon || 0}
-              label="Expiring Soon"
-              className="bg-black text-white border-ink-800"
-            />
-            <StatCard
-              value={formatCurrency(summary?.total_fees || 0)}
-              label="Total Fees"
-              className="bg-black text-white border-ink-800"
-            />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard
+                value={(summary?.total_permits || 0).toString()}
+                label="Total Permits"
+              />
+              <StatCard
+                value={(summary?.pending_applications || 0).toString()}
+                label="Pending"
+              />
+              <StatCard
+                value={(summary?.expiring_soon || 0).toString()}
+                label="Expiring Soon"
+              />
+              <StatCard
+                value={formatCurrency(summary?.total_fees || 0)}
+                label="Total Fees"
+              />
+            </Grid>
 
-          <Card className="p-6 bg-black border-ink-800">
-            <Stack gap={4}>
-              <H2>Permit Types</H2>
-              <Grid cols={4} gap={4}>
-                <Card className="p-4 bg-ink-900 border-ink-700">
-                  <Stack gap={2}>
-                    <Body className="text-ink-400 text-body-sm uppercase tracking-widest">Special Events</Body>
-                    <Body className="text-h5-md font-bold">8</Body>
-                  </Stack>
-                </Card>
-                <Card className="p-4 bg-ink-900 border-ink-700">
-                  <Stack gap={2}>
-                    <Body className="text-ink-400 text-body-sm uppercase tracking-widest">Noise/Sound</Body>
-                    <Body className="text-h5-md font-bold">5</Body>
-                  </Stack>
-                </Card>
-                <Card className="p-4 bg-ink-900 border-ink-700">
-                  <Stack gap={2}>
-                    <Body className="text-ink-400 text-body-sm uppercase tracking-widest">Fire/Safety</Body>
-                    <Body className="text-h5-md font-bold">12</Body>
-                  </Stack>
-                </Card>
-                <Card className="p-4 bg-ink-900 border-ink-700">
-                  <Stack gap={2}>
-                    <Body className="text-ink-400 text-body-sm uppercase tracking-widest">Street Closure</Body>
-                    <Body className="text-h5-md font-bold">3</Body>
-                  </Stack>
-                </Card>
-              </Grid>
+            <Card>
+              <Stack gap={4}>
+                <H2>Permit Types</H2>
+                <Grid cols={4} gap={4}>
+                  <Card>
+                    <Stack gap={2}>
+                      <Body className="text-body-sm">Special Events</Body>
+                      <Body className="font-display">8</Body>
+                    </Stack>
+                  </Card>
+                  <Card>
+                    <Stack gap={2}>
+                      <Body className="text-body-sm">Noise/Sound</Body>
+                      <Body className="font-display">5</Body>
+                    </Stack>
+                  </Card>
+                  <Card>
+                    <Stack gap={2}>
+                      <Body className="text-body-sm">Fire/Safety</Body>
+                      <Body className="font-display">12</Body>
+                    </Stack>
+                  </Card>
+                  <Card>
+                    <Stack gap={2}>
+                      <Body className="text-body-sm">Street Closure</Body>
+                      <Body className="font-display">3</Body>
+                    </Stack>
+                  </Card>
+                </Grid>
+              </Stack>
+            </Card>
+
+            <Stack gap={4} direction="horizontal">
+              <Select
+                value={filterStatus}
+                onChange={(e) => setFilterStatus(e.target.value)}
+              >
+                <option value="all">All Statuses</option>
+                <option value="draft">Draft</option>
+                <option value="pending">Pending</option>
+                <option value="approved">Approved</option>
+                <option value="denied">Denied</option>
+                <option value="expired">Expired</option>
+              </Select>
+              <Select
+                value={filterType}
+                onChange={(e) => setFilterType(e.target.value)}
+              >
+                <option value="all">All Types</option>
+                <option value="special_event">Special Event</option>
+                <option value="noise">Noise/Sound</option>
+                <option value="fire_safety">Fire/Safety</option>
+                <option value="street_closure">Street Closure</option>
+                <option value="alcohol">Alcohol</option>
+                <option value="food">Food Service</option>
+              </Select>
             </Stack>
-          </Card>
 
-          <Stack gap={4} direction="horizontal">
-            <Select
-              value={filterStatus}
-              onChange={(e) => setFilterStatus(e.target.value)}
-              className="bg-black text-white border-ink-700"
-            >
-              <option value="all">All Statuses</option>
-              <option value="draft">Draft</option>
-              <option value="pending">Pending</option>
-              <option value="approved">Approved</option>
-              <option value="denied">Denied</option>
-              <option value="expired">Expired</option>
-            </Select>
-            <Select
-              value={filterType}
-              onChange={(e) => setFilterType(e.target.value)}
-              className="bg-black text-white border-ink-700"
-            >
-              <option value="all">All Types</option>
-              <option value="special_event">Special Event</option>
-              <option value="noise">Noise/Sound</option>
-              <option value="fire_safety">Fire/Safety</option>
-              <option value="street_closure">Street Closure</option>
-              <option value="alcohol">Alcohol</option>
-              <option value="food">Food Service</option>
-            </Select>
-          </Stack>
-
-          {permits.length === 0 ? (
-            <EmptyState
-              title="No Permits Found"
-              description="Start a new permit application"
-              action={{ label: "New Application", onClick: () => {} }}
-            />
-          ) : (
-            <Table variant="bordered" className="bg-black">
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Permit #</TableHead>
-                  <TableHead>Type</TableHead>
-                  <TableHead>Project</TableHead>
-                  <TableHead>Venue</TableHead>
-                  <TableHead>Jurisdiction</TableHead>
-                  <TableHead>Deadline</TableHead>
-                  <TableHead>Fee</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {permits.map((permit) => (
-                  <TableRow key={permit.id} className="bg-black text-white hover:bg-ink-900">
-                    <TableCell className="font-mono text-white">
-                      {permit.permit_number || "—"}
-                    </TableCell>
-                    <TableCell className="text-ink-400">
-                      {permit.permit_type}
-                    </TableCell>
-                    <TableCell className="text-white">
-                      {permit.project_name}
-                    </TableCell>
-                    <TableCell className="text-ink-400">
-                      {permit.venue_name}
-                    </TableCell>
-                    <TableCell className="text-ink-400">
-                      {permit.jurisdiction}
-                    </TableCell>
-                    <TableCell className="font-mono text-ink-400">
-                      {permit.expiration_date ? formatDate(permit.expiration_date) : "—"}
-                    </TableCell>
-                    <TableCell className="font-mono text-white">
-                      {formatCurrency(permit.fee_amount)}
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant={getStatusVariant(permit.status)}>
-                        {permit.status}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <Stack gap={2} direction="horizontal">
-                        <Button size="sm" variant="ghost" onClick={() => router.push(`/permits/${permit.id}`)}>
-                          View
-                        </Button>
-                        {permit.status === "draft" && (
-                          <Button 
-                            size="sm" 
-                            variant="outline" 
-                            onClick={() => handleSubmitApplication(permit.id)}
-                          >
-                            Submit
-                          </Button>
-                        )}
-                      </Stack>
-                    </TableCell>
+            {permits.length === 0 ? (
+              <EmptyState
+                title="No Permits Found"
+                description="Start a new permit application"
+                action={{ label: "New Application", onClick: () => {} }}
+              />
+            ) : (
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Permit #</TableHead>
+                    <TableHead>Type</TableHead>
+                    <TableHead>Project</TableHead>
+                    <TableHead>Venue</TableHead>
+                    <TableHead>Jurisdiction</TableHead>
+                    <TableHead>Deadline</TableHead>
+                    <TableHead>Fee</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Actions</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
+                </TableHeader>
+                <TableBody>
+                  {permits.map((permit) => (
+                    <TableRow key={permit.id}>
+                      <TableCell>
+                        <Body className="font-mono">{permit.permit_number || "—"}</Body>
+                      </TableCell>
+                      <TableCell>
+                        <Body className="text-body-sm">{permit.permit_type}</Body>
+                      </TableCell>
+                      <TableCell>
+                        <Body>{permit.project_name}</Body>
+                      </TableCell>
+                      <TableCell>
+                        <Body className="text-body-sm">{permit.venue_name}</Body>
+                      </TableCell>
+                      <TableCell>
+                        <Body className="text-body-sm">{permit.jurisdiction}</Body>
+                      </TableCell>
+                      <TableCell>
+                        <Body className="font-mono text-body-sm">{permit.expiration_date ? formatDate(permit.expiration_date) : "—"}</Body>
+                      </TableCell>
+                      <TableCell>
+                        <Body className="font-mono">{formatCurrency(permit.fee_amount)}</Body>
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant={getStatusVariant(permit.status)}>
+                          {permit.status}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <Stack gap={2} direction="horizontal">
+                          <Button size="sm" variant="ghost" onClick={() => router.push(`/permits/${permit.id}`)}>
+                            View
+                          </Button>
+                          {permit.status === "draft" && (
+                            <Button 
+                              size="sm" 
+                              variant="outline" 
+                              onClick={() => handleSubmitApplication(permit.id)}
+                            >
+                              Submit
+                            </Button>
+                          )}
+                        </Stack>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            )}
 
-          <Stack gap={3} direction="horizontal">
-            <Button variant="outlineWhite" onClick={() => router.push('/permits/new')}>
-              New Application
-            </Button>
-            <Button variant="ghost" className="text-ink-400 hover:text-white" onClick={() => router.push('/permits/calendar')}>
-              Permit Calendar
-            </Button>
-            <Button variant="ghost" className="text-ink-400 hover:text-white" onClick={() => router.push('/permits/contacts')}>
-              Authority Contacts
-            </Button>
+            <Stack gap={3} direction="horizontal">
+              <Button variant="solid" onClick={() => router.push('/permits/new')}>
+                New Application
+              </Button>
+              <Button variant="outline" onClick={() => router.push('/permits/calendar')}>
+                Permit Calendar
+              </Button>
+              <Button variant="outline" onClick={() => router.push('/permits/contacts')}>
+                Authority Contacts
+              </Button>
+            </Stack>
           </Stack>
-        </Stack>
-      </Container>
-    </Section>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

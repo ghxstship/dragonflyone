@@ -4,9 +4,29 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
+  Container,
+  H3,
+  Body,
+  Grid,
+  Stack,
+  StatCard,
+  Input,
+  Select,
+  Button,
+  Section,
+  Card,
+  Tabs,
+  TabsList,
+  Tab,
+  TabPanel,
+  Badge,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Textarea,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 interface PhotoSet {
@@ -67,124 +87,136 @@ export default function PhotoDocumentationPage() {
   };
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Photo Documentation</H1>
-            <Label className="text-ink-400">Phase-by-phase photo and video documentation for all projects</Label>
-          </Stack>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Photo Documentation"
+              description="Phase-by-phase photo and video documentation for all projects"
+              colorScheme="on-light"
+              gap="lg"
+            />
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Photo Sets" value={mockPhotoSets.length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Total Photos" value={totalPhotos} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Pending Approval" value={pendingApproval} trend={pendingApproval > 0 ? "down" : "neutral"} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Projects Documented" value={new Set(mockPhotoSets.map(s => s.projectId)).size} className="bg-transparent border-2 border-ink-800" />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard value={mockPhotoSets.length.toString()} label="Photo Sets" />
+              <StatCard value={totalPhotos.toString()} label="Total Photos" />
+              <StatCard value={pendingApproval.toString()} label="Pending Approval" />
+              <StatCard value={new Set(mockPhotoSets.map(s => s.projectId)).size.toString()} label="Projects Documented" />
+            </Grid>
 
-          <Card className="border-2 border-ink-800 bg-ink-900/50 p-4">
-            <Stack gap={3}>
-              <Label className="text-ink-400">Production Phases</Label>
-              <Grid cols={6} gap={2}>
-                {phases.map((phase) => {
-                  const count = mockPhotoSets.filter(s => s.phase === phase).length;
-                  return (
-                    <Card key={phase} className={`p-3 border-2 cursor-pointer ${selectedPhase === phase ? "border-white" : getPhaseColor(phase)}`} onClick={() => setSelectedPhase(selectedPhase === phase ? "All" : phase)}>
-                      <Stack gap={1} className="text-center">
-                        <Label className="text-white">{phase}</Label>
-                        <Label size="xs" className="text-ink-400">{count} sets</Label>
+            <Card className="p-4">
+              <Stack gap={3}>
+                <Body className="font-display">Production Phases</Body>
+                <Grid cols={6} gap={2}>
+                  {phases.map((phase) => {
+                    const count = mockPhotoSets.filter(s => s.phase === phase).length;
+                    return (
+                      <Card key={phase} className={`cursor-pointer border-2 p-3 ${selectedPhase === phase ? "border-primary-500" : ""}`} onClick={() => setSelectedPhase(selectedPhase === phase ? "All" : phase)}>
+                        <Stack gap={1} className="text-center">
+                          <Body className="text-body-sm">{phase}</Body>
+                          <Body className="text-body-sm">{count} sets</Body>
+                        </Stack>
+                      </Card>
+                    );
+                  })}
+                </Grid>
+              </Stack>
+            </Card>
+
+            <Stack direction="horizontal" className="justify-between">
+              <Tabs>
+                <TabsList>
+                  <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All Sets</Tab>
+                  <Tab active={activeTab === "pending"} onClick={() => setActiveTab("pending")}>Pending Approval</Tab>
+                </TabsList>
+              </Tabs>
+              <Button variant="solid" onClick={() => setShowUploadModal(true)}>Upload Photos</Button>
+            </Stack>
+
+            <Grid cols={3} gap={4}>
+              {filteredSets
+                .filter(s => activeTab === "all" || !s.approved)
+                .map((set) => (
+                  <Card key={set.id} className="overflow-hidden">
+                    <Card className="flex h-32 items-center justify-center">
+                      <Stack gap={2} className="text-center">
+                        <Body>📷</Body>
+                        <Body className="text-body-sm">{set.photoCount} photos</Body>
                       </Stack>
                     </Card>
-                  );
-                })}
-              </Grid>
-            </Stack>
-          </Card>
-
-          <Stack direction="horizontal" className="justify-between">
-            <Tabs>
-              <TabsList>
-                <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All Sets</Tab>
-                <Tab active={activeTab === "pending"} onClick={() => setActiveTab("pending")}>Pending Approval</Tab>
-              </TabsList>
-            </Tabs>
-            <Button variant="outlineWhite" onClick={() => setShowUploadModal(true)}>Upload Photos</Button>
-          </Stack>
-
-          <Grid cols={3} gap={4}>
-            {filteredSets
-              .filter(s => activeTab === "all" || !s.approved)
-              .map((set) => (
-                <Card key={set.id} className={`border-2 overflow-hidden ${getPhaseColor(set.phase)}`}>
-                  <Card className="h-32 bg-ink-800 flex items-center justify-center">
-                    <Stack gap={2} className="text-center">
-                      <Label className="text-ink-400">📷</Label>
-                      <Label className="text-white">{set.photoCount} photos</Label>
+                    <Stack className="p-4" gap={3}>
+                      <Stack direction="horizontal" className="items-start justify-between">
+                        <Badge variant="outline">{set.phase}</Badge>
+                        {!set.approved && <Badge variant="solid">Pending</Badge>}
+                      </Stack>
+                      <Stack gap={1}>
+                        <Body>{set.projectName}</Body>
+                        {set.description && <Body className="text-body-sm">{set.description}</Body>}
+                      </Stack>
+                      <Stack direction="horizontal" gap={1} className="flex-wrap">
+                        {set.tags.slice(0, 3).map(tag => <Badge key={tag} variant="outline">{tag}</Badge>)}
+                      </Stack>
+                      <Stack gap={1}>
+                        <Body className="text-body-sm">By {set.capturedBy}</Body>
+                        <Body className="text-body-sm">{new Date(set.capturedAt).toLocaleDateString()}</Body>
+                      </Stack>
+                      <Button variant="outline" size="sm" onClick={() => setSelectedSet(set)}>View Set</Button>
                     </Stack>
                   </Card>
-                  <Stack className="p-4" gap={3}>
-                    <Stack direction="horizontal" className="justify-between items-start">
-                      <Badge variant="outline">{set.phase}</Badge>
-                      {!set.approved && <Badge variant="solid">Pending</Badge>}
-                    </Stack>
-                    <Stack gap={1}>
-                      <Body className="text-white">{set.projectName}</Body>
-                      {set.description && <Label size="xs" className="text-ink-400">{set.description}</Label>}
-                    </Stack>
-                    <Stack direction="horizontal" gap={1} className="flex-wrap">
-                      {set.tags.slice(0, 3).map(tag => <Badge key={tag} variant="outline">{tag}</Badge>)}
-                    </Stack>
-                    <Stack gap={1}>
-                      <Label size="xs" className="text-ink-500">By {set.capturedBy}</Label>
-                      <Label size="xs" className="text-ink-500">{new Date(set.capturedAt).toLocaleDateString()}</Label>
-                    </Stack>
-                    <Button variant="outline" size="sm" onClick={() => setSelectedSet(set)}>View Set</Button>
-                  </Stack>
-                </Card>
-              ))}
-          </Grid>
+                ))}
+            </Grid>
 
-          <Grid cols={3} gap={4}>
-            <Button variant="outline" className="border-ink-700 text-ink-400">Export All</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400">Generate Report</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/build-strike")}>Back to Build/Strike</Button>
-          </Grid>
-        </Stack>
-      </Container>
+            <Grid cols={3} gap={4}>
+              <Button variant="outline">Export All</Button>
+              <Button variant="outline">Generate Report</Button>
+              <Button variant="outline" onClick={() => router.push("/build-strike")}>Back to Build/Strike</Button>
+            </Grid>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedSet} onClose={() => setSelectedSet(null)}>
         <ModalHeader><H3>Photo Set Details</H3></ModalHeader>
         <ModalBody>
           {selectedSet && (
             <Stack gap={4}>
-              <Stack direction="horizontal" className="justify-between items-start">
+              <Stack direction="horizontal" className="items-start justify-between">
                 <Stack gap={1}>
-                  <Body className="font-display text-white text-body-md">{selectedSet.projectName}</Body>
+                  <Body className="font-display">{selectedSet.projectName}</Body>
                   <Badge variant="outline">{selectedSet.phase}</Badge>
                 </Stack>
                 {!selectedSet.approved && <Badge variant="solid">Pending Approval</Badge>}
               </Stack>
-              {selectedSet.description && <Body className="text-ink-300">{selectedSet.description}</Body>}
+              {selectedSet.description && <Body>{selectedSet.description}</Body>}
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Photos</Label><Label className="text-white">{selectedSet.photoCount}</Label></Stack>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Captured By</Label><Label className="text-white">{selectedSet.capturedBy}</Label></Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Photos</Body>
+                  <Body>{selectedSet.photoCount}</Body>
+                </Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Captured By</Body>
+                  <Body>{selectedSet.capturedBy}</Body>
+                </Stack>
               </Grid>
-              <Stack gap={1}><Label size="xs" className="text-ink-500">Date</Label><Label className="text-white">{new Date(selectedSet.capturedAt).toLocaleString()}</Label></Stack>
+              <Stack gap={1}>
+                <Body className="text-body-sm">Date</Body>
+                <Body>{new Date(selectedSet.capturedAt).toLocaleString()}</Body>
+              </Stack>
               <Stack gap={2}>
-                <Label size="xs" className="text-ink-500">Tags</Label>
+                <Body className="text-body-sm">Tags</Body>
                 <Stack direction="horizontal" gap={2}>{selectedSet.tags.map(tag => <Badge key={tag} variant="outline">{tag}</Badge>)}</Stack>
               </Stack>
-              <Card className="p-4 bg-ink-800 border border-ink-700">
+              <Card className="p-4">
                 <Grid cols={4} gap={2}>
                   {[1, 2, 3, 4, 5, 6, 7, 8].map(i => (
-                    <Card key={i} className="aspect-square bg-ink-700 flex items-center justify-center">
-                      <Label className="text-ink-500">📷</Label>
+                    <Card key={i} className="flex aspect-square items-center justify-center">
+                      <Body>📷</Body>
                     </Card>
                   ))}
                 </Grid>
-                <Label className="text-ink-400 text-center mt-2">+{selectedSet.photoCount - 8} more</Label>
+                <Body className="mt-2 text-center text-body-sm">+{selectedSet.photoCount - 8} more</Body>
               </Card>
             </Stack>
           )}
@@ -200,22 +232,22 @@ export default function PhotoDocumentationPage() {
         <ModalHeader><H3>Upload Photos</H3></ModalHeader>
         <ModalBody>
           <Stack gap={4}>
-            <Select className="border-ink-700 bg-black text-white">
+            <Select>
               <option value="">Select Project...</option>
               <option value="PROJ-089">Summer Fest 2024</option>
               <option value="PROJ-090">Corporate Gala</option>
             </Select>
-            <Select className="border-ink-700 bg-black text-white">
+            <Select>
               <option value="">Select Phase...</option>
               {phases.map(p => <option key={p} value={p}>{p}</option>)}
             </Select>
-            <Textarea placeholder="Description..." className="border-ink-700 bg-black text-white" rows={2} />
-            <Input placeholder="Tags (comma separated)" className="border-ink-700 bg-black text-white" />
-            <Card className="p-8 border-2 border-dashed border-ink-700 text-center cursor-pointer">
+            <Textarea placeholder="Description..." rows={2} />
+            <Input placeholder="Tags (comma separated)" />
+            <Card className="cursor-pointer border-2 border-dashed p-8 text-center">
               <Stack gap={2}>
-                <Label className="text-ink-400 text-h5-md">📷</Label>
-                <Label className="text-ink-400">Drop photos here or click to upload</Label>
-                <Label size="xs" className="text-ink-500">Supports JPG, PNG, HEIC up to 50MB each</Label>
+                <Body className="text-h5-md">📷</Body>
+                <Body>Drop photos here or click to upload</Body>
+                <Body className="text-body-sm">Supports JPG, PNG, HEIC up to 50MB each</Body>
               </Stack>
             </Card>
           </Stack>
@@ -225,6 +257,6 @@ export default function PhotoDocumentationPage() {
           <Button variant="solid" onClick={() => setShowUploadModal(false)}>Upload</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

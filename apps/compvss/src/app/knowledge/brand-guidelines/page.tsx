@@ -4,9 +4,27 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter,
+  Container,
+  H3,
+  Body,
+  Grid,
+  Stack,
+  StatCard,
+  Select,
+  Button,
+  Section,
+  Card,
+  Tabs,
+  TabsList,
+  Tab,
+  TabPanel,
+  Badge,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 interface BrandAsset {
@@ -68,151 +86,162 @@ export default function BrandGuidelinesPage() {
   };
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Brand Guidelines</H1>
-            <Label className="text-ink-600">Brand standards and asset documentation</Label>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Brand Guidelines"
+              description="Brand standards and asset documentation"
+              colorScheme="on-light"
+              gap="lg"
+            />
+
+            <Grid cols={4} gap={6}>
+              <StatCard value={mockAssets.length.toString()} label="Brand Assets" />
+              <StatCard value={mockGuidelines.length.toString()} label="Guidelines" />
+              <StatCard value={mockAssets.filter(a => a.type === "Template").length.toString()} label="Templates" />
+              <StatCard value={(categories.length - 1).toString()} label="Categories" />
+            </Grid>
+
+            <Tabs>
+              <TabsList>
+                <Tab active={activeTab === "assets"} onClick={() => setActiveTab("assets")}>Assets</Tab>
+                <Tab active={activeTab === "guidelines"} onClick={() => setActiveTab("guidelines")}>Guidelines</Tab>
+                <Tab active={activeTab === "colors"} onClick={() => setActiveTab("colors")}>Colors</Tab>
+                <Tab active={activeTab === "typography"} onClick={() => setActiveTab("typography")}>Typography</Tab>
+              </TabsList>
+
+              <TabPanel active={activeTab === "assets"}>
+                <Grid cols={4} gap={4}>
+                  {mockAssets.map((asset) => (
+                    <Card key={asset.id} className="p-4">
+                      <Stack gap={3}>
+                        <Card className="flex h-24 items-center justify-center">
+                          <Body className="text-h3-md">{getTypeIcon(asset.type)}</Body>
+                        </Card>
+                        <Stack gap={1}>
+                          <Body>{asset.name}</Body>
+                          <Badge variant="outline">{asset.type}</Badge>
+                        </Stack>
+                        {asset.format && <Body className="text-body-sm">{asset.format}</Body>}
+                        <Button variant="outline" size="sm" onClick={() => setSelectedAsset(asset)}>View</Button>
+                      </Stack>
+                    </Card>
+                  ))}
+                </Grid>
+              </TabPanel>
+
+              <TabPanel active={activeTab === "guidelines"}>
+                <Stack gap={4}>
+                  <Select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)} className="w-48">
+                    {categories.map(c => <option key={c} value={c}>{c}</option>)}
+                  </Select>
+                  {filteredGuidelines.map((guideline) => (
+                    <Card key={guideline.id} className="p-6">
+                      <Stack gap={3}>
+                        <Stack direction="horizontal" className="justify-between">
+                          <Body className="font-display">{guideline.title}</Body>
+                          <Badge variant="outline">{guideline.category}</Badge>
+                        </Stack>
+                        <Body>{guideline.content}</Body>
+                      </Stack>
+                    </Card>
+                  ))}
+                </Stack>
+              </TabPanel>
+
+              <TabPanel active={activeTab === "colors"}>
+                <Grid cols={3} gap={4}>
+                  <Card className="overflow-hidden">
+                    <Card className="h-32 bg-black" />
+                    <Stack className="p-4" gap={2}>
+                      <Body>Primary Black</Body>
+                      <Body className="text-body-sm">#000000</Body>
+                      <Body className="text-body-sm">RGB: 0, 0, 0</Body>
+                    </Stack>
+                  </Card>
+                  <Card className="overflow-hidden">
+                    <Card className="h-32 bg-white border-b" />
+                    <Stack className="p-4" gap={2}>
+                      <Body>Primary White</Body>
+                      <Body className="text-body-sm">#FFFFFF</Body>
+                      <Body className="text-body-sm">RGB: 255, 255, 255</Body>
+                    </Stack>
+                  </Card>
+                  <Card className="overflow-hidden">
+                    <Card className="h-32 bg-primary-500" />
+                    <Stack className="p-4" gap={2}>
+                      <Body>Accent Blue</Body>
+                      <Body className="text-body-sm">#3B82F6</Body>
+                      <Body className="text-body-sm">RGB: 59, 130, 246</Body>
+                    </Stack>
+                  </Card>
+                </Grid>
+              </TabPanel>
+
+              <TabPanel active={activeTab === "typography"}>
+                <Stack gap={6}>
+                  <Card className="p-6">
+                    <Stack gap={4}>
+                      <Stack gap={2}>
+                        <Badge variant="outline">Display</Badge>
+                        <H3>Inter Bold - Headlines</H3>
+                      </Stack>
+                      <Body className="text-body-sm">Use for main headlines, hero text, and primary titles. Sizes: 48px, 36px, 24px</Body>
+                    </Stack>
+                  </Card>
+                  <Card className="p-6">
+                    <Stack gap={4}>
+                      <Stack gap={2}>
+                        <Badge variant="outline">Body</Badge>
+                        <Body>Inter Regular - Body Text</Body>
+                      </Stack>
+                      <Body className="text-body-sm">Use for paragraphs, descriptions, and general content. Sizes: 16px, 14px</Body>
+                    </Stack>
+                  </Card>
+                  <Card className="p-6">
+                    <Stack gap={4}>
+                      <Stack gap={2}>
+                        <Badge variant="outline">Labels</Badge>
+                        <Body className="text-body-sm">Inter Medium - Labels & Captions</Body>
+                      </Stack>
+                      <Body className="text-body-sm">Use for labels, captions, and supporting text. Sizes: 12px, 10px</Body>
+                    </Stack>
+                  </Card>
+                </Stack>
+              </TabPanel>
+            </Tabs>
+
+            <Grid cols={3} gap={4}>
+              <Button variant="outline" onClick={() => router.push("/knowledge")}>Knowledge Base</Button>
+              <Button variant="outline" onClick={() => router.push("/documents")}>Documents</Button>
+              <Button variant="outline" onClick={() => router.push("/dashboard")}>Dashboard</Button>
+            </Grid>
           </Stack>
-
-          <Grid cols={4} gap={6}>
-            <StatCard label="Brand Assets" value={mockAssets.length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Guidelines" value={mockGuidelines.length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Templates" value={mockAssets.filter(a => a.type === "Template").length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Categories" value={categories.length - 1} className="bg-transparent border-2 border-ink-800" />
-          </Grid>
-
-          <Tabs>
-            <TabsList>
-              <Tab active={activeTab === "assets"} onClick={() => setActiveTab("assets")}>Assets</Tab>
-              <Tab active={activeTab === "guidelines"} onClick={() => setActiveTab("guidelines")}>Guidelines</Tab>
-              <Tab active={activeTab === "colors"} onClick={() => setActiveTab("colors")}>Colors</Tab>
-              <Tab active={activeTab === "typography"} onClick={() => setActiveTab("typography")}>Typography</Tab>
-            </TabsList>
-
-            <TabPanel active={activeTab === "assets"}>
-              <Grid cols={4} gap={4}>
-                {mockAssets.map((asset) => (
-                  <Card key={asset.id} className="border-2 border-ink-800 bg-ink-900/50 p-4">
-                    <Stack gap={3}>
-                      <Card className="h-24 bg-ink-800 flex items-center justify-center">
-                        <Label className="text-h3-md">{getTypeIcon(asset.type)}</Label>
-                      </Card>
-                      <Stack gap={1}>
-                        <Label className="text-white">{asset.name}</Label>
-                        <Badge variant="outline">{asset.type}</Badge>
-                      </Stack>
-                      {asset.format && <Label size="xs" className="text-ink-500">{asset.format}</Label>}
-                      <Button variant="outline" size="sm" onClick={() => setSelectedAsset(asset)}>View</Button>
-                    </Stack>
-                  </Card>
-                ))}
-              </Grid>
-            </TabPanel>
-
-            <TabPanel active={activeTab === "guidelines"}>
-              <Stack gap={4}>
-                <Select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)} className="border-ink-700 bg-black text-white w-48">
-                  {categories.map(c => <option key={c} value={c}>{c}</option>)}
-                </Select>
-                {filteredGuidelines.map((guideline) => (
-                  <Card key={guideline.id} className="border-2 border-ink-800 bg-ink-900/50 p-6">
-                    <Stack gap={3}>
-                      <Stack direction="horizontal" className="justify-between">
-                        <Body className="font-display text-white">{guideline.title}</Body>
-                        <Badge variant="outline">{guideline.category}</Badge>
-                      </Stack>
-                      <Body className="text-ink-700">{guideline.content}</Body>
-                    </Stack>
-                  </Card>
-                ))}
-              </Stack>
-            </TabPanel>
-
-            <TabPanel active={activeTab === "colors"}>
-              <Grid cols={3} gap={4}>
-                <Card className="border-2 border-ink-800 bg-ink-900/50 overflow-hidden">
-                  <Card className="h-32 bg-black" />
-                  <Stack className="p-4" gap={2}>
-                    <Label className="text-white">Primary Black</Label>
-                    <Label className="font-mono text-ink-600">#000000</Label>
-                    <Label size="xs" className="text-ink-500">RGB: 0, 0, 0</Label>
-                  </Stack>
-                </Card>
-                <Card className="border-2 border-ink-800 bg-ink-900/50 overflow-hidden">
-                  <Card className="h-32 bg-white" />
-                  <Stack className="p-4" gap={2}>
-                    <Label className="text-white">Primary White</Label>
-                    <Label className="font-mono text-ink-600">#FFFFFF</Label>
-                    <Label size="xs" className="text-ink-500">RGB: 255, 255, 255</Label>
-                  </Stack>
-                </Card>
-                <Card className="border-2 border-ink-800 bg-ink-900/50 overflow-hidden">
-                  <Card className="h-32 bg-info-500" />
-                  <Stack className="p-4" gap={2}>
-                    <Label className="text-white">Accent Blue</Label>
-                    <Label className="font-mono text-ink-600">#3B82F6</Label>
-                    <Label size="xs" className="text-ink-500">RGB: 59, 130, 246</Label>
-                  </Stack>
-                </Card>
-              </Grid>
-            </TabPanel>
-
-            <TabPanel active={activeTab === "typography"}>
-              <Stack gap={6}>
-                <Card className="border-2 border-ink-800 bg-ink-900/50 p-6">
-                  <Stack gap={4}>
-                    <Stack gap={2}>
-                      <Badge variant="outline">Display</Badge>
-                      <H1>Inter Bold - Headlines</H1>
-                    </Stack>
-                    <Label className="text-ink-600">Use for main headlines, hero text, and primary titles. Sizes: 48px, 36px, 24px</Label>
-                  </Stack>
-                </Card>
-                <Card className="border-2 border-ink-800 bg-ink-900/50 p-6">
-                  <Stack gap={4}>
-                    <Stack gap={2}>
-                      <Badge variant="outline">Body</Badge>
-                      <Body>Inter Regular - Body Text</Body>
-                    </Stack>
-                    <Label className="text-ink-600">Use for paragraphs, descriptions, and general content. Sizes: 16px, 14px</Label>
-                  </Stack>
-                </Card>
-                <Card className="border-2 border-ink-800 bg-ink-900/50 p-6">
-                  <Stack gap={4}>
-                    <Stack gap={2}>
-                      <Badge variant="outline">Labels</Badge>
-                      <Label>Inter Medium - Labels & Captions</Label>
-                    </Stack>
-                    <Label className="text-ink-600">Use for labels, captions, and supporting text. Sizes: 12px, 10px</Label>
-                  </Stack>
-                </Card>
-              </Stack>
-            </TabPanel>
-          </Tabs>
-
-          <Grid cols={3} gap={4}>
-            <Button variant="outline" className="border-ink-700 text-ink-600" onClick={() => router.push("/knowledge")}>Knowledge Base</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-600" onClick={() => router.push("/documents")}>Documents</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-600" onClick={() => router.push("/")}>Dashboard</Button>
-          </Grid>
-        </Stack>
-      </Container>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedAsset} onClose={() => setSelectedAsset(null)}>
         <ModalHeader><H3>{selectedAsset?.name}</H3></ModalHeader>
         <ModalBody>
           {selectedAsset && (
             <Stack gap={4}>
-              <Card className="h-40 bg-ink-800 flex items-center justify-center">
-                <Label className="text-h1-sm">{getTypeIcon(selectedAsset.type)}</Label>
+              <Card className="flex h-40 items-center justify-center">
+                <Body className="text-h1-sm">{getTypeIcon(selectedAsset.type)}</Body>
               </Card>
               <Badge variant="outline">{selectedAsset.type}</Badge>
-              {selectedAsset.format && <Stack gap={1}><Label className="text-ink-600">Formats</Label><Label className="text-white">{selectedAsset.format}</Label></Stack>}
-              <Stack gap={1}><Label className="text-ink-600">Usage</Label><Body className="text-ink-700">{selectedAsset.usage}</Body></Stack>
+              {selectedAsset.format && (
+                <Stack gap={1}>
+                  <Body className="font-display">Formats</Body>
+                  <Body>{selectedAsset.format}</Body>
+                </Stack>
+              )}
+              <Stack gap={1}>
+                <Body className="font-display">Usage</Body>
+                <Body>{selectedAsset.usage}</Body>
+              </Stack>
             </Stack>
           )}
         </ModalBody>
@@ -221,6 +250,6 @@ export default function BrandGuidelinesPage() {
           <Button variant="solid">Download</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

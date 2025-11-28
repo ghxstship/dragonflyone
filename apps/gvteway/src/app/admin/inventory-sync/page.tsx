@@ -2,11 +2,16 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ConsumerNavigationPublic } from '../../../components/navigation';
+import { ConsumerNavigationPublic } from '@/components/navigation';
 import {
   ListPage,
   Badge,
   DetailDrawer,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -15,7 +20,7 @@ import {
   Container,
   Stack,
   Grid,
-  H1,
+  H2,
   H3,
   Body,
   Label,
@@ -28,6 +33,7 @@ import {
   Field,
   Select,
   Table,
+  Kicker,
   TableHeader,
   TableBody,
   TableRow,
@@ -174,8 +180,24 @@ export default function InventorySyncPage() {
     )},
   ] : [];
 
+  const footerContent = (
+    <Footer
+      logo={<Display size="md">GVTEWAY</Display>}
+      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+    >
+      <FooterColumn title="Admin">
+        <FooterLink href="/admin/inventory-sync">Inventory</FooterLink>
+        <FooterLink href="/admin/promo-codes">Promo Codes</FooterLink>
+      </FooterColumn>
+      <FooterColumn title="Legal">
+        <FooterLink href="/legal/privacy">Privacy</FooterLink>
+        <FooterLink href="/legal/terms">Terms</FooterLink>
+      </FooterColumn>
+    </Footer>
+  );
+
   return (
-    <>
+    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
       <ListPage<InventoryItem>
         title="Inventory Synchronization"
         subtitle="Real-time inventory sync between online and physical locations"
@@ -192,7 +214,6 @@ export default function InventorySyncPage() {
         onExport={() => console.log('Export')}
         stats={stats}
         emptyMessage="No inventory items"
-        header={<ConsumerNavigationPublic />}
       />
 
       {selectedItem && (
@@ -213,6 +234,6 @@ export default function InventorySyncPage() {
           }}
         />
       )}
-    </>
+    </PageLayout>
   );
 }

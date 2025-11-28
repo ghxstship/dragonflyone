@@ -6,7 +6,6 @@ import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import { useCrewSkills } from "../../hooks/useSkills";
 import { useCrew } from "../../hooks/useCrew";
 import {
-  H1,
   StatCard,
   Input,
   Select,
@@ -24,6 +23,9 @@ import {
   Grid,
   Stack,
   Section,
+  Body,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 const skillCategories = ["Rigging", "Audio", "Video", "Lighting", "Staging", "Electrical", "Safety"];
@@ -40,27 +42,29 @@ export default function SkillsPage() {
 
   if (isLoading) {
     return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <CreatorNavigationAuthenticated />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading skills matrix..." />
-        </Container>
-      </Section>
+      <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+        <Section className="min-h-screen py-16">
+          <Container className="flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" text="Loading skills matrix..." />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   if (skillsError) {
     return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <CreatorNavigationAuthenticated />
-        <Container className="py-16">
-          <EmptyState
-            title="Error Loading Skills"
-            description={skillsError instanceof Error ? skillsError.message : "An error occurred"}
-            action={{ label: "Retry", onClick: () => refetch() }}
-          />
-        </Container>
-      </Section>
+      <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+        <Section className="min-h-screen py-16">
+          <Container>
+            <EmptyState
+              title="Error Loading Skills"
+              description={skillsError instanceof Error ? skillsError.message : "An error occurred"}
+              action={{ label: "Retry", onClick: () => refetch() }}
+            />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
@@ -105,127 +109,127 @@ export default function SkillsPage() {
   };
 
   return (
-    <Section className="relative min-h-screen bg-black text-white">
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <H1>Skills Matrix</H1>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Skills Matrix"
+              description="Crew skills, certifications, and proficiency levels"
+              colorScheme="on-light"
+              gap="lg"
+            />
 
-          <Grid cols={4} gap={6}>
-            <StatCard
-              value={crewWithSkills.length}
-              label="Total Crew"
-              className="bg-black text-white border-ink-800"
-            />
-            <StatCard
-              value={expertCount}
-              label="Expert Level"
-              className="bg-black text-white border-ink-800"
-            />
-            <StatCard
-              value={uniqueSkillNames.size}
-              label="Unique Skills"
-              className="bg-black text-white border-ink-800"
-            />
-            <StatCard
-              value={totalSkills}
-              label="Total Certifications"
-              className="bg-black text-white border-ink-800"
-            />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard
+                value={crewWithSkills.length.toString()}
+                label="Total Crew"
+              />
+              <StatCard
+                value={expertCount.toString()}
+                label="Expert Level"
+              />
+              <StatCard
+                value={uniqueSkillNames.size.toString()}
+                label="Unique Skills"
+              />
+              <StatCard
+                value={totalSkills.toString()}
+                label="Total Certifications"
+              />
+            </Grid>
 
-          <Stack gap={4} direction="horizontal">
-            <Input
-              type="search"
-              placeholder="Search crew..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              fullWidth
-              className="flex-1 bg-black text-white border-ink-700 placeholder:text-ink-500"
-            />
-            <Select
-              value={filterSkill}
-              onChange={(e) => setFilterSkill(e.target.value)}
-              className="bg-black text-white border-ink-700"
-            >
-              <option value="all">All Skills</option>
-              {skillCategories.map(skill => (
-                <option key={skill} value={skill}>{skill}</option>
-              ))}
-            </Select>
-          </Stack>
-
-          {filteredCrew.length === 0 ? (
-            <EmptyState
-              title="No Crew Found"
-              description={searchQuery ? "Try adjusting your search criteria" : "Add crew members to get started"}
-              action={{ label: "Add Crew", onClick: () => router.push("/crew/new") }}
-            />
-          ) : (
-            <Table variant="bordered" className="bg-black">
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Crew Member</TableHead>
-                  <TableHead>Skills</TableHead>
-                  <TableHead>Level</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredCrew.map((member: any) => (
-                  <TableRow key={member.id} className="bg-black text-white hover:bg-ink-900">
-                    <TableCell className="text-white">
-                      {member.full_name || `${member.first_name || ''} ${member.last_name || ''}`.trim() || 'Unknown'}
-                    </TableCell>
-                    <TableCell>
-                      <Stack gap={2} direction="horizontal" className="flex-wrap">
-                        {member.skills.length > 0 ? (
-                          member.skills.slice(0, 4).map((skill: string, idx: number) => (
-                            <Badge key={idx} variant="outline">{skill}</Badge>
-                          ))
-                        ) : (
-                          <Badge variant="ghost">No skills</Badge>
-                        )}
-                        {member.skills.length > 4 && (
-                          <Badge variant="ghost">+{member.skills.length - 4}</Badge>
-                        )}
-                      </Stack>
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant={getLevelVariant(member.level)}>
-                        {member.level?.charAt(0).toUpperCase() + member.level?.slice(1) || 'N/A'}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="text-ink-400">
-                      {member.status || member.availability || 'Active'}
-                    </TableCell>
-                    <TableCell>
-                      <Stack gap={2} direction="horizontal">
-                        <Button size="sm" variant="ghost" onClick={() => router.push(`/crew/${member.id}`)}>
-                          View
-                        </Button>
-                        <Button size="sm" variant="outline" onClick={() => router.push(`/crew/${member.id}/skills`)}>
-                          Add Skill
-                        </Button>
-                      </Stack>
-                    </TableCell>
-                  </TableRow>
+            <Stack gap={4} direction="horizontal">
+              <Input
+                type="search"
+                placeholder="Search crew..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <Select
+                value={filterSkill}
+                onChange={(e) => setFilterSkill(e.target.value)}
+              >
+                <option value="all">All Skills</option>
+                {skillCategories.map(skill => (
+                  <option key={skill} value={skill}>{skill}</option>
                 ))}
-              </TableBody>
-            </Table>
-          )}
+              </Select>
+            </Stack>
 
-          <Stack gap={3} direction="horizontal">
-            <Button variant="outlineWhite" onClick={() => router.push("/skills/new")}>
-              Add Skills
-            </Button>
-            <Button variant="ghost" className="text-ink-400 hover:text-white" onClick={() => router.push("/skills/export")}>
-              Export Matrix
-            </Button>
+            {filteredCrew.length === 0 ? (
+              <EmptyState
+                title="No Crew Found"
+                description={searchQuery ? "Try adjusting your search criteria" : "Add crew members to get started"}
+                action={{ label: "Add Crew", onClick: () => router.push("/crew/new") }}
+              />
+            ) : (
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Crew Member</TableHead>
+                    <TableHead>Skills</TableHead>
+                    <TableHead>Level</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {filteredCrew.map((member: any) => (
+                    <TableRow key={member.id}>
+                      <TableCell>
+                        <Body>{member.full_name || `${member.first_name || ''} ${member.last_name || ''}`.trim() || 'Unknown'}</Body>
+                      </TableCell>
+                      <TableCell>
+                        <Stack gap={2} direction="horizontal" className="flex-wrap">
+                          {member.skills.length > 0 ? (
+                            member.skills.slice(0, 4).map((skill: string, idx: number) => (
+                              <Badge key={idx} variant="outline">{skill}</Badge>
+                            ))
+                          ) : (
+                            <Badge variant="ghost">No skills</Badge>
+                          )}
+                          {member.skills.length > 4 && (
+                            <Badge variant="ghost">+{member.skills.length - 4}</Badge>
+                          )}
+                        </Stack>
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant={getLevelVariant(member.level)}>
+                          {member.level?.charAt(0).toUpperCase() + member.level?.slice(1) || 'N/A'}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <Body className="text-body-sm">{member.status || member.availability || 'Active'}</Body>
+                      </TableCell>
+                      <TableCell>
+                        <Stack gap={2} direction="horizontal">
+                          <Button size="sm" variant="ghost" onClick={() => router.push(`/crew/${member.id}`)}>
+                            View
+                          </Button>
+                          <Button size="sm" variant="outline" onClick={() => router.push(`/crew/${member.id}/skills`)}>
+                            Add Skill
+                          </Button>
+                        </Stack>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            )}
+
+            <Stack gap={3} direction="horizontal">
+              <Button variant="solid" onClick={() => router.push("/skills/new")}>
+                Add Skills
+              </Button>
+              <Button variant="outline" onClick={() => router.push("/skills/export")}>
+                Export Matrix
+              </Button>
+            </Stack>
           </Stack>
-        </Stack>
-      </Container>
-    </Section>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

@@ -10,6 +10,7 @@ import {
   FooterColumn,
   FooterLink,
   Display,
+  H2,
   H3,
   Body,
   Button,
@@ -17,7 +18,6 @@ import {
   Select,
   Badge,
   Section,
-  SectionHeader,
   ProjectCard,
   Stack,
   Grid,
@@ -26,6 +26,7 @@ import {
   LoadingSpinner,
   Figure,
   Label,
+  Kicker,
   EmptyState,
 } from "@ghxstship/ui";
 import Image from "next/image";
@@ -78,21 +79,31 @@ export default function EventsPage() {
         </Footer>
       }
     >
-      <Section className="bg-black py-16">
-        <Container>
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        {/* Grid Pattern Background */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.05]"
+          style={{
+            backgroundImage: `
+              linear-gradient(#fff 1px, transparent 1px),
+              linear-gradient(90deg, #fff 1px, transparent 1px)
+            `,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
           <Stack gap={10}>
             {/* Page Header */}
-            <SectionHeader
-              kicker="Browse Events"
-              title="Discover Experiences"
-              description="Explore unforgettable live events, festivals, and performances happening now and coming soon."
-              align="center"
-              colorScheme="on-dark"
-              gap="lg"
-            />
+            <Stack gap={4} className="text-center">
+              <Kicker colorScheme="on-dark">Browse Events</Kicker>
+              <H2 size="lg" className="text-white">Discover Experiences</H2>
+              <Body className="mx-auto max-w-2xl text-on-dark-muted">
+                Explore unforgettable live events, festivals, and performances happening now and coming soon.
+              </Body>
+            </Stack>
 
             {/* Search & Filters */}
-            <Card className="border-2 border-grey-800 bg-grey-950/50 p-6">
+            <Card inverted variant="elevated" className="p-6">
               <Stack gap={4}>
                 <Grid cols={1} gap={4} className="md:grid-cols-3">
                   <Stack gap={2}>
@@ -149,7 +160,7 @@ export default function EventsPage() {
                   <Label size="xs" className="text-on-dark-muted">
                     {filteredEvents.length} {filteredEvents.length === 1 ? "Event" : "Events"} Found
                   </Label>
-                  <Stack direction="horizontal" gap={1} className="rounded-[var(--radius-button)] border-2 border-grey-700 p-1">
+                  <Stack direction="horizontal" gap={1} className="border-2 border-ink-700 p-1">
                     <Button
                       onClick={() => setViewMode("grid")}
                       variant={viewMode === "grid" ? "solid" : "ghost"}
@@ -212,8 +223,9 @@ export default function EventsPage() {
               <Stack gap={4}>
                 {filteredEvents.map((event) => (
                   <Card 
-                    key={event.id} 
-                    className="border-2 border-grey-800 bg-transparent p-6 shadow-sm transition-all duration-100 hover:-translate-y-0.5 hover:border-white hover:shadow-md"
+                    key={event.id}
+                    inverted
+                    interactive
                     onClick={() => router.push(`/events/${event.id}`)}
                   >
                     <Stack gap={6} direction="horizontal" className="flex-col md:flex-row">

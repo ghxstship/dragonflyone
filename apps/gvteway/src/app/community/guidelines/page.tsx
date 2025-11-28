@@ -2,11 +2,10 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ConsumerNavigationPublic } from '../../../components/navigation';
+import { ConsumerNavigationPublic } from '@/components/navigation';
 import {
   Container,
   Section,
-  H1,
   H2,
   H3,
   Body,
@@ -15,6 +14,12 @@ import {
   Grid,
   Stack,
   Badge,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
+  Kicker,
 } from '@ghxstship/ui';
 
 const GUIDELINES = [
@@ -115,23 +120,50 @@ export default function CommunityGuidelinesPage() {
   const [expandedSection, setExpandedSection] = useState<string | null>('respect');
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-        <Stack gap={2} className="border-b-2 border-black pb-8">
-          <H1>Community Guidelines</H1>
-          <Body className="text-ink-600">
-            Our standards for a positive community experience
-          </Body>
-        </Stack>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Community">
+            <FooterLink href="/community">Community</FooterLink>
+            <FooterLink href="/community/guidelines">Guidelines</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Community</Kicker>
+              <H2 size="lg" className="text-white">Community Guidelines</H2>
+              <Body className="text-on-dark-muted">
+                Our standards for a positive community experience
+              </Body>
+            </Stack>
 
-        <Card className="p-6 mb-8 bg-black text-white">
+        <Card inverted variant="elevated" className="p-6">
           <Stack direction="horizontal" gap={4} className="items-center">
             <Body className="text-h3-md">📜</Body>
             <Stack>
               <H3 className="text-white">Our Community Promise</H3>
-              <Body className="text-ink-600">
+              <Body className="text-on-dark-muted">
                 We&apos;re committed to creating a welcoming, inclusive, and safe space for all fans 
                 to connect, share experiences, and celebrate their love for live events.
               </Body>
@@ -141,13 +173,15 @@ export default function CommunityGuidelinesPage() {
 
         <Grid cols={3} gap={8}>
           <Stack className="col-span-2" gap={6}>
-            <H2>COMMUNITY STANDARDS</H2>
+            <H2 className="text-white">Community Standards</H2>
             
             {GUIDELINES.map(guideline => (
               <Card
                 key={guideline.id}
-                className={`p-6 cursor-pointer transition-all ${
-                  expandedSection === guideline.id ? 'border-2 border-black' : ''
+                inverted
+                interactive
+                className={`cursor-pointer p-6 ${
+                  expandedSection === guideline.id ? 'ring-2 ring-white' : ''
                 }`}
                 onClick={() => setExpandedSection(
                   expandedSection === guideline.id ? null : guideline.id
@@ -156,20 +190,20 @@ export default function CommunityGuidelinesPage() {
                 <Stack direction="horizontal" gap={4} className="items-start">
                   <Body className="text-h4-md">{guideline.icon}</Body>
                   <Stack className="flex-1">
-                    <Stack direction="horizontal" className="justify-between items-center">
-                      <H3>{guideline.title}</H3>
-                      <Body className="text-ink-600">
+                    <Stack direction="horizontal" className="items-center justify-between">
+                      <H3 className="text-white">{guideline.title}</H3>
+                      <Body className="text-on-dark-muted">
                         {expandedSection === guideline.id ? '−' : '+'}
                       </Body>
                     </Stack>
-                    <Body className="text-ink-600">{guideline.description}</Body>
+                    <Body className="text-on-dark-muted">{guideline.description}</Body>
                     
                     {expandedSection === guideline.id && (
-                      <Stack className="mt-4 pt-4 border-t border-ink-200" gap={2}>
+                      <Stack className="mt-4 border-t border-ink-700 pt-4" gap={2}>
                         {guideline.rules.map((rule, index) => (
                           <Stack key={index} direction="horizontal" gap={2}>
-                            <Body className="text-success-500">✓</Body>
-                            <Body>{rule}</Body>
+                            <Body className="text-success-400">✓</Body>
+                            <Body className="text-on-dark-muted">{rule}</Body>
                           </Stack>
                         ))}
                       </Stack>
@@ -179,19 +213,19 @@ export default function CommunityGuidelinesPage() {
               </Card>
             ))}
 
-            <Card className="p-6 mt-4">
-              <H2 className="mb-6">CONTENT POLICY</H2>
+            <Card inverted className="mt-4 p-6">
+              <H2 className="mb-6 text-white">Content Policy</H2>
               <Grid cols={2} gap={6}>
                 {CONTENT_POLICY.map(policy => (
                   <Stack key={policy.category}>
-                    <H3 className="mb-3">{policy.category}</H3>
+                    <H3 className="mb-3 text-white">{policy.category}</H3>
                     <Stack gap={2}>
                       {policy.items.map((item, index) => (
                         <Stack key={index} direction="horizontal" gap={2}>
-                          <Body className={policy.category === 'Prohibited Content' ? 'text-error-500' : 'text-warning-500'}>
+                          <Body className={policy.category === 'Prohibited Content' ? 'text-error-400' : 'text-warning-400'}>
                             {policy.category === 'Prohibited Content' ? '✕' : '⚠'}
                           </Body>
-                          <Body>{item}</Body>
+                          <Body className="text-on-dark-muted">{item}</Body>
                         </Stack>
                       ))}
                     </Stack>
@@ -200,21 +234,21 @@ export default function CommunityGuidelinesPage() {
               </Grid>
             </Card>
 
-            <Card className="p-6">
-              <H2 className="mb-6">ENFORCEMENT</H2>
+            <Card inverted className="p-6">
+              <H2 className="mb-6 text-white">Enforcement</H2>
               <Stack gap={4}>
                 {ENFORCEMENT.map((level, index) => (
                   <Stack
                     key={level.level}
                     direction="horizontal"
-                    className="items-center py-3 border-b border-ink-100 last:border-0"
+                    className="items-center border-b border-ink-700 py-3 last:border-0"
                   >
-                    <Stack className="w-8 h-8 bg-black text-white rounded-full flex items-center justify-center flex-shrink-0">
-                      <Body className="text-body-sm font-bold">{index + 1}</Body>
+                    <Stack className="flex size-8 shrink-0 items-center justify-center rounded-avatar bg-white text-black">
+                      <Body className="font-display">{index + 1}</Body>
                     </Stack>
-                    <Stack className="flex-1 ml-4">
-                      <Body className="font-bold">{level.level}</Body>
-                      <Body className="text-body-sm text-ink-600">{level.description}</Body>
+                    <Stack className="ml-4 flex-1">
+                      <Body className="font-display text-white">{level.level}</Body>
+                      <Body size="sm" className="text-on-dark-muted">{level.description}</Body>
                     </Stack>
                     <Badge variant="outline">{level.action}</Badge>
                   </Stack>
@@ -224,19 +258,19 @@ export default function CommunityGuidelinesPage() {
           </Stack>
 
           <Stack gap={6}>
-            <Card className="p-6 bg-ink-50">
-              <H3 className="mb-4">NEED HELP?</H3>
+            <Card inverted variant="elevated" className="p-6">
+              <H3 className="mb-4 text-white">Need Help?</H3>
               <Stack gap={4}>
                 <Button
-                  variant="outline"
-                  className="w-full"
+                  variant="outlineInk"
+                  fullWidth
                   onClick={() => router.push('/support/chat')}
                 >
                   Contact Support
                 </Button>
                 <Button
-                  variant="outline"
-                  className="w-full"
+                  variant="outlineInk"
+                  fullWidth
                   onClick={() => router.push('/settings/privacy')}
                 >
                   Report a User
@@ -244,26 +278,29 @@ export default function CommunityGuidelinesPage() {
               </Stack>
             </Card>
 
-            <Card className="p-6">
-              <H3 className="mb-4">QUICK LINKS</H3>
+            <Card inverted className="p-6">
+              <H3 className="mb-4 text-white">Quick Links</H3>
               <Stack gap={2}>
                 <Button
                   variant="ghost"
-                  className="w-full justify-start"
+                  fullWidth
+                  className="justify-start"
                   onClick={() => router.push('/terms')}
                 >
                   Terms of Service
                 </Button>
                 <Button
                   variant="ghost"
-                  className="w-full justify-start"
+                  fullWidth
+                  className="justify-start"
                   onClick={() => router.push('/privacy')}
                 >
                   Privacy Policy
                 </Button>
                 <Button
                   variant="ghost"
-                  className="w-full justify-start"
+                  fullWidth
+                  className="justify-start"
                   onClick={() => router.push('/community')}
                 >
                   Community Forums
@@ -271,14 +308,15 @@ export default function CommunityGuidelinesPage() {
               </Stack>
             </Card>
 
-            <Card className="p-6 bg-warning-50">
-              <H3 className="mb-4">REPORT VIOLATIONS</H3>
-              <Body className="text-body-sm text-ink-600 mb-4">
+            <Card inverted variant="elevated" className="p-6">
+              <H3 className="mb-4 text-white">Report Violations</H3>
+              <Body size="sm" className="mb-4 text-on-dark-muted">
                 See something that violates our guidelines? Let us know.
               </Body>
               <Button
                 variant="solid"
-                className="w-full"
+                inverted
+                fullWidth
                 onClick={() => router.push('/settings/privacy')}
               >
                 Report Content
@@ -286,8 +324,9 @@ export default function CommunityGuidelinesPage() {
             </Card>
           </Stack>
         </Grid>
-        </Stack>
-      </Container>
-    </Section>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

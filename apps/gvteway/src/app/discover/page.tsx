@@ -163,11 +163,13 @@ export default function DiscoverPage() {
                   {categories.map(category => (
                     <Card
                       key={category.id}
-                      className="flex cursor-pointer flex-col items-center gap-4 border-2 border-grey-800 bg-transparent p-6 text-center shadow-sm transition-all duration-100 hover:-translate-y-1 hover:border-white hover:shadow-md"
+                      inverted
+                      interactive
+                      className="flex cursor-pointer flex-col items-center gap-4 p-6 text-center"
                       onClick={() => handleCategoryClick(category.id)}
                     >
                       <category.icon className="size-8 text-white" />
-                      <Label size="xs" className="tracking-kicker text-on-dark-muted">{category.name}</Label>
+                      <Label size="xs" className="text-on-dark-muted">{category.name}</Label>
                     </Card>
                   ))}
                 </Grid>
@@ -251,8 +253,10 @@ export default function DiscoverPage() {
                   <Grid cols={2} gap={6} className="mt-8">
                     {collections.map(collection => (
                       <Card 
-                        key={collection.id} 
-                        className="border-2 border-grey-800 bg-transparent p-6 shadow-sm transition-all duration-100 hover:-translate-y-0.5 hover:border-white hover:shadow-md"
+                        key={collection.id}
+                        inverted
+                        interactive
+                        className="p-6"
                       >
                         <H3 className="text-white">{collection.name}</H3>
                         <Body size="sm" className="mt-2 text-on-dark-muted">{collection.description}</Body>
@@ -308,7 +312,7 @@ export default function DiscoverPage() {
 
               {/* Quiz CTA */}
               <Section className="py-12">
-                <Card className="border-2 border-grey-700 bg-grey-900/50 p-10 text-center">
+                <Card inverted variant="elevated" className="p-10 text-center">
                   <SectionHeader
                     kicker="Not Sure?"
                     title="Not Sure What To Do?"

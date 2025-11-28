@@ -4,9 +4,9 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@ghxstship/config";
 import { Check } from "lucide-react";
+import { ConsumerNavigationPublic } from '@/components/navigation';
 import {
   PageLayout,
-  Navigation,
   Footer,
   FooterColumn,
   FooterLink,
@@ -16,12 +16,15 @@ import {
   Body,
   Button,
   Input,
-  Checkbox,
-  SectionLayout,
   Alert,
   Stack,
+  Card,
   Field,
+  Checkbox,
+  Section,
+  Container,
   Grid,
+  Label,
   Select,
 } from "@ghxstship/ui";
 
@@ -38,7 +41,7 @@ const EVENT_INTERESTS = ['Concerts', 'Festivals', 'Sports', 'Theater', 'Comedy',
 
 export default function OnboardingPage() {
   const router = useRouter();
-  const { user } = useAuthContext();
+  const { user: _user } = useAuthContext();
   const [currentStep, setCurrentStep] = useState<OnboardingStep>('profile');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -101,142 +104,240 @@ export default function OnboardingPage() {
   return (
     <PageLayout
       background="black"
-      header={<Navigation logo={<Display size="md" className="text-display-md">GVTEWAY</Display>} cta={<></>} />}
+      header={<ConsumerNavigationPublic />}
       footer={
-        <Footer logo={<Display size="md" className="text-white text-display-md">GVTEWAY</Display>} copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED.">
-          <FooterColumn title="Legal"><FooterLink href="#">Privacy</FooterLink><FooterLink href="#">Terms</FooterLink></FooterColumn>
+        <Footer logo={<Display size="md" className="text-white">GVTEWAY</Display>} copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED.">
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
         </Footer>
       }
     >
-      <SectionLayout background="black">
-        <Stack gap={8} className="mx-auto max-w-2xl">
-          {/* Progress Steps */}
-          <Stack direction="horizontal" className="justify-between items-center">
-            {STEPS.map((step, index) => (
-              <Stack key={step.id} direction="horizontal" className="items-center">
-                <Stack className={`w-10 h-10 rounded-full items-center justify-center ${index <= currentStepIndex ? 'bg-white text-black' : 'bg-ink-800 text-ink-500'}`}>
-                  <Body size="sm" className="font-bold">{index < currentStepIndex ? '✓' : index + 1}</Body>
-                </Stack>
-                {index < STEPS.length - 1 && <Stack className={`w-16 h-0.5 mx-2 ${index < currentStepIndex ? 'bg-white' : 'bg-ink-800'}`} />}
-              </Stack>
-            ))}
-          </Stack>
-
-          {/* Step Header */}
-          <Stack gap={2} className="text-center">
-            <H2 className="text-white">{STEPS[currentStepIndex].label}</H2>
-            <Body className="text-ink-600">{STEPS[currentStepIndex].description}</Body>
-          </Stack>
-
-          {error && <Alert variant="error">{error}</Alert>}
-
-          {/* Profile Step */}
-          {currentStep === 'profile' && (
-            <Stack gap={6}>
-              <Grid cols={2} gap={4}>
-                <Field label="First Name" className="text-white">
-                  <Input type="text" value={profile.firstName} onChange={(e) => setProfile({ ...profile, firstName: e.target.value })} placeholder="John" className="border-ink-700 bg-black text-white" />
-                </Field>
-                <Field label="Last Name" className="text-white">
-                  <Input type="text" value={profile.lastName} onChange={(e) => setProfile({ ...profile, lastName: e.target.value })} placeholder="Doe" className="border-ink-700 bg-black text-white" />
-                </Field>
-              </Grid>
-              <Field label="Phone (Optional)" className="text-white">
-                <Input type="tel" value={profile.phone} onChange={(e) => setProfile({ ...profile, phone: e.target.value })} placeholder="+1 (555) 000-0000" className="border-ink-700 bg-black text-white" />
-              </Field>
-              <Field label="Location (Optional)" className="text-white">
-                <Input type="text" value={profile.location} onChange={(e) => setProfile({ ...profile, location: e.target.value })} placeholder="City, Country" className="border-ink-700 bg-black text-white" />
-              </Field>
-            </Stack>
-          )}
-
-          {/* Interests Step */}
-          {currentStep === 'interests' && (
-            <Stack gap={4}>
-              <Body className="text-ink-600 text-center">Select the types of events you&apos;re interested in:</Body>
-              <Grid cols={2} gap={3}>
-                {EVENT_INTERESTS.map((interest) => (
-                  <Button
-                    key={interest}
-                    variant={interests.includes(interest) ? 'solid' : 'outline'}
-                    onClick={() => toggleInterest(interest)}
-                    className={interests.includes(interest) ? '' : 'border-ink-700 text-ink-600 hover:border-white hover:text-white'}
-                  >
-                    {interest}
-                  </Button>
+      <Section background="black" className="flex min-h-[80vh] items-center justify-center py-12">
+        <Container className="w-full max-w-xl">
+          {/* Onboarding Card - Pop Art Style */}
+          <Card inverted variant="elevated" className="p-8">
+            <Stack gap={8}>
+              {/* Progress Steps */}
+              <Stack direction="horizontal" className="items-center justify-between">
+                {STEPS.map((step, index) => (
+                  <Stack key={step.id} direction="horizontal" className="items-center">
+                    <Stack
+                      className={`flex size-10 items-center justify-center border-2 text-sm font-bold ${
+                        index <= currentStepIndex
+                          ? 'border-white bg-white text-black'
+                          : 'border-grey-700 bg-grey-800 text-on-dark-muted'
+                      }`}
+                    >
+                      {index < currentStepIndex ? '✓' : index + 1}
+                    </Stack>
+                    {index < STEPS.length - 1 && (
+                      <Stack
+                        className={`mx-2 h-0.5 w-16 ${
+                          index < currentStepIndex ? 'bg-white' : 'bg-grey-800'
+                        }`}
+                      />
+                    )}
+                  </Stack>
                 ))}
-              </Grid>
-            </Stack>
-          )}
-
-          {/* Preferences Step */}
-          {currentStep === 'preferences' && (
-            <Stack gap={6}>
-              <Field label="Theme" className="text-white">
-                <Select
-                  value={preferences.theme}
-                  onChange={(e) => setPreferences({ ...preferences, theme: e.target.value })}
-                  className="border-ink-700 bg-black text-white"
-                >
-                  <option value="dark">Dark</option>
-                  <option value="light">Light</option>
-                  <option value="system">System Default</option>
-                </Select>
-              </Field>
-              <Stack gap={4}>
-                <Stack direction="horizontal" gap={3} className="items-center">
-                  <Checkbox id="email" checked={preferences.emailNotifications} onChange={(e) => setPreferences({ ...preferences, emailNotifications: e.target.checked })} />
-                  <Body className="text-ink-600">Email notifications for event updates</Body>
-                </Stack>
-                <Stack direction="horizontal" gap={3} className="items-center">
-                  <Checkbox id="push" checked={preferences.pushNotifications} onChange={(e) => setPreferences({ ...preferences, pushNotifications: e.target.checked })} />
-                  <Body className="text-ink-600">Push notifications for ticket sales</Body>
-                </Stack>
-                <Stack direction="horizontal" gap={3} className="items-center">
-                  <Checkbox id="marketing" checked={preferences.marketingEmails} onChange={(e) => setPreferences({ ...preferences, marketingEmails: e.target.checked })} />
-                  <Body className="text-ink-600">Receive personalized event recommendations</Body>
-                </Stack>
               </Stack>
-            </Stack>
-          )}
 
-          {/* Complete Step */}
-          {currentStep === 'complete' && (
-            <Stack gap={6} className="text-center">
-              <Stack className="w-20 h-20 mx-auto bg-ink-800 rounded-full items-center justify-center">
-                <Check className="w-10 h-10 text-white" />
+              {/* Step Header */}
+              <Stack gap={4} className="text-center">
+                <H2 className="text-white">{STEPS[currentStepIndex].label}</H2>
+                <Body className="text-on-dark-muted">{STEPS[currentStepIndex].description}</Body>
               </Stack>
-              <H3 className="text-white">Welcome to GVTEWAY!</H3>
-              <Body className="text-ink-600">Your account is all set up. Discover amazing events and experiences.</Body>
-            </Stack>
-          )}
 
-          {/* Navigation */}
-          <Stack direction="horizontal" className="justify-between pt-8 border-t border-ink-800">
-            {currentStep !== 'complete' && currentStep !== 'profile' && (
-              <Button variant="outlineInk" onClick={() => setCurrentStep(STEPS[currentStepIndex - 1].id)}>
-                Back
-              </Button>
-            )}
-            {currentStep !== 'complete' && currentStep === 'profile' && <div />}
-            
-            {currentStep === 'complete' ? (
-              <Button variant="solid" className="w-full" onClick={handleComplete} disabled={loading}>
-                {loading ? 'Starting...' : 'Explore Events'}
-              </Button>
-            ) : (
-              <Stack direction="horizontal" gap={3}>
-                {currentStep !== 'profile' && (
-                  <Button variant="ghost" onClick={handleSkip} className="text-ink-500 hover:text-white">Skip</Button>
+              {/* Error Alert */}
+              {error && <Alert variant="error">{error}</Alert>}
+
+              {/* Profile Step */}
+              {currentStep === 'profile' && (
+                <Stack gap={6}>
+                  <Grid cols={2} gap={4}>
+                    <Field label="First Name" inverted>
+                      <Input
+                        type="text"
+                        value={profile.firstName}
+                        onChange={(e) => setProfile({ ...profile, firstName: e.target.value })}
+                        placeholder="John"
+                        inverted
+                      />
+                    </Field>
+                    <Field label="Last Name" inverted>
+                      <Input
+                        type="text"
+                        value={profile.lastName}
+                        onChange={(e) => setProfile({ ...profile, lastName: e.target.value })}
+                        placeholder="Doe"
+                        inverted
+                      />
+                    </Field>
+                  </Grid>
+                  <Field label="Phone (Optional)" inverted>
+                    <Input
+                      type="tel"
+                      value={profile.phone}
+                      onChange={(e) => setProfile({ ...profile, phone: e.target.value })}
+                      placeholder="+1 (555) 000-0000"
+                      inverted
+                    />
+                  </Field>
+                  <Field label="Location (Optional)" inverted>
+                    <Input
+                      type="text"
+                      value={profile.location}
+                      onChange={(e) => setProfile({ ...profile, location: e.target.value })}
+                      placeholder="City, Country"
+                      inverted
+                    />
+                  </Field>
+                </Stack>
+              )}
+
+              {/* Interests Step */}
+              {currentStep === 'interests' && (
+                <Stack gap={6}>
+                  <Body className="text-center text-on-dark-muted">
+                    Select the types of events you&apos;re interested in:
+                  </Body>
+                  <Grid cols={2} gap={3}>
+                    {EVENT_INTERESTS.map((interest) => (
+                      <Button
+                        key={interest}
+                        type="button"
+                        variant={interests.includes(interest) ? 'solid' : 'outlineInk'}
+                        size="md"
+                        onClick={() => toggleInterest(interest)}
+                        inverted
+                      >
+                        {interest}
+                      </Button>
+                    ))}
+                  </Grid>
+                </Stack>
+              )}
+
+              {/* Preferences Step */}
+              {currentStep === 'preferences' && (
+                <Stack gap={6}>
+                  <Field label="Theme" inverted>
+                    <Select
+                      value={preferences.theme}
+                      onChange={(e) => setPreferences({ ...preferences, theme: e.target.value })}
+                      inverted
+                    >
+                      <option value="dark">Dark</option>
+                      <option value="light">Light</option>
+                      <option value="system">System Default</option>
+                    </Select>
+                  </Field>
+                  <Stack gap={4}>
+                    <Stack direction="horizontal" gap={3} className="items-center">
+                      <Checkbox
+                        id="emailNotifications"
+                        checked={preferences.emailNotifications}
+                        onChange={(e) => setPreferences({ ...preferences, emailNotifications: e.target.checked })}
+                        inverted
+                      />
+                      <Label size="sm" className="text-on-dark-muted">Email notifications for event updates</Label>
+                    </Stack>
+                    <Stack direction="horizontal" gap={3} className="items-center">
+                      <Checkbox
+                        id="pushNotifications"
+                        checked={preferences.pushNotifications}
+                        onChange={(e) => setPreferences({ ...preferences, pushNotifications: e.target.checked })}
+                        inverted
+                      />
+                      <Label size="sm" className="text-on-dark-muted">Push notifications for ticket sales</Label>
+                    </Stack>
+                    <Stack direction="horizontal" gap={3} className="items-center">
+                      <Checkbox
+                        id="marketingEmails"
+                        checked={preferences.marketingEmails}
+                        onChange={(e) => setPreferences({ ...preferences, marketingEmails: e.target.checked })}
+                        inverted
+                      />
+                      <Label size="sm" className="text-on-dark-muted">Receive personalized event recommendations</Label>
+                    </Stack>
+                  </Stack>
+                </Stack>
+              )}
+
+              {/* Complete Step */}
+              {currentStep === 'complete' && (
+                <Stack gap={6} className="text-center">
+                  <Card inverted className="mx-auto flex size-20 items-center justify-center">
+                    <Check size={40} className="text-white" />
+                  </Card>
+                  <Stack gap={4}>
+                    <H3 className="text-white">Welcome to GVTEWAY!</H3>
+                    <Body className="text-on-dark-muted">
+                      Your account is all set up. Discover amazing events and experiences.
+                    </Body>
+                  </Stack>
+                </Stack>
+              )}
+
+              {/* Navigation */}
+              <Stack
+                direction="horizontal"
+                className="items-center justify-between border-t-2 border-grey-700 pt-6"
+              >
+                {currentStep !== 'complete' && currentStep !== 'profile' && (
+                  <Button
+                    type="button"
+                    variant="outlineInk"
+                    onClick={() => setCurrentStep(STEPS[currentStepIndex - 1].id)}
+                  >
+                    Back
+                  </Button>
                 )}
-                <Button variant="solid" onClick={handleNext} disabled={loading}>
-                  {loading ? 'Saving...' : 'Continue'}
-                </Button>
+                {currentStep !== 'complete' && currentStep === 'profile' && <div />}
+                
+                {currentStep === 'complete' ? (
+                  <Button
+                    type="button"
+                    variant="solid"
+                    size="lg"
+                    fullWidth
+                    inverted
+                    onClick={handleComplete}
+                    disabled={loading}
+                  >
+                    {loading ? 'Starting...' : 'Explore Events'}
+                  </Button>
+                ) : (
+                  <Stack direction="horizontal" gap={3}>
+                    {currentStep !== 'profile' && (
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        inverted
+                        onClick={handleSkip}
+                        className="text-on-dark-muted"
+                      >
+                        Skip
+                      </Button>
+                    )}
+                    <Button
+                      type="button"
+                      variant="solid"
+                      inverted
+                      onClick={handleNext}
+                      disabled={loading}
+                    >
+                      {loading ? 'Saving...' : 'Continue'}
+                    </Button>
+                  </Stack>
+                )}
               </Stack>
-            )}
-          </Stack>
-        </Stack>
-      </SectionLayout>
+            </Stack>
+          </Card>
+        </Container>
+      </Section>
     </PageLayout>
   );
 }

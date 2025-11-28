@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   useNotifications,
-  H1,
   H2,
   Body,
   Button,
@@ -16,6 +15,8 @@ import {
   Grid,
   Card,
   Section,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 import { CreatorNavigationAuthenticated } from "../../components/navigation";
 
@@ -38,11 +39,17 @@ export default function SettingsPage() {
   });
 
   return (
-    <Section background="ink" fullWidth noPadding className="relative min-h-screen overflow-hidden">
-      <CreatorNavigationAuthenticated />
-      <Container className="py-spacing-16">
-        <Stack gap={8}>
-          <H1>Settings</H1>
+    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="ATLVS"
+              title="Settings"
+              description="Configure your account preferences and notifications"
+              colorScheme="on-dark"
+              gap="lg"
+            />
 
           <Section border noPadding title="Notification Preferences">
             <Stack gap={4}>
@@ -170,12 +177,13 @@ export default function SettingsPage() {
             </Stack>
           </Section>
 
-          <Stack gap={3} direction="horizontal">
-            <Button variant="outlineWhite" onClick={() => addNotification({ type: 'success', title: 'Saved', message: 'Settings saved successfully' })}>Save Changes</Button>
-            <Button variant="ghost" className="text-ink-400 hover:text-white" onClick={() => router.push('/dashboard')}>Cancel</Button>
+            <Stack gap={3} direction="horizontal">
+              <Button variant="outlineWhite" onClick={() => addNotification({ type: 'success', title: 'Saved', message: 'Settings saved successfully' })}>Save Changes</Button>
+              <Button variant="ghost" className="text-grey-400 hover:text-white" onClick={() => router.push('/dashboard')}>Cancel</Button>
+            </Stack>
           </Stack>
-        </Stack>
-      </Container>
-    </Section>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

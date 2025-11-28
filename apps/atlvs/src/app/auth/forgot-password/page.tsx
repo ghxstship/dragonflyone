@@ -13,11 +13,13 @@ import {
   Body,
   Button,
   Input,
-  SectionLayout,
   Alert,
   Stack,
+  Card,
   Field,
+  SectionLayout,
 } from "@ghxstship/ui";
+import NextLink from "next/link";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
@@ -51,75 +53,95 @@ export default function ForgotPasswordPage() {
       background="white"
       header={
         <Navigation
-          logo={
-            <Display size="md" className="text-display-md text-black">
-              ATLVS
-            </Display>
-          }
+          logo={<Display size="md" className="text-black">ATLVS</Display>}
           cta={<></>}
         />
       }
       footer={
         <Footer
-          logo={<Display size="md" className="text-black text-display-md">ATLVS</Display>}
+          logo={<Display size="md" className="text-black">ATLVS</Display>}
           copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
         >
           <FooterColumn title="Legal">
-            <FooterLink href="/privacy">Privacy</FooterLink>
-            <FooterLink href="/terms">Terms</FooterLink>
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
           </FooterColumn>
         </Footer>
       }
     >
       <SectionLayout background="grey">
-        <Stack gap={8} className="mx-auto max-w-md bg-white p-8 border border-ink-200">
-          {submitted ? (
-            <Stack gap={6} className="text-center">
-              <Stack className="w-16 h-16 mx-auto bg-ink-200 rounded-full items-center justify-center">
-                <Mail className="w-8 h-8" />
-              </Stack>
-              <H2>Check Your Email</H2>
-              <Body className="text-ink-600">
-                If an account exists with <strong className="text-black">{email}</strong>, you will receive a password reset link shortly.
-              </Body>
-              <Button variant="solid" onClick={() => window.location.href = '/auth/signin'}>
-                Back to Sign In
-              </Button>
-            </Stack>
-          ) : (
-            <>
-              <Stack gap={4} className="text-center">
-                <H2>Reset Password</H2>
-                <Body className="text-ink-600">
-                  Enter your email address and we&apos;ll send you a link to reset your password.
-                </Body>
-              </Stack>
-
-              {error && <Alert variant="error">{error}</Alert>}
-
-              <Stack gap={6}>
-                <Field label="Email Address">
-                  <Input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="your@email.com"
-                    required
-                  />
-                </Field>
-
-                <Button variant="solid" className="w-full" disabled={loading} onClick={handleSubmit}>
-                  {loading ? "Sending..." : "Send Reset Link"}
-                </Button>
-
-                <Stack className="text-center">
-                  <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/signin'} className="text-ink-600 hover:text-black">
+        <Stack gap={8} className="mx-auto max-w-md">
+          <Card variant="elevated" className="p-8">
+            {submitted ? (
+              /* Success State */
+              <Stack gap={6} className="text-center">
+                <Card className="mx-auto flex size-16 items-center justify-center">
+                  <Mail className="size-8" />
+                </Card>
+                
+                <Stack gap={4}>
+                  <H2 className="text-black">Check Your Email</H2>
+                  <Body className="text-muted">
+                    If an account exists with <strong className="text-black">{email}</strong>, you will receive a password reset link shortly.
+                  </Body>
+                </Stack>
+                
+                <NextLink href="/auth/signin">
+                  <Button variant="solid" size="lg" fullWidth>
                     Back to Sign In
                   </Button>
+                </NextLink>
+              </Stack>
+            ) : (
+              /* Form State */
+              <Stack gap={8}>
+                {/* Header */}
+                <Stack gap={4} className="text-center">
+                  <H2 className="text-black">Reset Password</H2>
+                  <Body className="text-muted">
+                    Enter your email address and we&apos;ll send you a link to reset your password.
+                  </Body>
+                </Stack>
+
+                {/* Error Alert */}
+                {error && <Alert variant="error">{error}</Alert>}
+
+                {/* Form */}
+                <form onSubmit={handleSubmit}>
+                  <Stack gap={6}>
+                    <Field label="Email Address">
+                      <Input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="your@email.com"
+                        required
+                      />
+                    </Field>
+
+                    <Button
+                      type="submit"
+                      variant="solid"
+                      size="lg"
+                      fullWidth
+                      disabled={loading}
+                    >
+                      {loading ? "Sending..." : "Send Reset Link"}
+                    </Button>
+                  </Stack>
+                </form>
+
+                {/* Back Link */}
+                <Stack className="text-center">
+                  <NextLink href="/auth/signin">
+                    <Button variant="ghost" size="sm" className="text-muted hover:text-black">
+                      Back to Sign In
+                    </Button>
+                  </NextLink>
                 </Stack>
               </Stack>
-            </>
-          )}
+            )}
+          </Card>
         </Stack>
       </SectionLayout>
     </PageLayout>

@@ -1,18 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { ConsumerNavigationPublic } from "../../../components/navigation";
+import { ConsumerNavigationPublic } from "@/components/navigation";
 import {
   ListPage,
   Badge,
-  RecordFormModal,
   DetailDrawer,
-  ConfirmDialog,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
-  type FormFieldConfig,
   type DetailSection,
 } from "@ghxstship/ui";
 
@@ -70,7 +71,6 @@ const filters: ListPageFilter[] = [
 ];
 
 export default function ModerationPage() {
-  const router = useRouter();
   const [flaggedContent, setFlaggedContent] = useState<FlaggedContent[]>(mockFlagged);
   const [selectedContent, setSelectedContent] = useState<FlaggedContent | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -98,8 +98,8 @@ export default function ModerationPage() {
 
   const detailSections: DetailSection[] = selectedContent ? [
     { id: 'content', title: 'Flagged Content', content: (
-      <div className="p-4 bg-ink-100 rounded-sm mb-4">
-        <p>{selectedContent.content}</p>
+      <div className="mb-4 rounded-card bg-ink-800 p-4">
+        <p className="text-white">{selectedContent.content}</p>
       </div>
     )},
     { id: 'details', title: 'Details', content: (
@@ -114,8 +114,24 @@ export default function ModerationPage() {
     )},
   ] : [];
 
+  const footerContent = (
+    <Footer
+      logo={<Display size="md">GVTEWAY</Display>}
+      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+    >
+      <FooterColumn title="Admin">
+        <FooterLink href="/admin/moderation">Moderation</FooterLink>
+        <FooterLink href="/admin/promo-codes">Promo Codes</FooterLink>
+      </FooterColumn>
+      <FooterColumn title="Legal">
+        <FooterLink href="/legal/privacy">Privacy</FooterLink>
+        <FooterLink href="/legal/terms">Terms</FooterLink>
+      </FooterColumn>
+    </Footer>
+  );
+
   return (
-    <>
+    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
       <ListPage<FlaggedContent>
         title="Content Moderation"
         subtitle="Review flagged content and manage community guidelines"
@@ -127,10 +143,8 @@ export default function ModerationPage() {
         filters={filters}
         rowActions={rowActions}
         onRowClick={(r) => { setSelectedContent(r); setDrawerOpen(true); }}
-        onExport={() => console.log('Export')}
         stats={stats}
         emptyMessage="No flagged content"
-        header={<ConsumerNavigationPublic />}
       />
 
       {selectedContent && (
@@ -154,6 +168,6 @@ export default function ModerationPage() {
           }}
         />
       )}
-    </>
+    </PageLayout>
   );
 }

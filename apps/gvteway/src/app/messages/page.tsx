@@ -2,27 +2,31 @@
 
 import { useState, useEffect, useCallback, useRef, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { ConsumerNavigationPublic } from '../../components/navigation';
+import { ConsumerNavigationPublic } from '@/components/navigation';
 import {
   Container,
   Section,
-  H1,
+  Display,
   H2,
   H3,
   Body,
   Label,
   Button,
   Card,
-  Field,
   Input,
   Grid,
   Stack,
   Badge,
-  Alert,
   LoadingSpinner,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Kicker,
   Box,
 } from '@ghxstship/ui';
 import Image from 'next/image';
+import { MessageCircle, Send, Users, CheckCircle } from 'lucide-react';
 
 interface Message {
   id: string;
@@ -56,7 +60,6 @@ function MessagesContent() {
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
   const [newMessage, setNewMessage] = useState('');
-  const [error, setError] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const fetchConversations = useCallback(async () => {
@@ -67,7 +70,6 @@ function MessagesContent() {
         const data = await response.json();
         setConversations(data.conversations || []);
 
-        // Auto-select conversation from URL or first one
         if (conversationId) {
           const conv = data.conversations?.find((c: Conversation) => c.id === conversationId);
           if (conv) setActiveConversation(conv);
@@ -117,7 +119,6 @@ function MessagesContent() {
     if (!newMessage.trim() || !activeConversation) return;
 
     setSending(true);
-    setError(null);
 
     try {
       const response = await fetch(`/api/messages/conversations/${activeConversation.id}`, {
@@ -130,12 +131,9 @@ function MessagesContent() {
         setNewMessage('');
         fetchMessages();
         fetchConversations();
-      } else {
-        const data = await response.json();
-        setError(data.error || 'Failed to send message');
       }
     } catch (err) {
-      setError('Network error');
+      console.error('Failed to send message');
     } finally {
       setSending(false);
     }
@@ -160,232 +158,330 @@ function MessagesContent() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading messages..." />
-        </Container>
-      </Section>
+      <PageLayout
+        background="black"
+        header={<ConsumerNavigationPublic />}
+        footer={
+          <Footer
+            logo={<Display size="md">GVTEWAY</Display>}
+            copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+          >
+            <FooterColumn title="Discover">
+              <FooterLink href="/events">Browse Events</FooterLink>
+              <FooterLink href="/venues">Find Venues</FooterLink>
+              <FooterLink href="/artists">Artists</FooterLink>
+            </FooterColumn>
+            <FooterColumn title="Legal">
+              <FooterLink href="/legal/privacy">Privacy</FooterLink>
+              <FooterLink href="/legal/terms">Terms</FooterLink>
+            </FooterColumn>
+          </Footer>
+        }
+      >
+        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+          <div
+            className="pointer-events-none absolute inset-0 opacity-5"
+            style={{
+              backgroundImage: `
+                linear-gradient(#fff 1px, transparent 1px),
+                linear-gradient(90deg, #fff 1px, transparent 1px)
+              `,
+              backgroundSize: "40px 40px",
+            }}
+          />
+          <Container className="relative z-10 flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" text="Loading messages..." />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-spacing-16">
-        <Stack gap={8}>
-          <Stack gap={2} className="border-b-2 border-black pb-spacing-8">
-            <H1>Messages</H1>
-            <Body className="text-ink-600">
-              Connect with other fans
-            </Body>
-          </Stack>
-
-        {error && (
-          <Alert variant="error" className="mb-spacing-6">
-            {error}
-          </Alert>
-        )}
-
-        <Grid cols={3} gap={6} className="min-h-panel-lg">
-          <Card className="p-spacing-4 overflow-y-auto max-h-panel-lg">
-            <Stack direction="horizontal" className="justify-between items-center mb-spacing-4">
-              <H3>CONVERSATIONS</H3>
-              <Button variant="ghost" size="sm" onClick={() => router.push('/community')}>
-                Find Fans
-              </Button>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Account">
+            <FooterLink href="/profile">Profile</FooterLink>
+            <FooterLink href="/messages">Messages</FooterLink>
+            <FooterLink href="/friends">Friends</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Discover">
+            <FooterLink href="/events">Browse Events</FooterLink>
+            <FooterLink href="/venues">Find Venues</FooterLink>
+            <FooterLink href="/artists">Artists</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        {/* Grid Pattern Background */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `
+              linear-gradient(#fff 1px, transparent 1px),
+              linear-gradient(90deg, #fff 1px, transparent 1px)
+            `,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={8}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Community</Kicker>
+              <H2 size="lg" className="text-white">Messages</H2>
+              <Body className="text-on-dark-muted">Connect with other fans</Body>
             </Stack>
 
-            {conversations.length > 0 ? (
-              <Stack gap={2}>
-                {conversations.map(conv => (
-                  <Card
-                    key={conv.id}
-                    className={`p-spacing-3 cursor-pointer transition-colors ${
-                      activeConversation?.id === conv.id
-                        ? 'bg-black text-white'
-                        : 'hover:bg-ink-100'
-                    }`}
-                    onClick={() => setActiveConversation(conv)}
-                  >
-                    <Stack direction="horizontal" gap={3}>
-                      <Stack className="w-spacing-10 h-spacing-10 bg-ink-200 rounded-full flex-shrink-0 flex items-center justify-center">
-                        {conv.participant_avatar ? (
-                          <Image
-                            src={conv.participant_avatar}
-                            alt={conv.participant_name}
-                            width={40}
-                            height={40}
-                            className="w-full h-full rounded-full object-cover"
-                          />
-                        ) : (
-                          <Body className={activeConversation?.id === conv.id ? 'text-white' : ''}>
-                            {conv.participant_name.charAt(0)}
-                          </Body>
-                        )}
-                      </Stack>
-                      <Stack className="flex-1 min-w-0">
-                        <Stack direction="horizontal" className="justify-between items-center">
-                          <Body className={`font-medium truncate ${
-                            activeConversation?.id === conv.id ? 'text-white' : ''
-                          }`}>
-                            {conv.participant_name}
-                            {conv.participant_verified && (
-                              <Badge className="ml-1 text-mono-xs bg-info-500 text-white">✓</Badge>
-                            )}
-                          </Body>
-                          {conv.unread_count > 0 && (
-                            <Badge className="bg-error-500 text-white text-mono-xs">
-                              {conv.unread_count}
-                            </Badge>
-                          )}
-                        </Stack>
-                        {conv.last_message && (
-                          <Body className={`text-body-sm truncate ${
-                            activeConversation?.id === conv.id ? 'text-ink-600' : 'text-ink-500'
-                          }`}>
-                            {conv.last_message}
-                          </Body>
-                        )}
-                        {conv.last_message_at && (
-                          <Body className={`text-mono-xs ${
-                            activeConversation?.id === conv.id ? 'text-ink-600' : 'text-ink-600'
-                          }`}>
-                            {formatTime(conv.last_message_at)}
-                          </Body>
-                        )}
-                      </Stack>
+            {/* Messages Grid */}
+            <Grid cols={3} gap={6} className="min-h-[600px]">
+              {/* Conversations List */}
+              <Card inverted className="overflow-hidden p-0">
+                <Stack className="border-b border-ink-800 p-4">
+                  <Stack direction="horizontal" className="items-center justify-between">
+                    <Stack direction="horizontal" gap={2} className="items-center">
+                      <MessageCircle className="size-5 text-on-dark-muted" />
+                      <H3 className="text-white">Conversations</H3>
                     </Stack>
-                  </Card>
-                ))}
-              </Stack>
-            ) : (
-              <Stack className="items-center py-spacing-8">
-                <Body className="text-ink-500 text-center">
-                  No conversations yet
-                </Body>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="mt-spacing-4"
-                  onClick={() => router.push('/community')}
-                >
-                  Find Fans to Connect
-                </Button>
-              </Stack>
-            )}
-          </Card>
-
-          <Card className="col-span-2 flex flex-col">
-            {activeConversation ? (
-              <>
-                <Stack className="p-spacing-4 border-b border-ink-200">
-                  <Stack direction="horizontal" gap={3} className="items-center">
-                    <Stack className="w-spacing-10 h-spacing-10 bg-ink-200 rounded-full flex items-center justify-center">
-                      {activeConversation.participant_avatar ? (
-                        <Image
-                          src={activeConversation.participant_avatar}
-                          alt={activeConversation.participant_name}
-                          width={40}
-                          height={40}
-                          className="w-full h-full rounded-full object-cover"
-                        />
-                      ) : (
-                        <Body>{activeConversation.participant_name.charAt(0)}</Body>
-                      )}
-                    </Stack>
-                    <Stack>
-                      <Body className="font-medium">
-                        {activeConversation.participant_name}
-                        {activeConversation.participant_verified && (
-                          <Badge className="ml-2 text-mono-xs bg-info-500 text-white">Verified</Badge>
-                        )}
-                      </Body>
-                    </Stack>
-                  </Stack>
-                </Stack>
-
-                <Stack className="flex-1 overflow-y-auto p-spacing-4 max-h-chat" gap={3}>
-                  {messages.map(message => (
-                    <Stack
-                      key={message.id}
-                      className={`max-w-[70%] ${
-                        message.sender_id !== activeConversation.participant_id ? 'ml-auto' : ''
-                      }`}
-                    >
-                      <Card
-                        className={`p-spacing-3 ${
-                          message.sender_id !== activeConversation.participant_id
-                            ? 'bg-black text-white'
-                            : 'bg-ink-100'
-                        }`}
-                      >
-                        <Body className={
-                          message.sender_id !== activeConversation.participant_id ? 'text-white' : ''
-                        }>
-                          {message.content}
-                        </Body>
-                      </Card>
-                      <Body className={`text-mono-xs mt-spacing-1 ${
-                        message.sender_id !== activeConversation.participant_id ? 'text-right' : ''
-                      } text-ink-600`}>
-                        {formatTime(message.created_at)}
-                      </Body>
-                    </Stack>
-                  ))}
-                  <Box ref={messagesEndRef} />
-                </Stack>
-
-                <Stack className="p-spacing-4 border-t border-ink-200">
-                  <Stack direction="horizontal" gap={2}>
-                    <Input
-                      value={newMessage}
-                      onChange={(e) => setNewMessage(e.target.value)}
-                      placeholder="Type a message..."
-                      className="flex-1"
-                      disabled={sending}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' && !e.shiftKey) {
-                          e.preventDefault();
-                          handleSendMessage(e as unknown as React.FormEvent);
-                        }
-                      }}
-                    />
-                    <Button 
-                      variant="solid" 
-                      disabled={sending || !newMessage.trim()}
-                      onClick={handleSendMessage}
-                    >
-                      {sending ? 'Sending...' : 'Send'}
+                    <Button variant="ghost" size="sm" onClick={() => router.push('/community')}>
+                      <Users className="size-4" />
                     </Button>
                   </Stack>
                 </Stack>
-              </>
-            ) : (
-              <Stack className="flex-1 items-center justify-center p-spacing-8">
-                <H3 className="mb-spacing-4">SELECT A CONVERSATION</H3>
-                <Body className="text-ink-600 text-center">
-                  Choose a conversation from the list or find new fans to connect with.
-                </Body>
-              </Stack>
-            )}
-          </Card>
-        </Grid>
-        </Stack>
-      </Container>
-    </Section>
+
+                <Stack className="max-h-[500px] overflow-y-auto p-2">
+                  {conversations.length > 0 ? (
+                    <Stack gap={1}>
+                      {conversations.map(conv => (
+                        <Card
+                          key={conv.id}
+                          inverted
+                          interactive
+                          variant={activeConversation?.id === conv.id ? "elevated" : "default"}
+                          className="cursor-pointer p-3"
+                          onClick={() => setActiveConversation(conv)}
+                        >
+                          <Stack direction="horizontal" gap={3}>
+                            <Stack className="flex size-10 shrink-0 items-center justify-center rounded-avatar bg-ink-700">
+                              {conv.participant_avatar ? (
+                                <Image
+                                  src={conv.participant_avatar}
+                                  alt={conv.participant_name}
+                                  width={40}
+                                  height={40}
+                                  className="size-full rounded-avatar object-cover"
+                                />
+                              ) : (
+                                <Body className="text-white">
+                                  {conv.participant_name.charAt(0)}
+                                </Body>
+                              )}
+                            </Stack>
+                            <Stack className="min-w-0 flex-1">
+                              <Stack direction="horizontal" className="items-center justify-between">
+                                <Body className="truncate font-display text-white">
+                                  {conv.participant_name}
+                                  {conv.participant_verified && (
+                                    <CheckCircle className="ml-1 inline size-3 text-primary" />
+                                  )}
+                                </Body>
+                                {conv.unread_count > 0 && (
+                                  <Badge variant="solid">{conv.unread_count}</Badge>
+                                )}
+                              </Stack>
+                              {conv.last_message && (
+                                <Body size="sm" className="truncate text-on-dark-muted">
+                                  {conv.last_message}
+                                </Body>
+                              )}
+                              {conv.last_message_at && (
+                                <Label size="xs" className="text-on-dark-disabled">
+                                  {formatTime(conv.last_message_at)}
+                                </Label>
+                              )}
+                            </Stack>
+                          </Stack>
+                        </Card>
+                      ))}
+                    </Stack>
+                  ) : (
+                    <Stack className="items-center py-8">
+                      <Body className="text-center text-on-dark-muted">No conversations yet</Body>
+                      <Button
+                        variant="outlineInk"
+                        size="sm"
+                        className="mt-4"
+                        onClick={() => router.push('/community')}
+                      >
+                        Find Fans to Connect
+                      </Button>
+                    </Stack>
+                  )}
+                </Stack>
+              </Card>
+
+              {/* Chat Area */}
+              <Card inverted className="col-span-2 flex flex-col overflow-hidden p-0">
+                {activeConversation ? (
+                  <>
+                    {/* Chat Header */}
+                    <Stack className="border-b border-ink-800 p-4">
+                      <Stack direction="horizontal" gap={3} className="items-center">
+                        <Stack className="flex size-10 items-center justify-center rounded-avatar bg-ink-700">
+                          {activeConversation.participant_avatar ? (
+                            <Image
+                              src={activeConversation.participant_avatar}
+                              alt={activeConversation.participant_name}
+                              width={40}
+                              height={40}
+                              className="size-full rounded-avatar object-cover"
+                            />
+                          ) : (
+                            <Body className="text-white">{activeConversation.participant_name.charAt(0)}</Body>
+                          )}
+                        </Stack>
+                        <Stack>
+                          <Body className="font-display text-white">
+                            {activeConversation.participant_name}
+                            {activeConversation.participant_verified && (
+                              <Badge variant="solid" className="ml-2">Verified</Badge>
+                            )}
+                          </Body>
+                        </Stack>
+                      </Stack>
+                    </Stack>
+
+                    {/* Messages */}
+                    <Stack className="max-h-[400px] flex-1 overflow-y-auto p-4" gap={3}>
+                      {messages.map(message => (
+                        <Stack
+                          key={message.id}
+                          className={`max-w-[70%] ${
+                            message.sender_id !== activeConversation.participant_id ? 'ml-auto' : ''
+                          }`}
+                        >
+                          <Card
+                            inverted={message.sender_id === activeConversation.participant_id}
+                            className={`p-3 ${
+                              message.sender_id !== activeConversation.participant_id
+                                ? 'bg-primary text-white'
+                                : ''
+                            }`}
+                          >
+                            <Body className={
+                              message.sender_id !== activeConversation.participant_id ? 'text-white' : 'text-white'
+                            }>
+                              {message.content}
+                            </Body>
+                          </Card>
+                          <Label size="xs" className={`mt-1 text-on-dark-disabled ${
+                            message.sender_id !== activeConversation.participant_id ? 'text-right' : ''
+                          }`}>
+                            {formatTime(message.created_at)}
+                          </Label>
+                        </Stack>
+                      ))}
+                      <Box ref={messagesEndRef} />
+                    </Stack>
+
+                    {/* Message Input */}
+                    <Stack className="border-t border-ink-800 p-4">
+                      <Stack direction="horizontal" gap={2}>
+                        <Input
+                          value={newMessage}
+                          onChange={(e) => setNewMessage(e.target.value)}
+                          placeholder="Type a message..."
+                          inverted
+                          className="flex-1"
+                          disabled={sending}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' && !e.shiftKey) {
+                              e.preventDefault();
+                              handleSendMessage(e as unknown as React.FormEvent);
+                            }
+                          }}
+                        />
+                        <Button 
+                          variant="solid" 
+                          inverted
+                          disabled={sending || !newMessage.trim()}
+                          onClick={handleSendMessage}
+                          icon={<Send className="size-4" />}
+                          iconPosition="left"
+                        >
+                          {sending ? 'Sending...' : 'Send'}
+                        </Button>
+                      </Stack>
+                    </Stack>
+                  </>
+                ) : (
+                  <Stack className="flex-1 items-center justify-center p-8">
+                    <MessageCircle className="mb-4 size-12 text-on-dark-disabled" />
+                    <H3 className="mb-2 text-white">Select a Conversation</H3>
+                    <Body className="text-center text-on-dark-muted">
+                      Choose a conversation from the list or find new fans to connect with.
+                    </Body>
+                  </Stack>
+                )}
+              </Card>
+            </Grid>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }
 
 export default function MessagesPage() {
   return (
     <Suspense fallback={
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading messages..." />
-        </Container>
-      </Section>
+      <PageLayout
+        background="black"
+        header={<ConsumerNavigationPublic />}
+        footer={
+          <Footer
+            logo={<Display size="md">GVTEWAY</Display>}
+            copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+          >
+            <FooterColumn title="Discover">
+              <FooterLink href="/events">Browse Events</FooterLink>
+              <FooterLink href="/venues">Find Venues</FooterLink>
+              <FooterLink href="/artists">Artists</FooterLink>
+            </FooterColumn>
+            <FooterColumn title="Legal">
+              <FooterLink href="/legal/privacy">Privacy</FooterLink>
+              <FooterLink href="/legal/terms">Terms</FooterLink>
+            </FooterColumn>
+          </Footer>
+        }
+      >
+        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+          <div
+            className="pointer-events-none absolute inset-0 opacity-5"
+            style={{
+              backgroundImage: `
+                linear-gradient(#fff 1px, transparent 1px),
+                linear-gradient(90deg, #fff 1px, transparent 1px)
+              `,
+              backgroundSize: "40px 40px",
+            }}
+          />
+          <Container className="relative z-10 flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" text="Loading messages..." />
+          </Container>
+        </Section>
+      </PageLayout>
     }>
       <MessagesContent />
     </Suspense>

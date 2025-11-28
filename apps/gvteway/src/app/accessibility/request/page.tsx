@@ -2,11 +2,10 @@
 
 import { useState, useEffect, useCallback, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { ConsumerNavigationPublic } from '../../../components/navigation';
+import { ConsumerNavigationPublic } from '@/components/navigation';
 import {
   Container,
   Section,
-  H1,
   H2,
   H3,
   Body,
@@ -16,7 +15,6 @@ import {
   Field,
   Input,
   Textarea,
-  Select,
   Grid,
   Stack,
   Badge,
@@ -24,6 +22,12 @@ import {
   Alert,
   LoadingSpinner,
   Form,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
+  Kicker,
 } from '@ghxstship/ui';
 
 interface AccessibilityRequest {
@@ -139,40 +143,64 @@ function AccessibilityRequestContent() {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'approved':
-        return <Badge className="bg-success-500 text-white">Approved</Badge>;
+        return <Badge variant="solid">Approved</Badge>;
       case 'pending':
-        return <Badge className="bg-warning-500 text-white">Pending</Badge>;
+        return <Badge variant="outline">Pending</Badge>;
       case 'denied':
-        return <Badge className="bg-error-500 text-white">Denied</Badge>;
+        return <Badge variant="outline">Denied</Badge>;
       case 'completed':
-        return <Badge className="bg-ink-500 text-white">Completed</Badge>;
+        return <Badge variant="outline">Completed</Badge>;
       default:
         return <Badge>{status}</Badge>;
     }
   };
 
+  const footerContent = (
+    <Footer
+      logo={<Display size="md">GVTEWAY</Display>}
+      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+    >
+      <FooterColumn title="Accessibility">
+        <FooterLink href="/accessibility">Accessibility</FooterLink>
+        <FooterLink href="/accessibility/request">Request Services</FooterLink>
+      </FooterColumn>
+      <FooterColumn title="Legal">
+        <FooterLink href="/legal/privacy">Privacy</FooterLink>
+        <FooterLink href="/legal/terms">Terms</FooterLink>
+      </FooterColumn>
+    </Footer>
+  );
+
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
+      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+        <Section background="black" className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading..." />
-        </Container>
-      </Section>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-        <Stack gap={2} className="border-b-2 border-black pb-8">
-          <H1>Accessibility Services</H1>
-          <Body className="text-ink-600">
-            Request accommodations for your upcoming events
-          </Body>
-        </Stack>
+    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Accessibility</Kicker>
+              <H2 size="lg" className="text-white">Accessibility Services</H2>
+              <Body className="text-on-dark-muted">
+                Request accommodations for your upcoming events
+              </Body>
+            </Stack>
 
         {error && (
           <Alert variant="error" className="mb-6">
@@ -188,32 +216,30 @@ function AccessibilityRequestContent() {
 
         <Grid cols={3} gap={8}>
           <Stack className="col-span-2" gap={6}>
-            <Card className="p-6">
-              <H2 className="mb-6">REQUEST SERVICES</H2>
+            <Card inverted className="p-6">
+              <H2 className="mb-6 text-white">Request Services</H2>
               <Form onSubmit={handleSubmit}>
                 <Stack gap={6}>
                   <Stack gap={4}>
-                    <H3>SELECT SERVICES NEEDED</H3>
+                    <H3 className="text-white">Select Services Needed</H3>
                     <Grid cols={2} gap={3}>
                       {SERVICE_TYPES.map(service => (
                         <Card
                           key={service.id}
-                          className={`p-4 cursor-pointer transition-colors ${
+                          inverted
+                          interactive
+                          className={`cursor-pointer p-4 ${
                             selectedServices.includes(service.id)
-                              ? 'bg-black text-white'
-                              : 'hover:bg-ink-50'
+                              ? 'ring-2 ring-white'
+                              : ''
                           }`}
                           onClick={() => toggleService(service.id)}
                         >
                           <Stack gap={1}>
-                            <Body className={`font-medium ${
-                              selectedServices.includes(service.id) ? 'text-white' : ''
-                            }`}>
+                            <Body className="font-display text-white">
                               {service.label}
                             </Body>
-                            <Body className={`text-body-sm ${
-                              selectedServices.includes(service.id) ? 'text-ink-600' : 'text-ink-500'
-                            }`}>
+                            <Body size="sm" className="text-on-dark-muted">
                               {service.description}
                             </Body>
                           </Stack>
@@ -222,30 +248,33 @@ function AccessibilityRequestContent() {
                     </Grid>
                   </Stack>
 
-                  <Field label="Additional Notes">
+                  <Field label="Additional Notes" inverted>
                     <Textarea
                       value={additionalNotes}
                       onChange={(e) => setAdditionalNotes(e.target.value)}
                       placeholder="Please provide any additional details about your needs..."
                       rows={4}
+                      inverted
                     />
                   </Field>
 
                   <Grid cols={2} gap={4}>
-                    <Field label="Contact Phone">
+                    <Field label="Contact Phone" inverted>
                       <Input
                         type="tel"
                         value={contactPhone}
                         onChange={(e) => setContactPhone(e.target.value)}
                         placeholder="(555) 123-4567"
+                        inverted
                       />
                     </Field>
 
-                    <Field label="Emergency Contact (Optional)">
+                    <Field label="Emergency Contact (Optional)" inverted>
                       <Input
                         value={emergencyContact}
                         onChange={(e) => setEmergencyContact(e.target.value)}
                         placeholder="Name and phone number"
+                        inverted
                       />
                     </Field>
                   </Grid>
@@ -255,10 +284,10 @@ function AccessibilityRequestContent() {
                       checked={savePreferences}
                       onChange={(e) => setSavePreferences(e.target.checked)}
                     />
-                    <Label>Save these preferences for future events</Label>
+                    <Label className="text-on-dark-muted">Save these preferences for future events</Label>
                   </Stack>
 
-                  <Button type="submit" variant="solid" disabled={submitting}>
+                  <Button type="submit" variant="solid" inverted disabled={submitting}>
                     {submitting ? 'Submitting...' : 'Submit Request'}
                   </Button>
                 </Stack>
@@ -267,62 +296,77 @@ function AccessibilityRequestContent() {
           </Stack>
 
           <Stack gap={6}>
-            <Card className="p-6">
-              <H3 className="mb-4">YOUR REQUESTS</H3>
+            <Card inverted className="p-6">
+              <H3 className="mb-4 text-white">Your Requests</H3>
               {requests.length > 0 ? (
                 <Stack gap={3}>
                   {requests.map(request => (
-                    <Card key={request.id} className="p-3">
+                    <Card key={request.id} inverted className="p-3">
                       <Stack gap={2}>
-                        <Stack direction="horizontal" className="justify-between items-start">
-                          <Body className="font-medium text-body-sm">{request.event_title}</Body>
+                        <Stack direction="horizontal" className="items-start justify-between">
+                          <Body size="sm" className="font-display text-white">{request.event_title}</Body>
                           {getStatusBadge(request.status)}
                         </Stack>
-                        <Body className="text-mono-xs text-ink-500">{request.event_date}</Body>
-                        <Body className="text-mono-xs text-ink-600">{request.request_type}</Body>
+                        <Body size="sm" className="font-mono text-on-dark-disabled">{request.event_date}</Body>
+                        <Body size="sm" className="font-mono text-on-dark-muted">{request.request_type}</Body>
                       </Stack>
                     </Card>
                   ))}
                 </Stack>
               ) : (
-                <Body className="text-ink-500 text-body-sm">No previous requests</Body>
+                <Body size="sm" className="text-on-dark-muted">No previous requests</Body>
               )}
             </Card>
 
-            <Card className="p-6 bg-ink-50">
-              <H3 className="mb-4">NEED HELP?</H3>
-              <Body className="text-body-sm text-ink-600 mb-4">
+            <Card inverted variant="elevated" className="p-6">
+              <H3 className="mb-4 text-white">Need Help?</H3>
+              <Body size="sm" className="mb-4 text-on-dark-muted">
                 Our accessibility team is here to assist you.
               </Body>
               <Stack gap={2}>
-                <Body className="text-body-sm">
-                  <strong>Phone:</strong> 1-800-555-0123
+                <Body size="sm" className="text-on-dark-muted">
+                  <span className="font-display text-white">Phone:</span> 1-800-555-0123
                 </Body>
-                <Body className="text-body-sm">
-                  <strong>Email:</strong> accessibility@ghxstship.com
+                <Body size="sm" className="text-on-dark-muted">
+                  <span className="font-display text-white">Email:</span> accessibility@ghxstship.com
                 </Body>
-                <Body className="text-body-sm">
-                  <strong>TTY:</strong> 1-800-555-0124
+                <Body size="sm" className="text-on-dark-muted">
+                  <span className="font-display text-white">TTY:</span> 1-800-555-0124
                 </Body>
               </Stack>
             </Card>
           </Stack>
         </Grid>
-        </Stack>
-      </Container>
-    </Section>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }
 
 export default function AccessibilityRequestPage() {
+  const fallbackFooter = (
+    <Footer
+      logo={<Display size="md">GVTEWAY</Display>}
+      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+    >
+      <FooterColumn title="Accessibility">
+        <FooterLink href="/accessibility">Accessibility</FooterLink>
+      </FooterColumn>
+      <FooterColumn title="Legal">
+        <FooterLink href="/legal/privacy">Privacy</FooterLink>
+        <FooterLink href="/legal/terms">Terms</FooterLink>
+      </FooterColumn>
+    </Footer>
+  );
+
   return (
     <Suspense fallback={
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
+      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={fallbackFooter}>
+        <Section background="black" className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading..." />
-        </Container>
-      </Section>
+        </Section>
+      </PageLayout>
     }>
       <AccessibilityRequestContent />
     </Suspense>

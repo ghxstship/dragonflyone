@@ -4,9 +4,24 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter,
+  Container,
+  H3,
+  Body,
+  Grid,
+  Stack,
+  StatCard,
+  Input,
+  Select,
+  Button,
+  Section,
+  Card,
+  Badge,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 interface Regulation {
@@ -69,87 +84,90 @@ export default function RegulationsPage() {
   };
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Industry Regulations</H1>
-            <Label className="text-ink-400">Compliance documentation and regulatory references</Label>
-          </Stack>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Industry Regulations"
+              description="Compliance documentation and regulatory references"
+              colorScheme="on-light"
+              gap="lg"
+            />
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Total Regulations" value={mockRegulations.length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Categories" value={categories.length - 1} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Recently Updated" value={updatedCount} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Review Required" value={reviewCount} trend={reviewCount > 0 ? "down" : "neutral"} className="bg-transparent border-2 border-ink-800" />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard label="Total Regulations" value={mockRegulations.length.toString()} />
+              <StatCard label="Categories" value={(categories.length - 1).toString()} />
+              <StatCard label="Recently Updated" value={updatedCount.toString()} />
+              <StatCard label="Review Required" value={reviewCount.toString()} />
+            </Grid>
 
-          <Stack direction="horizontal" className="justify-between">
-            <Stack direction="horizontal" gap={4}>
-              <Input type="search" placeholder="Search regulations..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="border-ink-700 bg-black text-white w-64" />
-              <Select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)} className="border-ink-700 bg-black text-white">
-                {categories.map(c => <option key={c} value={c}>{c}</option>)}
-              </Select>
+            <Stack direction="horizontal" className="justify-between">
+              <Stack direction="horizontal" gap={4}>
+                <Input type="search" placeholder="Search regulations..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+                <Select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}>
+                  {categories.map(c => <option key={c} value={c}>{c}</option>)}
+                </Select>
+              </Stack>
+              <Button variant="solid">Request Update</Button>
             </Stack>
-            <Button variant="outlineWhite">Request Update</Button>
-          </Stack>
 
-          <Grid cols={2} gap={4}>
-            {filteredRegulations.map((reg) => (
-              <Card key={reg.id} className="border-2 border-ink-800 bg-ink-900/50 p-6">
-                <Stack gap={4}>
-                  <Stack direction="horizontal" className="justify-between">
-                    <Stack direction="horizontal" gap={3}>
-                      <Label className="text-h5-md">{getCategoryIcon(reg.category)}</Label>
-                      <Stack gap={1}>
-                        <Body className="font-display text-white">{reg.title}</Body>
-                        <Stack direction="horizontal" gap={2}>
-                          <Badge variant="outline">{reg.category}</Badge>
-                          <Badge variant="outline">{reg.jurisdiction}</Badge>
+            <Grid cols={2} gap={4}>
+              {filteredRegulations.map((reg) => (
+                <Card key={reg.id}>
+                  <Stack gap={4}>
+                    <Stack direction="horizontal" className="justify-between">
+                      <Stack direction="horizontal" gap={3}>
+                        <Body>{getCategoryIcon(reg.category)}</Body>
+                        <Stack gap={1}>
+                          <Body className="font-display">{reg.title}</Body>
+                          <Stack direction="horizontal" gap={2}>
+                            <Badge variant="outline">{reg.category}</Badge>
+                            <Badge variant="outline">{reg.jurisdiction}</Badge>
+                          </Stack>
                         </Stack>
                       </Stack>
+                      <Badge variant={reg.status === "Current" ? "solid" : "outline"}>{reg.status}</Badge>
                     </Stack>
-                    <Label className={getStatusColor(reg.status)}>{reg.status}</Label>
+                    <Body>{reg.summary}</Body>
+                    <Stack direction="horizontal" className="justify-between items-center">
+                      <Body className="text-body-sm">Updated: {reg.lastUpdated}</Body>
+                      <Stack direction="horizontal" gap={2}>
+                        <Button variant="outline" size="sm" onClick={() => setSelectedRegulation(reg)}>View Details</Button>
+                        <Button variant="ghost" size="sm">Download PDF</Button>
+                      </Stack>
+                    </Stack>
                   </Stack>
-                  <Body className="text-ink-300">{reg.summary}</Body>
-                  <Stack direction="horizontal" className="justify-between items-center">
-                    <Label size="xs" className="text-ink-500">Updated: {reg.lastUpdated}</Label>
-                    <Stack direction="horizontal" gap={2}>
-                      <Button variant="outline" size="sm" onClick={() => setSelectedRegulation(reg)}>View Details</Button>
-                      <Button variant="ghost" size="sm">Download PDF</Button>
-                    </Stack>
-                  </Stack>
-                </Stack>
-              </Card>
-            ))}
-          </Grid>
+                </Card>
+              ))}
+            </Grid>
 
-          <Card className="border-2 border-ink-800 bg-ink-900/50 p-6">
-            <Stack gap={4}>
-              <H3>Quick Reference by Category</H3>
-              <Grid cols={4} gap={4}>
-                {categories.slice(1).map((cat) => (
-                  <Card key={cat} className="p-4 border border-ink-700 cursor-pointer hover:border-white" onClick={() => setCategoryFilter(cat)}>
-                    <Stack gap={2} className="text-center">
-                      <Label className="text-h5-md">{getCategoryIcon(cat)}</Label>
-                      <Label className="text-white">{cat}</Label>
-                      <Label size="xs" className="text-ink-500">{mockRegulations.filter(r => r.category === cat).length} docs</Label>
-                    </Stack>
-                  </Card>
-                ))}
-              </Grid>
-            </Stack>
-          </Card>
+            <Card>
+              <Stack gap={4}>
+                <H3>Quick Reference by Category</H3>
+                <Grid cols={4} gap={4}>
+                  {categories.slice(1).map((cat) => (
+                    <Card key={cat} onClick={() => setCategoryFilter(cat)}>
+                      <Stack gap={2} className="text-center">
+                        <Body>{getCategoryIcon(cat)}</Body>
+                        <Body>{cat}</Body>
+                        <Body className="text-body-sm">{mockRegulations.filter(r => r.category === cat).length} docs</Body>
+                      </Stack>
+                    </Card>
+                  ))}
+                </Grid>
+              </Stack>
+            </Card>
 
-          <Grid cols={3} gap={4}>
-            <Button variant="outlineInk" onClick={() => router.push("/knowledge")}>Knowledge Base</Button>
-            <Button variant="outlineInk" onClick={() => router.push("/safety")}>Safety</Button>
-            <Button variant="outlineInk" onClick={() => router.push("/")}>Dashboard</Button>
-          </Grid>
-        </Stack>
-      </Container>
+            <Grid cols={3} gap={4}>
+              <Button variant="outline" onClick={() => router.push("/knowledge")}>Knowledge Base</Button>
+              <Button variant="outline" onClick={() => router.push("/safety")}>Safety</Button>
+              <Button variant="outline" onClick={() => router.push("/")}>Dashboard</Button>
+            </Grid>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedRegulation} onClose={() => setSelectedRegulation(null)}>
         <ModalHeader><H3>{selectedRegulation?.title}</H3></ModalHeader>
@@ -157,21 +175,21 @@ export default function RegulationsPage() {
           {selectedRegulation && (
             <Stack gap={4}>
               <Stack direction="horizontal" gap={2}>
-                <Label className="text-h6-md">{getCategoryIcon(selectedRegulation.category)}</Label>
+                <Body>{getCategoryIcon(selectedRegulation.category)}</Body>
                 <Badge variant="outline">{selectedRegulation.category}</Badge>
                 <Badge variant="outline">{selectedRegulation.jurisdiction}</Badge>
-                <Label className={getStatusColor(selectedRegulation.status)}>{selectedRegulation.status}</Label>
+                <Badge variant={selectedRegulation.status === "Current" ? "solid" : "outline"}>{selectedRegulation.status}</Badge>
               </Stack>
-              <Stack gap={1}><Label className="text-ink-400">Last Updated</Label><Label className="text-white">{selectedRegulation.lastUpdated}</Label></Stack>
-              <Stack gap={1}><Label className="text-ink-400">Summary</Label><Body className="text-ink-300">{selectedRegulation.summary}</Body></Stack>
-              <Card className="p-4 border border-ink-700">
+              <Stack gap={1}><Body className="text-body-sm">Last Updated</Body><Body>{selectedRegulation.lastUpdated}</Body></Stack>
+              <Stack gap={1}><Body className="text-body-sm">Summary</Body><Body>{selectedRegulation.summary}</Body></Stack>
+              <Card>
                 <Stack gap={2}>
-                  <Label className="text-ink-400">Key Requirements</Label>
+                  <Body className="text-body-sm">Key Requirements</Body>
                   <Stack gap={1}>
-                    <Label className="text-ink-300">• Compliance documentation required</Label>
-                    <Label className="text-ink-300">• Regular inspections and audits</Label>
-                    <Label className="text-ink-300">• Training and certification records</Label>
-                    <Label className="text-ink-300">• Incident reporting procedures</Label>
+                    <Body>• Compliance documentation required</Body>
+                    <Body>• Regular inspections and audits</Body>
+                    <Body>• Training and certification records</Body>
+                    <Body>• Incident reporting procedures</Body>
                   </Stack>
                 </Stack>
               </Card>
@@ -184,6 +202,6 @@ export default function RegulationsPage() {
           <Button variant="solid">View Full Document</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

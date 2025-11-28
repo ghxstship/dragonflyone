@@ -1,8 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { ConsumerNavigationPublic } from '../../../components/navigation';
-import { Container, Section, H1, H2, Body, Button, Card, Field, Label, Input, Badge, Alert, Grid, Stack, StatCard } from '@ghxstship/ui';
+import { ConsumerNavigationPublic } from '@/components/navigation';
+import {
+  Container, Section, H2, Body, Button, Card, Field, Label, Input, Badge, Alert, Grid, Stack, StatCard,
+  PageLayout, Footer, FooterColumn, FooterLink, Display, Kicker,
+} from '@ghxstship/ui';
 
 export default function GvtewayIntegrationsPage() {
   const [eventCode, setEventCode] = useState('');
@@ -52,159 +55,190 @@ export default function GvtewayIntegrationsPage() {
   };
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2} className="border-b-2 border-black pb-8">
-            <H1>Platform Integrations</H1>
-            <Body className="text-ink-600">
-              Connect ticket sales, guest data, and event operations with backend systems.
-            </Body>
-          </Stack>
-
-        <Grid cols={4} gap={6}>
-          <StatCard value={38} label="Events Synced" />
-          <StatCard value="$124K" label="Revenue Ingested" />
-          <StatCard value="2,847" label="Guest Profiles" />
-          <StatCard value={12} label="Active Workflows" />
-        </Grid>
-
-        <Card className="p-8">
-          <Stack gap={6}>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Admin">
+            <FooterLink href="/admin">Dashboard</FooterLink>
+            <FooterLink href="/admin/integrations">Integrations</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
             <Stack gap={2}>
-              <H2>Revenue Sync (GVTEWAY → ATLVS)</H2>
-              <Body>
-                Ingest ticket sales revenue into ATLVS financial system for accounting and reporting.
-              </Body>
+              <Kicker colorScheme="on-dark">Admin</Kicker>
+              <H2 size="lg" className="text-white">Platform Integrations</H2>
+              <Body className="text-on-dark-muted">Connect ticket sales, guest data, and event operations with backend systems.</Body>
             </Stack>
 
-            <Stack gap={4}>
-              <Grid cols={2} gap={4}>
-                <Field>
-                  <Label>Event Code</Label>
-                  <Input
-                    value={eventCode}
-                    onChange={(e) => setEventCode(e.target.value)}
-                    placeholder="EVT-2024-0001"
-                  />
-                </Field>
+            <Grid cols={4} gap={6}>
+              <StatCard value="38" label="Events Synced" inverted />
+              <StatCard value="$124K" label="Revenue Ingested" inverted />
+              <StatCard value="2,847" label="Guest Profiles" inverted />
+              <StatCard value="12" label="Active Workflows" inverted />
+            </Grid>
 
-                <Field>
-                  <Label>Project Code (COMPVSS)</Label>
-                  <Input
-                    value={projectCode}
-                    onChange={(e) => setProjectCode(e.target.value)}
-                    placeholder="PROJ-2024-0001"
-                  />
-                </Field>
-              </Grid>
-
-              <Grid cols={2} gap={4}>
-                <Field>
-                  <Label>Tickets Sold</Label>
-                  <Input
-                    type="number"
-                    value={ticketsSold}
-                    onChange={(e) => setTicketsSold(e.target.value)}
-                    placeholder="500"
-                  />
-                </Field>
-
-                <Field>
-                  <Label>Gross Revenue ($)</Label>
-                  <Input
-                    type="number"
-                    step="0.01"
-                    value={revenue}
-                    onChange={(e) => setRevenue(e.target.value)}
-                    placeholder="25000.00"
-                  />
-                </Field>
-              </Grid>
-
-              <Button
-                onClick={handleRevenueSync}
-                disabled={!eventCode || !projectCode || !ticketsSold || !revenue || loading}
-                variant="solid"
-                className="w-full"
-              >
-                {loading ? 'Syncing Revenue...' : 'Sync to ATLVS Finance'}
-              </Button>
-            </Stack>
-
-            {error && (
-              <Alert variant="error">
-                {error}
-              </Alert>
-            )}
-
-            {result && (
-              <Alert variant="success">
+            <Card inverted variant="elevated" className="p-8">
+              <Stack gap={6}>
                 <Stack gap={2}>
-                  <Body className="font-bold">Revenue synced successfully!</Body>
-                  <Body>Ingestion ID: {result.ingestionId}</Body>
-                  <Body>Ledger entry created in ATLVS</Body>
+                  <H2 className="text-white">Revenue Sync (GVTEWAY → ATLVS)</H2>
+                  <Body className="text-on-dark-muted">
+                    Ingest ticket sales revenue into ATLVS financial system for accounting and reporting.
+                  </Body>
                 </Stack>
-              </Alert>
-            )}
+
+                <Stack gap={4}>
+                  <Grid cols={2} gap={4}>
+                    <Field>
+                      <Label size="xs" className="text-on-dark-muted">Event Code</Label>
+                      <Input
+                        value={eventCode}
+                        onChange={(e) => setEventCode(e.target.value)}
+                        placeholder="EVT-2024-0001"
+                        inverted
+                      />
+                    </Field>
+
+                    <Field>
+                      <Label size="xs" className="text-on-dark-muted">Project Code (COMPVSS)</Label>
+                      <Input
+                        value={projectCode}
+                        onChange={(e) => setProjectCode(e.target.value)}
+                        placeholder="PROJ-2024-0001"
+                        inverted
+                      />
+                    </Field>
+                  </Grid>
+
+                  <Grid cols={2} gap={4}>
+                    <Field>
+                      <Label size="xs" className="text-on-dark-muted">Tickets Sold</Label>
+                      <Input
+                        type="number"
+                        value={ticketsSold}
+                        onChange={(e) => setTicketsSold(e.target.value)}
+                        placeholder="500"
+                        inverted
+                      />
+                    </Field>
+
+                    <Field>
+                      <Label size="xs" className="text-on-dark-muted">Gross Revenue ($)</Label>
+                      <Input
+                        type="number"
+                        step="0.01"
+                        value={revenue}
+                        onChange={(e) => setRevenue(e.target.value)}
+                        placeholder="25000.00"
+                        inverted
+                      />
+                    </Field>
+                  </Grid>
+
+                  <Button
+                    onClick={handleRevenueSync}
+                    disabled={!eventCode || !projectCode || !ticketsSold || !revenue || loading}
+                    variant="solid"
+                    inverted
+                    fullWidth
+                  >
+                    {loading ? 'Syncing Revenue...' : 'Sync to ATLVS Finance'}
+                  </Button>
+                </Stack>
+
+                {error && (
+                  <Alert variant="error">
+                    {error}
+                  </Alert>
+                )}
+
+                {result && (
+                  <Alert variant="success">
+                    <Stack gap={2}>
+                      <Body className="font-display">Revenue synced successfully!</Body>
+                      <Body size="sm">Ingestion ID: {result.ingestionId}</Body>
+                      <Body size="sm">Ledger entry created in ATLVS</Body>
+                    </Stack>
+                  </Alert>
+                )}
+              </Stack>
+            </Card>
+
+            <Card inverted className="p-8">
+              <Stack gap={6}>
+                <Stack gap={2}>
+                  <H2 className="text-white">Data Flow Overview</H2>
+                  <Body className="text-on-dark-muted">
+                    Real-time data synchronization between GVTEWAY and other platforms.
+                  </Body>
+                </Stack>
+
+                <Stack gap={4}>
+                  <Card inverted interactive>
+                    <Stack gap={4} direction="horizontal" className="items-center">
+                      <Stack gap={1} className="flex-1">
+                        <Body className="font-display text-white">Ticket Sales → Financial Records</Body>
+                        <Label size="xs" className="text-on-dark-muted">GVTEWAY → ATLVS Ledger</Label>
+                      </Stack>
+                      <Badge variant="solid">Real-time</Badge>
+                    </Stack>
+                  </Card>
+
+                  <Card inverted interactive>
+                    <Stack gap={4} direction="horizontal" className="items-center">
+                      <Stack gap={1} className="flex-1">
+                        <Body className="font-display text-white">Event Updates → Production Schedule</Body>
+                        <Label size="xs" className="text-on-dark-muted">COMPVSS → GVTEWAY Events</Label>
+                      </Stack>
+                      <Badge variant="solid">Bi-directional</Badge>
+                    </Stack>
+                  </Card>
+
+                  <Card inverted interactive>
+                    <Stack gap={4} direction="horizontal" className="items-center">
+                      <Stack gap={1} className="flex-1">
+                        <Body className="font-display text-white">Guest Profiles → CRM Database</Body>
+                        <Label size="xs" className="text-on-dark-muted">GVTEWAY → ATLVS Contacts</Label>
+                      </Stack>
+                      <Badge variant="outline">Nightly Batch</Badge>
+                    </Stack>
+                  </Card>
+
+                  <Card inverted interactive>
+                    <Stack gap={4} direction="horizontal" className="items-center">
+                      <Stack gap={1} className="flex-1">
+                        <Body className="font-display text-white">Inventory → Merchandise Stock</Body>
+                        <Label size="xs" className="text-on-dark-muted">ATLVS Assets → GVTEWAY Store</Label>
+                      </Stack>
+                      <Badge variant="solid">Real-time</Badge>
+                    </Stack>
+                  </Card>
+                </Stack>
+              </Stack>
+            </Card>
           </Stack>
-        </Card>
-
-        <Card className="p-8">
-          <Stack gap={6}>
-            <Stack gap={2}>
-              <H2>Data Flow Overview</H2>
-              <Body>
-                Real-time data synchronization between GVTEWAY and other platforms.
-              </Body>
-            </Stack>
-
-            <Stack gap={4}>
-              <Card className="p-4 border border-ink-800">
-                <Stack gap={4} direction="horizontal" className="items-center">
-                  <Stack gap={1} className="flex-1">
-                    <Body className="font-bold">Ticket Sales → Financial Records</Body>
-                    <Body className="text-body-sm text-ink-600">GVTEWAY → ATLVS Ledger</Body>
-                  </Stack>
-                  <Badge variant="solid">Real-time</Badge>
-                </Stack>
-              </Card>
-
-              <Card className="p-4 border border-ink-800">
-                <Stack gap={4} direction="horizontal" className="items-center">
-                  <Stack gap={1} className="flex-1">
-                    <Body className="font-bold">Event Updates → Production Schedule</Body>
-                    <Body className="text-body-sm text-ink-600">COMPVSS → GVTEWAY Events</Body>
-                  </Stack>
-                  <Badge variant="solid">Bi-directional</Badge>
-                </Stack>
-              </Card>
-
-              <Card className="p-4 border border-ink-800">
-                <Stack gap={4} direction="horizontal" className="items-center">
-                  <Stack gap={1} className="flex-1">
-                    <Body className="font-bold">Guest Profiles → CRM Database</Body>
-                    <Body className="text-body-sm text-ink-600">GVTEWAY → ATLVS Contacts</Body>
-                  </Stack>
-                  <Badge variant="outline">Nightly Batch</Badge>
-                </Stack>
-              </Card>
-
-              <Card className="p-4 border border-ink-800">
-                <Stack gap={4} direction="horizontal" className="items-center">
-                  <Stack gap={1} className="flex-1">
-                    <Body className="font-bold">Inventory → Merchandise Stock</Body>
-                    <Body className="text-body-sm text-ink-600">ATLVS Assets → GVTEWAY Store</Body>
-                  </Stack>
-                  <Badge variant="solid">Real-time</Badge>
-                </Stack>
-              </Card>
-            </Stack>
-          </Stack>
-        </Card>
-      </Stack>
-      </Container>
-    </Section>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

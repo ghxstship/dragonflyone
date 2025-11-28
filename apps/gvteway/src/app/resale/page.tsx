@@ -2,12 +2,17 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { ConsumerNavigationPublic } from "../../components/navigation";
+import { ConsumerNavigationPublic } from "@/components/navigation";
 import {
   ListPage,
   Badge,
   DetailDrawer,
   ConfirmDialog,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -129,8 +134,24 @@ export default function ResalePage() {
     )},
   ] : [];
 
+  const footerContent = (
+    <Footer
+      logo={<Display size="md">GVTEWAY</Display>}
+      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+    >
+      <FooterColumn title="Marketplace">
+        <FooterLink href="/resale">Resale</FooterLink>
+        <FooterLink href="/events">Events</FooterLink>
+      </FooterColumn>
+      <FooterColumn title="Legal">
+        <FooterLink href="/legal/privacy">Privacy</FooterLink>
+        <FooterLink href="/legal/terms">Terms</FooterLink>
+      </FooterColumn>
+    </Footer>
+  );
+
   return (
-    <>
+    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
       <ListPage<ResaleListing>
         title="Ticket Resale"
         subtitle="Buy and sell tickets safely through our verified marketplace"
@@ -150,7 +171,6 @@ export default function ResalePage() {
         stats={stats}
         emptyMessage="No listings found"
         emptyAction={{ label: 'List a Ticket', onClick: () => router.push('/tickets') }}
-        header={<ConsumerNavigationPublic />}
       />
       {selectedListing && (
         <DetailDrawer
@@ -173,6 +193,6 @@ export default function ResalePage() {
         onConfirm={handleDelete}
         variant="danger"
       />
-    </>
+    </PageLayout>
   );
 }

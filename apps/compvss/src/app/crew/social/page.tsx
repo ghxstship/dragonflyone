@@ -4,9 +4,27 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter,
+  Container,
+  H3,
+  Body,
+  Grid,
+  Stack,
+  StatCard,
+  Input,
+  Button,
+  Section,
+  Card,
+  Tabs,
+  TabsList,
+  Tab,
+  TabPanel,
+  Badge,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 interface CrewMember {
@@ -53,15 +71,6 @@ export default function CrewSocialPage() {
 
   const onlineCount = mockCrew.filter(c => c.status === "Online").length;
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "Online": return "bg-success-500";
-      case "Away": return "bg-warning-500";
-      case "Offline": return "bg-ink-500";
-      default: return "bg-ink-500";
-    }
-  };
-
   const getPostIcon = (type: string) => {
     switch (type) {
       case "Photo": return "📷";
@@ -72,198 +81,205 @@ export default function CrewSocialPage() {
   };
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Crew Social</H1>
-            <Label className="text-ink-400">Connect with your crew, share updates, and build connections</Label>
-          </Stack>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Crew Social"
+              description="Connect with your crew, share updates, and build connections"
+              colorScheme="on-light"
+              gap="lg"
+            />
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Crew Members" value={mockCrew.length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Online Now" value={onlineCount} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Posts Today" value={mockPosts.length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Your Connections" value={45} className="bg-transparent border-2 border-ink-800" />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard value={mockCrew.length.toString()} label="Crew Members" />
+              <StatCard value={onlineCount.toString()} label="Online Now" />
+              <StatCard value={mockPosts.length.toString()} label="Posts Today" />
+              <StatCard value="45" label="Your Connections" />
+            </Grid>
 
-          <Tabs>
-            <TabsList>
-              <Tab active={activeTab === "feed"} onClick={() => setActiveTab("feed")}>Feed</Tab>
-              <Tab active={activeTab === "roster"} onClick={() => setActiveTab("roster")}>Roster</Tab>
-              <Tab active={activeTab === "photos"} onClick={() => setActiveTab("photos")}>Photos</Tab>
-              <Tab active={activeTab === "connections"} onClick={() => setActiveTab("connections")}>Connections</Tab>
-            </TabsList>
+            <Tabs>
+              <TabsList>
+                <Tab active={activeTab === "feed"} onClick={() => setActiveTab("feed")}>Feed</Tab>
+                <Tab active={activeTab === "roster"} onClick={() => setActiveTab("roster")}>Roster</Tab>
+                <Tab active={activeTab === "photos"} onClick={() => setActiveTab("photos")}>Photos</Tab>
+                <Tab active={activeTab === "connections"} onClick={() => setActiveTab("connections")}>Connections</Tab>
+              </TabsList>
 
-            <TabPanel active={activeTab === "feed"}>
-              <Grid cols={3} gap={6}>
-                <Stack gap={4} className="col-span-2">
-                  <Card className="border-2 border-ink-800 bg-ink-900/50 p-4">
-                    <Stack direction="horizontal" gap={3}>
-                      <Card className="w-10 h-10 bg-ink-700 rounded-full flex items-center justify-center">
-                        <Label>You</Label>
-                      </Card>
-                      <Input placeholder="Share an update with your crew..." className="border-ink-700 bg-black text-white flex-1" />
-                      <Button variant="solid">Post</Button>
-                    </Stack>
-                  </Card>
-                  {mockPosts.map((post) => (
-                    <Card key={post.id} className="border-2 border-ink-800 bg-ink-900/50 p-6">
-                      <Stack gap={4}>
-                        <Stack direction="horizontal" className="justify-between">
-                          <Stack direction="horizontal" gap={3}>
-                            <Card className="w-12 h-12 bg-ink-700 rounded-full flex items-center justify-center">
-                              <Label>{mockCrew.find(c => c.id === post.authorId)?.avatar}</Label>
-                            </Card>
-                            <Stack gap={0}>
-                              <Label className="text-white">{post.authorName}</Label>
-                              <Label size="xs" className="text-ink-400">{post.authorRole}</Label>
+              <TabPanel active={activeTab === "feed"}>
+                <Grid cols={3} gap={6}>
+                  <Stack gap={4} className="col-span-2">
+                    <Card className="p-4">
+                      <Stack direction="horizontal" gap={3}>
+                        <Card className="flex size-10 items-center justify-center rounded-avatar">
+                          <Body className="text-body-sm">You</Body>
+                        </Card>
+                        <Input placeholder="Share an update with your crew..." className="flex-1" />
+                        <Button variant="solid">Post</Button>
+                      </Stack>
+                    </Card>
+                    {mockPosts.map((post) => (
+                      <Card key={post.id} className="p-6">
+                        <Stack gap={4}>
+                          <Stack direction="horizontal" className="justify-between">
+                            <Stack direction="horizontal" gap={3}>
+                              <Card className="flex size-12 items-center justify-center rounded-avatar">
+                                <Body className="text-body-sm">{mockCrew.find(c => c.id === post.authorId)?.avatar}</Body>
+                              </Card>
+                              <Stack gap={0}>
+                                <Body>{post.authorName}</Body>
+                                <Body className="text-body-sm">{post.authorRole}</Body>
+                              </Stack>
+                            </Stack>
+                            <Stack direction="horizontal" gap={2}>
+                              <Body className="text-h5-md">{getPostIcon(post.type)}</Body>
+                              <Body className="text-body-sm">{post.timestamp}</Body>
                             </Stack>
                           </Stack>
-                          <Stack direction="horizontal" gap={2}>
-                            <Label className="text-h5-md">{getPostIcon(post.type)}</Label>
-                            <Label size="xs" className="text-ink-500">{post.timestamp}</Label>
+                          <Body>{post.content}</Body>
+                          {post.type === "Photo" && (
+                            <Card className="flex h-48 items-center justify-center">
+                              <Body className="text-h3-md">🖼️</Body>
+                            </Card>
+                          )}
+                          <Stack direction="horizontal" gap={4}>
+                            <Button variant="ghost" size="sm">❤️ {post.likes}</Button>
+                            <Button variant="ghost" size="sm">💬 {post.comments}</Button>
+                            <Button variant="ghost" size="sm">Share</Button>
                           </Stack>
                         </Stack>
-                        <Body className="text-ink-200">{post.content}</Body>
-                        {post.type === "Photo" && (
-                          <Card className="h-48 bg-ink-800 flex items-center justify-center">
-                            <Label className="text-h3-md">🖼️</Label>
-                          </Card>
-                        )}
+                      </Card>
+                    ))}
+                  </Stack>
+                  <Stack gap={4}>
+                    <Card className="p-4">
+                      <Stack gap={3}>
+                        <Body className="font-display">Online Now</Body>
+                        {mockCrew.filter(c => c.status === "Online").map((member) => (
+                          <Stack key={member.id} direction="horizontal" gap={3} className="cursor-pointer" onClick={() => setSelectedMember(member)}>
+                            <Card className="flex size-8 items-center justify-center rounded-avatar">
+                              <Body className="text-body-sm">{member.avatar}</Body>
+                            </Card>
+                            <Stack gap={0}>
+                              <Body className="text-body-sm">{member.name}</Body>
+                              <Body className="text-body-sm">{member.role}</Body>
+                            </Stack>
+                          </Stack>
+                        ))}
+                      </Stack>
+                    </Card>
+                    <Card className="p-4">
+                      <Stack gap={3}>
+                        <Body className="font-display">Suggested Connections</Body>
+                        {mockCrew.slice(0, 3).map((member) => (
+                          <Stack key={member.id} direction="horizontal" className="items-center justify-between">
+                            <Stack direction="horizontal" gap={2}>
+                              <Card className="flex size-8 items-center justify-center rounded-avatar">
+                                <Body className="text-body-sm">{member.avatar}</Body>
+                              </Card>
+                              <Body className="text-body-sm">{member.name}</Body>
+                            </Stack>
+                            <Button variant="outline" size="sm">Connect</Button>
+                          </Stack>
+                        ))}
+                      </Stack>
+                    </Card>
+                  </Stack>
+                </Grid>
+              </TabPanel>
+
+              <TabPanel active={activeTab === "roster"}>
+                <Grid cols={4} gap={4}>
+                  {mockCrew.map((member) => (
+                    <Card key={member.id} className="cursor-pointer p-4" onClick={() => setSelectedMember(member)}>
+                      <Stack gap={3} className="text-center">
+                        <Card className="mx-auto flex size-16 items-center justify-center rounded-avatar">
+                          <Body className="text-h6-md">{member.avatar}</Body>
+                        </Card>
+                        <Stack gap={1}>
+                          <Body>{member.name}</Body>
+                          <Body className="text-body-sm">{member.role}</Body>
+                          <Badge variant="outline">{member.department}</Badge>
+                        </Stack>
+                        <Stack direction="horizontal" gap={4} className="justify-center">
+                          <Stack gap={0}>
+                            <Body className="font-display">{member.connections}</Body>
+                            <Body className="text-body-sm">Connections</Body>
+                          </Stack>
+                          <Stack gap={0}>
+                            <Body className="font-display">{member.projects}</Body>
+                            <Body className="text-body-sm">Projects</Body>
+                          </Stack>
+                        </Stack>
+                      </Stack>
+                    </Card>
+                  ))}
+                </Grid>
+              </TabPanel>
+
+              <TabPanel active={activeTab === "photos"}>
+                <Grid cols={4} gap={4}>
+                  {Array.from({ length: 8 }).map((_, idx) => (
+                    <Card key={idx} className="flex aspect-square cursor-pointer items-center justify-center">
+                      <Body className="text-h3-md">📷</Body>
+                    </Card>
+                  ))}
+                </Grid>
+              </TabPanel>
+
+              <TabPanel active={activeTab === "connections"}>
+                <Stack gap={4}>
+                  {mockCrew.map((member) => (
+                    <Card key={member.id} className="p-4">
+                      <Stack direction="horizontal" className="items-center justify-between">
                         <Stack direction="horizontal" gap={4}>
-                          <Button variant="ghost" size="sm">❤️ {post.likes}</Button>
-                          <Button variant="ghost" size="sm">💬 {post.comments}</Button>
-                          <Button variant="ghost" size="sm">Share</Button>
+                          <Card className="flex size-12 items-center justify-center rounded-avatar">
+                            <Body>{member.avatar}</Body>
+                          </Card>
+                          <Stack gap={1}>
+                            <Body>{member.name}</Body>
+                            <Body className="text-body-sm">{member.role} • {member.department}</Body>
+                          </Stack>
+                        </Stack>
+                        <Stack direction="horizontal" gap={2}>
+                          <Button variant="outline" size="sm">Message</Button>
+                          <Button variant="ghost" size="sm">View Profile</Button>
                         </Stack>
                       </Stack>
                     </Card>
                   ))}
                 </Stack>
-                <Stack gap={4}>
-                  <Card className="border-2 border-ink-800 bg-ink-900/50 p-4">
-                    <Stack gap={3}>
-                      <Label className="text-ink-400">Online Now</Label>
-                      {mockCrew.filter(c => c.status === "Online").map((member) => (
-                        <Stack key={member.id} direction="horizontal" gap={3} className="cursor-pointer" onClick={() => setSelectedMember(member)}>
-                          <Card className="w-8 h-8 bg-ink-700 rounded-full flex items-center justify-center relative">
-                            <Label size="xs">{member.avatar}</Label>
-                            <Card className={`absolute bottom-0 right-0 w-2 h-2 rounded-full ${getStatusColor(member.status)}`} />
-                          </Card>
-                          <Stack gap={0}>
-                            <Label size="xs" className="text-white">{member.name}</Label>
-                            <Label size="xs" className="text-ink-500">{member.role}</Label>
-                          </Stack>
-                        </Stack>
-                      ))}
-                    </Stack>
-                  </Card>
-                  <Card className="border-2 border-ink-800 bg-ink-900/50 p-4">
-                    <Stack gap={3}>
-                      <Label className="text-ink-400">Suggested Connections</Label>
-                      {mockCrew.slice(0, 3).map((member) => (
-                        <Stack key={member.id} direction="horizontal" className="justify-between items-center">
-                          <Stack direction="horizontal" gap={2}>
-                            <Card className="w-8 h-8 bg-ink-700 rounded-full flex items-center justify-center">
-                              <Label size="xs">{member.avatar}</Label>
-                            </Card>
-                            <Label size="xs" className="text-white">{member.name}</Label>
-                          </Stack>
-                          <Button variant="outline" size="sm">Connect</Button>
-                        </Stack>
-                      ))}
-                    </Stack>
-                  </Card>
-                </Stack>
-              </Grid>
-            </TabPanel>
+              </TabPanel>
+            </Tabs>
 
-            <TabPanel active={activeTab === "roster"}>
-              <Grid cols={4} gap={4}>
-                {mockCrew.map((member) => (
-                  <Card key={member.id} className="border-2 border-ink-800 bg-ink-900/50 p-4 cursor-pointer hover:border-white" onClick={() => setSelectedMember(member)}>
-                    <Stack gap={3} className="text-center">
-                      <Card className="w-16 h-16 bg-ink-700 rounded-full flex items-center justify-center mx-auto relative">
-                        <Label className="text-h6-md">{member.avatar}</Label>
-                        <Card className={`absolute bottom-0 right-0 w-4 h-4 rounded-full border-2 border-ink-900 ${getStatusColor(member.status)}`} />
-                      </Card>
-                      <Stack gap={1}>
-                        <Label className="text-white">{member.name}</Label>
-                        <Label size="xs" className="text-ink-400">{member.role}</Label>
-                        <Badge variant="outline">{member.department}</Badge>
-                      </Stack>
-                      <Stack direction="horizontal" gap={4} className="justify-center">
-                        <Stack gap={0}><Label className="font-mono text-white">{member.connections}</Label><Label size="xs" className="text-ink-500">Connections</Label></Stack>
-                        <Stack gap={0}><Label className="font-mono text-white">{member.projects}</Label><Label size="xs" className="text-ink-500">Projects</Label></Stack>
-                      </Stack>
-                    </Stack>
-                  </Card>
-                ))}
-              </Grid>
-            </TabPanel>
-
-            <TabPanel active={activeTab === "photos"}>
-              <Grid cols={4} gap={4}>
-                {Array.from({ length: 8 }).map((_, idx) => (
-                  <Card key={idx} className="aspect-square bg-ink-800 border-2 border-ink-700 flex items-center justify-center cursor-pointer hover:border-white">
-                    <Label className="text-h3-md">📷</Label>
-                  </Card>
-                ))}
-              </Grid>
-            </TabPanel>
-
-            <TabPanel active={activeTab === "connections"}>
-              <Stack gap={4}>
-                {mockCrew.map((member) => (
-                  <Card key={member.id} className="border-2 border-ink-800 bg-ink-900/50 p-4">
-                    <Stack direction="horizontal" className="justify-between items-center">
-                      <Stack direction="horizontal" gap={4}>
-                        <Card className="w-12 h-12 bg-ink-700 rounded-full flex items-center justify-center">
-                          <Label>{member.avatar}</Label>
-                        </Card>
-                        <Stack gap={1}>
-                          <Label className="text-white">{member.name}</Label>
-                          <Label size="xs" className="text-ink-400">{member.role} • {member.department}</Label>
-                        </Stack>
-                      </Stack>
-                      <Stack direction="horizontal" gap={2}>
-                        <Button variant="outline" size="sm">Message</Button>
-                        <Button variant="ghost" size="sm">View Profile</Button>
-                      </Stack>
-                    </Stack>
-                  </Card>
-                ))}
-              </Stack>
-            </TabPanel>
-          </Tabs>
-
-          <Button variant="outlineInk" onClick={() => router.push("/crew")}>Crew Directory</Button>
-        </Stack>
-      </Container>
+            <Button variant="outline" onClick={() => router.push("/crew")}>Crew Directory</Button>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedMember} onClose={() => setSelectedMember(null)}>
         <ModalHeader><H3>{selectedMember?.name}</H3></ModalHeader>
         <ModalBody>
           {selectedMember && (
             <Stack gap={4}>
-              <Card className="w-20 h-20 bg-ink-700 rounded-full flex items-center justify-center mx-auto">
-                <Label className="text-h5-md">{selectedMember.avatar}</Label>
+              <Card className="mx-auto flex size-20 items-center justify-center rounded-avatar">
+                <Body className="text-h5-md">{selectedMember.avatar}</Body>
               </Card>
               <Stack gap={1} className="text-center">
-                <Label className="text-ink-400">{selectedMember.role}</Label>
+                <Body>{selectedMember.role}</Body>
                 <Badge variant="outline">{selectedMember.department}</Badge>
               </Stack>
-              {selectedMember.bio && <Body className="text-ink-300 text-center">{selectedMember.bio}</Body>}
+              {selectedMember.bio && <Body className="text-center">{selectedMember.bio}</Body>}
               <Grid cols={2} gap={4}>
-                <Card className="p-3 border border-ink-700 text-center">
-                  <Label className="font-mono text-white text-h6-md">{selectedMember.connections}</Label>
-                  <Label size="xs" className="text-ink-500">Connections</Label>
+                <Card className="p-3 text-center">
+                  <Body className="text-h6-md font-display">{selectedMember.connections}</Body>
+                  <Body className="text-body-sm">Connections</Body>
                 </Card>
-                <Card className="p-3 border border-ink-700 text-center">
-                  <Label className="font-mono text-white text-h6-md">{selectedMember.projects}</Label>
-                  <Label size="xs" className="text-ink-500">Projects</Label>
+                <Card className="p-3 text-center">
+                  <Body className="text-h6-md font-display">{selectedMember.projects}</Body>
+                  <Body className="text-body-sm">Projects</Body>
                 </Card>
               </Grid>
             </Stack>
@@ -275,6 +291,6 @@ export default function CrewSocialPage() {
           <Button variant="solid">Connect</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

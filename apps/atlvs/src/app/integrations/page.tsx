@@ -2,13 +2,40 @@
 
 import { useState } from 'react';
 import { CreatorNavigationAuthenticated } from '../../components/navigation';
-import { Container, Section, Display, H2, H3, Body, Button, Card, Field, Label, Input, Select, Badge, Alert, Stack, Grid, StatCard } from '@ghxstship/ui';
+import { 
+  Container, 
+  Section, 
+  H2, 
+  H3, 
+  Body, 
+  Button, 
+  Card, 
+  Field, 
+  Label, 
+  Input, 
+  Alert, 
+  Stack, 
+  Grid, 
+  StatCard,
+  PageLayout,
+  SectionHeader,
+} from '@ghxstship/ui';
 
+interface IntegrationResult {
+  created?: boolean;
+  alreadyExists?: boolean;
+  projectId?: string;
+}
+
+/**
+ * Integrations Page - Bold Contemporary Pop Art Adventure
+ * Hard offset shadows, 2px+ borders, bounce animations
+ */
 export default function IntegrationsPage() {
   const [dealId, setDealId] = useState('');
   const [orgSlug, setOrgSlug] = useState('ghxstship');
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<IntegrationResult | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleDealHandoff = async () => {
@@ -42,16 +69,18 @@ export default function IntegrationsPage() {
   };
 
   return (
-    <Section className="min-h-screen bg-ink-950 text-ink-50">
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2} className="border-b border-ink-800 pb-8">
-            <Display>CROSS-PLATFORM INTEGRATIONS</Display>
-            <Body className="text-ink-400">
-              Manage data synchronization between ATLVS, COMPVSS, and GVTEWAY platforms.
-            </Body>
-          </Stack>
+    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            {/* Page Header - Bold Contemporary Pop Art Adventure */}
+            <SectionHeader
+              kicker="ATLVS"
+              title="Cross-Platform Integrations"
+              description="Manage data synchronization between ATLVS, COMPVSS, and GVTEWAY platforms"
+              colorScheme="on-dark"
+              gap="lg"
+            />
 
         <Card className="p-8 border-2 border-ink-800 bg-transparent">
           <H2 className="text-white">Deal → Project Handoff (ATLVS → COMPVSS)</H2>
@@ -168,8 +197,9 @@ export default function IntegrationsPage() {
             </Card>
           </Stack>
         </Card>
-        </Stack>
-      </Container>
-    </Section>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

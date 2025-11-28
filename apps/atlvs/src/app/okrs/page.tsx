@@ -4,22 +4,31 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
-  H1,
-  H3,
-  Body,
-  StatCard,
-  Select,
-  Button,
+  ListPage,
   Badge,
-  Card,
-  ProgressBar,
-  Container,
-  Grid,
-  Stack,
-  Section,
+  DetailDrawer,
+  RecordFormModal,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
+  type DetailSection,
+  type FormFieldConfig,
 } from "@ghxstship/ui";
 
-const okrs = [
+interface KeyResult {
+  kr: string;
+  progress: number;
+}
+
+interface OKR {
+  id: string;
+  objective: string;
+  owner: string;
+  progress: number;
+  keyResults: KeyResult[];
+}
+
+const mockOKRs: OKR[] = [
   { id: "OKR-Q4-001", objective: "Scale Production Capacity 50%", owner: "Operations", progress: 65, keyResults: [
     { kr: "Hire 15 new crew members", progress: 80 },
     { kr: "Acquire $2M in new equipment", progress: 60 },
@@ -37,103 +46,129 @@ const okrs = [
   ]},
 ];
 
+const getProgressVariant = (progress: number): 'solid' | 'outline' | 'ghost' => {
+  if (progress >= 70) return 'solid';
+  if (progress >= 50) return 'outline';
+  return 'ghost';
+};
+
+const columns: ListPageColumn<OKR>[] = [
+  { key: 'id', label: 'ID', accessor: 'id', sortable: true },
+  { key: 'objective', label: 'Objective', accessor: 'objective', sortable: true },
+  { key: 'owner', label: 'Owner', accessor: 'owner', sortable: true, render: (v) => <Badge variant="outline">{String(v)}</Badge> },
+  { key: 'keyResults', label: 'Key Results', accessor: (r) => `${r.keyResults.length} KRs` },
+  { key: 'progress', label: 'Progress', accessor: (r) => `${r.progress}%`, sortable: true, render: (v, r) => <Badge variant={getProgressVariant(r.progress)}>{String(v)}</Badge> },
+];
+
+const filters: ListPageFilter[] = [
+  { key: 'owner', label: 'Owner', options: [
+    { value: 'Operations', label: 'Operations' },
+    { value: 'Business Dev', label: 'Business Dev' },
+    { value: 'COO', label: 'COO' },
+  ]},
+];
+
+const formFields: FormFieldConfig[] = [
+  { name: 'objective', label: 'Objective', type: 'text', required: true },
+  { name: 'owner', label: 'Owner', type: 'select', required: true, options: [
+    { value: 'Operations', label: 'Operations' },
+    { value: 'Business Dev', label: 'Business Dev' },
+    { value: 'COO', label: 'COO' },
+  ]},
+];
+
 export default function OKRsPage() {
   const router = useRouter();
-  const [filterOwner, setFilterOwner] = useState("all");
-
-  const filteredOKRs = okrs.filter(okr => 
-    filterOwner === "all" || okr.owner.toLowerCase().includes(filterOwner.toLowerCase())
-  );
+  const [okrs] = useState<OKR[]>(mockOKRs);
+  const [selectedOKR, setSelectedOKR] = useState<OKR | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [createModalOpen, setCreateModalOpen] = useState(false);
 
   const avgProgress = Math.round(okrs.reduce((sum, o) => sum + o.progress, 0) / okrs.length);
+  const onTrackCount = okrs.filter(o => o.progress >= 70).length;
+  const atRiskCount = okrs.filter(o => o.progress < 50).length;
+
+  const rowActions: ListPageAction<OKR>[] = [
+    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedOKR(r); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (r) => router.push(`/okrs/${r.id}/edit`) },
+  ];
+
+  const stats = [
+    { label: 'Active OKRs', value: okrs.length },
+    { label: 'Avg Progress', value: `${avgProgress}%` },
+    { label: 'On Track', value: onTrackCount },
+    { label: 'At Risk', value: atRiskCount },
+  ];
+
+  const handleCreate = async (data: Record<string, unknown>) => {
+    console.log('Create OKR:', data);
+    setCreateModalOpen(false);
+  };
+
+  const detailSections: DetailSection[] = selectedOKR ? [
+    { id: 'overview', title: 'OKR Details', content: (
+      <div className="grid grid-cols-2 gap-4">
+        <div><strong>ID:</strong> {selectedOKR.id}</div>
+        <div><strong>Owner:</strong> {selectedOKR.owner}</div>
+        <div className="col-span-2"><strong>Objective:</strong> {selectedOKR.objective}</div>
+        <div><strong>Progress:</strong> {selectedOKR.progress}%</div>
+        <div><strong>Status:</strong> {selectedOKR.progress >= 70 ? 'On Track' : selectedOKR.progress >= 50 ? 'In Progress' : 'At Risk'}</div>
+      </div>
+    )},
+    { id: 'keyResults', title: 'Key Results', content: (
+      <div className="space-y-3">
+        {selectedOKR.keyResults.map((kr, idx) => (
+          <div key={idx} className="flex items-center justify-between border-l-2 border-grey-300 py-2 pl-4">
+            <span>{kr.kr}</span>
+            <Badge variant={getProgressVariant(kr.progress)}>{kr.progress}%</Badge>
+          </div>
+        ))}
+      </div>
+    )},
+  ] : [];
 
   return (
-    <Section className="relative min-h-screen bg-black text-white">
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <H1>OKRs & Strategic Goals</H1>
+    <>
+      <ListPage<OKR>
+        title="OKRs & Strategic Goals"
+        subtitle="Track objectives and key results across the organization"
+        data={okrs}
+        columns={columns}
+        rowKey="id"
+        loading={false}
+        searchPlaceholder="Search OKRs..."
+        filters={filters}
+        rowActions={rowActions}
+        onRowClick={(r) => { setSelectedOKR(r); setDrawerOpen(true); }}
+        createLabel="Create New OKR"
+        onCreate={() => setCreateModalOpen(true)}
+        onExport={() => router.push('/okrs/export')}
+        stats={stats}
+        emptyMessage="No OKRs found"
+        emptyAction={{ label: 'Create OKR', onClick: () => setCreateModalOpen(true) }}
+        header={<CreatorNavigationAuthenticated />}
+      />
 
-          <Grid cols={4} gap={6}>
-            <StatCard
-              value={okrs.length}
-              label="Active OKRs"
-              className="bg-black text-white border-ink-800"
-            />
-            <StatCard
-              value={`${avgProgress}%`}
-              label="Avg Progress"
-              className="bg-black text-white border-ink-800"
-            />
-            <StatCard
-              value={okrs.filter(o => o.progress >= 70).length}
-              label="On Track"
-              className="bg-black text-white border-ink-800"
-            />
-            <StatCard
-              value={okrs.filter(o => o.progress < 50).length}
-              label="At Risk"
-              className="bg-black text-white border-ink-800"
-            />
-          </Grid>
+      <RecordFormModal
+        open={createModalOpen}
+        onClose={() => setCreateModalOpen(false)}
+        mode="create"
+        title="Create New OKR"
+        fields={formFields}
+        onSubmit={handleCreate}
+      />
 
-          <Select
-            value={filterOwner}
-            onChange={(e) => setFilterOwner(e.target.value)}
-            className="bg-black text-white border-ink-700 w-48"
-          >
-            <option value="all">All Owners</option>
-            <option value="operations">Operations</option>
-            <option value="business">Business Dev</option>
-            <option value="coo">COO</option>
-          </Select>
-
-          <Stack gap={6}>
-            {filteredOKRs.map((okr) => (
-              <Card key={okr.id} className="border-2 border-ink-800 p-6 bg-black">
-                <Stack gap={4}>
-                  <Stack gap={2} direction="horizontal" className="justify-between items-start">
-                    <Stack gap={2}>
-                      <Body className="font-mono text-mono-xs text-ink-500">{okr.id}</Body>
-                      <H3 className="text-white">{okr.objective}</H3>
-                      <Body className="text-body-sm text-ink-400">Owner: {okr.owner}</Body>
-                    </Stack>
-                    <Badge variant={okr.progress >= 70 ? "solid" : "outline"}>
-                      {okr.progress}% Complete
-                    </Badge>
-                  </Stack>
-
-                  <ProgressBar value={okr.progress} variant="inverse" />
-
-                  <Stack gap={3}>
-                    <Body className="font-mono text-mono-xs text-ink-500">Key Results</Body>
-                    {okr.keyResults.map((kr, idx) => (
-                      <Stack key={idx} gap={3} direction="horizontal" className="justify-between items-center border-l-2 border-ink-700 pl-4">
-                        <Body className="text-body-sm text-ink-300">{kr.kr}</Body>
-                        <Stack gap={3} direction="horizontal" className="items-center">
-                          <Stack className="w-24">
-                            <ProgressBar value={kr.progress} variant="inverse" size="sm" />
-                          </Stack>
-                          <Body className="font-mono text-mono-xs text-ink-400">{kr.progress}%</Body>
-                        </Stack>
-                      </Stack>
-                    ))}
-                  </Stack>
-                </Stack>
-              </Card>
-            ))}
-          </Stack>
-
-          <Stack gap={3} direction="horizontal">
-            <Button variant="outlineWhite" onClick={() => router.push("/okrs/new")}>
-              Create New OKR
-            </Button>
-            <Button variant="ghost" className="text-ink-400 hover:text-white" onClick={() => router.push("/okrs/export")}>
-              Export Progress Report
-            </Button>
-          </Stack>
-        </Stack>
-      </Container>
-    </Section>
+      {selectedOKR && (
+        <DetailDrawer
+          open={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+          record={selectedOKR}
+          title={(o) => o.objective}
+          subtitle={(o) => `${o.owner} • ${o.progress}% Complete`}
+          sections={detailSections}
+          onEdit={(o) => router.push(`/okrs/${o.id}/edit`)}
+        />
+      )}
+    </>
   );
 }

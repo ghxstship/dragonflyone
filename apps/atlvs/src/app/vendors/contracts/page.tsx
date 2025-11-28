@@ -4,10 +4,13 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge, Alert,
-  Modal, ModalHeader, ModalBody, ModalFooter,
-  Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
+  ListPage,
+  Badge,
+  DetailDrawer,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
+  type DetailSection,
 } from "@ghxstship/ui";
 
 interface VendorContract {
@@ -31,171 +34,109 @@ const mockContracts: VendorContract[] = [
   { id: "VC-005", vendorName: "Rigging Experts", contractType: "Equipment Rental", startDate: "2024-06-01", expiryDate: "2024-12-15", value: 95000, status: "Expiring", daysUntilExpiry: 20, autoRenew: false, category: "Rigging" },
 ];
 
+const formatCurrency = (amount: number) => `$${amount.toLocaleString()}`;
+
+const getStatusVariant = (status: string): "solid" | "outline" | "ghost" => {
+  switch (status) {
+    case "Active": return "solid";
+    case "Expiring": return "outline";
+    case "Expired": return "ghost";
+    default: return "outline";
+  }
+};
+
+const columns: ListPageColumn<VendorContract>[] = [
+  { key: "vendorName", label: "Vendor", accessor: "vendorName", sortable: true },
+  { key: "contractType", label: "Type", accessor: "contractType", render: (v) => <Badge variant="outline">{String(v)}</Badge> },
+  { key: "category", label: "Category", accessor: "category" },
+  { key: "value", label: "Value", accessor: (r) => formatCurrency(r.value), sortable: true },
+  { key: "expiryDate", label: "Expiry", accessor: "expiryDate", sortable: true },
+  { key: "status", label: "Status", accessor: "status", sortable: true, render: (v) => <Badge variant={getStatusVariant(String(v))}>{String(v)}</Badge> },
+];
+
+const filters: ListPageFilter[] = [
+  { key: "status", label: "Status", options: [
+    { value: "Active", label: "Active" },
+    { value: "Expiring", label: "Expiring" },
+    { value: "Expired", label: "Expired" },
+  ]},
+  { key: "category", label: "Category", options: [
+    { value: "Audio", label: "Audio" },
+    { value: "Lighting", label: "Lighting" },
+    { value: "Staging", label: "Staging" },
+    { value: "Video", label: "Video" },
+  ]},
+];
+
 export default function VendorContractsPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("all");
+  const [contracts] = useState<VendorContract[]>(mockContracts);
   const [selectedContract, setSelectedContract] = useState<VendorContract | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const expiringCount = mockContracts.filter(c => c.status === "Expiring").length;
-  const expiredCount = mockContracts.filter(c => c.status === "Expired").length;
-  const totalValue = mockContracts.reduce((s, c) => s + c.value, 0);
+  const expiringCount = contracts.filter(c => c.status === "Expiring").length;
+  const expiredCount = contracts.filter(c => c.status === "Expired").length;
+  const totalValue = contracts.reduce((s, c) => s + c.value, 0);
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "Active": return "text-success-400";
-      case "Expiring": return "text-warning-400";
-      case "Expired": return "text-error-400";
-      case "Pending Renewal": return "text-info-400";
-      default: return "text-ink-400";
-    }
-  };
+  const rowActions: ListPageAction<VendorContract>[] = [
+    { id: "view", label: "View Details", icon: "👁️", onClick: (r) => { setSelectedContract(r); setDrawerOpen(true); } },
+    { id: "renew", label: "Renew", icon: "🔄", onClick: (r) => router.push(`/vendors/contracts/${r.id}/renew`) },
+  ];
 
-  const formatCurrency = (amount: number) => `$${amount.toLocaleString()}`;
+  const stats = [
+    { label: "Total Contracts", value: contracts.length },
+    { label: "Total Value", value: formatCurrency(totalValue) },
+    { label: "Expiring Soon", value: expiringCount },
+    { label: "Expired", value: expiredCount },
+  ];
 
-  const filteredContracts = activeTab === "all" ? mockContracts :
-    activeTab === "expiring" ? mockContracts.filter(c => c.status === "Expiring") :
-    activeTab === "expired" ? mockContracts.filter(c => c.status === "Expired") :
-    mockContracts.filter(c => c.status === "Active");
+  const detailSections: DetailSection[] = selectedContract ? [
+    { id: "overview", title: "Contract Details", content: (
+      <div className="grid grid-cols-2 gap-4">
+        <div><strong>Vendor:</strong> {selectedContract.vendorName}</div>
+        <div><strong>Type:</strong> {selectedContract.contractType}</div>
+        <div><strong>Category:</strong> {selectedContract.category}</div>
+        <div><strong>Status:</strong> {selectedContract.status}</div>
+        <div><strong>Value:</strong> {formatCurrency(selectedContract.value)}</div>
+        <div><strong>Auto-Renew:</strong> {selectedContract.autoRenew ? "Yes" : "No"}</div>
+        <div><strong>Start Date:</strong> {selectedContract.startDate}</div>
+        <div><strong>Expiry Date:</strong> {selectedContract.expiryDate}</div>
+        <div><strong>Days Until Expiry:</strong> {selectedContract.daysUntilExpiry < 0 ? `${Math.abs(selectedContract.daysUntilExpiry)} days ago` : `${selectedContract.daysUntilExpiry} days`}</div>
+      </div>
+    )},
+  ] : [];
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Vendor Contracts</H1>
-            <Label className="text-ink-400">Contract expiration alerts and renewal workflows</Label>
-          </Stack>
+    <>
+      <ListPage<VendorContract>
+        title="Vendor Contracts"
+        subtitle="Contract expiration alerts and renewal workflows"
+        data={contracts}
+        columns={columns}
+        rowKey="id"
+        loading={false}
+        searchPlaceholder="Search contracts..."
+        filters={filters}
+        rowActions={rowActions}
+        onRowClick={(r) => { setSelectedContract(r); setDrawerOpen(true); }}
+        onExport={() => router.push("/vendors/contracts/export")}
+        stats={stats}
+        emptyMessage="No vendor contracts found"
+        header={<CreatorNavigationAuthenticated />}
+      />
 
-          {(expiringCount > 0 || expiredCount > 0) && (
-            <Alert variant="warning">
-              ⚠️ {expiringCount} contract(s) expiring within 90 days, {expiredCount} expired contract(s) require attention
-            </Alert>
-          )}
-
-          <Grid cols={4} gap={6}>
-            <StatCard label="Total Contracts" value={mockContracts.length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Total Value" value={formatCurrency(totalValue)} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Expiring Soon" value={expiringCount} trend={expiringCount > 0 ? "down" : "neutral"} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Expired" value={expiredCount} trend={expiredCount > 0 ? "down" : "neutral"} className="bg-transparent border-2 border-ink-800" />
-          </Grid>
-
-          <Tabs>
-            <TabsList>
-              <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All</Tab>
-              <Tab active={activeTab === "active"} onClick={() => setActiveTab("active")}>Active</Tab>
-              <Tab active={activeTab === "expiring"} onClick={() => setActiveTab("expiring")}>Expiring</Tab>
-              <Tab active={activeTab === "expired"} onClick={() => setActiveTab("expired")}>Expired</Tab>
-            </TabsList>
-          </Tabs>
-
-          <Table className="border-2 border-ink-800">
-            <TableHeader>
-              <TableRow className="bg-ink-900">
-                <TableHead className="text-ink-400">Vendor</TableHead>
-                <TableHead className="text-ink-400">Type</TableHead>
-                <TableHead className="text-ink-400">Category</TableHead>
-                <TableHead className="text-ink-400">Value</TableHead>
-                <TableHead className="text-ink-400">Expiry</TableHead>
-                <TableHead className="text-ink-400">Status</TableHead>
-                <TableHead className="text-ink-400">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredContracts.map((contract) => (
-                <TableRow key={contract.id} className="border-ink-800">
-                  <TableCell>
-                    <Stack gap={1}>
-                      <Label className="text-white">{contract.vendorName}</Label>
-                      <Label size="xs" className="text-ink-500">{contract.id}</Label>
-                    </Stack>
-                  </TableCell>
-                  <TableCell><Label className="text-ink-300">{contract.contractType}</Label></TableCell>
-                  <TableCell><Badge variant="outline">{contract.category}</Badge></TableCell>
-                  <TableCell><Label className="font-mono text-white">{formatCurrency(contract.value)}</Label></TableCell>
-                  <TableCell>
-                    <Stack gap={1}>
-                      <Label className={getStatusColor(contract.status)}>{contract.expiryDate}</Label>
-                      <Label size="xs" className={contract.daysUntilExpiry < 0 ? "text-error-400" : contract.daysUntilExpiry < 30 ? "text-warning-400" : "text-ink-500"}>
-                        {contract.daysUntilExpiry < 0 ? `${Math.abs(contract.daysUntilExpiry)} days ago` : `${contract.daysUntilExpiry} days`}
-                      </Label>
-                    </Stack>
-                  </TableCell>
-                  <TableCell>
-                    <Stack direction="horizontal" gap={2}>
-                      <Label className={getStatusColor(contract.status)}>{contract.status}</Label>
-                      {contract.autoRenew && <Badge variant="outline">Auto</Badge>}
-                    </Stack>
-                  </TableCell>
-                  <TableCell>
-                    <Stack direction="horizontal" gap={2}>
-                      <Button variant="ghost" size="sm" onClick={() => setSelectedContract(contract)}>View</Button>
-                      {(contract.status === "Expiring" || contract.status === "Expired") && (
-                        <Button variant="solid" size="sm">Renew</Button>
-                      )}
-                    </Stack>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-
-          <Grid cols={3} gap={4}>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/vendors")}>Vendors</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/procurement")}>Procurement</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/")}>Dashboard</Button>
-          </Grid>
-        </Stack>
-      </Container>
-
-      <Modal open={!!selectedContract} onClose={() => setSelectedContract(null)}>
-        <ModalHeader><H3>Contract Details</H3></ModalHeader>
-        <ModalBody>
-          {selectedContract && (
-            <Stack gap={4}>
-              <Body className="text-white">{selectedContract.vendorName}</Body>
-              <Stack direction="horizontal" gap={2}>
-                <Badge variant="outline">{selectedContract.contractType}</Badge>
-                <Badge variant="outline">{selectedContract.category}</Badge>
-                <Label className={getStatusColor(selectedContract.status)}>{selectedContract.status}</Label>
-              </Stack>
-              <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label className="text-ink-400">Start Date</Label><Label className="text-white">{selectedContract.startDate}</Label></Stack>
-                <Stack gap={1}><Label className="text-ink-400">Expiry Date</Label><Label className={getStatusColor(selectedContract.status)}>{selectedContract.expiryDate}</Label></Stack>
-              </Grid>
-              <Stack gap={1}><Label className="text-ink-400">Contract Value</Label><Label className="font-mono text-white text-h6-md">{formatCurrency(selectedContract.value)}</Label></Stack>
-              <Stack gap={1}>
-                <Label className="text-ink-400">Auto-Renewal</Label>
-                <Label className={selectedContract.autoRenew ? "text-success-400" : "text-ink-400"}>{selectedContract.autoRenew ? "Enabled" : "Disabled"}</Label>
-              </Stack>
-              {selectedContract.daysUntilExpiry <= 30 && selectedContract.daysUntilExpiry > 0 && (
-                <Card className="p-4 border border-warning-800 bg-warning-900/20">
-                  <Stack gap={2}>
-                    <Label className="text-warning-400">⚠️ Contract Expiring Soon</Label>
-                    <Label className="text-ink-300">This contract expires in {selectedContract.daysUntilExpiry} days. Initiate renewal process.</Label>
-                  </Stack>
-                </Card>
-              )}
-              {selectedContract.daysUntilExpiry < 0 && (
-                <Card className="p-4 border border-error-800 bg-error-900/20">
-                  <Stack gap={2}>
-                    <Label className="text-error-400">⚠️ Contract Expired</Label>
-                    <Label className="text-ink-300">This contract expired {Math.abs(selectedContract.daysUntilExpiry)} days ago. Immediate action required.</Label>
-                  </Stack>
-                </Card>
-              )}
-            </Stack>
-          )}
-        </ModalBody>
-        <ModalFooter>
-          <Button variant="outline" onClick={() => setSelectedContract(null)}>Close</Button>
-          <Button variant="outline">View Document</Button>
-          {(selectedContract?.status === "Expiring" || selectedContract?.status === "Expired") && (
-            <Button variant="solid">Initiate Renewal</Button>
-          )}
-        </ModalFooter>
-      </Modal>
-    </UISection>
+      {selectedContract && (
+        <DetailDrawer
+          open={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+          record={selectedContract}
+          title={(c) => c.vendorName}
+          subtitle={(c) => `${c.contractType} • ${c.status}`}
+          sections={detailSections}
+          actions={[{ id: "renew", label: "Initiate Renewal", icon: "🔄" }]}
+          onAction={(id, c) => { if (id === "renew") router.push(`/vendors/contracts/${c.id}/renew`); setDrawerOpen(false); }}
+        />
+      )}
+    </>
   );
 }

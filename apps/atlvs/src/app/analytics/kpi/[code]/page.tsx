@@ -1,8 +1,27 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
-import { Container, Section, Display, H2, H3, Body, Card, Grid, Badge, Button, Stack, Label } from '@ghxstship/ui';
+import { useParams, useRouter } from 'next/navigation';
+import { CreatorNavigationAuthenticated } from '../../../../components/navigation';
+import {
+  Container,
+  Section,
+  H2,
+  H3,
+  Body,
+  Card,
+  CardBody,
+  Grid,
+  Badge,
+  Button,
+  Stack,
+  Label,
+  PageLayout,
+  SectionHeader,
+  LoadingSpinner,
+  StatCard,
+} from '@ghxstship/ui';
+import { ArrowLeft, TrendingUp, Target, AlertTriangle, Activity } from 'lucide-react';
 
 interface KPIDefinition {
   id: number;
@@ -76,18 +95,28 @@ export default function KPIDetailPage() {
     }
   };
 
+  const router = useRouter();
+
   if (loading || !kpi) {
     return (
-      <Section className="min-h-screen bg-white">
-        <Container>
-          <Section className="border-b-2 border-black py-8 mb-8">
-            <Display>KPI DETAIL</Display>
-          </Section>
-          <Stack className="items-center justify-center py-12">
-            <Body>Loading KPI data...</Body>
-          </Stack>
-        </Container>
-      </Section>
+      <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
+        <Section className="min-h-screen py-16">
+          <Container>
+            <Stack gap={6}>
+              <SectionHeader
+                kicker="ATLVS"
+                title="KPI Detail"
+                description="Loading KPI data..."
+                colorScheme="on-dark"
+                gap="lg"
+              />
+              <Stack className="items-center justify-center py-12">
+                <LoadingSpinner size="lg" text="Loading KPI data..." />
+              </Stack>
+            </Stack>
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
@@ -110,34 +139,39 @@ export default function KPIDetailPage() {
   const change = latestValue && previousValue ? ((latestValue - previousValue) / previousValue) * 100 : null;
 
   return (
-    <Section className="min-h-screen bg-white">
-      <Container>
-        {/* Header */}
-        <Section className="border-b-2 border-black py-8 mb-8">
-          <Stack direction="horizontal" className="items-start justify-between">
-            <Stack>
-              <Display>{kpi.name}</Display>
-              <Body className="mt-4 text-ink-600">{kpi.description}</Body>
-              <Stack direction="horizontal" gap={3} className="mt-4 items-center">
-                <Badge variant="outline" className="font-mono">
-                  {kpi.code}
-                </Badge>
-                <Badge variant="solid">
-                  {kpi.category.replace(/_/g, ' ')}
-                </Badge>
-                <Badge variant="outline">
-                  {kpi.subcategory.replace(/_/g, ' ')}
-                </Badge>
+    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            {/* Header */}
+            <Stack direction="horizontal" className="items-start justify-between">
+              <Stack gap={4}>
+                <SectionHeader
+                  kicker="ATLVS"
+                  title={kpi.name}
+                  description={kpi.description}
+                  colorScheme="on-dark"
+                  gap="lg"
+                />
+                <Stack direction="horizontal" gap={3} className="items-center">
+                  <Badge variant="outline" className="font-mono">
+                    {kpi.code}
+                  </Badge>
+                  <Badge variant="solid">
+                    {kpi.category.replace(/_/g, ' ')}
+                  </Badge>
+                  <Badge variant="outline">
+                    {kpi.subcategory.replace(/_/g, ' ')}
+                  </Badge>
+                </Stack>
               </Stack>
+              <Button
+                variant="outline"
+                onClick={() => router.push('/analytics/kpi')}
+              >
+                ← Back to Library
+              </Button>
             </Stack>
-            <Button
-              variant="outline"
-              onClick={() => window.location.href = '/analytics/kpi'}
-            >
-              ← BACK TO LIBRARY
-            </Button>
-          </Stack>
-        </Section>
 
         {/* Current Value */}
         {latestValue !== null && (
@@ -286,7 +320,9 @@ export default function KPIDetailPage() {
             </Stack>
           </Grid>
         </Card>
-      </Container>
-    </Section>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

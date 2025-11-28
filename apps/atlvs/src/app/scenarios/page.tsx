@@ -4,21 +4,15 @@ import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
-  H1,
-  H3,
-  Body,
-  StatCard,
-  Select,
-  Button,
+  ListPage,
   Badge,
-  LoadingSpinner,
-  EmptyState,
-  Container,
-  Grid,
-  Stack,
-  Card,
-  CardBody,
-  Section,
+  DetailDrawer,
+  RecordFormModal,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
+  type DetailSection,
+  type FormFieldConfig,
 } from "@ghxstship/ui";
 
 interface Scenario {
@@ -43,26 +37,91 @@ interface ScenarioSummary {
   worst_case_revenue: number;
 }
 
+const formatCurrency = (amount: number) => {
+  if (amount >= 1000000) return `$${(amount / 1000000).toFixed(1)}M`;
+  if (amount >= 1000) return `$${(amount / 1000).toFixed(0)}K`;
+  return `$${amount.toFixed(0)}`;
+};
+
+const getImpactVariant = (impact: string): "solid" | "outline" | "ghost" => {
+  switch (impact?.toLowerCase()) {
+    case "critical":
+    case "high":
+      return "solid";
+    case "medium":
+      return "outline";
+    default:
+      return "ghost";
+  }
+};
+
+const columns: ListPageColumn<Scenario>[] = [
+  { key: 'name', label: 'Scenario', accessor: 'name', sortable: true },
+  { key: 'category', label: 'Category', accessor: 'category', sortable: true, render: (v) => <Badge variant="outline">{String(v)}</Badge> },
+  { key: 'scenario_type', label: 'Type', accessor: (r) => r.scenario_type?.replace("_", " ") || '—' },
+  { key: 'revenue_forecast', label: 'Revenue', accessor: (r) => formatCurrency(r.revenue_forecast || 0), sortable: true },
+  { key: 'probability', label: 'Probability', accessor: (r) => `${r.probability || 0}%`, sortable: true },
+  { key: 'impact_level', label: 'Impact', accessor: 'impact_level', sortable: true, render: (v) => <Badge variant={getImpactVariant(String(v))}>{String(v || 'Unknown')}</Badge> },
+  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v) => <Badge variant={v === 'active' ? 'solid' : 'outline'}>{String(v || 'Draft')}</Badge> },
+];
+
+const filters: ListPageFilter[] = [
+  { key: 'category', label: 'Category', options: [
+    { value: 'financial', label: 'Financial' },
+    { value: 'operational', label: 'Operational' },
+    { value: 'market', label: 'Market' },
+    { value: 'strategic', label: 'Strategic' },
+    { value: 'risk', label: 'Risk' },
+  ]},
+  { key: 'impact_level', label: 'Impact', options: [
+    { value: 'critical', label: 'Critical' },
+    { value: 'high', label: 'High' },
+    { value: 'medium', label: 'Medium' },
+    { value: 'low', label: 'Low' },
+  ]},
+];
+
+const formFields: FormFieldConfig[] = [
+  { name: 'name', label: 'Scenario Name', type: 'text', required: true, colSpan: 2 },
+  { name: 'category', label: 'Category', type: 'select', required: true, options: [
+    { value: 'financial', label: 'Financial' },
+    { value: 'operational', label: 'Operational' },
+    { value: 'market', label: 'Market' },
+    { value: 'strategic', label: 'Strategic' },
+    { value: 'risk', label: 'Risk' },
+  ]},
+  { name: 'scenario_type', label: 'Type', type: 'select', required: true, options: [
+    { value: 'best_case', label: 'Best Case' },
+    { value: 'base_case', label: 'Base Case' },
+    { value: 'worst_case', label: 'Worst Case' },
+  ]},
+  { name: 'revenue_forecast', label: 'Revenue Forecast', type: 'number', required: true },
+  { name: 'cost_forecast', label: 'Cost Forecast', type: 'number' },
+  { name: 'probability', label: 'Probability (%)', type: 'number', required: true },
+  { name: 'impact_level', label: 'Impact Level', type: 'select', options: [
+    { value: 'critical', label: 'Critical' },
+    { value: 'high', label: 'High' },
+    { value: 'medium', label: 'Medium' },
+    { value: 'low', label: 'Low' },
+  ]},
+  { name: 'description', label: 'Description', type: 'textarea', colSpan: 2 },
+];
+
 export default function ScenariosPage() {
   const router = useRouter();
   const [scenarios, setScenarios] = useState<Scenario[]>([]);
   const [summary, setSummary] = useState<ScenarioSummary | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [filterCategory, setFilterCategory] = useState("all");
+  const [selectedScenario, setSelectedScenario] = useState<Scenario | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [createModalOpen, setCreateModalOpen] = useState(false);
 
   const fetchScenarios = useCallback(async () => {
     try {
       setLoading(true);
-      const params = new URLSearchParams();
-      if (filterCategory !== "all") {
-        params.append("category", filterCategory);
-      }
-
-      const response = await fetch(`/api/scenarios?${params.toString()}`);
-      if (!response.ok) {
-        throw new Error("Failed to fetch scenarios");
-      }
+      const response = await fetch('/api/scenarios');
+      if (!response.ok) throw new Error("Failed to fetch scenarios");
       const data = await response.json();
       setScenarios(data.scenarios || []);
       setSummary(data.summary || null);
@@ -72,189 +131,112 @@ export default function ScenariosPage() {
     } finally {
       setLoading(false);
     }
-  }, [filterCategory]);
+  }, []);
 
   useEffect(() => {
     fetchScenarios();
   }, [fetchScenarios]);
 
-  const formatCurrency = (amount: number) => {
-    if (amount >= 1000000) {
-      return `$${(amount / 1000000).toFixed(1)}M`;
+  const rowActions: ListPageAction<Scenario>[] = [
+    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedScenario(r); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (r) => router.push(`/scenarios/${r.id}/edit`) },
+    { id: 'compare', label: 'Compare', icon: '📊', onClick: (r) => router.push(`/scenarios/compare?id=${r.id}`) },
+  ];
+
+  const handleCreate = async (data: Record<string, unknown>) => {
+    try {
+      const response = await fetch('/api/scenarios', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (response.ok) {
+        setCreateModalOpen(false);
+        fetchScenarios();
+      }
+    } catch (err) {
+      console.error('Failed to create scenario:', err);
     }
-    if (amount >= 1000) {
-      return `$${(amount / 1000).toFixed(0)}K`;
-    }
-    return `$${amount.toFixed(0)}`;
   };
 
-  const getImpactVariant = (impact: string): "solid" | "outline" | "ghost" => {
-    switch (impact?.toLowerCase()) {
-      case "critical":
-      case "high":
-        return "solid";
-      case "medium":
-        return "outline";
-      default:
-        return "ghost";
-    }
-  };
+  const stats = [
+    { label: 'Total Scenarios', value: summary?.total || scenarios.length },
+    { label: 'Best Case', value: formatCurrency(summary?.best_case_revenue || 0) },
+    { label: 'Base Case', value: formatCurrency(summary?.base_case_revenue || 0) },
+    { label: 'Worst Case', value: formatCurrency(summary?.worst_case_revenue || 0) },
+  ];
 
-  if (loading) {
-    return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <CreatorNavigationAuthenticated />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading scenarios..." />
-        </Container>
-      </Section>
-    );
-  }
-
-  if (error) {
-    return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <CreatorNavigationAuthenticated />
-        <Container className="py-16">
-          <EmptyState
-            title="Error Loading Scenarios"
-            description={error}
-            action={{ label: "Retry", onClick: fetchScenarios }}
-          />
-        </Container>
-      </Section>
-    );
-  }
+  const detailSections: DetailSection[] = selectedScenario ? [
+    { id: 'overview', title: 'Scenario Details', content: (
+      <div className="grid grid-cols-2 gap-4">
+        <div><strong>Name:</strong> {selectedScenario.name}</div>
+        <div><strong>Category:</strong> {selectedScenario.category}</div>
+        <div><strong>Type:</strong> {selectedScenario.scenario_type?.replace("_", " ")}</div>
+        <div><strong>Status:</strong> {selectedScenario.status}</div>
+        <div><strong>Revenue Forecast:</strong> {formatCurrency(selectedScenario.revenue_forecast || 0)}</div>
+        <div><strong>Cost Forecast:</strong> {formatCurrency(selectedScenario.cost_forecast || 0)}</div>
+        <div><strong>Probability:</strong> {selectedScenario.probability}%</div>
+        <div><strong>Impact:</strong> {selectedScenario.impact_level}</div>
+        {selectedScenario.description && <div className="col-span-2"><strong>Description:</strong> {selectedScenario.description}</div>}
+        {selectedScenario.assumptions?.length > 0 && (
+          <div className="col-span-2"><strong>Assumptions:</strong> {selectedScenario.assumptions.join(', ')}</div>
+        )}
+      </div>
+    )},
+  ] : [];
 
   return (
-    <Section className="relative min-h-screen bg-black text-white">
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <H1>Scenario Planning</H1>
+    <>
+      <ListPage<Scenario>
+        title="Scenario Planning"
+        subtitle="Model different business scenarios and outcomes"
+        data={scenarios}
+        columns={columns}
+        rowKey="id"
+        loading={loading}
+        error={error ? new Error(error) : undefined}
+        onRetry={fetchScenarios}
+        searchPlaceholder="Search scenarios..."
+        filters={filters}
+        rowActions={rowActions}
+        onRowClick={(r) => { setSelectedScenario(r); setDrawerOpen(true); }}
+        createLabel="Create Scenario"
+        onCreate={() => setCreateModalOpen(true)}
+        onExport={() => router.push('/scenarios/export')}
+        stats={stats}
+        emptyMessage="No scenarios found"
+        emptyAction={{ label: 'Create Scenario', onClick: () => setCreateModalOpen(true) }}
+        header={<CreatorNavigationAuthenticated />}
+      />
 
-          <Grid cols={4} gap={6}>
-            <StatCard
-              value={summary?.total || scenarios.length}
-              label="Active Scenarios"
-              className="bg-black text-white border-ink-800"
-            />
-            <StatCard
-              value={formatCurrency(summary?.best_case_revenue || 0)}
-              label="Best Case"
-              className="bg-black text-white border-ink-800"
-            />
-            <StatCard
-              value={formatCurrency(summary?.base_case_revenue || 0)}
-              label="Base Case"
-              className="bg-black text-white border-ink-800"
-            />
-            <StatCard
-              value={formatCurrency(summary?.worst_case_revenue || 0)}
-              label="Worst Case"
-              className="bg-black text-white border-ink-800"
-            />
-          </Grid>
+      <RecordFormModal
+        open={createModalOpen}
+        onClose={() => setCreateModalOpen(false)}
+        mode="create"
+        title="Create Scenario"
+        fields={formFields}
+        onSubmit={handleCreate}
+        size="lg"
+      />
 
-          <Stack gap={4} direction="horizontal">
-            <Select
-              value={filterCategory}
-              onChange={(e) => setFilterCategory(e.target.value)}
-              className="bg-black text-white border-ink-700"
-            >
-              <option value="all">All Categories</option>
-              <option value="financial">Financial</option>
-              <option value="operational">Operational</option>
-              <option value="market">Market</option>
-              <option value="strategic">Strategic</option>
-              <option value="risk">Risk</option>
-            </Select>
-          </Stack>
-
-          {scenarios.length === 0 ? (
-            <EmptyState
-              title="No Scenarios Found"
-              description="Create your first scenario to start planning"
-              action={{ label: "Create Scenario", onClick: () => router.push("/scenarios/new") }}
-            />
-          ) : (
-            <Stack gap={6}>
-              {scenarios.map((scenario) => (
-                <Card key={scenario.id} className="bg-black border-ink-800">
-                  <CardBody className="space-y-4">
-                    <Stack gap={4} direction="horizontal" className="justify-between items-start">
-                      <Stack gap={1}>
-                        <H3 className="text-white">{scenario.name}</H3>
-                        <Body className="font-mono text-mono-xs uppercase tracking-widest text-ink-500">
-                          {scenario.scenario_type?.replace("_", " ")}
-                        </Body>
-                      </Stack>
-                      <Badge variant="outline">{scenario.category}</Badge>
-                    </Stack>
-
-                    <Grid cols={3} gap={4}>
-                      <Card className="bg-ink-900 border-ink-700">
-                        <CardBody>
-                          <Body className="font-mono text-mono-xs uppercase tracking-widest text-ink-500">
-                            Revenue Forecast
-                          </Body>
-                          <H3 className="mt-2 text-white">
-                            {formatCurrency(scenario.revenue_forecast || 0)}
-                          </H3>
-                        </CardBody>
-                      </Card>
-                      <Card className="bg-ink-900 border-ink-700">
-                        <CardBody>
-                          <Body className="font-mono text-mono-xs uppercase tracking-widest text-ink-500">
-                            Probability
-                          </Body>
-                          <H3 className="mt-2 text-white">{scenario.probability || 0}%</H3>
-                        </CardBody>
-                      </Card>
-                      <Card className="bg-ink-900 border-ink-700">
-                        <CardBody>
-                          <Body className="font-mono text-mono-xs uppercase tracking-widest text-ink-500">
-                            Impact
-                          </Body>
-                          <Stack gap={2} direction="horizontal" className="mt-2 items-center">
-                            <Badge variant={getImpactVariant(scenario.impact_level)}>
-                              {scenario.impact_level || "Unknown"}
-                            </Badge>
-                          </Stack>
-                        </CardBody>
-                      </Card>
-                    </Grid>
-
-                    {scenario.assumptions && scenario.assumptions.length > 0 && (
-                      <Stack gap={2}>
-                        <Body className="font-mono text-mono-xs uppercase tracking-widest text-ink-500">
-                          Key Assumptions
-                        </Body>
-                        <Stack gap={2}>
-                          {scenario.assumptions.map((assumption, idx) => (
-                            <Body key={idx} className="text-body-sm text-ink-300">
-                              • {assumption}
-                            </Body>
-                          ))}
-                        </Stack>
-                      </Stack>
-                    )}
-                  </CardBody>
-                </Card>
-              ))}
-            </Stack>
-          )}
-
-          <Stack gap={3} direction="horizontal">
-            <Button variant="outlineWhite" onClick={() => router.push("/scenarios/new")}>
-              Create Scenario
-            </Button>
-            <Button variant="ghost" className="text-ink-400 hover:text-white" onClick={() => router.push("/scenarios/compare")}>
-              Compare Scenarios
-            </Button>
-          </Stack>
-        </Stack>
-      </Container>
-    </Section>
+      {selectedScenario && (
+        <DetailDrawer
+          open={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+          record={selectedScenario}
+          title={(s) => s.name}
+          subtitle={(s) => `${s.category} • ${s.scenario_type?.replace("_", " ")}`}
+          sections={detailSections}
+          onEdit={(s) => router.push(`/scenarios/${s.id}/edit`)}
+          actions={[
+            { id: 'compare', label: 'Compare', icon: '📊' },
+          ]}
+          onAction={(id, s) => {
+            if (id === 'compare') router.push(`/scenarios/compare?id=${s.id}`);
+            setDrawerOpen(false);
+          }}
+        />
+      )}
+    </>
   );
 }

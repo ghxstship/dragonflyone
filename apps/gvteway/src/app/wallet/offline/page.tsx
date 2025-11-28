@@ -2,9 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { ConsumerNavigationPublic } from "@/components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, Button,
-  Section as UISection, Card, Badge, Alert,
+  Container, H2, H3, Body, Label, Grid, Stack, Button,
+  Section, Card, Badge, Alert,
+  PageLayout, Footer, FooterColumn, FooterLink, Display, Kicker,
 } from "@ghxstship/ui";
 
 interface OfflineTicket {
@@ -58,13 +60,41 @@ export default function OfflineWalletPage() {
   };
 
   return (
-    <UISection className="min-h-screen bg-white">
-      <Container className="py-8">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>OFFLINE WALLET</H1>
-            <Body className="text-ink-600">Access your tickets even without internet connection</Body>
-          </Stack>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Wallet">
+            <FooterLink href="/wallet">Wallet</FooterLink>
+            <FooterLink href="/wallet/offline">Offline Mode</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Wallet</Kicker>
+              <H2 size="lg" className="text-white">Offline Wallet</H2>
+              <Body className="text-on-dark-muted">Access your tickets even without internet connection</Body>
+            </Stack>
 
           <Card className={`p-4 border-2 ${isOnline ? "border-success-500 bg-success-50" : "border-warning-500 bg-warning-50"}`}>
             <Stack direction="horizontal" className="justify-between items-center">
@@ -180,9 +210,10 @@ export default function OfflineWalletPage() {
             </Card>
           </Stack>
 
-          <Button variant="outline" onClick={() => router.push("/wallet")}>Back to Wallet</Button>
-        </Stack>
-      </Container>
-    </UISection>
+          <Button variant="outlineInk" onClick={() => router.push("/wallet")}>Back to Wallet</Button>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

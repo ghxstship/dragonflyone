@@ -4,9 +4,33 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter, Textarea, Alert,
+  Container,
+  H3,
+  Body,
+  Grid,
+  Stack,
+  StatCard,
+  Input,
+  Select,
+  Button,
+  Section,
+  Card,
+  Tabs,
+  TabsList,
+  Tab,
+  TabPanel,
+  Badge,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Textarea,
+  PageLayout,
+  SectionHeader,
+  Table,
+  TableHeader,
+  TableRow,
+  TableCell,
 } from "@ghxstship/ui";
 
 interface SoundcheckSlot {
@@ -68,160 +92,186 @@ export default function SoundcheckPage() {
   };
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Soundcheck Coordination</H1>
-            <Label className="text-ink-400">Schedule and manage soundcheck and focus time for all artists</Label>
-          </Stack>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Soundcheck Coordination"
+              description="Schedule and manage soundcheck and focus time for all artists"
+              colorScheme="on-light"
+              gap="lg"
+            />
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Completed" value={completed} trend="up" className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="In Progress" value={inProgress ? 1 : 0} className="bg-transparent border-2 border-info-800" />
-            <StatCard label="Remaining" value={remaining} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Delayed" value={delayed} trend={delayed > 0 ? "down" : "neutral"} className="bg-transparent border-2 border-ink-800" />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard value={completed.toString()} label="Completed" />
+              <StatCard value={inProgress ? "1" : "0"} label="In Progress" />
+              <StatCard value={remaining.toString()} label="Remaining" />
+              <StatCard value={delayed.toString()} label="Delayed" />
+            </Grid>
 
-          {inProgress && (
-            <Card className="border-2 border-info-800 bg-info-900/20 p-6">
-              <Stack gap={4}>
-                <Stack direction="horizontal" className="justify-between items-center">
-                  <Stack gap={1}>
-                    <Label className="text-info-400">NOW SOUNDCHECKING</Label>
-                    <Body className="font-display text-white text-h5-md">{inProgress.artistName}</Body>
-                    <Label className="text-ink-400">{inProgress.stage} • Engineer: {inProgress.engineer}</Label>
-                  </Stack>
-                  <Stack gap={2} className="text-right">
-                    <Label className="text-ink-400">Started: {inProgress.actualStart}</Label>
-                    <Label className="text-ink-400">Scheduled End: {inProgress.scheduledEnd}</Label>
-                    <Button variant="solid" onClick={() => setSelectedSlot(inProgress)}>Complete Soundcheck</Button>
-                  </Stack>
-                </Stack>
-                <Stack gap={2}>
-                  <Label className="text-ink-400">Requirements:</Label>
-                  <Stack direction="horizontal" gap={2} className="flex-wrap">
-                    {inProgress.requirements.map((req, idx) => <Badge key={idx} variant="outline">{req}</Badge>)}
-                  </Stack>
-                </Stack>
-              </Stack>
-            </Card>
-          )}
-
-          <Stack direction="horizontal" className="justify-between items-center">
-            <Tabs>
-              <TabsList>
-                <Tab active={activeTab === "schedule"} onClick={() => setActiveTab("schedule")}>Schedule</Tab>
-                <Tab active={activeTab === "by-stage"} onClick={() => setActiveTab("by-stage")}>By Stage</Tab>
-              </TabsList>
-            </Tabs>
-            <Stack direction="horizontal" gap={4}>
-              <Select value={stageFilter} onChange={(e) => setStageFilter(e.target.value)} className="border-ink-700 bg-black text-white">
-                <option value="All">All Stages</option>
-                <option value="Main Stage">Main Stage</option>
-                <option value="Side Stage">Side Stage</option>
-              </Select>
-              <Button variant="outlineWhite" onClick={() => setShowAddModal(true)}>Add Soundcheck</Button>
-            </Stack>
-          </Stack>
-
-          <TabPanel active={activeTab === "schedule"}>
-            <Stack gap={3}>
-              {filteredSoundchecks
-                .sort((a, b) => a.scheduledStart.localeCompare(b.scheduledStart))
-                .map((slot) => (
-                  <Card key={slot.id} className={`border-2 p-4 ${getStatusBg(slot.status)}`}>
-                    <Grid cols={6} gap={4} className="items-center">
-                      <Stack gap={1}>
-                        <Body className="font-display text-white">{slot.artistName}</Body>
-                        <Badge variant="outline">{slot.stage}</Badge>
-                      </Stack>
-                      <Stack gap={1}>
-                        <Label size="xs" className="text-ink-500">Scheduled</Label>
-                        <Label className="font-mono text-white">{slot.scheduledStart} - {slot.scheduledEnd}</Label>
-                      </Stack>
-                      <Stack gap={1}>
-                        <Label size="xs" className="text-ink-500">Actual</Label>
-                        <Label className="font-mono text-white">
-                          {slot.actualStart || "--:--"} - {slot.actualEnd || "--:--"}
-                        </Label>
-                      </Stack>
-                      <Stack gap={1}>
-                        <Label size="xs" className="text-ink-500">Engineer</Label>
-                        <Label className="text-ink-300">{slot.engineer || "-"}</Label>
-                      </Stack>
-                      <Label className={getStatusColor(slot.status)}>{slot.status}</Label>
-                      <Stack direction="horizontal" gap={2}>
-                        {slot.status === "Scheduled" && <Button variant="outline" size="sm">Start</Button>}
-                        {slot.status === "In Progress" && <Button variant="outline" size="sm">Complete</Button>}
-                        <Button variant="ghost" size="sm" onClick={() => setSelectedSlot(slot)}>Details</Button>
-                      </Stack>
-                    </Grid>
-                  </Card>
-                ))}
-            </Stack>
-          </TabPanel>
-
-          <TabPanel active={activeTab === "by-stage"}>
-            <Grid cols={2} gap={6}>
-              {["Main Stage", "Side Stage"].map((stage) => (
-                <Card key={stage} className="border-2 border-ink-800 bg-ink-900/50 p-4">
-                  <Stack gap={4}>
-                    <H3>{stage}</H3>
-                    <Stack gap={2}>
-                      {mockSoundchecks.filter(s => s.stage === stage).sort((a, b) => a.scheduledStart.localeCompare(b.scheduledStart)).map((slot) => (
-                        <Card key={slot.id} className={`p-3 border ${getStatusBg(slot.status)}`}>
-                          <Stack direction="horizontal" className="justify-between items-center">
-                            <Stack gap={1}>
-                              <Label className="text-white">{slot.artistName}</Label>
-                              <Label size="xs" className="font-mono text-ink-400">{slot.scheduledStart} - {slot.scheduledEnd}</Label>
-                            </Stack>
-                            <Label className={getStatusColor(slot.status)}>{slot.status}</Label>
-                          </Stack>
-                        </Card>
-                      ))}
+            {inProgress && (
+              <Card className="p-6">
+                <Stack gap={4}>
+                  <Stack direction="horizontal" className="items-center justify-between">
+                    <Stack gap={1}>
+                      <Badge variant="solid">NOW SOUNDCHECKING</Badge>
+                      <Body className="text-h5-md font-display">{inProgress.artistName}</Body>
+                      <Body className="text-body-sm">{inProgress.stage} • Engineer: {inProgress.engineer}</Body>
+                    </Stack>
+                    <Stack gap={2} className="text-right">
+                      <Body className="text-body-sm">Started: {inProgress.actualStart}</Body>
+                      <Body className="text-body-sm">Scheduled End: {inProgress.scheduledEnd}</Body>
+                      <Button variant="solid" onClick={() => setSelectedSlot(inProgress)}>Complete Soundcheck</Button>
                     </Stack>
                   </Stack>
-                </Card>
-              ))}
-            </Grid>
-          </TabPanel>
+                  <Stack gap={2}>
+                    <Body className="text-body-sm">Requirements:</Body>
+                    <Stack direction="horizontal" gap={2} className="flex-wrap">
+                      {inProgress.requirements.map((req, idx) => <Badge key={idx} variant="outline">{req}</Badge>)}
+                    </Stack>
+                  </Stack>
+                </Stack>
+              </Card>
+            )}
 
-          <Grid cols={3} gap={4}>
-            <Button variant="outline" className="border-ink-700 text-ink-400">Export Schedule</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/tech-rehearsal")}>Tech Rehearsals</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/run-of-show")}>Run of Show</Button>
-          </Grid>
-        </Stack>
-      </Container>
+            <Stack direction="horizontal" className="items-center justify-between">
+              <Tabs>
+                <TabsList>
+                  <Tab active={activeTab === "schedule"} onClick={() => setActiveTab("schedule")}>Schedule</Tab>
+                  <Tab active={activeTab === "by-stage"} onClick={() => setActiveTab("by-stage")}>By Stage</Tab>
+                </TabsList>
+              </Tabs>
+              <Stack direction="horizontal" gap={4}>
+                <Select value={stageFilter} onChange={(e) => setStageFilter(e.target.value)}>
+                  <option value="All">All Stages</option>
+                  <option value="Main Stage">Main Stage</option>
+                  <option value="Side Stage">Side Stage</option>
+                </Select>
+                <Button variant="solid" onClick={() => setShowAddModal(true)}>Add Soundcheck</Button>
+              </Stack>
+            </Stack>
+
+            <TabPanel active={activeTab === "schedule"}>
+              <Stack gap={3}>
+                {filteredSoundchecks
+                  .sort((a, b) => a.scheduledStart.localeCompare(b.scheduledStart))
+                  .map((slot) => (
+                    <Card key={slot.id} className="p-4">
+                      <Grid cols={6} gap={4} className="items-center">
+                        <Stack gap={1}>
+                          <Body className="font-display">{slot.artistName}</Body>
+                          <Badge variant="outline">{slot.stage}</Badge>
+                        </Stack>
+                        <Stack gap={1}>
+                          <Body className="text-body-sm">Scheduled</Body>
+                          <Body>{slot.scheduledStart} - {slot.scheduledEnd}</Body>
+                        </Stack>
+                        <Stack gap={1}>
+                          <Body className="text-body-sm">Actual</Body>
+                          <Body>
+                            {slot.actualStart || "--:--"} - {slot.actualEnd || "--:--"}
+                          </Body>
+                        </Stack>
+                        <Stack gap={1}>
+                          <Body className="text-body-sm">Engineer</Body>
+                          <Body>{slot.engineer || "-"}</Body>
+                        </Stack>
+                        <Badge variant={slot.status === "Completed" ? "solid" : "outline"}>{slot.status}</Badge>
+                        <Stack direction="horizontal" gap={2}>
+                          {slot.status === "Scheduled" && <Button variant="outline" size="sm">Start</Button>}
+                          {slot.status === "In Progress" && <Button variant="outline" size="sm">Complete</Button>}
+                          <Button variant="ghost" size="sm" onClick={() => setSelectedSlot(slot)}>Details</Button>
+                        </Stack>
+                      </Grid>
+                    </Card>
+                  ))}
+              </Stack>
+            </TabPanel>
+
+            <TabPanel active={activeTab === "by-stage"}>
+              <Grid cols={2} gap={6}>
+                {["Main Stage", "Side Stage"].map((stage) => (
+                  <Card key={stage} className="p-4">
+                    <Stack gap={4}>
+                      <H3>{stage}</H3>
+                      <Stack gap={2}>
+                        {mockSoundchecks.filter(s => s.stage === stage).sort((a, b) => a.scheduledStart.localeCompare(b.scheduledStart)).map((slot) => (
+                          <Card key={slot.id} className="p-3">
+                            <Stack direction="horizontal" className="items-center justify-between">
+                              <Stack gap={1}>
+                                <Body>{slot.artistName}</Body>
+                                <Body className="text-body-sm">{slot.scheduledStart} - {slot.scheduledEnd}</Body>
+                              </Stack>
+                              <Badge variant={slot.status === "Completed" || slot.status === "In Progress" ? "solid" : "outline"}>{slot.status}</Badge>
+                            </Stack>
+                          </Card>
+                        ))}
+                      </Stack>
+                    </Stack>
+                  </Card>
+                ))}
+              </Grid>
+            </TabPanel>
+
+            <Grid cols={3} gap={4}>
+              <Button variant="outline">Export Schedule</Button>
+              <Button variant="outline" onClick={() => router.push("/tech-rehearsal")}>Tech Rehearsals</Button>
+              <Button variant="outline" onClick={() => router.push("/run-of-show")}>Run of Show</Button>
+            </Grid>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedSlot} onClose={() => setSelectedSlot(null)}>
         <ModalHeader><H3>Soundcheck Details</H3></ModalHeader>
         <ModalBody>
           {selectedSlot && (
             <Stack gap={4}>
-              <Body className="font-display text-white text-body-md">{selectedSlot.artistName}</Body>
+              <Body className="font-display">{selectedSlot.artistName}</Body>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Stage</Label><Label className="text-white">{selectedSlot.stage}</Label></Stack>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Status</Label><Label className={getStatusColor(selectedSlot.status)}>{selectedSlot.status}</Label></Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Stage</Body>
+                  <Body>{selectedSlot.stage}</Body>
+                </Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Status</Body>
+                  <Badge variant={selectedSlot.status === "Completed" ? "solid" : "outline"}>{selectedSlot.status}</Badge>
+                </Stack>
               </Grid>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Scheduled</Label><Label className="font-mono text-white">{selectedSlot.scheduledStart} - {selectedSlot.scheduledEnd}</Label></Stack>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Duration</Label><Label className="text-white">{selectedSlot.duration} min</Label></Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Scheduled</Body>
+                  <Body>{selectedSlot.scheduledStart} - {selectedSlot.scheduledEnd}</Body>
+                </Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Duration</Body>
+                  <Body>{selectedSlot.duration} min</Body>
+                </Stack>
               </Grid>
               {(selectedSlot.actualStart || selectedSlot.actualEnd) && (
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Actual</Label><Label className="font-mono text-white">{selectedSlot.actualStart || "--:--"} - {selectedSlot.actualEnd || "--:--"}</Label></Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Actual</Body>
+                  <Body>{selectedSlot.actualStart || "--:--"} - {selectedSlot.actualEnd || "--:--"}</Body>
+                </Stack>
               )}
-              <Stack gap={1}><Label size="xs" className="text-ink-500">Engineer</Label><Label className="text-white">{selectedSlot.engineer || "Not assigned"}</Label></Stack>
+              <Stack gap={1}>
+                <Body className="text-body-sm">Engineer</Body>
+                <Body>{selectedSlot.engineer || "Not assigned"}</Body>
+              </Stack>
               <Stack gap={2}>
-                <Label size="xs" className="text-ink-500">Requirements</Label>
+                <Body className="text-body-sm">Requirements</Body>
                 <Stack direction="horizontal" gap={2} className="flex-wrap">
                   {selectedSlot.requirements.map((req, idx) => <Badge key={idx} variant="outline">{req}</Badge>)}
                 </Stack>
               </Stack>
-              {selectedSlot.notes && <Stack gap={1}><Label size="xs" className="text-ink-500">Notes</Label><Body className="text-ink-300">{selectedSlot.notes}</Body></Stack>}
+              {selectedSlot.notes && (
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Notes</Body>
+                  <Body>{selectedSlot.notes}</Body>
+                </Stack>
+              )}
             </Stack>
           )}
         </ModalBody>
@@ -236,33 +286,33 @@ export default function SoundcheckPage() {
         <ModalHeader><H3>Add Soundcheck</H3></ModalHeader>
         <ModalBody>
           <Stack gap={4}>
-            <Input placeholder="Artist Name" className="border-ink-700 bg-black text-white" />
+            <Input placeholder="Artist Name" />
             <Grid cols={2} gap={4}>
-              <Select className="border-ink-700 bg-black text-white">
+              <Select>
                 <option value="">Stage...</option>
                 <option value="Main Stage">Main Stage</option>
                 <option value="Side Stage">Side Stage</option>
               </Select>
-              <Input type="number" placeholder="Duration (min)" className="border-ink-700 bg-black text-white" />
+              <Input type="number" placeholder="Duration (min)" />
             </Grid>
             <Grid cols={2} gap={4}>
               <Stack gap={2}>
-                <Label>Start Time</Label>
-                <Input type="time" className="border-ink-700 bg-black text-white" />
+                <Body className="font-display">Start Time</Body>
+                <Input type="time" />
               </Stack>
               <Stack gap={2}>
-                <Label>End Time</Label>
-                <Input type="time" className="border-ink-700 bg-black text-white" />
+                <Body className="font-display">End Time</Body>
+                <Input type="time" />
               </Stack>
             </Grid>
-            <Select className="border-ink-700 bg-black text-white">
+            <Select>
               <option value="">Assign Engineer...</option>
               <option value="john">John Martinez</option>
               <option value="sarah">Sarah Chen</option>
               <option value="mike">Mike Thompson</option>
             </Select>
-            <Textarea placeholder="Requirements (one per line)..." className="border-ink-700 bg-black text-white" rows={3} />
-            <Textarea placeholder="Notes..." className="border-ink-700 bg-black text-white" rows={2} />
+            <Textarea placeholder="Requirements (one per line)..." rows={3} />
+            <Textarea placeholder="Notes..." rows={2} />
           </Stack>
         </ModalBody>
         <ModalFooter>
@@ -270,6 +320,6 @@ export default function SoundcheckPage() {
           <Button variant="solid" onClick={() => setShowAddModal(false)}>Add Soundcheck</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

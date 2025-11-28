@@ -2,10 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
+import { ConsumerNavigationPublic } from "@/components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
+  Container, H2, H3, Body, Label, Grid, Stack, StatCard, Button,
+  Section, Card, Tabs, TabsList, Tab, TabPanel, Badge,
   Modal, ModalHeader, ModalBody, ModalFooter,
+  PageLayout, Footer, FooterColumn, FooterLink, Display, Kicker,
 } from "@ghxstship/ui";
 
 interface SocialPost {
@@ -72,14 +74,40 @@ export default function SocialWallPage() {
   const filteredPosts = activeTab === "all" ? posts : posts.filter(p => p.platform.toLowerCase() === activeTab);
 
   return (
-    <UISection className="min-h-screen bg-black text-white">
-      <Container className="py-8">
-        <Stack gap={8}>
-          <Stack direction="horizontal" className="justify-between items-center">
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Events">
+            <FooterLink href="/events">Events</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={8}>
             <Stack gap={2}>
-              <H1>LIVE SOCIAL WALL</H1>
-              <Body className="text-ink-400">Real-time social media feed from the event</Body>
+              <Kicker colorScheme="on-dark">Live Feed</Kicker>
+              <H2 size="lg" className="text-white">Social Wall</H2>
+              <Body className="text-on-dark-muted">Real-time social media feed from the event</Body>
             </Stack>
+            <Stack direction="horizontal" className="items-center justify-between">
             <Stack direction="horizontal" gap={4} className="items-center">
               {isLive && <Badge variant="solid" className="bg-error-500 animate-pulse">● LIVE</Badge>}
               <Button variant={isLive ? "solid" : "outline"} onClick={() => setIsLive(!isLive)}>
@@ -148,11 +176,12 @@ export default function SocialWallPage() {
           </Tabs>
 
           <Grid cols={2} gap={4}>
-            <Button variant="outline" onClick={() => router.push(`/events/${eventId}`)}>Back to Event</Button>
-            <Button variant="outline" onClick={() => router.push(`/events/${eventId}/photo-booth`)}>Photo Booth</Button>
+            <Button variant="outlineInk" onClick={() => router.push(`/events/${eventId}`)}>Back to Event</Button>
+            <Button variant="outlineInk" onClick={() => router.push(`/events/${eventId}/photo-booth`)}>Photo Booth</Button>
           </Grid>
-        </Stack>
-      </Container>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedPost} onClose={() => setSelectedPost(null)}>
         <ModalHeader><H3>Post Details</H3></ModalHeader>
@@ -160,12 +189,12 @@ export default function SocialWallPage() {
           {selectedPost && (
             <Stack gap={4}>
               <Stack direction="horizontal" gap={3}>
-                <Card className="w-12 h-12 bg-ink-800 flex items-center justify-center rounded-full">
+                <Card className="size-12 bg-ink-800 flex items-center justify-center rounded-avatar">
                   <Label className="text-h5-md">{getPlatformIcon(selectedPost.platform)}</Label>
                 </Card>
                 <Stack gap={0}>
-                  <Label className="font-bold">{selectedPost.author}</Label>
-                  <Label className="text-ink-500">{selectedPost.handle}</Label>
+                  <Label className="font-weight-bold">{selectedPost.author}</Label>
+                  <Label className="text-on-dark-muted">{selectedPost.handle}</Label>
                 </Stack>
               </Stack>
               {selectedPost.mediaType && (
@@ -181,7 +210,7 @@ export default function SocialWallPage() {
                 <Label>❤️ {selectedPost.likes} likes</Label>
                 {selectedPost.retweets !== undefined && <Label>🔄 {selectedPost.retweets} retweets</Label>}
               </Stack>
-              <Label className="text-ink-500">{selectedPost.timestamp}</Label>
+              <Label className="text-on-dark-muted">{selectedPost.timestamp}</Label>
             </Stack>
           )}
         </ModalBody>
@@ -191,6 +220,6 @@ export default function SocialWallPage() {
           <Button variant="solid">Share</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

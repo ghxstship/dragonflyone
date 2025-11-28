@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import { ConsumerNavigationPublic } from '@/components/navigation';
 import {
   Container,
   Section,
@@ -20,6 +21,11 @@ import {
   Alert,
   LoadingSpinner,
   Form,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Kicker,
 } from '@ghxstship/ui';
 
 interface WaitlistEntry {
@@ -136,25 +142,53 @@ export default function WaitlistPage() {
     }
   };
 
+  const footerContent = (
+    <Footer
+      logo={<Display size="md">GVTEWAY</Display>}
+      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+    >
+      <FooterColumn title="Events">
+        <FooterLink href="/events">Events</FooterLink>
+      </FooterColumn>
+      <FooterColumn title="Legal">
+        <FooterLink href="/legal/privacy">Privacy</FooterLink>
+        <FooterLink href="/legal/terms">Terms</FooterLink>
+      </FooterColumn>
+    </Footer>
+  );
+
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" />
-      </Section>
+      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+        <Section background="black" className="flex min-h-[60vh] items-center justify-center">
+          <LoadingSpinner size="lg" />
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="min-h-screen bg-white">
-      <Container>
-        <Section className="border-b-2 border-black py-8 mb-8">
-          <Display>WAITLIST</Display>
-          {event && (
-            <Body className="mt-2 text-ink-600">
-              {event.title} - {event.date}
-            </Body>
-          )}
-        </Section>
+    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Events</Kicker>
+              <H2 size="lg" className="text-white">Waitlist</H2>
+              {event && (
+                <Body className="text-on-dark-muted">
+                  {event.title} - {event.date}
+                </Body>
+              )}
+            </Stack>
 
         {error && (
           <Alert variant="error" className="mb-6">
@@ -316,7 +350,9 @@ export default function WaitlistPage() {
             </Card>
           </Stack>
         </Grid>
-      </Container>
-    </Section>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

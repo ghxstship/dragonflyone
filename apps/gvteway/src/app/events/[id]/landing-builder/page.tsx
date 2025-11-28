@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { useRouter, useParams } from "next/navigation";
+import { ConsumerNavigationPublic } from "@/components/navigation";
 import {
   Container,
-  H1,
   H2,
   H3,
   Body,
@@ -12,10 +12,8 @@ import {
   Grid,
   Stack,
   Button,
-  Section as UISection,
+  Section,
   Card,
-  CardHeader,
-  CardBody,
   Tabs,
   TabsList,
   Tab,
@@ -28,7 +26,12 @@ import {
   Input,
   Textarea,
   Select,
-  Alert,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
+  Kicker,
 } from "@ghxstship/ui";
 
 interface LandingSection {
@@ -142,18 +145,42 @@ export default function LandingBuilderPage() {
   };
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-
-      <Container className="py-8">
-        <Stack gap={8}>
-          <Stack direction="horizontal" className="justify-between items-center">
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Events">
+            <FooterLink href="/events">Events</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={8}>
             <Stack gap={2}>
-              <H1>Landing Page Builder</H1>
-              <Label className="text-ink-400">
+              <Kicker colorScheme="on-dark">Event Tools</Kicker>
+              <H2 size="lg" className="text-white">Landing Page Builder</H2>
+              <Body className="text-on-dark-muted">
                 Design and customize your event landing page
-              </Label>
+              </Body>
             </Stack>
+            <Stack direction="horizontal" className="items-center justify-between">
             <Stack direction="horizontal" gap={4}>
               <Badge variant={config.published ? "solid" : "outline"}>
                 {config.published ? "Published" : "Draft"}
@@ -587,6 +614,7 @@ export default function LandingBuilderPage() {
           </Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+      </Section>
+    </PageLayout>
   );
 }

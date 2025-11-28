@@ -9,6 +9,9 @@ import {
   Badge,
   DetailDrawer,
   RecordFormModal,
+  Grid,
+  Stack,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -93,14 +96,14 @@ export default function MaintenancePage() {
 
   const detailSections: DetailSection[] = selectedItem ? [
     { id: 'overview', title: 'Maintenance Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Equipment:</strong> {selectedItem.equipment_name}</div>
-        <div><strong>Type:</strong> {formatStatus(selectedItem.type)}</div>
-        <div><strong>Priority:</strong> {selectedItem.priority}</div>
-        <div><strong>Status:</strong> {formatStatus(selectedItem.status)}</div>
-        <div><strong>Last Service:</strong> {selectedItem.last_service ? new Date(selectedItem.last_service).toLocaleDateString() : 'N/A'}</div>
-        <div><strong>Next Due:</strong> {selectedItem.next_due ? new Date(selectedItem.next_due).toLocaleDateString() : 'N/A'}</div>
-      </div>
+      <Grid cols={2} gap={4}>
+        <Stack gap={1}><Body className="font-display">Equipment</Body><Body>{selectedItem.equipment_name}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Type</Body><Body>{formatStatus(selectedItem.type)}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Priority</Body><Body>{selectedItem.priority}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Status</Body><Body>{formatStatus(selectedItem.status)}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Last Service</Body><Body>{selectedItem.last_service ? new Date(selectedItem.last_service).toLocaleDateString() : 'N/A'}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Next Due</Body><Body>{selectedItem.next_due ? new Date(selectedItem.next_due).toLocaleDateString() : 'N/A'}</Body></Stack>
+      </Grid>
     )},
   ] : [];
 

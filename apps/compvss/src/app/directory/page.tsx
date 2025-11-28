@@ -2,10 +2,10 @@
 
 import { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
+import { CreatorNavigationAuthenticated } from '../../components/navigation';
 import {
   Container,
   Section,
-  Display,
   Body,
   Button,
   Card,
@@ -17,6 +17,8 @@ import {
   Stack,
   LoadingSpinner,
   H3,
+  PageLayout,
+  SectionHeader,
 } from '@ghxstship/ui';
 import { useCrew } from '../../hooks/useCrew';
 
@@ -195,24 +197,27 @@ export default function DirectoryPage() {
 
   if (isLoading) {
     return (
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" text="Loading directory..." />
-      </Section>
+      <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+        <Section className="flex min-h-screen items-center justify-center">
+          <LoadingSpinner size="lg" text="Loading directory..." />
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="min-h-screen bg-white">
-      <Container>
-        <Stack gap={8}>
-          <Card className="border-b-2 border-black py-8 bg-transparent rounded-none">
-            <Stack gap={2}>
-              <Display>DIRECTORY</Display>
-              <Body variant="muted">
-                Search and filter crew, vendors, and venues by language, specialty, and more
-              </Body>
-            </Stack>
-          </Card>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            {/* Page Header */}
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Directory"
+              description="Search and filter crew, vendors, and venues by language, specialty, and more"
+              colorScheme="on-light"
+              gap="lg"
+            />
 
           {/* Primary Search and Filters */}
           <Card className="p-6">
@@ -344,7 +349,7 @@ export default function DirectoryPage() {
                 <Card key={item.id} className="p-6">
                   <Grid cols={4} gap={4}>
                     <Stack gap={2}>
-                      <Body className="font-bold text-body-md">{item.name || item.full_name}</Body>
+                      <Body className="font-display text-body-md">{item.name || item.full_name}</Body>
                       <Stack direction="horizontal" gap={2}>
                         <Badge>CREW</Badge>
                         {item.availability === 'available' && (
@@ -353,11 +358,11 @@ export default function DirectoryPage() {
                       </Stack>
                     </Stack>
                     <Stack gap={1}>
-                      <Body className="text-body-sm font-medium">{item.role || 'N/A'}</Body>
+                      <Body className="text-body-sm font-display">{item.role || 'N/A'}</Body>
                       <Body className="text-body-sm" variant="muted">{item.department || ''}</Body>
                     </Stack>
                     <Stack gap={1}>
-                      <Body className="text-body-sm font-medium">Languages</Body>
+                      <Body className="text-body-sm font-display">Languages</Body>
                       <Body className="text-body-sm" variant="muted">
                         {Array.isArray(item.languages) 
                           ? item.languages.join(', ') 
@@ -365,7 +370,7 @@ export default function DirectoryPage() {
                       </Body>
                     </Stack>
                     <Stack gap={1}>
-                      <Body className="text-body-sm font-medium">Skills</Body>
+                      <Body className="text-body-sm font-display">Skills</Body>
                       <Body className="text-body-sm" variant="muted">
                         {Array.isArray(item.skills) 
                           ? item.skills.slice(0, 3).join(', ')
@@ -388,5 +393,6 @@ export default function DirectoryPage() {
         </Stack>
       </Container>
     </Section>
-  );
+  </PageLayout>
+);
 }

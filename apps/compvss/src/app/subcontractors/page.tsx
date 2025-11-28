@@ -4,7 +4,6 @@ import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
-  H1,
   H2,
   Body,
   StatCard,
@@ -25,8 +24,9 @@ import {
   Card,
   Section,
   Input,
-  Field,
   useNotifications,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 interface Subcontractor {
@@ -126,195 +126,191 @@ export default function SubcontractorsPage() {
 
   if (loading) {
     return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <CreatorNavigationAuthenticated />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading subcontractors..." />
-        </Container>
-      </Section>
+      <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+        <Section className="min-h-screen py-16">
+          <Container className="flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" text="Loading subcontractors..." />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   if (error) {
     return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <CreatorNavigationAuthenticated />
-        <Container className="py-16">
-          <EmptyState
-            title="Error Loading Subcontractors"
-            description={error}
-            action={{ label: "Retry", onClick: fetchSubcontractors }}
-          />
-        </Container>
-      </Section>
+      <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+        <Section className="min-h-screen py-16">
+          <Container>
+            <EmptyState
+              title="Error Loading Subcontractors"
+              description={error}
+              action={{ label: "Retry", onClick: fetchSubcontractors }}
+            />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="relative min-h-screen bg-black text-white">
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Subcontractor Management</H1>
-            <Body className="text-ink-400">
-              Manage subcontractor relationships, contracts, and performance tracking
-            </Body>
-          </Stack>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Subcontractor Management"
+              description="Manage subcontractor relationships, contracts, and performance tracking"
+              colorScheme="on-light"
+              gap="lg"
+            />
 
-          <Grid cols={4} gap={6}>
-            <StatCard
-              value={summary?.total_subcontractors || 0}
-              label="Total Subcontractors"
-              className="bg-black text-white border-ink-800"
-            />
-            <StatCard
-              value={summary?.active_engagements || 0}
-              label="Active Engagements"
-              className="bg-black text-white border-ink-800"
-            />
-            <StatCard
-              value={formatCurrency(summary?.total_spend_ytd || 0)}
-              label="YTD Spend"
-              className="bg-black text-white border-ink-800"
-            />
-            <StatCard
-              value={summary?.average_rating?.toFixed(1) || "0.0"}
-              label="Avg Rating"
-              className="bg-black text-white border-ink-800"
-            />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard
+                value={(summary?.total_subcontractors || 0).toString()}
+                label="Total Subcontractors"
+              />
+              <StatCard
+                value={(summary?.active_engagements || 0).toString()}
+                label="Active Engagements"
+              />
+              <StatCard
+                value={formatCurrency(summary?.total_spend_ytd || 0)}
+                label="YTD Spend"
+              />
+              <StatCard
+                value={summary?.average_rating?.toFixed(1) || "0.0"}
+                label="Avg Rating"
+              />
+            </Grid>
 
-          <Card className="p-6 bg-black border-ink-800">
-            <Stack gap={4}>
-              <H2>Specialties</H2>
-              <Grid cols={4} gap={4}>
-                <Card className="p-4 bg-ink-900 border-ink-700">
-                  <Stack gap={2}>
-                    <Body className="text-ink-400 text-body-sm uppercase tracking-widest">Audio</Body>
-                    <Body className="text-h5-md font-bold">12</Body>
-                  </Stack>
-                </Card>
-                <Card className="p-4 bg-ink-900 border-ink-700">
-                  <Stack gap={2}>
-                    <Body className="text-ink-400 text-body-sm uppercase tracking-widest">Lighting</Body>
-                    <Body className="text-h5-md font-bold">8</Body>
-                  </Stack>
-                </Card>
-                <Card className="p-4 bg-ink-900 border-ink-700">
-                  <Stack gap={2}>
-                    <Body className="text-ink-400 text-body-sm uppercase tracking-widest">Video</Body>
-                    <Body className="text-h5-md font-bold">6</Body>
-                  </Stack>
-                </Card>
-                <Card className="p-4 bg-ink-900 border-ink-700">
-                  <Stack gap={2}>
-                    <Body className="text-ink-400 text-body-sm uppercase tracking-widest">Staging</Body>
-                    <Body className="text-h5-md font-bold">10</Body>
-                  </Stack>
-                </Card>
-              </Grid>
-            </Stack>
-          </Card>
+            <Card>
+              <Stack gap={4}>
+                <H2>Specialties</H2>
+                <Grid cols={4} gap={4}>
+                  <Card>
+                    <Stack gap={2}>
+                      <Body className="text-body-sm">Audio</Body>
+                      <Body className="font-display">12</Body>
+                    </Stack>
+                  </Card>
+                  <Card>
+                    <Stack gap={2}>
+                      <Body className="text-body-sm">Lighting</Body>
+                      <Body className="font-display">8</Body>
+                    </Stack>
+                  </Card>
+                  <Card>
+                    <Stack gap={2}>
+                      <Body className="text-body-sm">Video</Body>
+                      <Body className="font-display">6</Body>
+                    </Stack>
+                  </Card>
+                  <Card>
+                    <Stack gap={2}>
+                      <Body className="text-body-sm">Staging</Body>
+                      <Body className="font-display">10</Body>
+                    </Stack>
+                  </Card>
+                </Grid>
+              </Stack>
+            </Card>
 
-          <Stack gap={4} direction="horizontal">
-            <Field className="flex-1">
+            <Stack gap={4} direction="horizontal">
               <Input
                 placeholder="Search subcontractors..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-black text-white border-ink-700"
               />
-            </Field>
-            <Select
-              value={filterSpecialty}
-              onChange={(e) => setFilterSpecialty(e.target.value)}
-              className="bg-black text-white border-ink-700"
-            >
-              <option value="all">All Specialties</option>
-              <option value="audio">Audio</option>
-              <option value="lighting">Lighting</option>
-              <option value="video">Video</option>
-              <option value="staging">Staging</option>
-              <option value="rigging">Rigging</option>
-              <option value="power">Power/Electrical</option>
-              <option value="backline">Backline</option>
-            </Select>
-          </Stack>
+              <Select
+                value={filterSpecialty}
+                onChange={(e) => setFilterSpecialty(e.target.value)}
+              >
+                <option value="all">All Specialties</option>
+                <option value="audio">Audio</option>
+                <option value="lighting">Lighting</option>
+                <option value="video">Video</option>
+                <option value="staging">Staging</option>
+                <option value="rigging">Rigging</option>
+                <option value="power">Power/Electrical</option>
+                <option value="backline">Backline</option>
+              </Select>
+            </Stack>
 
-          {subcontractors.length === 0 ? (
-            <EmptyState
-              title="No Subcontractors Found"
-              description="Add your first subcontractor"
-              action={{ label: "Add Subcontractor", onClick: () => {} }}
-            />
-          ) : (
-            <Table variant="bordered" className="bg-black">
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Company</TableHead>
-                  <TableHead>Contact</TableHead>
-                  <TableHead>Specialty</TableHead>
-                  <TableHead>Location</TableHead>
-                  <TableHead>Rating</TableHead>
-                  <TableHead>Projects</TableHead>
-                  <TableHead>Insurance</TableHead>
-                  <TableHead>Contract</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {subcontractors.map((sub) => (
-                  <TableRow key={sub.id} className="bg-black text-white hover:bg-ink-900">
-                    <TableCell>
-                      <Stack gap={1}>
-                        <Body className="text-white font-medium">{sub.company_name}</Body>
-                        <Body className="text-ink-500 text-body-sm">{sub.email}</Body>
-                      </Stack>
-                    </TableCell>
-                    <TableCell className="text-ink-400">
-                      {sub.contact_name}
-                    </TableCell>
-                    <TableCell className="text-ink-400">
-                      {sub.specialty}
-                    </TableCell>
-                    <TableCell className="text-ink-400">
-                      {sub.location}
-                    </TableCell>
-                    <TableCell className="text-warning-400">
-                      {renderRating(sub.rating)}
-                    </TableCell>
-                    <TableCell className="font-mono text-white">
-                      {sub.active_projects}/{sub.total_projects}
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant={getStatusVariant(sub.insurance_status)}>
-                        {sub.insurance_status}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant={getStatusVariant(sub.contract_status)}>
-                        {sub.contract_status}
-                      </Badge>
-                    </TableCell>
+            {subcontractors.length === 0 ? (
+              <EmptyState
+                title="No Subcontractors Found"
+                description="Add your first subcontractor"
+                action={{ label: "Add Subcontractor", onClick: () => {} }}
+              />
+            ) : (
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Company</TableHead>
+                    <TableHead>Contact</TableHead>
+                    <TableHead>Specialty</TableHead>
+                    <TableHead>Location</TableHead>
+                    <TableHead>Rating</TableHead>
+                    <TableHead>Projects</TableHead>
+                    <TableHead>Insurance</TableHead>
+                    <TableHead>Contract</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
+                </TableHeader>
+                <TableBody>
+                  {subcontractors.map((sub) => (
+                    <TableRow key={sub.id}>
+                      <TableCell>
+                        <Stack gap={1}>
+                          <Body className="font-display">{sub.company_name}</Body>
+                          <Body className="text-body-sm">{sub.email}</Body>
+                        </Stack>
+                      </TableCell>
+                      <TableCell>
+                        <Body className="text-body-sm">{sub.contact_name}</Body>
+                      </TableCell>
+                      <TableCell>
+                        <Body className="text-body-sm">{sub.specialty}</Body>
+                      </TableCell>
+                      <TableCell>
+                        <Body className="text-body-sm">{sub.location}</Body>
+                      </TableCell>
+                      <TableCell>
+                        <Body>{renderRating(sub.rating)}</Body>
+                      </TableCell>
+                      <TableCell>
+                        <Body className="font-mono">{sub.active_projects}/{sub.total_projects}</Body>
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant={getStatusVariant(sub.insurance_status)}>
+                          {sub.insurance_status}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant={getStatusVariant(sub.contract_status)}>
+                          {sub.contract_status}
+                        </Badge>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            )}
 
-          <Stack gap={3} direction="horizontal">
-            <Button variant="outlineWhite" onClick={() => router.push('/subcontractors/new')}>
-              Add Subcontractor
-            </Button>
-            <Button variant="ghost" className="text-ink-400 hover:text-white" onClick={() => router.push('/subcontractors/insurance')}>
-              Insurance Report
-            </Button>
-            <Button variant="ghost" className="text-ink-400 hover:text-white" onClick={() => router.push('/subcontractors/export')}>
-              Export Directory
-            </Button>
+            <Stack gap={3} direction="horizontal">
+              <Button variant="solid" onClick={() => router.push('/subcontractors/new')}>
+                Add Subcontractor
+              </Button>
+              <Button variant="outline" onClick={() => router.push('/subcontractors/insurance')}>
+                Insurance Report
+              </Button>
+              <Button variant="outline" onClick={() => router.push('/subcontractors/export')}>
+                Export Directory
+              </Button>
+            </Stack>
           </Stack>
-        </Stack>
-      </Container>
-    </Section>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

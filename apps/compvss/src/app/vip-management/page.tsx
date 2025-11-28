@@ -4,10 +4,35 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select,
-  Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Button,
-  EmptyState, Section as UISection, Card, Tabs, TabsList, Tab, TabPanel,
-  Modal, ModalHeader, ModalBody, ModalFooter, Badge, Alert, Textarea,
+  Container,
+  H3,
+  Body,
+  Grid,
+  Stack,
+  StatCard,
+  Input,
+  Select,
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+  Button,
+  Section,
+  Card,
+  Tabs,
+  TabsList,
+  Tab,
+  TabPanel,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Badge,
+  Textarea,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 interface VIPGuest {
@@ -47,7 +72,7 @@ export default function VIPManagementPage() {
     g.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const getStatusColor = (status: string) => {
+  const _getStatusColor = (status: string) => {
     switch (status) {
       case "Checked In": return "text-success-400";
       case "Approved": return "text-info-400";
@@ -58,107 +83,110 @@ export default function VIPManagementPage() {
   };
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>VIP & Backstage Management</H1>
-            <Label className="text-ink-600">Guest list management and access control</Label>
-          </Stack>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="COMPVSS"
+              title="VIP & Backstage Management"
+              description="Guest list management and access control"
+              colorScheme="on-light"
+              gap="lg"
+            />
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Checked In" value={mockVIPGuests.filter(g => g.status === "Checked In").length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Pending" value={mockVIPGuests.filter(g => g.status === "Pending").length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Total Guests" value={mockVIPGuests.length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Zone Occupancy" value={`${mockAccessZones.reduce((s,z) => s + z.currentOccupancy, 0)}/${mockAccessZones.reduce((s,z) => s + z.maxCapacity, 0)}`} className="bg-transparent border-2 border-ink-800" />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard label="Checked In" value={mockVIPGuests.filter(g => g.status === "Checked In").length.toString()} />
+              <StatCard label="Pending" value={mockVIPGuests.filter(g => g.status === "Pending").length.toString()} />
+              <StatCard label="Total Guests" value={mockVIPGuests.length.toString()} />
+              <StatCard label="Zone Occupancy" value={`${mockAccessZones.reduce((s,z) => s + z.currentOccupancy, 0)}/${mockAccessZones.reduce((s,z) => s + z.maxCapacity, 0)}`} />
+            </Grid>
 
-          <Input type="search" placeholder="Search guests..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="border-ink-700 bg-black text-white" />
+            <Input type="search" placeholder="Search guests..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
 
-          <Tabs>
-            <TabsList>
-              <Tab active={activeTab === "guests"} onClick={() => setActiveTab("guests")}>Guest List</Tab>
-              <Tab active={activeTab === "zones"} onClick={() => setActiveTab("zones")}>Access Zones</Tab>
-            </TabsList>
+            <Tabs>
+              <TabsList>
+                <Tab active={activeTab === "guests"} onClick={() => setActiveTab("guests")}>Guest List</Tab>
+                <Tab active={activeTab === "zones"} onClick={() => setActiveTab("zones")}>Access Zones</Tab>
+              </TabsList>
 
-            <TabPanel active={activeTab === "guests"}>
-              <Table className="border-2 border-ink-800">
-                <TableHeader>
-                  <TableRow className="bg-ink-900">
-                    <TableHead>Guest</TableHead>
-                    <TableHead>Pass Type</TableHead>
-                    <TableHead>Access</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredGuests.map((guest) => (
-                    <TableRow key={guest.id}>
-                      <TableCell>
-                        <Stack gap={1}>
-                          <Body className="font-display text-white">{guest.name}</Body>
-                          <Label size="xs" className="text-ink-500">{guest.email}</Label>
-                        </Stack>
-                      </TableCell>
-                      <TableCell><Badge variant="outline">{guest.passType}</Badge></TableCell>
-                      <TableCell>
-                        <Stack direction="horizontal" gap={1}>
-                          {guest.accessAreas.slice(0,2).map(a => <Badge key={a} variant="outline">{a}</Badge>)}
-                        </Stack>
-                      </TableCell>
-                      <TableCell><Label className={getStatusColor(guest.status)}>{guest.status}</Label></TableCell>
-                      <TableCell>
-                        <Button variant="ghost" size="sm" onClick={() => setSelectedGuest(guest)}>Details</Button>
-                      </TableCell>
+              <TabPanel active={activeTab === "guests"}>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Guest</TableHead>
+                      <TableHead>Pass Type</TableHead>
+                      <TableHead>Access</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Actions</TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TabPanel>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredGuests.map((guest) => (
+                      <TableRow key={guest.id}>
+                        <TableCell>
+                          <Stack gap={1}>
+                            <Body className="font-display">{guest.name}</Body>
+                            <Body className="text-body-sm">{guest.email}</Body>
+                          </Stack>
+                        </TableCell>
+                        <TableCell><Badge variant="outline">{guest.passType}</Badge></TableCell>
+                        <TableCell>
+                          <Stack direction="horizontal" gap={1}>
+                            {guest.accessAreas.slice(0,2).map(a => <Badge key={a} variant="outline">{a}</Badge>)}
+                          </Stack>
+                        </TableCell>
+                        <TableCell><Badge variant={guest.status === "Checked In" ? "solid" : "outline"}>{guest.status}</Badge></TableCell>
+                        <TableCell>
+                          <Button variant="ghost" size="sm" onClick={() => setSelectedGuest(guest)}>Details</Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TabPanel>
 
-            <TabPanel active={activeTab === "zones"}>
-              <Grid cols={2} gap={6}>
-                {mockAccessZones.map((zone) => (
-                  <Card key={zone.id} className="border-2 border-ink-800 bg-ink-900/50 p-6">
-                    <Stack gap={4}>
-                      <H3>{zone.name}</H3>
-                      <Stack gap={2}>
-                        <Label className="text-ink-600">{zone.currentOccupancy} / {zone.maxCapacity}</Label>
-                        <Card className="h-2 bg-ink-800 rounded-full overflow-hidden">
-                          <Card className="h-full bg-white" style={{ '--progress-width': `${(zone.currentOccupancy / zone.maxCapacity) * 100}%`, width: 'var(--progress-width)' } as React.CSSProperties} />
-                        </Card>
+              <TabPanel active={activeTab === "zones"}>
+                <Grid cols={2} gap={6}>
+                  {mockAccessZones.map((zone) => (
+                    <Card key={zone.id}>
+                      <Stack gap={4}>
+                        <H3>{zone.name}</H3>
+                        <Stack gap={2}>
+                          <Body>{zone.currentOccupancy} / {zone.maxCapacity}</Body>
+                          <Card>
+                            <Body className="text-body-sm">{Math.round((zone.currentOccupancy / zone.maxCapacity) * 100)}% capacity</Body>
+                          </Card>
+                        </Stack>
                       </Stack>
-                    </Stack>
-                  </Card>
-                ))}
-              </Grid>
-            </TabPanel>
-          </Tabs>
+                    </Card>
+                  ))}
+                </Grid>
+              </TabPanel>
+            </Tabs>
 
-          <Grid cols={3} gap={4}>
-            <Button variant="outlineWhite" onClick={() => setShowAddModal(true)}>Add Guest</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-600">Print Credentials</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-600" onClick={() => router.push("/stage-management")}>Stage Management</Button>
-          </Grid>
-        </Stack>
-      </Container>
+            <Grid cols={3} gap={4}>
+              <Button variant="solid" onClick={() => setShowAddModal(true)}>Add Guest</Button>
+              <Button variant="outline">Print Credentials</Button>
+              <Button variant="outline" onClick={() => router.push("/stage-management")}>Stage Management</Button>
+            </Grid>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={showAddModal} onClose={() => setShowAddModal(false)}>
         <ModalHeader><H3>Add VIP Guest</H3></ModalHeader>
         <ModalBody>
           <Stack gap={4}>
-            <Input placeholder="Full Name" className="border-ink-700 bg-black text-white" />
-            <Input type="email" placeholder="Email" className="border-ink-700 bg-black text-white" />
-            <Select className="border-ink-700 bg-black text-white">
+            <Input placeholder="Full Name" />
+            <Input type="email" placeholder="Email" />
+            <Select>
               <option value="">Select pass type...</option>
               <option value="VIP">VIP</option>
               <option value="Backstage">Backstage</option>
               <option value="All Access">All Access</option>
             </Select>
-            <Textarea placeholder="Notes..." className="border-ink-700 bg-black text-white" rows={2} />
+            <Textarea placeholder="Notes..." rows={2} />
           </Stack>
         </ModalBody>
         <ModalFooter>
@@ -172,11 +200,11 @@ export default function VIPManagementPage() {
         <ModalBody>
           {selectedGuest && (
             <Stack gap={4}>
-              <Body className="text-white font-display text-body-md">{selectedGuest.name}</Body>
-              <Label className="text-ink-600">{selectedGuest.email}</Label>
+              <Body className="font-display">{selectedGuest.name}</Body>
+              <Body className="text-body-sm">{selectedGuest.email}</Body>
               <Badge variant="outline">{selectedGuest.passType}</Badge>
-              <Label className={getStatusColor(selectedGuest.status)}>{selectedGuest.status}</Label>
-              {selectedGuest.notes && <Body className="text-ink-700">{selectedGuest.notes}</Body>}
+              <Badge variant={selectedGuest.status === "Checked In" ? "solid" : "outline"}>{selectedGuest.status}</Badge>
+              {selectedGuest.notes && <Body>{selectedGuest.notes}</Body>}
             </Stack>
           )}
         </ModalBody>
@@ -185,6 +213,6 @@ export default function VIPManagementPage() {
           <Button variant="solid">Edit</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

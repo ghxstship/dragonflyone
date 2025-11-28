@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { ConsumerNavigationPublic } from "@/components/navigation";
 import {
   PageLayout,
-  Navigation,
   Footer,
   FooterColumn,
   FooterLink,
@@ -16,19 +16,21 @@ import {
   Input,
   Badge,
   Card,
-  SectionLayout,
+  Section,
   StatCard,
   Container,
   Stack,
   Grid,
+  Kicker,
+  Label,
   Table,
   TableHeader,
   TableBody,
   TableRow,
   TableHead,
   TableCell,
-  Link,
 } from "@ghxstship/ui";
+import { CreditCard, Plus, Trash2, Star, Wallet, ArrowUpRight, ArrowDownLeft } from "lucide-react";
 
 const paymentMethods = [
   { id: "PM-001", type: "Credit Card", brand: "Visa", last4: "4242", expiry: "12/2025", isDefault: true },
@@ -42,129 +44,193 @@ const transactionHistory = [
 ];
 
 export default function WalletPage() {
-  const router = useRouter();
+  const _router = useRouter();
   const [showAddCard, setShowAddCard] = useState(false);
 
   return (
     <PageLayout
       background="black"
-      header={
-        <Navigation
-          logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
-          cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/profile')}>PROFILE</Button>}
-        >
-          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Home</Link>
-          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Events</Link>
-        </Navigation>
-      }
+      header={<ConsumerNavigationPublic />}
       footer={
         <Footer
-          logo={<Display size="md" className="text-white text-display-md">GVTEWAY</Display>}
-          copyright=" 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
         >
           <FooterColumn title="Account">
             <FooterLink href="/profile">Profile</FooterLink>
             <FooterLink href="/wallet">Wallet</FooterLink>
+            <FooterLink href="/orders">Orders</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Discover">
+            <FooterLink href="/events">Browse Events</FooterLink>
+            <FooterLink href="/venues">Find Venues</FooterLink>
+            <FooterLink href="/artists">Artists</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
           </FooterColumn>
         </Footer>
       }
     >
-      <SectionLayout background="black">
-        <Container size="lg">
-          <Stack gap={8}>
-            <H2 className="text-white">Wallet & Payment Methods</H2>
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        {/* Grid Pattern Background */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `
+              linear-gradient(#fff 1px, transparent 1px),
+              linear-gradient(90deg, #fff 1px, transparent 1px)
+            `,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Payments</Kicker>
+              <H2 size="lg" className="text-white">Wallet & Payment Methods</H2>
+              <Body className="text-on-dark-muted">Manage your payment methods and view transaction history</Body>
+            </Stack>
 
+            {/* Stats */}
             <Grid cols={3} gap={6}>
               <StatCard
                 value="$0.00"
                 label="Balance"
-                className="bg-black text-white border-ink-800"
+                inverted
               />
               <StatCard
                 value="$820"
                 label="Total Spent"
-                className="bg-black text-white border-ink-800"
+                inverted
               />
               <StatCard
-                value={transactionHistory.length}
+                value={transactionHistory.length.toString()}
                 label="Transactions"
-                className="bg-black text-white border-ink-800"
+                inverted
               />
             </Grid>
 
-            <Stack gap={4}>
-              <Stack gap={2} direction="horizontal" className="justify-between items-center">
-                <H3 className="text-white">Payment Methods</H3>
-                <Button variant="outline" onClick={() => setShowAddCard(!showAddCard)}>
+            {/* Payment Methods */}
+            <Stack gap={6}>
+              <Stack gap={2} direction="horizontal" className="items-center justify-between">
+                <Stack direction="horizontal" gap={2} className="items-center">
+                  <CreditCard className="size-5 text-on-dark-muted" />
+                  <H3 className="text-white">Payment Methods</H3>
+                </Stack>
+                <Button 
+                  variant={showAddCard ? "outlineInk" : "solid"} 
+                  inverted={!showAddCard}
+                  onClick={() => setShowAddCard(!showAddCard)}
+                  icon={showAddCard ? undefined : <Plus className="size-4" />}
+                  iconPosition="left"
+                >
                   {showAddCard ? "Cancel" : "Add Card"}
                 </Button>
               </Stack>
 
               {showAddCard && (
-                <Card className="border-2 border-ink-800 p-6 bg-black">
+                <Card inverted variant="elevated" className="p-6">
                   <Stack gap={4}>
-                    <Input type="text" placeholder="Card Number" className="bg-black text-white border-ink-700" />
+                    <Input type="text" placeholder="Card Number" inverted />
                     <Grid cols={2} gap={4}>
-                      <Input type="text" placeholder="MM/YY" className="bg-black text-white border-ink-700" />
-                      <Input type="text" placeholder="CVV" className="bg-black text-white border-ink-700" />
+                      <Input type="text" placeholder="MM/YY" inverted />
+                      <Input type="text" placeholder="CVV" inverted />
                     </Grid>
-                    <Input type="text" placeholder="Cardholder Name" className="bg-black text-white border-ink-700" />
-                    <Button variant="solid" onClick={() => { alert('Card saved!'); setShowAddCard(false); }}>Save Card</Button>
+                    <Input type="text" placeholder="Cardholder Name" inverted />
+                    <Button variant="solid" inverted onClick={() => { alert('Card saved!'); setShowAddCard(false); }}>
+                      Save Card
+                    </Button>
                   </Stack>
                 </Card>
               )}
 
               {paymentMethods.map((method) => (
-                <Card key={method.id} className="border-2 border-ink-800 p-6 bg-black">
-                  <Stack gap={2} direction="horizontal" className="justify-between items-center">
+                <Card key={method.id} inverted interactive>
+                  <Stack gap={2} direction="horizontal" className="items-center justify-between">
                     <Stack gap={1}>
                       <Stack gap={3} direction="horizontal" className="items-center">
-                        <Body className="font-heading text-body-md uppercase text-white">{method.brand} •••• {method.last4}</Body>
-                        {method.isDefault && <Badge>Default</Badge>}
+                        <CreditCard className="size-5 text-on-dark-muted" />
+                        <Body className="font-display text-white">{method.brand} •••• {method.last4}</Body>
+                        {method.isDefault && <Badge variant="solid">Default</Badge>}
                       </Stack>
-                      <Body className="font-mono text-body-sm text-ink-400">Expires {method.expiry}</Body>
+                      <Label size="xs" className="text-on-dark-disabled">Expires {method.expiry}</Label>
                     </Stack>
                     <Stack direction="horizontal" gap={2}>
                       {!method.isDefault && (
-                        <Button variant="ghost" size="sm" onClick={() => alert(`Set ${method.brand} as default`)}>Set Default</Button>
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          onClick={() => alert(`Set ${method.brand} as default`)}
+                          icon={<Star className="size-4" />}
+                          iconPosition="left"
+                        >
+                          Set Default
+                        </Button>
                       )}
-                      <Button variant="ghost" size="sm" className="text-ink-400" onClick={() => alert(`Remove ${method.brand}?`)}>Remove</Button>
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        onClick={() => alert(`Remove ${method.brand}?`)}
+                        icon={<Trash2 className="size-4" />}
+                      />
                     </Stack>
                   </Stack>
                 </Card>
               ))}
             </Stack>
 
-            <Stack gap={4}>
-              <H3 className="text-white">Transaction History</H3>
-              <Table variant="bordered" className="bg-black">
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Description</TableHead>
-                    <TableHead>Amount</TableHead>
-                    <TableHead>Status</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {transactionHistory.map((txn) => (
-                    <TableRow key={txn.id} className="bg-black text-white">
-                      <TableCell className="font-mono text-ink-400">{txn.date}</TableCell>
-                      <TableCell className="text-white">{txn.description}</TableCell>
-                      <TableCell className={`font-mono ${txn.amount > 0 ? 'text-white' : 'text-white'}`}>
-                        {txn.amount > 0 ? '+' : ''}${Math.abs(txn.amount)}
-                      </TableCell>
-                      <TableCell>
-                        <Badge variant="solid">{txn.status}</Badge>
-                      </TableCell>
+            {/* Transaction History */}
+            <Stack gap={6}>
+              <Stack direction="horizontal" gap={2} className="items-center">
+                <Wallet className="size-5 text-on-dark-muted" />
+                <H3 className="text-white">Transaction History</H3>
+              </Stack>
+              <Card inverted className="overflow-hidden p-0">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Date</TableHead>
+                      <TableHead>Description</TableHead>
+                      <TableHead>Amount</TableHead>
+                      <TableHead>Status</TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                  </TableHeader>
+                  <TableBody>
+                    {transactionHistory.map((txn) => (
+                      <TableRow key={txn.id}>
+                        <TableCell>
+                          <Label size="xs" className="font-mono text-on-dark-muted">{txn.date}</Label>
+                        </TableCell>
+                        <TableCell>
+                          <Body size="sm" className="text-white">{txn.description}</Body>
+                        </TableCell>
+                        <TableCell>
+                          <Stack direction="horizontal" gap={1} className="items-center">
+                            {txn.amount > 0 ? (
+                              <ArrowDownLeft className="size-4 text-success" />
+                            ) : (
+                              <ArrowUpRight className="size-4 text-on-dark-muted" />
+                            )}
+                            <Body size="sm" className={`font-mono ${txn.amount > 0 ? 'text-success' : 'text-white'}`}>
+                              {txn.amount > 0 ? '+' : ''}${Math.abs(txn.amount)}
+                            </Body>
+                          </Stack>
+                        </TableCell>
+                        <TableCell>
+                          <Badge variant="outline">{txn.status}</Badge>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </Card>
             </Stack>
           </Stack>
         </Container>
-      </SectionLayout>
+      </Section>
     </PageLayout>
   );
 }

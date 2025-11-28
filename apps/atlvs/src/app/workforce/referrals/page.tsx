@@ -4,10 +4,15 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge, ProgressBar,
-  Modal, ModalHeader, ModalBody, ModalFooter,
-  Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
+  ListPage,
+  Badge,
+  DetailDrawer,
+  RecordFormModal,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
+  type DetailSection,
+  type FormFieldConfig,
 } from "@ghxstship/ui";
 
 interface Referral {
@@ -29,180 +34,133 @@ const mockReferrals: Referral[] = [
   { id: "REF-004", candidateName: "Emily Chen", position: "Video Technician", referredBy: "John Smith", referrerDept: "Audio", submittedDate: "2024-11-05", status: "Rejected" },
 ];
 
+const getStatusVariant = (status: string): "solid" | "outline" | "ghost" => {
+  switch (status) {
+    case "Hired": case "Paid": return "solid";
+    case "Interviewing": case "Pending": return "outline";
+    case "Rejected": return "ghost";
+    default: return "outline";
+  }
+};
+
+const columns: ListPageColumn<Referral>[] = [
+  { key: "candidateName", label: "Candidate", accessor: "candidateName", sortable: true },
+  { key: "position", label: "Position", accessor: "position" },
+  { key: "referredBy", label: "Referred By", accessor: "referredBy", sortable: true },
+  { key: "submittedDate", label: "Date", accessor: "submittedDate", sortable: true },
+  { key: "status", label: "Status", accessor: "status", sortable: true, render: (v) => <Badge variant={getStatusVariant(String(v))}>{String(v)}</Badge> },
+  { key: "bonus", label: "Bonus", accessor: (r) => r.bonusAmount ? `$${r.bonusAmount.toLocaleString()}` : "—", render: (v, r) => r.bonusStatus ? <Badge variant={getStatusVariant(r.bonusStatus)}>{String(v)}</Badge> : <span>—</span> },
+];
+
+const filters: ListPageFilter[] = [
+  { key: "status", label: "Status", options: [
+    { value: "Pending", label: "Pending" },
+    { value: "Interviewing", label: "Interviewing" },
+    { value: "Hired", label: "Hired" },
+    { value: "Rejected", label: "Rejected" },
+  ]},
+];
+
+const formFields: FormFieldConfig[] = [
+  { name: "candidateName", label: "Candidate Name", type: "text", required: true },
+  { name: "email", label: "Candidate Email", type: "text", required: true },
+  { name: "phone", label: "Candidate Phone", type: "text" },
+  { name: "position", label: "Position", type: "select", required: true, options: [
+    { value: "Audio Engineer", label: "Audio Engineer" },
+    { value: "Lighting Designer", label: "Lighting Designer" },
+    { value: "Video Technician", label: "Video Technician" },
+    { value: "Stage Manager", label: "Stage Manager" },
+  ]},
+  { name: "relationship", label: "How do you know this person?", type: "text" },
+];
+
 export default function ReferralProgramPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("all");
+  const [referrals] = useState<Referral[]>(mockReferrals);
   const [selectedReferral, setSelectedReferral] = useState<Referral | null>(null);
-  const [showSubmitModal, setShowSubmitModal] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [createModalOpen, setCreateModalOpen] = useState(false);
 
-  const hiredCount = mockReferrals.filter(r => r.status === "Hired").length;
-  const pendingBonuses = mockReferrals.filter(r => r.bonusStatus === "Pending").reduce((s, r) => s + (r.bonusAmount || 0), 0);
-  const totalPaid = mockReferrals.filter(r => r.bonusStatus === "Paid").reduce((s, r) => s + (r.bonusAmount || 0), 0);
+  const hiredCount = referrals.filter(r => r.status === "Hired").length;
+  const pendingBonuses = referrals.filter(r => r.bonusStatus === "Pending").reduce((s, r) => s + (r.bonusAmount || 0), 0);
+  const totalPaid = referrals.filter(r => r.bonusStatus === "Paid").reduce((s, r) => s + (r.bonusAmount || 0), 0);
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "Hired": case "Paid": return "text-success-400";
-      case "Interviewing": case "Pending": return "text-warning-400";
-      case "Rejected": return "text-error-400";
-      default: return "text-ink-400";
-    }
+  const rowActions: ListPageAction<Referral>[] = [
+    { id: "view", label: "View Details", icon: "👁️", onClick: (r) => { setSelectedReferral(r); setDrawerOpen(true); } },
+  ];
+
+  const stats = [
+    { label: "Total Referrals", value: referrals.length },
+    { label: "Hired", value: hiredCount },
+    { label: "Pending Bonuses", value: `$${pendingBonuses.toLocaleString()}` },
+    { label: "Total Paid", value: `$${totalPaid.toLocaleString()}` },
+  ];
+
+  const handleCreate = async (data: Record<string, unknown>) => {
+    console.log("Submit referral:", data);
+    setCreateModalOpen(false);
   };
 
-  const filteredReferrals = activeTab === "all" ? mockReferrals : mockReferrals.filter(r => r.status.toLowerCase() === activeTab);
+  const detailSections: DetailSection[] = selectedReferral ? [
+    { id: "overview", title: "Referral Details", content: (
+      <div className="grid grid-cols-2 gap-4">
+        <div><strong>Candidate:</strong> {selectedReferral.candidateName}</div>
+        <div><strong>Position:</strong> {selectedReferral.position}</div>
+        <div><strong>Referred By:</strong> {selectedReferral.referredBy}</div>
+        <div><strong>Department:</strong> {selectedReferral.referrerDept}</div>
+        <div><strong>Submitted:</strong> {selectedReferral.submittedDate}</div>
+        <div><strong>Status:</strong> {selectedReferral.status}</div>
+        {selectedReferral.bonusAmount && (
+          <>
+            <div><strong>Bonus:</strong> ${selectedReferral.bonusAmount.toLocaleString()}</div>
+            <div><strong>Bonus Status:</strong> {selectedReferral.bonusStatus}</div>
+          </>
+        )}
+      </div>
+    )},
+  ] : [];
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Referral Program</H1>
-            <Label className="text-ink-400">Employee referral tracking and bonus management</Label>
-          </Stack>
+    <>
+      <ListPage<Referral>
+        title="Referral Program"
+        subtitle="Employee referral tracking and bonus management"
+        data={referrals}
+        columns={columns}
+        rowKey="id"
+        loading={false}
+        searchPlaceholder="Search referrals..."
+        filters={filters}
+        rowActions={rowActions}
+        onRowClick={(r) => { setSelectedReferral(r); setDrawerOpen(true); }}
+        createLabel="Submit Referral"
+        onCreate={() => setCreateModalOpen(true)}
+        onExport={() => router.push("/workforce/referrals/export")}
+        stats={stats}
+        emptyMessage="No referrals found"
+        emptyAction={{ label: "Submit Referral", onClick: () => setCreateModalOpen(true) }}
+        header={<CreatorNavigationAuthenticated />}
+      />
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Total Referrals" value={mockReferrals.length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Hired" value={hiredCount} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Pending Bonuses" value={`$${pendingBonuses.toLocaleString()}`} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Total Paid" value={`$${totalPaid.toLocaleString()}`} className="bg-transparent border-2 border-ink-800" />
-          </Grid>
+      <RecordFormModal
+        open={createModalOpen}
+        onClose={() => setCreateModalOpen(false)}
+        mode="create"
+        title="Submit Referral"
+        fields={formFields}
+        onSubmit={handleCreate}
+      />
 
-          <Card className="border-2 border-ink-800 bg-ink-900/50 p-6">
-            <Stack gap={4}>
-              <H3>Referral Bonus Structure</H3>
-              <Grid cols={3} gap={4}>
-                <Card className="p-4 border border-ink-700 text-center">
-                  <Label className="font-mono text-white text-h5-md">$2,500</Label>
-                  <Label className="text-ink-400">Standard Positions</Label>
-                </Card>
-                <Card className="p-4 border border-ink-700 text-center">
-                  <Label className="font-mono text-white text-h5-md">$5,000</Label>
-                  <Label className="text-ink-400">Senior/Lead Positions</Label>
-                </Card>
-                <Card className="p-4 border border-ink-700 text-center">
-                  <Label className="font-mono text-white text-h5-md">$7,500</Label>
-                  <Label className="text-ink-400">Director+ Positions</Label>
-                </Card>
-              </Grid>
-              <Label className="text-ink-500">Bonus paid after 90-day retention period</Label>
-            </Stack>
-          </Card>
-
-          <Stack direction="horizontal" className="justify-between">
-            <Tabs>
-              <TabsList>
-                <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All</Tab>
-                <Tab active={activeTab === "interviewing"} onClick={() => setActiveTab("interviewing")}>Interviewing</Tab>
-                <Tab active={activeTab === "hired"} onClick={() => setActiveTab("hired")}>Hired</Tab>
-              </TabsList>
-            </Tabs>
-            <Button variant="outlineWhite" onClick={() => setShowSubmitModal(true)}>Submit Referral</Button>
-          </Stack>
-
-          <Table className="border-2 border-ink-800">
-            <TableHeader>
-              <TableRow className="bg-ink-900">
-                <TableHead className="text-ink-400">Candidate</TableHead>
-                <TableHead className="text-ink-400">Position</TableHead>
-                <TableHead className="text-ink-400">Referred By</TableHead>
-                <TableHead className="text-ink-400">Date</TableHead>
-                <TableHead className="text-ink-400">Status</TableHead>
-                <TableHead className="text-ink-400">Bonus</TableHead>
-                <TableHead className="text-ink-400">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredReferrals.map((referral) => (
-                <TableRow key={referral.id} className="border-ink-800">
-                  <TableCell><Label className="text-white">{referral.candidateName}</Label></TableCell>
-                  <TableCell><Label className="text-ink-300">{referral.position}</Label></TableCell>
-                  <TableCell>
-                    <Stack gap={0}>
-                      <Label className="text-white">{referral.referredBy}</Label>
-                      <Label size="xs" className="text-ink-500">{referral.referrerDept}</Label>
-                    </Stack>
-                  </TableCell>
-                  <TableCell><Label className="text-ink-400">{referral.submittedDate}</Label></TableCell>
-                  <TableCell><Label className={getStatusColor(referral.status)}>{referral.status}</Label></TableCell>
-                  <TableCell>
-                    {referral.bonusAmount ? (
-                      <Stack gap={0}>
-                        <Label className="font-mono text-white">${referral.bonusAmount.toLocaleString()}</Label>
-                        <Label size="xs" className={getStatusColor(referral.bonusStatus || "")}>{referral.bonusStatus}</Label>
-                      </Stack>
-                    ) : (
-                      <Label className="text-ink-500">-</Label>
-                    )}
-                  </TableCell>
-                  <TableCell><Button variant="ghost" size="sm" onClick={() => setSelectedReferral(referral)}>Details</Button></TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-
-          <Grid cols={3} gap={4}>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/workforce")}>Workforce</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/employees")}>Employees</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/")}>Dashboard</Button>
-          </Grid>
-        </Stack>
-      </Container>
-
-      <Modal open={!!selectedReferral} onClose={() => setSelectedReferral(null)}>
-        <ModalHeader><H3>Referral Details</H3></ModalHeader>
-        <ModalBody>
-          {selectedReferral && (
-            <Stack gap={4}>
-              <Body className="text-white">{selectedReferral.candidateName}</Body>
-              <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label className="text-ink-400">Position</Label><Label className="text-white">{selectedReferral.position}</Label></Stack>
-                <Stack gap={1}><Label className="text-ink-400">Status</Label><Label className={getStatusColor(selectedReferral.status)}>{selectedReferral.status}</Label></Stack>
-              </Grid>
-              <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label className="text-ink-400">Referred By</Label><Label className="text-white">{selectedReferral.referredBy}</Label></Stack>
-                <Stack gap={1}><Label className="text-ink-400">Department</Label><Label className="text-white">{selectedReferral.referrerDept}</Label></Stack>
-              </Grid>
-              <Stack gap={1}><Label className="text-ink-400">Submitted</Label><Label className="text-white">{selectedReferral.submittedDate}</Label></Stack>
-              {selectedReferral.bonusAmount && (
-                <Stack gap={1}>
-                  <Label className="text-ink-400">Bonus</Label>
-                  <Stack direction="horizontal" gap={2}>
-                    <Label className="font-mono text-white">${selectedReferral.bonusAmount.toLocaleString()}</Label>
-                    <Badge variant={selectedReferral.bonusStatus === "Paid" ? "solid" : "outline"}>{selectedReferral.bonusStatus}</Badge>
-                  </Stack>
-                </Stack>
-              )}
-            </Stack>
-          )}
-        </ModalBody>
-        <ModalFooter>
-          <Button variant="outline" onClick={() => setSelectedReferral(null)}>Close</Button>
-        </ModalFooter>
-      </Modal>
-
-      <Modal open={showSubmitModal} onClose={() => setShowSubmitModal(false)}>
-        <ModalHeader><H3>Submit Referral</H3></ModalHeader>
-        <ModalBody>
-          <Stack gap={4}>
-            <Input placeholder="Candidate Name" className="border-ink-700 bg-black text-white" />
-            <Input type="email" placeholder="Candidate Email" className="border-ink-700 bg-black text-white" />
-            <Input type="tel" placeholder="Candidate Phone" className="border-ink-700 bg-black text-white" />
-            <Select className="border-ink-700 bg-black text-white">
-              <option value="">Position...</option>
-              <option value="audio">Audio Engineer</option>
-              <option value="lighting">Lighting Designer</option>
-              <option value="video">Video Technician</option>
-              <option value="stage">Stage Manager</option>
-            </Select>
-            <Input placeholder="How do you know this person?" className="border-ink-700 bg-black text-white" />
-          </Stack>
-        </ModalBody>
-        <ModalFooter>
-          <Button variant="outline" onClick={() => setShowSubmitModal(false)}>Cancel</Button>
-          <Button variant="solid" onClick={() => setShowSubmitModal(false)}>Submit</Button>
-        </ModalFooter>
-      </Modal>
-    </UISection>
+      {selectedReferral && (
+        <DetailDrawer
+          open={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+          record={selectedReferral}
+          title={(r) => r.candidateName}
+          subtitle={(r) => `${r.position} • ${r.status}`}
+          sections={detailSections}
+        />
+      )}
+    </>
   );
 }

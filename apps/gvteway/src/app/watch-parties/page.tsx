@@ -3,15 +3,13 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { ConsumerNavigationPublic } from '../../components/navigation';
+import { ConsumerNavigationPublic } from '@/components/navigation';
 import {
   Container,
   Section,
-  H1,
   H2,
   H3,
   Body,
-  Label,
   Button,
   Card,
   Field,
@@ -27,6 +25,12 @@ import {
   StatCard,
   Checkbox,
   Form,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
+  Kicker,
 } from '@ghxstship/ui';
 
 interface WatchParty {
@@ -213,12 +217,33 @@ export default function WatchPartiesPage() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading watch parties..." />
-        </Container>
-      </Section>
+      <PageLayout
+        background="black"
+        header={<ConsumerNavigationPublic />}
+        footer={
+          <Footer
+            logo={<Display size="md">GVTEWAY</Display>}
+            copyright="© 2024 GHXSTSHIP INDUSTRIES."
+          >
+            <FooterColumn title="Social">
+              <FooterLink href="/watch-parties">Watch Parties</FooterLink>
+            </FooterColumn>
+          </Footer>
+        }
+      >
+        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+          <div
+            className="pointer-events-none absolute inset-0 opacity-5"
+            style={{
+              backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+              backgroundSize: "40px 40px",
+            }}
+          />
+          <Container className="relative z-10 flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" text="Loading watch parties..." />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
@@ -226,21 +251,46 @@ export default function WatchPartiesPage() {
   const upcomingParties = parties.filter(p => p.status === 'upcoming');
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-        <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
-          <Stack gap={2}>
-            <H1>Watch Parties</H1>
-            <Body className="text-ink-600">
-              Watch together with fans from around the world
-            </Body>
-          </Stack>
-          <Button variant="solid" onClick={() => setShowCreateModal(true)}>
-            Host a Party
-          </Button>
-        </Stack>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Social">
+            <FooterLink href="/watch-parties">Watch Parties</FooterLink>
+            <FooterLink href="/friends">Friends</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack direction="horizontal" className="items-center justify-between">
+              <Stack gap={2}>
+                <Kicker colorScheme="on-dark">Social</Kicker>
+                <H2 size="lg" className="text-white">Watch Parties</H2>
+                <Body className="text-on-dark-muted">Watch together with fans from around the world</Body>
+              </Stack>
+              <Button variant="solid" inverted onClick={() => setShowCreateModal(true)}>
+                Host a Party
+              </Button>
+            </Stack>
 
         {error && (
           <Alert variant="error" className="mb-6" onClose={() => setError(null)}>
@@ -562,8 +612,9 @@ export default function WatchPartiesPage() {
             </Stack>
           )}
         </Modal>
-        </Stack>
-      </Container>
-    </Section>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

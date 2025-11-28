@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { ConsumerNavigationPublic } from "@/components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
+  Container, H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
+  Section, Card, Badge,
   Modal, ModalHeader, ModalBody, ModalFooter,
+  PageLayout, Footer, FooterColumn, FooterLink, Display, Kicker,
 } from "@ghxstship/ui";
 
 interface PrintTicket {
@@ -46,13 +48,41 @@ export default function PrintAtHomePage() {
   };
 
   return (
-    <UISection className="min-h-screen bg-white">
-      <Container className="py-8">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>PRINT-AT-HOME TICKETS</H1>
-            <Body className="text-ink-600">Secure printable tickets with security features</Body>
-          </Stack>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Tickets">
+            <FooterLink href="/tickets">My Tickets</FooterLink>
+            <FooterLink href="/tickets/print-at-home">Print at Home</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Tickets</Kicker>
+              <H2 size="lg" className="text-white">Print-at-Home Tickets</H2>
+              <Body className="text-on-dark-muted">Secure printable tickets with security features</Body>
+            </Stack>
 
           <Grid cols={4} gap={6}>
             <StatCard label="Total Tickets" value={mockTickets.length} className="border-2 border-black" />
@@ -118,9 +148,10 @@ export default function PrintAtHomePage() {
             ))}
           </Stack>
 
-          <Button variant="outline" onClick={() => router.push("/tickets")}>Back to Tickets</Button>
-        </Stack>
-      </Container>
+          <Button variant="outlineInk" onClick={() => router.push("/tickets")}>Back to Tickets</Button>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedTicket} onClose={() => setSelectedTicket(null)}>
         <ModalHeader><H3>Ticket Preview</H3></ModalHeader>
@@ -209,6 +240,6 @@ export default function PrintAtHomePage() {
           <Button variant="solid" onClick={() => setShowSettingsModal(false)}>Save Settings</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

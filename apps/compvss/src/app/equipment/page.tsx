@@ -9,6 +9,9 @@ import {
   RecordFormModal,
   DetailDrawer,
   ConfirmDialog,
+  Grid,
+  Stack,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -176,23 +179,24 @@ export default function EquipmentPage() {
       id: 'overview',
       title: 'Equipment Details',
       content: (
-        <div className="grid grid-cols-2 gap-4">
-          <div><strong>Tag:</strong> {selectedEquipment.tag}</div>
-          <div><strong>Category:</strong> {selectedEquipment.type || selectedEquipment.category}</div>
-          <div><strong>Serial:</strong> {selectedEquipment.serial_number || selectedEquipment.metadata?.serial_number || '—'}</div>
-          <div><strong>Location:</strong> {selectedEquipment.location || selectedEquipment.metadata?.location || '—'}</div>
-          <div><strong>Status:</strong> {selectedEquipment.status || selectedEquipment.state}</div>
-          <div><strong>Assigned:</strong> {selectedEquipment.assigned_to || selectedEquipment.projects?.name || '—'}</div>
-        </div>
+        <Grid cols={2} gap={4}>
+          <Stack gap={1}><Body className="font-display">Tag</Body><Body>{selectedEquipment.tag}</Body></Stack>
+          <Stack gap={1}><Body className="font-display">Category</Body><Body>{selectedEquipment.type || selectedEquipment.category}</Body></Stack>
+          <Stack gap={1}><Body className="font-display">Serial</Body><Body>{selectedEquipment.serial_number || selectedEquipment.metadata?.serial_number || '—'}</Body></Stack>
+          <Stack gap={1}><Body className="font-display">Location</Body><Body>{selectedEquipment.location || selectedEquipment.metadata?.location || '—'}</Body></Stack>
+          <Stack gap={1}><Body className="font-display">Status</Body><Body>{selectedEquipment.status || selectedEquipment.state}</Body></Stack>
+          <Stack gap={1}><Body className="font-display">Assigned</Body><Body>{selectedEquipment.assigned_to || selectedEquipment.projects?.name || '—'}</Body></Stack>
+        </Grid>
       ),
     },
     {
       id: 'maintenance',
       title: 'Maintenance History',
       content: (
-        <div>
-          <div><strong>Last Maintenance:</strong> {selectedEquipment.metadata?.last_maintenance || 'No records'}</div>
-        </div>
+        <Stack gap={1}>
+          <Body className="font-display">Last Maintenance</Body>
+          <Body>{selectedEquipment.metadata?.last_maintenance || 'No records'}</Body>
+        </Stack>
       ),
     },
   ] : [];

@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { ConsumerNavigationPublic } from "@/components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge, Textarea,
+  Container, H2, H3, Body, Label, Grid, Stack, StatCard, Select, Button,
+  Section, Card, Tabs, TabsList, Tab, Badge, Textarea,
   Modal, ModalHeader, ModalBody, ModalFooter,
+  PageLayout, Footer, FooterColumn, FooterLink, Display, Kicker,
 } from "@ghxstship/ui";
 
 interface SocialMessage {
@@ -76,20 +78,48 @@ export default function SocialInboxPage() {
   });
 
   return (
-    <UISection className="min-h-screen bg-white">
-      <Container className="py-8">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>SOCIAL INBOX</H1>
-            <Body className="text-ink-600">Unified social customer service inbox</Body>
-          </Stack>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Social">
+            <FooterLink href="/social">Social Hub</FooterLink>
+            <FooterLink href="/social/inbox">Inbox</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Social</Kicker>
+              <H2 size="lg" className="text-white">Social Inbox</H2>
+              <Body className="text-on-dark-muted">Unified social customer service inbox</Body>
+            </Stack>
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="New Messages" value={newCount} className="border-2 border-black" />
-            <StatCard label="Escalated" value={escalatedCount} trend={escalatedCount > 0 ? "down" : "neutral"} className="border-2 border-black" />
-            <StatCard label="Negative Sentiment" value={negativeCount} className="border-2 border-black" />
-            <StatCard label="Avg Response" value="< 15 min" className="border-2 border-black" />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard label="New Messages" value={newCount.toString()} inverted />
+              <StatCard label="Escalated" value={escalatedCount.toString()} inverted />
+              <StatCard label="Negative Sentiment" value={negativeCount.toString()} inverted />
+              <StatCard label="Avg Response" value="< 15 min" inverted />
+            </Grid>
 
           <Stack direction="horizontal" className="justify-between">
             <Tabs>
@@ -111,7 +141,7 @@ export default function SocialInboxPage() {
 
           <Stack gap={4}>
             {filteredMessages.map((message) => (
-              <Card key={message.id} className={`border-2 ${message.priority === "High" ? "border-error-300" : "border-black"} p-4`}>
+              <Card key={message.id} inverted variant={message.priority === "High" ? "elevated" : "default"}>
                 <Grid cols={6} gap={4} className="items-center">
                   <Stack direction="horizontal" gap={3}>
                     <Label className="text-h5-md">{getPlatformIcon(message.platform)}</Label>
@@ -134,9 +164,10 @@ export default function SocialInboxPage() {
             ))}
           </Stack>
 
-          <Button variant="outline" onClick={() => router.push("/social")}>Back to Social</Button>
-        </Stack>
-      </Container>
+          <Button variant="outlineInk" onClick={() => router.push("/social")}>Back to Social</Button>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedMessage} onClose={() => setSelectedMessage(null)}>
         <ModalHeader><H3>Reply to Message</H3></ModalHeader>
@@ -184,6 +215,6 @@ export default function SocialInboxPage() {
           <Button variant="solid">Send Reply</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

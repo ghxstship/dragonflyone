@@ -4,9 +4,23 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter,
+  Container,
+  H3,
+  Body,
+  Grid,
+  Stack,
+  StatCard,
+  Select,
+  Button,
+  Section,
+  Card,
+  Badge,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 interface CrewAvailability {
@@ -46,176 +60,160 @@ export default function AvailabilityPage() {
 
   const availableCount = mockCrew.filter(c => c.status === "Available").length;
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "Available": return "bg-success-500";
-      case "Busy": return "bg-error-500";
-      case "Tentative": return "bg-warning-500";
-      case "Unavailable": return "bg-ink-500";
-      default: return "bg-ink-500";
-    }
-  };
-
-  const getStatusTextColor = (status: string) => {
-    switch (status) {
-      case "Available": return "text-success-400";
-      case "Busy": return "text-error-400";
-      case "Tentative": return "text-warning-400";
-      case "Unavailable": return "text-ink-400";
-      default: return "text-ink-400";
-    }
-  };
-
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Availability Calendar</H1>
-            <Label className="text-ink-400">Crew availability integration with calendars</Label>
-          </Stack>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Availability Calendar"
+              description="Crew availability integration with calendars"
+              colorScheme="on-light"
+              gap="lg"
+            />
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Total Crew" value={mockCrew.length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Available Now" value={availableCount} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="On Projects" value={mockCrew.filter(c => c.status === "Busy").length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Tentative" value={mockCrew.filter(c => c.status === "Tentative").length} className="bg-transparent border-2 border-ink-800" />
-          </Grid>
-
-          <Stack direction="horizontal" className="justify-between">
-            <Stack direction="horizontal" gap={4}>
-              <Select value={departmentFilter} onChange={(e) => setDepartmentFilter(e.target.value)} className="border-ink-700 bg-black text-white">
-                {departments.map(d => <option key={d} value={d}>{d}</option>)}
-              </Select>
-              <Select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="border-ink-700 bg-black text-white">
-                <option value="All">All Status</option>
-                <option value="Available">Available</option>
-                <option value="Busy">Busy</option>
-                <option value="Tentative">Tentative</option>
-                <option value="Unavailable">Unavailable</option>
-              </Select>
-            </Stack>
-            <Stack direction="horizontal" gap={2}>
-              <Button variant="outline" className="border-ink-700">Sync Calendars</Button>
-              <Button variant="outlineWhite">Request Availability</Button>
-            </Stack>
-          </Stack>
-
-          <Card className="border-2 border-ink-800 bg-ink-900/50 overflow-hidden">
-            <Grid cols={4} gap={0}>
-              <Card className="p-3 border-r border-b border-ink-800 bg-ink-800">
-                <Label className="text-ink-400">Crew Member</Label>
-              </Card>
-              <Card className="p-3 border-r border-b border-ink-800 bg-ink-800">
-                <Label className="text-ink-400">Status</Label>
-              </Card>
-              <Card className="p-3 border-r border-b border-ink-800 bg-ink-800 col-span-2">
-                <Grid cols={6} gap={2}>
-                  {weekDays.slice(0, 6).map((day) => (
-                    <Label key={day} className="text-ink-400 text-center">{day}</Label>
-                  ))}
-                </Grid>
-              </Card>
-              {filteredCrew.map((crew) => (
-                <Stack key={crew.id} className="contents">
-                  <Card className="p-3 border-r border-b border-ink-800">
-                    <Stack direction="horizontal" gap={3} className="cursor-pointer" onClick={() => setSelectedCrew(crew)}>
-                      <Card className="w-10 h-10 bg-ink-700 rounded-full flex items-center justify-center relative">
-                        <Label>{crew.avatar}</Label>
-                        <Card className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-ink-900 ${getStatusColor(crew.status)}`} />
-                      </Card>
-                      <Stack gap={0}>
-                        <Label className="text-white">{crew.name}</Label>
-                        <Label size="xs" className="text-ink-500">{crew.role}</Label>
-                      </Stack>
-                    </Stack>
-                  </Card>
-                  <Card className="p-3 border-r border-b border-ink-800">
-                    <Stack gap={1}>
-                      <Label className={getStatusTextColor(crew.status)}>{crew.status}</Label>
-                      {crew.currentProject && <Label size="xs" className="text-ink-500">{crew.currentProject}</Label>}
-                      {crew.nextAvailable && <Label size="xs" className="text-ink-500">Back: {crew.nextAvailable}</Label>}
-                    </Stack>
-                  </Card>
-                  <Card className="p-3 border-b border-ink-800 col-span-2">
-                    <Grid cols={6} gap={2}>
-                      {crew.weekAvailability.slice(0, 6).map((available, idx) => (
-                        <Card key={idx} className={`h-8 rounded flex items-center justify-center ${available ? "bg-success-900/30 border border-success-800" : "bg-ink-800 border border-ink-700"}`}>
-                          <Label size="xs" className={available ? "text-success-400" : "text-ink-500"}>
-                            {available ? "✓" : "—"}
-                          </Label>
-                        </Card>
-                      ))}
-                    </Grid>
-                  </Card>
-                </Stack>
-              ))}
+            <Grid cols={4} gap={6}>
+              <StatCard value={mockCrew.length.toString()} label="Total Crew" />
+              <StatCard value={availableCount.toString()} label="Available Now" />
+              <StatCard value={mockCrew.filter(c => c.status === "Busy").length.toString()} label="On Projects" />
+              <StatCard value={mockCrew.filter(c => c.status === "Tentative").length.toString()} label="Tentative" />
             </Grid>
-          </Card>
 
-          <Card className="border-2 border-ink-800 bg-ink-900/50 p-4">
-            <Stack direction="horizontal" gap={6} className="justify-center">
-              <Stack direction="horizontal" gap={2}>
-                <Card className="w-4 h-4 bg-success-500 rounded" />
-                <Label className="text-ink-400">Available</Label>
+            <Stack direction="horizontal" className="justify-between">
+              <Stack direction="horizontal" gap={4}>
+                <Select value={departmentFilter} onChange={(e) => setDepartmentFilter(e.target.value)}>
+                  {departments.map(d => <option key={d} value={d}>{d}</option>)}
+                </Select>
+                <Select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+                  <option value="All">All Status</option>
+                  <option value="Available">Available</option>
+                  <option value="Busy">Busy</option>
+                  <option value="Tentative">Tentative</option>
+                  <option value="Unavailable">Unavailable</option>
+                </Select>
               </Stack>
               <Stack direction="horizontal" gap={2}>
-                <Card className="w-4 h-4 bg-warning-500 rounded" />
-                <Label className="text-ink-400">Tentative</Label>
-              </Stack>
-              <Stack direction="horizontal" gap={2}>
-                <Card className="w-4 h-4 bg-error-500 rounded" />
-                <Label className="text-ink-400">Busy</Label>
-              </Stack>
-              <Stack direction="horizontal" gap={2}>
-                <Card className="w-4 h-4 bg-ink-500 rounded" />
-                <Label className="text-ink-400">Unavailable</Label>
+                <Button variant="outline">Sync Calendars</Button>
+                <Button variant="solid">Request Availability</Button>
               </Stack>
             </Stack>
-          </Card>
 
-          <Grid cols={3} gap={4}>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/directory")}>Directory</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/crew")}>Crew</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/")}>Dashboard</Button>
-          </Grid>
-        </Stack>
-      </Container>
+            <Card className="overflow-hidden">
+              <Grid cols={4} gap={0}>
+                <Card className="border-b border-r p-3">
+                  <Body className="font-display">Crew Member</Body>
+                </Card>
+                <Card className="border-b border-r p-3">
+                  <Body className="font-display">Status</Body>
+                </Card>
+                <Card className="col-span-2 border-b p-3">
+                  <Grid cols={6} gap={2}>
+                    {weekDays.slice(0, 6).map((day) => (
+                      <Body key={day} className="text-center text-body-sm">{day}</Body>
+                    ))}
+                  </Grid>
+                </Card>
+                {filteredCrew.map((crew) => (
+                  <Stack key={crew.id} className="contents">
+                    <Card className="border-b border-r p-3">
+                      <Stack direction="horizontal" gap={3} className="cursor-pointer" onClick={() => setSelectedCrew(crew)}>
+                        <Card className="flex size-10 items-center justify-center rounded-avatar">
+                          <Body className="text-body-sm">{crew.avatar}</Body>
+                        </Card>
+                        <Stack gap={0}>
+                          <Body>{crew.name}</Body>
+                          <Body className="text-body-sm">{crew.role}</Body>
+                        </Stack>
+                      </Stack>
+                    </Card>
+                    <Card className="border-b border-r p-3">
+                      <Stack gap={1}>
+                        <Badge variant={crew.status === "Available" ? "solid" : "outline"}>{crew.status}</Badge>
+                        {crew.currentProject && <Body className="text-body-sm">{crew.currentProject}</Body>}
+                        {crew.nextAvailable && <Body className="text-body-sm">Back: {crew.nextAvailable}</Body>}
+                      </Stack>
+                    </Card>
+                    <Card className="col-span-2 border-b p-3">
+                      <Grid cols={6} gap={2}>
+                        {crew.weekAvailability.slice(0, 6).map((available, idx) => (
+                          <Card key={idx} className="flex h-8 items-center justify-center rounded-card">
+                            <Body className="text-body-sm">{available ? "✓" : "—"}</Body>
+                          </Card>
+                        ))}
+                      </Grid>
+                    </Card>
+                  </Stack>
+                ))}
+              </Grid>
+            </Card>
+
+            <Card className="p-4">
+              <Stack direction="horizontal" gap={6} className="justify-center">
+                <Stack direction="horizontal" gap={2}>
+                  <Card className="size-4 rounded-card bg-success-500" />
+                  <Body className="text-body-sm">Available</Body>
+                </Stack>
+                <Stack direction="horizontal" gap={2}>
+                  <Card className="size-4 rounded-card bg-warning-500" />
+                  <Body className="text-body-sm">Tentative</Body>
+                </Stack>
+                <Stack direction="horizontal" gap={2}>
+                  <Card className="size-4 rounded-card bg-error-500" />
+                  <Body className="text-body-sm">Busy</Body>
+                </Stack>
+                <Stack direction="horizontal" gap={2}>
+                  <Card className="size-4 rounded-card bg-ink-500" />
+                  <Body className="text-body-sm">Unavailable</Body>
+                </Stack>
+              </Stack>
+            </Card>
+
+            <Grid cols={3} gap={4}>
+              <Button variant="outline" onClick={() => router.push("/directory")}>Directory</Button>
+              <Button variant="outline" onClick={() => router.push("/crew")}>Crew</Button>
+              <Button variant="outline" onClick={() => router.push("/dashboard")}>Dashboard</Button>
+            </Grid>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedCrew} onClose={() => setSelectedCrew(null)}>
         <ModalHeader><H3>{selectedCrew?.name}</H3></ModalHeader>
         <ModalBody>
           {selectedCrew && (
             <Stack gap={4}>
-              <Card className="w-16 h-16 bg-ink-700 rounded-full flex items-center justify-center mx-auto">
-                <Label className="text-h6-md">{selectedCrew.avatar}</Label>
+              <Card className="mx-auto flex size-16 items-center justify-center rounded-avatar">
+                <Body className="text-h6-md">{selectedCrew.avatar}</Body>
               </Card>
               <Stack gap={1} className="text-center">
-                <Label className="text-ink-400">{selectedCrew.role}</Label>
+                <Body>{selectedCrew.role}</Body>
                 <Badge variant="outline">{selectedCrew.department}</Badge>
               </Stack>
               <Stack gap={1}>
-                <Label className="text-ink-400">Current Status</Label>
-                <Label className={getStatusTextColor(selectedCrew.status)}>{selectedCrew.status}</Label>
+                <Body className="font-display">Current Status</Body>
+                <Badge variant={selectedCrew.status === "Available" ? "solid" : "outline"}>{selectedCrew.status}</Badge>
               </Stack>
               {selectedCrew.currentProject && (
-                <Stack gap={1}><Label className="text-ink-400">Current Project</Label><Label className="text-white">{selectedCrew.currentProject}</Label></Stack>
+                <Stack gap={1}>
+                  <Body className="font-display">Current Project</Body>
+                  <Body>{selectedCrew.currentProject}</Body>
+                </Stack>
               )}
               {selectedCrew.nextAvailable && (
-                <Stack gap={1}><Label className="text-ink-400">Next Available</Label><Label className="text-white">{selectedCrew.nextAvailable}</Label></Stack>
+                <Stack gap={1}>
+                  <Body className="font-display">Next Available</Body>
+                  <Body>{selectedCrew.nextAvailable}</Body>
+                </Stack>
               )}
               <Stack gap={2}>
-                <Label className="text-ink-400">This Week</Label>
+                <Body className="font-display">This Week</Body>
                 <Grid cols={6} gap={2}>
                   {weekDays.slice(0, 6).map((day, idx) => (
                     <Stack key={day} gap={1} className="text-center">
-                      <Label size="xs" className="text-ink-500">{day}</Label>
-                      <Card className={`h-8 rounded flex items-center justify-center ${selectedCrew.weekAvailability[idx] ? "bg-success-900/30 border border-success-800" : "bg-ink-800 border border-ink-700"}`}>
-                        <Label size="xs" className={selectedCrew.weekAvailability[idx] ? "text-success-400" : "text-ink-500"}>
-                          {selectedCrew.weekAvailability[idx] ? "✓" : "—"}
-                        </Label>
+                      <Body className="text-body-sm">{day}</Body>
+                      <Card className="flex h-8 items-center justify-center rounded-card">
+                        <Body className="text-body-sm">{selectedCrew.weekAvailability[idx] ? "✓" : "—"}</Body>
                       </Card>
                     </Stack>
                   ))}
@@ -230,6 +228,6 @@ export default function AvailabilityPage() {
           <Button variant="solid">Book Crew</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

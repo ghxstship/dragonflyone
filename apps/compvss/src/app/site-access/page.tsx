@@ -4,10 +4,34 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select,
-  Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel,
-  Modal, ModalHeader, ModalBody, ModalFooter, Badge, Alert,
+  Container,
+  H3,
+  Body,
+  Grid,
+  Stack,
+  StatCard,
+  Input,
+  Select,
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+  Button,
+  Section,
+  Card,
+  Tabs,
+  TabsList,
+  Tab,
+  TabPanel,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Badge,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 interface AccessPoint {
@@ -66,161 +90,161 @@ export default function SiteAccessPage() {
   };
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Site Access Management</H1>
-            <Label className="text-ink-400">Gates, parking, loading docks, and vehicle passes</Label>
-          </Stack>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Site Access Management"
+              description="Gates, parking, loading docks, and vehicle passes"
+              colorScheme="on-light"
+              gap="lg"
+            />
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Open Access Points" value={`${openPoints}/${mockAccessPoints.length}`} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Vehicles On Site" value={activeVehicles} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Active Passes" value={activePasses} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Pending Approval" value={mockVehiclePasses.filter(p => p.status === "Pending").length} className="bg-transparent border-2 border-ink-800" />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard value={`${openPoints}/${mockAccessPoints.length}`} label="Open Access Points" />
+              <StatCard value={activeVehicles.toString()} label="Vehicles On Site" />
+              <StatCard value={activePasses.toString()} label="Active Passes" />
+              <StatCard value={mockVehiclePasses.filter(p => p.status === "Pending").length.toString()} label="Pending Approval" />
+            </Grid>
 
-          <Tabs>
-            <TabsList>
-              <Tab active={activeTab === "access"} onClick={() => setActiveTab("access")}>Access Points</Tab>
-              <Tab active={activeTab === "vehicles"} onClick={() => setActiveTab("vehicles")}>Vehicle Passes</Tab>
-              <Tab active={activeTab === "schedule"} onClick={() => setActiveTab("schedule")}>Delivery Schedule</Tab>
-            </TabsList>
+            <Tabs>
+              <TabsList>
+                <Tab active={activeTab === "access"} onClick={() => setActiveTab("access")}>Access Points</Tab>
+                <Tab active={activeTab === "vehicles"} onClick={() => setActiveTab("vehicles")}>Vehicle Passes</Tab>
+                <Tab active={activeTab === "schedule"} onClick={() => setActiveTab("schedule")}>Delivery Schedule</Tab>
+              </TabsList>
 
-            <TabPanel active={activeTab === "access"}>
-              <Grid cols={3} gap={6}>
-                {mockAccessPoints.map((point) => (
-                  <Card key={point.id} className="border-2 border-ink-800 bg-ink-900/50 p-6">
-                    <Stack gap={4}>
-                      <Stack direction="horizontal" className="justify-between items-start">
-                        <Stack gap={1}>
-                          <H3>{point.name}</H3>
-                          <Badge variant="outline">{point.type}</Badge>
+              <TabPanel active={activeTab === "access"}>
+                <Grid cols={3} gap={6}>
+                  {mockAccessPoints.map((point) => (
+                    <Card key={point.id} className="p-6">
+                      <Stack gap={4}>
+                        <Stack direction="horizontal" className="items-start justify-between">
+                          <Stack gap={1}>
+                            <H3>{point.name}</H3>
+                            <Badge variant="outline">{point.type}</Badge>
+                          </Stack>
+                          <Badge variant={point.status === "Open" ? "solid" : "outline"}>{point.status}</Badge>
                         </Stack>
-                        <Label className={getStatusColor(point.status)}>{point.status}</Label>
-                      </Stack>
-                      {point.currentVehicles !== undefined && (
-                        <Stack gap={2}>
-                          <Label className="text-ink-400">Capacity: {point.currentVehicles}/{point.maxCapacity}</Label>
-                          <Card className="h-2 bg-ink-800 rounded-full overflow-hidden">
-                            <Card className={`h-full ${(point.currentVehicles / (point.maxCapacity || 1)) > 0.8 ? "bg-error-500" : "bg-success-500"}`} style={{ '--progress-width': `${(point.currentVehicles / (point.maxCapacity || 1)) * 100}%`, width: 'var(--progress-width)' } as React.CSSProperties} />
-                          </Card>
-                        </Stack>
-                      )}
-                      <Stack direction="horizontal" gap={2}>
-                        <Button variant="outline" size="sm">{point.status === "Open" ? "Close" : "Open"}</Button>
-                        <Button variant="ghost" size="sm">Details</Button>
-                      </Stack>
-                    </Stack>
-                  </Card>
-                ))}
-              </Grid>
-            </TabPanel>
-
-            <TabPanel active={activeTab === "vehicles"}>
-              <Table className="border-2 border-ink-800">
-                <TableHeader>
-                  <TableRow className="bg-ink-900">
-                    <TableHead>Vehicle</TableHead>
-                    <TableHead>Company</TableHead>
-                    <TableHead>Driver</TableHead>
-                    <TableHead>Access</TableHead>
-                    <TableHead>Valid Until</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {mockVehiclePasses.map((pass) => (
-                    <TableRow key={pass.id}>
-                      <TableCell>
-                        <Stack gap={1}>
-                          <Badge variant="outline">{pass.vehicleType}</Badge>
-                          <Label className="font-mono text-ink-400">{pass.licensePlate}</Label>
-                        </Stack>
-                      </TableCell>
-                      <TableCell className="text-white">{pass.company}</TableCell>
-                      <TableCell className="text-ink-300">{pass.driver}</TableCell>
-                      <TableCell>
-                        <Stack direction="horizontal" gap={1}>
-                          {pass.accessPoints.slice(0, 2).map(ap => <Badge key={ap} variant="outline">{ap}</Badge>)}
-                        </Stack>
-                      </TableCell>
-                      <TableCell className="font-mono text-ink-400">{new Date(pass.validUntil).toLocaleTimeString()}</TableCell>
-                      <TableCell><Label className={getStatusColor(pass.status)}>{pass.status}</Label></TableCell>
-                      <TableCell>
+                        {point.currentVehicles !== undefined && (
+                          <Stack gap={2}>
+                            <Body className="text-body-sm">Capacity: {point.currentVehicles}/{point.maxCapacity}</Body>
+                          </Stack>
+                        )}
                         <Stack direction="horizontal" gap={2}>
-                          <Button variant="ghost" size="sm" onClick={() => setSelectedPass(pass)}>View</Button>
-                          {pass.status === "Pending" && <Button variant="outline" size="sm">Approve</Button>}
+                          <Button variant="outline" size="sm">{point.status === "Open" ? "Close" : "Open"}</Button>
+                          <Button variant="ghost" size="sm">Details</Button>
                         </Stack>
-                      </TableCell>
-                    </TableRow>
+                      </Stack>
+                    </Card>
                   ))}
-                </TableBody>
-              </Table>
-            </TabPanel>
+                </Grid>
+              </TabPanel>
 
-            <TabPanel active={activeTab === "schedule"}>
-              <Card className="border-2 border-ink-800 bg-ink-900/50 p-6">
-                <Stack gap={4}>
-                  <H3>Today&apos;s Deliveries</H3>
-                  <Stack gap={2}>
+              <TabPanel active={activeTab === "vehicles"}>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Vehicle</TableHead>
+                      <TableHead>Company</TableHead>
+                      <TableHead>Driver</TableHead>
+                      <TableHead>Access</TableHead>
+                      <TableHead>Valid Until</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
                     {mockVehiclePasses.map((pass) => (
-                      <Card key={pass.id} className="p-4 bg-ink-800 border border-ink-700">
-                        <Grid cols={4} gap={4}>
+                      <TableRow key={pass.id}>
+                        <TableCell>
                           <Stack gap={1}>
-                            <Label size="xs" className="text-ink-500">Time</Label>
-                            <Label className="font-mono text-white">{new Date(pass.validFrom).toLocaleTimeString()}</Label>
+                            <Badge variant="outline">{pass.vehicleType}</Badge>
+                            <Body className="text-body-sm">{pass.licensePlate}</Body>
                           </Stack>
-                          <Stack gap={1}>
-                            <Label size="xs" className="text-ink-500">Company</Label>
-                            <Label className="text-white">{pass.company}</Label>
+                        </TableCell>
+                        <TableCell><Body>{pass.company}</Body></TableCell>
+                        <TableCell><Body className="text-body-sm">{pass.driver}</Body></TableCell>
+                        <TableCell>
+                          <Stack direction="horizontal" gap={1}>
+                            {pass.accessPoints.slice(0, 2).map(ap => <Badge key={ap} variant="outline">{ap}</Badge>)}
                           </Stack>
-                          <Stack gap={1}>
-                            <Label size="xs" className="text-ink-500">Vehicle</Label>
-                            <Label className="text-ink-300">{pass.vehicleType} - {pass.licensePlate}</Label>
+                        </TableCell>
+                        <TableCell><Body className="text-body-sm">{new Date(pass.validUntil).toLocaleTimeString()}</Body></TableCell>
+                        <TableCell><Badge variant={pass.status === "Active" ? "solid" : "outline"}>{pass.status}</Badge></TableCell>
+                        <TableCell>
+                          <Stack direction="horizontal" gap={2}>
+                            <Button variant="ghost" size="sm" onClick={() => setSelectedPass(pass)}>View</Button>
+                            {pass.status === "Pending" && <Button variant="outline" size="sm">Approve</Button>}
                           </Stack>
-                          <Stack gap={1}>
-                            <Label size="xs" className="text-ink-500">Destination</Label>
-                            <Label className="text-ink-300">{pass.accessPoints[1] || pass.accessPoints[0]}</Label>
-                          </Stack>
-                        </Grid>
-                      </Card>
+                        </TableCell>
+                      </TableRow>
                     ))}
-                  </Stack>
-                </Stack>
-              </Card>
-            </TabPanel>
-          </Tabs>
+                  </TableBody>
+                </Table>
+              </TabPanel>
 
-          <Grid cols={3} gap={4}>
-            <Button variant="outlineWhite" onClick={() => setShowAddPassModal(true)}>Issue Vehicle Pass</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400">Print Manifest</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/build-strike")}>Build & Strike</Button>
-          </Grid>
-        </Stack>
-      </Container>
+              <TabPanel active={activeTab === "schedule"}>
+                <Card className="p-6">
+                  <Stack gap={4}>
+                    <H3>Today&apos;s Deliveries</H3>
+                    <Stack gap={2}>
+                      {mockVehiclePasses.map((pass) => (
+                        <Card key={pass.id} className="p-4">
+                          <Grid cols={4} gap={4}>
+                            <Stack gap={1}>
+                              <Body className="text-body-sm">Time</Body>
+                              <Body>{new Date(pass.validFrom).toLocaleTimeString()}</Body>
+                            </Stack>
+                            <Stack gap={1}>
+                              <Body className="text-body-sm">Company</Body>
+                              <Body>{pass.company}</Body>
+                            </Stack>
+                            <Stack gap={1}>
+                              <Body className="text-body-sm">Vehicle</Body>
+                              <Body>{pass.vehicleType} - {pass.licensePlate}</Body>
+                            </Stack>
+                            <Stack gap={1}>
+                              <Body className="text-body-sm">Destination</Body>
+                              <Body>{pass.accessPoints[1] || pass.accessPoints[0]}</Body>
+                            </Stack>
+                          </Grid>
+                        </Card>
+                      ))}
+                    </Stack>
+                  </Stack>
+                </Card>
+              </TabPanel>
+            </Tabs>
+
+            <Grid cols={3} gap={4}>
+              <Button variant="solid" onClick={() => setShowAddPassModal(true)}>Issue Vehicle Pass</Button>
+              <Button variant="outline">Print Manifest</Button>
+              <Button variant="outline" onClick={() => router.push("/build-strike")}>Build & Strike</Button>
+            </Grid>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={showAddPassModal} onClose={() => setShowAddPassModal(false)}>
         <ModalHeader><H3>Issue Vehicle Pass</H3></ModalHeader>
         <ModalBody>
           <Stack gap={4}>
-            <Select className="border-ink-700 bg-black text-white">
+            <Select>
               <option value="">Vehicle type...</option>
               <option value="Truck">Truck</option>
               <option value="Van">Van</option>
               <option value="Car">Car</option>
               <option value="Bus">Bus</option>
             </Select>
-            <Input placeholder="License Plate" className="border-ink-700 bg-black text-white" />
-            <Input placeholder="Company" className="border-ink-700 bg-black text-white" />
-            <Input placeholder="Driver Name" className="border-ink-700 bg-black text-white" />
+            <Input placeholder="License Plate" />
+            <Input placeholder="Company" />
+            <Input placeholder="Driver Name" />
             <Grid cols={2} gap={4}>
-              <Input type="datetime-local" className="border-ink-700 bg-black text-white" />
-              <Input type="datetime-local" className="border-ink-700 bg-black text-white" />
+              <Input type="datetime-local" />
+              <Input type="datetime-local" />
             </Grid>
           </Stack>
         </ModalBody>
@@ -236,13 +260,25 @@ export default function SiteAccessPage() {
           {selectedPass && (
             <Stack gap={4}>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Vehicle</Label><Label className="text-white">{selectedPass.vehicleType}</Label></Stack>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">License</Label><Label className="font-mono text-white">{selectedPass.licensePlate}</Label></Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Vehicle</Body>
+                  <Body>{selectedPass.vehicleType}</Body>
+                </Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm">License</Body>
+                  <Body>{selectedPass.licensePlate}</Body>
+                </Stack>
               </Grid>
-              <Stack gap={1}><Label size="xs" className="text-ink-500">Company</Label><Label className="text-white">{selectedPass.company}</Label></Stack>
-              <Stack gap={1}><Label size="xs" className="text-ink-500">Driver</Label><Label className="text-white">{selectedPass.driver}</Label></Stack>
+              <Stack gap={1}>
+                <Body className="text-body-sm">Company</Body>
+                <Body>{selectedPass.company}</Body>
+              </Stack>
+              <Stack gap={1}>
+                <Body className="text-body-sm">Driver</Body>
+                <Body>{selectedPass.driver}</Body>
+              </Stack>
               <Stack gap={2}>
-                <Label size="xs" className="text-ink-500">Access Points</Label>
+                <Body className="text-body-sm">Access Points</Body>
                 <Stack direction="horizontal" gap={2}>{selectedPass.accessPoints.map(ap => <Badge key={ap} variant="outline">{ap}</Badge>)}</Stack>
               </Stack>
             </Stack>
@@ -253,6 +289,6 @@ export default function SiteAccessPage() {
           <Button variant="solid">Print Pass</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

@@ -3,10 +3,10 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useNotifications } from "@ghxstship/ui";
+import { ConsumerNavigationPublic } from "@/components/navigation";
 import { useMerch } from "../../hooks/useMerch";
 import {
   PageLayout,
-  Navigation,
   Footer,
   FooterColumn,
   FooterLink,
@@ -16,18 +16,34 @@ import {
   Button,
   Badge,
   Select,
-  SectionLayout,
+  Section,
   LoadingSpinner,
   EmptyState,
   Container,
   Grid,
   Stack,
   Card,
-  Link,
+  Kicker,
 } from "@ghxstship/ui";
 
+const footerContent = (
+  <Footer
+    logo={<Display size="md">GVTEWAY</Display>}
+    copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+  >
+    <FooterColumn title="Shop">
+      <FooterLink href="/merch">Merchandise</FooterLink>
+      <FooterLink href="/cart">Cart</FooterLink>
+    </FooterColumn>
+    <FooterColumn title="Legal">
+      <FooterLink href="/legal/privacy">Privacy</FooterLink>
+      <FooterLink href="/legal/terms">Terms</FooterLink>
+    </FooterColumn>
+  </Footer>
+);
+
 export default function MerchPage() {
-  const router = useRouter();
+  const _router = useRouter();
   const { addNotification } = useNotifications();
   const [filterCategory, setFilterCategory] = useState("all");
   const [sortBy, setSortBy] = useState("featured");
@@ -44,109 +60,56 @@ export default function MerchPage() {
 
   if (isLoading) {
     return (
-      <PageLayout
-        background="black"
-        header={
-          <Navigation
-            logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
-            cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/cart')}>CART (0)</Button>}
-          >
-            <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Home</Link>
-            <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Events</Link>
-          </Navigation>
-        }
-        footer={
-          <Footer
-            logo={<Display size="md" className="text-white text-display-md">GVTEWAY</Display>}
-            copyright="© 2024 GHXSTSHIP INDUSTRIES."
-          >
-            <FooterColumn title="Shop">
-              <FooterLink href="/merch">Merchandise</FooterLink>
-              <FooterLink href="/cart">Cart</FooterLink>
-            </FooterColumn>
-          </Footer>
-        }
-      >
-        <Container className="flex min-h-[60vh] items-center justify-center">
+      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+        <Section background="black" className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading merchandise..." />
-        </Container>
+        </Section>
       </PageLayout>
     );
   }
 
   if (error) {
     return (
-      <PageLayout
-        background="black"
-        header={
-          <Navigation
-            logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
-            cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/cart')}>CART (0)</Button>}
-          >
-            <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Home</Link>
-            <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Events</Link>
-          </Navigation>
-        }
-        footer={
-          <Footer
-            logo={<Display size="md" className="text-white text-display-md">GVTEWAY</Display>}
-            copyright="© 2024 GHXSTSHIP INDUSTRIES."
-          >
-            <FooterColumn title="Shop">
-              <FooterLink href="/merch">Merchandise</FooterLink>
-              <FooterLink href="/cart">Cart</FooterLink>
-            </FooterColumn>
-          </Footer>
-        }
-      >
-        <Container className="py-16">
-          <EmptyState
-            title="Error Loading Merchandise"
-            description={error instanceof Error ? error.message : "An error occurred"}
-            action={{ label: "Retry", onClick: () => refetch() }}
-          />
-        </Container>
+      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+        <Section background="black" className="min-h-screen py-16">
+          <Container>
+            <EmptyState
+              title="Error Loading Merchandise"
+              description={error instanceof Error ? error.message : "An error occurred"}
+              action={{ label: "Retry", onClick: () => refetch() }}
+              inverted
+            />
+          </Container>
+        </Section>
       </PageLayout>
     );
   }
 
   return (
-    <PageLayout
-      background="black"
-      header={
-        <Navigation
-          logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
-          cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/cart')}>CART (0)</Button>}
-        >
-          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Home</Link>
-          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Events</Link>
-        </Navigation>
-      }
-      footer={
-        <Footer
-          logo={<Display size="md" className="text-white text-display-md">GVTEWAY</Display>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES."
-        >
-          <FooterColumn title="Shop">
-            <FooterLink href="/merch">Merchandise</FooterLink>
-            <FooterLink href="/cart">Cart</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <SectionLayout background="black">
-        <Container>
+    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
           <Stack gap={8}>
-            <H2 className="text-white">Official Merchandise</H2>
-            <Body className="text-ink-400">
-              Exclusive gear from your favorite events and festivals
-            </Body>
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Shop</Kicker>
+              <H2 size="lg" className="text-white">Official Merchandise</H2>
+              <Body className="text-on-dark-muted">
+                Exclusive gear from your favorite events and festivals
+              </Body>
+            </Stack>
 
             <Stack gap={4} direction="horizontal">
               <Select
                 value={filterCategory}
                 onChange={(e) => setFilterCategory(e.target.value)}
-                className="bg-black text-white border-ink-700"
+                inverted
               >
                 <option value="all">All Categories</option>
                 <option value="apparel">Apparel</option>
@@ -156,7 +119,7 @@ export default function MerchPage() {
               <Select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="bg-black text-white border-ink-700"
+                inverted
               >
                 <option value="featured">Featured</option>
                 <option value="price-low">Price: Low to High</option>
@@ -168,20 +131,28 @@ export default function MerchPage() {
               <EmptyState
                 title="No Merchandise Found"
                 description="Check back soon for new items"
+                inverted
               />
             ) : (
               <Grid cols={3} gap={6}>
                 {sortedMerch.map((item) => (
-                  <Card key={item.id} className="border-2 border-ink-800 p-6 transition hover:border-white bg-black">
+                  <Card key={item.id} inverted interactive className="p-6">
                     <Stack gap={4}>
-                      <Stack className="aspect-square bg-ink-900" />
-                      <Stack gap={2} direction="horizontal" className="justify-between items-start">
-                        <Body className="font-display text-body-md text-white">{item.name}</Body>
+                      <Stack className="aspect-square rounded-card bg-ink-900" />
+                      <Stack gap={2} direction="horizontal" className="items-start justify-between">
+                        <Body className="font-display text-white">{item.name}</Body>
                         <Badge variant="outline">{item.category}</Badge>
                       </Stack>
-                      <Body className="font-mono text-h5-md text-white">${item.price}</Body>
-                      <Body className="text-body-sm text-ink-400">{item.stock} in stock</Body>
-                      <Button variant="solid" className="w-full" onClick={() => { addNotification({ type: 'success', title: 'Added', message: `${item.name} added to cart` }); }}>Add to Cart</Button>
+                      <Body className="font-display text-white">${item.price}</Body>
+                      <Body size="sm" className="text-on-dark-muted">{item.stock} in stock</Body>
+                      <Button 
+                        variant="solid" 
+                        inverted 
+                        fullWidth 
+                        onClick={() => { addNotification({ type: 'success', title: 'Added', message: `${item.name} added to cart` }); }}
+                      >
+                        Add to Cart
+                      </Button>
                     </Stack>
                   </Card>
                 ))}
@@ -189,7 +160,7 @@ export default function MerchPage() {
             )}
           </Stack>
         </Container>
-      </SectionLayout>
+      </Section>
     </PageLayout>
   );
 }

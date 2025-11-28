@@ -6,13 +6,14 @@ import { CreatorNavigationAuthenticated } from '../../components/navigation';
 import {
   Container,
   Section,
-  H1,
   Body,
   Button,
   Card,
   Grid,
   Stack,
   LoadingSpinner,
+  PageLayout,
+  SectionHeader,
 } from '@ghxstship/ui';
 import { useSchedule } from '@/hooks/useSchedule';
 
@@ -42,12 +43,13 @@ export default function RunOfShowPage() {
 
   if (isLoading) {
     return (
-      <Section className="min-h-screen bg-black text-white">
-        <CreatorNavigationAuthenticated />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading run of show..." />
-        </Container>
-      </Section>
+      <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+        <Section className="min-h-screen py-16">
+          <Container className="flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" text="Loading run of show..." />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
@@ -59,71 +61,68 @@ export default function RunOfShowPage() {
   };
 
   return (
-    <Section className="min-h-screen bg-black text-white">
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2} className="border-b border-ink-800 pb-8">
-            <H1>Run of Show</H1>
-            <Body className="text-ink-400">Current Time: {currentTime}</Body>
-          </Stack>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Run of Show"
+              description={`Current Time: ${currentTime}`}
+              colorScheme="on-light"
+              gap="lg"
+            />
 
-          <Stack gap={4}>
-            {displayCues.map(cue => (
-              <Card
-                key={cue.id}
-                className={`p-6 ${
-                  cue.status === 'complete' ? 'bg-ink-800 opacity-60' :
-                  cue.status === 'ready' ? 'bg-ink-900 border-l-4 border-white' :
-                  'bg-ink-900'
-                }`}
-              >
-                <Grid cols={6} gap={4}>
-                  <Stack gap={0}>
-                    <Body className="text-white font-bold text-h5-md">{cue.time}</Body>
-                  </Stack>
-                  <Stack gap={1} className="col-span-2">
-                    <Body className="text-white font-bold">{cue.cue}</Body>
-                    <Body className="text-ink-400 text-body-sm">{cue.department}</Body>
-                  </Stack>
-                  <Stack gap={0} className="col-span-2">
-                    <Body className="text-ink-300 text-body-sm">{cue.notes}</Body>
-                  </Stack>
-                  <Stack gap={2} direction="horizontal" className="justify-end">
-                    {cue.status === 'pending' && (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => updateCueStatus(cue.id, 'ready')}
-                      >
-                        Ready
-                      </Button>
-                    )}
-                    {cue.status === 'ready' && (
-                      <Button
-                        variant="solid"
-                        size="sm"
-                        onClick={() => updateCueStatus(cue.id, 'complete')}
-                      >
-                        GO
-                      </Button>
-                    )}
-                    {cue.status === 'complete' && (
-                      <Body className="text-white font-bold">DONE</Body>
-                    )}
-                  </Stack>
-                </Grid>
-              </Card>
-            ))}
-          </Stack>
+            <Stack gap={4}>
+              {displayCues.map(cue => (
+                <Card key={cue.id}>
+                  <Grid cols={6} gap={4}>
+                    <Stack gap={0}>
+                      <Body className="font-display">{cue.time}</Body>
+                    </Stack>
+                    <Stack gap={1} className="col-span-2">
+                      <Body className="font-display">{cue.cue}</Body>
+                      <Body className="text-body-sm">{cue.department}</Body>
+                    </Stack>
+                    <Stack gap={0} className="col-span-2">
+                      <Body className="text-body-sm">{cue.notes}</Body>
+                    </Stack>
+                    <Stack gap={2} direction="horizontal" className="justify-end">
+                      {cue.status === 'pending' && (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => updateCueStatus(cue.id, 'ready')}
+                        >
+                          Ready
+                        </Button>
+                      )}
+                      {cue.status === 'ready' && (
+                        <Button
+                          variant="solid"
+                          size="sm"
+                          onClick={() => updateCueStatus(cue.id, 'complete')}
+                        >
+                          GO
+                        </Button>
+                      )}
+                      {cue.status === 'complete' && (
+                        <Body className="font-display">DONE</Body>
+                      )}
+                    </Stack>
+                  </Grid>
+                </Card>
+              ))}
+            </Stack>
 
-          <Stack gap={4} direction="horizontal">
-            <Button variant="solid" onClick={() => router.push('/run-of-show/cues/new')}>Add Cue</Button>
-            <Button variant="outline" onClick={() => router.push('/run-of-show/export')}>Export</Button>
-            <Button variant="outline" onClick={() => window.print()}>Print</Button>
+            <Stack gap={4} direction="horizontal">
+              <Button variant="solid" onClick={() => router.push('/run-of-show/cues/new')}>Add Cue</Button>
+              <Button variant="outline" onClick={() => router.push('/run-of-show/export')}>Export</Button>
+              <Button variant="outline" onClick={() => window.print()}>Print</Button>
+            </Stack>
           </Stack>
-        </Stack>
-      </Container>
-    </Section>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

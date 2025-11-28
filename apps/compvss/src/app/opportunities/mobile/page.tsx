@@ -4,9 +4,28 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { CreatorNavigationAuthenticated } from '../../../components/navigation';
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select,
-  Button, Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter, Alert,
+  Container,
+  H3,
+  Body,
+  Grid,
+  Stack,
+  StatCard,
+  Input,
+  Select,
+  Button,
+  Section,
+  Card,
+  Tabs,
+  TabsList,
+  Tab,
+  Badge,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Alert,
+  PageLayout,
+  SectionHeader,
 } from '@ghxstship/ui';
 
 interface JobOpportunity {
@@ -63,154 +82,156 @@ export default function MobileJobSearchPage() {
   };
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Job Search</H1>
-            <Label className="text-ink-400">Mobile-optimized job search and quick apply</Label>
-          </Stack>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Job Search"
+              description="Mobile-optimized job search and quick apply"
+              colorScheme="on-light"
+              gap="lg"
+            />
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Available Jobs" value={mockJobs.length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Saved" value={savedJobs.length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Applied" value={appliedJobs.length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="New Today" value={2} className="bg-transparent border-2 border-ink-800" />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard label="Available Jobs" value={mockJobs.length.toString()} />
+              <StatCard label="Saved" value={savedJobs.length.toString()} />
+              <StatCard label="Applied" value={appliedJobs.length.toString()} />
+              <StatCard label="New Today" value="2" />
+            </Grid>
 
-          <Tabs>
-            <TabsList>
-              <Tab active={activeTab === 'search'} onClick={() => setActiveTab('search')}>Search</Tab>
-              <Tab active={activeTab === 'saved'} onClick={() => setActiveTab('saved')}>Saved ({savedJobs.length})</Tab>
-              <Tab active={activeTab === 'applied'} onClick={() => setActiveTab('applied')}>Applied ({appliedJobs.length})</Tab>
-            </TabsList>
-          </Tabs>
+            <Tabs>
+              <TabsList>
+                <Tab active={activeTab === 'search'} onClick={() => setActiveTab('search')}>Search</Tab>
+                <Tab active={activeTab === 'saved'} onClick={() => setActiveTab('saved')}>Saved ({savedJobs.length})</Tab>
+                <Tab active={activeTab === 'applied'} onClick={() => setActiveTab('applied')}>Applied ({appliedJobs.length})</Tab>
+              </TabsList>
+            </Tabs>
 
-          {activeTab === 'search' && (
-            <Stack gap={4}>
-              <Input
-                type="search"
-                placeholder="Search jobs, skills, companies..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="border-ink-700 bg-black text-white"
-              />
-              <Stack direction="horizontal" gap={4}>
-                <Select value={locationFilter} onChange={(e) => setLocationFilter(e.target.value)} className="border-ink-700 bg-black text-white flex-1">
-                  <option value="All">All Locations</option>
-                  <option value="Los Angeles">Los Angeles</option>
-                  <option value="New York">New York</option>
-                  <option value="Las Vegas">Las Vegas</option>
-                  <option value="Nashville">Nashville</option>
-                  <option value="Remote">Remote</option>
-                </Select>
-                <Select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)} className="border-ink-700 bg-black text-white flex-1">
-                  <option value="All">All Types</option>
-                  <option value="Full-Time">Full-Time</option>
-                  <option value="Gig">Gig</option>
-                  <option value="Contract">Contract</option>
-                  <option value="Freelance">Freelance</option>
-                </Select>
+            {activeTab === 'search' && (
+              <Stack gap={4}>
+                <Input
+                  type="search"
+                  placeholder="Search jobs, skills, companies..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <Stack direction="horizontal" gap={4}>
+                  <Select value={locationFilter} onChange={(e) => setLocationFilter(e.target.value)}>
+                    <option value="All">All Locations</option>
+                    <option value="Los Angeles">Los Angeles</option>
+                    <option value="New York">New York</option>
+                    <option value="Las Vegas">Las Vegas</option>
+                    <option value="Nashville">Nashville</option>
+                    <option value="Remote">Remote</option>
+                  </Select>
+                  <Select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)}>
+                    <option value="All">All Types</option>
+                    <option value="Full-Time">Full-Time</option>
+                    <option value="Gig">Gig</option>
+                    <option value="Contract">Contract</option>
+                    <option value="Freelance">Freelance</option>
+                  </Select>
+                </Stack>
+
+                <Stack gap={3}>
+                  {filteredJobs.map((job) => (
+                    <Card key={job.id}>
+                      <Stack gap={3}>
+                        <Stack direction="horizontal" className="justify-between">
+                          <Stack gap={1}>
+                            <Body className="font-display">{job.title}</Body>
+                            <Body className="text-body-sm">{job.company}</Body>
+                          </Stack>
+                          <Stack gap={1} className="text-right">
+                            <Badge variant="outline">{job.type}</Badge>
+                            <Body className="font-mono">{job.rate}</Body>
+                          </Stack>
+                        </Stack>
+                        <Stack direction="horizontal" gap={4}>
+                          <Body className="text-body-sm">{job.location}</Body>
+                          <Body className="text-body-sm">{job.posted}</Body>
+                        </Stack>
+                        <Stack direction="horizontal" gap={2} className="flex-wrap">
+                          {job.skills.slice(0, 3).map((skill, idx) => (
+                            <Badge key={idx} variant="outline">{skill}</Badge>
+                          ))}
+                        </Stack>
+                        <Stack direction="horizontal" gap={2}>
+                          <Button variant="solid" size="sm" onClick={() => { setSelectedJob(job); setShowApplyModal(true); }}>
+                            {job.applied ? 'Applied' : 'Quick Apply'}
+                          </Button>
+                          <Button variant="outline" size="sm" onClick={() => setSelectedJob(job)}>Details</Button>
+                          <Button variant="ghost" size="sm">{job.saved ? '★' : '☆'}</Button>
+                        </Stack>
+                      </Stack>
+                    </Card>
+                  ))}
+                </Stack>
               </Stack>
+            )}
 
+            {activeTab === 'saved' && (
               <Stack gap={3}>
-                {filteredJobs.map((job) => (
-                  <Card key={job.id} className="border-2 border-ink-800 bg-ink-900/50 p-4">
-                    <Stack gap={3}>
-                      <Stack direction="horizontal" className="justify-between">
-                        <Stack gap={1}>
-                          <Body className="font-display text-white">{job.title}</Body>
-                          <Label className="text-ink-400">{job.company}</Label>
-                        </Stack>
-                        <Stack gap={1} className="text-right">
-                          <Badge className={getTypeColor(job.type)}>{job.type}</Badge>
-                          <Label className="font-mono text-success-400">{job.rate}</Label>
-                        </Stack>
-                      </Stack>
-                      <Stack direction="horizontal" gap={4}>
-                        <Label className="text-ink-400">{job.location}</Label>
-                        <Label className="text-ink-500">{job.posted}</Label>
-                      </Stack>
-                      <Stack direction="horizontal" gap={2} className="flex-wrap">
-                        {job.skills.slice(0, 3).map((skill, idx) => (
-                          <Badge key={idx} variant="outline">{skill}</Badge>
-                        ))}
-                      </Stack>
-                      <Stack direction="horizontal" gap={2}>
-                        <Button variant="solid" size="sm" className="flex-1" onClick={() => { setSelectedJob(job); setShowApplyModal(true); }}>
-                          {job.applied ? 'Applied' : 'Quick Apply'}
-                        </Button>
-                        <Button variant="outline" size="sm" onClick={() => setSelectedJob(job)}>Details</Button>
-                        <Button variant="ghost" size="sm">{job.saved ? '★' : '☆'}</Button>
-                      </Stack>
-                    </Stack>
+                {savedJobs.length === 0 ? (
+                  <Card>
+                    <Body className="text-center">No saved jobs yet. Save jobs to review later.</Body>
                   </Card>
-                ))}
+                ) : (
+                  savedJobs.map((job) => (
+                    <Card key={job.id}>
+                      <Stack gap={3}>
+                        <Stack direction="horizontal" className="justify-between">
+                          <Stack gap={1}>
+                            <Body className="font-display">{job.title}</Body>
+                            <Body className="text-body-sm">{job.company} • {job.location}</Body>
+                          </Stack>
+                          <Body className="font-mono">{job.rate}</Body>
+                        </Stack>
+                        <Stack direction="horizontal" gap={2}>
+                          <Button variant="solid" size="sm">Quick Apply</Button>
+                          <Button variant="ghost" size="sm">Remove</Button>
+                        </Stack>
+                      </Stack>
+                    </Card>
+                  ))
+                )}
               </Stack>
-            </Stack>
-          )}
+            )}
 
-          {activeTab === 'saved' && (
-            <Stack gap={3}>
-              {savedJobs.length === 0 ? (
-                <Card className="border-2 border-ink-800 bg-ink-900/50 p-6 text-center">
-                  <Label className="text-ink-400">No saved jobs yet. Save jobs to review later.</Label>
-                </Card>
-              ) : (
-                savedJobs.map((job) => (
-                  <Card key={job.id} className="border-2 border-ink-800 bg-ink-900/50 p-4">
-                    <Stack gap={3}>
-                      <Stack direction="horizontal" className="justify-between">
-                        <Stack gap={1}>
-                          <Body className="font-display text-white">{job.title}</Body>
-                          <Label className="text-ink-400">{job.company} • {job.location}</Label>
-                        </Stack>
-                        <Label className="font-mono text-success-400">{job.rate}</Label>
-                      </Stack>
-                      <Stack direction="horizontal" gap={2}>
-                        <Button variant="solid" size="sm" className="flex-1">Quick Apply</Button>
-                        <Button variant="ghost" size="sm">Remove</Button>
-                      </Stack>
-                    </Stack>
+            {activeTab === 'applied' && (
+              <Stack gap={3}>
+                {appliedJobs.length === 0 ? (
+                  <Card>
+                    <Body className="text-center">No applications yet. Start applying to opportunities.</Body>
                   </Card>
-                ))
-              )}
-            </Stack>
-          )}
-
-          {activeTab === 'applied' && (
-            <Stack gap={3}>
-              {appliedJobs.length === 0 ? (
-                <Card className="border-2 border-ink-800 bg-ink-900/50 p-6 text-center">
-                  <Label className="text-ink-400">No applications yet. Start applying to opportunities.</Label>
-                </Card>
-              ) : (
-                appliedJobs.map((job) => (
-                  <Card key={job.id} className="border-2 border-ink-800 bg-ink-900/50 p-4">
-                    <Stack gap={3}>
-                      <Stack direction="horizontal" className="justify-between">
-                        <Stack gap={1}>
-                          <Body className="font-display text-white">{job.title}</Body>
-                          <Label className="text-ink-400">{job.company} • {job.location}</Label>
+                ) : (
+                  appliedJobs.map((job) => (
+                    <Card key={job.id}>
+                      <Stack gap={3}>
+                        <Stack direction="horizontal" className="justify-between">
+                          <Stack gap={1}>
+                            <Body className="font-display">{job.title}</Body>
+                            <Body className="text-body-sm">{job.company} • {job.location}</Body>
+                          </Stack>
+                          <Badge variant="solid">Applied</Badge>
                         </Stack>
-                        <Badge variant="solid" className="bg-success-800">Applied</Badge>
+                        <Stack direction="horizontal" gap={2}>
+                          <Button variant="outline" size="sm">View Application</Button>
+                          <Button variant="ghost" size="sm">Withdraw</Button>
+                        </Stack>
                       </Stack>
-                      <Stack direction="horizontal" gap={2}>
-                        <Button variant="outline" size="sm" className="flex-1">View Application</Button>
-                        <Button variant="ghost" size="sm">Withdraw</Button>
-                      </Stack>
-                    </Stack>
-                  </Card>
-                ))
-              )}
-            </Stack>
-          )}
+                    </Card>
+                  ))
+                )}
+              </Stack>
+            )}
 
-          <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push('/opportunities')}>Back to Opportunities</Button>
-        </Stack>
-      </Container>
+            <Button variant="outline" onClick={() => router.push('/opportunities')}>Back to Opportunities</Button>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedJob && !showApplyModal} onClose={() => setSelectedJob(null)}>
         <ModalHeader><H3>{selectedJob?.title}</H3></ModalHeader>
@@ -218,22 +239,22 @@ export default function MobileJobSearchPage() {
           {selectedJob && (
             <Stack gap={4}>
               <Stack gap={1}>
-                <Label className="text-ink-400">Company</Label>
-                <Body className="text-white">{selectedJob.company}</Body>
+                <Body className="text-body-sm">Company</Body>
+                <Body>{selectedJob.company}</Body>
               </Stack>
               <Stack direction="horizontal" gap={2}>
-                <Badge className={getTypeColor(selectedJob.type)}>{selectedJob.type}</Badge>
-                <Label className="font-mono text-success-400">{selectedJob.rate}</Label>
+                <Badge variant="outline">{selectedJob.type}</Badge>
+                <Body className="font-mono">{selectedJob.rate}</Body>
               </Stack>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label className="text-ink-400">Location</Label><Label className="text-white">{selectedJob.location}</Label></Stack>
-                <Stack gap={1}><Label className="text-ink-400">Posted</Label><Label className="text-white">{selectedJob.posted}</Label></Stack>
+                <Stack gap={1}><Body className="text-body-sm">Location</Body><Body>{selectedJob.location}</Body></Stack>
+                <Stack gap={1}><Body className="text-body-sm">Posted</Body><Body>{selectedJob.posted}</Body></Stack>
               </Grid>
               {selectedJob.deadline && (
-                <Stack gap={1}><Label className="text-ink-400">Application Deadline</Label><Label className="text-white">{selectedJob.deadline}</Label></Stack>
+                <Stack gap={1}><Body className="text-body-sm">Application Deadline</Body><Body>{selectedJob.deadline}</Body></Stack>
               )}
               <Stack gap={2}>
-                <Label className="text-ink-400">Required Skills</Label>
+                <Body className="text-body-sm">Required Skills</Body>
                 <Stack direction="horizontal" gap={2} className="flex-wrap">
                   {selectedJob.skills.map((skill, idx) => (
                     <Badge key={idx} variant="outline">{skill}</Badge>
@@ -256,21 +277,21 @@ export default function MobileJobSearchPage() {
           <Stack gap={4}>
             <Alert variant="info">Your profile and resume will be shared with {selectedJob?.company}</Alert>
             <Stack gap={2}>
-              <Label>Cover Note (Optional)</Label>
-              <Input placeholder="Add a brief message..." className="border-ink-700 bg-black text-white" />
+              <Body>Cover Note (Optional)</Body>
+              <Input placeholder="Add a brief message..." />
             </Stack>
             <Stack gap={2}>
-              <Label className="text-ink-400">Attached Documents</Label>
-              <Card className="p-3 border border-ink-700 bg-ink-800">
+              <Body className="text-body-sm">Attached Documents</Body>
+              <Card>
                 <Stack direction="horizontal" className="justify-between">
-                  <Label className="text-white">Resume_2024.pdf</Label>
+                  <Body>Resume_2024.pdf</Body>
                   <Badge variant="outline">Default</Badge>
                 </Stack>
               </Card>
             </Stack>
             <Stack gap={2}>
-              <Label className="text-ink-400">Availability</Label>
-              <Select className="border-ink-700 bg-black text-white">
+              <Body className="text-body-sm">Availability</Body>
+              <Select>
                 <option value="immediate">Immediately</option>
                 <option value="2weeks">2 Weeks Notice</option>
                 <option value="1month">1 Month Notice</option>
@@ -283,6 +304,6 @@ export default function MobileJobSearchPage() {
           <Button variant="solid" onClick={() => { setShowApplyModal(false); setSelectedJob(null); }}>Submit Application</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { ConsumerNavigationPublic } from "@/components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
+  Container, H2, H3, Body, Label, Grid, Stack, StatCard, Button,
+  Section, Card, Tabs, TabsList, Tab, TabPanel, Badge,
   Modal, ModalHeader, ModalBody, ModalFooter, Alert,
+  PageLayout, Footer, FooterColumn, FooterLink, Display, Kicker,
 } from "@ghxstship/ui";
 
 interface FanClub {
@@ -76,13 +78,41 @@ export default function FanClubPage() {
   };
 
   return (
-    <UISection className="min-h-screen bg-white">
-      <Container className="py-8">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>FAN CLUBS</H1>
-            <Body className="text-ink-600">Join exclusive fan communities and unlock special perks</Body>
-          </Stack>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Community">
+            <FooterLink href="/fan-club">Fan Clubs</FooterLink>
+            <FooterLink href="/community">Community</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Exclusive Access</Kicker>
+              <H2 size="lg" className="text-white">Fan Clubs</H2>
+              <Body className="text-on-dark-muted">Join exclusive fan communities and unlock special perks</Body>
+            </Stack>
 
           <Grid cols={4} gap={6}>
             <StatCard label="Total Members" value={totalMembers.toLocaleString()} className="border-2 border-black" />
@@ -186,37 +216,38 @@ export default function FanClubPage() {
             </TabPanel>
           </Tabs>
 
-          <Button variant="outline" onClick={() => router.push("/community")}>Back to Community</Button>
-        </Stack>
-      </Container>
+            <Button variant="outlineInk" inverted onClick={() => router.push("/community")}>Back to Community</Button>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={showJoinModal && !!selectedClub} onClose={() => { setShowJoinModal(false); setSelectedClub(null); }}>
         <ModalHeader><H3>Join {selectedClub?.name}</H3></ModalHeader>
         <ModalBody>
           {selectedClub && (
             <Stack gap={4}>
-              {selectedClub.artistName && <Label className="text-ink-600">{selectedClub.artistName}</Label>}
-              <Card className="p-4 bg-ink-50">
-                <Stack direction="horizontal" className="justify-between items-center">
+              {selectedClub.artistName && <Label className="text-on-light-muted">{selectedClub.artistName}</Label>}
+              <Card className="bg-surface-secondary p-4">
+                <Stack direction="horizontal" className="items-center justify-between">
                   <Stack gap={1}>
                     <Badge className={getTierColor(selectedClub.tier)}>{selectedClub.tier} Membership</Badge>
-                    <Label className="text-ink-600">{selectedClub.memberCount.toLocaleString()} members</Label>
+                    <Label className="text-on-light-muted">{selectedClub.memberCount.toLocaleString()} members</Label>
                   </Stack>
                   {selectedClub.monthlyPrice ? (
                     <Stack gap={0} className="text-right">
                       <Label className="font-mono text-h5-md">${selectedClub.monthlyPrice}</Label>
-                      <Label size="xs" className="text-ink-500">per month</Label>
+                      <Label size="xs" className="text-on-light-muted">per month</Label>
                     </Stack>
                   ) : (
-                    <Label className="text-success-600 text-h6-md">Free</Label>
+                    <Label className="text-h6-md text-success">Free</Label>
                   )}
                 </Stack>
               </Card>
               <Stack gap={2}>
-                <Label className="font-bold">Benefits Included:</Label>
+                <Label className="font-display">Benefits Included:</Label>
                 {selectedClub.benefits.map((benefit, idx) => (
                   <Stack key={idx} direction="horizontal" gap={2}>
-                    <Label className="text-success-600">✓</Label>
+                    <Label className="text-success">✓</Label>
                     <Label>{benefit}</Label>
                   </Stack>
                 ))}
@@ -234,6 +265,6 @@ export default function FanClubPage() {
           </Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

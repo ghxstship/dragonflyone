@@ -2,15 +2,13 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { ConsumerNavigationPublic } from '../../components/navigation';
+import { ConsumerNavigationPublic } from '@/components/navigation';
 import {
   Container,
   Section,
-  H1,
   H2,
   H3,
   Body,
-  Label,
   Button,
   Card,
   Select,
@@ -19,6 +17,12 @@ import {
   Badge,
   LoadingSpinner,
   ProjectCard,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
+  Kicker,
 } from '@ghxstship/ui';
 
 interface Event {
@@ -100,27 +104,73 @@ export default function NewEventsPage() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading events..." />
-        </Container>
-      </Section>
+      <PageLayout
+        background="black"
+        header={<ConsumerNavigationPublic />}
+        footer={
+          <Footer
+            logo={<Display size="md">GVTEWAY</Display>}
+            copyright="© 2024 GHXSTSHIP INDUSTRIES."
+          >
+            <FooterColumn title="Discover">
+              <FooterLink href="/new-events">New Events</FooterLink>
+            </FooterColumn>
+          </Footer>
+        }
+      >
+        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+          <div
+            className="pointer-events-none absolute inset-0 opacity-5"
+            style={{
+              backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+              backgroundSize: "40px 40px",
+            }}
+          />
+          <Container className="relative z-10 flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" text="Loading events..." />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-        <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
-          <Stack gap={2}>
-            <H1>New & Announced</H1>
-            <Body className="text-ink-600">
-              Be the first to know about upcoming events
-            </Body>
-          </Stack>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Discover">
+            <FooterLink href="/new-events">New Events</FooterLink>
+            <FooterLink href="/browse">Browse Events</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack direction="horizontal" className="items-center justify-between">
+              <Stack gap={2}>
+                <Kicker colorScheme="on-dark">Discover</Kicker>
+                <H2 size="lg" className="text-white">New & Announced</H2>
+                <Body className="text-on-dark-muted">Be the first to know about upcoming events</Body>
+              </Stack>
             <Stack direction="horizontal" gap={4}>
               <Select
                 value={timeFilter}
@@ -253,8 +303,9 @@ export default function NewEventsPage() {
             </Button>
           </Stack>
         </Card>
-        </Stack>
-      </Container>
-    </Section>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

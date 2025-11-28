@@ -10,6 +10,9 @@ import {
   RecordFormModal,
   DetailDrawer,
   ConfirmDialog,
+  Grid,
+  Stack,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -100,15 +103,15 @@ export default function IncidentsPage() {
 
   const detailSections: DetailSection[] = selectedIncident ? [
     { id: 'overview', title: 'Incident Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Type:</strong> {selectedIncident.type}</div>
-        <div><strong>Severity:</strong> {selectedIncident.severity}</div>
-        <div><strong>Status:</strong> {selectedIncident.status}</div>
-        <div><strong>Date:</strong> {selectedIncident.incident_date || 'N/A'}</div>
-        <div><strong>Reporter:</strong> {selectedIncident.reporter}</div>
-        <div><strong>Event:</strong> {selectedIncident.event_name || 'N/A'}</div>
-        {selectedIncident.description && <div className="col-span-2"><strong>Description:</strong> {selectedIncident.description}</div>}
-      </div>
+      <Grid cols={2} gap={4}>
+        <Stack gap={1}><Body className="font-display">Type</Body><Body>{selectedIncident.type}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Severity</Body><Body>{selectedIncident.severity}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Status</Body><Body>{selectedIncident.status}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Date</Body><Body>{selectedIncident.incident_date || 'N/A'}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Reporter</Body><Body>{selectedIncident.reporter}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Event</Body><Body>{selectedIncident.event_name || 'N/A'}</Body></Stack>
+        {selectedIncident.description && <Stack gap={1} className="col-span-2"><Body className="font-display">Description</Body><Body>{selectedIncident.description}</Body></Stack>}
+      </Grid>
     )},
   ] : [];
 

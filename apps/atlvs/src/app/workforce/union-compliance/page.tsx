@@ -4,8 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge, Alert,
+  Container, H3, Body, Label, Grid, Stack, StatCard, Select, Button,
+  Section, Card, Tabs, TabsList, Tab, TabPanel, Badge, Alert, PageLayout, SectionHeader,
   Modal, ModalHeader, ModalBody, ModalFooter,
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
 } from "@ghxstship/ui";
@@ -64,15 +64,17 @@ export default function UnionCompliancePage() {
   };
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Union Compliance</H1>
-            <Label className="text-ink-400">Union rules, agreements, and compliance tracking</Label>
-          </Stack>
+    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="ATLVS"
+              title="Union Compliance"
+              description="Union rules, agreements, and compliance tracking"
+              colorScheme="on-dark"
+              gap="lg"
+            />
 
           {expiringCount > 0 && (
             <Alert variant="warning">
@@ -179,13 +181,14 @@ export default function UnionCompliancePage() {
             </TabPanel>
           </Tabs>
 
-          <Grid cols={3} gap={4}>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/workforce")}>Workforce</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/employees")}>Employees</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/")}>Dashboard</Button>
-          </Grid>
-        </Stack>
-      </Container>
+            <Grid cols={3} gap={4}>
+              <Button variant="outline" className="border-grey-700 text-grey-400" onClick={() => router.push("/workforce")}>Workforce</Button>
+              <Button variant="outline" className="border-grey-700 text-grey-400" onClick={() => router.push("/employees")}>Employees</Button>
+              <Button variant="outline" className="border-grey-700 text-grey-400" onClick={() => router.push("/")}>Dashboard</Button>
+            </Grid>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedLocal} onClose={() => setSelectedLocal(null)}>
         <ModalHeader><H3>{selectedLocal?.name}</H3></ModalHeader>
@@ -194,16 +197,16 @@ export default function UnionCompliancePage() {
             <Stack gap={4}>
               <Badge variant="outline">{selectedLocal.code}</Badge>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label className="text-ink-400">Jurisdiction</Label><Label className="text-white">{selectedLocal.jurisdiction}</Label></Stack>
-                <Stack gap={1}><Label className="text-ink-400">Members</Label><Label className="font-mono text-white">{selectedLocal.memberCount.toLocaleString()}</Label></Stack>
+                <Stack gap={1}><Label className="text-grey-400">Jurisdiction</Label><Label className="text-white">{selectedLocal.jurisdiction}</Label></Stack>
+                <Stack gap={1}><Label className="text-grey-400">Members</Label><Label className="font-mono text-white">{selectedLocal.memberCount.toLocaleString()}</Label></Stack>
               </Grid>
               <Stack gap={1}>
-                <Label className="text-ink-400">Contact</Label>
+                <Label className="text-grey-400">Contact</Label>
                 <Label className="text-white">{selectedLocal.contactName}</Label>
-                <Label className="text-ink-300">{selectedLocal.contactPhone}</Label>
+                <Label className="text-grey-300">{selectedLocal.contactPhone}</Label>
               </Stack>
               <Stack gap={1}>
-                <Label className="text-ink-400">Agreement Status</Label>
+                <Label className="text-grey-400">Agreement Status</Label>
                 <Label className={getStatusColor(selectedLocal.status)}>{selectedLocal.status} - Expires {selectedLocal.agreementExpiry}</Label>
               </Stack>
             </Stack>
@@ -221,8 +224,8 @@ export default function UnionCompliancePage() {
           {selectedRule && (
             <Stack gap={4}>
               <Badge variant="outline">{selectedRule.category}</Badge>
-              <Stack gap={1}><Label className="text-ink-400">Requirement</Label><Body className="text-white">{selectedRule.requirement}</Body></Stack>
-              {selectedRule.penalty && <Stack gap={1}><Label className="text-ink-400">Penalty</Label><Label className="text-error-400">{selectedRule.penalty}</Label></Stack>}
+              <Stack gap={1}><Label className="text-grey-400">Requirement</Label><Body className="text-white">{selectedRule.requirement}</Body></Stack>
+              {selectedRule.penalty && <Stack gap={1}><Label className="text-grey-400">Penalty</Label><Label className="text-error-400">{selectedRule.penalty}</Label></Stack>}
             </Stack>
           )}
         </ModalBody>
@@ -230,6 +233,6 @@ export default function UnionCompliancePage() {
           <Button variant="outline" onClick={() => setSelectedRule(null)}>Close</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

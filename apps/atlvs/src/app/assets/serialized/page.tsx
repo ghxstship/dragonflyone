@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { CreatorNavigationAuthenticated } from '../../../components/navigation';
 import {
   Container,
-  H1,
+  Section,
   H3,
   Body,
   Label,
@@ -21,12 +21,7 @@ import {
   TableHead,
   TableCell,
   Button,
-  Section as UISection,
   Card,
-  Tabs,
-  TabsList,
-  Tab,
-  TabPanel,
   Badge,
   Modal,
   ModalHeader,
@@ -34,6 +29,8 @@ import {
   ModalFooter,
   Textarea,
   Alert,
+  PageLayout,
+  SectionHeader,
 } from '@ghxstship/ui';
 
 interface SerializedComponent {
@@ -199,15 +196,17 @@ export default function SerializedComponentsPage() {
   };
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Serialized Component Tracking</H1>
-            <Label className="text-ink-400">Track individual components within assets by serial number</Label>
-          </Stack>
+    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={8}>
+            <SectionHeader
+              kicker="ATLVS"
+              title="Serialized Component Tracking"
+              description="Track individual components within assets by serial number"
+              colorScheme="on-dark"
+              gap="lg"
+            />
 
           <Grid cols={4} gap={6}>
             <StatCard label="Total Components" value={components.length} className="bg-transparent border-2 border-ink-800" />
@@ -321,8 +320,6 @@ export default function SerializedComponentsPage() {
               Dashboard
             </Button>
           </Grid>
-        </Stack>
-      </Container>
 
       <Modal open={!!selectedComponent} onClose={() => setSelectedComponent(null)}>
         <ModalHeader>
@@ -475,6 +472,9 @@ export default function SerializedComponentsPage() {
           </Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

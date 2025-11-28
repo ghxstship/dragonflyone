@@ -3,21 +3,17 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { ConsumerNavigationPublic } from '../../components/navigation';
+import { ConsumerNavigationPublic } from '@/components/navigation';
 import {
   Container,
   Section,
-  H1,
   H2,
   H3,
   Body,
-  Label,
   Button,
   Card,
   Field,
-  Input,
   Textarea,
-  Select,
   Grid,
   Stack,
   Badge,
@@ -26,6 +22,12 @@ import {
   LoadingSpinner,
   StatCard,
   Form,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
+  Kicker,
 } from '@ghxstship/ui';
 
 interface QASession {
@@ -144,13 +146,10 @@ export default function QASessionsPage() {
   };
 
   const getStatusBadge = (status: string) => {
-    const variants: Record<string, string> = {
-      upcoming: 'bg-info-500 text-white',
-      live: 'bg-error-500 text-white animate-pulse',
-      ended: 'bg-ink-500 text-white',
-      archived: 'bg-ink-400 text-white',
-    };
-    return <Badge className={variants[status] || ''}>{status.toUpperCase()}</Badge>;
+    if (status === 'live') {
+      return <Badge variant="solid" className="animate-pulse">{status.toUpperCase()}</Badge>;
+    }
+    return <Badge variant={status === 'upcoming' ? 'solid' : 'outline'}>{status.toUpperCase()}</Badge>;
   };
 
   const formatDate = (dateString: string) => {
@@ -164,14 +163,29 @@ export default function QASessionsPage() {
     });
   };
 
+  const footerContent = (
+    <Footer
+      logo={<Display size="md">GVTEWAY</Display>}
+      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+    >
+      <FooterColumn title="Q&A">
+        <FooterLink href="/qa-sessions">Q&A Sessions</FooterLink>
+        <FooterLink href="/artists">Artists</FooterLink>
+      </FooterColumn>
+      <FooterColumn title="Legal">
+        <FooterLink href="/legal/privacy">Privacy</FooterLink>
+        <FooterLink href="/legal/terms">Terms</FooterLink>
+      </FooterColumn>
+    </Footer>
+  );
+
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
+      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+        <Section background="black" className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading sessions..." />
-        </Container>
-      </Section>
+        </Section>
+      </PageLayout>
     );
   }
 
@@ -179,16 +193,25 @@ export default function QASessionsPage() {
   const upcomingSessions = sessions.filter(s => s.status === 'upcoming');
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-        <Stack gap={2} className="border-b-2 border-black pb-8">
-          <H1>Artist Q&A Sessions</H1>
-          <Body className="text-ink-600">
-            Ask questions and interact with your favorite artists
-          </Body>
-        </Stack>
+    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Q&A</Kicker>
+              <H2 size="lg" className="text-white">Artist Q&A Sessions</H2>
+              <Body className="text-on-dark-muted">
+                Ask questions and interact with your favorite artists
+              </Body>
+            </Stack>
 
         {error && (
           <Alert variant="error" className="mb-6" onClose={() => setError(null)}>
@@ -202,50 +225,54 @@ export default function QASessionsPage() {
           </Alert>
         )}
 
-        <Grid cols={4} gap={6} className="mb-8">
+        <Grid cols={4} gap={6}>
           <StatCard
             label="Live Now"
-            value={liveSessions.length}
-            icon={<Body>🔴</Body>}
+            value={liveSessions.length.toString()}
+            inverted
           />
           <StatCard
             label="Upcoming"
-            value={upcomingSessions.length}
-            icon={<Body>📅</Body>}
+            value={upcomingSessions.length.toString()}
+            inverted
           />
           <StatCard
             label="Total Sessions"
-            value={sessions.length}
-            icon={<Body>🎤</Body>}
+            value={sessions.length.toString()}
+            inverted
           />
           <StatCard
             label="Questions Asked"
-            value={sessions.reduce((sum, s) => sum + s.questions_count, 0)}
-            icon={<Body>❓</Body>}
+            value={sessions.reduce((sum, s) => sum + s.questions_count, 0).toString()}
+            inverted
           />
         </Grid>
 
-        <Stack direction="horizontal" gap={4} className="mb-6">
+        <Stack direction="horizontal" gap={4}>
           <Button
-            variant={filter === 'all' ? 'solid' : 'outline'}
+            variant={filter === 'all' ? 'solid' : 'outlineInk'}
+            inverted={filter === 'all'}
             onClick={() => setFilter('all')}
           >
             All Sessions
           </Button>
           <Button
-            variant={filter === 'live' ? 'solid' : 'outline'}
+            variant={filter === 'live' ? 'solid' : 'outlineInk'}
+            inverted={filter === 'live'}
             onClick={() => setFilter('live')}
           >
             🔴 Live Now
           </Button>
           <Button
-            variant={filter === 'upcoming' ? 'solid' : 'outline'}
+            variant={filter === 'upcoming' ? 'solid' : 'outlineInk'}
+            inverted={filter === 'upcoming'}
             onClick={() => setFilter('upcoming')}
           >
             Upcoming
           </Button>
           <Button
-            variant={filter === 'archived' ? 'solid' : 'outline'}
+            variant={filter === 'archived' ? 'solid' : 'outlineInk'}
+            inverted={filter === 'archived'}
             onClick={() => setFilter('archived')}
           >
             Past Sessions
@@ -253,22 +280,24 @@ export default function QASessionsPage() {
         </Stack>
 
         {liveSessions.length > 0 && filter !== 'archived' && (
-          <Section className="mb-8">
-            <H2 className="mb-4">🔴 LIVE NOW</H2>
+          <Stack gap={4}>
+            <H2 className="text-white">🔴 Live Now</H2>
             <Grid cols={2} gap={6}>
               {liveSessions.map(session => (
                 <Card
                   key={session.id}
-                  className="p-6 border-2 border-error-500 cursor-pointer hover:shadow-lg transition-shadow"
+                  inverted
+                  interactive
+                  className="cursor-pointer p-6 ring-2 ring-error-500"
                   onClick={() => setSelectedSession(session)}
                 >
                   <Stack direction="horizontal" gap={4}>
-                    <Stack className="w-20 h-20 rounded-full bg-ink-200 overflow-hidden relative flex-shrink-0">
+                    <Stack className="relative size-20 flex-shrink-0 overflow-hidden rounded-full bg-ink-800">
                       {session.artist_image ? (
                         <Image src={session.artist_image} alt={session.artist_name} fill className="object-cover" />
                       ) : (
-                        <Stack className="w-full h-full flex items-center justify-center">
-                          <Body className="text-h5-md">🎤</Body>
+                        <Stack className="flex size-full items-center justify-center">
+                          <Body className="text-h3-md">🍤</Body>
                         </Stack>
                       )}
                     </Stack>
@@ -277,51 +306,53 @@ export default function QASessionsPage() {
                         {getStatusBadge(session.status)}
                         {session.is_member_only && <Badge variant="outline">Members Only</Badge>}
                       </Stack>
-                      <H3 className="mt-2">{session.title}</H3>
-                      <Body className="text-ink-600">{session.artist_name}</Body>
-                      <Stack direction="horizontal" gap={4} className="mt-2 text-body-sm text-ink-500">
-                        <Body>{session.attendees_count} watching</Body>
-                        <Body>{session.questions_count} questions</Body>
+                      <H3 className="mt-2 text-white">{session.title}</H3>
+                      <Body className="text-on-dark-muted">{session.artist_name}</Body>
+                      <Stack direction="horizontal" gap={4} className="mt-2 text-on-dark-disabled">
+                        <Body size="sm">{session.attendees_count} watching</Body>
+                        <Body size="sm">{session.questions_count} questions</Body>
                       </Stack>
                     </Stack>
                   </Stack>
                 </Card>
               ))}
             </Grid>
-          </Section>
+          </Stack>
         )}
 
         <Grid cols={3} gap={6}>
           {sessions.filter(s => filter === 'all' || s.status === filter).map(session => (
             <Card
               key={session.id}
-              className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow"
+              inverted
+              interactive
+              className="cursor-pointer overflow-hidden"
               onClick={() => setSelectedSession(session)}
             >
-              <Stack className="relative h-32 bg-ink-100">
+              <Stack className="relative h-32 bg-ink-900">
                 {session.artist_image ? (
                   <Image src={session.artist_image} alt={session.artist_name} fill className="object-cover" />
                 ) : (
-                  <Stack className="w-full h-full flex items-center justify-center">
-                    <Body className="text-h3-md">🎤</Body>
+                  <Stack className="flex size-full items-center justify-center">
+                    <Body className="text-h3-md">🍤</Body>
                   </Stack>
                 )}
-                <Stack className="absolute top-2 right-2">
+                <Stack className="absolute right-2 top-2">
                   {getStatusBadge(session.status)}
                 </Stack>
               </Stack>
               <Stack className="p-4" gap={2}>
-                <H3 className="line-clamp-1">{session.title}</H3>
-                <Body className="text-ink-600">{session.artist_name}</Body>
-                <Body className="text-body-sm text-ink-500">
+                <H3 className="line-clamp-1 text-white">{session.title}</H3>
+                <Body className="text-on-dark-muted">{session.artist_name}</Body>
+                <Body size="sm" className="text-on-dark-disabled">
                   {formatDate(session.scheduled_at)}
                 </Body>
-                <Stack direction="horizontal" className="justify-between items-center mt-2">
-                  <Body className="text-mono-xs text-ink-500">
+                <Stack direction="horizontal" className="mt-2 items-center justify-between">
+                  <Body size="sm" className="font-mono text-on-dark-disabled">
                     {session.questions_count} questions
                   </Body>
                   {session.is_member_only && (
-                    <Badge variant="outline" className="text-mono-xs">Members</Badge>
+                    <Badge variant="outline">Members</Badge>
                   )}
                 </Stack>
               </Stack>
@@ -330,12 +361,12 @@ export default function QASessionsPage() {
         </Grid>
 
         {sessions.length === 0 && (
-          <Card className="p-12 text-center">
-            <H3 className="mb-4">NO Q&A SESSIONS</H3>
-            <Body className="text-ink-600 mb-6">
+          <Card inverted className="p-12 text-center">
+            <H3 className="mb-4 text-white">No Q&A Sessions</H3>
+            <Body className="mb-6 text-on-dark-muted">
               Check back soon for upcoming artist Q&A sessions
             </Body>
-            <Button variant="solid" onClick={() => router.push('/artists')}>
+            <Button variant="solid" inverted onClick={() => router.push('/artists')}>
               Browse Artists
             </Button>
           </Card>
@@ -352,11 +383,11 @@ export default function QASessionsPage() {
           {selectedSession && (
             <Stack gap={6}>
               <Stack direction="horizontal" gap={4} className="items-center">
-                <Stack className="w-16 h-16 rounded-full bg-ink-200 overflow-hidden relative flex-shrink-0">
+                <Stack className="relative size-16 shrink-0 overflow-hidden rounded-avatar bg-ink-200">
                   {selectedSession.artist_image ? (
                     <Image src={selectedSession.artist_image} alt={selectedSession.artist_name} fill className="object-cover" />
                   ) : (
-                    <Stack className="w-full h-full flex items-center justify-center">
+                    <Stack className="flex size-full items-center justify-center">
                       <Body className="text-h6-md">🎤</Body>
                     </Stack>
                   )}
@@ -366,13 +397,13 @@ export default function QASessionsPage() {
                     {getStatusBadge(selectedSession.status)}
                   </Stack>
                   <H2>{selectedSession.title}</H2>
-                  <Body className="text-ink-600">{selectedSession.artist_name}</Body>
+                  <Body className="text-on-light-muted">{selectedSession.artist_name}</Body>
                 </Stack>
               </Stack>
 
               <Body>{selectedSession.description}</Body>
 
-              <Stack direction="horizontal" className="justify-between items-center">
+              <Stack direction="horizontal" className="items-center justify-between">
                 <H3>Questions ({questions.length})</H3>
                 {(selectedSession.status === 'live' || selectedSession.status === 'upcoming') && (
                   <Button variant="solid" onClick={() => setShowAskModal(true)}>
@@ -386,12 +417,12 @@ export default function QASessionsPage() {
                   questions
                     .sort((a, b) => b.upvotes - a.upvotes)
                     .map(question => (
-                      <Card key={question.id} className={`p-4 ${question.is_answered ? 'bg-success-50 border-success-200' : ''}`}>
+                      <Card key={question.id} className={`p-4 ${question.is_answered ? 'ring-2 ring-success-400' : ''}`}>
                         <Stack gap={2}>
-                          <Stack direction="horizontal" className="justify-between items-start">
+                          <Stack direction="horizontal" className="items-start justify-between">
                             <Stack>
-                              <Body className="font-bold">{question.content}</Body>
-                              <Body className="text-mono-xs text-ink-500">
+                              <Body className="font-display">{question.content}</Body>
+                              <Body size="sm" className="font-mono text-on-light-muted">
                                 Asked by {question.user_name}
                               </Body>
                             </Stack>
@@ -404,16 +435,16 @@ export default function QASessionsPage() {
                             </Button>
                           </Stack>
                           {question.is_answered && question.answer && (
-                            <Card className="p-3 bg-white border-l-4 border-success-500 mt-2">
-                              <Body className="text-body-sm font-bold text-success-700">Answer:</Body>
-                              <Body className="text-body-sm">{question.answer}</Body>
+                            <Card className="mt-2 border-l-4 border-success-500 p-3">
+                              <Body size="sm" className="font-display text-success-700">Answer:</Body>
+                              <Body size="sm">{question.answer}</Body>
                             </Card>
                           )}
                         </Stack>
                       </Card>
                     ))
                 ) : (
-                  <Body className="text-center text-ink-500 py-8">
+                  <Body className="py-8 text-center text-on-light-muted">
                     No questions yet. Be the first to ask!
                   </Body>
                 )}
@@ -438,7 +469,7 @@ export default function QASessionsPage() {
                   required
                 />
               </Field>
-              <Body className="text-body-sm text-ink-500">
+              <Body size="sm" className="text-on-light-muted">
                 Questions are moderated. Be respectful and keep it relevant.
               </Body>
               <Stack direction="horizontal" gap={4}>
@@ -452,8 +483,9 @@ export default function QASessionsPage() {
             </Stack>
           </Form>
         </Modal>
-        </Stack>
-      </Container>
-    </Section>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

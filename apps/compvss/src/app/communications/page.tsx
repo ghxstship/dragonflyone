@@ -1,198 +1,154 @@
 'use client';
 
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { CreatorNavigationAuthenticated } from '../../components/navigation';
-import { Container, Section, H1, H2, H3, Body, Button, Card, Grid, Badge, Stack } from '@ghxstship/ui';
+import {
+  Container,
+  Section,
+  H2,
+  H3,
+  Body,
+  Button,
+  Card,
+  Grid,
+  Badge,
+  Stack,
+  StatCard,
+  PageLayout,
+  SectionHeader,
+} from '@ghxstship/ui';
 import { Radio, Phone, Users, MessageSquare, Bell, AlertCircle } from 'lucide-react';
 
 export default function CommunicationsPage() {
   const router = useRouter();
-  const [activeChannel, setActiveChannel] = useState('all');
 
   const channels = [
-    {
-      id: '1',
-      name: 'Main Production',
-      frequency: '462.5625 MHz',
-      type: 'Radio',
-      users: 24,
-      status: 'active',
-      priority: 'high',
-    },
-    {
-      id: '2',
-      name: 'Stage Crew',
-      frequency: '462.5875 MHz',
-      type: 'Radio',
-      users: 12,
-      status: 'active',
-      priority: 'medium',
-    },
-    {
-      id: '3',
-      name: 'Emergency Services',
-      frequency: '462.6125 MHz',
-      type: 'Radio',
-      users: 8,
-      status: 'standby',
-      priority: 'critical',
-    },
+    { id: '1', name: 'Main Production', frequency: '462.5625 MHz', type: 'Radio', users: 24, status: 'active', priority: 'high' },
+    { id: '2', name: 'Stage Crew', frequency: '462.5875 MHz', type: 'Radio', users: 12, status: 'active', priority: 'medium' },
+    { id: '3', name: 'Emergency Services', frequency: '462.6125 MHz', type: 'Radio', users: 8, status: 'standby', priority: 'critical' },
   ];
 
   const messages = [
-    {
-      id: '1',
-      channel: 'Main Production',
-      sender: 'Production Manager',
-      message: 'Load-in complete, ready for soundcheck',
-      timestamp: '14:32',
-      priority: 'normal',
-    },
-    {
-      id: '2',
-      channel: 'Stage Crew',
-      sender: 'Stage Manager',
-      message: 'Need assistance with riser setup stage left',
-      timestamp: '14:35',
-      priority: 'high',
-    },
+    { id: '1', channel: 'Main Production', sender: 'Production Manager', message: 'Load-in complete, ready for soundcheck', timestamp: '14:32', priority: 'normal' },
+    { id: '2', channel: 'Stage Crew', sender: 'Stage Manager', message: 'Need assistance with riser setup stage left', timestamp: '14:35', priority: 'high' },
   ];
 
-  const getPriorityColor = (priority: string) => {
-    switch (priority) {
-      case 'critical': return 'bg-black text-white';
-      case 'high': return 'bg-ink-900 text-white';
-      case 'medium': return 'bg-white text-black border-2 border-black';
-      default: return 'bg-ink-200 text-black';
-    }
-  };
-
   return (
-    <Section className="min-h-screen bg-black text-white">
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={4} direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b border-ink-800 pb-8">
-            <Stack gap={2}>
-              <H1>Communications</H1>
-              <Body className="text-ink-600">Radio channels and team messaging</Body>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack direction="horizontal" className="items-start justify-between">
+              <SectionHeader
+                kicker="COMPVSS"
+                title="Communications"
+                description="Radio channels and team messaging"
+                colorScheme="on-light"
+                gap="lg"
+              />
+              <Stack gap={3} direction="horizontal">
+                <Button variant="outline" onClick={() => router.push('/communications/alerts')}>
+                  <Bell className="mr-2 size-4" />
+                  ALERTS
+                </Button>
+                <Button variant="solid" onClick={() => router.push('/communications/channels/new')}>
+                  <Radio className="mr-2 size-4" />
+                  NEW CHANNEL
+                </Button>
+              </Stack>
             </Stack>
-            <Stack gap={3} direction="horizontal">
-              <Button variant="outline" onClick={() => router.push('/communications/alerts')}>
-                <Bell className="w-4 h-4 mr-2" />
-                ALERTS
-              </Button>
-              <Button variant="solid" onClick={() => router.push('/communications/channels/new')}>
-                <Radio className="w-4 h-4 mr-2" />
-                NEW CHANNEL
-              </Button>
-            </Stack>
-          </Stack>
 
-        <Grid cols={4} gap={6} className="mb-8">
-          <Card className="p-6 text-center">
-            <Radio className="w-8 h-8 mx-auto mb-2 text-ink-600" />
-            <H2>{channels.filter(c => c.status === 'active').length}</H2>
-            <Body className="text-ink-600">Active Channels</Body>
-          </Card>
-          <Card className="p-6 text-center">
-            <Users className="w-8 h-8 mx-auto mb-2 text-ink-600" />
-            <H2>{channels.reduce((sum, c) => sum + c.users, 0)}</H2>
-            <Body className="text-ink-600">Connected Users</Body>
-          </Card>
-          <Card className="p-6 text-center">
-            <MessageSquare className="w-8 h-8 mx-auto mb-2 text-ink-600" />
-            <H2>{messages.length}</H2>
-            <Body className="text-ink-600">Recent Messages</Body>
-          </Card>
-          <Card className="p-6 text-center bg-black text-white">
-            <AlertCircle className="w-8 h-8 mx-auto mb-2" />
-            <H2>0</H2>
-            <Body>Emergency Alerts</Body>
-          </Card>
-        </Grid>
+            {/* Stats Grid */}
+            <Grid cols={4} gap={6}>
+              <StatCard value={channels.filter(c => c.status === 'active').length.toString()} label="Active Channels" />
+              <StatCard value={channels.reduce((sum, c) => sum + c.users, 0).toString()} label="Connected Users" />
+              <StatCard value={messages.length.toString()} label="Recent Messages" />
+              <StatCard value="0" label="Emergency Alerts" />
+            </Grid>
 
-        <Grid cols={2} gap={6} className="mb-8">
-          <Stack gap={4}>
-            <H2>RADIO CHANNELS</H2>
-            <Stack gap={4}>
-              {channels.map((channel) => (
-                <Card key={channel.id} className="p-6">
-                  <Stack gap={3} direction="horizontal" className="justify-between items-start mb-3">
+            {/* Main Content */}
+            <Grid cols={2} gap={6}>
+              {/* Radio Channels */}
+              <Stack gap={4}>
+                <H2>RADIO CHANNELS</H2>
+                <Stack gap={4}>
+                  {channels.map((channel) => (
+                    <Card key={channel.id} className="p-6">
+                      <Stack gap={3} direction="horizontal" className="mb-3 items-start justify-between">
+                        <Stack gap={3} direction="horizontal" className="items-center">
+                          <Radio className="size-6" />
+                          <Stack gap={1}>
+                            <H3>{channel.name}</H3>
+                            <Body className="text-body-sm">{channel.frequency}</Body>
+                          </Stack>
+                        </Stack>
+                        <Badge variant={channel.priority === 'critical' ? 'solid' : 'outline'}>
+                          {channel.priority.toUpperCase()}
+                        </Badge>
+                      </Stack>
+                      <Stack gap={4} direction="horizontal" className="items-center justify-between">
+                        <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
+                          <Users className="size-4" />
+                          <Body className="text-body-sm">{channel.users} users</Body>
+                        </Stack>
+                        <Button variant="outline" size="sm" onClick={() => router.push(`/communications/channels/${channel.id}`)}>
+                          {channel.status === 'active' ? 'JOIN' : 'STANDBY'}
+                        </Button>
+                      </Stack>
+                    </Card>
+                  ))}
+                </Stack>
+              </Stack>
+
+              {/* Recent Messages */}
+              <Stack gap={4}>
+                <H2>RECENT MESSAGES</H2>
+                <Stack gap={4}>
+                  {messages.map((msg) => (
+                    <Card key={msg.id} className="p-6">
+                      <Stack gap={4} direction="horizontal" className="mb-2 items-start justify-between">
+                        <Badge variant="outline">{msg.channel}</Badge>
+                        <Body className="text-body-sm">{msg.timestamp}</Body>
+                      </Stack>
+                      <Body className="mb-1 font-display">{msg.sender}</Body>
+                      <Body className="text-body-sm">{msg.message}</Body>
+                    </Card>
+                  ))}
+                </Stack>
+
+                <Card className="mt-4 border-2 border-dashed p-6">
+                  <MessageSquare className="mx-auto mb-3 size-8" />
+                  <H3 className="mb-2 text-center">Send Broadcast Message</H3>
+                  <Button className="w-full" onClick={() => router.push('/communications/broadcast')}>COMPOSE</Button>
+                </Card>
+              </Stack>
+            </Grid>
+
+            {/* Emergency Contacts */}
+            <Card className="p-6">
+              <H3 className="mb-4">EMERGENCY CONTACTS</H3>
+              <Grid cols={3} gap={6}>
+                {[
+                  { name: 'Medical', number: 'Channel 5', icon: Phone },
+                  { name: 'Security', number: 'Channel 6', icon: AlertCircle },
+                  { name: 'Fire/Safety', number: 'Channel 7', icon: Bell },
+                ].map((contact, idx) => (
+                  <Card key={idx} className="p-4">
                     <Stack gap={3} direction="horizontal" className="items-center">
-                      <Radio className="w-6 h-6 text-ink-600" />
+                      <contact.icon className="size-6" />
                       <Stack gap={1}>
-                        <H3>{channel.name}</H3>
-                        <Body className="text-body-sm text-ink-600">{channel.frequency}</Body>
+                        <Body className="font-display">{contact.name}</Body>
+                        <Body className="text-body-sm">{contact.number}</Body>
                       </Stack>
                     </Stack>
-                    <Badge className={getPriorityColor(channel.priority)}>
-                      {channel.priority.toUpperCase()}
-                    </Badge>
-                  </Stack>
-                  
-                  <Stack gap={4} direction="horizontal" className="justify-between items-center">
-                    <Stack gap={2} direction="horizontal" className="items-center text-body-sm text-ink-600">
-                      <Users className="w-4 h-4" />
-                      <Body className="text-body-sm">{channel.users} users</Body>
-                    </Stack>
-                    <Button variant="outline" size="sm" onClick={() => router.push(`/communications/channels/${channel.id}`)}>
-                      {channel.status === 'active' ? 'JOIN' : 'STANDBY'}
-                    </Button>
-                  </Stack>
-                </Card>
-              ))}
-            </Stack>
-          </Stack>
-
-          <Stack gap={4}>
-            <H2>RECENT MESSAGES</H2>
-            <Stack gap={4}>
-              {messages.map((msg) => (
-                <Card key={msg.id} className="p-6">
-                  <Stack gap={4} direction="horizontal" className="justify-between items-start mb-2">
-                    <Badge className="bg-white text-black border-2 border-black">
-                      {msg.channel}
-                    </Badge>
-                    <Body className="text-body-sm text-ink-600">{msg.timestamp}</Body>
-                  </Stack>
-                  <Body className="font-bold mb-1">{msg.sender}</Body>
-                  <Body className="text-ink-600">{msg.message}</Body>
-                </Card>
-              ))}
-            </Stack>
-
-            <Card className="p-6 mt-4 border-2 border-dashed border-ink-300">
-              <MessageSquare className="w-8 h-8 mx-auto mb-3 text-ink-600" />
-              <H3 className="text-center mb-2">Send Broadcast Message</H3>
-              <Button className="w-full" onClick={() => router.push('/communications/broadcast')}>COMPOSE</Button>
+                  </Card>
+                ))}
+              </Grid>
             </Card>
           </Stack>
-        </Grid>
-
-        <Card className="p-6 bg-ink-50">
-          <H3 className="mb-4">EMERGENCY CONTACTS</H3>
-          <Grid cols={3} gap={6}>
-            {[
-              { name: 'Medical', number: 'Channel 5', icon: Phone },
-              { name: 'Security', number: 'Channel 6', icon: AlertCircle },
-              { name: 'Fire/Safety', number: 'Channel 7', icon: Bell },
-            ].map((contact, idx) => (
-              <Card key={idx} className="p-4 bg-white border-2 border-black">
-                <Stack gap={3} direction="horizontal" className="items-center">
-                  <contact.icon className="w-6 h-6" />
-                  <Stack gap={1}>
-                    <Body className="font-bold">{contact.name}</Body>
-                    <Body className="text-body-sm text-ink-600">{contact.number}</Body>
-                  </Stack>
-                </Stack>
-              </Card>
-            ))}
-          </Grid>
-        </Card>
-        </Stack>
-      </Container>
-    </Section>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

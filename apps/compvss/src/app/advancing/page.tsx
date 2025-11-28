@@ -2,55 +2,118 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { CreatorNavigationAuthenticated } from '../../components/navigation';
 import {
   Container,
-  H1,
-  Body,
+  Section,
   Button,
-  ButtonGroup,
+  Card,
+  Grid,
+  Stack,
+  StatCard,
   Tabs,
   TabsList,
   Tab,
   TabPanel,
+  PageLayout,
+  SectionHeader,
 } from '@ghxstship/ui';
 import { AdvanceRequestsList } from '@/components/advancing/advance-requests-list';
-import { FulfillmentManager } from '@/components/advancing/fulfillment-manager';
-import type { AdvanceStatus } from '@ghxstship/config/types/advancing';
 
 export default function AdvancingPage() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<'my-requests' | 'to-fulfill' | 'all'>('my-requests');
 
+  // Mock stats - in production these would come from API
+  const stats = {
+    pending: 12,
+    approved: 8,
+    fulfilled: 45,
+    total: 65,
+  };
+
   return (
-    <Container>
-      <H1>Production Advancing</H1>
-      <Body>Submit and manage production advance requests</Body>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            {/* Page Header */}
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Production Advancing"
+              description="Submit and manage production advance requests"
+              colorScheme="on-light"
+              gap="lg"
+            />
 
-      <ButtonGroup>
-        <Button variant="solid" onClick={() => router.push('/advancing/new')}>
-          Create New Request
-        </Button>
-      </ButtonGroup>
+            {/* Stats Grid */}
+            <Grid cols={4} gap={6}>
+              <StatCard value={stats.pending.toString()} label="Pending Requests" />
+              <StatCard value={stats.approved.toString()} label="Approved" />
+              <StatCard value={stats.fulfilled.toString()} label="Fulfilled" />
+              <StatCard value={stats.total.toString()} label="Total Requests" />
+            </Grid>
 
-      <Tabs>
-        <TabsList>
-          <Tab active={activeTab === 'my-requests'} onClick={() => setActiveTab('my-requests')}>My Requests</Tab>
-          <Tab active={activeTab === 'to-fulfill'} onClick={() => setActiveTab('to-fulfill')}>To Fulfill</Tab>
-          <Tab active={activeTab === 'all'} onClick={() => setActiveTab('all')}>All Requests</Tab>
-        </TabsList>
+            {/* Action Buttons */}
+            <Stack direction="horizontal" gap={4}>
+              <Button variant="solid" onClick={() => router.push('/advancing/new')}>
+                Create New Request
+              </Button>
+              <Button variant="outline" onClick={() => router.push('/advancing/catalog')}>
+                Browse Catalog
+              </Button>
+            </Stack>
 
-        <TabPanel active={activeTab === 'my-requests'}>
-          <AdvanceRequestsList />
-        </TabPanel>
+            {/* Tabs */}
+            <Card className="p-6">
+              <Tabs>
+                <TabsList>
+                  <Tab active={activeTab === 'my-requests'} onClick={() => setActiveTab('my-requests')}>
+                    My Requests
+                  </Tab>
+                  <Tab active={activeTab === 'to-fulfill'} onClick={() => setActiveTab('to-fulfill')}>
+                    To Fulfill
+                  </Tab>
+                  <Tab active={activeTab === 'all'} onClick={() => setActiveTab('all')}>
+                    All Requests
+                  </Tab>
+                </TabsList>
 
-        <TabPanel active={activeTab === 'to-fulfill'}>
-          <AdvanceRequestsList status="approved" />
-        </TabPanel>
+                <TabPanel active={activeTab === 'my-requests'}>
+                  <Stack gap={4} className="mt-6">
+                    <AdvanceRequestsList />
+                  </Stack>
+                </TabPanel>
 
-        <TabPanel active={activeTab === 'all'}>
-          <AdvanceRequestsList />
-        </TabPanel>
-      </Tabs>
-    </Container>
+                <TabPanel active={activeTab === 'to-fulfill'}>
+                  <Stack gap={4} className="mt-6">
+                    <AdvanceRequestsList status="approved" />
+                  </Stack>
+                </TabPanel>
+
+                <TabPanel active={activeTab === 'all'}>
+                  <Stack gap={4} className="mt-6">
+                    <AdvanceRequestsList />
+                  </Stack>
+                </TabPanel>
+              </Tabs>
+            </Card>
+
+            {/* Quick Links */}
+            <Grid cols={3} gap={4}>
+              <Button variant="outline" onClick={() => router.push('/projects')}>
+                Projects
+              </Button>
+              <Button variant="outline" onClick={() => router.push('/vendors')}>
+                Vendors
+              </Button>
+              <Button variant="outline" onClick={() => router.push('/dashboard')}>
+                Dashboard
+              </Button>
+            </Grid>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

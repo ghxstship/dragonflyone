@@ -7,6 +7,9 @@ import {
   ListPage,
   Badge,
   DetailDrawer,
+  Grid,
+  Stack,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -99,21 +102,21 @@ export default function TravelPage() {
 
   const detailSections: DetailSection[] = selectedBooking ? [
     { id: 'overview', title: 'Booking Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Reference:</strong> {selectedBooking.booking_reference}</div>
-        <div><strong>Crew Member:</strong> {selectedBooking.crew_member_name}</div>
-        <div><strong>Project:</strong> {selectedBooking.project_name}</div>
-        <div><strong>Type:</strong> {selectedBooking.travel_type}</div>
-        <div><strong>Origin:</strong> {selectedBooking.origin}</div>
-        <div><strong>Destination:</strong> {selectedBooking.destination}</div>
-        <div><strong>Departure:</strong> {new Date(selectedBooking.departure_date).toLocaleDateString()}</div>
-        <div><strong>Return:</strong> {selectedBooking.return_date ? new Date(selectedBooking.return_date).toLocaleDateString() : '—'}</div>
-        <div><strong>Carrier:</strong> {selectedBooking.carrier || '—'}</div>
-        <div><strong>Flight #:</strong> {selectedBooking.flight_number || '—'}</div>
-        <div><strong>Cost:</strong> {formatCurrency(selectedBooking.cost)}</div>
-        <div><strong>Status:</strong> {selectedBooking.status}</div>
-        {selectedBooking.notes && <div className="col-span-2"><strong>Notes:</strong> {selectedBooking.notes}</div>}
-      </div>
+      <Grid cols={2} gap={4}>
+        <Stack gap={1}><Body className="font-display">Reference</Body><Body>{selectedBooking.booking_reference}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Crew Member</Body><Body>{selectedBooking.crew_member_name}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Project</Body><Body>{selectedBooking.project_name}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Type</Body><Body>{selectedBooking.travel_type}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Origin</Body><Body>{selectedBooking.origin}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Destination</Body><Body>{selectedBooking.destination}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Departure</Body><Body>{new Date(selectedBooking.departure_date).toLocaleDateString()}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Return</Body><Body>{selectedBooking.return_date ? new Date(selectedBooking.return_date).toLocaleDateString() : '—'}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Carrier</Body><Body>{selectedBooking.carrier || '—'}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Flight #</Body><Body>{selectedBooking.flight_number || '—'}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Cost</Body><Body>{formatCurrency(selectedBooking.cost)}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Status</Body><Body>{selectedBooking.status}</Body></Stack>
+        {selectedBooking.notes && <Stack gap={1} className="col-span-2"><Body className="font-display">Notes</Body><Body>{selectedBooking.notes}</Body></Stack>}
+      </Grid>
     )},
   ] : [];
 

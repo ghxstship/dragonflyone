@@ -3,11 +3,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { ConsumerNavigationPublic } from '../../components/navigation';
+import { ConsumerNavigationPublic } from '@/components/navigation';
 import {
   Container,
   Section,
-  H1,
+  Display,
   H2,
   H3,
   Body,
@@ -19,12 +19,19 @@ import {
   Grid,
   Stack,
   Badge,
-  Alert,
   Modal,
   LoadingSpinner,
   StatCard,
   Form,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Kicker,
+  Alert,
+  EmptyState,
 } from '@ghxstship/ui';
+import { MapPin, Calendar, Users, Clock } from 'lucide-react';
 
 interface Friend {
   id: string;
@@ -66,6 +73,7 @@ export default function FriendsPage() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const _router = router; // Suppress unused warning
 
   const [meetupForm, setMeetupForm] = useState({
     event_id: '',
@@ -156,22 +164,22 @@ export default function FriendsPage() {
   };
 
   const getStatusBadge = (status: string) => {
-    const variants: Record<string, string> = {
-      online: 'bg-success-500 text-white',
-      offline: 'bg-ink-400 text-white',
-      at_event: 'bg-purple-500 text-white',
+    const variants: Record<string, "solid" | "outline" | "ghost"> = {
+      online: 'solid',
+      offline: 'ghost',
+      at_event: 'outline',
     };
-    return <Badge className={variants[status] || ''}>{status.replace('_', ' ')}</Badge>;
+    return <Badge variant={variants[status] || 'ghost'}>{status.replace('_', ' ')}</Badge>;
   };
 
   const getMeetupStatusBadge = (status: string) => {
-    const variants: Record<string, string> = {
-      pending: 'bg-warning-500 text-white',
-      confirmed: 'bg-success-500 text-white',
-      completed: 'bg-ink-500 text-white',
-      cancelled: 'bg-error-500 text-white',
+    const variants: Record<string, "solid" | "outline" | "ghost"> = {
+      pending: 'outline',
+      confirmed: 'solid',
+      completed: 'ghost',
+      cancelled: 'ghost',
     };
-    return <Badge className={variants[status] || ''}>{status}</Badge>;
+    return <Badge variant={variants[status] || 'ghost'}>{status}</Badge>;
   };
 
   const filteredFriends = friends.filter(f =>
@@ -184,325 +192,405 @@ export default function FriendsPage() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading..." />
-        </Container>
-      </Section>
+      <PageLayout
+        background="black"
+        header={<ConsumerNavigationPublic />}
+        footer={
+          <Footer
+            logo={<Display size="md">GVTEWAY</Display>}
+            copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+          >
+            <FooterColumn title="Discover">
+              <FooterLink href="/events">Browse Events</FooterLink>
+              <FooterLink href="/venues">Find Venues</FooterLink>
+            </FooterColumn>
+            <FooterColumn title="Legal">
+              <FooterLink href="/legal/privacy">Privacy</FooterLink>
+              <FooterLink href="/legal/terms">Terms</FooterLink>
+            </FooterColumn>
+          </Footer>
+        }
+      >
+        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+          <div
+            className="pointer-events-none absolute inset-0 opacity-5"
+            style={{
+              backgroundImage: `
+                linear-gradient(#fff 1px, transparent 1px),
+                linear-gradient(90deg, #fff 1px, transparent 1px)
+              `,
+              backgroundSize: "40px 40px",
+            }}
+          />
+          <Container className="relative z-10 flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" text="Loading..." />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-        <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
-          <Stack gap={2}>
-            <H1>Friends & Meetups</H1>
-            <Body className="text-ink-600">
-              Find friends at events and coordinate meetups
-            </Body>
-          </Stack>
-            <Stack direction="horizontal" gap={2}>
-              <Button variant="outline" onClick={handleShareLocation}>
-                Share My Location
-              </Button>
-              <Button variant="solid" onClick={() => setShowMeetupModal(true)}>
-                Plan Meetup
-              </Button>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Account">
+            <FooterLink href="/profile">Profile</FooterLink>
+            <FooterLink href="/friends">Friends</FooterLink>
+            <FooterLink href="/messages">Messages</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Discover">
+            <FooterLink href="/events">Browse Events</FooterLink>
+            <FooterLink href="/venues">Find Venues</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        {/* Grid Pattern Background */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `
+              linear-gradient(#fff 1px, transparent 1px),
+              linear-gradient(90deg, #fff 1px, transparent 1px)
+            `,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Community</Kicker>
+              <Stack direction="horizontal" className="items-center justify-between">
+                <H2 size="lg" className="text-white">Friends & Meetups</H2>
+                <Stack direction="horizontal" gap={2}>
+                  <Button variant="outlineInk" onClick={handleShareLocation}>
+                    <MapPin className="mr-2 size-4" />
+                    Share Location
+                  </Button>
+                  <Button variant="solid" inverted onClick={() => setShowMeetupModal(true)}>
+                    <Calendar className="mr-2 size-4" />
+                    Plan Meetup
+                  </Button>
+                </Stack>
+              </Stack>
+              <Body className="text-on-dark-muted">
+                Find friends at events and coordinate meetups
+              </Body>
             </Stack>
-        </Stack>
 
-        {error && (
-          <Alert variant="error" className="mb-6" onClose={() => setError(null)}>
-            {error}
-          </Alert>
-        )}
-
-        {success && (
-          <Alert variant="success" className="mb-6" onClose={() => setSuccess(null)}>
-            {success}
-          </Alert>
-        )}
-
-        <Grid cols={4} gap={6} className="mb-8">
-          <StatCard
-            label="Total Friends"
-            value={friends.length}
-            icon={<Body>👥</Body>}
-          />
-          <StatCard
-            label="Online Now"
-            value={onlineFriends.length}
-            icon={<Body>🟢</Body>}
-          />
-          <StatCard
-            label="At Events"
-            value={friendsAtEvents.length}
-            icon={<Body>🎉</Body>}
-          />
-          <StatCard
-            label="Upcoming Meetups"
-            value={upcomingMeetups.length}
-            icon={<Body>📍</Body>}
-          />
-        </Grid>
-
-        {friendsAtEvents.length > 0 && (
-          <Section className="mb-8">
-            <H2 className="mb-4">FRIENDS AT EVENTS NOW</H2>
-            <Grid cols={3} gap={4}>
-              {friendsAtEvents.map(friend => (
-                <Card key={friend.id} className="p-4">
-                  <Stack direction="horizontal" gap={4} className="items-center">
-                    <Stack className="w-12 h-12 rounded-full bg-ink-200 flex items-center justify-center overflow-hidden relative">
-                      {friend.avatar_url ? (
-                        <Image src={friend.avatar_url} alt={friend.name} fill className="object-cover" />
-                      ) : (
-                        <Body className="text-h6-md">👤</Body>
-                      )}
-                    </Stack>
-                    <Stack className="flex-1">
-                      <Body className="font-bold">{friend.name}</Body>
-                      <Body className="text-body-sm text-ink-600">{friend.current_event_name}</Body>
-                      {friend.location?.section && (
-                        <Body className="text-mono-xs text-ink-500">Section: {friend.location.section}</Body>
-                      )}
-                    </Stack>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => {
-                        setSelectedFriend(friend);
-                        setShowFindModal(true);
-                      }}
-                    >
-                      Find
-                    </Button>
-                  </Stack>
-                </Card>
-              ))}
+            {/* Stats */}
+            <Grid cols={4} gap={6}>
+              <StatCard
+                label="Total Friends"
+                value={friends.length.toString()}
+                inverted
+              />
+              <StatCard
+                label="Online Now"
+                value={onlineFriends.length.toString()}
+                inverted
+              />
+              <StatCard
+                label="At Events"
+                value={friendsAtEvents.length.toString()}
+                inverted
+              />
+              <StatCard
+                label="Upcoming Meetups"
+                value={upcomingMeetups.length.toString()}
+                inverted
+              />
             </Grid>
-          </Section>
-        )}
 
-        <Grid cols={2} gap={8}>
-          <Stack gap={6}>
-            <Stack direction="horizontal" className="justify-between items-center">
-              <H2>ALL FRIENDS</H2>
-              <Field label="" className="w-64">
-                <Input
-                  placeholder="Search friends..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </Field>
-            </Stack>
-
-            {filteredFriends.length > 0 ? (
-              <Stack gap={3}>
-                {filteredFriends.map(friend => (
-                  <Card key={friend.id} className="p-4">
-                    <Stack direction="horizontal" className="justify-between items-center">
+            {/* Friends at Events */}
+            {friendsAtEvents.length > 0 && (
+              <Stack gap={6}>
+                <Stack gap={2}>
+                  <Kicker colorScheme="on-dark">Live Now</Kicker>
+                  <H2 className="text-white">Friends at Events</H2>
+                </Stack>
+                <Grid cols={3} gap={4}>
+                  {friendsAtEvents.map(friend => (
+                    <Card key={friend.id} inverted interactive>
                       <Stack direction="horizontal" gap={4} className="items-center">
-                        <Stack className="w-10 h-10 rounded-full bg-ink-200 flex items-center justify-center overflow-hidden relative">
+                        <Stack className="flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-avatar bg-ink-700">
                           {friend.avatar_url ? (
                             <Image src={friend.avatar_url} alt={friend.name} fill className="object-cover" />
                           ) : (
-                            <Body>👤</Body>
+                            <Body className="text-white">👤</Body>
                           )}
                         </Stack>
-                        <Stack>
-                          <Body className="font-bold">{friend.name}</Body>
-                          {friend.last_seen && friend.status === 'offline' && (
-                            <Body className="text-mono-xs text-ink-500">
-                              Last seen: {new Date(friend.last_seen).toLocaleDateString()}
-                            </Body>
+                        <Stack className="flex-1" gap={1}>
+                          <Body className="font-display text-white">{friend.name}</Body>
+                          <Label size="xs" className="text-on-dark-muted">{friend.current_event_name}</Label>
+                          {friend.location?.section && (
+                            <Label size="xs" className="text-on-dark-disabled">Section: {friend.location.section}</Label>
                           )}
                         </Stack>
-                      </Stack>
-                      {getStatusBadge(friend.status)}
-                    </Stack>
-                  </Card>
-                ))}
-              </Stack>
-            ) : (
-              <Card className="p-8 text-center">
-                <Body className="text-ink-600">No friends found</Body>
-              </Card>
-            )}
-          </Stack>
-
-          <Stack gap={6}>
-            <H2>UPCOMING MEETUPS</H2>
-
-            {upcomingMeetups.length > 0 ? (
-              <Stack gap={4}>
-                {upcomingMeetups.map(meetup => (
-                  <Card key={meetup.id} className="p-6">
-                    <Stack direction="horizontal" className="justify-between items-start mb-4">
-                      <Stack gap={1}>
-                        <H3>{meetup.event_name}</H3>
-                        <Body className="text-ink-600 text-body-sm">
-                          {new Date(meetup.event_date).toLocaleDateString()}
-                        </Body>
-                      </Stack>
-                      {getMeetupStatusBadge(meetup.status)}
-                    </Stack>
-                    <Stack gap={2}>
-                      <Stack direction="horizontal" gap={2}>
-                        <Label className="text-ink-500">Location:</Label>
-                        <Body>{meetup.location}</Body>
-                      </Stack>
-                      <Stack direction="horizontal" gap={2}>
-                        <Label className="text-ink-500">Time:</Label>
-                        <Body>{meetup.time}</Body>
-                      </Stack>
-                      <Stack direction="horizontal" gap={2}>
-                        <Label className="text-ink-500">Attendees:</Label>
-                        <Body>{meetup.attendees.length} confirmed</Body>
-                      </Stack>
-                    </Stack>
-                    <Stack direction="horizontal" gap={2} className="mt-4">
-                      <Button variant="outline" size="sm">View Details</Button>
-                      {meetup.status === 'pending' && (
-                        <Button variant="solid" size="sm">Confirm</Button>
-                      )}
-                    </Stack>
-                  </Card>
-                ))}
-              </Stack>
-            ) : (
-              <Card className="p-8 text-center">
-                <H3 className="mb-4">NO MEETUPS PLANNED</H3>
-                <Body className="text-ink-600 mb-6">
-                  Plan a meetup with friends at an upcoming event
-                </Body>
-                <Button variant="solid" onClick={() => setShowMeetupModal(true)}>
-                  Plan Meetup
-                </Button>
-              </Card>
-            )}
-          </Stack>
-        </Grid>
-
-        <Modal
-          open={showMeetupModal}
-          onClose={() => setShowMeetupModal(false)}
-          title="Plan a Meetup"
-        >
-          <Form onSubmit={handleCreateMeetup}>
-            <Stack gap={4}>
-              <Field label="Meeting Location" required>
-                <Input
-                  value={meetupForm.location}
-                  onChange={(e) => setMeetupForm({ ...meetupForm, location: e.target.value })}
-                  placeholder="e.g., Main entrance, Section A, Food court"
-                  required
-                />
-              </Field>
-
-              <Field label="Meeting Time" required>
-                <Input
-                  value={meetupForm.time}
-                  onChange={(e) => setMeetupForm({ ...meetupForm, time: e.target.value })}
-                  placeholder="e.g., 7:00 PM, Before doors open"
-                  required
-                />
-              </Field>
-
-              <Field label="Invite Friends">
-                <Stack gap={2}>
-                  {friends.map(friend => (
-                    <Card
-                      key={friend.id}
-                      className={`p-3 cursor-pointer border-2 transition-colors ${
-                        meetupForm.invitees.includes(friend.id)
-                          ? 'border-black bg-ink-50'
-                          : 'border-ink-200 hover:border-ink-400'
-                      }`}
-                      onClick={() => {
-                        const newInvitees = meetupForm.invitees.includes(friend.id)
-                          ? meetupForm.invitees.filter(i => i !== friend.id)
-                          : [...meetupForm.invitees, friend.id];
-                        setMeetupForm({ ...meetupForm, invitees: newInvitees });
-                      }}
-                    >
-                      <Stack direction="horizontal" className="justify-between items-center">
-                        <Body>{friend.name}</Body>
-                        {meetupForm.invitees.includes(friend.id) && (
-                          <Badge className="bg-black text-white">Invited</Badge>
-                        )}
+                        <Button
+                          variant="outlineInk"
+                          size="sm"
+                          onClick={() => {
+                            setSelectedFriend(friend);
+                            setShowFindModal(true);
+                          }}
+                          icon={<MapPin className="size-4" />}
+                          iconPosition="left"
+                        >
+                          Find
+                        </Button>
                       </Stack>
                     </Card>
                   ))}
-                </Stack>
-              </Field>
-
-              <Stack direction="horizontal" gap={4}>
-                <Button type="submit" variant="solid">
-                  Create Meetup
-                </Button>
-                <Button type="button" variant="outline" onClick={() => setShowMeetupModal(false)}>
-                  Cancel
-                </Button>
+                </Grid>
               </Stack>
-            </Stack>
-          </Form>
-        </Modal>
+            )}
 
-        <Modal
-          open={showFindModal}
-          onClose={() => {
-            setShowFindModal(false);
-            setSelectedFriend(null);
-          }}
-          title={selectedFriend ? `Find ${selectedFriend.name}` : 'Find Friend'}
-        >
-          {selectedFriend && (
-            <Stack gap={4}>
-              <Card className="p-6 bg-ink-50">
-                <Stack gap={3}>
-                  <Stack direction="horizontal" className="justify-between">
-                    <Label className="text-ink-500">Event</Label>
-                    <Body className="font-bold">{selectedFriend.current_event_name}</Body>
+            {/* Success/Error Alerts */}
+            {success && <Alert variant="success">{success}</Alert>}
+            {error && <Alert variant="error">{error}</Alert>}
+
+            <Grid cols={2} gap={8}>
+              {/* All Friends */}
+              <Stack gap={6}>
+                <Stack direction="horizontal" className="items-center justify-between">
+                  <Stack direction="horizontal" gap={2} className="items-center">
+                    <Users className="size-5 text-on-dark-muted" />
+                    <H3 className="text-white">All Friends</H3>
                   </Stack>
-                  {selectedFriend.location?.section && (
-                    <Stack direction="horizontal" className="justify-between">
-                      <Label className="text-ink-500">Section</Label>
-                      <Body className="font-bold">{selectedFriend.location.section}</Body>
+                  <Field label="" className="w-64">
+                    <Input
+                      placeholder="Search friends..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      inverted
+                    />
+                  </Field>
+                </Stack>
+
+                {filteredFriends.length > 0 ? (
+                  <Stack gap={3}>
+                    {filteredFriends.map(friend => (
+                      <Card key={friend.id} inverted interactive>
+                        <Stack direction="horizontal" className="items-center justify-between">
+                          <Stack direction="horizontal" gap={4} className="items-center">
+                            <Stack className="flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-avatar bg-ink-700">
+                              {friend.avatar_url ? (
+                                <Image src={friend.avatar_url} alt={friend.name} fill className="object-cover" />
+                              ) : (
+                                <Body className="text-white">👤</Body>
+                              )}
+                            </Stack>
+                            <Stack gap={1}>
+                              <Body className="font-display text-white">{friend.name}</Body>
+                              {friend.last_seen && friend.status === 'offline' && (
+                                <Label size="xs" className="text-on-dark-disabled">
+                                  Last seen: {new Date(friend.last_seen).toLocaleDateString()}
+                                </Label>
+                              )}
+                            </Stack>
+                          </Stack>
+                          {getStatusBadge(friend.status)}
+                        </Stack>
+                      </Card>
+                    ))}
+                  </Stack>
+                ) : (
+                  <EmptyState
+                    title="No Friends Found"
+                    description="Try a different search or add new friends"
+                    inverted
+                  />
+                )}
+              </Stack>
+
+              {/* Upcoming Meetups */}
+              <Stack gap={6}>
+                <Stack direction="horizontal" gap={2} className="items-center">
+                  <Clock className="size-5 text-on-dark-muted" />
+                  <H3 className="text-white">Upcoming Meetups</H3>
+                </Stack>
+
+                {upcomingMeetups.length > 0 ? (
+                  <Stack gap={4}>
+                    {upcomingMeetups.map(meetup => (
+                      <Card key={meetup.id} inverted>
+                        <Stack gap={4}>
+                          <Stack direction="horizontal" className="items-start justify-between">
+                            <Stack gap={1}>
+                              <H3 className="text-white">{meetup.event_name}</H3>
+                              <Label size="xs" className="text-on-dark-muted">
+                                {new Date(meetup.event_date).toLocaleDateString()}
+                              </Label>
+                            </Stack>
+                            {getMeetupStatusBadge(meetup.status)}
+                          </Stack>
+                          <Stack gap={2}>
+                            <Stack direction="horizontal" gap={2}>
+                              <Label size="xs" className="text-on-dark-disabled">Location:</Label>
+                              <Body size="sm" className="text-white">{meetup.location}</Body>
+                            </Stack>
+                            <Stack direction="horizontal" gap={2}>
+                              <Label size="xs" className="text-on-dark-disabled">Time:</Label>
+                              <Body size="sm" className="text-white">{meetup.time}</Body>
+                            </Stack>
+                            <Stack direction="horizontal" gap={2}>
+                              <Label size="xs" className="text-on-dark-disabled">Attendees:</Label>
+                              <Body size="sm" className="text-white">{meetup.attendees.length} confirmed</Body>
+                            </Stack>
+                          </Stack>
+                          <Stack direction="horizontal" gap={2}>
+                            <Button variant="outlineInk" size="sm">View Details</Button>
+                            {meetup.status === 'pending' && (
+                              <Button variant="solid" size="sm" inverted>Confirm</Button>
+                            )}
+                          </Stack>
+                        </Stack>
+                      </Card>
+                    ))}
+                  </Stack>
+                ) : (
+                  <Card inverted variant="elevated" className="p-6">
+                    <Stack gap={4} className="items-center text-center">
+                      <H3 className="text-white">No Meetups Planned</H3>
+                      <Body className="text-on-dark-muted">
+                        Plan a meetup with friends at an upcoming event
+                      </Body>
+                      <Button variant="solid" inverted onClick={() => setShowMeetupModal(true)}>
+                        Plan Meetup
+                      </Button>
                     </Stack>
-                  )}
-                  <Stack direction="horizontal" className="justify-between">
-                    <Label className="text-ink-500">Status</Label>
-                    {getStatusBadge(selectedFriend.status)}
+                  </Card>
+                )}
+              </Stack>
+            </Grid>
+
+            {/* Meetup Modal */}
+            <Modal
+              open={showMeetupModal}
+              onClose={() => setShowMeetupModal(false)}
+              title="Plan a Meetup"
+            >
+              <Form onSubmit={handleCreateMeetup}>
+                <Stack gap={4}>
+                  <Field label="Meeting Location" required>
+                    <Input
+                      value={meetupForm.location}
+                      onChange={(e) => setMeetupForm({ ...meetupForm, location: e.target.value })}
+                      placeholder="e.g., Main entrance, Section A, Food court"
+                      required
+                    />
+                  </Field>
+
+                  <Field label="Meeting Time" required>
+                    <Input
+                      value={meetupForm.time}
+                      onChange={(e) => setMeetupForm({ ...meetupForm, time: e.target.value })}
+                      placeholder="e.g., 7:00 PM, Before doors open"
+                      required
+                    />
+                  </Field>
+
+                  <Field label="Invite Friends">
+                    <Stack gap={2}>
+                      {friends.map(friend => (
+                        <Card
+                          key={friend.id}
+                          interactive
+                          variant={meetupForm.invitees.includes(friend.id) ? "elevated" : "default"}
+                          onClick={() => {
+                            const newInvitees = meetupForm.invitees.includes(friend.id)
+                              ? meetupForm.invitees.filter(i => i !== friend.id)
+                              : [...meetupForm.invitees, friend.id];
+                            setMeetupForm({ ...meetupForm, invitees: newInvitees });
+                          }}
+                        >
+                          <Stack direction="horizontal" className="items-center justify-between">
+                            <Body>{friend.name}</Body>
+                            {meetupForm.invitees.includes(friend.id) && (
+                              <Badge variant="solid">Invited</Badge>
+                            )}
+                          </Stack>
+                        </Card>
+                      ))}
+                    </Stack>
+                  </Field>
+
+                  <Stack direction="horizontal" gap={4}>
+                    <Button type="submit" variant="solid">
+                      Create Meetup
+                    </Button>
+                    <Button type="button" variant="outline" onClick={() => setShowMeetupModal(false)}>
+                      Cancel
+                    </Button>
                   </Stack>
                 </Stack>
-              </Card>
+              </Form>
+            </Modal>
 
-              <Body className="text-ink-600 text-body-sm">
-                Your friend is currently at the event. Use the directions below to find them.
-              </Body>
+            {/* Find Friend Modal */}
+            <Modal
+              open={showFindModal}
+              onClose={() => {
+                setShowFindModal(false);
+                setSelectedFriend(null);
+              }}
+              title={selectedFriend ? `Find ${selectedFriend.name}` : 'Find Friend'}
+            >
+              {selectedFriend && (
+                <Stack gap={4}>
+                  <Card variant="elevated" className="p-6">
+                    <Stack gap={3}>
+                      <Stack direction="horizontal" className="justify-between">
+                        <Label size="xs" className="text-muted">Event</Label>
+                        <Body className="font-display">{selectedFriend.current_event_name}</Body>
+                      </Stack>
+                      {selectedFriend.location?.section && (
+                        <Stack direction="horizontal" className="justify-between">
+                          <Label size="xs" className="text-muted">Section</Label>
+                          <Body className="font-display">{selectedFriend.location.section}</Body>
+                        </Stack>
+                      )}
+                      <Stack direction="horizontal" className="justify-between">
+                        <Label size="xs" className="text-muted">Status</Label>
+                        {getStatusBadge(selectedFriend.status)}
+                      </Stack>
+                    </Stack>
+                  </Card>
 
-              <Stack direction="horizontal" gap={4}>
-                <Button variant="solid" onClick={() => {
-                  // In a real app, this would open maps with directions
-                  setSuccess('Opening directions...');
-                  setShowFindModal(false);
-                }}>
-                  Get Directions
-                </Button>
-                <Button variant="outline" onClick={() => setShowFindModal(false)}>
-                  Close
-                </Button>
-              </Stack>
-            </Stack>
-          )}
-        </Modal>
-        </Stack>
-      </Container>
-    </Section>
+                  <Body size="sm" className="text-muted">
+                    Your friend is currently at the event. Use the directions below to find them.
+                  </Body>
+
+                  <Stack direction="horizontal" gap={4}>
+                    <Button variant="solid" onClick={() => {
+                      setSuccess('Opening directions...');
+                      setShowFindModal(false);
+                    }}>
+                      Get Directions
+                    </Button>
+                    <Button variant="outline" onClick={() => setShowFindModal(false)}>
+                      Close
+                    </Button>
+                  </Stack>
+                </Stack>
+              )}
+            </Modal>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

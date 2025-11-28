@@ -1,40 +1,19 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../../components/navigation';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { CreatorNavigationAuthenticated } from "../../../components/navigation";
 import {
-  Container,
-  H1,
-  H3,
-  Body,
-  Label,
-  Grid,
-  Stack,
-  StatCard,
-  Input,
-  Select,
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableHead,
-  TableCell,
-  Button,
-  Section as UISection,
-  Card,
-  Tabs,
-  TabsList,
-  Tab,
-  TabPanel,
+  ListPage,
   Badge,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Alert,
-  ProgressBar,
-} from '@ghxstship/ui';
+  DetailDrawer,
+  RecordFormModal,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
+  type DetailSection,
+  type FormFieldConfig,
+} from "@ghxstship/ui";
 
 interface BackgroundCheck {
   id: string;
@@ -46,337 +25,163 @@ interface BackgroundCheck {
   requestDate: string;
   completedDate?: string;
   expiryDate?: string;
-  status: 'Pending' | 'In Progress' | 'Completed' | 'Failed' | 'Expired' | 'Renewal Due';
-  result?: 'Clear' | 'Review Required' | 'Failed';
+  status: "Pending" | "In Progress" | "Completed" | "Failed" | "Expired" | "Renewal Due";
+  result?: "Clear" | "Review Required" | "Failed";
   notes?: string;
 }
 
 const mockBackgroundChecks: BackgroundCheck[] = [
-  { id: 'BGC-001', employeeId: 'EMP-101', employeeName: 'John Smith', department: 'Production', checkType: 'Criminal + Employment', provider: 'Checkr', requestDate: '2024-11-01', completedDate: '2024-11-05', expiryDate: '2025-11-05', status: 'Completed', result: 'Clear' },
-  { id: 'BGC-002', employeeId: 'EMP-102', employeeName: 'Sarah Johnson', department: 'Finance', checkType: 'Criminal + Credit + Employment', provider: 'Sterling', requestDate: '2024-11-10', status: 'In Progress' },
-  { id: 'BGC-003', employeeId: 'EMP-103', employeeName: 'Mike Williams', department: 'Operations', checkType: 'Criminal', provider: 'Checkr', requestDate: '2024-10-15', completedDate: '2024-10-18', expiryDate: '2024-12-18', status: 'Renewal Due', result: 'Clear' },
-  { id: 'BGC-004', employeeId: 'EMP-104', employeeName: 'Emily Davis', department: 'Audio', checkType: 'Criminal + Employment', provider: 'GoodHire', requestDate: '2024-11-15', status: 'Pending' },
-  { id: 'BGC-005', employeeId: 'EMP-105', employeeName: 'Chris Brown', department: 'Lighting', checkType: 'Criminal + Drug Screen', provider: 'Checkr', requestDate: '2024-09-01', completedDate: '2024-09-05', expiryDate: '2024-09-05', status: 'Expired', result: 'Clear' },
-  { id: 'BGC-006', employeeId: 'EMP-106', employeeName: 'Amy Chen', department: 'Video', checkType: 'Criminal + Employment', provider: 'Sterling', requestDate: '2024-08-20', completedDate: '2024-08-25', status: 'Completed', result: 'Review Required', notes: 'Minor traffic violation - cleared by HR' },
+  { id: "BGC-001", employeeId: "EMP-101", employeeName: "John Smith", department: "Production", checkType: "Criminal + Employment", provider: "Checkr", requestDate: "2024-11-01", completedDate: "2024-11-05", expiryDate: "2025-11-05", status: "Completed", result: "Clear" },
+  { id: "BGC-002", employeeId: "EMP-102", employeeName: "Sarah Johnson", department: "Finance", checkType: "Criminal + Credit + Employment", provider: "Sterling", requestDate: "2024-11-10", status: "In Progress" },
+  { id: "BGC-003", employeeId: "EMP-103", employeeName: "Mike Williams", department: "Operations", checkType: "Criminal", provider: "Checkr", requestDate: "2024-10-15", completedDate: "2024-10-18", expiryDate: "2024-12-18", status: "Renewal Due", result: "Clear" },
+  { id: "BGC-004", employeeId: "EMP-104", employeeName: "Emily Davis", department: "Audio", checkType: "Criminal + Employment", provider: "GoodHire", requestDate: "2024-11-15", status: "Pending" },
+  { id: "BGC-005", employeeId: "EMP-105", employeeName: "Chris Brown", department: "Lighting", checkType: "Criminal + Drug Screen", provider: "Checkr", requestDate: "2024-09-01", completedDate: "2024-09-05", expiryDate: "2024-09-05", status: "Expired", result: "Clear" },
 ];
 
-const checkTypes = ['All', 'Criminal', 'Criminal + Employment', 'Criminal + Credit + Employment', 'Criminal + Drug Screen'];
+const getStatusVariant = (status: string): "solid" | "outline" | "ghost" => {
+  switch (status) {
+    case "Completed": return "solid";
+    case "In Progress": case "Pending": return "outline";
+    case "Failed": case "Expired": case "Renewal Due": return "ghost";
+    default: return "outline";
+  }
+};
+
+const columns: ListPageColumn<BackgroundCheck>[] = [
+  { key: "employeeName", label: "Employee", accessor: "employeeName", sortable: true },
+  { key: "department", label: "Department", accessor: "department" },
+  { key: "checkType", label: "Check Type", accessor: "checkType" },
+  { key: "provider", label: "Provider", accessor: "provider", render: (v) => <Badge variant="outline">{String(v)}</Badge> },
+  { key: "requestDate", label: "Requested", accessor: "requestDate", sortable: true },
+  { key: "status", label: "Status", accessor: "status", sortable: true, render: (v) => <Badge variant={getStatusVariant(String(v))}>{String(v)}</Badge> },
+  { key: "result", label: "Result", accessor: (r) => r.result || "—", render: (v) => v !== "—" ? <Badge variant={v === "Clear" ? "solid" : "ghost"}>{String(v)}</Badge> : <span>—</span> },
+];
+
+const filters: ListPageFilter[] = [
+  { key: "status", label: "Status", options: [
+    { value: "Pending", label: "Pending" },
+    { value: "In Progress", label: "In Progress" },
+    { value: "Completed", label: "Completed" },
+    { value: "Renewal Due", label: "Renewal Due" },
+    { value: "Expired", label: "Expired" },
+  ]},
+  { key: "checkType", label: "Check Type", options: [
+    { value: "Criminal", label: "Criminal" },
+    { value: "Criminal + Employment", label: "Criminal + Employment" },
+    { value: "Criminal + Credit + Employment", label: "Criminal + Credit + Employment" },
+    { value: "Criminal + Drug Screen", label: "Criminal + Drug Screen" },
+  ]},
+];
+
+const formFields: FormFieldConfig[] = [
+  { name: "employeeName", label: "Employee Name", type: "text", required: true },
+  { name: "department", label: "Department", type: "select", required: true, options: [
+    { value: "Production", label: "Production" },
+    { value: "Finance", label: "Finance" },
+    { value: "Operations", label: "Operations" },
+    { value: "Audio", label: "Audio" },
+    { value: "Lighting", label: "Lighting" },
+    { value: "Video", label: "Video" },
+  ]},
+  { name: "checkType", label: "Check Type", type: "select", required: true, options: [
+    { value: "Criminal", label: "Criminal Only" },
+    { value: "Criminal + Employment", label: "Criminal + Employment" },
+    { value: "Criminal + Credit + Employment", label: "Criminal + Credit + Employment" },
+    { value: "Criminal + Drug Screen", label: "Criminal + Drug Screen" },
+  ]},
+  { name: "provider", label: "Provider", type: "select", options: [
+    { value: "Checkr", label: "Checkr" },
+    { value: "Sterling", label: "Sterling" },
+    { value: "GoodHire", label: "GoodHire" },
+  ]},
+];
 
 export default function BackgroundChecksPage() {
   const router = useRouter();
-  const [checks, setChecks] = useState<BackgroundCheck[]>(mockBackgroundChecks);
+  const [checks] = useState<BackgroundCheck[]>(mockBackgroundChecks);
   const [selectedCheck, setSelectedCheck] = useState<BackgroundCheck | null>(null);
-  const [showRequestModal, setShowRequestModal] = useState(false);
-  const [statusFilter, setStatusFilter] = useState('All');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [createModalOpen, setCreateModalOpen] = useState(false);
 
-  const filteredChecks = checks.filter((c) => {
-    const matchesStatus = statusFilter === 'All' || c.status === statusFilter;
-    const matchesSearch =
-      c.employeeName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      c.department.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesStatus && matchesSearch;
-  });
+  const pendingCount = checks.filter(c => c.status === "Pending" || c.status === "In Progress").length;
+  const renewalDueCount = checks.filter(c => c.status === "Renewal Due").length;
+  const expiredCount = checks.filter(c => c.status === "Expired").length;
+  const completedCount = checks.filter(c => c.status === "Completed").length;
 
-  const pendingCount = checks.filter((c) => c.status === 'Pending' || c.status === 'In Progress').length;
-  const renewalDueCount = checks.filter((c) => c.status === 'Renewal Due').length;
-  const expiredCount = checks.filter((c) => c.status === 'Expired').length;
-  const completedCount = checks.filter((c) => c.status === 'Completed').length;
+  const rowActions: ListPageAction<BackgroundCheck>[] = [
+    { id: "view", label: "View Details", icon: "👁️", onClick: (r) => { setSelectedCheck(r); setDrawerOpen(true); } },
+    { id: "renew", label: "Renew", icon: "🔄", onClick: (r) => router.push(`/workforce/background-checks/${r.id}/renew`) },
+  ];
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'Completed':
-        return 'text-success-400';
-      case 'Pending':
-        return 'text-ink-400';
-      case 'In Progress':
-        return 'text-info-400';
-      case 'Failed':
-        return 'text-error-400';
-      case 'Expired':
-        return 'text-error-400';
-      case 'Renewal Due':
-        return 'text-warning-400';
-      default:
-        return 'text-ink-400';
-    }
+  const stats = [
+    { label: "Pending", value: pendingCount },
+    { label: "Completed", value: completedCount },
+    { label: "Renewal Due", value: renewalDueCount },
+    { label: "Expired", value: expiredCount },
+  ];
+
+  const handleCreate = async (data: Record<string, unknown>) => {
+    console.log("Request background check:", data);
+    setCreateModalOpen(false);
   };
 
-  const getResultColor = (result?: string) => {
-    switch (result) {
-      case 'Clear':
-        return 'text-success-400';
-      case 'Review Required':
-        return 'text-warning-400';
-      case 'Failed':
-        return 'text-error-400';
-      default:
-        return 'text-ink-400';
-    }
-  };
+  const detailSections: DetailSection[] = selectedCheck ? [
+    { id: "overview", title: "Background Check Details", content: (
+      <div className="grid grid-cols-2 gap-4">
+        <div><strong>Employee:</strong> {selectedCheck.employeeName}</div>
+        <div><strong>Department:</strong> {selectedCheck.department}</div>
+        <div><strong>Check Type:</strong> {selectedCheck.checkType}</div>
+        <div><strong>Provider:</strong> {selectedCheck.provider}</div>
+        <div><strong>Requested:</strong> {selectedCheck.requestDate}</div>
+        <div><strong>Status:</strong> {selectedCheck.status}</div>
+        {selectedCheck.completedDate && <div><strong>Completed:</strong> {selectedCheck.completedDate}</div>}
+        {selectedCheck.expiryDate && <div><strong>Expires:</strong> {selectedCheck.expiryDate}</div>}
+        {selectedCheck.result && <div><strong>Result:</strong> {selectedCheck.result}</div>}
+        {selectedCheck.notes && <div className="col-span-2"><strong>Notes:</strong> {selectedCheck.notes}</div>}
+      </div>
+    )},
+  ] : [];
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Background Check Management</H1>
-            <Label className="text-ink-400">Track background check status and renewal alerts</Label>
-          </Stack>
+    <>
+      <ListPage<BackgroundCheck>
+        title="Background Checks"
+        subtitle="Employee background check tracking and compliance"
+        data={checks}
+        columns={columns}
+        rowKey="id"
+        loading={false}
+        searchPlaceholder="Search employees..."
+        filters={filters}
+        rowActions={rowActions}
+        onRowClick={(r) => { setSelectedCheck(r); setDrawerOpen(true); }}
+        createLabel="Request Check"
+        onCreate={() => setCreateModalOpen(true)}
+        onExport={() => router.push("/workforce/background-checks/export")}
+        stats={stats}
+        emptyMessage="No background checks found"
+        header={<CreatorNavigationAuthenticated />}
+      />
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Completed" value={completedCount} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Pending/In Progress" value={pendingCount} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Renewal Due" value={renewalDueCount} trend={renewalDueCount > 0 ? 'down' : 'neutral'} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Expired" value={expiredCount} trend={expiredCount > 0 ? 'down' : 'neutral'} className="bg-transparent border-2 border-ink-800" />
-          </Grid>
+      <RecordFormModal
+        open={createModalOpen}
+        onClose={() => setCreateModalOpen(false)}
+        mode="create"
+        title="Request Background Check"
+        fields={formFields}
+        onSubmit={handleCreate}
+      />
 
-          {(renewalDueCount > 0 || expiredCount > 0) && (
-            <Alert variant="warning">
-              {renewalDueCount > 0 && `${renewalDueCount} background check(s) due for renewal. `}
-              {expiredCount > 0 && `${expiredCount} background check(s) have expired.`}
-            </Alert>
-          )}
-
-          <Grid cols={4} gap={4}>
-            <Input
-              type="search"
-              placeholder="Search employees..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="border-ink-700 bg-black text-white"
-            />
-            <Select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="border-ink-700 bg-black text-white">
-              <option value="All">All Statuses</option>
-              <option value="Pending">Pending</option>
-              <option value="In Progress">In Progress</option>
-              <option value="Completed">Completed</option>
-              <option value="Renewal Due">Renewal Due</option>
-              <option value="Expired">Expired</option>
-            </Select>
-            <Button variant="outline" className="border-ink-700 text-ink-400">
-              Export Report
-            </Button>
-            <Button variant="outlineWhite" onClick={() => setShowRequestModal(true)}>
-              Request Check
-            </Button>
-          </Grid>
-
-          <Table className="border-2 border-ink-800">
-            <TableHeader>
-              <TableRow className="bg-ink-900">
-                <TableHead className="text-ink-400">Employee</TableHead>
-                <TableHead className="text-ink-400">Department</TableHead>
-                <TableHead className="text-ink-400">Check Type</TableHead>
-                <TableHead className="text-ink-400">Provider</TableHead>
-                <TableHead className="text-ink-400">Request Date</TableHead>
-                <TableHead className="text-ink-400">Expiry</TableHead>
-                <TableHead className="text-ink-400">Status</TableHead>
-                <TableHead className="text-ink-400">Result</TableHead>
-                <TableHead className="text-ink-400">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredChecks.map((check) => (
-                <TableRow key={check.id} className={check.status === 'Expired' || check.status === 'Renewal Due' ? 'bg-warning-900/10' : ''}>
-                  <TableCell>
-                    <Stack gap={1}>
-                      <Label className="text-white">{check.employeeName}</Label>
-                      <Label size="xs" className="text-ink-500">
-                        {check.employeeId}
-                      </Label>
-                    </Stack>
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant="outline">{check.department}</Badge>
-                  </TableCell>
-                  <TableCell>
-                    <Label className="text-ink-300">{check.checkType}</Label>
-                  </TableCell>
-                  <TableCell>
-                    <Label className="text-ink-300">{check.provider}</Label>
-                  </TableCell>
-                  <TableCell>
-                    <Label className="font-mono text-white">{check.requestDate}</Label>
-                  </TableCell>
-                  <TableCell>
-                    {check.expiryDate ? (
-                      <Label className={`font-mono ${check.status === 'Expired' || check.status === 'Renewal Due' ? 'text-warning-400' : 'text-ink-300'}`}>
-                        {check.expiryDate}
-                      </Label>
-                    ) : (
-                      <Label className="text-ink-500">-</Label>
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    <Label className={getStatusColor(check.status)}>{check.status}</Label>
-                  </TableCell>
-                  <TableCell>
-                    {check.result ? (
-                      <Label className={getResultColor(check.result)}>{check.result}</Label>
-                    ) : (
-                      <Label className="text-ink-500">-</Label>
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    <Stack direction="horizontal" gap={2}>
-                      <Button variant="ghost" size="sm" onClick={() => setSelectedCheck(check)}>
-                        Details
-                      </Button>
-                      {(check.status === 'Expired' || check.status === 'Renewal Due') && (
-                        <Button variant="solid" size="sm">
-                          Renew
-                        </Button>
-                      )}
-                    </Stack>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-
-          <Grid cols={3} gap={4}>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push('/employees')}>
-              Employee Directory
-            </Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push('/workforce')}>
-              Workforce
-            </Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push('/')}>
-              Dashboard
-            </Button>
-          </Grid>
-        </Stack>
-      </Container>
-
-      <Modal open={!!selectedCheck} onClose={() => setSelectedCheck(null)}>
-        <ModalHeader>
-          <H3>Background Check Details</H3>
-        </ModalHeader>
-        <ModalBody>
-          {selectedCheck && (
-            <Stack gap={4}>
-              <Stack gap={1}>
-                <Label className="text-ink-400">Employee</Label>
-                <Label className="text-white text-body-md">{selectedCheck.employeeName}</Label>
-                <Label className="text-ink-500">{selectedCheck.employeeId}</Label>
-              </Stack>
-              <Stack direction="horizontal" gap={2}>
-                <Badge variant="outline">{selectedCheck.department}</Badge>
-                <Label className={getStatusColor(selectedCheck.status)}>{selectedCheck.status}</Label>
-              </Stack>
-              <Grid cols={2} gap={4}>
-                <Stack gap={1}>
-                  <Label size="xs" className="text-ink-500">
-                    Check Type
-                  </Label>
-                  <Label className="text-white">{selectedCheck.checkType}</Label>
-                </Stack>
-                <Stack gap={1}>
-                  <Label size="xs" className="text-ink-500">
-                    Provider
-                  </Label>
-                  <Label className="text-white">{selectedCheck.provider}</Label>
-                </Stack>
-              </Grid>
-              <Grid cols={2} gap={4}>
-                <Stack gap={1}>
-                  <Label size="xs" className="text-ink-500">
-                    Request Date
-                  </Label>
-                  <Label className="font-mono text-white">{selectedCheck.requestDate}</Label>
-                </Stack>
-                {selectedCheck.completedDate && (
-                  <Stack gap={1}>
-                    <Label size="xs" className="text-ink-500">
-                      Completed Date
-                    </Label>
-                    <Label className="font-mono text-white">{selectedCheck.completedDate}</Label>
-                  </Stack>
-                )}
-              </Grid>
-              {selectedCheck.expiryDate && (
-                <Stack gap={1}>
-                  <Label size="xs" className="text-ink-500">
-                    Expiry Date
-                  </Label>
-                  <Label className={`font-mono ${selectedCheck.status === 'Expired' ? 'text-error-400' : 'text-white'}`}>{selectedCheck.expiryDate}</Label>
-                </Stack>
-              )}
-              {selectedCheck.result && (
-                <Stack gap={1}>
-                  <Label size="xs" className="text-ink-500">
-                    Result
-                  </Label>
-                  <Label className={getResultColor(selectedCheck.result)}>{selectedCheck.result}</Label>
-                </Stack>
-              )}
-              {selectedCheck.notes && (
-                <Stack gap={1}>
-                  <Label size="xs" className="text-ink-500">
-                    Notes
-                  </Label>
-                  <Body className="text-ink-300">{selectedCheck.notes}</Body>
-                </Stack>
-              )}
-            </Stack>
-          )}
-        </ModalBody>
-        <ModalFooter>
-          <Button variant="outline" onClick={() => setSelectedCheck(null)}>
-            Close
-          </Button>
-          {selectedCheck?.status === 'Completed' && <Button variant="outline">View Report</Button>}
-          {(selectedCheck?.status === 'Expired' || selectedCheck?.status === 'Renewal Due') && <Button variant="solid">Request Renewal</Button>}
-        </ModalFooter>
-      </Modal>
-
-      <Modal open={showRequestModal} onClose={() => setShowRequestModal(false)}>
-        <ModalHeader>
-          <H3>Request Background Check</H3>
-        </ModalHeader>
-        <ModalBody>
-          <Stack gap={4}>
-            <Select className="border-ink-700 bg-black text-white">
-              <option value="">Select Employee...</option>
-              <option value="EMP-107">New Hire - Position Pending</option>
-              <option value="EMP-108">Jane Doe - Contractor</option>
-            </Select>
-            <Select className="border-ink-700 bg-black text-white">
-              <option value="">Check Type...</option>
-              <option value="criminal">Criminal Only</option>
-              <option value="criminal-employment">Criminal + Employment</option>
-              <option value="criminal-credit">Criminal + Credit + Employment</option>
-              <option value="criminal-drug">Criminal + Drug Screen</option>
-              <option value="comprehensive">Comprehensive (All)</option>
-            </Select>
-            <Select className="border-ink-700 bg-black text-white">
-              <option value="">Provider...</option>
-              <option value="checkr">Checkr</option>
-              <option value="sterling">Sterling</option>
-              <option value="goodhire">GoodHire</option>
-            </Select>
-            <Stack gap={2}>
-              <Label>Priority</Label>
-              <Select className="border-ink-700 bg-black text-white">
-                <option value="standard">Standard (3-5 days)</option>
-                <option value="expedited">Expedited (1-2 days)</option>
-                <option value="rush">Rush (24 hours)</option>
-              </Select>
-            </Stack>
-          </Stack>
-        </ModalBody>
-        <ModalFooter>
-          <Button variant="outline" onClick={() => setShowRequestModal(false)}>
-            Cancel
-          </Button>
-          <Button variant="solid" onClick={() => setShowRequestModal(false)}>
-            Submit Request
-          </Button>
-        </ModalFooter>
-      </Modal>
-    </UISection>
+      {selectedCheck && (
+        <DetailDrawer
+          open={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+          record={selectedCheck}
+          title={(c) => c.employeeName}
+          subtitle={(c) => `${c.checkType} • ${c.status}`}
+          sections={detailSections}
+        />
+      )}
+    </>
   );
 }

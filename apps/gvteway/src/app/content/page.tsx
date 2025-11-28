@@ -3,19 +3,16 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { ConsumerNavigationPublic } from '../../components/navigation';
+import { ConsumerNavigationPublic } from '@/components/navigation';
 import {
   Container,
   Section,
-  H1,
   H2,
   H3,
   Body,
-  Label,
   Button,
   Card,
   Field,
-  Input,
   Select,
   Grid,
   Stack,
@@ -26,8 +23,13 @@ import {
   Tabs,
   TabsList,
   Tab,
-  TabPanel,
   StatCard,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
+  Kicker,
 } from '@ghxstship/ui';
 
 interface ExclusiveContent {
@@ -144,12 +146,33 @@ export default function ExclusiveContentPage() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading content..." />
-        </Container>
-      </Section>
+      <PageLayout
+        background="black"
+        header={<ConsumerNavigationPublic />}
+        footer={
+          <Footer
+            logo={<Display size="md">GVTEWAY</Display>}
+            copyright="© 2024 GHXSTSHIP INDUSTRIES."
+          >
+            <FooterColumn title="Content">
+              <FooterLink href="/content">Exclusive Content</FooterLink>
+            </FooterColumn>
+          </Footer>
+        }
+      >
+        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+          <div
+            className="pointer-events-none absolute inset-0 opacity-5"
+            style={{
+              backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+              backgroundSize: "40px 40px",
+            }}
+          />
+          <Container className="relative z-10 flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" text="Loading content..." />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
@@ -157,16 +180,41 @@ export default function ExclusiveContentPage() {
   const newContent = content.filter(c => c.is_new).length;
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-        <Stack gap={2} className="border-b-2 border-black pb-8">
-          <H1>Exclusive Content</H1>
-          <Body className="text-ink-600">
-            Recordings, highlights, and behind-the-scenes from your events
-          </Body>
-        </Stack>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Content">
+            <FooterLink href="/content">Exclusive Content</FooterLink>
+            <FooterLink href="/events">Events</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Media</Kicker>
+              <H2 size="lg" className="text-white">Exclusive Content</H2>
+              <Body className="text-on-dark-muted">Recordings, highlights, and behind-the-scenes from your events</Body>
+            </Stack>
 
         {error && (
           <Alert variant="error" className="mb-6" onClose={() => setError(null)}>
@@ -174,34 +222,35 @@ export default function ExclusiveContentPage() {
           </Alert>
         )}
 
-        <Grid cols={4} gap={6} className="mb-8">
+        <Grid cols={4} gap={6}>
           <StatCard
             label="Total Content"
-            value={content.length}
-            icon={<Body>📚</Body>}
+            value={content.length.toString()}
+            inverted
           />
           <StatCard
             label="New This Week"
-            value={newContent}
-            icon={<Body>✨</Body>}
+            value={newContent.toString()}
+            inverted
           />
           <StatCard
             label="Total Views"
             value={totalViews.toLocaleString()}
-            icon={<Body>👁️</Body>}
+            inverted
           />
           <StatCard
             label="Categories"
-            value={categories.length}
-            icon={<Body>📂</Body>}
+            value={categories.length.toString()}
+            inverted
           />
         </Grid>
 
-        <Stack direction="horizontal" gap={4} className="mb-6 flex-wrap">
-          <Field label="" className="w-48">
+        <Stack direction="horizontal" gap={4} className="flex-wrap">
+          <Field label="" className="w-48" inverted>
             <Select
               value={filter.type}
               onChange={(e) => setFilter({ ...filter, type: e.target.value })}
+              inverted
             >
               <option value="">All Types</option>
               <option value="video">Videos</option>
@@ -210,10 +259,11 @@ export default function ExclusiveContentPage() {
               <option value="behind_the_scenes">Behind the Scenes</option>
             </Select>
           </Field>
-          <Field label="" className="w-48">
+          <Field label="" className="w-48" inverted>
             <Select
               value={filter.access_level}
               onChange={(e) => setFilter({ ...filter, access_level: e.target.value })}
+              inverted
             >
               <option value="">All Access Levels</option>
               <option value="all">Public</option>
@@ -249,10 +299,12 @@ export default function ExclusiveContentPage() {
             filteredContent.map(item => (
               <Card
                 key={item.id}
-                className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow"
+                inverted
+                interactive
+                className="cursor-pointer overflow-hidden"
                 onClick={() => setSelectedContent(item)}
               >
-                <Stack className="relative h-48 bg-ink-100">
+                <Stack className="relative h-48 bg-ink-900">
                   {item.thumbnail_url ? (
                     <Image
                       src={item.thumbnail_url}
@@ -261,23 +313,23 @@ export default function ExclusiveContentPage() {
                       className="object-cover"
                     />
                   ) : (
-                    <Stack className="w-full h-full flex items-center justify-center">
+                    <Stack className="flex size-full items-center justify-center">
                       <Body className="text-h3-md">
                         {item.type === 'video' ? '🎬' : item.type === 'audio' ? '🎵' : '📸'}
                       </Body>
                     </Stack>
                   )}
                   {item.is_new && (
-                    <Stack className="absolute top-2 left-2">
-                      <Badge className="bg-error-500 text-white">NEW</Badge>
+                    <Stack className="absolute left-2 top-2">
+                      <Badge variant="solid">NEW</Badge>
                     </Stack>
                   )}
-                  <Stack className="absolute top-2 right-2">
+                  <Stack className="absolute right-2 top-2">
                     {getAccessBadge(item.access_level)}
                   </Stack>
                   {item.duration && (
                     <Stack className="absolute bottom-2 right-2">
-                      <Badge className="bg-black text-white">{item.duration}</Badge>
+                      <Badge variant="solid">{item.duration}</Badge>
                     </Stack>
                   )}
                 </Stack>
@@ -285,15 +337,15 @@ export default function ExclusiveContentPage() {
                   <Stack direction="horizontal" gap={2} className="items-center">
                     {getTypeBadge(item.type)}
                   </Stack>
-                  <H3 className="line-clamp-2">{item.title}</H3>
-                  <Body className="text-body-sm text-ink-600 line-clamp-2">
+                  <H3 className="line-clamp-2 text-white">{item.title}</H3>
+                  <Body size="sm" className="line-clamp-2 text-on-dark-muted">
                     {item.description}
                   </Body>
-                  <Body className="text-mono-xs text-ink-500">
+                  <Body size="sm" className="font-mono text-on-dark-disabled">
                     {item.event_name}
                   </Body>
-                  <Stack direction="horizontal" className="justify-between items-center mt-2">
-                    <Body className="text-mono-xs text-ink-500">
+                  <Stack direction="horizontal" className="mt-2 items-center justify-between">
+                    <Body size="sm" className="font-mono text-on-dark-disabled">
                       {item.views.toLocaleString()} views
                     </Body>
                     <Stack direction="horizontal" gap={2}>
@@ -313,12 +365,12 @@ export default function ExclusiveContentPage() {
               </Card>
             ))
           ) : (
-            <Card className="col-span-3 p-12 text-center">
-              <H3 className="mb-4">NO CONTENT AVAILABLE</H3>
-              <Body className="text-ink-600 mb-6">
+            <Card inverted className="col-span-3 p-12 text-center">
+              <H3 className="mb-4 text-white">No Content Available</H3>
+              <Body className="mb-6 text-on-dark-muted">
                 Exclusive content from your events will appear here
               </Body>
-              <Button variant="solid" onClick={() => router.push('/events')}>
+              <Button variant="solid" inverted onClick={() => router.push('/events')}>
                 Browse Events
               </Button>
             </Card>
@@ -383,8 +435,9 @@ export default function ExclusiveContentPage() {
             </Stack>
           )}
         </Modal>
-        </Stack>
-      </Container>
-    </Section>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

@@ -4,10 +4,34 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { CreatorNavigationAuthenticated } from '../../../components/navigation';
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select,
-  Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter, ProgressBar, Alert,
+  Container,
+  H3,
+  Body,
+  Grid,
+  Stack,
+  StatCard,
+  Select,
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+  Button,
+  Section,
+  Card,
+  Tabs,
+  TabsList,
+  Tab,
+  Badge,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  ProgressBar,
+  Alert,
+  PageLayout,
+  SectionHeader,
 } from '@ghxstship/ui';
 
 interface OfflineContent {
@@ -78,188 +102,191 @@ export default function OfflineAccessPage() {
   };
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Offline Access</H1>
-            <Label className="text-ink-400">Download content for mobile-optimized offline access</Label>
-          </Stack>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Offline Access"
+              description="Download content for mobile-optimized offline access"
+              colorScheme="on-light"
+              gap="lg"
+            />
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Synced Content" value={syncedCount} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Needs Update" value={outdatedCount} trend={outdatedCount > 0 ? 'down' : 'neutral'} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Downloaded" value={totalSize} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Packages" value={`${downloadedPackages}/${mockPackages.length}`} className="bg-transparent border-2 border-ink-800" />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard label="Synced Content" value={syncedCount.toString()} />
+              <StatCard label="Needs Update" value={outdatedCount.toString()} trend={outdatedCount > 0 ? 'down' : 'neutral'} />
+              <StatCard label="Downloaded" value={totalSize} />
+              <StatCard label="Packages" value={`${downloadedPackages}/${mockPackages.length}`} />
+            </Grid>
 
-          {outdatedCount > 0 && (
-            <Alert variant="warning">{outdatedCount} item(s) have updates available. Sync to get the latest content.</Alert>
-          )}
+            {outdatedCount > 0 && (
+              <Alert variant="warning">{outdatedCount} item(s) have updates available. Sync to get the latest content.</Alert>
+            )}
 
-          <Stack direction="horizontal" className="justify-between">
-            <Tabs>
-              <TabsList>
-                <Tab active={activeTab === 'content'} onClick={() => setActiveTab('content')}>My Content</Tab>
-                <Tab active={activeTab === 'packages'} onClick={() => setActiveTab('packages')}>Packages</Tab>
-                <Tab active={activeTab === 'settings'} onClick={() => setActiveTab('settings')}>Settings</Tab>
-              </TabsList>
-            </Tabs>
-            <Button variant="outlineWhite" onClick={() => setSyncing(true)}>
-              {syncing ? 'Syncing...' : 'Sync All'}
-            </Button>
-          </Stack>
+            <Stack direction="horizontal" className="justify-between">
+              <Tabs>
+                <TabsList>
+                  <Tab active={activeTab === 'content'} onClick={() => setActiveTab('content')}>My Content</Tab>
+                  <Tab active={activeTab === 'packages'} onClick={() => setActiveTab('packages')}>Packages</Tab>
+                  <Tab active={activeTab === 'settings'} onClick={() => setActiveTab('settings')}>Settings</Tab>
+                </TabsList>
+              </Tabs>
+              <Button variant="outline" onClick={() => setSyncing(true)}>
+                {syncing ? 'Syncing...' : 'Sync All'}
+              </Button>
+            </Stack>
 
-          {activeTab === 'content' && (
-            <Table className="border-2 border-ink-800">
-              <TableHeader>
-                <TableRow className="bg-ink-900">
-                  <TableHead className="text-ink-400">Content</TableHead>
-                  <TableHead className="text-ink-400">Category</TableHead>
-                  <TableHead className="text-ink-400">Size</TableHead>
-                  <TableHead className="text-ink-400">Priority</TableHead>
-                  <TableHead className="text-ink-400">Last Synced</TableHead>
-                  <TableHead className="text-ink-400">Status</TableHead>
-                  <TableHead className="text-ink-400">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {mockContent.map((content) => (
-                  <TableRow key={content.id} className={content.status === 'Outdated' ? 'bg-warning-900/10' : ''}>
-                    <TableCell><Label className="text-white">{content.title}</Label></TableCell>
-                    <TableCell><Badge variant="outline">{content.category}</Badge></TableCell>
-                    <TableCell><Label className="font-mono text-ink-300">{content.size}</Label></TableCell>
-                    <TableCell><Label className={getPriorityColor(content.priority)}>{content.priority}</Label></TableCell>
-                    <TableCell><Label className="text-ink-300">{content.lastSynced}</Label></TableCell>
-                    <TableCell><Label className={getStatusColor(content.status)}>{content.status}</Label></TableCell>
-                    <TableCell>
-                      <Stack direction="horizontal" gap={2}>
-                        {content.status === 'Outdated' && <Button variant="solid" size="sm">Update</Button>}
-                        <Button variant="ghost" size="sm">Remove</Button>
-                      </Stack>
-                    </TableCell>
+            {activeTab === 'content' && (
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Content</TableHead>
+                    <TableHead>Category</TableHead>
+                    <TableHead>Size</TableHead>
+                    <TableHead>Priority</TableHead>
+                    <TableHead>Last Synced</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Actions</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
+                </TableHeader>
+                <TableBody>
+                  {mockContent.map((content) => (
+                    <TableRow key={content.id}>
+                      <TableCell><Body>{content.title}</Body></TableCell>
+                      <TableCell><Badge variant="outline">{content.category}</Badge></TableCell>
+                      <TableCell><Body className="font-mono text-body-sm">{content.size}</Body></TableCell>
+                      <TableCell><Badge variant="outline">{content.priority}</Badge></TableCell>
+                      <TableCell><Body className="text-body-sm">{content.lastSynced}</Body></TableCell>
+                      <TableCell><Badge variant={content.status === 'Synced' ? 'solid' : 'outline'}>{content.status}</Badge></TableCell>
+                      <TableCell>
+                        <Stack direction="horizontal" gap={2}>
+                          {content.status === 'Outdated' && <Button variant="solid" size="sm">Update</Button>}
+                          <Button variant="ghost" size="sm">Remove</Button>
+                        </Stack>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            )}
 
-          {activeTab === 'packages' && (
-            <Grid cols={2} gap={4}>
-              {mockPackages.map((pkg) => (
-                <Card key={pkg.id} className="border-2 border-ink-800 bg-ink-900/50 p-6">
-                  <Stack gap={4}>
-                    <Stack direction="horizontal" className="justify-between">
-                      <Stack gap={1}>
-                        <Body className="font-display text-white">{pkg.name}</Body>
-                        <Label className="text-ink-400">{pkg.description}</Label>
+            {activeTab === 'packages' && (
+              <Grid cols={2} gap={4}>
+                {mockPackages.map((pkg) => (
+                  <Card key={pkg.id}>
+                    <Stack gap={4}>
+                      <Stack direction="horizontal" className="justify-between">
+                        <Stack gap={1}>
+                          <Body className="font-display">{pkg.name}</Body>
+                          <Body className="text-body-sm">{pkg.description}</Body>
+                        </Stack>
+                        <Badge variant={pkg.downloaded ? 'solid' : 'outline'}>{pkg.downloaded ? 'Downloaded' : 'Available'}</Badge>
                       </Stack>
-                      <Badge variant={pkg.downloaded ? 'solid' : 'outline'}>{pkg.downloaded ? 'Downloaded' : 'Available'}</Badge>
+                      <Grid cols={2} gap={4}>
+                        <Stack gap={1}>
+                          <Body className="text-body-sm">Content Items</Body>
+                          <Body className="font-mono">{pkg.contentCount}</Body>
+                        </Stack>
+                        <Stack gap={1}>
+                          <Body className="text-body-sm">Size</Body>
+                          <Body className="font-mono">{pkg.totalSize}</Body>
+                        </Stack>
+                      </Grid>
+                      <Body className="text-body-sm">Updated: {pkg.lastUpdated}</Body>
+                      <Button variant={pkg.downloaded ? 'outline' : 'solid'} size="sm" onClick={() => setSelectedPackage(pkg)}>
+                        {pkg.downloaded ? 'Manage' : 'Download'}
+                      </Button>
                     </Stack>
+                  </Card>
+                ))}
+              </Grid>
+            )}
+
+            {activeTab === 'settings' && (
+              <Stack gap={4}>
+                <Card>
+                  <Stack gap={4}>
+                    <H3>Sync Settings</H3>
                     <Grid cols={2} gap={4}>
-                      <Stack gap={1}>
-                        <Label size="xs" className="text-ink-500">Content Items</Label>
-                        <Label className="font-mono text-white">{pkg.contentCount}</Label>
+                      <Stack gap={2}>
+                        <Body>Auto-Sync</Body>
+                        <Select>
+                          <option value="wifi">On WiFi Only</option>
+                          <option value="always">Always</option>
+                          <option value="manual">Manual Only</option>
+                        </Select>
                       </Stack>
-                      <Stack gap={1}>
-                        <Label size="xs" className="text-ink-500">Size</Label>
-                        <Label className="font-mono text-white">{pkg.totalSize}</Label>
+                      <Stack gap={2}>
+                        <Body>Sync Frequency</Body>
+                        <Select>
+                          <option value="daily">Daily</option>
+                          <option value="weekly">Weekly</option>
+                          <option value="startup">On App Startup</option>
+                        </Select>
                       </Stack>
                     </Grid>
-                    <Label size="xs" className="text-ink-500">Updated: {pkg.lastUpdated}</Label>
-                    <Button variant={pkg.downloaded ? 'outline' : 'solid'} size="sm" onClick={() => setSelectedPackage(pkg)}>
-                      {pkg.downloaded ? 'Manage' : 'Download'}
-                    </Button>
                   </Stack>
                 </Card>
-              ))}
-            </Grid>
-          )}
-
-          {activeTab === 'settings' && (
-            <Stack gap={4}>
-              <Card className="border-2 border-ink-800 bg-ink-900/50 p-6">
-                <Stack gap={4}>
-                  <H3>Sync Settings</H3>
-                  <Grid cols={2} gap={4}>
+                <Card>
+                  <Stack gap={4}>
+                    <H3>Storage</H3>
                     <Stack gap={2}>
-                      <Label>Auto-Sync</Label>
-                      <Select className="border-ink-700 bg-black text-white">
-                        <option value="wifi">On WiFi Only</option>
-                        <option value="always">Always</option>
-                        <option value="manual">Manual Only</option>
-                      </Select>
+                      <Stack direction="horizontal" className="justify-between">
+                        <Body className="text-body-sm">Used Space</Body>
+                        <Body className="font-mono">{totalSize}</Body>
+                      </Stack>
+                      <ProgressBar value={35} />
+                      <Body className="text-body-sm">35% of available offline storage used</Body>
                     </Stack>
                     <Stack gap={2}>
-                      <Label>Sync Frequency</Label>
-                      <Select className="border-ink-700 bg-black text-white">
-                        <option value="daily">Daily</option>
-                        <option value="weekly">Weekly</option>
-                        <option value="startup">On App Startup</option>
+                      <Body>Storage Limit</Body>
+                      <Select>
+                        <option value="500">500 MB</option>
+                        <option value="1000">1 GB</option>
+                        <option value="2000">2 GB</option>
+                        <option value="unlimited">Unlimited</option>
                       </Select>
                     </Stack>
-                  </Grid>
-                </Stack>
-              </Card>
-              <Card className="border-2 border-ink-800 bg-ink-900/50 p-6">
-                <Stack gap={4}>
-                  <H3>Storage</H3>
-                  <Stack gap={2}>
-                    <Stack direction="horizontal" className="justify-between">
-                      <Label className="text-ink-400">Used Space</Label>
-                      <Label className="font-mono text-white">{totalSize}</Label>
+                    <Button variant="outline" size="sm">Clear All Offline Data</Button>
+                  </Stack>
+                </Card>
+                <Card>
+                  <Stack gap={4}>
+                    <H3>Priority Content</H3>
+                    <Body className="text-body-sm">High priority content is always kept up-to-date</Body>
+                    <Stack direction="horizontal" gap={2} className="flex-wrap">
+                      <Badge variant="solid">Safety Documents</Badge>
+                      <Badge variant="solid">Emergency Procedures</Badge>
+                      <Badge variant="outline">+ Add Category</Badge>
                     </Stack>
-                    <ProgressBar value={35} className="h-2" />
-                    <Label size="xs" className="text-ink-500">35% of available offline storage used</Label>
                   </Stack>
-                  <Stack gap={2}>
-                    <Label>Storage Limit</Label>
-                    <Select className="border-ink-700 bg-black text-white">
-                      <option value="500">500 MB</option>
-                      <option value="1000">1 GB</option>
-                      <option value="2000">2 GB</option>
-                      <option value="unlimited">Unlimited</option>
-                    </Select>
-                  </Stack>
-                  <Button variant="outline" size="sm">Clear All Offline Data</Button>
-                </Stack>
-              </Card>
-              <Card className="border-2 border-ink-800 bg-ink-900/50 p-6">
-                <Stack gap={4}>
-                  <H3>Priority Content</H3>
-                  <Label className="text-ink-400">High priority content is always kept up-to-date</Label>
-                  <Stack direction="horizontal" gap={2} className="flex-wrap">
-                    <Badge variant="solid">Safety Documents</Badge>
-                    <Badge variant="solid">Emergency Procedures</Badge>
-                    <Badge variant="outline">+ Add Category</Badge>
-                  </Stack>
-                </Stack>
-              </Card>
-            </Stack>
-          )}
+                </Card>
+              </Stack>
+            )}
 
-          <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push('/knowledge')}>Back to Knowledge Base</Button>
-        </Stack>
-      </Container>
+            <Button variant="outline" onClick={() => router.push('/knowledge')}>Back to Knowledge Base</Button>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedPackage} onClose={() => setSelectedPackage(null)}>
         <ModalHeader><H3>{selectedPackage?.name}</H3></ModalHeader>
         <ModalBody>
           {selectedPackage && (
             <Stack gap={4}>
-              <Body className="text-ink-300">{selectedPackage.description}</Body>
+              <Body>{selectedPackage.description}</Body>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label className="text-ink-400">Content Items</Label><Label className="font-mono text-white">{selectedPackage.contentCount}</Label></Stack>
-                <Stack gap={1}><Label className="text-ink-400">Total Size</Label><Label className="font-mono text-white">{selectedPackage.totalSize}</Label></Stack>
+                <Stack gap={1}><Body className="text-body-sm">Content Items</Body><Body className="font-mono">{selectedPackage.contentCount}</Body></Stack>
+                <Stack gap={1}><Body className="text-body-sm">Total Size</Body><Body className="font-mono">{selectedPackage.totalSize}</Body></Stack>
               </Grid>
-              <Stack gap={1}><Label className="text-ink-400">Last Updated</Label><Label className="text-white">{selectedPackage.lastUpdated}</Label></Stack>
+              <Stack gap={1}><Body className="text-body-sm">Last Updated</Body><Body>{selectedPackage.lastUpdated}</Body></Stack>
               {selectedPackage.downloaded && (
                 <Stack gap={2}>
-                  <Label className="text-ink-400">Download Status</Label>
-                  <ProgressBar value={100} className="h-2" />
-                  <Label size="xs" className="text-success-400">Fully downloaded and synced</Label>
+                  <Body className="text-body-sm">Download Status</Body>
+                  <ProgressBar value={100} />
+                  <Body className="text-body-sm">Fully downloaded and synced</Body>
                 </Stack>
               )}
             </Stack>
@@ -274,6 +301,6 @@ export default function OfflineAccessPage() {
           )}
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
+import { ConsumerNavigationPublic } from '@/components/navigation';
 import {
   Container,
   Section,
@@ -9,7 +10,6 @@ import {
   H2,
   H3,
   Body,
-  Label,
   Button,
   Card,
   Grid,
@@ -18,6 +18,11 @@ import {
   Alert,
   LoadingSpinner,
   Figure,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Kicker,
 } from '@ghxstship/ui';
 import Image from 'next/image';
 
@@ -94,40 +99,70 @@ export default function EventProgramPage() {
     fetchProgram();
   }, [fetchProgram]);
 
+  const footerContent = (
+    <Footer
+      logo={<Display size="md">GVTEWAY</Display>}
+      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+    >
+      <FooterColumn title="Events">
+        <FooterLink href="/events">Events</FooterLink>
+      </FooterColumn>
+      <FooterColumn title="Legal">
+        <FooterLink href="/legal/privacy">Privacy</FooterLink>
+        <FooterLink href="/legal/terms">Terms</FooterLink>
+      </FooterColumn>
+    </Footer>
+  );
+
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" />
-      </Section>
+      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+        <Section background="black" className="flex min-h-[60vh] items-center justify-center">
+          <LoadingSpinner size="lg" />
+        </Section>
+      </PageLayout>
     );
   }
 
   if (!program) {
     return (
-      <Section className="min-h-screen bg-white">
-        <Container>
-          <Card className="p-12 text-center mt-12">
-            <H2 className="mb-4">PROGRAM NOT AVAILABLE</H2>
-            <Body className="text-ink-600 mb-6">
-              The program for this event is not yet available.
-            </Body>
-            <Button variant="solid" onClick={() => router.back()}>
-              Go Back
-            </Button>
-          </Card>
-        </Container>
-      </Section>
+      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+        <Section background="black" className="min-h-screen py-16">
+          <Container>
+            <Card inverted className="p-12 text-center mt-12">
+              <H2 className="mb-4 text-white">PROGRAM NOT AVAILABLE</H2>
+              <Body className="text-on-dark-muted mb-6">
+                The program for this event is not yet available.
+              </Body>
+              <Button variant="solid" inverted onClick={() => router.back()}>
+                Go Back
+              </Button>
+            </Card>
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="min-h-screen bg-white">
-      <Container>
-        <Section className="border-b-2 border-black py-8 mb-8">
-          <Body className="text-ink-500 mb-2">{program.event_date}</Body>
-          <Display>{program.event_title}</Display>
-          <Body className="mt-2 text-ink-600">{program.venue_name}</Body>
-        </Section>
+    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Events</Kicker>
+              <Body className="text-on-dark-muted">{program.event_date}</Body>
+              <H2 size="lg" className="text-white">{program.event_title}</H2>
+              <Body className="text-on-dark-muted">{program.venue_name}</Body>
+            </Stack>
 
         {error && (
           <Alert variant="error" className="mb-6">
@@ -292,7 +327,9 @@ export default function EventProgramPage() {
             </Card>
           </Stack>
         </Grid>
-      </Container>
-    </Section>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

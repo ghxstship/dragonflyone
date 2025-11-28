@@ -2,15 +2,14 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { ConsumerNavigationPublic } from '../../components/navigation';
+import { ConsumerNavigationPublic } from '@/components/navigation';
 import {
   Container,
   Section,
-  H1,
+  Display,
   H2,
   H3,
   Body,
-  Label,
   Button,
   Card,
   Select,
@@ -20,7 +19,15 @@ import {
   Alert,
   LoadingSpinner,
   ProjectCard,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Kicker,
+  Label,
+  EmptyState,
 } from '@ghxstship/ui';
+import { Heart, Bell, Calendar, X } from 'lucide-react';
 
 interface FavoriteEvent {
   id: string;
@@ -100,140 +107,220 @@ export default function FavoritesPage() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading favorites..." />
-        </Container>
-      </Section>
+      <PageLayout
+        background="black"
+        header={<ConsumerNavigationPublic />}
+        footer={
+          <Footer
+            logo={<Display size="md">GVTEWAY</Display>}
+            copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+          >
+            <FooterColumn title="Discover">
+              <FooterLink href="/events">Browse Events</FooterLink>
+              <FooterLink href="/venues">Find Venues</FooterLink>
+              <FooterLink href="/artists">Artists</FooterLink>
+            </FooterColumn>
+            <FooterColumn title="Support">
+              <FooterLink href="/help">Help Center</FooterLink>
+              <FooterLink href="/help#contact">Contact</FooterLink>
+            </FooterColumn>
+            <FooterColumn title="Legal">
+              <FooterLink href="/legal/privacy">Privacy</FooterLink>
+              <FooterLink href="/legal/terms">Terms</FooterLink>
+            </FooterColumn>
+          </Footer>
+        }
+      >
+        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+          <div
+            className="pointer-events-none absolute inset-0 opacity-5"
+            style={{
+              backgroundImage: `
+                linear-gradient(#fff 1px, transparent 1px),
+                linear-gradient(90deg, #fff 1px, transparent 1px)
+              `,
+              backgroundSize: "40px 40px",
+            }}
+          />
+          <Container className="relative z-10 flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" text="Loading favorites..." />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
-            <Stack gap={2}>
-              <H1>My Favorites</H1>
-              <Body className="text-ink-600">
-                {favorites.length} saved events
-              </Body>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Discover">
+            <FooterLink href="/events">Browse Events</FooterLink>
+            <FooterLink href="/venues">Find Venues</FooterLink>
+            <FooterLink href="/artists">Artists</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Support">
+            <FooterLink href="/help">Help Center</FooterLink>
+            <FooterLink href="/help#contact">Contact</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        {/* Grid Pattern Background */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `
+              linear-gradient(#fff 1px, transparent 1px),
+              linear-gradient(90deg, #fff 1px, transparent 1px)
+            `,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack direction="horizontal" className="flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+              <Stack gap={2}>
+                <Kicker colorScheme="on-dark">Your Collection</Kicker>
+                <H2 size="lg" className="text-white">My Favorites</H2>
+                <Body className="text-on-dark-muted">{favorites.length} saved events</Body>
+              </Stack>
+              <Stack gap={2}>
+                <Label size="xs" className="text-on-dark-muted">Sort By</Label>
+                <Select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  inverted
+                >
+                  <option value="added">Recently Added</option>
+                  <option value="date">Event Date</option>
+                  <option value="price">Price</option>
+                  <option value="name">Name</option>
+                </Select>
+              </Stack>
             </Stack>
-            <Select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="w-48"
-            >
-              <option value="added">Recently Added</option>
-              <option value="date">Event Date</option>
-              <option value="price">Price</option>
-              <option value="name">Name</option>
-            </Select>
-          </Stack>
 
-        {success && (
-          <Alert variant="success" className="mb-6">
-            {success}
-          </Alert>
-        )}
+            {success && <Alert variant="success">{success}</Alert>}
 
-        {upcomingFavorites.length > 0 && (
-          <Section className="mb-12">
-            <H2 className="mb-6">UPCOMING EVENTS</H2>
-            <Grid cols={3} gap={6}>
-              {upcomingFavorites.map(favorite => (
-                <Card key={favorite.id} className="overflow-hidden group">
-                  <Stack className="relative">
-                    <Button
-                      variant="ghost"
-                      className="absolute top-2 right-2 z-10 bg-white/80 hover:bg-white"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleRemoveFavorite(favorite.id);
-                      }}
-                    >
-                      ♥
-                    </Button>
-                    {!favorite.tickets_available && (
-                      <Badge className="absolute top-2 left-2 z-10 bg-error-500 text-white">
-                        Sold Out
-                      </Badge>
-                    )}
-                    <ProjectCard
-                      title={favorite.title}
-                      image={favorite.image || ''}
-                      metadata={`${favorite.date} • ${favorite.venue}`}
-                      tags={[favorite.category]}
-                      onClick={() => handleEventClick(favorite.event_id)}
-                    />
-                  </Stack>
-                  <Stack className="p-4 border-t">
-                    <Stack direction="horizontal" className="justify-between items-center">
-                      <Body className="text-body-sm text-ink-500">{favorite.city}</Body>
-                      <Body className="font-bold">From ${favorite.price_min}</Body>
-                    </Stack>
-                  </Stack>
-                </Card>
-              ))}
-            </Grid>
-          </Section>
-        )}
-
-        {pastFavorites.length > 0 && (
-          <Section className="mb-12">
-            <H2 className="mb-6 text-ink-500">PAST EVENTS</H2>
-            <Grid cols={4} gap={4}>
-              {pastFavorites.map(favorite => (
-                <Card key={favorite.id} className="p-4 opacity-60">
-                  <Stack gap={2}>
-                    <Stack direction="horizontal" className="justify-between">
-                      <Badge variant="outline" className="text-mono-xs">Past</Badge>
+            {/* Upcoming Favorites */}
+            {upcomingFavorites.length > 0 && (
+              <Stack gap={6}>
+                <Stack gap={2}>
+                  <Kicker colorScheme="on-dark">Coming Up</Kicker>
+                  <H2 className="text-white">Upcoming Events</H2>
+                </Stack>
+                <Grid cols={3} gap={6}>
+                  {upcomingFavorites.map(favorite => (
+                    <Card key={favorite.id} inverted interactive className="group relative overflow-hidden">
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => handleRemoveFavorite(favorite.id)}
-                      >
-                        ×
-                      </Button>
-                    </Stack>
-                    <H3 className="text-body-sm">{favorite.title}</H3>
-                    <Body className="text-body-sm text-ink-500">{favorite.date}</Body>
-                  </Stack>
-                </Card>
-              ))}
-            </Grid>
-          </Section>
-        )}
-
-        {favorites.length === 0 && (
-          <Card className="p-12 text-center">
-            <H3 className="mb-4">NO FAVORITES YET</H3>
-            <Body className="text-ink-600 mb-6">
-              Save events you&apos;re interested in to easily find them later.
-            </Body>
-            <Button variant="solid" onClick={() => router.push('/browse')}>
-              Browse Events
-            </Button>
-          </Card>
-        )}
-
-          <Card className="p-6 bg-ink-50">
-            <Stack direction="horizontal" className="justify-between items-center">
-              <Stack>
-                <H3>GET NOTIFIED</H3>
-                <Body className="text-ink-600">
-                  Set up alerts for your favorite events to never miss a sale.
-                </Body>
+                        className="absolute right-2 top-2 z-10"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleRemoveFavorite(favorite.id);
+                        }}
+                        icon={<Heart className="size-4 fill-current text-error" />}
+                      />
+                      {!favorite.tickets_available && (
+                        <Badge className="absolute left-2 top-2 z-10" variant="solid">
+                          Sold Out
+                        </Badge>
+                      )}
+                      <ProjectCard
+                        title={favorite.title}
+                        image={favorite.image || ''}
+                        metadata={`${favorite.date} • ${favorite.venue}`}
+                        tags={[favorite.category]}
+                        onClick={() => handleEventClick(favorite.event_id)}
+                      />
+                      <Stack className="border-t border-ink-800 p-4">
+                        <Stack direction="horizontal" className="items-center justify-between">
+                          <Body size="sm" className="text-on-dark-muted">{favorite.city}</Body>
+                          <Body className="font-display text-white">From ${favorite.price_min}</Body>
+                        </Stack>
+                      </Stack>
+                    </Card>
+                  ))}
+                </Grid>
               </Stack>
-              <Button variant="outline" onClick={() => router.push('/settings/notifications')}>
-                Manage Alerts
-              </Button>
-            </Stack>
-          </Card>
-        </Stack>
-      </Container>
-    </Section>
+            )}
+
+            {/* Past Favorites */}
+            {pastFavorites.length > 0 && (
+              <Stack gap={6}>
+                <H2 className="text-on-dark-muted">Past Events</H2>
+                <Grid cols={4} gap={4}>
+                  {pastFavorites.map(favorite => (
+                    <Card key={favorite.id} inverted className="p-4 opacity-60">
+                      <Stack gap={2}>
+                        <Stack direction="horizontal" className="justify-between">
+                          <Badge variant="outline">Past</Badge>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleRemoveFavorite(favorite.id)}
+                            icon={<X className="size-4" />}
+                          />
+                        </Stack>
+                        <H3 size="sm" className="text-white">{favorite.title}</H3>
+                        <Label size="xs" className="text-on-dark-muted">{favorite.date}</Label>
+                      </Stack>
+                    </Card>
+                  ))}
+                </Grid>
+              </Stack>
+            )}
+
+            {/* Empty State */}
+            {favorites.length === 0 && (
+              <EmptyState
+                title="No Favorites Yet"
+                description="Save events you're interested in to easily find them later."
+                action={{
+                  label: "Browse Events",
+                  onClick: () => router.push('/browse')
+                }}
+                inverted
+              />
+            )}
+
+            {/* Notification CTA */}
+            <Card inverted variant="elevated" className="p-6">
+              <Stack direction="horizontal" className="flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+                <Stack gap={2} direction="horizontal" className="items-start">
+                  <Bell className="mt-1 size-5 text-on-dark-muted" />
+                  <Stack gap={1}>
+                    <H3 className="text-white">Get Notified</H3>
+                    <Body className="text-on-dark-muted">
+                      Set up alerts for your favorite events to never miss a sale.
+                    </Body>
+                  </Stack>
+                </Stack>
+                <Button 
+                  variant="outlineInk" 
+                  onClick={() => router.push('/settings/notifications')}
+                  icon={<Calendar className="size-4" />}
+                  iconPosition="left"
+                >
+                  Manage Alerts
+                </Button>
+              </Stack>
+            </Card>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

@@ -2,9 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { ConsumerNavigationPublic } from "../../components/navigation";
+import { ConsumerNavigationPublic } from "@/components/navigation";
 import {
-  H1,
   H2,
   Body,
   StatCard,
@@ -21,6 +20,12 @@ import {
   Input,
   Field,
   useNotifications,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
+  Kicker,
 } from "@ghxstship/ui";
 
 interface Group {
@@ -107,66 +112,91 @@ export default function GroupsPage() {
     }
   };
 
+  const footerContent = (
+    <Footer
+      logo={<Display size="md">GVTEWAY</Display>}
+      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+    >
+      <FooterColumn title="Community">
+        <FooterLink href="/groups">Groups</FooterLink>
+        <FooterLink href="/forums">Forums</FooterLink>
+      </FooterColumn>
+      <FooterColumn title="Legal">
+        <FooterLink href="/legal/privacy">Privacy</FooterLink>
+        <FooterLink href="/legal/terms">Terms</FooterLink>
+      </FooterColumn>
+    </Footer>
+  );
+
   if (loading) {
     return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
+      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+        <Section background="black" className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading groups..." />
-        </Container>
-      </Section>
+        </Section>
+      </PageLayout>
     );
   }
 
   if (error) {
     return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <ConsumerNavigationPublic />
-        <Container className="py-16">
-          <EmptyState
-            title="Error Loading Groups"
-            description={error}
-            action={{ label: "Retry", onClick: fetchGroups }}
-          />
-        </Container>
-      </Section>
+      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+        <Section background="black" className="min-h-screen py-16">
+          <Container>
+            <EmptyState
+              title="Error Loading Groups"
+              description={error}
+              action={{ label: "Retry", onClick: fetchGroups }}
+              inverted
+            />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="relative min-h-screen bg-black text-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Groups</H1>
-            <Body className="text-ink-400">
-              Connect with fans who share your interests
-            </Body>
-          </Stack>
+    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={8}>
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Community</Kicker>
+              <H2 size="lg" className="text-white">Groups</H2>
+              <Body className="text-on-dark-muted">
+                Connect with fans who share your interests
+              </Body>
+            </Stack>
 
-          <Grid cols={4} gap={6}>
-            <StatCard
-              value={summary?.total_groups || 0}
-              label="Total Groups"
-              className="bg-black text-white border-ink-800"
-            />
-            <StatCard
-              value={summary?.my_groups || 0}
-              label="My Groups"
-              className="bg-black text-white border-ink-800"
-            />
-            <StatCard
-              value={summary?.trending_count || 0}
-              label="Trending"
-              className="bg-black text-white border-ink-800"
-            />
-            <StatCard
-              value={summary?.new_this_week || 0}
-              label="New This Week"
-              className="bg-black text-white border-ink-800"
-            />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard
+                value={(summary?.total_groups || 0).toString()}
+                label="Total Groups"
+                inverted
+              />
+              <StatCard
+                value={(summary?.my_groups || 0).toString()}
+                label="My Groups"
+                inverted
+              />
+              <StatCard
+                value={(summary?.trending_count || 0).toString()}
+                label="Trending"
+                inverted
+              />
+              <StatCard
+                value={(summary?.new_this_week || 0).toString()}
+                label="New This Week"
+                inverted
+              />
+            </Grid>
 
           <Stack gap={4} direction="horizontal">
             <Field className="flex-1">
@@ -174,13 +204,13 @@ export default function GroupsPage() {
                 placeholder="Search groups..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-black text-white border-ink-700"
+                inverted
               />
             </Field>
             <Select
               value={filterCategory}
               onChange={(e) => setFilterCategory(e.target.value)}
-              className="bg-black text-white border-ink-700"
+              inverted
             >
               <option value="all">All Categories</option>
               <option value="music">Music</option>
@@ -197,27 +227,28 @@ export default function GroupsPage() {
               title="No Groups Found"
               description="Create a new group or try different filters"
               action={{ label: "Create Group", onClick: () => router.push("/groups/new") }}
+              inverted
             />
           ) : (
             <Grid cols={3} gap={6}>
               {groups.map((group) => (
-                <Card key={group.id} className="p-6 bg-black border-ink-800 hover:border-ink-700 transition-colors">
+                <Card key={group.id} inverted interactive>
                   <Stack gap={4}>
                     <Stack gap={2}>
-                      <Stack gap={2} direction="horizontal" className="justify-between items-start">
+                      <Stack gap={2} direction="horizontal" className="items-start justify-between">
                         <H2 className="text-body-md">{group.name}</H2>
                         {group.is_private && (
                           <Badge variant="ghost">Private</Badge>
                         )}
                       </Stack>
-                      <Body className="text-ink-400 text-body-sm line-clamp-2">
+                      <Body size="sm" className="text-on-dark-muted line-clamp-2">
                         {group.description}
                       </Body>
                     </Stack>
 
                     <Stack gap={2}>
                       <Badge variant="outline">{group.category}</Badge>
-                      <Stack gap={1} direction="horizontal" className="text-ink-500 text-body-sm">
+                      <Stack gap={1} direction="horizontal" className="text-on-dark-disabled">
                         <Body>{group.member_count} members</Body>
                         <Body>•</Body>
                         <Body>{group.event_count} events</Body>
@@ -228,7 +259,7 @@ export default function GroupsPage() {
                       {group.is_member ? (
                         <>
                           <Button 
-                            variant="outline" 
+                            variant="outlineInk" 
                             size="sm"
                             onClick={() => router.push(`/groups/${group.id}`)}
                             className="flex-1"
@@ -247,6 +278,7 @@ export default function GroupsPage() {
                         <Button 
                           variant="solid" 
                           size="sm"
+                          inverted
                           onClick={() => handleJoinGroup(group.id)}
                           className="flex-1"
                         >
@@ -261,12 +293,13 @@ export default function GroupsPage() {
           )}
 
           <Stack gap={3} direction="horizontal" className="justify-center">
-            <Button variant="outlineWhite" onClick={() => router.push("/groups/new")}>
+            <Button variant="outlineInk" onClick={() => router.push("/groups/new")}>
               Create a Group
             </Button>
           </Stack>
-        </Stack>
-      </Container>
-    </Section>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

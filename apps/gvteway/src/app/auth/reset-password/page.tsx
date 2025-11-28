@@ -13,11 +13,16 @@ import {
   Body,
   Button,
   Input,
-  SectionLayout,
   Alert,
   Stack,
+  Card,
   Field,
+  Section,
+  Container,
+  Label,
 } from "@ghxstship/ui";
+import { Check } from "lucide-react";
+import NextLink from "next/link";
 
 export default function ResetPasswordPage() {
   const router = useRouter();
@@ -70,81 +75,112 @@ export default function ResetPasswordPage() {
       background="black"
       header={
         <Navigation
-          logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
+          logo={<Display size="md" className="text-white">GVTEWAY</Display>}
           cta={<></>}
         />
       }
       footer={
         <Footer
-          logo={<Display size="md" className="text-white text-display-md">GVTEWAY</Display>}
+          logo={<Display size="md" className="text-white">GVTEWAY</Display>}
           copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
         >
           <FooterColumn title="Legal">
-            <FooterLink href="#">Privacy</FooterLink>
-            <FooterLink href="#">Terms</FooterLink>
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
           </FooterColumn>
         </Footer>
       }
     >
-      <SectionLayout background="black">
-        <Stack gap={8} className="mx-auto max-w-md">
-          {success ? (
-            <Stack gap={6} className="text-center">
-              <Stack className="w-16 h-16 mx-auto bg-ink-800 rounded-full items-center justify-center">
-                <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-              </Stack>
-              <H2 className="text-white">Password Reset</H2>
-              <Body className="text-ink-400">Your password has been successfully reset. Redirecting to sign in...</Body>
-            </Stack>
-          ) : (
-            <>
-              <Stack gap={4} className="text-center">
-                <H2 className="text-white">New Password</H2>
-                <Body className="text-ink-400">Enter your new password below.</Body>
-              </Stack>
-
-              {error && <Alert variant="error">{error}</Alert>}
-
-              <Stack gap={6}>
-                <Field label="New Password" className="text-white">
-                  <Input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Enter new password"
-                    required
-                    className="border-ink-700 bg-black text-white"
-                  />
-                  <Body size="sm" className="text-ink-500 mt-1">Minimum 8 characters</Body>
-                </Field>
-
-                <Field label="Confirm Password" className="text-white">
-                  <Input
-                    type="password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    placeholder="Re-enter new password"
-                    required
-                    className="border-ink-700 bg-black text-white"
-                  />
-                </Field>
-
-                <Button variant="solid" className="w-full" disabled={loading} onClick={handleSubmit}>
-                  {loading ? "Resetting..." : "Reset Password"}
-                </Button>
-
-                <Stack className="text-center">
-                  <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/signin'} className="text-ink-400 hover:text-white">
-                    Back to Sign In
-                  </Button>
+      <Section background="black" className="flex min-h-[80vh] items-center justify-center py-12">
+        <Container className="w-full max-w-md">
+          {/* Auth Card - Pop Art Style */}
+          <Card inverted variant="elevated" className="p-8">
+            {success ? (
+              /* Success State */
+              <Stack gap={8} className="text-center">
+                {/* Icon */}
+                <Card inverted className="mx-auto flex size-16 items-center justify-center">
+                  <Check className="size-8 text-white" />
+                </Card>
+                
+                <Stack gap={4}>
+                  <H2 className="text-white">Password Reset</H2>
+                  <Body className="text-on-dark-muted">
+                    Your password has been successfully reset. Redirecting to sign in...
+                  </Body>
                 </Stack>
               </Stack>
-            </>
-          )}
-        </Stack>
-      </SectionLayout>
+            ) : (
+              /* Form State */
+              <Stack gap={8}>
+                {/* Header */}
+                <Stack gap={4} className="text-center">
+                  <H2 className="text-white">New Password</H2>
+                  <Body className="text-on-dark-muted">
+                    Enter your new password below.
+                  </Body>
+                </Stack>
+
+                {/* Error Alert */}
+                {error && <Alert variant="error">{error}</Alert>}
+
+                {/* Form */}
+                <form onSubmit={handleSubmit}>
+                  <Stack gap={6}>
+                    {/* New Password Field */}
+                    <Field label="New Password" inverted>
+                      <Input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Enter new password"
+                        required
+                        inverted
+                      />
+                      <Label size="xs" className="text-on-dark-disabled mt-2">
+                        Minimum 8 characters
+                      </Label>
+                    </Field>
+
+                    {/* Confirm Password Field */}
+                    <Field label="Confirm Password" inverted>
+                      <Input
+                        type="password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        placeholder="Re-enter new password"
+                        required
+                        inverted
+                      />
+                    </Field>
+
+                    {/* Primary CTA */}
+                    <Button
+                      type="submit"
+                      variant="solid"
+                      size="lg"
+                      fullWidth
+                      inverted
+                      disabled={loading}
+                    >
+                      {loading ? "Resetting..." : "Reset Password"}
+                    </Button>
+                  </Stack>
+                </form>
+
+                {/* Back Link */}
+                <Stack className="text-center">
+                  <NextLink href="/auth/signin">
+                    <Button variant="ghost" size="sm" inverted className="text-on-dark-muted hover:text-white">
+                      Back to Sign In
+                    </Button>
+                  </NextLink>
+                </Stack>
+              </Stack>
+            )}
+          </Card>
+        </Container>
+      </Section>
     </PageLayout>
   );
 }

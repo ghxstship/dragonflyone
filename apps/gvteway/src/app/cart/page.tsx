@@ -2,19 +2,14 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { ConsumerNavigationPublic } from "../../components/navigation";
+import { ConsumerNavigationPublic } from "@/components/navigation";
 import {
-  H1,
+  Display,
   H2,
+  H3,
   Body,
   Button,
   Badge,
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableHead,
-  TableCell,
   LoadingSpinner,
   EmptyState,
   Container,
@@ -23,10 +18,15 @@ import {
   Card,
   Section,
   Input,
-  Field,
   Label,
+  Kicker,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
   useNotifications,
 } from "@ghxstship/ui";
+import { Trash2, Minus, Plus, Tag, CreditCard, Clock } from "lucide-react";
 
 interface CartItem {
   id: string;
@@ -156,161 +156,244 @@ export default function CartPage() {
 
   if (loading) {
     return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading cart..." />
-        </Container>
-      </Section>
+      <PageLayout
+        background="black"
+        header={<ConsumerNavigationPublic />}
+        footer={
+          <Footer
+            logo={<Display size="md">GVTEWAY</Display>}
+            copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+          >
+            <FooterColumn title="Discover">
+              <FooterLink href="/events">Browse Events</FooterLink>
+              <FooterLink href="/venues">Find Venues</FooterLink>
+              <FooterLink href="/artists">Artists</FooterLink>
+            </FooterColumn>
+            <FooterColumn title="Support">
+              <FooterLink href="/help">Help Center</FooterLink>
+              <FooterLink href="/help#contact">Contact</FooterLink>
+            </FooterColumn>
+            <FooterColumn title="Legal">
+              <FooterLink href="/legal/privacy">Privacy</FooterLink>
+              <FooterLink href="/legal/terms">Terms</FooterLink>
+            </FooterColumn>
+          </Footer>
+        }
+      >
+        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+          <div
+            className="pointer-events-none absolute inset-0 opacity-5"
+            style={{
+              backgroundImage: `
+                linear-gradient(#fff 1px, transparent 1px),
+                linear-gradient(90deg, #fff 1px, transparent 1px)
+              `,
+              backgroundSize: "40px 40px",
+            }}
+          />
+          <Container className="relative z-10 flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" text="Loading cart..." />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="relative min-h-screen bg-black text-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <H1>Your Cart</H1>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Discover">
+            <FooterLink href="/events">Browse Events</FooterLink>
+            <FooterLink href="/venues">Find Venues</FooterLink>
+            <FooterLink href="/artists">Artists</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Support">
+            <FooterLink href="/help">Help Center</FooterLink>
+            <FooterLink href="/help#contact">Contact</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        {/* Grid Pattern Background */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `
+              linear-gradient(#fff 1px, transparent 1px),
+              linear-gradient(90deg, #fff 1px, transparent 1px)
+            `,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Checkout</Kicker>
+              <H2 size="lg" className="text-white">Your Cart</H2>
+              <Body className="text-on-dark-muted">
+                {items.length} {items.length === 1 ? 'item' : 'items'} in your cart
+              </Body>
+            </Stack>
 
-          {items.length === 0 ? (
-            <EmptyState
-              title="Your Cart is Empty"
-              description="Browse events and add tickets to your cart"
-              action={{ label: "Browse Events", onClick: () => router.push("/events") }}
-            />
-          ) : (
-            <Grid cols={3} gap={8}>
-              <Stack gap={6} className="col-span-2">
-                {items.map((item) => (
-                  <Card key={item.id} className="p-6 bg-black border-ink-800">
-                    <Stack gap={4}>
-                      <Stack gap={2} direction="horizontal" className="justify-between">
-                        <Stack gap={1}>
-                          <H2 className="text-h6-md">{item.event_name}</H2>
-                          <Body className="text-ink-400">{item.venue_name}</Body>
-                          <Body className="text-ink-500 text-body-sm">{formatDate(item.event_date)}</Body>
+            {items.length === 0 ? (
+              <EmptyState
+                title="Your Cart is Empty"
+                description="Browse events and add tickets to your cart"
+                action={{ label: "Browse Events", onClick: () => router.push("/events") }}
+                inverted
+              />
+            ) : (
+              <Grid cols={3} gap={8}>
+                {/* Cart Items */}
+                <Stack gap={4} className="col-span-2">
+                  {items.map((item) => (
+                    <Card key={item.id} inverted className="p-6">
+                      <Stack gap={4}>
+                        <Stack gap={2} direction="horizontal" className="justify-between">
+                          <Stack gap={1}>
+                            <H3 className="text-white">{item.event_name}</H3>
+                            <Body className="text-on-dark-muted">{item.venue_name}</Body>
+                            <Label size="xs" className="text-on-dark-disabled">{formatDate(item.event_date)}</Label>
+                          </Stack>
+                          <Button 
+                            variant="ghost" 
+                            size="sm"
+                            onClick={() => handleRemoveItem(item.id)}
+                            icon={<Trash2 className="size-4" />}
+                          />
                         </Stack>
-                        <Button 
-                          variant="ghost" 
-                          size="sm"
-                          onClick={() => handleRemoveItem(item.id)}
-                          className="text-ink-400 hover:text-error-400"
-                        >
-                          Remove
-                        </Button>
-                      </Stack>
 
-                      <Stack gap={2} direction="horizontal" className="justify-between items-center">
-                        <Stack gap={1}>
-                          <Badge variant="outline">{item.ticket_type_name}</Badge>
-                          <Body className="text-ink-400 text-body-sm">
-                            {formatCurrency(item.unit_price)} each
+                        <Stack gap={4} direction="horizontal" className="items-center justify-between">
+                          <Stack gap={1}>
+                            <Badge variant="outline">{item.ticket_type_name}</Badge>
+                            <Label size="xs" className="text-on-dark-muted">
+                              {formatCurrency(item.unit_price)} each
+                            </Label>
+                          </Stack>
+
+                          <Stack gap={2} direction="horizontal" className="items-center">
+                            <Button 
+                              variant="outlineInk" 
+                              size="sm"
+                              onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
+                              icon={<Minus className="size-4" />}
+                            />
+                            <Body className="w-8 text-center font-mono text-white">{item.quantity}</Body>
+                            <Button 
+                              variant="outlineInk" 
+                              size="sm"
+                              onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}
+                              icon={<Plus className="size-4" />}
+                            />
+                          </Stack>
+
+                          <Body className="font-display text-white">
+                            {formatCurrency(item.subtotal)}
                           </Body>
                         </Stack>
+                      </Stack>
+                    </Card>
+                  ))}
+                </Stack>
 
-                        <Stack gap={2} direction="horizontal" className="items-center">
-                          <Button 
-                            variant="outline" 
-                            size="sm"
-                            onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
-                          >
-                            -
-                          </Button>
-                          <Body className="w-8 text-center font-mono">{item.quantity}</Body>
-                          <Button 
-                            variant="outline" 
-                            size="sm"
-                            onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}
-                          >
-                            +
-                          </Button>
+                {/* Order Summary */}
+                <Stack gap={6}>
+                  <Card inverted variant="elevated" className="p-6">
+                    <Stack gap={4}>
+                      <H3 className="text-white">Order Summary</H3>
+                      
+                      <Stack gap={3}>
+                        <Stack gap={1} direction="horizontal" className="justify-between">
+                          <Body className="text-on-dark-muted">Subtotal ({summary?.item_count} items)</Body>
+                          <Body className="font-mono text-white">{formatCurrency(summary?.subtotal || 0)}</Body>
                         </Stack>
+                        <Stack gap={1} direction="horizontal" className="justify-between">
+                          <Body className="text-on-dark-muted">Service Fees</Body>
+                          <Body className="font-mono text-white">{formatCurrency(summary?.service_fees || 0)}</Body>
+                        </Stack>
+                        <Stack gap={1} direction="horizontal" className="justify-between">
+                          <Body className="text-on-dark-muted">Taxes</Body>
+                          <Body className="font-mono text-white">{formatCurrency(summary?.taxes || 0)}</Body>
+                        </Stack>
+                        {discount > 0 && (
+                          <Stack gap={1} direction="horizontal" className="justify-between">
+                            <Body className="text-success">Discount</Body>
+                            <Body className="font-mono text-success">-{formatCurrency(discount)}</Body>
+                          </Stack>
+                        )}
+                      </Stack>
 
-                        <Body className="font-mono text-body-md">
-                          {formatCurrency(item.subtotal)}
+                      <Stack gap={1} direction="horizontal" className="justify-between border-t border-ink-800 pt-4">
+                        <Body className="font-display text-white">Total</Body>
+                        <Body className="font-display text-white">
+                          {formatCurrency((summary?.total || 0) - discount)}
                         </Body>
                       </Stack>
                     </Stack>
                   </Card>
-                ))}
-              </Stack>
 
-              <Stack gap={6}>
-                <Card className="p-6 bg-black border-ink-800">
-                  <Stack gap={4}>
-                    <H2>Order Summary</H2>
-                    
-                    <Stack gap={2}>
-                      <Stack gap={1} direction="horizontal" className="justify-between">
-                        <Body className="text-ink-400">Subtotal ({summary?.item_count} items)</Body>
-                        <Body className="font-mono">{formatCurrency(summary?.subtotal || 0)}</Body>
+                  <Card inverted className="p-6">
+                    <Stack gap={4}>
+                      <Stack direction="horizontal" gap={2} className="items-center">
+                        <Tag className="size-4 text-on-dark-muted" />
+                        <Label size="xs" className="text-on-dark-muted">Promo Code</Label>
                       </Stack>
-                      <Stack gap={1} direction="horizontal" className="justify-between">
-                        <Body className="text-ink-400">Service Fees</Body>
-                        <Body className="font-mono">{formatCurrency(summary?.service_fees || 0)}</Body>
-                      </Stack>
-                      <Stack gap={1} direction="horizontal" className="justify-between">
-                        <Body className="text-ink-400">Taxes</Body>
-                        <Body className="font-mono">{formatCurrency(summary?.taxes || 0)}</Body>
-                      </Stack>
-                      {discount > 0 && (
-                        <Stack gap={1} direction="horizontal" className="justify-between">
-                          <Body className="text-success-400">Discount</Body>
-                          <Body className="font-mono text-success-400">-{formatCurrency(discount)}</Body>
-                        </Stack>
-                      )}
-                    </Stack>
-
-                    <Stack gap={1} direction="horizontal" className="justify-between border-t border-ink-800 pt-4">
-                      <Body className="font-bold">Total</Body>
-                      <Body className="font-mono text-h6-md font-bold">
-                        {formatCurrency((summary?.total || 0) - discount)}
-                      </Body>
-                    </Stack>
-                  </Stack>
-                </Card>
-
-                <Card className="p-6 bg-black border-ink-800">
-                  <Stack gap={4}>
-                    <Body className="text-ink-400 text-body-sm uppercase tracking-widest">Promo Code</Body>
-                    <Stack gap={2} direction="horizontal">
-                      <Field className="flex-1">
+                      <Stack gap={2} direction="horizontal">
                         <Input
                           placeholder="Enter code"
                           value={promoCode}
                           onChange={(e) => setPromoCode(e.target.value)}
                           disabled={promoApplied}
-                          className="bg-black text-white border-ink-700"
+                          inverted
+                          className="flex-1"
                         />
-                      </Field>
-                      <Button 
-                        variant="outline" 
-                        onClick={handleApplyPromo}
-                        disabled={promoApplied}
-                      >
-                        {promoApplied ? "Applied" : "Apply"}
-                      </Button>
+                        <Button 
+                          variant="outlineInk" 
+                          onClick={handleApplyPromo}
+                          disabled={promoApplied}
+                        >
+                          {promoApplied ? "Applied" : "Apply"}
+                        </Button>
+                      </Stack>
                     </Stack>
+                  </Card>
+
+                  <Button 
+                    variant="solid" 
+                    size="lg" 
+                    fullWidth
+                    inverted
+                    onClick={handleCheckout}
+                    icon={<CreditCard className="size-5" />}
+                    iconPosition="left"
+                  >
+                    Proceed to Checkout
+                  </Button>
+
+                  <Stack direction="horizontal" gap={2} className="items-center justify-center">
+                    <Clock className="size-4 text-on-dark-disabled" />
+                    <Label size="xs" className="text-on-dark-disabled">
+                      Tickets are held for 10 minutes during checkout
+                    </Label>
                   </Stack>
-                </Card>
-
-                <Button 
-                  variant="solid" 
-                  size="lg" 
-                  className="w-full"
-                  onClick={handleCheckout}
-                >
-                  Proceed to Checkout
-                </Button>
-
-                <Body className="text-ink-500 text-body-sm text-center">
-                  Tickets are held for 10 minutes during checkout
-                </Body>
-              </Stack>
-            </Grid>
-          )}
-        </Stack>
-      </Container>
-    </Section>
+                </Stack>
+              </Grid>
+            )}
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

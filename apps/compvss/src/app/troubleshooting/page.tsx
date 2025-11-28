@@ -4,9 +4,24 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter,
+  Container,
+  H3,
+  Body,
+  Grid,
+  Stack,
+  StatCard,
+  Input,
+  Select,
+  Button,
+  Section,
+  Card,
+  Badge,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 interface TroubleshootingGuide {
@@ -43,51 +58,54 @@ export default function TroubleshootingPage() {
   });
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Troubleshooting Guides</H1>
-            <Label className="text-ink-400">Decision trees and step-by-step problem resolution</Label>
-          </Stack>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Troubleshooting Guides"
+              description="Decision trees and step-by-step problem resolution"
+              colorScheme="on-light"
+              gap="lg"
+            />
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Total Guides" value={mockGuides.length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Categories" value={categories.length - 1} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Total Views" value={mockGuides.reduce((s, g) => s + g.views, 0)} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Helpful Rate" value="81%" className="bg-transparent border-2 border-ink-800" />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard label="Total Guides" value={mockGuides.length.toString()} />
+              <StatCard label="Categories" value={(categories.length - 1).toString()} />
+              <StatCard label="Total Views" value={mockGuides.reduce((s, g) => s + g.views, 0).toString()} />
+              <StatCard label="Helpful Rate" value="81%" />
+            </Grid>
 
-          <Grid cols={2} gap={4}>
-            <Input type="search" placeholder="Describe your issue..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="border-ink-700 bg-black text-white" />
-            <Select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)} className="border-ink-700 bg-black text-white">
-              {categories.map(c => <option key={c} value={c}>{c}</option>)}
-            </Select>
-          </Grid>
+            <Grid cols={2} gap={4}>
+              <Input type="search" placeholder="Describe your issue..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+              <Select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}>
+                {categories.map(c => <option key={c} value={c}>{c}</option>)}
+              </Select>
+            </Grid>
 
-          <Stack gap={4}>
-            {filteredGuides.map((guide) => (
-              <Card key={guide.id} className="border-2 border-ink-800 bg-ink-900/50 p-6 cursor-pointer hover:border-white" onClick={() => setSelectedGuide(guide)}>
-                <Stack gap={3}>
-                  <Stack direction="horizontal" className="justify-between">
-                    <Body className="font-display text-white">{guide.title}</Body>
-                    <Badge variant="outline">{guide.category}</Badge>
+            <Stack gap={4}>
+              {filteredGuides.map((guide) => (
+                <Card key={guide.id} onClick={() => setSelectedGuide(guide)}>
+                  <Stack gap={3}>
+                    <Stack direction="horizontal" className="justify-between">
+                      <Body className="font-display">{guide.title}</Body>
+                      <Badge variant="outline">{guide.category}</Badge>
+                    </Stack>
+                    <Body>Symptom: {guide.symptom}</Body>
+                    <Stack direction="horizontal" className="justify-between">
+                      <Body className="text-body-sm">{guide.steps.length} steps</Body>
+                      <Body className="text-body-sm">{guide.views} views • {guide.helpful}% found helpful</Body>
+                    </Stack>
                   </Stack>
-                  <Label className="text-ink-300">Symptom: {guide.symptom}</Label>
-                  <Stack direction="horizontal" className="justify-between">
-                    <Label size="xs" className="text-ink-500">{guide.steps.length} steps</Label>
-                    <Label size="xs" className="text-ink-500">{guide.views} views • {guide.helpful}% found helpful</Label>
-                  </Stack>
-                </Stack>
-              </Card>
-            ))}
-          </Stack>
+                </Card>
+              ))}
+            </Stack>
 
-          <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/knowledge")}>Knowledge Base</Button>
-        </Stack>
-      </Container>
+            <Button variant="outline" onClick={() => router.push("/knowledge")}>Knowledge Base</Button>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedGuide} onClose={() => setSelectedGuide(null)}>
         <ModalHeader><H3>{selectedGuide?.title}</H3></ModalHeader>
@@ -96,23 +114,23 @@ export default function TroubleshootingPage() {
             <Stack gap={4}>
               <Badge variant="outline">{selectedGuide.category}</Badge>
               <Stack gap={1}>
-                <Label className="text-ink-400">Symptom</Label>
-                <Body className="text-white">{selectedGuide.symptom}</Body>
+                <Body className="text-body-sm">Symptom</Body>
+                <Body>{selectedGuide.symptom}</Body>
               </Stack>
               <Stack gap={2}>
-                <Label className="text-ink-400">Troubleshooting Steps</Label>
+                <Body className="text-body-sm">Troubleshooting Steps</Body>
                 {selectedGuide.steps.map((step, idx) => (
-                  <Card key={idx} className="p-3 border border-ink-700">
+                  <Card key={idx}>
                     <Stack direction="horizontal" gap={3}>
-                      <Label className="font-mono text-white">{idx + 1}</Label>
-                      <Label className="text-ink-300">{step}</Label>
+                      <Body>{idx + 1}</Body>
+                      <Body>{step}</Body>
                     </Stack>
                   </Card>
                 ))}
               </Stack>
               <Stack gap={1}>
-                <Label className="text-ink-400">Resolution</Label>
-                <Body className="text-ink-300">{selectedGuide.resolution}</Body>
+                <Body className="text-body-sm">Resolution</Body>
+                <Body>{selectedGuide.resolution}</Body>
               </Stack>
             </Stack>
           )}
@@ -123,6 +141,6 @@ export default function TroubleshootingPage() {
           <Button variant="solid">Helpful</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

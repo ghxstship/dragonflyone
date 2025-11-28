@@ -4,9 +4,27 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge, ProgressBar,
-  Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
+  Container,
+  H3,
+  Body,
+  Grid,
+  Stack,
+  StatCard,
+  Button,
+  Section,
+  Card,
+  Tabs,
+  TabsList,
+  Tab,
+  Badge,
+  ProgressBar,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Textarea,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 interface BidOpportunity {
@@ -68,127 +86,130 @@ export default function BidDecisionPage() {
     mockOpportunities.filter(o => o.status.toLowerCase().replace(" ", "") === activeTab);
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Bid/No-Bid Decisions</H1>
-            <Label className="text-ink-400">Opportunity evaluation and decision workflow</Label>
-          </Stack>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Bid/No-Bid Decisions"
+              description="Opportunity evaluation and decision workflow"
+              colorScheme="on-light"
+              gap="lg"
+            />
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Pending Review" value={pendingCount} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Bid Decisions" value={bidCount} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="No-Bid" value={noBidCount} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Pipeline Value" value={formatCurrency(totalPipelineValue)} className="bg-transparent border-2 border-ink-800" />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard label="Pending Review" value={pendingCount.toString()} />
+              <StatCard label="Bid Decisions" value={bidCount.toString()} />
+              <StatCard label="No-Bid" value={noBidCount.toString()} />
+              <StatCard label="Pipeline Value" value={formatCurrency(totalPipelineValue)} />
+            </Grid>
 
-          <Tabs>
-            <TabsList>
-              <Tab active={activeTab === "pending"} onClick={() => setActiveTab("pending")}>Pending</Tab>
-              <Tab active={activeTab === "bid"} onClick={() => setActiveTab("bid")}>Bid</Tab>
-              <Tab active={activeTab === "nobid"} onClick={() => setActiveTab("nobid")}>No Bid</Tab>
-              <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All</Tab>
-            </TabsList>
-          </Tabs>
+            <Tabs>
+              <TabsList>
+                <Tab active={activeTab === "pending"} onClick={() => setActiveTab("pending")}>Pending</Tab>
+                <Tab active={activeTab === "bid"} onClick={() => setActiveTab("bid")}>Bid</Tab>
+                <Tab active={activeTab === "nobid"} onClick={() => setActiveTab("nobid")}>No Bid</Tab>
+                <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All</Tab>
+              </TabsList>
+            </Tabs>
 
-          <Stack gap={4}>
-            {filteredOpps.map((opp) => {
-              const score = opp.score || calculateScore(opp.criteria);
-              return (
-                <Card key={opp.id} className="border-2 border-ink-800 bg-ink-900/50 p-6">
-                  <Grid cols={6} gap={4} className="items-center">
-                    <Stack gap={1}>
-                      <Body className="font-display text-white">{opp.title}</Body>
-                      <Label className="text-ink-400">{opp.client}</Label>
-                    </Stack>
-                    <Stack gap={1}>
-                      <Label size="xs" className="text-ink-500">Value</Label>
-                      <Label className="font-mono text-white">{formatCurrency(opp.value)}</Label>
-                    </Stack>
-                    <Stack gap={1}>
-                      <Label size="xs" className="text-ink-500">Due Date</Label>
-                      <Label className="text-ink-300">{opp.dueDate}</Label>
-                    </Stack>
-                    <Stack gap={2}>
-                      <Stack direction="horizontal" className="justify-between">
-                        <Label size="xs" className="text-ink-500">Score</Label>
-                        <Label className={`font-mono ${getScoreColor(score)}`}>{score}/100</Label>
+            <Stack gap={4}>
+              {filteredOpps.map((opp) => {
+                const score = opp.score || calculateScore(opp.criteria);
+                return (
+                  <Card key={opp.id}>
+                    <Grid cols={6} gap={4} className="items-center">
+                      <Stack gap={1}>
+                        <Body className="font-display">{opp.title}</Body>
+                        <Body className="text-body-sm">{opp.client}</Body>
                       </Stack>
-                      <ProgressBar value={score} className="h-2" />
-                    </Stack>
-                    <Label className={getStatusColor(opp.status)}>{opp.status}</Label>
-                    <Stack direction="horizontal" gap={2}>
-                      <Button variant="outline" size="sm" onClick={() => setSelectedOpp(opp)}>Evaluate</Button>
-                    </Stack>
-                  </Grid>
-                </Card>
-              );
-            })}
-          </Stack>
+                      <Stack gap={1}>
+                        <Body className="text-body-sm">Value</Body>
+                        <Body className="font-mono">{formatCurrency(opp.value)}</Body>
+                      </Stack>
+                      <Stack gap={1}>
+                        <Body className="text-body-sm">Due Date</Body>
+                        <Body>{opp.dueDate}</Body>
+                      </Stack>
+                      <Stack gap={2}>
+                        <Stack direction="horizontal" className="justify-between">
+                          <Body className="text-body-sm">Score</Body>
+                          <Body className="font-mono">{score}/100</Body>
+                        </Stack>
+                        <ProgressBar value={score} />
+                      </Stack>
+                      <Badge variant={opp.status === "Bid" ? "solid" : "outline"}>{opp.status}</Badge>
+                      <Stack direction="horizontal" gap={2}>
+                        <Button variant="outline" size="sm" onClick={() => setSelectedOpp(opp)}>Evaluate</Button>
+                      </Stack>
+                    </Grid>
+                  </Card>
+                );
+              })}
+            </Stack>
 
-          <Grid cols={3} gap={4}>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/opportunities")}>Opportunities</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/opportunities/proposals")}>Proposals</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/")}>Dashboard</Button>
-          </Grid>
-        </Stack>
-      </Container>
+            <Grid cols={3} gap={4}>
+              <Button variant="outline" onClick={() => router.push("/opportunities")}>Opportunities</Button>
+              <Button variant="outline" onClick={() => router.push("/opportunities/proposals")}>Proposals</Button>
+              <Button variant="outline" onClick={() => router.push("/")}>Dashboard</Button>
+            </Grid>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedOpp} onClose={() => setSelectedOpp(null)}>
         <ModalHeader><H3>Evaluate Opportunity</H3></ModalHeader>
         <ModalBody>
           {selectedOpp && (
             <Stack gap={4}>
-              <Body className="text-white">{selectedOpp.title}</Body>
+              <Body className="font-display">{selectedOpp.title}</Body>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label className="text-ink-400">Client</Label><Label className="text-white">{selectedOpp.client}</Label></Stack>
-                <Stack gap={1}><Label className="text-ink-400">Value</Label><Label className="font-mono text-white">{formatCurrency(selectedOpp.value)}</Label></Stack>
+                <Stack gap={1}><Body className="text-body-sm">Client</Body><Body>{selectedOpp.client}</Body></Stack>
+                <Stack gap={1}><Body className="text-body-sm">Value</Body><Body className="font-mono">{formatCurrency(selectedOpp.value)}</Body></Stack>
               </Grid>
-              <Stack gap={1}><Label className="text-ink-400">Due Date</Label><Label className="text-white">{selectedOpp.dueDate}</Label></Stack>
+              <Stack gap={1}><Body className="text-body-sm">Due Date</Body><Body>{selectedOpp.dueDate}</Body></Stack>
               <Stack gap={3}>
-                <Label className="text-ink-400">Scoring Criteria</Label>
+                <Body className="text-body-sm">Scoring Criteria</Body>
                 {selectedOpp.criteria.map((criterion, idx) => (
                   <Stack key={idx} gap={2}>
                     <Stack direction="horizontal" className="justify-between">
-                      <Label className="text-white">{criterion.name}</Label>
+                      <Body>{criterion.name}</Body>
                       <Stack direction="horizontal" gap={2}>
-                        <Label size="xs" className="text-ink-500">Weight: {criterion.weight}%</Label>
-                        <Label className="font-mono text-white">{criterion.score}/10</Label>
+                        <Body className="text-body-sm">Weight: {criterion.weight}%</Body>
+                        <Body className="font-mono">{criterion.score}/10</Body>
                       </Stack>
                     </Stack>
-                    <ProgressBar value={criterion.score * 10} className="h-2" />
+                    <ProgressBar value={criterion.score * 10} />
                   </Stack>
                 ))}
               </Stack>
-              <Card className="p-4 border border-ink-700">
+              <Card>
                 <Stack gap={2}>
                   <Stack direction="horizontal" className="justify-between">
-                    <Label className="text-ink-400">Overall Score</Label>
-                    <Label className={`font-mono text-h6-md ${getScoreColor(selectedOpp.score || calculateScore(selectedOpp.criteria))}`}>
+                    <Body className="text-body-sm">Overall Score</Body>
+                    <Body className="font-mono">
                       {selectedOpp.score || calculateScore(selectedOpp.criteria)}/100
-                    </Label>
+                    </Body>
                   </Stack>
                   {selectedOpp.recommendation && (
                     <Stack direction="horizontal" className="justify-between">
-                      <Label className="text-ink-400">Recommendation</Label>
-                      <Label className={selectedOpp.recommendation === "Bid" ? "text-success-400" : "text-error-400"}>{selectedOpp.recommendation}</Label>
+                      <Body className="text-body-sm">Recommendation</Body>
+                      <Badge variant={selectedOpp.recommendation === "Bid" ? "solid" : "outline"}>{selectedOpp.recommendation}</Badge>
                     </Stack>
                   )}
                 </Stack>
               </Card>
-              <Textarea placeholder="Decision notes..." defaultValue={selectedOpp.notes} rows={2} className="border-ink-700 bg-black text-white" />
+              <Textarea placeholder="Decision notes..." defaultValue={selectedOpp.notes} rows={2} />
             </Stack>
           )}
         </ModalBody>
         <ModalFooter>
           <Button variant="outline" onClick={() => setSelectedOpp(null)}>Cancel</Button>
-          <Button variant="outline" className="text-error-400">No Bid</Button>
-          <Button variant="solid" className="bg-success-600">Bid</Button>
+          <Button variant="outline">No Bid</Button>
+          <Button variant="solid">Bid</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

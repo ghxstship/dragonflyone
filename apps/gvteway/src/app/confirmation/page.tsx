@@ -2,10 +2,10 @@
 
 import { useState, useEffect, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ConsumerNavigationPublic } from "../../components/navigation";
+import { ConsumerNavigationPublic } from "@/components/navigation";
 import {
-  H1,
   H2,
+  H3,
   Body,
   Button,
   Badge,
@@ -15,6 +15,12 @@ import {
   Stack,
   Card,
   Section,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
+  Kicker,
 } from "@ghxstship/ui";
 
 interface OrderDetails {
@@ -42,6 +48,22 @@ interface OrderItem {
   unit_price: number;
   total: number;
 }
+
+const footerContent = (
+  <Footer
+    logo={<Display size="md">GVTEWAY</Display>}
+    copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+  >
+    <FooterColumn title="Orders">
+      <FooterLink href="/orders">My Orders</FooterLink>
+      <FooterLink href="/tickets">My Tickets</FooterLink>
+    </FooterColumn>
+    <FooterColumn title="Legal">
+      <FooterLink href="/legal/privacy">Privacy</FooterLink>
+      <FooterLink href="/legal/terms">Terms</FooterLink>
+    </FooterColumn>
+  </Footer>
+);
 
 function ConfirmationContent() {
   const router = useRouter();
@@ -98,86 +120,94 @@ function ConfirmationContent() {
 
   if (loading) {
     return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
+      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+        <Section background="black" className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading order details..." />
-        </Container>
-      </Section>
+        </Section>
+      </PageLayout>
     );
   }
 
   if (!order) {
     return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <ConsumerNavigationPublic />
-        <Container className="py-16 text-center">
-          <Stack gap={4} className="items-center">
-            <H1>Order Not Found</H1>
-            <Body className="text-ink-400">We couldn&apos;t find this order.</Body>
-            <Button variant="outline" onClick={() => router.push("/orders")}>
-              View All Orders
-            </Button>
-          </Stack>
-        </Container>
-      </Section>
+      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+        <Section background="black" className="min-h-screen py-16">
+          <Container className="text-center">
+            <Stack gap={4} className="items-center">
+              <H2 size="lg" className="text-white">Order Not Found</H2>
+              <Body className="text-on-dark-muted">We couldn&apos;t find this order.</Body>
+              <Button variant="outlineInk" onClick={() => router.push("/orders")}>
+                View All Orders
+              </Button>
+            </Stack>
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="relative min-h-screen bg-black text-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8} className="max-w-3xl mx-auto">
-          <Stack gap={4} className="text-center">
-            <Body className="text-h3-md">✓</Body>
-            <H1>Order Confirmed!</H1>
-            <Body className="text-ink-400">
-              Thank you for your purchase. Your tickets are on the way!
-            </Body>
+    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={8} className="mx-auto max-w-3xl">
+            <Stack gap={4} className="text-center">
+              <Body className="text-h3-md">✓</Body>
+              <Kicker colorScheme="on-dark">Purchase Complete</Kicker>
+              <H2 size="lg" className="text-white">Order Confirmed!</H2>
+              <Body className="text-on-dark-muted">
+                Thank you for your purchase. Your tickets are on the way!
+              </Body>
             <Badge variant="solid" className="mx-auto">
               Order #{order.order_number}
             </Badge>
           </Stack>
 
-          <Card className="p-6 bg-black border-ink-800">
+          <Card inverted variant="elevated" className="p-6">
             <Stack gap={6}>
               <Stack gap={2}>
-                <Body className="text-ink-400 text-body-sm uppercase tracking-widest">Order Details</Body>
+                <Kicker colorScheme="on-dark">Order Details</Kicker>
                 <Stack gap={1} direction="horizontal" className="justify-between">
-                  <Body className="text-ink-400">Order Date</Body>
-                  <Body>{formatDate(order.created_at)}</Body>
+                  <Body className="text-on-dark-muted">Order Date</Body>
+                  <Body className="text-white">{formatDate(order.created_at)}</Body>
                 </Stack>
                 <Stack gap={1} direction="horizontal" className="justify-between">
-                  <Body className="text-ink-400">Confirmation Email</Body>
-                  <Body>{order.billing_email}</Body>
+                  <Body className="text-on-dark-muted">Confirmation Email</Body>
+                  <Body className="text-white">{order.billing_email}</Body>
                 </Stack>
                 <Stack gap={1} direction="horizontal" className="justify-between">
-                  <Body className="text-ink-400">Payment Method</Body>
-                  <Body>{order.payment_method}</Body>
+                  <Body className="text-on-dark-muted">Payment Method</Body>
+                  <Body className="text-white">{order.payment_method}</Body>
                 </Stack>
               </Stack>
 
               <Stack gap={4}>
-                <Body className="text-ink-400 text-body-sm uppercase tracking-widest">Tickets</Body>
+                <Kicker colorScheme="on-dark">Tickets</Kicker>
                 {order.items.map((item) => (
-                  <Card key={item.id} className="p-4 bg-ink-900 border-ink-700">
+                  <Card key={item.id} inverted interactive className="p-4">
                     <Stack gap={3}>
                       <Stack gap={1}>
-                        <H2 className="text-body-md">{item.event_name}</H2>
-                        <Body className="text-ink-400">{item.venue_name}</Body>
-                        <Body className="text-ink-500 text-body-sm">
+                        <H3 className="text-white">{item.event_name}</H3>
+                        <Body className="text-on-dark-muted">{item.venue_name}</Body>
+                        <Body size="sm" className="text-on-dark-disabled">
                           {formatDate(item.event_date)} at {formatTime(item.event_date)}
                         </Body>
                       </Stack>
                       <Stack gap={1} direction="horizontal" className="justify-between">
                         <Stack gap={1}>
                           <Badge variant="outline">{item.ticket_type}</Badge>
-                          <Body className="text-ink-400 text-body-sm">
+                          <Body size="sm" className="text-on-dark-muted">
                             {item.quantity} × {formatCurrency(item.unit_price)}
                           </Body>
                         </Stack>
-                        <Body className="font-mono">{formatCurrency(item.total)}</Body>
+                        <Body className="font-mono text-white">{formatCurrency(item.total)}</Body>
                       </Stack>
                     </Stack>
                   </Card>
@@ -186,53 +216,53 @@ function ConfirmationContent() {
 
               <Stack gap={2} className="border-t border-ink-800 pt-4">
                 <Stack gap={1} direction="horizontal" className="justify-between">
-                  <Body className="text-ink-400">Subtotal</Body>
-                  <Body className="font-mono">{formatCurrency(order.subtotal)}</Body>
+                  <Body className="text-on-dark-muted">Subtotal</Body>
+                  <Body className="font-mono text-white">{formatCurrency(order.subtotal)}</Body>
                 </Stack>
                 <Stack gap={1} direction="horizontal" className="justify-between">
-                  <Body className="text-ink-400">Service Fees</Body>
-                  <Body className="font-mono">{formatCurrency(order.fees)}</Body>
+                  <Body className="text-on-dark-muted">Service Fees</Body>
+                  <Body className="font-mono text-white">{formatCurrency(order.fees)}</Body>
                 </Stack>
                 <Stack gap={1} direction="horizontal" className="justify-between">
-                  <Body className="text-ink-400">Taxes</Body>
-                  <Body className="font-mono">{formatCurrency(order.taxes)}</Body>
+                  <Body className="text-on-dark-muted">Taxes</Body>
+                  <Body className="font-mono text-white">{formatCurrency(order.taxes)}</Body>
                 </Stack>
                 {order.discount > 0 && (
                   <Stack gap={1} direction="horizontal" className="justify-between">
-                    <Body className="text-success-400">Discount</Body>
-                    <Body className="font-mono text-success-400">-{formatCurrency(order.discount)}</Body>
+                    <Body className="text-success">Discount</Body>
+                    <Body className="font-mono text-success">-{formatCurrency(order.discount)}</Body>
                   </Stack>
                 )}
                 <Stack gap={1} direction="horizontal" className="justify-between border-t border-ink-800 pt-2">
-                  <Body className="font-bold">Total Paid</Body>
-                  <Body className="font-mono text-h6-md font-bold">{formatCurrency(order.total)}</Body>
+                  <Body className="font-display text-white">Total Paid</Body>
+                  <Body className="font-display text-white">{formatCurrency(order.total)}</Body>
                 </Stack>
               </Stack>
             </Stack>
           </Card>
 
-          <Card className="p-6 bg-ink-900 border-ink-700">
+          <Card inverted className="p-6">
             <Stack gap={4}>
-              <H2>What&apos;s Next?</H2>
+              <H3 className="text-white">What&apos;s Next?</H3>
               <Grid cols={3} gap={4}>
                 <Stack gap={2}>
-                  <Body className="text-h5-md">📧</Body>
-                  <Body className="font-medium">Check Your Email</Body>
-                  <Body className="text-ink-400 text-body-sm">
+                  <Body className="text-h3-md">📧</Body>
+                  <Body className="font-display text-white">Check Your Email</Body>
+                  <Body size="sm" className="text-on-dark-muted">
                     Your tickets have been sent to {order.billing_email}
                   </Body>
                 </Stack>
                 <Stack gap={2}>
-                  <Body className="text-h5-md">📱</Body>
-                  <Body className="font-medium">Add to Wallet</Body>
-                  <Body className="text-ink-400 text-body-sm">
+                  <Body className="text-h3-md">📱</Body>
+                  <Body className="font-display text-white">Add to Wallet</Body>
+                  <Body size="sm" className="text-on-dark-muted">
                     Save your tickets to Apple Wallet or Google Pay
                   </Body>
                 </Stack>
                 <Stack gap={2}>
-                  <Body className="text-h5-md">🎫</Body>
-                  <Body className="font-medium">View Tickets</Body>
-                  <Body className="text-ink-400 text-body-sm">
+                  <Body className="text-h3-md">🎫</Body>
+                  <Body className="font-display text-white">View Tickets</Body>
+                  <Body size="sm" className="text-on-dark-muted">
                     Access your tickets anytime from your account
                   </Body>
                 </Stack>
@@ -241,28 +271,28 @@ function ConfirmationContent() {
           </Card>
 
           <Stack gap={4} direction="horizontal" className="justify-center">
-            <Button variant="outlineWhite" onClick={() => router.push("/tickets")}>
+            <Button variant="outlineInk" onClick={() => router.push("/tickets")}>
               View My Tickets
             </Button>
             <Button variant="ghost" onClick={() => router.push("/events")}>
               Browse More Events
             </Button>
           </Stack>
-        </Stack>
-      </Container>
-    </Section>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }
 
 export default function ConfirmationPage() {
   return (
     <Suspense fallback={
-      <Section className="relative min-h-screen bg-black text-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
+      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+        <Section background="black" className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading order details..." />
-        </Container>
-      </Section>
+        </Section>
+      </PageLayout>
     }>
       <ConfirmationContent />
     </Suspense>

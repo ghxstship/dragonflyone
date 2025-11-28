@@ -1,12 +1,11 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ConsumerNavigationPublic } from '../../../components/navigation';
+import { ConsumerNavigationPublic } from '@/components/navigation';
 import {
   Container,
   Section,
-  H1,
   H2,
   H3,
   Body,
@@ -25,18 +24,22 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  LoadingSpinner,
   StatCard,
   Tabs,
   TabsList,
   Tab,
-  TabPanel,
   Table,
   TableHeader,
   TableBody,
   TableRow,
   TableHead,
   TableCell,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
+  Kicker,
 } from '@ghxstship/ui';
 
 interface ScalpingAlert {
@@ -153,23 +156,23 @@ export default function AntiScalpingPage() {
   };
 
   const getSeverityBadge = (severity: string) => {
-    const colors: Record<string, string> = {
-      critical: 'bg-error-600 text-white',
-      high: 'bg-error-500 text-white',
-      medium: 'bg-warning-500 text-black',
-      low: 'bg-success-500 text-white',
+    const variants: Record<string, 'solid' | 'outline' | 'ghost'> = {
+      critical: 'solid',
+      high: 'solid',
+      medium: 'outline',
+      low: 'ghost',
     };
-    return <Badge className={colors[severity] || ''}>{severity}</Badge>;
+    return <Badge variant={variants[severity] || 'ghost'}>{severity}</Badge>;
   };
 
   const getStatusBadge = (status: string) => {
-    const colors: Record<string, string> = {
-      pending: 'bg-warning-500 text-black',
-      investigating: 'bg-info-500 text-white',
-      blocked: 'bg-error-500 text-white',
-      cleared: 'bg-success-500 text-white',
+    const variants: Record<string, 'solid' | 'outline' | 'ghost'> = {
+      pending: 'outline',
+      investigating: 'outline',
+      blocked: 'solid',
+      cleared: 'ghost',
     };
-    return <Badge className={colors[status] || ''}>{status}</Badge>;
+    return <Badge variant={variants[status] || 'ghost'}>{status}</Badge>;
   };
 
   const getTypeBadge = (type: string) => {
@@ -194,24 +197,51 @@ export default function AntiScalpingPage() {
   const ticketsProtected = alerts.filter(a => a.status === 'blocked').reduce((sum, a) => sum + a.ticket_count, 0);
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
-            <Stack gap={2}>
-              <H1>Anti-Scalping Protection</H1>
-              <Body className="text-ink-600">Monitor and prevent ticket scalping and fraud</Body>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Admin">
+            <FooterLink href="/admin">Dashboard</FooterLink>
+            <FooterLink href="/admin/anti-scalping">Anti-Scalping</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack direction="horizontal" className="items-center justify-between">
+              <Stack gap={2}>
+                <Kicker colorScheme="on-dark">Admin</Kicker>
+                <H2 size="lg" className="text-white">Anti-Scalping Protection</H2>
+                <Body className="text-on-dark-muted">Monitor and prevent ticket scalping and fraud</Body>
+              </Stack>
+              <Stack direction="horizontal" gap={2}>
+                <Button variant="outlineInk" onClick={() => setShowBlockModal(true)}>
+                  Block Entity
+                </Button>
+                <Button variant="solid" inverted onClick={() => router.push('/admin/settings')}>
+                  Settings
+                </Button>
+              </Stack>
             </Stack>
-            <Stack direction="horizontal" gap={2}>
-              <Button variant="outline" onClick={() => setShowBlockModal(true)}>
-                Block Entity
-              </Button>
-              <Button variant="solid" onClick={() => router.push('/admin/settings')}>
-                Settings
-              </Button>
-            </Stack>
-          </Stack>
 
           {error && (
             <Alert variant="error" onClose={() => setError(null)}>
@@ -225,12 +255,12 @@ export default function AntiScalpingPage() {
             </Alert>
           )}
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Active Alerts" value={alerts.filter(a => a.status === 'pending' || a.status === 'investigating').length} className="border-2 border-black" />
-            <StatCard label="Critical" value={criticalCount} className="border-2 border-error-500" />
-            <StatCard label="Blocked Today" value={blockedToday} className="border-2 border-black" />
-            <StatCard label="Tickets Protected" value={ticketsProtected} className="border-2 border-success-500" />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard label="Active Alerts" value={alerts.filter(a => a.status === 'pending' || a.status === 'investigating').length.toString()} inverted />
+              <StatCard label="Critical" value={criticalCount.toString()} inverted />
+              <StatCard label="Blocked Today" value={blockedToday.toString()} inverted />
+              <StatCard label="Tickets Protected" value={ticketsProtected.toString()} inverted />
+            </Grid>
 
           {criticalCount > 0 && (
             <Alert variant="error">
@@ -286,7 +316,7 @@ export default function AntiScalpingPage() {
 
               <Stack gap={4}>
                 {filteredAlerts.map(alert => (
-                  <Card key={alert.id} className={`p-4 border-2 ${alert.severity === 'critical' ? 'border-error-500' : alert.severity === 'high' ? 'border-error-300' : 'border-ink-200'}`}>
+                  <Card key={alert.id} inverted variant={alert.severity === 'critical' || alert.severity === 'high' ? 'elevated' : 'default'}>
                     <Grid cols={6} gap={4} className="items-center">
                       <Stack gap={2}>
                         <Stack direction="horizontal" gap={2}>
@@ -296,16 +326,16 @@ export default function AntiScalpingPage() {
                         <Body className="font-bold">{alert.event_name}</Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Label className="text-ink-500">Details</Label>
-                        <Body className="text-body-sm">{alert.details}</Body>
+                        <Label size="xs" className="text-on-dark-muted">Details</Label>
+                        <Body size="sm" className="text-on-dark-muted">{alert.details}</Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Label className="text-ink-500">Tickets</Label>
-                        <Body className="font-bold">{alert.ticket_count}</Body>
+                        <Label size="xs" className="text-on-dark-muted">Tickets</Label>
+                        <Body className="font-display text-white">{alert.ticket_count}</Body>
                       </Stack>
                       <Stack gap={1}>
                         {getStatusBadge(alert.status)}
-                        <Label className="text-mono-xs text-ink-600">
+                        <Label size="xs" className="font-mono text-on-dark-disabled">
                           {new Date(alert.created_at).toLocaleString()}
                         </Label>
                       </Stack>
@@ -329,23 +359,23 @@ export default function AntiScalpingPage() {
           {activeTab === 'rules' && (
             <Stack gap={4}>
               {rules.map(rule => (
-                <Card key={rule.id} className={`p-4 border-2 ${rule.enabled ? 'border-success-300' : 'border-ink-200'}`}>
+                <Card key={rule.id} inverted variant={rule.enabled ? 'elevated' : 'default'}>
                   <Grid cols={4} gap={4} className="items-center">
                     <Stack gap={1}>
-                      <Body className="font-bold">{rule.name}</Body>
-                      <Label className="text-ink-500">{rule.description}</Label>
+                      <Body className="font-display text-white">{rule.name}</Body>
+                      <Label size="xs" className="text-on-dark-muted">{rule.description}</Label>
                     </Stack>
                     <Stack gap={1}>
-                      <Label className="text-ink-500">Type</Label>
+                      <Label size="xs" className="text-on-dark-muted">Type</Label>
                       <Badge variant="outline">{rule.type.replace('_', ' ')}</Badge>
                     </Stack>
                     <Stack gap={1}>
-                      <Label className="text-ink-500">Action</Label>
+                      <Label size="xs" className="text-on-dark-muted">Action</Label>
                       <Badge variant={rule.action === 'block' ? 'solid' : 'outline'}>
                         {rule.action.replace('_', ' ')}
                       </Badge>
                       {rule.threshold && (
-                        <Label className="text-mono-xs text-ink-600">Threshold: {rule.threshold}</Label>
+                        <Label size="xs" className="text-on-dark-disabled">Threshold: {rule.threshold}</Label>
                       )}
                     </Stack>
                     <Stack direction="horizontal" gap={2} className="justify-end">
@@ -366,77 +396,79 @@ export default function AntiScalpingPage() {
 
           {activeTab === 'blocked' && (
             <Stack gap={4}>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Type</TableHead>
-                    <TableHead>Value</TableHead>
-                    <TableHead>Reason</TableHead>
-                    <TableHead>Blocked At</TableHead>
-                    <TableHead>Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {blocked.map(block => (
-                    <TableRow key={block.id}>
-                      <TableCell>
-                        <Badge variant="outline" className="uppercase">{block.type}</Badge>
-                      </TableCell>
-                      <TableCell>
-                        <Body className="font-mono">{block.value}</Body>
-                      </TableCell>
-                      <TableCell>{block.reason}</TableCell>
-                      <TableCell>
-                        <Label className="text-ink-500">
-                          {new Date(block.blocked_at).toLocaleString()}
-                        </Label>
-                      </TableCell>
-                      <TableCell>
-                        <Button variant="ghost" size="sm" onClick={() => handleRemoveBlock(block.id)}>
-                          Remove
-                        </Button>
-                      </TableCell>
+              <Card inverted className="overflow-hidden">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="bg-ink-900">
+                      <TableHead className="text-on-dark-muted">Type</TableHead>
+                      <TableHead className="text-on-dark-muted">Value</TableHead>
+                      <TableHead className="text-on-dark-muted">Reason</TableHead>
+                      <TableHead className="text-on-dark-muted">Blocked At</TableHead>
+                      <TableHead className="text-on-dark-muted">Actions</TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                  </TableHeader>
+                  <TableBody>
+                    {blocked.map(block => (
+                      <TableRow key={block.id} className="border-b border-ink-700">
+                        <TableCell>
+                          <Badge variant="outline" className="uppercase">{block.type}</Badge>
+                        </TableCell>
+                        <TableCell>
+                          <Body className="font-mono text-white">{block.value}</Body>
+                        </TableCell>
+                        <TableCell><Body className="text-on-dark-muted">{block.reason}</Body></TableCell>
+                        <TableCell>
+                          <Label className="text-on-dark-disabled">
+                            {new Date(block.blocked_at).toLocaleString()}
+                          </Label>
+                        </TableCell>
+                        <TableCell>
+                          <Button variant="ghost" size="sm" onClick={() => handleRemoveBlock(block.id)}>
+                            Remove
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </Card>
             </Stack>
           )}
 
           {activeTab === 'analytics' && (
             <Grid cols={2} gap={6}>
-              <Card className="p-6 border-2 border-black">
+              <Card inverted className="p-6">
                 <Stack gap={4}>
-                  <H3>Detection Summary</H3>
+                  <H3 className="text-white">Detection Summary</H3>
                   <Stack gap={2}>
                     {['bulk_purchase', 'bot_detected', 'rapid_checkout', 'resale_listing', 'suspicious_pattern'].map(type => (
                       <Stack key={type} direction="horizontal" className="justify-between">
-                        <Body className="capitalize">{type.replace('_', ' ')}</Body>
-                        <Body className="font-bold">{alerts.filter(a => a.type === type).length}</Body>
+                        <Body className="capitalize text-on-dark-muted">{type.replace('_', ' ')}</Body>
+                        <Body className="font-display text-white">{alerts.filter(a => a.type === type).length}</Body>
                       </Stack>
                     ))}
                   </Stack>
                 </Stack>
               </Card>
-              <Card className="p-6 border-2 border-black">
+              <Card inverted className="p-6">
                 <Stack gap={4}>
-                  <H3>Protection Effectiveness</H3>
+                  <H3 className="text-white">Protection Effectiveness</H3>
                   <Stack gap={2}>
                     <Stack direction="horizontal" className="justify-between">
-                      <Body>Tickets Protected</Body>
-                      <Body className="font-bold text-success-600">{ticketsProtected}</Body>
+                      <Body className="text-on-dark-muted">Tickets Protected</Body>
+                      <Body className="font-display text-success">{ticketsProtected}</Body>
                     </Stack>
                     <Stack direction="horizontal" className="justify-between">
-                      <Body>Scalpers Blocked</Body>
-                      <Body className="font-bold">{blocked.length}</Body>
+                      <Body className="text-on-dark-muted">Scalpers Blocked</Body>
+                      <Body className="font-display text-white">{blocked.length}</Body>
                     </Stack>
                     <Stack direction="horizontal" className="justify-between">
-                      <Body>Detection Rate</Body>
-                      <Body className="font-bold">98.5%</Body>
+                      <Body className="text-on-dark-muted">Detection Rate</Body>
+                      <Body className="font-display text-white">98.5%</Body>
                     </Stack>
                     <Stack direction="horizontal" className="justify-between">
-                      <Body>False Positive Rate</Body>
-                      <Body className="font-bold text-success-600">0.3%</Body>
+                      <Body className="text-on-dark-muted">False Positive Rate</Body>
+                      <Body className="font-display text-success">0.3%</Body>
                     </Stack>
                   </Stack>
                 </Stack>
@@ -444,11 +476,12 @@ export default function AntiScalpingPage() {
             </Grid>
           )}
 
-          <Button variant="outline" onClick={() => router.push('/admin')}>
+          <Button variant="outlineInk" onClick={() => router.push('/admin')}>
             Back to Admin
           </Button>
-        </Stack>
-      </Container>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedAlert} onClose={() => setSelectedAlert(null)}>
         <ModalHeader><H3>Alert Details</H3></ModalHeader>
@@ -539,6 +572,6 @@ export default function AntiScalpingPage() {
           <Button variant="solid" onClick={handleAddBlock}>Block</Button>
         </ModalFooter>
       </Modal>
-    </Section>
+    </PageLayout>
   );
 }

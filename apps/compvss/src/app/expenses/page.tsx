@@ -10,15 +10,8 @@ import {
   DetailDrawer,
   ConfirmDialog,
   useNotifications,
-  Section,
-  Container,
-  LoadingSpinner,
-  EmptyState,
   Stack,
   Grid,
-  Card,
-  H1,
-  H2,
   Body,
   StatCard,
   Select,
@@ -161,17 +154,17 @@ export default function ExpensesPage() {
 
   const detailSections: DetailSection[] = selectedExpense ? [
     { id: 'overview', title: 'Expense Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Expense #:</strong> {selectedExpense.expense_number}</div>
-        <div><strong>Status:</strong> {selectedExpense.status}</div>
-        <div><strong>Crew Member:</strong> {selectedExpense.crew_member_name}</div>
-        <div><strong>Project:</strong> {selectedExpense.project_name}</div>
-        <div><strong>Category:</strong> {selectedExpense.category}</div>
-        <div><strong>Amount:</strong> {formatCurrency(selectedExpense.amount)}</div>
-        <div><strong>Date:</strong> {formatDate(selectedExpense.expense_date)}</div>
-        {selectedExpense.approved_by && <div><strong>Approved By:</strong> {selectedExpense.approved_by}</div>}
-        {selectedExpense.description && <div className="col-span-2"><strong>Description:</strong> {selectedExpense.description}</div>}
-      </div>
+      <Grid cols={2} gap={4}>
+        <Stack gap={1}><Body className="font-display">Expense #</Body><Body>{selectedExpense.expense_number}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Status</Body><Body>{selectedExpense.status}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Crew Member</Body><Body>{selectedExpense.crew_member_name}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Project</Body><Body>{selectedExpense.project_name}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Category</Body><Body>{selectedExpense.category}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Amount</Body><Body>{formatCurrency(selectedExpense.amount)}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Date</Body><Body>{formatDate(selectedExpense.expense_date)}</Body></Stack>
+        {selectedExpense.approved_by && <Stack gap={1}><Body className="font-display">Approved By</Body><Body>{selectedExpense.approved_by}</Body></Stack>}
+        {selectedExpense.description && <Stack gap={1} className="col-span-2"><Body className="font-display">Description</Body><Body>{selectedExpense.description}</Body></Stack>}
+      </Grid>
     )},
   ] : [];
 

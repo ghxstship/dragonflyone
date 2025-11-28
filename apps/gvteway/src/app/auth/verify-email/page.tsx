@@ -12,38 +12,60 @@ import {
   H2,
   Body,
   Button,
-  SectionLayout,
   Stack,
+  Card,
+  Section,
+  Container,
+  Label,
+  LoadingSpinner,
 } from "@ghxstship/ui";
+import { Mail } from "lucide-react";
+import NextLink from "next/link";
 
 function VerifyEmailContent() {
   const searchParams = useSearchParams();
   const email = searchParams.get("email") || "";
 
   return (
-    <Stack gap={8} className="mx-auto max-w-md text-center">
-      <Stack className="w-16 h-16 mx-auto bg-ink-800 rounded-full items-center justify-center">
-        <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-        </svg>
+    <Card inverted variant="elevated" className="w-full max-w-md p-8">
+      <Stack gap={8} className="text-center">
+        {/* Icon */}
+        <Card inverted className="mx-auto flex size-16 items-center justify-center">
+          <Mail className="size-8 text-white" />
+        </Card>
+        
+        <Stack gap={4}>
+          <H2 className="text-white">Verify Your Email</H2>
+          <Body className="text-on-dark-muted">
+            We&apos;ve sent a verification email to{" "}
+            {email && <strong className="text-white">{email}</strong>}
+            {!email && "your email address"}.
+            Please click the link in the email to verify your account.
+          </Body>
+        </Stack>
+        
+        <Stack gap={4}>
+          <Label size="xs" className="text-on-dark-disabled">
+            Didn&apos;t receive the email?
+          </Label>
+          
+          <Button
+            variant="outlineInk"
+            size="lg"
+            fullWidth
+            onClick={() => alert('Verification email resent!')}
+          >
+            Resend Verification Email
+          </Button>
+        </Stack>
+        
+        <NextLink href="/auth/signin">
+          <Button variant="ghost" size="sm" inverted className="text-on-dark-muted hover:text-white">
+            Back to Sign In
+          </Button>
+        </NextLink>
       </Stack>
-      <H2 className="text-white">Verify Your Email</H2>
-      <Body className="text-ink-400">
-        We&apos;ve sent a verification email to{" "}
-        {email && <strong className="text-white">{email}</strong>}
-        {!email && "your email address"}.
-        Please click the link in the email to verify your account.
-      </Body>
-      <Stack gap={4}>
-        <Body size="sm" className="text-ink-500">Didn&apos;t receive the email?</Body>
-        <Button variant="ghost" onClick={() => alert('Verification email resent!')} className="text-white hover:text-ink-400">
-          Resend Verification Email
-        </Button>
-      </Stack>
-      <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/signin'} className="text-ink-400 hover:text-white">
-        Back to Sign In
-      </Button>
-    </Stack>
+    </Card>
   );
 }
 
@@ -53,27 +75,29 @@ export default function VerifyEmailPage() {
       background="black"
       header={
         <Navigation
-          logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
+          logo={<Display size="md" className="text-white">GVTEWAY</Display>}
           cta={<></>}
         />
       }
       footer={
         <Footer
-          logo={<Display size="md" className="text-white text-display-md">GVTEWAY</Display>}
+          logo={<Display size="md" className="text-white">GVTEWAY</Display>}
           copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
         >
           <FooterColumn title="Legal">
-            <FooterLink href="#">Privacy</FooterLink>
-            <FooterLink href="#">Terms</FooterLink>
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
           </FooterColumn>
         </Footer>
       }
     >
-      <SectionLayout background="black">
-        <Suspense fallback={<Stack gap={8} className="mx-auto max-w-md text-center"><Body className="text-ink-400">Loading...</Body></Stack>}>
-          <VerifyEmailContent />
-        </Suspense>
-      </SectionLayout>
+      <Section background="black" className="flex min-h-[80vh] items-center justify-center py-12">
+        <Container className="w-full max-w-md">
+          <Suspense fallback={<LoadingSpinner size="lg" text="Loading..." />}>
+            <VerifyEmailContent />
+          </Suspense>
+        </Container>
+      </Section>
     </PageLayout>
   );
 }

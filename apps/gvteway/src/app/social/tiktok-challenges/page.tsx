@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { ConsumerNavigationPublic } from "@/components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge, ProgressBar,
+  Container, H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
+  Section, Card, Tabs, TabsList, Tab, Badge, ProgressBar,
   Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
+  PageLayout, Footer, FooterColumn, FooterLink, Display, Kicker,
 } from "@ghxstship/ui";
 
 interface TikTokChallenge {
@@ -57,13 +59,41 @@ export default function TikTokChallengesPage() {
   const filteredChallenges = activeTab === "all" ? mockChallenges : mockChallenges.filter(c => c.status.toLowerCase() === activeTab);
 
   return (
-    <UISection className="min-h-screen bg-white">
-      <Container className="py-8">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>TIKTOK CHALLENGES</H1>
-            <Body className="text-ink-600">Create and manage viral TikTok challenge campaigns</Body>
-          </Stack>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Social">
+            <FooterLink href="/social">Social Hub</FooterLink>
+            <FooterLink href="/social/tiktok-challenges">TikTok Challenges</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Social</Kicker>
+              <H2 size="lg" className="text-white">TikTok Challenges</H2>
+              <Body className="text-on-dark-muted">Create and manage viral TikTok challenge campaigns</Body>
+            </Stack>
 
           <Grid cols={4} gap={6}>
             <StatCard label="Total Views" value={formatNumber(totalViews)} className="border-2 border-black" />
@@ -111,9 +141,10 @@ export default function TikTokChallengesPage() {
             ))}
           </Stack>
 
-          <Button variant="outline" onClick={() => router.push("/social")}>Back to Social</Button>
-        </Stack>
-      </Container>
+          <Button variant="outlineInk" onClick={() => router.push("/social")}>Back to Social</Button>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedChallenge} onClose={() => setSelectedChallenge(null)}>
         <ModalHeader><H3>{selectedChallenge?.name}</H3></ModalHeader>
@@ -177,6 +208,6 @@ export default function TikTokChallengesPage() {
           <Button variant="solid" onClick={() => setShowCreateModal(false)}>Create</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

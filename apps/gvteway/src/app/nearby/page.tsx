@@ -2,15 +2,13 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { ConsumerNavigationPublic } from '../../components/navigation';
+import { ConsumerNavigationPublic } from '@/components/navigation';
 import {
   Container,
   Section,
-  H1,
   H2,
   H3,
   Body,
-  Label,
   Button,
   Card,
   Field,
@@ -23,6 +21,12 @@ import {
   LoadingSpinner,
   ProjectCard,
   Form,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
+  Kicker,
 } from '@ghxstship/ui';
 
 interface NearbyEvent {
@@ -156,18 +160,45 @@ export default function NearbyEventsPage() {
   };
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-        <Stack gap={2} className="border-b-2 border-black pb-8">
-          <H1>Experiences Near You</H1>
-          {locationName && (
-            <Body className="text-ink-600">
-              Showing events near {locationName}
-            </Body>
-          )}
-        </Stack>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Discover">
+            <FooterLink href="/nearby">Nearby Events</FooterLink>
+            <FooterLink href="/browse">Browse Events</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Discover</Kicker>
+              <H2 size="lg" className="text-white">Experiences Near You</H2>
+              {locationName && (
+                <Body className="text-on-dark-muted">
+                  Showing events near {locationName}
+                </Body>
+              )}
+            </Stack>
 
         {error && (
           <Alert variant="error" className="mb-6">
@@ -175,19 +206,20 @@ export default function NearbyEventsPage() {
           </Alert>
         )}
 
-        <Card className="p-6 mb-8">
+        <Card inverted className="p-6">
           <Grid cols={4} gap={4}>
             <Stack className="col-span-2">
               <Form onSubmit={handleManualSearch}>
-                <Field label="Location">
+                <Field label="Location" inverted>
                   <Stack direction="horizontal" gap={2}>
                     <Input
                       value={manualLocation}
                       onChange={(e) => setManualLocation(e.target.value)}
                       placeholder="Enter city, zip code, or address..."
                       className="flex-1"
+                      inverted
                     />
-                    <Button type="submit" variant="outline" disabled={locationLoading}>
+                    <Button type="submit" variant="outlineInk" disabled={locationLoading}>
                       Search
                     </Button>
                   </Stack>
@@ -195,8 +227,8 @@ export default function NearbyEventsPage() {
               </Form>
             </Stack>
 
-            <Field label="Radius">
-              <Select value={radius} onChange={(e) => setRadius(e.target.value)}>
+            <Field label="Radius" inverted>
+              <Select value={radius} onChange={(e) => setRadius(e.target.value)} inverted>
                 <option value="5">5 miles</option>
                 <option value="10">10 miles</option>
                 <option value="25">25 miles</option>
@@ -205,8 +237,8 @@ export default function NearbyEventsPage() {
               </Select>
             </Field>
 
-            <Field label="Category">
-              <Select value={category} onChange={(e) => setCategory(e.target.value)}>
+            <Field label="Category" inverted>
+              <Select value={category} onChange={(e) => setCategory(e.target.value)} inverted>
                 <option value="all">All Categories</option>
                 <option value="concert">Concerts</option>
                 <option value="festival">Festivals</option>
@@ -219,7 +251,7 @@ export default function NearbyEventsPage() {
 
           <Stack direction="horizontal" gap={4} className="mt-4">
             <Button
-              variant="outline"
+              variant="outlineInk"
               onClick={getCurrentLocation}
               disabled={locationLoading}
             >
@@ -231,19 +263,19 @@ export default function NearbyEventsPage() {
         {loading ? (
           <Stack className="items-center py-12">
             <LoadingSpinner size="lg" />
-            <Body className="mt-4 text-ink-600">Finding events near you...</Body>
+            <Body className="mt-4 text-on-dark-muted">Finding events near you...</Body>
           </Stack>
         ) : events.length > 0 ? (
           <Stack gap={6}>
-            <Body className="text-ink-600">
+            <Body className="text-on-dark-muted">
               {events.length} events found within {radius} miles
             </Body>
 
             <Grid cols={3} gap={6}>
               {events.map(event => (
-                <Card key={event.id} className="overflow-hidden">
+                <Card key={event.id} inverted interactive className="overflow-hidden">
                   <Stack className="relative">
-                    <Badge className="absolute top-2 right-2 z-10 bg-black text-white">
+                    <Badge className="absolute right-2 top-2 z-10" variant="solid">
                       {formatDistance(event.distance)}
                     </Badge>
                     <ProjectCard
@@ -254,12 +286,12 @@ export default function NearbyEventsPage() {
                       onClick={() => handleEventClick(event.id)}
                     />
                   </Stack>
-                  <Stack className="p-4 border-t">
-                    <Stack direction="horizontal" className="justify-between items-center">
+                  <Stack className="border-t border-ink-800 p-4">
+                    <Stack direction="horizontal" className="items-center justify-between">
                       <Stack>
-                        <Body className="text-body-sm text-ink-500">{event.city}</Body>
+                        <Body size="sm" className="text-on-dark-disabled">{event.city}</Body>
                       </Stack>
-                      <Body className="font-bold">From ${event.price}</Body>
+                      <Body className="font-display text-white">From ${event.price}</Body>
                     </Stack>
                   </Stack>
                 </Card>
@@ -267,34 +299,35 @@ export default function NearbyEventsPage() {
             </Grid>
           </Stack>
         ) : location ? (
-          <Card className="p-12 text-center">
-            <H3 className="mb-4">NO EVENTS FOUND NEARBY</H3>
-            <Body className="text-ink-600 mb-6">
+          <Card inverted className="p-12 text-center">
+            <H3 className="mb-4 text-white">No Events Found Nearby</H3>
+            <Body className="mb-6 text-on-dark-muted">
               No events found within {radius} miles of your location.
               Try increasing the radius or searching a different area.
             </Body>
             <Stack direction="horizontal" gap={4} className="justify-center">
-              <Button variant="outline" onClick={() => setRadius('100')}>
+              <Button variant="outlineInk" onClick={() => setRadius('100')}>
                 Expand to 100 miles
               </Button>
-              <Button variant="solid" onClick={() => router.push('/browse')}>
+              <Button variant="solid" inverted onClick={() => router.push('/browse')}>
                 Browse All Events
               </Button>
             </Stack>
           </Card>
         ) : (
-          <Card className="p-12 text-center">
-            <H3 className="mb-4">ENABLE LOCATION</H3>
-            <Body className="text-ink-600 mb-6">
+          <Card inverted className="p-12 text-center">
+            <H3 className="mb-4 text-white">Enable Location</H3>
+            <Body className="mb-6 text-on-dark-muted">
               Allow location access or enter your location to find events near you.
             </Body>
-            <Button variant="solid" onClick={getCurrentLocation}>
+            <Button variant="solid" inverted onClick={getCurrentLocation}>
               Enable Location
             </Button>
           </Card>
         )}
-        </Stack>
-      </Container>
-    </Section>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

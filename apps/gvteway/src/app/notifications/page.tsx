@@ -1,25 +1,28 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { ConsumerNavigationPublic } from "@/components/navigation";
 import {
   PageLayout,
-  Navigation,
   Footer,
+  FooterColumn,
+  FooterLink,
   Display,
   H2,
   Body,
   Button,
   Badge,
   Select,
-  SectionLayout,
+  Section,
   LoadingSpinner,
   EmptyState,
   Container,
   Stack,
   Card,
-  Link,
+  Kicker,
+  Label,
 } from "@ghxstship/ui";
+import { Bell, CheckCircle, Mail, Ticket, Megaphone, Settings } from "lucide-react";
 
 interface Notification {
   id: string;
@@ -32,7 +35,6 @@ interface Notification {
 }
 
 export default function NotificationsPage() {
-  const router = useRouter();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -98,29 +100,58 @@ export default function NotificationsPage() {
 
   const unreadCount = notifications.filter(n => !n.read).length;
 
+  const getNotificationIcon = (type: string) => {
+    switch (type) {
+      case 'event_update': return <Bell className="size-4 text-on-dark-muted" />;
+      case 'ticket': return <Ticket className="size-4 text-on-dark-muted" />;
+      case 'promotion': return <Megaphone className="size-4 text-on-dark-muted" />;
+      case 'system': return <Settings className="size-4 text-on-dark-muted" />;
+      default: return <Mail className="size-4 text-on-dark-muted" />;
+    }
+  };
+
   if (loading) {
     return (
       <PageLayout
         background="black"
-        header={
-          <Navigation
-            logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
-            cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/profile')}>PROFILE</Button>}
-          >
-            <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Home</Link>
-            <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Events</Link>
-          </Navigation>
-        }
+        header={<ConsumerNavigationPublic />}
         footer={
           <Footer
-            logo={<Display size="md" className="text-white text-display-md">GVTEWAY</Display>}
-            copyright="© 2024 GHXSTSHIP INDUSTRIES."
-          />
+            logo={<Display size="md">GVTEWAY</Display>}
+            copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+          >
+            <FooterColumn title="Account">
+              <FooterLink href="/profile">Profile</FooterLink>
+              <FooterLink href="/notifications">Notifications</FooterLink>
+              <FooterLink href="/settings">Settings</FooterLink>
+            </FooterColumn>
+            <FooterColumn title="Discover">
+              <FooterLink href="/events">Browse Events</FooterLink>
+              <FooterLink href="/venues">Find Venues</FooterLink>
+              <FooterLink href="/artists">Artists</FooterLink>
+            </FooterColumn>
+            <FooterColumn title="Legal">
+              <FooterLink href="/legal/privacy">Privacy</FooterLink>
+              <FooterLink href="/legal/terms">Terms</FooterLink>
+            </FooterColumn>
+          </Footer>
         }
       >
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading notifications..." />
-        </Container>
+        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+          <div
+            className="pointer-events-none absolute inset-0 opacity-5"
+            style={{
+              backgroundImage: `
+                linear-gradient(#fff 1px, transparent 1px),
+                linear-gradient(90deg, #fff 1px, transparent 1px)
+              `,
+              backgroundSize: "40px 40px",
+            }}
+          />
+          <Container className="relative z-10 flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" text="Loading notifications..." />
+          </Container>
+        </Section>
       </PageLayout>
     );
   }
@@ -129,29 +160,44 @@ export default function NotificationsPage() {
     return (
       <PageLayout
         background="black"
-        header={
-          <Navigation
-            logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
-            cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/profile')}>PROFILE</Button>}
-          >
-            <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Home</Link>
-            <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Events</Link>
-          </Navigation>
-        }
+        header={<ConsumerNavigationPublic />}
         footer={
           <Footer
-            logo={<Display size="md" className="text-white text-display-md">GVTEWAY</Display>}
-            copyright="© 2024 GHXSTSHIP INDUSTRIES."
-          />
+            logo={<Display size="md">GVTEWAY</Display>}
+            copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+          >
+            <FooterColumn title="Discover">
+              <FooterLink href="/events">Browse Events</FooterLink>
+              <FooterLink href="/venues">Find Venues</FooterLink>
+              <FooterLink href="/artists">Artists</FooterLink>
+            </FooterColumn>
+            <FooterColumn title="Legal">
+              <FooterLink href="/legal/privacy">Privacy</FooterLink>
+              <FooterLink href="/legal/terms">Terms</FooterLink>
+            </FooterColumn>
+          </Footer>
         }
       >
-        <Container className="py-16">
-          <EmptyState
-            title="Error Loading Notifications"
-            description={error}
-            action={{ label: "Retry", onClick: fetchNotifications }}
+        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+          <div
+            className="pointer-events-none absolute inset-0 opacity-5"
+            style={{
+              backgroundImage: `
+                linear-gradient(#fff 1px, transparent 1px),
+                linear-gradient(90deg, #fff 1px, transparent 1px)
+              `,
+              backgroundSize: "40px 40px",
+            }}
           />
-        </Container>
+          <Container className="relative z-10">
+            <EmptyState
+              title="Error Loading Notifications"
+              description={error}
+              action={{ label: "Retry", onClick: fetchNotifications }}
+              inverted
+            />
+          </Container>
+        </Section>
       </PageLayout>
     );
   }
@@ -159,69 +205,109 @@ export default function NotificationsPage() {
   return (
     <PageLayout
       background="black"
-      header={
-        <Navigation
-          logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
-          cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/profile')}>PROFILE</Button>}
-        >
-          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Home</Link>
-          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Events</Link>
-        </Navigation>
-      }
+      header={<ConsumerNavigationPublic />}
       footer={
         <Footer
-          logo={<Display size="md" className="text-white text-display-md">GVTEWAY</Display>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES."
-        />
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Account">
+            <FooterLink href="/profile">Profile</FooterLink>
+            <FooterLink href="/notifications">Notifications</FooterLink>
+            <FooterLink href="/settings">Settings</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Discover">
+            <FooterLink href="/events">Browse Events</FooterLink>
+            <FooterLink href="/venues">Find Venues</FooterLink>
+            <FooterLink href="/artists">Artists</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
       }
     >
-      <SectionLayout background="black">
-        <Container>
-          <Stack gap={8} className="max-w-4xl mx-auto">
-            <Stack gap={4} direction="horizontal" className="justify-between items-center">
-              <H2 className="text-white">Notifications</H2>
-              <Badge>{unreadCount} Unread</Badge>
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        {/* Grid Pattern Background */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `
+              linear-gradient(#fff 1px, transparent 1px),
+              linear-gradient(90deg, #fff 1px, transparent 1px)
+            `,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Updates</Kicker>
+              <Stack direction="horizontal" gap={4} className="items-center">
+                <H2 size="lg" className="text-white">Notifications</H2>
+                {unreadCount > 0 && <Badge variant="solid">{unreadCount} Unread</Badge>}
+              </Stack>
+              <Body className="text-on-dark-muted">Stay updated on your events and orders</Body>
             </Stack>
 
-            <Stack gap={4} direction="horizontal">
-              <Select
-                value={filterType}
-                onChange={(e) => setFilterType(e.target.value)}
-                className="bg-black text-white border-ink-700"
-              >
-                <option value="all">All Types</option>
-                <option value="event_update">Event Updates</option>
-                <option value="ticket">Tickets</option>
-                <option value="promotion">Promotions</option>
-                <option value="system">System</option>
-              </Select>
-              <Button variant="ghost" onClick={handleMarkAllRead}>
-                Mark All Read
-              </Button>
-            </Stack>
+            {/* Filters */}
+            <Card inverted className="p-4">
+              <Stack gap={4} direction="horizontal" className="items-center justify-between">
+                <Stack gap={2}>
+                  <Label size="xs" className="text-on-dark-muted">Filter by type</Label>
+                  <Select
+                    value={filterType}
+                    onChange={(e) => setFilterType(e.target.value)}
+                    inverted
+                  >
+                    <option value="all">All Types</option>
+                    <option value="event_update">Event Updates</option>
+                    <option value="ticket">Tickets</option>
+                    <option value="promotion">Promotions</option>
+                    <option value="system">System</option>
+                  </Select>
+                </Stack>
+                <Button 
+                  variant="outlineInk" 
+                  size="sm"
+                  onClick={handleMarkAllRead}
+                  icon={<CheckCircle className="size-4" />}
+                  iconPosition="left"
+                >
+                  Mark All Read
+                </Button>
+              </Stack>
+            </Card>
 
+            {/* Notifications List */}
             {filteredNotifications.length === 0 ? (
               <EmptyState
                 title="No Notifications"
                 description="You're all caught up!"
+                inverted
               />
             ) : (
               <Stack gap={3}>
                 {filteredNotifications.map((notification) => (
                   <Card
                     key={notification.id}
-                    className={`border-2 p-6 ${notification.read ? 'border-ink-800 bg-transparent' : 'border-white bg-ink-900'}`}
+                    inverted
+                    interactive
+                    variant={notification.read ? "default" : "elevated"}
                   >
-                    <Stack gap={4} direction="horizontal" className="justify-between items-start">
+                    <Stack gap={4} direction="horizontal" className="items-start justify-between">
                       <Stack gap={2} className="flex-1">
                         <Stack gap={3} direction="horizontal" className="items-center">
-                          <Body className="font-display text-body-md text-white">{notification.title}</Body>
+                          {getNotificationIcon(notification.type)}
+                          <Body className="font-display text-white">{notification.title}</Body>
                           {!notification.read && <Badge variant="solid">New</Badge>}
                         </Stack>
-                        <Body className="text-ink-300">{notification.message}</Body>
-                        <Body className="text-body-sm text-ink-500">
+                        <Body className="text-on-dark-muted">{notification.message}</Body>
+                        <Label size="xs" className="text-on-dark-disabled">
                           {notification.type} • {new Date(notification.created_at).toLocaleDateString()}
-                        </Body>
+                        </Label>
                       </Stack>
                       <Button
                         variant="ghost"
@@ -237,7 +323,7 @@ export default function NotificationsPage() {
             )}
           </Stack>
         </Container>
-      </SectionLayout>
+      </Section>
     </PageLayout>
   );
 }

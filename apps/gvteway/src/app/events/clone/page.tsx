@@ -2,11 +2,12 @@
 
 import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Section, LoadingSpinner } from "@ghxstship/ui";
+import { ConsumerNavigationPublic } from "@/components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
+  Container, H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
+  Section, Card, Tabs, TabsList, Tab, TabPanel, Badge,
+  Modal, ModalHeader, ModalBody, ModalFooter, Textarea, LoadingSpinner,
+  PageLayout, Footer, FooterColumn, FooterLink, Display, Kicker,
 } from "@ghxstship/ui";
 
 interface EventTemplate {
@@ -62,14 +63,40 @@ function EventCloneContent() {
     }
   };
 
+  const footerContent = (
+    <Footer
+      logo={<Display size="md">GVTEWAY</Display>}
+      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+    >
+      <FooterColumn title="Events">
+        <FooterLink href="/events">Events</FooterLink>
+        <FooterLink href="/events/clone">Create Event</FooterLink>
+      </FooterColumn>
+      <FooterColumn title="Legal">
+        <FooterLink href="/legal/privacy">Privacy</FooterLink>
+        <FooterLink href="/legal/terms">Terms</FooterLink>
+      </FooterColumn>
+    </Footer>
+  );
+
   return (
-    <UISection className="min-h-screen bg-white">
-      <Container className="py-8">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>CREATE EVENT</H1>
-            <Body className="text-ink-600">Clone from template or existing event</Body>
-          </Stack>
+    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Events</Kicker>
+              <H2 size="lg" className="text-white">Create Event</H2>
+              <Body className="text-on-dark-muted">Clone from template or existing event</Body>
+            </Stack>
 
           <Grid cols={4} gap={6}>
             <StatCard label="Templates" value={mockTemplates.length} className="border-2 border-black" />
@@ -168,9 +195,10 @@ function EventCloneContent() {
             </TabPanel>
           </Tabs>
 
-          <Button variant="outline" onClick={() => router.push("/events")}>Back to Events</Button>
-        </Stack>
-      </Container>
+          <Button variant="outlineInk" onClick={() => router.push("/events")}>Back to Events</Button>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedTemplate} onClose={() => setSelectedTemplate(null)}>
         <ModalHeader><H3>Use Template</H3></ModalHeader>
@@ -282,14 +310,14 @@ function EventCloneContent() {
           <Button variant="solid" onClick={() => setShowCreateModal(false)}>Create Template</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }
 
 export default function EventClonePage() {
   return (
     <Suspense fallback={
-      <Section className="min-h-screen bg-white flex items-center justify-center">
+      <Section background="black" className="flex min-h-screen items-center justify-center">
         <LoadingSpinner size="lg" />
       </Section>
     }>

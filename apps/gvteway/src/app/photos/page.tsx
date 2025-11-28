@@ -3,15 +3,13 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { ConsumerNavigationPublic } from '../../components/navigation';
+import { ConsumerNavigationPublic } from '@/components/navigation';
 import {
   Container,
   Section,
-  H1,
   H2,
   H3,
   Body,
-  Label,
   Button,
   Card,
   Field,
@@ -25,6 +23,12 @@ import {
   LoadingSpinner,
   StatCard,
   Form,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
+  Kicker,
 } from '@ghxstship/ui';
 
 interface Photo {
@@ -127,12 +131,33 @@ export default function PhotoGalleriesPage() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading photos..." />
-        </Container>
-      </Section>
+      <PageLayout
+        background="black"
+        header={<ConsumerNavigationPublic />}
+        footer={
+          <Footer
+            logo={<Display size="md">GVTEWAY</Display>}
+            copyright="© 2024 GHXSTSHIP INDUSTRIES."
+          >
+            <FooterColumn title="Discover">
+              <FooterLink href="/photos">Photos</FooterLink>
+            </FooterColumn>
+          </Footer>
+        }
+      >
+        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+          <div
+            className="pointer-events-none absolute inset-0 opacity-5"
+            style={{
+              backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+              backgroundSize: "40px 40px",
+            }}
+          />
+          <Container className="relative z-10 flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" text="Loading photos..." />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
@@ -141,21 +166,46 @@ export default function PhotoGalleriesPage() {
   const featuredPhotos = photos.filter(p => p.is_featured).length;
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-        <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
-          <Stack gap={2}>
-            <H1>Photo Galleries</H1>
-            <Body className="text-ink-600">
-              Share and discover photos from events
-            </Body>
-          </Stack>
-          <Button variant="solid" onClick={() => setShowUploadModal(true)}>
-            Upload Photo
-          </Button>
-        </Stack>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Community">
+            <FooterLink href="/photos">Photos</FooterLink>
+            <FooterLink href="/community">Community</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack direction="horizontal" className="items-center justify-between">
+              <Stack gap={2}>
+                <Kicker colorScheme="on-dark">Community</Kicker>
+                <H2 size="lg" className="text-white">Photo Galleries</H2>
+                <Body className="text-on-dark-muted">Share and discover photos from events</Body>
+              </Stack>
+              <Button variant="solid" inverted onClick={() => setShowUploadModal(true)}>
+                Upload Photo
+              </Button>
+            </Stack>
 
         {error && (
           <Alert variant="error" className="mb-6" onClose={() => setError(null)}>
@@ -169,38 +219,40 @@ export default function PhotoGalleriesPage() {
           </Alert>
         )}
 
-        <Grid cols={4} gap={6} className="mb-8">
+        <Grid cols={4} gap={6}>
           <StatCard
             label="Total Photos"
-            value={totalPhotos}
-            icon={<Body>📷</Body>}
+            value={totalPhotos.toString()}
+            inverted
           />
           <StatCard
             label="Active Galleries"
-            value={activeGalleries}
-            icon={<Body>🖼️</Body>}
+            value={activeGalleries.toString()}
+            inverted
           />
           <StatCard
             label="Featured"
-            value={featuredPhotos}
-            icon={<Body>⭐</Body>}
+            value={featuredPhotos.toString()}
+            inverted
           />
           <StatCard
             label="Your Uploads"
-            value={photos.filter(p => p.uploaded_by === 'current_user').length}
-            icon={<Body>📤</Body>}
+            value={photos.filter(p => p.uploaded_by === 'current_user').length.toString()}
+            inverted
           />
         </Grid>
 
-        <Stack direction="horizontal" gap={4} className="mb-6">
+        <Stack direction="horizontal" gap={4}>
           <Button
-            variant={activeView === 'galleries' ? 'solid' : 'outline'}
+            variant={activeView === 'galleries' ? 'solid' : 'outlineInk'}
+            inverted={activeView === 'galleries'}
             onClick={() => setActiveView('galleries')}
           >
             Event Galleries
           </Button>
           <Button
-            variant={activeView === 'feed' ? 'solid' : 'outline'}
+            variant={activeView === 'feed' ? 'solid' : 'outlineInk'}
+            inverted={activeView === 'feed'}
             onClick={() => setActiveView('feed')}
           >
             Photo Feed
@@ -213,10 +265,12 @@ export default function PhotoGalleriesPage() {
               galleries.map(gallery => (
                 <Card
                   key={gallery.id}
-                  className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow"
+                  inverted
+                  interactive
+                  className="cursor-pointer overflow-hidden"
                   onClick={() => router.push(`/photos/gallery/${gallery.id}`)}
                 >
-                  <Stack className="relative h-48 bg-ink-100">
+                  <Stack className="relative h-48 bg-ink-900">
                     {gallery.cover_photo ? (
                       <Image
                         src={gallery.cover_photo}
@@ -225,21 +279,21 @@ export default function PhotoGalleriesPage() {
                         className="object-cover"
                       />
                     ) : (
-                      <Stack className="w-full h-full flex items-center justify-center">
+                      <Stack className="flex h-full w-full items-center justify-center">
                         <Body className="text-h3-md">📷</Body>
                       </Stack>
                     )}
-                    <Stack className="absolute top-2 right-2">
+                    <Stack className="absolute right-2 top-2">
                       {getStatusBadge(gallery.status)}
                     </Stack>
                   </Stack>
                   <Stack className="p-4" gap={2}>
-                    <H3>{gallery.event_name}</H3>
-                    <Body className="text-body-sm text-ink-600">
+                    <H3 className="text-white">{gallery.event_name}</H3>
+                    <Body size="sm" className="text-on-dark-muted">
                       {new Date(gallery.event_date).toLocaleDateString()}
                     </Body>
-                    <Stack direction="horizontal" className="justify-between items-center">
-                      <Body className="text-body-sm text-ink-500">
+                    <Stack direction="horizontal" className="items-center justify-between">
+                      <Body size="sm" className="text-on-dark-disabled">
                         {gallery.photo_count} photos
                       </Body>
                       <Button variant="ghost" size="sm">
@@ -250,9 +304,9 @@ export default function PhotoGalleriesPage() {
                 </Card>
               ))
             ) : (
-              <Card className="col-span-3 p-12 text-center">
-                <H3 className="mb-4">NO GALLERIES YET</H3>
-                <Body className="text-ink-600 mb-6">
+              <Card inverted className="col-span-3 p-12 text-center">
+                <H3 className="mb-4 text-white">No Galleries Yet</H3>
+                <Body className="mb-6 text-on-dark-muted">
                   Photo galleries will appear here after events
                 </Body>
               </Card>
@@ -266,10 +320,12 @@ export default function PhotoGalleriesPage() {
               photos.map(photo => (
                 <Card
                   key={photo.id}
-                  className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow"
+                  inverted
+                  interactive
+                  className="cursor-pointer overflow-hidden"
                   onClick={() => setSelectedPhoto(photo)}
                 >
-                  <Stack className="relative aspect-square bg-ink-100">
+                  <Stack className="relative aspect-square bg-ink-900">
                     <Image
                       src={photo.thumbnail_url || photo.url}
                       alt={photo.caption || 'Event photo'}
@@ -277,15 +333,15 @@ export default function PhotoGalleriesPage() {
                       className="object-cover"
                     />
                     {photo.is_featured && (
-                      <Stack className="absolute top-2 left-2">
-                        <Badge className="bg-warning-500 text-white">Featured</Badge>
+                      <Stack className="absolute left-2 top-2">
+                        <Badge variant="solid">Featured</Badge>
                       </Stack>
                     )}
                   </Stack>
                   <Stack className="p-3" gap={1}>
-                    <Body className="text-body-sm font-bold truncate">{photo.event_name}</Body>
-                    <Stack direction="horizontal" className="justify-between items-center">
-                      <Body className="text-mono-xs text-ink-500">
+                    <Body className="truncate font-display text-white">{photo.event_name}</Body>
+                    <Stack direction="horizontal" className="items-center justify-between">
+                      <Body size="sm" className="font-mono text-on-dark-disabled">
                         by {photo.uploaded_by_name}
                       </Body>
                       <Stack direction="horizontal" gap={1} className="items-center">
@@ -305,12 +361,12 @@ export default function PhotoGalleriesPage() {
                 </Card>
               ))
             ) : (
-              <Card className="col-span-4 p-12 text-center">
-                <H3 className="mb-4">NO PHOTOS YET</H3>
-                <Body className="text-ink-600 mb-6">
+              <Card inverted className="col-span-4 p-12 text-center">
+                <H3 className="mb-4 text-white">No Photos Yet</H3>
+                <Body className="mb-6 text-on-dark-muted">
                   Be the first to share photos from an event!
                 </Body>
-                <Button variant="solid" onClick={() => setShowUploadModal(true)}>
+                <Button variant="solid" inverted onClick={() => setShowUploadModal(true)}>
                   Upload Photo
                 </Button>
               </Card>
@@ -428,8 +484,9 @@ export default function PhotoGalleriesPage() {
             </Stack>
           )}
         </Modal>
-        </Stack>
-      </Container>
-    </Section>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

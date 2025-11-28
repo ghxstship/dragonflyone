@@ -2,11 +2,13 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { ConsumerNavigationPublic } from "@/components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge, Alert, ProgressBar,
+  Container, H2, H3, Body, Label, Grid, Stack, StatCard, Input, Button,
+  Section, Card, Tabs, TabsList, Tab, TabPanel, Badge, Alert, ProgressBar,
   Modal, ModalHeader, ModalBody, ModalFooter,
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
+  PageLayout, Footer, FooterColumn, FooterLink, Display, Kicker,
 } from "@ghxstship/ui";
 
 interface SentimentAlert {
@@ -65,13 +67,41 @@ export default function SentimentAnalysisPage() {
   const criticalAlerts = mockAlerts.filter(a => a.severity === "Critical" && a.status === "Active").length;
 
   return (
-    <UISection className="min-h-screen bg-white">
-      <Container className="py-8">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>SENTIMENT ANALYSIS</H1>
-            <Body className="text-ink-600">Real-time social sentiment monitoring with alert triggers</Body>
-          </Stack>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Social">
+            <FooterLink href="/social">Social Hub</FooterLink>
+            <FooterLink href="/social/sentiment">Sentiment</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Social</Kicker>
+              <H2 size="lg" className="text-white">Sentiment Analysis</H2>
+              <Body className="text-on-dark-muted">Real-time social sentiment monitoring with alert triggers</Body>
+            </Stack>
 
           {criticalAlerts > 0 && (
             <Alert variant="error">
@@ -79,12 +109,12 @@ export default function SentimentAnalysisPage() {
             </Alert>
           )}
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Overall Sentiment" value={`${(mockMetrics.overall * 100).toFixed(0)}%`} trend="up" className="border-2 border-black" />
-            <StatCard label="Mentions (24h)" value={mockMetrics.volume.toLocaleString()} className="border-2 border-black" />
-            <StatCard label="Active Alerts" value={activeAlerts} trend={activeAlerts > 0 ? "down" : "neutral"} className="border-2 border-black" />
-            <StatCard label="Positive Rate" value={`${mockMetrics.positive}%`} className="border-2 border-black" />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard label="Overall Sentiment" value={`${(mockMetrics.overall * 100).toFixed(0)}%`} inverted />
+              <StatCard label="Mentions (24h)" value={mockMetrics.volume.toLocaleString()} inverted />
+              <StatCard label="Active Alerts" value={activeAlerts.toString()} inverted />
+              <StatCard label="Positive Rate" value={`${mockMetrics.positive}%`} inverted />
+            </Grid>
 
           <Tabs>
             <TabsList>
@@ -95,7 +125,7 @@ export default function SentimentAnalysisPage() {
 
             <TabPanel active={activeTab === "dashboard"}>
               <Grid cols={2} gap={6}>
-                <Card className="border-2 border-black p-6">
+                <Card inverted>
                   <Stack gap={4}>
                     <H3>Sentiment Breakdown</H3>
                     <Stack gap={3}>
@@ -123,7 +153,7 @@ export default function SentimentAnalysisPage() {
                     </Stack>
                   </Stack>
                 </Card>
-                <Card className="border-2 border-black p-6">
+                <Card inverted>
                   <Stack gap={4}>
                     <H3>Trending Keywords</H3>
                     <Stack direction="horizontal" gap={2} className="flex-wrap">
@@ -179,7 +209,7 @@ export default function SentimentAnalysisPage() {
                   <H3>Monitored Keywords</H3>
                   <Grid cols={3} gap={4}>
                     {["Summer Fest", "tickets", "lineup", "VIP", "refund", "parking", "merch", "security", "weather"].map((kw, idx) => (
-                      <Card key={idx} className="p-3 border border-ink-200">
+                      <Card key={idx} inverted>
                         <Stack direction="horizontal" className="justify-between items-center">
                           <Label>{kw}</Label>
                           <Button variant="ghost" size="sm">Remove</Button>
@@ -196,9 +226,10 @@ export default function SentimentAnalysisPage() {
             </TabPanel>
           </Tabs>
 
-          <Button variant="outline" onClick={() => router.push("/social")}>Back to Social</Button>
-        </Stack>
-      </Container>
+          <Button variant="outlineInk" onClick={() => router.push("/social")}>Back to Social</Button>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedAlert} onClose={() => setSelectedAlert(null)}>
         <ModalHeader><H3>Alert Details</H3></ModalHeader>
@@ -228,6 +259,6 @@ export default function SentimentAnalysisPage() {
           {selectedAlert?.status !== "Resolved" && <Button variant="solid">Resolve</Button>}
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

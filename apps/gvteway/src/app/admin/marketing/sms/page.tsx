@@ -2,12 +2,13 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ConsumerNavigationPublic } from "../../../../components/navigation";
+import { ConsumerNavigationPublic } from "@/components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select,
+  Container, H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select,
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Button,
   Section, Card, Tabs, TabsList, Tab, TabPanel, Badge,
   Modal, ModalHeader, ModalBody, ModalFooter, Textarea, Alert,
+  PageLayout, Footer, FooterColumn, FooterLink, Display, Kicker,
 } from "@ghxstship/ui";
 
 interface SMSCampaign {
@@ -52,36 +53,63 @@ export default function SMSMarketingPage() {
   const totalClicks = mockCampaigns.reduce((sum, c) => sum + c.clickCount, 0);
   const deliveryRate = totalSent > 0 ? ((totalDelivered / totalSent) * 100).toFixed(1) : 0;
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "Completed": return "text-success-400";
-      case "Sending": return "text-info-400";
-      case "Scheduled": return "text-warning-400";
-      case "Draft": return "text-ink-600";
-      case "Paused": return "text-error-400";
-      default: return "text-ink-600";
-    }
+  const getStatusBadge = (status: string) => {
+    const variants: Record<string, 'solid' | 'outline' | 'ghost'> = {
+      Completed: 'solid',
+      Sending: 'outline',
+      Scheduled: 'outline',
+      Draft: 'ghost',
+      Paused: 'outline',
+    };
+    return <Badge variant={variants[status] || 'ghost'}>{status}</Badge>;
   };
 
   const characterCount = messageText.length;
   const segmentCount = Math.ceil(characterCount / 160);
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2} className="border-b-2 border-black pb-8">
-            <H1>SMS Marketing</H1>
-            <Body className="text-ink-600">Create and manage SMS campaigns for events</Body>
-          </Stack>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Admin">
+            <FooterLink href="/admin/marketing">Marketing</FooterLink>
+            <FooterLink href="/admin/marketing/sms">SMS</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Marketing</Kicker>
+              <H2 size="lg" className="text-white">SMS Marketing</H2>
+              <Body className="text-on-dark-muted">Create and manage SMS campaigns for events</Body>
+            </Stack>
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Messages Sent" value={totalSent.toLocaleString()} className="border-2 border-black" />
-            <StatCard label="Delivery Rate" value={`${deliveryRate}%`} className="border-2 border-black" />
-            <StatCard label="Total Clicks" value={totalClicks.toLocaleString()} className="border-2 border-black" />
-            <StatCard label="Active Campaigns" value={mockCampaigns.filter(c => c.status === "Sending" || c.status === "Scheduled").length} className="border-2 border-black" />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard label="Messages Sent" value={totalSent.toLocaleString()} inverted />
+              <StatCard label="Delivery Rate" value={`${deliveryRate}%`} inverted />
+              <StatCard label="Total Clicks" value={totalClicks.toLocaleString()} inverted />
+              <StatCard label="Active Campaigns" value={mockCampaigns.filter(c => c.status === "Sending" || c.status === "Scheduled").length.toString()} inverted />
+            </Grid>
 
           <Tabs>
             <TabsList>
@@ -93,66 +121,68 @@ export default function SMSMarketingPage() {
             <TabPanel active={activeTab === "campaigns"}>
               <Stack gap={4}>
                 <Stack direction="horizontal" className="justify-between">
-                  <Input type="search" placeholder="Search campaigns..." className="w-64" />
-                  <Button variant="solid" onClick={() => setShowCreateModal(true)}>Create Campaign</Button>
+                  <Input type="search" placeholder="Search campaigns..." className="w-64" inverted />
+                  <Button variant="solid" inverted onClick={() => setShowCreateModal(true)}>Create Campaign</Button>
                 </Stack>
 
-                <Table className="border-2 border-black">
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Campaign</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Audience</TableHead>
-                      <TableHead>Sent</TableHead>
-                      <TableHead>Delivered</TableHead>
-                      <TableHead>Clicks</TableHead>
-                      <TableHead>Actions</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {mockCampaigns.map((campaign) => (
-                      <TableRow key={campaign.id}>
-                        <TableCell>
-                          <Stack gap={1}>
-                            <Body className="font-bold">{campaign.name}</Body>
-                            {campaign.eventName && <Label size="xs" className="text-ink-500">{campaign.eventName}</Label>}
-                          </Stack>
-                        </TableCell>
-                        <TableCell><Label className={getStatusColor(campaign.status)}>{campaign.status}</Label></TableCell>
-                        <TableCell>{campaign.audienceSize.toLocaleString()}</TableCell>
-                        <TableCell>{campaign.sentCount.toLocaleString()}</TableCell>
-                        <TableCell>
-                          <Stack gap={0}>
-                            <Label>{campaign.deliveredCount.toLocaleString()}</Label>
-                            {campaign.sentCount > 0 && <Label size="xs" className="text-ink-500">{((campaign.deliveredCount / campaign.sentCount) * 100).toFixed(1)}%</Label>}
-                          </Stack>
-                        </TableCell>
-                        <TableCell>
-                          <Stack gap={0}>
-                            <Label>{campaign.clickCount.toLocaleString()}</Label>
-                            {campaign.deliveredCount > 0 && <Label size="xs" className="text-ink-500">{((campaign.clickCount / campaign.deliveredCount) * 100).toFixed(1)}% CTR</Label>}
-                          </Stack>
-                        </TableCell>
-                        <TableCell>
-                          <Stack direction="horizontal" gap={2}>
-                            <Button variant="ghost" size="sm" onClick={() => setSelectedCampaign(campaign)}>View</Button>
-                            {campaign.status === "Draft" && <Button variant="outline" size="sm">Send</Button>}
-                          </Stack>
-                        </TableCell>
+                <Card inverted className="overflow-hidden">
+                  <Table>
+                    <TableHeader>
+                      <TableRow className="bg-ink-900">
+                        <TableHead className="text-on-dark-muted">Campaign</TableHead>
+                        <TableHead className="text-on-dark-muted">Status</TableHead>
+                        <TableHead className="text-on-dark-muted">Audience</TableHead>
+                        <TableHead className="text-on-dark-muted">Sent</TableHead>
+                        <TableHead className="text-on-dark-muted">Delivered</TableHead>
+                        <TableHead className="text-on-dark-muted">Clicks</TableHead>
+                        <TableHead className="text-on-dark-muted">Actions</TableHead>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+                    </TableHeader>
+                    <TableBody>
+                      {mockCampaigns.map((campaign) => (
+                        <TableRow key={campaign.id} className="border-b border-ink-700">
+                          <TableCell>
+                            <Stack gap={1}>
+                              <Body className="font-display text-white">{campaign.name}</Body>
+                              {campaign.eventName && <Label size="xs" className="text-on-dark-muted">{campaign.eventName}</Label>}
+                            </Stack>
+                          </TableCell>
+                          <TableCell>{getStatusBadge(campaign.status)}</TableCell>
+                          <TableCell><Label className="font-mono text-white">{campaign.audienceSize.toLocaleString()}</Label></TableCell>
+                          <TableCell><Label className="font-mono text-white">{campaign.sentCount.toLocaleString()}</Label></TableCell>
+                          <TableCell>
+                            <Stack gap={0}>
+                              <Label className="font-mono text-white">{campaign.deliveredCount.toLocaleString()}</Label>
+                              {campaign.sentCount > 0 && <Label size="xs" className="text-on-dark-disabled">{((campaign.deliveredCount / campaign.sentCount) * 100).toFixed(1)}%</Label>}
+                            </Stack>
+                          </TableCell>
+                          <TableCell>
+                            <Stack gap={0}>
+                              <Label className="font-mono text-white">{campaign.clickCount.toLocaleString()}</Label>
+                              {campaign.deliveredCount > 0 && <Label size="xs" className="text-on-dark-disabled">{((campaign.clickCount / campaign.deliveredCount) * 100).toFixed(1)}% CTR</Label>}
+                            </Stack>
+                          </TableCell>
+                          <TableCell>
+                            <Stack direction="horizontal" gap={2}>
+                              <Button variant="ghost" size="sm" onClick={() => setSelectedCampaign(campaign)}>View</Button>
+                              {campaign.status === "Draft" && <Button variant="outlineInk" size="sm">Send</Button>}
+                            </Stack>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </Card>
               </Stack>
             </TabPanel>
 
             <TabPanel active={activeTab === "audiences"}>
               <Grid cols={3} gap={4}>
                 {audienceSegments.map((segment) => (
-                  <Card key={segment.id} className="border-2 border-black p-4">
+                  <Card key={segment.id} inverted>
                     <Stack gap={3}>
-                      <Body className="font-bold">{segment.name}</Body>
-                      <Label className="text-h5-md font-mono">{segment.count.toLocaleString()}</Label>
+                      <Body className="font-display text-white">{segment.name}</Body>
+                      <Label className="font-mono text-white">{segment.count.toLocaleString()}</Label>
                       <Stack direction="horizontal" gap={2}>
                         <Button variant="outline" size="sm">View</Button>
                         <Button variant="outline" size="sm">Export</Button>
@@ -160,9 +190,9 @@ export default function SMSMarketingPage() {
                     </Stack>
                   </Card>
                 ))}
-                <Card className="border-2 border-dashed border-ink-300 p-4 flex items-center justify-center cursor-pointer hover:border-black">
+                <Card inverted interactive className="flex cursor-pointer items-center justify-center border-2 border-dashed border-ink-700">
                   <Stack gap={2} className="text-center">
-                    <Label className="text-ink-500">+ Create Segment</Label>
+                    <Label className="text-on-dark-muted">+ Create Segment</Label>
                   </Stack>
                 </Card>
               </Grid>
@@ -176,10 +206,10 @@ export default function SMSMarketingPage() {
                   { name: "VIP Upgrade", message: "Upgrade to VIP for [EVENT]! Get exclusive perks for just $[PRICE] more: [LINK]" },
                   { name: "Last Chance", message: "Last chance! Only [COUNT] tickets left for [EVENT]. Get yours now: [LINK]" },
                 ].map((template, idx) => (
-                  <Card key={idx} className="border border-ink-200 p-4">
+                  <Card key={idx} inverted>
                     <Stack gap={3}>
-                      <Body className="font-bold">{template.name}</Body>
-                      <Body className="text-ink-600 text-body-sm">{template.message}</Body>
+                      <Body className="font-display text-white">{template.name}</Body>
+                      <Body size="sm" className="text-on-dark-muted">{template.message}</Body>
                       <Button variant="outline" size="sm">Use Template</Button>
                     </Stack>
                   </Card>
@@ -188,9 +218,10 @@ export default function SMSMarketingPage() {
             </TabPanel>
           </Tabs>
 
-          <Button variant="outline" onClick={() => router.push("/admin/marketing")}>Back to Marketing</Button>
-        </Stack>
-      </Container>
+          <Button variant="outlineInk" onClick={() => router.push("/admin/marketing")}>Back to Marketing</Button>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={showCreateModal} onClose={() => setShowCreateModal(false)}>
         <ModalHeader><H3>Create SMS Campaign</H3></ModalHeader>
@@ -254,18 +285,18 @@ export default function SMSMarketingPage() {
         <ModalBody>
           {selectedCampaign && (
             <Stack gap={4}>
-              <Body className="font-bold text-body-md">{selectedCampaign.name}</Body>
-              <Card className="p-3 bg-ink-100 border border-ink-200">
-                <Body className="text-body-sm">{selectedCampaign.message}</Body>
+              <Body className="font-display">{selectedCampaign.name}</Body>
+              <Card className="border-2 p-3">
+                <Body size="sm">{selectedCampaign.message}</Body>
               </Card>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Status</Label><Label className={getStatusColor(selectedCampaign.status)}>{selectedCampaign.status}</Label></Stack>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Audience</Label><Label>{selectedCampaign.audienceSize.toLocaleString()}</Label></Stack>
+                <Stack gap={1}><Label size="xs" className="text-on-light-muted">Status</Label>{getStatusBadge(selectedCampaign.status)}</Stack>
+                <Stack gap={1}><Label size="xs" className="text-on-light-muted">Audience</Label><Label>{selectedCampaign.audienceSize.toLocaleString()}</Label></Stack>
               </Grid>
               <Grid cols={3} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Sent</Label><Label className="font-mono">{selectedCampaign.sentCount.toLocaleString()}</Label></Stack>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Delivered</Label><Label className="font-mono">{selectedCampaign.deliveredCount.toLocaleString()}</Label></Stack>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Clicks</Label><Label className="font-mono">{selectedCampaign.clickCount.toLocaleString()}</Label></Stack>
+                <Stack gap={1}><Label size="xs" className="text-on-light-muted">Sent</Label><Label className="font-mono">{selectedCampaign.sentCount.toLocaleString()}</Label></Stack>
+                <Stack gap={1}><Label size="xs" className="text-on-light-muted">Delivered</Label><Label className="font-mono">{selectedCampaign.deliveredCount.toLocaleString()}</Label></Stack>
+                <Stack gap={1}><Label size="xs" className="text-on-light-muted">Clicks</Label><Label className="font-mono">{selectedCampaign.clickCount.toLocaleString()}</Label></Stack>
               </Grid>
             </Stack>
           )}
@@ -274,6 +305,6 @@ export default function SMSMarketingPage() {
           <Button variant="outline" onClick={() => setSelectedCampaign(null)}>Close</Button>
         </ModalFooter>
       </Modal>
-    </Section>
+    </PageLayout>
   );
 }

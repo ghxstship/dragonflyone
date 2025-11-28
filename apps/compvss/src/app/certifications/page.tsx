@@ -9,6 +9,9 @@ import {
   RecordFormModal,
   DetailDrawer,
   ConfirmDialog,
+  Grid,
+  Stack,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -156,14 +159,14 @@ export default function CertificationsPage() {
       id: 'overview',
       title: 'Certification Details',
       content: (
-        <div className="grid grid-cols-2 gap-4">
-          <div><strong>ID:</strong> {selectedCert.id}</div>
-          <div><strong>Crew Member:</strong> {selectedCert.crew_member_name}</div>
-          <div><strong>Type:</strong> {selectedCert.certification_type}</div>
-          <div><strong>Status:</strong> {selectedCert.status.replace('_', ' ')}</div>
-          <div><strong>Issue Date:</strong> {new Date(selectedCert.issue_date).toLocaleDateString()}</div>
-          <div><strong>Expiry Date:</strong> {new Date(selectedCert.expiry_date).toLocaleDateString()}</div>
-        </div>
+        <Grid cols={2} gap={4}>
+          <Stack gap={1}><Body className="font-display">ID</Body><Body>{selectedCert.id}</Body></Stack>
+          <Stack gap={1}><Body className="font-display">Crew Member</Body><Body>{selectedCert.crew_member_name}</Body></Stack>
+          <Stack gap={1}><Body className="font-display">Type</Body><Body>{selectedCert.certification_type}</Body></Stack>
+          <Stack gap={1}><Body className="font-display">Status</Body><Body>{selectedCert.status.replace('_', ' ')}</Body></Stack>
+          <Stack gap={1}><Body className="font-display">Issue Date</Body><Body>{new Date(selectedCert.issue_date).toLocaleDateString()}</Body></Stack>
+          <Stack gap={1}><Body className="font-display">Expiry Date</Body><Body>{new Date(selectedCert.expiry_date).toLocaleDateString()}</Body></Stack>
+        </Grid>
       ),
     },
   ] : [];

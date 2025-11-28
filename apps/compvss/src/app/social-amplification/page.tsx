@@ -4,9 +4,29 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter, Textarea, ProgressBar,
+  Container,
+  H3,
+  Body,
+  Grid,
+  Stack,
+  StatCard,
+  Input,
+  Select,
+  Button,
+  Section,
+  Card,
+  Tabs,
+  TabsList,
+  Tab,
+  TabPanel,
+  Badge,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Textarea,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 interface ArtistProfile {
@@ -72,126 +92,129 @@ export default function SocialAmplificationPage() {
   };
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Social Amplification</H1>
-            <Label className="text-ink-400">Coordinate artist and performer social media promotion</Label>
-          </Stack>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Social Amplification"
+              description="Coordinate artist and performer social media promotion"
+              colorScheme="on-light"
+              gap="lg"
+            />
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Total Reach" value={formatNumber(totalReach)} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Active Artists" value={activeArtists} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Active Campaigns" value={activeCampaigns} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Avg Engagement" value="4.3%" className="bg-transparent border-2 border-ink-800" />
-          </Grid>
-
-          <Stack direction="horizontal" className="justify-between">
-            <Tabs>
-              <TabsList>
-                <Tab active={activeTab === "artists"} onClick={() => setActiveTab("artists")}>Artists</Tab>
-                <Tab active={activeTab === "campaigns"} onClick={() => setActiveTab("campaigns")}>Campaigns</Tab>
-                <Tab active={activeTab === "content"} onClick={() => setActiveTab("content")}>Content Library</Tab>
-              </TabsList>
-            </Tabs>
-            <Button variant="outlineWhite" onClick={() => setShowCreateModal(true)}>Create Campaign</Button>
-          </Stack>
-
-          <TabPanel active={activeTab === "artists"}>
-            <Grid cols={3} gap={4}>
-              {mockArtists.map((artist) => (
-                <Card key={artist.id} className="border-2 border-ink-800 bg-ink-900/50 p-6">
-                  <Stack gap={4}>
-                    <Stack direction="horizontal" className="justify-between items-start">
-                      <Stack gap={1}>
-                        <Body className="font-display text-white text-body-md">{artist.name}</Body>
-                        <Badge variant="outline">{artist.genre}</Badge>
-                      </Stack>
-                      <Label className={getStatusColor(artist.status)}>{artist.status}</Label>
-                    </Stack>
-                    <Stack gap={1}>
-                      <Label size="xs" className="text-ink-500">Total Followers</Label>
-                      <Label className="font-mono text-white text-h6-md">{formatNumber(artist.followers)}</Label>
-                    </Stack>
-                    <Stack gap={2}>
-                      <Label size="xs" className="text-ink-500">Platforms</Label>
-                      {artist.platforms.map((p) => (
-                        <Stack key={p.name} direction="horizontal" className="justify-between">
-                          <Label className="text-ink-300">{p.name}</Label>
-                          <Label className="font-mono text-ink-400">{formatNumber(p.followers)}</Label>
-                        </Stack>
-                      ))}
-                    </Stack>
-                    <Grid cols={2} gap={4}>
-                      <Stack gap={1}>
-                        <Label size="xs" className="text-ink-500">Scheduled</Label>
-                        <Label className="text-white">{artist.scheduledPosts} posts</Label>
-                      </Stack>
-                      <Stack gap={1}>
-                        <Label size="xs" className="text-ink-500">Engagement</Label>
-                        <Label className="text-white">{artist.engagement}%</Label>
-                      </Stack>
-                    </Grid>
-                    <Button variant="outline" size="sm" onClick={() => setSelectedArtist(artist)}>Manage</Button>
-                  </Stack>
-                </Card>
-              ))}
+            <Grid cols={4} gap={6}>
+              <StatCard value={formatNumber(totalReach)} label="Total Reach" />
+              <StatCard value={activeArtists.toString()} label="Active Artists" />
+              <StatCard value={activeCampaigns.toString()} label="Active Campaigns" />
+              <StatCard value="4.3%" label="Avg Engagement" />
             </Grid>
-          </TabPanel>
 
-          <TabPanel active={activeTab === "campaigns"}>
-            <Stack gap={4}>
-              {mockCampaigns.map((campaign) => (
-                <Card key={campaign.id} className="border-2 border-ink-800 bg-ink-900/50 p-6">
-                  <Grid cols={6} gap={4} className="items-center">
-                    <Stack gap={1}>
-                      <Body className="font-display text-white">{campaign.name}</Body>
-                      <Label className="text-ink-400">{campaign.eventName}</Label>
-                    </Stack>
-                    <Stack gap={1}>
-                      <Label size="xs" className="text-ink-500">Artists</Label>
-                      <Label className="text-white">{campaign.artists.length}</Label>
-                    </Stack>
-                    <Stack gap={1}>
-                      <Label size="xs" className="text-ink-500">Duration</Label>
-                      <Label className="text-ink-300">{campaign.startDate} - {campaign.endDate}</Label>
-                    </Stack>
-                    <Stack gap={1}>
-                      <Label size="xs" className="text-ink-500">Reach</Label>
-                      <Label className="font-mono text-white">{formatNumber(campaign.reach)}</Label>
-                    </Stack>
-                    <Label className={getStatusColor(campaign.status)}>{campaign.status}</Label>
-                    <Button variant="outline" size="sm" onClick={() => setSelectedCampaign(campaign)}>Details</Button>
-                  </Grid>
-                </Card>
-              ))}
+            <Stack direction="horizontal" className="justify-between">
+              <Tabs>
+                <TabsList>
+                  <Tab active={activeTab === "artists"} onClick={() => setActiveTab("artists")}>Artists</Tab>
+                  <Tab active={activeTab === "campaigns"} onClick={() => setActiveTab("campaigns")}>Campaigns</Tab>
+                  <Tab active={activeTab === "content"} onClick={() => setActiveTab("content")}>Content Library</Tab>
+                </TabsList>
+              </Tabs>
+              <Button variant="solid" onClick={() => setShowCreateModal(true)}>Create Campaign</Button>
             </Stack>
-          </TabPanel>
 
-          <TabPanel active={activeTab === "content"}>
-            <Grid cols={4} gap={4}>
-              {["Promo Graphics", "Video Clips", "Story Templates", "Post Captions", "Hashtag Sets", "Bio Links", "Press Photos", "Logo Pack"].map((item, idx) => (
-                <Card key={idx} className="border-2 border-ink-800 bg-ink-900/50 p-4 cursor-pointer hover:border-white">
-                  <Stack gap={2} className="text-center">
-                    <Label className="text-h3-md">{["🖼️", "🎬", "📱", "📝", "#️⃣", "🔗", "📷", "🎨"][idx]}</Label>
-                    <Label className="text-white">{item}</Label>
-                    <Label size="xs" className="text-ink-500">{Math.floor(Math.random() * 20) + 5} items</Label>
-                  </Stack>
-                </Card>
-              ))}
+            <TabPanel active={activeTab === "artists"}>
+              <Grid cols={3} gap={4}>
+                {mockArtists.map((artist) => (
+                  <Card key={artist.id} className="p-6">
+                    <Stack gap={4}>
+                      <Stack direction="horizontal" className="items-start justify-between">
+                        <Stack gap={1}>
+                          <Body className="font-display">{artist.name}</Body>
+                          <Badge variant="outline">{artist.genre}</Badge>
+                        </Stack>
+                        <Badge variant={artist.status === "Active" ? "solid" : "outline"}>{artist.status}</Badge>
+                      </Stack>
+                      <Stack gap={1}>
+                        <Body className="text-body-sm">Total Followers</Body>
+                        <Body className="text-h6-md">{formatNumber(artist.followers)}</Body>
+                      </Stack>
+                      <Stack gap={2}>
+                        <Body className="text-body-sm">Platforms</Body>
+                        {artist.platforms.map((p) => (
+                          <Stack key={p.name} direction="horizontal" className="justify-between">
+                            <Body className="text-body-sm">{p.name}</Body>
+                            <Body className="text-body-sm">{formatNumber(p.followers)}</Body>
+                          </Stack>
+                        ))}
+                      </Stack>
+                      <Grid cols={2} gap={4}>
+                        <Stack gap={1}>
+                          <Body className="text-body-sm">Scheduled</Body>
+                          <Body>{artist.scheduledPosts} posts</Body>
+                        </Stack>
+                        <Stack gap={1}>
+                          <Body className="text-body-sm">Engagement</Body>
+                          <Body>{artist.engagement}%</Body>
+                        </Stack>
+                      </Grid>
+                      <Button variant="outline" size="sm" onClick={() => setSelectedArtist(artist)}>Manage</Button>
+                    </Stack>
+                  </Card>
+                ))}
+              </Grid>
+            </TabPanel>
+
+            <TabPanel active={activeTab === "campaigns"}>
+              <Stack gap={4}>
+                {mockCampaigns.map((campaign) => (
+                  <Card key={campaign.id} className="p-6">
+                    <Grid cols={6} gap={4} className="items-center">
+                      <Stack gap={1}>
+                        <Body className="font-display">{campaign.name}</Body>
+                        <Body className="text-body-sm">{campaign.eventName}</Body>
+                      </Stack>
+                      <Stack gap={1}>
+                        <Body className="text-body-sm">Artists</Body>
+                        <Body>{campaign.artists.length}</Body>
+                      </Stack>
+                      <Stack gap={1}>
+                        <Body className="text-body-sm">Duration</Body>
+                        <Body className="text-body-sm">{campaign.startDate} - {campaign.endDate}</Body>
+                      </Stack>
+                      <Stack gap={1}>
+                        <Body className="text-body-sm">Reach</Body>
+                        <Body>{formatNumber(campaign.reach)}</Body>
+                      </Stack>
+                      <Badge variant={campaign.status === "Active" ? "solid" : "outline"}>{campaign.status}</Badge>
+                      <Button variant="outline" size="sm" onClick={() => setSelectedCampaign(campaign)}>Details</Button>
+                    </Grid>
+                  </Card>
+                ))}
+              </Stack>
+            </TabPanel>
+
+            <TabPanel active={activeTab === "content"}>
+              <Grid cols={4} gap={4}>
+                {["Promo Graphics", "Video Clips", "Story Templates", "Post Captions", "Hashtag Sets", "Bio Links", "Press Photos", "Logo Pack"].map((item, idx) => (
+                  <Card key={idx} className="cursor-pointer p-4">
+                    <Stack gap={2} className="text-center">
+                      <Body className="text-h3-md">{["🖼️", "🎬", "📱", "📝", "#️⃣", "🔗", "📷", "🎨"][idx]}</Body>
+                      <Body>{item}</Body>
+                      <Body className="text-body-sm">{Math.floor(Math.random() * 20) + 5} items</Body>
+                    </Stack>
+                  </Card>
+                ))}
+              </Grid>
+            </TabPanel>
+
+            <Grid cols={3} gap={4}>
+              <Button variant="outline">Analytics</Button>
+              <Button variant="outline" onClick={() => router.push("/marketing")}>Marketing</Button>
+              <Button variant="outline" onClick={() => router.push("/projects")}>Projects</Button>
             </Grid>
-          </TabPanel>
-
-          <Grid cols={3} gap={4}>
-            <Button variant="outline" className="border-ink-700 text-ink-400">Analytics</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/marketing")}>Marketing</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/projects")}>Projects</Button>
-          </Grid>
-        </Stack>
-      </Container>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedArtist} onClose={() => setSelectedArtist(null)}>
         <ModalHeader><H3>{selectedArtist?.name}</H3></ModalHeader>
@@ -200,29 +223,35 @@ export default function SocialAmplificationPage() {
             <Stack gap={4}>
               <Stack direction="horizontal" className="justify-between">
                 <Badge variant="outline">{selectedArtist.genre}</Badge>
-                <Label className={getStatusColor(selectedArtist.status)}>{selectedArtist.status}</Label>
+                <Badge variant={selectedArtist.status === "Active" ? "solid" : "outline"}>{selectedArtist.status}</Badge>
               </Stack>
               <Stack gap={1}>
-                <Label size="xs" className="text-ink-500">Total Reach</Label>
-                <Label className="font-mono text-white text-h5-md">{formatNumber(selectedArtist.followers)}</Label>
+                <Body className="text-body-sm">Total Reach</Body>
+                <Body className="text-h5-md">{formatNumber(selectedArtist.followers)}</Body>
               </Stack>
               <Stack gap={2}>
-                <Label className="text-ink-400">Platform Breakdown</Label>
+                <Body className="font-display">Platform Breakdown</Body>
                 {selectedArtist.platforms.map((p) => (
-                  <Card key={p.name} className="p-3 border border-ink-700">
-                    <Stack direction="horizontal" className="justify-between items-center">
+                  <Card key={p.name} className="p-3">
+                    <Stack direction="horizontal" className="items-center justify-between">
                       <Stack gap={0}>
-                        <Label className="text-white">{p.name}</Label>
-                        <Label size="xs" className="text-ink-500">{p.handle}</Label>
+                        <Body>{p.name}</Body>
+                        <Body className="text-body-sm">{p.handle}</Body>
                       </Stack>
-                      <Label className="font-mono text-white">{formatNumber(p.followers)}</Label>
+                      <Body>{formatNumber(p.followers)}</Body>
                     </Stack>
                   </Card>
                 ))}
               </Stack>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Scheduled Posts</Label><Label className="text-white">{selectedArtist.scheduledPosts}</Label></Stack>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Avg Engagement</Label><Label className="text-white">{selectedArtist.engagement}%</Label></Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Scheduled Posts</Body>
+                  <Body>{selectedArtist.scheduledPosts}</Body>
+                </Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Avg Engagement</Body>
+                  <Body>{selectedArtist.engagement}%</Body>
+                </Stack>
               </Grid>
             </Stack>
           )}
@@ -237,16 +266,16 @@ export default function SocialAmplificationPage() {
         <ModalHeader><H3>Create Campaign</H3></ModalHeader>
         <ModalBody>
           <Stack gap={4}>
-            <Input placeholder="Campaign name" className="border-ink-700 bg-black text-white" />
-            <Select className="border-ink-700 bg-black text-white">
+            <Input placeholder="Campaign name" />
+            <Select>
               <option value="">Select Event...</option>
               <option value="EVT-001">Summer Fest 2024</option>
             </Select>
             <Grid cols={2} gap={4}>
-              <Input type="date" className="border-ink-700 bg-black text-white" />
-              <Input type="date" className="border-ink-700 bg-black text-white" />
+              <Input type="date" />
+              <Input type="date" />
             </Grid>
-            <Textarea placeholder="Campaign description..." className="border-ink-700 bg-black text-white" rows={3} />
+            <Textarea placeholder="Campaign description..." rows={3} />
           </Stack>
         </ModalBody>
         <ModalFooter>
@@ -254,6 +283,6 @@ export default function SocialAmplificationPage() {
           <Button variant="solid" onClick={() => setShowCreateModal(false)}>Create</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

@@ -4,7 +4,6 @@ import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
-  H1,
   H3,
   Body,
   StatCard,
@@ -23,6 +22,8 @@ import {
   Stack,
   Card,
   Section,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 interface WeatherAlert {
@@ -90,124 +91,127 @@ export default function WeatherPage() {
 
   if (loading) {
     return (
-      <Section className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-        <CreatorNavigationAuthenticated />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading weather data..." />
-        </Container>
-      </Section>
+      <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+        <Section className="min-h-screen py-16">
+          <Container className="flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" text="Loading weather data..." />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <H1>Weather Monitoring</H1>
-
-          <Grid cols={4} gap={6}>
-            <StatCard
-              value={activeAlerts}
-              label="Active Alerts"
-              className="bg-black text-white border-ink-800"
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Weather Monitoring"
+              description="Track weather alerts and forecasts for event planning"
+              colorScheme="on-light"
+              gap="lg"
             />
-            <StatCard
-              value={highSeverity}
-              label="High Severity"
-              className="bg-black text-white border-ink-800"
-            />
-            <StatCard
-              value={8}
-              label="Monitored Events"
-              className="bg-black text-white border-ink-800"
-            />
-            <StatCard
-              value={5}
-              label="Contingencies Ready"
-              className="bg-black text-white border-ink-800"
-            />
-          </Grid>
 
-          <Stack gap={4} direction="horizontal">
-            <Select
-              value={filterSeverity}
-              onChange={(e) => setFilterSeverity(e.target.value)}
-              className="bg-black text-white border-ink-700"
-            >
-              <option value="all">All Severities</option>
-              <option value="high">High</option>
-              <option value="medium">Medium</option>
-              <option value="low">Low</option>
-            </Select>
-          </Stack>
-
-          <Stack gap={4}>
-            <H3>Active Weather Alerts</H3>
-            <Table variant="bordered" className="bg-black">
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Alert ID</TableHead>
-                  <TableHead>Event</TableHead>
-                  <TableHead>Location</TableHead>
-                  <TableHead>Alert Type</TableHead>
-                  <TableHead>Severity</TableHead>
-                  <TableHead>Valid Until</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredAlerts.map((alert: WeatherAlert) => (
-                  <TableRow key={alert.id} className="bg-black text-white hover:bg-ink-900">
-                    <TableCell className="font-mono text-white">{alert.id}</TableCell>
-                    <TableCell className="text-white">{alert.event}</TableCell>
-                    <TableCell className="text-ink-300">{alert.location}</TableCell>
-                    <TableCell className="text-ink-300">{alert.alertType}</TableCell>
-                    <TableCell>
-                      <Badge variant={alert.severity === "High" ? "solid" : "outline"}>{alert.severity}</Badge>
-                    </TableCell>
-                    <TableCell className="font-mono text-ink-400">{alert.validUntil}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </Stack>
-
-          <Stack gap={4}>
-            <H3>3-Day Forecast: Ultra Miami 2025</H3>
-            <Grid cols={3} gap={6}>
-              {forecasts.map((day: Forecast, idx: number) => (
-                <Card key={idx} className="border-2 border-ink-800 p-6 bg-black">
-                  <Body className="font-mono text-mono-xs uppercase tracking-widest text-ink-500">{day.date}</Body>
-                  <Stack gap={2} direction="horizontal" className="mt-4 items-baseline">
-                    <Body className="font-display text-h3-md text-white">{day.high}°</Body>
-                    <Body className="text-ink-400">/ {day.low}°</Body>
-                  </Stack>
-                  <Body className="mt-3 text-body-sm text-white">{day.condition}</Body>
-                  <Stack gap={2} className="mt-4 border-t border-ink-800 pt-4">
-                    <Stack gap={2} direction="horizontal" className="justify-between text-body-sm">
-                      <Body className="text-ink-500">Precipitation</Body>
-                      <Body className="text-white">{day.precipitation}%</Body>
-                    </Stack>
-                    <Stack gap={2} direction="horizontal" className="justify-between text-body-sm">
-                      <Body className="text-ink-500">Wind</Body>
-                      <Body className="text-white">{day.wind} mph</Body>
-                    </Stack>
-                  </Stack>
-                </Card>
-              ))}
+            <Grid cols={4} gap={6}>
+              <StatCard
+                value={activeAlerts.toString()}
+                label="Active Alerts"
+              />
+              <StatCard
+                value={highSeverity.toString()}
+                label="High Severity"
+              />
+              <StatCard
+                value="8"
+                label="Monitored Events"
+              />
+              <StatCard
+                value="5"
+                label="Contingencies Ready"
+              />
             </Grid>
-          </Stack>
 
-          <Stack gap={3} direction="horizontal">
-            <Button variant="outlineWhite" onClick={() => router.push('/weather/alerts/configure')}>
-              Configure Alerts
-            </Button>
-            <Button variant="ghost" className="text-ink-400 hover:text-white" onClick={() => router.push('/weather/contingency')}>
-              View Contingency Plans
-            </Button>
+            <Stack gap={4} direction="horizontal">
+              <Select
+                value={filterSeverity}
+                onChange={(e) => setFilterSeverity(e.target.value)}
+              >
+                <option value="all">All Severities</option>
+                <option value="high">High</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>
+              </Select>
+            </Stack>
+
+            <Stack gap={4}>
+              <H3>Active Weather Alerts</H3>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Alert ID</TableHead>
+                    <TableHead>Event</TableHead>
+                    <TableHead>Location</TableHead>
+                    <TableHead>Alert Type</TableHead>
+                    <TableHead>Severity</TableHead>
+                    <TableHead>Valid Until</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {filteredAlerts.map((alert: WeatherAlert) => (
+                    <TableRow key={alert.id}>
+                      <TableCell><Body className="font-mono">{alert.id}</Body></TableCell>
+                      <TableCell><Body>{alert.event}</Body></TableCell>
+                      <TableCell><Body className="text-body-sm">{alert.location}</Body></TableCell>
+                      <TableCell><Body className="text-body-sm">{alert.alertType}</Body></TableCell>
+                      <TableCell>
+                        <Badge variant={alert.severity === "High" ? "solid" : "outline"}>{alert.severity}</Badge>
+                      </TableCell>
+                      <TableCell><Body className="font-mono text-body-sm">{alert.validUntil}</Body></TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </Stack>
+
+            <Stack gap={4}>
+              <H3>3-Day Forecast: Ultra Miami 2025</H3>
+              <Grid cols={3} gap={6}>
+                {forecasts.map((day: Forecast, idx: number) => (
+                  <Card key={idx}>
+                    <Body className="font-mono text-body-sm">{day.date}</Body>
+                    <Stack gap={2} direction="horizontal" className="mt-4 items-baseline">
+                      <Body className="font-display">{day.high}°</Body>
+                      <Body className="text-body-sm">/ {day.low}°</Body>
+                    </Stack>
+                    <Body className="mt-3 text-body-sm">{day.condition}</Body>
+                    <Stack gap={2} className="mt-4 pt-4">
+                      <Stack gap={2} direction="horizontal" className="justify-between text-body-sm">
+                        <Body className="text-body-sm">Precipitation</Body>
+                        <Body>{day.precipitation}%</Body>
+                      </Stack>
+                      <Stack gap={2} direction="horizontal" className="justify-between text-body-sm">
+                        <Body className="text-body-sm">Wind</Body>
+                        <Body>{day.wind} mph</Body>
+                      </Stack>
+                    </Stack>
+                  </Card>
+                ))}
+              </Grid>
+            </Stack>
+
+            <Stack gap={3} direction="horizontal">
+              <Button variant="solid" onClick={() => router.push('/weather/alerts/configure')}>
+                Configure Alerts
+              </Button>
+              <Button variant="outline" onClick={() => router.push('/weather/contingency')}>
+                View Contingency Plans
+              </Button>
+            </Stack>
           </Stack>
-        </Stack>
-      </Container>
-    </Section>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

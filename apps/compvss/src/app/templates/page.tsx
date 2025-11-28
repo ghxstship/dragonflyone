@@ -4,9 +4,25 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
+  Container,
+  H3,
+  Body,
+  Grid,
+  Stack,
+  StatCard,
+  Input,
+  Select,
+  Button,
+  Section,
+  Card,
+  Badge,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Textarea,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 interface Template {
@@ -69,114 +85,117 @@ export default function TemplatesPage() {
   };
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Template Library</H1>
-            <Label className="text-ink-400">Contracts, checklists, forms, riders, and standard operating procedures</Label>
-          </Stack>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Template Library"
+              description="Contracts, checklists, forms, riders, and standard operating procedures"
+              colorScheme="on-light"
+              gap="lg"
+            />
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Templates" value={mockTemplates.length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Categories" value={categories.length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Total Downloads" value={totalDownloads.toLocaleString()} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Last Updated" value="Today" className="bg-transparent border-2 border-ink-800" />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard label="Templates" value={mockTemplates.length.toString()} />
+              <StatCard label="Categories" value={categories.length.toString()} />
+              <StatCard label="Total Downloads" value={totalDownloads.toLocaleString()} />
+              <StatCard label="Last Updated" value="Today" />
+            </Grid>
 
-          <Grid cols={6} gap={2}>
-            {categories.map((cat) => {
-              const count = mockTemplates.filter(t => t.category === cat).length;
-              return (
-                <Card key={cat} className={`p-3 border-2 cursor-pointer ${selectedCategory === cat ? "border-white" : getCategoryColor(cat)}`} onClick={() => setSelectedCategory(selectedCategory === cat ? "All" : cat)}>
-                  <Stack gap={1} className="text-center">
-                    <Label className="text-white">{cat}</Label>
-                    <Label size="xs" className="text-ink-400">{count}</Label>
+            <Grid cols={6} gap={2}>
+              {categories.map((cat) => {
+                const count = mockTemplates.filter(t => t.category === cat).length;
+                return (
+                  <Card key={cat} onClick={() => setSelectedCategory(selectedCategory === cat ? "All" : cat)}>
+                    <Stack gap={1} className="text-center">
+                      <Body>{cat}</Body>
+                      <Body className="text-body-sm">{count}</Body>
+                    </Stack>
+                  </Card>
+                );
+              })}
+            </Grid>
+
+            <Grid cols={3} gap={4}>
+              <Input type="search" placeholder="Search templates..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="col-span-2" />
+              <Button variant="solid" onClick={() => setShowUploadModal(true)}>Upload Template</Button>
+            </Grid>
+
+            <Grid cols={2} gap={4}>
+              {filteredTemplates.map((template) => (
+                <Card key={template.id}>
+                  <Stack gap={3}>
+                    <Stack direction="horizontal" className="justify-between items-start">
+                      <Stack gap={1}>
+                        <Body className="font-display">{template.name}</Body>
+                        <Badge variant="outline">{template.category}</Badge>
+                      </Stack>
+                      <Badge variant="outline">{template.fileType}</Badge>
+                    </Stack>
+                    <Body className="text-body-sm">{template.description}</Body>
+                    <Stack direction="horizontal" gap={2} className="flex-wrap">
+                      {template.tags.slice(0, 3).map(tag => <Badge key={tag} variant="outline">{tag}</Badge>)}
+                    </Stack>
+                    <Grid cols={3} gap={2}>
+                      <Stack gap={0}>
+                        <Body className="text-body-sm">Version</Body>
+                        <Body>v{template.version}</Body>
+                      </Stack>
+                      <Stack gap={0}>
+                        <Body className="text-body-sm">Downloads</Body>
+                        <Body>{template.downloads}</Body>
+                      </Stack>
+                      <Stack gap={0}>
+                        <Body className="text-body-sm">Size</Body>
+                        <Body>{template.size}</Body>
+                      </Stack>
+                    </Grid>
+                    <Stack direction="horizontal" gap={2}>
+                      <Button variant="outline" size="sm" onClick={() => setSelectedTemplate(template)}>Preview</Button>
+                      <Button variant="solid" size="sm">Download</Button>
+                    </Stack>
                   </Stack>
                 </Card>
-              );
-            })}
-          </Grid>
+              ))}
+            </Grid>
 
-          <Grid cols={3} gap={4}>
-            <Input type="search" placeholder="Search templates..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="border-ink-700 bg-black text-white col-span-2" />
-            <Button variant="outlineWhite" onClick={() => setShowUploadModal(true)}>Upload Template</Button>
-          </Grid>
-
-          <Grid cols={2} gap={4}>
-            {filteredTemplates.map((template) => (
-              <Card key={template.id} className={`border-2 overflow-hidden ${getCategoryColor(template.category)}`}>
-                <Stack className="p-4" gap={3}>
-                  <Stack direction="horizontal" className="justify-between items-start">
-                    <Stack gap={1}>
-                      <Body className="font-display text-white">{template.name}</Body>
-                      <Badge variant="outline">{template.category}</Badge>
-                    </Stack>
-                    <Badge variant="outline">{template.fileType}</Badge>
-                  </Stack>
-                  <Body className="text-ink-300 text-body-sm">{template.description}</Body>
-                  <Stack direction="horizontal" gap={2} className="flex-wrap">
-                    {template.tags.slice(0, 3).map(tag => <Badge key={tag} variant="outline">{tag}</Badge>)}
-                  </Stack>
-                  <Grid cols={3} gap={2}>
-                    <Stack gap={0}>
-                      <Label size="xs" className="text-ink-500">Version</Label>
-                      <Label className="text-white">v{template.version}</Label>
-                    </Stack>
-                    <Stack gap={0}>
-                      <Label size="xs" className="text-ink-500">Downloads</Label>
-                      <Label className="text-white">{template.downloads}</Label>
-                    </Stack>
-                    <Stack gap={0}>
-                      <Label size="xs" className="text-ink-500">Size</Label>
-                      <Label className="text-white">{template.size}</Label>
-                    </Stack>
-                  </Grid>
-                  <Stack direction="horizontal" gap={2}>
-                    <Button variant="outline" size="sm" className="flex-1" onClick={() => setSelectedTemplate(template)}>Preview</Button>
-                    <Button variant="solid" size="sm" className="flex-1">Download</Button>
-                  </Stack>
-                </Stack>
-              </Card>
-            ))}
-          </Grid>
-
-          <Grid cols={3} gap={4}>
-            <Button variant="outline" className="border-ink-700 text-ink-400">Request Template</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400">Version History</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/knowledge")}>Knowledge Base</Button>
-          </Grid>
-        </Stack>
-      </Container>
+            <Grid cols={3} gap={4}>
+              <Button variant="outline">Request Template</Button>
+              <Button variant="outline">Version History</Button>
+              <Button variant="outline" onClick={() => router.push("/knowledge")}>Knowledge Base</Button>
+            </Grid>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedTemplate} onClose={() => setSelectedTemplate(null)}>
         <ModalHeader><H3>Template Details</H3></ModalHeader>
         <ModalBody>
           {selectedTemplate && (
             <Stack gap={4}>
-              <Body className="font-display text-white text-body-md">{selectedTemplate.name}</Body>
+              <Body className="font-display">{selectedTemplate.name}</Body>
               <Stack direction="horizontal" gap={2}>
                 <Badge variant="outline">{selectedTemplate.category}</Badge>
                 <Badge variant="outline">{selectedTemplate.fileType}</Badge>
                 <Badge variant="outline">v{selectedTemplate.version}</Badge>
               </Stack>
-              <Body className="text-ink-300">{selectedTemplate.description}</Body>
+              <Body>{selectedTemplate.description}</Body>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Last Updated</Label><Label className="text-white">{selectedTemplate.lastUpdated}</Label></Stack>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Updated By</Label><Label className="text-white">{selectedTemplate.updatedBy}</Label></Stack>
+                <Stack gap={1}><Body className="text-body-sm">Last Updated</Body><Body>{selectedTemplate.lastUpdated}</Body></Stack>
+                <Stack gap={1}><Body className="text-body-sm">Updated By</Body><Body>{selectedTemplate.updatedBy}</Body></Stack>
               </Grid>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Downloads</Label><Label className="text-white">{selectedTemplate.downloads}</Label></Stack>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">File Size</Label><Label className="text-white">{selectedTemplate.size}</Label></Stack>
+                <Stack gap={1}><Body className="text-body-sm">Downloads</Body><Body>{selectedTemplate.downloads}</Body></Stack>
+                <Stack gap={1}><Body className="text-body-sm">File Size</Body><Body>{selectedTemplate.size}</Body></Stack>
               </Grid>
               <Stack gap={2}>
-                <Label size="xs" className="text-ink-500">Tags</Label>
+                <Body className="text-body-sm">Tags</Body>
                 <Stack direction="horizontal" gap={2}>{selectedTemplate.tags.map(tag => <Badge key={tag} variant="outline">{tag}</Badge>)}</Stack>
               </Stack>
-              <Card className="p-4 bg-ink-800 border border-ink-700 h-48 flex items-center justify-center">
-                <Label className="text-ink-400">Document preview would display here</Label>
+              <Card>
+                <Body className="text-body-sm">Document preview would display here</Body>
               </Card>
             </Stack>
           )}
@@ -192,19 +211,19 @@ export default function TemplatesPage() {
         <ModalHeader><H3>Upload Template</H3></ModalHeader>
         <ModalBody>
           <Stack gap={4}>
-            <Input placeholder="Template Name" className="border-ink-700 bg-black text-white" />
-            <Select className="border-ink-700 bg-black text-white">
+            <Input placeholder="Template Name" />
+            <Select>
               <option value="">Category...</option>
               {categories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
             </Select>
-            <Textarea placeholder="Description..." className="border-ink-700 bg-black text-white" rows={2} />
-            <Input placeholder="Tags (comma separated)" className="border-ink-700 bg-black text-white" />
-            <Input placeholder="Version (e.g., 1.0)" className="border-ink-700 bg-black text-white" />
-            <Card className="p-8 border-2 border-dashed border-ink-700 text-center cursor-pointer">
-              <Stack gap={2}>
-                <Label className="text-ink-400 text-h5-md">📄</Label>
-                <Label className="text-ink-400">Drop file here or click to upload</Label>
-                <Label size="xs" className="text-ink-500">Supports PDF, DOCX, XLSX up to 25MB</Label>
+            <Textarea placeholder="Description..." rows={2} />
+            <Input placeholder="Tags (comma separated)" />
+            <Input placeholder="Version (e.g., 1.0)" />
+            <Card>
+              <Stack gap={2} className="text-center">
+                <Body>📄</Body>
+                <Body>Drop file here or click to upload</Body>
+                <Body className="text-body-sm">Supports PDF, DOCX, XLSX up to 25MB</Body>
               </Stack>
             </Card>
           </Stack>
@@ -214,6 +233,6 @@ export default function TemplatesPage() {
           <Button variant="solid" onClick={() => setShowUploadModal(false)}>Upload</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

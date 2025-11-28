@@ -2,11 +2,10 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { ConsumerNavigationPublic } from '../../components/navigation';
+import { ConsumerNavigationPublic } from '@/components/navigation';
 import {
   Container,
   Section,
-  H1,
   H2,
   H3,
   Body,
@@ -19,7 +18,14 @@ import {
   Badge,
   LoadingSpinner,
   ProjectCard,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
+  Kicker,
 } from '@ghxstship/ui';
+import { Bell } from 'lucide-react';
 
 interface Deal {
   id: string;
@@ -93,17 +99,17 @@ export default function DealsPage() {
   const getDealTypeBadge = (type: string) => {
     switch (type) {
       case 'flash_sale':
-        return <Badge className="bg-error-500 text-white">Flash Sale</Badge>;
+        return <Badge variant="solid">Flash Sale</Badge>;
       case 'last_minute':
-        return <Badge className="bg-warning-500 text-white">Last Minute</Badge>;
+        return <Badge variant="outline">Last Minute</Badge>;
       case 'early_bird':
-        return <Badge className="bg-info-500 text-white">Early Bird</Badge>;
+        return <Badge variant="solid">Early Bird</Badge>;
       case 'group':
-        return <Badge className="bg-purple-500 text-white">Group Deal</Badge>;
+        return <Badge variant="outline">Group Deal</Badge>;
       case 'member':
-        return <Badge className="bg-success-500 text-white">Member Exclusive</Badge>;
+        return <Badge variant="solid">Member Exclusive</Badge>;
       default:
-        return <Badge>Deal</Badge>;
+        return <Badge variant="ghost">Deal</Badge>;
     }
   };
 
@@ -113,69 +119,124 @@ export default function DealsPage() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading deals..." />
-        </Container>
-      </Section>
+      <PageLayout
+        background="black"
+        header={<ConsumerNavigationPublic />}
+        footer={
+          <Footer
+            logo={<Display size="md">GVTEWAY</Display>}
+            copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+          >
+            <FooterColumn title="Discover">
+              <FooterLink href="/events">Browse Events</FooterLink>
+              <FooterLink href="/deals">Deals</FooterLink>
+            </FooterColumn>
+            <FooterColumn title="Legal">
+              <FooterLink href="/legal/privacy">Privacy</FooterLink>
+              <FooterLink href="/legal/terms">Terms</FooterLink>
+            </FooterColumn>
+          </Footer>
+        }
+      >
+        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+          <div
+            className="pointer-events-none absolute inset-0 opacity-5"
+            style={{
+              backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+              backgroundSize: "40px 40px",
+            }}
+          />
+          <Container className="relative z-10 flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" text="Loading deals..." />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-        <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
-          <Stack gap={2}>
-            <H1>Deals & Offers</H1>
-            <Body className="text-ink-600">
-              Score amazing discounts on upcoming events
-            </Body>
-          </Stack>
-            <Stack direction="horizontal" gap={4}>
-              <Select
-                value={dealType}
-                onChange={(e) => setDealType(e.target.value)}
-              >
-                <option value="all">All Deals</option>
-                <option value="flash_sale">Flash Sales</option>
-                <option value="last_minute">Last Minute</option>
-                <option value="early_bird">Early Bird</option>
-                <option value="group">Group Deals</option>
-                <option value="member">Member Exclusive</option>
-              </Select>
-              <Select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-              >
-                <option value="discount">Biggest Discount</option>
-                <option value="expiring">Expiring Soon</option>
-                <option value="price">Lowest Price</option>
-                <option value="date">Event Date</option>
-              </Select>
-          </Stack>
-        </Stack>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Discover">
+            <FooterLink href="/events">Browse Events</FooterLink>
+            <FooterLink href="/deals">Deals</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Save Big</Kicker>
+              <Stack direction="horizontal" className="items-center justify-between">
+                <Stack gap={1}>
+                  <H2 size="lg" className="text-white">Deals & Offers</H2>
+                  <Body className="text-on-dark-muted">Score amazing discounts on upcoming events</Body>
+                </Stack>
+                <Stack direction="horizontal" gap={4}>
+                  <Select
+                    value={dealType}
+                    onChange={(e) => setDealType(e.target.value)}
+                    inverted
+                  >
+                    <option value="all">All Deals</option>
+                    <option value="flash_sale">Flash Sales</option>
+                    <option value="last_minute">Last Minute</option>
+                    <option value="early_bird">Early Bird</option>
+                    <option value="group">Group Deals</option>
+                    <option value="member">Member Exclusive</option>
+                  </Select>
+                  <Select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                    inverted
+                  >
+                    <option value="discount">Biggest Discount</option>
+                    <option value="expiring">Expiring Soon</option>
+                    <option value="price">Lowest Price</option>
+                    <option value="date">Event Date</option>
+                  </Select>
+                </Stack>
+              </Stack>
+            </Stack>
 
         {flashSales.length > 0 && (
-          <Section className="mb-12">
-            <Stack direction="horizontal" gap={3} className="items-center mb-6">
-              <H2>FLASH SALES</H2>
-              <Badge className="bg-error-500 text-white animate-pulse">Limited Time</Badge>
+          <Stack gap={6}>
+            <Stack direction="horizontal" gap={3} className="items-center">
+              <H2 className="text-white">Flash Sales</H2>
+              <Badge variant="solid" className="animate-pulse">Limited Time</Badge>
             </Stack>
             <Grid cols={3} gap={6}>
               {flashSales.map(deal => (
-                <Card key={deal.id} className="overflow-hidden border-2 border-error-500">
+                <Card key={deal.id} inverted interactive className="overflow-hidden ring-2 ring-error-500">
                   <Stack className="relative">
-                    <Stack className="absolute top-2 left-2 z-10" direction="horizontal" gap={2}>
+                    <Stack className="absolute left-2 top-2 z-10" direction="horizontal" gap={2}>
                       {getDealTypeBadge(deal.deal_type)}
-                      <Badge className="bg-black text-white">
+                      <Badge variant="solid">
                         {deal.discount_percent}% OFF
                       </Badge>
                     </Stack>
                     {deal.expires_at && (
-                      <Badge className="absolute top-2 right-2 z-10 bg-error-600 text-white">
+                      <Badge variant="solid" className="absolute right-2 top-2 z-10">
                         {getTimeRemaining(deal.expires_at)}
                       </Badge>
                     )}
@@ -186,22 +247,22 @@ export default function DealsPage() {
                     metadata={`${deal.event_date} • ${deal.event_venue}`}
                     onClick={() => handleEventClick(deal.event_id)}
                   />
-                  <Stack className="p-4 bg-ink-50 border-t">
-                    <Stack direction="horizontal" className="justify-between items-center">
+                  <Stack className="border-t border-ink-800 p-4">
+                    <Stack direction="horizontal" className="items-center justify-between">
                       <Stack>
-                        <Body className="text-ink-500 line-through text-body-sm">
+                        <Body size="sm" className="text-on-dark-disabled line-through">
                           ${deal.original_price}
                         </Body>
-                        <Body className="font-bold text-h6-md text-error-600">
+                        <Body className="font-display text-white">
                           ${deal.deal_price}
                         </Body>
                       </Stack>
-                      <Button variant="solid" onClick={() => handleEventClick(deal.event_id)}>
+                      <Button variant="solid" inverted onClick={() => handleEventClick(deal.event_id)}>
                         Get Deal
                       </Button>
                     </Stack>
                     {deal.quantity_available && deal.quantity_available < 50 && (
-                      <Body className="text-body-sm text-error-600 mt-2">
+                      <Body size="sm" className="mt-2 text-error-400">
                         Only {deal.quantity_available} left at this price!
                       </Body>
                     )}
@@ -209,22 +270,22 @@ export default function DealsPage() {
                 </Card>
               ))}
             </Grid>
-          </Section>
+          </Stack>
         )}
 
         {lastMinute.length > 0 && (
-          <Section className="mb-12">
-            <Stack direction="horizontal" gap={3} className="items-center mb-6">
-              <H2>LAST MINUTE DEALS</H2>
-              <Body className="text-ink-600">Events happening soon</Body>
+          <Stack gap={6}>
+            <Stack direction="horizontal" gap={3} className="items-center">
+              <H2 className="text-white">Last Minute Deals</H2>
+              <Body className="text-on-dark-muted">Events happening soon</Body>
             </Stack>
             <Grid cols={3} gap={6}>
               {lastMinute.map(deal => (
-                <Card key={deal.id} className="overflow-hidden">
+                <Card key={deal.id} inverted interactive className="overflow-hidden">
                   <Stack className="relative">
-                    <Stack className="absolute top-2 left-2 z-10" direction="horizontal" gap={2}>
+                    <Stack className="absolute left-2 top-2 z-10" direction="horizontal" gap={2}>
                       {getDealTypeBadge(deal.deal_type)}
-                      <Badge className="bg-black text-white">
+                      <Badge variant="solid">
                         {deal.discount_percent}% OFF
                       </Badge>
                     </Stack>
@@ -235,17 +296,17 @@ export default function DealsPage() {
                     metadata={`${deal.event_date} • ${deal.event_venue}`}
                     onClick={() => handleEventClick(deal.event_id)}
                   />
-                  <Stack className="p-4 bg-ink-50 border-t">
-                    <Stack direction="horizontal" className="justify-between items-center">
+                  <Stack className="border-t border-ink-800 p-4">
+                    <Stack direction="horizontal" className="items-center justify-between">
                       <Stack>
-                        <Body className="text-ink-500 line-through text-body-sm">
+                        <Body size="sm" className="text-on-dark-disabled line-through">
                           ${deal.original_price}
                         </Body>
-                        <Body className="font-bold text-h6-md">
+                        <Body className="font-display text-white">
                           ${deal.deal_price}
                         </Body>
                       </Stack>
-                      <Button variant="solid" onClick={() => handleEventClick(deal.event_id)}>
+                      <Button variant="solid" inverted onClick={() => handleEventClick(deal.event_id)}>
                         Get Deal
                       </Button>
                     </Stack>
@@ -253,17 +314,17 @@ export default function DealsPage() {
                 </Card>
               ))}
             </Grid>
-          </Section>
+          </Stack>
         )}
 
         {otherDeals.length > 0 && (
-          <Section className="mb-12">
-            <H2 className="mb-6">MORE DEALS</H2>
+          <Stack gap={6}>
+            <H2 className="text-white">More Deals</H2>
             <Grid cols={3} gap={6}>
               {otherDeals.map(deal => (
-                <Card key={deal.id} className="overflow-hidden">
+                <Card key={deal.id} inverted interactive className="overflow-hidden">
                   <Stack className="relative">
-                    <Stack className="absolute top-2 left-2 z-10" direction="horizontal" gap={2}>
+                    <Stack className="absolute left-2 top-2 z-10" direction="horizontal" gap={2}>
                       {getDealTypeBadge(deal.deal_type)}
                       <Badge variant="outline">
                         {deal.discount_percent}% OFF
@@ -276,25 +337,25 @@ export default function DealsPage() {
                     metadata={`${deal.event_date} • ${deal.event_venue}`}
                     onClick={() => handleEventClick(deal.event_id)}
                   />
-                  <Stack className="p-4 bg-ink-50 border-t">
-                    <Stack direction="horizontal" className="justify-between items-center">
+                  <Stack className="border-t border-ink-800 p-4">
+                    <Stack direction="horizontal" className="items-center justify-between">
                       <Stack>
-                        <Body className="text-ink-500 line-through text-body-sm">
+                        <Body size="sm" className="text-on-dark-disabled line-through">
                           ${deal.original_price}
                         </Body>
-                        <Body className="font-bold text-h6-md">
+                        <Body className="font-display text-white">
                           ${deal.deal_price}
                         </Body>
                       </Stack>
-                      <Button variant="outline" onClick={() => handleEventClick(deal.event_id)}>
+                      <Button variant="outlineInk" onClick={() => handleEventClick(deal.event_id)}>
                         View
                       </Button>
                     </Stack>
                     {deal.promo_code && (
-                      <Stack className="mt-2 p-2 bg-ink-100 rounded">
+                      <Stack className="mt-2 rounded-card bg-ink-900 p-2">
                         <Stack direction="horizontal" gap={1}>
-                          <Body className="text-body-sm text-ink-600">Use code:</Body>
-                          <Label className="font-mono font-bold">{deal.promo_code}</Label>
+                          <Body size="sm" className="text-on-dark-muted">Use code:</Body>
+                          <Label className="font-mono text-white">{deal.promo_code}</Label>
                         </Stack>
                       </Stack>
                     )}
@@ -302,36 +363,40 @@ export default function DealsPage() {
                 </Card>
               ))}
             </Grid>
-          </Section>
+          </Stack>
         )}
 
         {deals.length === 0 && (
-          <Card className="p-12 text-center">
-            <H3 className="mb-4">NO DEALS AVAILABLE</H3>
-            <Body className="text-ink-600 mb-6">
+          <Card inverted variant="elevated" className="p-12 text-center">
+            <H3 className="mb-4 text-white">No Deals Available</H3>
+            <Body className="mb-6 text-on-dark-muted">
               Check back soon for new deals and offers.
             </Body>
-            <Button variant="outline" onClick={() => router.push('/browse')}>
+            <Button variant="outlineInk" onClick={() => router.push('/browse')}>
               Browse All Events
             </Button>
           </Card>
         )}
 
-        <Card className="p-6 bg-black text-white mt-8">
-          <Stack direction="horizontal" className="justify-between items-center">
-            <Stack>
-              <H3 className="text-white">GET DEAL ALERTS</H3>
-              <Body className="text-ink-600">
-                Be the first to know about flash sales and special offers.
-              </Body>
-            </Stack>
-            <Button variant="outline" className="border-white text-white hover:bg-white hover:text-black" onClick={() => router.push('/settings/notifications')}>
-              Enable Alerts
-            </Button>
+            <Card inverted variant="elevated" className="p-6">
+              <Stack direction="horizontal" className="items-center justify-between">
+                <Stack gap={1}>
+                  <Stack direction="horizontal" gap={2} className="items-center">
+                    <Bell className="size-5 text-on-dark-muted" />
+                    <H3 className="text-white">Get Deal Alerts</H3>
+                  </Stack>
+                  <Body className="text-on-dark-muted">
+                    Be the first to know about flash sales and special offers.
+                  </Body>
+                </Stack>
+                <Button variant="solid" inverted onClick={() => router.push('/settings/notifications')}>
+                  Enable Alerts
+                </Button>
+              </Stack>
+            </Card>
           </Stack>
-        </Card>
-        </Stack>
-      </Container>
-    </Section>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

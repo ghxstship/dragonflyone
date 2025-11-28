@@ -4,9 +4,8 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { CreatorNavigationAuthenticated } from '../../../components/navigation';
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select,
-  Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
+  Container, H3, Body, Label, Grid, Stack, StatCard, Select,
+  Button, Section, Card, Badge, PageLayout, SectionHeader,
   Modal, ModalHeader, ModalBody, ModalFooter, ProgressBar,
 } from '@ghxstship/ui';
 
@@ -74,15 +73,17 @@ export default function SuccessionPlanningPage() {
   };
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Succession Planning</H1>
-            <Label className="text-ink-400">Identify and develop future leaders for key positions</Label>
-          </Stack>
+    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="ATLVS"
+              title="Succession Planning"
+              description="Identify and develop future leaders for key positions"
+              colorScheme="on-dark"
+              gap="lg"
+            />
 
           <Grid cols={4} gap={6}>
             <StatCard label="Key Positions" value={mockPlans.length} className="bg-transparent border-2 border-ink-800" />
@@ -152,9 +153,10 @@ export default function SuccessionPlanningPage() {
             ))}
           </Stack>
 
-          <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push('/workforce')}>Back to Workforce</Button>
-        </Stack>
-      </Container>
+            <Button variant="outline" className="border-grey-700 text-grey-400" onClick={() => router.push('/workforce')}>Back to Workforce</Button>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedPlan} onClose={() => setSelectedPlan(null)}>
         <ModalHeader><H3>{selectedPlan?.position}</H3></ModalHeader>
@@ -166,18 +168,18 @@ export default function SuccessionPlanningPage() {
                 <Label className={getRiskColor(selectedPlan.riskLevel)}>{selectedPlan.riskLevel} Risk</Label>
               </Stack>
               <Stack gap={1}>
-                <Label className="text-ink-400">Current Holder</Label>
+                <Label className="text-grey-400">Current Holder</Label>
                 <Body className="text-white">{selectedPlan.currentHolder}</Body>
               </Stack>
               <Stack gap={2}>
-                <Label className="text-ink-400">Succession Pipeline</Label>
+                <Label className="text-grey-400">Succession Pipeline</Label>
                 {selectedPlan.successors.map((successor, idx) => (
-                  <Card key={successor.id} className="p-4 border border-ink-700 bg-ink-800">
+                  <Card key={successor.id} className="p-4 border-2 border-grey-700 bg-grey-800">
                     <Stack gap={3}>
                       <Stack direction="horizontal" className="justify-between">
                         <Stack gap={0}>
                           <Label className="text-white">{idx + 1}. {successor.name}</Label>
-                          <Label size="xs" className="text-ink-400">{successor.currentRole}</Label>
+                          <Label size="xs" className="text-grey-400">{successor.currentRole}</Label>
                         </Stack>
                         <Stack gap={1} className="text-right">
                           <Label className={getReadinessColor(successor.readiness)}>{successor.readiness}</Label>
@@ -185,7 +187,7 @@ export default function SuccessionPlanningPage() {
                         </Stack>
                       </Stack>
                       <Stack gap={1}>
-                        <Label size="xs" className="text-ink-500">Development Areas</Label>
+                        <Label size="xs" className="text-grey-500">Development Areas</Label>
                         <Stack direction="horizontal" gap={1} className="flex-wrap">
                           {successor.developmentAreas.map((area, i) => (
                             <Badge key={i} variant="outline">{area}</Badge>
@@ -204,6 +206,6 @@ export default function SuccessionPlanningPage() {
           <Button variant="solid">Edit Plan</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

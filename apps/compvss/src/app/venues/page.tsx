@@ -2,7 +2,6 @@
 
 import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
-  H1,
   H3,
   Body,
   Badge,
@@ -11,6 +10,8 @@ import {
   Grid,
   Stack,
   Section,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 const venues = [
@@ -21,39 +22,46 @@ const venues = [
 
 export default function VenuesPage() {
   return (
-    <Section className="relative min-h-screen bg-black text-white">
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <H1>Venue Directory</H1>
-          <Grid cols={3} gap={6}>
-            {venues.map((venue) => (
-              <Card key={venue.id} className="border-2 border-ink-800 p-6 bg-black">
-                <Stack gap={4}>
-                  <Stack gap={2}>
-                    <H3 className="text-white">{venue.name}</H3>
-                    <Body className="text-ink-400">{venue.city}</Body>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Venue Directory"
+              description="Browse and manage venue information for productions"
+              colorScheme="on-light"
+              gap="lg"
+            />
+            <Grid cols={3} gap={6}>
+              {venues.map((venue) => (
+                <Card key={venue.id}>
+                  <Stack gap={4}>
+                    <Stack gap={2}>
+                      <H3>{venue.name}</H3>
+                      <Body className="text-body-sm">{venue.city}</Body>
+                    </Stack>
+                    <Stack gap={2}>
+                      <Stack gap={2} direction="horizontal" className="justify-between text-body-sm">
+                        <Body className="text-body-sm">Capacity:</Body>
+                        <Body className="font-mono">{venue.capacity.toLocaleString()}</Body>
+                      </Stack>
+                      <Stack gap={2} direction="horizontal" className="justify-between text-body-sm">
+                        <Body className="text-body-sm">Type:</Body>
+                        <Badge variant="outline">{venue.type}</Badge>
+                      </Stack>
+                      <Stack gap={2} direction="horizontal" className="justify-between text-body-sm">
+                        <Body className="text-body-sm">Status:</Body>
+                        <Badge variant={venue.status === "Available" ? "solid" : "outline"}>{venue.status}</Badge>
+                      </Stack>
+                    </Stack>
                   </Stack>
-                  <Stack gap={2}>
-                    <Stack gap={2} direction="horizontal" className="justify-between text-body-sm">
-                      <Body className="text-ink-500">Capacity:</Body>
-                      <Body className="font-mono text-white">{venue.capacity.toLocaleString()}</Body>
-                    </Stack>
-                    <Stack gap={2} direction="horizontal" className="justify-between text-body-sm">
-                      <Body className="text-ink-500">Type:</Body>
-                      <Badge variant="outline">{venue.type}</Badge>
-                    </Stack>
-                    <Stack gap={2} direction="horizontal" className="justify-between text-body-sm">
-                      <Body className="text-ink-500">Status:</Body>
-                      <Badge variant={venue.status === "Available" ? "solid" : "outline"}>{venue.status}</Badge>
-                    </Stack>
-                  </Stack>
-                </Stack>
-              </Card>
-            ))}
-          </Grid>
-        </Stack>
-      </Container>
-    </Section>
+                </Card>
+              ))}
+            </Grid>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

@@ -3,7 +3,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
-  H1,
   H3,
   Body,
   StatCard,
@@ -16,6 +15,8 @@ import {
   Grid,
   Stack,
   Section,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 import { getBadgeVariant } from "@ghxstship/config";
 
@@ -91,99 +92,104 @@ export default function SchedulePage() {
 
   if (loading) {
     return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <CreatorNavigationAuthenticated />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading schedule..." />
-        </Container>
-      </Section>
+      <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+        <Section className="min-h-screen py-16">
+          <Container className="flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" text="Loading schedule..." />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   if (error) {
     return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <CreatorNavigationAuthenticated />
-        <Container className="py-spacing-16">
-          <EmptyState
-            title="Error Loading Schedule"
-            description={error}
-            action={{ label: "Retry", onClick: fetchSchedule }}
-          />
-        </Container>
-      </Section>
+      <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+        <Section className="min-h-screen py-16">
+          <Container>
+            <EmptyState
+              title="Error Loading Schedule"
+              description={error}
+              action={{ label: "Retry", onClick: fetchSchedule }}
+            />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="relative min-h-screen bg-black text-white">
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <H1>Production Schedule</H1>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Production Schedule"
+              description="Manage production timeline and crew assignments"
+              colorScheme="on-light"
+              gap="lg"
+            />
 
-          <Grid cols={4} gap={6}>
-            <StatCard
-              value={summary?.total || 0}
-              label="Total Items"
-              className="bg-black text-white border-ink-800"
-            />
-            <StatCard
-              value={summary?.by_status?.in_progress || 0}
-              label="In Progress"
-              className="bg-black text-white border-ink-800"
-            />
-            <StatCard
-              value={summary?.by_status?.scheduled || 0}
-              label="Scheduled"
-              className="bg-black text-white border-ink-800"
-            />
-            <StatCard
-              value={summary?.by_status?.completed || 0}
-              label="Completed"
-              className="bg-black text-white border-ink-800"
-            />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard
+                value={(summary?.total || 0).toString()}
+                label="Total Items"
+              />
+              <StatCard
+                value={(summary?.by_status?.in_progress || 0).toString()}
+                label="In Progress"
+              />
+              <StatCard
+                value={(summary?.by_status?.scheduled || 0).toString()}
+                label="Scheduled"
+              />
+              <StatCard
+                value={(summary?.by_status?.completed || 0).toString()}
+                label="Completed"
+              />
+            </Grid>
 
-          {schedule.length === 0 ? (
-            <EmptyState
-              title="No Schedule Items"
-              description="Create your first schedule item to get started"
-              action={{ label: "Add Item", onClick: () => {} }}
-            />
-          ) : (
-            <Stack gap={6}>
-              {schedule.map((item) => (
-                <Card key={item.id} className="border-2 border-ink-800 p-spacing-6 bg-black">
-                  <Stack gap={4}>
-                    <Stack gap={2} direction="horizontal" className="justify-between items-start">
-                      <Stack gap={2}>
-                        <H3 className="text-white">{item.title}</H3>
-                        <Body className="font-mono text-body-sm text-ink-400">
-                          {formatTime(item.start_time)} - {formatTime(item.end_time)}
-                        </Body>
+            {schedule.length === 0 ? (
+              <EmptyState
+                title="No Schedule Items"
+                description="Create your first schedule item to get started"
+                action={{ label: "Add Item", onClick: () => {} }}
+              />
+            ) : (
+              <Stack gap={6}>
+                {schedule.map((item) => (
+                  <Card key={item.id}>
+                    <Stack gap={4}>
+                      <Stack gap={2} direction="horizontal" className="items-start justify-between">
+                        <Stack gap={2}>
+                          <H3>{item.title}</H3>
+                          <Body className="font-mono text-body-sm">
+                            {formatTime(item.start_time)} - {formatTime(item.end_time)}
+                          </Body>
+                        </Stack>
+                        <Stack gap={2} className="text-right">
+                          <Badge variant={getStatusVariant(item.status)}>
+                            {item.status?.replace('_', ' ').toUpperCase()}
+                          </Badge>
+                          <Body className="font-mono text-body-sm">
+                            {item.assignments?.length || 0} crew
+                          </Body>
+                        </Stack>
                       </Stack>
-                      <Stack gap={2} className="text-right">
-                        <Badge variant={getStatusVariant(item.status)}>
-                          {item.status?.replace('_', ' ').toUpperCase()}
-                        </Badge>
-                        <Body className="font-mono text-body-sm text-ink-400">
-                          {item.assignments?.length || 0} crew
-                        </Body>
-                      </Stack>
+
+                      <ProgressBar value={getProgress(item)} size="lg" />
+                      <Body className="font-mono text-body-sm">
+                        {getProgress(item)}% complete
+                      </Body>
                     </Stack>
-
-                    <ProgressBar value={getProgress(item)} variant="inverse" size="lg" />
-                    <Body className="font-mono text-mono-xs text-ink-500">
-                      {getProgress(item)}% complete
-                    </Body>
-                  </Stack>
-                </Card>
-              ))}
-            </Stack>
-          )}
-        </Stack>
-      </Container>
-    </Section>
+                  </Card>
+                ))}
+              </Stack>
+            )}
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

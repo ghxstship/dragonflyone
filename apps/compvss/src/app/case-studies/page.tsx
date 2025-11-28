@@ -4,9 +4,24 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter,
+  Container,
+  H3,
+  Body,
+  Grid,
+  Stack,
+  StatCard,
+  Input,
+  Select,
+  Button,
+  Section,
+  Card,
+  Badge,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 interface CaseStudy {
@@ -44,69 +59,69 @@ export default function CaseStudiesPage() {
     return matchesCategory && matchesType;
   });
 
-  const getTypeColor = (type: string) => {
-    switch (type) {
-      case "Success": return "text-success-400";
-      case "Post-Mortem": return "text-error-400";
-      case "Lessons Learned": return "text-warning-400";
-      default: return "text-ink-400";
-    }
-  };
-
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Case Studies</H1>
-            <Label className="text-ink-400">Project post-mortems and lessons learned</Label>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            {/* Page Header */}
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Case Studies"
+              description="Project post-mortems and lessons learned"
+              colorScheme="on-light"
+              gap="lg"
+            />
+
+            {/* Stats Grid */}
+            <Grid cols={4} gap={6}>
+              <StatCard value={mockCaseStudies.length.toString()} label="Total Studies" />
+              <StatCard value={mockCaseStudies.filter(s => s.type === "Success").length.toString()} label="Success Stories" />
+              <StatCard value={mockCaseStudies.filter(s => s.type === "Post-Mortem").length.toString()} label="Post-Mortems" />
+              <StatCard value={(categories.length - 1).toString()} label="Categories" />
+            </Grid>
+
+            {/* Filters */}
+            <Grid cols={3} gap={4}>
+              <Input type="search" placeholder="Search case studies..." />
+              <Select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}>
+                {categories.map(c => <option key={c} value={c}>{c}</option>)}
+              </Select>
+              <Select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)}>
+                {types.map(t => <option key={t} value={t}>{t}</option>)}
+              </Select>
+            </Grid>
+
+            {/* Case Studies Grid */}
+            <Grid cols={2} gap={4}>
+              {filteredStudies.map((study) => (
+                <Card key={study.id} className="cursor-pointer p-6" onClick={() => setSelectedStudy(study)}>
+                  <Stack gap={4}>
+                    <Stack direction="horizontal" className="justify-between">
+                      <Body className="text-body-md font-display">{study.title}</Body>
+                      <Badge variant={study.type === "Success" ? "solid" : "outline"}>{study.type}</Badge>
+                    </Stack>
+                    <Stack direction="horizontal" gap={2}>
+                      <Badge variant="outline">{study.category}</Badge>
+                      <Body className="text-body-sm">{study.projectName}</Body>
+                    </Stack>
+                    <Body className="text-body-sm">{study.summary}</Body>
+                    <Stack direction="horizontal" className="justify-between">
+                      <Body className="text-body-sm">{study.author}</Body>
+                      <Body className="text-body-sm">{study.date}</Body>
+                    </Stack>
+                  </Stack>
+                </Card>
+              ))}
+            </Grid>
+
+            {/* Quick Links */}
+            <Button variant="outline" onClick={() => router.push("/knowledge")}>Knowledge Base</Button>
           </Stack>
+        </Container>
+      </Section>
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Total Studies" value={mockCaseStudies.length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Success Stories" value={mockCaseStudies.filter(s => s.type === "Success").length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Post-Mortems" value={mockCaseStudies.filter(s => s.type === "Post-Mortem").length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Categories" value={categories.length - 1} className="bg-transparent border-2 border-ink-800" />
-          </Grid>
-
-          <Grid cols={3} gap={4}>
-            <Input type="search" placeholder="Search case studies..." className="border-ink-700 bg-black text-white" />
-            <Select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)} className="border-ink-700 bg-black text-white">
-              {categories.map(c => <option key={c} value={c}>{c}</option>)}
-            </Select>
-            <Select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)} className="border-ink-700 bg-black text-white">
-              {types.map(t => <option key={t} value={t}>{t}</option>)}
-            </Select>
-          </Grid>
-
-          <Grid cols={2} gap={4}>
-            {filteredStudies.map((study) => (
-              <Card key={study.id} className="border-2 border-ink-800 bg-ink-900/50 p-6 cursor-pointer hover:border-white" onClick={() => setSelectedStudy(study)}>
-                <Stack gap={4}>
-                  <Stack direction="horizontal" className="justify-between">
-                    <Body className="font-display text-white">{study.title}</Body>
-                    <Label className={getTypeColor(study.type)}>{study.type}</Label>
-                  </Stack>
-                  <Stack direction="horizontal" gap={2}>
-                    <Badge variant="outline">{study.category}</Badge>
-                    <Label className="text-ink-500">{study.projectName}</Label>
-                  </Stack>
-                  <Label className="text-ink-300">{study.summary}</Label>
-                  <Stack direction="horizontal" className="justify-between">
-                    <Label size="xs" className="text-ink-500">{study.author}</Label>
-                    <Label size="xs" className="text-ink-500">{study.date}</Label>
-                  </Stack>
-                </Stack>
-              </Card>
-            ))}
-          </Grid>
-
-          <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/knowledge")}>Knowledge Base</Button>
-        </Stack>
-      </Container>
-
+      {/* Detail Modal */}
       <Modal open={!!selectedStudy} onClose={() => setSelectedStudy(null)}>
         <ModalHeader><H3>{selectedStudy?.title}</H3></ModalHeader>
         <ModalBody>
@@ -114,34 +129,40 @@ export default function CaseStudiesPage() {
             <Stack gap={4}>
               <Stack direction="horizontal" gap={2}>
                 <Badge variant="outline">{selectedStudy.category}</Badge>
-                <Label className={getTypeColor(selectedStudy.type)}>{selectedStudy.type}</Label>
+                <Badge variant={selectedStudy.type === "Success" ? "solid" : "outline"}>{selectedStudy.type}</Badge>
               </Stack>
-              <Stack gap={1}><Label className="text-ink-400">Project</Label><Label className="text-white">{selectedStudy.projectName}</Label></Stack>
-              <Stack gap={1}><Label className="text-ink-400">Summary</Label><Body className="text-ink-300">{selectedStudy.summary}</Body></Stack>
+              <Stack gap={1}>
+                <Body className="font-display">Project</Body>
+                <Body>{selectedStudy.projectName}</Body>
+              </Stack>
+              <Stack gap={1}>
+                <Body className="font-display">Summary</Body>
+                <Body>{selectedStudy.summary}</Body>
+              </Stack>
               {selectedStudy.metrics && (
                 <Grid cols={2} gap={4}>
                   {selectedStudy.metrics.map((m, idx) => (
-                    <Card key={idx} className="p-3 border border-ink-700 text-center">
-                      <Label className="font-mono text-white text-h6-md">{m.value}</Label>
-                      <Label size="xs" className="text-ink-500">{m.label}</Label>
+                    <Card key={idx} className="p-3 text-center">
+                      <Body className="text-body-lg font-display">{m.value}</Body>
+                      <Body className="text-body-sm">{m.label}</Body>
                     </Card>
                   ))}
                 </Grid>
               )}
               <Stack gap={2}>
-                <Label className="text-ink-400">Key Takeaways</Label>
+                <Body className="font-display">Key Takeaways</Body>
                 {selectedStudy.keyTakeaways.map((takeaway, idx) => (
-                  <Card key={idx} className="p-3 border border-ink-700">
+                  <Card key={idx} className="p-3">
                     <Stack direction="horizontal" gap={2}>
-                      <Label className="text-success-400">✓</Label>
-                      <Label className="text-ink-300">{takeaway}</Label>
+                      <Badge variant="solid">✓</Badge>
+                      <Body>{takeaway}</Body>
                     </Stack>
                   </Card>
                 ))}
               </Stack>
               <Stack direction="horizontal" className="justify-between">
-                <Label className="text-ink-500">{selectedStudy.author}</Label>
-                <Label className="text-ink-500">{selectedStudy.date}</Label>
+                <Body className="text-body-sm">{selectedStudy.author}</Body>
+                <Body className="text-body-sm">{selectedStudy.date}</Body>
               </Stack>
             </Stack>
           )}
@@ -151,6 +172,6 @@ export default function CaseStudiesPage() {
           <Button variant="solid">Download PDF</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

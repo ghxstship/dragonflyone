@@ -8,6 +8,9 @@ import {
   Badge,
   RecordFormModal,
   DetailDrawer,
+  Grid,
+  Stack,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -116,18 +119,18 @@ export default function BackgroundChecksPage() {
 
   const detailSections: DetailSection[] = selectedCheck ? [
     { id: 'overview', title: 'Check Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Crew Member:</strong> {selectedCheck.crewMemberName}</div>
-        <div><strong>ID:</strong> {selectedCheck.crewMemberId}</div>
-        <div><strong>Department:</strong> {selectedCheck.department}</div>
-        <div><strong>Check Type:</strong> {selectedCheck.checkType}</div>
-        <div><strong>Status:</strong> {selectedCheck.status}</div>
-        <div><strong>Provider:</strong> {selectedCheck.provider}</div>
-        <div><strong>Submitted:</strong> {selectedCheck.submittedDate}</div>
-        <div><strong>Completed:</strong> {selectedCheck.completedDate || 'Pending'}</div>
-        <div><strong>Expiration:</strong> {selectedCheck.expirationDate || '—'}</div>
-        <div><strong>Days Until Expiry:</strong> {getExpiryLabel(selectedCheck.daysUntilExpiry)}</div>
-      </div>
+      <Grid cols={2} gap={4}>
+        <Stack gap={1}><Body className="font-display">Crew Member</Body><Body>{selectedCheck.crewMemberName}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">ID</Body><Body>{selectedCheck.crewMemberId}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Department</Body><Body>{selectedCheck.department}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Check Type</Body><Body>{selectedCheck.checkType}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Status</Body><Body>{selectedCheck.status}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Provider</Body><Body>{selectedCheck.provider}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Submitted</Body><Body>{selectedCheck.submittedDate}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Completed</Body><Body>{selectedCheck.completedDate || 'Pending'}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Expiration</Body><Body>{selectedCheck.expirationDate || '—'}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Days Until Expiry</Body><Body>{getExpiryLabel(selectedCheck.daysUntilExpiry)}</Body></Stack>
+      </Grid>
     )},
   ] : [];
 

@@ -2,11 +2,10 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { ConsumerNavigationPublic } from '../../components/navigation';
+import { ConsumerNavigationPublic } from '@/components/navigation';
 import {
   Container,
   Section,
-  H1,
   H2,
   H3,
   Body,
@@ -24,6 +23,12 @@ import {
   Modal,
   LoadingSpinner,
   Form,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
+  Kicker,
 } from '@ghxstship/ui';
 
 interface SavedSearch {
@@ -188,31 +193,77 @@ export default function SavedSearchesPage() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading..." />
-        </Container>
-      </Section>
+      <PageLayout
+        background="black"
+        header={<ConsumerNavigationPublic />}
+        footer={
+          <Footer
+            logo={<Display size="md">GVTEWAY</Display>}
+            copyright="© 2024 GHXSTSHIP INDUSTRIES."
+          >
+            <FooterColumn title="Discover">
+              <FooterLink href="/saved-searches">Saved Searches</FooterLink>
+            </FooterColumn>
+          </Footer>
+        }
+      >
+        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+          <div
+            className="pointer-events-none absolute inset-0 opacity-5"
+            style={{
+              backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+              backgroundSize: "40px 40px",
+            }}
+          />
+          <Container className="relative z-10 flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" text="Loading..." />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-        <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
-          <Stack gap={2}>
-            <H1>Saved Searches</H1>
-            <Body className="text-ink-600">
-              Get notified when new events match your criteria
-            </Body>
-          </Stack>
-          <Button variant="solid" onClick={() => setShowCreateModal(true)}>
-            Create Search
-          </Button>
-        </Stack>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Discover">
+            <FooterLink href="/saved-searches">Saved Searches</FooterLink>
+            <FooterLink href="/browse">Browse Events</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack direction="horizontal" className="items-center justify-between">
+              <Stack gap={2}>
+                <Kicker colorScheme="on-dark">Alerts</Kicker>
+                <H2 size="lg" className="text-white">Saved Searches</H2>
+                <Body className="text-on-dark-muted">Get notified when new events match your criteria</Body>
+              </Stack>
+              <Button variant="solid" inverted onClick={() => setShowCreateModal(true)}>
+                Create Search
+              </Button>
+            </Stack>
 
         {error && (
           <Alert variant="error" className="mb-6">
@@ -229,18 +280,18 @@ export default function SavedSearchesPage() {
         {searches.length > 0 ? (
           <Stack gap={4}>
             {searches.map(search => (
-              <Card key={search.id} className="p-6">
-                <Stack direction="horizontal" className="justify-between items-start">
+              <Card key={search.id} inverted interactive>
+                <Stack direction="horizontal" className="items-start justify-between">
                   <Stack gap={3} className="flex-1">
                     <Stack direction="horizontal" gap={3} className="items-center">
-                      <H3>{search.name}</H3>
+                      <H3 className="text-white">{search.name}</H3>
                       {search.new_results_count > 0 && (
-                        <Badge>{search.new_results_count} new</Badge>
+                        <Badge variant="solid">{search.new_results_count} new</Badge>
                       )}
                     </Stack>
 
                     {search.query && (
-                      <Body className="text-ink-600">
+                      <Body className="text-on-dark-muted">
                         Search: &quot;{search.query}&quot;
                       </Body>
                     )}
@@ -266,19 +317,19 @@ export default function SavedSearchesPage() {
                       )}
                     </Stack>
 
-                    <Stack direction="horizontal" gap={4} className="items-center mt-2">
+                    <Stack direction="horizontal" gap={4} className="mt-2 items-center">
                       <Stack direction="horizontal" gap={2} className="items-center">
                         <Switch
                           checked={search.alerts_enabled}
                           onChange={() => handleToggleAlerts(search)}
                         />
-                        <Label>Alerts {search.alerts_enabled ? 'On' : 'Off'}</Label>
+                        <Label className="text-on-dark-muted">Alerts {search.alerts_enabled ? 'On' : 'Off'}</Label>
                       </Stack>
                       {search.alerts_enabled && (
                         <Badge variant="outline">{search.alert_frequency}</Badge>
                       )}
                       {search.last_run && (
-                        <Body className="text-body-sm text-ink-500">
+                        <Body size="sm" className="text-on-dark-disabled">
                           Last checked: {new Date(search.last_run).toLocaleDateString()}
                         </Body>
                       )}
@@ -286,10 +337,10 @@ export default function SavedSearchesPage() {
                   </Stack>
 
                   <Stack direction="horizontal" gap={2}>
-                    <Button variant="solid" onClick={() => handleRunSearch(search)}>
+                    <Button variant="solid" inverted onClick={() => handleRunSearch(search)}>
                       Run Search
                     </Button>
-                    <Button variant="outline" onClick={() => handleDelete(search.id)}>
+                    <Button variant="outlineInk" onClick={() => handleDelete(search.id)}>
                       Delete
                     </Button>
                   </Stack>
@@ -298,12 +349,12 @@ export default function SavedSearchesPage() {
             ))}
           </Stack>
         ) : (
-          <Card className="p-12 text-center">
-            <H3 className="mb-4">NO SAVED SEARCHES</H3>
-            <Body className="text-ink-600 mb-6">
+          <Card inverted variant="elevated" className="p-12 text-center">
+            <H3 className="mb-4 text-white">No Saved Searches</H3>
+            <Body className="mb-6 text-on-dark-muted">
               Save your search criteria to get notified when new events match.
             </Body>
-            <Button variant="solid" onClick={() => setShowCreateModal(true)}>
+            <Button variant="solid" inverted onClick={() => setShowCreateModal(true)}>
               Create Your First Search
             </Button>
           </Card>
@@ -436,8 +487,9 @@ export default function SavedSearchesPage() {
             </Stack>
           </Form>
         </Modal>
-        </Stack>
-      </Container>
-    </Section>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

@@ -5,14 +5,10 @@ import { useRouter } from 'next/navigation';
 import {
   Container,
   Section,
-  H1,
-  H2,
   H3,
   Body,
-  Label,
   Button,
   Card,
-  Field,
   Input,
   Textarea,
   Select,
@@ -24,12 +20,12 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  LoadingSpinner,
   StatCard,
   Tabs,
   TabsList,
   Tab,
-  TabPanel,
+  PageLayout,
+  SectionHeader,
 } from '@ghxstship/ui';
 import { CreatorNavigationAuthenticated } from '../../components/navigation';
 
@@ -128,20 +124,22 @@ export default function CrewSocialPage() {
   const totalConnections = crewMembers.reduce((sum, m) => sum + m.connections.length, 0) / 2;
 
   return (
-    <Section className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack direction="horizontal" className="justify-between items-start">
-            <Stack gap={2}>
-              <H1>Crew Social</H1>
-              <Label className="text-ink-400">Connect with your crew, share photos, build your network</Label>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <Stack direction="horizontal" className="justify-between items-start">
+              <SectionHeader
+                kicker="COMPVSS"
+                title="Crew Social"
+                description="Connect with your crew, share photos, build your network"
+                colorScheme="on-light"
+                gap="lg"
+              />
+              <Button variant="solid" onClick={() => router.push('/crew')}>
+                Full Directory
+              </Button>
             </Stack>
-            <Button variant="solid" onClick={() => router.push('/crew')}>
-              Full Directory
-            </Button>
-          </Stack>
 
           {error && (
             <Alert variant="error" onClose={() => setError(null)}>
@@ -155,189 +153,186 @@ export default function CrewSocialPage() {
             </Alert>
           )}
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Crew Members" value={crewMembers.length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Online Now" value={onlineCount} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Connections" value={totalConnections} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Photos Shared" value={photos.length} className="bg-transparent border-2 border-ink-800" />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard label="Crew Members" value={crewMembers.length.toString()} />
+              <StatCard label="Online Now" value={onlineCount.toString()} />
+              <StatCard label="Connections" value={totalConnections.toString()} />
+              <StatCard label="Photos Shared" value={photos.length.toString()} />
+            </Grid>
 
-          <Tabs>
-            <TabsList>
-              <Tab active={activeTab === 'roster'} onClick={() => setActiveTab('roster')}>
-                Crew Roster
-              </Tab>
-              <Tab active={activeTab === 'photos'} onClick={() => setActiveTab('photos')}>
-                Photos
-              </Tab>
-              <Tab active={activeTab === 'connections'} onClick={() => setActiveTab('connections')}>
-                My Connections
-              </Tab>
-            </TabsList>
-          </Tabs>
+            <Tabs>
+              <TabsList>
+                <Tab active={activeTab === 'roster'} onClick={() => setActiveTab('roster')}>
+                  Crew Roster
+                </Tab>
+                <Tab active={activeTab === 'photos'} onClick={() => setActiveTab('photos')}>
+                  Photos
+                </Tab>
+                <Tab active={activeTab === 'connections'} onClick={() => setActiveTab('connections')}>
+                  My Connections
+                </Tab>
+              </TabsList>
+            </Tabs>
 
-          {activeTab === 'roster' && (
-            <Stack gap={6}>
-              <Grid cols={3} gap={4}>
-                <Input
-                  type="search"
-                  placeholder="Search crew..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="border-ink-700 bg-black text-white"
-                />
-                <Select
-                  value={departmentFilter}
-                  onChange={(e) => setDepartmentFilter(e.target.value)}
-                  className="border-ink-700 bg-black text-white"
-                >
-                  <option value="All">All Departments</option>
-                  <option value="Audio">Audio</option>
-                  <option value="Lighting">Lighting</option>
-                  <option value="Video">Video</option>
-                  <option value="Stage">Stage</option>
-                  <option value="Rigging">Rigging</option>
-                </Select>
-                <Button variant="outline" className="border-ink-700 text-ink-400">
-                  Find Connections
-                </Button>
-              </Grid>
-
-              <Grid cols={3} gap={6}>
-                {filteredMembers.map(member => (
-                  <Card
-                    key={member.id}
-                    className="border-2 border-ink-800 bg-ink-900/50 p-4 cursor-pointer hover:border-ink-600"
-                    onClick={() => setSelectedMember(member)}
+            {activeTab === 'roster' && (
+              <Stack gap={6}>
+                <Grid cols={3} gap={4}>
+                  <Input
+                    type="search"
+                    placeholder="Search crew..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                  <Select
+                    value={departmentFilter}
+                    onChange={(e) => setDepartmentFilter(e.target.value)}
                   >
-                    <Stack gap={4}>
-                      <Stack direction="horizontal" className="justify-between items-start">
-                        <Stack gap={1}>
-                          <Stack direction="horizontal" gap={2} className="items-center">
-                            <Body className="font-display text-white">{member.name}</Body>
-                            {member.is_online && (
-                              <Card className="w-2 h-2 rounded-full bg-success-500" />
-                            )}
+                    <option value="All">All Departments</option>
+                    <option value="Audio">Audio</option>
+                    <option value="Lighting">Lighting</option>
+                    <option value="Video">Video</option>
+                    <option value="Stage">Stage</option>
+                    <option value="Rigging">Rigging</option>
+                  </Select>
+                  <Button variant="outline">
+                    Find Connections
+                  </Button>
+                </Grid>
+
+                <Grid cols={3} gap={6}>
+                  {filteredMembers.map(member => (
+                    <Card
+                      key={member.id}
+                      onClick={() => setSelectedMember(member)}
+                    >
+                      <Stack gap={4}>
+                        <Stack direction="horizontal" className="justify-between items-start">
+                          <Stack gap={1}>
+                            <Stack direction="horizontal" gap={2} className="items-center">
+                              <Body className="font-display">{member.name}</Body>
+                              {member.is_online && (
+                                <Badge variant="solid">Online</Badge>
+                              )}
+                            </Stack>
+                            <Body className="text-body-sm">{member.role}</Body>
                           </Stack>
-                          <Label className="text-ink-400">{member.role}</Label>
+                          <Badge variant="outline">{member.department}</Badge>
                         </Stack>
-                        <Badge variant="outline">{member.department}</Badge>
-                      </Stack>
 
-                      {member.bio && (
-                        <Body className="text-ink-300 text-body-sm line-clamp-2">{member.bio}</Body>
-                      )}
+                        {member.bio && (
+                          <Body className="text-body-sm">{member.bio}</Body>
+                        )}
 
-                      <Stack direction="horizontal" gap={2} className="flex-wrap">
-                        {member.skills.slice(0, 3).map(skill => (
-                          <Badge key={skill} className="bg-ink-800 text-ink-300 text-mono-xs">{skill}</Badge>
-                        ))}
-                      </Stack>
-
-                      <Stack direction="horizontal" className="justify-between items-center">
-                        <Label size="xs" className="text-ink-500">
-                          {member.projects_count} projects • {member.connections.length} connections
-                        </Label>
-                        <Button variant="ghost" size="sm" onClick={(e) => {
-                          e.stopPropagation();
-                          setSelectedMember(member);
-                          setShowConnectModal(true);
-                        }}>
-                          Connect
-                        </Button>
-                      </Stack>
-                    </Stack>
-                  </Card>
-                ))}
-              </Grid>
-            </Stack>
-          )}
-
-          {activeTab === 'photos' && (
-            <Stack gap={6}>
-              <Stack direction="horizontal" className="justify-between items-center">
-                <H3>Recent Photos</H3>
-                <Button variant="outline" className="border-ink-700 text-ink-400">
-                  Upload Photo
-                </Button>
-              </Stack>
-
-              <Grid cols={3} gap={6}>
-                {photos.map(photo => (
-                  <Card key={photo.id} className="border-2 border-ink-800 bg-ink-900/50 overflow-hidden">
-                    <Card className="h-48 bg-ink-800 flex items-center justify-center">
-                      <Body className="text-ink-500">📷 Photo</Body>
-                    </Card>
-                    <Stack gap={3} className="p-4">
-                      {photo.caption && (
-                        <Body className="text-white">{photo.caption}</Body>
-                      )}
-                      <Stack direction="horizontal" className="justify-between items-center">
-                        <Stack gap={1}>
-                          <Label className="text-ink-400">{photo.uploaded_by}</Label>
-                          <Label size="xs" className="text-ink-500">{photo.project_name}</Label>
+                        <Stack direction="horizontal" gap={2} className="flex-wrap">
+                          {member.skills.slice(0, 3).map(skill => (
+                            <Badge key={skill} variant="outline">{skill}</Badge>
+                          ))}
                         </Stack>
-                        <Stack direction="horizontal" gap={2} className="items-center">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handleLikePhoto(photo.id)}
-                            className={photo.liked_by.includes('CREW-001') ? 'text-error-400' : ''}
-                          >
-                            ❤️ {photo.likes}
+
+                        <Stack direction="horizontal" className="justify-between items-center">
+                          <Body className="text-body-sm">
+                            {member.projects_count} projects • {member.connections.length} connections
+                          </Body>
+                          <Button variant="ghost" size="sm" onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedMember(member);
+                            setShowConnectModal(true);
+                          }}>
+                            Connect
                           </Button>
                         </Stack>
                       </Stack>
-                    </Stack>
-                  </Card>
-                ))}
-              </Grid>
-            </Stack>
-          )}
+                    </Card>
+                  ))}
+                </Grid>
+              </Stack>
+            )}
 
-          {activeTab === 'connections' && (
-            <Stack gap={6}>
-              <H3>My Connections</H3>
-              <Grid cols={2} gap={6}>
-                {crewMembers.filter(m => m.connections.includes('CREW-001')).map(member => (
-                  <Card key={member.id} className="border-2 border-ink-800 bg-ink-900/50 p-4">
-                    <Stack direction="horizontal" className="justify-between items-center">
-                      <Stack direction="horizontal" gap={4} className="items-center">
-                        <Card className="w-12 h-12 rounded-full bg-ink-700 flex items-center justify-center">
-                          <Body className="text-white">{member.name.charAt(0)}</Body>
-                        </Card>
-                        <Stack gap={1}>
-                          <Stack direction="horizontal" gap={2} className="items-center">
-                            <Body className="font-display text-white">{member.name}</Body>
-                            {member.is_online && (
-                              <Badge className="bg-success-500 text-white text-mono-xs">Online</Badge>
-                            )}
+            {activeTab === 'photos' && (
+              <Stack gap={6}>
+                <Stack direction="horizontal" className="justify-between items-center">
+                  <H3>Recent Photos</H3>
+                  <Button variant="outline">
+                    Upload Photo
+                  </Button>
+                </Stack>
+
+                <Grid cols={3} gap={6}>
+                  {photos.map(photo => (
+                    <Card key={photo.id}>
+                      <Card className="h-48 flex items-center justify-center">
+                        <Body>📷 Photo</Body>
+                      </Card>
+                      <Stack gap={3}>
+                        {photo.caption && (
+                          <Body>{photo.caption}</Body>
+                        )}
+                        <Stack direction="horizontal" className="justify-between items-center">
+                          <Stack gap={1}>
+                            <Body className="text-body-sm">{photo.uploaded_by}</Body>
+                            <Body className="text-body-sm">{photo.project_name}</Body>
                           </Stack>
-                          <Label className="text-ink-400">{member.role}</Label>
-                          <Label size="xs" className="text-ink-500">{member.location}</Label>
+                          <Stack direction="horizontal" gap={2} className="items-center">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleLikePhoto(photo.id)}
+                            >
+                              ❤️ {photo.likes}
+                            </Button>
+                          </Stack>
                         </Stack>
                       </Stack>
-                      <Stack direction="horizontal" gap={2}>
-                        <Button variant="ghost" size="sm">Message</Button>
-                        <Button variant="outline" size="sm" onClick={() => setSelectedMember(member)}>
-                          Profile
-                        </Button>
-                      </Stack>
-                    </Stack>
-                  </Card>
-                ))}
-              </Grid>
-            </Stack>
-          )}
+                    </Card>
+                  ))}
+                </Grid>
+              </Stack>
+            )}
 
-          <Grid cols={4} gap={4}>
-            <Button variant="outlineWhite" onClick={() => router.push('/crew')}>Full Directory</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push('/channels')}>Channels</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400">My Profile</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400">Settings</Button>
-          </Grid>
-        </Stack>
-      </Container>
+            {activeTab === 'connections' && (
+              <Stack gap={6}>
+                <H3>My Connections</H3>
+                <Grid cols={2} gap={6}>
+                  {crewMembers.filter(m => m.connections.includes('CREW-001')).map(member => (
+                    <Card key={member.id}>
+                      <Stack direction="horizontal" className="justify-between items-center">
+                        <Stack direction="horizontal" gap={4} className="items-center">
+                          <Card className="w-12 h-12 rounded-full flex items-center justify-center">
+                            <Body>{member.name.charAt(0)}</Body>
+                          </Card>
+                          <Stack gap={1}>
+                            <Stack direction="horizontal" gap={2} className="items-center">
+                              <Body className="font-display">{member.name}</Body>
+                              {member.is_online && (
+                                <Badge variant="solid">Online</Badge>
+                              )}
+                            </Stack>
+                            <Body className="text-body-sm">{member.role}</Body>
+                            <Body className="text-body-sm">{member.location}</Body>
+                          </Stack>
+                        </Stack>
+                        <Stack direction="horizontal" gap={2}>
+                          <Button variant="ghost" size="sm">Message</Button>
+                          <Button variant="outline" size="sm" onClick={() => setSelectedMember(member)}>
+                            Profile
+                          </Button>
+                        </Stack>
+                      </Stack>
+                    </Card>
+                  ))}
+                </Grid>
+              </Stack>
+            )}
+
+            <Grid cols={4} gap={4}>
+              <Button variant="solid" onClick={() => router.push('/crew')}>Full Directory</Button>
+              <Button variant="outline" onClick={() => router.push('/channels')}>Channels</Button>
+              <Button variant="outline">My Profile</Button>
+              <Button variant="outline">Settings</Button>
+            </Grid>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedMember && !showConnectModal} onClose={() => setSelectedMember(null)}>
         <ModalHeader><H3>Crew Profile</H3></ModalHeader>
@@ -345,38 +340,38 @@ export default function CrewSocialPage() {
           {selectedMember && (
             <Stack gap={4}>
               <Stack direction="horizontal" gap={4} className="items-center">
-                <Card className="w-16 h-16 rounded-full bg-ink-700 flex items-center justify-center">
-                  <Body className="text-white text-h5-md">{selectedMember.name.charAt(0)}</Body>
+                <Card className="w-16 h-16 rounded-full flex items-center justify-center">
+                  <Body>{selectedMember.name.charAt(0)}</Body>
                 </Card>
                 <Stack gap={1}>
                   <Stack direction="horizontal" gap={2} className="items-center">
-                    <Body className="font-display text-white text-h6-md">{selectedMember.name}</Body>
+                    <Body className="font-display">{selectedMember.name}</Body>
                     {selectedMember.is_online && (
-                      <Badge className="bg-success-500 text-white">Online</Badge>
+                      <Badge variant="solid">Online</Badge>
                     )}
                   </Stack>
-                  <Label className="text-ink-400">{selectedMember.role}</Label>
+                  <Body className="text-body-sm">{selectedMember.role}</Body>
                   <Badge variant="outline">{selectedMember.department}</Badge>
                 </Stack>
               </Stack>
 
               {selectedMember.bio && (
-                <Body className="text-ink-300">{selectedMember.bio}</Body>
+                <Body>{selectedMember.bio}</Body>
               )}
 
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>
-                  <Label size="xs" className="text-ink-500">Location</Label>
-                  <Label className="text-white">{selectedMember.location || 'Not specified'}</Label>
+                  <Body className="text-body-sm">Location</Body>
+                  <Body>{selectedMember.location || 'Not specified'}</Body>
                 </Stack>
                 <Stack gap={1}>
-                  <Label size="xs" className="text-ink-500">Member Since</Label>
-                  <Label className="text-white">{new Date(selectedMember.joined_date).toLocaleDateString()}</Label>
+                  <Body className="text-body-sm">Member Since</Body>
+                  <Body>{new Date(selectedMember.joined_date).toLocaleDateString()}</Body>
                 </Stack>
               </Grid>
 
               <Stack gap={2}>
-                <Label size="xs" className="text-ink-500">Skills</Label>
+                <Body className="text-body-sm">Skills</Body>
                 <Stack direction="horizontal" gap={2} className="flex-wrap">
                   {selectedMember.skills.map(skill => (
                     <Badge key={skill} variant="outline">{skill}</Badge>
@@ -385,13 +380,13 @@ export default function CrewSocialPage() {
               </Stack>
 
               <Grid cols={2} gap={4}>
-                <Card className="p-3 bg-ink-800 text-center">
-                  <Body className="text-h5-md font-bold text-white">{selectedMember.projects_count}</Body>
-                  <Label size="xs" className="text-ink-500">Projects</Label>
+                <Card className="text-center">
+                  <Body className="font-display">{selectedMember.projects_count}</Body>
+                  <Body className="text-body-sm">Projects</Body>
                 </Card>
-                <Card className="p-3 bg-ink-800 text-center">
-                  <Body className="text-h5-md font-bold text-white">{selectedMember.connections.length}</Body>
-                  <Label size="xs" className="text-ink-500">Connections</Label>
+                <Card className="text-center">
+                  <Body className="font-display">{selectedMember.connections.length}</Body>
+                  <Body className="text-body-sm">Connections</Body>
                 </Card>
               </Grid>
             </Stack>
@@ -408,13 +403,12 @@ export default function CrewSocialPage() {
         <ModalBody>
           {selectedMember && (
             <Stack gap={4}>
-              <Body className="text-ink-300">
-                Send a connection request to <span className="text-white font-bold">{selectedMember.name}</span>?
+              <Body>
+                Send a connection request to <span className="font-display">{selectedMember.name}</span>?
               </Body>
               <Textarea
                 placeholder="Add a personal message (optional)..."
                 rows={3}
-                className="border-ink-700 bg-black text-white"
               />
             </Stack>
           )}
@@ -426,6 +420,6 @@ export default function CrewSocialPage() {
           </Button>
         </ModalFooter>
       </Modal>
-    </Section>
+    </PageLayout>
   );
 }

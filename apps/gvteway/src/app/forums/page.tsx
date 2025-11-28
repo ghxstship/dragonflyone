@@ -2,9 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { ConsumerNavigationPublic } from "../../components/navigation";
+import { ConsumerNavigationPublic } from "@/components/navigation";
 import {
-  H1,
   H2,
   Body,
   StatCard,
@@ -27,6 +26,12 @@ import {
   Input,
   Field,
   useNotifications,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
+  Kicker,
 } from "@ghxstship/ui";
 
 interface ForumThread {
@@ -62,7 +67,7 @@ interface ForumSummary {
 
 export default function ForumsPage() {
   const router = useRouter();
-  const { addNotification } = useNotifications();
+  const { addNotification: _addNotification } = useNotifications();
   const [threads, setThreads] = useState<ForumThread[]>([]);
   const [categories, setCategories] = useState<ForumCategory[]>([]);
   const [summary, setSummary] = useState<ForumSummary | null>(null);
@@ -111,81 +116,107 @@ export default function ForumsPage() {
     return date.toLocaleDateString();
   };
 
+  const footerContent = (
+    <Footer
+      logo={<Display size="md">GVTEWAY</Display>}
+      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+    >
+      <FooterColumn title="Community">
+        <FooterLink href="/forums">Forums</FooterLink>
+        <FooterLink href="/groups">Groups</FooterLink>
+      </FooterColumn>
+      <FooterColumn title="Legal">
+        <FooterLink href="/legal/privacy">Privacy</FooterLink>
+        <FooterLink href="/legal/terms">Terms</FooterLink>
+      </FooterColumn>
+    </Footer>
+  );
+
   if (loading) {
     return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
+      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+        <Section background="black" className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading forums..." />
-        </Container>
-      </Section>
+        </Section>
+      </PageLayout>
     );
   }
 
   if (error) {
     return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <ConsumerNavigationPublic />
-        <Container className="py-spacing-16">
-          <EmptyState
-            title="Error Loading Forums"
-            description={error}
-            action={{ label: "Retry", onClick: fetchForums }}
-          />
-        </Container>
-      </Section>
+      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+        <Section background="black" className="min-h-screen py-16">
+          <Container>
+            <EmptyState
+              title="Error Loading Forums"
+              description={error}
+              action={{ label: "Retry", onClick: fetchForums }}
+              inverted
+            />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="relative min-h-screen bg-black text-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Community Forums</H1>
-            <Body className="text-ink-400">
-              Discuss events, share experiences, and connect with other fans
-            </Body>
-          </Stack>
+    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={8}>
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Connect & Share</Kicker>
+              <H2 size="lg" className="text-white">Community Forums</H2>
+              <Body className="text-on-dark-muted">
+                Discuss events, share experiences, and connect with other fans
+              </Body>
+            </Stack>
 
-          <Grid cols={4} gap={6}>
-            <StatCard
-              value={summary?.total_threads || 0}
-              label="Discussions"
-              className="bg-black text-white border-ink-800"
-            />
-            <StatCard
-              value={summary?.total_posts || 0}
-              label="Posts"
-              className="bg-black text-white border-ink-800"
-            />
-            <StatCard
-              value={summary?.active_users || 0}
-              label="Active Users"
-              className="bg-black text-white border-ink-800"
-            />
-            <StatCard
-              value={summary?.new_today || 0}
-              label="New Today"
-              className="bg-black text-white border-ink-800"
-            />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard
+                value={(summary?.total_threads || 0).toString()}
+                label="Discussions"
+                inverted
+              />
+              <StatCard
+                value={(summary?.total_posts || 0).toString()}
+                label="Posts"
+                inverted
+              />
+              <StatCard
+                value={(summary?.active_users || 0).toString()}
+                label="Active Users"
+                inverted
+              />
+              <StatCard
+                value={(summary?.new_today || 0).toString()}
+                label="New Today"
+                inverted
+              />
+            </Grid>
 
-          <Card className="p-spacing-6 bg-black border-ink-800">
+          <Card inverted variant="elevated">
             <Stack gap={4}>
-              <H2>Categories</H2>
+              <H2 className="text-white">Categories</H2>
               <Grid cols={4} gap={4}>
                 {categories.map((cat) => (
                   <Card 
                     key={cat.id} 
-                    className="p-spacing-4 bg-ink-900 border-ink-700 cursor-pointer hover:border-ink-600"
+                    inverted
+                    interactive
                     onClick={() => setFilterCategory(cat.id)}
                   >
                     <Stack gap={2}>
-                      <Body className="font-medium">{cat.name}</Body>
-                      <Body className="text-ink-400 text-body-sm">{cat.description}</Body>
-                      <Body className="text-ink-500 text-mono-xs">
+                      <Body className="font-display text-white">{cat.name}</Body>
+                      <Body size="sm" className="text-on-dark-muted">{cat.description}</Body>
+                      <Body size="sm" className="font-mono text-on-dark-disabled">
                         {cat.thread_count} threads • {cat.post_count} posts
                       </Body>
                     </Stack>
@@ -201,13 +232,13 @@ export default function ForumsPage() {
                 placeholder="Search discussions..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-black text-white border-ink-700"
+                inverted
               />
             </Field>
             <Select
               value={filterCategory}
               onChange={(e) => setFilterCategory(e.target.value)}
-              className="bg-black text-white border-ink-700"
+              inverted
             >
               <option value="all">All Categories</option>
               <option value="general">General Discussion</option>
@@ -216,7 +247,7 @@ export default function ForumsPage() {
               <option value="tickets">Tickets & Sales</option>
               <option value="meetups">Meetups</option>
             </Select>
-            <Button variant="outlineWhite" onClick={() => router.push("/forums/new")}>
+            <Button variant="outlineInk" onClick={() => router.push("/forums/new")}>
               New Thread
             </Button>
           </Stack>
@@ -226,61 +257,65 @@ export default function ForumsPage() {
               title="No Discussions Found"
               description="Start a new discussion"
               action={{ label: "Create Thread", onClick: () => router.push("/forums/new") }}
+              inverted
             />
           ) : (
-            <Table variant="bordered" className="bg-black">
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-1/2">Discussion</TableHead>
-                  <TableHead>Category</TableHead>
-                  <TableHead>Replies</TableHead>
-                  <TableHead>Views</TableHead>
-                  <TableHead>Last Activity</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {threads.map((thread) => (
-                  <TableRow 
-                    key={thread.id} 
-                    className="bg-black text-white hover:bg-ink-900 cursor-pointer"
-                    onClick={() => router.push(`/forums/${thread.id}`)}
-                  >
-                    <TableCell>
-                      <Stack gap={1}>
-                        <Stack gap={2} direction="horizontal" className="items-center">
-                          {thread.is_pinned && <Badge variant="solid">Pinned</Badge>}
-                          {thread.is_locked && <Badge variant="ghost">Locked</Badge>}
-                          <Body className="text-white font-medium">{thread.title}</Body>
-                        </Stack>
-                        <Body className="text-ink-500 text-body-sm">
-                          by {thread.author_name} • {formatTimeAgo(thread.created_at)}
-                        </Body>
-                      </Stack>
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant="outline">{thread.category}</Badge>
-                    </TableCell>
-                    <TableCell className="font-mono text-ink-400">
-                      {thread.reply_count}
-                    </TableCell>
-                    <TableCell className="font-mono text-ink-400">
-                      {thread.view_count}
-                    </TableCell>
-                    <TableCell className="text-ink-400">
-                      <Stack gap={1}>
-                        <Body className="text-body-sm">{formatTimeAgo(thread.last_reply_at)}</Body>
-                        {thread.last_reply_by && (
-                          <Body className="text-ink-500 text-mono-xs">by {thread.last_reply_by}</Body>
-                        )}
-                      </Stack>
-                    </TableCell>
+            <Card inverted className="overflow-hidden p-0">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Discussion</TableHead>
+                    <TableHead>Category</TableHead>
+                    <TableHead>Replies</TableHead>
+                    <TableHead>Views</TableHead>
+                    <TableHead>Last Activity</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {threads.map((thread) => (
+                    <TableRow 
+                      key={thread.id} 
+                      className="cursor-pointer"
+                      onClick={() => router.push(`/forums/${thread.id}`)}
+                    >
+                      <TableCell>
+                        <Stack gap={1}>
+                          <Stack gap={2} direction="horizontal" className="items-center">
+                            {thread.is_pinned && <Badge variant="solid">Pinned</Badge>}
+                            {thread.is_locked && <Badge variant="ghost">Locked</Badge>}
+                            <Body className="font-display text-white">{thread.title}</Body>
+                          </Stack>
+                          <Body size="sm" className="text-on-dark-disabled">
+                            by {thread.author_name} • {formatTimeAgo(thread.created_at)}
+                          </Body>
+                        </Stack>
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant="outline">{thread.category}</Badge>
+                      </TableCell>
+                      <TableCell>
+                        <Body className="font-mono text-on-dark-muted">{thread.reply_count}</Body>
+                      </TableCell>
+                      <TableCell>
+                        <Body className="font-mono text-on-dark-muted">{thread.view_count}</Body>
+                      </TableCell>
+                      <TableCell>
+                        <Stack gap={1}>
+                          <Body size="sm" className="text-on-dark-muted">{formatTimeAgo(thread.last_reply_at)}</Body>
+                          {thread.last_reply_by && (
+                            <Body size="sm" className="font-mono text-on-dark-disabled">by {thread.last_reply_by}</Body>
+                          )}
+                        </Stack>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </Card>
           )}
-        </Stack>
-      </Container>
-    </Section>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

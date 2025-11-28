@@ -4,9 +4,24 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter,
+  Container,
+  H3,
+  Body,
+  Grid,
+  Stack,
+  StatCard,
+  Input,
+  Select,
+  Button,
+  Section,
+  Card,
+  Badge,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 interface BestPractice {
@@ -47,58 +62,67 @@ export default function BestPracticesPage() {
   });
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Best Practices Library</H1>
-            <Label className="text-ink-400">Industry best practices organized by discipline</Label>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            {/* Page Header */}
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Best Practices Library"
+              description="Industry best practices organized by discipline"
+              colorScheme="on-light"
+              gap="lg"
+            />
+
+            {/* Stats Grid */}
+            <Grid cols={4} gap={6}>
+              <StatCard value={mockPractices.length.toString()} label="Total Guides" />
+              <StatCard value={(categories.length - 1).toString()} label="Categories" />
+              <StatCard value={mockPractices.reduce((s, p) => s + p.views, 0).toString()} label="Total Views" />
+              <StatCard value="4.8" label="Avg Rating" />
+            </Grid>
+
+            {/* Filters */}
+            <Grid cols={3} gap={4}>
+              <Input type="search" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+              <Select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}>
+                {categories.map(c => <option key={c} value={c}>{c}</option>)}
+              </Select>
+              <Select value={disciplineFilter} onChange={(e) => setDisciplineFilter(e.target.value)}>
+                {disciplines.map(d => <option key={d} value={d}>{d}</option>)}
+              </Select>
+            </Grid>
+
+            {/* Practices Grid */}
+            <Grid cols={2} gap={4}>
+              {filteredPractices.map((practice) => (
+                <Card key={practice.id} className="p-6 cursor-pointer" onClick={() => setSelectedPractice(practice)}>
+                  <Stack gap={4}>
+                    <Stack direction="horizontal" className="justify-between">
+                      <Body className="font-display text-body-md">{practice.title}</Body>
+                      <Badge variant="outline">{practice.discipline}</Badge>
+                    </Stack>
+                    <Body className="text-body-sm">{practice.summary}</Body>
+                    <Stack direction="horizontal" gap={2}>
+                      {practice.tags.map(tag => <Badge key={tag} variant="outline">#{tag}</Badge>)}
+                    </Stack>
+                    <Stack direction="horizontal" className="justify-between">
+                      <Body className="text-body-sm">{practice.author}</Body>
+                      <Body className="text-body-sm">⭐ {practice.rating} • {practice.views} views</Body>
+                    </Stack>
+                  </Stack>
+                </Card>
+              ))}
+            </Grid>
+
+            {/* Quick Links */}
+            <Button variant="outline" onClick={() => router.push("/knowledge")}>Knowledge Base</Button>
           </Stack>
+        </Container>
+      </Section>
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Total Guides" value={mockPractices.length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Categories" value={categories.length - 1} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Total Views" value={mockPractices.reduce((s, p) => s + p.views, 0)} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Avg Rating" value="4.8" className="bg-transparent border-2 border-ink-800" />
-          </Grid>
-
-          <Grid cols={3} gap={4}>
-            <Input type="search" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="border-ink-700 bg-black text-white" />
-            <Select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)} className="border-ink-700 bg-black text-white">
-              {categories.map(c => <option key={c} value={c}>{c}</option>)}
-            </Select>
-            <Select value={disciplineFilter} onChange={(e) => setDisciplineFilter(e.target.value)} className="border-ink-700 bg-black text-white">
-              {disciplines.map(d => <option key={d} value={d}>{d}</option>)}
-            </Select>
-          </Grid>
-
-          <Grid cols={2} gap={4}>
-            {filteredPractices.map((practice) => (
-              <Card key={practice.id} className="border-2 border-ink-800 bg-ink-900/50 p-6 cursor-pointer hover:border-white" onClick={() => setSelectedPractice(practice)}>
-                <Stack gap={4}>
-                  <Stack direction="horizontal" className="justify-between">
-                    <Body className="font-display text-white">{practice.title}</Body>
-                    <Badge variant="outline">{practice.discipline}</Badge>
-                  </Stack>
-                  <Label className="text-ink-300">{practice.summary}</Label>
-                  <Stack direction="horizontal" gap={2}>
-                    {practice.tags.map(tag => <Badge key={tag} variant="outline">#{tag}</Badge>)}
-                  </Stack>
-                  <Stack direction="horizontal" className="justify-between">
-                    <Label size="xs" className="text-ink-500">{practice.author}</Label>
-                    <Label size="xs" className="text-ink-500">⭐ {practice.rating} • {practice.views} views</Label>
-                  </Stack>
-                </Stack>
-              </Card>
-            ))}
-          </Grid>
-
-          <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/knowledge")}>Knowledge Base</Button>
-        </Stack>
-      </Container>
-
+      {/* Detail Modal */}
       <Modal open={!!selectedPractice} onClose={() => setSelectedPractice(null)}>
         <ModalHeader><H3>{selectedPractice?.title}</H3></ModalHeader>
         <ModalBody>
@@ -108,10 +132,10 @@ export default function BestPracticesPage() {
                 <Badge variant="outline">{selectedPractice.category}</Badge>
                 <Badge variant="outline">{selectedPractice.discipline}</Badge>
               </Stack>
-              <Body className="text-ink-300">{selectedPractice.summary}</Body>
+              <Body>{selectedPractice.summary}</Body>
               <Stack direction="horizontal" className="justify-between">
-                <Label className="text-ink-400">{selectedPractice.author}</Label>
-                <Label className="text-ink-400">⭐ {selectedPractice.rating}</Label>
+                <Body className="text-body-sm">{selectedPractice.author}</Body>
+                <Body className="text-body-sm">⭐ {selectedPractice.rating}</Body>
               </Stack>
             </Stack>
           )}
@@ -121,6 +145,6 @@ export default function BestPracticesPage() {
           <Button variant="solid">View Full Guide</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

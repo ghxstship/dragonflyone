@@ -4,9 +4,28 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter, Textarea, Alert,
+  Container,
+  H3,
+  Body,
+  Grid,
+  Stack,
+  StatCard,
+  Input,
+  Button,
+  Section,
+  Card,
+  Tabs,
+  TabsList,
+  Tab,
+  TabPanel,
+  Badge,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Textarea,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 interface BidOpportunity {
@@ -40,87 +59,103 @@ export default function BidPortalPage() {
   const openBids = mockBids.filter(b => b.status === "Open").length;
   const submittedBids = mockBids.filter(b => b.status === "Submitted" || b.status === "Under Review").length;
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "Won": return "text-success-400";
-      case "Submitted": case "Under Review": return "text-info-400";
-      case "Open": return "text-warning-400";
-      case "Lost": return "text-error-400";
-      default: return "text-ink-400";
-    }
-  };
-
   const filteredBids = activeTab === "all" ? mockBids : activeTab === "open" ? mockBids.filter(b => b.status === "Open") : mockBids.filter(b => b.status !== "Open");
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Bid Submission Portal</H1>
-            <Label className="text-ink-400">Submit proposals and track bid opportunities</Label>
-          </Stack>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            {/* Page Header */}
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Bid Submission Portal"
+              description="Submit proposals and track bid opportunities"
+              colorScheme="on-light"
+              gap="lg"
+            />
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Open" value={openBids} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Submitted" value={submittedBids} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Won" value={mockBids.filter(b => b.status === "Won").length} trend="up" className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Win Rate" value="68%" className="bg-transparent border-2 border-ink-800" />
-          </Grid>
+            {/* Stats Grid */}
+            <Grid cols={4} gap={6}>
+              <StatCard value={openBids.toString()} label="Open" />
+              <StatCard value={submittedBids.toString()} label="Submitted" />
+              <StatCard value={mockBids.filter(b => b.status === "Won").length.toString()} label="Won" />
+              <StatCard value="68%" label="Win Rate" />
+            </Grid>
 
-          <Tabs>
-            <TabsList>
-              <Tab active={activeTab === "open"} onClick={() => setActiveTab("open")}>Open</Tab>
-              <Tab active={activeTab === "submitted"} onClick={() => setActiveTab("submitted")}>Submitted</Tab>
-              <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All</Tab>
-            </TabsList>
+            {/* Tabs */}
+            <Card className="p-6">
+              <Tabs>
+                <TabsList>
+                  <Tab active={activeTab === "open"} onClick={() => setActiveTab("open")}>Open</Tab>
+                  <Tab active={activeTab === "submitted"} onClick={() => setActiveTab("submitted")}>Submitted</Tab>
+                  <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All</Tab>
+                </TabsList>
 
-            <TabPanel active={true}>
-              <Stack gap={4}>
-                {filteredBids.map((bid) => (
-                  <Card key={bid.id} className="border-2 border-ink-800 bg-ink-900/50 p-6">
-                    <Stack gap={4}>
-                      <Stack direction="horizontal" className="justify-between items-start">
-                        <Stack gap={1}>
-                          <Body className="font-display text-white text-body-md">{bid.title}</Body>
-                          <Label className="text-ink-400">{bid.client}</Label>
+                <TabPanel active={true}>
+                  <Stack gap={4} className="mt-6">
+                    {filteredBids.map((bid) => (
+                      <Card key={bid.id} className="p-6">
+                        <Stack gap={4}>
+                          <Stack direction="horizontal" className="items-start justify-between">
+                            <Stack gap={1}>
+                              <Body className="text-body-md font-display">{bid.title}</Body>
+                              <Body className="text-body-sm">{bid.client}</Body>
+                            </Stack>
+                            <Badge variant={bid.status === "Won" ? "solid" : "outline"}>{bid.status}</Badge>
+                          </Stack>
+                          <Body className="text-body-sm">{bid.description}</Body>
+                          <Grid cols={4} gap={4}>
+                            <Stack gap={1}>
+                              <Body className="text-body-sm font-display">Due</Body>
+                              <Body className="text-body-sm">{bid.dueDate}</Body>
+                            </Stack>
+                            {bid.budget && (
+                              <Stack gap={1}>
+                                <Body className="text-body-sm font-display">Budget</Body>
+                                <Body className="text-body-sm">{bid.budget}</Body>
+                              </Stack>
+                            )}
+                            <Stack gap={1}>
+                              <Body className="text-body-sm font-display">Type</Body>
+                              <Badge variant="outline">{bid.type}</Badge>
+                            </Stack>
+                            {bid.bidAmount && (
+                              <Stack gap={1}>
+                                <Body className="text-body-sm font-display">Our Bid</Body>
+                                <Body className="text-body-sm font-display">${bid.bidAmount.toLocaleString()}</Body>
+                              </Stack>
+                            )}
+                          </Grid>
+                          <Stack direction="horizontal" gap={4} className="justify-end">
+                            <Button variant="ghost" size="sm" onClick={() => setSelectedBid(bid)}>Details</Button>
+                            {bid.status === "Open" && <Button variant="solid" size="sm" onClick={() => { setSelectedBid(bid); setShowSubmitModal(true); }}>Submit Proposal</Button>}
+                          </Stack>
                         </Stack>
-                        <Label className={getStatusColor(bid.status)}>{bid.status}</Label>
-                      </Stack>
-                      <Body className="text-ink-300">{bid.description}</Body>
-                      <Grid cols={4} gap={4}>
-                        <Stack gap={1}><Label size="xs" className="text-ink-500">Due</Label><Label className="font-mono text-white">{bid.dueDate}</Label></Stack>
-                        {bid.budget && <Stack gap={1}><Label size="xs" className="text-ink-500">Budget</Label><Label className="text-white">{bid.budget}</Label></Stack>}
-                        <Stack gap={1}><Label size="xs" className="text-ink-500">Type</Label><Badge variant="outline">{bid.type}</Badge></Stack>
-                        {bid.bidAmount && <Stack gap={1}><Label size="xs" className="text-ink-500">Our Bid</Label><Label className="font-mono text-success-400">${bid.bidAmount.toLocaleString()}</Label></Stack>}
-                      </Grid>
-                      <Stack direction="horizontal" gap={4} className="justify-end">
-                        <Button variant="ghost" size="sm" onClick={() => setSelectedBid(bid)}>Details</Button>
-                        {bid.status === "Open" && <Button variant="solid" size="sm" onClick={() => { setSelectedBid(bid); setShowSubmitModal(true); }}>Submit Proposal</Button>}
-                      </Stack>
-                    </Stack>
-                  </Card>
-                ))}
-              </Stack>
-            </TabPanel>
-          </Tabs>
+                      </Card>
+                    ))}
+                  </Stack>
+                </TabPanel>
+              </Tabs>
+            </Card>
 
-          <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/opportunities")}>Browse Opportunities</Button>
-        </Stack>
-      </Container>
+            {/* Quick Links */}
+            <Button variant="outline" onClick={() => router.push("/opportunities")}>Browse Opportunities</Button>
+          </Stack>
+        </Container>
+      </Section>
 
+      {/* Submit Proposal Modal */}
       <Modal open={showSubmitModal} onClose={() => { setShowSubmitModal(false); setSelectedBid(null); }}>
         <ModalHeader><H3>Submit Proposal</H3></ModalHeader>
         <ModalBody>
           {selectedBid && (
             <Stack gap={4}>
-              <Body className="text-white">{selectedBid.title}</Body>
-              <Input type="number" placeholder="Bid Amount ($)" className="border-ink-700 bg-black text-white" />
-              <Textarea placeholder="Proposal summary..." className="border-ink-700 bg-black text-white" rows={4} />
-              <Card className="p-4 border-2 border-dashed border-ink-700 text-center cursor-pointer">
-                <Label className="text-ink-400">Drop files here to attach</Label>
+              <Body className="font-display">{selectedBid.title}</Body>
+              <Input type="number" placeholder="Bid Amount ($)" />
+              <Textarea placeholder="Proposal summary..." rows={4} />
+              <Card className="cursor-pointer border-2 border-dashed p-4 text-center">
+                <Body className="text-body-sm">Drop files here to attach</Body>
               </Card>
             </Stack>
           )}
@@ -131,21 +166,32 @@ export default function BidPortalPage() {
         </ModalFooter>
       </Modal>
 
+      {/* Opportunity Details Modal */}
       <Modal open={!!selectedBid && !showSubmitModal} onClose={() => setSelectedBid(null)}>
         <ModalHeader><H3>Opportunity Details</H3></ModalHeader>
         <ModalBody>
           {selectedBid && (
             <Stack gap={4}>
-              <Body className="font-display text-white text-body-md">{selectedBid.title}</Body>
-              <Label className="text-ink-400">{selectedBid.client}</Label>
-              <Body className="text-ink-300">{selectedBid.description}</Body>
+              <Body className="text-body-md font-display">{selectedBid.title}</Body>
+              <Body className="text-body-sm">{selectedBid.client}</Body>
+              <Body>{selectedBid.description}</Body>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Due</Label><Label className="text-white">{selectedBid.dueDate}</Label></Stack>
-                {selectedBid.budget && <Stack gap={1}><Label size="xs" className="text-ink-500">Budget</Label><Label className="text-white">{selectedBid.budget}</Label></Stack>}
+                <Stack gap={1}>
+                  <Body className="text-body-sm font-display">Due</Body>
+                  <Body>{selectedBid.dueDate}</Body>
+                </Stack>
+                {selectedBid.budget && (
+                  <Stack gap={1}>
+                    <Body className="text-body-sm font-display">Budget</Body>
+                    <Body>{selectedBid.budget}</Body>
+                  </Stack>
+                )}
               </Grid>
               <Stack gap={2}>
-                <Label className="text-ink-400">Requirements</Label>
-                {selectedBid.requirements.map((req, idx) => <Badge key={idx} variant="outline">{req}</Badge>)}
+                <Body className="font-display">Requirements</Body>
+                <Stack direction="horizontal" gap={2} className="flex-wrap">
+                  {selectedBid.requirements.map((req, idx) => <Badge key={idx} variant="outline">{req}</Badge>)}
+                </Stack>
               </Stack>
             </Stack>
           )}
@@ -154,6 +200,6 @@ export default function BidPortalPage() {
           <Button variant="outline" onClick={() => setSelectedBid(null)}>Close</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

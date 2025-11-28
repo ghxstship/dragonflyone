@@ -3,8 +3,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { CreatorNavigationAuthenticated } from '../../components/navigation';
-import { Container, Section, Display, H2, H3, Body, Button, Card, Grid, Badge, LoadingSpinner, EmptyState, Stack, Breadcrumb, BreadcrumbItem } from '@ghxstship/ui';
-import { AlertTriangle, CheckCircle, FileText, Users, Shield, AlertCircle } from 'lucide-react';
+import { Container, Section, H2, H3, Body, Button, Card, Grid, Badge, LoadingSpinner, EmptyState, Stack, Breadcrumb, BreadcrumbItem, PageLayout, SectionHeader, StatCard } from '@ghxstship/ui';
+import { AlertTriangle, FileText, Shield } from 'lucide-react';
 
 interface Incident {
   id: string;
@@ -53,14 +53,13 @@ export default function SafetyPage() {
     { name: 'Electrical Safety', expired: 0, expiring: 2, current: 12 },
   ];
 
-  const getSeverityColor = (severity: string) => {
+  const getSeverityVariant = (severity: string): "solid" | "outline" => {
     switch (severity) {
       case 'high':
       case 'critical':
-        return 'bg-black text-white';
-      case 'medium': return 'bg-ink-600 text-white';
-      case 'low': return 'bg-ink-300 text-black';
-      default: return 'bg-ink-200 text-black';
+        return 'solid';
+      default:
+        return 'outline';
     }
   };
 
@@ -69,32 +68,35 @@ export default function SafetyPage() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white py-8">
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading safety data..." />
-        </Container>
-      </Section>
+      <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+        <Section className="min-h-screen py-16">
+          <Container className="flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" text="Loading safety data..." />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   if (error) {
     return (
-      <Section className="min-h-screen bg-white py-8">
-        <Container className="py-16">
-          <EmptyState
-            title="Error Loading Safety Data"
-            description={error}
-            action={{ label: "Retry", onClick: fetchIncidents }}
-          />
-        </Container>
-      </Section>
+      <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+        <Section className="min-h-screen py-16">
+          <Container>
+            <EmptyState
+              title="Error Loading Safety Data"
+              description={error}
+              action={{ label: "Retry", onClick: fetchIncidents }}
+            />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="min-h-screen bg-ink-950 text-white">
-      <CreatorNavigationAuthenticated />
-      <Section className="py-8">
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
         <Container>
           {/* Breadcrumb */}
           <Breadcrumb className="mb-6">
@@ -102,122 +104,111 @@ export default function SafetyPage() {
             <BreadcrumbItem active>Safety</BreadcrumbItem>
           </Breadcrumb>
 
-          <Stack gap={4} direction="horizontal" className="justify-between items-start mb-8">
-            <Stack gap={2}>
-              <Display>SAFETY MANAGEMENT</Display>
-              <Body className="text-ink-600">Incident reporting and safety compliance</Body>
-            </Stack>
+          <Stack gap={4} direction="horizontal" className="mb-8 items-start justify-between">
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Safety Management"
+              description="Incident reporting and safety compliance"
+              colorScheme="on-light"
+              gap="lg"
+            />
             <Button onClick={() => router.push('/safety/report')}>
-              <AlertTriangle className="w-4 h-4 mr-2" />
+              <AlertTriangle className="mr-2 size-4" />
               REPORT INCIDENT
             </Button>
           </Stack>
 
-        <Grid cols={4} gap={4} className="mb-8">
-          <Card className="p-6 text-center bg-white border-2 border-black">
-            <Shield className="w-8 h-8 mx-auto mb-2" />
-            <H2>0</H2>
-            <Body>Days Since Incident</Body>
-          </Card>
-          <Card className="p-6 text-center">
-            <AlertCircle className="w-8 h-8 mx-auto mb-2 text-ink-600" />
-            <H2>{activeIncidents}</H2>
-            <Body className="text-ink-600">Active Incidents</Body>
-          </Card>
-          <Card className="p-6 text-center">
-            <CheckCircle className="w-8 h-8 mx-auto mb-2 text-ink-600" />
-            <H2>{resolvedIncidents}</H2>
-            <Body className="text-ink-600">Resolved (YTD)</Body>
-          </Card>
-          <Card className="p-6 text-center">
-            <Users className="w-8 h-8 mx-auto mb-2 text-ink-600" />
-            <H2>68</H2>
-            <Body className="text-ink-600">Certified Crew</Body>
-          </Card>
-        </Grid>
+          <Grid cols={4} gap={4} className="mb-8">
+            <StatCard value="0" label="Days Since Incident" />
+            <StatCard value={activeIncidents.toString()} label="Active Incidents" />
+            <StatCard value={resolvedIncidents.toString()} label="Resolved (YTD)" />
+            <StatCard value="68" label="Certified Crew" />
+          </Grid>
 
-        <Grid cols={2} gap={4} className="mb-8">
-          <Card className="p-6">
-            <Stack gap={4} direction="horizontal" className="justify-between items-center mb-4">
-              <H2>RECENT INCIDENTS</H2>
-              <Button variant="outline" size="sm" onClick={() => router.push('/safety/incidents')}>VIEW ALL</Button>
-            </Stack>
-            <Stack gap={4}>
-              {incidents.map((incident) => (
-                <Card key={incident.id} className="p-4 border-2 border-ink-200">
-                  <Stack gap={2} direction="horizontal" className="justify-between items-start mb-2">
-                    <Stack gap={1} className="flex-1">
-                      <Stack gap={2} direction="horizontal" className="items-center">
-                        <H3>{incident.id}</H3>
-                        <Badge className={getSeverityColor(incident.severity)}>
-                          {incident.severity.toUpperCase()}
-                        </Badge>
+          <Grid cols={2} gap={4} className="mb-8">
+            <Card>
+              <Stack gap={4} direction="horizontal" className="mb-4 items-center justify-between">
+                <H2>RECENT INCIDENTS</H2>
+                <Button variant="outline" size="sm" onClick={() => router.push('/safety/incidents')}>VIEW ALL</Button>
+              </Stack>
+              <Stack gap={4}>
+                {incidents.map((incident) => (
+                  <Card key={incident.id}>
+                    <Stack gap={2} direction="horizontal" className="mb-2 items-start justify-between">
+                      <Stack gap={1} className="flex-1">
+                        <Stack gap={2} direction="horizontal" className="items-center">
+                          <H3>{incident.id}</H3>
+                          <Badge variant={getSeverityVariant(incident.severity)}>
+                            {incident.severity.toUpperCase()}
+                          </Badge>
+                        </Stack>
+                        <Body className="text-body-sm">{incident.description}</Body>
+                        <Body className="text-body-sm">{incident.location}</Body>
                       </Stack>
-                      <Body className="text-body-sm">{incident.description}</Body>
-                      <Body className="text-mono-xs text-ink-600">{incident.location}</Body>
                     </Stack>
+                    <Stack gap={2} direction="horizontal" className="mt-3 items-center justify-between text-body-sm">
+                      <Body className="text-body-sm">
+                        Reported by {incident.reported_by}
+                      </Body>
+                      <Body className="text-body-sm">{new Date(incident.date).toLocaleDateString()}</Body>
+                    </Stack>
+                  </Card>
+                ))}
+              </Stack>
+            </Card>
+
+            <Card>
+              <H2 className="mb-4">CERTIFICATION STATUS</H2>
+              <Stack gap={4}>
+                {certifications.map((cert, idx) => (
+                  <Stack key={idx} gap={2}>
+                    <Stack gap={2} direction="horizontal" className="justify-between">
+                      <Body className="font-display">{cert.name}</Body>
+                      <Body className="text-body-sm">
+                        {cert.current} certified
+                      </Body>
+                    </Stack>
+                    <Grid cols={3} gap={2} className="text-center">
+                      <Card>
+                        <Body className="font-display text-body-sm">{cert.expired}</Body>
+                        <Body className="text-body-sm">Expired</Body>
+                      </Card>
+                      <Card>
+                        <Body className="font-display text-body-sm">{cert.expiring}</Body>
+                        <Body className="text-body-sm">Expiring</Body>
+                      </Card>
+                      <Card>
+                        <Body className="font-display text-body-sm">{cert.current}</Body>
+                        <Body className="text-body-sm">Current</Body>
+                      </Card>
+                    </Grid>
                   </Stack>
-                  <Stack gap={2} direction="horizontal" className="justify-between items-center text-body-sm mt-3">
-                    <Body className="text-ink-600">
-                      Reported by {incident.reported_by}
-                    </Body>
-                    <Body className="text-ink-600">{new Date(incident.date).toLocaleDateString()}</Body>
+                ))}
+              </Stack>
+            </Card>
+          </Grid>
+
+          <Card>
+            <H2 className="mb-4">SAFETY RESOURCES</H2>
+            <Grid cols={3} gap={4}>
+              {[
+                { title: 'Emergency Procedures', icon: AlertTriangle, docs: 12 },
+                { title: 'Safety Protocols', icon: Shield, docs: 24 },
+                { title: 'Training Materials', icon: FileText, docs: 18 },
+              ].map((resource, idx) => (
+                <Card key={idx}>
+                  <Stack className="items-center text-center">
+                    <resource.icon className="mb-3 size-12" />
+                    <H3 className="mb-2">{resource.title}</H3>
+                    <Body className="mb-4 text-body-sm">{resource.docs} documents</Body>
+                    <Button variant="outline" size="sm" onClick={() => router.push(`/safety/resources/${resource.title.toLowerCase().replace(' ', '-')}`)}>ACCESS</Button>
                   </Stack>
                 </Card>
               ))}
-            </Stack>
+            </Grid>
           </Card>
-
-          <Card className="p-6">
-            <H2 className="mb-4">CERTIFICATION STATUS</H2>
-            <Stack gap={4}>
-              {certifications.map((cert, idx) => (
-                <Stack key={idx} gap={2}>
-                  <Stack gap={2} direction="horizontal" className="justify-between">
-                    <Body className="font-bold">{cert.name}</Body>
-                    <Body className="text-body-sm text-ink-600">
-                      {cert.current} certified
-                    </Body>
-                  </Stack>
-                  <Grid cols={3} gap={2} className="text-center">
-                    <Card className={`p-2 ${cert.expired > 0 ? 'bg-black text-white' : 'bg-ink-100'}`}>
-                      <Body className="text-body-sm font-bold">{cert.expired}</Body>
-                      <Body className="text-mono-xs">Expired</Body>
-                    </Card>
-                    <Card className={`p-2 ${cert.expiring > 0 ? 'bg-ink-600 text-white' : 'bg-ink-100'}`}>
-                      <Body className="text-body-sm font-bold">{cert.expiring}</Body>
-                      <Body className="text-mono-xs">Expiring</Body>
-                    </Card>
-                    <Card className="p-2 bg-white border-2 border-black">
-                      <Body className="text-body-sm font-bold">{cert.current}</Body>
-                      <Body className="text-mono-xs">Current</Body>
-                    </Card>
-                  </Grid>
-                </Stack>
-              ))}
-            </Stack>
-          </Card>
-        </Grid>
-
-        <Card className="p-6">
-          <H2 className="mb-4">SAFETY RESOURCES</H2>
-          <Grid cols={3} gap={4}>
-            {[
-              { title: 'Emergency Procedures', icon: AlertTriangle, docs: 12 },
-              { title: 'Safety Protocols', icon: Shield, docs: 24 },
-              { title: 'Training Materials', icon: FileText, docs: 18 },
-            ].map((resource, idx) => (
-              <Card key={idx} className="p-6 text-center hover:shadow-hard-lg transition-shadow cursor-pointer">
-                <resource.icon className="w-12 h-12 mx-auto mb-3 text-ink-600" />
-                <H3 className="mb-2">{resource.title}</H3>
-                <Body className="text-body-sm text-ink-600 mb-4">{resource.docs} documents</Body>
-                <Button variant="outline" size="sm" className="w-full" onClick={() => router.push(`/safety/resources/${resource.title.toLowerCase().replace(' ', '-')}`)}>ACCESS</Button>
-              </Card>
-            ))}
-          </Grid>
-        </Card>
-      </Container>
+        </Container>
       </Section>
-    </Section>
+    </PageLayout>
   );
 }

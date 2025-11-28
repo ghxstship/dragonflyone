@@ -2,11 +2,13 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { ConsumerNavigationPublic } from "@/components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
+  Container, H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
+  Section, Card, Tabs, TabsList, Tab, TabPanel, Badge,
   Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
+  PageLayout, Footer, FooterColumn, FooterLink, Display, Kicker,
 } from "@ghxstship/ui";
 
 interface Collaborator {
@@ -83,13 +85,40 @@ export default function EventCollaborationPage() {
   };
 
   return (
-    <UISection className="min-h-screen bg-white">
-      <Container className="py-8">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>EVENT COLLABORATION</H1>
-            <Body className="text-ink-600">Manage team permissions and collaboration</Body>
-          </Stack>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Events">
+            <FooterLink href="/events">Events</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Events</Kicker>
+              <H2 size="lg" className="text-white">Event Collaboration</H2>
+              <Body className="text-on-dark-muted">Manage team permissions and collaboration</Body>
+            </Stack>
 
           <Grid cols={4} gap={6}>
             <StatCard label="Team Members" value={mockCollaborators.length} className="border-2 border-black" />
@@ -196,9 +225,10 @@ export default function EventCollaborationPage() {
             </Card>
           </TabPanel>
 
-          <Button variant="outline" onClick={() => router.push("/events/create")}>Back to Event</Button>
-        </Stack>
-      </Container>
+          <Button variant="outlineInk" onClick={() => router.push("/events/create")}>Back to Event</Button>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedCollaborator} onClose={() => setSelectedCollaborator(null)}>
         <ModalHeader><H3>Manage Collaborator</H3></ModalHeader>
@@ -267,6 +297,6 @@ export default function EventCollaborationPage() {
           <Button variant="solid" onClick={() => setShowInviteModal(false)}>Send Invite</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

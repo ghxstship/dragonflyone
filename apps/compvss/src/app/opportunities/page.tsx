@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { CreatorNavigationAuthenticated } from '../../components/navigation';
-import { Container, Section, Display, H2, H3, Body, Button, Input, Select, Card, Grid, Badge, Stack, Modal, ModalHeader, ModalBody, ModalFooter, Textarea, Alert, Breadcrumb, BreadcrumbItem } from '@ghxstship/ui';
+import { Container, Section, H2, H3, Body, Button, Input, Select, Card, Grid, Badge, Stack, Modal, ModalHeader, ModalBody, ModalFooter, Textarea, Alert, Breadcrumb, BreadcrumbItem, PageLayout, SectionHeader } from '@ghxstship/ui';
 import { Search, Briefcase, DollarSign, MapPin, Clock, FileText } from 'lucide-react';
 
 export default function OpportunitiesPage() {
@@ -95,191 +95,190 @@ export default function OpportunitiesPage() {
   ];
 
   return (
-    <Section className="min-h-screen bg-white">
-      <CreatorNavigationAuthenticated />
-      <Section className="py-spacing-8">
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
         <Container>
           {/* Breadcrumb */}
-          <Breadcrumb className="mb-spacing-6">
+          <Breadcrumb className="mb-6">
             <BreadcrumbItem href="/dashboard">Dashboard</BreadcrumbItem>
             <BreadcrumbItem active>Opportunities</BreadcrumbItem>
           </Breadcrumb>
 
-          <Stack gap={4} direction="horizontal" className="justify-between items-start mb-spacing-8">
-            <Stack gap={2}>
-              <Display>OPPORTUNITIES</Display>
-              <Body className="text-ink-600">RFPs, careers, and gig board</Body>
-            </Stack>
+          <Stack gap={4} direction="horizontal" className="mb-8 items-start justify-between">
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Opportunities"
+              description="RFPs, careers, and gig board"
+              colorScheme="on-light"
+              gap="lg"
+            />
             <Button onClick={() => router.push('/opportunities/new')}>
-              <FileText className="w-spacing-4 h-spacing-4 mr-spacing-2" />
+              <FileText className="mr-2 size-4" />
               POST OPPORTUNITY
             </Button>
           </Stack>
 
-        {/* Tabs */}
-        <Stack gap={4} direction="horizontal" className="mb-spacing-8 border-b-2 border-ink-200">
-          {[
-            { id: 'rfps', label: 'RFPs & BIDS' },
-            { id: 'jobs', label: 'FULL-TIME JOBS' },
-            { id: 'gigs', label: 'FREELANCE GIGS' },
-          ].map((tab) => (
-            <Button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
-              variant={activeTab === tab.id ? 'solid' : 'ghost'}
-              className={`pb-spacing-4 px-spacing-6 font-heading text-body-md tracking-wider ${
-                activeTab === tab.id ? 'border-b-4 border-black -mb-0.5' : ''
-              }`}
-            >
-              {tab.label}
-            </Button>
-          ))}
-        </Stack>
+          {/* Tabs */}
+          <Stack gap={4} direction="horizontal" className="mb-8">
+            {[
+              { id: 'rfps', label: 'RFPs & BIDS' },
+              { id: 'jobs', label: 'FULL-TIME JOBS' },
+              { id: 'gigs', label: 'FREELANCE GIGS' },
+            ].map((tab) => (
+              <Button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as typeof activeTab)}
+                variant={activeTab === tab.id ? 'solid' : 'outline'}
+              >
+                {tab.label}
+              </Button>
+            ))}
+          </Stack>
 
-        {/* Search and Filters */}
-        <Card className="p-spacing-6 mb-spacing-8">
-          <Stack gap={4} direction="horizontal">
-            <Stack className="flex-1 relative">
-              <Search className="absolute left-spacing-3 top-1/2 -translate-y-1/2 w-spacing-5 h-spacing-5 text-ink-500" />
-              <Input placeholder="Search opportunities..." className="pl-10 w-full" />
+          {/* Search and Filters */}
+          <Card className="mb-8">
+            <Stack gap={4} direction="horizontal">
+              <Stack className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 size-5 -translate-y-1/2" />
+                <Input placeholder="Search opportunities..." className="w-full pl-10" />
+              </Stack>
+              <Select>
+                <option>All Locations</option>
+                <option>Miami, FL</option>
+                <option>New York, NY</option>
+                <option>Los Angeles, CA</option>
+              </Select>
+              <Select>
+                <option>All Categories</option>
+                <option>Production</option>
+                <option>Technical</option>
+                <option>Creative</option>
+              </Select>
             </Stack>
-            <Select className="w-48">
-              <option>All Locations</option>
-              <option>Miami, FL</option>
-              <option>New York, NY</option>
-              <option>Los Angeles, CA</option>
-            </Select>
-            <Select className="w-48">
-              <option>All Categories</option>
-              <option>Production</option>
-              <option>Technical</option>
-              <option>Creative</option>
-            </Select>
-          </Stack>
-        </Card>
+          </Card>
 
-        {/* RFPs Tab */}
-        {activeTab === 'rfps' && (
-          <Stack gap={4}>
-            {rfps.map((rfp) => (
-              <Card key={rfp.id} className="p-spacing-6 hover:shadow-hard-lg transition-shadow">
-                <Stack gap={4} direction="horizontal" className="justify-between items-start mb-spacing-4">
-                  <Stack gap={2} className="flex-1">
-                    <Stack gap={3} direction="horizontal" className="items-center">
-                      <H2>{rfp.title}</H2>
-                      <Badge className={rfp.status === 'closing_soon' ? 'bg-black text-white' : 'bg-white text-black border-2 border-black'}>
-                        {rfp.status === 'closing_soon' ? 'CLOSING SOON' : 'OPEN'}
-                      </Badge>
+          {/* RFPs Tab */}
+          {activeTab === 'rfps' && (
+            <Stack gap={4}>
+              {rfps.map((rfp) => (
+                <Card key={rfp.id}>
+                  <Stack gap={4} direction="horizontal" className="mb-4 items-start justify-between">
+                    <Stack gap={2} className="flex-1">
+                      <Stack gap={3} direction="horizontal" className="items-center">
+                        <H2>{rfp.title}</H2>
+                        <Badge variant={rfp.status === 'closing_soon' ? 'solid' : 'outline'}>
+                          {rfp.status === 'closing_soon' ? 'CLOSING SOON' : 'OPEN'}
+                        </Badge>
+                      </Stack>
+                      <Body className="text-body-sm">{rfp.client}</Body>
+                      
+                      <Grid cols={3} gap={4}>
+                        <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
+                          <DollarSign className="size-4" />
+                          <Body>{rfp.budget}</Body>
+                        </Stack>
+                        <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
+                          <MapPin className="size-4" />
+                          <Body>{rfp.location}</Body>
+                        </Stack>
+                        <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
+                          <Clock className="size-4" />
+                          <Body>Due {new Date(rfp.deadline).toLocaleDateString()}</Body>
+                        </Stack>
+                      </Grid>
                     </Stack>
-                    <Body className="text-ink-600">{rfp.client}</Body>
-                    
-                    <Grid cols={3} gap={4}>
-                      <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
-                        <DollarSign className="w-spacing-4 h-spacing-4 text-ink-600" />
-                        <Body>{rfp.budget}</Body>
-                      </Stack>
-                      <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
-                        <MapPin className="w-spacing-4 h-spacing-4 text-ink-600" />
-                        <Body>{rfp.location}</Body>
-                      </Stack>
-                      <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
-                        <Clock className="w-spacing-4 h-spacing-4 text-ink-600" />
-                        <Body>Due {new Date(rfp.deadline).toLocaleDateString()}</Body>
-                      </Stack>
-                    </Grid>
-                  </Stack>
-                  <Stack gap={2} direction="horizontal" className="ml-spacing-6">
-                    <Button variant="outline" size="sm" onClick={() => router.push(`/opportunities/rfp/${rfp.id}`)}>VIEW RFP</Button>
-                    <Button size="sm" onClick={() => handleApply(rfp, 'rfp')}>SUBMIT BID</Button>
-                  </Stack>
-                </Stack>
-              </Card>
-            ))}
-          </Stack>
-        )}
-
-        {/* Jobs Tab */}
-        {activeTab === 'jobs' && (
-          <Stack gap={4}>
-            {jobs.map((job) => (
-              <Card key={job.id} className="p-6 hover:shadow-hard-lg transition-shadow">
-                <Stack gap={4} direction="horizontal" className="justify-between items-start">
-                  <Stack gap={2} className="flex-1">
-                    <Stack gap={3} direction="horizontal" className="items-center">
-                      <Briefcase className="w-6 h-6" />
-                      <H2>{job.title}</H2>
-                      <Badge className="bg-white text-black border-2 border-black">{job.type}</Badge>
+                    <Stack gap={2} direction="horizontal" className="ml-6">
+                      <Button variant="outline" size="sm" onClick={() => router.push(`/opportunities/rfp/${rfp.id}`)}>VIEW RFP</Button>
+                      <Button size="sm" onClick={() => handleApply(rfp, 'rfp')}>SUBMIT BID</Button>
                     </Stack>
-                    
-                    <Grid cols={3} gap={4} className="mt-4">
-                      <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
-                        <MapPin className="w-spacing-4 h-spacing-4 text-ink-600" />
-                        <Body>{job.location}</Body>
-                      </Stack>
-                      <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
-                        <DollarSign className="w-spacing-4 h-spacing-4 text-ink-600" />
-                        <Body>{job.salary}</Body>
-                      </Stack>
-                      <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
-                        <Clock className="w-spacing-4 h-spacing-4 text-ink-600" />
-                        <Body>Posted {new Date(job.posted).toLocaleDateString()}</Body>
-                      </Stack>
-                    </Grid>
                   </Stack>
-                  <Stack gap={2} direction="horizontal" className="ml-spacing-6">
-                    <Button variant="outline" size="sm" onClick={() => router.push(`/opportunities/job/${job.id}`)}>VIEW JOB</Button>
-                    <Button size="sm" onClick={() => handleApply(job, 'job')}>APPLY</Button>
-                  </Stack>
-                </Stack>
-              </Card>
-            ))}
-          </Stack>
-        )}
+                </Card>
+              ))}
+            </Stack>
+          )}
 
-        {/* Gigs Tab */}
-        {activeTab === 'gigs' && (
-          <Stack gap={4}>
-            {gigs.map((gig) => (
-              <Card key={gig.id} className="p-6 hover:shadow-hard-lg transition-shadow">
-                <Stack gap={4} direction="horizontal" className="justify-between items-start">
-                  <Stack gap={4} className="flex-1">
-                    <H2 className="mb-4">{gig.title}</H2>
-                    
-                    <Grid cols={4} gap={4}>
-                      <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
-                        <Clock className="w-spacing-4 h-spacing-4 text-ink-600" />
-                        <Body>{new Date(gig.date).toLocaleDateString()}</Body>
+          {/* Jobs Tab */}
+          {activeTab === 'jobs' && (
+            <Stack gap={4}>
+              {jobs.map((job) => (
+                <Card key={job.id}>
+                  <Stack gap={4} direction="horizontal" className="items-start justify-between">
+                    <Stack gap={2} className="flex-1">
+                      <Stack gap={3} direction="horizontal" className="items-center">
+                        <Briefcase className="size-6" />
+                        <H2>{job.title}</H2>
+                        <Badge variant="outline">{job.type}</Badge>
                       </Stack>
-                      <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
-                        <MapPin className="w-spacing-4 h-spacing-4 text-ink-600" />
-                        <Body>{gig.location}</Body>
-                      </Stack>
-                      <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
-                        <DollarSign className="w-spacing-4 h-spacing-4 text-ink-600" />
-                        <Body>{gig.rate}</Body>
-                      </Stack>
-                      <Stack>
-                        <Body className="text-body-sm text-ink-600">Duration: {gig.duration}</Body>
-                      </Stack>
-                    </Grid>
+                      
+                      <Grid cols={3} gap={4} className="mt-4">
+                        <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
+                          <MapPin className="size-4" />
+                          <Body>{job.location}</Body>
+                        </Stack>
+                        <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
+                          <DollarSign className="size-4" />
+                          <Body>{job.salary}</Body>
+                        </Stack>
+                        <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
+                          <Clock className="size-4" />
+                          <Body>Posted {new Date(job.posted).toLocaleDateString()}</Body>
+                        </Stack>
+                      </Grid>
+                    </Stack>
+                    <Stack gap={2} direction="horizontal" className="ml-6">
+                      <Button variant="outline" size="sm" onClick={() => router.push(`/opportunities/job/${job.id}`)}>VIEW JOB</Button>
+                      <Button size="sm" onClick={() => handleApply(job, 'job')}>APPLY</Button>
+                    </Stack>
                   </Stack>
-                  <Button size="sm" className="ml-6" onClick={() => handleApply(gig, 'gig')}>APPLY</Button>
-                </Stack>
-              </Card>
-            ))}
-          </Stack>
-        )}
+                </Card>
+              ))}
+            </Stack>
+          )}
+
+          {/* Gigs Tab */}
+          {activeTab === 'gigs' && (
+            <Stack gap={4}>
+              {gigs.map((gig) => (
+                <Card key={gig.id}>
+                  <Stack gap={4} direction="horizontal" className="items-start justify-between">
+                    <Stack gap={4} className="flex-1">
+                      <H2 className="mb-4">{gig.title}</H2>
+                      
+                      <Grid cols={4} gap={4}>
+                        <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
+                          <Clock className="size-4" />
+                          <Body>{new Date(gig.date).toLocaleDateString()}</Body>
+                        </Stack>
+                        <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
+                          <MapPin className="size-4" />
+                          <Body>{gig.location}</Body>
+                        </Stack>
+                        <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
+                          <DollarSign className="size-4" />
+                          <Body>{gig.rate}</Body>
+                        </Stack>
+                        <Stack>
+                          <Body className="text-body-sm">Duration: {gig.duration}</Body>
+                        </Stack>
+                      </Grid>
+                    </Stack>
+                    <Button size="sm" className="ml-6" onClick={() => handleApply(gig, 'gig')}>APPLY</Button>
+                  </Stack>
+                </Card>
+              ))}
+            </Stack>
+          )}
         </Container>
       </Section>
 
       {/* Application Modal */}
       <Modal open={showApplyModal} onClose={() => setShowApplyModal(false)}>
         <ModalHeader>
-          <Display size="md">
+          <H3>
             {selectedOpportunity?.type === 'rfp' ? 'Submit Bid' : 'Apply Now'}
-          </Display>
+          </H3>
           {selectedOpportunity && (
-            <Body className="text-ink-600 mt-2">{selectedOpportunity.title}</Body>
+            <Body className="mt-2 text-body-sm">{selectedOpportunity.title}</Body>
           )}
         </ModalHeader>
         <ModalBody>
@@ -321,6 +320,6 @@ export default function OpportunitiesPage() {
           </Button>
         </ModalFooter>
       </Modal>
-    </Section>
+    </PageLayout>
   );
 }

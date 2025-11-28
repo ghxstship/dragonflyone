@@ -5,20 +5,24 @@ import { useRouter } from "next/navigation";
 import { useNotifications } from "@ghxstship/ui";
 import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
-  H1,
   H2,
   Body,
   Button,
   Switch,
   Select,
-  Label,
   Container,
   Stack,
   Grid,
   Card,
   Section,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 
+/**
+ * COMPVSS Settings Page - Bold Contemporary Pop Art Adventure
+ * Hard offset shadows, 2px+ borders, bounce animations
+ */
 export default function SettingsPage() {
   const router = useRouter();
   const { addNotification } = useNotifications();
@@ -30,11 +34,18 @@ export default function SettingsPage() {
   });
 
   return (
-    <Section className="min-h-screen bg-black text-white">
-      <CreatorNavigationAuthenticated />
-      <Container className="py-spacing-16">
-        <Stack gap={8}>
-          <H1>Production Settings</H1>
+    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            {/* Page Header - Bold Contemporary Pop Art Adventure */}
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Production Settings"
+              description="Configure alerts, radio channels, and safety settings"
+              colorScheme="on-dark"
+              gap="lg"
+            />
 
           <Card className="p-spacing-6 border-2 border-ink-800 bg-transparent">
             <Stack gap={6}>
@@ -97,16 +108,16 @@ export default function SettingsPage() {
               <H2>Radio Configuration</H2>
               <Grid cols={2} gap={6}>
                 <Stack gap={2}>
-                  <Label>Default Channel</Label>
-                  <Select className="bg-black text-white border-ink-700">
+                  <Body>Default Channel</Body>
+                  <Select>
                     <option value="1">Channel 1 - Main</option>
                     <option value="2">Channel 2 - Crew</option>
                     <option value="3">Channel 3 - Tech</option>
                   </Select>
                 </Stack>
                 <Stack gap={2}>
-                  <Label>Privacy Code</Label>
-                  <Select className="bg-black text-white border-ink-700">
+                  <Body>Privacy Code</Body>
+                  <Select>
                     <option value="0">None</option>
                     <option value="1">Code 1</option>
                     <option value="2">Code 2</option>
@@ -136,12 +147,13 @@ export default function SettingsPage() {
             </Stack>
           </Card>
 
-          <Stack gap={3} direction="horizontal">
-            <Button variant="outlineWhite" onClick={() => addNotification({ type: 'success', title: 'Saved', message: 'Settings saved successfully' })}>Save Settings</Button>
-            <Button variant="ghost" className="text-ink-400 hover:text-white" onClick={() => router.push('/dashboard')}>Reset to Defaults</Button>
+            <Stack gap={3} direction="horizontal">
+              <Button variant="outlineWhite" onClick={() => addNotification({ type: 'success', title: 'Saved', message: 'Settings saved successfully' })}>Save Settings</Button>
+              <Button variant="ghost" onClick={() => router.push('/dashboard')}>Reset to Defaults</Button>
+            </Stack>
           </Stack>
-        </Stack>
-      </Container>
-    </Section>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

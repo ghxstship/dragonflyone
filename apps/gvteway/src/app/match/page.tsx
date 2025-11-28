@@ -3,20 +3,16 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { ConsumerNavigationPublic } from '../../components/navigation';
+import { ConsumerNavigationPublic } from '@/components/navigation';
 import {
   Container,
   Section,
-  H1,
   H2,
   H3,
   Body,
   Label,
   Button,
   Card,
-  Field,
-  Input,
-  Select,
   Grid,
   Stack,
   Badge,
@@ -24,6 +20,12 @@ import {
   Modal,
   LoadingSpinner,
   StatCard,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
+  Kicker,
 } from '@ghxstship/ui';
 
 interface UserMatch {
@@ -158,30 +160,79 @@ export default function MatchPage() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" />
-      </Section>
+      <PageLayout
+        background="black"
+        header={<ConsumerNavigationPublic />}
+        footer={
+          <Footer
+            logo={<Display size="md">GVTEWAY</Display>}
+            copyright="© 2024 GHXSTSHIP INDUSTRIES."
+          >
+            <FooterColumn title="Social">
+              <FooterLink href="/match">Find Fans</FooterLink>
+            </FooterColumn>
+          </Footer>
+        }
+      >
+        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+          <div
+            className="pointer-events-none absolute inset-0 opacity-5"
+            style={{
+              backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+              backgroundSize: "40px 40px",
+            }}
+          />
+          <Container className="relative z-10 flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   const highMatches = matches.filter(m => m.match_score >= 70);
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
-            <Stack gap={2}>
-              <H1>Find Your People</H1>
-              <Body className="text-ink-600">
-                Connect with fans who share your interests
-              </Body>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Social">
+            <FooterLink href="/match">Find Fans</FooterLink>
+            <FooterLink href="/friends">Friends</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack direction="horizontal" className="items-center justify-between">
+              <Stack gap={2}>
+                <Kicker colorScheme="on-dark">Social</Kicker>
+                <H2 size="lg" className="text-white">Find Your People</H2>
+                <Body className="text-on-dark-muted">Connect with fans who share your interests</Body>
+              </Stack>
+              <Button variant="solid" inverted onClick={() => setShowInterestsModal(true)}>
+                Update Interests
+              </Button>
             </Stack>
-            <Button variant="solid" onClick={() => setShowInterestsModal(true)}>
-              Update Interests
-            </Button>
-          </Stack>
 
         {error && (
           <Alert variant="error" className="mb-6" onClose={() => setError(null)}>
@@ -195,26 +246,26 @@ export default function MatchPage() {
           </Alert>
         )}
 
-        <Grid cols={4} gap={6} className="mb-8">
+        <Grid cols={4} gap={6}>
           <StatCard
             label="Your Interests"
-            value={userInterests.length}
-            icon={<Body>❤️</Body>}
+            value={userInterests.length.toString()}
+            inverted
           />
           <StatCard
             label="High Matches"
-            value={highMatches.length}
-            icon={<Body>🎯</Body>}
+            value={highMatches.length.toString()}
+            inverted
           />
           <StatCard
             label="Recommended Events"
-            value={recommendedEvents.length}
-            icon={<Body>🎫</Body>}
+            value={recommendedEvents.length.toString()}
+            inverted
           />
           <StatCard
             label="Mutual Friends"
-            value={matches.reduce((sum, m) => sum + m.mutual_friends, 0)}
-            icon={<Body>👥</Body>}
+            value={matches.reduce((sum, m) => sum + m.mutual_friends, 0).toString()}
+            inverted
           />
         </Grid>
 
@@ -227,88 +278,92 @@ export default function MatchPage() {
           </Alert>
         )}
 
-        <H2 className="mb-4">RECOMMENDED FOR YOU</H2>
-        <Grid cols={4} gap={4} className="mb-8">
+        <H2 className="mb-4 text-white">Recommended For You</H2>
+        <Grid cols={4} gap={4}>
           {recommendedEvents.length > 0 ? (
             recommendedEvents.slice(0, 4).map(event => (
               <Card
                 key={event.id}
-                className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow"
+                inverted
+                interactive
+                className="cursor-pointer overflow-hidden"
                 onClick={() => router.push(`/events/${event.id}`)}
               >
-                <Stack className="relative h-32 bg-ink-100">
+                <Stack className="relative h-32 bg-ink-900">
                   {event.image_url ? (
                     <Image src={event.image_url} alt={event.title} fill className="object-cover" />
                   ) : (
-                    <Stack className="w-full h-full flex items-center justify-center">
-                      <Body className="text-h4-md">🎫</Body>
+                    <Stack className="flex size-full items-center justify-center">
+                      <Body className="text-h3-md">🎫</Body>
                     </Stack>
                   )}
-                  <Stack className="absolute top-2 right-2">
-                    <Badge className="bg-success-500 text-white">{event.match_score}% Match</Badge>
+                  <Stack className="absolute right-2 top-2">
+                    <Badge variant="solid">{event.match_score}% Match</Badge>
                   </Stack>
                 </Stack>
                 <Stack className="p-3" gap={1}>
-                  <Body className="font-bold line-clamp-1">{event.title}</Body>
-                  <Body className="text-mono-xs text-ink-500">{event.venue_name}</Body>
-                  <Body className="text-mono-xs text-ink-600">{event.match_reason}</Body>
+                  <Body className="line-clamp-1 font-display text-white">{event.title}</Body>
+                  <Body size="sm" className="font-mono text-on-dark-disabled">{event.venue_name}</Body>
+                  <Body size="sm" className="font-mono text-on-dark-muted">{event.match_reason}</Body>
                 </Stack>
               </Card>
             ))
           ) : (
-            <Card className="col-span-4 p-8 text-center">
-              <Body className="text-ink-600">Add interests to see personalized event recommendations</Body>
+            <Card inverted className="col-span-4 p-8 text-center">
+              <Body className="text-on-dark-muted">Add interests to see personalized event recommendations</Body>
             </Card>
           )}
         </Grid>
 
-        <H2 className="mb-4">FANS LIKE YOU</H2>
+        <H2 className="mb-4 text-white">Fans Like You</H2>
         <Grid cols={3} gap={6}>
           {matches.length > 0 ? (
             matches.map(match => (
               <Card
                 key={match.id}
-                className="p-6 cursor-pointer hover:shadow-lg transition-shadow"
+                inverted
+                interactive
+                className="cursor-pointer p-6"
                 onClick={() => setSelectedMatch(match)}
               >
                 <Stack direction="horizontal" gap={4}>
-                  <Stack className="w-16 h-16 rounded-full bg-ink-200 overflow-hidden relative flex-shrink-0">
+                  <Stack className="relative size-16 shrink-0 overflow-hidden rounded-avatar bg-ink-800">
                     {match.avatar_url ? (
                       <Image src={match.avatar_url} alt={match.name} fill className="object-cover" />
                     ) : (
-                      <Stack className="w-full h-full flex items-center justify-center">
-                        <Body className="text-h5-md">👤</Body>
+                      <Stack className="flex size-full items-center justify-center">
+                        <Body className="text-h3-md">👤</Body>
                       </Stack>
                     )}
                   </Stack>
                   <Stack className="flex-1">
-                    <Stack direction="horizontal" className="justify-between items-start">
+                    <Stack direction="horizontal" className="items-start justify-between">
                       <Stack>
-                        <Body className="font-bold">{match.name}</Body>
+                        <Body className="font-display text-white">{match.name}</Body>
                         {match.location && (
-                          <Body className="text-mono-xs text-ink-500">📍 {match.location}</Body>
+                          <Body size="sm" className="font-mono text-on-dark-disabled">📍 {match.location}</Body>
                         )}
                       </Stack>
-                      <Body className={`font-bold ${getMatchScoreColor(match.match_score)}`}>
+                      <Body className={`font-display ${getMatchScoreColor(match.match_score)}`}>
                         {match.match_score}%
                       </Body>
                     </Stack>
                     <Stack direction="horizontal" gap={2} className="mt-2 flex-wrap">
                       {match.interests.slice(0, 3).map(interest => (
-                        <Badge key={interest} variant="outline" className="text-mono-xs">
+                        <Badge key={interest} variant="outline">
                           {interest}
                         </Badge>
                       ))}
                       {match.interests.length > 3 && (
-                        <Badge variant="outline" className="text-mono-xs">
+                        <Badge variant="outline">
                           +{match.interests.length - 3}
                         </Badge>
                       )}
                     </Stack>
-                    <Stack direction="horizontal" gap={4} className="mt-2 text-mono-xs text-ink-500">
-                      <Body>{match.events_attended} events</Body>
+                    <Stack direction="horizontal" gap={4} className="mt-2 text-on-dark-disabled">
+                      <Body size="sm">{match.events_attended} events</Body>
                       {match.mutual_friends > 0 && (
-                        <Body>{match.mutual_friends} mutual friends</Body>
+                        <Body size="sm">{match.mutual_friends} mutual friends</Body>
                       )}
                     </Stack>
                   </Stack>
@@ -316,12 +371,12 @@ export default function MatchPage() {
               </Card>
             ))
           ) : (
-            <Card className="col-span-3 p-12 text-center">
-              <H3 className="mb-4">NO MATCHES YET</H3>
-              <Body className="text-ink-600 mb-6">
+            <Card inverted className="col-span-3 p-12 text-center">
+              <H3 className="mb-4 text-white">No Matches Yet</H3>
+              <Body className="mb-6 text-on-dark-muted">
                 Add your interests to find fans like you
               </Body>
-              <Button variant="solid" onClick={() => setShowInterestsModal(true)}>
+              <Button variant="solid" inverted onClick={() => setShowInterestsModal(true)}>
                 Add Interests
               </Button>
             </Card>
@@ -444,8 +499,9 @@ export default function MatchPage() {
             </Stack>
           )}
         </Modal>
-        </Stack>
-      </Container>
-    </Section>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

@@ -4,9 +4,29 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge, Alert,
-  Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
+  Container,
+  H3,
+  Body,
+  Grid,
+  Stack,
+  StatCard,
+  Select,
+  Button,
+  Section,
+  Card,
+  Tabs,
+  TabsList,
+  Tab,
+  TabPanel,
+  Badge,
+  Alert,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Textarea,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 interface WeatherPlan {
@@ -120,142 +140,143 @@ export default function WeatherContingencyPage() {
   };
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Weather Contingency Planning</H1>
-            <Label className="text-ink-400">Monitor conditions and manage weather-related contingency plans</Label>
-          </Stack>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Weather Contingency Planning"
+              description="Monitor conditions and manage weather-related contingency plans"
+              colorScheme="on-light"
+              gap="lg"
+            />
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Active Plans" value={activePlans} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Triggered" value={triggeredPlans} trend={triggeredPlans > 0 ? "down" : "neutral"} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="High Risk" value={highRiskCount} trend={highRiskCount > 0 ? "down" : "neutral"} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Outdoor Events" value={mockPlans.filter(p => p.venueType === "Outdoor").length} className="bg-transparent border-2 border-ink-800" />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard label="Active Plans" value={activePlans.toString()} />
+              <StatCard label="Triggered" value={triggeredPlans.toString()} />
+              <StatCard label="High Risk" value={highRiskCount.toString()} />
+              <StatCard label="Outdoor Events" value={mockPlans.filter(p => p.venueType === "Outdoor").length.toString()} />
+            </Grid>
 
-          {triggeredPlans > 0 && (
-            <Alert variant="warning">
-              ⚠️ {triggeredPlans} contingency plan(s) currently triggered due to weather conditions
-            </Alert>
-          )}
+            {triggeredPlans > 0 && (
+              <Alert variant="warning">
+                ⚠️ {triggeredPlans} contingency plan(s) currently triggered due to weather conditions
+              </Alert>
+            )}
 
-          <Stack direction="horizontal" className="justify-between">
-            <Tabs>
-              <TabsList>
-                <Tab active={activeTab === "active"} onClick={() => setActiveTab("active")}>Active</Tab>
-                <Tab active={activeTab === "triggered"} onClick={() => setActiveTab("triggered")}>Triggered</Tab>
-                <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All</Tab>
-              </TabsList>
-            </Tabs>
-            <Button variant="outlineWhite" onClick={() => setShowCreateModal(true)}>Create Plan</Button>
-          </Stack>
+            <Stack direction="horizontal" className="justify-between">
+              <Tabs>
+                <TabsList>
+                  <Tab active={activeTab === "active"} onClick={() => setActiveTab("active")}>Active</Tab>
+                  <Tab active={activeTab === "triggered"} onClick={() => setActiveTab("triggered")}>Triggered</Tab>
+                  <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All</Tab>
+                </TabsList>
+              </Tabs>
+              <Button variant="solid" onClick={() => setShowCreateModal(true)}>Create Plan</Button>
+            </Stack>
 
-          <Stack gap={4}>
-            {mockPlans
-              .filter(p => activeTab === "all" || (activeTab === "triggered" ? p.status === "Triggered" : p.status === "Active"))
-              .map((plan) => (
-                <Card key={plan.id} className={`border-2 overflow-hidden ${getRiskBg(plan.riskLevel)}`}>
-                  <Card className="p-4 bg-ink-800/50 border-b border-ink-700">
-                    <Stack direction="horizontal" className="justify-between items-center">
-                      <Stack gap={1}>
-                        <Body className="font-display text-white text-body-md">{plan.projectName}</Body>
-                        <Stack direction="horizontal" gap={2}>
-                          <Badge variant="outline">{plan.venueType}</Badge>
-                          <Label className="text-ink-400">{plan.venue}</Label>
-                          <Label className="text-ink-400">•</Label>
-                          <Label className="text-ink-400">{plan.eventDate}</Label>
+            <Stack gap={4}>
+              {mockPlans
+                .filter(p => activeTab === "all" || (activeTab === "triggered" ? p.status === "Triggered" : p.status === "Active"))
+                .map((plan) => (
+                  <Card key={plan.id}>
+                    <Stack gap={4}>
+                      <Stack direction="horizontal" className="justify-between items-center">
+                        <Stack gap={1}>
+                          <Body className="font-display">{plan.projectName}</Body>
+                          <Stack direction="horizontal" gap={2}>
+                            <Badge variant="outline">{plan.venueType}</Badge>
+                            <Body className="text-body-sm">{plan.venue}</Body>
+                            <Body className="text-body-sm">•</Body>
+                            <Body className="text-body-sm">{plan.eventDate}</Body>
+                          </Stack>
+                        </Stack>
+                        <Stack direction="horizontal" gap={4} className="items-center">
+                          <Stack gap={1} className="text-right">
+                            <Body className="text-body-sm">Risk Level</Body>
+                            <Badge variant={plan.riskLevel === "High" || plan.riskLevel === "Severe" ? "solid" : "outline"}>{plan.riskLevel}</Badge>
+                          </Stack>
+                          <Stack gap={1} className="text-right">
+                            <Body className="text-body-sm">Status</Body>
+                            <Badge variant={plan.status === "Triggered" ? "solid" : "outline"}>{plan.status}</Badge>
+                          </Stack>
                         </Stack>
                       </Stack>
-                      <Stack direction="horizontal" gap={4} className="items-center">
-                        <Stack gap={1} className="text-right">
-                          <Label size="xs" className="text-ink-500">Risk Level</Label>
-                          <Label className={getRiskColor(plan.riskLevel)}>{plan.riskLevel}</Label>
+
+                      <Card>
+                        <Stack direction="horizontal" className="justify-between items-center">
+                          <Stack gap={1}>
+                            <Body className="text-body-sm">Current Conditions</Body>
+                            <Body>{plan.currentConditions}</Body>
+                          </Stack>
+                          <Button variant="ghost" size="sm">Refresh</Button>
                         </Stack>
-                        <Stack gap={1} className="text-right">
-                          <Label size="xs" className="text-ink-500">Status</Label>
-                          <Label className={getStatusColor(plan.status)}>{plan.status}</Label>
-                        </Stack>
+                      </Card>
+
+                      <Stack gap={2}>
+                        <Body className="text-body-sm">Contingency Actions ({plan.contingencyPlans.length})</Body>
+                        <Grid cols={2} gap={2}>
+                          {plan.contingencyPlans.map((action) => (
+                            <Card key={action.id}>
+                              <Stack gap={2}>
+                                <Stack direction="horizontal" className="justify-between">
+                                  <Badge variant="outline">{action.trigger}</Badge>
+                                  <Badge variant={action.status === "Activated" ? "solid" : "outline"}>{action.status}</Badge>
+                                </Stack>
+                                <Body className="text-body-sm">Threshold: {action.threshold}</Body>
+                                <Body>{action.action}</Body>
+                                <Body className="text-body-sm">Responsible: {action.responsible}</Body>
+                              </Stack>
+                            </Card>
+                          ))}
+                        </Grid>
+                      </Stack>
+
+                      <Stack direction="horizontal" gap={2} className="justify-end">
+                        <Button variant="ghost" size="sm" onClick={() => setSelectedPlan(plan)}>View Details</Button>
+                        <Button variant="outline" size="sm">Edit Plan</Button>
                       </Stack>
                     </Stack>
                   </Card>
+                ))}
+            </Stack>
 
-                  <Stack className="p-4" gap={4}>
-                    <Card className="p-3 bg-ink-800/30 border border-ink-700">
-                      <Stack direction="horizontal" className="justify-between items-center">
-                        <Stack gap={1}>
-                          <Label size="xs" className="text-ink-500">Current Conditions</Label>
-                          <Label className="text-white">{plan.currentConditions}</Label>
-                        </Stack>
-                        <Button variant="ghost" size="sm">Refresh</Button>
-                      </Stack>
-                    </Card>
-
-                    <Stack gap={2}>
-                      <Label className="text-ink-400">Contingency Actions ({plan.contingencyPlans.length})</Label>
-                      <Grid cols={2} gap={2}>
-                        {plan.contingencyPlans.map((action) => (
-                          <Card key={action.id} className={`p-3 border ${action.status === "Activated" ? "border-warning-700 bg-warning-900/20" : action.status === "Completed" ? "border-success-700 bg-success-900/10" : "border-ink-700"}`}>
-                            <Stack gap={2}>
-                              <Stack direction="horizontal" className="justify-between">
-                                <Badge variant="outline">{action.trigger}</Badge>
-                                <Label size="xs" className={action.status === "Activated" ? "text-warning-400" : action.status === "Completed" ? "text-success-400" : "text-ink-400"}>{action.status}</Label>
-                              </Stack>
-                              <Label size="xs" className="text-ink-500">Threshold: {action.threshold}</Label>
-                              <Label className="text-ink-300">{action.action}</Label>
-                              <Label size="xs" className="text-ink-500">Responsible: {action.responsible}</Label>
-                            </Stack>
-                          </Card>
-                        ))}
-                      </Grid>
-                    </Stack>
-
-                    <Stack direction="horizontal" gap={2} className="justify-end">
-                      <Button variant="ghost" size="sm" onClick={() => setSelectedPlan(plan)}>View Details</Button>
-                      <Button variant="outline" size="sm">Edit Plan</Button>
-                    </Stack>
-                  </Stack>
-                </Card>
-              ))}
+            <Grid cols={3} gap={4}>
+              <Button variant="outline">Weather Forecast</Button>
+              <Button variant="outline" onClick={() => router.push("/emergency")}>Emergency Procedures</Button>
+              <Button variant="outline" onClick={() => router.push("/risk-register")}>Risk Register</Button>
+            </Grid>
           </Stack>
-
-          <Grid cols={3} gap={4}>
-            <Button variant="outline" className="border-ink-700 text-ink-400">Weather Forecast</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/emergency")}>Emergency Procedures</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/risk-register")}>Risk Register</Button>
-          </Grid>
-        </Stack>
-      </Container>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedPlan} onClose={() => setSelectedPlan(null)}>
         <ModalHeader><H3>Weather Plan Details</H3></ModalHeader>
         <ModalBody>
           {selectedPlan && (
             <Stack gap={4}>
-              <Body className="font-display text-white text-body-md">{selectedPlan.projectName}</Body>
+              <Body className="font-display">{selectedPlan.projectName}</Body>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Venue</Label><Label className="text-white">{selectedPlan.venue}</Label></Stack>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Type</Label><Badge variant="outline">{selectedPlan.venueType}</Badge></Stack>
+                <Stack gap={1}><Body className="text-body-sm">Venue</Body><Body>{selectedPlan.venue}</Body></Stack>
+                <Stack gap={1}><Body className="text-body-sm">Type</Body><Badge variant="outline">{selectedPlan.venueType}</Badge></Stack>
               </Grid>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Event Date</Label><Label className="text-white">{selectedPlan.eventDate}</Label></Stack>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Risk Level</Label><Label className={getRiskColor(selectedPlan.riskLevel)}>{selectedPlan.riskLevel}</Label></Stack>
+                <Stack gap={1}><Body className="text-body-sm">Event Date</Body><Body>{selectedPlan.eventDate}</Body></Stack>
+                <Stack gap={1}><Body className="text-body-sm">Risk Level</Body><Badge variant={selectedPlan.riskLevel === "High" || selectedPlan.riskLevel === "Severe" ? "solid" : "outline"}>{selectedPlan.riskLevel}</Badge></Stack>
               </Grid>
-              <Stack gap={1}><Label size="xs" className="text-ink-500">Current Conditions</Label><Label className="text-white">{selectedPlan.currentConditions}</Label></Stack>
+              <Stack gap={1}><Body className="text-body-sm">Current Conditions</Body><Body>{selectedPlan.currentConditions}</Body></Stack>
               <Stack gap={2}>
-                <Label className="text-ink-400">All Contingency Actions</Label>
+                <Body className="text-body-sm">All Contingency Actions</Body>
                 {selectedPlan.contingencyPlans.map((action) => (
-                  <Card key={action.id} className="p-3 border border-ink-700">
+                  <Card key={action.id}>
                     <Stack gap={1}>
                       <Stack direction="horizontal" className="justify-between">
-                        <Label className="text-white">{action.trigger}: {action.threshold}</Label>
-                        <Label size="xs" className={action.status === "Activated" ? "text-warning-400" : "text-ink-400"}>{action.status}</Label>
+                        <Body>{action.trigger}: {action.threshold}</Body>
+                        <Badge variant={action.status === "Activated" ? "solid" : "outline"}>{action.status}</Badge>
                       </Stack>
-                      <Label className="text-ink-300">{action.action}</Label>
-                      <Label size="xs" className="text-ink-500">{action.responsible}</Label>
+                      <Body>{action.action}</Body>
+                      <Body className="text-body-sm">{action.responsible}</Body>
                     </Stack>
                   </Card>
                 ))}
@@ -273,18 +294,18 @@ export default function WeatherContingencyPage() {
         <ModalHeader><H3>Create Weather Plan</H3></ModalHeader>
         <ModalBody>
           <Stack gap={4}>
-            <Select className="border-ink-700 bg-black text-white">
+            <Select>
               <option value="">Select Project...</option>
               <option value="PROJ-089">Summer Fest 2024</option>
               <option value="PROJ-090">Corporate Gala</option>
             </Select>
-            <Select className="border-ink-700 bg-black text-white">
+            <Select>
               <option value="">Venue Type...</option>
               <option value="outdoor">Outdoor</option>
               <option value="indoor">Indoor</option>
               <option value="hybrid">Hybrid</option>
             </Select>
-            <Textarea placeholder="Add contingency actions..." className="border-ink-700 bg-black text-white" rows={4} />
+            <Textarea placeholder="Add contingency actions..." rows={4} />
           </Stack>
         </ModalBody>
         <ModalFooter>
@@ -292,6 +313,6 @@ export default function WeatherContingencyPage() {
           <Button variant="solid" onClick={() => setShowCreateModal(false)}>Create</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

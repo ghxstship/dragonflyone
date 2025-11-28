@@ -2,11 +2,10 @@
 
 import { useState, useEffect, useCallback, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { ConsumerNavigationPublic } from '../../../components/navigation';
+import { ConsumerNavigationPublic } from '@/components/navigation';
 import {
   Container,
   Section,
-  H1,
   H2,
   H3,
   Body,
@@ -18,11 +17,16 @@ import {
   Textarea,
   Grid,
   Stack,
-  Badge,
   Alert,
   LoadingSpinner,
   Figure,
   Form,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
+  Kicker,
 } from '@ghxstship/ui';
 import Image from 'next/image';
 
@@ -160,62 +164,88 @@ function NewReviewContent() {
     </Stack>
   );
 
+  const footerContent = (
+    <Footer
+      logo={<Display size="md">GVTEWAY</Display>}
+      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+    >
+      <FooterColumn title="Reviews">
+        <FooterLink href="/reviews">Reviews</FooterLink>
+        <FooterLink href="/my-events">My Events</FooterLink>
+      </FooterColumn>
+      <FooterColumn title="Legal">
+        <FooterLink href="/legal/privacy">Privacy</FooterLink>
+        <FooterLink href="/legal/terms">Terms</FooterLink>
+      </FooterColumn>
+    </Footer>
+  );
+
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
+      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+        <Section background="black" className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading..." />
-        </Container>
-      </Section>
+        </Section>
+      </PageLayout>
     );
   }
 
   if (!event) {
     return (
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="py-16">
-          <Card className="p-12 text-center mt-12">
-            <H2 className="mb-4">EVENT NOT FOUND</H2>
-            <Body className="text-ink-600 mb-6">
-              Please select an event to review.
-            </Body>
-            <Button variant="solid" onClick={() => router.push('/my-events')}>
-              View My Events
-            </Button>
-          </Card>
-        </Container>
-      </Section>
+      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+        <Section background="black" className="min-h-screen py-16">
+          <Container>
+            <Card inverted className="p-12 text-center mt-12">
+              <H2 className="mb-4 text-white">Event Not Found</H2>
+              <Body className="text-on-dark-muted mb-6">
+                Please select an event to review.
+              </Body>
+              <Button variant="solid" inverted onClick={() => router.push('/my-events')}>
+                View My Events
+              </Button>
+            </Card>
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   if (success) {
     return (
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="py-16">
-          <Card className="p-12 text-center mt-12">
-            <H2 className="mb-4">THANK YOU!</H2>
-            <Body className="text-ink-600 mb-6">
-              Your review has been submitted successfully.
-            </Body>
-            <LoadingSpinner size="sm" />
-          </Card>
-        </Container>
-      </Section>
+      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+        <Section background="black" className="min-h-screen py-16">
+          <Container>
+            <Card inverted className="p-12 text-center mt-12">
+              <H2 className="mb-4 text-white">Thank You!</H2>
+              <Body className="text-on-dark-muted mb-6">
+                Your review has been submitted successfully.
+              </Body>
+              <LoadingSpinner size="sm" />
+            </Card>
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-        <Stack gap={2} className="border-b-2 border-black pb-8">
-          <H1>Write a Review</H1>
-          <Body className="text-ink-600">Share your experience</Body>
-        </Stack>
+    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Reviews</Kicker>
+              <H2 size="lg" className="text-white">Write a Review</H2>
+              <Body className="text-on-dark-muted">Share your experience</Body>
+            </Stack>
 
         {error && (
           <Alert variant="error" className="mb-6">
@@ -340,21 +370,36 @@ function NewReviewContent() {
             </Card>
           </Stack>
         </Grid>
-        </Stack>
-      </Container>
-    </Section>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }
 
 export default function NewReviewPage() {
+  const fallbackFooter = (
+    <Footer
+      logo={<Display size="md">GVTEWAY</Display>}
+      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+    >
+      <FooterColumn title="Reviews">
+        <FooterLink href="/reviews">Reviews</FooterLink>
+      </FooterColumn>
+      <FooterColumn title="Legal">
+        <FooterLink href="/legal/privacy">Privacy</FooterLink>
+        <FooterLink href="/legal/terms">Terms</FooterLink>
+      </FooterColumn>
+    </Footer>
+  );
+
   return (
     <Suspense fallback={
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
+      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={fallbackFooter}>
+        <Section background="black" className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading..." />
-        </Container>
-      </Section>
+        </Section>
+      </PageLayout>
     }>
       <NewReviewContent />
     </Suspense>

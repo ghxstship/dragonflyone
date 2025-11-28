@@ -2,11 +2,10 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { ConsumerNavigationPublic } from '../../../../components/navigation';
+import { ConsumerNavigationPublic } from '@/components/navigation';
 import {
   Container,
   Section,
-  H1,
   H2,
   H3,
   Body,
@@ -18,6 +17,12 @@ import {
   Badge,
   Alert,
   LoadingSpinner,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
+  Kicker,
 } from '@ghxstship/ui';
 
 interface EntryInfo {
@@ -80,48 +85,72 @@ export default function EntryInfoPage() {
     fetchInfo();
   }, [fetchInfo]);
 
+  const footerContent = (
+    <Footer
+      logo={<Display size="md">GVTEWAY</Display>}
+      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+    >
+      <FooterColumn title="Events">
+        <FooterLink href="/events">Events</FooterLink>
+      </FooterColumn>
+      <FooterColumn title="Legal">
+        <FooterLink href="/legal/privacy">Privacy</FooterLink>
+        <FooterLink href="/legal/terms">Terms</FooterLink>
+      </FooterColumn>
+    </Footer>
+  );
+
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
+      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+        <Section background="black" className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading entry information..." />
-        </Container>
-      </Section>
+        </Section>
+      </PageLayout>
     );
   }
 
   if (!info) {
     return (
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="py-16">
-          <Card className="p-12 text-center">
-            <H2 className="mb-4">INFORMATION NOT AVAILABLE</H2>
-            <Body className="text-ink-600 mb-6">
-              Entry information for this event is not yet available.
-            </Body>
-            <Button variant="solid" onClick={() => router.back()}>
-              Go Back
-            </Button>
-          </Card>
-        </Container>
-      </Section>
+      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+        <Section background="black" className="min-h-screen py-16">
+          <Container>
+            <Card inverted className="p-12 text-center">
+              <H2 className="mb-4 text-white">INFORMATION NOT AVAILABLE</H2>
+              <Body className="text-on-dark-muted mb-6">
+                Entry information for this event is not yet available.
+              </Body>
+              <Button variant="solid" inverted onClick={() => router.back()}>
+                Go Back
+              </Button>
+            </Card>
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-        <Stack gap={2} className="border-b-2 border-black pb-8">
-          <Body className="text-ink-500">{info.event_date}</Body>
-          <H1>{info.event_title}</H1>
-          <Body className="text-ink-600">
-            {info.venue_name} • {info.venue_city}
-          </Body>
-        </Stack>
+    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Event Info</Kicker>
+              <Body className="text-on-dark-muted">{info.event_date}</Body>
+              <H2 size="lg" className="text-white">{info.event_title}</H2>
+              <Body className="text-on-dark-muted">
+                {info.venue_name} • {info.venue_city}
+              </Body>
+            </Stack>
 
         {error && (
           <Alert variant="error" className="mb-6">
@@ -318,8 +347,9 @@ export default function EntryInfoPage() {
             </Button>
           </Stack>
         </Grid>
-        </Stack>
-      </Container>
-    </Section>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

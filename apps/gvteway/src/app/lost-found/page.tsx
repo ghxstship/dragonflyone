@@ -2,15 +2,13 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { ConsumerNavigationPublic } from '../../components/navigation';
+import { ConsumerNavigationPublic } from '@/components/navigation';
 import {
   Container,
   Section,
-  H1,
   H2,
   H3,
   Body,
-  Label,
   Button,
   Card,
   Field,
@@ -25,6 +23,12 @@ import {
   LoadingSpinner,
   Figure,
   Form,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
+  Kicker,
 } from '@ghxstship/ui';
 import Image from 'next/image';
 
@@ -158,36 +162,79 @@ export default function LostFoundPage() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
+      <PageLayout
+        background="black"
+        header={<ConsumerNavigationPublic />}
+        footer={
+          <Footer
+            logo={<Display size="md">GVTEWAY</Display>}
+            copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+          >
+            <FooterColumn title="Services">
+              <FooterLink href="/lost-found">Lost & Found</FooterLink>
+            </FooterColumn>
+            <FooterColumn title="Legal">
+              <FooterLink href="/legal/privacy">Privacy</FooterLink>
+              <FooterLink href="/legal/terms">Terms</FooterLink>
+            </FooterColumn>
+          </Footer>
+        }
+      >
+        <Section background="black" className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading..." />
-        </Container>
-      </Section>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-        <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
-          <Stack gap={2}>
-            <H1>Lost & Found</H1>
-            <Body className="text-ink-600">
-              Report lost items or help reunite found items with their owners
-            </Body>
-          </Stack>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Services">
+            <FooterLink href="/lost-found">Lost & Found</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack direction="horizontal" className="items-center justify-between">
+              <Stack gap={2}>
+                <Kicker colorScheme="on-dark">Services</Kicker>
+                <H2 size="lg" className="text-white">Lost & Found</H2>
+                <Body className="text-on-dark-muted">
+                  Report lost items or help reunite found items with their owners
+                </Body>
+              </Stack>
             <Stack direction="horizontal" gap={2}>
               <Button
-                variant="outline"
+                variant="outlineInk"
                 onClick={() => { setReportType('found'); setShowReportModal(true); }}
               >
                 Report Found Item
               </Button>
               <Button
                 variant="solid"
+                inverted
                 onClick={() => { setReportType('lost'); setShowReportModal(true); }}
               >
                 Report Lost Item
@@ -207,11 +254,12 @@ export default function LostFoundPage() {
           </Alert>
         )}
 
-        <Stack direction="horizontal" gap={2} className="mb-6">
+        <Stack direction="horizontal" gap={2}>
           {['all', 'lost', 'found', 'mine'].map(f => (
             <Button
               key={f}
-              variant={filter === f ? 'solid' : 'outline'}
+              variant={filter === f ? 'solid' : 'outlineInk'}
+              inverted={filter === f}
               onClick={() => setFilter(f)}
             >
               {f === 'all' ? 'All Items' : f === 'mine' ? 'My Reports' : `${f.charAt(0).toUpperCase() + f.slice(1)} Items`}
@@ -222,9 +270,9 @@ export default function LostFoundPage() {
         {filteredItems.length > 0 ? (
           <Grid cols={3} gap={6}>
             {filteredItems.map(item => (
-              <Card key={item.id} className="overflow-hidden">
+              <Card key={item.id} inverted interactive className="overflow-hidden">
                 {item.photos && item.photos.length > 0 && (
-                  <Figure className="relative h-40 bg-ink-100 overflow-hidden">
+                  <Figure className="relative h-40 overflow-hidden bg-ink-900">
                     <Image
                       src={item.photos[0]}
                       alt={item.description}
@@ -234,7 +282,7 @@ export default function LostFoundPage() {
                   </Figure>
                 )}
                 <Stack className="p-4" gap={3}>
-                  <Stack direction="horizontal" className="justify-between items-start">
+                  <Stack direction="horizontal" className="items-start justify-between">
                     <Badge variant={item.type === 'lost' ? 'outline' : 'solid'}>
                       {item.type.toUpperCase()}
                     </Badge>
@@ -242,20 +290,20 @@ export default function LostFoundPage() {
                   </Stack>
                   
                   <Stack gap={1}>
-                    <Body className="font-bold">{item.category}</Body>
-                    <Body className="text-ink-600 text-body-sm line-clamp-2">
+                    <Body className="font-display text-white">{item.category}</Body>
+                    <Body size="sm" className="line-clamp-2 text-on-dark-muted">
                       {item.description}
                     </Body>
                   </Stack>
 
                   {item.event_title && (
-                    <Body className="text-body-sm text-ink-500">
+                    <Body size="sm" className="text-on-dark-disabled">
                       Event: {item.event_title}
                     </Body>
                   )}
 
-                  <Stack direction="horizontal" className="justify-between items-center">
-                    <Body className="text-mono-xs text-ink-600">
+                  <Stack direction="horizontal" className="items-center justify-between">
+                    <Body size="sm" className="font-mono text-on-dark-disabled">
                       {new Date(item.date_lost_found).toLocaleDateString()}
                     </Body>
                     <Button variant="ghost" size="sm" onClick={() => router.push(`/lost-found/${item.id}`)}>
@@ -267,9 +315,9 @@ export default function LostFoundPage() {
             ))}
           </Grid>
         ) : (
-          <Card className="p-12 text-center">
-            <H3 className="mb-4">NO ITEMS FOUND</H3>
-            <Body className="text-ink-600 mb-6">
+          <Card inverted className="p-12 text-center">
+            <H3 className="mb-4 text-white">No Items Found</H3>
+            <Body className="mb-6 text-on-dark-muted">
               {filter === 'mine'
                 ? "You haven't reported any lost or found items."
                 : 'No items match your current filter.'}
@@ -347,8 +395,9 @@ export default function LostFoundPage() {
             </Stack>
           </Form>
         </Modal>
-        </Stack>
-      </Container>
-    </Section>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

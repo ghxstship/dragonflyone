@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import { useRouter, useParams } from "next/navigation";
+import { ConsumerNavigationPublic } from "@/components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter, Input, Select,
+  Container, H2, H3, Body, Label, Grid, Stack, StatCard, Button,
+  Section, Card, Tabs, TabsList, Tab, TabPanel, Badge,
+  Modal, ModalHeader, ModalBody, ModalFooter, Input,
+  PageLayout, Footer, FooterColumn, FooterLink, Display, Kicker,
 } from "@ghxstship/ui";
 
 interface PhotoBoothSession {
@@ -65,13 +67,40 @@ export default function PhotoBoothPage() {
   };
 
   return (
-    <UISection className="min-h-screen bg-white">
-      <Container className="py-8">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>PHOTO BOOTH</H1>
-            <Body className="text-ink-600">Capture memories and share instantly to social media</Body>
-          </Stack>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Events">
+            <FooterLink href="/events">Events</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Events</Kicker>
+              <H2 size="lg" className="text-white">Photo Booth</H2>
+              <Body className="text-on-dark-muted">Capture memories and share instantly to social media</Body>
+            </Stack>
 
           <Grid cols={4} gap={6}>
             <StatCard label="Active Booths" value={activeBooths} className="border-2 border-black" />
@@ -175,11 +204,12 @@ export default function PhotoBoothPage() {
           </Card>
 
           <Grid cols={2} gap={4}>
-            <Button variant="outline" onClick={() => router.push(`/events/${eventId}`)}>Back to Event</Button>
-            <Button variant="outline" onClick={() => router.push(`/events/${eventId}/photos`)}>Photo Gallery</Button>
+            <Button variant="outlineInk" onClick={() => router.push(`/events/${eventId}`)}>Back to Event</Button>
+            <Button variant="outlineInk" onClick={() => router.push(`/events/${eventId}/photos`)}>Photo Gallery</Button>
           </Grid>
-        </Stack>
-      </Container>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedBooth} onClose={() => setSelectedBooth(null)}>
         <ModalHeader><H3>Booth Details</H3></ModalHeader>
@@ -213,6 +243,6 @@ export default function PhotoBoothPage() {
           <Button variant="outline" onClick={() => setSelectedBooth(null)}>Close</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

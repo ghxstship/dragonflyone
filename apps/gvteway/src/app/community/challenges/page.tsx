@@ -2,11 +2,12 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ConsumerNavigationPublic } from "../../../components/navigation";
+import { ConsumerNavigationPublic } from "@/components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Button,
+  Container, H2, H3, Body, Label, Grid, Stack, StatCard, Button,
   Section, Card, Tabs, TabsList, Tab, TabPanel, Badge,
   Modal, ModalHeader, ModalBody, ModalFooter, ProgressBar,
+  PageLayout, Footer, FooterColumn, FooterLink, Display, Kicker,
 } from "@ghxstship/ui";
 
 interface Challenge {
@@ -60,44 +61,64 @@ export default function ChallengesPage() {
   const totalParticipants = mockChallenges.reduce((sum, c) => sum + c.participants, 0);
   const completedByUser = mockChallenges.filter(c => c.userCompleted).length;
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "Active": return "text-success-600";
-      case "Upcoming": return "text-info-600";
-      case "Completed": return "text-ink-500";
-      default: return "text-ink-500";
-    }
+  const getStatusBadge = (status: string) => {
+    const variants: Record<string, 'solid' | 'outline' | 'ghost'> = {
+      Active: 'solid',
+      Upcoming: 'outline',
+      Completed: 'ghost',
+    };
+    return <Badge variant={variants[status] || 'ghost'}>{status}</Badge>;
   };
 
-  const getCategoryColor = (category: string) => {
-    switch (category) {
-      case "Attendance": return "bg-info-100 text-info-800";
-      case "Social": return "bg-pink-100 text-pink-800";
-      case "Engagement": return "bg-purple-100 text-purple-800";
-      case "Referral": return "bg-success-100 text-success-800";
-      case "Collection": return "bg-warning-100 text-warning-800";
-      default: return "bg-ink-100 text-ink-800";
-    }
+  const getCategoryBadge = (category: string) => {
+    return <Badge variant="outline">{category}</Badge>;
   };
 
   const filteredChallenges = activeTab === "all" ? mockChallenges : mockChallenges.filter(c => c.status.toLowerCase() === activeTab);
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2} className="border-b-2 border-black pb-8">
-            <H1>Challenges & Competitions</H1>
-            <Body className="text-ink-600">Complete challenges, earn rewards, and climb the leaderboard</Body>
-          </Stack>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Community">
+            <FooterLink href="/community">Community</FooterLink>
+            <FooterLink href="/community/challenges">Challenges</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Community</Kicker>
+              <H2 size="lg" className="text-white">Challenges & Competitions</H2>
+              <Body className="text-on-dark-muted">Complete challenges, earn rewards, and climb the leaderboard</Body>
+            </Stack>
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Active Challenges" value={activeChallenges} className="border-2 border-black" />
-            <StatCard label="Total Participants" value={totalParticipants.toLocaleString()} className="border-2 border-black" />
-            <StatCard label="Your Completed" value={completedByUser} className="border-2 border-black" />
-            <StatCard label="Your Points" value="2,450" className="border-2 border-black" />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard label="Active Challenges" value={activeChallenges.toString()} inverted />
+              <StatCard label="Total Participants" value={totalParticipants.toLocaleString()} inverted />
+              <StatCard label="Your Completed" value={completedByUser.toString()} inverted />
+              <StatCard label="Your Points" value="2,450" inverted />
+            </Grid>
 
           <Tabs>
             <TabsList>
@@ -110,26 +131,26 @@ export default function ChallengesPage() {
             <TabPanel active={activeTab !== "leaderboard"}>
               <Grid cols={2} gap={6}>
                 {filteredChallenges.map((challenge) => (
-                  <Card key={challenge.id} className={`border-2 overflow-hidden ${challenge.userCompleted ? "border-success-500" : "border-black"}`}>
-                    <Card className={`p-4 ${challenge.type === "Community" ? "bg-purple-600" : "bg-black"} text-white`}>
+                  <Card key={challenge.id} inverted variant={challenge.userCompleted ? "elevated" : "default"} className="overflow-hidden">
+                    <Card inverted className={`p-4 ${challenge.type === "Community" ? "bg-primary-600" : ""}`}>
                       <Stack direction="horizontal" className="justify-between items-start">
                         <Stack gap={1}>
-                          <Body className="font-bold">{challenge.title}</Body>
-                          <Label className="text-white/80">{challenge.description}</Label>
+                          <Body className="font-display text-white">{challenge.title}</Body>
+                          <Label className="text-on-dark-muted">{challenge.description}</Label>
                         </Stack>
                         <Badge variant="outline" className="text-white border-white">{challenge.type}</Badge>
                       </Stack>
                     </Card>
                     <Stack className="p-4" gap={4}>
                       <Stack direction="horizontal" gap={2}>
-                        <Badge className={getCategoryColor(challenge.category)}>{challenge.category}</Badge>
-                        <Label className={getStatusColor(challenge.status)}>{challenge.status}</Label>
+                        {getCategoryBadge(challenge.category)}
+                        {getStatusBadge(challenge.status)}
                       </Stack>
                       
                       {challenge.type === "Community" ? (
                         <Stack gap={2}>
                           <Stack direction="horizontal" className="justify-between">
-                            <Label className="text-ink-600">Community Progress</Label>
+                            <Label className="text-on-light-muted">Community Progress</Label>
                             <Label className="font-mono">{challenge.currentProgress.toLocaleString()}/{challenge.goal.toLocaleString()}</Label>
                           </Stack>
                           <ProgressBar value={(challenge.currentProgress / challenge.goal) * 100} size="md" />
@@ -137,7 +158,7 @@ export default function ChallengesPage() {
                       ) : (
                         <Stack gap={2}>
                           <Stack direction="horizontal" className="justify-between">
-                            <Label className="text-ink-600">Your Progress</Label>
+                            <Label className="text-on-light-muted">Your Progress</Label>
                             <Label className="font-mono">{challenge.userProgress || 0}/{challenge.goal}</Label>
                           </Stack>
                           <ProgressBar value={((challenge.userProgress || 0) / challenge.goal) * 100} size="md" />
@@ -146,22 +167,22 @@ export default function ChallengesPage() {
 
                       <Grid cols={2} gap={4}>
                         <Stack gap={1}>
-                          <Label size="xs" className="text-ink-500">Reward</Label>
-                          <Label className="text-body-sm">{challenge.reward}</Label>
+                          <Label size="xs" className="text-on-light-muted">Reward</Label>
+                          <Label size="sm">{challenge.reward}</Label>
                         </Stack>
                         <Stack gap={1}>
-                          <Label size="xs" className="text-ink-500">Participants</Label>
+                          <Label size="xs" className="text-on-light-muted">Participants</Label>
                           <Label className="font-mono">{challenge.participants.toLocaleString()}</Label>
                         </Stack>
                       </Grid>
 
                       <Stack gap={1}>
-                        <Label size="xs" className="text-ink-500">Ends</Label>
+                        <Label size="xs" className="text-on-light-muted">Ends</Label>
                         <Label className="font-mono">{challenge.endDate}</Label>
                       </Stack>
 
                       {challenge.userCompleted ? (
-                        <Button variant="outline" disabled>Completed ✓</Button>
+                        <Button variant="outline" disabled>Completed </Button>
                       ) : challenge.status === "Active" ? (
                         <Button variant="solid" onClick={() => setSelectedChallenge(challenge)}>View Details</Button>
                       ) : (
@@ -174,47 +195,47 @@ export default function ChallengesPage() {
             </TabPanel>
 
             <TabPanel active={activeTab === "leaderboard"}>
-              <Card className="border-2 border-black p-6">
+              <Card inverted className="p-6">
                 <Stack gap={4}>
-                  <H3>TOP CHALLENGERS</H3>
+                  <H3 className="text-white">Top Challengers</H3>
                   <Stack gap={3}>
                     {mockLeaderboard.map((entry) => (
-                      <Card key={entry.rank} className={`p-4 ${entry.rank <= 3 ? "bg-warning-50 border-warning-200" : "bg-ink-50"} border`}>
+                      <Card key={entry.rank} inverted variant={entry.rank <= 3 ? "elevated" : "default"}>
                         <Grid cols={4} gap={4} className="items-center">
                           <Stack direction="horizontal" gap={3} className="items-center">
-                            <Label className={`font-mono text-h5-md ${entry.rank === 1 ? "text-warning-600" : entry.rank === 2 ? "text-ink-500" : entry.rank === 3 ? "text-warning-600" : "text-ink-600"}`}>
+                            <Label className="font-mono text-h5-md text-white">
                               #{entry.rank}
                             </Label>
-                            <Body className="font-bold">{entry.userName}</Body>
+                            <Body className="font-display text-white">{entry.userName}</Body>
                           </Stack>
                           <Stack gap={0}>
-                            <Label className="font-mono text-h6-md">{entry.points.toLocaleString()}</Label>
-                            <Label size="xs" className="text-ink-500">points</Label>
+                            <Label className="font-mono text-h6-md text-white">{entry.points.toLocaleString()}</Label>
+                            <Label size="xs" className="text-on-dark-muted">points</Label>
                           </Stack>
                           <Stack gap={0}>
-                            <Label className="font-mono">{entry.completedChallenges}</Label>
-                            <Label size="xs" className="text-ink-500">challenges</Label>
+                            <Label className="font-mono text-white">{entry.completedChallenges}</Label>
+                            <Label size="xs" className="text-on-dark-muted">challenges</Label>
                           </Stack>
-                          <Button variant="outline" size="sm">View Profile</Button>
+                          <Button variant="outlineInk" size="sm">View Profile</Button>
                         </Grid>
                       </Card>
                     ))}
                   </Stack>
-                  <Card className="p-4 bg-black text-white">
+                  <Card inverted variant="elevated" className="p-4">
                     <Grid cols={4} gap={4} className="items-center">
                       <Stack direction="horizontal" gap={3} className="items-center">
-                        <Label className="font-mono text-h5-md">#42</Label>
-                        <Body className="font-bold">You</Body>
+                        <Label className="font-mono text-h5-md text-white">#42</Label>
+                        <Body className="font-display text-white">You</Body>
                       </Stack>
                       <Stack gap={0}>
-                        <Label className="font-mono text-h6-md">2,450</Label>
-                        <Label size="xs" className="text-ink-600">points</Label>
+                        <Label className="font-mono text-h6-md text-white">2,450</Label>
+                        <Label size="xs" className="text-on-dark-muted">points</Label>
                       </Stack>
                       <Stack gap={0}>
-                        <Label className="font-mono">{completedByUser}</Label>
-                        <Label size="xs" className="text-ink-600">challenges</Label>
+                        <Label className="font-mono text-white">{completedByUser}</Label>
+                        <Label size="xs" className="text-on-dark-muted">challenges</Label>
                       </Stack>
-                      <Label className="text-warning-400">Keep going!</Label>
+                      <Badge variant="solid">Keep going!</Badge>
                     </Grid>
                   </Card>
                 </Stack>
@@ -222,35 +243,36 @@ export default function ChallengesPage() {
             </TabPanel>
           </Tabs>
 
-          <Button variant="outline" onClick={() => router.push("/community")}>Back to Community</Button>
-        </Stack>
-      </Container>
+          <Button variant="outlineInk" onClick={() => router.push("/community")}>Back to Community</Button>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedChallenge} onClose={() => setSelectedChallenge(null)}>
         <ModalHeader><H3>{selectedChallenge?.title}</H3></ModalHeader>
         <ModalBody>
           {selectedChallenge && (
             <Stack gap={4}>
-              <Body className="text-ink-600">{selectedChallenge.description}</Body>
+              <Body className="text-on-light-muted">{selectedChallenge.description}</Body>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Type</Label><Badge variant="outline">{selectedChallenge.type}</Badge></Stack>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Category</Label><Badge className={getCategoryColor(selectedChallenge.category)}>{selectedChallenge.category}</Badge></Stack>
+                <Stack gap={1}><Label size="xs" className="text-on-light-muted">Type</Label><Badge variant="outline">{selectedChallenge.type}</Badge></Stack>
+                <Stack gap={1}><Label size="xs" className="text-on-light-muted">Category</Label>{getCategoryBadge(selectedChallenge.category)}</Stack>
               </Grid>
               <Stack gap={2}>
-                <Label className="font-bold">Progress</Label>
+                <Label className="font-display">Progress</Label>
                 <ProgressBar value={((selectedChallenge.userProgress || selectedChallenge.currentProgress) / selectedChallenge.goal) * 100} size="lg" />
                 <Label className="text-center font-mono">{selectedChallenge.userProgress || selectedChallenge.currentProgress} / {selectedChallenge.goal}</Label>
               </Stack>
-              <Card className="p-4 bg-warning-50 border border-warning-200">
+              <Card className="border-2 p-4">
                 <Stack gap={2}>
-                  <Label className="font-bold">Reward</Label>
+                  <Label className="font-display">Reward</Label>
                   <Body>{selectedChallenge.reward}</Body>
-                  <Label className="text-warning-700">+{selectedChallenge.rewardPoints} points</Label>
+                  <Badge variant="solid">+{selectedChallenge.rewardPoints} points</Badge>
                 </Stack>
               </Card>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Participants</Label><Label className="font-mono">{selectedChallenge.participants.toLocaleString()}</Label></Stack>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Ends</Label><Label className="font-mono">{selectedChallenge.endDate}</Label></Stack>
+                <Stack gap={1}><Label size="xs" className="text-on-light-muted">Participants</Label><Label className="font-mono">{selectedChallenge.participants.toLocaleString()}</Label></Stack>
+                <Stack gap={1}><Label size="xs" className="text-on-light-muted">Ends</Label><Label className="font-mono">{selectedChallenge.endDate}</Label></Stack>
               </Grid>
             </Stack>
           )}
@@ -262,6 +284,6 @@ export default function ChallengesPage() {
           )}
         </ModalFooter>
       </Modal>
-    </Section>
+    </PageLayout>
   );
 }

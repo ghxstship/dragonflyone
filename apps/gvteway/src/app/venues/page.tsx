@@ -5,8 +5,8 @@ import { ConsumerNavigationPublic } from '@/components/navigation';
 import {
   Container,
   Section,
-  SectionHeader,
   Display,
+  H2,
   H3,
   Body,
   Button,
@@ -14,6 +14,7 @@ import {
   Grid,
   Badge,
   Stack,
+  Kicker,
   EmptyState,
   PageLayout,
   Footer,
@@ -56,17 +57,28 @@ export default function VenuesPage() {
         </Footer>
       }
     >
-      <Section className="bg-black py-16">
-        <Container>
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        {/* Grid Pattern Background */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `
+              linear-gradient(#fff 1px, transparent 1px),
+              linear-gradient(90deg, #fff 1px, transparent 1px)
+            `,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
           <Stack gap={10}>
             {/* Page Header */}
-            <SectionHeader
-              kicker="Explore Spaces"
-              title="Venues"
-              description="Discover world-class venues hosting unforgettable experiences."
-              colorScheme="on-dark"
-              gap="lg"
-            />
+            <Stack gap={4}>
+              <Kicker colorScheme="on-dark">Explore Spaces</Kicker>
+              <H2 size="lg" className="text-white">Venues</H2>
+              <Body className="max-w-2xl text-on-dark-muted">
+                Discover world-class venues hosting unforgettable experiences.
+              </Body>
+            </Stack>
 
             {/* Action Buttons */}
             <Stack direction="horizontal" gap={4}>
@@ -76,6 +88,7 @@ export default function VenuesPage() {
                 icon={<Building2 className="size-4" />}
                 iconPosition="left"
                 onClick={() => router.push('/venues/new')}
+                className="shadow-md transition-all duration-100 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-lg"
               >
                 Add Venue
               </Button>
@@ -84,6 +97,7 @@ export default function VenuesPage() {
                 icon={<Calendar className="size-4" />}
                 iconPosition="left"
                 onClick={() => router.push('/venues/calendar')}
+                className="border-2 shadow-sm transition-all duration-100 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-md"
               >
                 Calendar View
               </Button>
@@ -96,10 +110,11 @@ export default function VenuesPage() {
               </Stack>
             ) : displayVenues.length > 0 ? (
               <Stack gap={4}>
-                {displayVenues.map((venue: any) => (
+                {displayVenues.map((venue) => (
                   <Card 
-                    key={venue.id} 
-                    className="border-2 border-grey-800 bg-transparent p-6 shadow-sm transition-all duration-100 hover:-translate-y-0.5 hover:border-white hover:shadow-md"
+                    key={venue.id}
+                    inverted
+                    interactive
                     onClick={() => router.push(`/venues/${venue.id}`)}
                   >
                     <Grid cols={4} gap={6}>
@@ -113,18 +128,18 @@ export default function VenuesPage() {
                         </Stack>
                         <Stack direction="horizontal" gap={2} className="items-center">
                           <MapPin className="size-4 text-on-dark-muted" />
-                          <Body size="sm" className="text-on-dark-muted">{venue.location}</Body>
+                          <Body size="sm" className="text-on-dark-muted">{venue.address || 'Location TBD'}</Body>
                         </Stack>
                       </Stack>
                       <Stack gap={2} className="col-span-2">
-                        <Label size="xs" className="text-on-dark-disabled">Upcoming Events</Label>
+                        <Label size="xs" className="text-on-dark-disabled">Status</Label>
                         <Stack direction="horizontal" gap={2} className="flex-wrap">
-                          <Badge variant="outline">{venue.upcomingEvents} scheduled</Badge>
+                          <Badge variant="outline">{venue.status?.toUpperCase() || 'ACTIVE'}</Badge>
                         </Stack>
                       </Stack>
                       <Stack direction="horizontal" gap={3} className="items-center justify-end">
-                        <Badge variant={venue.status === 'booked' ? 'solid' : 'outline'}>
-                          {venue.status.toUpperCase()}
+                        <Badge variant={venue.status === 'active' ? 'solid' : 'outline'}>
+                          {(venue.status || 'active').toUpperCase()}
                         </Badge>
                         <Button 
                           variant="outlineInk" 

@@ -2,8 +2,29 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { ConsumerNavigationPublic } from '../../components/navigation';
-import { Container, Section, H1, H2, H3, Body, Button, Input, Card, Grid, Badge, LoadingSpinner, EmptyState, Stack, Breadcrumb, BreadcrumbItem } from '@ghxstship/ui';
+import { ConsumerNavigationPublic } from '@/components/navigation';
+import { 
+  Container, 
+  Section, 
+  H2, 
+  H3, 
+  Body, 
+  Button, 
+  Input, 
+  Card, 
+  Grid, 
+  Badge, 
+  LoadingSpinner, 
+  EmptyState, 
+  Stack, 
+  Kicker,
+  Label,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
+} from '@ghxstship/ui';
 import { Search, MessageCircle, Users, TrendingUp, Calendar } from 'lucide-react';
 
 interface Forum {
@@ -108,124 +129,173 @@ export default function CommunityPage() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-black text-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading community..." />
-        </Container>
-      </Section>
+      <PageLayout
+        background="black"
+        header={<ConsumerNavigationPublic />}
+        footer={
+          <Footer logo={<Display size="md">GVTEWAY</Display>} copyright="© 2024 GHXSTSHIP INDUSTRIES.">
+            <FooterColumn title="Discover">
+              <FooterLink href="/events">Browse Events</FooterLink>
+              <FooterLink href="/community">Community</FooterLink>
+            </FooterColumn>
+          </Footer>
+        }
+      >
+        <Section background="black" className="min-h-screen py-16">
+          <Container className="flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" text="Loading community..." />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   if (error) {
     return (
-      <Section className="min-h-screen bg-black text-white">
-        <ConsumerNavigationPublic />
-        <Container className="py-16">
-          <EmptyState
-            title="Error Loading Community"
-            description={error}
-            action={{ label: "Retry", onClick: fetchForums }}
-          />
-        </Container>
-      </Section>
+      <PageLayout
+        background="black"
+        header={<ConsumerNavigationPublic />}
+        footer={
+          <Footer logo={<Display size="md">GVTEWAY</Display>} copyright="© 2024 GHXSTSHIP INDUSTRIES.">
+            <FooterColumn title="Discover">
+              <FooterLink href="/events">Browse Events</FooterLink>
+              <FooterLink href="/community">Community</FooterLink>
+            </FooterColumn>
+          </Footer>
+        }
+      >
+        <Section background="black" className="min-h-screen py-16">
+          <Container>
+            <EmptyState
+              title="Error Loading Community"
+              description={error}
+              action={{ label: "Retry", onClick: fetchForums }}
+              inverted
+            />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="min-h-screen bg-black text-white">
-      <ConsumerNavigationPublic />
-      <Section className="py-12">
-        <Container>
-          {/* Breadcrumb */}
-          <Breadcrumb className="mb-6">
-            <BreadcrumbItem href="/">Home</BreadcrumbItem>
-            <BreadcrumbItem active>Community</BreadcrumbItem>
-          </Breadcrumb>
-
-          <Stack gap={2} className="border-b-2 border-ink-800 pb-8 mb-8">
-            <H1>Community</H1>
-            <Body className="text-ink-600">Connect with fellow fans and share experiences</Body>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer logo={<Display size="md">GVTEWAY</Display>} copyright="© 2024 GHXSTSHIP INDUSTRIES.">
+          <FooterColumn title="Discover">
+            <FooterLink href="/events">Browse Events</FooterLink>
+            <FooterLink href="/community">Community</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Support">
+            <FooterLink href="/help">Help Center</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        {/* Grid Pattern Background */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `
+              linear-gradient(#fff 1px, transparent 1px),
+              linear-gradient(90deg, #fff 1px, transparent 1px)
+            `,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          {/* Page Header */}
+          <Stack gap={4} className="mb-12">
+            <Kicker colorScheme="on-dark">Connect & Share</Kicker>
+            <H2 size="lg" className="text-white">Community</H2>
+            <Body className="max-w-2xl text-on-dark-muted">
+              Connect with fellow fans and share experiences
+            </Body>
           </Stack>
 
-        {/* Tabs */}
-        <Stack direction="horizontal" gap={4} className="mb-8 border-b-2 border-ink-200">
-          {[
-            { id: 'forums', label: 'FORUMS' },
-            { id: 'groups', label: 'GROUPS' },
-            { id: 'events', label: 'EVENTS' },
-          ].map((tab) => (
-            <Button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
-              variant="ghost"
-              className={`pb-4 px-6 font-heading text-body-md tracking-wider rounded-none ${
-                activeTab === tab.id
-                  ? 'border-b-4 border-black -mb-0.5'
-                  : 'text-ink-500 hover:text-black'
-              }`}
-            >
-              {tab.label}
-            </Button>
-          ))}
-        </Stack>
+          {/* Tabs */}
+          <Stack direction="horizontal" gap={2} className="mb-8 border-b-2 border-ink-800">
+            {[
+              { id: 'forums', label: 'FORUMS' },
+              { id: 'groups', label: 'GROUPS' },
+              { id: 'events', label: 'EVENTS' },
+            ].map((tab) => (
+              <Button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as 'forums' | 'groups' | 'events')}
+                variant={activeTab === tab.id ? "solid" : "ghost"}
+                inverted={activeTab === tab.id}
+                className="rounded-none border-b-2 border-transparent px-6 pb-4"
+              >
+                {tab.label}
+              </Button>
+            ))}
+          </Stack>
 
-        {/* Search Bar */}
-        <Card className="p-6 mb-8">
-          <Stack gap={4} direction="horizontal">
-            <Stack gap={2} direction="horizontal" className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-ink-500" />
-              <Input
-                placeholder="Search community..."
-                className="pl-10 w-full"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
+          {/* Search Bar */}
+          <Card className="mb-8 border-2 border-ink-800 bg-ink-950 p-6 shadow-primary">
+            <Stack gap={4} direction="horizontal" className="flex-col md:flex-row">
+              <Stack gap={2} className="relative flex-1">
+                <Label size="xs" className="text-on-dark-muted">
+                  <Search className="mr-2 inline size-4" />
+                  Search
+                </Label>
+                <Input
+                  placeholder="Search community..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  inverted
+                />
+              </Stack>
+              <Button variant="solid" inverted className="self-end">
+                Search
+              </Button>
             </Stack>
-            <Button onClick={() => setSearchQuery(searchQuery)}>SEARCH</Button>
-          </Stack>
-        </Card>
+          </Card>
 
         {/* Forums Tab */}
         {activeTab === 'forums' && (
           <Stack gap={4}>
             {filteredForums.map((forum) => (
-              <Card key={forum.id} className="p-6 hover:shadow-hard-lg transition-shadow">
-                <Stack gap={4} direction="horizontal" className="justify-between items-start mb-4">
+              <Card key={forum.id} inverted interactive>
+                <Stack gap={4} direction="horizontal" className="items-start justify-between">
                   <Stack gap={2} className="flex-1">
                     <Stack gap={3} direction="horizontal" className="items-center">
-                      <H2>{forum.title}</H2>
+                      <H3 className="text-white">{forum.title}</H3>
                       {forum.trending && (
-                        <Badge className="bg-black text-white flex items-center gap-1">
-                          <TrendingUp className="w-3 h-3" />
+                        <Badge variant="solid">
+                          <TrendingUp className="mr-1 inline size-3" />
                           TRENDING
                         </Badge>
                       )}
                     </Stack>
-                    <Stack gap={6} direction="horizontal" className="text-body-sm text-ink-600">
+                    <Stack gap={6} direction="horizontal">
                       <Stack gap={2} direction="horizontal" className="items-center">
-                        <MessageCircle className="w-4 h-4" />
-                        <Body className="text-body-sm">{forum.posts.toLocaleString()} posts</Body>
+                        <MessageCircle className="size-4 text-on-dark-muted" />
+                        <Body size="sm" className="text-on-dark-muted">{forum.posts.toLocaleString()} posts</Body>
                       </Stack>
                       <Stack gap={2} direction="horizontal" className="items-center">
-                        <Users className="w-4 h-4" />
-                        <Body className="text-body-sm">{forum.members.toLocaleString()} members</Body>
+                        <Users className="size-4 text-on-dark-muted" />
+                        <Body size="sm" className="text-on-dark-muted">{forum.members.toLocaleString()} members</Body>
                       </Stack>
-                      <Body className="text-body-sm">Last active: {forum.lastActive}</Body>
+                      <Body size="sm" className="text-on-dark-disabled">Last active: {forum.lastActive}</Body>
                     </Stack>
                   </Stack>
-                  <Button variant="outline" onClick={() => handleJoinForum(forum.id)}>JOIN DISCUSSION</Button>
+                  <Button variant="outlineInk" onClick={() => handleJoinForum(forum.id)}>Join Discussion</Button>
                 </Stack>
               </Card>
             ))}
 
-            <Card className="p-12 text-center border-2 border-dashed border-ink-300">
-              <MessageCircle className="w-12 h-12 mx-auto mb-4 text-ink-600" />
-              <H3 className="mb-2">START A NEW DISCUSSION</H3>
-              <Body className="text-ink-500 mb-4">
+            <Card inverted variant="elevated" className="border-2 border-dashed border-ink-700 p-12 text-center">
+              <MessageCircle className="mx-auto mb-4 size-12 text-on-dark-muted" />
+              <H3 className="mb-2 text-white">Start a New Discussion</H3>
+              <Body className="mb-4 text-on-dark-muted">
                 Share your thoughts and connect with the community
               </Body>
-              <Button onClick={() => router.push('/community/forums/new')}>CREATE FORUM</Button>
+              <Button variant="solid" inverted onClick={() => router.push('/community/forums/new')}>Create Forum</Button>
             </Card>
           </Stack>
         )}
@@ -234,31 +304,33 @@ export default function CommunityPage() {
         {activeTab === 'groups' && (
           <Grid cols={2} gap={4}>
             {groups.map((group) => (
-              <Card key={group.id} className="p-6">
-                <Stack gap={4} direction="horizontal" className="justify-between items-start mb-4">
-                  <H2>{group.name}</H2>
-                  <Badge className={group.privacy === 'private' ? 'bg-ink-800 text-white' : 'bg-white text-black border-2 border-black'}>
-                    {group.privacy.toUpperCase()}
-                  </Badge>
-                </Stack>
-                <Body className="text-ink-600 mb-4">{group.description}</Body>
-                <Stack gap={4} direction="horizontal" className="justify-between items-center">
-                  <Stack gap={2} direction="horizontal" className="items-center text-body-sm text-ink-600">
-                    <Users className="w-4 h-4" />
-                    <Body className="text-body-sm">{group.members_count.toLocaleString()} members</Body>
+              <Card key={group.id} inverted interactive>
+                <Stack gap={4}>
+                  <Stack gap={4} direction="horizontal" className="items-start justify-between">
+                    <H3 className="text-white">{group.name}</H3>
+                    <Badge variant={group.privacy === 'private' ? 'solid' : 'outline'}>
+                      {group.privacy.toUpperCase()}
+                    </Badge>
                   </Stack>
-                  <Button variant="outline" size="sm" onClick={() => handleJoinGroup(group.id)}>JOIN GROUP</Button>
+                  <Body className="text-on-dark-muted">{group.description}</Body>
+                  <Stack gap={4} direction="horizontal" className="items-center justify-between">
+                    <Stack gap={2} direction="horizontal" className="items-center">
+                      <Users className="size-4 text-on-dark-muted" />
+                      <Body size="sm" className="text-on-dark-muted">{group.members_count.toLocaleString()} members</Body>
+                    </Stack>
+                    <Button variant="outlineInk" size="sm" onClick={() => handleJoinGroup(group.id)}>Join Group</Button>
+                  </Stack>
                 </Stack>
               </Card>
             ))}
 
-            <Card className="p-12 text-center border-2 border-dashed border-ink-300">
-              <Users className="w-12 h-12 mx-auto mb-4 text-ink-600" />
-              <H3 className="mb-2">CREATE YOUR GROUP</H3>
-              <Body className="text-ink-500 mb-4">
+            <Card inverted variant="elevated" className="border-2 border-dashed border-ink-700 p-12 text-center">
+              <Users className="mx-auto mb-4 size-12 text-on-dark-muted" />
+              <H3 className="mb-2 text-white">Create Your Group</H3>
+              <Body className="mb-4 text-on-dark-muted">
                 Build your own community around shared interests
               </Body>
-              <Button onClick={() => router.push('/community/groups/new')}>NEW GROUP</Button>
+              <Button variant="solid" inverted onClick={() => router.push('/community/groups/new')}>New Group</Button>
             </Card>
           </Grid>
         )}
@@ -268,52 +340,58 @@ export default function CommunityPage() {
           <Stack gap={4}>
             {communityEvents.length > 0 ? (
               communityEvents.map((event) => (
-                <Card key={event.id} className="p-6">
-                  <Stack gap={4} direction="horizontal" className="items-center mb-4">
-                    <Calendar className="w-8 h-8" />
-                    <Stack gap={1} className="flex-1">
-                      <H2>{event.title}</H2>
-                      <Body className="text-ink-600">
-                        {new Date(event.event_date).toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}
-                      </Body>
+                <Card key={event.id} inverted interactive>
+                  <Stack gap={4}>
+                    <Stack gap={4} direction="horizontal" className="items-center">
+                      <Calendar className="size-8 text-on-dark-muted" />
+                      <Stack gap={1} className="flex-1">
+                        <H3 className="text-white">{event.title}</H3>
+                        <Body className="text-on-dark-muted">
+                          {new Date(event.event_date).toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}
+                        </Body>
+                      </Stack>
+                      <Badge variant="solid">
+                        {event.attendees_count} GOING
+                      </Badge>
                     </Stack>
-                    <Badge className="bg-white text-black border-2 border-black">
-                      {event.attendees_count} GOING
-                    </Badge>
+                    <Body className="text-on-dark-muted">{event.description}</Body>
+                    <Button variant="outlineInk" onClick={() => handleInterested(event.id)}>I&apos;m Interested</Button>
                   </Stack>
-                  <Body className="mb-4">{event.description}</Body>
-                  <Button variant="outline" onClick={() => handleInterested(event.id)}>I&apos;M INTERESTED</Button>
                 </Card>
               ))
             ) : (
-              <Card className="p-6">
-                <Stack gap={4} direction="horizontal" className="items-center mb-4">
-                  <Calendar className="w-8 h-8" />
-                  <Stack gap={1} className="flex-1">
-                    <H2>COMMUNITY MEETUP - MIAMI</H2>
-                    <Body className="text-ink-600">Saturday, Dec 15 • 7:00 PM</Body>
+              <Card inverted interactive>
+                <Stack gap={4}>
+                  <Stack gap={4} direction="horizontal" className="items-center">
+                    <Calendar className="size-8 text-on-dark-muted" />
+                    <Stack gap={1} className="flex-1">
+                      <H3 className="text-white">Community Meetup - Miami</H3>
+                      <Body className="text-on-dark-muted">Saturday, Dec 15 • 7:00 PM</Body>
+                    </Stack>
+                    <Badge variant="solid">45 GOING</Badge>
                   </Stack>
-                  <Badge className="bg-white text-black border-2 border-black">45 GOING</Badge>
+                  <Body className="text-on-dark-muted">
+                    Join fellow music lovers for a pre-festival meetup at Wynwood Walls
+                  </Body>
+                  <Button variant="outlineInk" onClick={() => handleInterested('default')}>I&apos;m Interested</Button>
                 </Stack>
-                <Body className="mb-4">
-                  Join fellow music lovers for a pre-festival meetup at Wynwood Walls
-                </Body>
-                <Button variant="outline" onClick={() => handleInterested('default')}>I&apos;M INTERESTED</Button>
               </Card>
             )}
 
-            <Card className="p-12 text-center border-2 border-dashed border-ink-300">
-              <Calendar className="w-12 h-12 mx-auto mb-4 text-ink-600" />
-              <H3 className="mb-2">HOST A COMMUNITY EVENT</H3>
-              <Body className="text-ink-500 mb-4">
+            <Card className="border-2 border-dashed border-ink-800 bg-ink-950 p-12 text-center">
+              <Calendar className="mx-auto mb-4 size-12 text-on-dark-muted" />
+              <H3 className="mb-2 text-white">HOST A COMMUNITY EVENT</H3>
+              <Body className="mb-4 text-on-dark-muted">
                 Organize meetups and gatherings for your community
               </Body>
-              <Button onClick={() => router.push('/community/events/new')}>CREATE EVENT</Button>
+              <Button variant="solid" inverted onClick={() => router.push('/community/events/new')}>
+                Create Event
+              </Button>
             </Card>
           </Stack>
         )}
-      </Container>
+        </Container>
       </Section>
-    </Section>
+    </PageLayout>
   );
 }

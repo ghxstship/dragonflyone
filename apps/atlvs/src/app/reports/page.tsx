@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useNotifications } from '@ghxstship/ui';
 import { CreatorNavigationAuthenticated } from '../../components/navigation';
-import { Container, Section, H1, H2, H3, Body, Button, Card, Grid, Select, LoadingSpinner, ProgressBar, Stack, Display } from '@ghxstship/ui';
+import { Container, Section, H2, H3, Body, Button, Card, Grid, Select, LoadingSpinner, ProgressBar, Stack, Display, PageLayout, SectionHeader } from '@ghxstship/ui';
 import { Download, TrendingUp, DollarSign, Users, Package } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 
@@ -85,53 +85,63 @@ export default function ReportsPage() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-ink-950 text-ink-50">
-        <CreatorNavigationAuthenticated />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading reports..." />
-        </Container>
-      </Section>
+      <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
+        <Section className="min-h-screen py-16">
+          <Container className="flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" text="Loading reports..." />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   if (!analytics) {
     return (
-      <Section className="min-h-screen bg-ink-950 text-ink-50">
-        <CreatorNavigationAuthenticated />
-        <Container className="py-16">
-          <H1 className="mb-2">Executive Reports</H1>
-          <Body className="text-ink-400">No data available</Body>
-        </Container>
-      </Section>
+      <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
+        <Section className="min-h-screen py-16">
+          <Container>
+            <SectionHeader
+              kicker="ATLVS"
+              title="Executive Reports"
+              description="No data available"
+              colorScheme="on-dark"
+              gap="lg"
+            />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="min-h-screen bg-ink-950 text-ink-50">
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={4} direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b border-ink-800 pb-8">
-            <Stack gap={2}>
-              <H1>Executive Reports</H1>
-              <Body className="text-ink-400">Business intelligence and analytics dashboard</Body>
+    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <Stack gap={4} direction="horizontal" className="items-start justify-between">
+              <SectionHeader
+                kicker="ATLVS"
+                title="Executive Reports"
+                description="Business intelligence and analytics dashboard"
+                colorScheme="on-dark"
+                gap="lg"
+              />
+              <Stack gap={3} direction="horizontal">
+                <Select 
+                  className="w-48 bg-grey-900 border-grey-700 text-white"
+                  value={timeRange}
+                  onChange={(e) => setTimeRange(e.target.value)}
+                >
+                  <option value="30">Last 30 Days</option>
+                  <option value="90">Last Quarter</option>
+                  <option value="365">Last Year</option>
+                </Select>
+                <Button variant="outlineWhite" onClick={() => { addNotification({ type: 'info', title: 'Exporting', message: 'Generating report export...' }); }}>
+                  <Download className="size-4 mr-2" />
+                  EXPORT
+                </Button>
+              </Stack>
             </Stack>
-            <Stack gap={3} direction="horizontal">
-              <Select 
-                className="w-48 bg-ink-900 border-ink-700 text-white"
-                value={timeRange}
-                onChange={(e) => setTimeRange(e.target.value)}
-              >
-                <option value="30">Last 30 Days</option>
-                <option value="90">Last Quarter</option>
-                <option value="365">Last Year</option>
-              </Select>
-              <Button variant="outline" onClick={() => { addNotification({ type: 'info', title: 'Exporting', message: 'Generating report export...' }); }}>
-                <Download className="w-4 h-4 mr-2" />
-                EXPORT
-              </Button>
-            </Stack>
-          </Stack>
 
         {/* Key Metrics */}
         <Grid cols={4} gap={6}>
@@ -307,9 +317,10 @@ export default function ReportsPage() {
               </Stack>
             </Grid>
           </Stack>
-        </Card>
-        </Stack>
-      </Container>
-    </Section>
+          </Card>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

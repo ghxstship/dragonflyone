@@ -2,11 +2,15 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { CreatorNavigationAuthenticated } from '../../components/navigation';
 import {
   ListPage,
   Badge,
   RecordFormModal,
   DetailDrawer,
+  Grid,
+  Stack,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -134,17 +138,17 @@ export default function AvailabilityPage() {
 
   const detailSections: DetailSection[] = selectedSlot ? [
     { id: 'details', title: 'Availability Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Crew Member:</strong> {selectedSlot.user_name}</div>
-        <div><strong>Role:</strong> {selectedSlot.role}</div>
-        <div><strong>Department:</strong> {selectedSlot.department}</div>
-        <div><strong>Date:</strong> {new Date(selectedSlot.date).toLocaleDateString()}</div>
-        <div><strong>Status:</strong> {selectedSlot.status}</div>
-        <div><strong>Start Time:</strong> {selectedSlot.start_time || '-'}</div>
-        <div><strong>End Time:</strong> {selectedSlot.end_time || '-'}</div>
-        <div><strong>Source:</strong> {selectedSlot.calendar_source === 'google' ? '📅 Google' : '✏️ Manual'}</div>
-        {selectedSlot.notes && <div className="col-span-2"><strong>Notes:</strong> {selectedSlot.notes}</div>}
-      </div>
+      <Grid cols={2} gap={4}>
+        <Stack gap={1}><Body className="font-display">Crew Member</Body><Body>{selectedSlot.user_name}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Role</Body><Body>{selectedSlot.role}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Department</Body><Body>{selectedSlot.department}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Date</Body><Body>{new Date(selectedSlot.date).toLocaleDateString()}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Status</Body><Body>{selectedSlot.status}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Start Time</Body><Body>{selectedSlot.start_time || '-'}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">End Time</Body><Body>{selectedSlot.end_time || '-'}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Source</Body><Body>{selectedSlot.calendar_source === 'google' ? '📅 Google' : '✏️ Manual'}</Body></Stack>
+        {selectedSlot.notes && <Stack gap={1} className="col-span-2"><Body className="font-display">Notes</Body><Body>{selectedSlot.notes}</Body></Stack>}
+      </Grid>
     )},
   ] : [];
 
@@ -166,6 +170,7 @@ export default function AvailabilityPage() {
         onExport={() => console.log('Export')}
         stats={stats}
         emptyMessage="No availability records"
+        header={<CreatorNavigationAuthenticated />}
       />
 
       <RecordFormModal

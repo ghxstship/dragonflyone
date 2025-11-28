@@ -7,7 +7,6 @@ import { useEquipment } from '../../hooks/useEquipment';
 import {
   Container,
   Section,
-  H1,
   H2,
   Body,
   Button,
@@ -18,11 +17,14 @@ import {
   StatusBadge,
   Badge,
   LoadingSpinner,
+  PageLayout,
+  SectionHeader,
 } from '@ghxstship/ui';
 
 /**
  * COMPVSS Production Operations Dashboard
- * Role-based views for production team members
+ * Bold Contemporary Pop Art Adventure aesthetic
+ * Hard offset shadows, 2px+ borders, bounce animations
  */
 export default function CompvssDashboardPage() {
   const router = useRouter();
@@ -46,15 +48,18 @@ export default function CompvssDashboardPage() {
   };
 
   return (
-    <Section className="min-h-screen bg-white">
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-        {/* Header */}
-        <Stack gap={2} className="border-b-2 border-black pb-8">
-          <H1>Production Operations</H1>
-          <Body className="text-ink-600">Welcome back, {user.name}</Body>
-        </Stack>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            {/* Page Header - Bold Contemporary Pop Art Adventure */}
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Production Operations"
+              description={`Welcome back, ${user.name}`}
+              colorScheme="on-light"
+              gap="lg"
+            />
 
         {/* Production Manager View */}
         <H2 className="mb-6">PRODUCTION OVERVIEW</H2>
@@ -161,7 +166,7 @@ export default function CompvssDashboardPage() {
               <Card className="p-6 border-l-4 border-black">
                 <Stack gap={4} direction="horizontal" className="justify-between items-start">
                   <Stack gap={2}>
-                    <Body className="font-bold text-body-md">Summer Music Festival 2024</Body>
+                    <Body className="font-display text-body-md">Summer Music Festival 2024</Body>
                     <Body className="text-body-sm">
                       Load-in: June 12 • Event: June 15-17 • Load-out: June 18
                     </Body>
@@ -181,7 +186,7 @@ export default function CompvssDashboardPage() {
               <Card className="p-6 border-l-4 border-ink-700">
                 <Stack gap={4} direction="horizontal" className="justify-between items-start">
                   <Stack gap={2}>
-                    <Body className="font-bold text-body-md">Corporate Product Launch</Body>
+                    <Body className="font-display text-body-md">Corporate Product Launch</Body>
                     <Body className="text-body-sm">
                       Setup: June 10 • Event: June 11 • Strike: June 12
                     </Body>
@@ -201,7 +206,7 @@ export default function CompvssDashboardPage() {
               <Card className="p-6 border-l-4 border-ink-400">
                 <Stack gap={4} direction="horizontal" className="justify-between items-start">
                   <Stack gap={2}>
-                    <Body className="font-bold text-body-md">Theater Production: Hamilton</Body>
+                    <Body className="font-display text-body-md">Theater Production: Hamilton</Body>
                     <Body className="text-body-sm">
                       Tech Week: June 8-13 • Opening: June 14 • Run: Through July
                     </Body>
@@ -226,19 +231,19 @@ export default function CompvssDashboardPage() {
                 <Stack gap={3}>
                   <Stack gap={2} direction="horizontal" className="justify-between border-b pb-2">
                     <Body>Total Crew</Body>
-                    <Body className="font-bold">{stats.totalCrew} crew</Body>
+                    <Body className="font-display">{stats.totalCrew} crew</Body>
                   </Stack>
                   <Stack gap={2} direction="horizontal" className="justify-between border-b pb-2">
                     <Body>Available</Body>
-                    <Body className="font-bold">{stats.activeCrew} crew</Body>
+                    <Body className="font-display">{stats.activeCrew} crew</Body>
                   </Stack>
                   <Stack gap={2} direction="horizontal" className="justify-between border-b pb-2">
                     <Body>Equipment Available</Body>
-                    <Body className="font-bold">{stats.availableEquipment} items</Body>
+                    <Body className="font-display">{stats.availableEquipment} items</Body>
                   </Stack>
                   <Stack gap={2} direction="horizontal" className="justify-between">
                     <Body>Equipment In Use</Body>
-                    <Body className="font-bold">{stats.inUseEquipment} items</Body>
+                    <Body className="font-display">{stats.inUseEquipment} items</Body>
                   </Stack>
                 </Stack>
               </Card>
@@ -256,8 +261,9 @@ export default function CompvssDashboardPage() {
             </Grid>
           </>
         )}
-        </Stack>
-      </Container>
-    </Section>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

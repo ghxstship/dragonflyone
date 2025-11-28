@@ -2,11 +2,14 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { ConsumerNavigationPublic } from "@/components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, Button,
-  Section as UISection, Card, Badge, Alert,
+  Container, H2, H3, Body, Label, Grid, Stack, Button,
+  Section, Card, Badge, Alert,
   Modal, ModalHeader, ModalBody, ModalFooter,
+  PageLayout, Footer, FooterColumn, FooterLink, Display, Kicker,
 } from "@ghxstship/ui";
+import { Globe, Check } from "lucide-react";
 
 interface Language {
   code: string;
@@ -62,97 +65,141 @@ export default function LanguageSettingsPage() {
   };
 
   return (
-    <UISection className="min-h-screen bg-white">
-      <Container className="py-8">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>LANGUAGE SETTINGS</H1>
-            <Body className="text-ink-600">Choose your preferred language for the app</Body>
-          </Stack>
-
-          <Card className="border-2 border-black p-6">
-            <Stack gap={4}>
-              <Stack direction="horizontal" className="justify-between items-center">
-                <Stack gap={1}>
-                  <Label className="text-ink-500">Current Language</Label>
-                  <Body className="font-bold text-h6-md">{currentLanguage?.nativeName} ({currentLanguage?.name})</Body>
-                </Stack>
-                <Badge variant="solid">Active</Badge>
-              </Stack>
-              <Alert variant="info">
-                Changing your language will update all text throughout the app. Some user-generated content may remain in its original language.
-              </Alert>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Account">
+            <FooterLink href="/settings">Settings</FooterLink>
+            <FooterLink href="/profile">Profile</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Settings</Kicker>
+              <H2 size="lg" className="text-white">Language Settings</H2>
+              <Body className="text-on-dark-muted">Choose your preferred language for the app</Body>
             </Stack>
-          </Card>
 
-          <Stack gap={4}>
-            <H3>Available Languages</H3>
-            <Grid cols={3} gap={4}>
-              {mockLanguages.map((lang) => (
-                <Card key={lang.code} className={`border-2 p-4 cursor-pointer transition-all ${lang.code === selectedLanguage ? "border-black bg-ink-50" : "border-ink-200 hover:border-ink-400"}`} onClick={() => handleLanguageSelect(lang)}>
-                  <Stack gap={3}>
-                    <Stack direction="horizontal" className="justify-between items-start">
-                      <Stack gap={1}>
-                        <Body className="font-bold">{lang.nativeName}</Body>
-                        <Label className="text-ink-500">{lang.name}</Label>
-                      </Stack>
-                      {lang.code === selectedLanguage && <Badge variant="solid">✓</Badge>}
-                      {lang.isDefault && <Badge variant="outline">Default</Badge>}
-                    </Stack>
-                    <Stack direction="horizontal" className="justify-between items-center">
-                      <Label size="xs" className="text-ink-500">Translation Coverage</Label>
-                      <Label className={getCoverageColor(lang.coverage)}>{lang.coverage}%</Label>
-                    </Stack>
-                    <Card className="h-2 bg-ink-200 overflow-hidden">
-                      <Card 
-                        className={`h-full ${lang.coverage >= 95 ? "bg-success-500" : lang.coverage >= 80 ? "bg-warning-500" : "bg-warning-500"}`} 
-                        style={{ '--progress-width': `${lang.coverage}%`, width: 'var(--progress-width)' } as React.CSSProperties} 
-                      />
-                    </Card>
+            {/* Current Language */}
+            <Card inverted variant="elevated" className="p-6">
+              <Stack gap={4}>
+                <Stack direction="horizontal" className="items-center justify-between">
+                  <Stack gap={1}>
+                    <Label size="sm" className="text-on-dark-muted">Current Language</Label>
+                    <Body className="font-display text-white">{currentLanguage?.nativeName} ({currentLanguage?.name})</Body>
                   </Stack>
-                </Card>
-              ))}
-            </Grid>
-          </Stack>
+                  <Badge variant="solid">Active</Badge>
+                </Stack>
+                <Alert variant="info">
+                  Changing your language will update all text throughout the app. Some user-generated content may remain in its original language.
+                </Alert>
+              </Stack>
+            </Card>
 
-          <Card className="border-2 border-ink-200 p-6">
+            {/* Available Languages */}
             <Stack gap={4}>
-              <H3>Translation Information</H3>
-              <Grid cols={2} gap={6}>
-                <Stack gap={2}>
-                  <Label className="text-ink-500">What gets translated:</Label>
-                  <Stack gap={1}>
-                    {["Navigation and menus", "Buttons and labels", "System messages", "Help content", "Email notifications"].map((item) => (
-                      <Stack key={item} direction="horizontal" gap={2}>
-                        <Label className="text-success-600">✓</Label>
-                        <Label>{item}</Label>
+              <Stack direction="horizontal" gap={2} className="items-center">
+                <Globe className="size-5 text-on-dark-muted" />
+                <H3 className="text-white">Available Languages</H3>
+              </Stack>
+              <Grid cols={3} gap={4}>
+                {mockLanguages.map((lang) => (
+                  <Card 
+                    key={lang.code} 
+                    inverted 
+                    interactive
+                    variant={lang.code === selectedLanguage ? "elevated" : "default"}
+                    className="cursor-pointer p-4"
+                    onClick={() => handleLanguageSelect(lang)}
+                  >
+                    <Stack gap={3}>
+                      <Stack direction="horizontal" className="items-start justify-between">
+                        <Stack gap={1}>
+                          <Body className="font-display text-white">{lang.nativeName}</Body>
+                          <Label size="xs" className="text-on-dark-muted">{lang.name}</Label>
+                        </Stack>
+                        {lang.code === selectedLanguage && <Check className="size-5 text-success" />}
+                        {lang.isDefault && <Badge variant="outline">Default</Badge>}
                       </Stack>
-                    ))}
-                  </Stack>
-                </Stack>
-                <Stack gap={2}>
-                  <Label className="text-ink-500">What stays in original language:</Label>
-                  <Stack gap={1}>
-                    {["Event names and descriptions", "Artist names", "Venue information", "User reviews", "Chat messages"].map((item) => (
-                      <Stack key={item} direction="horizontal" gap={2}>
-                        <Label className="text-ink-600">•</Label>
-                        <Label>{item}</Label>
+                      <Stack direction="horizontal" className="items-center justify-between">
+                        <Label size="xs" className="text-on-dark-disabled">Translation Coverage</Label>
+                        <Label size="xs" className={getCoverageColor(lang.coverage)}>{lang.coverage}%</Label>
                       </Stack>
-                    ))}
-                  </Stack>
-                </Stack>
+                      <div className="h-2 overflow-hidden rounded-badge bg-ink-700">
+                        <div
+                          className={`h-full ${lang.coverage >= 95 ? "bg-success" : "bg-warning"}`}
+                          style={{ width: `${lang.coverage}%` }}
+                        />
+                      </div>
+                    </Stack>
+                  </Card>
+                ))}
               </Grid>
             </Stack>
-          </Card>
 
-          <Stack gap={2}>
-            <Label className="text-ink-500">Missing your language?</Label>
-            <Button variant="outline">Request a Language</Button>
+            {/* Translation Info */}
+            <Card inverted className="p-6">
+              <Stack gap={4}>
+                <H3 className="text-white">Translation Information</H3>
+                <Grid cols={2} gap={6}>
+                  <Stack gap={2}>
+                    <Label size="sm" className="text-on-dark-muted">What gets translated:</Label>
+                    <Stack gap={1}>
+                      {["Navigation and menus", "Buttons and labels", "System messages", "Help content", "Email notifications"].map((item) => (
+                        <Stack key={item} direction="horizontal" gap={2}>
+                          <Check className="size-4 text-success" />
+                          <Label size="sm" className="text-white">{item}</Label>
+                        </Stack>
+                      ))}
+                    </Stack>
+                  </Stack>
+                  <Stack gap={2}>
+                    <Label size="sm" className="text-on-dark-muted">What stays in original language:</Label>
+                    <Stack gap={1}>
+                      {["Event names and descriptions", "Artist names", "Venue information", "User reviews", "Chat messages"].map((item) => (
+                        <Stack key={item} direction="horizontal" gap={2}>
+                          <span className="text-on-dark-disabled">•</span>
+                          <Label size="sm" className="text-white">{item}</Label>
+                        </Stack>
+                      ))}
+                    </Stack>
+                  </Stack>
+                </Grid>
+              </Stack>
+            </Card>
+
+            {/* Actions */}
+            <Stack gap={4}>
+              <Stack gap={2}>
+                <Label size="sm" className="text-on-dark-muted">Missing your language?</Label>
+                <Button variant="outlineInk">Request a Language</Button>
+              </Stack>
+              <Button variant="ghost" onClick={() => router.push("/settings")}>← Back to Settings</Button>
+            </Stack>
           </Stack>
-
-          <Button variant="outline" onClick={() => router.push("/settings")}>Back to Settings</Button>
-        </Stack>
-      </Container>
+        </Container>
+      </Section>
 
       <Modal open={showConfirmModal} onClose={() => { setShowConfirmModal(false); setPendingLanguage(null); }}>
         <ModalHeader><H3>Change Language</H3></ModalHeader>
@@ -160,16 +207,16 @@ export default function LanguageSettingsPage() {
           {pendingLanguage && (
             <Stack gap={4}>
               <Body>Are you sure you want to change your language to <strong>{pendingLanguage.nativeName}</strong>?</Body>
-              <Card className="p-4 bg-ink-50 border border-ink-200">
+              <Card inverted className="p-4">
                 <Stack direction="horizontal" className="justify-between">
                   <Stack gap={1}>
-                    <Label className="text-ink-500">From</Label>
-                    <Body>{currentLanguage?.nativeName}</Body>
+                    <Label size="sm" className="text-on-dark-muted">From</Label>
+                    <Body className="text-white">{currentLanguage?.nativeName}</Body>
                   </Stack>
-                  <Label className="text-h5-md">→</Label>
+                  <Label className="text-on-dark-muted">→</Label>
                   <Stack gap={1}>
-                    <Label className="text-ink-500">To</Label>
-                    <Body className="font-bold">{pendingLanguage.nativeName}</Body>
+                    <Label size="sm" className="text-on-dark-muted">To</Label>
+                    <Body className="font-display text-white">{pendingLanguage.nativeName}</Body>
                   </Stack>
                 </Stack>
               </Card>
@@ -186,6 +233,6 @@ export default function LanguageSettingsPage() {
           <Button variant="solid" onClick={confirmLanguageChange}>Change Language</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

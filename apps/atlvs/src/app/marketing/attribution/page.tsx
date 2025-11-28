@@ -4,8 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge, ProgressBar,
+  Container, H3, Body, Label, Grid, Stack, StatCard, Select, Button,
+  Section, Card, Tabs, TabsList, Tab, Badge, ProgressBar, PageLayout, SectionHeader,
   Modal, ModalHeader, ModalBody, ModalFooter,
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
 } from "@ghxstship/ui";
@@ -61,15 +61,17 @@ export default function MarketingAttributionPage() {
   const formatCurrency = (amount: number) => `$${amount.toLocaleString()}`;
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Marketing Attribution</H1>
-            <Label className="text-ink-400">Track marketing sources and campaign performance</Label>
-          </Stack>
+    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="ATLVS"
+              title="Marketing Attribution"
+              description="Track marketing sources and campaign performance"
+              colorScheme="on-dark"
+              gap="lg"
+            />
 
           <Grid cols={4} gap={6}>
             <StatCard label="Total Leads" value={totalLeads} className="bg-transparent border-2 border-ink-800" />
@@ -177,13 +179,14 @@ export default function MarketingAttributionPage() {
             </TabPanel>
           </Tabs>
 
-          <Grid cols={3} gap={4}>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/deals")}>Deals</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/analytics")}>Analytics</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/")}>Dashboard</Button>
-          </Grid>
-        </Stack>
-      </Container>
+            <Grid cols={3} gap={4}>
+              <Button variant="outline" className="border-grey-700 text-grey-400" onClick={() => router.push("/deals")}>Deals</Button>
+              <Button variant="outline" className="border-grey-700 text-grey-400" onClick={() => router.push("/analytics")}>Analytics</Button>
+              <Button variant="outline" className="border-grey-700 text-grey-400" onClick={() => router.push("/")}>Dashboard</Button>
+            </Grid>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedSource} onClose={() => setSelectedSource(null)}>
         <ModalHeader><H3>{selectedSource?.name}</H3></ModalHeader>
@@ -213,6 +216,6 @@ export default function MarketingAttributionPage() {
           <Button variant="solid">View Leads</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

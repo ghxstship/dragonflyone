@@ -4,10 +4,11 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select,
+  Container, Section, H3, Body, Label, Grid, Stack, StatCard, Input, Select,
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
+  Card, Tabs, TabsList, Tab, TabPanel, Badge,
   Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
+  PageLayout, SectionHeader,
 } from "@ghxstship/ui";
 
 interface AssetSpec {
@@ -145,15 +146,17 @@ export default function AssetSpecificationsPage() {
   const totalDocs = mockSpecs.reduce((sum, s) => sum + s.documents.length, 0);
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Asset Specifications Library</H1>
-            <Label className="text-ink-400">Technical documentation, specifications, and manuals for all equipment</Label>
-          </Stack>
+    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={8}>
+            <SectionHeader
+              kicker="ATLVS"
+              title="Asset Specifications Library"
+              description="Technical documentation, specifications, and manuals for all equipment"
+              colorScheme="on-dark"
+              gap="lg"
+            />
 
           <Grid cols={4} gap={6}>
             <StatCard label="Spec Sheets" value={mockSpecs.length} className="bg-transparent border-2 border-ink-800" />
@@ -251,8 +254,6 @@ export default function AssetSpecificationsPage() {
             <Button variant="outline" className="border-ink-700 text-ink-400">Export Library</Button>
             <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/assets")}>Back to Assets</Button>
           </Grid>
-        </Stack>
-      </Container>
 
       <Modal open={!!selectedSpec} onClose={() => setSelectedSpec(null)}>
         <ModalHeader><H3>{selectedSpec?.name}</H3></ModalHeader>
@@ -342,6 +343,9 @@ export default function AssetSpecificationsPage() {
           <Button variant="solid" onClick={() => setShowAddModal(false)}>Add Specification</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

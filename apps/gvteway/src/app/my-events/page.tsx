@@ -2,11 +2,11 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { ConsumerNavigationPublic } from '../../components/navigation';
+import { ConsumerNavigationPublic } from '@/components/navigation';
 import {
   Container,
   Section,
-  H1,
+  Display,
   H2,
   H3,
   Body,
@@ -20,8 +20,16 @@ import {
   Alert,
   Modal,
   LoadingSpinner,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Kicker,
+  EmptyState,
+  Figure,
 } from '@ghxstship/ui';
 import Image from 'next/image';
+import { Calendar, Ticket, Clock, MapPin, Star, ChevronRight } from 'lucide-react';
 
 interface UpcomingEvent {
   id: string;
@@ -111,7 +119,7 @@ export default function MyEventsPage() {
 
   const handleAddToCalendar = (event: UpcomingEvent) => {
     const startDate = new Date(`${event.date}T${event.time}`);
-    const endDate = new Date(startDate.getTime() + 3 * 60 * 60 * 1000); // 3 hours
+    const endDate = new Date(startDate.getTime() + 3 * 60 * 60 * 1000);
 
     const icsContent = `BEGIN:VCALENDAR
 VERSION:2.0
@@ -133,198 +141,304 @@ END:VCALENDAR`;
   };
 
   const getCountdownBadge = (daysUntil: number) => {
-    if (daysUntil === 0) return <Badge className="bg-error-500 text-white">Today!</Badge>;
-    if (daysUntil === 1) return <Badge className="bg-warning-500 text-white">Tomorrow</Badge>;
-    if (daysUntil <= 7) return <Badge className="bg-warning-500 text-white">{daysUntil} days</Badge>;
+    if (daysUntil === 0) return <Badge variant="solid">Today!</Badge>;
+    if (daysUntil === 1) return <Badge variant="solid">Tomorrow</Badge>;
+    if (daysUntil <= 7) return <Badge variant="solid">{daysUntil} days</Badge>;
     return <Badge variant="outline">{daysUntil} days</Badge>;
   };
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading your events..." />
-        </Container>
-      </Section>
+      <PageLayout
+        background="black"
+        header={<ConsumerNavigationPublic />}
+        footer={
+          <Footer
+            logo={<Display size="md">GVTEWAY</Display>}
+            copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+          >
+            <FooterColumn title="Discover">
+              <FooterLink href="/events">Browse Events</FooterLink>
+              <FooterLink href="/venues">Find Venues</FooterLink>
+              <FooterLink href="/artists">Artists</FooterLink>
+            </FooterColumn>
+            <FooterColumn title="Support">
+              <FooterLink href="/help">Help Center</FooterLink>
+              <FooterLink href="/help#contact">Contact</FooterLink>
+            </FooterColumn>
+            <FooterColumn title="Legal">
+              <FooterLink href="/legal/privacy">Privacy</FooterLink>
+              <FooterLink href="/legal/terms">Terms</FooterLink>
+            </FooterColumn>
+          </Footer>
+        }
+      >
+        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+          <div
+            className="pointer-events-none absolute inset-0 opacity-5"
+            style={{
+              backgroundImage: `
+                linear-gradient(#fff 1px, transparent 1px),
+                linear-gradient(90deg, #fff 1px, transparent 1px)
+              `,
+              backgroundSize: "40px 40px",
+            }}
+          />
+          <Container className="relative z-10 flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" text="Loading your events..." />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2} className="border-b-2 border-black pb-8">
-            <H1>My Events</H1>
-            <Body className="text-ink-600">
-              Your upcoming events and past experiences
-            </Body>
-          </Stack>
-
-        {success && (
-          <Alert variant="success" className="mb-6">
-            {success}
-          </Alert>
-        )}
-
-        <Section className="mb-12">
-          <H2 className="mb-6">UPCOMING EVENTS</H2>
-          
-          {events.length > 0 ? (
-            <Stack gap={4}>
-              {events.map(event => (
-                <Card key={event.id} className="overflow-hidden">
-                  <Grid cols={4} gap={0}>
-                    {event.image && (
-                      <Stack className="bg-ink-100 relative h-full">
-                        <Image
-                          src={event.image}
-                          alt={event.title}
-                          fill
-                          className="object-cover"
-                        />
-                      </Stack>
-                    )}
-                    <Stack className={`p-6 ${event.image ? 'col-span-3' : 'col-span-4'}`}>
-                      <Stack direction="horizontal" className="justify-between items-start mb-4">
-                        <Stack gap={2}>
-                          <Stack direction="horizontal" gap={3} className="items-center">
-                            <H3>{event.title}</H3>
-                            {getCountdownBadge(event.days_until)}
-                          </Stack>
-                          <Body className="text-ink-600">
-                            {event.date} at {event.time}
-                          </Body>
-                          <Body className="text-ink-500">
-                            {event.venue}, {event.city}
-                          </Body>
-                        </Stack>
-                        <Stack className="items-end">
-                          <Badge>{event.ticket_count} ticket{event.ticket_count > 1 ? 's' : ''}</Badge>
-                          <Body className="text-body-sm text-ink-500 mt-1">{event.ticket_type}</Body>
-                        </Stack>
-                      </Stack>
-
-                      <Stack direction="horizontal" className="justify-between items-center">
-                        <Stack direction="horizontal" gap={2} className="items-center">
-                          <Switch
-                            checked={event.reminder_enabled}
-                            onChange={() => handleToggleReminder(event)}
-                          />
-                          <Label className="text-body-sm">
-                            {event.reminder_enabled 
-                              ? `Reminder: ${event.reminder_time} before`
-                              : 'Set reminder'}
-                          </Label>
-                        </Stack>
-
-                        <Stack direction="horizontal" gap={2}>
-                          <Button variant="outline" onClick={() => handleAddToCalendar(event)}>
-                            Add to Calendar
-                          </Button>
-                          <Button variant="solid" onClick={() => handleViewTickets(event.order_id)}>
-                            View Tickets
-                          </Button>
-                        </Stack>
-                      </Stack>
-                    </Stack>
-                  </Grid>
-                </Card>
-              ))}
-            </Stack>
-          ) : (
-            <Card className="p-12 text-center">
-              <H3 className="mb-4">NO UPCOMING EVENTS</H3>
-              <Body className="text-ink-600 mb-6">
-                You don&apos;t have any upcoming events. Browse and find your next experience!
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Discover">
+            <FooterLink href="/events">Browse Events</FooterLink>
+            <FooterLink href="/venues">Find Venues</FooterLink>
+            <FooterLink href="/artists">Artists</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Support">
+            <FooterLink href="/help">Help Center</FooterLink>
+            <FooterLink href="/help#contact">Contact</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        {/* Grid Pattern Background */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `
+              linear-gradient(#fff 1px, transparent 1px),
+              linear-gradient(90deg, #fff 1px, transparent 1px)
+            `,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Your Tickets</Kicker>
+              <H2 size="lg" className="text-white">My Events</H2>
+              <Body className="text-on-dark-muted">
+                Your upcoming events and past experiences
               </Body>
-              <Button variant="solid" onClick={() => router.push('/browse')}>
-                Browse Events
-              </Button>
-            </Card>
-          )}
-        </Section>
+            </Stack>
 
-        {pastEvents.length > 0 && (
-          <Section>
-            <H2 className="mb-6">PAST EVENTS</H2>
-            <Grid cols={3} gap={4}>
-              {pastEvents.slice(0, 6).map(event => (
-                <Card key={event.id} className="p-4">
-                  <Stack gap={2}>
-                    <H3 className="text-body-md">{event.title}</H3>
-                    <Body className="text-ink-600 text-body-sm">{event.date}</Body>
-                    <Body className="text-ink-500 text-body-sm">{event.venue}</Body>
-                    <Stack direction="horizontal" gap={2} className="mt-2">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => router.push(`/events/${event.event_id}`)}
-                      >
-                        View Event
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => router.push(`/reviews/new?event=${event.event_id}`)}
-                      >
-                        Leave Review
-                      </Button>
-                    </Stack>
+            {success && <Alert variant="success">{success}</Alert>}
+
+            {/* Upcoming Events */}
+            <Stack gap={6}>
+              <Stack gap={2}>
+                <Kicker colorScheme="on-dark">Coming Up</Kicker>
+                <H2 className="text-white">Upcoming Events</H2>
+              </Stack>
+              
+              {events.length > 0 ? (
+                <Stack gap={4}>
+                  {events.map(event => (
+                    <Card key={event.id} inverted interactive className="overflow-hidden">
+                      <Grid cols={4} gap={0}>
+                        {event.image && (
+                          <Figure className="relative h-full min-h-[200px]">
+                            <Image
+                              src={event.image}
+                              alt={event.title}
+                              fill
+                              className="object-cover"
+                            />
+                          </Figure>
+                        )}
+                        <Stack className={`p-6 ${event.image ? 'col-span-3' : 'col-span-4'}`}>
+                          <Stack direction="horizontal" className="mb-4 items-start justify-between">
+                            <Stack gap={2}>
+                              <Stack direction="horizontal" gap={3} className="items-center">
+                                <H3 className="text-white">{event.title}</H3>
+                                {getCountdownBadge(event.days_until)}
+                              </Stack>
+                              <Stack direction="horizontal" gap={2} className="items-center">
+                                <Clock className="size-4 text-on-dark-muted" />
+                                <Body className="text-on-dark-muted">
+                                  {event.date} at {event.time}
+                                </Body>
+                              </Stack>
+                              <Stack direction="horizontal" gap={2} className="items-center">
+                                <MapPin className="size-4 text-on-dark-muted" />
+                                <Body className="text-on-dark-muted">
+                                  {event.venue}, {event.city}
+                                </Body>
+                              </Stack>
+                            </Stack>
+                            <Stack className="items-end">
+                              <Badge variant="solid">
+                                <Ticket className="mr-1 inline size-3" />
+                                {event.ticket_count} ticket{event.ticket_count > 1 ? 's' : ''}
+                              </Badge>
+                              <Label size="xs" className="mt-1 text-on-dark-disabled">{event.ticket_type}</Label>
+                            </Stack>
+                          </Stack>
+
+                          <Stack direction="horizontal" className="items-center justify-between border-t border-ink-800 pt-4">
+                            <Stack direction="horizontal" gap={2} className="items-center">
+                              <Switch
+                                checked={event.reminder_enabled}
+                                onChange={() => handleToggleReminder(event)}
+                              />
+                              <Label size="sm" className="text-on-dark-muted">
+                                {event.reminder_enabled 
+                                  ? `Reminder: ${event.reminder_time} before`
+                                  : 'Set reminder'}
+                              </Label>
+                            </Stack>
+
+                            <Stack direction="horizontal" gap={2}>
+                              <Button 
+                                variant="outlineInk" 
+                                size="sm"
+                                onClick={() => handleAddToCalendar(event)}
+                                icon={<Calendar className="size-4" />}
+                                iconPosition="left"
+                              >
+                                Add to Calendar
+                              </Button>
+                              <Button 
+                                variant="solid" 
+                                size="sm"
+                                inverted
+                                onClick={() => handleViewTickets(event.order_id)}
+                                icon={<Ticket className="size-4" />}
+                                iconPosition="left"
+                              >
+                                View Tickets
+                              </Button>
+                            </Stack>
+                          </Stack>
+                        </Stack>
+                      </Grid>
+                    </Card>
+                  ))}
+                </Stack>
+              ) : (
+                <EmptyState
+                  title="No Upcoming Events"
+                  description="You don't have any upcoming events. Browse and find your next experience!"
+                  action={{
+                    label: "Browse Events",
+                    onClick: () => router.push('/browse')
+                  }}
+                  inverted
+                />
+              )}
+            </Stack>
+
+            {/* Past Events */}
+            {pastEvents.length > 0 && (
+              <Stack gap={6}>
+                <H2 className="text-on-dark-muted">Past Events</H2>
+                <Grid cols={3} gap={4}>
+                  {pastEvents.slice(0, 6).map(event => (
+                    <Card key={event.id} inverted className="p-4">
+                      <Stack gap={3}>
+                        <H3 size="sm" className="text-white">{event.title}</H3>
+                        <Stack gap={1}>
+                          <Label size="xs" className="text-on-dark-muted">{event.date}</Label>
+                          <Label size="xs" className="text-on-dark-disabled">{event.venue}</Label>
+                        </Stack>
+                        <Stack direction="horizontal" gap={2}>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => router.push(`/events/${event.event_id}`)}
+                            icon={<ChevronRight className="size-4" />}
+                            iconPosition="right"
+                          >
+                            View Event
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => router.push(`/reviews/new?event=${event.event_id}`)}
+                            icon={<Star className="size-4" />}
+                            iconPosition="left"
+                          >
+                            Review
+                          </Button>
+                        </Stack>
+                      </Stack>
+                    </Card>
+                  ))}
+                </Grid>
+                {pastEvents.length > 6 && (
+                  <Stack className="items-center">
+                    <Button 
+                      variant="outlineInk" 
+                      onClick={() => router.push('/orders/history')}
+                      icon={<ChevronRight className="size-4" />}
+                      iconPosition="right"
+                    >
+                      View All Past Events
+                    </Button>
                   </Stack>
-                </Card>
-              ))}
-            </Grid>
-            {pastEvents.length > 6 && (
-              <Stack className="items-center mt-6">
-                <Button variant="outline" onClick={() => router.push('/orders/history')}>
-                  View All Past Events
-                </Button>
+                )}
               </Stack>
             )}
-          </Section>
-        )}
 
-        <Modal
-          open={showReminderModal}
-          onClose={() => setShowReminderModal(false)}
-          title="Set Event Reminder"
-        >
-          <Stack gap={4}>
-            <Body>
-              When would you like to be reminded about {selectedEvent?.title}?
-            </Body>
-            
-            <Stack gap={2}>
-              {['1h', '3h', '24h', '48h', '1w'].map(time => (
-                <Button
-                  key={time}
-                  variant={reminderTime === time ? 'solid' : 'outline'}
-                  onClick={() => setReminderTime(time)}
-                  className="w-full"
-                >
-                  {time === '1h' && '1 hour before'}
-                  {time === '3h' && '3 hours before'}
-                  {time === '24h' && '1 day before'}
-                  {time === '48h' && '2 days before'}
-                  {time === '1w' && '1 week before'}
-                </Button>
-              ))}
-            </Stack>
+            {/* Reminder Modal */}
+            <Modal
+              open={showReminderModal}
+              onClose={() => setShowReminderModal(false)}
+              title="Set Event Reminder"
+            >
+              <Stack gap={4}>
+                <Body className="text-on-dark-muted">
+                  When would you like to be reminded about {selectedEvent?.title}?
+                </Body>
+                
+                <Stack gap={2}>
+                  {['1h', '3h', '24h', '48h', '1w'].map(time => (
+                    <Button
+                      key={time}
+                      variant={reminderTime === time ? 'solid' : 'outline'}
+                      onClick={() => setReminderTime(time)}
+                      fullWidth
+                    >
+                      {time === '1h' && '1 hour before'}
+                      {time === '3h' && '3 hours before'}
+                      {time === '24h' && '1 day before'}
+                      {time === '48h' && '2 days before'}
+                      {time === '1w' && '1 week before'}
+                    </Button>
+                  ))}
+                </Stack>
 
-            <Stack direction="horizontal" gap={4} className="mt-4">
-              <Button variant="solid" onClick={handleSetReminder}>
-                Set Reminder
-              </Button>
-              <Button variant="outline" onClick={() => setShowReminderModal(false)}>
-                Cancel
-              </Button>
-            </Stack>
+                <Stack direction="horizontal" gap={4} className="mt-4">
+                  <Button variant="solid" onClick={handleSetReminder}>
+                    Set Reminder
+                  </Button>
+                  <Button variant="outline" onClick={() => setShowReminderModal(false)}>
+                    Cancel
+                  </Button>
+                </Stack>
+              </Stack>
+            </Modal>
           </Stack>
-        </Modal>
-        </Stack>
-      </Container>
-    </Section>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

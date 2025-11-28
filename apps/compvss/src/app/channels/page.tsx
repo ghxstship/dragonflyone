@@ -5,14 +5,10 @@ import { useRouter } from 'next/navigation';
 import {
   Container,
   Section,
-  H1,
-  H2,
   H3,
   Body,
-  Label,
   Button,
   Card,
-  Field,
   Input,
   Textarea,
   Select,
@@ -24,12 +20,12 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  LoadingSpinner,
   StatCard,
   Tabs,
   TabsList,
   Tab,
-  TabPanel,
+  PageLayout,
+  SectionHeader,
 } from '@ghxstship/ui';
 import { CreatorNavigationAuthenticated } from '../../components/navigation';
 
@@ -165,20 +161,22 @@ export default function ChannelsPage() {
   const onlineMembers = mockMembers.filter(m => m.is_online).length;
 
   return (
-    <Section className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack direction="horizontal" className="justify-between items-start">
-            <Stack gap={2}>
-              <H1>Department Channels</H1>
-              <Label className="text-ink-400">Team communication and messaging</Label>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <Stack direction="horizontal" className="justify-between items-start">
+              <SectionHeader
+                kicker="COMPVSS"
+                title="Department Channels"
+                description="Team communication and messaging"
+                colorScheme="on-light"
+                gap="lg"
+              />
+              <Button variant="solid" onClick={() => setShowCreateModal(true)}>
+                Create Channel
+              </Button>
             </Stack>
-            <Button variant="solid" onClick={() => setShowCreateModal(true)}>
-              Create Channel
-            </Button>
-          </Stack>
 
           {error && (
             <Alert variant="error" onClose={() => setError(null)}>
@@ -192,129 +190,127 @@ export default function ChannelsPage() {
             </Alert>
           )}
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Active Channels" value={channels.filter(c => c.is_active).length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Unread Messages" value={totalUnread} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Online Members" value={onlineMembers} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Total Members" value={mockMembers.length} className="bg-transparent border-2 border-ink-800" />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard label="Active Channels" value={channels.filter(c => c.is_active).length.toString()} />
+              <StatCard label="Unread Messages" value={totalUnread.toString()} />
+              <StatCard label="Online Members" value={onlineMembers.toString()} />
+              <StatCard label="Total Members" value={mockMembers.length.toString()} />
+            </Grid>
 
-          <Grid cols={3} gap={6}>
-            {/* Channel List */}
-            <Card className="border-2 border-ink-800 bg-ink-900/50 p-4">
-              <Stack gap={4}>
-                <Stack direction="horizontal" className="justify-between items-center">
-                  <H3>Channels</H3>
-                  <Select
-                    value={filter}
-                    onChange={(e) => setFilter(e.target.value)}
-                    className="w-32 border-ink-700 bg-black text-white text-body-sm"
-                  >
-                    <option value="all">All</option>
-                    <option value="department">Department</option>
-                    <option value="project">Project</option>
-                    <option value="broadcast">Broadcast</option>
-                    <option value="private">Private</option>
-                  </Select>
-                </Stack>
-
-                <Stack gap={2}>
-                  {filteredChannels.map(channel => (
-                    <Card
-                      key={channel.id}
-                      className={`p-3 cursor-pointer border ${selectedChannel?.id === channel.id ? 'border-white bg-ink-800' : 'border-ink-700 hover:border-ink-600'}`}
-                      onClick={() => setSelectedChannel(channel)}
+            <Grid cols={3} gap={6}>
+              {/* Channel List */}
+              <Card>
+                <Stack gap={4}>
+                  <Stack direction="horizontal" className="justify-between items-center">
+                    <H3>Channels</H3>
+                    <Select
+                      value={filter}
+                      onChange={(e) => setFilter(e.target.value)}
                     >
-                      <Stack direction="horizontal" className="justify-between items-center">
-                        <Stack gap={1}>
-                          <Stack direction="horizontal" gap={2} className="items-center">
-                            <Body className="font-display text-white">{channel.name}</Body>
-                            {channel.unread_count > 0 && (
-                              <Badge className="bg-error-500 text-white text-mono-xs">{channel.unread_count}</Badge>
-                            )}
-                          </Stack>
-                          <Label size="xs" className="text-ink-500">{channel.members.length} members</Label>
-                        </Stack>
-                        {getTypeBadge(channel.type)}
-                      </Stack>
-                    </Card>
-                  ))}
-                </Stack>
-              </Stack>
-            </Card>
-
-            {/* Message Area */}
-            <Card className="col-span-2 border-2 border-ink-800 bg-ink-900/50 p-4">
-              {selectedChannel ? (
-                <Stack gap={4} className="h-full">
-                  <Stack direction="horizontal" className="justify-between items-center border-b border-ink-700 pb-4">
-                    <Stack gap={1}>
-                      <Stack direction="horizontal" gap={2} className="items-center">
-                        <H3>{selectedChannel.name}</H3>
-                        {getTypeBadge(selectedChannel.type)}
-                      </Stack>
-                      <Label className="text-ink-400">{selectedChannel.description}</Label>
-                    </Stack>
-                    <Button variant="outline" size="sm" onClick={() => setShowMembersModal(true)}>
-                      {selectedChannel.members.length} Members
-                    </Button>
+                      <option value="all">All</option>
+                      <option value="department">Department</option>
+                      <option value="project">Project</option>
+                      <option value="broadcast">Broadcast</option>
+                      <option value="private">Private</option>
+                    </Select>
                   </Stack>
 
-                  <Stack gap={3} className="flex-1 overflow-y-auto max-h-96">
-                    {channelMessages.map(message => (
-                      <Card key={message.id} className={`p-3 ${message.is_priority ? 'border-l-4 border-l-orange-500 bg-warning-900/10' : 'bg-ink-800'}`}>
-                        <Stack gap={2}>
-                          <Stack direction="horizontal" className="justify-between items-center">
+                  <Stack gap={2}>
+                    {filteredChannels.map(channel => (
+                      <Card
+                        key={channel.id}
+                        onClick={() => setSelectedChannel(channel)}
+                      >
+                        <Stack direction="horizontal" className="justify-between items-center">
+                          <Stack gap={1}>
                             <Stack direction="horizontal" gap={2} className="items-center">
-                              <Body className="font-bold text-white">{message.sender.name}</Body>
-                              <Label size="xs" className="text-ink-500">{message.sender.role}</Label>
+                              <Body className="font-display">{channel.name}</Body>
+                              {channel.unread_count > 0 && (
+                                <Badge variant="solid">{channel.unread_count}</Badge>
+                              )}
                             </Stack>
-                            <Label size="xs" className="text-ink-500">
-                              {new Date(message.timestamp).toLocaleTimeString()}
-                            </Label>
+                            <Body className="text-body-sm">{channel.members.length} members</Body>
                           </Stack>
-                          <Body className="text-ink-300">{message.content}</Body>
+                          <Badge variant="outline">{channel.type}</Badge>
                         </Stack>
                       </Card>
                     ))}
-                    {channelMessages.length === 0 && (
-                      <Card className="p-8 text-center">
-                        <Body className="text-ink-500">No messages yet</Body>
-                      </Card>
-                    )}
-                  </Stack>
-
-                  <Stack direction="horizontal" gap={2} className="border-t border-ink-700 pt-4">
-                    <Input
-                      value={newMessage}
-                      onChange={(e) => setNewMessage(e.target.value)}
-                      placeholder="Type a message..."
-                      className="flex-1 border-ink-700 bg-black text-white"
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') handleSendMessage();
-                      }}
-                    />
-                    <Button variant="solid" onClick={handleSendMessage}>
-                      Send
-                    </Button>
                   </Stack>
                 </Stack>
-              ) : (
-                <Card className="p-8 text-center">
-                  <Body className="text-ink-500">Select a channel to view messages</Body>
-                </Card>
-              )}
-            </Card>
-          </Grid>
+              </Card>
 
-          <Grid cols={4} gap={4}>
-            <Button variant="outlineWhite" onClick={() => setShowCreateModal(true)}>Create Channel</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push('/communications')}>Radio Channels</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push('/crew')}>Crew Directory</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400">Broadcast Message</Button>
-          </Grid>
-        </Stack>
-      </Container>
+              {/* Message Area */}
+              <Card className="col-span-2">
+                {selectedChannel ? (
+                  <Stack gap={4} className="h-full">
+                    <Stack direction="horizontal" className="justify-between items-center">
+                      <Stack gap={1}>
+                        <Stack direction="horizontal" gap={2} className="items-center">
+                          <H3>{selectedChannel.name}</H3>
+                          <Badge variant="outline">{selectedChannel.type}</Badge>
+                        </Stack>
+                        <Body className="text-body-sm">{selectedChannel.description}</Body>
+                      </Stack>
+                      <Button variant="outline" size="sm" onClick={() => setShowMembersModal(true)}>
+                        {selectedChannel.members.length} Members
+                      </Button>
+                    </Stack>
+
+                    <Stack gap={3} className="flex-1 overflow-y-auto max-h-96">
+                      {channelMessages.map(message => (
+                        <Card key={message.id}>
+                          <Stack gap={2}>
+                            <Stack direction="horizontal" className="justify-between items-center">
+                              <Stack direction="horizontal" gap={2} className="items-center">
+                                <Body className="font-display">{message.sender.name}</Body>
+                                <Body className="text-body-sm">{message.sender.role}</Body>
+                              </Stack>
+                              <Body className="text-body-sm">
+                                {new Date(message.timestamp).toLocaleTimeString()}
+                              </Body>
+                            </Stack>
+                            <Body>{message.content}</Body>
+                          </Stack>
+                        </Card>
+                      ))}
+                      {channelMessages.length === 0 && (
+                        <Card className="text-center">
+                          <Body>No messages yet</Body>
+                        </Card>
+                      )}
+                    </Stack>
+
+                    <Stack direction="horizontal" gap={2}>
+                      <Input
+                        value={newMessage}
+                        onChange={(e) => setNewMessage(e.target.value)}
+                        placeholder="Type a message..."
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') handleSendMessage();
+                        }}
+                      />
+                      <Button variant="solid" onClick={handleSendMessage}>
+                        Send
+                      </Button>
+                    </Stack>
+                  </Stack>
+                ) : (
+                  <Card className="text-center">
+                    <Body>Select a channel to view messages</Body>
+                  </Card>
+                )}
+              </Card>
+            </Grid>
+
+            <Grid cols={4} gap={4}>
+              <Button variant="solid" onClick={() => setShowCreateModal(true)}>Create Channel</Button>
+              <Button variant="outline" onClick={() => router.push('/communications')}>Radio Channels</Button>
+              <Button variant="outline" onClick={() => router.push('/crew')}>Crew Directory</Button>
+              <Button variant="outline">Broadcast Message</Button>
+            </Grid>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={showCreateModal} onClose={() => setShowCreateModal(false)}>
         <ModalHeader><H3>Create Channel</H3></ModalHeader>
@@ -324,12 +320,10 @@ export default function ChannelsPage() {
               placeholder="Channel Name"
               value={newChannel.name}
               onChange={(e) => setNewChannel({ ...newChannel, name: e.target.value })}
-              className="border-ink-700 bg-black text-white"
             />
             <Select
               value={newChannel.type}
               onChange={(e) => setNewChannel({ ...newChannel, type: e.target.value })}
-              className="border-ink-700 bg-black text-white"
             >
               <option value="department">Department</option>
               <option value="project">Project</option>
@@ -340,7 +334,6 @@ export default function ChannelsPage() {
               <Select
                 value={newChannel.department}
                 onChange={(e) => setNewChannel({ ...newChannel, department: e.target.value })}
-                className="border-ink-700 bg-black text-white"
               >
                 <option value="">Select Department...</option>
                 <option value="Audio">Audio</option>
@@ -356,7 +349,6 @@ export default function ChannelsPage() {
               value={newChannel.description}
               onChange={(e) => setNewChannel({ ...newChannel, description: e.target.value })}
               rows={2}
-              className="border-ink-700 bg-black text-white"
             />
           </Stack>
         </ModalBody>
@@ -371,20 +363,20 @@ export default function ChannelsPage() {
         <ModalBody>
           <Stack gap={3}>
             {selectedChannel?.members.map(member => (
-              <Card key={member.id} className="p-3 border border-ink-700">
+              <Card key={member.id}>
                 <Stack direction="horizontal" className="justify-between items-center">
                   <Stack gap={1}>
-                    <Body className="text-white">{member.name}</Body>
-                    <Label size="xs" className="text-ink-500">{member.role}</Label>
+                    <Body>{member.name}</Body>
+                    <Body className="text-body-sm">{member.role}</Body>
                   </Stack>
-                  <Badge className={member.is_online ? 'bg-success-500 text-white' : 'bg-ink-500 text-white'}>
+                  <Badge variant={member.is_online ? 'solid' : 'outline'}>
                     {member.is_online ? 'Online' : 'Offline'}
                   </Badge>
                 </Stack>
               </Card>
             ))}
             {selectedChannel?.members.length === 0 && (
-              <Body className="text-ink-500 text-center">No members in this channel</Body>
+              <Body className="text-center">No members in this channel</Body>
             )}
           </Stack>
         </ModalBody>
@@ -393,6 +385,6 @@ export default function ChannelsPage() {
           <Button variant="solid">Add Members</Button>
         </ModalFooter>
       </Modal>
-    </Section>
+    </PageLayout>
   );
 }

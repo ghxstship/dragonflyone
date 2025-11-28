@@ -7,8 +7,6 @@ import {
   ProgressBar, 
   StatusBadge, 
   Button, 
-  H1, 
-  H2, 
   H3, 
   Body, 
   Table, 
@@ -25,6 +23,7 @@ import {
   Grid,
   Section,
   SectionHeader,
+  PageLayout,
 } from "@ghxstship/ui";
 import { useProjects } from "../../hooks/useProjects";
 
@@ -117,53 +116,53 @@ export default function DashboardPage() {
 
   if (isLoading) {
     return (
-      <Section className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-        <CreatorNavigationAuthenticated />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading dashboard..." />
-        </Container>
-      </Section>
+      <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
+        <Section className="min-h-screen py-16">
+          <Container className="flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" text="Loading dashboard..." />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={6} direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between">
-            <Stack gap={2}>
-              <H1>Executive Dashboard</H1>
-              <Body className="text-ink-400 font-mono text-body-sm uppercase tracking-widest">
-                Real-time operations command center
-              </Body>
+    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <Stack gap={4} direction="horizontal" className="items-start justify-between">
+              <SectionHeader
+                kicker="ATLVS"
+                title="Executive Dashboard"
+                description="Real-time operations command center"
+                colorScheme="on-dark"
+                gap="lg"
+              />
+              <Stack direction="horizontal" gap={3}>
+                <Button
+                  onClick={() => setTimeRange("week")}
+                  variant={timeRange === "week" ? "solid" : "outlineWhite"}
+                  size="sm"
+                >
+                  Week
+                </Button>
+                <Button
+                  onClick={() => setTimeRange("month")}
+                  variant={timeRange === "month" ? "solid" : "outlineWhite"}
+                  size="sm"
+                >
+                  Month
+                </Button>
+                <Button
+                  onClick={() => setTimeRange("quarter")}
+                  variant={timeRange === "quarter" ? "solid" : "outlineWhite"}
+                  size="sm"
+                >
+                  Quarter
+                </Button>
+              </Stack>
             </Stack>
-            <Stack direction="horizontal" gap={3}>
-              <Button
-                onClick={() => setTimeRange("week")}
-                variant={timeRange === "week" ? "solid" : "outline"}
-                size="sm"
-              >
-                Week
-              </Button>
-              <Button
-                onClick={() => setTimeRange("month")}
-                variant={timeRange === "month" ? "solid" : "outline"}
-                size="sm"
-              >
-                Month
-              </Button>
-              <Button
-                onClick={() => setTimeRange("quarter")}
-                variant={timeRange === "quarter" ? "solid" : "outline"}
-                size="sm"
-              >
-                Quarter
-              </Button>
-            </Stack>
-          </Stack>
 
         <Section border={false} className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {kpis.map((kpi) => (
@@ -311,9 +310,10 @@ export default function DashboardPage() {
               </Card>
             </Stack>
           </Section>
-        </Grid>
-        </Stack>
-      </Container>
-    </Section>
+          </Grid>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

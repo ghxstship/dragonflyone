@@ -1,11 +1,11 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { CreatorNavigationAuthenticated } from '../../../components/navigation';
 import {
   Container,
   Section,
-  Display,
   H2,
   H3,
   Body,
@@ -20,12 +20,12 @@ import {
   Badge,
   Alert,
   Modal,
-  LoadingSpinner,
   StatCard,
   Tabs,
   TabsList,
   Tab,
-  TabPanel,
+  PageLayout,
+  SectionHeader,
 } from '@ghxstship/ui';
 
 interface Contact {
@@ -171,21 +171,22 @@ export default function RelationshipsPage() {
   };
 
   return (
-    <Section className="min-h-screen bg-white">
-      <Container>
-        <Section className="border-b-2 border-black py-8 mb-8">
-          <Stack direction="horizontal" className="justify-between items-center">
-            <Stack>
-              <Display>RELATIONSHIP MAPPING</Display>
-              <Body className="mt-2 text-ink-600">
-                Stakeholder org charts and relationship visualization
-              </Body>
+    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <Stack gap={4} direction="horizontal" className="items-start justify-between">
+              <SectionHeader
+                kicker="ATLVS"
+                title="Relationship Mapping"
+                description="Stakeholder org charts and relationship visualization"
+                colorScheme="on-dark"
+                gap="lg"
+              />
+              <Button variant="solid" onClick={() => setShowAddModal(true)}>
+                Add Relationship
+              </Button>
             </Stack>
-            <Button variant="solid" onClick={() => setShowAddModal(true)}>
-              Add Relationship
-            </Button>
-          </Stack>
-        </Section>
 
         {error && (
           <Alert variant="error" className="mb-6" onClose={() => setError(null)}>
@@ -474,7 +475,9 @@ export default function RelationshipsPage() {
             </Stack>
           )}
         </Modal>
-      </Container>
-    </Section>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

@@ -9,7 +9,6 @@ import {
   Footer,
   FooterColumn,
   FooterLink,
-  Display,
   H2,
   Body,
   Button,
@@ -18,7 +17,9 @@ import {
   Alert,
   Stack,
   Field,
+  Card,
 } from "@ghxstship/ui";
+import NextLink from "next/link";
 
 export default function ResetPasswordPage() {
   const router = useRouter();
@@ -71,75 +72,80 @@ export default function ResetPasswordPage() {
       background="white"
       header={
         <Navigation
-          logo={<Display size="md" className="text-display-md text-black">COMPVSS</Display>}
+          logo={<Body className="font-display">COMPVSS</Body>}
           cta={<></>}
         />
       }
       footer={
         <Footer
-          logo={<Display size="md" className="text-black text-display-md">COMPVSS</Display>}
+          logo={<Body className="font-display">COMPVSS</Body>}
           copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
         >
           <FooterColumn title="Legal">
-            <FooterLink href="/privacy">Privacy</FooterLink>
-            <FooterLink href="/terms">Terms</FooterLink>
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
           </FooterColumn>
         </Footer>
       }
     >
       <SectionLayout background="grey">
-        <Stack gap={8} className="mx-auto max-w-md bg-white p-8 border border-ink-200">
-          {success ? (
-            <Stack gap={6} className="text-center">
-              <Stack className="w-16 h-16 mx-auto bg-ink-200 rounded-full items-center justify-center">
-                <Check className="w-8 h-8" />
+        <Stack gap={8} className="mx-auto max-w-md">
+          <Card variant="elevated" className="p-8">
+            {success ? (
+              <Stack gap={6} className="text-center">
+                <Card className="mx-auto flex size-16 items-center justify-center">
+                  <Check className="size-8" />
+                </Card>
+                <H2 className="text-black">Password Reset</H2>
+                <Body className="text-muted">Your password has been successfully reset. Redirecting to sign in...</Body>
               </Stack>
-              <H2>Password Reset</H2>
-              <Body className="text-ink-600">Your password has been successfully reset. Redirecting to sign in...</Body>
-            </Stack>
-          ) : (
-            <>
-              <Stack gap={4} className="text-center">
-                <H2>New Password</H2>
-                <Body className="text-ink-600">Enter your new password below.</Body>
-              </Stack>
-
-              {error && <Alert variant="error">{error}</Alert>}
-
-              <Stack gap={6}>
-                <Field label="New Password">
-                  <Input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Enter new password"
-                    required
-                  />
-                  <Body size="sm" className="text-ink-500 mt-1">Minimum 8 characters</Body>
-                </Field>
-
-                <Field label="Confirm Password">
-                  <Input
-                    type="password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    placeholder="Re-enter new password"
-                    required
-                  />
-                </Field>
-
-                <Button variant="solid" className="w-full" disabled={loading} onClick={handleSubmit}>
-                  {loading ? "Resetting..." : "Reset Password"}
-                </Button>
-
-                <Stack className="text-center">
-                  <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/signin'} className="text-ink-600 hover:text-black">
-                    Back to Sign In
-                  </Button>
+            ) : (
+              <Stack gap={8}>
+                <Stack gap={4} className="text-center">
+                  <H2 className="text-black">New Password</H2>
+                  <Body className="text-muted">Enter your new password below.</Body>
                 </Stack>
+
+                {error && <Alert variant="error">{error}</Alert>}
+
+                <form onSubmit={handleSubmit}>
+                  <Stack gap={6}>
+                    <Field label="New Password" hint="Minimum 8 characters">
+                      <Input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Enter new password"
+                        required
+                      />
+                    </Field>
+
+                    <Field label="Confirm Password">
+                      <Input
+                        type="password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        placeholder="Re-enter new password"
+                        required
+                      />
+                    </Field>
+
+                    <Button type="submit" variant="solid" size="lg" fullWidth disabled={loading}>
+                      {loading ? "Resetting..." : "Reset Password"}
+                    </Button>
+
+                    <Stack className="text-center">
+                      <NextLink href="/auth/signin">
+                        <Button variant="ghost" size="sm">
+                          Back to Sign In
+                        </Button>
+                      </NextLink>
+                    </Stack>
+                  </Stack>
+                </form>
               </Stack>
-            </>
-          )}
+            )}
+          </Card>
         </Stack>
       </SectionLayout>
     </PageLayout>

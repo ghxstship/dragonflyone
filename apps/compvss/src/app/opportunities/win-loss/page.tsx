@@ -4,10 +4,32 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge, ProgressBar,
-  Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
-  Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
+  Container,
+  H3,
+  Body,
+  Grid,
+  Stack,
+  StatCard,
+  Button,
+  Section,
+  Card,
+  Tabs,
+  TabsList,
+  Tab,
+  Badge,
+  ProgressBar,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 interface WinLossRecord {
@@ -59,128 +81,135 @@ export default function WinLossPage() {
   }, {} as Record<string, number>);
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Win/Loss Analysis</H1>
-            <Label className="text-ink-400">Track outcomes and competitive intelligence</Label>
-          </Stack>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Win/Loss Analysis"
+              description="Track outcomes and competitive intelligence"
+              colorScheme="on-light"
+              gap="lg"
+            />
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Win Rate" value={`${winRate}%`} trend={winRate >= 50 ? "up" : "down"} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Won Value" value={formatCurrency(wonValue)} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Lost Value" value={formatCurrency(lostValue)} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Total Opportunities" value={mockRecords.length} className="bg-transparent border-2 border-ink-800" />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard label="Win Rate" value={`${winRate}%`} trend={winRate >= 50 ? "up" : "down"} />
+              <StatCard label="Won Value" value={formatCurrency(wonValue)} />
+              <StatCard label="Lost Value" value={formatCurrency(lostValue)} />
+              <StatCard label="Total Opportunities" value={mockRecords.length.toString()} />
+            </Grid>
 
-          <Grid cols={2} gap={4}>
-            <Card className="border-2 border-ink-800 bg-ink-900/50 p-6">
-              <Stack gap={4}>
-                <H3>Win Rate Trend</H3>
-                <Stack gap={2}>
-                  <Stack direction="horizontal" className="justify-between">
-                    <Label className="text-ink-400">Current Period</Label>
-                    <Label className="font-mono text-success-400">{winRate}%</Label>
-                  </Stack>
-                  <ProgressBar value={winRate} className="h-4" />
-                </Stack>
-                <Grid cols={2} gap={4}>
-                  <Card className="p-3 border border-success-800 bg-success-900/20 text-center">
-                    <Label className="font-mono text-success-400 text-h5-md">{wonRecords.length}</Label>
-                    <Label className="text-ink-400">Won</Label>
-                  </Card>
-                  <Card className="p-3 border border-error-800 bg-error-900/20 text-center">
-                    <Label className="font-mono text-error-400 text-h5-md">{lostRecords.length}</Label>
-                    <Label className="text-ink-400">Lost</Label>
-                  </Card>
-                </Grid>
-              </Stack>
-            </Card>
-            <Card className="border-2 border-ink-800 bg-ink-900/50 p-6">
-              <Stack gap={4}>
-                <H3>Top Loss Reasons</H3>
-                <Stack gap={2}>
-                  {Object.entries(lossReasons).map(([reason, count], idx) => (
-                    <Stack key={idx} gap={1}>
-                      <Stack direction="horizontal" className="justify-between">
-                        <Label className="text-ink-300">{reason}</Label>
-                        <Label className="font-mono text-error-400">{count}</Label>
-                      </Stack>
-                      <ProgressBar value={(count / lostRecords.length) * 100} className="h-2" />
+            <Grid cols={2} gap={4}>
+              <Card>
+                <Stack gap={4}>
+                  <H3>Win Rate Trend</H3>
+                  <Stack gap={2}>
+                    <Stack direction="horizontal" className="justify-between">
+                      <Body className="text-body-sm">Current Period</Body>
+                      <Body className="font-mono">{winRate}%</Body>
                     </Stack>
-                  ))}
+                    <ProgressBar value={winRate} />
+                  </Stack>
+                  <Grid cols={2} gap={4}>
+                    <Card>
+                      <Stack className="text-center">
+                        <Body className="font-mono">{wonRecords.length}</Body>
+                        <Body className="text-body-sm">Won</Body>
+                      </Stack>
+                    </Card>
+                    <Card>
+                      <Stack className="text-center">
+                        <Body className="font-mono">{lostRecords.length}</Body>
+                        <Body className="text-body-sm">Lost</Body>
+                      </Stack>
+                    </Card>
+                  </Grid>
                 </Stack>
-              </Stack>
-            </Card>
-          </Grid>
+              </Card>
+              <Card>
+                <Stack gap={4}>
+                  <H3>Top Loss Reasons</H3>
+                  <Stack gap={2}>
+                    {Object.entries(lossReasons).map(([reason, count], idx) => (
+                      <Stack key={idx} gap={1}>
+                        <Stack direction="horizontal" className="justify-between">
+                          <Body>{reason}</Body>
+                          <Body className="font-mono">{count}</Body>
+                        </Stack>
+                        <ProgressBar value={(count / lostRecords.length) * 100} />
+                      </Stack>
+                    ))}
+                  </Stack>
+                </Stack>
+              </Card>
+            </Grid>
 
-          <Stack direction="horizontal" className="justify-between">
-            <Tabs>
-              <TabsList>
-                <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All</Tab>
-                <Tab active={activeTab === "won"} onClick={() => setActiveTab("won")}>Won</Tab>
-                <Tab active={activeTab === "lost"} onClick={() => setActiveTab("lost")}>Lost</Tab>
-              </TabsList>
-            </Tabs>
-            <Button variant="outlineWhite" onClick={() => setShowAnalysisModal(true)}>View Analysis</Button>
-          </Stack>
+            <Stack direction="horizontal" className="justify-between">
+              <Tabs>
+                <TabsList>
+                  <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All</Tab>
+                  <Tab active={activeTab === "won"} onClick={() => setActiveTab("won")}>Won</Tab>
+                  <Tab active={activeTab === "lost"} onClick={() => setActiveTab("lost")}>Lost</Tab>
+                </TabsList>
+              </Tabs>
+              <Button variant="outline" onClick={() => setShowAnalysisModal(true)}>View Analysis</Button>
+            </Stack>
 
-          <Table className="border-2 border-ink-800">
-            <TableHeader>
-              <TableRow className="bg-ink-900">
-                <TableHead className="text-ink-400">Opportunity</TableHead>
-                <TableHead className="text-ink-400">Client</TableHead>
-                <TableHead className="text-ink-400">Value</TableHead>
-                <TableHead className="text-ink-400">Result</TableHead>
-                <TableHead className="text-ink-400">Reason</TableHead>
-                <TableHead className="text-ink-400">Close Date</TableHead>
-                <TableHead className="text-ink-400">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredRecords.map((record) => (
-                <TableRow key={record.id} className="border-ink-800">
-                  <TableCell><Label className="text-white">{record.opportunity}</Label></TableCell>
-                  <TableCell><Label className="text-ink-300">{record.client}</Label></TableCell>
-                  <TableCell><Label className="font-mono text-white">{formatCurrency(record.value)}</Label></TableCell>
-                  <TableCell><Label className={record.result === "Won" ? "text-success-400" : "text-error-400"}>{record.result}</Label></TableCell>
-                  <TableCell><Label className="text-ink-300">{record.reason}</Label></TableCell>
-                  <TableCell><Label className="text-ink-400">{record.closeDate}</Label></TableCell>
-                  <TableCell><Button variant="ghost" size="sm" onClick={() => setSelectedRecord(record)}>Details</Button></TableCell>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Opportunity</TableHead>
+                  <TableHead>Client</TableHead>
+                  <TableHead>Value</TableHead>
+                  <TableHead>Result</TableHead>
+                  <TableHead>Reason</TableHead>
+                  <TableHead>Close Date</TableHead>
+                  <TableHead>Actions</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {filteredRecords.map((record) => (
+                  <TableRow key={record.id}>
+                    <TableCell><Body>{record.opportunity}</Body></TableCell>
+                    <TableCell><Body className="text-body-sm">{record.client}</Body></TableCell>
+                    <TableCell><Body className="font-mono">{formatCurrency(record.value)}</Body></TableCell>
+                    <TableCell><Badge variant={record.result === "Won" ? "solid" : "outline"}>{record.result}</Badge></TableCell>
+                    <TableCell><Body className="text-body-sm">{record.reason}</Body></TableCell>
+                    <TableCell><Body className="text-body-sm">{record.closeDate}</Body></TableCell>
+                    <TableCell><Button variant="ghost" size="sm" onClick={() => setSelectedRecord(record)}>Details</Button></TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
 
-          <Grid cols={3} gap={4}>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/opportunities")}>Opportunities</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/opportunities/proposals")}>Proposals</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/")}>Dashboard</Button>
-          </Grid>
-        </Stack>
-      </Container>
+            <Grid cols={3} gap={4}>
+              <Button variant="outline" onClick={() => router.push("/opportunities")}>Opportunities</Button>
+              <Button variant="outline" onClick={() => router.push("/opportunities/proposals")}>Proposals</Button>
+              <Button variant="outline" onClick={() => router.push("/")}>Dashboard</Button>
+            </Grid>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedRecord} onClose={() => setSelectedRecord(null)}>
         <ModalHeader><H3>Opportunity Details</H3></ModalHeader>
         <ModalBody>
           {selectedRecord && (
             <Stack gap={4}>
-              <Body className="text-white">{selectedRecord.opportunity}</Body>
-              <Badge variant={selectedRecord.result === "Won" ? "solid" : "outline"} className={selectedRecord.result === "Won" ? "bg-success-600" : ""}>{selectedRecord.result}</Badge>
+              <Body className="font-display">{selectedRecord.opportunity}</Body>
+              <Badge variant={selectedRecord.result === "Won" ? "solid" : "outline"}>{selectedRecord.result}</Badge>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label className="text-ink-400">Client</Label><Label className="text-white">{selectedRecord.client}</Label></Stack>
-                <Stack gap={1}><Label className="text-ink-400">Value</Label><Label className="font-mono text-white">{formatCurrency(selectedRecord.value)}</Label></Stack>
+                <Stack gap={1}><Body className="text-body-sm">Client</Body><Body>{selectedRecord.client}</Body></Stack>
+                <Stack gap={1}><Body className="text-body-sm">Value</Body><Body className="font-mono">{formatCurrency(selectedRecord.value)}</Body></Stack>
               </Grid>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label className="text-ink-400">Close Date</Label><Label className="text-white">{selectedRecord.closeDate}</Label></Stack>
-                <Stack gap={1}><Label className="text-ink-400">Sales Rep</Label><Label className="text-white">{selectedRecord.salesRep}</Label></Stack>
+                <Stack gap={1}><Body className="text-body-sm">Close Date</Body><Body>{selectedRecord.closeDate}</Body></Stack>
+                <Stack gap={1}><Body className="text-body-sm">Sales Rep</Body><Body>{selectedRecord.salesRep}</Body></Stack>
               </Grid>
-              {selectedRecord.competitor && <Stack gap={1}><Label className="text-ink-400">Lost To</Label><Label className="text-error-400">{selectedRecord.competitor}</Label></Stack>}
-              <Stack gap={1}><Label className="text-ink-400">Reason</Label><Body className="text-ink-300">{selectedRecord.reason}</Body></Stack>
-              {selectedRecord.lessons && <Stack gap={1}><Label className="text-ink-400">Lessons Learned</Label><Body className="text-ink-300">{selectedRecord.lessons}</Body></Stack>}
+              {selectedRecord.competitor && <Stack gap={1}><Body className="text-body-sm">Lost To</Body><Body>{selectedRecord.competitor}</Body></Stack>}
+              <Stack gap={1}><Body className="text-body-sm">Reason</Body><Body>{selectedRecord.reason}</Body></Stack>
+              {selectedRecord.lessons && <Stack gap={1}><Body className="text-body-sm">Lessons Learned</Body><Body>{selectedRecord.lessons}</Body></Stack>}
             </Stack>
           )}
         </ModalBody>
@@ -194,34 +223,34 @@ export default function WinLossPage() {
         <ModalBody>
           <Stack gap={4}>
             <Stack gap={2}>
-              <Label className="text-ink-400">Win Factors</Label>
+              <Body className="text-body-sm">Win Factors</Body>
               {Object.entries(winReasons).map(([reason, count], idx) => (
-                <Card key={idx} className="p-3 border border-success-800 bg-success-900/20">
+                <Card key={idx}>
                   <Stack direction="horizontal" className="justify-between">
-                    <Label className="text-success-400">{reason}</Label>
-                    <Label className="font-mono text-success-400">{count}x</Label>
+                    <Body>{reason}</Body>
+                    <Body className="font-mono">{count}x</Body>
                   </Stack>
                 </Card>
               ))}
             </Stack>
             <Stack gap={2}>
-              <Label className="text-ink-400">Loss Factors</Label>
+              <Body className="text-body-sm">Loss Factors</Body>
               {Object.entries(lossReasons).map(([reason, count], idx) => (
-                <Card key={idx} className="p-3 border border-error-800 bg-error-900/20">
+                <Card key={idx}>
                   <Stack direction="horizontal" className="justify-between">
-                    <Label className="text-error-400">{reason}</Label>
-                    <Label className="font-mono text-error-400">{count}x</Label>
+                    <Body>{reason}</Body>
+                    <Body className="font-mono">{count}x</Body>
                   </Stack>
                 </Card>
               ))}
             </Stack>
             <Stack gap={2}>
-              <Label className="text-ink-400">Competitors</Label>
+              <Body className="text-body-sm">Competitors</Body>
               {["Competitor A", "Competitor B"].map((comp, idx) => (
-                <Card key={idx} className="p-3 border border-ink-700">
+                <Card key={idx}>
                   <Stack direction="horizontal" className="justify-between">
-                    <Label className="text-white">{comp}</Label>
-                    <Label className="text-ink-400">{lostRecords.filter(r => r.competitor === comp).length} wins against us</Label>
+                    <Body>{comp}</Body>
+                    <Body className="text-body-sm">{lostRecords.filter(r => r.competitor === comp).length} wins against us</Body>
                   </Stack>
                 </Card>
               ))}
@@ -233,6 +262,6 @@ export default function WinLossPage() {
           <Button variant="solid">Export Report</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

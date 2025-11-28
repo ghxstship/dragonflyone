@@ -2,25 +2,28 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { ConsumerNavigationPublic } from '../../components/navigation';
+import { ConsumerNavigationPublic } from '@/components/navigation';
 import {
   Container,
   Section,
-  H1,
   H2,
   H3,
   Body,
   Label,
   Button,
   Card,
-  Field,
-  Input,
   Grid,
   Stack,
   Badge,
   Switch,
   Alert,
   LoadingSpinner,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
+  Kicker,
 } from '@ghxstship/ui';
 
 interface PriceAlert {
@@ -107,31 +110,77 @@ export default function PriceAlertsPage() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading price alerts..." />
-        </Container>
-      </Section>
+      <PageLayout
+        background="black"
+        header={<ConsumerNavigationPublic />}
+        footer={
+          <Footer
+            logo={<Display size="md">GVTEWAY</Display>}
+            copyright="© 2024 GHXSTSHIP INDUSTRIES."
+          >
+            <FooterColumn title="Discover">
+              <FooterLink href="/price-alerts">Price Alerts</FooterLink>
+            </FooterColumn>
+          </Footer>
+        }
+      >
+        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+          <div
+            className="pointer-events-none absolute inset-0 opacity-5"
+            style={{
+              backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+              backgroundSize: "40px 40px",
+            }}
+          />
+          <Container className="relative z-10 flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" text="Loading price alerts..." />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
-            <Stack gap={2}>
-              <H1>Price Alerts</H1>
-              <Body className="text-ink-600">
-                Get notified when ticket prices drop to your target
-              </Body>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Discover">
+            <FooterLink href="/price-alerts">Price Alerts</FooterLink>
+            <FooterLink href="/browse">Browse Events</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack direction="horizontal" className="items-center justify-between">
+              <Stack gap={2}>
+                <Kicker colorScheme="on-dark">Alerts</Kicker>
+                <H2 size="lg" className="text-white">Price Alerts</H2>
+                <Body className="text-on-dark-muted">Get notified when ticket prices drop to your target</Body>
+              </Stack>
+              <Button variant="solid" inverted onClick={() => router.push('/browse')}>
+                Browse Events
+              </Button>
             </Stack>
-            <Button variant="solid" onClick={() => router.push('/browse')}>
-              Browse Events
-            </Button>
-          </Stack>
 
         {error && (
           <Alert variant="error" className="mb-6">
@@ -145,62 +194,62 @@ export default function PriceAlertsPage() {
           </Alert>
         )}
 
-        <Grid cols={4} gap={4} className="mb-8">
-          <Card className="p-4">
-            <Label className="text-ink-500">Total Alerts</Label>
-            <H2>{alerts.length}</H2>
-          </Card>
-          <Card className="p-4">
-            <Label className="text-ink-500">Active</Label>
-            <H2>{activeAlerts.length}</H2>
-          </Card>
-          <Card className="p-4">
-            <Label className="text-ink-500">Triggered</Label>
-            <H2>{triggeredAlerts.length}</H2>
-          </Card>
-          <Card className="p-4">
-            <Label className="text-ink-500">Paused</Label>
-            <H2>{inactiveAlerts.length}</H2>
-          </Card>
-        </Grid>
+            <Grid cols={4} gap={4}>
+              <Card inverted>
+                <Label className="text-on-dark-muted">Total Alerts</Label>
+                <H2 className="text-white">{alerts.length}</H2>
+              </Card>
+              <Card inverted>
+                <Label className="text-on-dark-muted">Active</Label>
+                <H2 className="text-white">{activeAlerts.length}</H2>
+              </Card>
+              <Card inverted>
+                <Label className="text-on-dark-muted">Triggered</Label>
+                <H2 className="text-white">{triggeredAlerts.length}</H2>
+              </Card>
+              <Card inverted>
+                <Label className="text-on-dark-muted">Paused</Label>
+                <H2 className="text-white">{inactiveAlerts.length}</H2>
+              </Card>
+            </Grid>
 
         {triggeredAlerts.length > 0 && (
-          <Section className="mb-8">
-            <H2 className="mb-4">PRICE DROPS!</H2>
+          <Stack gap={4}>
+            <H2 className="text-white">Price Drops!</H2>
             <Stack gap={4}>
               {triggeredAlerts.map(alert => (
-                <Card key={alert.id} className="p-6 border-2 border-success-500 bg-success-50">
-                  <Stack direction="horizontal" className="justify-between items-start">
+                <Card key={alert.id} inverted variant="elevated" className="p-6 ring-2 ring-success-500">
+                  <Stack direction="horizontal" className="items-start justify-between">
                     <Stack gap={2}>
                       <Stack direction="horizontal" gap={2} className="items-center">
-                        <H3>{alert.event_title}</H3>
-                        <Badge>Price Dropped!</Badge>
+                        <H3 className="text-white">{alert.event_title}</H3>
+                        <Badge variant="solid">Price Dropped!</Badge>
                       </Stack>
-                      <Body className="text-ink-600">
+                      <Body className="text-on-dark-muted">
                         {alert.event_date} • {alert.event_venue}
                       </Body>
                       <Stack direction="horizontal" gap={4} className="mt-2">
                         <Stack>
-                          <Label className="text-ink-500">Your Target</Label>
-                          <Body className="font-bold">${alert.target_price}</Body>
+                          <Label className="text-on-dark-disabled">Your Target</Label>
+                          <Body className="font-display text-white">${alert.target_price}</Body>
                         </Stack>
                         <Stack>
-                          <Label className="text-ink-500">Current Price</Label>
-                          <Body className="font-bold text-success-600">${alert.current_price}</Body>
+                          <Label className="text-on-dark-disabled">Current Price</Label>
+                          <Body className="font-display text-success-400">${alert.current_price}</Body>
                         </Stack>
                         <Stack>
-                          <Label className="text-ink-500">You Save</Label>
-                          <Body className="font-bold text-success-600">
+                          <Label className="text-on-dark-disabled">You Save</Label>
+                          <Body className="font-display text-success-400">
                             ${(alert.target_price - alert.current_price).toFixed(2)}
                           </Body>
                         </Stack>
                       </Stack>
                     </Stack>
                     <Stack direction="horizontal" gap={2}>
-                      <Button variant="solid" onClick={() => handleViewEvent(alert.event_id)}>
+                      <Button variant="solid" inverted onClick={() => handleViewEvent(alert.event_id)}>
                         Buy Now
                       </Button>
-                      <Button variant="outline" onClick={() => handleDeleteAlert(alert.id)}>
+                      <Button variant="outlineInk" onClick={() => handleDeleteAlert(alert.id)}>
                         Dismiss
                       </Button>
                     </Stack>
@@ -208,19 +257,19 @@ export default function PriceAlertsPage() {
                 </Card>
               ))}
             </Stack>
-          </Section>
+          </Stack>
         )}
 
         {activeAlerts.length > 0 && (
-          <Section className="mb-8">
-            <H2 className="mb-4">ACTIVE ALERTS</H2>
+          <Stack gap={4}>
+            <H2 className="text-white">Active Alerts</H2>
             <Stack gap={4}>
               {activeAlerts.map(alert => (
-                <Card key={alert.id} className="p-6">
-                  <Stack direction="horizontal" className="justify-between items-start">
+                <Card key={alert.id} inverted className="p-6">
+                  <Stack direction="horizontal" className="items-start justify-between">
                     <Stack gap={2}>
-                      <H3>{alert.event_title}</H3>
-                      <Body className="text-ink-600">
+                      <H3 className="text-white">{alert.event_title}</H3>
+                      <Body className="text-on-dark-muted">
                         {alert.event_date} • {alert.event_venue}
                       </Body>
                       {alert.ticket_type && (
@@ -228,19 +277,19 @@ export default function PriceAlertsPage() {
                       )}
                       <Stack direction="horizontal" gap={4} className="mt-2">
                         <Stack>
-                          <Label className="text-ink-500">Target Price</Label>
-                          <Body className="font-bold">${alert.target_price}</Body>
+                          <Label className="text-on-dark-disabled">Target Price</Label>
+                          <Body className="font-display text-white">${alert.target_price}</Body>
                         </Stack>
                         <Stack>
-                          <Label className="text-ink-500">Current Price</Label>
-                          <Body className="font-bold">${alert.current_price}</Body>
+                          <Label className="text-on-dark-disabled">Current Price</Label>
+                          <Body className="font-display text-white">${alert.current_price}</Body>
                         </Stack>
                         <Stack>
-                          <Label className="text-ink-500">Difference</Label>
-                          <Body className={`font-bold ${
+                          <Label className="text-on-dark-disabled">Difference</Label>
+                          <Body className={`font-display ${
                             alert.current_price <= alert.target_price 
-                              ? 'text-success-600' 
-                              : 'text-error-600'
+                              ? 'text-success-400' 
+                              : 'text-error-400'
                           }`}>
                             {alert.current_price <= alert.target_price ? '-' : '+'}
                             ${Math.abs(alert.current_price - alert.target_price).toFixed(2)}
@@ -264,29 +313,29 @@ export default function PriceAlertsPage() {
                 </Card>
               ))}
             </Stack>
-          </Section>
+          </Stack>
         )}
 
         {inactiveAlerts.length > 0 && (
-          <Section className="mb-8">
-            <H2 className="mb-4">PAUSED ALERTS</H2>
+          <Stack gap={4}>
+            <H2 className="text-white">Paused Alerts</H2>
             <Stack gap={4}>
               {inactiveAlerts.map(alert => (
-                <Card key={alert.id} className="p-6 opacity-60">
-                  <Stack direction="horizontal" className="justify-between items-start">
+                <Card key={alert.id} inverted className="p-6 opacity-60">
+                  <Stack direction="horizontal" className="items-start justify-between">
                     <Stack gap={2}>
-                      <H3>{alert.event_title}</H3>
-                      <Body className="text-ink-600">
+                      <H3 className="text-white">{alert.event_title}</H3>
+                      <Body className="text-on-dark-muted">
                         {alert.event_date} • {alert.event_venue}
                       </Body>
                       <Stack direction="horizontal" gap={4} className="mt-2">
                         <Stack>
-                          <Label className="text-ink-500">Target Price</Label>
-                          <Body>${alert.target_price}</Body>
+                          <Label className="text-on-dark-disabled">Target Price</Label>
+                          <Body className="text-white">${alert.target_price}</Body>
                         </Stack>
                         <Stack>
-                          <Label className="text-ink-500">Current Price</Label>
-                          <Body>${alert.current_price}</Body>
+                          <Label className="text-on-dark-disabled">Current Price</Label>
+                          <Body className="text-white">${alert.current_price}</Body>
                         </Stack>
                       </Stack>
                     </Stack>
@@ -303,55 +352,56 @@ export default function PriceAlertsPage() {
                 </Card>
               ))}
             </Stack>
-          </Section>
+          </Stack>
         )}
 
         {alerts.length === 0 && (
-          <Card className="p-12 text-center">
-            <H3 className="mb-4">NO PRICE ALERTS</H3>
-            <Body className="text-ink-600 mb-6">
+          <Card inverted className="p-12 text-center">
+            <H3 className="mb-4 text-white">No Price Alerts</H3>
+            <Body className="mb-6 text-on-dark-muted">
               Set up price alerts on events you are interested in to get notified when prices drop.
             </Body>
-            <Button variant="solid" onClick={() => router.push('/browse')}>
+            <Button variant="solid" inverted onClick={() => router.push('/browse')}>
               Browse Events
             </Button>
           </Card>
         )}
 
-        <Card className="p-6 bg-ink-50 mt-8">
-          <H3 className="mb-4">HOW PRICE ALERTS WORK</H3>
+        <Card inverted variant="elevated" className="p-6">
+          <H3 className="mb-4 text-white">How Price Alerts Work</H3>
           <Grid cols={3} gap={6}>
             <Stack gap={2}>
-              <Stack className="w-10 h-10 bg-black text-white rounded-full items-center justify-center">
-                <Body>1</Body>
+              <Stack className="flex size-10 items-center justify-center rounded-avatar bg-white text-black">
+                <Body className="font-display">1</Body>
               </Stack>
-              <Body className="font-medium">Set Your Target</Body>
-              <Body className="text-body-sm text-ink-600">
+              <Body className="font-display text-white">Set Your Target</Body>
+              <Body size="sm" className="text-on-dark-muted">
                 Choose the price you want to pay for tickets to an event.
               </Body>
             </Stack>
             <Stack gap={2}>
-              <Stack className="w-10 h-10 bg-black text-white rounded-full items-center justify-center">
-                <Body>2</Body>
+              <Stack className="flex size-10 items-center justify-center rounded-avatar bg-white text-black">
+                <Body className="font-display">2</Body>
               </Stack>
-              <Body className="font-medium">We Monitor Prices</Body>
-              <Body className="text-body-sm text-ink-600">
+              <Body className="font-display text-white">We Monitor Prices</Body>
+              <Body size="sm" className="text-on-dark-muted">
                 We check prices regularly and track any changes.
               </Body>
             </Stack>
             <Stack gap={2}>
-              <Stack className="w-10 h-10 bg-black text-white rounded-full items-center justify-center">
-                <Body>3</Body>
+              <Stack className="flex size-10 items-center justify-center rounded-avatar bg-white text-black">
+                <Body className="font-display">3</Body>
               </Stack>
-              <Body className="font-medium">Get Notified</Body>
-              <Body className="text-body-sm text-ink-600">
+              <Body className="font-display text-white">Get Notified</Body>
+              <Body size="sm" className="text-on-dark-muted">
                 Receive an alert when the price drops to your target or below.
               </Body>
             </Stack>
           </Grid>
         </Card>
-        </Stack>
-      </Container>
-    </Section>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

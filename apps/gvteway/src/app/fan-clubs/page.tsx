@@ -2,9 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { ConsumerNavigationPublic } from "../../components/navigation";
+import { ConsumerNavigationPublic } from "@/components/navigation";
 import {
-  H1,
   H2,
   Body,
   StatCard,
@@ -20,7 +19,12 @@ import {
   Section,
   Input,
   Field,
-  useNotifications,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
+  Kicker,
 } from "@ghxstship/ui";
 
 interface FanClub {
@@ -50,7 +54,6 @@ interface FanClubSummary {
 
 export default function FanClubsPage() {
   const router = useRouter();
-  const { addNotification } = useNotifications();
   const [clubs, setClubs] = useState<FanClub[]>([]);
   const [summary, setSummary] = useState<FanClubSummary | null>(null);
   const [loading, setLoading] = useState(true);
@@ -95,96 +98,121 @@ export default function FanClubsPage() {
     router.push(`/fan-clubs/${clubId}/join?tier=${tier}`);
   };
 
+  const footerContent = (
+    <Footer
+      logo={<Display size="md">GVTEWAY</Display>}
+      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+    >
+      <FooterColumn title="Fan Clubs">
+        <FooterLink href="/fan-clubs">Browse Clubs</FooterLink>
+        <FooterLink href="/events">Events</FooterLink>
+      </FooterColumn>
+      <FooterColumn title="Legal">
+        <FooterLink href="/legal/privacy">Privacy</FooterLink>
+        <FooterLink href="/legal/terms">Terms</FooterLink>
+      </FooterColumn>
+    </Footer>
+  );
+
   if (loading) {
     return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
+      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+        <Section background="black" className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading fan clubs..." />
-        </Container>
-      </Section>
+        </Section>
+      </PageLayout>
     );
   }
 
   if (error) {
     return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <ConsumerNavigationPublic />
-        <Container className="py-16">
-          <EmptyState
-            title="Error Loading Fan Clubs"
-            description={error}
-            action={{ label: "Retry", onClick: fetchFanClubs }}
-          />
-        </Container>
-      </Section>
+      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+        <Section background="black" className="min-h-screen py-16">
+          <Container>
+            <EmptyState
+              title="Error Loading Fan Clubs"
+              description={error}
+              action={{ label: "Retry", onClick: fetchFanClubs }}
+              inverted
+            />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="relative min-h-screen bg-black text-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Fan Clubs</H1>
-            <Body className="text-ink-400">
-              Join official fan clubs for exclusive access, presales, and VIP experiences
-            </Body>
-          </Stack>
+    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={8}>
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Exclusive Access</Kicker>
+              <H2 size="lg" className="text-white">Fan Clubs</H2>
+              <Body className="text-on-dark-muted">
+                Join official fan clubs for exclusive access, presales, and VIP experiences
+              </Body>
+            </Stack>
 
           <Grid cols={4} gap={6}>
             <StatCard
-              value={summary?.total_clubs || 0}
+              value={(summary?.total_clubs || 0).toString()}
               label="Fan Clubs"
-              className="bg-black text-white border-ink-800"
+              inverted
             />
             <StatCard
-              value={summary?.my_memberships || 0}
+              value={(summary?.my_memberships || 0).toString()}
               label="My Memberships"
-              className="bg-black text-white border-ink-800"
+              inverted
             />
             <StatCard
-              value={summary?.exclusive_events || 0}
+              value={(summary?.exclusive_events || 0).toString()}
               label="Exclusive Events"
-              className="bg-black text-white border-ink-800"
+              inverted
             />
             <StatCard
-              value={summary?.presales_available || 0}
+              value={(summary?.presales_available || 0).toString()}
               label="Active Presales"
-              className="bg-black text-white border-ink-800"
+              inverted
             />
           </Grid>
 
-          <Card className="p-6 bg-black border-ink-800">
+          <Card inverted variant="elevated" className="p-6">
             <Stack gap={4}>
-              <H2>Member Benefits</H2>
+              <H2 className="text-white">Member Benefits</H2>
               <Grid cols={4} gap={4}>
                 <Stack gap={2}>
-                  <Body className="text-h5-md">🎫</Body>
-                  <Body className="font-medium">Presale Access</Body>
-                  <Body className="text-ink-400 text-body-sm">
+                  <Body className="text-h3-md">🎫</Body>
+                  <Body className="font-display text-white">Presale Access</Body>
+                  <Body size="sm" className="text-on-dark-muted">
                     Get tickets before the general public
                   </Body>
                 </Stack>
                 <Stack gap={2}>
-                  <Body className="text-h5-md">⭐</Body>
-                  <Body className="font-medium">Exclusive Events</Body>
-                  <Body className="text-ink-400 text-body-sm">
+                  <Body className="text-h3-md">⭐</Body>
+                  <Body className="font-display text-white">Exclusive Events</Body>
+                  <Body size="sm" className="text-on-dark-muted">
                     Members-only shows and meet & greets
                   </Body>
                 </Stack>
                 <Stack gap={2}>
-                  <Body className="text-h5-md">🎁</Body>
-                  <Body className="font-medium">Merch Discounts</Body>
-                  <Body className="text-ink-400 text-body-sm">
+                  <Body className="text-h3-md">🎁</Body>
+                  <Body className="font-display text-white">Merch Discounts</Body>
+                  <Body size="sm" className="text-on-dark-muted">
                     Special pricing on official merchandise
                   </Body>
                 </Stack>
                 <Stack gap={2}>
-                  <Body className="text-h5-md">📱</Body>
-                  <Body className="font-medium">Exclusive Content</Body>
-                  <Body className="text-ink-400 text-body-sm">
+                  <Body className="text-h3-md">📱</Body>
+                  <Body className="font-display text-white">Exclusive Content</Body>
+                  <Body size="sm" className="text-on-dark-muted">
                     Behind-the-scenes and early releases
                   </Body>
                 </Stack>
@@ -198,13 +226,13 @@ export default function FanClubsPage() {
                 placeholder="Search artists..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-black text-white border-ink-700"
+                inverted
               />
             </Field>
             <Select
               value={filterGenre}
               onChange={(e) => setFilterGenre(e.target.value)}
-              className="bg-black text-white border-ink-700"
+              inverted
             >
               <option value="all">All Genres</option>
               <option value="rock">Rock</option>
@@ -220,59 +248,60 @@ export default function FanClubsPage() {
             <EmptyState
               title="No Fan Clubs Found"
               description="Check back later for new fan clubs"
+              inverted
             />
           ) : (
             <Grid cols={2} gap={6}>
               {clubs.map((club) => (
-                <Card key={club.id} className="p-6 bg-black border-ink-800">
+                <Card key={club.id} inverted className="p-6">
                   <Stack gap={4}>
-                    <Stack gap={2} direction="horizontal" className="justify-between items-start">
+                    <Stack gap={2} direction="horizontal" className="items-start justify-between">
                       <Stack gap={1}>
-                        <H2 className="text-h6-md">{club.artist_name}</H2>
-                        <Body className="text-ink-400">{club.name}</Body>
+                        <H2 className="text-white">{club.artist_name}</H2>
+                        <Body className="text-on-dark-muted">{club.name}</Body>
                       </Stack>
                       {club.is_member && (
                         <Badge variant="solid">{club.membership_tier}</Badge>
                       )}
                     </Stack>
 
-                    <Body className="text-ink-400 text-body-sm">
+                    <Body size="sm" className="text-on-dark-muted">
                       {club.description}
                     </Body>
 
                     <Stack gap={2}>
-                      <Body className="text-ink-500 text-body-sm uppercase tracking-widest">Benefits</Body>
+                      <Kicker colorScheme="on-dark">Benefits</Kicker>
                       <Stack gap={1}>
                         {club.benefits.slice(0, 4).map((benefit, idx) => (
-                          <Body key={idx} className="text-ink-300 text-body-sm">
+                          <Body key={idx} size="sm" className="text-on-dark-muted">
                             ✓ {benefit}
                           </Body>
                         ))}
                       </Stack>
                     </Stack>
 
-                    <Stack gap={2} direction="horizontal" className="text-ink-500 text-body-sm">
-                      <Body>{club.member_count.toLocaleString()} members</Body>
-                      <Body>•</Body>
-                      <Body>{club.exclusive_events} exclusive events</Body>
+                    <Stack gap={2} direction="horizontal" className="text-on-dark-disabled">
+                      <Body size="sm">{club.member_count.toLocaleString()} members</Body>
+                      <Body size="sm">•</Body>
+                      <Body size="sm">{club.exclusive_events} exclusive events</Body>
                     </Stack>
 
-                    <Stack gap={2} direction="horizontal" className="justify-between items-center border-t border-ink-800 pt-4">
+                    <Stack gap={2} direction="horizontal" className="items-center justify-between border-t border-ink-800 pt-4">
                       <Stack gap={1}>
                         {club.monthly_price && (
-                          <Body className="text-ink-400 text-body-sm">
+                          <Body size="sm" className="text-on-dark-muted">
                             {formatCurrency(club.monthly_price)}/month
                           </Body>
                         )}
                         {club.annual_price && (
-                          <Body className="text-ink-500 text-mono-xs">
+                          <Body size="sm" className="font-mono text-on-dark-disabled">
                             or {formatCurrency(club.annual_price)}/year (save 20%)
                           </Body>
                         )}
                       </Stack>
                       {club.is_member ? (
                         <Button 
-                          variant="outline" 
+                          variant="outlineInk" 
                           size="sm"
                           onClick={() => router.push(`/fan-clubs/${club.id}`)}
                         >
@@ -282,6 +311,7 @@ export default function FanClubsPage() {
                         <Button 
                           variant="solid" 
                           size="sm"
+                          inverted
                           onClick={() => handleJoinClub(club.id, "standard")}
                         >
                           Join Club
@@ -293,8 +323,9 @@ export default function FanClubsPage() {
               ))}
             </Grid>
           )}
-        </Stack>
-      </Container>
-    </Section>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

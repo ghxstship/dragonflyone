@@ -3,11 +3,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNotifications } from '@ghxstship/ui';
 import { useRouter } from 'next/navigation';
-import { ConsumerNavigationPublic } from '../../components/navigation';
+import { ConsumerNavigationPublic } from '@/components/navigation';
 import {
   Container,
   Section,
-  H1,
+  Display,
   H2,
   H3,
   Body,
@@ -16,11 +16,16 @@ import {
   Card,
   Grid,
   Stack,
-  Badge,
-  Alert,
   LoadingSpinner,
+  EmptyState,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Kicker,
 } from '@ghxstship/ui';
 import Image from 'next/image';
+import { Activity, Ticket, Star, UserPlus, Heart, MapPin, Share2, Users, TrendingUp } from 'lucide-react';
 
 interface ActivityItem {
   id: string;
@@ -44,7 +49,6 @@ export default function ActivityFeedPage() {
   const { addNotification } = useNotifications();
   const [activities, setActivities] = useState<ActivityItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState('all');
 
   const fetchActivities = useCallback(async () => {
@@ -60,7 +64,7 @@ export default function ActivityFeedPage() {
         setActivities(data.activities || []);
       }
     } catch (err) {
-      setError('Failed to load activity feed');
+      console.error('Failed to load activity feed');
     } finally {
       setLoading(false);
     }
@@ -72,13 +76,13 @@ export default function ActivityFeedPage() {
 
   const getActivityIcon = (type: string) => {
     switch (type) {
-      case 'ticket_purchase': return '🎫';
-      case 'review': return '⭐';
-      case 'follow': return '👤';
-      case 'favorite': return '❤️';
-      case 'check_in': return '📍';
-      case 'share': return '🔗';
-      default: return '📌';
+      case 'ticket_purchase': return <Ticket className="size-4 text-on-dark-muted" />;
+      case 'review': return <Star className="size-4 text-on-dark-muted" />;
+      case 'follow': return <UserPlus className="size-4 text-on-dark-muted" />;
+      case 'favorite': return <Heart className="size-4 text-on-dark-muted" />;
+      case 'check_in': return <MapPin className="size-4 text-on-dark-muted" />;
+      case 'share': return <Share2 className="size-4 text-on-dark-muted" />;
+      default: return <Activity className="size-4 text-on-dark-muted" />;
     }
   };
 
@@ -120,169 +124,253 @@ export default function ActivityFeedPage() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading activity..." />
-        </Container>
-      </Section>
+      <PageLayout
+        background="black"
+        header={<ConsumerNavigationPublic />}
+        footer={
+          <Footer
+            logo={<Display size="md">GVTEWAY</Display>}
+            copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+          >
+            <FooterColumn title="Discover">
+              <FooterLink href="/events">Browse Events</FooterLink>
+              <FooterLink href="/venues">Find Venues</FooterLink>
+              <FooterLink href="/artists">Artists</FooterLink>
+            </FooterColumn>
+            <FooterColumn title="Legal">
+              <FooterLink href="/legal/privacy">Privacy</FooterLink>
+              <FooterLink href="/legal/terms">Terms</FooterLink>
+            </FooterColumn>
+          </Footer>
+        }
+      >
+        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+          <div
+            className="pointer-events-none absolute inset-0 opacity-5"
+            style={{
+              backgroundImage: `
+                linear-gradient(#fff 1px, transparent 1px),
+                linear-gradient(90deg, #fff 1px, transparent 1px)
+              `,
+              backgroundSize: "40px 40px",
+            }}
+          />
+          <Container className="relative z-10 flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" text="Loading activity..." />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2} className="border-b-2 border-black pb-8">
-            <H1>Activity Feed</H1>
-            <Body className="text-ink-600">
-              See what your friends are up to
-            </Body>
-          </Stack>
-
-        {error && (
-          <Alert variant="error" className="mb-6">
-            {error}
-          </Alert>
-        )}
-
-        <Grid cols={3} gap={8}>
-          <Stack className="col-span-2" gap={4}>
-            <Stack direction="horizontal" gap={2} className="mb-4">
-              {['all', 'ticket_purchase', 'review', 'check_in', 'follow'].map(f => (
-                <Button
-                  key={f}
-                  variant={filter === f ? 'solid' : 'outline'}
-                  size="sm"
-                  onClick={() => setFilter(f)}
-                >
-                  {f === 'all' ? 'All' : f === 'ticket_purchase' ? 'Tickets' : f.charAt(0).toUpperCase() + f.slice(1).replace('_', ' ')}
-                </Button>
-              ))}
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Account">
+            <FooterLink href="/profile">Profile</FooterLink>
+            <FooterLink href="/activity">Activity</FooterLink>
+            <FooterLink href="/friends">Friends</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Discover">
+            <FooterLink href="/events">Browse Events</FooterLink>
+            <FooterLink href="/venues">Find Venues</FooterLink>
+            <FooterLink href="/artists">Artists</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        {/* Grid Pattern Background */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `
+              linear-gradient(#fff 1px, transparent 1px),
+              linear-gradient(90deg, #fff 1px, transparent 1px)
+            `,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Community</Kicker>
+              <H2 size="lg" className="text-white">Activity Feed</H2>
+              <Body className="text-on-dark-muted">See what your friends are up to</Body>
             </Stack>
 
-            {activities.length > 0 ? (
-              <Stack gap={4}>
-                {activities.map(activity => (
-                  <Card key={activity.id} className="p-4">
-                    <Stack direction="horizontal" gap={4}>
-                      <Stack className="w-12 h-12 bg-ink-200 rounded-full flex-shrink-0 flex items-center justify-center">
-                        {activity.user_avatar ? (
-                          <Image
-                            src={activity.user_avatar}
-                            alt={activity.user_name}
-                            width={48}
-                            height={48}
-                            className="w-full h-full rounded-full object-cover"
-                          />
-                        ) : (
-                          <Body className="text-body-md">{activity.user_name.charAt(0)}</Body>
-                        )}
-                      </Stack>
+            {/* Filter Buttons */}
+            <Card inverted className="p-4">
+              <Stack direction="horizontal" gap={2} className="flex-wrap">
+                {['all', 'ticket_purchase', 'review', 'check_in', 'follow'].map(f => (
+                  <Button
+                    key={f}
+                    variant={filter === f ? 'solid' : 'outlineInk'}
+                    size="sm"
+                    inverted={filter === f}
+                    onClick={() => setFilter(f)}
+                  >
+                    {f === 'all' ? 'All' : f === 'ticket_purchase' ? 'Tickets' : f.charAt(0).toUpperCase() + f.slice(1).replace('_', ' ')}
+                  </Button>
+                ))}
+              </Stack>
+            </Card>
 
-                      <Stack className="flex-1">
-                        <Stack direction="horizontal" gap={2} className="items-center flex-wrap">
-                          <Body className="font-bold">{activity.user_name}</Body>
-                          <Body className="text-ink-600">{getActivityText(activity)}</Body>
-                        </Stack>
+            <Grid cols={3} gap={8}>
+              {/* Activity Feed */}
+              <Stack className="col-span-2" gap={4}>
+                {activities.length > 0 ? (
+                  <Stack gap={4}>
+                    {activities.map(activity => (
+                      <Card key={activity.id} inverted interactive>
+                        <Stack direction="horizontal" gap={4}>
+                          <Stack className="flex size-12 shrink-0 items-center justify-center rounded-avatar bg-ink-700">
+                            {activity.user_avatar ? (
+                              <Image
+                                src={activity.user_avatar}
+                                alt={activity.user_name}
+                                width={48}
+                                height={48}
+                                className="size-full rounded-avatar object-cover"
+                              />
+                            ) : (
+                              <Body className="text-white">{activity.user_name.charAt(0)}</Body>
+                            )}
+                          </Stack>
 
-                        {activity.content && (
-                          <Body className="text-ink-600 mt-2 italic">
-                            &quot;{activity.content}&quot;
-                          </Body>
-                        )}
-
-                        {activity.event_id && (
-                          <Card
-                            className="mt-3 p-3 bg-ink-50 cursor-pointer hover:bg-ink-100"
-                            onClick={() => router.push(`/events/${activity.event_id}`)}
-                          >
-                            <Stack direction="horizontal" gap={3}>
-                              {activity.event_image && (
-                                <Stack className="w-16 h-16 bg-ink-200 rounded overflow-hidden flex-shrink-0">
-                                  <Image
-                                    src={activity.event_image}
-                                    alt={activity.event_title || ''}
-                                    width={64}
-                                    height={64}
-                                    className="w-full h-full object-cover"
-                                  />
-                                </Stack>
-                              )}
-                              <Stack>
-                                <Body className="font-medium">{activity.event_title}</Body>
-                                <Body className="text-body-sm text-ink-500">View Event →</Body>
-                              </Stack>
+                          <Stack className="flex-1" gap={2}>
+                            <Stack direction="horizontal" gap={2} className="flex-wrap items-center">
+                              <Body className="font-display text-white">{activity.user_name}</Body>
+                              <Body className="text-on-dark-muted">{getActivityText(activity)}</Body>
                             </Stack>
-                          </Card>
-                        )}
 
-                        <Stack direction="horizontal" gap={3} className="mt-3 items-center">
-                          <Body className="text-mono-xs text-ink-600">
-                            {getActivityIcon(activity.type)} {formatTimeAgo(activity.created_at)}
-                          </Body>
+                            {activity.content && (
+                              <Body className="italic text-on-dark-muted">
+                                &quot;{activity.content}&quot;
+                              </Body>
+                            )}
+
+                            {activity.event_id && (
+                              <Card
+                                inverted
+                                interactive
+                                className="mt-2 cursor-pointer"
+                                onClick={() => router.push(`/events/${activity.event_id}`)}
+                              >
+                                <Stack direction="horizontal" gap={3}>
+                                  {activity.event_image && (
+                                    <Stack className="size-16 shrink-0 overflow-hidden rounded-card bg-ink-700">
+                                      <Image
+                                        src={activity.event_image}
+                                        alt={activity.event_title || ''}
+                                        width={64}
+                                        height={64}
+                                        className="size-full object-cover"
+                                      />
+                                    </Stack>
+                                  )}
+                                  <Stack gap={1}>
+                                    <Body className="font-display text-white">{activity.event_title}</Body>
+                                    <Label size="xs" className="text-on-dark-muted">View Event →</Label>
+                                  </Stack>
+                                </Stack>
+                              </Card>
+                            )}
+
+                            <Stack direction="horizontal" gap={2} className="mt-2 items-center">
+                              {getActivityIcon(activity.type)}
+                              <Label size="xs" className="text-on-dark-disabled">
+                                {formatTimeAgo(activity.created_at)}
+                              </Label>
+                            </Stack>
+                          </Stack>
                         </Stack>
-                      </Stack>
-                    </Stack>
-                  </Card>
-                ))}
-              </Stack>
-            ) : (
-              <Card className="p-12 text-center">
-                <H3 className="mb-4">NO ACTIVITY YET</H3>
-                <Body className="text-ink-600 mb-6">
-                  Follow friends and artists to see their activity here.
-                </Body>
-                <Button variant="solid" onClick={() => router.push('/community')}>
-                  Find Friends
-                </Button>
-              </Card>
-            )}
-          </Stack>
-
-          <Stack gap={6}>
-            <Card className="p-6">
-              <H3 className="mb-4">SUGGESTED FRIENDS</H3>
-              <Stack gap={3}>
-                {[1, 2, 3].map(i => (
-                  <Stack key={i} direction="horizontal" className="justify-between items-center">
-                    <Stack direction="horizontal" gap={3} className="items-center">
-                      <Stack className="w-10 h-10 bg-ink-200 rounded-full" />
-                      <Stack>
-                        <Body className="font-medium text-body-sm">Friend {i}</Body>
-                        <Body className="text-mono-xs text-ink-500">3 mutual friends</Body>
-                      </Stack>
-                    </Stack>
-                    <Button variant="outline" size="sm" onClick={() => addNotification({ type: 'success', title: 'Following', message: 'You are now following this user' })}>
-                      Follow
-                    </Button>
+                      </Card>
+                    ))}
                   </Stack>
-                ))}
+                ) : (
+                  <EmptyState
+                    title="No Activity Yet"
+                    description="Follow friends and artists to see their activity here."
+                    action={{ label: "Find Friends", onClick: () => router.push('/community') }}
+                    inverted
+                  />
+                )}
               </Stack>
-              <Button variant="ghost" className="w-full mt-4" onClick={() => router.push('/community')}>
-                See More
-              </Button>
-            </Card>
 
-            <Card className="p-6">
-              <H3 className="mb-4">TRENDING EVENTS</H3>
-              <Stack gap={3}>
-                {[1, 2, 3].map(i => (
-                  <Stack key={i} className="p-3 border border-ink-200 rounded cursor-pointer hover:bg-ink-50">
-                    <Body className="font-medium text-body-sm">Popular Event {i}</Body>
-                    <Body className="text-mono-xs text-ink-500">{i * 5} friends interested</Body>
+              {/* Sidebar */}
+              <Stack gap={6}>
+                {/* Suggested Friends */}
+                <Card inverted variant="elevated" className="p-6">
+                  <Stack direction="horizontal" gap={2} className="mb-4 items-center">
+                    <Users className="size-5 text-on-dark-muted" />
+                    <H3 className="text-white">Suggested Friends</H3>
                   </Stack>
-                ))}
+                  <Stack gap={3}>
+                    {[1, 2, 3].map(i => (
+                      <Stack key={i} direction="horizontal" className="items-center justify-between">
+                        <Stack direction="horizontal" gap={3} className="items-center">
+                          <Stack className="size-10 rounded-avatar bg-ink-700" />
+                          <Stack gap={0}>
+                            <Body size="sm" className="font-display text-white">Friend {i}</Body>
+                            <Label size="xs" className="text-on-dark-disabled">3 mutual friends</Label>
+                          </Stack>
+                        </Stack>
+                        <Button 
+                          variant="outlineInk" 
+                          size="sm" 
+                          onClick={() => addNotification({ type: 'success', title: 'Following', message: 'You are now following this user' })}
+                        >
+                          Follow
+                        </Button>
+                      </Stack>
+                    ))}
+                  </Stack>
+                  <Button variant="ghost" fullWidth className="mt-4" onClick={() => router.push('/community')}>
+                    See More
+                  </Button>
+                </Card>
+
+                {/* Trending Events */}
+                <Card inverted variant="elevated" className="p-6">
+                  <Stack direction="horizontal" gap={2} className="mb-4 items-center">
+                    <TrendingUp className="size-5 text-on-dark-muted" />
+                    <H3 className="text-white">Trending Events</H3>
+                  </Stack>
+                  <Stack gap={3}>
+                    {[1, 2, 3].map(i => (
+                      <Card 
+                        key={i} 
+                        inverted 
+                        interactive 
+                        className="cursor-pointer"
+                        onClick={() => router.push('/browse')}
+                      >
+                        <Body size="sm" className="font-display text-white">Popular Event {i}</Body>
+                        <Label size="xs" className="text-on-dark-disabled">{i * 5} friends interested</Label>
+                      </Card>
+                    ))}
+                  </Stack>
+                  <Button variant="ghost" fullWidth className="mt-4" onClick={() => router.push('/browse')}>
+                    Browse Events
+                  </Button>
+                </Card>
               </Stack>
-              <Button variant="ghost" className="w-full mt-4" onClick={() => router.push('/browse')}>
-                Browse Events
-              </Button>
-            </Card>
+            </Grid>
           </Stack>
-          </Grid>
-        </Stack>
-      </Container>
-    </Section>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

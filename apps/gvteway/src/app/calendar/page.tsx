@@ -2,11 +2,10 @@
 
 import { useState, useMemo, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { ConsumerNavigationPublic } from '../../components/navigation';
+import { ConsumerNavigationPublic } from '@/components/navigation';
 import {
   Container,
   Section,
-  H1,
   H2,
   H3,
   Body,
@@ -17,6 +16,12 @@ import {
   Stack,
   Badge,
   LoadingSpinner,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
+  Kicker,
 } from '@ghxstship/ui';
 import { useEvents } from '@/hooks/useEvents';
 
@@ -105,46 +110,103 @@ export default function CalendarPage() {
 
   if (isLoading) {
     return (
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading calendar..." />
-        </Container>
-      </Section>
+      <PageLayout
+        background="black"
+        header={<ConsumerNavigationPublic />}
+        footer={
+          <Footer
+            logo={<Display size="md">GVTEWAY</Display>}
+            copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+          >
+            <FooterColumn title="Discover">
+              <FooterLink href="/events">Browse Events</FooterLink>
+              <FooterLink href="/calendar">Calendar</FooterLink>
+            </FooterColumn>
+            <FooterColumn title="Legal">
+              <FooterLink href="/legal/privacy">Privacy</FooterLink>
+              <FooterLink href="/legal/terms">Terms</FooterLink>
+            </FooterColumn>
+          </Footer>
+        }
+      >
+        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+          <div
+            className="pointer-events-none absolute inset-0 opacity-5"
+            style={{
+              backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+              backgroundSize: "40px 40px",
+            }}
+          />
+          <Container className="relative z-10 flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" text="Loading calendar..." />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b-2 border-black pb-8">
-            <H1>Event Calendar</H1>
-            <Stack direction="horizontal" gap={2}>
-              <Button
-                variant={viewMode === 'month' ? 'solid' : 'outline'}
-                onClick={() => setViewMode('month')}
-              >
-                Month
-              </Button>
-              <Button
-                variant={viewMode === 'week' ? 'solid' : 'outline'}
-                onClick={() => setViewMode('week')}
-              >
-                Week
-              </Button>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Discover">
+            <FooterLink href="/events">Browse Events</FooterLink>
+            <FooterLink href="/calendar">Calendar</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Plan Your Events</Kicker>
+              <Stack direction="horizontal" className="items-center justify-between">
+                <H2 size="lg" className="text-white">Event Calendar</H2>
+                <Stack direction="horizontal" gap={2}>
+                  <Button
+                    variant={viewMode === 'month' ? 'solid' : 'outlineInk'}
+                    inverted={viewMode === 'month'}
+                    onClick={() => setViewMode('month')}
+                  >
+                    Month
+                  </Button>
+                  <Button
+                    variant={viewMode === 'week' ? 'solid' : 'outlineInk'}
+                    inverted={viewMode === 'week'}
+                    onClick={() => setViewMode('week')}
+                  >
+                    Week
+                  </Button>
+                </Stack>
+              </Stack>
             </Stack>
-          </Stack>
 
         <Grid cols={3} gap={8}>
           <Stack className="col-span-2" gap={6}>
-            <Card className="p-6">
-              <Stack direction="horizontal" className="justify-between items-center mb-6">
+            <Card inverted className="p-6">
+              <Stack direction="horizontal" className="mb-6 items-center justify-between">
                 <Button variant="ghost" onClick={handlePrevMonth}>
                   Previous
                 </Button>
-                <H2>
+                <H2 className="text-white">
                   {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
                 </H2>
                 <Button variant="ghost" onClick={handleNextMonth}>
@@ -152,57 +214,56 @@ export default function CalendarPage() {
                 </Button>
               </Stack>
 
-              <Button variant="outline" className="mb-4" onClick={handleToday}>
+              <Button variant="outlineInk" className="mb-4" onClick={handleToday}>
                 Today
               </Button>
 
               <Stack className="grid grid-cols-7 gap-1">
                 {dayNames.map(day => (
                   <Stack key={day} className="p-2 text-center">
-                    <Label className="text-ink-500">{day}</Label>
+                    <Label className="text-on-dark-muted">{day}</Label>
                   </Stack>
                 ))}
 
                 {calendarDays.map((day, index) => (
                   <Card
                     key={index}
-                    className={`p-2 min-h-card cursor-pointer transition-colors ${
-                      !day.isCurrentMonth ? 'bg-ink-50 opacity-50' : ''
+                    inverted
+                    interactive
+                    className={`min-h-[80px] cursor-pointer p-2 transition-colors ${
+                      !day.isCurrentMonth ? 'opacity-50' : ''
                     } ${
-                      day.isToday ? 'border-2 border-black' : ''
+                      day.isToday ? 'ring-2 ring-white' : ''
                     } ${
                       selectedDate?.toDateString() === day.date.toDateString() 
-                        ? 'bg-black text-white' 
-                        : 'hover:bg-ink-100'
+                        ? 'bg-white text-black' 
+                        : ''
                     }`}
                     onClick={() => handleDayClick(day)}
                   >
-                    <Body className={`font-bold ${
+                    <Body className={`font-display ${
                       selectedDate?.toDateString() === day.date.toDateString() 
-                        ? 'text-white' 
-                        : ''
+                        ? 'text-black' 
+                        : 'text-white'
                     }`}>
                       {day.date.getDate()}
                     </Body>
                     {day.events.length > 0 && (
                       <Stack gap={1} className="mt-1">
                         {day.events.slice(0, 2).map(event => (
-                          <Stack
+                          <Badge
                             key={event.id}
-                            className={`px-1 py-0.5 text-mono-xs truncate rounded ${
-                              selectedDate?.toDateString() === day.date.toDateString()
-                                ? 'bg-white text-black'
-                                : 'bg-black text-white'
-                            }`}
+                            variant={selectedDate?.toDateString() === day.date.toDateString() ? 'outline' : 'solid'}
+                            className="truncate text-xs"
                           >
-                            <Body className="text-mono-xs truncate">{event.title}</Body>
-                          </Stack>
+                            {event.title}
+                          </Badge>
                         ))}
                         {day.events.length > 2 && (
-                          <Body className={`text-mono-xs ${
+                          <Body size="sm" className={`${
                             selectedDate?.toDateString() === day.date.toDateString()
-                              ? 'text-ink-200'
-                              : 'text-ink-500'
+                              ? 'text-ink-600'
+                              : 'text-on-dark-disabled'
                           }`}>
                             +{day.events.length - 2} more
                           </Body>
@@ -216,8 +277,8 @@ export default function CalendarPage() {
           </Stack>
 
           <Stack gap={6}>
-            <Card className="p-6">
-              <H3 className="mb-4">
+            <Card inverted className="p-6">
+              <H3 className="mb-4 text-white">
                 {selectedDate 
                   ? selectedDate.toLocaleDateString('en-US', { 
                       weekday: 'long', 
@@ -234,32 +295,34 @@ export default function CalendarPage() {
                     {selectedDayEvents.map(event => (
                       <Card
                         key={event.id}
-                        className="p-4 cursor-pointer hover:bg-ink-50 transition-colors"
+                        inverted
+                        interactive
+                        className="cursor-pointer p-4"
                         onClick={() => handleEventClick(event.id)}
                       >
-                        <H3 className="mb-1">{event.title}</H3>
-                        <Body className="text-ink-600 text-body-sm mb-2">
+                        <H3 className="mb-1 text-white">{event.title}</H3>
+                        <Body size="sm" className="mb-2 text-on-dark-muted">
                           {event.venue}
                         </Body>
                         <Stack direction="horizontal" gap={2}>
-                          <Badge>{event.category}</Badge>
+                          <Badge variant="solid">{event.category}</Badge>
                           <Badge variant="outline">From ${event.price}</Badge>
                         </Stack>
                       </Card>
                     ))}
                   </Stack>
                 ) : (
-                  <Body className="text-ink-500">No events on this date.</Body>
+                  <Body className="text-on-dark-muted">No events on this date.</Body>
                 )
               ) : (
-                <Body className="text-ink-500">
+                <Body className="text-on-dark-muted">
                   Click on a date to see events.
                 </Body>
               )}
             </Card>
 
-            <Card className="p-6">
-              <H3 className="mb-4">UPCOMING THIS MONTH</H3>
+            <Card inverted className="p-6">
+              <H3 className="mb-4 text-white">Upcoming This Month</H3>
               <Stack gap={3}>
                 {(events || [])
                   .filter((event: any) => {
@@ -273,12 +336,12 @@ export default function CalendarPage() {
                     <Stack
                       key={event.id}
                       direction="horizontal"
-                      className="justify-between items-center py-2 border-b border-ink-200 cursor-pointer hover:bg-ink-50"
+                      className="cursor-pointer items-center justify-between border-b border-ink-800 py-2"
                       onClick={() => handleEventClick(event.id)}
                     >
                       <Stack>
-                        <Body className="font-medium">{event.title || event.name}</Body>
-                        <Body className="text-body-sm text-ink-500">
+                        <Body className="font-display text-white">{event.title || event.name}</Body>
+                        <Body size="sm" className="text-on-dark-disabled">
                           {new Date(event.date || event.start_date).toLocaleDateString()}
                         </Body>
                       </Stack>
@@ -288,9 +351,10 @@ export default function CalendarPage() {
               </Stack>
             </Card>
           </Stack>
-          </Grid>
-        </Stack>
-      </Container>
-    </Section>
+            </Grid>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

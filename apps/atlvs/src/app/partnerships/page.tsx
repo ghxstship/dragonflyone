@@ -3,140 +3,162 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { CreatorNavigationAuthenticated } from '../../components/navigation';
-import { Container, Section, H1, H2, H3, Body, Button, Input, Select, Card, Grid, Badge, LoadingSpinner, Stack } from '@ghxstship/ui';
-import { Search, Plus, Handshake, TrendingUp, DollarSign, Calendar } from 'lucide-react';
+import {
+  ListPage,
+  Badge,
+  DetailDrawer,
+  RecordFormModal,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
+  type DetailSection,
+  type FormFieldConfig,
+} from '@ghxstship/ui';
 import { useContacts } from '@/hooks/useContacts';
+
+interface Partnership {
+  id: string;
+  name: string;
+  company?: string;
+  type?: string;
+  email?: string;
+  phone?: string;
+  status?: string;
+  [key: string]: unknown;
+}
+
+const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
+  switch (status?.toLowerCase()) {
+    case 'active': return 'solid';
+    case 'pending': return 'outline';
+    case 'inactive': return 'ghost';
+    default: return 'outline';
+  }
+};
+
+const columns: ListPageColumn<Partnership>[] = [
+  { key: 'name', label: 'Partner', accessor: 'name', sortable: true },
+  { key: 'company', label: 'Company', accessor: (r) => r.company || '—' },
+  { key: 'type', label: 'Type', accessor: (r) => r.type || 'Partner', render: (v) => <Badge variant="outline">{String(v)}</Badge> },
+  { key: 'email', label: 'Email', accessor: (r) => r.email || '—' },
+  { key: 'phone', label: 'Phone', accessor: (r) => r.phone || '—' },
+  { key: 'status', label: 'Status', accessor: (r) => r.status || 'active', sortable: true, render: (v) => <Badge variant={getStatusVariant(String(v))}>{String(v).toUpperCase()}</Badge> },
+];
+
+const filters: ListPageFilter[] = [
+  { key: 'type', label: 'Type', options: [
+    { value: 'strategic', label: 'Strategic Partner' },
+    { value: 'joint', label: 'Joint Venture' },
+    { value: 'vendor', label: 'Preferred Vendor' },
+  ]},
+  { key: 'status', label: 'Status', options: [
+    { value: 'active', label: 'Active' },
+    { value: 'pending', label: 'Pending' },
+    { value: 'inactive', label: 'Inactive' },
+  ]},
+];
+
+const formFields: FormFieldConfig[] = [
+  { name: 'name', label: 'Partner Name', type: 'text', required: true },
+  { name: 'company', label: 'Company', type: 'text' },
+  { name: 'type', label: 'Partnership Type', type: 'select', options: [
+    { value: 'strategic', label: 'Strategic Partner' },
+    { value: 'joint', label: 'Joint Venture' },
+    { value: 'vendor', label: 'Preferred Vendor' },
+  ]},
+  { name: 'email', label: 'Email', type: 'text' },
+  { name: 'phone', label: 'Phone', type: 'text' },
+];
 
 export default function PartnershipsPage() {
   const router = useRouter();
-  const [filter, setFilter] = useState('all');
-  const { data: contacts, isLoading } = useContacts();
+  const { data: contacts, isLoading, refetch } = useContacts();
+  const partnerships = (contacts || []) as Partnership[];
+  
+  const [selectedPartnership, setSelectedPartnership] = useState<Partnership | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [createModalOpen, setCreateModalOpen] = useState(false);
 
-  if (isLoading) {
-    return (
-      <Section className="min-h-screen bg-ink-950 text-ink-50">
-        <CreatorNavigationAuthenticated />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading partnerships..." />
-        </Container>
-      </Section>
-    );
-  }
+  const activeCount = partnerships.filter(p => p.status === 'active' || !p.status).length;
+  const pendingCount = partnerships.filter(p => p.status === 'pending').length;
+  const companiesCount = partnerships.filter(p => p.company).length;
 
-  const partnerships = contacts || [];
+  const rowActions: ListPageAction<Partnership>[] = [
+    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedPartnership(r); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (r) => router.push(`/partnerships/${r.id}/edit`) },
+  ];
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'active': return 'bg-white text-black border-2 border-black';
-      case 'pending': return 'bg-ink-400 text-white';
-      case 'inactive': return 'bg-ink-900 text-white';
-      default: return 'bg-ink-200 text-black';
-    }
+  const stats = [
+    { label: 'Total Partners', value: partnerships.length },
+    { label: 'Active', value: activeCount },
+    { label: 'Pending', value: pendingCount },
+    { label: 'Companies', value: companiesCount },
+  ];
+
+  const handleCreate = async (data: Record<string, unknown>) => {
+    console.log('Create partnership:', data);
+    setCreateModalOpen(false);
+    refetch?.();
   };
 
+  const detailSections: DetailSection[] = selectedPartnership ? [
+    { id: 'overview', title: 'Partnership Details', content: (
+      <div className="grid grid-cols-2 gap-4">
+        <div><strong>Name:</strong> {selectedPartnership.name}</div>
+        <div><strong>Company:</strong> {selectedPartnership.company || '—'}</div>
+        <div><strong>Type:</strong> {selectedPartnership.type || 'Partner'}</div>
+        <div><strong>Status:</strong> {selectedPartnership.status || 'Active'}</div>
+        <div><strong>Email:</strong> {selectedPartnership.email || '—'}</div>
+        <div><strong>Phone:</strong> {selectedPartnership.phone || '—'}</div>
+      </div>
+    )},
+  ] : [];
+
   return (
-    <Section className="min-h-screen bg-ink-950 text-ink-50">
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={4} direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b border-ink-800 pb-8">
-            <Stack gap={2}>
-              <H1>Partnerships</H1>
-              <Body className="text-ink-600">Strategic alliances and joint ventures</Body>
-            </Stack>
-            <Button variant="solid" onClick={() => router.push('/partnerships/new')}>
-              <Plus className="w-4 h-4 mr-2" />
-              NEW PARTNERSHIP
-            </Button>
-          </Stack>
+    <>
+      <ListPage<Partnership>
+        title="Partnerships"
+        subtitle="Strategic alliances and joint ventures"
+        data={partnerships}
+        columns={columns}
+        rowKey="id"
+        loading={isLoading}
+        onRetry={() => refetch?.()}
+        searchPlaceholder="Search partnerships..."
+        filters={filters}
+        rowActions={rowActions}
+        onRowClick={(r) => { setSelectedPartnership(r); setDrawerOpen(true); }}
+        createLabel="New Partnership"
+        onCreate={() => setCreateModalOpen(true)}
+        onExport={() => router.push('/partnerships/export')}
+        stats={stats}
+        emptyMessage="No partnerships found"
+        emptyAction={{ label: 'Add Partnership', onClick: () => setCreateModalOpen(true) }}
+        header={<CreatorNavigationAuthenticated />}
+      />
 
-          <Grid cols={4} gap={6}>
-            <Card className="p-6 text-center border-2 border-ink-800 bg-transparent">
-              <Handshake className="w-8 h-8 mx-auto mb-2 text-ink-600" />
-              <H2 className="text-white">{partnerships.filter((p: any) => p.status === 'active').length}</H2>
-              <Body className="text-ink-600">Active</Body>
-            </Card>
-            <Card className="p-6 text-center border-2 border-ink-800 bg-transparent">
-              <TrendingUp className="w-8 h-8 mx-auto mb-2 text-ink-600" />
-              <H2 className="text-white">{partnerships.filter((p: any) => p.status === 'pending').length}</H2>
-              <Body className="text-ink-600">Pending</Body>
-            </Card>
-            <Card className="p-6 text-center border-2 border-ink-800 bg-transparent">
-              <DollarSign className="w-8 h-8 mx-auto mb-2 text-ink-600" />
-              <H2 className="text-white">{partnerships.length}</H2>
-              <Body className="text-ink-600">Total Partners</Body>
-            </Card>
-            <Card className="p-6 text-center border-2 border-ink-800 bg-transparent">
-              <Calendar className="w-8 h-8 mx-auto mb-2 text-ink-600" />
-              <H2 className="text-white">{partnerships.filter((p: any) => p.company).length}</H2>
-              <Body className="text-ink-600">Companies</Body>
-            </Card>
-          </Grid>
+      <RecordFormModal
+        open={createModalOpen}
+        onClose={() => setCreateModalOpen(false)}
+        mode="create"
+        title="New Partnership"
+        fields={formFields}
+        onSubmit={handleCreate}
+      />
 
-          <Card className="p-6 border-2 border-ink-800 bg-transparent">
-            <Stack gap={4} direction="horizontal">
-              <Stack className="flex-1 relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-ink-500" />
-                <Input placeholder="Search partnerships..." className="pl-10 w-full bg-ink-900 border-ink-700 text-white" />
-              </Stack>
-              <Select value={filter} onChange={(e) => setFilter(e.target.value)} className="w-48 bg-ink-900 border-ink-700 text-white">
-                <option value="all">All Types</option>
-                <option value="strategic">Strategic Partner</option>
-                <option value="joint">Joint Venture</option>
-                <option value="vendor">Preferred Vendor</option>
-              </Select>
-              <Select className="w-48 bg-ink-900 border-ink-700 text-white">
-                <option value="all">All Statuses</option>
-                <option value="active">Active</option>
-                <option value="pending">Pending</option>
-                <option value="inactive">Inactive</option>
-              </Select>
-            </Stack>
-          </Card>
-
-          <Stack gap={4}>
-            {partnerships.map((partnership: any) => (
-              <Card key={partnership.id} className="p-6 border-2 border-ink-800 bg-transparent hover:border-ink-600 transition-colors">
-                <Stack gap={4} direction="horizontal" className="items-start justify-between">
-                  <Stack gap={4} className="flex-1">
-                    <Stack gap={3} direction="horizontal" className="items-center">
-                      <Handshake className="w-6 h-6 text-ink-600" />
-                      <H2 className="text-white">{partnership.name}</H2>
-                      <Badge className={getStatusColor(partnership.status || 'active')}>
-                        {partnership.status?.toUpperCase() || 'ACTIVE'}
-                      </Badge>
-                    </Stack>
-                    <Body className="text-ink-600">{partnership.company || partnership.type || 'Partner'}</Body>
-                    
-                    <Grid cols={4} gap={6}>
-                      <Stack gap={1}>
-                        <Body className="text-body-sm text-ink-500">Type</Body>
-                        <Body className="font-bold text-white">{partnership.type || 'Partner'}</Body>
-                      </Stack>
-                      <Stack gap={1}>
-                        <Body className="text-body-sm text-ink-500">Company</Body>
-                        <Body className="font-bold text-white">{partnership.company || 'N/A'}</Body>
-                      </Stack>
-                      <Stack gap={1}>
-                        <Body className="text-body-sm text-ink-500">Email</Body>
-                        <Body className="font-bold text-white">{partnership.email || 'N/A'}</Body>
-                      </Stack>
-                      <Stack gap={1}>
-                        <Body className="text-body-sm text-ink-500">Phone</Body>
-                        <Body className="font-bold text-white">{partnership.phone || 'N/A'}</Body>
-                      </Stack>
-                    </Grid>
-                  </Stack>
-                  <Stack gap={2} direction="horizontal" className="ml-6">
-                    <Button variant="outline" size="sm" onClick={() => router.push(`/partnerships/${partnership.id}`)}>VIEW DETAILS</Button>
-                    <Button variant="ghost" size="sm" onClick={() => router.push(`/partnerships/${partnership.id}/edit`)}>EDIT</Button>
-                  </Stack>
-                </Stack>
-              </Card>
-            ))}
-          </Stack>
-        </Stack>
-      </Container>
-    </Section>
+      {selectedPartnership && (
+        <DetailDrawer
+          open={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+          record={selectedPartnership}
+          title={(p) => p.name}
+          subtitle={(p) => p.company || p.type || 'Partner'}
+          sections={detailSections}
+          onEdit={(p) => router.push(`/partnerships/${p.id}/edit`)}
+          actions={[{ id: 'contact', label: 'Contact', icon: '✉️' }]}
+          onAction={(id, p) => { console.log(id, p.id); setDrawerOpen(false); }}
+        />
+      )}
+    </>
   );
 }

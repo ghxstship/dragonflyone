@@ -4,9 +4,25 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
+  Container,
+  H3,
+  Body,
+  Grid,
+  Stack,
+  StatCard,
+  Input,
+  Select,
+  Button,
+  Section,
+  Card,
+  Badge,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Textarea,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 interface BackupPlan {
@@ -39,18 +55,6 @@ export default function BackupPlansPage() {
   const filteredPlans = categoryFilter === "All" ? mockPlans : mockPlans.filter(p => p.category === categoryFilter);
   const activePlans = mockPlans.filter(p => p.status === "Active").length;
 
-  const getCategoryColor = (category: string) => {
-    switch (category) {
-      case "Weather": return "bg-info-900/30 border-info-800";
-      case "Technical": return "bg-warning-900/30 border-warning-800";
-      case "Staffing": return "bg-success-900/30 border-success-800";
-      case "Vendor": return "bg-purple-900/30 border-purple-800";
-      case "Venue": return "bg-warning-900/30 border-warning-800";
-      case "Safety": return "bg-error-900/30 border-error-800";
-      default: return "bg-ink-800 border-ink-700";
-    }
-  };
-
   const getCategoryIcon = (category: string) => {
     switch (category) {
       case "Weather": return "🌧️";
@@ -64,102 +68,115 @@ export default function BackupPlansPage() {
   };
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Backup Plans</H1>
-            <Label className="text-ink-400">Contingency and backup plan documentation</Label>
-          </Stack>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            {/* Page Header */}
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Backup Plans"
+              description="Contingency and backup plan documentation"
+              colorScheme="on-light"
+              gap="lg"
+            />
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Total Plans" value={mockPlans.length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Active" value={activePlans} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Categories" value={categories.length - 1} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Draft" value={mockPlans.filter(p => p.status === "Draft").length} className="bg-transparent border-2 border-ink-800" />
-          </Grid>
+            {/* Stats Grid */}
+            <Grid cols={4} gap={6}>
+              <StatCard value={mockPlans.length.toString()} label="Total Plans" />
+              <StatCard value={activePlans.toString()} label="Active" />
+              <StatCard value={(categories.length - 1).toString()} label="Categories" />
+              <StatCard value={mockPlans.filter(p => p.status === "Draft").length.toString()} label="Draft" />
+            </Grid>
 
-          <Stack direction="horizontal" className="justify-between">
-            <Stack direction="horizontal" gap={4}>
-              <Input type="search" placeholder="Search plans..." className="border-ink-700 bg-black text-white w-64" />
-              <Select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)} className="border-ink-700 bg-black text-white">
-                {categories.map(c => <option key={c} value={c}>{c}</option>)}
-              </Select>
+            {/* Filters and Actions */}
+            <Stack direction="horizontal" className="justify-between">
+              <Stack direction="horizontal" gap={4}>
+                <Input type="search" placeholder="Search plans..." className="w-64" />
+                <Select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}>
+                  {categories.map(c => <option key={c} value={c}>{c}</option>)}
+                </Select>
+              </Stack>
+              <Button variant="solid" onClick={() => setShowCreateModal(true)}>Create Plan</Button>
             </Stack>
-            <Button variant="outlineWhite" onClick={() => setShowCreateModal(true)}>Create Plan</Button>
-          </Stack>
 
-          <Grid cols={2} gap={4}>
-            {filteredPlans.map((plan) => (
-              <Card key={plan.id} className={`border-2 ${getCategoryColor(plan.category)} p-6`}>
-                <Stack gap={4}>
-                  <Stack direction="horizontal" className="justify-between">
-                    <Stack direction="horizontal" gap={3}>
-                      <Label className="text-h5-md">{getCategoryIcon(plan.category)}</Label>
-                      <Stack gap={1}>
-                        <Body className="font-display text-white">{plan.name}</Body>
-                        <Badge variant="outline">{plan.project}</Badge>
+            {/* Plans Grid */}
+            <Grid cols={2} gap={4}>
+              {filteredPlans.map((plan) => (
+                <Card key={plan.id} className="p-6">
+                  <Stack gap={4}>
+                    <Stack direction="horizontal" className="justify-between">
+                      <Stack direction="horizontal" gap={3}>
+                        <Body className="text-h5-md">{getCategoryIcon(plan.category)}</Body>
+                        <Stack gap={1}>
+                          <Body className="font-display text-body-md">{plan.name}</Body>
+                          <Badge variant="outline">{plan.project}</Badge>
+                        </Stack>
                       </Stack>
+                      <Badge variant={plan.status === "Active" ? "solid" : "outline"}>{plan.status}</Badge>
                     </Stack>
-                    <Badge variant={plan.status === "Active" ? "solid" : "outline"}>{plan.status}</Badge>
+                    <Stack gap={1}>
+                      <Body className="text-body-sm font-display">Trigger Condition</Body>
+                      <Body className="text-body-sm">{plan.triggerCondition}</Body>
+                    </Stack>
+                    <Stack direction="horizontal" className="justify-between">
+                      <Body className="text-body-sm">Owner: {plan.owner}</Body>
+                      <Body className="text-body-sm">Updated: {plan.lastUpdated}</Body>
+                    </Stack>
+                    <Stack direction="horizontal" gap={2}>
+                      <Button variant="outline" size="sm" onClick={() => setSelectedPlan(plan)}>View Steps</Button>
+                      <Button variant="ghost" size="sm">Edit</Button>
+                    </Stack>
                   </Stack>
-                  <Stack gap={1}>
-                    <Label size="xs" className="text-ink-500">Trigger Condition</Label>
-                    <Label className="text-ink-300">{plan.triggerCondition}</Label>
-                  </Stack>
-                  <Stack direction="horizontal" className="justify-between">
-                    <Label size="xs" className="text-ink-500">Owner: {plan.owner}</Label>
-                    <Label size="xs" className="text-ink-500">Updated: {plan.lastUpdated}</Label>
-                  </Stack>
-                  <Stack direction="horizontal" gap={2}>
-                    <Button variant="outline" size="sm" onClick={() => setSelectedPlan(plan)}>View Steps</Button>
-                    <Button variant="ghost" size="sm">Edit</Button>
-                  </Stack>
-                </Stack>
-              </Card>
-            ))}
-          </Grid>
+                </Card>
+              ))}
+            </Grid>
 
-          <Grid cols={3} gap={4}>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/weather")}>Weather</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/projects")}>Projects</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/")}>Dashboard</Button>
-          </Grid>
-        </Stack>
-      </Container>
+            {/* Quick Links */}
+            <Grid cols={3} gap={4}>
+              <Button variant="outline" onClick={() => router.push("/weather")}>Weather</Button>
+              <Button variant="outline" onClick={() => router.push("/projects")}>Projects</Button>
+              <Button variant="outline" onClick={() => router.push("/dashboard")}>Dashboard</Button>
+            </Grid>
+          </Stack>
+        </Container>
+      </Section>
 
+      {/* View Plan Modal */}
       <Modal open={!!selectedPlan} onClose={() => setSelectedPlan(null)}>
         <ModalHeader><H3>{selectedPlan?.name}</H3></ModalHeader>
         <ModalBody>
           {selectedPlan && (
             <Stack gap={4}>
               <Stack direction="horizontal" gap={2}>
-                <Label className="text-h6-md">{getCategoryIcon(selectedPlan.category)}</Label>
+                <Body className="text-h6-md">{getCategoryIcon(selectedPlan.category)}</Body>
                 <Badge variant="outline">{selectedPlan.category}</Badge>
                 <Badge variant={selectedPlan.status === "Active" ? "solid" : "outline"}>{selectedPlan.status}</Badge>
               </Stack>
-              <Stack gap={1}><Label className="text-ink-400">Project</Label><Label className="text-white">{selectedPlan.project}</Label></Stack>
-              <Stack gap={1}><Label className="text-ink-400">Trigger Condition</Label><Body className="text-ink-300">{selectedPlan.triggerCondition}</Body></Stack>
+              <Stack gap={1}>
+                <Body className="font-display">Project</Body>
+                <Body>{selectedPlan.project}</Body>
+              </Stack>
+              <Stack gap={1}>
+                <Body className="font-display">Trigger Condition</Body>
+                <Body>{selectedPlan.triggerCondition}</Body>
+              </Stack>
               <Stack gap={2}>
-                <Label className="text-ink-400">Response Steps</Label>
+                <Body className="font-display">Response Steps</Body>
                 <Stack gap={2}>
                   {selectedPlan.steps.map((step, idx) => (
-                    <Card key={idx} className="p-3 border border-ink-700">
+                    <Card key={idx} className="p-3">
                       <Stack direction="horizontal" gap={3}>
-                        <Card className="w-8 h-8 bg-ink-800 rounded-full flex items-center justify-center">
-                          <Label>{idx + 1}</Label>
-                        </Card>
-                        <Label className="text-ink-200">{step}</Label>
+                        <Badge variant="solid">{idx + 1}</Badge>
+                        <Body>{step}</Body>
                       </Stack>
                     </Card>
                   ))}
                 </Stack>
               </Stack>
               <Stack direction="horizontal" className="justify-between">
-                <Label className="text-ink-500">Owner: {selectedPlan.owner}</Label>
-                <Label className="text-ink-500">Updated: {selectedPlan.lastUpdated}</Label>
+                <Body className="text-body-sm">Owner: {selectedPlan.owner}</Body>
+                <Body className="text-body-sm">Updated: {selectedPlan.lastUpdated}</Body>
               </Stack>
             </Stack>
           )}
@@ -171,25 +188,26 @@ export default function BackupPlansPage() {
         </ModalFooter>
       </Modal>
 
+      {/* Create Plan Modal */}
       <Modal open={showCreateModal} onClose={() => setShowCreateModal(false)}>
         <ModalHeader><H3>Create Backup Plan</H3></ModalHeader>
         <ModalBody>
           <Stack gap={4}>
-            <Input placeholder="Plan Name" className="border-ink-700 bg-black text-white" />
+            <Input placeholder="Plan Name" />
             <Grid cols={2} gap={4}>
-              <Select className="border-ink-700 bg-black text-white">
+              <Select>
                 <option value="">Category...</option>
                 {categories.slice(1).map(c => <option key={c} value={c}>{c}</option>)}
               </Select>
-              <Select className="border-ink-700 bg-black text-white">
+              <Select>
                 <option value="">Project...</option>
                 <option value="summer">Summer Fest 2024</option>
                 <option value="corporate">Corporate Gala</option>
               </Select>
             </Grid>
-            <Textarea placeholder="Trigger condition (when should this plan be activated?)..." rows={2} className="border-ink-700 bg-black text-white" />
-            <Textarea placeholder="Response steps (one per line)..." rows={4} className="border-ink-700 bg-black text-white" />
-            <Input placeholder="Plan Owner" className="border-ink-700 bg-black text-white" />
+            <Textarea placeholder="Trigger condition (when should this plan be activated?)..." rows={2} />
+            <Textarea placeholder="Response steps (one per line)..." rows={4} />
+            <Input placeholder="Plan Owner" />
           </Stack>
         </ModalBody>
         <ModalFooter>
@@ -198,6 +216,6 @@ export default function BackupPlansPage() {
           <Button variant="solid" onClick={() => setShowCreateModal(false)}>Create</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

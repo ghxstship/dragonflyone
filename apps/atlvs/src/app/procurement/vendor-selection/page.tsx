@@ -4,10 +4,10 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select,
+  Container, H3, Body, Label, Grid, Stack, StatCard, Select,
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter, Textarea, Alert, ProgressBar,
+  Section, Card, Tabs, TabsList, Tab, Badge, PageLayout, SectionHeader,
+  Modal, ModalHeader, ModalBody, ModalFooter, Alert, ProgressBar,
 } from "@ghxstship/ui";
 
 interface VendorSelection {
@@ -126,15 +126,17 @@ export default function VendorSelectionPage() {
   };
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Vendor Selection</H1>
-            <Label className="text-ink-400">Evaluate bids, score vendors, and route for approval</Label>
-          </Stack>
+    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="ATLVS"
+              title="Vendor Selection"
+              description="Evaluate bids, score vendors, and route for approval"
+              colorScheme="on-dark"
+              gap="lg"
+            />
 
           <Grid cols={4} gap={6}>
             <StatCard label="Active Selections" value={mockSelections.length} className="bg-transparent border-2 border-ink-800" />
@@ -232,13 +234,14 @@ export default function VendorSelectionPage() {
             </TabPanel>
           </Tabs>
 
-          <Grid cols={3} gap={4}>
-            <Button variant="outlineWhite" onClick={() => router.push("/rfp")}>View RFPs</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400">Export Report</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/procurement")}>Back to Procurement</Button>
-          </Grid>
-        </Stack>
-      </Container>
+            <Grid cols={3} gap={4}>
+              <Button variant="outlineWhite" onClick={() => router.push("/rfp")}>View RFPs</Button>
+              <Button variant="outline" className="border-grey-700 text-grey-400">Export Report</Button>
+              <Button variant="outline" className="border-grey-700 text-grey-400" onClick={() => router.push("/procurement")}>Back to Procurement</Button>
+            </Grid>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedSelection && !showApprovalModal} onClose={() => setSelectedSelection(null)}>
         <ModalHeader><H3>Selection Details</H3></ModalHeader>
@@ -317,6 +320,6 @@ export default function VendorSelectionPage() {
           <Button variant="solid" onClick={() => { setShowApprovalModal(false); setSelectedSelection(null); }}>Submit Decision</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

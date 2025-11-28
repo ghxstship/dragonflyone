@@ -4,10 +4,28 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
-  Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
+  Container,
+  H3,
+  Body,
+  Grid,
+  Stack,
+  StatCard,
+  Select,
+  Button,
+  Section,
+  Card,
+  Tabs,
+  TabsList,
+  Tab,
+  Badge,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Textarea,
+  Input,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 interface Channel {
@@ -56,77 +74,80 @@ export default function ChannelsPage() {
   };
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Communication Channels</H1>
-            <Label className="text-ink-400">Department-specific channels and groups</Label>
-          </Stack>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Communication Channels"
+              description="Department-specific channels and groups"
+              colorScheme="on-light"
+              gap="lg"
+            />
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Total Channels" value={mockChannels.length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Active" value={activeChannels} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Total Members" value={totalMembers} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Departments" value={departments.length - 1} className="bg-transparent border-2 border-ink-800" />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard value={mockChannels.length.toString()} label="Total Channels" />
+              <StatCard value={activeChannels.toString()} label="Active" />
+              <StatCard value={totalMembers.toString()} label="Total Members" />
+              <StatCard value={(departments.length - 1).toString()} label="Departments" />
+            </Grid>
 
-          <Stack direction="horizontal" className="justify-between">
-            <Stack direction="horizontal" gap={4}>
-              <Tabs>
-                <TabsList>
-                  <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All</Tab>
-                  <Tab active={activeTab === "radio"} onClick={() => setActiveTab("radio")}>Radio</Tab>
-                  <Tab active={activeTab === "intercom"} onClick={() => setActiveTab("intercom")}>Intercom</Tab>
-                  <Tab active={activeTab === "chat"} onClick={() => setActiveTab("chat")}>Chat</Tab>
-                </TabsList>
-              </Tabs>
-              <Select value={departmentFilter} onChange={(e) => setDepartmentFilter(e.target.value)} className="border-ink-700 bg-black text-white">
-                {departments.map(d => <option key={d} value={d}>{d}</option>)}
-              </Select>
+            <Stack direction="horizontal" className="justify-between">
+              <Stack direction="horizontal" gap={4}>
+                <Tabs>
+                  <TabsList>
+                    <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All</Tab>
+                    <Tab active={activeTab === "radio"} onClick={() => setActiveTab("radio")}>Radio</Tab>
+                    <Tab active={activeTab === "intercom"} onClick={() => setActiveTab("intercom")}>Intercom</Tab>
+                    <Tab active={activeTab === "chat"} onClick={() => setActiveTab("chat")}>Chat</Tab>
+                  </TabsList>
+                </Tabs>
+                <Select value={departmentFilter} onChange={(e) => setDepartmentFilter(e.target.value)}>
+                  {departments.map(d => <option key={d} value={d}>{d}</option>)}
+                </Select>
+              </Stack>
+              <Button variant="solid" onClick={() => setShowCreateModal(true)}>Create Channel</Button>
             </Stack>
-            <Button variant="outlineWhite" onClick={() => setShowCreateModal(true)}>Create Channel</Button>
-          </Stack>
 
-          <Grid cols={2} gap={4}>
-            {filteredChannels.filter(c => activeTab === "all" || c.type.toLowerCase() === activeTab).map((channel) => (
-              <Card key={channel.id} className="border-2 border-ink-800 bg-ink-900/50 p-6">
-                <Stack gap={4}>
-                  <Stack direction="horizontal" className="justify-between">
-                    <Stack direction="horizontal" gap={3}>
-                      <Label className="text-h5-md">{getTypeIcon(channel.type)}</Label>
-                      <Stack gap={1}>
-                        <Body className="font-display text-white">{channel.name}</Body>
-                        <Label className="text-ink-400">{channel.department}</Label>
+            <Grid cols={2} gap={4}>
+              {filteredChannels.filter(c => activeTab === "all" || c.type.toLowerCase() === activeTab).map((channel) => (
+                <Card key={channel.id} className="p-6">
+                  <Stack gap={4}>
+                    <Stack direction="horizontal" className="justify-between">
+                      <Stack direction="horizontal" gap={3}>
+                        <Body className="text-h5-md">{getTypeIcon(channel.type)}</Body>
+                        <Stack gap={1}>
+                          <Body className="font-display">{channel.name}</Body>
+                          <Body className="text-body-sm">{channel.department}</Body>
+                        </Stack>
+                      </Stack>
+                      <Stack gap={1} className="text-right">
+                        <Badge variant="outline">{channel.type}</Badge>
+                        {channel.frequency && <Body className="text-body-sm">{channel.frequency}</Body>}
                       </Stack>
                     </Stack>
-                    <Stack gap={1} className="text-right">
-                      <Badge variant="outline">{channel.type}</Badge>
-                      {channel.frequency && <Label className="font-mono text-ink-400">{channel.frequency}</Label>}
+                    <Body className="text-body-sm">{channel.description}</Body>
+                    <Stack direction="horizontal" className="items-center justify-between">
+                      <Body className="text-body-sm">{channel.members} members</Body>
+                      <Stack direction="horizontal" gap={2}>
+                        <Button variant="outline" size="sm" onClick={() => setSelectedChannel(channel)}>Manage</Button>
+                        <Button variant="solid" size="sm">Join</Button>
+                      </Stack>
                     </Stack>
                   </Stack>
-                  <Label className="text-ink-300">{channel.description}</Label>
-                  <Stack direction="horizontal" className="justify-between items-center">
-                    <Label className="text-ink-500">{channel.members} members</Label>
-                    <Stack direction="horizontal" gap={2}>
-                      <Button variant="outline" size="sm" onClick={() => setSelectedChannel(channel)}>Manage</Button>
-                      <Button variant="solid" size="sm">Join</Button>
-                    </Stack>
-                  </Stack>
-                </Stack>
-              </Card>
-            ))}
-          </Grid>
+                </Card>
+              ))}
+            </Grid>
 
-          <Grid cols={3} gap={4}>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/communications")}>Communications Hub</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/crew")}>Crew Directory</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/projects")}>Projects</Button>
-          </Grid>
-        </Stack>
-      </Container>
+            <Grid cols={3} gap={4}>
+              <Button variant="outline" onClick={() => router.push("/communications")}>Communications Hub</Button>
+              <Button variant="outline" onClick={() => router.push("/crew")}>Crew Directory</Button>
+              <Button variant="outline" onClick={() => router.push("/projects")}>Projects</Button>
+            </Grid>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedChannel} onClose={() => setSelectedChannel(null)}>
         <ModalHeader><H3>{selectedChannel?.name}</H3></ModalHeader>
@@ -137,21 +158,30 @@ export default function ChannelsPage() {
                 <Badge variant="outline">{selectedChannel.type}</Badge>
                 <Badge variant="outline">{selectedChannel.department}</Badge>
               </Stack>
-              <Stack gap={1}><Label className="text-ink-400">Description</Label><Body className="text-white">{selectedChannel.description}</Body></Stack>
+              <Stack gap={1}>
+                <Body className="font-display">Description</Body>
+                <Body>{selectedChannel.description}</Body>
+              </Stack>
               {selectedChannel.frequency && (
-                <Stack gap={1}><Label className="text-ink-400">Frequency/Channel</Label><Label className="font-mono text-white text-h6-md">{selectedChannel.frequency}</Label></Stack>
+                <Stack gap={1}>
+                  <Body className="font-display">Frequency/Channel</Body>
+                  <Body className="text-h6-md">{selectedChannel.frequency}</Body>
+                </Stack>
               )}
-              <Stack gap={1}><Label className="text-ink-400">Members</Label><Label className="text-white">{selectedChannel.members}</Label></Stack>
+              <Stack gap={1}>
+                <Body className="font-display">Members</Body>
+                <Body>{selectedChannel.members}</Body>
+              </Stack>
               <Stack gap={2}>
-                <Label className="text-ink-400">Recent Members</Label>
+                <Body className="font-display">Recent Members</Body>
                 <Stack direction="horizontal" gap={2}>
                   {["JS", "MK", "AL", "RB", "TC"].map((initials, idx) => (
-                    <Card key={idx} className="w-10 h-10 bg-ink-700 rounded-full flex items-center justify-center">
-                      <Label size="xs">{initials}</Label>
+                    <Card key={idx} className="flex size-10 items-center justify-center rounded-avatar">
+                      <Body className="text-body-sm">{initials}</Body>
                     </Card>
                   ))}
-                  <Card className="w-10 h-10 bg-ink-800 rounded-full flex items-center justify-center">
-                    <Label size="xs">+{selectedChannel.members - 5}</Label>
+                  <Card className="flex size-10 items-center justify-center rounded-avatar">
+                    <Body className="text-body-sm">+{selectedChannel.members - 5}</Body>
                   </Card>
                 </Stack>
               </Stack>
@@ -169,13 +199,13 @@ export default function ChannelsPage() {
         <ModalHeader><H3>Create Channel</H3></ModalHeader>
         <ModalBody>
           <Stack gap={4}>
-            <Input placeholder="Channel Name" className="border-ink-700 bg-black text-white" />
+            <Input placeholder="Channel Name" />
             <Grid cols={2} gap={4}>
-              <Select className="border-ink-700 bg-black text-white">
+              <Select>
                 <option value="">Department...</option>
                 {departments.slice(1).map(d => <option key={d} value={d}>{d}</option>)}
               </Select>
-              <Select className="border-ink-700 bg-black text-white">
+              <Select>
                 <option value="">Type...</option>
                 <option value="Radio">Radio</option>
                 <option value="Intercom">Intercom</option>
@@ -183,8 +213,8 @@ export default function ChannelsPage() {
                 <option value="All">All (Multi-platform)</option>
               </Select>
             </Grid>
-            <Input placeholder="Frequency/Channel (if applicable)" className="border-ink-700 bg-black text-white" />
-            <Textarea placeholder="Description..." rows={3} className="border-ink-700 bg-black text-white" />
+            <Input placeholder="Frequency/Channel (if applicable)" />
+            <Textarea placeholder="Description..." rows={3} />
           </Stack>
         </ModalBody>
         <ModalFooter>
@@ -192,6 +222,6 @@ export default function ChannelsPage() {
           <Button variant="solid" onClick={() => setShowCreateModal(false)}>Create</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

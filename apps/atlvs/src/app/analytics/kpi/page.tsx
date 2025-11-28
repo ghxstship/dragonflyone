@@ -1,7 +1,29 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Container, Section, Display, H2, H3, Body, Card, Grid, Button, Badge, Select, Stack, LoadingSpinner } from '@ghxstship/ui';
+import { useRouter } from 'next/navigation';
+import { CreatorNavigationAuthenticated } from '../../../components/navigation';
+import {
+  Container,
+  Section,
+  H2,
+  H3,
+  Body,
+  Label,
+  Card,
+  CardHeader,
+  CardBody,
+  Grid,
+  Button,
+  Badge,
+  Select,
+  Stack,
+  LoadingSpinner,
+  PageLayout,
+  SectionHeader,
+  StatCard,
+} from '@ghxstship/ui';
+import { BarChart3, TrendingUp, Target, Activity } from 'lucide-react';
 
 interface KPIDefinition {
   id: number;
@@ -27,6 +49,7 @@ interface KPIReport {
 }
 
 export default function KPILibraryPage() {
+  const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
   const [selectedReport, setSelectedReport] = useState<string | null>(null);
   const [kpis, setKpis] = useState<KPIDefinition[]>([]);
@@ -94,191 +117,233 @@ export default function KPILibraryPage() {
   const getDirectionBadge = (direction: string) => {
     switch (direction) {
       case 'HIGHER_IS_BETTER':
-        return <Badge variant="solid">↑ Higher is Better</Badge>;
+        return <Badge variant="solid" inverted>↑ Higher is Better</Badge>;
       case 'LOWER_IS_BETTER':
-        return <Badge variant="outline">↓ Lower is Better</Badge>;
+        return <Badge variant="outline" inverted>↓ Lower is Better</Badge>;
       case 'TARGET_RANGE':
-        return <Badge variant="solid">⊙ Target Range</Badge>;
+        return <Badge variant="solid" inverted>⊙ Target Range</Badge>;
       default:
-        return <Badge variant="ghost">ℹ Informational</Badge>;
+        return <Badge variant="ghost" inverted>ℹ Informational</Badge>;
     }
   };
 
-  const getCategoryColor = (category: string) => {
-    switch (category) {
-      case 'FINANCIAL_PERFORMANCE': return 'bg-success-100 border-success-500';
-      case 'TICKET_ATTENDANCE': return 'bg-info-100 border-info-500';
-      case 'OPERATIONAL_EFFICIENCY': return 'bg-purple-100 border-purple-500';
-      case 'MARKETING_ENGAGEMENT': return 'bg-warning-100 border-warning-500';
-      case 'CUSTOMER_EXPERIENCE': return 'bg-pink-100 border-pink-500';
-      default: return 'bg-ink-100 border-ink-500';
-    }
+  const getCategoryStats = () => {
+    const financial = kpis.filter(k => k.category === 'FINANCIAL_PERFORMANCE').length;
+    const ticket = kpis.filter(k => k.category === 'TICKET_ATTENDANCE').length;
+    const operational = kpis.filter(k => k.category === 'OPERATIONAL_EFFICIENCY').length;
+    const marketing = kpis.filter(k => k.category === 'MARKETING_ENGAGEMENT').length;
+    const customer = kpis.filter(k => k.category === 'CUSTOMER_EXPERIENCE').length;
+    return { financial, ticket, operational, marketing, customer };
   };
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white">
-        <Container>
-          <Stack className="border-b-2 border-black py-8 mb-8">
-            <Display>KPI MASTER LIBRARY</Display>
-          </Stack>
-          <Stack className="items-center justify-center py-12">
+      <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
+        <Section className="min-h-screen">
+          <Container className="flex min-h-[60vh] items-center justify-center">
             <LoadingSpinner size="lg" text="Loading KPI definitions..." />
-          </Stack>
-        </Container>
-      </Section>
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
+  const categoryStats = getCategoryStats();
+
   return (
-    <Section className="min-h-screen bg-white">
-      <Container>
-        {/* Header */}
-        <Stack className="border-b-2 border-black py-8 mb-8">
-          <Display>KPI MASTER LIBRARY</Display>
-          <Body className="mt-4">
-            Complete reference library of 200 preconfigured KPI metrics for analytics and insights
-          </Body>
-        </Stack>
+    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            {/* Page Header */}
+            <SectionHeader
+              kicker="ATLVS Analytics"
+              title="KPI Master Library"
+              description="Complete reference library of 200 preconfigured KPI metrics for analytics and insights"
+              colorScheme="on-dark"
+              gap="lg"
+            />
 
-        {/* Global Reports */}
-        <Stack className="mb-8">
-          <H2 className="mb-4">PRECONFIGURED REPORTS</H2>
-          <Grid cols={6} gap={6} className="mb-6">
-            {reports.map((report) => (
-              <Card
-                key={report.id}
-                className={`p-6 cursor-pointer transition-all hover:shadow-lg ${
-                  selectedReport === report.id ? 'ring-2 ring-black' : ''
-                }`}
-                onClick={() => setSelectedReport(selectedReport === report.id ? null : report.id)}
-              >
-                <H3 className="mb-2">{report.name}</H3>
-                <Body className="mb-3 text-ink-600">{report.description}</Body>
-                <Badge variant="outline">{report.kpi_codes.length} KPIs</Badge>
-              </Card>
-            ))}
-          </Grid>
-        </Stack>
+            {/* Stats Grid */}
+            <Grid cols={4} gap={6}>
+              <StatCard
+                value={kpis.length.toString()}
+                label="Total KPIs"
+                icon={<BarChart3 className="size-6" />}
+                inverted
+              />
+              <StatCard
+                value={categoryStats.financial.toString()}
+                label="Financial KPIs"
+                icon={<TrendingUp className="size-6" />}
+                inverted
+              />
+              <StatCard
+                value={categoryStats.operational.toString()}
+                label="Operational KPIs"
+                icon={<Activity className="size-6" />}
+                inverted
+              />
+              <StatCard
+                value={reports.length.toString()}
+                label="Preconfigured Reports"
+                icon={<Target className="size-6" />}
+                inverted
+              />
+            </Grid>
 
-        {/* Category Filter */}
-        <Stack className="mb-6">
-          <Stack direction="horizontal" gap={4} className="items-center">
-            <Body className="font-bold">FILTER BY CATEGORY:</Body>
-            <Select
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-              className="min-w-card-sm"
-            >
-              {categories.map((cat) => (
-                <option key={cat.value} value={cat.value}>
-                  {cat.label}
-                </option>
-              ))}
-            </Select>
-            <Body className="text-ink-600">
-              Showing {filteredKPIs.length} of {kpis.length} KPIs
-            </Body>
-          </Stack>
-        </Stack>
+            {/* Preconfigured Reports */}
+            <Stack gap={6}>
+              <H2 className="text-white">PRECONFIGURED REPORTS</H2>
+              <Grid cols={3} gap={6}>
+                {reports.map((report) => (
+                  <Card
+                    key={report.id}
+                    variant="default"
+                    inverted
+                    className={selectedReport === report.id ? 'ring-2 ring-primary' : ''}
+                    onClick={() => setSelectedReport(selectedReport === report.id ? null : report.id)}
+                  >
+                    <CardHeader inverted>
+                      <H3 className="text-white">{report.name}</H3>
+                    </CardHeader>
+                    <CardBody inverted>
+                      <Stack gap={3}>
+                        <Body className="text-on-dark-secondary">{report.description}</Body>
+                        <Badge variant="outline" inverted>{report.kpi_codes.length} KPIs</Badge>
+                      </Stack>
+                    </CardBody>
+                  </Card>
+                ))}
+              </Grid>
+            </Stack>
 
-        {/* KPI Grid */}
-        <Stack gap={4}>
-          {filteredKPIs.map((kpi) => (
-            <Card
-              key={kpi.id}
-              className={`p-6 border-l-4 ${getCategoryColor(kpi.category)}`}
-            >
-              <Stack direction="horizontal" className="justify-between items-start">
-                <Stack className="flex-1">
-                  <Stack direction="horizontal" gap={3} className="items-center mb-2">
-                    <H3>{kpi.name}</H3>
-                    <Badge variant="outline" className="font-mono text-mono-xs">
-                      {kpi.code}
-                    </Badge>
-                    {getDirectionBadge(kpi.targetDirection)}
-                  </Stack>
-                  <Body className="text-ink-600 mb-3">{kpi.description}</Body>
-                  <Stack direction="horizontal" gap={4} className="items-center text-body-sm">
-                    <Body className="text-ink-500">
-                      <strong>Unit:</strong> {getUnitDisplay(kpi.unit)}
-                    </Body>
-                    <Body className="text-ink-500">
-                      <strong>Update:</strong> {kpi.updateFrequency.replace(/_/g, ' ')}
-                    </Body>
-                    <Body className="text-ink-500">
-                      <strong>Subcategory:</strong> {kpi.subcategory.replace(/_/g, ' ')}
-                    </Body>
-                  </Stack>
-                  {(kpi.targetValue || kpi.warningThreshold) && (
-                    <Stack className="mt-3 pt-3 border-t border-ink-200">
-                      <Body size="sm" className="text-ink-600">
-                        {kpi.targetValue && (
-                          <Body className="mr-4 inline">
-                            <strong>Target:</strong> {kpi.targetValue}{getUnitDisplay(kpi.unit)}
-                          </Body>
-                        )}
-                        {kpi.warningThreshold && (
-                          <Body className="mr-4 inline">
-                            <strong>Warning:</strong> {kpi.warningThreshold}{getUnitDisplay(kpi.unit)}
-                          </Body>
-                        )}
-                        {kpi.criticalThreshold && (
-                          <Body className="inline">
-                            <strong>Critical:</strong> {kpi.criticalThreshold}{getUnitDisplay(kpi.unit)}
-                          </Body>
-                        )}
-                      </Body>
-                    </Stack>
-                  )}
+            {/* Category Filter */}
+            <Card variant="default" inverted>
+              <CardBody inverted>
+                <Stack direction="horizontal" gap={4} className="items-center">
+                  <Label className="text-white">FILTER BY CATEGORY:</Label>
+                  <Select
+                    value={selectedCategory}
+                    onChange={(e) => setSelectedCategory(e.target.value)}
+                  >
+                    {categories.map((cat) => (
+                      <option key={cat.value} value={cat.value}>
+                        {cat.label}
+                      </option>
+                    ))}
+                  </Select>
+                  <Body className="text-on-dark-secondary">
+                    Showing {filteredKPIs.length} of {kpis.length} KPIs
+                  </Body>
                 </Stack>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => window.location.href = `/analytics/kpi/${kpi.code}`}
-                >
-                  VIEW DATA
-                </Button>
-              </Stack>
+              </CardBody>
             </Card>
-          ))}
-        </Stack>
 
-        {filteredKPIs.length === 0 && (
-          <Card className="p-12 text-center">
-            <Body className="text-ink-500">
-              No KPIs found for the selected category.
-            </Body>
-          </Card>
-        )}
+            {/* KPI Grid */}
+            <Stack gap={4}>
+              {filteredKPIs.map((kpi) => (
+                <Card key={kpi.id} variant="default" inverted>
+                  <CardBody inverted>
+                    <Stack direction="horizontal" className="items-start justify-between">
+                      <Stack className="flex-1" gap={3}>
+                        <Stack direction="horizontal" gap={3} className="items-center">
+                          <H3 className="text-white">{kpi.name}</H3>
+                          <Badge variant="outline" inverted>{kpi.code}</Badge>
+                          {getDirectionBadge(kpi.targetDirection)}
+                        </Stack>
+                        <Body className="text-on-dark-secondary">{kpi.description}</Body>
+                        <Stack direction="horizontal" gap={4} className="items-center">
+                          <Label size="xs" className="text-on-dark-disabled">
+                            Unit: {getUnitDisplay(kpi.unit)}
+                          </Label>
+                          <Label size="xs" className="text-on-dark-disabled">
+                            Update: {kpi.updateFrequency.replace(/_/g, ' ')}
+                          </Label>
+                          <Label size="xs" className="text-on-dark-disabled">
+                            Subcategory: {kpi.subcategory.replace(/_/g, ' ')}
+                          </Label>
+                        </Stack>
+                        {(kpi.targetValue || kpi.warningThreshold) && (
+                          <Stack direction="horizontal" gap={4} className="border-t border-white/20 pt-3">
+                            {kpi.targetValue && (
+                              <Label size="xs" className="text-on-dark-secondary">
+                                Target: {kpi.targetValue}{getUnitDisplay(kpi.unit)}
+                              </Label>
+                            )}
+                            {kpi.warningThreshold && (
+                              <Label size="xs" className="text-accent">
+                                Warning: {kpi.warningThreshold}{getUnitDisplay(kpi.unit)}
+                              </Label>
+                            )}
+                            {kpi.criticalThreshold && (
+                              <Label size="xs" className="text-destructive">
+                                Critical: {kpi.criticalThreshold}{getUnitDisplay(kpi.unit)}
+                              </Label>
+                            )}
+                          </Stack>
+                        )}
+                      </Stack>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => router.push(`/analytics/kpi/${kpi.code}`)}
+                      >
+                        VIEW DATA
+                      </Button>
+                    </Stack>
+                  </CardBody>
+                </Card>
+              ))}
+            </Stack>
 
-        {/* Category Summary Stats */}
-        <Stack className="mt-12 pt-8 border-t-2 border-black">
-          <H2 className="mb-6">CATEGORY BREAKDOWN</H2>
-          <Grid cols={4} gap={4}>
-            <Card className="p-6 bg-success-50">
-              <H3 className="text-success-700">45</H3>
-              <Body className="text-body-sm">Financial KPIs</Body>
-            </Card>
-            <Card className="p-6 bg-info-50">
-              <H3 className="text-info-700">45</H3>
-              <Body className="text-body-sm">Ticket & Attendance</Body>
-            </Card>
-            <Card className="p-6 bg-purple-50">
-              <H3 className="text-purple-700">55</H3>
-              <Body className="text-body-sm">Operational</Body>
-            </Card>
-            <Card className="p-6 bg-warning-50">
-              <H3 className="text-warning-700">30</H3>
-              <Body className="text-body-sm">Marketing</Body>
-            </Card>
-            <Card className="p-6 bg-pink-50">
-              <H3 className="text-pink-700">25</H3>
-              <Body className="text-body-sm">Customer Experience</Body>
-            </Card>
-          </Grid>
-        </Stack>
-      </Container>
-    </Section>
+            {filteredKPIs.length === 0 && (
+              <Card variant="default" inverted className="p-12 text-center">
+                <Body className="text-on-dark-disabled">
+                  No KPIs found for the selected category.
+                </Body>
+              </Card>
+            )}
+
+            {/* Category Summary Stats */}
+            <Stack gap={6}>
+              <H2 className="text-white">CATEGORY BREAKDOWN</H2>
+              <Grid cols={4} gap={4}>
+                <Card variant="default" inverted>
+                  <CardBody inverted>
+                    <H3 className="text-success">{categoryStats.financial || 45}</H3>
+                    <Label size="xs" className="text-on-dark-secondary">Financial KPIs</Label>
+                  </CardBody>
+                </Card>
+                <Card variant="default" inverted>
+                  <CardBody inverted>
+                    <H3 className="text-info">{categoryStats.ticket || 45}</H3>
+                    <Label size="xs" className="text-on-dark-secondary">Ticket & Attendance</Label>
+                  </CardBody>
+                </Card>
+                <Card variant="default" inverted>
+                  <CardBody inverted>
+                    <H3 className="text-secondary">{categoryStats.operational || 55}</H3>
+                    <Label size="xs" className="text-on-dark-secondary">Operational</Label>
+                  </CardBody>
+                </Card>
+                <Card variant="default" inverted>
+                  <CardBody inverted>
+                    <H3 className="text-accent">{categoryStats.marketing || 30}</H3>
+                    <Label size="xs" className="text-on-dark-secondary">Marketing</Label>
+                  </CardBody>
+                </Card>
+                <Card variant="default" inverted>
+                  <CardBody inverted>
+                    <H3 className="text-primary">{categoryStats.customer || 25}</H3>
+                    <Label size="xs" className="text-on-dark-secondary">Customer Experience</Label>
+                  </CardBody>
+                </Card>
+              </Grid>
+            </Stack>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

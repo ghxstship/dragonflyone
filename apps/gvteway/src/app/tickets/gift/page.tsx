@@ -2,11 +2,10 @@
 
 import { useState, useEffect, useCallback, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { ConsumerNavigationPublic } from '../../../components/navigation';
+import { ConsumerNavigationPublic } from '@/components/navigation';
 import {
   Container,
   Section,
-  H1,
   H2,
   H3,
   Body,
@@ -20,6 +19,12 @@ import {
   Stack,
   Alert,
   LoadingSpinner,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
+  Kicker,
 } from '@ghxstship/ui';
 
 interface Event {
@@ -139,56 +144,123 @@ function GiftTicketsContent() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading..." />
-        </Container>
-      </Section>
+      <PageLayout
+        background="black"
+        header={<ConsumerNavigationPublic />}
+        footer={
+          <Footer
+            logo={<Display size="md">GVTEWAY</Display>}
+            copyright="© 2024 GHXSTSHIP INDUSTRIES."
+          >
+            <FooterColumn title="Tickets">
+              <FooterLink href="/tickets/gift">Gift Tickets</FooterLink>
+            </FooterColumn>
+          </Footer>
+        }
+      >
+        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+          <div
+            className="pointer-events-none absolute inset-0 opacity-5"
+            style={{
+              backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+              backgroundSize: "40px 40px",
+            }}
+          />
+          <Container className="relative z-10 flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" text="Loading..." />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   if (success) {
     return (
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="py-16">
-          <Stack className="items-center justify-center min-h-[40vh]" gap={6}>
-            <Stack className="w-24 h-24 bg-black rounded-full items-center justify-center">
-              <Body className="text-white text-h3-md">🎁</Body>
+      <PageLayout
+        background="black"
+        header={<ConsumerNavigationPublic />}
+        footer={
+          <Footer
+            logo={<Display size="md">GVTEWAY</Display>}
+            copyright="© 2024 GHXSTSHIP INDUSTRIES."
+          >
+            <FooterColumn title="Tickets">
+              <FooterLink href="/tickets/gift">Gift Tickets</FooterLink>
+            </FooterColumn>
+          </Footer>
+        }
+      >
+        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+          <div
+            className="pointer-events-none absolute inset-0 opacity-5"
+            style={{
+              backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+              backgroundSize: "40px 40px",
+            }}
+          />
+          <Container className="relative z-10">
+            <Stack className="items-center justify-center min-h-[40vh]" gap={6}>
+              <Stack className="size-24 rounded-avatar bg-primary items-center justify-center">
+                <Body className="text-white text-h3-md">🎁</Body>
+              </Stack>
+              <H2 size="lg" className="text-white">Gift Sent!</H2>
+              <Body className="text-center text-on-dark-muted max-w-md">
+                Your gift tickets have been sent to {formData.recipient_email}.
+                {formData.delivery_date && (
+                  <> They will receive them on {new Date(formData.delivery_date).toLocaleDateString()}.</>
+                )}
+              </Body>
+              <Stack direction="horizontal" gap={4}>
+                <Button variant="solid" inverted onClick={() => router.push('/events')}>
+                  Browse More Events
+                </Button>
+                <Button variant="outlineInk" onClick={() => router.push('/orders')}>
+                  View Orders
+                </Button>
+              </Stack>
             </Stack>
-            <H1>Gift Sent!</H1>
-            <Body className="text-center text-ink-600 max-w-md">
-              Your gift tickets have been sent to {formData.recipient_email}.
-              {formData.delivery_date && (
-                <> They will receive them on {new Date(formData.delivery_date).toLocaleDateString()}.</>
-              )}
-            </Body>
-            <Stack direction="horizontal" gap={4}>
-              <Button variant="solid" onClick={() => router.push('/events')}>
-                Browse More Events
-              </Button>
-              <Button variant="outline" onClick={() => router.push('/orders')}>
-                View Orders
-              </Button>
-            </Stack>
-          </Stack>
-        </Container>
-      </Section>
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-        <Stack gap={2} className="border-b-2 border-black pb-8">
-          <H1>Gift Tickets</H1>
-          <Body className="text-ink-600">
-            Send tickets as a gift to someone special
-          </Body>
-        </Stack>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Tickets">
+            <FooterLink href="/tickets">My Tickets</FooterLink>
+            <FooterLink href="/tickets/gift">Gift Tickets</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Gifting</Kicker>
+              <H2 size="lg" className="text-white">Gift Tickets</H2>
+              <Body className="text-on-dark-muted">Send tickets as a gift to someone special</Body>
+            </Stack>
 
         {error && (
           <Alert variant="error" className="mb-6">
@@ -397,21 +469,43 @@ function GiftTicketsContent() {
             </Card>
           </Stack>
         </Grid>
-        </Stack>
-      </Container>
-    </Section>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }
 
 export default function GiftTicketsPage() {
   return (
     <Suspense fallback={
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading..." />
-        </Container>
-      </Section>
+      <PageLayout
+        background="black"
+        header={<ConsumerNavigationPublic />}
+        footer={
+          <Footer
+            logo={<Display size="md">GVTEWAY</Display>}
+            copyright="© 2024 GHXSTSHIP INDUSTRIES."
+          >
+            <FooterColumn title="Tickets">
+              <FooterLink href="/tickets/gift">Gift Tickets</FooterLink>
+            </FooterColumn>
+          </Footer>
+        }
+      >
+        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+          <div
+            className="pointer-events-none absolute inset-0 opacity-5"
+            style={{
+              backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+              backgroundSize: "40px 40px",
+            }}
+          />
+          <Container className="relative z-10 flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" text="Loading..." />
+          </Container>
+        </Section>
+      </PageLayout>
     }>
       <GiftTicketsContent />
     </Suspense>

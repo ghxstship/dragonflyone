@@ -3,11 +3,10 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNotifications } from '@ghxstship/ui';
 import { useParams, useRouter } from 'next/navigation';
-import { ConsumerNavigationPublic } from '../../../components/navigation';
+import { ConsumerNavigationPublic } from '@/components/navigation';
 import {
   Container,
   Section,
-  H1,
   H2,
   H3,
   Body,
@@ -20,6 +19,12 @@ import {
   LoadingSpinner,
   ProjectCard,
   Figure,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
+  Kicker,
 } from '@ghxstship/ui';
 import Image from 'next/image';
 
@@ -117,40 +122,67 @@ export default function ArtistPage() {
     }
   };
 
+  const footerContent = (
+    <Footer
+      logo={<Display size="md">GVTEWAY</Display>}
+      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+    >
+      <FooterColumn title="Artists">
+        <FooterLink href="/artists">Browse Artists</FooterLink>
+      </FooterColumn>
+      <FooterColumn title="Legal">
+        <FooterLink href="/legal/privacy">Privacy</FooterLink>
+        <FooterLink href="/legal/terms">Terms</FooterLink>
+      </FooterColumn>
+    </Footer>
+  );
+
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
+      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+        <Section background="black" className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading artist..." />
-        </Container>
-      </Section>
+        </Section>
+      </PageLayout>
     );
   }
 
   if (!artist) {
     return (
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="py-16">
-          <Stack className="items-center justify-center min-h-[40vh]" gap={4}>
-            <H1>Artist Not Found</H1>
-            <Body className="text-ink-600">The artist you are looking for does not exist.</Body>
-            <Button variant="outline" onClick={() => router.push('/artists')}>
-              Browse Artists
-            </Button>
-          </Stack>
-        </Container>
-      </Section>
+      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+        <Section background="black" className="min-h-screen py-16">
+          <Container>
+            <Stack className="items-center justify-center min-h-[40vh]" gap={4}>
+              <H2 className="text-white">Artist Not Found</H2>
+              <Body className="text-on-dark-muted">The artist you are looking for does not exist.</Body>
+              <Button variant="outlineInk" onClick={() => router.push('/artists')}>
+                Browse Artists
+              </Button>
+            </Stack>
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-        <Grid cols={3} gap={8} className="border-b-2 border-black pb-8">
+    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Artists</Kicker>
+            </Stack>
+
+            <Grid cols={3} gap={8} className="border-b-2 border-ink-800 pb-8">
           <Stack className="col-span-1">
               {artist.image ? (
                 <Figure className="relative aspect-square bg-ink-100 overflow-hidden">
@@ -172,7 +204,7 @@ export default function ArtistPage() {
 
             <Stack className="col-span-2" gap={4}>
               <Stack direction="horizontal" gap={3} className="items-center">
-                <H1>{artist.name}</H1>
+                <H2 className="text-white">{artist.name}</H2>
                 {artist.verified && (
                   <Badge>Verified</Badge>
                 )}
@@ -183,17 +215,17 @@ export default function ArtistPage() {
               )}
 
               {artist.bio && (
-                <Body className="text-ink-600 max-w-2xl">{artist.bio}</Body>
+                <Body className="max-w-2xl text-on-dark-muted">{artist.bio}</Body>
               )}
 
               <Stack direction="horizontal" gap={6} className="mt-4">
                 <Stack>
-                  <H2>{artist.followers_count.toLocaleString()}</H2>
-                  <Label className="text-ink-500">Followers</Label>
+                  <H2 className="text-white">{artist.followers_count.toLocaleString()}</H2>
+                  <Label className="text-on-dark-muted">Followers</Label>
                 </Stack>
                 <Stack>
-                  <H2>{events.length}</H2>
-                  <Label className="text-ink-500">Upcoming Events</Label>
+                  <H2 className="text-white">{events.length}</H2>
+                  <Label className="text-on-dark-muted">Upcoming Events</Label>
                 </Stack>
               </Stack>
 
@@ -233,7 +265,7 @@ export default function ArtistPage() {
           </Grid>
 
         <Stack gap={6}>
-          <H2>Upcoming Events</H2>
+          <H2 className="text-white">Upcoming Events</H2>
           {events.length > 0 ? (
             <Grid cols={3} gap={6}>
               {events.map(event => (
@@ -247,16 +279,17 @@ export default function ArtistPage() {
               ))}
             </Grid>
           ) : (
-            <Card className="p-8 text-center">
-              <Body className="text-ink-500">No upcoming events scheduled.</Body>
-              <Body className="text-ink-600 text-body-sm mt-2">
+            <Card inverted className="p-8 text-center">
+              <Body className="text-on-dark-muted">No upcoming events scheduled.</Body>
+              <Body size="sm" className="mt-2 text-on-dark-disabled">
                 Follow {artist.name} to get notified when new events are announced.
               </Body>
             </Card>
           )}
         </Stack>
-        </Stack>
-      </Container>
-    </Section>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

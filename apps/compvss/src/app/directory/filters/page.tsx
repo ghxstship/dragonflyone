@@ -4,10 +4,19 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { CreatorNavigationAuthenticated } from '../../../components/navigation';
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select,
-  Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter,
+  Container,
+  H3,
+  Body,
+  Grid,
+  Stack,
+  StatCard,
+  Select,
+  Button,
+  Section,
+  Card,
+  Badge,
+  PageLayout,
+  SectionHeader,
 } from '@ghxstship/ui';
 
 interface DirectoryEntry {
@@ -57,120 +66,123 @@ export default function DirectoryFiltersPage() {
   };
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Directory Search</H1>
-            <Label className="text-ink-600">Filter by language and specialty</Label>
-          </Stack>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Directory Search"
+              description="Filter by language and specialty"
+              colorScheme="on-light"
+              gap="lg"
+            />
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Total Results" value={filteredEntries.length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Crew" value={filteredEntries.filter(e => e.type === 'Crew').length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Vendors" value={filteredEntries.filter(e => e.type === 'Vendor').length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Venues" value={filteredEntries.filter(e => e.type === 'Venue').length} className="bg-transparent border-2 border-ink-800" />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard value={filteredEntries.length.toString()} label="Total Results" />
+              <StatCard value={filteredEntries.filter(e => e.type === 'Crew').length.toString()} label="Crew" />
+              <StatCard value={filteredEntries.filter(e => e.type === 'Vendor').length.toString()} label="Vendors" />
+              <StatCard value={filteredEntries.filter(e => e.type === 'Venue').length.toString()} label="Venues" />
+            </Grid>
 
-          <Grid cols={4} gap={6}>
-            <Card className="border-2 border-ink-800 bg-ink-900/50 p-4 col-span-1">
-              <Stack gap={4}>
-                <H3>Filters</H3>
-                
-                <Stack gap={2}>
-                  <Label className="text-ink-600">Type</Label>
-                  <Select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)} className="border-ink-700 bg-black text-white">
-                    <option value="All">All Types</option>
-                    <option value="Crew">Crew</option>
-                    <option value="Vendor">Vendor</option>
-                    <option value="Venue">Venue</option>
-                  </Select>
-                </Stack>
-
-                <Stack gap={2}>
-                  <Label className="text-ink-600">Languages</Label>
-                  <Stack gap={1}>
-                    {allLanguages.map(lang => (
-                      <Stack key={lang} direction="horizontal" gap={2} className="cursor-pointer" onClick={() => toggleLanguage(lang)}>
-                        <Card className={`w-4 h-4 border ${selectedLanguages.includes(lang) ? 'bg-white border-white' : 'border-ink-600'}`} />
-                        <Label className={selectedLanguages.includes(lang) ? 'text-white' : 'text-ink-600'}>{lang}</Label>
-                      </Stack>
-                    ))}
+            <Grid cols={4} gap={6}>
+              <Card className="col-span-1 p-4">
+                <Stack gap={4}>
+                  <H3>Filters</H3>
+                  
+                  <Stack gap={2}>
+                    <Body className="font-display">Type</Body>
+                    <Select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)}>
+                      <option value="All">All Types</option>
+                      <option value="Crew">Crew</option>
+                      <option value="Vendor">Vendor</option>
+                      <option value="Venue">Venue</option>
+                    </Select>
                   </Stack>
-                </Stack>
 
-                <Stack gap={2}>
-                  <Label className="text-ink-600">Specialties</Label>
-                  <Stack gap={1} className="max-h-48 overflow-y-auto">
-                    {allSpecialties.slice(0, 10).map(spec => (
-                      <Stack key={spec} direction="horizontal" gap={2} className="cursor-pointer" onClick={() => toggleSpecialty(spec)}>
-                        <Card className={`w-4 h-4 border ${selectedSpecialties.includes(spec) ? 'bg-white border-white' : 'border-ink-600'}`} />
-                        <Label size="xs" className={selectedSpecialties.includes(spec) ? 'text-white' : 'text-ink-600'}>{spec}</Label>
-                      </Stack>
-                    ))}
-                  </Stack>
-                </Stack>
-
-                <Stack direction="horizontal" gap={2} className="cursor-pointer" onClick={() => setAvailableOnly(!availableOnly)}>
-                  <Card className={`w-4 h-4 border ${availableOnly ? 'bg-white border-white' : 'border-ink-600'}`} />
-                  <Label className={availableOnly ? 'text-white' : 'text-ink-600'}>Available Only</Label>
-                </Stack>
-
-                <Button variant="outline" size="sm" onClick={() => { setSelectedLanguages([]); setSelectedSpecialties([]); setTypeFilter('All'); setAvailableOnly(false); }}>
-                  Clear Filters
-                </Button>
-              </Stack>
-            </Card>
-
-            <Stack gap={4} className="col-span-3">
-              {selectedLanguages.length > 0 || selectedSpecialties.length > 0 ? (
-                <Stack direction="horizontal" gap={2} className="flex-wrap">
-                  {selectedLanguages.map(lang => (
-                    <Badge key={lang} variant="solid" className="cursor-pointer" onClick={() => toggleLanguage(lang)}>{lang} ×</Badge>
-                  ))}
-                  {selectedSpecialties.map(spec => (
-                    <Badge key={spec} variant="outline" className="cursor-pointer" onClick={() => toggleSpecialty(spec)}>{spec} ×</Badge>
-                  ))}
-                </Stack>
-              ) : null}
-
-              <Stack gap={3}>
-                {filteredEntries.map(entry => (
-                  <Card key={entry.id} className="border-2 border-ink-800 bg-ink-900/50 p-4">
-                    <Stack direction="horizontal" className="justify-between">
-                      <Stack gap={2}>
-                        <Stack direction="horizontal" gap={3}>
-                          <Body className="font-display text-white">{entry.name}</Body>
-                          <Badge variant="outline">{entry.type}</Badge>
-                          {!entry.available && <Badge className="bg-ink-700 text-ink-600">Unavailable</Badge>}
+                  <Stack gap={2}>
+                    <Body className="font-display">Languages</Body>
+                    <Stack gap={1}>
+                      {allLanguages.map(lang => (
+                        <Stack key={lang} direction="horizontal" gap={2} className="cursor-pointer" onClick={() => toggleLanguage(lang)}>
+                          <Card className={`size-4 rounded-badge border-2 ${selectedLanguages.includes(lang) ? 'bg-primary-500' : ''}`} />
+                          <Body className="text-body-sm">{lang}</Body>
                         </Stack>
-                        <Stack direction="horizontal" gap={2} className="flex-wrap">
-                          {entry.specialties.slice(0, 3).map(spec => (
-                            <Badge key={spec} variant="outline">{spec}</Badge>
-                          ))}
-                          {entry.specialties.length > 3 && <Label className="text-ink-500">+{entry.specialties.length - 3} more</Label>}
-                        </Stack>
-                        <Stack direction="horizontal" gap={4}>
-                          <Label className="text-ink-600">{entry.location}</Label>
-                          <Label className="text-ink-600">Languages: {entry.languages.join(', ')}</Label>
-                        </Stack>
-                      </Stack>
-                      <Stack gap={2} className="text-right">
-                        <Label className="font-mono text-warning-400">{entry.rating} ★</Label>
-                        <Button variant="outline" size="sm">View Profile</Button>
-                      </Stack>
+                      ))}
                     </Stack>
-                  </Card>
-                ))}
-              </Stack>
-            </Stack>
-          </Grid>
+                  </Stack>
 
-          <Button variant="outline" className="border-ink-700 text-ink-600" onClick={() => router.push('/directory')}>Back to Directory</Button>
-        </Stack>
-      </Container>
-    </UISection>
+                  <Stack gap={2}>
+                    <Body className="font-display">Specialties</Body>
+                    <Stack gap={1} className="max-h-48 overflow-y-auto">
+                      {allSpecialties.slice(0, 10).map(spec => (
+                        <Stack key={spec} direction="horizontal" gap={2} className="cursor-pointer" onClick={() => toggleSpecialty(spec)}>
+                          <Card className={`size-4 rounded-badge border-2 ${selectedSpecialties.includes(spec) ? 'bg-primary-500' : ''}`} />
+                          <Body className="text-body-sm">{spec}</Body>
+                        </Stack>
+                      ))}
+                    </Stack>
+                  </Stack>
+
+                  <Stack direction="horizontal" gap={2} className="cursor-pointer" onClick={() => setAvailableOnly(!availableOnly)}>
+                    <Card className={`size-4 rounded-badge border-2 ${availableOnly ? 'bg-primary-500' : ''}`} />
+                    <Body className="text-body-sm">Available Only</Body>
+                  </Stack>
+
+                  <Button variant="outline" size="sm" onClick={() => { setSelectedLanguages([]); setSelectedSpecialties([]); setTypeFilter('All'); setAvailableOnly(false); }}>
+                    Clear Filters
+                  </Button>
+                </Stack>
+              </Card>
+
+              <Stack gap={4} className="col-span-3">
+                {selectedLanguages.length > 0 || selectedSpecialties.length > 0 ? (
+                  <Stack direction="horizontal" gap={2} className="flex-wrap">
+                    {selectedLanguages.map(lang => (
+                      <Badge key={lang} variant="solid" className="cursor-pointer" onClick={() => toggleLanguage(lang)}>{lang} ×</Badge>
+                    ))}
+                    {selectedSpecialties.map(spec => (
+                      <Badge key={spec} variant="outline" className="cursor-pointer" onClick={() => toggleSpecialty(spec)}>{spec} ×</Badge>
+                    ))}
+                  </Stack>
+                ) : null}
+
+                <Stack gap={3}>
+                  {filteredEntries.map(entry => (
+                    <Card key={entry.id} className="p-4">
+                      <Stack direction="horizontal" className="justify-between">
+                        <Stack gap={2}>
+                          <Stack direction="horizontal" gap={3}>
+                            <Body className="font-display">{entry.name}</Body>
+                            <Badge variant="outline">{entry.type}</Badge>
+                            {!entry.available && <Badge variant="outline">Unavailable</Badge>}
+                          </Stack>
+                          <Stack direction="horizontal" gap={2} className="flex-wrap">
+                            {entry.specialties.slice(0, 3).map(spec => (
+                              <Badge key={spec} variant="outline">{spec}</Badge>
+                            ))}
+                            {entry.specialties.length > 3 && <Body className="text-body-sm">+{entry.specialties.length - 3} more</Body>}
+                          </Stack>
+                          <Stack direction="horizontal" gap={4}>
+                            <Body className="text-body-sm">{entry.location}</Body>
+                            <Body className="text-body-sm">Languages: {entry.languages.join(', ')}</Body>
+                          </Stack>
+                        </Stack>
+                        <Stack gap={2} className="text-right">
+                          <Body className="font-display">{entry.rating} ★</Body>
+                          <Button variant="outline" size="sm">View Profile</Button>
+                        </Stack>
+                      </Stack>
+                    </Card>
+                  ))}
+                </Stack>
+              </Stack>
+            </Grid>
+
+            <Button variant="outline" onClick={() => router.push('/directory')}>Back to Directory</Button>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

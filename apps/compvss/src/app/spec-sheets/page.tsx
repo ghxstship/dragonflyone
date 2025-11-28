@@ -4,10 +4,28 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter,
-  Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
+  Container,
+  H3,
+  Body,
+  Grid,
+  Stack,
+  StatCard,
+  Input,
+  Select,
+  Button,
+  Section,
+  Card,
+  Badge,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Table,
+  TableBody,
+  TableRow,
+  TableCell,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 interface SpecSheet {
@@ -60,65 +78,68 @@ export default function SpecSheetsPage() {
   };
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Technical Specifications</H1>
-            <Label className="text-ink-400">Equipment specification sheets and cut sheets library</Label>
-          </Stack>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Technical Specifications"
+              description="Equipment specification sheets and cut sheets library"
+              colorScheme="on-light"
+              gap="lg"
+            />
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Total Specs" value={mockSpecs.length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Categories" value={categories.length - 1} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Manufacturers" value={new Set(mockSpecs.map(s => s.manufacturer)).size} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Downloads" value={mockSpecs.reduce((sum, s) => sum + s.downloads, 0)} className="bg-transparent border-2 border-ink-800" />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard value={mockSpecs.length.toString()} label="Total Specs" />
+              <StatCard value={(categories.length - 1).toString()} label="Categories" />
+              <StatCard value={new Set(mockSpecs.map(s => s.manufacturer)).size.toString()} label="Manufacturers" />
+              <StatCard value={mockSpecs.reduce((sum, s) => sum + s.downloads, 0).toString()} label="Downloads" />
+            </Grid>
 
-          <Grid cols={3} gap={4}>
-            <Input type="search" placeholder="Search specs..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="border-ink-700 bg-black text-white col-span-2" />
-            <Select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)} className="border-ink-700 bg-black text-white">
-              {categories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
-            </Select>
-          </Grid>
+            <Grid cols={3} gap={4}>
+              <Input type="search" placeholder="Search specs..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="col-span-2" />
+              <Select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}>
+                {categories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
+              </Select>
+            </Grid>
 
-          <Grid cols={3} gap={4}>
-            {filteredSpecs.map((spec) => (
-              <Card key={spec.id} className={`border-2 p-4 cursor-pointer hover:border-white transition-colors ${getCategoryColor(spec.category)}`} onClick={() => setSelectedSpec(spec)}>
-                <Stack gap={4}>
-                  <Stack direction="horizontal" className="justify-between items-start">
-                    <Stack gap={1}>
-                      <Body className="font-display text-white">{spec.name}</Body>
-                      <Label className="text-ink-400">{spec.manufacturer}</Label>
-                    </Stack>
-                    <Badge variant="outline">{spec.category}</Badge>
-                  </Stack>
-                  <Grid cols={3} gap={2}>
-                    {spec.specs.slice(0, 3).map((s, idx) => (
-                      <Stack key={idx} gap={0}>
-                        <Label size="xs" className="text-ink-500">{s.label}</Label>
-                        <Label className="text-white">{s.value}</Label>
+            <Grid cols={3} gap={4}>
+              {filteredSpecs.map((spec) => (
+                <Card key={spec.id} className="cursor-pointer p-4" onClick={() => setSelectedSpec(spec)}>
+                  <Stack gap={4}>
+                    <Stack direction="horizontal" className="items-start justify-between">
+                      <Stack gap={1}>
+                        <Body className="font-display">{spec.name}</Body>
+                        <Body className="text-body-sm">{spec.manufacturer}</Body>
                       </Stack>
-                    ))}
-                  </Grid>
-                  <Stack direction="horizontal" className="justify-between">
-                    <Label size="xs" className="text-ink-500">v{spec.version} • {spec.fileSize}</Label>
-                    <Label size="xs" className="text-ink-500">{spec.downloads} downloads</Label>
+                      <Badge variant="outline">{spec.category}</Badge>
+                    </Stack>
+                    <Grid cols={3} gap={2}>
+                      {spec.specs.slice(0, 3).map((s, idx) => (
+                        <Stack key={idx} gap={0}>
+                          <Body className="text-body-sm">{s.label}</Body>
+                          <Body>{s.value}</Body>
+                        </Stack>
+                      ))}
+                    </Grid>
+                    <Stack direction="horizontal" className="justify-between">
+                      <Body className="text-body-sm">v{spec.version} • {spec.fileSize}</Body>
+                      <Body className="text-body-sm">{spec.downloads} downloads</Body>
+                    </Stack>
                   </Stack>
-                </Stack>
-              </Card>
-            ))}
-          </Grid>
+                </Card>
+              ))}
+            </Grid>
 
-          <Grid cols={3} gap={4}>
-            <Button variant="outline" className="border-ink-700 text-ink-400">Upload Spec Sheet</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/equipment")}>Equipment</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/knowledge")}>Knowledge Base</Button>
-          </Grid>
-        </Stack>
-      </Container>
+            <Grid cols={3} gap={4}>
+              <Button variant="solid">Upload Spec Sheet</Button>
+              <Button variant="outline" onClick={() => router.push("/equipment")}>Equipment</Button>
+              <Button variant="outline" onClick={() => router.push("/knowledge")}>Knowledge Base</Button>
+            </Grid>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedSpec} onClose={() => setSelectedSpec(null)}>
         <ModalHeader><H3>{selectedSpec?.name}</H3></ModalHeader>
@@ -127,31 +148,43 @@ export default function SpecSheetsPage() {
             <Stack gap={4}>
               <Stack direction="horizontal" className="justify-between">
                 <Stack gap={1}>
-                  <Label className="text-ink-400">Manufacturer</Label>
-                  <Body className="text-white">{selectedSpec.manufacturer}</Body>
+                  <Body className="text-body-sm">Manufacturer</Body>
+                  <Body>{selectedSpec.manufacturer}</Body>
                 </Stack>
-                <Badge variant="outline" className={getCategoryColor(selectedSpec.category)}>{selectedSpec.category}</Badge>
+                <Badge variant="outline">{selectedSpec.category}</Badge>
               </Stack>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Model</Label><Label className="text-white">{selectedSpec.model}</Label></Stack>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Version</Label><Label className="text-white">{selectedSpec.version}</Label></Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Model</Body>
+                  <Body>{selectedSpec.model}</Body>
+                </Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Version</Body>
+                  <Body>{selectedSpec.version}</Body>
+                </Stack>
               </Grid>
               <Stack gap={2}>
-                <Label className="text-ink-400">Specifications</Label>
-                <Table className="border border-ink-700">
+                <Body className="font-display">Specifications</Body>
+                <Table>
                   <TableBody>
                     {selectedSpec.specs.map((spec, idx) => (
-                      <TableRow key={idx} className="border-ink-700">
-                        <TableCell className="bg-ink-800/50"><Label className="text-ink-400">{spec.label}</Label></TableCell>
-                        <TableCell><Label className="text-white">{spec.value}</Label></TableCell>
+                      <TableRow key={idx}>
+                        <TableCell><Body className="text-body-sm">{spec.label}</Body></TableCell>
+                        <TableCell><Body>{spec.value}</Body></TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
                 </Table>
               </Stack>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Last Updated</Label><Label className="text-white">{selectedSpec.lastUpdated}</Label></Stack>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">File Size</Label><Label className="text-white">{selectedSpec.fileSize}</Label></Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Last Updated</Body>
+                  <Body>{selectedSpec.lastUpdated}</Body>
+                </Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm">File Size</Body>
+                  <Body>{selectedSpec.fileSize}</Body>
+                </Stack>
               </Grid>
             </Stack>
           )}
@@ -161,6 +194,6 @@ export default function SpecSheetsPage() {
           <Button variant="solid">Download PDF</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

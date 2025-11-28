@@ -1,11 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { ConsumerNavigationPublic } from '../../components/navigation';
+import { ConsumerNavigationPublic } from '@/components/navigation';
 import {
   Container,
   Section,
-  H1,
   H2,
   Body,
   Button,
@@ -13,6 +12,12 @@ import {
   Grid,
   Badge,
   Stack,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
+  Kicker,
 } from '@ghxstship/ui';
 
 /**
@@ -45,14 +50,41 @@ export default function ModeratePage() {
   };
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-        <Stack gap={2} className="border-b-2 border-black pb-8">
-          <H1>Moderation</H1>
-          <Body className="text-ink-600">Review and moderate user content</Body>
-        </Stack>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Admin">
+            <FooterLink href="/moderate">Moderation</FooterLink>
+            <FooterLink href="/admin">Dashboard</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Admin</Kicker>
+              <H2 size="lg" className="text-white">Moderation</H2>
+              <Body className="text-on-dark-muted">Review and moderate user content</Body>
+            </Stack>
 
         <Grid cols={3} className="mb-8">
           <Card className="p-6 text-center">
@@ -108,8 +140,9 @@ export default function ModeratePage() {
             </Card>
           ))}
         </Stack>
-        </Stack>
-      </Container>
-    </Section>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

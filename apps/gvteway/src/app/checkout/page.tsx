@@ -2,10 +2,29 @@
 
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-
-import { ConsumerNavigationPublic } from '../../components/navigation';
-import { Container, Section, H1, H2, H3, Body, Button, Input, Select, Card, Grid, Badge, Stack, LoadingSpinner } from '@ghxstship/ui';
-import { CreditCard, Lock, Check } from 'lucide-react';
+import { ConsumerNavigationPublic } from '@/components/navigation';
+import { 
+  Container, 
+  Section, 
+  Display,
+  H2, 
+  H3, 
+  Body, 
+  Button, 
+  Input, 
+  Card, 
+  Grid, 
+  Badge, 
+  Stack, 
+  LoadingSpinner,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Kicker,
+  Label,
+} from '@ghxstship/ui';
+import { CreditCard, Lock, Check, ShoppingCart, MapPin, ChevronRight } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 
 interface CartItem {
@@ -119,219 +138,358 @@ function CheckoutContent() {
     }
   }
 
+  const stepLabels = ['Review', 'Payment', 'Confirm'];
+
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading checkout..." />
-        </Container>
-      </Section>
+      <PageLayout
+        background="black"
+        header={<ConsumerNavigationPublic />}
+        footer={
+          <Footer
+            logo={<Display size="md">GVTEWAY</Display>}
+            copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+          >
+            <FooterColumn title="Discover">
+              <FooterLink href="/events">Browse Events</FooterLink>
+              <FooterLink href="/venues">Find Venues</FooterLink>
+              <FooterLink href="/artists">Artists</FooterLink>
+            </FooterColumn>
+            <FooterColumn title="Legal">
+              <FooterLink href="/legal/privacy">Privacy</FooterLink>
+              <FooterLink href="/legal/terms">Terms</FooterLink>
+            </FooterColumn>
+          </Footer>
+        }
+      >
+        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+          <div
+            className="pointer-events-none absolute inset-0 opacity-5"
+            style={{
+              backgroundImage: `
+                linear-gradient(#fff 1px, transparent 1px),
+                linear-gradient(90deg, #fff 1px, transparent 1px)
+              `,
+              backgroundSize: "40px 40px",
+            }}
+          />
+          <Container className="relative z-10 flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" text="Loading checkout..." />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8} className="max-w-4xl mx-auto">
-          <Stack gap={2} className="border-b-2 border-black pb-8">
-            <H1>Checkout</H1>
-            <Body className="text-ink-600">Complete your purchase securely</Body>
-          </Stack>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Discover">
+            <FooterLink href="/events">Browse Events</FooterLink>
+            <FooterLink href="/venues">Find Venues</FooterLink>
+            <FooterLink href="/artists">Artists</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Support">
+            <FooterLink href="/help">Help Center</FooterLink>
+            <FooterLink href="/help#contact">Contact</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        {/* Grid Pattern Background */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `
+              linear-gradient(#fff 1px, transparent 1px),
+              linear-gradient(90deg, #fff 1px, transparent 1px)
+            `,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Secure Payment</Kicker>
+              <H2 size="lg" className="text-white">Checkout</H2>
+              <Body className="text-on-dark-muted">Complete your purchase securely</Body>
+            </Stack>
 
-          {/* Progress Steps */}
-          <Stack gap={2} direction="horizontal" className="justify-between">
-            {['cart', 'payment', 'confirm'].map((s, idx) => (
-              <Stack key={s} gap={2} direction="horizontal" className="flex-1 items-center">
-                <Card className={`flex items-center justify-center w-10 h-10 rounded-full border-2 ${step === s ? 'bg-black text-white border-black' : 'border-ink-300 text-ink-600'}`}>
-                  <Body>{idx + 1}</Body>
-                </Card>
-                {idx < 2 && <Card className={`flex-1 h-0.5 ${step !== 'cart' && idx === 0 || step === 'confirm' && idx === 1 ? 'bg-black' : 'bg-ink-300'} mx-2`} />}
-              </Stack>
-            ))}
-          </Stack>
-
-          {/* Cart Step */}
-          {step === 'cart' && (
-            <Grid cols={1} gap={6} className="lg:grid-cols-3">
-              <Card className="lg:col-span-2">
-                <Card className="p-6">
-                  <H2 className="mb-4">ORDER SUMMARY</H2>
-                  {cartItems.length > 0 ? (
-                    cartItems.map(item => (
-                      <Stack key={item.id} gap={4} direction="horizontal" className="justify-between items-start py-4 border-b border-ink-200">
-                        <Stack gap={1} className="flex-1">
-                          <H3>{item.event_title}</H3>
-                          <Body className="text-ink-600">{item.ticket_type_name}</Body>
-                          <Body className="text-body-sm text-ink-500">Qty: {item.qty}</Body>
-                        </Stack>
-                        <Body className="font-bold">${(item.price * item.qty).toFixed(2)}</Body>
+            {/* Progress Steps */}
+            <Card inverted className="p-4">
+              <Stack gap={2} direction="horizontal" className="justify-between">
+                {stepLabels.map((label, idx) => {
+                  const stepKey = ['cart', 'payment', 'confirm'][idx];
+                  const isActive = step === stepKey;
+                  const isPast = (step === 'payment' && idx === 0) || (step === 'confirm' && idx < 2);
+                  return (
+                    <Stack key={label} gap={2} direction="horizontal" className="flex-1 items-center">
+                      <Stack gap={1} className="items-center">
+                        <Badge variant={isActive || isPast ? 'solid' : 'outline'}>
+                          {idx + 1}
+                        </Badge>
+                        <Label size="xs" className={isActive ? 'text-white' : 'text-on-dark-muted'}>
+                          {label}
+                        </Label>
                       </Stack>
-                    ))
+                      {idx < 2 && (
+                        <ChevronRight className={`size-4 ${isPast ? 'text-white' : 'text-on-dark-disabled'}`} />
+                      )}
+                    </Stack>
+                  );
+                })}
+              </Stack>
+            </Card>
+
+            {/* Cart Step */}
+            {step === 'cart' && (
+              <Grid cols={3} gap={6}>
+                <Card inverted className="col-span-2 p-6">
+                  <Stack gap={2} className="mb-6">
+                    <Stack direction="horizontal" gap={2} className="items-center">
+                      <ShoppingCart className="size-5 text-on-dark-muted" />
+                      <H3 className="text-white">Order Summary</H3>
+                    </Stack>
+                  </Stack>
+                  {cartItems.length > 0 ? (
+                    <Stack gap={4}>
+                      {cartItems.map(item => (
+                        <Stack key={item.id} gap={4} direction="horizontal" className="items-start justify-between border-b border-ink-800 pb-4">
+                          <Stack gap={1} className="flex-1">
+                            <H3 className="text-white">{item.event_title}</H3>
+                            <Body className="text-on-dark-muted">{item.ticket_type_name}</Body>
+                            <Label size="xs" className="text-on-dark-disabled">Qty: {item.qty}</Label>
+                          </Stack>
+                          <Body className="font-display text-white">${(item.price * item.qty).toFixed(2)}</Body>
+                        </Stack>
+                      ))}
+                    </Stack>
                   ) : (
-                    <Body className="text-ink-500">Your cart is empty</Body>
+                    <Body className="text-on-dark-muted">Your cart is empty</Body>
                   )}
                 </Card>
-              </Card>
 
-              <Stack gap={4}>
-                <Card className="p-6">
-                  <H2 className="mb-4">TOTAL</H2>
-                  <Stack gap={2} className="mb-4">
-                    <Stack gap={2} direction="horizontal" className="justify-between">
-                      <Body>Subtotal</Body>
-                      <Body>${subtotal.toFixed(2)}</Body>
-                    </Stack>
-                    <Stack gap={2} direction="horizontal" className="justify-between">
-                      <Body>Service Fees</Body>
-                      <Body>${fees.toFixed(2)}</Body>
-                    </Stack>
-                    <Stack gap={2} direction="horizontal" className="justify-between border-t-2 border-black pt-2">
-                      <Body className="font-bold">Total</Body>
-                      <Body className="font-bold">${total.toFixed(2)}</Body>
-                    </Stack>
-                  </Stack>
-                  <Button className="w-full" onClick={() => setStep('payment')}>
-                    PROCEED TO PAYMENT
-                  </Button>
-                </Card>
-              </Stack>
-            </Grid>
-          )}
-
-          {/* Payment Step */}
-          {step === 'payment' && (
-            <Grid cols={1} gap={6} className="lg:grid-cols-3">
-              <Card className="lg:col-span-2 p-6">
-                <H2 className="mb-6">PAYMENT INFORMATION</H2>
                 <Stack gap={4}>
-                  <Stack gap={2}>
-                      <Input 
-                        placeholder="Cardholder Name" 
-                        className="w-full" 
-                        value={formData.cardName}
-                        onChange={(e) => setFormData({...formData, cardName: e.target.value})}
-                      />
+                  <Card inverted variant="elevated" className="p-6">
+                    <H3 className="mb-4 text-white">Total</H3>
+                    <Stack gap={3}>
+                      <Stack gap={1} direction="horizontal" className="justify-between">
+                        <Body className="text-on-dark-muted">Subtotal</Body>
+                        <Body className="font-mono text-white">${subtotal.toFixed(2)}</Body>
+                      </Stack>
+                      <Stack gap={1} direction="horizontal" className="justify-between">
+                        <Body className="text-on-dark-muted">Service Fees</Body>
+                        <Body className="font-mono text-white">${fees.toFixed(2)}</Body>
+                      </Stack>
+                      <Stack gap={1} direction="horizontal" className="justify-between border-t border-ink-800 pt-3">
+                        <Body className="font-display text-white">Total</Body>
+                        <Body className="font-display text-white">${total.toFixed(2)}</Body>
+                      </Stack>
+                    </Stack>
+                  </Card>
+                  <Button 
+                    variant="solid" 
+                    inverted
+                    fullWidth 
+                    onClick={() => setStep('payment')}
+                    icon={<ChevronRight className="size-4" />}
+                    iconPosition="right"
+                  >
+                    Proceed to Payment
+                  </Button>
+                </Stack>
+              </Grid>
+            )}
+
+            {/* Payment Step */}
+            {step === 'payment' && (
+              <Grid cols={3} gap={6}>
+                <Card inverted className="col-span-2 p-6">
+                  <Stack gap={2} className="mb-6">
+                    <Stack direction="horizontal" gap={2} className="items-center">
+                      <CreditCard className="size-5 text-on-dark-muted" />
+                      <H3 className="text-white">Payment Information</H3>
+                    </Stack>
                   </Stack>
-                  <Stack gap={2}>
+                  <Stack gap={4}>
+                    <Input 
+                      placeholder="Cardholder Name" 
+                      inverted
+                      value={formData.cardName}
+                      onChange={(e) => setFormData({...formData, cardName: e.target.value})}
+                    />
                     <Input 
                       placeholder="Card Number" 
-                      className="w-full" 
+                      inverted
                       value={formData.cardNumber}
                       onChange={(e) => setFormData({...formData, cardNumber: e.target.value})}
                     />
-                  </Stack>
-                  <Grid cols={2} gap={4}>
+                    <Grid cols={2} gap={4}>
                       <Input 
                         placeholder="MM/YY" 
+                        inverted
                         value={formData.expiry}
                         onChange={(e) => setFormData({...formData, expiry: e.target.value})}
                       />
                       <Input 
                         placeholder="CVV" 
+                        inverted
                         value={formData.cvv}
                         onChange={(e) => setFormData({...formData, cvv: e.target.value})}
                       />
-                  </Grid>
-                  <Stack gap={4} className="pt-4 border-t border-ink-200">
-                    <H3>BILLING ADDRESS</H3>
-                    <Stack gap={4}>
-                        <Input 
-                          placeholder="Street Address" 
-                          className="w-full" 
-                          value={formData.street}
-                          onChange={(e) => setFormData({...formData, street: e.target.value})}
-                        />
+                    </Grid>
+                    
+                    <Stack gap={4} className="border-t border-ink-800 pt-4">
+                      <Stack direction="horizontal" gap={2} className="items-center">
+                        <MapPin className="size-5 text-on-dark-muted" />
+                        <H3 className="text-white">Billing Address</H3>
+                      </Stack>
+                      <Input 
+                        placeholder="Street Address" 
+                        inverted
+                        value={formData.street}
+                        onChange={(e) => setFormData({...formData, street: e.target.value})}
+                      />
                       <Grid cols={2} gap={4}>
-                          <Input 
-                            placeholder="City" 
-                            value={formData.city}
-                            onChange={(e) => setFormData({...formData, city: e.target.value})}
-                          />
-                          <Input 
-                            placeholder="State" 
-                            value={formData.state}
-                            onChange={(e) => setFormData({...formData, state: e.target.value})}
-                          />
+                        <Input 
+                          placeholder="City" 
+                          inverted
+                          value={formData.city}
+                          onChange={(e) => setFormData({...formData, city: e.target.value})}
+                        />
+                        <Input 
+                          placeholder="State" 
+                          inverted
+                          value={formData.state}
+                          onChange={(e) => setFormData({...formData, state: e.target.value})}
+                        />
                       </Grid>
                       <Input 
                         placeholder="ZIP Code" 
-                        className="w-full" 
+                        inverted
                         value={formData.zip}
                         onChange={(e) => setFormData({...formData, zip: e.target.value})}
                       />
                     </Stack>
                   </Stack>
+                </Card>
+
+                <Stack gap={4}>
+                  <Card inverted variant="elevated" className="p-6">
+                    <H3 className="mb-4 text-white">Total</H3>
+                    <Stack gap={1} direction="horizontal" className="justify-between">
+                      <Body className="font-display text-white">Total</Body>
+                      <Body className="font-display text-white">${total.toFixed(2)}</Body>
+                    </Stack>
+                  </Card>
+                  <Card inverted className="p-4">
+                    <Stack gap={2} direction="horizontal" className="items-center">
+                      <Lock className="size-4 text-on-dark-muted" />
+                      <Label size="xs" className="text-on-dark-muted">Secure Checkout</Label>
+                    </Stack>
+                    <Body size="sm" className="mt-2 text-on-dark-disabled">
+                      Your payment information is encrypted and secure
+                    </Body>
+                  </Card>
+                  <Button 
+                    variant="solid"
+                    inverted
+                    fullWidth
+                    onClick={handlePayment}
+                    disabled={processing || !formData.cardName || !formData.cardNumber}
+                    icon={<CreditCard className="size-4" />}
+                    iconPosition="left"
+                  >
+                    {processing ? 'Processing...' : 'Complete Purchase'}
+                  </Button>
+                </Stack>
+              </Grid>
+            )}
+
+            {/* Confirmation Step */}
+            {step === 'confirm' && (
+              <Card inverted variant="elevated" className="p-12 text-center">
+                <Stack gap={6} className="items-center">
+                  <Badge variant="solid" className="size-16 rounded-avatar">
+                    <Check className="size-8" />
+                  </Badge>
+                  <Stack gap={2}>
+                    <H2 className="text-white">Order Confirmed!</H2>
+                    <Body className="text-on-dark-muted">Order #{orderId || 'PROCESSING'}</Body>
+                  </Stack>
+                  <Card inverted className="p-6">
+                    <Body className="mb-2 text-on-dark-muted">Tickets have been sent to:</Body>
+                    <Body className="font-display text-white">user@example.com</Body>
+                  </Card>
+                  <Stack gap={4} direction="horizontal">
+                    <Button variant="outlineInk" onClick={() => window.location.href = '/tickets'}>
+                      View Tickets
+                    </Button>
+                    <Button variant="solid" inverted onClick={() => window.location.href = '/events'}>
+                      Browse More Events
+                    </Button>
+                  </Stack>
                 </Stack>
               </Card>
-
-              <Stack gap={4}>
-                <Card className="p-6">
-                  <H2 className="mb-4">TOTAL</H2>
-                  <Stack gap={2}>
-                    <Stack gap={2} direction="horizontal" className="justify-between border-t-2 border-black pt-2">
-                      <Body className="font-bold">Total</Body>
-                      <Body className="font-bold">${total.toFixed(2)}</Body>
-                    </Stack>
-                  </Stack>
-                </Card>
-                <Card className="p-6 bg-ink-100">
-                  <Stack gap={2} direction="horizontal" className="items-center mb-2">
-                    <Lock className="w-4 h-4" />
-                    <Body className="font-bold text-body-sm">SECURE CHECKOUT</Body>
-                  </Stack>
-                  <Body className="text-mono-xs text-ink-600">Your payment information is encrypted and secure</Body>
-                </Card>
-                <Button 
-                  className="w-full mt-4" 
-                  onClick={handlePayment}
-                  disabled={processing || !formData.cardName || !formData.cardNumber}
-                >
-                  <CreditCard className="w-4 h-4 mr-2" />
-                  {processing ? 'PROCESSING...' : 'COMPLETE PURCHASE'}
-                </Button>
-              </Stack>
-            </Grid>
-          )}
-
-          {/* Confirmation Step */}
-          {step === 'confirm' && (
-            <Card className="p-12 text-center">
-              <Card className="w-16 h-16 mx-auto mb-4 rounded-full bg-black flex items-center justify-center">
-                <Check className="w-8 h-8 text-white" />
-              </Card>
-              <H1 className="mb-2">Order Confirmed!</H1>
-              <Body className="text-ink-600 mb-6">Order #{orderId || 'PROCESSING'}</Body>
-              <Card className="p-6 bg-ink-50 mb-6">
-                <Body className="mb-4">Tickets have been sent to:</Body>
-                <Body className="font-bold">user@example.com</Body>
-              </Card>
-              <Stack gap={4} direction="horizontal" className="justify-center">
-                <Button variant="outline" onClick={() => window.location.href = '/tickets'}>
-                  VIEW TICKETS
-                </Button>
-                <Button onClick={() => window.location.href = '/events'}>
-                  BROWSE MORE EVENTS
-                </Button>
-              </Stack>
-            </Card>
-          )}
-        </Stack>
-      </Container>
-    </Section>
+            )}
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }
 
 export default function CheckoutPage() {
   return (
     <Suspense fallback={
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading checkout..." />
-        </Container>
-      </Section>
+      <PageLayout
+        background="black"
+        header={<ConsumerNavigationPublic />}
+        footer={
+          <Footer
+            logo={<Display size="md">GVTEWAY</Display>}
+            copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+          >
+            <FooterColumn title="Discover">
+              <FooterLink href="/events">Browse Events</FooterLink>
+              <FooterLink href="/venues">Find Venues</FooterLink>
+              <FooterLink href="/artists">Artists</FooterLink>
+            </FooterColumn>
+            <FooterColumn title="Legal">
+              <FooterLink href="/legal/privacy">Privacy</FooterLink>
+              <FooterLink href="/legal/terms">Terms</FooterLink>
+            </FooterColumn>
+          </Footer>
+        }
+      >
+        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+          <div
+            className="pointer-events-none absolute inset-0 opacity-5"
+            style={{
+              backgroundImage: `
+                linear-gradient(#fff 1px, transparent 1px),
+                linear-gradient(90deg, #fff 1px, transparent 1px)
+              `,
+              backgroundSize: "40px 40px",
+            }}
+          />
+          <Container className="relative z-10 flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" text="Loading checkout..." />
+          </Container>
+        </Section>
+      </PageLayout>
     }>
       <CheckoutContent />
     </Suspense>

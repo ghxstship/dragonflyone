@@ -2,11 +2,12 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ConsumerNavigationPublic } from "../../components/navigation";
+import { ConsumerNavigationPublic } from "@/components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
+  Container, H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
   Section, Card, Tabs, TabsList, Tab, TabPanel, Badge, Alert,
   Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
+  PageLayout, Footer, FooterColumn, FooterLink, Display, Kicker,
 } from "@ghxstship/ui";
 
 interface AccessibilityRequest {
@@ -64,24 +65,51 @@ export default function AccessibilityPage() {
   };
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2} className="border-b-2 border-black pb-8">
-            <H1>Accessibility Services</H1>
-            <Body className="text-ink-600">ADA accommodations and accessibility support for all guests</Body>
-          </Stack>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Support">
+            <FooterLink href="/accessibility">Accessibility</FooterLink>
+            <FooterLink href="/help">Help Center</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Inclusive Experience</Kicker>
+              <H2 size="lg" className="text-white">Accessibility Services</H2>
+              <Body className="text-on-dark-muted">ADA accommodations and accessibility support for all guests</Body>
+            </Stack>
 
-          <Alert variant="info">
-            We are committed to providing an inclusive experience for all guests. Please submit your accessibility requests at least 7 days before the event.
-          </Alert>
+            <Alert variant="info">
+              We are committed to providing an inclusive experience for all guests. Please submit your accessibility requests at least 7 days before the event.
+            </Alert>
 
           <Grid cols={4} gap={6}>
-            <StatCard label="Services Available" value={mockServices.filter(s => s.available).length} className="border-2 border-black" />
-            <StatCard label="Active Requests" value={mockRequests.length} className="border-2 border-black" />
-            <StatCard label="Pending Review" value={pendingRequests} className="border-2 border-black" />
-            <StatCard label="Satisfaction" value="98%" className="border-2 border-black" />
+            <StatCard label="Services Available" value={mockServices.filter(s => s.available).length.toString()} inverted />
+            <StatCard label="Active Requests" value={mockRequests.length.toString()} inverted />
+            <StatCard label="Pending Review" value={pendingRequests.toString()} inverted />
+            <StatCard label="Satisfaction" value="98%" inverted />
           </Grid>
 
           <Stack direction="horizontal" className="justify-between">
@@ -98,11 +126,11 @@ export default function AccessibilityPage() {
           <TabPanel active={activeTab === "services"}>
             <Grid cols={4} gap={4}>
               {mockServices.map((service) => (
-                <Card key={service.id} className="border-2 border-black p-4">
+                <Card key={service.id} inverted interactive className="p-4">
                   <Stack gap={3} className="text-center">
                     <Label className="text-h3-md">{service.icon}</Label>
-                    <Body className="font-bold">{service.name}</Body>
-                    <Label className="text-ink-500">{service.description}</Label>
+                    <Body className="font-display text-white">{service.name}</Body>
+                    <Label className="text-on-dark-muted">{service.description}</Label>
                     <Badge variant={service.available ? "solid" : "outline"}>
                       {service.available ? "Available" : "Limited"}
                     </Badge>
@@ -115,21 +143,21 @@ export default function AccessibilityPage() {
           <TabPanel active={activeTab === "requests"}>
             <Stack gap={4}>
               {mockRequests.map((request) => (
-                <Card key={request.id} className="border-2 border-black p-4">
+                <Card key={request.id} inverted className="p-4">
                   <Grid cols={6} gap={4} className="items-center">
                     <Stack gap={1}>
-                      <Body className="font-bold">{request.eventName}</Body>
-                      <Label className="text-ink-500">{request.submittedDate}</Label>
+                      <Body className="font-display text-white">{request.eventName}</Body>
+                      <Label className="text-on-dark-disabled">{request.submittedDate}</Label>
                     </Stack>
                     <Stack gap={1}>
-                      <Label className="text-ink-500">Guest</Label>
-                      <Label>{request.guestName}</Label>
+                      <Label className="text-on-dark-disabled">Guest</Label>
+                      <Label className="text-white">{request.guestName}</Label>
                     </Stack>
-                    <Stack direction="horizontal" gap={1} className="flex-wrap col-span-2">
+                    <Stack direction="horizontal" gap={1} className="col-span-2 flex-wrap">
                       {request.requestType.map(type => <Badge key={type} variant="outline">{type}</Badge>)}
                     </Stack>
                     <Label className={getStatusColor(request.status)}>{request.status}</Label>
-                    <Button variant="outline" size="sm" onClick={() => setSelectedRequest(request)}>Details</Button>
+                    <Button variant="outlineInk" size="sm" onClick={() => setSelectedRequest(request)}>Details</Button>
                   </Grid>
                 </Card>
               ))}
@@ -138,9 +166,9 @@ export default function AccessibilityPage() {
 
           <TabPanel active={activeTab === "info"}>
             <Grid cols={2} gap={6}>
-              <Card className="border-2 border-black p-6">
+              <Card inverted className="p-6">
                 <Stack gap={4}>
-                  <H3>Venue Accessibility Features</H3>
+                  <H3 className="text-white">Venue Accessibility Features</H3>
                   <Stack gap={2}>
                     {[
                       "Wheelchair accessible entrances on all sides",
@@ -151,39 +179,40 @@ export default function AccessibilityPage() {
                       "Accessible seating in all price tiers",
                     ].map((feature, idx) => (
                       <Stack key={idx} direction="horizontal" gap={2}>
-                        <Label className="text-success-600">✓</Label>
-                        <Label>{feature}</Label>
+                        <Label className="text-success-400">✓</Label>
+                        <Label className="text-on-dark-muted">{feature}</Label>
                       </Stack>
                     ))}
                   </Stack>
                 </Stack>
               </Card>
-              <Card className="border-2 border-black p-6">
+              <Card inverted className="p-6">
                 <Stack gap={4}>
-                  <H3>Contact Information</H3>
+                  <H3 className="text-white">Contact Information</H3>
                   <Stack gap={3}>
                     <Stack gap={1}>
-                      <Label className="text-ink-500">Accessibility Hotline</Label>
-                      <Body className="font-bold">1-800-555-ADA1</Body>
+                      <Label className="text-on-dark-disabled">Accessibility Hotline</Label>
+                      <Body className="font-display text-white">1-800-555-ADA1</Body>
                     </Stack>
                     <Stack gap={1}>
-                      <Label className="text-ink-500">Email</Label>
-                      <Body>accessibility@venue.com</Body>
+                      <Label className="text-on-dark-disabled">Email</Label>
+                      <Body className="text-white">accessibility@venue.com</Body>
                     </Stack>
                     <Stack gap={1}>
-                      <Label className="text-ink-500">Hours</Label>
-                      <Label>Mon-Fri 9am-6pm, Sat 10am-4pm</Label>
+                      <Label className="text-on-dark-disabled">Hours</Label>
+                      <Label className="text-on-dark-muted">Mon-Fri 9am-6pm, Sat 10am-4pm</Label>
                     </Stack>
                   </Stack>
-                  <Button variant="outline">Download Accessibility Guide (PDF)</Button>
+                  <Button variant="outlineInk">Download Accessibility Guide (PDF)</Button>
                 </Stack>
               </Card>
             </Grid>
           </TabPanel>
 
-          <Button variant="outline" onClick={() => router.push("/events")}>Back to Events</Button>
-        </Stack>
-      </Container>
+            <Button variant="outlineInk" inverted onClick={() => router.push("/events")}>Back to Events</Button>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={showRequestModal} onClose={() => setShowRequestModal(false)}>
         <ModalHeader><H3>Request Accommodation</H3></ModalHeader>
@@ -201,7 +230,7 @@ export default function AccessibilityPage() {
               <Label>Services Needed (select all that apply)</Label>
               <Grid cols={2} gap={2}>
                 {mockServices.slice(0, 6).map(service => (
-                  <Card key={service.id} className="p-2 border border-ink-200 cursor-pointer hover:border-black">
+                  <Card key={service.id} className="cursor-pointer border-2 border-ink-200 p-2 hover:border-black">
                     <Stack direction="horizontal" gap={2}>
                       <Label>{service.icon}</Label>
                       <Label size="xs">{service.name}</Label>
@@ -224,21 +253,21 @@ export default function AccessibilityPage() {
         <ModalBody>
           {selectedRequest && (
             <Stack gap={4}>
-              <Body className="font-bold">{selectedRequest.eventName}</Body>
+              <Body className="font-display">{selectedRequest.eventName}</Body>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label className="text-ink-500">Guest</Label><Label>{selectedRequest.guestName}</Label></Stack>
-                <Stack gap={1}><Label className="text-ink-500">Status</Label><Label className={getStatusColor(selectedRequest.status)}>{selectedRequest.status}</Label></Stack>
+                <Stack gap={1}><Label className="text-on-light-muted">Guest</Label><Label>{selectedRequest.guestName}</Label></Stack>
+                <Stack gap={1}><Label className="text-on-light-muted">Status</Label><Label className={getStatusColor(selectedRequest.status)}>{selectedRequest.status}</Label></Stack>
               </Grid>
               <Stack gap={2}>
-                <Label className="text-ink-500">Requested Services</Label>
+                <Label className="text-on-light-muted">Requested Services</Label>
                 <Stack direction="horizontal" gap={2} className="flex-wrap">
                   {selectedRequest.requestType.map(type => <Badge key={type} variant="outline">{type}</Badge>)}
                 </Stack>
               </Stack>
               {selectedRequest.notes && (
-                <Stack gap={1}><Label className="text-ink-500">Notes</Label><Label>{selectedRequest.notes}</Label></Stack>
+                <Stack gap={1}><Label className="text-on-light-muted">Notes</Label><Label>{selectedRequest.notes}</Label></Stack>
               )}
-              <Stack gap={1}><Label className="text-ink-500">Submitted</Label><Label>{selectedRequest.submittedDate}</Label></Stack>
+              <Stack gap={1}><Label className="text-on-light-muted">Submitted</Label><Label>{selectedRequest.submittedDate}</Label></Stack>
             </Stack>
           )}
         </ModalBody>
@@ -247,6 +276,6 @@ export default function AccessibilityPage() {
           <Button variant="outline">Modify Request</Button>
         </ModalFooter>
       </Modal>
-    </Section>
+    </PageLayout>
   );
 }

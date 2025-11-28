@@ -1,9 +1,30 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { ConsumerNavigationPublic } from '../../components/navigation';
-import { Container, Section, H1, H2, H3, Body, Button, Card, Grid, Badge, ProgressBar, LoadingSpinner, EmptyState, Stack } from '@ghxstship/ui';
-import { Award, Gift, Star, TrendingUp, Ticket, Zap } from 'lucide-react';
+import { ConsumerNavigationPublic } from '@/components/navigation';
+import { 
+  Container, 
+  Section, 
+  Display,
+  H2, 
+  H3, 
+  Body, 
+  Button, 
+  Card, 
+  Grid, 
+  Badge, 
+  ProgressBar, 
+  LoadingSpinner, 
+  EmptyState, 
+  Stack, 
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Kicker,
+  Label,
+} from '@ghxstship/ui';
+import { Award, Gift, Star, TrendingUp, Ticket, Zap, Trophy } from 'lucide-react';
 
 interface Reward {
   id: string;
@@ -44,7 +65,6 @@ export default function RewardsPage() {
   const fetchRewards = useCallback(async () => {
     try {
       setLoading(true);
-      // TODO: Get actual user ID from auth context
       const response = await fetch('/api/rewards?user_id=demo-user-123');
       if (!response.ok) {
         throw new Error('Failed to fetch rewards');
@@ -88,135 +108,251 @@ export default function RewardsPage() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white py-12">
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading rewards..." />
-        </Container>
-      </Section>
+      <PageLayout
+        background="black"
+        header={<ConsumerNavigationPublic />}
+        footer={
+          <Footer
+            logo={<Display size="md">GVTEWAY</Display>}
+            copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+          >
+            <FooterColumn title="Discover">
+              <FooterLink href="/events">Browse Events</FooterLink>
+              <FooterLink href="/venues">Find Venues</FooterLink>
+              <FooterLink href="/artists">Artists</FooterLink>
+            </FooterColumn>
+            <FooterColumn title="Support">
+              <FooterLink href="/help">Help Center</FooterLink>
+              <FooterLink href="/help#contact">Contact</FooterLink>
+            </FooterColumn>
+            <FooterColumn title="Legal">
+              <FooterLink href="/legal/privacy">Privacy</FooterLink>
+              <FooterLink href="/legal/terms">Terms</FooterLink>
+            </FooterColumn>
+          </Footer>
+        }
+      >
+        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+          <div
+            className="pointer-events-none absolute inset-0 opacity-5"
+            style={{
+              backgroundImage: `
+                linear-gradient(#fff 1px, transparent 1px),
+                linear-gradient(90deg, #fff 1px, transparent 1px)
+              `,
+              backgroundSize: "40px 40px",
+            }}
+          />
+          <Container className="relative z-10 flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" text="Loading rewards..." />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   if (error) {
     return (
-      <Section className="min-h-screen bg-white py-12">
-        <Container className="py-16">
-          <EmptyState
-            title="Error Loading Rewards"
-            description={error}
-            action={{ label: "Retry", onClick: fetchRewards }}
+      <PageLayout
+        background="black"
+        header={<ConsumerNavigationPublic />}
+        footer={
+          <Footer
+            logo={<Display size="md">GVTEWAY</Display>}
+            copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+          >
+            <FooterColumn title="Discover">
+              <FooterLink href="/events">Browse Events</FooterLink>
+              <FooterLink href="/venues">Find Venues</FooterLink>
+              <FooterLink href="/artists">Artists</FooterLink>
+            </FooterColumn>
+            <FooterColumn title="Legal">
+              <FooterLink href="/legal/privacy">Privacy</FooterLink>
+              <FooterLink href="/legal/terms">Terms</FooterLink>
+            </FooterColumn>
+          </Footer>
+        }
+      >
+        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+          <div
+            className="pointer-events-none absolute inset-0 opacity-5"
+            style={{
+              backgroundImage: `
+                linear-gradient(#fff 1px, transparent 1px),
+                linear-gradient(90deg, #fff 1px, transparent 1px)
+              `,
+              backgroundSize: "40px 40px",
+            }}
           />
-        </Container>
-      </Section>
+          <Container className="relative z-10">
+            <EmptyState
+              title="Error Loading Rewards"
+              description={error}
+              action={{ label: "Retry", onClick: fetchRewards }}
+              inverted
+            />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2} className="border-b-2 border-black pb-8">
-            <H1>Rewards Program</H1>
-            <Body className="text-ink-600">Earn points and unlock exclusive perks</Body>
-          </Stack>
-
-          {/* Points Balance */}
-          <Card className="p-8 bg-black text-white">
-            <Grid cols={2} gap={8}>
-              <Stack gap={2}>
-                <Body className="text-ink-600">Your Points</Body>
-                <H1 className="text-h2-md text-white">{userPoints.toLocaleString()}</H1>
-                <Badge variant="outline" className="mt-4 border-white text-white bg-transparent">
-                  {userTier} Member
-                </Badge>
-              </Stack>
-              <Stack className="items-end justify-center">
-                <Award className="w-24 h-24 text-white" />
-              </Stack>
-            </Grid>
-          </Card>
-
-          {/* Tier Progress */}
-          <Card className="p-6">
-            <Stack gap={4}>
-              <H2>MEMBERSHIP TIER</H2>
-              <Stack gap={3}>
-                {tiers.map((tier, idx) => (
-                  <Stack key={tier.name} gap={2} className="relative">
-                    <Stack gap={2} direction="horizontal" className="justify-between">
-                      <Body className="font-bold">{tier.name}</Body>
-                      <Body className="text-body-sm text-ink-600">{tier.minPoints.toLocaleString()} pts</Body>
-                    </Stack>
-                    <Stack className="relative">
-                      <ProgressBar 
-                        value={tier.name === userTier ? 100 : tier.minPoints < userPoints ? 100 : 0} 
-                        size="lg"
-                      />
-                      {tier.name === userTier && (
-                        <Stack className="absolute right-0 top-1/2 -translate-y-1/2 -translate-x-2">
-                          <Zap className="w-6 h-6 fill-current" />
-                        </Stack>
-                      )}
-                    </Stack>
-                  </Stack>
-                ))}
-              </Stack>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Discover">
+            <FooterLink href="/events">Browse Events</FooterLink>
+            <FooterLink href="/venues">Find Venues</FooterLink>
+            <FooterLink href="/artists">Artists</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Support">
+            <FooterLink href="/help">Help Center</FooterLink>
+            <FooterLink href="/help#contact">Contact</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        {/* Grid Pattern Background */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `
+              linear-gradient(#fff 1px, transparent 1px),
+              linear-gradient(90deg, #fff 1px, transparent 1px)
+            `,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Loyalty Program</Kicker>
+              <H2 size="lg" className="text-white">Rewards Program</H2>
+              <Body className="text-on-dark-muted">Earn points and unlock exclusive perks</Body>
             </Stack>
-          </Card>
 
-          {/* Available Rewards */}
-          <Stack gap={4}>
-            <H2>AVAILABLE REWARDS</H2>
-            <Grid cols={2} gap={6}>
-              {rewards.map((reward) => (
-                <Card 
-                  key={reward.id} 
-                  className={`p-6 ${!reward.available ? 'opacity-50' : 'hover:shadow-hard-lg transition-shadow'}`}
-                >
-                  <Stack gap={4}>
-                    <Stack gap={4} direction="horizontal" className="items-start justify-between">
-                      <Badge variant={reward.available ? 'outline' : 'ghost'}>
-                        {reward.type}
-                      </Badge>
-                      <Stack className="text-right">
-                        <H2>{reward.points}</H2>
-                        <Body className="text-body-sm text-ink-600">points</Body>
+            {/* Points Balance Card */}
+            <Card inverted variant="elevated" className="p-8">
+              <Grid cols={2} gap={8}>
+                <Stack gap={4}>
+                  <Label size="xs" className="text-on-dark-muted">Your Points</Label>
+                  <H2 size="lg" className="font-display text-white">{userPoints.toLocaleString()}</H2>
+                  <Badge variant="outline">{userTier} Member</Badge>
+                </Stack>
+                <Stack className="items-end justify-center">
+                  <Award className="size-24 text-on-dark-muted" />
+                </Stack>
+              </Grid>
+            </Card>
+
+            {/* Tier Progress */}
+            <Card inverted className="p-6">
+              <Stack gap={6}>
+                <Stack direction="horizontal" gap={2} className="items-center">
+                  <Trophy className="size-5 text-on-dark-muted" />
+                  <H3 className="text-white">Membership Tier</H3>
+                </Stack>
+                <Stack gap={4}>
+                  {tiers.map((tier) => (
+                    <Stack key={tier.name} gap={2}>
+                      <Stack gap={2} direction="horizontal" className="justify-between">
+                        <Body className="font-display text-white">{tier.name}</Body>
+                        <Label size="xs" className="text-on-dark-muted">{tier.minPoints.toLocaleString()} pts</Label>
+                      </Stack>
+                      <Stack className="relative">
+                        <ProgressBar 
+                          value={tier.name === userTier ? 100 : tier.minPoints < userPoints ? 100 : 0} 
+                          size="lg"
+                        />
+                        {tier.name === userTier && (
+                          <Stack className="absolute right-0 top-1/2 -translate-x-2 -translate-y-1/2">
+                            <Zap className="size-6 fill-current text-white" />
+                          </Stack>
+                        )}
                       </Stack>
                     </Stack>
-                    <H3>{reward.name}</H3>
-                    <Button 
-                      className="w-full" 
-                      disabled={!reward.available || userPoints < reward.points}
-                    >
-                      {userPoints < reward.points ? 'INSUFFICIENT POINTS' : reward.available ? 'REDEEM' : 'LOCKED'}
-                    </Button>
-                  </Stack>
-                </Card>
-              ))}
-            </Grid>
-          </Stack>
+                  ))}
+                </Stack>
+              </Stack>
+            </Card>
 
-          {/* Earn Points */}
-          <Card className="p-6">
-            <Stack gap={4}>
-              <H2>EARN POINTS</H2>
+            {/* Available Rewards */}
+            <Stack gap={6}>
+              <Stack direction="horizontal" gap={2} className="items-center">
+                <Gift className="size-5 text-on-dark-muted" />
+                <H3 className="text-white">Available Rewards</H3>
+              </Stack>
               <Grid cols={2} gap={6}>
-                {earnActivities.map((activity, idx) => (
-                  <Card key={idx} className="p-4 border-2 border-ink-200">
-                    <Stack gap={3} direction="horizontal" className="items-center justify-between">
-                      <Stack gap={3} direction="horizontal" className="items-center">
-                        <activity.icon className="w-6 h-6 text-ink-600" />
-                        <Body className="font-bold">{activity.name}</Body>
+                {rewards.map((reward) => (
+                  <Card 
+                    key={reward.id} 
+                    inverted
+                    interactive={reward.available}
+                    className={`p-6 ${!reward.available ? 'opacity-50' : ''}`}
+                  >
+                    <Stack gap={4}>
+                      <Stack gap={4} direction="horizontal" className="items-start justify-between">
+                        <Badge variant={reward.available ? 'outline' : 'ghost'}>
+                          {reward.type}
+                        </Badge>
+                        <Stack className="text-right">
+                          <Body className="font-display text-white">{reward.points}</Body>
+                          <Label size="xs" className="text-on-dark-muted">points</Label>
+                        </Stack>
                       </Stack>
-                      <Badge variant="solid">+{activity.points} pts</Badge>
+                      <H3 className="text-white">{reward.name}</H3>
+                      <Button 
+                        variant="solid"
+                        inverted
+                        fullWidth
+                        disabled={!reward.available || userPoints < reward.points}
+                        onClick={() => handleRedeem(reward.id)}
+                      >
+                        {userPoints < reward.points ? 'Insufficient Points' : reward.available ? 'Redeem' : 'Locked'}
+                      </Button>
                     </Stack>
                   </Card>
                 ))}
               </Grid>
             </Stack>
-          </Card>
-        </Stack>
-      </Container>
-    </Section>
+
+            {/* Earn Points */}
+            <Card inverted className="p-6">
+              <Stack gap={6}>
+                <Stack direction="horizontal" gap={2} className="items-center">
+                  <Star className="size-5 text-on-dark-muted" />
+                  <H3 className="text-white">Earn Points</H3>
+                </Stack>
+                <Grid cols={2} gap={4}>
+                  {earnActivities.map((activity, idx) => (
+                    <Card key={idx} inverted interactive>
+                      <Stack gap={3} direction="horizontal" className="items-center justify-between">
+                        <Stack gap={3} direction="horizontal" className="items-center">
+                          <activity.icon className="size-5 text-on-dark-muted" />
+                          <Body className="font-display text-white">{activity.name}</Body>
+                        </Stack>
+                        <Badge variant="solid">+{activity.points} pts</Badge>
+                      </Stack>
+                    </Card>
+                  ))}
+                </Grid>
+              </Stack>
+            </Card>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

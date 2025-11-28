@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import {
   PageLayout,
   Navigation,
@@ -13,11 +12,15 @@ import {
   Body,
   Button,
   Input,
-  SectionLayout,
   Alert,
   Stack,
+  Card,
   Field,
+  Section,
+  Container,
 } from "@ghxstship/ui";
+import { Mail } from "lucide-react";
+import NextLink from "next/link";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
@@ -51,80 +54,103 @@ export default function ForgotPasswordPage() {
       background="black"
       header={
         <Navigation
-          logo={
-            <Display size="md" className="text-display-md">
-              GVTEWAY
-            </Display>
-          }
+          logo={<Display size="md" className="text-white">GVTEWAY</Display>}
           cta={<></>}
         />
       }
       footer={
         <Footer
-          logo={<Display size="md" className="text-white text-display-md">GVTEWAY</Display>}
+          logo={<Display size="md" className="text-white">GVTEWAY</Display>}
           copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
         >
           <FooterColumn title="Legal">
-            <FooterLink href="#">Privacy</FooterLink>
-            <FooterLink href="#">Terms</FooterLink>
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
           </FooterColumn>
         </Footer>
       }
     >
-      <SectionLayout background="black">
-        <Stack gap={8} className="mx-auto max-w-md">
-          {submitted ? (
-            <Stack gap={6} className="text-center">
-              <Stack className="w-16 h-16 mx-auto bg-ink-800 rounded-full items-center justify-center">
-                <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-              </Stack>
-              <H2 className="text-white">Check Your Email</H2>
-              <Body className="text-ink-400">
-                If an account exists with <strong className="text-white">{email}</strong>, you will receive a password reset link shortly.
-              </Body>
-              <Button variant="solid" onClick={() => window.location.href = '/auth/signin'}>
-                Back to Sign In
-              </Button>
-            </Stack>
-          ) : (
-            <>
-              <Stack gap={4} className="text-center">
-                <H2 className="text-white">Reset Password</H2>
-                <Body className="text-ink-400">
-                  Enter your email address and we&apos;ll send you a link to reset your password.
-                </Body>
-              </Stack>
-
-              {error && <Alert variant="error">{error}</Alert>}
-
-              <Stack gap={6}>
-                <Field label="Email Address" className="text-white">
-                  <Input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="your@email.com"
-                    required
-                    className="border-ink-700 bg-black text-white"
-                  />
-                </Field>
-
-                <Button variant="solid" className="w-full" disabled={loading} onClick={handleSubmit}>
-                  {loading ? "Sending..." : "Send Reset Link"}
-                </Button>
-
-                <Stack className="text-center">
-                  <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/signin'} className="text-ink-400 hover:text-white">
+      <Section background="black" className="flex min-h-[80vh] items-center justify-center py-12">
+        <Container className="w-full max-w-md">
+          {/* Auth Card - Pop Art Style */}
+          <Card inverted variant="elevated" className="p-8">
+            {submitted ? (
+              /* Success State */
+              <Stack gap={8} className="text-center">
+                {/* Icon */}
+                <Card inverted className="mx-auto flex size-16 items-center justify-center">
+                  <Mail className="size-8 text-white" />
+                </Card>
+                
+                <Stack gap={4}>
+                  <H2 className="text-white">Check Your Email</H2>
+                  <Body className="text-on-dark-muted">
+                    If an account exists with <strong className="text-white">{email}</strong>, you will receive a password reset link shortly.
+                  </Body>
+                </Stack>
+                
+                <NextLink href="/auth/signin">
+                  <Button variant="solid" size="lg" fullWidth inverted>
                     Back to Sign In
                   </Button>
+                </NextLink>
+              </Stack>
+            ) : (
+              /* Form State */
+              <Stack gap={8}>
+                {/* Header */}
+                <Stack gap={4} className="text-center">
+                  <H2 className="text-white">Reset Password</H2>
+                  <Body className="text-on-dark-muted">
+                    Enter your email address and we&apos;ll send you a link to reset your password.
+                  </Body>
+                </Stack>
+
+                {/* Error Alert */}
+                {error && <Alert variant="error">{error}</Alert>}
+
+                {/* Form */}
+                <form onSubmit={handleSubmit}>
+                  <Stack gap={6}>
+                    {/* Email Field */}
+                    <Field label="Email Address" inverted>
+                      <Input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="your@email.com"
+                        required
+                        inverted
+                      />
+                    </Field>
+
+                    {/* Primary CTA */}
+                    <Button
+                      type="submit"
+                      variant="solid"
+                      size="lg"
+                      fullWidth
+                      inverted
+                      disabled={loading}
+                    >
+                      {loading ? "Sending..." : "Send Reset Link"}
+                    </Button>
+                  </Stack>
+                </form>
+
+                {/* Back Link */}
+                <Stack className="text-center">
+                  <NextLink href="/auth/signin">
+                    <Button variant="ghost" size="sm" inverted className="text-on-dark-muted hover:text-white">
+                      Back to Sign In
+                    </Button>
+                  </NextLink>
                 </Stack>
               </Stack>
-            </>
-          )}
-        </Stack>
-      </SectionLayout>
+            )}
+          </Card>
+        </Container>
+      </Section>
     </PageLayout>
   );
 }

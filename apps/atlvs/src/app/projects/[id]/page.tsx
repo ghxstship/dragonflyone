@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter, notFound } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../../components/navigation";
-import { ProgressBar, Button, Stack, StatusBadge, LoadingSpinner, Container, useNotifications, H1, H2, H3, Body, Label, Card, Grid, Link, Badge, Section } from "@ghxstship/ui";
+import { ProgressBar, Button, Stack, StatusBadge, LoadingSpinner, Container, useNotifications, H2, H3, Body, Label, Card, Grid, Link, Badge, Section, PageLayout, SectionHeader } from "@ghxstship/ui";
 
 interface Project {
   id: string;
@@ -82,26 +82,28 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
 
   if (loading) {
     return (
-      <Section className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-        <CreatorNavigationAuthenticated />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading project..." />
-        </Container>
-      </Section>
+      <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
+        <Section className="min-h-screen">
+          <Container className="flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" text="Loading project..." />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   if (error || !project) {
     return (
-      <Section className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-        <CreatorNavigationAuthenticated />
-        <Container className="flex min-h-[60vh] flex-col items-center justify-center gap-4">
-          <H2 className="text-white">{error || "Project not found"}</H2>
-          <Button variant="outlineWhite" onClick={() => router.push("/projects")}>
-            Back to Projects
-          </Button>
-        </Container>
-      </Section>
+      <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
+        <Section className="min-h-screen">
+          <Container className="flex min-h-[60vh] flex-col items-center justify-center gap-4">
+            <H2 className="text-white">{error || "Project not found"}</H2>
+            <Button variant="outlineWhite" onClick={() => router.push("/projects")}>
+              Back to Projects
+            </Button>
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 

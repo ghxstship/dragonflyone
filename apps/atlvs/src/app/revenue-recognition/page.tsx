@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { CreatorNavigationAuthenticated } from '../../components/navigation';
 import { useRevenueRecognition } from '@/hooks/useRevenueRecognition';
-import { Section, H1, H2, H3, Body, Label, Button, Card, CardHeader, CardBody, StatCard, Container, Alert, Stack, Grid, Badge, LoadingSpinner } from '@ghxstship/ui';
+import { Section, H2, H3, Body, Label, Button, Card, CardHeader, CardBody, StatCard, Container, Alert, Stack, Grid, Badge, LoadingSpinner, PageLayout, SectionHeader } from '@ghxstship/ui';
 
 export default function RevenueRecognitionPage() {
   const {
@@ -60,32 +60,34 @@ export default function RevenueRecognitionPage() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-ink-950 text-ink-50">
-        <CreatorNavigationAuthenticated />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading revenue recognition data..." />
-        </Container>
-      </Section>
+      <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
+        <Section className="min-h-screen">
+          <Container className="flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" text="Loading revenue recognition data..." />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="min-h-screen bg-ink-950 text-ink-50">
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          {/* Header */}
-          <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b border-ink-800 pb-8">
-            <Stack gap={2}>
-              <H1>Revenue Recognition</H1>
-              <Body className="text-ink-600">
-                Manage revenue recognition rules and schedules
-              </Body>
+    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            {/* Header */}
+            <Stack direction="horizontal" className="flex-col md:flex-row md:items-start md:justify-between">
+              <SectionHeader
+                kicker="ATLVS"
+                title="Revenue Recognition"
+                description="Manage revenue recognition rules and schedules"
+                colorScheme="on-dark"
+                gap="lg"
+              />
+              <Button variant="solid" onClick={() => setShowCreateForm(true)}>
+                Create Rule
+              </Button>
             </Stack>
-            <Button variant="solid" onClick={() => setShowCreateForm(true)}>
-              Create Rule
-            </Button>
-          </Stack>
 
         {error && (
           <Alert variant="error">
@@ -291,8 +293,9 @@ export default function RevenueRecognitionPage() {
             </CardBody>
           </Card>
         )}
-        </Stack>
-      </Container>
-    </Section>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

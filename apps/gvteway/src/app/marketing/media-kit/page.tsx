@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { ConsumerNavigationPublic } from "@/components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
+  Container, H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
+  Section, Card, Tabs, TabsList, Tab, TabPanel, Badge,
   Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
+  PageLayout, Footer, FooterColumn, FooterLink, Display, Kicker,
 } from "@ghxstship/ui";
 
 interface MediaAsset {
@@ -73,13 +75,41 @@ export default function MediaKitPage() {
   };
 
   return (
-    <UISection className="min-h-screen bg-white">
-      <Container className="py-8">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>MEDIA KIT</H1>
-            <Body className="text-ink-600">Press materials and media asset distribution</Body>
-          </Stack>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Marketing">
+            <FooterLink href="/marketing">Marketing Hub</FooterLink>
+            <FooterLink href="/marketing/media-kit">Media Kit</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Marketing</Kicker>
+              <H2 size="lg" className="text-white">Media Kit</H2>
+              <Body className="text-on-dark-muted">Press materials and media asset distribution</Body>
+            </Stack>
 
           <Grid cols={4} gap={6}>
             <StatCard label="Media Assets" value={mockAssets.length} className="border-2 border-black" />
@@ -212,9 +242,10 @@ export default function MediaKitPage() {
             </Stack>
           </Card>
 
-          <Button variant="outline" onClick={() => router.push("/marketing")}>Back to Marketing</Button>
-        </Stack>
-      </Container>
+          <Button variant="outlineInk" onClick={() => router.push("/marketing")}>Back to Marketing</Button>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedAsset} onClose={() => setSelectedAsset(null)}>
         <ModalHeader><H3>Asset Preview</H3></ModalHeader>
@@ -296,6 +327,6 @@ export default function MediaKitPage() {
           <Button variant="solid" onClick={() => setShowReleaseModal(false)}>Publish</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

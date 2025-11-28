@@ -2,11 +2,10 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ConsumerNavigationPublic } from '../../../components/navigation';
+import { ConsumerNavigationPublic } from '@/components/navigation';
 import {
   Container,
   Section,
-  H1,
   H2,
   H3,
   Body,
@@ -17,6 +16,12 @@ import {
   Badge,
   Alert,
   LoadingSpinner,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
+  Kicker,
 } from '@ghxstship/ui';
 import Image from 'next/image';
 
@@ -195,30 +200,76 @@ export default function DiscoveryQuizPage() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <Stack className="items-center" gap={4}>
-            <LoadingSpinner size="lg" />
-            <Body className="text-ink-600">Finding your perfect events...</Body>
-          </Stack>
-        </Container>
-      </Section>
+      <PageLayout
+        background="black"
+        header={<ConsumerNavigationPublic />}
+        footer={
+          <Footer
+            logo={<Display size="md">GVTEWAY</Display>}
+            copyright="© 2024 GHXSTSHIP INDUSTRIES."
+          >
+            <FooterColumn title="Discover">
+              <FooterLink href="/discover/quiz">Quiz</FooterLink>
+            </FooterColumn>
+          </Footer>
+        }
+      >
+        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+          <div
+            className="pointer-events-none absolute inset-0 opacity-5"
+            style={{
+              backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+              backgroundSize: "40px 40px",
+            }}
+          />
+          <Container className="relative z-10 flex min-h-[60vh] items-center justify-center">
+            <Stack className="items-center" gap={4}>
+              <LoadingSpinner size="lg" />
+              <Body className="text-on-dark-muted">Finding your perfect events...</Body>
+            </Stack>
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   if (results) {
     return (
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="py-16">
-          <Stack gap={8}>
-          <Stack gap={2} className="border-b-2 border-black pb-8">
-            <H1>Your Results</H1>
-            <Body className="text-ink-600">
-              Based on your preferences, here&apos;s what we recommend
-            </Body>
-          </Stack>
+      <PageLayout
+        background="black"
+        header={<ConsumerNavigationPublic />}
+        footer={
+          <Footer
+            logo={<Display size="md">GVTEWAY</Display>}
+            copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+          >
+            <FooterColumn title="Discover">
+              <FooterLink href="/discover/quiz">Quiz</FooterLink>
+              <FooterLink href="/browse">Browse Events</FooterLink>
+            </FooterColumn>
+            <FooterColumn title="Legal">
+              <FooterLink href="/legal/privacy">Privacy</FooterLink>
+              <FooterLink href="/legal/terms">Terms</FooterLink>
+            </FooterColumn>
+          </Footer>
+        }
+      >
+        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+          <div
+            className="pointer-events-none absolute inset-0 opacity-5"
+            style={{
+              backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+              backgroundSize: "40px 40px",
+            }}
+          />
+          <Container className="relative z-10">
+            <Stack gap={10}>
+              {/* Page Header */}
+              <Stack gap={2}>
+                <Kicker colorScheme="on-dark">Results</Kicker>
+                <H2 size="lg" className="text-white">Your Results</H2>
+                <Body className="text-on-dark-muted">Based on your preferences, here&apos;s what we recommend</Body>
+              </Stack>
 
           <Grid cols={3} gap={8}>
             <Stack className="col-span-2" gap={6}>
@@ -303,25 +354,51 @@ export default function DiscoveryQuizPage() {
               </Stack>
             </Stack>
           </Grid>
-          </Stack>
-        </Container>
-      </Section>
+            </Stack>
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   const selectedOptions = answers[currentQuestion.id] || [];
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-        <Stack gap={2} className="border-b-2 border-black pb-8">
-          <H1>Discovery Quiz</H1>
-          <Body className="text-ink-600">
-            Answer a few questions to find your perfect events
-          </Body>
-        </Stack>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Discover">
+            <FooterLink href="/discover/quiz">Quiz</FooterLink>
+            <FooterLink href="/browse">Browse Events</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Discover</Kicker>
+              <H2 size="lg" className="text-white">Discovery Quiz</H2>
+              <Body className="text-on-dark-muted">Answer a few questions to find your perfect events</Body>
+            </Stack>
 
         {error && (
           <Alert variant="error" className="mb-6">
@@ -386,12 +463,13 @@ export default function DiscoveryQuizPage() {
             </Button>
           </Stack>
         </Stack>
-        </Stack>
-      </Container>
-    </Section>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }
 
 function Label({ children, className }: { children: React.ReactNode; className?: string }) {
-  return <Body className={`text-body-sm font-medium ${className || ''}`}>{children}</Body>;
+  return <Body className={`text-body-sm font-weight-medium ${className || ''}`}>{children}</Body>;
 }

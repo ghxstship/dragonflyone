@@ -2,14 +2,12 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { ConsumerNavigationPublic } from "../../components/navigation";
+import { ConsumerNavigationPublic } from "@/components/navigation";
 import {
-  H1,
   H2,
   Body,
   StatCard,
   Select,
-  Button,
   Badge,
   LoadingSpinner,
   EmptyState,
@@ -20,6 +18,12 @@ import {
   Section,
   Input,
   Field,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
+  Kicker,
 } from "@ghxstship/ui";
 
 interface Destination {
@@ -87,97 +91,122 @@ export default function DestinationsPage() {
     }).format(amount);
   };
 
+  const footerContent = (
+    <Footer
+      logo={<Display size="md">GVTEWAY</Display>}
+      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+    >
+      <FooterColumn title="Discover">
+        <FooterLink href="/events">Events</FooterLink>
+        <FooterLink href="/destinations">Destinations</FooterLink>
+      </FooterColumn>
+      <FooterColumn title="Legal">
+        <FooterLink href="/legal/privacy">Privacy</FooterLink>
+        <FooterLink href="/legal/terms">Terms</FooterLink>
+      </FooterColumn>
+    </Footer>
+  );
+
   if (loading) {
     return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
+      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+        <Section background="black" className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading destinations..." />
-        </Container>
-      </Section>
+        </Section>
+      </PageLayout>
     );
   }
 
   if (error) {
     return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <ConsumerNavigationPublic />
-        <Container className="py-16">
-          <EmptyState
-            title="Error Loading Destinations"
-            description={error}
-            action={{ label: "Retry", onClick: fetchDestinations }}
-          />
-        </Container>
-      </Section>
+      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+        <Section background="black" className="min-h-screen py-16">
+          <Container>
+            <EmptyState
+              title="Error Loading Destinations"
+              description={error}
+              action={{ label: "Retry", onClick: fetchDestinations }}
+              inverted
+            />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="relative min-h-screen bg-black text-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Event Destinations</H1>
-            <Body className="text-ink-400">
-              Discover amazing events in cities around the world
-            </Body>
-          </Stack>
+    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={8}>
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Explore</Kicker>
+              <H2 size="lg" className="text-white">Event Destinations</H2>
+              <Body className="text-on-dark-muted">
+                Discover amazing events in cities around the world
+              </Body>
+            </Stack>
 
           <Grid cols={4} gap={6}>
             <StatCard
-              value={summary?.total_destinations || 0}
+              value={(summary?.total_destinations || 0).toString()}
               label="Destinations"
-              className="bg-black text-white border-ink-800"
+              inverted
             />
             <StatCard
-              value={summary?.trending_count || 0}
+              value={(summary?.trending_count || 0).toString()}
               label="Trending"
-              className="bg-black text-white border-ink-800"
+              inverted
             />
             <StatCard
-              value={summary?.total_events || 0}
+              value={(summary?.total_events || 0).toString()}
               label="Upcoming Events"
-              className="bg-black text-white border-ink-800"
+              inverted
             />
             <StatCard
-              value={summary?.featured_count || 0}
+              value={(summary?.featured_count || 0).toString()}
               label="Featured"
-              className="bg-black text-white border-ink-800"
+              inverted
             />
           </Grid>
 
-          <Card className="p-6 bg-black border-ink-800">
+          <Card inverted variant="elevated" className="p-6">
             <Stack gap={4}>
-              <H2>Trending Destinations</H2>
+              <H2 className="text-white">Trending Destinations</H2>
               <Grid cols={4} gap={4}>
-                <Card className="p-4 bg-ink-900 border-ink-700 cursor-pointer hover:border-ink-600">
+                <Card inverted interactive className="cursor-pointer p-4">
                   <Stack gap={2}>
-                    <Body className="text-h5-md">🗽</Body>
-                    <Body className="font-medium">New York</Body>
-                    <Body className="text-ink-400 text-body-sm">1,234 events</Body>
+                    <Body className="text-h3-md">🗽</Body>
+                    <Body className="font-display text-white">New York</Body>
+                    <Body size="sm" className="text-on-dark-muted">1,234 events</Body>
                   </Stack>
                 </Card>
-                <Card className="p-4 bg-ink-900 border-ink-700 cursor-pointer hover:border-ink-600">
+                <Card inverted interactive className="cursor-pointer p-4">
                   <Stack gap={2}>
-                    <Body className="text-h5-md">🌴</Body>
-                    <Body className="font-medium">Los Angeles</Body>
-                    <Body className="text-ink-400 text-body-sm">987 events</Body>
+                    <Body className="text-h3-md">🌴</Body>
+                    <Body className="font-display text-white">Los Angeles</Body>
+                    <Body size="sm" className="text-on-dark-muted">987 events</Body>
                   </Stack>
                 </Card>
-                <Card className="p-4 bg-ink-900 border-ink-700 cursor-pointer hover:border-ink-600">
+                <Card inverted interactive className="cursor-pointer p-4">
                   <Stack gap={2}>
-                    <Body className="text-h5-md">🎸</Body>
-                    <Body className="font-medium">Nashville</Body>
-                    <Body className="text-ink-400 text-body-sm">654 events</Body>
+                    <Body className="text-h3-md">🎸</Body>
+                    <Body className="font-display text-white">Nashville</Body>
+                    <Body size="sm" className="text-on-dark-muted">654 events</Body>
                   </Stack>
                 </Card>
-                <Card className="p-4 bg-ink-900 border-ink-700 cursor-pointer hover:border-ink-600">
+                <Card inverted interactive className="cursor-pointer p-4">
                   <Stack gap={2}>
-                    <Body className="text-h5-md">🎰</Body>
-                    <Body className="font-medium">Las Vegas</Body>
-                    <Body className="text-ink-400 text-body-sm">543 events</Body>
+                    <Body className="text-h3-md">🎰</Body>
+                    <Body className="font-display text-white">Las Vegas</Body>
+                    <Body size="sm" className="text-on-dark-muted">543 events</Body>
                   </Stack>
                 </Card>
               </Grid>
@@ -190,13 +219,13 @@ export default function DestinationsPage() {
                 placeholder="Search destinations..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-black text-white border-ink-700"
+                inverted
               />
             </Field>
             <Select
               value={filterRegion}
               onChange={(e) => setFilterRegion(e.target.value)}
-              className="bg-black text-white border-ink-700"
+              inverted
             >
               <option value="all">All Regions</option>
               <option value="northeast">Northeast</option>
@@ -212,20 +241,23 @@ export default function DestinationsPage() {
             <EmptyState
               title="No Destinations Found"
               description="Try different search criteria"
+              inverted
             />
           ) : (
             <Grid cols={3} gap={6}>
               {destinations.map((dest) => (
                 <Card 
                   key={dest.id} 
-                  className="p-6 bg-black border-ink-800 cursor-pointer hover:border-ink-700 transition-colors"
+                  inverted
+                  interactive
+                  className="cursor-pointer p-6"
                   onClick={() => router.push(`/events?location=${dest.city}`)}
                 >
                   <Stack gap={4}>
-                    <Stack gap={2} direction="horizontal" className="justify-between items-start">
+                    <Stack gap={2} direction="horizontal" className="items-start justify-between">
                       <Stack gap={1}>
-                        <H2 className="text-h6-md">{dest.name}</H2>
-                        <Body className="text-ink-400">
+                        <H2 className="text-white">{dest.name}</H2>
+                        <Body className="text-on-dark-muted">
                           {dest.city}, {dest.state || dest.country}
                         </Body>
                       </Stack>
@@ -234,28 +266,28 @@ export default function DestinationsPage() {
                       )}
                     </Stack>
 
-                    <Body className="text-ink-400 text-body-sm line-clamp-2">
+                    <Body size="sm" className="line-clamp-2 text-on-dark-muted">
                       {dest.description}
                     </Body>
 
                     <Stack gap={2}>
                       <Stack gap={1} direction="horizontal" className="flex-wrap">
                         {dest.popular_genres.slice(0, 3).map((genre) => (
-                          <Badge key={genre} variant="outline" className="text-mono-xs">
+                          <Badge key={genre} variant="outline">
                             {genre}
                           </Badge>
                         ))}
                       </Stack>
                     </Stack>
 
-                    <Stack gap={2} direction="horizontal" className="justify-between text-ink-500 text-body-sm border-t border-ink-800 pt-4">
+                    <Stack gap={2} direction="horizontal" className="justify-between border-t border-ink-800 pt-4">
                       <Stack gap={1}>
-                        <Body>{dest.venue_count} venues</Body>
-                        <Body>{dest.upcoming_events} upcoming events</Body>
+                        <Body size="sm" className="text-on-dark-muted">{dest.venue_count} venues</Body>
+                        <Body size="sm" className="text-on-dark-muted">{dest.upcoming_events} upcoming events</Body>
                       </Stack>
                       <Stack gap={1} className="text-right">
-                        <Body className="text-ink-400">Avg. ticket</Body>
-                        <Body className="text-white font-mono">
+                        <Body size="sm" className="text-on-dark-disabled">Avg. ticket</Body>
+                        <Body className="font-mono text-white">
                           {formatCurrency(dest.average_ticket_price)}
                         </Body>
                       </Stack>
@@ -265,8 +297,9 @@ export default function DestinationsPage() {
               ))}
             </Grid>
           )}
-        </Stack>
-      </Container>
-    </Section>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

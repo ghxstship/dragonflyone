@@ -5,14 +5,12 @@ import { useRouter } from 'next/navigation';
 import { CreatorNavigationAuthenticated } from '../../../components/navigation';
 import {
   Container,
-  H1,
   H3,
   Body,
   Label,
   Grid,
   Stack,
   StatCard,
-  Input,
   Select,
   Table,
   TableHeader,
@@ -21,12 +19,11 @@ import {
   TableHead,
   TableCell,
   Button,
-  Section as UISection,
+  Section,
   Card,
   Tabs,
   TabsList,
   Tab,
-  TabPanel,
   Badge,
   Modal,
   ModalHeader,
@@ -34,6 +31,8 @@ import {
   ModalFooter,
   Alert,
   ProgressBar,
+  PageLayout,
+  SectionHeader,
 } from '@ghxstship/ui';
 
 interface HandbookSection {
@@ -108,15 +107,17 @@ export default function HandbookPage() {
   };
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Employee Handbook & Policies</H1>
-            <Label className="text-ink-400">Manage handbook sections and track policy acknowledgments</Label>
-          </Stack>
+    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="ATLVS"
+              title="Employee Handbook & Policies"
+              description="Manage handbook sections and track policy acknowledgments"
+              colorScheme="on-dark"
+              gap="lg"
+            />
 
           <Grid cols={4} gap={6}>
             <StatCard label="Handbook Sections" value={mockSections.length} className="bg-transparent border-2 border-ink-800" />
@@ -307,19 +308,20 @@ export default function HandbookPage() {
             </Stack>
           )}
 
-          <Grid cols={3} gap={4}>
-            <Button variant="outline" className="border-ink-700 text-ink-400">
-              Export Report
-            </Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push('/workforce')}>
-              Workforce
-            </Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push('/')}>
-              Dashboard
-            </Button>
-          </Grid>
-        </Stack>
-      </Container>
+            <Grid cols={3} gap={4}>
+              <Button variant="outline" className="border-grey-700 text-grey-400">
+                Export Report
+              </Button>
+              <Button variant="outline" className="border-grey-700 text-grey-400" onClick={() => router.push('/workforce')}>
+                Workforce
+              </Button>
+              <Button variant="outline" className="border-grey-700 text-grey-400" onClick={() => router.push('/')}>
+                Dashboard
+              </Button>
+            </Grid>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedSection} onClose={() => setSelectedSection(null)}>
         <ModalHeader>
@@ -409,6 +411,6 @@ export default function HandbookPage() {
           </Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

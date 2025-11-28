@@ -4,9 +4,30 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter, Textarea, ProgressBar,
+  Container,
+  H3,
+  Body,
+  Grid,
+  Stack,
+  StatCard,
+  Input,
+  Select,
+  Button,
+  Section,
+  Card,
+  Tabs,
+  TabsList,
+  Tab,
+  TabPanel,
+  Badge,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Textarea,
+  ProgressBar,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 interface Mentor {
@@ -75,136 +96,154 @@ export default function MentorshipPage() {
   };
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Mentorship Program</H1>
-            <Label className="text-ink-400">Connect with experienced professionals and accelerate your career</Label>
-          </Stack>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Mentorship Program"
+              description="Connect with experienced professionals and accelerate your career"
+              colorScheme="on-light"
+              gap="lg"
+            />
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Active Mentors" value={mockMentors.length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Available" value={availableMentors} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Active Mentees" value={totalMentees} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Programs" value={mockPrograms.length} className="bg-transparent border-2 border-ink-800" />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard value={mockMentors.length.toString()} label="Active Mentors" />
+              <StatCard value={availableMentors.toString()} label="Available" />
+              <StatCard value={totalMentees.toString()} label="Active Mentees" />
+              <StatCard value={mockPrograms.length.toString()} label="Programs" />
+            </Grid>
 
-          <Tabs>
-            <TabsList>
-              <Tab active={activeTab === "mentors"} onClick={() => setActiveTab("mentors")}>Find a Mentor</Tab>
-              <Tab active={activeTab === "programs"} onClick={() => setActiveTab("programs")}>Programs</Tab>
-              <Tab active={activeTab === "resources"} onClick={() => setActiveTab("resources")}>Resources</Tab>
-            </TabsList>
+            <Tabs>
+              <TabsList>
+                <Tab active={activeTab === "mentors"} onClick={() => setActiveTab("mentors")}>Find a Mentor</Tab>
+                <Tab active={activeTab === "programs"} onClick={() => setActiveTab("programs")}>Programs</Tab>
+                <Tab active={activeTab === "resources"} onClick={() => setActiveTab("resources")}>Resources</Tab>
+              </TabsList>
 
-            <TabPanel active={activeTab === "mentors"}>
-              <Grid cols={2} gap={4}>
-                {mockMentors.map((mentor) => (
-                  <Card key={mentor.id} className="border-2 border-ink-800 bg-ink-900/50 p-6">
-                    <Stack gap={4}>
-                      <Stack direction="horizontal" className="justify-between items-start">
+              <TabPanel active={activeTab === "mentors"}>
+                <Grid cols={2} gap={4}>
+                  {mockMentors.map((mentor) => (
+                    <Card key={mentor.id} className="p-6">
+                      <Stack gap={4}>
+                        <Stack direction="horizontal" className="items-start justify-between">
+                          <Stack gap={1}>
+                            <Body className="font-display">{mentor.name}</Body>
+                            <Body className="text-body-sm">{mentor.role}</Body>
+                          </Stack>
+                          <Badge variant={mentor.availability === "Available" ? "solid" : "outline"}>{mentor.availability}</Badge>
+                        </Stack>
+                        <Grid cols={3} gap={4}>
+                          <Stack gap={1}>
+                            <Body className="text-body-sm">Experience</Body>
+                            <Body>{mentor.yearsExperience} years</Body>
+                          </Stack>
+                          <Stack gap={1}>
+                            <Body className="text-body-sm">Rating</Body>
+                            <Body>⭐ {mentor.rating}</Body>
+                          </Stack>
+                          <Stack gap={1}>
+                            <Body className="text-body-sm">Mentees</Body>
+                            <Body>{mentor.mentees}/{mentor.maxMentees}</Body>
+                          </Stack>
+                        </Grid>
+                        <Stack gap={2}>
+                          <Body className="text-body-sm">Specialties</Body>
+                          <Stack direction="horizontal" gap={2} className="flex-wrap">
+                            {mentor.specialties.map(spec => <Badge key={spec} variant="outline">{spec}</Badge>)}
+                          </Stack>
+                        </Stack>
+                        <Stack direction="horizontal" gap={2}>
+                          <Button variant="outline" size="sm" onClick={() => setSelectedMentor(mentor)}>View Profile</Button>
+                          {mentor.availability !== "Full" && (
+                            <Button variant="solid" size="sm" onClick={() => { setSelectedMentor(mentor); setShowRequestModal(true); }}>Request Mentorship</Button>
+                          )}
+                        </Stack>
+                      </Stack>
+                    </Card>
+                  ))}
+                </Grid>
+              </TabPanel>
+
+              <TabPanel active={activeTab === "programs"}>
+                <Stack gap={4}>
+                  {mockPrograms.map((program) => (
+                    <Card key={program.id} className="p-6">
+                      <Grid cols={4} gap={6} className="items-center">
+                        <Stack gap={2}>
+                          <Body className="font-display">{program.name}</Body>
+                          <Badge variant="outline">{program.level}</Badge>
+                        </Stack>
                         <Stack gap={1}>
-                          <Body className="font-display text-white text-body-md">{mentor.name}</Body>
-                          <Label className="text-ink-400">{mentor.role}</Label>
+                          <Body>{program.description}</Body>
+                          <Body className="text-body-sm">{program.duration} • {program.modules} modules</Body>
                         </Stack>
-                        <Label className={getAvailabilityColor(mentor.availability)}>{mentor.availability}</Label>
-                      </Stack>
-                      <Grid cols={3} gap={4}>
-                        <Stack gap={1}><Label size="xs" className="text-ink-500">Experience</Label><Label className="text-white">{mentor.yearsExperience} years</Label></Stack>
-                        <Stack gap={1}><Label size="xs" className="text-ink-500">Rating</Label><Label className="text-white">⭐ {mentor.rating}</Label></Stack>
-                        <Stack gap={1}><Label size="xs" className="text-ink-500">Mentees</Label><Label className="text-white">{mentor.mentees}/{mentor.maxMentees}</Label></Stack>
+                        <Stack gap={2}>
+                          <Body className="text-body-sm">Enrollment</Body>
+                          <ProgressBar value={(program.enrolled / program.capacity) * 100} className="h-2" />
+                          <Body className="text-body-sm">{program.enrolled}/{program.capacity} enrolled</Body>
+                        </Stack>
+                        <Button variant="solid" size="sm" onClick={() => setSelectedProgram(program)}>Enroll</Button>
                       </Grid>
-                      <Stack gap={2}>
-                        <Label size="xs" className="text-ink-500">Specialties</Label>
-                        <Stack direction="horizontal" gap={2} className="flex-wrap">
-                          {mentor.specialties.map(spec => <Badge key={spec} variant="outline">{spec}</Badge>)}
-                        </Stack>
-                      </Stack>
-                      <Stack direction="horizontal" gap={2}>
-                        <Button variant="outline" size="sm" onClick={() => setSelectedMentor(mentor)}>View Profile</Button>
-                        {mentor.availability !== "Full" && (
-                          <Button variant="solid" size="sm" onClick={() => { setSelectedMentor(mentor); setShowRequestModal(true); }}>Request Mentorship</Button>
-                        )}
-                      </Stack>
-                    </Stack>
-                  </Card>
-                ))}
-              </Grid>
-            </TabPanel>
+                    </Card>
+                  ))}
+                </Stack>
+              </TabPanel>
 
-            <TabPanel active={activeTab === "programs"}>
-              <Stack gap={4}>
-                {mockPrograms.map((program) => (
-                  <Card key={program.id} className={`border-2 p-6 ${getLevelColor(program.level)}`}>
-                    <Grid cols={4} gap={6} className="items-center">
-                      <Stack gap={2}>
-                        <Body className="font-display text-white text-body-md">{program.name}</Body>
-                        <Badge variant="outline">{program.level}</Badge>
+              <TabPanel active={activeTab === "resources"}>
+                <Grid cols={3} gap={4}>
+                  {[
+                    { title: "Getting Started Guide", desc: "New to the industry? Start here", icon: "📚" },
+                    { title: "Career Pathways", desc: "Explore different career tracks", icon: "🛤️" },
+                    { title: "Skill Assessments", desc: "Identify your strengths and gaps", icon: "📊" },
+                    { title: "Industry Certifications", desc: "Professional certification programs", icon: "🏆" },
+                    { title: "Networking Events", desc: "Connect with industry professionals", icon: "🤝" },
+                    { title: "Job Board", desc: "Find opportunities in the industry", icon: "💼" },
+                  ].map((resource, idx) => (
+                    <Card key={idx} className="cursor-pointer p-6">
+                      <Stack gap={3} className="text-center">
+                        <Body className="text-h3-md">{resource.icon}</Body>
+                        <Body className="font-display">{resource.title}</Body>
+                        <Body className="text-body-sm">{resource.desc}</Body>
                       </Stack>
-                      <Stack gap={1}>
-                        <Label className="text-ink-300">{program.description}</Label>
-                        <Label size="xs" className="text-ink-500">{program.duration} • {program.modules} modules</Label>
-                      </Stack>
-                      <Stack gap={2}>
-                        <Label size="xs" className="text-ink-500">Enrollment</Label>
-                        <ProgressBar value={(program.enrolled / program.capacity) * 100} className="h-2" />
-                        <Label size="xs" className="text-ink-400">{program.enrolled}/{program.capacity} enrolled</Label>
-                      </Stack>
-                      <Button variant="solid" size="sm" onClick={() => setSelectedProgram(program)}>Enroll</Button>
-                    </Grid>
-                  </Card>
-                ))}
-              </Stack>
-            </TabPanel>
+                    </Card>
+                  ))}
+                </Grid>
+              </TabPanel>
+            </Tabs>
 
-            <TabPanel active={activeTab === "resources"}>
-              <Grid cols={3} gap={4}>
-                {[
-                  { title: "Getting Started Guide", desc: "New to the industry? Start here", icon: "📚" },
-                  { title: "Career Pathways", desc: "Explore different career tracks", icon: "🛤️" },
-                  { title: "Skill Assessments", desc: "Identify your strengths and gaps", icon: "📊" },
-                  { title: "Industry Certifications", desc: "Professional certification programs", icon: "🏆" },
-                  { title: "Networking Events", desc: "Connect with industry professionals", icon: "🤝" },
-                  { title: "Job Board", desc: "Find opportunities in the industry", icon: "💼" },
-                ].map((resource, idx) => (
-                  <Card key={idx} className="border-2 border-ink-800 bg-ink-900/50 p-6 cursor-pointer hover:border-white">
-                    <Stack gap={3} className="text-center">
-                      <Label className="text-h3-md">{resource.icon}</Label>
-                      <Body className="font-display text-white">{resource.title}</Body>
-                      <Label className="text-ink-400">{resource.desc}</Label>
-                    </Stack>
-                  </Card>
-                ))}
-              </Grid>
-            </TabPanel>
-          </Tabs>
-
-          <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/crew")}>Back to Crew</Button>
-        </Stack>
-      </Container>
+            <Button variant="outline" onClick={() => router.push("/crew")}>Back to Crew</Button>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedMentor && !showRequestModal} onClose={() => setSelectedMentor(null)}>
         <ModalHeader><H3>Mentor Profile</H3></ModalHeader>
         <ModalBody>
           {selectedMentor && (
             <Stack gap={4}>
-              <Body className="font-display text-white text-h6-md">{selectedMentor.name}</Body>
-              <Label className="text-ink-400">{selectedMentor.role} • {selectedMentor.department}</Label>
+              <Body className="text-h6-md font-display">{selectedMentor.name}</Body>
+              <Body className="text-body-sm">{selectedMentor.role} • {selectedMentor.department}</Body>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Experience</Label><Label className="text-white">{selectedMentor.yearsExperience} years</Label></Stack>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Rating</Label><Label className="text-white">⭐ {selectedMentor.rating}</Label></Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Experience</Body>
+                  <Body>{selectedMentor.yearsExperience} years</Body>
+                </Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Rating</Body>
+                  <Body>⭐ {selectedMentor.rating}</Body>
+                </Stack>
               </Grid>
               <Stack gap={2}>
-                <Label className="text-ink-400">Specialties</Label>
+                <Body className="font-display">Specialties</Body>
                 <Stack direction="horizontal" gap={2} className="flex-wrap">
                   {selectedMentor.specialties.map(spec => <Badge key={spec} variant="outline">{spec}</Badge>)}
                 </Stack>
               </Stack>
               <Stack gap={1}>
-                <Label size="xs" className="text-ink-500">Current Mentees</Label>
-                <Label className="text-white">{selectedMentor.mentees} of {selectedMentor.maxMentees} slots filled</Label>
+                <Body className="text-body-sm">Current Mentees</Body>
+                <Body>{selectedMentor.mentees} of {selectedMentor.maxMentees} slots filled</Body>
               </Stack>
             </Stack>
           )}
@@ -221,15 +260,15 @@ export default function MentorshipPage() {
         <ModalHeader><H3>Request Mentorship</H3></ModalHeader>
         <ModalBody>
           <Stack gap={4}>
-            {selectedMentor && <Label className="text-ink-400">Requesting mentorship from {selectedMentor.name}</Label>}
-            <Textarea placeholder="Introduce yourself and explain your goals..." className="border-ink-700 bg-black text-white" rows={4} />
-            <Select className="border-ink-700 bg-black text-white">
+            {selectedMentor && <Body className="text-body-sm">Requesting mentorship from {selectedMentor.name}</Body>}
+            <Textarea placeholder="Introduce yourself and explain your goals..." rows={4} />
+            <Select>
               <option value="">Your experience level...</option>
               <option value="entry">Entry Level (0-2 years)</option>
               <option value="mid">Mid Level (3-5 years)</option>
               <option value="senior">Senior (5+ years)</option>
             </Select>
-            <Input placeholder="Areas you want to develop" className="border-ink-700 bg-black text-white" />
+            <Input placeholder="Areas you want to develop" />
           </Stack>
         </ModalBody>
         <ModalFooter>
@@ -237,6 +276,6 @@ export default function MentorshipPage() {
           <Button variant="solid" onClick={() => { setShowRequestModal(false); setSelectedMentor(null); }}>Submit Request</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

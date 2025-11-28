@@ -5,7 +5,6 @@ import { CreatorNavigationAuthenticated } from '../../components/navigation';
 import {
   Container,
   Section,
-  H1,
   H2,
   H3,
   Body,
@@ -13,7 +12,6 @@ import {
   Button,
   Card,
   Field,
-  Input,
   Select,
   Grid,
   Stack,
@@ -22,7 +20,10 @@ import {
   Modal,
   LoadingSpinner,
   StatCard,
+  PageLayout,
+  SectionHeader,
 } from '@ghxstship/ui';
+import { Target, CheckCircle, AlertTriangle, BarChart3 } from 'lucide-react';
 
 interface StrategicGoal {
   id: string;
@@ -135,12 +136,13 @@ export default function StrategicAlignmentPage() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-ink-950 text-ink-50">
-        <CreatorNavigationAuthenticated />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading alignment data..." />
-        </Container>
-      </Section>
+      <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
+        <Section className="min-h-screen">
+          <Container className="flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" text="Loading alignment data..." />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
@@ -153,21 +155,23 @@ export default function StrategicAlignmentPage() {
   const goalsOnTrack = goals.filter(g => g.status === 'on_track' || g.status === 'completed').length;
 
   return (
-    <Section className="min-h-screen bg-ink-950 text-ink-50">
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b border-ink-800 pb-8">
-            <Stack gap={2}>
-              <H1>Strategic Alignment</H1>
-              <Body className="text-ink-400">
-                Measure how projects align with strategic goals
-              </Body>
+    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            {/* Page Header - Bold Contemporary Pop Art Adventure */}
+            <Stack direction="horizontal" className="flex-col items-start justify-between md:flex-row md:items-center">
+              <SectionHeader
+                kicker="ATLVS"
+                title="Strategic Alignment"
+                description="Measure how projects align with strategic goals"
+                colorScheme="on-dark"
+                gap="lg"
+              />
+              <Button variant="solid" onClick={() => setShowAlignModal(true)}>
+                Align Project
+              </Button>
             </Stack>
-            <Button variant="solid" onClick={() => setShowAlignModal(true)}>
-              Align Project
-            </Button>
-          </Stack>
 
         {error && (
           <Alert variant="error" className="mb-6" onClose={() => setError(null)}>
@@ -181,32 +185,37 @@ export default function StrategicAlignmentPage() {
           </Alert>
         )}
 
-        <Grid cols={4} gap={6} className="mb-8">
-          <StatCard
-            label="Overall Alignment"
-            value={`${overallAlignment}%`}
-            icon={<Body>🎯</Body>}
-            trend={overallAlignment >= 70 ? 'up' : 'down'}
-            trendValue={overallAlignment >= 70 ? 'Good' : 'Needs attention'}
-          />
-          <StatCard
-            label="Aligned Projects"
-            value={alignedProjects}
-            icon={<Body>✅</Body>}
-          />
-          <StatCard
-            label="Unaligned Projects"
-            value={unalignedProjects}
-            icon={<Body>⚠️</Body>}
-            trend={unalignedProjects > 0 ? 'down' : 'neutral'}
-            trendValue={unalignedProjects > 0 ? 'Action needed' : 'All aligned'}
-          />
-          <StatCard
-            label="Goals On Track"
-            value={`${goalsOnTrack}/${goals.length}`}
-            icon={<Body>📊</Body>}
-          />
-        </Grid>
+            {/* Stats Grid - Comic panel aesthetic with hard shadows */}
+            <Grid cols={4} gap={6}>
+              <StatCard
+                label="Overall Alignment"
+                value={`${overallAlignment}%`}
+                icon={<Target className="size-5" />}
+                trend={overallAlignment >= 70 ? 'up' : 'down'}
+                trendValue={overallAlignment >= 70 ? 'Good' : 'Needs attention'}
+                inverted
+              />
+              <StatCard
+                label="Aligned Projects"
+                value={alignedProjects.toString()}
+                icon={<CheckCircle className="size-5" />}
+                inverted
+              />
+              <StatCard
+                label="Unaligned Projects"
+                value={unalignedProjects.toString()}
+                icon={<AlertTriangle className="size-5" />}
+                trend={unalignedProjects > 0 ? 'down' : 'neutral'}
+                trendValue={unalignedProjects > 0 ? 'Action needed' : 'All aligned'}
+                inverted
+              />
+              <StatCard
+                label="Goals On Track"
+                value={`${goalsOnTrack}/${goals.length}`}
+                icon={<BarChart3 className="size-5" />}
+                inverted
+              />
+            </Grid>
 
         <Grid cols={2} gap={8}>
           <Stack gap={6}>
@@ -412,9 +421,10 @@ export default function StrategicAlignmentPage() {
               </Stack>
             )}
           </Stack>
-        </Modal>
-        </Stack>
-      </Container>
-    </Section>
+            </Modal>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

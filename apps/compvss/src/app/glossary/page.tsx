@@ -4,9 +4,24 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter,
+  Container,
+  H3,
+  Body,
+  Grid,
+  Stack,
+  StatCard,
+  Input,
+  Select,
+  Button,
+  Section,
+  Card,
+  Badge,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 interface GlossaryTerm {
@@ -52,108 +67,107 @@ export default function GlossaryPage() {
     return matchesSearch && matchesCategory && matchesLetter;
   }).sort((a, b) => a.term.localeCompare(b.term));
 
-  const getCategoryColor = (category: string) => {
-    switch (category) {
-      case "Audio": return "bg-info-900/20 border-info-800";
-      case "Lighting": return "bg-warning-900/20 border-warning-800";
-      case "Video": return "bg-purple-900/20 border-purple-800";
-      case "Staging": return "bg-success-900/20 border-success-800";
-      case "Rigging": return "bg-error-900/20 border-error-800";
-      case "Production": return "bg-warning-900/20 border-warning-800";
-      default: return "bg-ink-900/50 border-ink-800";
-    }
-  };
-
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Industry Glossary</H1>
-            <Label className="text-ink-400">Comprehensive glossary of live event production terminology</Label>
-          </Stack>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            {/* Page Header */}
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Industry Glossary"
+              description="Comprehensive glossary of live event production terminology"
+              colorScheme="on-light"
+              gap="lg"
+            />
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Total Terms" value={mockTerms.length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Categories" value={categories.length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="With Aliases" value={mockTerms.filter(t => t.aliases?.length).length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Filtered" value={filteredTerms.length} className="bg-transparent border-2 border-ink-800" />
-          </Grid>
+            {/* Stats Grid */}
+            <Grid cols={4} gap={6}>
+              <StatCard value={mockTerms.length.toString()} label="Total Terms" />
+              <StatCard value={categories.length.toString()} label="Categories" />
+              <StatCard value={mockTerms.filter(t => t.aliases?.length).length.toString()} label="With Aliases" />
+              <StatCard value={filteredTerms.length.toString()} label="Filtered" />
+            </Grid>
 
-          <Grid cols={4} gap={4}>
-            <Input type="search" placeholder="Search terms..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="border-ink-700 bg-black text-white col-span-3" />
-            <Select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)} className="border-ink-700 bg-black text-white">
-              <option value="All">All Categories</option>
-              {categories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
-            </Select>
-          </Grid>
+            {/* Search and Filter */}
+            <Grid cols={4} gap={4}>
+              <Input type="search" placeholder="Search terms..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="col-span-3" />
+              <Select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
+                <option value="All">All Categories</option>
+                {categories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
+              </Select>
+            </Grid>
 
-          <Card className="border-2 border-ink-800 bg-ink-900/50 p-3">
-            <Stack direction="horizontal" gap={1} className="flex-wrap justify-center">
-              <Button variant={selectedLetter === null ? "solid" : "ghost"} size="sm" onClick={() => setSelectedLetter(null)}>All</Button>
-              {alphabet.map(letter => {
-                const hasTerms = mockTerms.some(t => t.term.toUpperCase().startsWith(letter));
-                return (
-                  <Button key={letter} variant={selectedLetter === letter ? "solid" : "ghost"} size="sm" onClick={() => setSelectedLetter(letter)} disabled={!hasTerms} className={!hasTerms ? "opacity-30" : ""}>
-                    {letter}
-                  </Button>
-                );
-              })}
-            </Stack>
-          </Card>
-
-          <Grid cols={2} gap={4}>
-            {filteredTerms.map((term) => (
-              <Card key={term.id} className={`border-2 p-4 cursor-pointer hover:border-white transition-colors ${getCategoryColor(term.category)}`} onClick={() => setSelectedTerm(term)}>
-                <Stack gap={3}>
-                  <Stack direction="horizontal" className="justify-between items-start">
-                    <Body className="font-display text-white text-body-md">{term.term}</Body>
-                    <Badge variant="outline">{term.category}</Badge>
-                  </Stack>
-                  <Body className="text-ink-300 line-clamp-2">{term.definition}</Body>
-                  {term.aliases && term.aliases.length > 0 && (
-                    <Stack direction="horizontal" gap={2}>
-                      <Label size="xs" className="text-ink-500">Also:</Label>
-                      {term.aliases.slice(0, 2).map(alias => <Badge key={alias} variant="outline">{alias}</Badge>)}
-                    </Stack>
-                  )}
-                </Stack>
-              </Card>
-            ))}
-          </Grid>
-
-          {filteredTerms.length === 0 && (
-            <Card className="border-2 border-ink-800 bg-ink-900/50 p-8 text-center">
-              <Label className="text-ink-400">No terms found matching your search</Label>
+            {/* Alphabet Filter */}
+            <Card className="p-3">
+              <Stack direction="horizontal" gap={1} className="flex-wrap justify-center">
+                <Button variant={selectedLetter === null ? "solid" : "ghost"} size="sm" onClick={() => setSelectedLetter(null)}>All</Button>
+                {alphabet.map(letter => {
+                  const hasTerms = mockTerms.some(t => t.term.toUpperCase().startsWith(letter));
+                  return (
+                    <Button key={letter} variant={selectedLetter === letter ? "solid" : "ghost"} size="sm" onClick={() => setSelectedLetter(letter)} disabled={!hasTerms} className={!hasTerms ? "opacity-30" : ""}>
+                      {letter}
+                    </Button>
+                  );
+                })}
+              </Stack>
             </Card>
-          )}
 
-          <Grid cols={3} gap={4}>
-            <Button variant="outline" className="border-ink-700 text-ink-400">Suggest Term</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400">Export PDF</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/knowledge")}>Knowledge Base</Button>
-          </Grid>
-        </Stack>
-      </Container>
+            {/* Terms Grid */}
+            <Grid cols={2} gap={4}>
+              {filteredTerms.map((term) => (
+                <Card key={term.id} className="cursor-pointer p-4" onClick={() => setSelectedTerm(term)}>
+                  <Stack gap={3}>
+                    <Stack direction="horizontal" className="items-start justify-between">
+                      <Body className="text-body-md font-display">{term.term}</Body>
+                      <Badge variant="outline">{term.category}</Badge>
+                    </Stack>
+                    <Body className="line-clamp-2 text-body-sm">{term.definition}</Body>
+                    {term.aliases && term.aliases.length > 0 && (
+                      <Stack direction="horizontal" gap={2}>
+                        <Body className="text-body-sm">Also:</Body>
+                        {term.aliases.slice(0, 2).map(alias => <Badge key={alias} variant="outline">{alias}</Badge>)}
+                      </Stack>
+                    )}
+                  </Stack>
+                </Card>
+              ))}
+            </Grid>
 
+            {/* Empty State */}
+            {filteredTerms.length === 0 && (
+              <Card className="p-8 text-center">
+                <Body>No terms found matching your search</Body>
+              </Card>
+            )}
+
+            {/* Quick Links */}
+            <Grid cols={3} gap={4}>
+              <Button variant="outline">Suggest Term</Button>
+              <Button variant="outline">Export PDF</Button>
+              <Button variant="outline" onClick={() => router.push("/knowledge")}>Knowledge Base</Button>
+            </Grid>
+          </Stack>
+        </Container>
+      </Section>
+
+      {/* Term Detail Modal */}
       <Modal open={!!selectedTerm} onClose={() => setSelectedTerm(null)}>
         <ModalHeader><H3>{selectedTerm?.term}</H3></ModalHeader>
         <ModalBody>
           {selectedTerm && (
             <Stack gap={4}>
-              <Badge variant="outline" className={getCategoryColor(selectedTerm.category)}>{selectedTerm.category}</Badge>
-              <Body className="text-ink-200">{selectedTerm.definition}</Body>
+              <Badge variant="outline">{selectedTerm.category}</Badge>
+              <Body>{selectedTerm.definition}</Body>
               {selectedTerm.aliases && selectedTerm.aliases.length > 0 && (
                 <Stack gap={2}>
-                  <Label className="text-ink-400">Also Known As</Label>
+                  <Body className="font-display">Also Known As</Body>
                   <Stack direction="horizontal" gap={2}>{selectedTerm.aliases.map(alias => <Badge key={alias} variant="outline">{alias}</Badge>)}</Stack>
                 </Stack>
               )}
               {selectedTerm.relatedTerms && selectedTerm.relatedTerms.length > 0 && (
                 <Stack gap={2}>
-                  <Label className="text-ink-400">Related Terms</Label>
+                  <Body className="font-display">Related Terms</Body>
                   <Stack direction="horizontal" gap={2}>{selectedTerm.relatedTerms.map(rt => <Badge key={rt} variant="outline">{rt}</Badge>)}</Stack>
                 </Stack>
               )}
@@ -165,6 +179,6 @@ export default function GlossaryPage() {
           <Button variant="outline">Edit Term</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

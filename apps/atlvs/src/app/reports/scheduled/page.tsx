@@ -4,8 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
+  Container, H3, Body, Label, Grid, Stack, StatCard, Select, Button,
+  Section, Card, Tabs, TabsList, Tab, Badge, PageLayout, SectionHeader,
   Modal, ModalHeader, ModalBody, ModalFooter, Textarea, Alert,
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
 } from "@ghxstship/ui";
@@ -58,15 +58,17 @@ export default function ScheduledReportsPage() {
     mockReports.filter(r => r.status === "Paused" || r.status === "Failed");
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Scheduled Reports</H1>
-            <Label className="text-ink-400">Automated report generation and distribution</Label>
-          </Stack>
+    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="ATLVS"
+              title="Scheduled Reports"
+              description="Automated report generation and distribution"
+              colorScheme="on-dark"
+              gap="lg"
+            />
 
           <Grid cols={4} gap={6}>
             <StatCard label="Total Schedules" value={mockReports.length} className="bg-transparent border-2 border-ink-800" />
@@ -127,13 +129,14 @@ export default function ScheduledReportsPage() {
             </TableBody>
           </Table>
 
-          <Grid cols={3} gap={4}>
-            <Button variant="outline" className="border-ink-700 text-ink-400">Report History</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400">Delivery Log</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/analytics")}>Analytics</Button>
-          </Grid>
-        </Stack>
-      </Container>
+            <Grid cols={3} gap={4}>
+              <Button variant="outline" className="border-grey-700 text-grey-400">Report History</Button>
+              <Button variant="outline" className="border-grey-700 text-grey-400">Delivery Log</Button>
+              <Button variant="outline" className="border-grey-700 text-grey-400" onClick={() => router.push("/analytics")}>Analytics</Button>
+            </Grid>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedReport} onClose={() => setSelectedReport(null)}>
         <ModalHeader><H3>Edit Schedule</H3></ModalHeader>
@@ -195,6 +198,6 @@ export default function ScheduledReportsPage() {
           <Button variant="solid" onClick={() => setShowCreateModal(false)}>Create</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

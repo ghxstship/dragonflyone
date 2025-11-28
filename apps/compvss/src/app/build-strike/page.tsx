@@ -6,7 +6,6 @@ import { CreatorNavigationAuthenticated } from '../../components/navigation';
 import {
   Container,
   Section,
-  H1,
   Body,
   Button,
   Card,
@@ -14,8 +13,10 @@ import {
   Badge,
   Stack,
   StatCard,
-  LoadingSpinner,
+  PageLayout,
+  SectionHeader,
 } from '@ghxstship/ui';
+
 interface Task {
   id: string;
   task: string;
@@ -38,99 +39,94 @@ export default function BuildStrikePage() {
   const router = useRouter();
   const [tasks, setTasks] = useState(mockTasks);
 
-  // Use mock data
-  const displayTasks = mockTasks;
+  const displayTasks = tasks;
 
   const updateTaskStatus = (id: string, status: Task['status']) => {
     setTasks(tasks.map(t => t.id === id ? { ...t, status } : t));
   };
 
-  const getPriorityColor = (priority: string) => {
-    switch (priority) {
-      case 'high': return 'border-l-4 border-l-black';
-      case 'medium': return 'border-l-4 border-l-ink-600';
-      case 'low': return 'border-l-4 border-l-ink-400';
-      default: return 'border-l-4 border-l-ink-400';
-    }
-  };
-
   return (
-    <Section className="min-h-screen bg-black text-white">
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2} className="border-b border-ink-800 pb-8">
-            <H1>Build & Strike</H1>
-            <Body className="text-ink-400">Build Progress: 45%</Body>
-          </Stack>
-
-          <Grid cols={3} gap={6}>
-            <StatCard
-              value={tasks.filter(t => t.status === 'complete').length}
-              label="Complete"
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            {/* Page Header */}
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Build & Strike"
+              description="Build Progress: 45%"
+              colorScheme="on-light"
+              gap="lg"
             />
-            <StatCard
-              value={tasks.filter(t => t.status === 'in-progress').length}
-              label="In Progress"
-            />
-            <StatCard
-              value={tasks.filter(t => t.status === 'pending').length}
-              label="Pending"
-            />
-          </Grid>
 
-          <Stack gap={4}>
-            {displayTasks.map(task => (
-              <Card
-                key={task.id}
-                className={`p-6 ${getPriorityColor(task.priority)}`}
-              >
-                <Grid cols={4} gap={4}>
-                  <Stack gap={1} className="col-span-2">
-                    <Body className="font-bold text-body-md">{task.task}</Body>
-                    <Body className="text-body-sm text-ink-600">{task.area} • {task.assignedTo}</Body>
-                  </Stack>
-                  <Stack gap={0}>
-                    <Badge>{task.priority.toUpperCase()}</Badge>
-                  </Stack>
-                  <Stack gap={0}>
-                    {task.status === 'pending' && (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => updateTaskStatus(task.id, 'in-progress')}
-                      >
-                        Start
-                      </Button>
-                    )}
-                    {task.status === 'in-progress' && (
-                      <Button
-                        variant="solid"
-                        size="sm"
-                        onClick={() => updateTaskStatus(task.id, 'complete')}
-                      >
-                        Complete
-                      </Button>
-                    )}
-                    {task.status === 'complete' && (
-                      <Body className="font-bold">✓ DONE</Body>
-                    )}
-                  </Stack>
-                  <Stack gap={0} direction="horizontal" className="justify-end">
-                    <Button variant="ghost" size="sm" onClick={() => router.push(`/build-strike/${task.id}/edit`)}>Edit</Button>
-                  </Stack>
-                </Grid>
-              </Card>
-            ))}
-          </Stack>
+            {/* Stats Grid */}
+            <Grid cols={3} gap={6}>
+              <StatCard
+                value={tasks.filter(t => t.status === 'complete').length.toString()}
+                label="Complete"
+              />
+              <StatCard
+                value={tasks.filter(t => t.status === 'in-progress').length.toString()}
+                label="In Progress"
+              />
+              <StatCard
+                value={tasks.filter(t => t.status === 'pending').length.toString()}
+                label="Pending"
+              />
+            </Grid>
 
-          <Stack gap={4} direction="horizontal">
-            <Button variant="solid" onClick={() => router.push('/build-strike/new')}>Add Task</Button>
-            <Button variant="outline" onClick={() => router.push('/safety/checklist')}>Safety Check</Button>
-            <Button variant="outline" onClick={() => router.push('/build-strike/photos')}>Photo Log</Button>
+            {/* Task List */}
+            <Stack gap={4}>
+              {displayTasks.map(task => (
+                <Card key={task.id} className="p-6">
+                  <Grid cols={4} gap={4} className="items-center">
+                    <Stack gap={1} className="col-span-2">
+                      <Body className="text-body-md font-display">{task.task}</Body>
+                      <Body className="text-body-sm">{task.area} • {task.assignedTo}</Body>
+                    </Stack>
+                    <Badge variant={task.priority === 'high' ? 'solid' : 'outline'}>
+                      {task.priority.toUpperCase()}
+                    </Badge>
+                    <Stack>
+                      {task.status === 'pending' && (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => updateTaskStatus(task.id, 'in-progress')}
+                        >
+                          Start
+                        </Button>
+                      )}
+                      {task.status === 'in-progress' && (
+                        <Button
+                          variant="solid"
+                          size="sm"
+                          onClick={() => updateTaskStatus(task.id, 'complete')}
+                        >
+                          Complete
+                        </Button>
+                      )}
+                      {task.status === 'complete' && (
+                        <Badge variant="solid">✓ DONE</Badge>
+                      )}
+                    </Stack>
+                    <Stack direction="horizontal" className="justify-end">
+                      <Button variant="ghost" size="sm" onClick={() => router.push(`/build-strike/${task.id}/edit`)}>Edit</Button>
+                    </Stack>
+                  </Grid>
+                </Card>
+              ))}
+            </Stack>
+
+            {/* Actions */}
+            <Stack gap={4} direction="horizontal">
+              <Button variant="solid" onClick={() => router.push('/build-strike/new')}>Add Task</Button>
+              <Button variant="outline" onClick={() => router.push('/safety/checklist')}>Safety Check</Button>
+              <Button variant="outline" onClick={() => router.push('/build-strike/photos')}>Photo Log</Button>
+            </Stack>
           </Stack>
-        </Stack>
-      </Container>
-    </Section>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

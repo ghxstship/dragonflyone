@@ -27,7 +27,62 @@ This document tracks incomplete, deferred, and planned features that need to be 
 
 ## Planned Features
 
-_Add planned features here as they are identified._
+### UI Style Guide Refactor (In Progress)
+**Status:** Partially complete - key pages refactored
+**Reference:** `docs/design/STYLE-GUIDE-PREVIEW.jsx`
+**Identified:** November 27, 2025
+
+**Objective:** Refactor all 337 authenticated pages to fully align with the GHXSTSHIP "Bold Contemporary Pop Art Adventure" design system.
+
+**Design System Requirements:**
+- Use `PageLayout` wrapper with proper `background` and `header` props
+- Use `SectionHeader` for page headers with `kicker`, `title`, `description`, `colorScheme`
+- Use `Card` with `variant` and `inverted` props instead of raw className
+- Use `StatCard` with `icon`, `trend`, `trendValue`, `inverted` props
+- Replace `font-bold` with `font-weight-bold` (design system token)
+- Replace `text-ink-*` with semantic classes like `text-on-dark-muted`, `text-on-dark-secondary`
+- Hard offset shadows only (no blur) - use `shadow-xs` through `shadow-xl`
+- 2px+ borders on interactive elements
+
+**Completed Pages:**
+- [x] `apps/atlvs/src/app/analytics/page.tsx` - Full refactor with PageLayout, SectionHeader, StatCard with icons/trends
+- [x] `apps/gvteway/src/app/dashboard/page.tsx` - Full refactor with PageLayout, design system tokens
+- [x] `apps/gvteway/src/app/settings/page.tsx` - Full refactor with PageLayout, SectionHeader, Card variants
+- [x] `apps/gvteway/src/app/profile/page.tsx` - Partial refactor with Card variants
+- [x] `apps/compvss/src/app/dashboard/page.tsx` - Full refactor with PageLayout, SectionHeader
+
+**Remaining Work (330+ pages):**
+- [ ] GVTEWAY authenticated pages (~150 pages)
+- [ ] ATLVS authenticated pages (~100 pages)  
+- [ ] COMPVSS authenticated pages (~80 pages)
+
+**Pattern to Apply:**
+```tsx
+// Before
+<Section className="min-h-screen bg-white">
+  <Navigation />
+  <Container className="py-16">
+    <H1>Title</H1>
+    ...
+  </Container>
+</Section>
+
+// After
+<PageLayout background="white" header={<Navigation />}>
+  <Section className="min-h-screen py-16">
+    <Container>
+      <SectionHeader
+        kicker="App Name"
+        title="Page Title"
+        description="Page description"
+        colorScheme="on-light"
+        gap="lg"
+      />
+      ...
+    </Container>
+  </Section>
+</PageLayout>
+```
 
 ---
 

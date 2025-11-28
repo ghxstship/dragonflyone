@@ -1,11 +1,11 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { ConsumerNavigationPublic } from '@/components/navigation';
 import {
   Container,
   Section,
-  H1,
   H2,
   H3,
   Body,
@@ -24,12 +24,16 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  LoadingSpinner,
   StatCard,
   Tabs,
   TabsList,
   Tab,
-  TabPanel,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
+  Kicker,
 } from '@ghxstship/ui';
 
 interface BundleProduct {
@@ -121,14 +125,42 @@ export default function BundlesPage() {
   const activeBundles = bundles.filter(b => b.is_active).length;
 
   return (
-    <Section className="min-h-screen bg-white">
-      <Container className="py-8">
-        <Stack gap={8}>
-          <Stack direction="horizontal" className="justify-between items-start">
-            <Stack gap={2}>
-              <H1>BUNDLES & CROSS-SELLS</H1>
-              <Body className="text-ink-600">Create product bundles and cross-sell recommendations</Body>
-            </Stack>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Merch">
+            <FooterLink href="/merch">Store</FooterLink>
+            <FooterLink href="/merch/bundles">Bundles</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack direction="horizontal" className="items-start justify-between">
+              <Stack gap={2}>
+                <Kicker colorScheme="on-dark">Merch</Kicker>
+                <H2 size="lg" className="text-white">Bundles & Cross-Sells</H2>
+                <Body className="text-on-dark-muted">Create product bundles and cross-sell recommendations</Body>
+              </Stack>
             <Button variant="solid" onClick={() => setShowCreateModal(true)}>
               Create Bundle
             </Button>
@@ -365,11 +397,12 @@ export default function BundlesPage() {
             </Grid>
           )}
 
-          <Button variant="outline" onClick={() => router.push('/merch')}>
+          <Button variant="outlineInk" onClick={() => router.push('/merch')}>
             Back to Merch
           </Button>
-        </Stack>
-      </Container>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={showCreateModal} onClose={() => setShowCreateModal(false)}>
         <ModalHeader><H3>Create Bundle</H3></ModalHeader>
@@ -454,6 +487,6 @@ export default function BundlesPage() {
           </Button>
         </ModalFooter>
       </Modal>
-    </Section>
+    </PageLayout>
   );
 }

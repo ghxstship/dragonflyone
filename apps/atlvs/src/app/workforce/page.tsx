@@ -1,99 +1,240 @@
 'use client';
 
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { CreatorNavigationAuthenticated } from '../../components/navigation';
 import {
-  Container,
-  Section,
-  Display,
-  H1,
-  H2,
-  Body,
-  Button,
-  Card,
-  Grid,
+  ListPage,
   Badge,
-  LoadingSpinner,
-  Stack,
+  RecordFormModal,
+  DetailDrawer,
+  ConfirmDialog,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
+  type ListPageBulkAction,
+  type FormFieldConfig,
+  type DetailSection,
 } from '@ghxstship/ui';
-import { useEmployees } from '@/hooks/useEmployees';
+import { useEmployees, useCreateEmployee, useDeleteEmployee } from '@/hooks/useEmployees';
+
+interface Employee {
+  id: string;
+  user_id?: string;
+  full_name: string;
+  first_name?: string;
+  last_name?: string;
+  email: string;
+  phone?: string;
+  position?: string;
+  role?: string;
+  department?: string;
+  department_id?: string;
+  employment_type?: 'full-time' | 'part-time' | 'contractor';
+  status: string;
+  hire_date?: string;
+  salary?: number;
+  manager_id?: string;
+  created_at?: string;
+  updated_at?: string;
+}
+
+const columns: ListPageColumn<Employee>[] = [
+  { key: 'full_name', label: 'Name', accessor: 'full_name', sortable: true },
+  { key: 'email', label: 'Email', accessor: 'email', sortable: true },
+  { key: 'phone', label: 'Phone', accessor: (r) => r.phone || '—' },
+  { key: 'role', label: 'Role', accessor: (r) => r.role || '—', sortable: true },
+  { key: 'department', label: 'Department', accessor: (r) => r.department || '—', sortable: true, render: (v) => <Badge variant="outline">{String(v)}</Badge> },
+  { 
+    key: 'status', 
+    label: 'Status', 
+    accessor: 'status', 
+    sortable: true,
+    render: (v) => <Badge variant={v === 'active' ? 'solid' : 'outline'}>{String(v || 'active').toUpperCase()}</Badge>
+  },
+];
+
+const filters: ListPageFilter[] = [
+  { 
+    key: 'status', 
+    label: 'Status', 
+    options: [
+      { value: 'active', label: 'Active' },
+      { value: 'inactive', label: 'Inactive' },
+      { value: 'onleave', label: 'On Leave' },
+      { value: 'terminated', label: 'Terminated' },
+    ]
+  },
+  {
+    key: 'department',
+    label: 'Department',
+    options: [
+      { value: 'Operations', label: 'Operations' },
+      { value: 'Production', label: 'Production' },
+      { value: 'Admin', label: 'Admin' },
+      { value: 'Tech', label: 'Tech' },
+      { value: 'Finance', label: 'Finance' },
+    ]
+  },
+];
+
+const formFields: FormFieldConfig[] = [
+  { name: 'full_name', label: 'Full Name', type: 'text', required: true, colSpan: 2 },
+  { name: 'email', label: 'Email', type: 'email', required: true },
+  { name: 'phone', label: 'Phone', type: 'text' },
+  { name: 'role', label: 'Role', type: 'text', required: true },
+  { name: 'department', label: 'Department', type: 'select', required: true, options: [
+    { value: 'Operations', label: 'Operations' },
+    { value: 'Production', label: 'Production' },
+    { value: 'Admin', label: 'Admin' },
+    { value: 'Tech', label: 'Tech' },
+    { value: 'Finance', label: 'Finance' },
+  ]},
+  { name: 'status', label: 'Status', type: 'select', options: [
+    { value: 'active', label: 'Active' },
+    { value: 'inactive', label: 'Inactive' },
+    { value: 'onleave', label: 'On Leave' },
+  ]},
+  { name: 'hire_date', label: 'Hire Date', type: 'date' },
+];
 
 export default function WorkforcePage() {
   const router = useRouter();
-  const { data: employees, isLoading } = useEmployees();
+  const { data: employees, isLoading, error, refetch } = useEmployees();
+  const createEmployeeMutation = useCreateEmployee();
+  const deleteEmployeeMutation = useDeleteEmployee();
+  
+  const [createModalOpen, setCreateModalOpen] = useState(false);
+  const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+  const [employeeToDelete, setEmployeeToDelete] = useState<Employee | null>(null);
 
-  if (isLoading) {
-    return (
-      <Section className="min-h-screen bg-ink-950 text-ink-50">
-        <CreatorNavigationAuthenticated />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading workforce data..." />
-        </Container>
-      </Section>
-    );
-  }
+  const employeeList = (employees || []) as Employee[];
+
+  const rowActions: ListPageAction<Employee>[] = [
+    { id: 'view', label: 'View Profile', icon: '👁️', onClick: (row) => { setSelectedEmployee(row); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (row) => router.push(`/employees/${row.id}/edit`) },
+    { id: 'assign', label: 'Assign to Project', icon: '📋', onClick: (row) => router.push(`/employees/${row.id}/assign`) },
+    { id: 'schedule', label: 'View Schedule', icon: '📅', onClick: (row) => router.push(`/employees/${row.id}/schedule`) },
+    { id: 'delete', label: 'Delete', icon: '🗑️', variant: 'danger', onClick: (row) => { setEmployeeToDelete(row); setDeleteConfirmOpen(true); } },
+  ];
+
+  const bulkActions: ListPageBulkAction[] = [
+    { id: 'export', label: 'Export', icon: '⬇️' },
+    { id: 'assign', label: 'Bulk Assign', icon: '📋' },
+    { id: 'status', label: 'Update Status', icon: '🔄' },
+    { id: 'delete', label: 'Delete', icon: '🗑️', variant: 'danger' },
+  ];
+
+  const handleBulkAction = async (actionId: string, selectedIds: string[]) => {
+    console.log('Bulk action:', actionId, selectedIds);
+  };
+
+  const handleCreate = async (data: Record<string, unknown>) => {
+    await createEmployeeMutation.mutateAsync(data as Parameters<typeof createEmployeeMutation.mutateAsync>[0]);
+    setCreateModalOpen(false);
+    refetch();
+  };
+
+  const handleDelete = async () => {
+    if (employeeToDelete) {
+      await deleteEmployeeMutation.mutateAsync(employeeToDelete.id);
+      setDeleteConfirmOpen(false);
+      setEmployeeToDelete(null);
+      refetch();
+    }
+  };
+
+  const stats = [
+    { label: 'Total Employees', value: employeeList.length },
+    { label: 'Active', value: employeeList.filter(e => e.status === 'active').length },
+    { label: 'Operations', value: employeeList.filter(e => e.department === 'Operations').length },
+    { label: 'On Leave', value: employeeList.filter(e => e.status === 'onleave').length },
+  ];
+
+  const detailSections: DetailSection[] = selectedEmployee ? [
+    {
+      id: 'overview',
+      title: 'Employee Details',
+      content: (
+        <div className="grid grid-cols-2 gap-4">
+          <div><strong>Name:</strong> {selectedEmployee.full_name}</div>
+          <div><strong>Email:</strong> {selectedEmployee.email}</div>
+          <div><strong>Phone:</strong> {selectedEmployee.phone || '—'}</div>
+          <div><strong>Role:</strong> {selectedEmployee.role || '—'}</div>
+          <div><strong>Department:</strong> {selectedEmployee.department || '—'}</div>
+          <div><strong>Status:</strong> {selectedEmployee.status}</div>
+          <div><strong>Hire Date:</strong> {selectedEmployee.hire_date ? new Date(selectedEmployee.hire_date).toLocaleDateString() : '—'}</div>
+        </div>
+      ),
+    },
+  ] : [];
 
   return (
-    <Section className="min-h-screen bg-ink-950 text-ink-50">
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={4} direction="horizontal" className="flex-col md:flex-row md:items-center md:justify-between border-b border-ink-800 pb-8">
-            <Stack gap={2}>
-              <H1>Workforce Management</H1>
-              <Body className="text-ink-400">Manage employees, schedules, and team assignments</Body>
-            </Stack>
-            <Stack direction="horizontal" gap={4}>
-              <Button variant="solid" onClick={() => router.push('/employees/new')}>Add Employee</Button>
-              <Button variant="outline" onClick={() => router.push('/schedule')}>View Calendar</Button>
-            </Stack>
-          </Stack>
+    <>
+      <ListPage<Employee>
+        title="Workforce Management"
+        subtitle="Manage employees, schedules, and team assignments"
+        data={employeeList}
+        columns={columns}
+        rowKey="id"
+        loading={isLoading}
+        error={error}
+        onRetry={refetch}
+        searchPlaceholder="Search employees..."
+        filters={filters}
+        rowActions={rowActions}
+        bulkActions={bulkActions}
+        onBulkAction={handleBulkAction}
+        onRowClick={(row) => { setSelectedEmployee(row); setDrawerOpen(true); }}
+        createLabel="Add Employee"
+        onCreate={() => setCreateModalOpen(true)}
+        onExport={() => console.log('Export employees')}
+        stats={stats}
+        emptyMessage="No employees found"
+        emptyAction={{ label: 'Add Employee', onClick: () => setCreateModalOpen(true) }}
+        header={<CreatorNavigationAuthenticated />}
+      />
 
-          <Grid cols={4} gap={6}>
-            <Card className="p-6 text-center border-2 border-ink-800 bg-transparent">
-              <H2 className="text-white">{employees?.filter((e: any) => e.status === 'active').length || 0}</H2>
-              <Body className="text-ink-400">Active</Body>
-            </Card>
-            <Card className="p-6 text-center border-2 border-ink-800 bg-transparent">
-              <H2 className="text-white">{employees?.length || 0}</H2>
-              <Body className="text-ink-400">Total Employees</Body>
-            </Card>
-            <Card className="p-6 text-center border-2 border-ink-800 bg-transparent">
-              <H2 className="text-white">{employees?.filter((e: any) => e.department === 'Operations').length || 0}</H2>
-              <Body className="text-ink-400">Operations</Body>
-            </Card>
-            <Card className="p-6 text-center border-2 border-ink-800 bg-transparent">
-              <H2 className="text-white">{employees?.filter((e: any) => e.status === 'onleave').length || 0}</H2>
-              <Body className="text-ink-400">On Leave</Body>
-            </Card>
-          </Grid>
+      <RecordFormModal
+        open={createModalOpen}
+        onClose={() => setCreateModalOpen(false)}
+        mode="create"
+        title="Add Employee"
+        fields={formFields}
+        onSubmit={handleCreate}
+        size="lg"
+      />
 
-          <Stack gap={4}>
-            {employees?.map((employee: any) => (
-              <Card key={employee.id} className="p-6 border-2 border-ink-800 bg-transparent hover:border-ink-600 transition-colors">
-                <Grid cols={4} gap={4}>
-                  <Stack gap={1}>
-                    <H2 className="text-white">{employee.name}</H2>
-                    <Body size="sm" className="text-ink-400">{employee.role || 'N/A'}</Body>
-                    <Body size="sm" className="text-ink-400">{employee.department || 'N/A'}</Body>
-                  </Stack>
-                  <Stack>
-                    <Badge variant="solid">{employee.status?.toUpperCase() || 'ACTIVE'}</Badge>
-                  </Stack>
-                  <Stack gap={1}>
-                    <Body size="sm" className="text-ink-300">Email: {employee.email || 'N/A'}</Body>
-                    <Body size="sm" className="text-ink-300">Phone: {employee.phone || 'N/A'}</Body>
-                  </Stack>
-                  <Stack direction="horizontal" gap={2} className="items-center justify-end">
-                    <Button variant="outline" size="sm" onClick={() => router.push(`/employees/${employee.id}`)}>Profile</Button>
-                    <Button variant="ghost" size="sm" onClick={() => router.push(`/employees/${employee.id}/assign`)}>Assign</Button>
-                  </Stack>
-                </Grid>
-              </Card>
-            ))}
-          </Stack>
-        </Stack>
-      </Container>
-    </Section>
+      <DetailDrawer
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        record={selectedEmployee}
+        title={(e) => e.full_name}
+        subtitle={(e) => `${e.role || 'Employee'} • ${e.department || 'Unassigned'}`}
+        sections={detailSections}
+        onEdit={(e) => router.push(`/employees/${e.id}/edit`)}
+        onDelete={(e) => { setEmployeeToDelete(e); setDeleteConfirmOpen(true); setDrawerOpen(false); }}
+        actions={[
+          { id: 'assign', label: 'Assign to Project', icon: '📋' },
+          { id: 'schedule', label: 'View Schedule', icon: '📅' },
+        ]}
+        onAction={(actionId, employee) => {
+          if (actionId === 'assign') router.push(`/employees/${employee.id}/assign`);
+          if (actionId === 'schedule') router.push(`/employees/${employee.id}/schedule`);
+        }}
+      />
+
+      <ConfirmDialog
+        open={deleteConfirmOpen}
+        title="Delete Employee"
+        message={`Are you sure you want to delete "${employeeToDelete?.full_name}"? This action cannot be undone.`}
+        variant="danger"
+        confirmLabel="Delete"
+        onConfirm={handleDelete}
+        onCancel={() => { setDeleteConfirmOpen(false); setEmployeeToDelete(null); }}
+      />
+    </>
   );
 }

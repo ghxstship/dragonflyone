@@ -10,6 +10,9 @@ import {
   RecordFormModal,
   DetailDrawer,
   ConfirmDialog,
+  Grid,
+  Stack,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -251,52 +254,52 @@ export default function CrewPage() {
       id: 'overview',
       title: 'Overview',
       content: (
-        <div className="grid grid-cols-2 gap-4">
-          <div><strong>Role:</strong> {selectedMember.role}</div>
-          <div><strong>Department:</strong> {selectedMember.department}</div>
-          <div><strong>Day Rate:</strong> ${selectedMember.rate}/day</div>
-          <div><strong>Rating:</strong> {selectedMember.rating}★</div>
-          <div><strong>Projects:</strong> {selectedMember.projectsCompleted}</div>
-          <div><strong>Location:</strong> {selectedMember.location}</div>
-        </div>
+        <Grid cols={2} gap={4}>
+          <Stack gap={1}><Body className="font-display">Role</Body><Body>{selectedMember.role}</Body></Stack>
+          <Stack gap={1}><Body className="font-display">Department</Body><Body>{selectedMember.department}</Body></Stack>
+          <Stack gap={1}><Body className="font-display">Day Rate</Body><Body>${selectedMember.rate}/day</Body></Stack>
+          <Stack gap={1}><Body className="font-display">Rating</Body><Body>{selectedMember.rating}★</Body></Stack>
+          <Stack gap={1}><Body className="font-display">Projects</Body><Body>{selectedMember.projectsCompleted}</Body></Stack>
+          <Stack gap={1}><Body className="font-display">Location</Body><Body>{selectedMember.location}</Body></Stack>
+        </Grid>
       ),
     },
     {
       id: 'contact',
       title: 'Contact',
       content: (
-        <div className="grid gap-2">
-          <div><strong>Phone:</strong> {selectedMember.phone}</div>
-          <div><strong>Email:</strong> {selectedMember.email}</div>
-        </div>
+        <Stack gap={2}>
+          <Stack gap={1}><Body className="font-display">Phone</Body><Body>{selectedMember.phone}</Body></Stack>
+          <Stack gap={1}><Body className="font-display">Email</Body><Body>{selectedMember.email}</Body></Stack>
+        </Stack>
       ),
     },
     {
       id: 'skills',
       title: 'Specialties & Certifications',
       content: (
-        <div className="grid gap-4">
+        <Stack gap={4}>
           {selectedMember.specialties && (
-            <div>
-              <strong>Specialties:</strong>
-              <div className="flex gap-2 flex-wrap mt-2">
+            <Stack gap={2}>
+              <Body className="font-display">Specialties</Body>
+              <Stack direction="horizontal" gap={2} className="flex-wrap">
                 {selectedMember.specialties.map((s: string) => (
                   <Badge key={s} variant="outline">{s}</Badge>
                 ))}
-              </div>
-            </div>
+              </Stack>
+            </Stack>
           )}
           {selectedMember.certifications && (
-            <div>
-              <strong>Certifications:</strong>
-              <div className="flex gap-2 flex-wrap mt-2">
+            <Stack gap={2}>
+              <Body className="font-display">Certifications</Body>
+              <Stack direction="horizontal" gap={2} className="flex-wrap">
                 {selectedMember.certifications.map((c: string) => (
                   <Badge key={c}>{c}</Badge>
                 ))}
-              </div>
-            </div>
+              </Stack>
+            </Stack>
           )}
-        </div>
+        </Stack>
       ),
     },
   ] : [];

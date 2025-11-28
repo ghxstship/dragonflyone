@@ -10,6 +10,7 @@ import {
   FooterColumn,
   FooterLink,
   Display,
+  H2,
   H3,
   Body,
   Button,
@@ -17,11 +18,11 @@ import {
   Select,
   Badge,
   Section,
-  SectionHeader,
   Card,
   Grid,
   Stack,
   Label,
+  Kicker,
   Container,
   LoadingSpinner,
   EmptyState,
@@ -70,20 +71,31 @@ export default function ArtistsPage() {
         </Footer>
       }
     >
-      <Section className="bg-black py-16">
-        <Container>
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        {/* Grid Pattern Background */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `
+              linear-gradient(#fff 1px, transparent 1px),
+              linear-gradient(90deg, #fff 1px, transparent 1px)
+            `,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
           <Stack gap={10}>
             {/* Page Header */}
-            <SectionHeader
-              kicker="Discover Talent"
-              title="Featured Artists"
-              description="Follow your favorite artists and never miss a show."
-              colorScheme="on-dark"
-              gap="lg"
-            />
+            <Stack gap={4}>
+              <Kicker colorScheme="on-dark">Discover Talent</Kicker>
+              <H2 size="lg" className="text-white">Featured Artists</H2>
+              <Body className="max-w-2xl text-on-dark-muted">
+                Follow your favorite artists and never miss a show.
+              </Body>
+            </Stack>
 
             {/* Search & Filters */}
-            <Card className="border-2 border-grey-800 bg-grey-950/50 p-6">
+            <Card inverted variant="elevated" className="p-6">
               <Stack direction="horizontal" gap={4} className="flex-col md:flex-row">
                 <Stack gap={2} className="flex-1">
                   <Label size="xs" className="text-on-dark-muted">
@@ -145,11 +157,12 @@ export default function ArtistsPage() {
               <Grid cols={3} gap={6}>
                 {filteredArtists.map((artist: Artist) => (
                   <Card 
-                    key={artist.id} 
-                    className="border-2 border-grey-800 bg-grey-950 shadow-sm transition-all duration-100 hover:-translate-y-1 hover:border-white hover:shadow-md"
+                    key={artist.id}
+                    inverted
+                    interactive
                   >
                     <NextLink href={`/artists/${artist.id}`} className="block">
-                      <Figure className="aspect-square bg-grey-900" />
+                      <Figure className="aspect-square bg-ink-900" />
                       <Stack gap={4} className="p-6">
                         <Stack gap={2}>
                           <Stack direction="horizontal" gap={2} className="items-center">
@@ -161,7 +174,7 @@ export default function ArtistsPage() {
                           <Body size="sm" className="text-on-dark-muted">{artist.genre}</Body>
                         </Stack>
                         
-                        <Stack direction="horizontal" className="justify-between border-t border-grey-800 pt-4">
+                        <Stack direction="horizontal" className="justify-between border-t border-ink-800 pt-4">
                           <Stack gap={1}>
                             <Label size="xs" className="text-on-dark-disabled">
                               <Users className="mr-1 inline size-3" />

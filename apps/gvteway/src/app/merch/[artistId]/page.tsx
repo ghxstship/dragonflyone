@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import { ConsumerNavigationPublic } from '@/components/navigation';
 import Image from 'next/image';
 import {
   Container,
@@ -23,6 +24,11 @@ import {
   Modal,
   LoadingSpinner,
   StatCard,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Kicker,
 } from '@ghxstship/ui';
 
 interface Artist {
@@ -150,47 +156,76 @@ export default function ArtistMerchPage() {
 
   const categories = [...new Set(products.map(p => p.category))];
 
+  const footerContent = (
+    <Footer
+      logo={<Display size="md">GVTEWAY</Display>}
+      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+    >
+      <FooterColumn title="Merch">
+        <FooterLink href="/merch">Store</FooterLink>
+      </FooterColumn>
+      <FooterColumn title="Legal">
+        <FooterLink href="/legal/privacy">Privacy</FooterLink>
+        <FooterLink href="/legal/terms">Terms</FooterLink>
+      </FooterColumn>
+    </Footer>
+  );
+
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" />
-      </Section>
+      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+        <Section background="black" className="flex min-h-[60vh] items-center justify-center">
+          <LoadingSpinner size="lg" />
+        </Section>
+      </PageLayout>
     );
   }
 
   if (!artist) {
     return (
-      <Section className="min-h-screen bg-white flex items-center justify-center">
-        <Card className="p-8 text-center">
-          <H3>Artist not found</H3>
-          <Button variant="solid" className="mt-4" onClick={() => router.push('/merch')}>
-            Back to Store
-          </Button>
-        </Card>
-      </Section>
+      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+        <Section background="black" className="flex min-h-[60vh] items-center justify-center">
+          <Card inverted className="p-8 text-center">
+            <H3 className="text-white">Artist not found</H3>
+            <Button variant="solid" inverted className="mt-4" onClick={() => router.push('/merch')}>
+              Back to Store
+            </Button>
+          </Card>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="min-h-screen bg-white">
-      <Container>
-        <Section className="border-b-2 border-black py-8 mb-8">
-          <Stack direction="horizontal" gap={6} className="items-center">
-            <Stack className="w-24 h-24 rounded-full bg-ink-200 overflow-hidden relative flex-shrink-0">
-              {artist.image_url ? (
-                <Image src={artist.image_url} alt={artist.name} fill className="object-cover" />
-              ) : (
-                <Stack className="w-full h-full flex items-center justify-center">
-                  <Body className="text-h4-md">🎤</Body>
-                </Stack>
-              )}
-            </Stack>
-            <Stack>
-              <Display>{artist.name}</Display>
-              <Body className="mt-2 text-ink-600">Official Merchandise</Body>
+    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          {/* Page Header */}
+          <Stack gap={6} className="mb-8 border-b-2 border-ink-800 pb-8">
+            <Kicker colorScheme="on-dark">Merch</Kicker>
+            <Stack direction="horizontal" gap={6} className="items-center">
+              <Stack className="size-24 rounded-full bg-ink-200 overflow-hidden relative flex-shrink-0">
+                {artist.image_url ? (
+                  <Image src={artist.image_url} alt={artist.name} fill className="object-cover" />
+                ) : (
+                  <Stack className="size-full flex items-center justify-center">
+                    <Body className="text-h4-md">🎤</Body>
+                  </Stack>
+                )}
+              </Stack>
+              <Stack>
+                <Display className="text-white">{artist.name}</Display>
+                <Body className="mt-2 text-on-dark-muted">Official Merchandise</Body>
+              </Stack>
             </Stack>
           </Stack>
-        </Section>
 
         {error && (
           <Alert variant="error" className="mb-6" onClose={() => setError(null)}>
@@ -427,7 +462,8 @@ export default function ArtistMerchPage() {
             </Stack>
           )}
         </Modal>
-      </Container>
-    </Section>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

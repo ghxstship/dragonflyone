@@ -4,10 +4,28 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select,
-  Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter, Alert,
+  Container,
+  H3,
+  Body,
+  Grid,
+  Stack,
+  StatCard,
+  Input,
+  Select,
+  Button,
+  Section,
+  Card,
+  Tabs,
+  TabsList,
+  Tab,
+  TabPanel,
+  Badge,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 interface Settlement {
@@ -121,149 +139,212 @@ export default function SettlementPage() {
   };
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Post-Production Settlement</H1>
-            <Label className="text-ink-400">Financial closeout and settlement for completed projects</Label>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Post-Production Settlement"
+              description="Financial closeout and settlement for completed projects"
+              colorScheme="on-light"
+              gap="lg"
+            />
+
+            <Grid cols={4} gap={6}>
+              <StatCard value={pendingCount.toString()} label="Pending Settlements" />
+              <StatCard value={`$${(totalProfit / 1000).toFixed(0)}K`} label="Total Profit (MTD)" />
+              <StatCard value={`${avgMargin}%`} label="Avg Margin" />
+              <StatCard value={mockSettlements.filter(s => s.status === "Finalized").length.toString()} label="Finalized This Month" />
+            </Grid>
+
+            <Tabs>
+              <TabsList>
+                <Tab active={activeTab === "pending"} onClick={() => setActiveTab("pending")}>Pending ({pendingCount})</Tab>
+                <Tab active={activeTab === "finalized"} onClick={() => setActiveTab("finalized")}>Finalized</Tab>
+                <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All</Tab>
+              </TabsList>
+
+              <TabPanel active={true}>
+                <Stack gap={4}>
+                  {mockSettlements
+                    .filter(s => activeTab === "all" || (activeTab === "pending" ? (s.status === "Draft" || s.status === "Pending Review") : s.status === "Finalized"))
+                    .map((settlement) => (
+                      <Card key={settlement.id} className="p-6">
+                        <Stack gap={4}>
+                          <Stack direction="horizontal" className="items-start justify-between">
+                            <Stack gap={1}>
+                              <Body className="font-display">{settlement.projectName}</Body>
+                              <Body className="text-body-sm">Event Date: {settlement.eventDate}</Body>
+                            </Stack>
+                            <Badge variant={settlement.status === "Finalized" ? "solid" : "outline"}>{settlement.status}</Badge>
+                          </Stack>
+
+                          <Grid cols={4} gap={4}>
+                            <Card className="p-3">
+                              <Stack gap={1}>
+                                <Body className="text-body-sm">Contract Value</Body>
+                                <Body className="font-display">${settlement.contractValue.toLocaleString()}</Body>
+                              </Stack>
+                            </Card>
+                            <Card className="p-3">
+                              <Stack gap={1}>
+                                <Body className="text-body-sm">Actual Costs</Body>
+                                <Body className="font-display">${settlement.actualCosts.toLocaleString()}</Body>
+                              </Stack>
+                            </Card>
+                            <Card className="p-3">
+                              <Stack gap={1}>
+                                <Body className="text-body-sm">Gross Profit</Body>
+                                <Body className="font-display">${settlement.grossProfit.toLocaleString()}</Body>
+                              </Stack>
+                            </Card>
+                            <Card className="p-3">
+                              <Stack gap={1}>
+                                <Body className="text-body-sm">Margin</Body>
+                                <Body className="font-display">{settlement.marginPct}%</Body>
+                              </Stack>
+                            </Card>
+                          </Grid>
+
+                          {settlement.adjustments.length > 0 && (
+                            <Stack gap={2}>
+                              <Body className="font-display">Adjustments ({settlement.adjustments.length})</Body>
+                              {settlement.adjustments.map((adj) => (
+                                <Card key={adj.id} className="p-2">
+                                  <Stack direction="horizontal" className="justify-between">
+                                    <Body className="text-body-sm">{adj.description}</Body>
+                                    <Badge variant={adj.type === "Credit" ? "solid" : "outline"}>
+                                      {adj.type === "Credit" ? "+" : "-"}${adj.amount.toLocaleString()}
+                                    </Badge>
+                                  </Stack>
+                                </Card>
+                              ))}
+                            </Stack>
+                          )}
+
+                          <Stack direction="horizontal" gap={4} className="justify-end">
+                            <Button variant="ghost" size="sm" onClick={() => setSelectedSettlement(settlement)}>View Details</Button>
+                            {settlement.status === "Draft" && <Button variant="outline" size="sm">Submit for Review</Button>}
+                            {settlement.status === "Pending Review" && <Button variant="outline" size="sm">Approve</Button>}
+                            {settlement.status === "Approved" && <Button variant="solid" size="sm">Finalize</Button>}
+                          </Stack>
+                        </Stack>
+                      </Card>
+                    ))}
+                </Stack>
+              </TabPanel>
+            </Tabs>
+
+            <Grid cols={3} gap={4}>
+              <Button variant="solid">Create Settlement</Button>
+              <Button variant="outline">Export Report</Button>
+              <Button variant="outline" onClick={() => router.push("/projects")}>Back to Projects</Button>
+            </Grid>
           </Stack>
-
-          <Grid cols={4} gap={6}>
-            <StatCard label="Pending Settlements" value={pendingCount} trend={pendingCount > 0 ? "down" : "neutral"} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Total Profit (MTD)" value={`$${(totalProfit / 1000).toFixed(0)}K`} trend="up" className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Avg Margin" value={`${avgMargin}%`} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Finalized This Month" value={mockSettlements.filter(s => s.status === "Finalized").length} className="bg-transparent border-2 border-ink-800" />
-          </Grid>
-
-          <Tabs>
-            <TabsList>
-              <Tab active={activeTab === "pending"} onClick={() => setActiveTab("pending")}>Pending ({pendingCount})</Tab>
-              <Tab active={activeTab === "finalized"} onClick={() => setActiveTab("finalized")}>Finalized</Tab>
-              <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All</Tab>
-            </TabsList>
-
-            <TabPanel active={true}>
-              <Stack gap={4}>
-                {mockSettlements
-                  .filter(s => activeTab === "all" || (activeTab === "pending" ? (s.status === "Draft" || s.status === "Pending Review") : s.status === "Finalized"))
-                  .map((settlement) => (
-                    <Card key={settlement.id} className="border-2 border-ink-800 bg-ink-900/50 p-6">
-                      <Stack gap={4}>
-                        <Stack direction="horizontal" className="justify-between items-start">
-                          <Stack gap={1}>
-                            <Body className="font-display text-white text-body-md">{settlement.projectName}</Body>
-                            <Label className="text-ink-500">Event Date: {settlement.eventDate}</Label>
-                          </Stack>
-                          <Label className={getStatusColor(settlement.status)}>{settlement.status}</Label>
-                        </Stack>
-
-                        <Grid cols={4} gap={4}>
-                          <Card className="p-3 bg-ink-800 border border-ink-700">
-                            <Stack gap={1}>
-                              <Label size="xs" className="text-ink-500">Contract Value</Label>
-                              <Label className="font-mono text-white text-body-md">${settlement.contractValue.toLocaleString()}</Label>
-                            </Stack>
-                          </Card>
-                          <Card className="p-3 bg-ink-800 border border-ink-700">
-                            <Stack gap={1}>
-                              <Label size="xs" className="text-ink-500">Actual Costs</Label>
-                              <Label className="font-mono text-white text-body-md">${settlement.actualCosts.toLocaleString()}</Label>
-                            </Stack>
-                          </Card>
-                          <Card className="p-3 bg-ink-800 border border-ink-700">
-                            <Stack gap={1}>
-                              <Label size="xs" className="text-ink-500">Gross Profit</Label>
-                              <Label className="font-mono text-success-400 text-body-md">${settlement.grossProfit.toLocaleString()}</Label>
-                            </Stack>
-                          </Card>
-                          <Card className="p-3 bg-ink-800 border border-ink-700">
-                            <Stack gap={1}>
-                              <Label size="xs" className="text-ink-500">Margin</Label>
-                              <Label className="font-mono text-white text-body-md">{settlement.marginPct}%</Label>
-                            </Stack>
-                          </Card>
-                        </Grid>
-
-                        {settlement.adjustments.length > 0 && (
-                          <Stack gap={2}>
-                            <Label className="text-ink-400">Adjustments ({settlement.adjustments.length})</Label>
-                            {settlement.adjustments.map((adj) => (
-                              <Card key={adj.id} className={`p-2 border ${adj.type === "Credit" ? "border-success-800 bg-success-900/10" : "border-error-800 bg-error-900/10"}`}>
-                                <Stack direction="horizontal" className="justify-between">
-                                  <Label className="text-ink-300">{adj.description}</Label>
-                                  <Label className={adj.type === "Credit" ? "text-success-400" : "text-error-400"}>
-                                    {adj.type === "Credit" ? "+" : "-"}${adj.amount.toLocaleString()}
-                                  </Label>
-                                </Stack>
-                              </Card>
-                            ))}
-                          </Stack>
-                        )}
-
-                        <Stack direction="horizontal" gap={4} className="justify-end">
-                          <Button variant="ghost" size="sm" onClick={() => setSelectedSettlement(settlement)}>View Details</Button>
-                          {settlement.status === "Draft" && <Button variant="outline" size="sm">Submit for Review</Button>}
-                          {settlement.status === "Pending Review" && <Button variant="outline" size="sm">Approve</Button>}
-                          {settlement.status === "Approved" && <Button variant="solid" size="sm">Finalize</Button>}
-                        </Stack>
-                      </Stack>
-                    </Card>
-                  ))}
-              </Stack>
-            </TabPanel>
-          </Tabs>
-
-          <Grid cols={3} gap={4}>
-            <Button variant="outlineWhite">Create Settlement</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400">Export Report</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/projects")}>Back to Projects</Button>
-          </Grid>
-        </Stack>
-      </Container>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedSettlement} onClose={() => setSelectedSettlement(null)}>
         <ModalHeader><H3>Settlement Details</H3></ModalHeader>
         <ModalBody>
           {selectedSettlement && (
             <Stack gap={4}>
-              <Body className="font-display text-white text-body-md">{selectedSettlement.projectName}</Body>
+              <Body className="font-display">{selectedSettlement.projectName}</Body>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Event Date</Label><Label className="font-mono text-white">{selectedSettlement.eventDate}</Label></Stack>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Status</Label><Label className={getStatusColor(selectedSettlement.status)}>{selectedSettlement.status}</Label></Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Event Date</Body>
+                  <Body>{selectedSettlement.eventDate}</Body>
+                </Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Status</Body>
+                  <Badge variant={selectedSettlement.status === "Finalized" ? "solid" : "outline"}>{selectedSettlement.status}</Badge>
+                </Stack>
               </Grid>
 
               <H3 className="mt-4">Revenue</H3>
               <Grid cols={2} gap={2}>
-                {selectedSettlement.ticketRevenue && <Stack direction="horizontal" className="justify-between"><Label className="text-ink-400">Ticket Revenue</Label><Label className="font-mono text-white">${selectedSettlement.ticketRevenue.toLocaleString()}</Label></Stack>}
-                {selectedSettlement.merchRevenue && <Stack direction="horizontal" className="justify-between"><Label className="text-ink-400">Merch Revenue</Label><Label className="font-mono text-white">${selectedSettlement.merchRevenue.toLocaleString()}</Label></Stack>}
-                {selectedSettlement.sponsorRevenue && <Stack direction="horizontal" className="justify-between"><Label className="text-ink-400">Sponsor Revenue</Label><Label className="font-mono text-white">${selectedSettlement.sponsorRevenue.toLocaleString()}</Label></Stack>}
+                {selectedSettlement.ticketRevenue && (
+                  <Stack direction="horizontal" className="justify-between">
+                    <Body className="text-body-sm">Ticket Revenue</Body>
+                    <Body>${selectedSettlement.ticketRevenue.toLocaleString()}</Body>
+                  </Stack>
+                )}
+                {selectedSettlement.merchRevenue && (
+                  <Stack direction="horizontal" className="justify-between">
+                    <Body className="text-body-sm">Merch Revenue</Body>
+                    <Body>${selectedSettlement.merchRevenue.toLocaleString()}</Body>
+                  </Stack>
+                )}
+                {selectedSettlement.sponsorRevenue && (
+                  <Stack direction="horizontal" className="justify-between">
+                    <Body className="text-body-sm">Sponsor Revenue</Body>
+                    <Body>${selectedSettlement.sponsorRevenue.toLocaleString()}</Body>
+                  </Stack>
+                )}
               </Grid>
 
               <H3 className="mt-4">Costs</H3>
               <Grid cols={2} gap={2}>
-                {selectedSettlement.artistGuarantee && <Stack direction="horizontal" className="justify-between"><Label className="text-ink-400">Artist Guarantee</Label><Label className="font-mono text-white">${selectedSettlement.artistGuarantee.toLocaleString()}</Label></Stack>}
-                {selectedSettlement.artistBackend && <Stack direction="horizontal" className="justify-between"><Label className="text-ink-400">Artist Backend</Label><Label className="font-mono text-white">${selectedSettlement.artistBackend.toLocaleString()}</Label></Stack>}
-                {selectedSettlement.venueRent && <Stack direction="horizontal" className="justify-between"><Label className="text-ink-400">Venue Rent</Label><Label className="font-mono text-white">${selectedSettlement.venueRent.toLocaleString()}</Label></Stack>}
-                {selectedSettlement.productionCosts && <Stack direction="horizontal" className="justify-between"><Label className="text-ink-400">Production</Label><Label className="font-mono text-white">${selectedSettlement.productionCosts.toLocaleString()}</Label></Stack>}
-                {selectedSettlement.laborCosts && <Stack direction="horizontal" className="justify-between"><Label className="text-ink-400">Labor</Label><Label className="font-mono text-white">${selectedSettlement.laborCosts.toLocaleString()}</Label></Stack>}
-                {selectedSettlement.otherCosts && <Stack direction="horizontal" className="justify-between"><Label className="text-ink-400">Other</Label><Label className="font-mono text-white">${selectedSettlement.otherCosts.toLocaleString()}</Label></Stack>}
+                {selectedSettlement.artistGuarantee && (
+                  <Stack direction="horizontal" className="justify-between">
+                    <Body className="text-body-sm">Artist Guarantee</Body>
+                    <Body>${selectedSettlement.artistGuarantee.toLocaleString()}</Body>
+                  </Stack>
+                )}
+                {selectedSettlement.artistBackend && (
+                  <Stack direction="horizontal" className="justify-between">
+                    <Body className="text-body-sm">Artist Backend</Body>
+                    <Body>${selectedSettlement.artistBackend.toLocaleString()}</Body>
+                  </Stack>
+                )}
+                {selectedSettlement.venueRent && (
+                  <Stack direction="horizontal" className="justify-between">
+                    <Body className="text-body-sm">Venue Rent</Body>
+                    <Body>${selectedSettlement.venueRent.toLocaleString()}</Body>
+                  </Stack>
+                )}
+                {selectedSettlement.productionCosts && (
+                  <Stack direction="horizontal" className="justify-between">
+                    <Body className="text-body-sm">Production</Body>
+                    <Body>${selectedSettlement.productionCosts.toLocaleString()}</Body>
+                  </Stack>
+                )}
+                {selectedSettlement.laborCosts && (
+                  <Stack direction="horizontal" className="justify-between">
+                    <Body className="text-body-sm">Labor</Body>
+                    <Body>${selectedSettlement.laborCosts.toLocaleString()}</Body>
+                  </Stack>
+                )}
+                {selectedSettlement.otherCosts && (
+                  <Stack direction="horizontal" className="justify-between">
+                    <Body className="text-body-sm">Other</Body>
+                    <Body>${selectedSettlement.otherCosts.toLocaleString()}</Body>
+                  </Stack>
+                )}
               </Grid>
 
-              <Card className="p-4 bg-ink-800 border border-ink-700 mt-4">
+              <Card className="mt-4 p-4">
                 <Grid cols={3} gap={4}>
-                  <Stack gap={1}><Label size="xs" className="text-ink-500">Total Revenue</Label><Label className="font-mono text-white">${selectedSettlement.contractValue.toLocaleString()}</Label></Stack>
-                  <Stack gap={1}><Label size="xs" className="text-ink-500">Total Costs</Label><Label className="font-mono text-white">${selectedSettlement.actualCosts.toLocaleString()}</Label></Stack>
-                  <Stack gap={1}><Label size="xs" className="text-ink-500">Net Profit</Label><Label className="font-mono text-success-400">${selectedSettlement.grossProfit.toLocaleString()}</Label></Stack>
+                  <Stack gap={1}>
+                    <Body className="text-body-sm">Total Revenue</Body>
+                    <Body className="font-display">${selectedSettlement.contractValue.toLocaleString()}</Body>
+                  </Stack>
+                  <Stack gap={1}>
+                    <Body className="text-body-sm">Total Costs</Body>
+                    <Body className="font-display">${selectedSettlement.actualCosts.toLocaleString()}</Body>
+                  </Stack>
+                  <Stack gap={1}>
+                    <Body className="text-body-sm">Net Profit</Body>
+                    <Body className="font-display">${selectedSettlement.grossProfit.toLocaleString()}</Body>
+                  </Stack>
                 </Grid>
               </Card>
 
               {selectedSettlement.approvedBy && (
                 <Stack gap={1} className="mt-4">
-                  <Label size="xs" className="text-ink-500">Approved By</Label>
-                  <Label className="text-white">{selectedSettlement.approvedBy} on {selectedSettlement.approvedAt}</Label>
+                  <Body className="text-body-sm">Approved By</Body>
+                  <Body>{selectedSettlement.approvedBy} on {selectedSettlement.approvedAt}</Body>
                 </Stack>
               )}
             </Stack>
@@ -280,15 +361,15 @@ export default function SettlementPage() {
         <ModalHeader><H3>Add Adjustment</H3></ModalHeader>
         <ModalBody>
           <Stack gap={4}>
-            <Input placeholder="Description" className="border-ink-700 bg-black text-white" />
+            <Input placeholder="Description" />
             <Grid cols={2} gap={4}>
-              <Input type="number" placeholder="Amount" className="border-ink-700 bg-black text-white" />
-              <Select className="border-ink-700 bg-black text-white">
+              <Input type="number" placeholder="Amount" />
+              <Select>
                 <option value="Credit">Credit (+)</option>
                 <option value="Debit">Debit (-)</option>
               </Select>
             </Grid>
-            <Select className="border-ink-700 bg-black text-white">
+            <Select>
               <option value="">Category...</option>
               <option value="Revenue">Revenue</option>
               <option value="Labor">Labor</option>
@@ -303,6 +384,6 @@ export default function SettlementPage() {
           <Button variant="solid" onClick={() => setShowAdjustmentModal(false)}>Add Adjustment</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

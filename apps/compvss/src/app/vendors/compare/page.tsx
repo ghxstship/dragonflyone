@@ -4,9 +4,18 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter, ProgressBar,
+  Container,
+  Body,
+  Grid,
+  Stack,
+  StatCard,
+  Button,
+  Section,
+  Card,
+  Badge,
+  ProgressBar,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 interface Vendor {
@@ -75,124 +84,123 @@ export default function VendorComparePage() {
   };
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Vendor Comparison</H1>
-            <Label className="text-ink-400">Compare vendors side-by-side to make informed decisions</Label>
-          </Stack>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Vendor Comparison"
+              description="Compare vendors side-by-side to make informed decisions"
+              colorScheme="on-light"
+              gap="lg"
+            />
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Vendors Available" value={mockVendors.length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Comparing" value={selectedVendors.length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Avg Rating" value="4.6" className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Available Now" value={mockVendors.filter(v => v.availability === "Available").length} className="bg-transparent border-2 border-ink-800" />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard label="Vendors Available" value={mockVendors.length.toString()} />
+              <StatCard label="Comparing" value={selectedVendors.length.toString()} />
+              <StatCard label="Avg Rating" value="4.6" />
+              <StatCard label="Available Now" value={mockVendors.filter(v => v.availability === "Available").length.toString()} />
+            </Grid>
 
-          <Card className="border-2 border-ink-800 bg-ink-900/50 p-4">
-            <Stack gap={4}>
-              <Label className="text-ink-400">Select vendors to compare (max 4)</Label>
-              <Grid cols={4} gap={3}>
-                {mockVendors.map((vendor) => (
-                  <Card key={vendor.id} className={`p-3 border-2 cursor-pointer ${selectedVendors.includes(vendor.id) ? "border-white bg-ink-800" : "border-ink-700"}`} onClick={() => toggleVendor(vendor.id)}>
-                    <Stack gap={2}>
-                      <Stack direction="horizontal" className="justify-between items-start">
-                        <Label className="text-white">{vendor.name}</Label>
-                        {selectedVendors.includes(vendor.id) && <Badge variant="solid">✓</Badge>}
+            <Card>
+              <Stack gap={4}>
+                <Body className="text-body-sm">Select vendors to compare (max 4)</Body>
+                <Grid cols={4} gap={3}>
+                  {mockVendors.map((vendor) => (
+                    <Card key={vendor.id} onClick={() => toggleVendor(vendor.id)}>
+                      <Stack gap={2}>
+                        <Stack direction="horizontal" className="justify-between items-start">
+                          <Body>{vendor.name}</Body>
+                          {selectedVendors.includes(vendor.id) && <Badge variant="solid">✓</Badge>}
+                        </Stack>
+                        <Body className="text-body-sm">{vendor.rating}★ • {vendor.pricing}</Body>
                       </Stack>
-                      <Label size="xs" className="text-ink-400">{vendor.rating}★ • {vendor.pricing}</Label>
-                    </Stack>
-                  </Card>
-                ))}
-              </Grid>
-            </Stack>
-          </Card>
-
-          {comparedVendors.length >= 2 && (
-            <Card className="border-2 border-ink-800 bg-ink-900/50 overflow-hidden">
-              <Card className="p-4 bg-ink-800 border-b border-ink-700">
-                <Grid cols={4} gap={4}>
-                  <Label className="text-ink-400">Comparison</Label>
-                  {comparedVendors.slice(0, 3).map((vendor) => (
-                    <Stack key={vendor.id} gap={1} className="text-center">
-                      <Body className="font-display text-white">{vendor.name}</Body>
-                      <Badge variant="outline" className={getPricingColor(vendor.pricing)}>{vendor.pricing}</Badge>
-                    </Stack>
-                  ))}
-                </Grid>
-              </Card>
-
-              <Stack className="p-4" gap={0}>
-                {comparisonMetrics.map((metric, idx) => (
-                  <Grid key={metric.key} cols={4} gap={4} className={`py-3 ${idx < comparisonMetrics.length - 1 ? "border-b border-ink-800" : ""}`}>
-                    <Label className="text-ink-400">{metric.label}</Label>
-                    {comparedVendors.slice(0, 3).map((vendor) => (
-                      <Label key={vendor.id} className={`text-center ${metric.key === "availability" ? getAvailabilityColor(vendor.availability) : "text-white"}`}>
-                        {metric.format(vendor)}
-                      </Label>
-                    ))}
-                  </Grid>
-                ))}
-
-                <Grid cols={4} gap={4} className="py-3 border-t border-ink-700 mt-2">
-                  <Label className="text-ink-400">Certifications</Label>
-                  {comparedVendors.slice(0, 3).map((vendor) => (
-                    <Stack key={vendor.id} gap={1} className="text-center">
-                      {vendor.certifications.map(cert => <Badge key={cert} variant="outline">{cert}</Badge>)}
-                    </Stack>
-                  ))}
-                </Grid>
-
-                <Grid cols={4} gap={4} className="py-3 border-t border-ink-800">
-                  <Label className="text-ink-400">Specialties</Label>
-                  {comparedVendors.slice(0, 3).map((vendor) => (
-                    <Stack key={vendor.id} gap={1} className="text-center">
-                      {vendor.specialties.map(spec => <Badge key={spec} variant="outline">{spec}</Badge>)}
-                    </Stack>
-                  ))}
-                </Grid>
-
-                <Grid cols={4} gap={4} className="py-3 border-t border-ink-800">
-                  <Label className="text-ink-400">Rating</Label>
-                  {comparedVendors.slice(0, 3).map((vendor) => (
-                    <Stack key={vendor.id} gap={2}>
-                      <ProgressBar value={vendor.rating * 20} className="h-2" />
-                      <Label size="xs" className="text-ink-400 text-center">{vendor.reviews} reviews</Label>
-                    </Stack>
+                    </Card>
                   ))}
                 </Grid>
               </Stack>
+            </Card>
 
-              <Card className="p-4 bg-ink-800 border-t border-ink-700">
-                <Grid cols={4} gap={4}>
-                  <Label className="text-ink-400">Actions</Label>
-                  {comparedVendors.slice(0, 3).map((vendor) => (
-                    <Stack key={vendor.id} gap={2}>
-                      <Button variant="solid" size="sm">Request Quote</Button>
-                      <Button variant="outline" size="sm">View Profile</Button>
-                    </Stack>
+            {comparedVendors.length >= 2 && (
+              <Card>
+                <Stack gap={4}>
+                  <Grid cols={4} gap={4}>
+                    <Body className="text-body-sm">Comparison</Body>
+                    {comparedVendors.slice(0, 3).map((vendor) => (
+                      <Stack key={vendor.id} gap={1} className="text-center">
+                        <Body className="font-display">{vendor.name}</Body>
+                        <Badge variant="outline">{vendor.pricing}</Badge>
+                      </Stack>
+                    ))}
+                  </Grid>
+
+                  {comparisonMetrics.map((metric) => (
+                    <Grid key={metric.key} cols={4} gap={4}>
+                      <Body className="text-body-sm">{metric.label}</Body>
+                      {comparedVendors.slice(0, 3).map((vendor) => (
+                        <Body key={vendor.id} className="text-center">
+                          {metric.format(vendor)}
+                        </Body>
+                      ))}
+                    </Grid>
                   ))}
-                </Grid>
+
+                  <Grid cols={4} gap={4}>
+                    <Body className="text-body-sm">Certifications</Body>
+                    {comparedVendors.slice(0, 3).map((vendor) => (
+                      <Stack key={vendor.id} gap={1} className="text-center">
+                        {vendor.certifications.map(cert => <Badge key={cert} variant="outline">{cert}</Badge>)}
+                      </Stack>
+                    ))}
+                  </Grid>
+
+                  <Grid cols={4} gap={4}>
+                    <Body className="text-body-sm">Specialties</Body>
+                    {comparedVendors.slice(0, 3).map((vendor) => (
+                      <Stack key={vendor.id} gap={1} className="text-center">
+                        {vendor.specialties.map(spec => <Badge key={spec} variant="outline">{spec}</Badge>)}
+                      </Stack>
+                    ))}
+                  </Grid>
+
+                  <Grid cols={4} gap={4}>
+                    <Body className="text-body-sm">Rating</Body>
+                    {comparedVendors.slice(0, 3).map((vendor) => (
+                      <Stack key={vendor.id} gap={2}>
+                        <ProgressBar value={vendor.rating * 20} />
+                        <Body className="text-body-sm text-center">{vendor.reviews} reviews</Body>
+                      </Stack>
+                    ))}
+                  </Grid>
+
+                  <Grid cols={4} gap={4}>
+                    <Body className="text-body-sm">Actions</Body>
+                    {comparedVendors.slice(0, 3).map((vendor) => (
+                      <Stack key={vendor.id} gap={2}>
+                        <Button variant="solid" size="sm">Request Quote</Button>
+                        <Button variant="outline" size="sm">View Profile</Button>
+                      </Stack>
+                    ))}
+                  </Grid>
+                </Stack>
               </Card>
-            </Card>
-          )}
+            )}
 
-          {comparedVendors.length < 2 && (
-            <Card className="border-2 border-ink-800 bg-ink-900/50 p-8 text-center">
-              <Label className="text-ink-400">Select at least 2 vendors to compare</Label>
-            </Card>
-          )}
+            {comparedVendors.length < 2 && (
+              <Card>
+                <Body className="text-body-sm text-center">Select at least 2 vendors to compare</Body>
+              </Card>
+            )}
 
-          <Grid cols={3} gap={4}>
-            <Button variant="outline" className="border-ink-700 text-ink-400">Export Comparison</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/vendors")}>All Vendors</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/procurement")}>Procurement</Button>
-          </Grid>
-        </Stack>
-      </Container>
-    </UISection>
+            <Grid cols={3} gap={4}>
+              <Button variant="outline">Export Comparison</Button>
+              <Button variant="outline" onClick={() => router.push("/vendors")}>All Vendors</Button>
+              <Button variant="outline" onClick={() => router.push("/procurement")}>Procurement</Button>
+            </Grid>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

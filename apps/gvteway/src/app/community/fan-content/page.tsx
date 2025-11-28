@@ -2,11 +2,12 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ConsumerNavigationPublic } from "../../../components/navigation";
+import { ConsumerNavigationPublic } from "@/components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section, Card, Tabs, TabsList, Tab, TabPanel, Badge,
+  Container, H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
+  Section, Card, Tabs, TabsList, Tab, Badge,
   Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
+  PageLayout, Footer, FooterColumn, FooterLink, Display, Kicker,
 } from "@ghxstship/ui";
 
 interface FanContent {
@@ -55,21 +56,48 @@ export default function FanContentPage() {
     mockContent.filter(c => c.type.toLowerCase() === activeTab);
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2} className="border-b-2 border-black pb-8">
-            <H1>Fan Content Showcase</H1>
-            <Body className="text-ink-600">Discover and share fan-created content from events</Body>
-          </Stack>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Community">
+            <FooterLink href="/community">Community</FooterLink>
+            <FooterLink href="/community/fan-content">Fan Content</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Community</Kicker>
+              <H2 size="lg" className="text-white">Fan Content Showcase</H2>
+              <Body className="text-on-dark-muted">Discover and share fan-created content from events</Body>
+            </Stack>
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Total Submissions" value={mockContent.length} className="border-2 border-black" />
-            <StatCard label="Featured" value={featuredCount} className="border-2 border-black" />
-            <StatCard label="Total Likes" value={totalLikes.toLocaleString()} className="border-2 border-black" />
-            <StatCard label="This Week" value={mockContent.filter(c => c.createdAt >= "2024-11-20").length} className="border-2 border-black" />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard label="Total Submissions" value={mockContent.length.toString()} inverted />
+              <StatCard label="Featured" value={featuredCount.toString()} inverted />
+              <StatCard label="Total Likes" value={totalLikes.toLocaleString()} inverted />
+              <StatCard label="This Week" value={mockContent.filter(c => c.createdAt >= "2024-11-20").length.toString()} inverted />
+            </Grid>
 
           <Stack direction="horizontal" className="justify-between">
             <Tabs>
@@ -86,17 +114,17 @@ export default function FanContentPage() {
 
           <Grid cols={3} gap={4}>
             {filteredContent.map((content) => (
-              <Card key={content.id} className="border-2 border-black overflow-hidden cursor-pointer" onClick={() => setSelectedContent(content)}>
-                <Card className="h-48 bg-ink-100 flex items-center justify-center">
+              <Card key={content.id} inverted interactive className="cursor-pointer overflow-hidden" onClick={() => setSelectedContent(content)}>
+                <Stack className="flex h-48 items-center justify-center bg-ink-900">
                   <Label className="text-h1-sm">{getTypeIcon(content.type)}</Label>
-                </Card>
+                </Stack>
                 <Stack className="p-4" gap={3}>
-                  <Stack direction="horizontal" className="justify-between items-start">
-                    <Body className="font-bold">{content.title}</Body>
+                  <Stack direction="horizontal" className="items-start justify-between">
+                    <Body className="font-display text-white">{content.title}</Body>
                     {content.featured && <Badge variant="solid">Featured</Badge>}
                   </Stack>
-                  <Label className="text-ink-500">by {content.creator}</Label>
-                  <Label size="xs" className="text-ink-600">{content.eventName}</Label>
+                  <Label className="text-on-dark-muted">by {content.creator}</Label>
+                  <Label size="xs" className="text-on-dark-disabled">{content.eventName}</Label>
                   <Stack direction="horizontal" gap={4}>
                     <Label size="xs">❤️ {content.likes}</Label>
                     <Label size="xs">💬 {content.comments}</Label>
@@ -109,24 +137,25 @@ export default function FanContentPage() {
             ))}
           </Grid>
 
-          <Button variant="outline" onClick={() => router.push("/community")}>Back to Community</Button>
-        </Stack>
-      </Container>
+          <Button variant="outlineInk" onClick={() => router.push("/community")}>Back to Community</Button>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedContent} onClose={() => setSelectedContent(null)}>
         <ModalHeader><H3>{selectedContent?.title}</H3></ModalHeader>
         <ModalBody>
           {selectedContent && (
             <Stack gap={4}>
-              <Card className="h-64 bg-ink-100 flex items-center justify-center">
+              <Stack className="flex h-64 items-center justify-center rounded-card bg-ink-100">
                 <Label className="text-h1-sm">{getTypeIcon(selectedContent.type)}</Label>
-              </Card>
+              </Stack>
               <Stack direction="horizontal" className="justify-between">
                 <Stack gap={1}>
-                  <Body className="font-bold">{selectedContent.creator}</Body>
-                  <Label className="text-ink-500">{selectedContent.eventName}</Label>
+                  <Body className="font-display">{selectedContent.creator}</Body>
+                  <Label className="text-on-light-muted">{selectedContent.eventName}</Label>
                 </Stack>
-                <Label className="text-ink-600">{selectedContent.createdAt}</Label>
+                <Label className="text-on-light-muted">{selectedContent.createdAt}</Label>
               </Stack>
               <Stack direction="horizontal" gap={6}>
                 <Label>❤️ {selectedContent.likes} likes</Label>
@@ -149,23 +178,23 @@ export default function FanContentPage() {
         <ModalHeader><H3>Share Your Content</H3></ModalHeader>
         <ModalBody>
           <Stack gap={4}>
-            <Input placeholder="Title" className="border-2 border-black" />
-            <Select className="border-2 border-black">
+            <Input placeholder="Title" />
+            <Select>
               <option value="">Content Type...</option>
               <option value="photo">Photo</option>
               <option value="video">Video</option>
               <option value="story">Story</option>
               <option value="review">Review</option>
             </Select>
-            <Select className="border-2 border-black">
+            <Select>
               <option value="">Select Event...</option>
               <option value="EVT-001">Summer Fest 2024</option>
               <option value="EVT-002">Fall Concert</option>
             </Select>
-            <Textarea placeholder="Description..." rows={3} className="border-2 border-black" />
-            <Input placeholder="Tags (comma separated)" className="border-2 border-black" />
-            <Card className="p-8 border-2 border-dashed border-ink-400 text-center cursor-pointer">
-              <Label className="text-ink-500">Drop file or click to upload</Label>
+            <Textarea placeholder="Description..." rows={3} />
+            <Input placeholder="Tags (comma separated)" />
+            <Card className="cursor-pointer border-2 border-dashed border-ink-400 p-8 text-center">
+              <Label className="text-on-light-muted">Drop file or click to upload</Label>
             </Card>
           </Stack>
         </ModalBody>
@@ -174,6 +203,6 @@ export default function FanContentPage() {
           <Button variant="solid" onClick={() => setShowSubmitModal(false)}>Submit</Button>
         </ModalFooter>
       </Modal>
-    </Section>
+    </PageLayout>
   );
 }

@@ -2,13 +2,18 @@
 
 import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { ConsumerNavigationPublic } from "../../../components/navigation";
+import { ConsumerNavigationPublic } from "@/components/navigation";
 import {
   ListPage,
   Badge,
   RecordFormModal,
   DetailDrawer,
   ConfirmDialog,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -116,8 +121,24 @@ export default function WillCallPage() {
     )},
   ] : [];
 
+  const footerContent = (
+    <Footer
+      logo={<Display size="md">GVTEWAY</Display>}
+      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+    >
+      <FooterColumn title="Admin">
+        <FooterLink href="/admin/will-call">Will Call</FooterLink>
+        <FooterLink href="/admin/promo-codes">Promo Codes</FooterLink>
+      </FooterColumn>
+      <FooterColumn title="Legal">
+        <FooterLink href="/legal/privacy">Privacy</FooterLink>
+        <FooterLink href="/legal/terms">Terms</FooterLink>
+      </FooterColumn>
+    </Footer>
+  );
+
   return (
-    <>
+    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
       <ListPage<WillCallTicket>
         title="Will Call Management"
         subtitle="Manage ticket pickups with ID verification"
@@ -135,11 +156,10 @@ export default function WillCallPage() {
         stats={stats}
         emptyMessage="No will-call tickets found"
         emptyAction={{ label: 'Add Will Call', onClick: () => setCreateModalOpen(true) }}
-        header={<ConsumerNavigationPublic />}
       />
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Add Will Call Entry" fields={formFields} onSubmit={handleCreate} size="lg" />
       <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedTicket} title={(t) => t.customerName} subtitle={(t) => t.orderNumber} sections={detailSections} actions={[{ id: 'release', label: 'Release Tickets', icon: '✅' }]} onAction={(id, t) => { if (id === 'release') { setTicketToRelease(t); setReleaseConfirmOpen(true); setDrawerOpen(false); } }} />
       <ConfirmDialog open={releaseConfirmOpen} title="Release Tickets" message={`Release ${ticketToRelease?.quantity} ticket(s) to ${ticketToRelease?.customerName}? Verify government-issued photo ID before releasing.`} confirmLabel="Confirm Release" onConfirm={handleRelease} onCancel={() => { setReleaseConfirmOpen(false); setTicketToRelease(null); }} />
-    </>
+    </PageLayout>
   );
 }

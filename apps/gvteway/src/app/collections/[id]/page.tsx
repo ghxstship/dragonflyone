@@ -2,11 +2,10 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { ConsumerNavigationPublic } from '../../../components/navigation';
+import { ConsumerNavigationPublic } from '@/components/navigation';
 import {
   Container,
   Section,
-  H1,
   H2,
   Body,
   Button,
@@ -16,6 +15,12 @@ import {
   Badge,
   LoadingSpinner,
   ProjectCard,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
+  Kicker,
 } from '@ghxstship/ui';
 
 interface Event {
@@ -70,57 +75,77 @@ export default function CollectionPage() {
     router.push(`/events/${eventId}`);
   };
 
+  const footerContent = (
+    <Footer
+      logo={<Display size="md">GVTEWAY</Display>}
+      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+    >
+      <FooterColumn title="Discover">
+        <FooterLink href="/discover">Discover</FooterLink>
+        <FooterLink href="/collections">Collections</FooterLink>
+      </FooterColumn>
+      <FooterColumn title="Legal">
+        <FooterLink href="/legal/privacy">Privacy</FooterLink>
+        <FooterLink href="/legal/terms">Terms</FooterLink>
+      </FooterColumn>
+    </Footer>
+  );
+
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
+      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+        <Section background="black" className="flex min-h-[60vh] items-center justify-center">
           <LoadingSpinner size="lg" text="Loading collection..." />
-        </Container>
-      </Section>
+        </Section>
+      </PageLayout>
     );
   }
 
   if (error || !collection) {
     return (
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="py-16">
-          <Stack className="items-center justify-center min-h-[40vh]" gap={4}>
-            <H1>Collection Not Found</H1>
-            <Body className="text-ink-600">
-              The collection you are looking for does not exist.
-            </Body>
-            <Button variant="outline" onClick={() => router.push('/discover')}>
-              Browse Collections
-            </Button>
-          </Stack>
-        </Container>
-      </Section>
+      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+        <Section background="black" className="min-h-screen py-16">
+          <Container>
+            <Card inverted className="p-12 text-center">
+              <H2 className="mb-4 text-white">Collection Not Found</H2>
+              <Body className="text-on-dark-muted mb-6">
+                The collection you are looking for does not exist.
+              </Body>
+              <Button variant="solid" inverted onClick={() => router.push('/discover')}>
+                Browse Collections
+              </Button>
+            </Card>
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-        <Stack direction="horizontal" className="flex-col md:flex-row md:items-start md:justify-between border-b-2 border-black pb-8">
-          <Stack gap={2}>
-            <H1>{collection.name}</H1>
-            {collection.description && (
-              <Body className="text-ink-600 max-w-2xl">
-                {collection.description}
-              </Body>
-            )}
-            <Stack direction="horizontal" gap={2} className="mt-2">
-              <Badge>{collection.events.length} events</Badge>
+    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Collections</Kicker>
+              <H2 size="lg" className="text-white">{collection.name}</H2>
+              {collection.description && (
+                <Body className="text-on-dark-muted max-w-2xl">
+                  {collection.description}
+                </Body>
+              )}
+              <Stack direction="horizontal" gap={2} className="mt-2">
+                <Badge>{collection.events.length} events</Badge>
+              </Stack>
             </Stack>
-          </Stack>
-          <Button variant="outline" onClick={() => router.push('/discover')}>
-            Back to Discover
-          </Button>
-        </Stack>
 
         {collection.events.length > 0 ? (
           <Grid cols={3} gap={6}>
@@ -137,11 +162,16 @@ export default function CollectionPage() {
           </Grid>
         ) : (
           <Stack className="items-center py-12">
-            <Body className="text-ink-500">No events in this collection yet.</Body>
+            <Body className="text-on-dark-muted">No events in this collection yet.</Body>
           </Stack>
         )}
-        </Stack>
-      </Container>
-    </Section>
+
+            <Button variant="outlineInk" onClick={() => router.push('/discover')}>
+              Back to Discover
+            </Button>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

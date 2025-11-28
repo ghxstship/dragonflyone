@@ -2,11 +2,16 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ConsumerNavigationPublic } from '../../../components/navigation';
+import { ConsumerNavigationPublic } from '@/components/navigation';
 import {
   ListPage,
   Badge,
   DetailDrawer,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -113,8 +118,24 @@ export default function SalesReportingPage() {
     )},
   ] : [];
 
+  const footerContent = (
+    <Footer
+      logo={<Display size="md">GVTEWAY</Display>}
+      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+    >
+      <FooterColumn title="Admin">
+        <FooterLink href="/admin/sales-reporting">Sales</FooterLink>
+        <FooterLink href="/admin/promo-codes">Promo Codes</FooterLink>
+      </FooterColumn>
+      <FooterColumn title="Legal">
+        <FooterLink href="/legal/privacy">Privacy</FooterLink>
+        <FooterLink href="/legal/terms">Terms</FooterLink>
+      </FooterColumn>
+    </Footer>
+  );
+
   return (
-    <>
+    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
       <ListPage<SalesData>
         title="Sales Reporting"
         subtitle="Sales analytics by location and time period"
@@ -129,7 +150,6 @@ export default function SalesReportingPage() {
         onExport={() => console.log('Export all')}
         stats={stats}
         emptyMessage="No sales data available"
-        header={<ConsumerNavigationPublic />}
       />
 
       {selectedPeriod && (
@@ -144,6 +164,6 @@ export default function SalesReportingPage() {
           onAction={(id) => id === 'export' && console.log('Export period')}
         />
       )}
-    </>
+    </PageLayout>
   );
 }

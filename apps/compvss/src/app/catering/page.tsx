@@ -4,7 +4,6 @@ import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
-  H1,
   H2,
   Body,
   StatCard,
@@ -25,6 +24,8 @@ import {
   Card,
   Section,
   useNotifications,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 interface MealService {
@@ -141,229 +142,227 @@ export default function CateringPage() {
 
   if (loading) {
     return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <CreatorNavigationAuthenticated />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading catering data..." />
-        </Container>
-      </Section>
+      <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+        <Section className="min-h-screen py-16">
+          <Container className="flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" text="Loading catering data..." />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   if (error) {
     return (
-      <Section className="relative min-h-screen bg-black text-white">
-        <CreatorNavigationAuthenticated />
-        <Container className="py-16">
-          <EmptyState
-            title="Error Loading Catering Data"
-            description={error}
-            action={{ label: "Retry", onClick: fetchCateringData }}
-          />
-        </Container>
-      </Section>
+      <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+        <Section className="min-h-screen py-16">
+          <Container>
+            <EmptyState
+              title="Error Loading Catering Data"
+              description={error}
+              action={{ label: "Retry", onClick: fetchCateringData }}
+            />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="relative min-h-screen bg-black text-white">
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Catering & Hospitality</H1>
-            <Body className="text-ink-400">
-              Manage crew meals, dietary requirements, and hospitality services
-            </Body>
-          </Stack>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Catering & Hospitality"
+              description="Manage crew meals, dietary requirements, and hospitality services"
+              colorScheme="on-light"
+              gap="lg"
+            />
 
-          <Grid cols={4} gap={6}>
-            <StatCard
-              value={summary?.upcoming_meals || 0}
-              label="Upcoming Meals"
-              className="bg-black text-white border-ink-800"
-            />
-            <StatCard
-              value={summary?.total_headcount || 0}
-              label="Total Headcount"
-              className="bg-black text-white border-ink-800"
-            />
-            <StatCard
-              value={formatCurrency(summary?.average_cost_per_head || 0)}
-              label="Avg Cost/Head"
-              className="bg-black text-white border-ink-800"
-            />
-            <StatCard
-              value={formatCurrency(summary?.total_cost || 0)}
-              label="Total Cost"
-              className="bg-black text-white border-ink-800"
-            />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard
+                value={(summary?.upcoming_meals || 0).toString()}
+                label="Upcoming Meals"
+              />
+              <StatCard
+                value={(summary?.total_headcount || 0).toString()}
+                label="Total Headcount"
+              />
+              <StatCard
+                value={formatCurrency(summary?.average_cost_per_head || 0)}
+                label="Avg Cost/Head"
+              />
+              <StatCard
+                value={formatCurrency(summary?.total_cost || 0)}
+                label="Total Cost"
+              />
+            </Grid>
 
-          <Grid cols={2} gap={6}>
-            <Card className="p-6 bg-black border-ink-800">
-              <Stack gap={4}>
-                <H2>Dietary Requirements</H2>
-                <Grid cols={2} gap={4}>
-                  <Card className="p-4 bg-ink-900 border-ink-700">
-                    <Stack gap={2}>
-                      <Body className="text-ink-400 text-body-sm uppercase tracking-widest">Vegetarian</Body>
-                      <Body className="text-h5-md font-bold">12</Body>
-                    </Stack>
-                  </Card>
-                  <Card className="p-4 bg-ink-900 border-ink-700">
-                    <Stack gap={2}>
-                      <Body className="text-ink-400 text-body-sm uppercase tracking-widest">Vegan</Body>
-                      <Body className="text-h5-md font-bold">5</Body>
-                    </Stack>
-                  </Card>
-                  <Card className="p-4 bg-ink-900 border-ink-700">
-                    <Stack gap={2}>
-                      <Body className="text-ink-400 text-body-sm uppercase tracking-widest">Gluten-Free</Body>
-                      <Body className="text-h5-md font-bold">8</Body>
-                    </Stack>
-                  </Card>
-                  <Card className="p-4 bg-ink-900 border-ink-700">
-                    <Stack gap={2}>
-                      <Body className="text-ink-400 text-body-sm uppercase tracking-widest">Allergies</Body>
-                      <Body className="text-h5-md font-bold">3</Body>
-                    </Stack>
-                  </Card>
-                </Grid>
-              </Stack>
-            </Card>
-
-            <Card className="p-6 bg-black border-ink-800">
-              <Stack gap={4}>
-                <H2>Today&apos;s Schedule</H2>
-                <Stack gap={3}>
-                  <Card className="p-4 bg-ink-900 border-ink-700">
-                    <Stack gap={1} direction="horizontal" className="items-center justify-between">
-                      <Stack gap={1} direction="horizontal" className="items-center">
-                        <Body className="text-h5-md">🌅</Body>
-                        <Body className="font-medium">Breakfast</Body>
+            <Grid cols={2} gap={6}>
+              <Card>
+                <Stack gap={4}>
+                  <H2>Dietary Requirements</H2>
+                  <Grid cols={2} gap={4}>
+                    <Card>
+                      <Stack gap={2}>
+                        <Body className="text-body-sm">Vegetarian</Body>
+                        <Body className="font-display">12</Body>
                       </Stack>
-                      <Body className="text-ink-400">6:00 AM - 45 pax</Body>
-                    </Stack>
-                  </Card>
-                  <Card className="p-4 bg-ink-900 border-ink-700">
-                    <Stack gap={1} direction="horizontal" className="items-center justify-between">
-                      <Stack gap={1} direction="horizontal" className="items-center">
-                        <Body className="text-h5-md">☀️</Body>
-                        <Body className="font-medium">Lunch</Body>
+                    </Card>
+                    <Card>
+                      <Stack gap={2}>
+                        <Body className="text-body-sm">Vegan</Body>
+                        <Body className="font-display">5</Body>
                       </Stack>
-                      <Body className="text-ink-400">12:00 PM - 52 pax</Body>
-                    </Stack>
-                  </Card>
-                  <Card className="p-4 bg-ink-900 border-ink-700">
-                    <Stack gap={1} direction="horizontal" className="items-center justify-between">
-                      <Stack gap={1} direction="horizontal" className="items-center">
-                        <Body className="text-h5-md">🌙</Body>
-                        <Body className="font-medium">Dinner</Body>
+                    </Card>
+                    <Card>
+                      <Stack gap={2}>
+                        <Body className="text-body-sm">Gluten-Free</Body>
+                        <Body className="font-display">8</Body>
                       </Stack>
-                      <Body className="text-ink-400">6:00 PM - 48 pax</Body>
-                    </Stack>
-                  </Card>
+                    </Card>
+                    <Card>
+                      <Stack gap={2}>
+                        <Body className="text-body-sm">Allergies</Body>
+                        <Body className="font-display">3</Body>
+                      </Stack>
+                    </Card>
+                  </Grid>
                 </Stack>
-              </Stack>
-            </Card>
-          </Grid>
+              </Card>
 
-          <Stack gap={4} direction="horizontal">
-            <Select
-              value={filterProject}
-              onChange={(e) => setFilterProject(e.target.value)}
-              className="bg-black text-white border-ink-700"
-            >
-              <option value="all">All Projects</option>
-              <option value="proj-001">Summer Festival 2024</option>
-              <option value="proj-002">Corporate Gala</option>
-              <option value="proj-003">Concert Series</option>
-            </Select>
-            <Select
-              value={filterMealType}
-              onChange={(e) => setFilterMealType(e.target.value)}
-              className="bg-black text-white border-ink-700"
-            >
-              <option value="all">All Meals</option>
-              <option value="breakfast">Breakfast</option>
-              <option value="lunch">Lunch</option>
-              <option value="dinner">Dinner</option>
-              <option value="snacks">Snacks</option>
-            </Select>
-          </Stack>
-
-          {services.length === 0 ? (
-            <EmptyState
-              title="No Catering Services"
-              description="Schedule your first meal service"
-              action={{ label: "Schedule Meal", onClick: () => {} }}
-            />
-          ) : (
-            <Table variant="bordered" className="bg-black">
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Meal</TableHead>
-                  <TableHead>Project</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Location</TableHead>
-                  <TableHead>Headcount</TableHead>
-                  <TableHead>Vendor</TableHead>
-                  <TableHead>Total Cost</TableHead>
-                  <TableHead>Status</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {services.map((service) => (
-                  <TableRow key={service.id} className="bg-black text-white hover:bg-ink-900">
-                    <TableCell>
-                      <Stack gap={1} direction="horizontal" className="items-center">
-                        <Body className="text-h6-md">{getMealIcon(service.meal_type)}</Body>
-                        <Body className="text-white">{service.meal_type}</Body>
+              <Card>
+                <Stack gap={4}>
+                  <H2>Today&apos;s Schedule</H2>
+                  <Stack gap={3}>
+                    <Card>
+                      <Stack gap={1} direction="horizontal" className="items-center justify-between">
+                        <Stack gap={1} direction="horizontal" className="items-center">
+                          <Body>🌅</Body>
+                          <Body className="font-display">Breakfast</Body>
+                        </Stack>
+                        <Body className="text-body-sm">6:00 AM - 45 pax</Body>
                       </Stack>
-                    </TableCell>
-                    <TableCell className="text-ink-400">
-                      {service.project_name}
-                    </TableCell>
-                    <TableCell className="font-mono text-ink-400">
-                      {formatDate(service.service_date)}
-                    </TableCell>
-                    <TableCell className="text-ink-400">
-                      {service.location}
-                    </TableCell>
-                    <TableCell className="font-mono text-white">
-                      {service.headcount}
-                    </TableCell>
-                    <TableCell className="text-ink-400">
-                      {service.vendor_name || "TBD"}
-                    </TableCell>
-                    <TableCell className="font-mono text-white">
-                      {formatCurrency(service.total_cost)}
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant={getStatusVariant(service.status)}>
-                        {service.status}
-                      </Badge>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
+                    </Card>
+                    <Card>
+                      <Stack gap={1} direction="horizontal" className="items-center justify-between">
+                        <Stack gap={1} direction="horizontal" className="items-center">
+                          <Body>☀️</Body>
+                          <Body className="font-display">Lunch</Body>
+                        </Stack>
+                        <Body className="text-body-sm">12:00 PM - 52 pax</Body>
+                      </Stack>
+                    </Card>
+                    <Card>
+                      <Stack gap={1} direction="horizontal" className="items-center justify-between">
+                        <Stack gap={1} direction="horizontal" className="items-center">
+                          <Body>🌙</Body>
+                          <Body className="font-display">Dinner</Body>
+                        </Stack>
+                        <Body className="text-body-sm">6:00 PM - 48 pax</Body>
+                      </Stack>
+                    </Card>
+                  </Stack>
+                </Stack>
+              </Card>
+            </Grid>
 
-          <Stack gap={3} direction="horizontal">
-            <Button variant="outlineWhite" onClick={() => router.push('/catering/schedule')}>
-              Schedule Meal
-            </Button>
-            <Button variant="ghost" className="text-ink-400 hover:text-white" onClick={() => router.push('/catering/dietary')}>
-              Manage Dietary
-            </Button>
-            <Button variant="ghost" className="text-ink-400 hover:text-white" onClick={() => router.push('/catering/vendors')}>
-              Vendor Directory
-            </Button>
+            <Stack gap={4} direction="horizontal">
+              <Select
+                value={filterProject}
+                onChange={(e) => setFilterProject(e.target.value)}
+              >
+                <option value="all">All Projects</option>
+                <option value="proj-001">Summer Festival 2024</option>
+                <option value="proj-002">Corporate Gala</option>
+                <option value="proj-003">Concert Series</option>
+              </Select>
+              <Select
+                value={filterMealType}
+                onChange={(e) => setFilterMealType(e.target.value)}
+              >
+                <option value="all">All Meals</option>
+                <option value="breakfast">Breakfast</option>
+                <option value="lunch">Lunch</option>
+                <option value="dinner">Dinner</option>
+                <option value="snacks">Snacks</option>
+              </Select>
+            </Stack>
+
+            {services.length === 0 ? (
+              <EmptyState
+                title="No Catering Services"
+                description="Schedule your first meal service"
+                action={{ label: "Schedule Meal", onClick: () => {} }}
+              />
+            ) : (
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Meal</TableHead>
+                    <TableHead>Project</TableHead>
+                    <TableHead>Date</TableHead>
+                    <TableHead>Location</TableHead>
+                    <TableHead>Headcount</TableHead>
+                    <TableHead>Vendor</TableHead>
+                    <TableHead>Total Cost</TableHead>
+                    <TableHead>Status</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {services.map((service) => (
+                    <TableRow key={service.id}>
+                      <TableCell>
+                        <Stack gap={1} direction="horizontal" className="items-center">
+                          <Body>{getMealIcon(service.meal_type)}</Body>
+                          <Body>{service.meal_type}</Body>
+                        </Stack>
+                      </TableCell>
+                      <TableCell>
+                        <Body className="text-body-sm">{service.project_name}</Body>
+                      </TableCell>
+                      <TableCell>
+                        <Body className="font-mono text-body-sm">{formatDate(service.service_date)}</Body>
+                      </TableCell>
+                      <TableCell>
+                        <Body className="text-body-sm">{service.location}</Body>
+                      </TableCell>
+                      <TableCell>
+                        <Body className="font-mono">{service.headcount}</Body>
+                      </TableCell>
+                      <TableCell>
+                        <Body className="text-body-sm">{service.vendor_name || "TBD"}</Body>
+                      </TableCell>
+                      <TableCell>
+                        <Body className="font-mono">{formatCurrency(service.total_cost)}</Body>
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant={getStatusVariant(service.status)}>
+                          {service.status}
+                        </Badge>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            )}
+
+            <Stack gap={3} direction="horizontal">
+              <Button variant="solid" onClick={() => router.push('/catering/schedule')}>
+                Schedule Meal
+              </Button>
+              <Button variant="outline" onClick={() => router.push('/catering/dietary')}>
+                Manage Dietary
+              </Button>
+              <Button variant="outline" onClick={() => router.push('/catering/vendors')}>
+                Vendor Directory
+              </Button>
+            </Stack>
           </Stack>
-        </Stack>
-      </Container>
-    </Section>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

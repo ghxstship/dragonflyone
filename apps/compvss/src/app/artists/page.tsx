@@ -9,6 +9,9 @@ import {
   RecordFormModal,
   DetailDrawer,
   ConfirmDialog,
+  Grid,
+  Stack,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -123,24 +126,24 @@ export default function ArtistsPage() {
 
   const detailSections: DetailSection[] = selectedArtist ? [
     { id: 'overview', title: 'Artist Profile', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Name:</strong> {selectedArtist.name}</div>
-        <div><strong>Type:</strong> {selectedArtist.type}</div>
-        <div><strong>Genre:</strong> {selectedArtist.genre}</div>
-        <div><strong>Agent:</strong> {selectedArtist.agent || '—'}</div>
-        <div><strong>Manager:</strong> {selectedArtist.manager || '—'}</div>
-        <div><strong>Email:</strong> {selectedArtist.managerEmail || '—'}</div>
-        <div><strong>Phone:</strong> {selectedArtist.managerPhone || '—'}</div>
-        <div><strong>Upcoming:</strong> {selectedArtist.upcomingShows} shows</div>
-      </div>
+      <Grid cols={2} gap={4}>
+        <Stack gap={1}><Body className="font-display">Name</Body><Body>{selectedArtist.name}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Type</Body><Body>{selectedArtist.type}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Genre</Body><Body>{selectedArtist.genre}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Agent</Body><Body>{selectedArtist.agent || '—'}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Manager</Body><Body>{selectedArtist.manager || '—'}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Email</Body><Body>{selectedArtist.managerEmail || '—'}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Phone</Body><Body>{selectedArtist.managerPhone || '—'}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Upcoming</Body><Body>{selectedArtist.upcomingShows} shows</Body></Stack>
+      </Grid>
     )},
     { id: 'documents', title: 'Documents on File', content: (
-      <div className="grid grid-cols-2 gap-2">
-        <div>{selectedArtist.technicalRider ? '✓' : '○'} Technical Rider</div>
-        <div>{selectedArtist.hospitalityRider ? '✓' : '○'} Hospitality Rider</div>
-        <div>{selectedArtist.inputList ? '✓' : '○'} Input List</div>
-        <div>{selectedArtist.stageplot ? '✓' : '○'} Stage Plot</div>
-      </div>
+      <Grid cols={2} gap={2}>
+        <Body>{selectedArtist.technicalRider ? '✓' : '○'} Technical Rider</Body>
+        <Body>{selectedArtist.hospitalityRider ? '✓' : '○'} Hospitality Rider</Body>
+        <Body>{selectedArtist.inputList ? '✓' : '○'} Input List</Body>
+        <Body>{selectedArtist.stageplot ? '✓' : '○'} Stage Plot</Body>
+      </Grid>
     )},
   ] : [];
 

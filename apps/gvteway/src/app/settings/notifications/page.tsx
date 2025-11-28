@@ -1,11 +1,11 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { ConsumerNavigationPublic } from '../../../components/navigation';
+import { ConsumerNavigationPublic } from '@/components/navigation';
 import {
   Container,
   Section,
-  H1,
+  Display,
   H2,
   H3,
   Body,
@@ -15,9 +15,14 @@ import {
   Stack,
   Switch,
   Select,
-  Alert,
   LoadingSpinner,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Kicker,
 } from '@ghxstship/ui';
+import { Bell, Mail, Smartphone, MessageSquare, Clock } from 'lucide-react';
 
 interface NotificationPreferences {
   email_enabled: boolean;
@@ -125,83 +130,139 @@ export default function NotificationSettingsPage() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading notification settings..." />
-        </Container>
-      </Section>
+      <PageLayout
+        background="black"
+        header={<ConsumerNavigationPublic />}
+        footer={
+          <Footer
+            logo={<Display size="md">GVTEWAY</Display>}
+            copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+          >
+            <FooterColumn title="Account">
+              <FooterLink href="/settings">Settings</FooterLink>
+              <FooterLink href="/profile">Profile</FooterLink>
+            </FooterColumn>
+            <FooterColumn title="Legal">
+              <FooterLink href="/legal/privacy">Privacy</FooterLink>
+              <FooterLink href="/legal/terms">Terms</FooterLink>
+            </FooterColumn>
+          </Footer>
+        }
+      >
+        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+          <div
+            className="pointer-events-none absolute inset-0 opacity-5"
+            style={{
+              backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+              backgroundSize: "40px 40px",
+            }}
+          />
+          <Container className="relative z-10 flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" text="Loading notification settings..." />
+          </Container>
+        </Section>
+      </PageLayout>
     );
   }
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2} className="border-b-2 border-black pb-8">
-            <H1>Notification Settings</H1>
-            <Body className="text-ink-600">
-              Control how and when you receive notifications
-            </Body>
-          </Stack>
-
-          {error && (
-            <Alert variant="error" className="mb-6">
-              {error}
-            </Alert>
-          )}
-
-          {success && (
-            <Alert variant="success" className="mb-6">
-              {success}
-            </Alert>
-          )}
-          <Card className="p-6">
-            <H2 className="mb-6">NOTIFICATION CHANNELS</H2>
-            <Stack gap={4}>
-              <Stack direction="horizontal" className="justify-between items-center py-3 border-b border-ink-200">
-                <Stack>
-                  <Body className="font-medium">Email Notifications</Body>
-                  <Body className="text-body-sm text-ink-500">Receive notifications via email</Body>
-                </Stack>
-                <Switch
-                  checked={preferences.email_enabled}
-                  onChange={(e) => setPreferences({ ...preferences, email_enabled: e.target.checked })}
-                />
-              </Stack>
-
-              <Stack direction="horizontal" className="justify-between items-center py-3 border-b border-ink-200">
-                <Stack>
-                  <Body className="font-medium">Push Notifications</Body>
-                  <Body className="text-body-sm text-ink-500">Receive notifications on your device</Body>
-                </Stack>
-                <Switch
-                  checked={preferences.push_enabled}
-                  onChange={(e) => setPreferences({ ...preferences, push_enabled: e.target.checked })}
-                />
-              </Stack>
-
-              <Stack direction="horizontal" className="justify-between items-center py-3">
-                <Stack>
-                  <Body className="font-medium">SMS Notifications</Body>
-                  <Body className="text-body-sm text-ink-500">Receive text messages for important updates</Body>
-                </Stack>
-                <Switch
-                  checked={preferences.sms_enabled}
-                  onChange={(e) => setPreferences({ ...preferences, sms_enabled: e.target.checked })}
-                />
-              </Stack>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Account">
+            <FooterLink href="/settings">Settings</FooterLink>
+            <FooterLink href="/profile">Profile</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Settings</Kicker>
+              <H2 size="lg" className="text-white">Notification Settings</H2>
+              <Body className="text-on-dark-muted">Control how and when you receive notifications</Body>
             </Stack>
-          </Card>
 
-          <Card className="p-6">
-            <H2 className="mb-6">NOTIFICATION TYPES</H2>
+            {/* Notification Channels */}
+            <Card inverted variant="elevated" className="p-6">
+              <Stack direction="horizontal" gap={2} className="mb-6 items-center">
+                <Bell className="size-5 text-on-dark-muted" />
+                <H3 className="text-white">Notification Channels</H3>
+              </Stack>
+              <Stack gap={4}>
+                <Stack direction="horizontal" className="items-center justify-between border-b border-ink-800 py-3">
+                  <Stack gap={1}>
+                    <Stack direction="horizontal" gap={2} className="items-center">
+                      <Mail className="size-4 text-on-dark-muted" />
+                      <Body className="font-display text-white">Email Notifications</Body>
+                    </Stack>
+                    <Body size="sm" className="text-on-dark-muted">Receive notifications via email</Body>
+                  </Stack>
+                  <Switch
+                    checked={preferences.email_enabled}
+                    onChange={(e) => setPreferences({ ...preferences, email_enabled: e.target.checked })}
+                    inverted
+                  />
+                </Stack>
+
+                <Stack direction="horizontal" className="items-center justify-between border-b border-ink-800 py-3">
+                  <Stack gap={1}>
+                    <Stack direction="horizontal" gap={2} className="items-center">
+                      <Smartphone className="size-4 text-on-dark-muted" />
+                      <Body className="font-display text-white">Push Notifications</Body>
+                    </Stack>
+                    <Body size="sm" className="text-on-dark-muted">Receive notifications on your device</Body>
+                  </Stack>
+                  <Switch
+                    checked={preferences.push_enabled}
+                    onChange={(e) => setPreferences({ ...preferences, push_enabled: e.target.checked })}
+                    inverted
+                  />
+                </Stack>
+
+                <Stack direction="horizontal" className="items-center justify-between py-3">
+                  <Stack gap={1}>
+                    <Stack direction="horizontal" gap={2} className="items-center">
+                      <MessageSquare className="size-4 text-on-dark-muted" />
+                      <Body className="font-display text-white">SMS Notifications</Body>
+                    </Stack>
+                    <Body size="sm" className="text-on-dark-muted">Receive text messages for important updates</Body>
+                  </Stack>
+                  <Switch
+                    checked={preferences.sms_enabled}
+                    onChange={(e) => setPreferences({ ...preferences, sms_enabled: e.target.checked })}
+                    inverted
+                  />
+                </Stack>
+              </Stack>
+            </Card>
+
+          <Card inverted variant="elevated" className="p-6">
+            <H3 className="mb-6 text-white">NOTIFICATION TYPES</H3>
             <Stack gap={4}>
-              <Stack direction="horizontal" className="justify-between items-center py-3 border-b border-ink-200">
+              <Stack direction="horizontal" className="items-center justify-between border-b border-ink-800 py-3">
                 <Stack>
-                  <Body className="font-medium">Order Updates</Body>
-                  <Body className="text-body-sm text-ink-500">Confirmations, ticket delivery, and changes</Body>
+                  <Body className="font-display text-white">Order Updates</Body>
+                  <Body size="sm" className="text-on-dark-muted">Confirmations, ticket delivery, and changes</Body>
                 </Stack>
                 <Switch
                   checked={preferences.categories.order_updates}
@@ -209,10 +270,10 @@ export default function NotificationSettingsPage() {
                 />
               </Stack>
 
-              <Stack direction="horizontal" className="justify-between items-center py-3 border-b border-ink-200">
+              <Stack direction="horizontal" className="items-center justify-between border-b border-ink-800 py-3">
                 <Stack>
-                  <Body className="font-medium">Event Reminders</Body>
-                  <Body className="text-body-sm text-ink-500">Reminders before your upcoming events</Body>
+                  <Body className="font-display text-white">Event Reminders</Body>
+                  <Body size="sm" className="text-on-dark-muted">Reminders before your upcoming events</Body>
                 </Stack>
                 <Switch
                   checked={preferences.categories.event_reminders}
@@ -220,10 +281,10 @@ export default function NotificationSettingsPage() {
                 />
               </Stack>
 
-              <Stack direction="horizontal" className="justify-between items-center py-3 border-b border-ink-200">
+              <Stack direction="horizontal" className="items-center justify-between border-b border-ink-800 py-3">
                 <Stack>
-                  <Body className="font-medium">Price Alerts</Body>
-                  <Body className="text-body-sm text-ink-500">When ticket prices drop to your target</Body>
+                  <Body className="font-display text-white">Price Alerts</Body>
+                  <Body size="sm" className="text-on-dark-muted">When ticket prices drop to your target</Body>
                 </Stack>
                 <Switch
                   checked={preferences.categories.price_alerts}
@@ -231,10 +292,10 @@ export default function NotificationSettingsPage() {
                 />
               </Stack>
 
-              <Stack direction="horizontal" className="justify-between items-center py-3 border-b border-ink-200">
+              <Stack direction="horizontal" className="items-center justify-between border-b border-ink-800 py-3">
                 <Stack>
-                  <Body className="font-medium">Saved Search Alerts</Body>
-                  <Body className="text-body-sm text-ink-500">New events matching your saved searches</Body>
+                  <Body className="font-display text-white">Saved Search Alerts</Body>
+                  <Body size="sm" className="text-on-dark-muted">New events matching your saved searches</Body>
                 </Stack>
                 <Switch
                   checked={preferences.categories.saved_search_alerts}
@@ -242,10 +303,10 @@ export default function NotificationSettingsPage() {
                 />
               </Stack>
 
-              <Stack direction="horizontal" className="justify-between items-center py-3 border-b border-ink-200">
+              <Stack direction="horizontal" className="items-center justify-between border-b border-ink-800 py-3">
                 <Stack>
-                  <Body className="font-medium">Artist Announcements</Body>
-                  <Body className="text-body-sm text-ink-500">New events from artists you follow</Body>
+                  <Body className="font-display text-white">Artist Announcements</Body>
+                  <Body size="sm" className="text-on-dark-muted">New events from artists you follow</Body>
                 </Stack>
                 <Switch
                   checked={preferences.categories.artist_announcements}
@@ -253,10 +314,10 @@ export default function NotificationSettingsPage() {
                 />
               </Stack>
 
-              <Stack direction="horizontal" className="justify-between items-center py-3 border-b border-ink-200">
+              <Stack direction="horizontal" className="items-center justify-between border-b border-ink-800 py-3">
                 <Stack>
-                  <Body className="font-medium">Venue Announcements</Body>
-                  <Body className="text-body-sm text-ink-500">New events at venues you follow</Body>
+                  <Body className="font-display text-white">Venue Announcements</Body>
+                  <Body size="sm" className="text-on-dark-muted">New events at venues you follow</Body>
                 </Stack>
                 <Switch
                   checked={preferences.categories.venue_announcements}
@@ -264,10 +325,10 @@ export default function NotificationSettingsPage() {
                 />
               </Stack>
 
-              <Stack direction="horizontal" className="justify-between items-center py-3 border-b border-ink-200">
+              <Stack direction="horizontal" className="items-center justify-between border-b border-ink-800 py-3">
                 <Stack>
-                  <Body className="font-medium">Promotions & Offers</Body>
-                  <Body className="text-body-sm text-ink-500">Discounts, deals, and special offers</Body>
+                  <Body className="font-display text-white">Promotions & Offers</Body>
+                  <Body size="sm" className="text-on-dark-muted">Discounts, deals, and special offers</Body>
                 </Stack>
                 <Switch
                   checked={preferences.categories.promotions}
@@ -275,10 +336,10 @@ export default function NotificationSettingsPage() {
                 />
               </Stack>
 
-              <Stack direction="horizontal" className="justify-between items-center py-3 border-b border-ink-200">
+              <Stack direction="horizontal" className="items-center justify-between border-b border-ink-800 py-3">
                 <Stack>
-                  <Body className="font-medium">Community Updates</Body>
-                  <Body className="text-body-sm text-ink-500">Activity from groups and forums</Body>
+                  <Body className="font-display text-white">Community Updates</Body>
+                  <Body size="sm" className="text-on-dark-muted">Activity from groups and forums</Body>
                 </Stack>
                 <Switch
                   checked={preferences.categories.community_updates}
@@ -286,10 +347,10 @@ export default function NotificationSettingsPage() {
                 />
               </Stack>
 
-              <Stack direction="horizontal" className="justify-between items-center py-3">
+              <Stack direction="horizontal" className="items-center justify-between py-3">
                 <Stack>
-                  <Body className="font-medium">Account Security</Body>
-                  <Body className="text-body-sm text-ink-500">Login alerts and security notifications</Body>
+                  <Body className="font-display text-white">Account Security</Body>
+                  <Body size="sm" className="text-on-dark-muted">Login alerts and security notifications</Body>
                 </Stack>
                 <Switch
                   checked={preferences.categories.account_security}
@@ -300,13 +361,13 @@ export default function NotificationSettingsPage() {
             </Stack>
           </Card>
 
-          <Card className="p-6">
-            <H2 className="mb-6">TIMING PREFERENCES</H2>
+          <Card inverted variant="elevated" className="p-6">
+            <H3 className="mb-6 text-white">TIMING PREFERENCES</H3>
             <Stack gap={4}>
-              <Stack direction="horizontal" className="justify-between items-center">
+              <Stack direction="horizontal" className="items-center justify-between">
                 <Stack>
-                  <Body className="font-medium">Event Reminder Timing</Body>
-                  <Body className="text-body-sm text-ink-500">How far in advance to remind you</Body>
+                  <Body className="font-display text-white">Event Reminder Timing</Body>
+                  <Body size="sm" className="text-on-dark-muted">How far in advance to remind you</Body>
                 </Stack>
                 <Select
                   value={preferences.reminder_timing}
@@ -321,10 +382,10 @@ export default function NotificationSettingsPage() {
                 </Select>
               </Stack>
 
-              <Stack direction="horizontal" className="justify-between items-center">
+              <Stack direction="horizontal" className="items-center justify-between">
                 <Stack>
-                  <Body className="font-medium">Digest Frequency</Body>
-                  <Body className="text-body-sm text-ink-500">How often to receive digest emails</Body>
+                  <Body className="font-display text-white">Digest Frequency</Body>
+                  <Body size="sm" className="text-on-dark-muted">How often to receive digest emails</Body>
                 </Stack>
                 <Select
                   value={preferences.digest_frequency}
@@ -340,13 +401,13 @@ export default function NotificationSettingsPage() {
             </Stack>
           </Card>
 
-          <Card className="p-6">
-            <H2 className="mb-6">QUIET HOURS</H2>
+          <Card inverted variant="elevated" className="p-6">
+            <H3 className="mb-6 text-white">QUIET HOURS</H3>
             <Stack gap={4}>
-              <Stack direction="horizontal" className="justify-between items-center">
+              <Stack direction="horizontal" className="items-center justify-between">
                 <Stack>
-                  <Body className="font-medium">Enable Quiet Hours</Body>
-                  <Body className="text-body-sm text-ink-500">Pause non-urgent notifications during set times</Body>
+                  <Body className="font-display text-white">Enable Quiet Hours</Body>
+                  <Body size="sm" className="text-on-dark-muted">Pause non-urgent notifications during set times</Body>
                 </Stack>
                 <Switch
                   checked={preferences.quiet_hours_enabled}
@@ -393,16 +454,17 @@ export default function NotificationSettingsPage() {
             </Stack>
           </Card>
 
-          <Stack direction="horizontal" gap={4}>
-            <Button variant="solid" onClick={handleSave} disabled={saving}>
-              {saving ? 'Saving...' : 'Save Preferences'}
-            </Button>
-            <Button variant="outline" onClick={fetchPreferences}>
-              Reset
-            </Button>
+            <Stack direction="horizontal" gap={4}>
+              <Button variant="solid" inverted onClick={handleSave} disabled={saving}>
+                {saving ? 'Saving...' : 'Save Preferences'}
+              </Button>
+              <Button variant="outlineInk" onClick={fetchPreferences}>
+                Reset
+              </Button>
+            </Stack>
           </Stack>
-        </Stack>
-      </Container>
-    </Section>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

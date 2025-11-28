@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { ConsumerNavigationPublic } from "@/components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter, Textarea, Alert,
+  Container, H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
+  Section, Card, Tabs, TabsList, Tab, TabPanel, Badge,
+  Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
+  PageLayout, Footer, FooterColumn, FooterLink, Display, Kicker,
 } from "@ghxstship/ui";
 
 interface MembershipTier {
@@ -91,13 +93,41 @@ export default function MemberBenefitsPage() {
   };
 
   return (
-    <UISection className="min-h-screen bg-white">
-      <Container className="py-8">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>MEMBER BENEFITS</H1>
-            <Body className="text-ink-600">Configure membership tiers and benefits</Body>
-          </Stack>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Membership">
+            <FooterLink href="/membership">Membership</FooterLink>
+            <FooterLink href="/membership/benefits">Benefits</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Membership</Kicker>
+              <H2 size="lg" className="text-white">Member Benefits</H2>
+              <Body className="text-on-dark-muted">Configure membership tiers and benefits</Body>
+            </Stack>
 
           <Grid cols={4} gap={6}>
             <StatCard label="Total Members" value={totalMembers.toLocaleString()} className="border-2 border-black" />
@@ -219,9 +249,10 @@ export default function MemberBenefitsPage() {
             </TabPanel>
           </Tabs>
 
-          <Button variant="outline" onClick={() => router.push("/membership")}>Back to Membership</Button>
-        </Stack>
-      </Container>
+          <Button variant="outlineInk" onClick={() => router.push("/membership")}>Back to Membership</Button>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedTier} onClose={() => setSelectedTier(null)}>
         <ModalHeader><H3>Edit {selectedTier?.name}</H3></ModalHeader>
@@ -282,6 +313,6 @@ export default function MemberBenefitsPage() {
           <Button variant="solid" onClick={() => setShowAddBenefitModal(false)}>Add Benefit</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

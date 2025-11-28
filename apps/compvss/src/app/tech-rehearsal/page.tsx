@@ -4,10 +4,36 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter, Textarea, Alert,
-  Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
+  Container,
+  H3,
+  Body,
+  Grid,
+  Stack,
+  StatCard,
+  Input,
+  Select,
+  Button,
+  Section,
+  Card,
+  Tabs,
+  TabsList,
+  Tab,
+  TabPanel,
+  Badge,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Textarea,
+  Alert,
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 interface TechRehearsalSession {
@@ -84,147 +110,150 @@ export default function TechRehearsalPage() {
   };
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Technical Rehearsals</H1>
-            <Label className="text-ink-400">Schedule and manage tech rehearsals, sound checks, and run-throughs</Label>
-          </Stack>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Technical Rehearsals"
+              description="Schedule and manage tech rehearsals, sound checks, and run-throughs"
+              colorScheme="on-light"
+              gap="lg"
+            />
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Today Sessions" value={todaySessions.length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="In Progress" value={inProgressSession ? 1 : 0} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Unresolved Issues" value={unresolvedIssues} trend={unresolvedIssues > 0 ? "down" : "neutral"} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Total Sessions" value={mockSessions.length} className="bg-transparent border-2 border-ink-800" />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard label="Today Sessions" value={todaySessions.length.toString()} />
+              <StatCard label="In Progress" value={inProgressSession ? "1" : "0"} />
+              <StatCard label="Unresolved Issues" value={unresolvedIssues.toString()} />
+              <StatCard label="Total Sessions" value={mockSessions.length.toString()} />
+            </Grid>
 
-          {inProgressSession && (
-            <Alert variant="info">
-              Currently in progress: {inProgressSession.name} ({inProgressSession.startTime} - {inProgressSession.endTime})
-            </Alert>
-          )}
+            {inProgressSession && (
+              <Alert variant="info">
+                Currently in progress: {inProgressSession.name} ({inProgressSession.startTime} - {inProgressSession.endTime})
+              </Alert>
+            )}
 
-          <Tabs>
-            <TabsList>
-              <Tab active={activeTab === "schedule"} onClick={() => setActiveTab("schedule")}>Schedule</Tab>
-              <Tab active={activeTab === "notes"} onClick={() => setActiveTab("notes")}>Rehearsal Notes</Tab>
-              <Tab active={activeTab === "issues"} onClick={() => setActiveTab("issues")}>Issues</Tab>
-            </TabsList>
+            <Tabs>
+              <TabsList>
+                <Tab active={activeTab === "schedule"} onClick={() => setActiveTab("schedule")}>Schedule</Tab>
+                <Tab active={activeTab === "notes"} onClick={() => setActiveTab("notes")}>Rehearsal Notes</Tab>
+                <Tab active={activeTab === "issues"} onClick={() => setActiveTab("issues")}>Issues</Tab>
+              </TabsList>
 
-            <TabPanel active={activeTab === "schedule"}>
-              <Stack gap={4}>
-                <Stack direction="horizontal" className="justify-between">
-                  <H3>Rehearsal Schedule</H3>
-                  <Button variant="outline" size="sm" onClick={() => setShowAddModal(true)}>Add Session</Button>
-                </Stack>
-                {mockSessions.map((session) => (
-                  <Card key={session.id} className={`border-2 p-4 ${session.status === "In Progress" ? "border-info-800 bg-info-900/10" : "border-ink-800 bg-ink-900/50"}`}>
-                    <Grid cols={6} gap={4} className="items-center">
-                      <Stack gap={1}>
-                        <Body className="font-display text-white">{session.name}</Body>
-                        <Badge variant="outline">{session.type}</Badge>
-                      </Stack>
-                      <Stack gap={1}>
-                        <Label size="xs" className="text-ink-500">Date</Label>
-                        <Label className="font-mono text-white">{session.date}</Label>
-                      </Stack>
-                      <Stack gap={1}>
-                        <Label size="xs" className="text-ink-500">Time</Label>
-                        <Label className="font-mono text-white">{session.startTime} - {session.endTime}</Label>
-                      </Stack>
-                      <Stack gap={1}>
-                        <Label size="xs" className="text-ink-500">Departments</Label>
-                        <Stack direction="horizontal" gap={1} className="flex-wrap">
-                          {session.departments.slice(0, 2).map(d => <Badge key={d} variant="outline">{d}</Badge>)}
-                          {session.departments.length > 2 && <Label className="text-ink-500">+{session.departments.length - 2}</Label>}
+              <TabPanel active={activeTab === "schedule"}>
+                <Stack gap={4}>
+                  <Stack direction="horizontal" className="justify-between">
+                    <H3>Rehearsal Schedule</H3>
+                    <Button variant="outline" size="sm" onClick={() => setShowAddModal(true)}>Add Session</Button>
+                  </Stack>
+                  {mockSessions.map((session) => (
+                    <Card key={session.id}>
+                      <Grid cols={6} gap={4} className="items-center">
+                        <Stack gap={1}>
+                          <Body className="font-display">{session.name}</Body>
+                          <Badge variant="outline">{session.type}</Badge>
                         </Stack>
-                      </Stack>
-                      <Label className={getStatusColor(session.status)}>{session.status}</Label>
-                      <Stack direction="horizontal" gap={2}>
-                        <Button variant="ghost" size="sm" onClick={() => setSelectedSession(session)}>Details</Button>
-                        {session.status === "In Progress" && (
-                          <Button variant="outline" size="sm" onClick={() => { setSelectedSession(session); setShowNoteModal(true); }}>Add Note</Button>
-                        )}
-                      </Stack>
-                    </Grid>
-                  </Card>
-                ))}
-              </Stack>
-            </TabPanel>
-
-            <TabPanel active={activeTab === "notes"}>
-              <Table className="border-2 border-ink-800">
-                <TableHeader>
-                  <TableRow className="bg-ink-900">
-                    <TableHead>Time</TableHead>
-                    <TableHead>Department</TableHead>
-                    <TableHead>Type</TableHead>
-                    <TableHead>Description</TableHead>
-                    <TableHead>Assigned</TableHead>
-                    <TableHead>Status</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {mockNotes.map((note) => (
-                    <TableRow key={note.id}>
-                      <TableCell className="font-mono text-ink-400">{note.timestamp}</TableCell>
-                      <TableCell><Badge variant="outline">{note.department}</Badge></TableCell>
-                      <TableCell><Badge variant={note.type === "Issue" ? "solid" : "outline"}>{note.type}</Badge></TableCell>
-                      <TableCell><Label className="text-ink-300">{note.description}</Label></TableCell>
-                      <TableCell><Label className="text-white">{note.assignedTo || "-"}</Label></TableCell>
-                      <TableCell>
-                        <Label className={note.resolved ? "text-success-400" : "text-warning-400"}>
-                          {note.resolved ? "Resolved" : "Open"}
-                        </Label>
-                      </TableCell>
-                    </TableRow>
+                        <Stack gap={1}>
+                          <Body className="text-body-sm">Date</Body>
+                          <Body>{session.date}</Body>
+                        </Stack>
+                        <Stack gap={1}>
+                          <Body className="text-body-sm">Time</Body>
+                          <Body>{session.startTime} - {session.endTime}</Body>
+                        </Stack>
+                        <Stack gap={1}>
+                          <Body className="text-body-sm">Departments</Body>
+                          <Stack direction="horizontal" gap={1} className="flex-wrap">
+                            {session.departments.slice(0, 2).map(d => <Badge key={d} variant="outline">{d}</Badge>)}
+                            {session.departments.length > 2 && <Body className="text-body-sm">+{session.departments.length - 2}</Body>}
+                          </Stack>
+                        </Stack>
+                        <Badge variant={session.status === "Completed" ? "solid" : "outline"}>{session.status}</Badge>
+                        <Stack direction="horizontal" gap={2}>
+                          <Button variant="ghost" size="sm" onClick={() => setSelectedSession(session)}>Details</Button>
+                          {session.status === "In Progress" && (
+                            <Button variant="outline" size="sm" onClick={() => { setSelectedSession(session); setShowNoteModal(true); }}>Add Note</Button>
+                          )}
+                        </Stack>
+                      </Grid>
+                    </Card>
                   ))}
-                </TableBody>
-              </Table>
-            </TabPanel>
+                </Stack>
+              </TabPanel>
 
-            <TabPanel active={activeTab === "issues"}>
-              <Stack gap={4}>
-                <H3>Open Issues ({unresolvedIssues})</H3>
-                {mockNotes.filter(n => !n.resolved && n.type === "Issue").map((note) => (
-                  <Card key={note.id} className="border-2 border-warning-800 bg-warning-900/10 p-4">
-                    <Grid cols={4} gap={4} className="items-center">
-                      <Stack gap={1}>
-                        <Badge variant="outline">{note.department}</Badge>
-                        <Label className={getPriorityColor(note.priority)}>{note.priority}</Label>
-                      </Stack>
-                      <Stack gap={1} className="col-span-2">
-                        <Body className="text-white">{note.description}</Body>
-                        <Label size="xs" className="text-ink-500">Logged at {note.timestamp}</Label>
-                      </Stack>
-                      <Stack gap={2}>
-                        <Label className="text-ink-400">Assigned: {note.assignedTo || "Unassigned"}</Label>
-                        <Button variant="outline" size="sm">Mark Resolved</Button>
-                      </Stack>
-                    </Grid>
-                  </Card>
-                ))}
-              </Stack>
-            </TabPanel>
-          </Tabs>
+              <TabPanel active={activeTab === "notes"}>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Time</TableHead>
+                      <TableHead>Department</TableHead>
+                      <TableHead>Type</TableHead>
+                      <TableHead>Description</TableHead>
+                      <TableHead>Assigned</TableHead>
+                      <TableHead>Status</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {mockNotes.map((note) => (
+                      <TableRow key={note.id}>
+                        <TableCell>{note.timestamp}</TableCell>
+                        <TableCell><Badge variant="outline">{note.department}</Badge></TableCell>
+                        <TableCell><Badge variant={note.type === "Issue" ? "solid" : "outline"}>{note.type}</Badge></TableCell>
+                        <TableCell><Body>{note.description}</Body></TableCell>
+                        <TableCell><Body>{note.assignedTo || "-"}</Body></TableCell>
+                        <TableCell>
+                          <Badge variant={note.resolved ? "solid" : "outline"}>
+                            {note.resolved ? "Resolved" : "Open"}
+                          </Badge>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TabPanel>
 
-          <Grid cols={3} gap={4}>
-            <Button variant="outlineWhite" onClick={() => setShowAddModal(true)}>Schedule Rehearsal</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400">Export Notes</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/run-of-show")}>Run of Show</Button>
-          </Grid>
-        </Stack>
-      </Container>
+              <TabPanel active={activeTab === "issues"}>
+                <Stack gap={4}>
+                  <H3>Open Issues ({unresolvedIssues})</H3>
+                  {mockNotes.filter(n => !n.resolved && n.type === "Issue").map((note) => (
+                    <Card key={note.id}>
+                      <Grid cols={4} gap={4} className="items-center">
+                        <Stack gap={1}>
+                          <Badge variant="outline">{note.department}</Badge>
+                          <Badge variant="outline">{note.priority}</Badge>
+                        </Stack>
+                        <Stack gap={1} className="col-span-2">
+                          <Body>{note.description}</Body>
+                          <Body className="text-body-sm">Logged at {note.timestamp}</Body>
+                        </Stack>
+                        <Stack gap={2}>
+                          <Body className="text-body-sm">Assigned: {note.assignedTo || "Unassigned"}</Body>
+                          <Button variant="outline" size="sm">Mark Resolved</Button>
+                        </Stack>
+                      </Grid>
+                    </Card>
+                  ))}
+                </Stack>
+              </TabPanel>
+            </Tabs>
+
+            <Grid cols={3} gap={4}>
+              <Button variant="solid" onClick={() => setShowAddModal(true)}>Schedule Rehearsal</Button>
+              <Button variant="outline">Export Notes</Button>
+              <Button variant="outline" onClick={() => router.push("/run-of-show")}>Run of Show</Button>
+            </Grid>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={showAddModal} onClose={() => setShowAddModal(false)}>
         <ModalHeader><H3>Schedule Rehearsal</H3></ModalHeader>
         <ModalBody>
           <Stack gap={4}>
-            <Input placeholder="Session Name" className="border-ink-700 bg-black text-white" />
-            <Select className="border-ink-700 bg-black text-white">
+            <Input placeholder="Session Name" />
+            <Select>
               <option value="">Rehearsal Type...</option>
               <option value="Full Tech">Full Tech</option>
               <option value="Cue-to-Cue">Cue-to-Cue</option>
@@ -233,12 +262,12 @@ export default function TechRehearsalPage() {
               <option value="Focus Call">Focus Call</option>
             </Select>
             <Grid cols={3} gap={4}>
-              <Input type="date" className="border-ink-700 bg-black text-white" />
-              <Input type="time" placeholder="Start" className="border-ink-700 bg-black text-white" />
-              <Input type="time" placeholder="End" className="border-ink-700 bg-black text-white" />
+              <Input type="date" />
+              <Input type="time" placeholder="Start" />
+              <Input type="time" placeholder="End" />
             </Grid>
-            <Input placeholder="Location" className="border-ink-700 bg-black text-white" />
-            <Textarea placeholder="Notes..." className="border-ink-700 bg-black text-white" rows={2} />
+            <Input placeholder="Location" />
+            <Textarea placeholder="Notes..." rows={2} />
           </Stack>
         </ModalBody>
         <ModalFooter>
@@ -251,16 +280,16 @@ export default function TechRehearsalPage() {
         <ModalHeader><H3>Add Rehearsal Note</H3></ModalHeader>
         <ModalBody>
           <Stack gap={4}>
-            {selectedSession && <Label className="text-ink-400">{selectedSession.name}</Label>}
+            {selectedSession && <Body className="text-body-sm">{selectedSession.name}</Body>}
             <Grid cols={2} gap={4}>
-              <Select className="border-ink-700 bg-black text-white">
+              <Select>
                 <option value="">Department...</option>
                 <option value="Audio">Audio</option>
                 <option value="Lighting">Lighting</option>
                 <option value="Video">Video</option>
                 <option value="Stage">Stage</option>
               </Select>
-              <Select className="border-ink-700 bg-black text-white">
+              <Select>
                 <option value="">Note Type...</option>
                 <option value="Issue">Issue</option>
                 <option value="Fix">Fix</option>
@@ -268,16 +297,16 @@ export default function TechRehearsalPage() {
                 <option value="Cue Change">Cue Change</option>
               </Select>
             </Grid>
-            <Textarea placeholder="Description..." className="border-ink-700 bg-black text-white" rows={3} />
+            <Textarea placeholder="Description..." rows={3} />
             <Grid cols={2} gap={4}>
-              <Select className="border-ink-700 bg-black text-white">
+              <Select>
                 <option value="">Priority...</option>
                 <option value="Low">Low</option>
                 <option value="Medium">Medium</option>
                 <option value="High">High</option>
                 <option value="Critical">Critical</option>
               </Select>
-              <Select className="border-ink-700 bg-black text-white">
+              <Select>
                 <option value="">Assign to...</option>
                 <option value="john">John Martinez</option>
                 <option value="sarah">Sarah Chen</option>
@@ -297,22 +326,22 @@ export default function TechRehearsalPage() {
         <ModalBody>
           {selectedSession && (
             <Stack gap={4}>
-              <Body className="font-display text-white text-body-md">{selectedSession.name}</Body>
+              <Body className="font-display">{selectedSession.name}</Body>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Type</Label><Badge variant="outline">{selectedSession.type}</Badge></Stack>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Status</Label><Label className={getStatusColor(selectedSession.status)}>{selectedSession.status}</Label></Stack>
+                <Stack gap={1}><Body className="text-body-sm">Type</Body><Badge variant="outline">{selectedSession.type}</Badge></Stack>
+                <Stack gap={1}><Body className="text-body-sm">Status</Body><Badge variant={selectedSession.status === "Completed" ? "solid" : "outline"}>{selectedSession.status}</Badge></Stack>
               </Grid>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Date</Label><Label className="font-mono text-white">{selectedSession.date}</Label></Stack>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Time</Label><Label className="font-mono text-white">{selectedSession.startTime} - {selectedSession.endTime}</Label></Stack>
+                <Stack gap={1}><Body className="text-body-sm">Date</Body><Body>{selectedSession.date}</Body></Stack>
+                <Stack gap={1}><Body className="text-body-sm">Time</Body><Body>{selectedSession.startTime} - {selectedSession.endTime}</Body></Stack>
               </Grid>
-              <Stack gap={1}><Label size="xs" className="text-ink-500">Location</Label><Label className="text-white">{selectedSession.location}</Label></Stack>
+              <Stack gap={1}><Body className="text-body-sm">Location</Body><Body>{selectedSession.location}</Body></Stack>
               <Stack gap={2}>
-                <Label size="xs" className="text-ink-500">Departments</Label>
+                <Body className="text-body-sm">Departments</Body>
                 <Stack direction="horizontal" gap={2}>{selectedSession.departments.map(d => <Badge key={d} variant="outline">{d}</Badge>)}</Stack>
               </Stack>
-              {selectedSession.notes && <Stack gap={1}><Label size="xs" className="text-ink-500">Notes</Label><Body className="text-ink-300">{selectedSession.notes}</Body></Stack>}
-              <Stack gap={1}><Label size="xs" className="text-ink-500">Issues Logged</Label><Label className="text-white">{selectedSession.issues}</Label></Stack>
+              {selectedSession.notes && <Stack gap={1}><Body className="text-body-sm">Notes</Body><Body>{selectedSession.notes}</Body></Stack>}
+              <Stack gap={1}><Body className="text-body-sm">Issues Logged</Body><Body>{selectedSession.issues.toString()}</Body></Stack>
             </Stack>
           )}
         </ModalBody>
@@ -321,6 +350,6 @@ export default function TechRehearsalPage() {
           {selectedSession?.status === "Scheduled" && <Button variant="solid">Start Session</Button>}
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

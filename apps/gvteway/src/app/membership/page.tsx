@@ -1,9 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { ConsumerNavigationPublic } from "@/components/navigation";
 import {
   PageLayout,
-  Navigation,
   Footer,
   FooterColumn,
   FooterLink,
@@ -14,13 +14,15 @@ import {
   Button,
   Badge,
   Card,
-  SectionLayout,
+  Section,
   Container,
   Stack,
   Grid,
   StatCard,
-  Link,
+  Kicker,
+  Label,
 } from "@ghxstship/ui";
+import { Check, Crown } from "lucide-react";
 
 const membershipTiers = [
   {
@@ -69,49 +71,67 @@ export default function MembershipPage() {
   return (
     <PageLayout
       background="black"
-      header={
-        <Navigation
-          logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
-          cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/profile')}>PROFILE</Button>}
-        >
-          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Home</Link>
-          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Events</Link>
-        </Navigation>
-      }
+      header={<ConsumerNavigationPublic />}
       footer={
         <Footer
-          logo={<Display size="md" className="text-white text-display-md">GVTEWAY</Display>}
+          logo={<Display size="md">GVTEWAY</Display>}
           copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
         >
           <FooterColumn title="Account">
             <FooterLink href="/profile">Profile</FooterLink>
             <FooterLink href="/membership">Membership</FooterLink>
           </FooterColumn>
+          <FooterColumn title="Discover">
+            <FooterLink href="/events">Browse Events</FooterLink>
+            <FooterLink href="/venues">Find Venues</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
         </Footer>
       }
     >
-      <SectionLayout background="black">
-        <Container size="xl">
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        {/* Grid Pattern Background */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `
+              linear-gradient(#fff 1px, transparent 1px),
+              linear-gradient(90deg, #fff 1px, transparent 1px)
+            `,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
           <Stack gap={12}>
+            {/* Page Header */}
             <Stack gap={4} className="text-center">
-              <H2 className="text-white">Membership Tiers</H2>
-              <Body className="text-ink-400">
+              <Kicker colorScheme="on-dark">Exclusive Benefits</Kicker>
+              <H2 size="lg" className="text-white">Membership Tiers</H2>
+              <Body className="text-on-dark-muted">
                 Unlock exclusive benefits and early access to the best events
               </Body>
             </Stack>
 
+            {/* Membership Tiers */}
             <Grid cols={3} gap={8}>
               {membershipTiers.map((tier) => {
                 const isCurrent = tier.id === currentMembership;
+                const isPremium = tier.id === "premium";
                 return (
                   <Card
                     key={tier.id}
-                    className={`border-2 ${
-                      tier.id === "premium" ? "border-white" : "border-ink-800"
-                    } p-8 bg-black ${tier.id === "premium" ? "relative" : ""}`}
+                    inverted
+                    variant={isPremium ? "elevated" : "default"}
+                    className={`relative p-8 ${isPremium ? "ring-2 ring-white" : ""}`}
                   >
-                    {tier.id === "premium" && (
-                      <Badge className="absolute -top-4 left-1/2 -translate-x-1/2">Recommended</Badge>
+                    {isPremium && (
+                      <Badge variant="solid" className="absolute -top-3 left-1/2 -translate-x-1/2">
+                        <Crown className="mr-1 inline size-3" />
+                        Recommended
+                      </Badge>
                     )}
                     <Stack gap={6}>
                       <Stack gap={4}>
@@ -119,7 +139,7 @@ export default function MembershipPage() {
                         <Stack gap={2} direction="horizontal" className="items-baseline">
                           <Display size="md" className="text-white">${tier.price}</Display>
                           {tier.price > 0 && (
-                            <Body className="font-mono text-body-sm text-ink-400">/month</Body>
+                            <Label size="xs" className="text-on-dark-muted">/month</Label>
                           )}
                         </Stack>
                       </Stack>
@@ -127,22 +147,23 @@ export default function MembershipPage() {
                       <Stack gap={3}>
                         {tier.features.map((feature, idx) => (
                           <Stack key={idx} gap={2} direction="horizontal" className="items-start">
-                            <Body className="text-white">✓</Body>
-                            <Body className="text-body-sm text-ink-300">{feature}</Body>
+                            <Check className="mt-0.5 size-4 shrink-0 text-white" />
+                            <Body size="sm" className="text-on-dark-muted">{feature}</Body>
                           </Stack>
                         ))}
                       </Stack>
 
                       <Stack gap={0} className="pt-6">
                         {isCurrent ? (
-                          <Button variant="outline" disabled className="w-full">
+                          <Button variant="outlineInk" disabled fullWidth>
                             Current Plan
                           </Button>
                         ) : (
                           <Button
-                            variant={tier.id === "premium" ? "solid" : "outline"}
-                            className="w-full"
-                            onClick={() => window.location.href = `/membership/upgrade?tier=${tier.id}`}
+                            variant={isPremium ? "solid" : "outlineInk"}
+                            inverted={isPremium}
+                            fullWidth
+                            onClick={() => router.push(`/membership/upgrade?tier=${tier.id}`)}
                           >
                             {tier.price === 0 ? "Downgrade" : "Upgrade"}
                           </Button>
@@ -154,36 +175,37 @@ export default function MembershipPage() {
               })}
             </Grid>
 
-            <Card className="border-2 border-ink-800 p-8 bg-black">
+            {/* Membership Stats */}
+            <Card inverted variant="elevated" className="p-8">
               <Stack gap={6}>
-                <H3 className="text-white">Membership Benefits</H3>
-                <Grid cols={2} gap={6}>
+                <H3 className="text-white">Your Membership</H3>
+                <Grid cols={4} gap={6}>
                   <StatCard
                     value="Free"
                     label="Current Tier"
-                    className="bg-black text-white border-ink-800"
+                    inverted
                   />
                   <StatCard
                     value="Jan 2024"
                     label="Member Since"
-                    className="bg-black text-white border-ink-800"
+                    inverted
                   />
                   <StatCard
-                    value={12}
+                    value="12"
                     label="Events Attended"
-                    className="bg-black text-white border-ink-800"
+                    inverted
                   />
                   <StatCard
                     value="$0"
                     label="Total Savings"
-                    className="bg-black text-white border-ink-800"
+                    inverted
                   />
                 </Grid>
               </Stack>
             </Card>
           </Stack>
         </Container>
-      </SectionLayout>
+      </Section>
     </PageLayout>
   );
 }

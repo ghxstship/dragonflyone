@@ -9,6 +9,9 @@ import {
   RecordFormModal,
   DetailDrawer,
   ConfirmDialog,
+  Grid,
+  Stack,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -158,29 +161,30 @@ export default function DeliveriesPage() {
       id: 'overview',
       title: 'Delivery Details',
       content: (
-        <div className="grid grid-cols-2 gap-4">
-          <div><strong>Vendor:</strong> {selectedDelivery.vendor}</div>
-          <div><strong>Status:</strong> {selectedDelivery.status}</div>
-          <div><strong>Date:</strong> {selectedDelivery.scheduledDate}</div>
-          <div><strong>Time:</strong> {selectedDelivery.scheduledTime}</div>
-          <div><strong>Access Point:</strong> {selectedDelivery.accessPoint}</div>
-          <div><strong>Carrier:</strong> {selectedDelivery.carrier || '—'}</div>
-          <div><strong>Tracking:</strong> {selectedDelivery.trackingNumber || '—'}</div>
-          {selectedDelivery.receivedBy && <div><strong>Received By:</strong> {selectedDelivery.receivedBy}</div>}
-        </div>
+        <Grid cols={2} gap={4}>
+          <Stack gap={1}><Body className="font-display">Vendor</Body><Body>{selectedDelivery.vendor}</Body></Stack>
+          <Stack gap={1}><Body className="font-display">Status</Body><Body>{selectedDelivery.status}</Body></Stack>
+          <Stack gap={1}><Body className="font-display">Date</Body><Body>{selectedDelivery.scheduledDate}</Body></Stack>
+          <Stack gap={1}><Body className="font-display">Time</Body><Body>{selectedDelivery.scheduledTime}</Body></Stack>
+          <Stack gap={1}><Body className="font-display">Access Point</Body><Body>{selectedDelivery.accessPoint}</Body></Stack>
+          <Stack gap={1}><Body className="font-display">Carrier</Body><Body>{selectedDelivery.carrier || '—'}</Body></Stack>
+          <Stack gap={1}><Body className="font-display">Tracking</Body><Body>{selectedDelivery.trackingNumber || '—'}</Body></Stack>
+          {selectedDelivery.receivedBy && <Stack gap={1}><Body className="font-display">Received By</Body><Body>{selectedDelivery.receivedBy}</Body></Stack>}
+        </Grid>
       ),
     },
     {
       id: 'items',
       title: 'Items',
       content: (
-        <div>
+        <Stack gap={2}>
           {selectedDelivery.items.map((item, idx) => (
-            <div key={idx} className="py-2 border-b border-ink-700">
-              <strong>{item.name}</strong> — Qty: {item.quantity} {item.received !== undefined && `(Received: ${item.received})`}
-            </div>
+            <Stack key={idx} gap={1} className="py-2 border-b border-ink-700">
+              <Body className="font-display">{item.name}</Body>
+              <Body>Qty: {item.quantity} {item.received !== undefined && `(Received: ${item.received})`}</Body>
+            </Stack>
           ))}
-        </div>
+        </Stack>
       ),
     },
   ] : [];

@@ -1,11 +1,11 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { CreatorNavigationAuthenticated } from '../../../components/navigation';
 import {
   Container,
   Section,
-  Display,
   H2,
   H3,
   Body,
@@ -20,7 +20,6 @@ import {
   Badge,
   Alert,
   Modal,
-  LoadingSpinner,
   StatCard,
   Tabs,
   TabsList,
@@ -32,6 +31,8 @@ import {
   TableRow,
   TableHead,
   TableCell,
+  PageLayout,
+  SectionHeader,
 } from '@ghxstship/ui';
 
 interface Lead {
@@ -172,26 +173,27 @@ export default function LeadScoringPage() {
   const avgScore = Math.round(leads.reduce((sum, l) => sum + l.score, 0) / leads.length);
 
   return (
-    <Section className="min-h-screen bg-white">
-      <Container>
-        <Section className="border-b-2 border-black py-8 mb-8">
-          <Stack direction="horizontal" className="justify-between items-center">
-            <Stack>
-              <Display>LEAD SCORING</Display>
-              <Body className="mt-2 text-ink-600">
-                Automated lead qualification and scoring
-              </Body>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <Stack gap={4} direction="horizontal" className="items-start justify-between">
+              <SectionHeader
+                kicker="ATLVS"
+                title="Lead Scoring"
+                description="Automated lead qualification and scoring"
+                colorScheme="on-light"
+                gap="lg"
+              />
+              <Stack direction="horizontal" gap={4}>
+                <Button variant="outline" onClick={() => setShowRuleModal(true)}>
+                  Add Rule
+                </Button>
+                <Button variant="solid" onClick={() => router.push('/deals')}>
+                  View Pipeline
+                </Button>
+              </Stack>
             </Stack>
-            <Stack direction="horizontal" gap={4}>
-              <Button variant="outline" onClick={() => setShowRuleModal(true)}>
-                Add Rule
-              </Button>
-              <Button variant="solid" onClick={() => router.push('/deals')}>
-                View Pipeline
-              </Button>
-            </Stack>
-          </Stack>
-        </Section>
 
         {error && (
           <Alert variant="error" className="mb-6" onClose={() => setError(null)}>
@@ -583,7 +585,9 @@ export default function LeadScoringPage() {
             </Stack>
           )}
         </Modal>
-      </Container>
-    </Section>
+          </Stack>
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

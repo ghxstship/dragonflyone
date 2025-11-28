@@ -4,10 +4,30 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select,
-  Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter, Textarea, Alert,
+  Container,
+  H3,
+  Body,
+  Grid,
+  Stack,
+  StatCard,
+  Input,
+  Select,
+  Button,
+  Section,
+  Card,
+  Tabs,
+  TabsList,
+  Tab,
+  TabPanel,
+  Badge,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Textarea,
+  Alert,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 interface Risk {
@@ -71,149 +91,178 @@ export default function RiskRegisterPage() {
   const getImpactValue = (i: string) => i === "Critical" ? 5 : i === "High" ? 4 : i === "Medium" ? 3 : 2;
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2}>
-            <H1>Risk Register</H1>
-            <Label className="text-ink-400">Identify, assess, and mitigate project risks</Label>
-          </Stack>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <SectionHeader
+              kicker="COMPVSS"
+              title="Risk Register"
+              description="Identify, assess, and mitigate project risks"
+              colorScheme="on-light"
+              gap="lg"
+            />
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Active Risks" value={activeRisks.length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="High Priority" value={highRisks} trend={highRisks > 0 ? "down" : "neutral"} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Avg Risk Score" value={avgRiskScore} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Closed This Month" value={mockRisks.filter(r => r.status === "Closed").length} trend="up" className="bg-transparent border-2 border-ink-800" />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard value={activeRisks.length.toString()} label="Active Risks" />
+              <StatCard value={highRisks.toString()} label="High Priority" />
+              <StatCard value={avgRiskScore.toString()} label="Avg Risk Score" />
+              <StatCard value={mockRisks.filter(r => r.status === "Closed").length.toString()} label="Closed This Month" />
+            </Grid>
 
-          {highRisks > 0 && (
-            <Alert variant="warning">{highRisks} high-priority risk(s) require attention</Alert>
-          )}
+            {highRisks > 0 && (
+              <Alert variant="warning">{highRisks} high-priority risk(s) require attention</Alert>
+            )}
 
-          <Grid cols={2} gap={4}>
-            <Select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)} className="border-ink-700 bg-black text-white">
-              <option value="All">All Categories</option>
-              <option value="Technical">Technical</option>
-              <option value="Weather">Weather</option>
-              <option value="Vendor">Vendor</option>
-              <option value="Safety">Safety</option>
-              <option value="Financial">Financial</option>
-              <option value="Operational">Operational</option>
-              <option value="Regulatory">Regulatory</option>
-            </Select>
-            <Button variant="outlineWhite" onClick={() => setShowAddModal(true)}>Add Risk</Button>
-          </Grid>
+            <Grid cols={2} gap={4}>
+              <Select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}>
+                <option value="All">All Categories</option>
+                <option value="Technical">Technical</option>
+                <option value="Weather">Weather</option>
+                <option value="Vendor">Vendor</option>
+                <option value="Safety">Safety</option>
+                <option value="Financial">Financial</option>
+                <option value="Operational">Operational</option>
+                <option value="Regulatory">Regulatory</option>
+              </Select>
+              <Button variant="solid" onClick={() => setShowAddModal(true)}>Add Risk</Button>
+            </Grid>
 
-          <Tabs>
-            <TabsList>
-              <Tab active={activeTab === "active"} onClick={() => setActiveTab("active")}>Active Risks</Tab>
-              <Tab active={activeTab === "matrix"} onClick={() => setActiveTab("matrix")}>Risk Matrix</Tab>
-              <Tab active={activeTab === "closed"} onClick={() => setActiveTab("closed")}>Closed</Tab>
-            </TabsList>
+            <Tabs>
+              <TabsList>
+                <Tab active={activeTab === "active"} onClick={() => setActiveTab("active")}>Active Risks</Tab>
+                <Tab active={activeTab === "matrix"} onClick={() => setActiveTab("matrix")}>Risk Matrix</Tab>
+                <Tab active={activeTab === "closed"} onClick={() => setActiveTab("closed")}>Closed</Tab>
+              </TabsList>
 
-            <TabPanel active={activeTab === "active" || activeTab === "closed"}>
-              <Stack gap={4}>
-                {filteredRisks
-                  .filter(r => activeTab === "active" ? r.status !== "Closed" : r.status === "Closed")
-                  .sort((a, b) => b.riskScore - a.riskScore)
-                  .map((risk) => (
-                    <Card key={risk.id} className={`border-2 p-4 ${risk.riskScore >= 12 ? "border-error-800 bg-error-900/10" : "border-ink-800 bg-ink-900/50"}`}>
-                      <Grid cols={6} gap={4} className="items-center">
-                        <Stack gap={1}>
-                          <Body className="font-display text-white">{risk.title}</Body>
-                          <Label size="xs" className="text-ink-500">{risk.projectName}</Label>
-                        </Stack>
-                        <Badge variant="outline">{risk.category}</Badge>
-                        <Stack gap={1}>
-                          <Label size="xs" className="text-ink-500">P: {risk.probability} / I: {risk.impact}</Label>
-                        </Stack>
-                        <Card className={`p-2 text-center ${getRiskScoreColor(risk.riskScore)}`}>
-                          <Label className="font-mono text-body-md">{risk.riskScore}</Label>
-                        </Card>
-                        <Stack gap={1}>
-                          <Label className={getStatusColor(risk.status)}>{risk.status}</Label>
-                          <Label size="xs" className="text-ink-500">{risk.owner}</Label>
-                        </Stack>
-                        <Button variant="ghost" size="sm" onClick={() => setSelectedRisk(risk)}>Details</Button>
-                      </Grid>
-                    </Card>
-                  ))}
-              </Stack>
-            </TabPanel>
-
-            <TabPanel active={activeTab === "matrix"}>
-              <Card className="border-2 border-ink-800 bg-ink-900/50 p-6">
+              <TabPanel active={activeTab === "active" || activeTab === "closed"}>
                 <Stack gap={4}>
-                  <H3>Risk Matrix</H3>
-                  <Grid cols={6} gap={2}>
-                    <Card className="p-2" />
-                    <Card className="p-2 text-center bg-ink-800"><Label size="xs">Low</Label></Card>
-                    <Card className="p-2 text-center bg-ink-800"><Label size="xs">Medium</Label></Card>
-                    <Card className="p-2 text-center bg-ink-800"><Label size="xs">High</Label></Card>
-                    <Card className="p-2 text-center bg-ink-800"><Label size="xs">Critical</Label></Card>
-                    <Card className="p-2 text-center bg-ink-800"><Label size="xs">Impact →</Label></Card>
-                    
-                    <Card className="p-2 text-center bg-ink-800"><Label size="xs">High</Label></Card>
-                    <Card className="p-2 bg-warning-900/30 text-center"><Label size="xs">{activeRisks.filter(r => r.probability === "High" && r.impact === "Low").length}</Label></Card>
-                    <Card className="p-2 bg-warning-900/30 text-center"><Label size="xs">{activeRisks.filter(r => r.probability === "High" && r.impact === "Medium").length}</Label></Card>
-                    <Card className="p-2 bg-error-900/30 text-center"><Label size="xs">{activeRisks.filter(r => r.probability === "High" && r.impact === "High").length}</Label></Card>
-                    <Card className="p-2 bg-error-900/50 text-center"><Label size="xs">{activeRisks.filter(r => r.probability === "High" && r.impact === "Critical").length}</Label></Card>
-                    <Card className="p-2" />
-                    
-                    <Card className="p-2 text-center bg-ink-800"><Label size="xs">Medium</Label></Card>
-                    <Card className="p-2 bg-success-900/30 text-center"><Label size="xs">{activeRisks.filter(r => r.probability === "Medium" && r.impact === "Low").length}</Label></Card>
-                    <Card className="p-2 bg-warning-900/30 text-center"><Label size="xs">{activeRisks.filter(r => r.probability === "Medium" && r.impact === "Medium").length}</Label></Card>
-                    <Card className="p-2 bg-warning-900/30 text-center"><Label size="xs">{activeRisks.filter(r => r.probability === "Medium" && r.impact === "High").length}</Label></Card>
-                    <Card className="p-2 bg-error-900/30 text-center"><Label size="xs">{activeRisks.filter(r => r.probability === "Medium" && r.impact === "Critical").length}</Label></Card>
-                    <Card className="p-2 text-center"><Label size="xs">Probability ↑</Label></Card>
-                    
-                    <Card className="p-2 text-center bg-ink-800"><Label size="xs">Low</Label></Card>
-                    <Card className="p-2 bg-success-900/30 text-center"><Label size="xs">{activeRisks.filter(r => r.probability === "Low" && r.impact === "Low").length}</Label></Card>
-                    <Card className="p-2 bg-success-900/30 text-center"><Label size="xs">{activeRisks.filter(r => r.probability === "Low" && r.impact === "Medium").length}</Label></Card>
-                    <Card className="p-2 bg-warning-900/30 text-center"><Label size="xs">{activeRisks.filter(r => r.probability === "Low" && r.impact === "High").length}</Label></Card>
-                    <Card className="p-2 bg-warning-900/30 text-center"><Label size="xs">{activeRisks.filter(r => r.probability === "Low" && r.impact === "Critical").length}</Label></Card>
-                    <Card className="p-2" />
-                  </Grid>
+                  {filteredRisks
+                    .filter(r => activeTab === "active" ? r.status !== "Closed" : r.status === "Closed")
+                    .sort((a, b) => b.riskScore - a.riskScore)
+                    .map((risk) => (
+                      <Card key={risk.id} className="p-4">
+                        <Grid cols={6} gap={4} className="items-center">
+                          <Stack gap={1}>
+                            <Body className="font-display">{risk.title}</Body>
+                            <Body className="text-body-sm">{risk.projectName}</Body>
+                          </Stack>
+                          <Badge variant="outline">{risk.category}</Badge>
+                          <Stack gap={1}>
+                            <Body className="text-body-sm">P: {risk.probability} / I: {risk.impact}</Body>
+                          </Stack>
+                          <Badge variant={risk.riskScore >= 12 ? "solid" : "outline"}>{risk.riskScore}</Badge>
+                          <Stack gap={1}>
+                            <Badge variant="outline">{risk.status}</Badge>
+                            <Body className="text-body-sm">{risk.owner}</Body>
+                          </Stack>
+                          <Button variant="ghost" size="sm" onClick={() => setSelectedRisk(risk)}>Details</Button>
+                        </Grid>
+                      </Card>
+                    ))}
                 </Stack>
-              </Card>
-            </TabPanel>
-          </Tabs>
+              </TabPanel>
 
-          <Grid cols={3} gap={4}>
-            <Button variant="outline" className="border-ink-700 text-ink-400">Export Register</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400">Risk Report</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/projects")}>Back to Projects</Button>
-          </Grid>
-        </Stack>
-      </Container>
+              <TabPanel active={activeTab === "matrix"}>
+                <Card className="p-6">
+                  <Stack gap={4}>
+                    <H3>Risk Matrix</H3>
+                    <Grid cols={6} gap={2}>
+                      <Card className="p-2" />
+                      <Card className="p-2 text-center"><Body className="text-body-sm">Low</Body></Card>
+                      <Card className="p-2 text-center"><Body className="text-body-sm">Medium</Body></Card>
+                      <Card className="p-2 text-center"><Body className="text-body-sm">High</Body></Card>
+                      <Card className="p-2 text-center"><Body className="text-body-sm">Critical</Body></Card>
+                      <Card className="p-2 text-center"><Body className="text-body-sm">Impact →</Body></Card>
+                      
+                      <Card className="p-2 text-center"><Body className="text-body-sm">High</Body></Card>
+                      <Card className="p-2 text-center"><Body className="text-body-sm">{activeRisks.filter(r => r.probability === "High" && r.impact === "Low").length}</Body></Card>
+                      <Card className="p-2 text-center"><Body className="text-body-sm">{activeRisks.filter(r => r.probability === "High" && r.impact === "Medium").length}</Body></Card>
+                      <Card className="p-2 text-center"><Body className="text-body-sm">{activeRisks.filter(r => r.probability === "High" && r.impact === "High").length}</Body></Card>
+                      <Card className="p-2 text-center"><Body className="text-body-sm">{activeRisks.filter(r => r.probability === "High" && r.impact === "Critical").length}</Body></Card>
+                      <Card className="p-2" />
+                      
+                      <Card className="p-2 text-center"><Body className="text-body-sm">Medium</Body></Card>
+                      <Card className="p-2 text-center"><Body className="text-body-sm">{activeRisks.filter(r => r.probability === "Medium" && r.impact === "Low").length}</Body></Card>
+                      <Card className="p-2 text-center"><Body className="text-body-sm">{activeRisks.filter(r => r.probability === "Medium" && r.impact === "Medium").length}</Body></Card>
+                      <Card className="p-2 text-center"><Body className="text-body-sm">{activeRisks.filter(r => r.probability === "Medium" && r.impact === "High").length}</Body></Card>
+                      <Card className="p-2 text-center"><Body className="text-body-sm">{activeRisks.filter(r => r.probability === "Medium" && r.impact === "Critical").length}</Body></Card>
+                      <Card className="p-2 text-center"><Body className="text-body-sm">Probability ↑</Body></Card>
+                      
+                      <Card className="p-2 text-center"><Body className="text-body-sm">Low</Body></Card>
+                      <Card className="p-2 text-center"><Body className="text-body-sm">{activeRisks.filter(r => r.probability === "Low" && r.impact === "Low").length}</Body></Card>
+                      <Card className="p-2 text-center"><Body className="text-body-sm">{activeRisks.filter(r => r.probability === "Low" && r.impact === "Medium").length}</Body></Card>
+                      <Card className="p-2 text-center"><Body className="text-body-sm">{activeRisks.filter(r => r.probability === "Low" && r.impact === "High").length}</Body></Card>
+                      <Card className="p-2 text-center"><Body className="text-body-sm">{activeRisks.filter(r => r.probability === "Low" && r.impact === "Critical").length}</Body></Card>
+                      <Card className="p-2" />
+                    </Grid>
+                  </Stack>
+                </Card>
+              </TabPanel>
+            </Tabs>
+
+            <Grid cols={3} gap={4}>
+              <Button variant="outline">Export Register</Button>
+              <Button variant="outline">Risk Report</Button>
+              <Button variant="outline" onClick={() => router.push("/projects")}>Back to Projects</Button>
+            </Grid>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedRisk} onClose={() => setSelectedRisk(null)}>
         <ModalHeader><H3>Risk Details</H3></ModalHeader>
         <ModalBody>
           {selectedRisk && (
             <Stack gap={4}>
-              <Body className="font-display text-white text-body-md">{selectedRisk.title}</Body>
-              <Body className="text-ink-300">{selectedRisk.description}</Body>
+              <Body className="font-display">{selectedRisk.title}</Body>
+              <Body>{selectedRisk.description}</Body>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Category</Label><Badge variant="outline">{selectedRisk.category}</Badge></Stack>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Status</Label><Label className={getStatusColor(selectedRisk.status)}>{selectedRisk.status}</Label></Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Category</Body>
+                  <Badge variant="outline">{selectedRisk.category}</Badge>
+                </Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Status</Body>
+                  <Badge variant="outline">{selectedRisk.status}</Badge>
+                </Stack>
               </Grid>
               <Grid cols={3} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Probability</Label><Label className="text-white">{selectedRisk.probability}</Label></Stack>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Impact</Label><Label className="text-white">{selectedRisk.impact}</Label></Stack>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Risk Score</Label><Label className={`font-mono ${getRiskScoreColor(selectedRisk.riskScore).split(" ")[0]}`}>{selectedRisk.riskScore}</Label></Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Probability</Body>
+                  <Body>{selectedRisk.probability}</Body>
+                </Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Impact</Body>
+                  <Body>{selectedRisk.impact}</Body>
+                </Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Risk Score</Body>
+                  <Badge variant={selectedRisk.riskScore >= 12 ? "solid" : "outline"}>{selectedRisk.riskScore}</Badge>
+                </Stack>
               </Grid>
-              <Stack gap={1}><Label size="xs" className="text-ink-500">Owner</Label><Label className="text-white">{selectedRisk.owner}</Label></Stack>
-              {selectedRisk.mitigationPlan && <Stack gap={1}><Label size="xs" className="text-ink-500">Mitigation Plan</Label><Body className="text-ink-300">{selectedRisk.mitigationPlan}</Body></Stack>}
-              {selectedRisk.contingencyPlan && <Stack gap={1}><Label size="xs" className="text-ink-500">Contingency Plan</Label><Body className="text-ink-300">{selectedRisk.contingencyPlan}</Body></Stack>}
+              <Stack gap={1}>
+                <Body className="text-body-sm">Owner</Body>
+                <Body>{selectedRisk.owner}</Body>
+              </Stack>
+              {selectedRisk.mitigationPlan && (
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Mitigation Plan</Body>
+                  <Body>{selectedRisk.mitigationPlan}</Body>
+                </Stack>
+              )}
+              {selectedRisk.contingencyPlan && (
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Contingency Plan</Body>
+                  <Body>{selectedRisk.contingencyPlan}</Body>
+                </Stack>
+              )}
               {selectedRisk.triggers && selectedRisk.triggers.length > 0 && (
                 <Stack gap={2}>
-                  <Label size="xs" className="text-ink-500">Triggers</Label>
+                  <Body className="text-body-sm">Triggers</Body>
                   {selectedRisk.triggers.map((trigger, idx) => (
-                    <Card key={idx} className="p-2 bg-ink-800 border border-ink-700">
-                      <Label className="text-ink-300">{trigger}</Label>
+                    <Card key={idx} className="p-2">
+                      <Body className="text-body-sm">{trigger}</Body>
                     </Card>
                   ))}
                 </Stack>
@@ -231,10 +280,10 @@ export default function RiskRegisterPage() {
         <ModalHeader><H3>Add Risk</H3></ModalHeader>
         <ModalBody>
           <Stack gap={4}>
-            <Input placeholder="Risk Title" className="border-ink-700 bg-black text-white" />
-            <Textarea placeholder="Description..." className="border-ink-700 bg-black text-white" rows={2} />
+            <Input placeholder="Risk Title" />
+            <Textarea placeholder="Description..." rows={2} />
             <Grid cols={2} gap={4}>
-              <Select className="border-ink-700 bg-black text-white">
+              <Select>
                 <option value="">Category...</option>
                 <option value="Technical">Technical</option>
                 <option value="Weather">Weather</option>
@@ -244,20 +293,20 @@ export default function RiskRegisterPage() {
                 <option value="Operational">Operational</option>
                 <option value="Regulatory">Regulatory</option>
               </Select>
-              <Select className="border-ink-700 bg-black text-white">
+              <Select>
                 <option value="">Project...</option>
                 <option value="PROJ-089">Summer Fest 2024</option>
                 <option value="PROJ-090">Corporate Gala</option>
               </Select>
             </Grid>
             <Grid cols={2} gap={4}>
-              <Select className="border-ink-700 bg-black text-white">
+              <Select>
                 <option value="">Probability...</option>
                 <option value="Low">Low</option>
                 <option value="Medium">Medium</option>
                 <option value="High">High</option>
               </Select>
-              <Select className="border-ink-700 bg-black text-white">
+              <Select>
                 <option value="">Impact...</option>
                 <option value="Low">Low</option>
                 <option value="Medium">Medium</option>
@@ -265,13 +314,13 @@ export default function RiskRegisterPage() {
                 <option value="Critical">Critical</option>
               </Select>
             </Grid>
-            <Select className="border-ink-700 bg-black text-white">
+            <Select>
               <option value="">Owner...</option>
               <option value="john">John Martinez</option>
               <option value="sarah">Sarah Chen</option>
               <option value="mike">Mike Thompson</option>
             </Select>
-            <Textarea placeholder="Mitigation Plan..." className="border-ink-700 bg-black text-white" rows={2} />
+            <Textarea placeholder="Mitigation Plan..." rows={2} />
           </Stack>
         </ModalBody>
         <ModalFooter>
@@ -279,6 +328,6 @@ export default function RiskRegisterPage() {
           <Button variant="solid" onClick={() => setShowAddModal(false)}>Add Risk</Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

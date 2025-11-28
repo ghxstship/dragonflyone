@@ -2,12 +2,13 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ConsumerNavigationPublic } from "../../../../components/navigation";
+import { ConsumerNavigationPublic } from "@/components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section, Card, Tabs, TabsList, Tab, TabPanel, Badge,
+  Container, H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
+  Section, Card, Tabs, TabsList, Tab, Badge,
   Modal, ModalHeader, ModalBody, ModalFooter, Alert,
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
+  PageLayout, Footer, FooterColumn, FooterLink, Display, Kicker,
 } from "@ghxstship/ui";
 
 interface EarlyBirdCampaign {
@@ -42,34 +43,61 @@ export default function EarlyBirdPage() {
   const totalRevenue = mockCampaigns.reduce((sum, c) => sum + c.revenue, 0);
   const totalTicketsSold = mockCampaigns.reduce((sum, c) => sum + c.ticketsSold, 0);
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "Active": return "text-success-600";
-      case "Scheduled": return "text-info-600";
-      case "Ended": return "text-ink-500";
-      case "Paused": return "text-warning-600";
-      default: return "text-ink-500";
-    }
+  const getStatusBadge = (status: string) => {
+    const variants: Record<string, 'solid' | 'outline' | 'ghost'> = {
+      Active: 'solid',
+      Scheduled: 'outline',
+      Ended: 'ghost',
+      Paused: 'outline',
+    };
+    return <Badge variant={variants[status] || 'ghost'}>{status}</Badge>;
   };
 
   const filteredCampaigns = activeTab === "all" ? mockCampaigns : mockCampaigns.filter(c => c.status.toLowerCase() === activeTab);
 
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack gap={2} className="border-b-2 border-black pb-8">
-            <H1>Early Bird Pricing</H1>
-            <Body className="text-ink-600">Create and manage early bird pricing campaigns with countdown timers</Body>
-          </Stack>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Admin">
+            <FooterLink href="/admin/pricing">Pricing</FooterLink>
+            <FooterLink href="/admin/pricing/early-bird">Early Bird</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <Container className="relative z-10">
+          <Stack gap={10}>
+            {/* Page Header */}
+            <Stack gap={2}>
+              <Kicker colorScheme="on-dark">Pricing</Kicker>
+              <H2 size="lg" className="text-white">Early Bird Pricing</H2>
+              <Body className="text-on-dark-muted">Create and manage early bird pricing campaigns with countdown timers</Body>
+            </Stack>
 
-          <Grid cols={4} gap={6}>
-            <StatCard label="Active Campaigns" value={activeCampaigns} className="border-2 border-black" />
-            <StatCard label="Total Revenue" value={`$${(totalRevenue / 1000).toFixed(1)}K`} className="border-2 border-black" />
-            <StatCard label="Tickets Sold" value={totalTicketsSold.toLocaleString()} className="border-2 border-black" />
-            <StatCard label="Avg Discount" value="22%" className="border-2 border-black" />
-          </Grid>
+            <Grid cols={4} gap={6}>
+              <StatCard label="Active Campaigns" value={activeCampaigns.toString()} inverted />
+              <StatCard label="Total Revenue" value={`$${(totalRevenue / 1000).toFixed(1)}K`} inverted />
+              <StatCard label="Tickets Sold" value={totalTicketsSold.toLocaleString()} inverted />
+              <StatCard label="Avg Discount" value="22%" inverted />
+            </Grid>
 
           <Stack direction="horizontal" className="justify-between">
             <Tabs>
@@ -83,93 +111,96 @@ export default function EarlyBirdPage() {
             <Button variant="solid" onClick={() => setShowCreateModal(true)}>Create Campaign</Button>
           </Stack>
 
-          <Table className="border-2 border-black">
-            <TableHeader>
-              <TableRow>
-                <TableHead>Campaign</TableHead>
-                <TableHead>Event</TableHead>
-                <TableHead>Discount</TableHead>
-                <TableHead>Period</TableHead>
-                <TableHead>Progress</TableHead>
-                <TableHead>Revenue</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredCampaigns.map((campaign) => (
-                <TableRow key={campaign.id}>
-                  <TableCell>
-                    <Body className="font-bold">{campaign.name}</Body>
-                  </TableCell>
-                  <TableCell>
-                    <Label className="text-ink-600">{campaign.eventName}</Label>
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant="outline">
-                      {campaign.discountType === "Percentage" ? `${campaign.discountValue}% OFF` : `$${campaign.discountValue} OFF`}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <Stack gap={0}>
-                      <Label className="font-mono text-body-sm">{campaign.startDate}</Label>
-                      <Label className="font-mono text-body-sm text-ink-500">to {campaign.endDate}</Label>
-                    </Stack>
-                  </TableCell>
-                  <TableCell>
-                    {campaign.ticketLimit ? (
-                      <Stack gap={1}>
-                        <Label className="text-body-sm">{campaign.ticketsSold}/{campaign.ticketLimit}</Label>
-                        <Card className="h-2 bg-ink-200 rounded-full overflow-hidden w-20">
-                          <Card className="h-full bg-black" style={{ '--progress-width': `${(campaign.ticketsSold / campaign.ticketLimit) * 100}%`, width: 'var(--progress-width)' } as React.CSSProperties} />
-                        </Card>
-                      </Stack>
-                    ) : (
-                      <Label className="text-body-sm">{campaign.ticketsSold} sold</Label>
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    <Label className="font-mono">${campaign.revenue.toLocaleString()}</Label>
-                  </TableCell>
-                  <TableCell>
-                    <Label className={getStatusColor(campaign.status)}>{campaign.status}</Label>
-                  </TableCell>
-                  <TableCell>
-                    <Stack direction="horizontal" gap={2}>
-                      <Button variant="ghost" size="sm" onClick={() => setSelectedCampaign(campaign)}>View</Button>
-                      {campaign.status === "Active" && <Button variant="outline" size="sm">Pause</Button>}
-                    </Stack>
-                  </TableCell>
+          <Card inverted className="overflow-hidden">
+            <Table>
+              <TableHeader>
+                <TableRow className="bg-ink-900">
+                  <TableHead className="text-on-dark-muted">Campaign</TableHead>
+                  <TableHead className="text-on-dark-muted">Event</TableHead>
+                  <TableHead className="text-on-dark-muted">Discount</TableHead>
+                  <TableHead className="text-on-dark-muted">Period</TableHead>
+                  <TableHead className="text-on-dark-muted">Progress</TableHead>
+                  <TableHead className="text-on-dark-muted">Revenue</TableHead>
+                  <TableHead className="text-on-dark-muted">Status</TableHead>
+                  <TableHead className="text-on-dark-muted">Actions</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {filteredCampaigns.map((campaign) => (
+                  <TableRow key={campaign.id} className="border-b border-ink-700">
+                    <TableCell>
+                      <Body className="font-display text-white">{campaign.name}</Body>
+                    </TableCell>
+                    <TableCell>
+                      <Label className="text-on-dark-muted">{campaign.eventName}</Label>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant="outline">
+                        {campaign.discountType === "Percentage" ? `${campaign.discountValue}% OFF` : `$${campaign.discountValue} OFF`}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <Stack gap={0}>
+                        <Label className="font-mono text-white">{campaign.startDate}</Label>
+                        <Label size="sm" className="font-mono text-on-dark-disabled">to {campaign.endDate}</Label>
+                      </Stack>
+                    </TableCell>
+                    <TableCell>
+                      {campaign.ticketLimit ? (
+                        <Stack gap={1}>
+                          <Label size="sm" className="text-white">{campaign.ticketsSold}/{campaign.ticketLimit}</Label>
+                          <div className="h-2 w-20 overflow-hidden rounded-badge bg-ink-700">
+                            <div className="h-full bg-white" style={{ width: `${(campaign.ticketsSold / campaign.ticketLimit) * 100}%` }} />
+                          </div>
+                        </Stack>
+                      ) : (
+                        <Label size="sm" className="text-white">{campaign.ticketsSold} sold</Label>
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      <Label className="font-mono text-white">${campaign.revenue.toLocaleString()}</Label>
+                    </TableCell>
+                    <TableCell>
+                      {getStatusBadge(campaign.status)}
+                    </TableCell>
+                    <TableCell>
+                      <Stack direction="horizontal" gap={2}>
+                        <Button variant="ghost" size="sm" onClick={() => setSelectedCampaign(campaign)}>View</Button>
+                        {campaign.status === "Active" && <Button variant="outlineInk" size="sm">Pause</Button>}
+                      </Stack>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Card>
 
-          <Card className="border-2 border-black p-6">
+          <Card inverted className="p-6">
             <Stack gap={4}>
-              <H3>COUNTDOWN TIMER PREVIEW</H3>
-              <Card className="p-6 bg-black text-white text-center">
+              <H3 className="text-white">Countdown Timer Preview</H3>
+              <Card inverted variant="elevated" className="p-6 text-center">
                 <Stack gap={4}>
-                  <Label className="text-warning-400">EARLY BIRD ENDS IN</Label>
+                  <Label className="text-accent">EARLY BIRD ENDS IN</Label>
                   <Grid cols={4} gap={4}>
                     {[{ value: "05", label: "DAYS" }, { value: "12", label: "HOURS" }, { value: "34", label: "MINS" }, { value: "56", label: "SECS" }].map((item) => (
                       <Stack key={item.label} gap={1}>
-                        <Label className="text-h3-md font-mono">{item.value}</Label>
-                        <Label size="xs" className="text-ink-600">{item.label}</Label>
+                        <Label className="font-mono text-h3-md text-white">{item.value}</Label>
+                        <Label size="xs" className="text-on-dark-disabled">{item.label}</Label>
                       </Stack>
                     ))}
                   </Grid>
-                  <Body className="text-body-md">Save 20% on Summer Fest 2024 tickets!</Body>
-                  <Button variant="solid" className="bg-warning-400 text-black">GET TICKETS NOW</Button>
+                  <Body className="text-white">Save 20% on Summer Fest 2024 tickets!</Body>
+                  <Button variant="solid" inverted>GET TICKETS NOW</Button>
                 </Stack>
               </Card>
-              <Label size="xs" className="text-ink-500">This countdown timer will appear on your event page</Label>
+              <Label size="xs" className="text-on-dark-muted">This countdown timer will appear on your event page</Label>
             </Stack>
           </Card>
 
-          <Button variant="outline" onClick={() => router.push("/admin/pricing")}>Back to Pricing</Button>
-        </Stack>
-      </Container>
+          <Button variant="outlineInk" onClick={() => router.push("/admin/pricing")}>Back to Pricing</Button>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={showCreateModal} onClose={() => setShowCreateModal(false)}>
         <ModalHeader><H3>Create Early Bird Campaign</H3></ModalHeader>
@@ -217,23 +248,23 @@ export default function EarlyBirdPage() {
         <ModalBody>
           {selectedCampaign && (
             <Stack gap={4}>
-              <Body className="font-bold text-body-md">{selectedCampaign.name}</Body>
+              <Body className="font-display">{selectedCampaign.name}</Body>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Event</Label><Label>{selectedCampaign.eventName}</Label></Stack>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Status</Label><Label className={getStatusColor(selectedCampaign.status)}>{selectedCampaign.status}</Label></Stack>
+                <Stack gap={1}><Label size="xs" className="text-on-light-muted">Event</Label><Label>{selectedCampaign.eventName}</Label></Stack>
+                <Stack gap={1}><Label size="xs" className="text-on-light-muted">Status</Label>{getStatusBadge(selectedCampaign.status)}</Stack>
               </Grid>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Discount</Label><Label>{selectedCampaign.discountType === "Percentage" ? `${selectedCampaign.discountValue}%` : `$${selectedCampaign.discountValue}`}</Label></Stack>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Revenue</Label><Label className="font-mono">${selectedCampaign.revenue.toLocaleString()}</Label></Stack>
+                <Stack gap={1}><Label size="xs" className="text-on-light-muted">Discount</Label><Label>{selectedCampaign.discountType === "Percentage" ? `${selectedCampaign.discountValue}%` : `$${selectedCampaign.discountValue}`}</Label></Stack>
+                <Stack gap={1}><Label size="xs" className="text-on-light-muted">Revenue</Label><Label className="font-mono">${selectedCampaign.revenue.toLocaleString()}</Label></Stack>
               </Grid>
-              <Stack gap={1}><Label size="xs" className="text-ink-500">Period</Label><Label>{selectedCampaign.startDate} to {selectedCampaign.endDate}</Label></Stack>
+              <Stack gap={1}><Label size="xs" className="text-on-light-muted">Period</Label><Label>{selectedCampaign.startDate} to {selectedCampaign.endDate}</Label></Stack>
               {selectedCampaign.ticketLimit && (
                 <Stack gap={2}>
-                  <Label size="xs" className="text-ink-500">Progress</Label>
-                  <Card className="h-3 bg-ink-200 rounded-full overflow-hidden">
-                    <Card className="h-full bg-black" style={{ '--progress-width': `${(selectedCampaign.ticketsSold / selectedCampaign.ticketLimit) * 100}%`, width: 'var(--progress-width)' } as React.CSSProperties} />
-                  </Card>
-                  <Label className="text-body-sm">{selectedCampaign.ticketsSold} of {selectedCampaign.ticketLimit} tickets sold</Label>
+                  <Label size="xs" className="text-on-light-muted">Progress</Label>
+                  <div className="h-3 overflow-hidden rounded-badge bg-ink-200">
+                    <div className="h-full bg-ink-900" style={{ width: `${(selectedCampaign.ticketsSold / selectedCampaign.ticketLimit) * 100}%` }} />
+                  </div>
+                  <Label size="sm">{selectedCampaign.ticketsSold} of {selectedCampaign.ticketLimit} tickets sold</Label>
                 </Stack>
               )}
             </Stack>
@@ -244,6 +275,6 @@ export default function EarlyBirdPage() {
           <Button variant="solid">Edit Campaign</Button>
         </ModalFooter>
       </Modal>
-    </Section>
+    </PageLayout>
   );
 }

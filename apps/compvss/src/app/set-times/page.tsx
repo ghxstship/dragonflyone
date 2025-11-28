@@ -4,9 +4,28 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
-  Container, H1, H3, Body, Label, Grid, Stack, StatCard, Input, Button,
-  Section as UISection, Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter, Alert,
+  Container,
+  H3,
+  Body,
+  Grid,
+  Stack,
+  StatCard,
+  Input,
+  Button,
+  Section,
+  Card,
+  Tabs,
+  TabsList,
+  Tab,
+  TabPanel,
+  Badge,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Alert,
+  PageLayout,
+  SectionHeader,
 } from "@ghxstship/ui";
 
 interface SetTime {
@@ -77,185 +96,211 @@ export default function SetTimesPage() {
   };
 
   return (
-    <UISection className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-      <Container className="py-16">
-        <Stack gap={8}>
-          <Stack direction="horizontal" className="justify-between items-start">
-            <Stack gap={2}>
-              <H1>Set Time Tracking</H1>
-              <Label className="text-ink-400">Track actual start/end times and monitor schedule variance</Label>
-            </Stack>
-            <Card className="p-4 bg-ink-800 border border-ink-700">
-              <Stack gap={1} className="text-center">
-                <Label size="xs" className="text-ink-500">Current Time</Label>
-                <Label className="font-mono text-white text-h5-md">
-                  {currentTime.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}
-                </Label>
-              </Stack>
-            </Card>
-          </Stack>
-
-          <Grid cols={4} gap={6}>
-            <StatCard label="On Stage Now" value={onStage.length} className="bg-transparent border-2 border-info-800" />
-            <StatCard label="Upcoming" value={upcoming.length} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Completed" value={completed.length} trend="up" className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Delayed" value={delayed} trend={delayed > 0 ? "down" : "neutral"} className="bg-transparent border-2 border-ink-800" />
-          </Grid>
-
-          {onStage.length > 0 && (
-            <Card className="border-2 border-info-800 bg-info-900/20 p-6">
-              <Stack gap={4}>
-                <Stack direction="horizontal" className="justify-between items-center">
-                  <Stack gap={1}>
-                    <Label className="text-info-400">NOW ON STAGE</Label>
-                    <Body className="font-display text-white text-h5-md">{onStage[0].artistName}</Body>
-                    <Label className="text-ink-400">{onStage[0].stage}</Label>
-                  </Stack>
-                  <Stack gap={2} className="text-right">
-                    <Label className="text-ink-400">Started: {onStage[0].actualStart}</Label>
-                    <Label className="text-ink-400">Scheduled End: {onStage[0].scheduledEnd}</Label>
-                    <Button variant="solid" onClick={() => { setSelectedSet(onStage[0]); setShowStartModal(true); }}>End Set</Button>
-                  </Stack>
+    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
+      <Section className="min-h-screen py-16">
+        <Container>
+          <Stack gap={10}>
+            <Stack direction="horizontal" className="items-start justify-between">
+              <SectionHeader
+                kicker="COMPVSS"
+                title="Set Time Tracking"
+                description="Track actual start/end times and monitor schedule variance"
+                colorScheme="on-light"
+                gap="lg"
+              />
+              <Card className="p-4">
+                <Stack gap={1} className="text-center">
+                  <Body className="text-body-sm">Current Time</Body>
+                  <Body className="text-h5-md">
+                    {currentTime.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}
+                  </Body>
                 </Stack>
-              </Stack>
-            </Card>
-          )}
+              </Card>
+            </Stack>
 
-          <Tabs>
-            <TabsList>
-              <Tab active={activeTab === "timeline"} onClick={() => setActiveTab("timeline")}>Timeline</Tab>
-              <Tab active={activeTab === "by-stage"} onClick={() => setActiveTab("by-stage")}>By Stage</Tab>
-              <Tab active={activeTab === "variance"} onClick={() => setActiveTab("variance")}>Variance Report</Tab>
-            </TabsList>
+            <Grid cols={4} gap={6}>
+              <StatCard value={onStage.length.toString()} label="On Stage Now" />
+              <StatCard value={upcoming.length.toString()} label="Upcoming" />
+              <StatCard value={completed.length.toString()} label="Completed" />
+              <StatCard value={delayed.toString()} label="Delayed" />
+            </Grid>
 
-            <TabPanel active={activeTab === "timeline"}>
-              <Stack gap={3}>
-                {mockSetTimes.sort((a, b) => a.scheduledStart.localeCompare(b.scheduledStart)).map((set) => (
-                  <Card key={set.id} className={`border-2 p-4 ${getStatusBg(set.status)}`}>
-                    <Grid cols={6} gap={4} className="items-center">
-                      <Stack gap={1}>
-                        <Body className="font-display text-white">{set.artistName}</Body>
-                        <Badge variant="outline">{set.stage}</Badge>
-                      </Stack>
-                      <Stack gap={1}>
-                        <Label size="xs" className="text-ink-500">Scheduled</Label>
-                        <Label className="font-mono text-white">{set.scheduledStart} - {set.scheduledEnd}</Label>
-                      </Stack>
-                      <Stack gap={1}>
-                        <Label size="xs" className="text-ink-500">Actual</Label>
-                        <Label className="font-mono text-white">
-                          {set.actualStart || "--:--"} - {set.actualEnd || "--:--"}
-                        </Label>
-                      </Stack>
-                      <Stack gap={1}>
-                        <Label size="xs" className="text-ink-500">Set Length</Label>
-                        <Label className="text-ink-300">{set.setLength} min</Label>
-                      </Stack>
-                      <Label className={getStatusColor(set.status)}>{set.status}</Label>
-                      <Stack direction="horizontal" gap={2}>
-                        {set.status === "Upcoming" && (
-                          <Button variant="outline" size="sm" onClick={() => { setSelectedSet(set); setShowStartModal(true); }}>Start</Button>
-                        )}
-                        {set.status === "On Stage" && (
-                          <Button variant="outline" size="sm" onClick={() => { setSelectedSet(set); setShowStartModal(true); }}>End</Button>
-                        )}
-                        <Button variant="ghost" size="sm" onClick={() => setSelectedSet(set)}>Details</Button>
-                      </Stack>
-                    </Grid>
-                  </Card>
-                ))}
-              </Stack>
-            </TabPanel>
-
-            <TabPanel active={activeTab === "by-stage"}>
-              <Grid cols={2} gap={6}>
-                {["Main Stage", "Side Stage"].map((stage) => (
-                  <Card key={stage} className="border-2 border-ink-800 bg-ink-900/50 p-4">
-                    <Stack gap={4}>
-                      <H3>{stage}</H3>
-                      <Stack gap={2}>
-                        {mockSetTimes.filter(s => s.stage === stage).sort((a, b) => a.scheduledStart.localeCompare(b.scheduledStart)).map((set) => (
-                          <Card key={set.id} className={`p-3 border ${set.status === "On Stage" ? "border-info-800 bg-info-900/10" : "border-ink-700 bg-ink-800"}`}>
-                            <Stack direction="horizontal" className="justify-between items-center">
-                              <Stack gap={1}>
-                                <Label className="text-white">{set.artistName}</Label>
-                                <Label size="xs" className="font-mono text-ink-400">{set.scheduledStart} - {set.scheduledEnd}</Label>
-                              </Stack>
-                              <Label className={getStatusColor(set.status)}>{set.status}</Label>
-                            </Stack>
-                          </Card>
-                        ))}
-                      </Stack>
-                    </Stack>
-                  </Card>
-                ))}
-              </Grid>
-            </TabPanel>
-
-            <TabPanel active={activeTab === "variance"}>
-              <Card className="border-2 border-ink-800 bg-ink-900/50 p-6">
+            {onStage.length > 0 && (
+              <Card className="p-6">
                 <Stack gap={4}>
-                  <H3>Schedule Variance Report</H3>
-                  <Stack gap={2}>
-                    {mockSetTimes.filter(s => s.actualStart).map((set) => {
-                      const startVar = calculateVariance(set.scheduledStart, set.actualStart);
-                      const endVar = set.actualEnd ? calculateVariance(set.scheduledEnd, set.actualEnd) : null;
-                      return (
-                        <Card key={set.id} className="p-3 bg-ink-800 border border-ink-700">
-                          <Grid cols={4} gap={4} className="items-center">
-                            <Label className="text-white">{set.artistName}</Label>
-                            <Stack gap={1}>
-                              <Label size="xs" className="text-ink-500">Start Variance</Label>
-                              <Label className={startVar && startVar > 0 ? "text-warning-400" : startVar && startVar < 0 ? "text-success-400" : "text-ink-300"}>
-                                {startVar !== null ? (startVar > 0 ? `+${startVar}` : startVar) : "--"} min
-                              </Label>
-                            </Stack>
-                            <Stack gap={1}>
-                              <Label size="xs" className="text-ink-500">End Variance</Label>
-                              <Label className={endVar && endVar > 0 ? "text-warning-400" : endVar && endVar < 0 ? "text-success-400" : "text-ink-300"}>
-                                {endVar !== null ? (endVar > 0 ? `+${endVar}` : endVar) : "--"} min
-                              </Label>
-                            </Stack>
-                            <Badge variant={set.status === "Completed" ? "solid" : "outline"}>{set.status}</Badge>
-                          </Grid>
-                        </Card>
-                      );
-                    })}
+                  <Stack direction="horizontal" className="items-center justify-between">
+                    <Stack gap={1}>
+                      <Badge variant="solid">NOW ON STAGE</Badge>
+                      <Body className="text-h5-md font-display">{onStage[0].artistName}</Body>
+                      <Body className="text-body-sm">{onStage[0].stage}</Body>
+                    </Stack>
+                    <Stack gap={2} className="text-right">
+                      <Body className="text-body-sm">Started: {onStage[0].actualStart}</Body>
+                      <Body className="text-body-sm">Scheduled End: {onStage[0].scheduledEnd}</Body>
+                      <Button variant="solid" onClick={() => { setSelectedSet(onStage[0]); setShowStartModal(true); }}>End Set</Button>
+                    </Stack>
                   </Stack>
                 </Stack>
               </Card>
-            </TabPanel>
-          </Tabs>
+            )}
 
-          <Grid cols={3} gap={4}>
-            <Button variant="outlineWhite">Add Set</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400">Export Report</Button>
-            <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/run-of-show")}>Run of Show</Button>
-          </Grid>
-        </Stack>
-      </Container>
+            <Tabs>
+              <TabsList>
+                <Tab active={activeTab === "timeline"} onClick={() => setActiveTab("timeline")}>Timeline</Tab>
+                <Tab active={activeTab === "by-stage"} onClick={() => setActiveTab("by-stage")}>By Stage</Tab>
+                <Tab active={activeTab === "variance"} onClick={() => setActiveTab("variance")}>Variance Report</Tab>
+              </TabsList>
+
+              <TabPanel active={activeTab === "timeline"}>
+                <Stack gap={3}>
+                  {mockSetTimes.sort((a, b) => a.scheduledStart.localeCompare(b.scheduledStart)).map((set) => (
+                    <Card key={set.id} className="p-4">
+                      <Grid cols={6} gap={4} className="items-center">
+                        <Stack gap={1}>
+                          <Body className="font-display">{set.artistName}</Body>
+                          <Badge variant="outline">{set.stage}</Badge>
+                        </Stack>
+                        <Stack gap={1}>
+                          <Body className="text-body-sm">Scheduled</Body>
+                          <Body>{set.scheduledStart} - {set.scheduledEnd}</Body>
+                        </Stack>
+                        <Stack gap={1}>
+                          <Body className="text-body-sm">Actual</Body>
+                          <Body>
+                            {set.actualStart || "--:--"} - {set.actualEnd || "--:--"}
+                          </Body>
+                        </Stack>
+                        <Stack gap={1}>
+                          <Body className="text-body-sm">Set Length</Body>
+                          <Body>{set.setLength} min</Body>
+                        </Stack>
+                        <Badge variant={set.status === "Completed" ? "solid" : "outline"}>{set.status}</Badge>
+                        <Stack direction="horizontal" gap={2}>
+                          {set.status === "Upcoming" && (
+                            <Button variant="outline" size="sm" onClick={() => { setSelectedSet(set); setShowStartModal(true); }}>Start</Button>
+                          )}
+                          {set.status === "On Stage" && (
+                            <Button variant="outline" size="sm" onClick={() => { setSelectedSet(set); setShowStartModal(true); }}>End</Button>
+                          )}
+                          <Button variant="ghost" size="sm" onClick={() => setSelectedSet(set)}>Details</Button>
+                        </Stack>
+                      </Grid>
+                    </Card>
+                  ))}
+                </Stack>
+              </TabPanel>
+
+              <TabPanel active={activeTab === "by-stage"}>
+                <Grid cols={2} gap={6}>
+                  {["Main Stage", "Side Stage"].map((stage) => (
+                    <Card key={stage} className="p-4">
+                      <Stack gap={4}>
+                        <H3>{stage}</H3>
+                        <Stack gap={2}>
+                          {mockSetTimes.filter(s => s.stage === stage).sort((a, b) => a.scheduledStart.localeCompare(b.scheduledStart)).map((set) => (
+                            <Card key={set.id} className="p-3">
+                              <Stack direction="horizontal" className="items-center justify-between">
+                                <Stack gap={1}>
+                                  <Body>{set.artistName}</Body>
+                                  <Body className="text-body-sm">{set.scheduledStart} - {set.scheduledEnd}</Body>
+                                </Stack>
+                                <Badge variant={set.status === "On Stage" ? "solid" : "outline"}>{set.status}</Badge>
+                              </Stack>
+                            </Card>
+                          ))}
+                        </Stack>
+                      </Stack>
+                    </Card>
+                  ))}
+                </Grid>
+              </TabPanel>
+
+              <TabPanel active={activeTab === "variance"}>
+                <Card className="p-6">
+                  <Stack gap={4}>
+                    <H3>Schedule Variance Report</H3>
+                    <Stack gap={2}>
+                      {mockSetTimes.filter(s => s.actualStart).map((set) => {
+                        const startVar = calculateVariance(set.scheduledStart, set.actualStart);
+                        const endVar = set.actualEnd ? calculateVariance(set.scheduledEnd, set.actualEnd) : null;
+                        return (
+                          <Card key={set.id} className="p-3">
+                            <Grid cols={4} gap={4} className="items-center">
+                              <Body>{set.artistName}</Body>
+                              <Stack gap={1}>
+                                <Body className="text-body-sm">Start Variance</Body>
+                                <Body>
+                                  {startVar !== null ? (startVar > 0 ? `+${startVar}` : startVar) : "--"} min
+                                </Body>
+                              </Stack>
+                              <Stack gap={1}>
+                                <Body className="text-body-sm">End Variance</Body>
+                                <Body>
+                                  {endVar !== null ? (endVar > 0 ? `+${endVar}` : endVar) : "--"} min
+                                </Body>
+                              </Stack>
+                              <Badge variant={set.status === "Completed" ? "solid" : "outline"}>{set.status}</Badge>
+                            </Grid>
+                          </Card>
+                        );
+                      })}
+                    </Stack>
+                  </Stack>
+                </Card>
+              </TabPanel>
+            </Tabs>
+
+            <Grid cols={3} gap={4}>
+              <Button variant="solid">Add Set</Button>
+              <Button variant="outline">Export Report</Button>
+              <Button variant="outline" onClick={() => router.push("/run-of-show")}>Run of Show</Button>
+            </Grid>
+          </Stack>
+        </Container>
+      </Section>
 
       <Modal open={!!selectedSet && !showStartModal} onClose={() => setSelectedSet(null)}>
         <ModalHeader><H3>Set Details</H3></ModalHeader>
         <ModalBody>
           {selectedSet && (
             <Stack gap={4}>
-              <Body className="font-display text-white text-body-md">{selectedSet.artistName}</Body>
+              <Body className="font-display">{selectedSet.artistName}</Body>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Stage</Label><Label className="text-white">{selectedSet.stage}</Label></Stack>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Status</Label><Label className={getStatusColor(selectedSet.status)}>{selectedSet.status}</Label></Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Stage</Body>
+                  <Body>{selectedSet.stage}</Body>
+                </Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Status</Body>
+                  <Badge variant="outline">{selectedSet.status}</Badge>
+                </Stack>
               </Grid>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Scheduled</Label><Label className="font-mono text-white">{selectedSet.scheduledStart} - {selectedSet.scheduledEnd}</Label></Stack>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Actual</Label><Label className="font-mono text-white">{selectedSet.actualStart || "--:--"} - {selectedSet.actualEnd || "--:--"}</Label></Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Scheduled</Body>
+                  <Body>{selectedSet.scheduledStart} - {selectedSet.scheduledEnd}</Body>
+                </Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Actual</Body>
+                  <Body>{selectedSet.actualStart || "--:--"} - {selectedSet.actualEnd || "--:--"}</Body>
+                </Stack>
               </Grid>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Set Length</Label><Label className="text-white">{selectedSet.setLength} min</Label></Stack>
-                <Stack gap={1}><Label size="xs" className="text-ink-500">Changeover</Label><Label className="text-white">{selectedSet.changeoverTime} min</Label></Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Set Length</Body>
+                  <Body>{selectedSet.setLength} min</Body>
+                </Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Changeover</Body>
+                  <Body>{selectedSet.changeoverTime} min</Body>
+                </Stack>
               </Grid>
-              {selectedSet.notes && <Stack gap={1}><Label size="xs" className="text-ink-500">Notes</Label><Body className="text-ink-300">{selectedSet.notes}</Body></Stack>}
+              {selectedSet.notes && (
+                <Stack gap={1}>
+                  <Body className="text-body-sm">Notes</Body>
+                  <Body>{selectedSet.notes}</Body>
+                </Stack>
+              )}
             </Stack>
           )}
         </ModalBody>
@@ -269,10 +314,10 @@ export default function SetTimesPage() {
         <ModalBody>
           {selectedSet && (
             <Stack gap={4}>
-              <Body className="text-white">{selectedSet.artistName}</Body>
+              <Body>{selectedSet.artistName}</Body>
               <Stack gap={2}>
-                <Label>{selectedSet.status === "On Stage" ? "Actual End Time" : "Actual Start Time"}</Label>
-                <Input type="time" defaultValue={currentTime.toTimeString().slice(0, 5)} className="border-ink-700 bg-black text-white" />
+                <Body className="font-display">{selectedSet.status === "On Stage" ? "Actual End Time" : "Actual Start Time"}</Body>
+                <Input type="time" defaultValue={currentTime.toTimeString().slice(0, 5)} />
               </Stack>
               {selectedSet.status === "Upcoming" && (
                 <Alert variant="info">Scheduled start: {selectedSet.scheduledStart}</Alert>
@@ -287,6 +332,6 @@ export default function SetTimesPage() {
           </Button>
         </ModalFooter>
       </Modal>
-    </UISection>
+    </PageLayout>
   );
 }

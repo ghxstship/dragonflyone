@@ -1,13 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { ConsumerNavigationPublic } from "../../../components/navigation";
+import { ConsumerNavigationPublic } from "@/components/navigation";
 import {
   ListPage,
   Badge,
   RecordFormModal,
   DetailDrawer,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -78,7 +82,6 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function ContestsPage() {
-  const router = useRouter();
   const [contests, setContests] = useState<Contest[]>(mockContests);
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedContest, setSelectedContest] = useState<Contest | null>(null);
@@ -142,8 +145,24 @@ export default function ContestsPage() {
     )},
   ] : [];
 
+  const footerContent = (
+    <Footer
+      logo={<Display size="md">GVTEWAY</Display>}
+      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+    >
+      <FooterColumn title="Admin">
+        <FooterLink href="/admin/contests">Contests</FooterLink>
+        <FooterLink href="/admin/promo-codes">Promo Codes</FooterLink>
+      </FooterColumn>
+      <FooterColumn title="Legal">
+        <FooterLink href="/legal/privacy">Privacy</FooterLink>
+        <FooterLink href="/legal/terms">Terms</FooterLink>
+      </FooterColumn>
+    </Footer>
+  );
+
   return (
-    <>
+    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
       <ListPage<Contest>
         title="Contests & Giveaways"
         subtitle="Create and manage social media contests and promotional giveaways"
@@ -157,11 +176,9 @@ export default function ContestsPage() {
         onRowClick={(r) => { setSelectedContest(r); setDrawerOpen(true); }}
         createLabel="Create Contest"
         onCreate={() => setCreateModalOpen(true)}
-        onExport={() => console.log('Export')}
         stats={stats}
         emptyMessage="No contests found"
         emptyAction={{ label: 'Create Contest', onClick: () => setCreateModalOpen(true) }}
-        header={<ConsumerNavigationPublic />}
       />
 
       <RecordFormModal
@@ -193,6 +210,6 @@ export default function ContestsPage() {
           }}
         />
       )}
-    </>
+    </PageLayout>
   );
 }
