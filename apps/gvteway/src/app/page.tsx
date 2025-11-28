@@ -140,22 +140,24 @@ export default function Home() {
             </Body>
           </Stack>
           <Stack direction="horizontal" gap={4} className="mt-10 flex-col items-center justify-center md:flex-row">
-            <Button
-              variant="solid"
-              size="lg"
-              inverted
-              icon={<ArrowRight />}
-              onClick={() => window.location.href = '/events'}
-            >
-              Browse Events
-            </Button>
-            <Button
-              variant="outlineInk"
-              size="lg"
-              onClick={() => window.location.href = '/search'}
-            >
-              Search by Artist
-            </Button>
+            <NextLink href="/events">
+              <Button
+                variant="solid"
+                size="lg"
+                inverted
+                icon={<ArrowRight />}
+              >
+                Browse Events
+              </Button>
+            </NextLink>
+            <NextLink href="/search">
+              <Button
+                variant="outlineInk"
+                size="lg"
+              >
+                Search by Artist
+              </Button>
+            </NextLink>
           </Stack>
         </Container>
       </Section>
@@ -257,14 +259,15 @@ export default function Home() {
               ))}
             </Stack>
             <Stack className="text-center">
-              <Button
-                variant="outlineInk"
-                size="lg"
-                icon={<ArrowRight />}
-                onClick={() => window.location.href = '/events?filter=trending'}
-              >
-                View All Trending Events
-              </Button>
+              <NextLink href="/events?filter=trending">
+                <Button
+                  variant="outlineInk"
+                  size="lg"
+                  icon={<ArrowRight />}
+                >
+                  View All Trending Events
+                </Button>
+              </NextLink>
             </Stack>
           </Stack>
         </Section>
@@ -281,22 +284,24 @@ export default function Home() {
               gap="lg"
             />
             <Stack direction="horizontal" gap={4} className="mt-10 flex-col items-center justify-center md:flex-row">
-              <Button
-                variant="solid"
-                size="lg"
-                inverted
-                icon={<ArrowRight />}
-                onClick={() => window.location.href = '/creators'}
-              >
-                Start Selling Tickets
-              </Button>
-              <Button
-                variant="outlineInk"
-                size="lg"
-                onClick={() => window.location.href = '/creators#pricing'}
-              >
-                View Pricing
-              </Button>
+              <NextLink href="/creators">
+                <Button
+                  variant="solid"
+                  size="lg"
+                  inverted
+                  icon={<ArrowRight />}
+                >
+                  Start Selling Tickets
+                </Button>
+              </NextLink>
+              <NextLink href="/creators#pricing">
+                <Button
+                  variant="outlineInk"
+                  size="lg"
+                >
+                  View Pricing
+                </Button>
+              </NextLink>
             </Stack>
           </Card>
         </Section>
