@@ -208,8 +208,7 @@ export type { ProtectedRouteProps } from "./organisms/protected-route.js";
 // =============================================================================
 export { PageLayout } from "./templates/page-layout.js";
 export type { PageLayoutProps } from "./templates/page-layout.js";
-export { SectionLayout } from "./templates/section-layout.js";
-export type { SectionLayoutProps } from "./templates/section-layout.js";
+// SectionLayout removed - use Section from foundations/layout instead
 export { AppShell } from "./templates/app-shell.js";
 export type { AppShellProps } from "./templates/app-shell.js";
 export { ListPage } from "./templates/list-page.js";
@@ -218,6 +217,12 @@ export { ErrorPage } from "./templates/error-page.js";
 export type { ErrorPageProps } from "./templates/error-page.js";
 export { NotFoundPage } from "./templates/not-found-page.js";
 export type { NotFoundPageProps } from "./templates/not-found-page.js";
+export { DashboardPage } from "./templates/dashboard-page.js";
+export type { DashboardPageProps } from "./templates/dashboard-page.js";
+export { DetailPage } from "./templates/detail-page.js";
+export type { DetailPageProps, DetailPageTab } from "./templates/detail-page.js";
+export { AuthPage } from "./templates/auth-page.js";
+export type { AuthPageProps } from "./templates/auth-page.js";
 
 // =============================================================================
 // FOUNDATIONS - Layout primitives
@@ -225,6 +230,22 @@ export type { NotFoundPageProps } from "./templates/not-found-page.js";
 export { Container, Section, Grid, Stack } from "./foundations/layout.js";
 export type { SectionProps } from "./foundations/layout.js";
 export { Main, Header, Article, Aside, Nav, Figure, Box, GridOverlay } from "./foundations/semantic.js";
+export {
+  PageHeader,
+  PageContent,
+  PageFooter,
+  SplitLayout,
+  FullBleedSection,
+  ContentRegion,
+} from "./foundations/page-regions.js";
+export type {
+  PageHeaderProps,
+  PageContentProps,
+  PageFooterProps,
+  SplitLayoutProps,
+  FullBleedSectionProps,
+  ContentRegionProps,
+} from "./foundations/page-regions.js";
 
 // =============================================================================
 // UTILS - Utility functions

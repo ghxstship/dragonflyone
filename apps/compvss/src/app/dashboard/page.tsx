@@ -1,12 +1,10 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../components/navigation';
+import { CompvssAppLayout, CompvssLoadingLayout } from '../../components/app-layout';
 import { useCrew } from '../../hooks/useCrew';
 import { useEquipment } from '../../hooks/useEquipment';
 import {
-  Container,
-  Section,
   H2,
   Body,
   Button,
@@ -16,9 +14,8 @@ import {
   Stack,
   StatusBadge,
   Badge,
-  LoadingSpinner,
-  PageLayout,
   SectionHeader,
+  LoadingSpinner,
 } from '@ghxstship/ui';
 
 /**
@@ -48,10 +45,8 @@ export default function CompvssDashboardPage() {
   };
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
+    <CompvssAppLayout>
+      <Stack gap={10}>
             {/* Page Header - Bold Contemporary Pop Art Adventure */}
             <SectionHeader
               kicker="COMPVSS"
@@ -261,9 +256,7 @@ export default function CompvssDashboardPage() {
             </Grid>
           </>
         )}
-          </Stack>
-        </Container>
-      </Section>
-    </PageLayout>
+      </Stack>
+    </CompvssAppLayout>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { AtlvsAppLayout, AtlvsLoadingLayout } from "../../components/app-layout";
 import { 
   Badge, 
   ProgressBar, 
@@ -15,15 +15,12 @@ import {
   TableRow, 
   TableHead, 
   TableCell, 
-  Container, 
   Stack, 
   Card, 
   StatCard, 
-  LoadingSpinner, 
   Grid,
   Section,
   SectionHeader,
-  PageLayout,
 } from "@ghxstship/ui";
 import { useProjects } from "../../hooks/useProjects";
 
@@ -115,22 +112,12 @@ export default function DashboardPage() {
   ];
 
   if (isLoading) {
-    return (
-      <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
-        <Section className="min-h-screen py-16">
-          <Container className="flex min-h-[60vh] items-center justify-center">
-            <LoadingSpinner size="lg" text="Loading dashboard..." />
-          </Container>
-        </Section>
-      </PageLayout>
-    );
+    return <AtlvsLoadingLayout text="Loading dashboard..." />;
   }
 
   return (
-    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
+    <AtlvsAppLayout>
+      <Stack gap={10}>
             <Stack gap={4} direction="horizontal" className="items-start justify-between">
               <SectionHeader
                 kicker="ATLVS"
@@ -311,9 +298,7 @@ export default function DashboardPage() {
             </Stack>
           </Section>
           </Grid>
-          </Stack>
-        </Container>
-      </Section>
-    </PageLayout>
+      </Stack>
+    </AtlvsAppLayout>
   );
 }

@@ -4,12 +4,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useNotifications } from "@ghxstship/ui";
 import {
-  PageLayout,
-  Navigation,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Display,
   H2,
   Body,
   Button,
@@ -19,12 +13,18 @@ import {
   Card,
   Field,
   Checkbox,
-  SectionLayout,
-  Grid,
   Divider,
   Label,
+  ScrollReveal,
+  AuthPage,
 } from "@ghxstship/ui";
 import NextLink from "next/link";
+import { UserPlus, ArrowRight } from "lucide-react";
+
+// =============================================================================
+// SIGN UP PAGE - ATLVS Account Registration
+// Bold Contemporary Pop Art Adventure Design System - Light Theme
+// =============================================================================
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -62,9 +62,9 @@ export default function SignUpPage() {
     setLoading(true);
 
     try {
-      const response = await fetch('/api/auth/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           firstName: formData.firstName,
           lastName: formData.lastName,
@@ -76,202 +76,207 @@ export default function SignUpPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Registration failed');
+        throw new Error(data.error || "Registration failed");
       }
 
-      router.push('/auth/verify-email?email=' + encodeURIComponent(formData.email));
+      router.push("/auth/verify-email?email=" + encodeURIComponent(formData.email));
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Registration failed. Please try again.');
+      setError(err instanceof Error ? err.message : "Registration failed. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleOAuthSignUp = async (provider: 'google' | 'apple') => {
+  const handleOAuthSignUp = async (provider: "google" | "apple") => {
     setLoading(true);
     try {
-      const response = await fetch(`/api/auth/oauth/${provider}`, { method: 'POST' });
+      const response = await fetch(`/api/auth/oauth/${provider}`, { method: "POST" });
       const data = await response.json();
       if (data.url) {
         window.location.href = data.url;
       } else {
-        addNotification({ type: 'info', title: 'Coming Soon', message: `${provider} sign-up will be available once OAuth is configured` });
+        addNotification({
+          type: "info",
+          title: "Coming Soon",
+          message: `${provider} sign-up will be available once OAuth is configured`,
+        });
         setLoading(false);
       }
     } catch (err) {
-      setError('OAuth sign-up failed. Please try again.');
+      setError("OAuth sign-up failed. Please try again.");
       setLoading(false);
     }
   };
 
   return (
-    <PageLayout
-      background="white"
-      header={
-        <Navigation
-          logo={<Display size="md" className="text-black">ATLVS</Display>}
-          cta={<></>}
-        />
-      }
-      footer={
-        <Footer
-          logo={<Display size="md" className="text-black">ATLVS</Display>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Legal">
-            <FooterLink href="/legal/privacy">Privacy</FooterLink>
-            <FooterLink href="/legal/terms">Terms</FooterLink>
-          </FooterColumn>
-        </Footer>
+    <AuthPage
+      appName="ATLVS"
+      headerAction={
+        <NextLink href="/auth/signin" className="hidden sm:block">
+          <Button variant="outline" size="sm">
+            Sign In
+          </Button>
+        </NextLink>
       }
     >
-      <SectionLayout background="grey">
-        <Stack gap={8} className="mx-auto max-w-lg">
-          <Card variant="elevated" className="p-8">
-            <Stack gap={8}>
-              {/* Header */}
-              <Stack gap={4} className="text-center">
-                <H2 className="text-black">Create Account</H2>
-                <Body className="text-muted">
-                  Join ATLVS to manage your projects and resources.
-                </Body>
-              </Stack>
+          <ScrollReveal animation="slide-up" duration={600}>
+            {/* Auth Card - Pop Art Style */}
+            <Card className="border-2 border-black/10 bg-white p-6 shadow-md sm:p-8">
+              <Stack gap={6} className="sm:gap-8">
+                {/* Header */}
+                <Stack gap={3} className="text-center sm:gap-4">
+                  <div className="mx-auto flex size-12 items-center justify-center border-2 border-black/10 bg-grey-100 sm:size-16">
+                    <UserPlus className="size-6 text-black sm:size-8" />
+                  </div>
+                  <H2 className="text-black">CREATE ACCOUNT</H2>
+                  <Body size="sm" className="text-muted">
+                    Join ATLVS to manage your projects and resources.
+                  </Body>
+                </Stack>
 
-              {/* Error Alert */}
-              {error && <Alert variant="error">{error}</Alert>}
+                {/* Error Alert */}
+                {error && <Alert variant="error">{error}</Alert>}
 
-              {/* Form */}
-              <form onSubmit={handleSignUp}>
-                <Stack gap={6}>
-                  {/* Name Fields - Grid */}
-                  <Grid cols={2} gap={4}>
-                    <Field label="First Name">
+                {/* Form */}
+                <form onSubmit={handleSignUp}>
+                  <Stack gap={4} className="sm:gap-6">
+                    {/* Name Fields - Responsive Grid */}
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                      <Field label="First Name">
+                        <Input
+                          type="text"
+                          value={formData.firstName}
+                          onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                          placeholder="John"
+                          required
+                        />
+                      </Field>
+                      <Field label="Last Name">
+                        <Input
+                          type="text"
+                          value={formData.lastName}
+                          onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                          placeholder="Doe"
+                          required
+                        />
+                      </Field>
+                    </div>
+
+                    <Field label="Email Address">
                       <Input
-                        type="text"
-                        value={formData.firstName}
-                        onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                        placeholder="John"
+                        type="email"
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        placeholder="your@email.com"
                         required
                       />
                     </Field>
-                    <Field label="Last Name">
+
+                    <Field label="Password" hint="Minimum 8 characters">
                       <Input
-                        type="text"
-                        value={formData.lastName}
-                        onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                        placeholder="Doe"
+                        type="password"
+                        value={formData.password}
+                        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                        placeholder="Create a strong password"
                         required
                       />
                     </Field>
-                  </Grid>
 
-                  {/* Email Field */}
-                  <Field label="Email Address">
-                    <Input
-                      type="email"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      placeholder="your@email.com"
-                      required
-                    />
-                  </Field>
+                    <Field label="Confirm Password">
+                      <Input
+                        type="password"
+                        value={formData.confirmPassword}
+                        onChange={(e) =>
+                          setFormData({ ...formData, confirmPassword: e.target.value })
+                        }
+                        placeholder="Re-enter your password"
+                        required
+                      />
+                    </Field>
 
-                  {/* Password Field */}
-                  <Field label="Password">
-                    <Input
-                      type="password"
-                      value={formData.password}
-                      onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                      placeholder="Create a strong password"
-                      required
-                    />
-                  </Field>
+                    {/* Terms Checkbox */}
+                    <Stack direction="horizontal" gap={3} className="items-start">
+                      <Checkbox
+                        id="terms"
+                        checked={formData.agreeToTerms}
+                        onChange={(e) =>
+                          setFormData({ ...formData, agreeToTerms: e.target.checked })
+                        }
+                      />
+                      <Body size="sm" className="text-muted">
+                        I agree to the{" "}
+                        <NextLink href="/legal/terms" className="font-weight-medium text-black underline">
+                          Terms of Service
+                        </NextLink>{" "}
+                        and{" "}
+                        <NextLink
+                          href="/legal/privacy"
+                          className="font-weight-medium text-black underline"
+                        >
+                          Privacy Policy
+                        </NextLink>
+                      </Body>
+                    </Stack>
 
-                  {/* Confirm Password Field */}
-                  <Field label="Confirm Password">
-                    <Input
-                      type="password"
-                      value={formData.confirmPassword}
-                      onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                      placeholder="Re-enter your password"
-                      required
-                    />
-                  </Field>
-
-                  {/* Terms Checkbox */}
-                  <Stack direction="horizontal" gap={3} className="items-start">
-                    <Checkbox
-                      id="terms"
-                      checked={formData.agreeToTerms}
-                      onChange={(e) => setFormData({ ...formData, agreeToTerms: e.target.checked })}
-                    />
-                    <Body size="sm" className="text-muted">
-                      I agree to the{" "}
-                      <NextLink href="/legal/terms">
-                        <Button variant="ghost" size="sm" className="inline p-0">Terms of Service</Button>
-                      </NextLink>{" "}
-                      and{" "}
-                      <NextLink href="/legal/privacy">
-                        <Button variant="ghost" size="sm" className="inline p-0">Privacy Policy</Button>
-                      </NextLink>
-                    </Body>
+                    <Button
+                      type="submit"
+                      variant="solid"
+                      size="lg"
+                      fullWidth
+                      disabled={loading}
+                      icon={<ArrowRight className="size-4" />}
+                      iconPosition="right"
+                    >
+                      {loading ? "Creating Account..." : "Create Account"}
+                    </Button>
                   </Stack>
+                </form>
 
-                  {/* Primary CTA */}
+                {/* Divider */}
+                <Stack direction="horizontal" className="items-center gap-4">
+                  <Divider className="flex-1" />
+                  <Label size="xs" className="text-muted whitespace-nowrap">
+                    Or sign up with
+                  </Label>
+                  <Divider className="flex-1" />
+                </Stack>
+
+                {/* OAuth Buttons */}
+                <Stack gap={3}>
                   <Button
-                    type="submit"
-                    variant="solid"
+                    variant="outline"
                     size="lg"
                     fullWidth
+                    onClick={() => handleOAuthSignUp("google")}
                     disabled={loading}
                   >
-                    {loading ? "Creating Account..." : "Create Account"}
+                    Sign up with Google
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    fullWidth
+                    onClick={() => handleOAuthSignUp("apple")}
+                    disabled={loading}
+                  >
+                    Sign up with Apple
                   </Button>
                 </Stack>
-              </form>
 
-              {/* Sign In Link */}
-              <Stack className="text-center">
-                <Body size="sm" className="text-muted">
-                  Already have an account?{" "}
+                {/* Sign In Link */}
+                <Stack gap={3} className="border-t border-black/10 pt-6 text-center sm:gap-4">
+                  <Body size="sm" className="text-muted">
+                    Already have an account?
+                  </Body>
                   <NextLink href="/auth/signin">
-                    <Button variant="ghost" size="sm" className="inline">Sign in</Button>
+                    <Button variant="ghost" size="sm">
+                      Sign In
+                    </Button>
                   </NextLink>
-                </Body>
+                </Stack>
               </Stack>
-
-              {/* Divider with text */}
-              <Stack direction="horizontal" className="items-center gap-4">
-                <Divider className="flex-1" />
-                <Label size="xs" className="text-muted">Or</Label>
-                <Divider className="flex-1" />
-              </Stack>
-
-              {/* OAuth Buttons */}
-              <Stack gap={3}>
-                <Button
-                  variant="outline"
-                  size="lg"
-                  fullWidth
-                  onClick={() => handleOAuthSignUp('google')}
-                  disabled={loading}
-                >
-                  Sign up with Google
-                </Button>
-                <Button
-                  variant="outline"
-                  size="lg"
-                  fullWidth
-                  onClick={() => handleOAuthSignUp('apple')}
-                  disabled={loading}
-                >
-                  Sign up with Apple
-                </Button>
-              </Stack>
-            </Stack>
-          </Card>
-        </Stack>
-      </SectionLayout>
-    </PageLayout>
+            </Card>
+          </ScrollReveal>
+    </AuthPage>
   );
 }

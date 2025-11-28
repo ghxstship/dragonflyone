@@ -2,10 +2,8 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { ConsumerNavigationAuthenticated } from '@/components/navigation';
+import { GvtewayAppLayout, GvtewayLoadingLayout, GvtewayEmptyLayout } from '@/components/app-layout';
 import { 
-  Container, 
-  Section, 
   H2, 
   H3, 
   Body, 
@@ -14,16 +12,9 @@ import {
   Card, 
   Grid, 
   Badge, 
-  LoadingSpinner, 
-  EmptyState, 
   Stack, 
   Kicker,
   Label,
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Display,
 } from '@ghxstship/ui';
 import { Search, MessageCircle, Users, TrendingUp, Calendar } from 'lucide-react';
 
@@ -128,87 +119,25 @@ export default function CommunityPage() {
   );
 
   if (loading) {
-    return (
-      <PageLayout
-        background="black"
-        header={<ConsumerNavigationAuthenticated />}
-        footer={
-          <Footer logo={<Display size="md">GVTEWAY</Display>} copyright="© 2024 GHXSTSHIP INDUSTRIES.">
-            <FooterColumn title="Discover">
-              <FooterLink href="/events">Browse Events</FooterLink>
-              <FooterLink href="/community">Community</FooterLink>
-            </FooterColumn>
-          </Footer>
-        }
-      >
-        <Section background="black" className="min-h-screen py-16">
-          <Container className="flex min-h-[60vh] items-center justify-center">
-            <LoadingSpinner size="lg" text="Loading community..." />
-          </Container>
-        </Section>
-      </PageLayout>
-    );
+    return <GvtewayLoadingLayout text="Loading community..." variant="consumer-auth" />;
   }
 
   if (error) {
     return (
-      <PageLayout
-        background="black"
-        header={<ConsumerNavigationAuthenticated />}
-        footer={
-          <Footer logo={<Display size="md">GVTEWAY</Display>} copyright="© 2024 GHXSTSHIP INDUSTRIES.">
-            <FooterColumn title="Discover">
-              <FooterLink href="/events">Browse Events</FooterLink>
-              <FooterLink href="/community">Community</FooterLink>
-            </FooterColumn>
-          </Footer>
-        }
-      >
-        <Section background="black" className="min-h-screen py-16">
-          <Container>
-            <EmptyState
-              title="Error Loading Community"
-              description={error}
-              action={{ label: "Retry", onClick: fetchForums }}
-              inverted
-            />
-          </Container>
-        </Section>
-      </PageLayout>
+      <GvtewayEmptyLayout
+        title="Error Loading Community"
+        description={error}
+        action={<Button variant="solid" onClick={fetchForums}>Retry</Button>}
+        variant="consumer-auth"
+      />
     );
   }
 
   return (
-    <PageLayout
-      background="black"
-      header={<ConsumerNavigationAuthenticated />}
-      footer={
-        <Footer logo={<Display size="md">GVTEWAY</Display>} copyright="© 2024 GHXSTSHIP INDUSTRIES.">
-          <FooterColumn title="Discover">
-            <FooterLink href="/events">Browse Events</FooterLink>
-            <FooterLink href="/community">Community</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Support">
-            <FooterLink href="/help">Help Center</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        {/* Grid Pattern Background */}
-        <div
-          className="pointer-events-none absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `
-              linear-gradient(#fff 1px, transparent 1px),
-              linear-gradient(90deg, #fff 1px, transparent 1px)
-            `,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
-          {/* Page Header */}
-          <Stack gap={4} className="mb-12">
+    <GvtewayAppLayout variant="consumer-auth">
+      <Stack gap={10}>
+        {/* Page Header */}
+        <Stack gap={4}>
             <Kicker colorScheme="on-dark">Connect & Share</Kicker>
             <H2 size="lg" className="text-white">Community</H2>
             <Body className="max-w-2xl text-on-dark-muted">
@@ -390,8 +319,7 @@ export default function CommunityPage() {
             </Card>
           </Stack>
         )}
-        </Container>
-      </Section>
-    </PageLayout>
+      </Stack>
+    </GvtewayAppLayout>
   );
 }

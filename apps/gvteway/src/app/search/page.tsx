@@ -16,7 +16,7 @@ import {
   Input,
   Badge,
   Card,
-  SectionLayout,
+  Section,
   Container,
   Stack,
   useDebounce,
@@ -62,7 +62,7 @@ export default function SearchPage() {
         </Footer>
       }
     >
-      <SectionLayout background="black">
+      <Section background="black">
         <Container size="lg">
           <Stack gap={8}>
             <H2 className="text-white">Search</H2>
@@ -96,7 +96,7 @@ export default function SearchPage() {
             )}
           </Stack>
         </Container>
-      </SectionLayout>
+      </Section>
     </PageLayout>
   );
 }

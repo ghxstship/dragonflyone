@@ -2,19 +2,13 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { ConsumerNavigationAuthenticated } from "@/components/navigation";
+import { GvtewayAppLayout } from "@/components/app-layout";
 import {
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Display,
   H2,
   H3,
   Body,
   Button,
   Input,
-  Section,
   Alert,
   Stack,
   Label,
@@ -22,7 +16,6 @@ import {
   Card,
   StatCard,
   Grid,
-  Container,
   Kicker,
   signOut,
 } from "@ghxstship/ui";
@@ -77,45 +70,8 @@ export default function ProfilePage() {
   };
 
   return (
-    <PageLayout
-      background="black"
-      header={<ConsumerNavigationAuthenticated />}
-      footer={
-        <Footer
-          logo={<Display size="md">GVTEWAY</Display>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Account">
-            <FooterLink href="/profile">Profile</FooterLink>
-            <FooterLink href="/orders">Orders</FooterLink>
-            <FooterLink href="/tickets">Tickets</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Discover">
-            <FooterLink href="/events">Browse Events</FooterLink>
-            <FooterLink href="/venues">Find Venues</FooterLink>
-            <FooterLink href="/artists">Artists</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Legal">
-            <FooterLink href="/legal/privacy">Privacy</FooterLink>
-            <FooterLink href="/legal/terms">Terms</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        {/* Grid Pattern Background */}
-        <div
-          className="pointer-events-none absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `
-              linear-gradient(#fff 1px, transparent 1px),
-              linear-gradient(90deg, #fff 1px, transparent 1px)
-            `,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
-          <Stack gap={10}>
+    <GvtewayAppLayout variant="consumer-auth">
+      <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={4} direction="horizontal" className="flex-col items-start justify-between md:flex-row md:items-center">
               <Stack gap={2}>
@@ -328,9 +284,7 @@ export default function ProfilePage() {
                 </Card>
               </Stack>
             </Grid>
-          </Stack>
-        </Container>
-      </Section>
-    </PageLayout>
+      </Stack>
+    </GvtewayAppLayout>
   );
 }

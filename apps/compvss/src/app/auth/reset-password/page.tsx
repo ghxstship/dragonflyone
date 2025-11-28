@@ -4,20 +4,15 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Check } from "lucide-react";
 import {
-  PageLayout,
-  Navigation,
-  Footer,
-  FooterColumn,
-  FooterLink,
   H2,
   Body,
   Button,
   Input,
-  SectionLayout,
   Alert,
   Stack,
   Field,
   Card,
+  AuthPage,
 } from "@ghxstship/ui";
 import NextLink from "next/link";
 
@@ -68,28 +63,7 @@ export default function ResetPasswordPage() {
   };
 
   return (
-    <PageLayout
-      background="white"
-      header={
-        <Navigation
-          logo={<Body className="font-display">COMPVSS</Body>}
-          cta={<></>}
-        />
-      }
-      footer={
-        <Footer
-          logo={<Body className="font-display">COMPVSS</Body>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Legal">
-            <FooterLink href="/legal/privacy">Privacy</FooterLink>
-            <FooterLink href="/legal/terms">Terms</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <SectionLayout background="grey">
-        <Stack gap={8} className="mx-auto max-w-md">
+    <AuthPage appName="COMPVSS">
           <Card variant="elevated" className="p-8">
             {success ? (
               <Stack gap={6} className="text-center">
@@ -146,8 +120,6 @@ export default function ResetPasswordPage() {
               </Stack>
             )}
           </Card>
-        </Stack>
-      </SectionLayout>
-    </PageLayout>
+    </AuthPage>
   );
 }

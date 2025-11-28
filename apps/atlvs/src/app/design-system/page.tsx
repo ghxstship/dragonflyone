@@ -13,9 +13,9 @@ import {
   // Organisms (6)
   Footer, FooterColumn, FooterLink, FormWizard, FormStep, Hero, ImageGallery, Modal,
   ModalHeader, ModalBody, ModalFooter, Navigation, NavLink,
-  // Templates (2)
-  PageLayout, SectionLayout,
-  // Foundations (1)
+  // Templates (1)
+  PageLayout,
+  // Foundations (4)
   Container, Section, Grid, Stack,
 } from "@ghxstship/ui";
 
@@ -72,7 +72,7 @@ export default function DesignSystemShowcase() {
         </Section>
 
         {/* Atoms Section */}
-        <SectionLayout background="white">
+        <Section background="white">
           <Display>Atoms (13 Components)</Display>
           <Divider className="my-8" />
           
@@ -161,10 +161,10 @@ export default function DesignSystemShowcase() {
               </CardBody>
             </Card>
           </Grid>
-        </SectionLayout>
+        </Section>
 
         {/* Molecules Section */}
-        <SectionLayout background="grey">
+        <Section background="grey">
           <Display>Molecules (16 Components)</Display>
           <Divider className="my-8" />
           
@@ -334,10 +334,10 @@ export default function DesignSystemShowcase() {
               />
             </Grid>
           </Grid>
-        </SectionLayout>
+        </Section>
 
         {/* Organisms Section */}
-        <SectionLayout background="white">
+        <Section background="white">
           <Display>Organisms (6 Components)</Display>
           <Divider className="my-8" />
 
@@ -408,10 +408,10 @@ export default function DesignSystemShowcase() {
               />
             </CardBody>
           </Card>
-        </SectionLayout>
+        </Section>
 
         {/* Templates & Foundations */}
-        <SectionLayout background="grey">
+        <Section background="grey">
           <Display>Templates & Foundations (3 Components)</Display>
           <Divider className="my-8" />
           <Card>
@@ -420,7 +420,7 @@ export default function DesignSystemShowcase() {
             </CardHeader>
             <CardBody>
               <Body className="mb-4">
-                This page demonstrates PageLayout, SectionLayout, Container, Section, and Grid
+                This page demonstrates PageLayout, Section, Container, Section, and Grid
                 components all working together to create a cohesive design system.
               </Body>
               <Grid cols={3} gap={4}>
@@ -439,7 +439,7 @@ export default function DesignSystemShowcase() {
               </Grid>
             </CardBody>
           </Card>
-        </SectionLayout>
+        </Section>
 
         {/* Summary */}
         <Section>

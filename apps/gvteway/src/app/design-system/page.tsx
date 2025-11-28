@@ -9,7 +9,7 @@ import {
   Body,
   Label,
   PageLayout,
-  SectionLayout,
+  Section,
   Navigation,
   NavLink,
   Footer,
@@ -102,7 +102,7 @@ export default function DesignSystemPage() {
         }
       />
 
-      <SectionLayout id="typography">
+      <Section id="typography">
         <Stack gap={12}>
           <Stack>
             <Label size="sm" className="text-ink-600 mb-4 block">
@@ -135,9 +135,9 @@ export default function DesignSystemPage() {
             </Card>
           </Grid>
         </Stack>
-      </SectionLayout>
+      </Section>
 
-      <SectionLayout id="components" background="grey">
+      <Section id="components" background="grey">
         <Stack gap={12}>
           <Stack>
             <Label size="sm" className="text-ink-600 mb-4 block">
@@ -180,9 +180,9 @@ export default function DesignSystemPage() {
             </Stack>
           </Stack>
         </Stack>
-      </SectionLayout>
+      </Section>
 
-      <SectionLayout id="cards">
+      <Section id="cards">
         <Stack gap={12}>
           <Stack>
             <Label size="sm" className="text-ink-600 mb-4 block">
@@ -257,9 +257,9 @@ export default function DesignSystemPage() {
             />
           </Grid>
         </Stack>
-      </SectionLayout>
+      </Section>
 
-      <SectionLayout id="forms" background="grey">
+      <Section id="forms" background="grey">
         <Stack gap={12}>
           <Stack>
             <Label size="sm" className="text-ink-600 mb-4 block">
@@ -313,9 +313,9 @@ export default function DesignSystemPage() {
             />
           </Stack>
         </Stack>
-      </SectionLayout>
+      </Section>
 
-      <SectionLayout background="black">
+      <Section background="black">
         <Stack gap={8} className="text-center">
           <H2 className="text-white">Ready to Start?</H2>
           <Body className="text-ink-400 mx-auto max-w-2xl">
@@ -328,9 +328,9 @@ export default function DesignSystemPage() {
             <SocialIcon platform="email" href="mailto:hello@ghxstship.com" inverted />
           </Stack>
         </Stack>
-      </SectionLayout>
+      </Section>
 
-      <SectionLayout>
+      <Section>
         <Stack>
           <Label size="sm" className="text-ink-600 mb-4 block">
             Data Tables
@@ -374,7 +374,7 @@ export default function DesignSystemPage() {
             </TableBody>
           </Table>
         </Stack>
-      </SectionLayout>
+      </Section>
     </PageLayout>
   );
 }

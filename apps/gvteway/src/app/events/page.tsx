@@ -3,13 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useEvents } from "@/hooks/useEvents";
-import { ConsumerNavigationPublic } from "@/components/navigation";
+import { GvtewayAppLayout } from "@/components/app-layout";
 import {
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Display,
   H2,
   H3,
   Body,
@@ -17,12 +12,10 @@ import {
   Input,
   Select,
   Badge,
-  Section,
   ProjectCard,
   Stack,
   Grid,
   Card,
-  Container,
   LoadingSpinner,
   Figure,
   Label,
@@ -54,45 +47,8 @@ export default function EventsPage() {
   });
 
   return (
-    <PageLayout
-      background="black"
-      header={<ConsumerNavigationPublic />}
-      footer={
-        <Footer
-          logo={<Display size="md">GVTEWAY</Display>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Discover">
-            <FooterLink href="/events">Browse Events</FooterLink>
-            <FooterLink href="/venues">Find Venues</FooterLink>
-            <FooterLink href="/artists">Artists</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Support">
-            <FooterLink href="/help">Help Center</FooterLink>
-            <FooterLink href="/help#contact">Contact</FooterLink>
-            <FooterLink href="/help#faq">FAQ</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Legal">
-            <FooterLink href="/legal/privacy">Privacy</FooterLink>
-            <FooterLink href="/legal/terms">Terms</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        {/* Grid Pattern Background */}
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.05]"
-          style={{
-            backgroundImage: `
-              linear-gradient(#fff 1px, transparent 1px),
-              linear-gradient(90deg, #fff 1px, transparent 1px)
-            `,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
-          <Stack gap={10}>
+    <GvtewayAppLayout>
+      <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={4} className="text-center">
               <Kicker colorScheme="on-dark">Browse Events</Kicker>
@@ -280,9 +236,7 @@ export default function EventsPage() {
                 ))}
               </Stack>
             )}
-          </Stack>
-        </Container>
-      </Section>
-    </PageLayout>
+      </Stack>
+    </GvtewayAppLayout>
   );
 }

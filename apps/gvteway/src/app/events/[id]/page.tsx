@@ -1,13 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { GvtewayAppLayout, GvtewayLoadingLayout, GvtewayEmptyLayout } from "@/components/app-layout";
 import {
-  PageLayout,
-  Navigation,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Display,
   H2,
   H3,
   Body,
@@ -17,11 +12,7 @@ import {
   Card,
   Grid,
   Stack,
-  SectionLayout,
-  Spinner,
   Link,
-  Container,
-  Figure,
 } from "@ghxstship/ui";
 import Image from "next/image";
 import { supabase } from "@/lib/supabase";
@@ -86,51 +77,22 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
   }
 
   if (loading) {
-    return (
-      <PageLayout background="black">
-        <Stack className="items-center justify-center min-h-screen">
-          <Spinner size="lg" />
-        </Stack>
-      </PageLayout>
-    );
+    return <GvtewayLoadingLayout text="Loading event..." />;
   }
 
   if (!event) {
     return (
-      <PageLayout background="black">
-        <Stack className="items-center justify-center min-h-screen">
-          <H2>Event not found</H2>
-        </Stack>
-      </PageLayout>
+      <GvtewayEmptyLayout
+        title="Event Not Found"
+        description="The event you're looking for doesn't exist or has been removed."
+        action={<Button variant="solid" onClick={() => router.push('/events')}>Browse Events</Button>}
+      />
     );
   }
 
   return (
-    <PageLayout
-      background="black"
-      header={
-        <Navigation
-          logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
-          cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/auth/signin')}>SIGN IN</Button>}
-        >
-          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Home</Link>
-          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Events</Link>
-        </Navigation>
-      }
-      footer={
-        <Footer
-          logo={<Display size="md" className="text-white text-display-md">GVTEWAY</Display>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Discover">
-            <FooterLink href="/events">Browse Events</FooterLink>
-            <FooterLink href="/venues">Find Venues</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <SectionLayout background="black">
-        <Stack gap={8}>
+    <GvtewayAppLayout>
+      <Stack gap={8}>
           <Card className="relative h-96 overflow-hidden border-2 border-ink-800">
             <Image 
               src={event.image_url || "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=1200"} 
@@ -232,8 +194,7 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
               </Card>
             </Stack>
           </Grid>
-        </Stack>
-      </SectionLayout>
-    </PageLayout>
+      </Stack>
+    </GvtewayAppLayout>
   );
 }

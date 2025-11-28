@@ -2,11 +2,8 @@
 
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { ConsumerNavigationPublic } from '@/components/navigation';
+import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import { 
-  Container, 
-  Section, 
-  Display,
   H2, 
   H3, 
   Body, 
@@ -16,11 +13,6 @@ import {
   Grid, 
   Badge, 
   Stack, 
-  LoadingSpinner,
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
   Kicker,
   Label,
 } from '@ghxstship/ui';
@@ -141,85 +133,12 @@ function CheckoutContent() {
   const stepLabels = ['Review', 'Payment', 'Confirm'];
 
   if (loading) {
-    return (
-      <PageLayout
-        background="black"
-        header={<ConsumerNavigationPublic />}
-        footer={
-          <Footer
-            logo={<Display size="md">GVTEWAY</Display>}
-            copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-          >
-            <FooterColumn title="Discover">
-              <FooterLink href="/events">Browse Events</FooterLink>
-              <FooterLink href="/venues">Find Venues</FooterLink>
-              <FooterLink href="/artists">Artists</FooterLink>
-            </FooterColumn>
-            <FooterColumn title="Legal">
-              <FooterLink href="/legal/privacy">Privacy</FooterLink>
-              <FooterLink href="/legal/terms">Terms</FooterLink>
-            </FooterColumn>
-          </Footer>
-        }
-      >
-        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-          <div
-            className="pointer-events-none absolute inset-0 opacity-5"
-            style={{
-              backgroundImage: `
-                linear-gradient(#fff 1px, transparent 1px),
-                linear-gradient(90deg, #fff 1px, transparent 1px)
-              `,
-              backgroundSize: "40px 40px",
-            }}
-          />
-          <Container className="relative z-10 flex min-h-[60vh] items-center justify-center">
-            <LoadingSpinner size="lg" text="Loading checkout..." />
-          </Container>
-        </Section>
-      </PageLayout>
-    );
+    return <GvtewayLoadingLayout text="Loading checkout..." />;
   }
 
   return (
-    <PageLayout
-      background="black"
-      header={<ConsumerNavigationPublic />}
-      footer={
-        <Footer
-          logo={<Display size="md">GVTEWAY</Display>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Discover">
-            <FooterLink href="/events">Browse Events</FooterLink>
-            <FooterLink href="/venues">Find Venues</FooterLink>
-            <FooterLink href="/artists">Artists</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Support">
-            <FooterLink href="/help">Help Center</FooterLink>
-            <FooterLink href="/help#contact">Contact</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Legal">
-            <FooterLink href="/legal/privacy">Privacy</FooterLink>
-            <FooterLink href="/legal/terms">Terms</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        {/* Grid Pattern Background */}
-        <div
-          className="pointer-events-none absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `
-              linear-gradient(#fff 1px, transparent 1px),
-              linear-gradient(90deg, #fff 1px, transparent 1px)
-            `,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
-          <Stack gap={10}>
+    <GvtewayAppLayout>
+      <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
               <Kicker colorScheme="on-dark">Secure Payment</Kicker>
@@ -444,53 +363,14 @@ function CheckoutContent() {
                 </Stack>
               </Card>
             )}
-          </Stack>
-        </Container>
-      </Section>
-    </PageLayout>
+      </Stack>
+    </GvtewayAppLayout>
   );
 }
 
 export default function CheckoutPage() {
   return (
-    <Suspense fallback={
-      <PageLayout
-        background="black"
-        header={<ConsumerNavigationPublic />}
-        footer={
-          <Footer
-            logo={<Display size="md">GVTEWAY</Display>}
-            copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-          >
-            <FooterColumn title="Discover">
-              <FooterLink href="/events">Browse Events</FooterLink>
-              <FooterLink href="/venues">Find Venues</FooterLink>
-              <FooterLink href="/artists">Artists</FooterLink>
-            </FooterColumn>
-            <FooterColumn title="Legal">
-              <FooterLink href="/legal/privacy">Privacy</FooterLink>
-              <FooterLink href="/legal/terms">Terms</FooterLink>
-            </FooterColumn>
-          </Footer>
-        }
-      >
-        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-          <div
-            className="pointer-events-none absolute inset-0 opacity-5"
-            style={{
-              backgroundImage: `
-                linear-gradient(#fff 1px, transparent 1px),
-                linear-gradient(90deg, #fff 1px, transparent 1px)
-              `,
-              backgroundSize: "40px 40px",
-            }}
-          />
-          <Container className="relative z-10 flex min-h-[60vh] items-center justify-center">
-            <LoadingSpinner size="lg" text="Loading checkout..." />
-          </Container>
-        </Section>
-      </PageLayout>
-    }>
+    <Suspense fallback={<GvtewayLoadingLayout text="Loading checkout..." />}>
       <CheckoutContent />
     </Suspense>
   );

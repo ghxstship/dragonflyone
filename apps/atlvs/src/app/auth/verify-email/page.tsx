@@ -2,77 +2,98 @@
 
 import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { Mail } from "lucide-react";
+import { Mail, RefreshCw, ArrowLeft } from "lucide-react";
 import {
-  PageLayout,
-  Navigation,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Display,
   H2,
   Body,
   Button,
-  SectionLayout,
   Stack,
+  Card,
+  Label,
+  ScrollReveal,
+  LoadingSpinner,
+  AuthPage,
 } from "@ghxstship/ui";
+import NextLink from "next/link";
+
+// =============================================================================
+// VERIFY EMAIL PAGE - ATLVS Email Verification
+// Bold Contemporary Pop Art Adventure Design System - Light Theme
+// =============================================================================
 
 function VerifyEmailContent() {
   const searchParams = useSearchParams();
   const email = searchParams.get("email") || "";
 
   return (
-    <PageLayout
-      background="white"
-      header={
-        <Navigation
-          logo={<Display size="md" className="text-display-md text-black">ATLVS</Display>}
-          cta={<></>}
-        />
-      }
-      footer={
-        <Footer
-          logo={<Display size="md" className="text-black text-display-md">ATLVS</Display>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Legal">
-            <FooterLink href="/privacy">Privacy</FooterLink>
-            <FooterLink href="/terms">Terms</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <SectionLayout background="grey">
-        <Stack gap={8} className="mx-auto max-w-md bg-white p-8 border border-ink-200 text-center">
-          <Stack className="w-16 h-16 mx-auto bg-ink-200 rounded-full items-center justify-center">
-            <Mail className="w-8 h-8" />
-          </Stack>
-          <H2>Verify Your Email</H2>
-          <Body className="text-ink-600">
+    <Card className="border-2 border-black/10 bg-white p-6 shadow-md sm:p-8">
+      <Stack gap={6} className="text-center sm:gap-8">
+        <div className="mx-auto flex size-12 items-center justify-center border-2 border-black/10 bg-grey-100 sm:size-16">
+          <Mail className="size-6 text-black sm:size-8" />
+        </div>
+
+        <Stack gap={3} className="sm:gap-4">
+          <H2 className="text-black">VERIFY YOUR EMAIL</H2>
+          <Body size="sm" className="text-muted">
             We&apos;ve sent a verification email to{" "}
             {email && <strong className="text-black">{email}</strong>}
-            {!email && "your email address"}.
-            Please click the link in the email to verify your account.
+            {!email && "your email address"}. Please click the link in the email to verify
+            your account.
           </Body>
-          <Stack gap={4}>
-            <Body size="sm" className="text-ink-500">Didn&apos;t receive the email?</Body>
-            <Button variant="ghost" onClick={() => alert('Verification email resent!')} className="text-black hover:text-ink-600">
-              Resend Verification Email
-            </Button>
-          </Stack>
-          <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/signin'} className="text-ink-600 hover:text-black">
-            Back to Sign In
+        </Stack>
+
+        <Stack gap={3}>
+          <Label size="xs" className="text-muted">
+            Didn&apos;t receive the email?
+          </Label>
+          <Button
+            variant="outline"
+            size="lg"
+            fullWidth
+            onClick={() => alert("Verification email resent!")}
+            icon={<RefreshCw className="size-4" />}
+            iconPosition="left"
+          >
+            Resend Verification Email
           </Button>
         </Stack>
-      </SectionLayout>
-    </PageLayout>
+
+        <Stack className="border-t border-black/10 pt-6">
+          <NextLink href="/auth/signin">
+            <Button
+              variant="ghost"
+              size="sm"
+              icon={<ArrowLeft className="size-4" />}
+              iconPosition="left"
+            >
+              Back to Sign In
+            </Button>
+          </NextLink>
+        </Stack>
+      </Stack>
+    </Card>
   );
 }
 
 export default function VerifyEmailPage() {
   return (
-    <Suspense fallback={null}>
-      <VerifyEmailContent />
-    </Suspense>
+    <AuthPage appName="ATLVS">
+          <ScrollReveal animation="slide-up" duration={600}>
+            <Suspense
+              fallback={
+                <Card className="border-2 border-black/10 bg-white p-8">
+                  <Stack gap={6} className="items-center text-center">
+                    <LoadingSpinner size="lg" />
+                    <Body size="sm" className="text-muted">
+                      Loading...
+                    </Body>
+                  </Stack>
+                </Card>
+              }
+            >
+              <VerifyEmailContent />
+            </Suspense>
+          </ScrollReveal>
+    </AuthPage>
   );
 }

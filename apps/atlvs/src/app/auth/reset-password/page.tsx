@@ -2,23 +2,25 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Check } from "lucide-react";
+import { KeyRound, Check, ArrowRight, ArrowLeft } from "lucide-react";
 import {
-  PageLayout,
-  Navigation,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Display,
   H2,
   Body,
   Button,
   Input,
-  SectionLayout,
   Alert,
   Stack,
+  Card,
   Field,
+  ScrollReveal,
+  AuthPage,
 } from "@ghxstship/ui";
+import NextLink from "next/link";
+
+// =============================================================================
+// RESET PASSWORD PAGE - ATLVS Set New Password
+// Bold Contemporary Pop Art Adventure Design System - Light Theme
+// =============================================================================
 
 export default function ResetPasswordPage() {
   const router = useRouter();
@@ -46,102 +48,116 @@ export default function ResetPasswordPage() {
     }
 
     try {
-      const response = await fetch('/api/auth/password/update', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/auth/password/update", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password }),
       });
 
       if (!response.ok) {
         const data = await response.json();
-        throw new Error(data.error || 'Failed to reset password');
+        throw new Error(data.error || "Failed to reset password");
       }
 
       setSuccess(true);
-      setTimeout(() => router.push('/auth/signin'), 3000);
+      setTimeout(() => router.push("/auth/signin"), 3000);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to reset password. Please try again.');
+      setError(err instanceof Error ? err.message : "Failed to reset password. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <PageLayout
-      background="white"
-      header={
-        <Navigation
-          logo={<Display size="md" className="text-display-md text-black">ATLVS</Display>}
-          cta={<></>}
-        />
-      }
-      footer={
-        <Footer
-          logo={<Display size="md" className="text-black text-display-md">ATLVS</Display>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Legal">
-            <FooterLink href="/privacy">Privacy</FooterLink>
-            <FooterLink href="/terms">Terms</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <SectionLayout background="grey">
-        <Stack gap={8} className="mx-auto max-w-md bg-white p-8 border border-ink-200">
-          {success ? (
-            <Stack gap={6} className="text-center">
-              <Stack className="w-16 h-16 mx-auto bg-ink-200 rounded-full items-center justify-center">
-                <Check className="w-8 h-8" />
-              </Stack>
-              <H2>Password Reset</H2>
-              <Body className="text-ink-600">Your password has been successfully reset. Redirecting to sign in...</Body>
-            </Stack>
-          ) : (
-            <>
-              <Stack gap={4} className="text-center">
-                <H2>New Password</H2>
-                <Body className="text-ink-600">Enter your new password below.</Body>
-              </Stack>
+    <AuthPage appName="ATLVS">
+          <ScrollReveal animation="slide-up" duration={600}>
+            {/* Auth Card - Pop Art Style */}
+            <Card className="border-2 border-black/10 bg-white p-6 shadow-md sm:p-8">
+              {success ? (
+                /* Success State */
+                <Stack gap={6} className="text-center sm:gap-8">
+                  <div className="mx-auto flex size-12 items-center justify-center border-2 border-black/10 bg-grey-100 sm:size-16">
+                    <Check className="size-6 text-success sm:size-8" />
+                  </div>
 
-              {error && <Alert variant="error">{error}</Alert>}
-
-              <Stack gap={6}>
-                <Field label="New Password">
-                  <Input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Enter new password"
-                    required
-                  />
-                  <Body size="sm" className="text-ink-500 mt-1">Minimum 8 characters</Body>
-                </Field>
-
-                <Field label="Confirm Password">
-                  <Input
-                    type="password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    placeholder="Re-enter new password"
-                    required
-                  />
-                </Field>
-
-                <Button variant="solid" className="w-full" disabled={loading} onClick={handleSubmit}>
-                  {loading ? "Resetting..." : "Reset Password"}
-                </Button>
-
-                <Stack className="text-center">
-                  <Button variant="ghost" size="sm" onClick={() => window.location.href = '/auth/signin'} className="text-ink-600 hover:text-black">
-                    Back to Sign In
-                  </Button>
+                  <Stack gap={3} className="sm:gap-4">
+                    <H2 className="text-black">PASSWORD RESET</H2>
+                    <Body size="sm" className="text-muted">
+                      Your password has been successfully reset. Redirecting to sign in...
+                    </Body>
+                  </Stack>
                 </Stack>
-              </Stack>
-            </>
-          )}
-        </Stack>
-      </SectionLayout>
-    </PageLayout>
+              ) : (
+                /* Form State */
+                <Stack gap={6} className="sm:gap-8">
+                  {/* Header */}
+                  <Stack gap={3} className="text-center sm:gap-4">
+                    <div className="mx-auto flex size-12 items-center justify-center border-2 border-black/10 bg-grey-100 sm:size-16">
+                      <KeyRound className="size-6 text-black sm:size-8" />
+                    </div>
+                    <H2 className="text-black">NEW PASSWORD</H2>
+                    <Body size="sm" className="text-muted">
+                      Enter your new password below.
+                    </Body>
+                  </Stack>
+
+                  {/* Error Alert */}
+                  {error && <Alert variant="error">{error}</Alert>}
+
+                  {/* Form */}
+                  <form onSubmit={handleSubmit}>
+                    <Stack gap={4} className="sm:gap-6">
+                      <Field label="New Password" hint="Minimum 8 characters">
+                        <Input
+                          type="password"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          placeholder="Enter new password"
+                          required
+                        />
+                      </Field>
+
+                      <Field label="Confirm Password">
+                        <Input
+                          type="password"
+                          value={confirmPassword}
+                          onChange={(e) => setConfirmPassword(e.target.value)}
+                          placeholder="Re-enter new password"
+                          required
+                        />
+                      </Field>
+
+                      <Button
+                        type="submit"
+                        variant="solid"
+                        size="lg"
+                        fullWidth
+                        disabled={loading}
+                        icon={<ArrowRight className="size-4" />}
+                        iconPosition="right"
+                      >
+                        {loading ? "Resetting..." : "Reset Password"}
+                      </Button>
+                    </Stack>
+                  </form>
+
+                  {/* Back Link */}
+                  <Stack className="border-t border-black/10 pt-6 text-center">
+                    <NextLink href="/auth/signin">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        icon={<ArrowLeft className="size-4" />}
+                        iconPosition="left"
+                      >
+                        Back to Sign In
+                      </Button>
+                    </NextLink>
+                  </Stack>
+                </Stack>
+              )}
+            </Card>
+          </ScrollReveal>
+    </AuthPage>
   );
 }

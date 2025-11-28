@@ -2,11 +2,8 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ConsumerNavigationAuthenticated } from '@/components/navigation';
+import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
-  Container,
-  Section,
-  Display,
   H2,
   H3,
   Body,
@@ -18,19 +15,12 @@ import {
   Badge,
   Label,
   Kicker,
-  LoadingSpinner,
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  ScrollReveal,
 } from '@ghxstship/ui';
 import { useAuth } from '@ghxstship/config/auth-context';
 import { PlatformRole } from '@ghxstship/config/roles';
 import { useEvents } from '@/hooks/useEvents';
 import { useOrders } from '@/hooks/useOrders';
-import { LogOut, Calendar, Ticket, User, Settings, Music, Building2, BarChart3, Sparkles, Crown, Lock, Globe } from 'lucide-react';
-import NextLink from 'next/link';
+import { LogOut, Calendar, Ticket, User, Settings, Music, Building2, BarChart3 } from 'lucide-react';
 
 /**
  * Role-based Dashboard Router
@@ -50,48 +40,7 @@ export default function DashboardPage() {
   }, [isAuthenticated, isLoading, router]);
 
   if (isLoading || !user) {
-    return (
-      <PageLayout
-        background="black"
-        header={<ConsumerNavigationAuthenticated />}
-        footer={
-          <Footer
-            logo={<Display size="md">GVTEWAY</Display>}
-            copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-          >
-            <FooterColumn title="Discover">
-              <FooterLink href="/events">Browse Events</FooterLink>
-              <FooterLink href="/venues">Find Venues</FooterLink>
-              <FooterLink href="/artists">Artists</FooterLink>
-            </FooterColumn>
-            <FooterColumn title="Support">
-              <FooterLink href="/help">Help Center</FooterLink>
-              <FooterLink href="/help#contact">Contact</FooterLink>
-            </FooterColumn>
-            <FooterColumn title="Legal">
-              <FooterLink href="/legal/privacy">Privacy</FooterLink>
-              <FooterLink href="/legal/terms">Terms</FooterLink>
-            </FooterColumn>
-          </Footer>
-        }
-      >
-        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-          <div
-            className="pointer-events-none absolute inset-0 opacity-5"
-            style={{
-              backgroundImage: `
-                linear-gradient(#fff 1px, transparent 1px),
-                linear-gradient(90deg, #fff 1px, transparent 1px)
-              `,
-              backgroundSize: "40px 40px",
-            }}
-          />
-          <Container className="relative z-10 flex min-h-[60vh] items-center justify-center">
-            <LoadingSpinner size="lg" text="Loading dashboard..." />
-          </Container>
-        </Section>
-      </PageLayout>
-    );
+    return <GvtewayLoadingLayout text="Loading dashboard..." variant="consumer-auth" />;
   }
 
   // Determine which dashboard to show based on highest role
@@ -108,44 +57,8 @@ export default function DashboardPage() {
   );
 
   return (
-    <PageLayout
-      background="black"
-      header={<ConsumerNavigationAuthenticated />}
-      footer={
-        <Footer
-          logo={<Display size="md">GVTEWAY</Display>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Discover">
-            <FooterLink href="/events">Browse Events</FooterLink>
-            <FooterLink href="/venues">Find Venues</FooterLink>
-            <FooterLink href="/artists">Artists</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Support">
-            <FooterLink href="/help">Help Center</FooterLink>
-            <FooterLink href="/help#contact">Contact</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Legal">
-            <FooterLink href="/legal/privacy">Privacy</FooterLink>
-            <FooterLink href="/legal/terms">Terms</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        {/* Grid Pattern Background */}
-        <div
-          className="pointer-events-none absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `
-              linear-gradient(#fff 1px, transparent 1px),
-              linear-gradient(90deg, #fff 1px, transparent 1px)
-            `,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
-          <Stack gap={10}>
+    <GvtewayAppLayout variant="consumer-auth">
+      <Stack gap={10}>
             {/* Header */}
             <Card inverted variant="elevated" className="p-6">
               <Stack gap={4} direction="horizontal" className="flex-col items-start justify-between md:flex-row md:items-center">
@@ -441,9 +354,7 @@ export default function DashboardPage() {
                 </Grid>
               </Stack>
             )}
-          </Stack>
-        </Container>
-      </Section>
-    </PageLayout>
+      </Stack>
+    </GvtewayAppLayout>
   );
 }

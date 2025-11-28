@@ -2,12 +2,6 @@
 
 import { useState } from "react";
 import {
-  PageLayout,
-  Navigation,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Display,
   H2,
   Body,
   Button,
@@ -16,12 +10,17 @@ import {
   Stack,
   Card,
   Field,
-  Section,
-  Container,
   Label,
+  ScrollReveal,
+  AuthPage,
 } from "@ghxstship/ui";
-import { Mail } from "lucide-react";
+import { Sparkles, ArrowRight, RefreshCw } from "lucide-react";
 import NextLink from "next/link";
+
+// =============================================================================
+// MAGIC LINK PAGE - Passwordless Authentication
+// Bold Contemporary Pop Art Adventure Design System
+// =============================================================================
 
 export default function MagicLinkPage() {
   const [email, setEmail] = useState("");
@@ -35,133 +34,132 @@ export default function MagicLinkPage() {
     setError("");
 
     try {
-      const response = await fetch('/api/auth/magic-link', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/auth/magic-link", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
 
-      if (!response.ok) throw new Error('Failed to send magic link');
+      if (!response.ok) throw new Error("Failed to send magic link");
       setSubmitted(true);
     } catch (err) {
-      setError('Failed to send magic link. Please try again.');
+      setError("Failed to send magic link. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <PageLayout
+    <AuthPage
+      appName="GVTEWAY"
       background="black"
-      header={
-        <Navigation
-          logo={<Display size="md" className="text-white">GVTEWAY</Display>}
-          cta={<></>}
-        />
-      }
-      footer={
-        <Footer
-          logo={<Display size="md" className="text-white">GVTEWAY</Display>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Legal">
-            <FooterLink href="/legal/privacy">Privacy</FooterLink>
-            <FooterLink href="/legal/terms">Terms</FooterLink>
-          </FooterColumn>
-        </Footer>
+      headerAction={
+        <NextLink href="/auth/signin" className="hidden sm:block">
+          <Button variant="outlineInk" size="sm">
+            Sign In
+          </Button>
+        </NextLink>
       }
     >
-      <Section background="black" className="flex min-h-[80vh] items-center justify-center py-12">
-        <Container className="w-full max-w-md">
-          {/* Auth Card - Pop Art Style */}
-          <Card inverted variant="elevated" className="p-8">
-            {submitted ? (
-              /* Success State */
-              <Stack gap={8} className="text-center">
-                {/* Icon */}
-                <Card inverted className="mx-auto flex size-16 items-center justify-center">
-                  <Mail className="size-8 text-white" />
-                </Card>
-                
-                <Stack gap={4}>
-                  <H2 className="text-white">Check Your Email</H2>
-                  <Body className="text-on-dark-muted">
-                    We&apos;ve sent a magic link to <strong className="text-white">{email}</strong>. Click the link in the email to sign in.
-                  </Body>
-                  <Label size="xs" className="text-on-dark-disabled">
-                    Link expires in 1 hour
-                  </Label>
-                </Stack>
-                
-                <Button variant="ghost" size="sm" inverted onClick={() => setSubmitted(false)}>
-                  Use a different email
-                </Button>
-              </Stack>
-            ) : (
-              /* Form State */
-              <Stack gap={8}>
-                {/* Header */}
-                <Stack gap={4} className="text-center">
-                  <H2 className="text-white">Magic Link</H2>
-                  <Body className="text-on-dark-muted">
-                    Sign in without a password. We&apos;ll email you a magic link.
-                  </Body>
-                </Stack>
+          <ScrollReveal animation="slide-up" duration={600}>
+            {/* Auth Card - Pop Art Style */}
+            <Card inverted className="border-2 border-white/20 bg-black p-6 shadow-md sm:p-8">
+              {submitted ? (
+                /* Success State */
+                <Stack gap={6} className="text-center sm:gap-8">
+                  <div className="mx-auto flex size-12 items-center justify-center border-2 border-white/20 bg-white/5 sm:size-16">
+                    <Sparkles className="size-6 text-success sm:size-8" />
+                  </div>
 
-                {/* Error Alert */}
-                {error && <Alert variant="error">{error}</Alert>}
-
-                {/* Form */}
-                <form onSubmit={handleSubmit}>
-                  <Stack gap={6}>
-                    {/* Email Field */}
-                    <Field label="Email Address" inverted>
-                      <Input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="your@email.com"
-                        required
-                        inverted
-                      />
-                    </Field>
-
-                    {/* Primary CTA */}
-                    <Button
-                      type="submit"
-                      variant="solid"
-                      size="lg"
-                      fullWidth
-                      inverted
-                      disabled={loading}
-                    >
-                      {loading ? "Sending..." : "Send Magic Link"}
-                    </Button>
+                  <Stack gap={3} className="sm:gap-4">
+                    <H2 className="text-white">CHECK YOUR EMAIL</H2>
+                    <Body size="sm" className="text-on-dark-muted">
+                      We&apos;ve sent a magic link to{" "}
+                      <strong className="text-white">{email}</strong>. Click the link in the
+                      email to sign in.
+                    </Body>
+                    <Label size="xs" className="text-on-dark-disabled">
+                      Link expires in 1 hour
+                    </Label>
                   </Stack>
-                </form>
 
-                {/* Links */}
-                <Stack gap={4} className="text-center">
-                  <NextLink href="/auth/signin">
-                    <Button variant="ghost" size="sm" inverted className="text-on-dark-muted hover:text-white">
-                      Sign in with password instead
-                    </Button>
-                  </NextLink>
-                  
-                  <Body size="sm" className="text-on-dark-muted">
-                    Don&apos;t have an account?{" "}
-                    <NextLink href="/auth/signup">
-                      <Button variant="ghost" size="sm" inverted className="inline">
-                        Sign up
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    inverted
+                    onClick={() => setSubmitted(false)}
+                    icon={<RefreshCw className="size-4" />}
+                    iconPosition="left"
+                  >
+                    Use a different email
+                  </Button>
+                </Stack>
+              ) : (
+                /* Form State */
+                <Stack gap={6} className="sm:gap-8">
+                  {/* Header */}
+                  <Stack gap={3} className="text-center sm:gap-4">
+                    <div className="mx-auto flex size-12 items-center justify-center border-2 border-white/20 bg-white/5 sm:size-16">
+                      <Sparkles className="size-6 text-warning sm:size-8" />
+                    </div>
+                    <H2 className="text-white">MAGIC LINK</H2>
+                    <Body size="sm" className="text-on-dark-muted">
+                      Sign in without a password. We&apos;ll email you a magic link.
+                    </Body>
+                  </Stack>
+
+                  {/* Error Alert */}
+                  {error && <Alert variant="error">{error}</Alert>}
+
+                  {/* Form */}
+                  <form onSubmit={handleSubmit}>
+                    <Stack gap={4} className="sm:gap-6">
+                      <Field label="Email Address" inverted>
+                        <Input
+                          type="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          placeholder="your@email.com"
+                          required
+                          inverted
+                        />
+                      </Field>
+
+                      <Button
+                        type="submit"
+                        variant="pop"
+                        size="lg"
+                        fullWidth
+                        disabled={loading}
+                        icon={<ArrowRight className="size-4" />}
+                        iconPosition="right"
+                      >
+                        {loading ? "Sending..." : "Send Magic Link"}
+                      </Button>
+                    </Stack>
+                  </form>
+
+                  {/* Links */}
+                  <Stack gap={3} className="border-t border-white/10 pt-6 text-center">
+                    <NextLink href="/auth/signin">
+                      <Button variant="ghost" size="sm" inverted>
+                        Sign in with password instead
                       </Button>
                     </NextLink>
-                  </Body>
+
+                    <Body size="sm" className="text-on-dark-muted">
+                      Don&apos;t have an account?{" "}
+                      <NextLink href="/auth/signup">
+                        <Button variant="ghost" size="sm" inverted className="inline">
+                          Sign up
+                        </Button>
+                      </NextLink>
+                    </Body>
+                  </Stack>
                 </Stack>
-              </Stack>
-            )}
-          </Card>
-        </Container>
-      </Section>
-    </PageLayout>
+              )}
+            </Card>
+          </ScrollReveal>
+    </AuthPage>
   );
 }

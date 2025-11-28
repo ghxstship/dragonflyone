@@ -3,67 +3,76 @@
 import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import {
-  PageLayout,
-  Navigation,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Display,
   H2,
   Body,
   Button,
   Stack,
   Card,
-  Section,
-  Container,
   Label,
   LoadingSpinner,
+  ScrollReveal,
+  AuthPage,
 } from "@ghxstship/ui";
-import { Mail } from "lucide-react";
+import { Mail, RefreshCw, ArrowLeft } from "lucide-react";
 import NextLink from "next/link";
+
+// =============================================================================
+// VERIFY EMAIL PAGE - Email Verification Confirmation
+// Bold Contemporary Pop Art Adventure Design System
+// =============================================================================
 
 function VerifyEmailContent() {
   const searchParams = useSearchParams();
   const email = searchParams.get("email") || "";
 
   return (
-    <Card inverted variant="elevated" className="w-full max-w-md p-8">
-      <Stack gap={8} className="text-center">
+    <Card inverted className="border-2 border-white/20 bg-black p-6 shadow-md sm:p-8">
+      <Stack gap={6} className="text-center sm:gap-8">
         {/* Icon */}
-        <Card inverted className="mx-auto flex size-16 items-center justify-center">
-          <Mail className="size-8 text-white" />
-        </Card>
-        
-        <Stack gap={4}>
-          <H2 className="text-white">Verify Your Email</H2>
-          <Body className="text-on-dark-muted">
+        <div className="mx-auto flex size-12 items-center justify-center border-2 border-white/20 bg-white/5 sm:size-16">
+          <Mail className="size-6 text-warning sm:size-8" />
+        </div>
+
+        <Stack gap={3} className="sm:gap-4">
+          <H2 className="text-white">VERIFY YOUR EMAIL</H2>
+          <Body size="sm" className="text-on-dark-muted">
             We&apos;ve sent a verification email to{" "}
             {email && <strong className="text-white">{email}</strong>}
-            {!email && "your email address"}.
-            Please click the link in the email to verify your account.
+            {!email && "your email address"}. Please click the link in the email to verify
+            your account.
           </Body>
         </Stack>
-        
-        <Stack gap={4}>
+
+        <Stack gap={3}>
           <Label size="xs" className="text-on-dark-disabled">
             Didn&apos;t receive the email?
           </Label>
-          
+
           <Button
             variant="outlineInk"
             size="lg"
             fullWidth
-            onClick={() => alert('Verification email resent!')}
+            onClick={() => alert("Verification email resent!")}
+            icon={<RefreshCw className="size-4" />}
+            iconPosition="left"
           >
             Resend Verification Email
           </Button>
         </Stack>
-        
-        <NextLink href="/auth/signin">
-          <Button variant="ghost" size="sm" inverted className="text-on-dark-muted hover:text-white">
-            Back to Sign In
-          </Button>
-        </NextLink>
+
+        <Stack className="border-t border-white/10 pt-6">
+          <NextLink href="/auth/signin">
+            <Button
+              variant="ghost"
+              size="sm"
+              inverted
+              icon={<ArrowLeft className="size-4" />}
+              iconPosition="left"
+            >
+              Back to Sign In
+            </Button>
+          </NextLink>
+        </Stack>
       </Stack>
     </Card>
   );
@@ -71,33 +80,23 @@ function VerifyEmailContent() {
 
 export default function VerifyEmailPage() {
   return (
-    <PageLayout
-      background="black"
-      header={
-        <Navigation
-          logo={<Display size="md" className="text-white">GVTEWAY</Display>}
-          cta={<></>}
-        />
-      }
-      footer={
-        <Footer
-          logo={<Display size="md" className="text-white">GVTEWAY</Display>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+    <AuthPage appName="GVTEWAY" background="black">
+      <ScrollReveal animation="slide-up" duration={600}>
+        <Suspense
+          fallback={
+            <Card inverted className="border-2 border-white/20 bg-black p-8">
+              <Stack gap={6} className="items-center text-center">
+                <LoadingSpinner size="lg" />
+                <Body size="sm" className="text-on-dark-muted">
+                  Loading...
+                </Body>
+              </Stack>
+            </Card>
+          }
         >
-          <FooterColumn title="Legal">
-            <FooterLink href="/legal/privacy">Privacy</FooterLink>
-            <FooterLink href="/legal/terms">Terms</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <Section background="black" className="flex min-h-[80vh] items-center justify-center py-12">
-        <Container className="w-full max-w-md">
-          <Suspense fallback={<LoadingSpinner size="lg" text="Loading..." />}>
-            <VerifyEmailContent />
-          </Suspense>
-        </Container>
-      </Section>
-    </PageLayout>
+          <VerifyEmailContent />
+        </Suspense>
+      </ScrollReveal>
+    </AuthPage>
   );
 }

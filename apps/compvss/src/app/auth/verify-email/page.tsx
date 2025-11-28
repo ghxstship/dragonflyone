@@ -4,17 +4,12 @@ import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { Mail } from "lucide-react";
 import {
-  PageLayout,
-  Navigation,
-  Footer,
-  FooterColumn,
-  FooterLink,
   H2,
   Body,
   Button,
-  SectionLayout,
   Stack,
   Card,
+  AuthPage,
 } from "@ghxstship/ui";
 import NextLink from "next/link";
 
@@ -55,44 +50,20 @@ function VerifyEmailContent() {
 
 export default function VerifyEmailPage() {
   return (
-    <PageLayout
-      background="white"
-      header={
-        <Navigation
-          logo={<Body className="font-display">COMPVSS</Body>}
-          cta={<></>}
-        />
-      }
-      footer={
-        <Footer
-          logo={<Body className="font-display">COMPVSS</Body>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Legal">
-            <FooterLink href="/legal/privacy">Privacy</FooterLink>
-            <FooterLink href="/legal/terms">Terms</FooterLink>
-            <FooterLink href="/support">Support</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <SectionLayout background="grey">
-        <Suspense fallback={
-          <Stack gap={8} className="mx-auto max-w-md">
-            <Card variant="elevated" className="p-8 text-center">
-              <Stack gap={6}>
-                <Card className="mx-auto flex size-16 items-center justify-center">
-                  <Mail className="size-8" />
-                </Card>
-                <H2 className="text-black">Verify Your Email</H2>
-                <Body className="text-muted">Loading...</Body>
-              </Stack>
+    <AuthPage appName="COMPVSS">
+      <Suspense fallback={
+        <Card variant="elevated" className="p-8 text-center">
+          <Stack gap={6}>
+            <Card className="mx-auto flex size-16 items-center justify-center">
+              <Mail className="size-8" />
             </Card>
+            <H2 className="text-black">Verify Your Email</H2>
+            <Body className="text-muted">Loading...</Body>
           </Stack>
-        }>
-          <VerifyEmailContent />
-        </Suspense>
-      </SectionLayout>
-    </PageLayout>
+        </Card>
+      }>
+        <VerifyEmailContent />
+      </Suspense>
+    </AuthPage>
   );
 }

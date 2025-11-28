@@ -13,9 +13,8 @@ import {
   Card,
   Field,
   Checkbox,
-  Section,
-  Container,
   Label,
+  AuthPage,
 } from '@ghxstship/ui';
 import NextLink from 'next/link';
 
@@ -44,8 +43,7 @@ export default function LoginPage() {
   };
 
   return (
-    <Section background="black" className="flex min-h-screen items-center justify-center py-12">
-      <Container className="w-full max-w-md">
+    <AuthPage appName="GVTEWAY" background="black">
         {/* Auth Card - Pop Art Style */}
         <Card inverted variant="elevated" className="p-8">
           <Stack gap={8}>
@@ -132,7 +130,6 @@ export default function LoginPage() {
             </Stack>
           </Stack>
         </Card>
-      </Container>
-    </Section>
+    </AuthPage>
   );
 }
