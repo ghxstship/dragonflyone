@@ -1,14 +1,12 @@
-import { ConsumerNavigationPublic } from "../components/navigation";
+"use client";
+
+import { MembershipNavigationPublic } from "../components/navigation";
 import {
-  Badge,
   Stack,
   Grid,
   Card,
-  CardHeader,
-  CardBody,
   Container,
   Display,
-  H1,
   H2,
   H3,
   Body,
@@ -19,411 +17,593 @@ import {
   Footer,
   FooterColumn,
   FooterLink,
-  Kicker,
+  ScrollReveal,
+  StaggerChildren,
 } from "@ghxstship/ui";
 import {
-  Music,
-  Tent,
-  Trophy,
-  Drama,
-  Laugh,
+  Lock,
+  Clock,
+  DollarSign,
+  Headphones,
+  Globe,
+  Users,
+  Compass,
   Sparkles,
   ArrowRight,
-  Ticket,
-  Users,
-  MapPin,
+  Check,
+  Quote,
+  Search,
   Zap,
+  Palette,
+  Target,
+  Handshake,
+  Lightbulb,
+  TrendingUp,
   Heart,
-  Star,
-  Globe,
 } from "lucide-react";
-import { ExperienceDiscovery } from "../components/experience-discovery";
 import NextLink from "next/link";
 
 export const runtime = "edge";
 
-// Consumer-focused hero content
-const consumerHero = {
-  kicker: "GVTEWAY",
-  headline: "EXPERIENCES AMPLIFIED",
-  subhead:
-    "Find and book unforgettable live events, festivals, and performances. Your gateway to extraordinary experiences.",
-  stats: [
-    { label: "Live Events", value: "2,400+", icon: Ticket },
-    { label: "Cities", value: "180+", icon: MapPin },
-    { label: "Artists", value: "12K+", icon: Users },
-  ],
-};
+// =============================================================================
+// MEMBERSHIP LANDING PAGE DATA
+// =============================================================================
 
-// Featured categories for consumer discovery
-const featuredCategories = [
-  { label: "Concerts", href: "/events?category=concerts", icon: Music },
-  { label: "Festivals", href: "/events?category=festivals", icon: Tent },
-  { label: "Sports", href: "/events?category=sports", icon: Trophy },
-  { label: "Theater", href: "/events?category=theater", icon: Drama },
-  { label: "Comedy", href: "/events?category=comedy", icon: Laugh },
-  { label: "Immersive", href: "/events?category=immersive", icon: Sparkles },
+// Membership tiers
+const membershipTiers = [
+  {
+    name: "MEMBER",
+    price: "$49",
+    period: "/mo",
+    description: "Your gateway to extraordinary experiences",
+    features: [
+      "Priority access to all experiences",
+      "Member-only pricing",
+      "48-hour early access windows",
+      "Community access",
+    ],
+    cta: "Apply Now",
+    popular: false,
+  },
+  {
+    name: "PLUS",
+    price: "$99",
+    period: "/mo",
+    description: "Enhanced access with premium perks",
+    features: [
+      "Everything in Member",
+      "VIP upgrades when available",
+      "Personal concierge service",
+      "Exclusive member events",
+      "Priority support",
+    ],
+    cta: "Apply Now",
+    popular: true,
+  },
+  {
+    name: "EXTRA",
+    price: "$199",
+    period: "/mo",
+    description: "The ultimate experience membership",
+    features: [
+      "Everything in Plus",
+      "Backstage passes",
+      "Curated adventure trips",
+      "Artist meet & greets",
+      "Dedicated account manager",
+      "Complimentary +1 on select experiences",
+    ],
+    cta: "Apply Now",
+    popular: false,
+  },
 ];
 
-// Consumer value propositions with icons
-const consumerFeatures = [
+// Problem statements
+const problems = [
   {
-    title: "Discover",
-    icon: Zap,
-    description:
-      "Find your next obsession through music, vibes, and the experiences that define your scene.",
-    bullets: [
-      "Music & vibe matching",
-      "Experience curation",
-      "People & places",
-      "Product discovery",
-    ],
+    icon: Lock,
+    title: "FIGHTING FOR ACCESS",
+    description: "Refreshing pages. Lottery systems. Sold out instantly.",
   },
   {
-    title: "Connect",
-    icon: Heart,
-    description:
-      "Join experience-driven communities built around shared passions and unforgettable moments.",
-    bullets: [
-      "Social communities",
-      "Interest-based groups",
-      "Exclusive clubs",
-      "Shared experiences",
-    ],
+    icon: DollarSign,
+    title: "OVERPRICED RESELLERS",
+    description: "Paying 3x face value for experiences you deserve.",
   },
   {
-    title: "Access",
-    icon: Star,
-    description:
-      "Unlock membership-based ticketing with priority access and exclusive insider benefits.",
-    bullets: [
-      "Membership tiers",
-      "Priority access",
-      "Exclusive drops",
-      "Insider benefits",
-    ],
-  },
-  {
-    title: "Enrich",
-    icon: Globe,
-    description:
-      "Experiences beyond events—engage all five senses across distance, space, and time.",
-    bullets: [
-      "Multi-sensory experiences",
-      "Virtual & hybrid events",
-      "Extended reality",
-      "Timeless moments",
-    ],
-  },
-  {
-    title: "Inspire",
     icon: Sparkles,
-    description:
-      "Education, resources, and tools for continued creative growth in your craft.",
-    bullets: [
-      "Learning resources",
-      "Creative tools",
-      "Artist development",
-      "Community mentorship",
-    ],
+    title: "FORGETTABLE EXPERIENCES",
+    description: "Standing in the back, seeing nothing, remembering less.",
   },
 ];
 
-// Trending tags
-const trendingTags = [
-  "Flash Sales",
-  "Last Minute Deals",
-  "VIP Experiences",
-  "Festival Season",
-  "New Venues",
+// Membership benefits
+const membershipBenefits = [
+  {
+    icon: Lock,
+    title: "PRIORITY ACCESS",
+    description: "Skip the public chaos. Members get first look at every experience.",
+  },
+  {
+    icon: Clock,
+    title: "EARLY WINDOWS",
+    description: "48-hour head start on every drop. By the time it's public, you're in.",
+  },
+  {
+    icon: DollarSign,
+    title: "MEMBER PRICING",
+    description: "Exclusive rates on every experience. The more you attend, the more you save.",
+  },
+  {
+    icon: Headphones,
+    title: "PERSONAL CONCIERGE",
+    description: "Need something special? Your dedicated concierge makes it happen. (Plus+ and above)",
+  },
+  {
+    icon: Globe,
+    title: "GLOBAL ADVENTURES",
+    description: "Curated trips to 52+ countries. Festivals, retreats, expeditions.",
+  },
+  {
+    icon: Users,
+    title: "THE COMMUNITY",
+    description: "Connect with 847 members who share your passion for extraordinary experiences.",
+  },
 ];
 
-export default function Home() {
+// Testimonials
+const testimonials = [
+  {
+    quote: "GVTEWAY changed how I experience music. I've been backstage at festivals I used to watch from the lawn.",
+    author: "SARAH M.",
+    tier: "EXTRA MEMBER SINCE 2024",
+  },
+  {
+    quote: "The concierge service alone is worth the membership. They've made impossible reservations happen.",
+    author: "MARCUS T.",
+    tier: "PLUS MEMBER SINCE 2023",
+  },
+  {
+    quote: "I've met artists I've followed for years. These aren't just events—they're life-changing moments.",
+    author: "ELENA K.",
+    tier: "EXTRA MEMBER SINCE 2024",
+  },
+];
+
+// Partner logos (placeholder names)
+const partners = ["INSOMNIAC", "F1", "HEINEKEN", "RED BULL", "PATRÓN"];
+
+// =============================================================================
+// COMPONENT
+// =============================================================================
+
+export default function MembershipLandingPage() {
   return (
     <PageLayout
       background="black"
-      header={<ConsumerNavigationPublic />}
+      header={<MembershipNavigationPublic />}
       footer={
         <Footer
           logo={<Display size="md">GVTEWAY</Display>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+          copyright="© 2025 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
         >
-          <FooterColumn title="Discover">
-            <FooterLink href="/events">Browse Events</FooterLink>
-            <FooterLink href="/venues">Find Venues</FooterLink>
-            <FooterLink href="/artists">Artists</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="For Creators">
-            <FooterLink href="/creators">Sell Tickets</FooterLink>
-            <FooterLink href="/creators#pricing">Pricing</FooterLink>
-            <FooterLink href="/creators#features">Features</FooterLink>
+          <FooterColumn title="Experiences">
+            <FooterLink href="/experiences">Browse Experiences</FooterLink>
+            <FooterLink href="/membership">Membership</FooterLink>
+            <FooterLink href="/about">About</FooterLink>
           </FooterColumn>
           <FooterColumn title="Support">
             <FooterLink href="/help">Help Center</FooterLink>
-            <FooterLink href="/help#contact">Contact</FooterLink>
-            <FooterLink href="/help#faq">FAQ</FooterLink>
+            <FooterLink href="/contact">Contact</FooterLink>
+            <FooterLink href="/faq">FAQ</FooterLink>
           </FooterColumn>
           <FooterColumn title="Legal">
             <FooterLink href="/legal/privacy">Privacy</FooterLink>
             <FooterLink href="/legal/terms">Terms</FooterLink>
             <FooterLink href="/accessibility">Accessibility</FooterLink>
           </FooterColumn>
+          <FooterColumn title="For Creators">
+            <Label size="xs" className="text-on-dark-muted mb-2">Event organizers & venues</Label>
+            <FooterLink href="https://atlvs.ghxstship.com">ATLVS</FooterLink>
+            <FooterLink href="https://compvss.ghxstship.com">COMPVSS</FooterLink>
+          </FooterColumn>
         </Footer>
       }
     >
       {/* ═══════════════════════════════════════════════════════════════════════════
-          HERO SECTION - Bold Contemporary Pop Art Adventure
-          Features: Grid pattern, massive Anton headline, hard shadow CTAs
+          SECTION 1: HERO - Full Viewport Immersive
           ═══════════════════════════════════════════════════════════════════════════ */}
-      <Section background="black" className="relative min-h-[80vh] overflow-hidden">
-        {/* Grid Pattern Background - Pop Art aesthetic */}
+      <Section background="black" className="relative min-h-screen overflow-hidden">
+        {/* Background gradient overlay */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
+        
+        {/* Halftone pattern overlay */}
         <div
-          className="pointer-events-none absolute inset-0 opacity-[0.07]"
-          style={{
-            backgroundImage: `
-              linear-gradient(#fff 1px, transparent 1px),
-              linear-gradient(90deg, #fff 1px, transparent 1px)
-            `,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        {/* Halftone dots overlay */}
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.03]"
+          className="pointer-events-none absolute inset-0 opacity-[0.04]"
           style={{
             backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)",
-            backgroundSize: "16px 16px",
+            backgroundSize: "20px 20px",
           }}
         />
-        <Container className="relative z-10 flex h-full min-h-[80vh] flex-col items-center justify-center py-24 text-center">
-          <Stack gap={8} className="max-w-5xl">
-            {/* Kicker - mono label */}
-            <Kicker size="lg" colorScheme="on-dark" className="tracking-[0.3em]">
-              {consumerHero.kicker}
-            </Kicker>
-            
-            {/* Main Headline - ANTON display font */}
-            <Display size="xl" className="text-white">
-              {consumerHero.headline}
-            </Display>
-            
-            {/* Subhead */}
-            <Body size="lg" className="mx-auto max-w-2xl text-on-dark-secondary">
-              {consumerHero.subhead}
-            </Body>
-          </Stack>
+
+        <Container className="relative z-10 flex min-h-screen flex-col items-center justify-center py-32 text-center">
+          <ScrollReveal animation="slide-up" duration={800}>
+            <Stack gap={8} className="max-w-4xl">
+              {/* Main Headline - ANTON display font, stacked */}
+              <Display size="xl" className="text-white leading-[0.9]">
+                EXPERIENCE
+              </Display>
+              <Display size="xl" className="text-white leading-[0.9] -mt-4">
+                BEYOND EVENTS
+              </Display>
+              
+              {/* Subhead */}
+              <Body size="lg" className="mx-auto max-w-2xl text-on-dark-secondary mt-4">
+                The membership for those who refuse to settle for less.
+                <br />
+                Curated destinations. Rare experiences. Priceless moments.
+              </Body>
+            </Stack>
+          </ScrollReveal>
           
-          {/* CTA Buttons - Bold with hard shadows */}
-          <Stack direction="horizontal" gap={6} className="mt-12 flex-col items-center justify-center md:flex-row">
-            <NextLink href="/events">
-              <Button
-                variant="solid"
-                size="lg"
-                inverted
-                icon={<ArrowRight />}
-                className="shadow-md transition-all duration-100 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-lg"
-              >
-                Browse Events
-              </Button>
-            </NextLink>
-            <NextLink href="/search">
-              <Button
-                variant="outlineInk"
-                size="lg"
-                className="border-2 shadow-sm transition-all duration-100 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-md"
-              >
-                Search by Artist
-              </Button>
-            </NextLink>
-          </Stack>
+          {/* CTA Button - Large, amber accent, pop shadow */}
+          <ScrollReveal animation="slide-up" delay={200} duration={800}>
+            <Stack gap={6} className="mt-12 items-center">
+              <NextLink href="/apply">
+                <Button
+                  variant="pop"
+                  size="lg"
+                  inverted
+                >
+                  Request Membership
+                </Button>
+              </NextLink>
+              
+              {/* Scarcity signal */}
+              <Label size="xs" className="text-on-dark-muted tracking-[0.2em] uppercase">
+                Invitation Only • 4321 Members Worldwide
+              </Label>
+            </Stack>
+          </ScrollReveal>
         </Container>
       </Section>
 
-      <Container className="relative mx-auto max-w-7xl px-6 pb-24 lg:px-8">
-        {/* ═══════════════════════════════════════════════════════════════════════════
-            STATS SECTION - Comic panel cards with hard shadows
-            ═══════════════════════════════════════════════════════════════════════════ */}
-        <Section border className="-mt-16 relative z-20 rounded-none border-2 border-ink-700 bg-ink-950 p-8 shadow-primary">
-          <Grid cols={3} gap={8}>
-            {consumerHero.stats.map((stat) => (
-              <div
-                key={stat.label}
-                className="flex flex-col items-center gap-3 text-center"
-              >
-                <div className="flex size-14 items-center justify-center border-2 border-ink-600 bg-ink-900 shadow-primary">
-                  <stat.icon className="size-6 text-white" />
-                </div>
-                <H1 size="sm" className="text-white">{stat.value}</H1>
-                <Label size="xs" className="tracking-label text-on-dark-muted">{stat.label}</Label>
-              </div>
-            ))}
-          </Grid>
-        </Section>
-
-        {/* ═══════════════════════════════════════════════════════════════════════════
-            CATEGORY QUICK LINKS - Pop Art card grid
-            ═══════════════════════════════════════════════════════════════════════════ */}
-        <Section className="py-20">
-          <Stack gap={4} className="mb-12 text-center">
-            <Kicker colorScheme="on-dark" className="tracking-kicker">Browse by Category</Kicker>
-            <H2 size="lg" className="text-white">Find Your Next Experience</H2>
-            <Body className="mx-auto max-w-xl text-on-dark-muted">
-              Explore events across genres, from intimate concerts to massive festivals.
-            </Body>
-          </Stack>
-          <Grid cols={6} gap={4}>
-            {featuredCategories.map((category) => (
-              <NextLink key={category.label} href={category.href}>
-                <Card inverted interactive className="group flex flex-col items-center gap-4 p-6 text-center">
-                  <div className="flex size-12 items-center justify-center border-2 border-ink-700 bg-ink-900 transition-colors group-hover:border-white group-hover:bg-ink-800">
-                    <category.icon className="size-6 text-on-dark-secondary transition-colors group-hover:text-white" />
-                  </div>
-                  <Label size="xs" className="tracking-label text-on-dark-muted transition-colors group-hover:text-white">
-                    {category.label}
-                  </Label>
+      {/* ═══════════════════════════════════════════════════════════════════════════
+          SECTION 2: THE PROBLEM - Empathy Hook
+          ═══════════════════════════════════════════════════════════════════════════ */}
+      <Section background="black" className="py-24 border-t border-ink-900">
+        <Container>
+          <ScrollReveal animation="fade">
+            <H2 size="lg" className="text-white text-center mb-16 tracking-wide">
+              THE OLD WAY IS BROKEN
+            </H2>
+          </ScrollReveal>
+          
+          <StaggerChildren staggerDelay={150} animation="slide-up">
+            <Grid cols={3} gap={8} className="max-w-5xl mx-auto">
+              {problems.map((problem) => (
+                <Card
+                  key={problem.title}
+                  inverted
+                  className="p-8 border-2 border-ink-800 bg-ink-950 text-center"
+                >
+                  <Stack gap={6} className="items-center">
+                    <div className="flex size-16 items-center justify-center border-2 border-ink-700 bg-ink-900">
+                      <problem.icon className="size-8 text-on-dark-secondary" />
+                    </div>
+                    <H3 className="text-white tracking-wide">{problem.title}</H3>
+                    <Body size="sm" className="text-on-dark-muted">
+                      {problem.description}
+                    </Body>
+                  </Stack>
                 </Card>
-              </NextLink>
-            ))}
-          </Grid>
-        </Section>
-
-        {/* ═══════════════════════════════════════════════════════════════════════════
-            EVENT DISCOVERY - Search panel with bold borders
-            ═══════════════════════════════════════════════════════════════════════════ */}
-        <Section id="discover" className="py-20">
-          <Stack gap={4} className="mb-12">
-            <Kicker colorScheme="on-dark" className="tracking-kicker">Personalized Discovery</Kicker>
-            <H2 size="lg" className="text-white">Events Curated for You</H2>
-            <Body className="max-w-2xl text-on-dark-muted">
-              Search by artist, venue, city, or vibe. Save searches and get alerts when new events match your preferences.
-            </Body>
-          </Stack>
-          <Card inverted variant="elevated" className="p-8">
-            <ExperienceDiscovery />
-          </Card>
-        </Section>
-
-        {/* ═══════════════════════════════════════════════════════════════════════════
-            CONSUMER FEATURES - Pop Art feature cards with icons
-            ═══════════════════════════════════════════════════════════════════════════ */}
-        <Section className="py-20">
-          <Stack gap={4} className="mb-12 text-center">
-            <Kicker colorScheme="on-dark" className="tracking-kicker">Your Complete Event Journey</Kicker>
-            <H2 size="lg" className="text-white">From Discovery to Memories</H2>
-            <Body className="mx-auto max-w-xl text-on-dark-muted">
-              Everything you need for an unforgettable experience, all in one place.
-            </Body>
-          </Stack>
-          <Grid cols={1} gap={6} className="md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-            {consumerFeatures.map((feature) => (
-              <Card
-                key={feature.title}
-                inverted
-                interactive
-                className="group flex flex-col gap-6"
-              >
-                {/* Icon with accent shadow */}
-                <div className="flex size-14 items-center justify-center border-2 border-ink-700 bg-ink-900 shadow-xs transition-all group-hover:shadow-sm">
-                  <feature.icon className="size-6 text-white" />
-                </div>
-                
-                {/* Title */}
-                <H3 className="text-white">{feature.title}</H3>
-                
-                {/* Description */}
-                <Body size="sm" className="text-on-dark-muted">
-                  {feature.description}
-                </Body>
-                
-                {/* Bullet points */}
-                <Stack gap={2} className="mt-auto">
-                  {feature.bullets.map((bullet) => (
-                    <Label key={bullet} size="xxs" className="text-on-dark-disabled">
-                      {`// ${bullet}`}
-                    </Label>
-                  ))}
-                </Stack>
-              </Card>
-            ))}
-          </Grid>
-        </Section>
-
-        {/* ═══════════════════════════════════════════════════════════════════════════
-            TRENDING SECTION - Badge tags with pop art styling
-            ═══════════════════════════════════════════════════════════════════════════ */}
-        <Section className="py-20">
-          <Stack gap={4} className="mb-12">
-            <Kicker colorScheme="on-dark" className="tracking-kicker">What&apos;s Hot</Kicker>
-            <H2 size="lg" className="text-white">Trending This Week</H2>
-            <Body className="max-w-xl text-on-dark-muted">
-              The most popular events and artists your friends are talking about.
-            </Body>
-          </Stack>
-          <Stack gap={10}>
-            <Stack direction="horizontal" gap={4} className="flex-wrap">
-              {trendingTags.map((tag) => (
-                <Badge
-                  key={tag}
-                  variant="outline"
-                  size="lg"
-                  className="border-2 border-ink-600 bg-ink-950 px-5 py-2 shadow-xs transition-all duration-100 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:border-white hover:shadow-sm"
-                >
-                  {tag}
-                </Badge>
               ))}
-            </Stack>
-            <div>
-              <NextLink href="/events?filter=trending">
-                <Button
-                  variant="outlineInk"
-                  size="lg"
-                  icon={<ArrowRight />}
-                  className="border-2 shadow-sm transition-all duration-100 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-md"
-                >
-                  View All Trending Events
-                </Button>
-              </NextLink>
-            </div>
-          </Stack>
-        </Section>
+            </Grid>
+          </StaggerChildren>
+        </Container>
+      </Section>
 
-        {/* ═══════════════════════════════════════════════════════════════════════════
-            CTA SECTION - Pop Art panel with accent shadow
-            ═══════════════════════════════════════════════════════════════════════════ */}
-        <Section className="py-20">
-          <Card inverted variant="pop" className="p-12 text-center">
-            <Stack gap={6} className="mx-auto max-w-2xl">
-              <Kicker colorScheme="on-dark" className="tracking-kicker">Event Creators</Kicker>
-              <H2 size="lg" className="text-white">Sell Tickets on GVTEWAY</H2>
-              <Body className="text-on-dark-muted">
-                Are you an event organizer, venue, or artist? Join thousands of creators using GVTEWAY to sell tickets and grow their audience.
+      {/* ═══════════════════════════════════════════════════════════════════════════
+          SECTION 3: MEMBERSHIP TIERS - Value Visualization
+          ═══════════════════════════════════════════════════════════════════════════ */}
+      <Section background="black" className="py-24 border-t border-ink-900">
+        <Container>
+          <ScrollReveal animation="fade">
+            <Stack gap={4} className="text-center mb-16">
+              <H2 size="lg" className="text-white tracking-wide">
+                CHOOSE YOUR VOYAGE
+              </H2>
+              <Body className="text-on-dark-muted max-w-xl mx-auto">
+                Every level unlocks extraordinary. Higher tiers unlock more.
               </Body>
             </Stack>
-            <Stack direction="horizontal" gap={6} className="mt-10 flex-col items-center justify-center md:flex-row">
-              <NextLink href="/creators">
-                <Button
-                  variant="solid"
-                  size="lg"
+          </ScrollReveal>
+
+          <StaggerChildren staggerDelay={150} animation="slide-up">
+            <Grid cols={3} gap={6} className="max-w-5xl mx-auto">
+              {membershipTiers.map((tier) => (
+                <Card
+                  key={tier.name}
                   inverted
-                  icon={<ArrowRight />}
-                  className="shadow-md transition-all duration-100 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-lg"
+                  className={`relative flex h-full flex-col p-8 border-2 ${
+                    tier.popular 
+                      ? "border-accent shadow-[4px_4px_0_rgba(245,158,11,0.4)]" 
+                      : "border-ink-800"
+                  } bg-ink-950`}
                 >
-                  Start Selling Tickets
-                </Button>
-              </NextLink>
-              <NextLink href="/creators#pricing">
-                <Button
-                  variant="outlineInk"
-                  size="lg"
-                  className="border-2 shadow-sm transition-all duration-100 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-md"
+                  {tier.popular && (
+                    <Label size="xs" className="absolute -top-3 left-1/2 -translate-x-1/2 border-2 border-white bg-ink-950 text-white px-4 py-1 font-bold tracking-wider">
+                      ★ POPULAR
+                    </Label>
+                  )}
+                  
+                  <Stack gap={6} className="flex-1">
+                    <H3 className="text-white tracking-wider">{tier.name}</H3>
+                    
+                    <div className="flex items-baseline gap-1">
+                      <Display size="md" className="text-white">{tier.price}</Display>
+                      <Label size="sm" className="text-on-dark-muted">{tier.period}</Label>
+                    </div>
+                    
+                    <Body size="sm" className="text-on-dark-muted">
+                      {tier.description}
+                    </Body>
+                    
+                    <Stack gap={3} className="py-4 border-t border-ink-800 flex-1">
+                      {tier.features.map((feature) => (
+                        <Stack key={feature} direction="horizontal" gap={3} className="items-start">
+                          <Check className="size-4 text-accent mt-0.5 flex-shrink-0" />
+                          <Label size="xs" className="text-on-dark-secondary">{feature}</Label>
+                        </Stack>
+                      ))}
+                    </Stack>
+                  </Stack>
+                    
+                  <NextLink href="/apply" className="mt-6 w-full">
+                    <Button
+                      variant="outlineWhite"
+                      size="md"
+                      fullWidth
+                    >
+                      {tier.cta}
+                    </Button>
+                  </NextLink>
+                </Card>
+              ))}
+            </Grid>
+          </StaggerChildren>
+
+          <ScrollReveal animation="fade" delay={400}>
+            <Label size="xs" className="text-on-dark-disabled text-center mt-8 block tracking-wider">
+              FOUNDING MEMBER PRICING • RATES INCREASE SOON
+            </Label>
+          </ScrollReveal>
+        </Container>
+      </Section>
+
+      {/* ═══════════════════════════════════════════════════════════════════════════
+          SECTION 4: EXPERIENCE CATEGORIES - Lifestyle Pillars
+          ═══════════════════════════════════════════════════════════════════════════ */}
+      <Section background="black" className="py-24 border-t border-ink-900">
+        <Container size="xl">
+          <ScrollReveal animation="fade">
+            <H2 size="lg" className="text-white text-center mb-16 tracking-wide">
+              WHAT MEMBERS UNLOCK
+            </H2>
+          </ScrollReveal>
+
+          <StaggerChildren staggerDelay={50} animation="slide-up">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 auto-rows-[140px]">
+              {/* Row 1 */}
+              <Card inverted className="col-span-2 row-span-2 flex flex-col justify-end p-6 border-2 border-ink-800 bg-ink-950">
+                <Stack gap={2}>
+                  <Search className="size-6 text-accent" />
+                  <H3 size="sm" className="text-white tracking-wider">DISCOVERY</H3>
+                  <Body size="xs" className="text-on-dark-secondary">
+                    Uncover hidden gems and exclusive opportunities.
+                  </Body>
+                </Stack>
+              </Card>
+              
+              <Card inverted className="flex flex-col justify-end p-5 border-2 border-ink-800 bg-ink-950">
+                <Stack gap={1}>
+                  <Users className="size-5 text-accent" />
+                  <Label size="xs" className="text-white tracking-wider">COMMUNITY</Label>
+                </Stack>
+              </Card>
+              
+              <Card inverted className="col-span-2 flex flex-col justify-end p-5 border-2 border-ink-800 bg-ink-950">
+                <Stack gap={1}>
+                  <Zap className="size-5 text-accent" />
+                  <Label size="xs" className="text-white tracking-wider">EXPERIENCES</Label>
+                </Stack>
+              </Card>
+
+              {/* Row 2 */}
+              <Card inverted className="flex flex-col justify-end p-5 border-2 border-ink-800 bg-ink-950">
+                <Stack gap={1}>
+                  <Compass className="size-5 text-accent" />
+                  <Label size="xs" className="text-white tracking-wider">ADVENTURES</Label>
+                </Stack>
+              </Card>
+              
+              <Card inverted className="col-span-2 flex flex-col justify-end p-5 border-2 border-ink-800 bg-ink-950">
+                <Stack gap={1}>
+                  <Palette className="size-5 text-accent" />
+                  <Label size="xs" className="text-white tracking-wider">CULTURE</Label>
+                </Stack>
+              </Card>
+
+              {/* Row 3 */}
+              <Card inverted className="flex flex-col justify-end p-5 border-2 border-ink-800 bg-ink-950">
+                <Stack gap={1}>
+                  <Target className="size-5 text-accent" />
+                  <Label size="xs" className="text-white tracking-wider">DISCIPLINE</Label>
+                </Stack>
+              </Card>
+              
+              <Card inverted className="col-span-2 row-span-2 flex flex-col justify-end p-6 border-2 border-ink-800 bg-ink-950">
+                <Stack gap={2}>
+                  <Handshake className="size-6 text-accent" />
+                  <H3 size="sm" className="text-white tracking-wider">COLLABORATION</H3>
+                  <Body size="xs" className="text-on-dark-secondary">
+                    Connect with like-minded creators and visionaries.
+                  </Body>
+                </Stack>
+              </Card>
+              
+              <Card inverted className="flex flex-col justify-end p-5 border-2 border-ink-800 bg-ink-950">
+                <Stack gap={1}>
+                  <Lightbulb className="size-5 text-accent" />
+                  <Label size="xs" className="text-white tracking-wider">INSPIRATION</Label>
+                </Stack>
+              </Card>
+              
+              <Card inverted className="flex flex-col justify-end p-5 border-2 border-ink-800 bg-ink-950">
+                <Stack gap={1}>
+                  <TrendingUp className="size-5 text-accent" />
+                  <Label size="xs" className="text-white tracking-wider">INVESTMENT</Label>
+                </Stack>
+              </Card>
+
+              {/* Row 4 */}
+              <Card inverted className="col-span-2 flex flex-col justify-end p-5 border-2 border-ink-800 bg-ink-950">
+                <Stack gap={1}>
+                  <Heart className="size-5 text-accent" />
+                  <Label size="xs" className="text-white tracking-wider">IMPACT</Label>
+                </Stack>
+              </Card>
+            </div>
+          </StaggerChildren>
+        </Container>
+      </Section>
+
+      {/* ═══════════════════════════════════════════════════════════════════════════
+          SECTION 5: THE GVTEWAY DIFFERENCE - Features Grid
+          ═══════════════════════════════════════════════════════════════════════════ */}
+      <Section background="black" className="py-24 border-t border-ink-900">
+        <Container>
+          <ScrollReveal animation="fade">
+            <H2 size="lg" className="text-white text-center mb-16 tracking-wide">
+              MEMBERSHIP MEANS MORE
+            </H2>
+          </ScrollReveal>
+
+          <StaggerChildren staggerDelay={100} animation="slide-up">
+            <Grid cols={2} gap={6} className="max-w-4xl mx-auto">
+              {membershipBenefits.map((benefit) => (
+                <Card
+                  key={benefit.title}
+                  inverted
+                  className="p-8 border-2 border-ink-800 bg-ink-950"
                 >
-                  View Pricing
-                </Button>
-              </NextLink>
+                  <Stack gap={4}>
+                    <div className="flex size-12 items-center justify-center border-2 border-ink-700 bg-ink-900">
+                      <benefit.icon className="size-6 text-accent" />
+                    </div>
+                    <H3 size="sm" className="text-white tracking-wider">{benefit.title}</H3>
+                    <Body size="sm" className="text-on-dark-muted">
+                      {benefit.description}
+                    </Body>
+                  </Stack>
+                </Card>
+              ))}
+            </Grid>
+          </StaggerChildren>
+        </Container>
+      </Section>
+
+      {/* ═══════════════════════════════════════════════════════════════════════════
+          SECTION 6: SOCIAL PROOF - Testimonials + Credibility
+          ═══════════════════════════════════════════════════════════════════════════ */}
+      <Section background="black" className="py-24 border-t border-ink-900">
+        <Container>
+          <ScrollReveal animation="fade">
+            <H2 size="lg" className="text-white text-center mb-16 tracking-wide">
+              WHAT MEMBERS SAY
+            </H2>
+          </ScrollReveal>
+
+          <StaggerChildren staggerDelay={150} animation="slide-up">
+            <Grid cols={3} gap={6} className="max-w-5xl mx-auto mb-16">
+              {testimonials.map((testimonial, index) => (
+                <Card
+                  key={index}
+                  inverted
+                  className="p-8 border-2 border-ink-800 bg-ink-950"
+                >
+                  <Stack gap={6}>
+                    <Quote className="size-8 text-accent opacity-50" />
+                    <Body className="text-on-dark-secondary italic">
+                      &ldquo;{testimonial.quote}&rdquo;
+                    </Body>
+                    <Stack gap={1}>
+                      <Label size="sm" className="text-white font-bold">— {testimonial.author}</Label>
+                      <Label size="xxs" className="text-on-dark-disabled tracking-wider">{testimonial.tier}</Label>
+                    </Stack>
+                  </Stack>
+                </Card>
+              ))}
+            </Grid>
+          </StaggerChildren>
+
+          <ScrollReveal animation="fade" delay={300}>
+            <Stack gap={6} className="items-center">
+              <Label size="xs" className="text-on-dark-disabled tracking-wider">TRUSTED BY PARTNERS</Label>
+              <Stack direction="horizontal" gap={8} className="flex-wrap justify-center">
+                {partners.map((partner) => (
+                  <Label key={partner} size="sm" className="text-ink-700 font-bold tracking-wider">
+                    {partner}
+                  </Label>
+                ))}
+              </Stack>
             </Stack>
-          </Card>
-        </Section>
-      </Container>
+          </ScrollReveal>
+        </Container>
+      </Section>
+
+      {/* ═══════════════════════════════════════════════════════════════════════════
+          SECTION 7: APPLICATION CTA - Final Conversion
+          ═══════════════════════════════════════════════════════════════════════════ */}
+      <Section background="black" className="py-32 border-t border-ink-900 relative overflow-hidden">
+        {/* Subtle texture */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.02]"
+          style={{
+            backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)",
+            backgroundSize: "24px 24px",
+          }}
+        />
+
+        <Container className="relative z-10">
+          <ScrollReveal animation="scale" duration={600}>
+            <Stack gap={8} className="items-center text-center max-w-2xl mx-auto">
+              <Display size="md" className="text-white">
+                READY TO JOIN?
+              </Display>
+              
+              <Body size="lg" className="text-on-dark-secondary">
+                Membership is by application only. Approval takes 24-48 hours.
+              </Body>
+              
+              <NextLink href="/apply">
+                <Button
+                  variant="pop"
+                  size="lg"
+                  icon={<ArrowRight />}
+                  inverted
+                >
+                  Request Membership
+                </Button>
+              </NextLink>
+              
+              <Label size="xs" className="text-on-dark-disabled tracking-wider">
+                No credit card required to apply
+              </Label>
+            </Stack>
+          </ScrollReveal>
+        </Container>
+      </Section>
     </PageLayout>
   );
 }

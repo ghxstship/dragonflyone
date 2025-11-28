@@ -14,7 +14,7 @@ const sizeClasses = {
   icon: "p-3 min-h-[44px] min-w-[44px]",
 };
 
-export type ButtonVariant = "solid" | "outline" | "ghost" | "outlineWhite" | "outlineInk" | "pop" | "destructive" | "secondary";
+export type ButtonVariant = "solid" | "outline" | "ghost" | "outlineWhite" | "outlineInk" | "pop" | "destructive" | "secondary" | "accent";
 
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: ButtonVariant;
@@ -68,10 +68,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       case "outlineWhite":
         return clsx(
           "border-white text-white bg-transparent",
-          "shadow-[3px_3px_0_rgba(255,255,255,0.2)]",
-          "hover:bg-white hover:text-black hover:shadow-[5px_5px_0_rgba(255,255,255,0.3)]",
-          "active:shadow-[1px_1px_0_rgba(255,255,255,0.2)]",
-          "focus-visible:ring-white focus-visible:ring-offset-ink-950"
+          "shadow-none",
+          "hover:shadow-[4px_4px_0_hsl(239,84%,67%)]",
+          "active:shadow-[2px_2px_0_hsl(239,84%,67%)]",
+          "focus-visible:ring-primary focus-visible:ring-offset-ink-950"
         );
       case "outlineInk":
         return clsx(
@@ -106,6 +106,14 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
           "hover:bg-violet-600 hover:border-violet-600 hover:shadow-[5px_5px_0_rgba(139,92,246,0.4)]",
           "active:shadow-[1px_1px_0_rgba(139,92,246,0.3)]",
           "focus-visible:ring-violet-500"
+        );
+      case "accent":
+        return clsx(
+          "bg-accent text-black border-accent",
+          "shadow-[3px_3px_0_rgba(245,158,11,0.4)]",
+          "hover:bg-accent/90 hover:shadow-[5px_5px_0_rgba(245,158,11,0.5)]",
+          "active:shadow-[1px_1px_0_rgba(245,158,11,0.4)]",
+          "focus-visible:ring-accent"
         );
     }
 

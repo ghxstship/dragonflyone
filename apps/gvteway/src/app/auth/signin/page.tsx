@@ -26,6 +26,11 @@ import {
   Label,
 } from "@ghxstship/ui";
 import NextLink from "next/link";
+import { Lock, ArrowRight } from "lucide-react";
+
+// =============================================================================
+// SIGN IN PAGE - Member Authentication
+// =============================================================================
 
 export default function SignInPage() {
   const router = useRouter();
@@ -44,7 +49,7 @@ export default function SignInPage() {
 
     try {
       await login(email, password);
-      router.push("/dashboard");
+      router.push("/experiences");
     } catch (err) {
       setError("Invalid email or password. Please try again.");
     } finally {
@@ -75,14 +80,24 @@ export default function SignInPage() {
       header={
         <Navigation
           logo={<Display size="md" className="text-white">GVTEWAY</Display>}
-          cta={<></>}
+          cta={
+            <NextLink href="/apply">
+              <Button variant="outline" size="sm" className="border-ink-700 text-on-dark-secondary hover:border-white hover:text-white">
+                Apply for Membership
+              </Button>
+            </NextLink>
+          }
         />
       }
       footer={
         <Footer
           logo={<Display size="md" className="text-white">GVTEWAY</Display>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+          copyright="© 2025 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
         >
+          <FooterColumn title="Membership">
+            <FooterLink href="/">Home</FooterLink>
+            <FooterLink href="/membership">Learn More</FooterLink>
+          </FooterColumn>
           <FooterColumn title="Legal">
             <FooterLink href="/legal/privacy">Privacy</FooterLink>
             <FooterLink href="/legal/terms">Terms</FooterLink>
@@ -90,16 +105,28 @@ export default function SignInPage() {
         </Footer>
       }
     >
-      <Section background="black" className="flex min-h-[80vh] items-center justify-center py-12">
-        <Container className="w-full max-w-md">
-          {/* Auth Card - Pop Art Style */}
-          <Card inverted variant="elevated" className="p-8">
+      <Section background="black" className="relative flex min-h-[80vh] items-center justify-center overflow-hidden py-12">
+        {/* Halftone pattern */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)",
+            backgroundSize: "20px 20px",
+          }}
+        />
+
+        <Container className="relative z-10 w-full max-w-md">
+          {/* Auth Card */}
+          <Card inverted className="border-2 border-ink-800 bg-ink-950 p-8">
             <Stack gap={8}>
               {/* Header */}
               <Stack gap={4} className="text-center">
-                <H2 className="text-white">Sign In</H2>
+                <div className="mx-auto flex size-16 items-center justify-center border-2 border-ink-700 bg-ink-900">
+                  <Lock className="size-8 text-warning" />
+                </div>
+                <H2 className="text-white">MEMBER SIGN IN</H2>
                 <Body className="text-on-dark-muted">
-                  Access your GVTEWAY account to manage events, tickets, and experiences.
+                  Access your exclusive experiences and member benefits.
                 </Body>
               </Stack>
 
@@ -157,60 +184,55 @@ export default function SignInPage() {
                     variant="solid"
                     size="lg"
                     fullWidth
-                    inverted
                     disabled={loading}
+                    icon={<ArrowRight className="size-4" />}
+                    iconPosition="right"
+                    className="bg-warning text-black hover:bg-warning/90"
                   >
                     {loading ? "Signing In..." : "Sign In"}
                   </Button>
                 </Stack>
               </form>
 
-              {/* Sign Up Link */}
-              <Stack className="text-center">
-                <Body size="sm" className="text-on-dark-muted">
-                  Don&apos;t have an account?{" "}
-                  <NextLink href="/auth/signup">
-                    <Button variant="ghost" size="sm" inverted className="inline">
-                      Sign up
-                    </Button>
-                  </NextLink>
-                </Body>
-              </Stack>
-
               {/* Divider with text */}
               <Stack direction="horizontal" className="items-center gap-4">
                 <Divider inverted className="flex-1" />
-                <Label size="xs" className="text-on-dark-muted">Or</Label>
+                <Label size="xs" className="text-on-dark-muted">Or continue with</Label>
                 <Divider inverted className="flex-1" />
               </Stack>
 
               {/* OAuth Buttons */}
               <Stack gap={3}>
                 <Button
-                  variant="outlineInk"
+                  variant="outline"
                   size="lg"
                   fullWidth
                   onClick={() => handleOAuthSignIn('google')}
                   disabled={loading}
+                  className="border-ink-700 text-on-dark-secondary hover:border-white hover:text-white"
                 >
                   Continue with Google
                 </Button>
                 <Button
-                  variant="outlineInk"
+                  variant="outline"
                   size="lg"
                   fullWidth
                   onClick={() => handleOAuthSignIn('apple')}
                   disabled={loading}
+                  className="border-ink-700 text-on-dark-secondary hover:border-white hover:text-white"
                 >
                   Continue with Apple
                 </Button>
               </Stack>
 
-              {/* Magic Link Option */}
-              <Stack className="pt-6 text-center" style={{ borderTop: '2px solid var(--ink-700)' }}>
-                <NextLink href="/auth/magic-link">
-                  <Button variant="ghost" size="sm" inverted className="text-on-dark-muted hover:text-white">
-                    Sign in with Magic Link
+              {/* Not a member */}
+              <Stack gap={4} className="border-t border-ink-800 pt-6 text-center">
+                <Body size="sm" className="text-on-dark-muted">
+                  Not a member yet?
+                </Body>
+                <NextLink href="/apply">
+                  <Button variant="outline" size="sm" className="border-warning text-warning hover:bg-warning hover:text-black">
+                    Apply for Membership
                   </Button>
                 </NextLink>
               </Stack>

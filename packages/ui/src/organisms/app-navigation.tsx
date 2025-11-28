@@ -124,22 +124,17 @@ export const AppNavigation = forwardRef<HTMLElement, AppNavigationProps>(
             {/* Desktop CTAs + Mobile Toggle */}
             <Stack direction="horizontal" gap={3} className="items-center">
               {primaryCta && (
-                <Link
-                  href={primaryCta.href}
-                  className="hidden md:inline-flex border border-white px-spacing-6 py-spacing-2 text-mono-xs uppercase tracking-kicker transition hover:-translate-y-0.5 hover:bg-white hover:text-black"
-                >
-                  {primaryCta.label}
+                <Link href={primaryCta.href} className="hidden md:block">
+                  <Button variant="outlineWhite" size="sm">
+                    {primaryCta.label}
+                  </Button>
                 </Link>
               )}
               {secondaryCta && (
-                <Link
-                  href={secondaryCta.href}
-                  className={clsx(
-                    "hidden md:inline-flex border px-spacing-6 py-spacing-2 text-mono-xs uppercase tracking-kicker transition hover:border-white hover:text-white",
-                    colorScheme === "black" ? "border-grey-700 text-grey-400" : "border-ink-700 text-ink-400"
-                  )}
-                >
-                  {secondaryCta.label}
+                <Link href={secondaryCta.href} className="hidden md:block">
+                  <Button variant="outlineInk" size="sm">
+                    {secondaryCta.label}
+                  </Button>
                 </Link>
               )}
 
@@ -200,24 +195,17 @@ export const AppNavigation = forwardRef<HTMLElement, AppNavigationProps>(
               </Stack>
               <Stack gap={4}>
                 {primaryCta && (
-                  <Link
-                    href={primaryCta.href}
-                    className="block w-full border border-white px-spacing-6 py-spacing-4 text-center text-mono-xs uppercase tracking-kicker text-white"
-                    onClick={handleClose}
-                  >
-                    {primaryCta.label}
+                  <Link href={primaryCta.href} onClick={handleClose} className="block">
+                    <Button variant="outlineWhite" size="md" fullWidth>
+                      {primaryCta.label}
+                    </Button>
                   </Link>
                 )}
                 {secondaryCta && (
-                  <Link
-                    href={secondaryCta.href}
-                    className={clsx(
-                      "block w-full border px-spacing-6 py-spacing-4 text-center text-mono-xs uppercase tracking-kicker",
-                      colorScheme === "black" ? "border-grey-700 text-grey-400" : "border-ink-700 text-ink-400"
-                    )}
-                    onClick={handleClose}
-                  >
-                    {secondaryCta.label}
+                  <Link href={secondaryCta.href} onClick={handleClose} className="block">
+                    <Button variant="outlineInk" size="md" fullWidth>
+                      {secondaryCta.label}
+                    </Button>
                   </Link>
                 )}
               </Stack>

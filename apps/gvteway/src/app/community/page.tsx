@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { ConsumerNavigationPublic } from '@/components/navigation';
+import { ConsumerNavigationAuthenticated } from '@/components/navigation';
 import { 
   Container, 
   Section, 
@@ -131,7 +131,7 @@ export default function CommunityPage() {
     return (
       <PageLayout
         background="black"
-        header={<ConsumerNavigationPublic />}
+        header={<ConsumerNavigationAuthenticated />}
         footer={
           <Footer logo={<Display size="md">GVTEWAY</Display>} copyright="© 2024 GHXSTSHIP INDUSTRIES.">
             <FooterColumn title="Discover">
@@ -154,7 +154,7 @@ export default function CommunityPage() {
     return (
       <PageLayout
         background="black"
-        header={<ConsumerNavigationPublic />}
+        header={<ConsumerNavigationAuthenticated />}
         footer={
           <Footer logo={<Display size="md">GVTEWAY</Display>} copyright="© 2024 GHXSTSHIP INDUSTRIES.">
             <FooterColumn title="Discover">
@@ -181,7 +181,7 @@ export default function CommunityPage() {
   return (
     <PageLayout
       background="black"
-      header={<ConsumerNavigationPublic />}
+      header={<ConsumerNavigationAuthenticated />}
       footer={
         <Footer logo={<Display size="md">GVTEWAY</Display>} copyright="© 2024 GHXSTSHIP INDUSTRIES.">
           <FooterColumn title="Discover">

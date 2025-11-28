@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ConsumerNavigationPublic } from '@/components/navigation';
+import { ConsumerNavigationAuthenticated } from '@/components/navigation';
 import {
   Container,
   Section,
@@ -23,12 +23,14 @@ import {
   Footer,
   FooterColumn,
   FooterLink,
+  ScrollReveal,
 } from '@ghxstship/ui';
 import { useAuth } from '@ghxstship/config/auth-context';
 import { PlatformRole } from '@ghxstship/config/roles';
 import { useEvents } from '@/hooks/useEvents';
 import { useOrders } from '@/hooks/useOrders';
-import { LogOut, Calendar, Ticket, User, Settings, Music, Building2, BarChart3 } from 'lucide-react';
+import { LogOut, Calendar, Ticket, User, Settings, Music, Building2, BarChart3, Sparkles, Crown, Lock, Globe } from 'lucide-react';
+import NextLink from 'next/link';
 
 /**
  * Role-based Dashboard Router
@@ -51,7 +53,7 @@ export default function DashboardPage() {
     return (
       <PageLayout
         background="black"
-        header={<ConsumerNavigationPublic />}
+        header={<ConsumerNavigationAuthenticated />}
         footer={
           <Footer
             logo={<Display size="md">GVTEWAY</Display>}
@@ -108,7 +110,7 @@ export default function DashboardPage() {
   return (
     <PageLayout
       background="black"
-      header={<ConsumerNavigationPublic />}
+      header={<ConsumerNavigationAuthenticated />}
       footer={
         <Footer
           logo={<Display size="md">GVTEWAY</Display>}

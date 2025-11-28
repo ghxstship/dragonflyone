@@ -16,6 +16,12 @@ export const gvtewayCreatorNavigation = [
   { label: "Roadmap", href: "#roadmap" },
 ];
 
+// Membership landing page navigation (minimal, exclusive positioning)
+export const gvtewayMembershipNavigation = [
+  { label: "Membership", href: "#membership" },
+  { label: "Experiences", href: "/experiences" },
+];
+
 // Sidebar navigation for authenticated users
 // Optimized for UX: Consumer-focused journey with clear primary actions
 export const gvtewaySidebarNavigation = [

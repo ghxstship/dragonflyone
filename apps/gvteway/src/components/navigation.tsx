@@ -1,16 +1,39 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { gvtewayNavigation, gvtewayCreatorNavigation } from "../data/gvteway";
+import { gvtewayNavigation, gvtewayCreatorNavigation, gvtewayMembershipNavigation } from "../data/gvteway";
 import { AppNavigation, UnifiedHeader, Link } from "@ghxstship/ui";
 import type { ContextLevel } from "@ghxstship/ui";
+
+// =============================================================================
+// MEMBERSHIP NAVIGATION (Landing Page)
+// =============================================================================
+
+/**
+ * MembershipNavigationPublic - Membership landing page navigation
+ * Minimal, floating navigation for the exclusive membership landing page
+ */
+export function MembershipNavigationPublic() {
+  const pathname = usePathname();
+
+  return (
+    <AppNavigation
+      logo="GVTEWAY"
+      navItems={gvtewayMembershipNavigation}
+      pathname={pathname}
+      primaryCta={{ label: "Apply Now", href: "/apply" }}
+      secondaryCta={{ label: "Sign In", href: "/auth/signin" }}
+      colorScheme="black"
+    />
+  );
+}
 
 // =============================================================================
 // CONSUMER NAVIGATION
 // =============================================================================
 
 /**
- * ConsumerNavigationPublic - Public consumer-facing pages (/, /events, etc.)
+ * ConsumerNavigationPublic - Public consumer-facing pages (/experiences, /events, etc.)
  * Features "Create" button routing to /creators for event organizers
  */
 export function ConsumerNavigationPublic() {
@@ -29,8 +52,8 @@ export function ConsumerNavigationPublic() {
 }
 
 /**
- * ConsumerNavigationAuthenticated - Logged-in consumer pages (tickets, profile, etc.)
- * Uses UnifiedHeader with user context for ticket/booking management
+ * ConsumerNavigationAuthenticated - Logged-in member pages (experiences, profile, etc.)
+ * Uses UnifiedHeader with user context for member experience management
  */
 export function ConsumerNavigationAuthenticated({
   contextLevels = [],
@@ -41,24 +64,25 @@ export function ConsumerNavigationAuthenticated({
 }) {
   const pathname = usePathname();
 
+  // Member-focused navigation
   const navItems = [
-    { label: "Discover", href: "/events" },
-    { label: "My Tickets", href: "/tickets" },
-    { label: "Favorites", href: "/favorites" },
-    { label: "Following", href: "/following" },
+    { label: "Experiences", href: "/experiences" },
+    { label: "My Access", href: "/tickets" },
+    { label: "Community", href: "/community" },
+    { label: "Membership", href: "/membership" },
   ];
 
   return (
     <UnifiedHeader
       logo={
-        <Link href="/" className="font-display text-h5-md uppercase tracking-tight text-white">
+        <Link href="/experiences" className="font-display text-h5-md uppercase tracking-tight text-white">
           GVTEWAY
         </Link>
       }
       contextLevels={contextLevels}
       navItems={navItems}
       pathname={pathname}
-      primaryCta={{ label: "Find Events", href: "/events" }}
+      primaryCta={{ label: "Browse Experiences", href: "/experiences" }}
       userMenu={userMenu}
       inverted
     />

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { ConsumerNavigationPublic } from "@/components/navigation";
+import { ConsumerNavigationAuthenticated } from "@/components/navigation";
 import {
   PageLayout,
   Footer,
@@ -79,7 +79,7 @@ export default function ProfilePage() {
   return (
     <PageLayout
       background="black"
-      header={<ConsumerNavigationPublic />}
+      header={<ConsumerNavigationAuthenticated />}
       footer={
         <Footer
           logo={<Display size="md">GVTEWAY</Display>}
