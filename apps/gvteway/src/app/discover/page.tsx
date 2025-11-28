@@ -6,8 +6,7 @@ import { ConsumerNavigationPublic } from '../../components/navigation';
 import {
   Container,
   Section,
-  H1,
-  H2,
+  SectionHeader,
   H3,
   Body,
   Label,
@@ -18,7 +17,13 @@ import {
   Badge,
   LoadingSpinner,
   ProjectCard,
+  PageLayout,
+  Footer,
+  FooterColumn,
+  FooterLink,
+  Display,
 } from '@ghxstship/ui';
+import { Music, Tent, Drama, Trophy, Laugh, Moon, ArrowRight } from 'lucide-react';
 
 interface Event {
   id: string;
@@ -39,6 +44,15 @@ interface Collection {
   events: Event[];
 }
 
+const categories = [
+  { id: 'concert', name: 'Concerts', icon: Music },
+  { id: 'festival', name: 'Festivals', icon: Tent },
+  { id: 'theater', name: 'Theater', icon: Drama },
+  { id: 'sports', name: 'Sports', icon: Trophy },
+  { id: 'comedy', name: 'Comedy', icon: Laugh },
+  { id: 'nightlife', name: 'Nightlife', icon: Moon },
+];
+
 export default function DiscoverPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -46,16 +60,6 @@ export default function DiscoverPage() {
   const [recommendedEvents, setRecommendedEvents] = useState<Event[]>([]);
   const [collections, setCollections] = useState<Collection[]>([]);
   const [nearbyEvents, setNearbyEvents] = useState<Event[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-
-  const categories = [
-    { id: 'concert', name: 'Concerts', emoji: '🎸' },
-    { id: 'festival', name: 'Festivals', emoji: '🎪' },
-    { id: 'theater', name: 'Theater', emoji: '🎭' },
-    { id: 'sports', name: 'Sports', emoji: '⚽' },
-    { id: 'comedy', name: 'Comedy', emoji: '😂' },
-    { id: 'nightlife', name: 'Nightlife', emoji: '🌙' },
-  ];
 
   const fetchDiscoveryData = useCallback(async () => {
     setLoading(true);
@@ -86,7 +90,7 @@ export default function DiscoverPage() {
         const data = await nearbyRes.json();
         setNearbyEvents(data.events || []);
       }
-    } catch (err) {
+    } catch (_err) {
       console.error('Failed to fetch discovery data');
     } finally {
       setLoading(false);
@@ -105,157 +109,230 @@ export default function DiscoverPage() {
     router.push(`/events/${eventId}`);
   };
 
-  if (loading) {
-    return (
-      <Section className="min-h-screen bg-white">
-        <ConsumerNavigationPublic />
-        <Container className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading events..." />
-        </Container>
-      </Section>
-    );
-  }
-
   return (
-    <Section className="min-h-screen bg-white">
-      <ConsumerNavigationPublic />
-      <Container className="py-spacing-16">
-        <Stack gap={8}>
-          <Stack gap={2} className="border-b-2 border-black pb-spacing-8">
-            <H1>Discover</H1>
-            <Body className="text-ink-600">
-              Find your next unforgettable experience
-            </Body>
-          </Stack>
-
-        <Section className="mb-spacing-12">
-          <H2 className="mb-spacing-6">BROWSE BY CATEGORY</H2>
-          <Grid cols={6} gap={4}>
-            {categories.map(category => (
-              <Card
-                key={category.id}
-                className="p-spacing-6 text-center cursor-pointer hover:bg-ink-50 transition-colors"
-                onClick={() => handleCategoryClick(category.id)}
-              >
-                <Body className="text-h3-md mb-spacing-2">{category.emoji}</Body>
-                <Body className="font-medium">{category.name}</Body>
-              </Card>
-            ))}
-          </Grid>
-        </Section>
-
-        {trendingEvents.length > 0 && (
-          <Section className="mb-spacing-12">
-            <Stack direction="horizontal" className="justify-between items-center mb-spacing-6">
-              <Stack>
-                <H2>TRENDING NOW</H2>
-                <Body className="text-ink-600">Most popular events this week</Body>
-              </Stack>
-              <Button variant="outline" onClick={() => router.push('/browse?sort=trending')}>
-                View All
-              </Button>
+    <PageLayout
+      background="black"
+      header={<ConsumerNavigationPublic />}
+      footer={
+        <Footer
+          logo={<Display size="md">GVTEWAY</Display>}
+          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
+        >
+          <FooterColumn title="Discover">
+            <FooterLink href="/events">Browse Events</FooterLink>
+            <FooterLink href="/venues">Find Venues</FooterLink>
+            <FooterLink href="/artists">Artists</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Support">
+            <FooterLink href="/help">Help Center</FooterLink>
+            <FooterLink href="/help#contact">Contact</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="Legal">
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
+          </FooterColumn>
+        </Footer>
+      }
+    >
+      <Section className="bg-black py-16">
+        <Container>
+          {loading ? (
+            <Stack className="flex min-h-[60vh] items-center justify-center">
+              <LoadingSpinner size="lg" text="Loading events..." />
             </Stack>
-            <Grid cols={3} gap={6}>
-              {trendingEvents.map(event => (
-                <ProjectCard
-                  key={event.id}
-                  title={event.title}
-                  image={event.image || ''}
-                  metadata={`${event.date} • ${event.venue} • From $${event.price}`}
-                  onClick={() => handleEventClick(event.id)}
-                />
-              ))}
-            </Grid>
-          </Section>
-        )}
+          ) : (
+            <Stack gap={16}>
+              {/* Page Header */}
+              <SectionHeader
+                kicker="Personalized For You"
+                title="Discover"
+                description="Find your next unforgettable experience"
+                colorScheme="on-dark"
+                gap="lg"
+              />
 
-        {recommendedEvents.length > 0 && (
-          <Section className="mb-spacing-12">
-            <Stack direction="horizontal" className="justify-between items-center mb-spacing-6">
-              <Stack>
-                <H2>RECOMMENDED FOR YOU</H2>
-                <Body className="text-ink-600">Based on your interests and history</Body>
-              </Stack>
-              <Button variant="outline" onClick={() => router.push('/browse?sort=recommended')}>
-                View All
-              </Button>
-            </Stack>
-            <Grid cols={3} gap={6}>
-              {recommendedEvents.map(event => (
-                <ProjectCard
-                  key={event.id}
-                  title={event.title}
-                  image={event.image || ''}
-                  metadata={`${event.date} • ${event.venue} • From $${event.price}`}
-                  onClick={() => handleEventClick(event.id)}
+              {/* Browse by Category */}
+              <Section border className="py-12">
+                <SectionHeader
+                  kicker="Explore"
+                  title="Browse by Category"
+                  colorScheme="on-dark"
+                  gap="md"
                 />
-              ))}
-            </Grid>
-          </Section>
-        )}
-
-        {collections.length > 0 && (
-          <Section className="mb-spacing-12">
-            <H2 className="mb-spacing-6">CURATED COLLECTIONS</H2>
-            <Grid cols={2} gap={6}>
-              {collections.map(collection => (
-                <Card key={collection.id} className="p-spacing-6">
-                  <H3 className="mb-spacing-2">{collection.name}</H3>
-                  <Body className="text-ink-600 mb-spacing-4">{collection.description}</Body>
-                  <Stack direction="horizontal" gap={2}>
-                    <Badge>{collection.events.length} events</Badge>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => router.push(`/collections/${collection.id}`)}
+                <Grid cols={6} gap={4} className="mt-8">
+                  {categories.map(category => (
+                    <Card
+                      key={category.id}
+                      className="flex cursor-pointer flex-col items-center gap-4 border-2 border-grey-800 bg-transparent p-6 text-center shadow-sm transition-all duration-100 hover:-translate-y-1 hover:border-white hover:shadow-md"
+                      onClick={() => handleCategoryClick(category.id)}
                     >
-                      Explore
+                      <category.icon className="size-8 text-white" />
+                      <Label size="xs" className="tracking-kicker text-on-dark-muted">{category.name}</Label>
+                    </Card>
+                  ))}
+                </Grid>
+              </Section>
+
+              {/* Trending Now */}
+              {trendingEvents.length > 0 && (
+                <Section border className="py-12">
+                  <Stack direction="horizontal" className="mb-8 items-end justify-between">
+                    <SectionHeader
+                      kicker="Hot Right Now"
+                      title="Trending Now"
+                      description="Most popular events this week"
+                      colorScheme="on-dark"
+                      gap="md"
+                    />
+                    <Button 
+                      variant="outlineInk" 
+                      icon={<ArrowRight />}
+                      onClick={() => router.push('/browse?sort=trending')}
+                    >
+                      View All
                     </Button>
                   </Stack>
+                  <Grid cols={3} gap={6}>
+                    {trendingEvents.map(event => (
+                      <ProjectCard
+                        key={event.id}
+                        title={event.title}
+                        image={event.image || ''}
+                        metadata={`${event.date} • ${event.venue} • From $${event.price}`}
+                        onClick={() => handleEventClick(event.id)}
+                      />
+                    ))}
+                  </Grid>
+                </Section>
+              )}
+
+              {/* Recommended For You */}
+              {recommendedEvents.length > 0 && (
+                <Section border className="py-12">
+                  <Stack direction="horizontal" className="mb-8 items-end justify-between">
+                    <SectionHeader
+                      kicker="Personalized"
+                      title="Recommended For You"
+                      description="Based on your interests and history"
+                      colorScheme="on-dark"
+                      gap="md"
+                    />
+                    <Button 
+                      variant="outlineInk" 
+                      icon={<ArrowRight />}
+                      onClick={() => router.push('/browse?sort=recommended')}
+                    >
+                      View All
+                    </Button>
+                  </Stack>
+                  <Grid cols={3} gap={6}>
+                    {recommendedEvents.map(event => (
+                      <ProjectCard
+                        key={event.id}
+                        title={event.title}
+                        image={event.image || ''}
+                        metadata={`${event.date} • ${event.venue} • From $${event.price}`}
+                        onClick={() => handleEventClick(event.id)}
+                      />
+                    ))}
+                  </Grid>
+                </Section>
+              )}
+
+              {/* Curated Collections */}
+              {collections.length > 0 && (
+                <Section border className="py-12">
+                  <SectionHeader
+                    kicker="Hand-Picked"
+                    title="Curated Collections"
+                    colorScheme="on-dark"
+                    gap="md"
+                  />
+                  <Grid cols={2} gap={6} className="mt-8">
+                    {collections.map(collection => (
+                      <Card 
+                        key={collection.id} 
+                        className="border-2 border-grey-800 bg-transparent p-6 shadow-sm transition-all duration-100 hover:-translate-y-0.5 hover:border-white hover:shadow-md"
+                      >
+                        <H3 className="text-white">{collection.name}</H3>
+                        <Body size="sm" className="mt-2 text-on-dark-muted">{collection.description}</Body>
+                        <Stack direction="horizontal" gap={3} className="mt-4 items-center">
+                          <Badge variant="outline">{collection.events.length} events</Badge>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            inverted
+                            onClick={() => router.push(`/collections/${collection.id}`)}
+                          >
+                            Explore
+                          </Button>
+                        </Stack>
+                      </Card>
+                    ))}
+                  </Grid>
+                </Section>
+              )}
+
+              {/* Near You */}
+              {nearbyEvents.length > 0 && (
+                <Section border className="py-12">
+                  <Stack direction="horizontal" className="mb-8 items-end justify-between">
+                    <SectionHeader
+                      kicker="Local"
+                      title="Near You"
+                      description="Events happening in your area"
+                      colorScheme="on-dark"
+                      gap="md"
+                    />
+                    <Button 
+                      variant="outlineInk" 
+                      icon={<ArrowRight />}
+                      onClick={() => router.push('/browse?nearby=true')}
+                    >
+                      View All
+                    </Button>
+                  </Stack>
+                  <Grid cols={3} gap={6}>
+                    {nearbyEvents.map(event => (
+                      <ProjectCard
+                        key={event.id}
+                        title={event.title}
+                        image={event.image || ''}
+                        metadata={`${event.date} • ${event.venue} • From $${event.price}`}
+                        onClick={() => handleEventClick(event.id)}
+                      />
+                    ))}
+                  </Grid>
+                </Section>
+              )}
+
+              {/* Quiz CTA */}
+              <Section className="py-12">
+                <Card className="border-2 border-grey-700 bg-grey-900/50 p-10 text-center">
+                  <SectionHeader
+                    kicker="Not Sure?"
+                    title="Not Sure What To Do?"
+                    description="Take our quick quiz to get personalized event recommendations based on your preferences."
+                    align="center"
+                    colorScheme="on-dark"
+                    gap="lg"
+                  />
+                  <Button 
+                    variant="solid" 
+                    size="lg"
+                    inverted
+                    icon={<ArrowRight />}
+                    onClick={() => router.push('/quiz')}
+                    className="mt-8"
+                  >
+                    Take The Quiz
+                  </Button>
                 </Card>
-              ))}
-            </Grid>
-          </Section>
-        )}
-
-        {nearbyEvents.length > 0 && (
-          <Section className="mb-spacing-12">
-            <Stack direction="horizontal" className="justify-between items-center mb-spacing-6">
-              <Stack>
-                <H2>NEAR YOU</H2>
-                <Body className="text-ink-600">Events happening in your area</Body>
-              </Stack>
-              <Button variant="outline" onClick={() => router.push('/browse?nearby=true')}>
-                View All
-              </Button>
+              </Section>
             </Stack>
-            <Grid cols={3} gap={6}>
-              {nearbyEvents.map(event => (
-                <ProjectCard
-                  key={event.id}
-                  title={event.title}
-                  image={event.image || ''}
-                  metadata={`${event.date} • ${event.venue} • From $${event.price}`}
-                  onClick={() => handleEventClick(event.id)}
-                />
-              ))}
-            </Grid>
-          </Section>
-        )}
-
-          <Section className="mb-spacing-12">
-            <Card className="p-spacing-8 bg-black text-white text-center">
-              <H2 className="text-white mb-spacing-4">NOT SURE WHAT TO DO?</H2>
-              <Body className="text-ink-600 mb-spacing-6 max-w-md mx-auto">
-                Take our quick quiz to get personalized event recommendations based on your preferences.
-              </Body>
-              <Button variant="outline" className="border-white text-white hover:bg-white hover:text-black" onClick={() => router.push('/quiz')}>
-                TAKE THE QUIZ
-              </Button>
-            </Card>
-          </Section>
-        </Stack>
-      </Container>
-    </Section>
+          )}
+        </Container>
+      </Section>
+    </PageLayout>
   );
 }

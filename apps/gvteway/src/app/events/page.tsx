@@ -3,32 +3,33 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useEvents } from "@/hooks/useEvents";
+import { ConsumerNavigationPublic } from "@/components/navigation";
 import {
   PageLayout,
-  Navigation,
   Footer,
   FooterColumn,
   FooterLink,
   Display,
-  H2,
   H3,
   Body,
   Button,
   Input,
   Select,
   Badge,
-  SectionLayout,
+  Section,
+  SectionHeader,
   ProjectCard,
-  Spinner,
   Stack,
   Grid,
   Card,
   Container,
   LoadingSpinner,
-  Link,
   Figure,
+  Label,
+  EmptyState,
 } from "@ghxstship/ui";
 import Image from "next/image";
+import { LayoutGrid, List as ListIcon, Search, MapPin, Tag } from "lucide-react";
 
 const genres = ["All", "Electronic", "Hip-Hop", "Art", "Sports", "Multi-Genre"];
 const cities = ["All", "Miami, FL", "Miami Beach, FL", "Miami Gardens, FL"];
@@ -54,37 +55,10 @@ export default function EventsPage() {
   return (
     <PageLayout
       background="black"
-      header={
-        <Navigation
-          logo={
-            <Display size="md" className="text-display-md">
-              GVTEWAY
-            </Display>
-          }
-          cta={
-            <Button variant="outlineWhite" size="sm" onClick={() => router.push('/auth/signin')}>
-              SIGN IN
-            </Button>
-          }
-        >
-          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">
-            Home
-          </Link>
-          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest text-white">
-            Events
-          </Link>
-          <Link href="/venues" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">
-            Venues
-          </Link>
-        </Navigation>
-      }
+      header={<ConsumerNavigationPublic />}
       footer={
         <Footer
-          logo={
-            <Display size="md" className="text-white text-display-md">
-              GVTEWAY
-            </Display>
-          }
+          logo={<Display size="md">GVTEWAY</Display>}
           copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
         >
           <FooterColumn title="Discover">
@@ -93,158 +67,210 @@ export default function EventsPage() {
             <FooterLink href="/artists">Artists</FooterLink>
           </FooterColumn>
           <FooterColumn title="Support">
-            <FooterLink href="#">Help Center</FooterLink>
-            <FooterLink href="#">Contact</FooterLink>
-            <FooterLink href="#">FAQ</FooterLink>
+            <FooterLink href="/help">Help Center</FooterLink>
+            <FooterLink href="/help#contact">Contact</FooterLink>
+            <FooterLink href="/help#faq">FAQ</FooterLink>
           </FooterColumn>
           <FooterColumn title="Legal">
-            <FooterLink href="#">Privacy</FooterLink>
-            <FooterLink href="#">Terms</FooterLink>
+            <FooterLink href="/legal/privacy">Privacy</FooterLink>
+            <FooterLink href="/legal/terms">Terms</FooterLink>
           </FooterColumn>
         </Footer>
       }
     >
-      <SectionLayout background="black">
+      <Section className="bg-black py-16">
         <Container>
-          <Stack gap={8}>
-            <Stack gap={4} className="text-center">
-              <H2 className="text-white">Discover Experiences</H2>
-              <Body className="text-ink-400 mx-auto max-w-2xl">
-                Explore unforgettable live events, festivals, and performances happening now and coming soon.
-              </Body>
-            </Stack>
+          <Stack gap={10}>
+            {/* Page Header */}
+            <SectionHeader
+              kicker="Browse Events"
+              title="Discover Experiences"
+              description="Explore unforgettable live events, festivals, and performances happening now and coming soon."
+              align="center"
+              colorScheme="on-dark"
+              gap="lg"
+            />
 
-            <Stack gap={4}>
-              <Grid cols={1} gap={4} className="md:grid-cols-3">
-                <Input
-                  type="search"
-                  placeholder="Search events or venues..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="border-ink-700 bg-black text-white"
-                />
-                <Select
-                  value={selectedGenre}
-                  onChange={(e) => setSelectedGenre(e.target.value)}
-                  className="border-ink-700 bg-black text-white"
-                >
-                  {genres.map((genre) => (
-                    <option key={genre} value={genre}>
-                      {genre}
-                    </option>
-                  ))}
-                </Select>
-                <Select
-                  value={selectedCity}
-                  onChange={(e) => setSelectedCity(e.target.value)}
-                  className="border-ink-700 bg-black text-white"
-                >
-                  {cities.map((city) => (
-                    <option key={city} value={city}>
-                      {city}
-                    </option>
-                  ))}
-                </Select>
-              </Grid>
-              <Stack gap={2} direction="horizontal" className="border-2 border-ink-700 p-2 w-fit">
-                <Button
-                  onClick={() => setViewMode("grid")}
-                  variant={viewMode === "grid" ? "solid" : "ghost"}
-                  size="sm"
-                >
-                  Grid
-                </Button>
-                <Button
-                  onClick={() => setViewMode("list")}
-                  variant={viewMode === "list" ? "solid" : "ghost"}
-                  size="sm"
-                >
-                  List
-                </Button>
+            {/* Search & Filters */}
+            <Card className="border-2 border-grey-800 bg-grey-950/50 p-6">
+              <Stack gap={4}>
+                <Grid cols={1} gap={4} className="md:grid-cols-3">
+                  <Stack gap={2}>
+                    <Label size="xs" className="text-on-dark-muted">
+                      <Search className="mr-2 inline size-4" />
+                      Search
+                    </Label>
+                    <Input
+                      type="search"
+                      placeholder="Search events or venues..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      inverted
+                    />
+                  </Stack>
+                  <Stack gap={2}>
+                    <Label size="xs" className="text-on-dark-muted">
+                      <Tag className="mr-2 inline size-4" />
+                      Genre
+                    </Label>
+                    <Select
+                      value={selectedGenre}
+                      onChange={(e) => setSelectedGenre(e.target.value)}
+                      inverted
+                    >
+                      {genres.map((genre) => (
+                        <option key={genre} value={genre}>
+                          {genre}
+                        </option>
+                      ))}
+                    </Select>
+                  </Stack>
+                  <Stack gap={2}>
+                    <Label size="xs" className="text-on-dark-muted">
+                      <MapPin className="mr-2 inline size-4" />
+                      Location
+                    </Label>
+                    <Select
+                      value={selectedCity}
+                      onChange={(e) => setSelectedCity(e.target.value)}
+                      inverted
+                    >
+                      {cities.map((city) => (
+                        <option key={city} value={city}>
+                          {city}
+                        </option>
+                      ))}
+                    </Select>
+                  </Stack>
+                </Grid>
+                
+                {/* View Toggle & Results Count */}
+                <Stack direction="horizontal" className="items-center justify-between">
+                  <Label size="xs" className="text-on-dark-muted">
+                    {filteredEvents.length} {filteredEvents.length === 1 ? "Event" : "Events"} Found
+                  </Label>
+                  <Stack direction="horizontal" gap={1} className="rounded-[var(--radius-button)] border-2 border-grey-700 p-1">
+                    <Button
+                      onClick={() => setViewMode("grid")}
+                      variant={viewMode === "grid" ? "solid" : "ghost"}
+                      size="sm"
+                      inverted
+                      icon={<LayoutGrid className="size-4" />}
+                      iconPosition="left"
+                    >
+                      Grid
+                    </Button>
+                    <Button
+                      onClick={() => setViewMode("list")}
+                      variant={viewMode === "list" ? "solid" : "ghost"}
+                      size="sm"
+                      inverted
+                      icon={<ListIcon className="size-4" />}
+                      iconPosition="left"
+                    >
+                      List
+                    </Button>
+                  </Stack>
+                </Stack>
               </Stack>
-            </Stack>
+            </Card>
 
-            <Body className="text-ink-400 text-body-sm font-mono uppercase tracking-widest">
-              {filteredEvents.length} {filteredEvents.length === 1 ? "Event" : "Events"} Found
-            </Body>
-
+            {/* Events Display */}
             {isLoading ? (
-              <Stack className="flex justify-center py-12">
+              <Stack className="flex items-center justify-center py-20">
                 <LoadingSpinner size="lg" text="Loading events..." />
               </Stack>
+            ) : filteredEvents.length === 0 ? (
+              <EmptyState
+                title="No events found"
+                description="Try adjusting your search or filters to find events."
+                action={{
+                  label: "Clear Filters",
+                  onClick: () => {
+                    setSearchQuery("");
+                    setSelectedGenre("All");
+                    setSelectedCity("All");
+                  }
+                }}
+                inverted
+              />
             ) : viewMode === "grid" ? (
               <Grid cols={3} gap={6}>
-              {filteredEvents.map((event) => (
-                <ProjectCard
-                  key={event.id}
-                  title={event.name}
-                  image={event.image_url || 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800'}
-                  imageAlt={event.name}
-                  metadata={`${event.venue} // ${new Date(event.start_date).toLocaleDateString()}`}
-                  tags={[event.category.toUpperCase(), event.status.toUpperCase()]}
-                />
-              ))}
-            </Grid>
-          ) : (
-            <Stack gap={4}>
-              {filteredEvents.map((event) => (
-                <Card key={event.id} className="border-2 border-ink-800 p-6 hover:border-white transition-colors bg-transparent">
-                  <Stack gap={6} direction="horizontal" className="flex-col md:flex-row">
-                    <Figure className="w-full md:w-48 h-48 bg-ink-900 relative overflow-hidden">
-                      <Image
-                        src={event.image_url || 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800'}
-                        alt={event.name}
-                        fill
-                        className="object-cover grayscale"
-                      />
-                    </Figure>
-                    <Stack gap={4} className="flex-1">
-                      <Stack gap={2}>
-                        <H3 className="text-white">{event.name}</H3>
-                        <Body className="text-ink-400">
-                          {event.venue} • {event.address}
-                        </Body>
-                        <Body className="text-ink-500 font-mono text-body-sm uppercase tracking-widest">
-                          {new Date(event.start_date).toLocaleDateString()}
-                        </Body>
-                      </Stack>
-                      <Stack gap={2} direction="horizontal" className="flex-wrap">
-                        <Badge>{event.category.toUpperCase()}</Badge>
-                        <Badge>{event.status.toUpperCase()}</Badge>
-                      </Stack>
-                      <Stack gap={4} direction="horizontal" className="items-center justify-between">
-                        <Stack gap={1}>
-                          <Body className="text-ink-400 text-body-sm">Venue</Body>
-                          <Body className="text-white font-mono">{event.venue}</Body>
+                {filteredEvents.map((event) => (
+                  <ProjectCard
+                    key={event.id}
+                    title={event.name}
+                    image={event.image_url || 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800'}
+                    imageAlt={event.name}
+                    metadata={`${event.venue} // ${new Date(event.start_date).toLocaleDateString()}`}
+                    tags={[event.category.toUpperCase(), event.status.toUpperCase()]}
+                    onClick={() => router.push(`/events/${event.id}`)}
+                  />
+                ))}
+              </Grid>
+            ) : (
+              <Stack gap={4}>
+                {filteredEvents.map((event) => (
+                  <Card 
+                    key={event.id} 
+                    className="border-2 border-grey-800 bg-transparent p-6 shadow-sm transition-all duration-100 hover:-translate-y-0.5 hover:border-white hover:shadow-md"
+                    onClick={() => router.push(`/events/${event.id}`)}
+                  >
+                    <Stack gap={6} direction="horizontal" className="flex-col md:flex-row">
+                      <Figure className="relative size-48 overflow-hidden bg-grey-900 md:w-48">
+                        <Image
+                          src={event.image_url || 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800'}
+                          alt={event.name}
+                          fill
+                          className="object-cover grayscale"
+                        />
+                      </Figure>
+                      <Stack gap={4} className="flex-1">
+                        <Stack gap={2}>
+                          <H3 className="text-white">{event.name}</H3>
+                          <Body className="text-on-dark-muted">
+                            {event.venue} • {event.address}
+                          </Body>
+                          <Label size="xs" className="text-on-dark-disabled">
+                            {new Date(event.start_date).toLocaleDateString()}
+                          </Label>
                         </Stack>
-                        <Stack gap={1}>
-                          <Body className="text-ink-400 text-body-sm">Capacity</Body>
-                          <Body className="text-white font-mono">{event.capacity.toLocaleString()}</Body>
+                        <Stack gap={2} direction="horizontal" className="flex-wrap">
+                          <Badge>{event.category.toUpperCase()}</Badge>
+                          <Badge variant="outline">{event.status.toUpperCase()}</Badge>
                         </Stack>
-                        <Button 
-                          variant="solid" 
-                          size="sm"
-                          onClick={() => window.location.href = `/events/${event.id}`}
-                        >
-                          View Details
-                        </Button>
+                        <Stack gap={6} direction="horizontal" className="items-end justify-between">
+                          <Stack direction="horizontal" gap={8}>
+                            <Stack gap={1}>
+                              <Label size="xs" className="text-on-dark-disabled">Venue</Label>
+                              <Body size="sm" className="text-white">{event.venue}</Body>
+                            </Stack>
+                            <Stack gap={1}>
+                              <Label size="xs" className="text-on-dark-disabled">Capacity</Label>
+                              <Body size="sm" className="text-white">{event.capacity.toLocaleString()}</Body>
+                            </Stack>
+                          </Stack>
+                          <Button 
+                            variant="solid" 
+                            size="sm"
+                            inverted
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              router.push(`/events/${event.id}`);
+                            }}
+                          >
+                            View Details
+                          </Button>
+                        </Stack>
                       </Stack>
                     </Stack>
-                  </Stack>
-                </Card>
-              ))}
-            </Stack>
-          )}
-
-            {filteredEvents.length === 0 && (
-              <Stack gap={2} className="text-center py-16">
-                <H3 className="text-ink-300">No events found</H3>
-                <Body className="text-ink-400">Try adjusting your search or filters</Body>
+                  </Card>
+                ))}
               </Stack>
             )}
           </Stack>
         </Container>
-      </SectionLayout>
+      </Section>
     </PageLayout>
   );
 }
