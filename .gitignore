@@ -11,3 +11,6 @@ coverage
 .vercel
 .vscode
 .DS_Store
+
+# Turbo cache
+.turbo/
