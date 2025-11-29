@@ -41,7 +41,9 @@ module.exports = {
     tailwindcss: {
       // Use callees to detect Tailwind classes in cn(), clsx(), etc.
       callees: ["cn", "clsx", "cva", "twMerge"],
-      // Allow design system classes
+      // Point to the shared Tailwind config for class validation
+      config: "packages/config-tailwind/tailwind.config.js",
+      // Allow design system classes (glob patterns)
       whitelist: [
         // ═══════════════════════════════════════════════════════════════
         // TYPOGRAPHY TOKENS (PRESERVED)
@@ -71,9 +73,21 @@ module.exports = {
         "text-on-dark-.*", "text-on-light-.*", "text-on-mid-.*",
         "text-tertiary", "text-muted", "text-inverse", "text-link.*",
         "border-muted", "border-focus", "border-inverse",
-        // Neutral scale
-        "bg-grey-.*", "text-grey-.*", "border-grey-.*",
-        "bg-ink-.*", "text-ink-.*", "border-ink-.*",
+        // Neutral scale (explicit patterns for grey and ink palettes)
+        "bg-grey-100", "bg-grey-200", "bg-grey-300", "bg-grey-400", "bg-grey-500", 
+        "bg-grey-600", "bg-grey-700", "bg-grey-800", "bg-grey-900",
+        "text-grey-100", "text-grey-200", "text-grey-300", "text-grey-400", "text-grey-500", 
+        "text-grey-600", "text-grey-700", "text-grey-800", "text-grey-900",
+        "border-grey-100", "border-grey-200", "border-grey-300", "border-grey-400", "border-grey-500", 
+        "border-grey-600", "border-grey-700", "border-grey-800", "border-grey-900",
+        "bg-ink-50", "bg-ink-100", "bg-ink-200", "bg-ink-300", "bg-ink-400", "bg-ink-500", 
+        "bg-ink-600", "bg-ink-700", "bg-ink-800", "bg-ink-900", "bg-ink-950",
+        "text-ink-50", "text-ink-100", "text-ink-200", "text-ink-300", "text-ink-400", "text-ink-500", 
+        "text-ink-600", "text-ink-700", "text-ink-800", "text-ink-900", "text-ink-950",
+        "border-ink-50", "border-ink-100", "border-ink-200", "border-ink-300", "border-ink-400", "border-ink-500", 
+        "border-ink-600", "border-ink-700", "border-ink-800", "border-ink-900", "border-ink-950",
+        "hover:bg-grey-*", "hover:text-grey-*", "hover:border-grey-*",
+        "hover:bg-ink-*", "hover:text-ink-*", "hover:border-ink-*",
         "bg-black", "bg-white", "text-black", "text-white", "border-black", "border-white",
         // Accent palette (categories/tags)
         "bg-purple.*", "bg-pink.*", "bg-cyan.*", "bg-teal.*", "bg-violet.*", "bg-indigo.*",
@@ -236,11 +250,15 @@ module.exports = {
         // Typography
         "text-display-.*", "text-h[1-6]-.*", "text-body-.*", "text-mono-.*",
         "font-display", "font-heading", "font-body", "font-mono", "font-code",
-        // Colors
-        "bg-surface-.*", "bg-ink-.*", "bg-grey-.*",
-        "text-on-dark-.*", "text-on-light-.*", "text-on-mid-.*",
+        // Colors - surfaces and semantic
+        "bg-surface-*", "bg-ink-*", "bg-grey-*",
+        "text-on-dark-*", "text-on-light-*", "text-on-mid-*",
         "text-primary", "text-secondary", "text-tertiary", "text-muted",
+        "text-success", "text-warning", "text-error", "text-info",
+        "text-success-*", "text-warning-*", "text-error-*", "text-info-*",
+        "text-grey-*", "text-ink-*",
         "border-primary", "border-secondary", "border-muted",
+        "border-grey-*", "border-ink-*",
         // Spacing
         "spacing-.*", "gap-xs", "gap-sm", "gap-md", "gap-lg", "gap-xl",
         // Border radius (design system)

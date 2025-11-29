@@ -179,7 +179,7 @@ export default function MembershipPage() {
                 >
                   {tier.popular && (
                     <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                      <Label size="xs" className="bg-warning px-4 py-1 text-black">
+                      <Label size="xs" className="bg-accent-500 px-4 py-1 text-black">
                         <Sparkles className="mr-1 inline size-3" />
                         MOST POPULAR
                       </Label>

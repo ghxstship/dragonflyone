@@ -15,6 +15,7 @@ import {
   AuthPage,
 } from "@ghxstship/ui";
 import NextLink from "next/link";
+import { CreatorNavigationPublic } from "@/components/navigation";
 
 // =============================================================================
 // VERIFY EMAIL PAGE - ATLVS Email Verification
@@ -77,7 +78,7 @@ function VerifyEmailContent() {
 
 export default function VerifyEmailPage() {
   return (
-    <AuthPage appName="ATLVS">
+    <AuthPage header={<CreatorNavigationPublic />}>
           <ScrollReveal animation="slide-up" duration={600}>
             <Suspense
               fallback={

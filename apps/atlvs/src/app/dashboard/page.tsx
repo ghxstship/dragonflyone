@@ -22,7 +22,7 @@ import {
   Section,
   SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
+} from "@ghxstship/ui";
 import { useProjects } from "../../hooks/useProjects";
 
 const mockProjects = [
@@ -70,7 +70,7 @@ const mockProjects = [
   },
 ];
 
-const kpis = [
+const defaultKpis = [
   { label: "Active Projects", value: "12", trend: "+3", up: true },
   { label: "Total Revenue", value: "$8.4M", trend: "+18.2%", up: true },
   { label: "Resource Utilization", value: "87%", trend: "+4%", up: true },
@@ -105,12 +105,7 @@ export default function DashboardPage() {
     { label: "Total Revenue", value: `$${(kpisData.totalRevenue / 1000000).toFixed(1)}M`, trend: "+18.2%", up: true },
     { label: "Resource Utilization", value: `${kpisData.utilization}%`, trend: "+4%", up: true },
     { label: "Client Satisfaction", value: `${kpisData.satisfaction}/10`, trend: "+0.3", up: true },
-  ] : [
-    { label: "Active Projects", value: "12", trend: "+3", up: true },
-    { label: "Total Revenue", value: "$8.4M", trend: "+18.2%", up: true },
-    { label: "Resource Utilization", value: "87%", trend: "+4%", up: true },
-    { label: "Client Satisfaction", value: "9.2/10", trend: "+0.3", up: true },
-  ];
+  ] : defaultKpis;
 
   if (isLoading) {
     return <AtlvsLoadingLayout text="Loading dashboard..." />;
@@ -164,7 +159,6 @@ export default function DashboardPage() {
               value={kpi.value}
               trend={kpi.up ? "up" : "down"}
               trendValue={kpi.trend}
-              className="bg-transparent border-2 border-ink-800"
             />
           ))}
         </Section>
@@ -175,7 +169,7 @@ export default function DashboardPage() {
             title="Active Projects"
             description="Real-time status of all projects across GHXSTSHIP verticals"
           />
-          <Table variant="bordered" className="bg-ink-900">
+          <Table variant="bordered" className="bg-grey-900">
             <TableHeader>
               <TableRow>
                 <TableHead>Project</TableHead>
@@ -190,28 +184,28 @@ export default function DashboardPage() {
             </TableHeader>
             <TableBody>
               {displayProjects.map((project) => (
-                <TableRow key={project.id} className="hover:bg-ink-900/30">
+                <TableRow key={project.id} className="hover:bg-grey-900/30">
                   <TableCell>
                     <H3 className="text-white">{project.name}</H3>
-                    <Body size="xs" className="font-mono text-ink-500">{project.id.substring(0, 12).toUpperCase()}</Body>
+                    <Body size="xs" className="font-mono text-grey-500">{project.id.substring(0, 12).toUpperCase()}</Body>
                   </TableCell>
-                  <TableCell className="text-ink-300">{(project as any).client_id || (project as any).client || 'N/A'}</TableCell>
-                  <TableCell className="text-ink-300">{(project as any).manager_id || (project as any).pm || 'N/A'}</TableCell>
+                  <TableCell className="text-grey-300">{(project as any).client_id || (project as any).client || 'N/A'}</TableCell>
+                  <TableCell className="text-grey-300">{(project as any).manager_id || (project as any).pm || 'N/A'}</TableCell>
                   <TableCell className="font-mono text-white">
                     ${((project.budget || 0) / 1000).toFixed(0)}K
                   </TableCell>
-                  <TableCell className="font-mono text-ink-300">
+                  <TableCell className="font-mono text-grey-300">
                     ${(((project as any).actual_cost || (project as any).actual || 0) / 1000).toFixed(0)}K
                   </TableCell>
                   <TableCell>
-                    <Body className={`font-mono ${((project as any).actual_cost || (project as any).actual || 0) > (project.budget || 0) ? "text-error-400" : "text-success-400"}`}>
+                    <Body className={`font-mono ${((project as any).actual_cost || (project as any).actual || 0) > (project.budget || 0) ? "text-error" : "text-success"}`}>
                       {((((project.budget || 0) - ((project as any).actual_cost || (project as any).actual || 0)) / (project.budget || 1)) * 100).toFixed(1)}%
                     </Body>
                   </TableCell>
                   <TableCell>
                     <Stack gap={1}>
                       <ProgressBar value={project.progress || 0} variant="inverse" size="sm" className="w-24" />
-                      <Body size="xs" className="font-mono text-ink-400">{project.progress}%</Body>
+                      <Body size="xs" className="font-mono text-grey-400">{project.progress}%</Body>
                     </Stack>
                   </TableCell>
                   <TableCell>
@@ -233,11 +227,11 @@ export default function DashboardPage() {
           />
           <Stack gap={3}>
             {recentActivity.map((activity) => (
-              <Card key={activity.id} className="border-2 border-ink-800 p-5 hover:border-ink-600 transition-colors">
+              <Card key={activity.id} className="border-2 border-grey-800 p-5 hover:border-grey-600 transition-colors">
                 <Stack gap={1}>
                   <H3 className="text-white">{activity.action}</H3>
-                  <Body size="sm" className="text-ink-300">{activity.detail}</Body>
-                  <Body size="xs" className="font-mono text-ink-500 uppercase tracking-widest mt-2">
+                  <Body size="sm" className="text-grey-300">{activity.detail}</Body>
+                  <Body size="xs" className="font-mono text-grey-500 uppercase tracking-kicker mt-2">
                     {activity.user} • {activity.time}
                   </Body>
                 </Stack>
@@ -292,13 +286,13 @@ export default function DashboardPage() {
                 <StatusBadge status="error" size="sm" className="mb-2">High Priority</StatusBadge>
                 <Body className="mt-2 text-body-sm text-white">Budget approval needed for F1 Miami GP expansion</Body>
               </Card>
-              <Card className="border-2 border-ink-700 p-4">
+              <Card className="border-2 border-grey-700 p-4">
                 <StatusBadge status="warning" size="sm" className="mb-2">Medium Priority</StatusBadge>
                 <Body className="mt-2 text-body-sm text-white">3 asset maintenance schedules due this week</Body>
               </Card>
-              <Card className="border-2 border-ink-700 p-4">
-                <Body className="font-mono text-mono-xs uppercase tracking-widest text-ink-400">Info</Body>
-                <Body className="mt-2 text-body-sm text-ink-200">Monthly financial reports ready for review</Body>
+              <Card className="border-2 border-grey-700 p-4">
+                <Body className="font-mono text-mono-xs uppercase tracking-kicker text-grey-400">Info</Body>
+                <Body className="mt-2 text-body-sm text-grey-200">Monthly financial reports ready for review</Body>
               </Card>
             </Stack>
           </Section>

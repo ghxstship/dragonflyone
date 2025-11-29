@@ -1,8 +1,9 @@
 "use client";
 
-import { useNotifications, AuthPage, SignInForm, Button } from "@ghxstship/ui";
+import { useNotifications, AuthPage, SignInForm } from "@ghxstship/ui";
 import { useAuthContext } from "@ghxstship/config";
 import NextLink from "next/link";
+import { CreatorNavigationPublic } from "@/components/navigation";
 
 // =============================================================================
 // SIGN IN PAGE - ATLVS Authentication
@@ -34,16 +35,7 @@ export default function SignInPage() {
   };
 
   return (
-    <AuthPage
-      appName="ATLVS"
-      headerAction={
-        <NextLink href="/auth/signup" className="hidden sm:block">
-          <Button variant="outline" size="sm">
-            Sign Up
-          </Button>
-        </NextLink>
-      }
-    >
+    <AuthPage header={<CreatorNavigationPublic />}>
       <SignInForm
         appName="ATLVS"
         onSubmit={handleSubmit}

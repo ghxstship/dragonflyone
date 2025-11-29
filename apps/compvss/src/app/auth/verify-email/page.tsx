@@ -12,6 +12,7 @@ import {
   AuthPage,
 } from "@ghxstship/ui";
 import NextLink from "next/link";
+import { CreatorNavigationPublic } from "@/components/navigation";
 
 function VerifyEmailContent() {
   const searchParams = useSearchParams();
@@ -50,7 +51,7 @@ function VerifyEmailContent() {
 
 export default function VerifyEmailPage() {
   return (
-    <AuthPage appName="COMPVSS">
+    <AuthPage header={<CreatorNavigationPublic />}>
       <Suspense fallback={
         <Card variant="elevated" className="p-8 text-center">
           <Stack gap={6}>

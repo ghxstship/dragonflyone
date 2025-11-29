@@ -16,12 +16,14 @@ import { Label } from "../atoms/typography.js";
 // =============================================================================
 
 export type AuthPageProps = Omit<HTMLAttributes<HTMLDivElement>, "title"> & {
-  /** App name displayed in header */
-  appName: string;
+  /** App name displayed in header (used for default header) */
+  appName?: string;
   /** Link destination for app logo */
   appHref?: string;
-  /** Header action (e.g., Sign Up button) */
+  /** Header action (e.g., Sign Up button) - used with default header */
   headerAction?: ReactNode;
+  /** Custom header component - replaces default header when provided */
+  header?: ReactNode;
   /** Main content */
   children: ReactNode;
   /** Footer links */
@@ -48,6 +50,7 @@ export const AuthPage = forwardRef<HTMLDivElement, AuthPageProps>(
       appName,
       appHref = "/",
       headerAction,
+      header,
       children,
       footerLinks = [
         { label: "Privacy", href: "/legal/privacy" },
@@ -73,22 +76,26 @@ export const AuthPage = forwardRef<HTMLDivElement, AuthPageProps>(
         )}
         {...props}
       >
-        {/* Header */}
-        <header
-          className={clsx(
-            "sticky top-0 z-50 border-b-2",
-            isDark ? "border-white/10 bg-black" : "border-black/10 bg-white"
-          )}
-        >
-          <Container className="flex h-14 items-center justify-between px-4 sm:h-16 sm:px-6">
-            <a href={appHref} className="transition-transform hover:-translate-y-0.5">
-              <Display size="md" className={isDark ? "text-white" : "text-black"}>
-                {appName}
-              </Display>
-            </a>
-            {headerAction}
-          </Container>
-        </header>
+        {/* Header - use custom header if provided, otherwise render default */}
+        {header ? (
+          header
+        ) : (
+          <header
+            className={clsx(
+              "sticky top-0 z-50 border-b-2",
+              isDark ? "border-white/10 bg-black" : "border-black/10 bg-white"
+            )}
+          >
+            <Container className="flex h-14 items-center justify-between px-4 sm:h-16 sm:px-6">
+              <a href={appHref} className="transition-transform hover:-translate-y-0.5">
+                <Display size="md" className={isDark ? "text-white" : "text-black"}>
+                  {appName}
+                </Display>
+              </a>
+              {headerAction}
+            </Container>
+          </header>
+        )}
 
         {/* Main Content */}
         <FullBleedSection

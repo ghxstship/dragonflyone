@@ -19,9 +19,12 @@ export type StatCardProps = HTMLAttributes<HTMLDivElement> & {
  * - Hard offset shadow
  * - Hover lift effect
  * - Clear visual hierarchy
+ * 
+ * Note: Defaults to inverted (dark) mode to match the dark-mode-first design system.
+ * Use inverted={false} for light backgrounds.
  */
 export const StatCard = forwardRef<HTMLDivElement, StatCardProps>(
-  function StatCard({ value, label, icon, trend, trendValue, inverted = false, className, ...props }, ref) {
+  function StatCard({ value, label, icon, trend, trendValue, inverted = true, className, ...props }, ref) {
     return (
       <div
         ref={ref}

@@ -20,6 +20,7 @@ import {
 } from "@ghxstship/ui";
 import NextLink from "next/link";
 import { UserPlus, ArrowRight } from "lucide-react";
+import { CreatorNavigationPublic } from "@/components/navigation";
 
 // =============================================================================
 // SIGN UP PAGE - ATLVS Account Registration
@@ -109,16 +110,7 @@ export default function SignUpPage() {
   };
 
   return (
-    <AuthPage
-      appName="ATLVS"
-      headerAction={
-        <NextLink href="/auth/signin" className="hidden sm:block">
-          <Button variant="outline" size="sm">
-            Sign In
-          </Button>
-        </NextLink>
-      }
-    >
+    <AuthPage header={<CreatorNavigationPublic />}>
           <ScrollReveal animation="slide-up" duration={600}>
             {/* Auth Card - Pop Art Style */}
             <Card className="border-2 border-black/10 bg-white p-6 shadow-md sm:p-8">

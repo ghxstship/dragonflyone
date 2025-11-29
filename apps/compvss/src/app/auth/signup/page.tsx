@@ -18,6 +18,7 @@ import {
   AuthPage,
 } from "@ghxstship/ui";
 import NextLink from "next/link";
+import { CreatorNavigationPublic } from "@/components/navigation";
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -98,7 +99,7 @@ export default function SignUpPage() {
   };
 
   return (
-    <AuthPage appName="COMPVSS">
+    <AuthPage header={<CreatorNavigationPublic />}>
           <Card variant="elevated" className="p-8">
             <Stack gap={8}>
               {/* Header */}

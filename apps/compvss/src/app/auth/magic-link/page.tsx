@@ -14,6 +14,7 @@ import {
   AuthPage,
 } from "@ghxstship/ui";
 import NextLink from "next/link";
+import { CreatorNavigationPublic } from "@/components/navigation";
 
 export default function MagicLinkPage() {
   const [email, setEmail] = useState("");
@@ -43,7 +44,7 @@ export default function MagicLinkPage() {
   };
 
   return (
-    <AuthPage appName="COMPVSS">
+    <AuthPage header={<CreatorNavigationPublic />}>
           <Card variant="elevated" className="p-8">
             {submitted ? (
               <Stack gap={6} className="text-center">

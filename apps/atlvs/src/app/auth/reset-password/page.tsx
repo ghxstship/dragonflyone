@@ -16,6 +16,7 @@ import {
   AuthPage,
 } from "@ghxstship/ui";
 import NextLink from "next/link";
+import { CreatorNavigationPublic } from "@/components/navigation";
 
 // =============================================================================
 // RESET PASSWORD PAGE - ATLVS Set New Password
@@ -69,7 +70,7 @@ export default function ResetPasswordPage() {
   };
 
   return (
-    <AuthPage appName="ATLVS">
+    <AuthPage header={<CreatorNavigationPublic />}>
           <ScrollReveal animation="slide-up" duration={600}>
             {/* Auth Card - Pop Art Style */}
             <Card className="border-2 border-black/10 bg-white p-6 shadow-md sm:p-8">
