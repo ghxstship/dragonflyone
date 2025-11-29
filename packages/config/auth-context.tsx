@@ -82,7 +82,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const authData = await response.json();
       
       // Fetch user profile and roles from platform_users table
-      const profileResponse = await fetch(`${supabaseUrl}/rest/v1/platform_users?id=eq.${authData.user.id}&select=*`, {
+      const profileResponse = await fetch(`${supabaseUrl}/rest/v1/platform_users?auth_user_id=eq.${authData.user.id}&select=*`, {
         headers: {
           'apikey': supabaseAnonKey,
           'Authorization': `Bearer ${authData.access_token}`,
@@ -158,7 +158,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return eventRoles.includes(role);
   };
 
-  const hasPermission = (permission: string, eventId?: string): boolean => {
+  const hasPermission = (_permission: string, _eventId?: string): boolean => {
     if (!user) return false;
     
     // Legend roles have all permissions

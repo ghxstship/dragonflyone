@@ -13,7 +13,7 @@ const publicPaths = [
   '/api/auth',
 ];
 
-const onboardingPath = '/onboarding';
+const _onboardingPath = '/onboarding';
 
 const ROLE_ACCESS_MAP: Record<string, string[]> = {
   '/finance': ['ATLVS_ADMIN', 'ATLVS_SUPER_ADMIN', 'LEGEND_SUPER_ADMIN'],
@@ -25,11 +25,11 @@ const ROLE_ACCESS_MAP: Record<string, string[]> = {
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  let response = NextResponse.next({ request });
+  const response = NextResponse.next({ request });
 
   // Check if the path is public
   const isPublicPath = publicPaths.some(path => pathname.startsWith(path));
-  const isOnboardingPath = pathname.startsWith(onboardingPath);
+  const _isOnboardingPath = pathname.startsWith(_onboardingPath);
 
   // Create Supabase client for middleware
   const supabase = createServerClient(
@@ -65,32 +65,33 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/dashboard', request.url));
   }
 
-  // Check onboarding status for authenticated users
-  if (session && !isPublicPath && !isOnboardingPath) {
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('onboarding_completed')
-      .eq('id', session.user.id)
+  // Get user roles for authenticated users
+  let userRoles: string[] = [];
+  if (session) {
+    // Get platform user and their roles
+    const { data: platformUser } = await supabase
+      .from('platform_users')
+      .select('id')
+      .eq('auth_user_id', session.user.id)
       .single();
 
-    if (profile && !profile.onboarding_completed) {
-      return NextResponse.redirect(new URL('/onboarding', request.url));
+    if (platformUser) {
+      const { data: roles } = await supabase
+        .from('user_roles')
+        .select('role_code')
+        .eq('platform_user_id', platformUser.id);
+      
+      userRoles = roles?.map(r => r.role_code) || [];
     }
   }
 
   // Role-based access control for admin routes
   for (const [protectedPath, allowedRoles] of Object.entries(ROLE_ACCESS_MAP)) {
-    if (pathname.startsWith(protectedPath)) {
-      const { data: platformUser } = await supabase
-        .from('platform_users')
-        .select('platform_roles')
-        .eq('auth_user_id', session?.user?.id)
-        .single();
+    if (pathname.startsWith(protectedPath) && session) {
+      const hasAccess = allowedRoles.some(role => userRoles.includes(role)) || 
+                        userRoles.some(role => role.startsWith('LEGEND_'));
 
-      const roles = platformUser?.platform_roles || [];
-      const isAdmin = roles.some((role: string) => role.includes('ADMIN') || role.startsWith('LEGEND_'));
-
-      if (!allowedRoles.some(role => roles.includes(role) || role.startsWith('LEGEND_'))) {
+      if (!hasAccess) {
         return NextResponse.redirect(new URL('/dashboard', request.url));
       }
     }
