@@ -31,7 +31,8 @@ import {
   TableCell,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface BackgroundCheck {
   id: string;
@@ -75,13 +76,17 @@ export default function BackgroundChecksPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Background Checks"
-              description="Background check status and renewal alerts"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Background Checks"
+        subtitle="Background check status and renewal alerts"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Crew', href: '/crew' }, { label: 'Background Checks' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             {(expiringCount > 0 || expiredCount > 0) && (
               <Alert variant="warning">

@@ -119,7 +119,15 @@ export default function DataWarehousePage() {
         stats={stats}
         emptyMessage="No data sources configured"
         emptyAction={{ label: 'Add Data Source', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated />}
+        header={<CreatorNavigationAuthenticated
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Analytics', href: '/analytics' }, { label: 'Data Warehouse' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings />}
       />
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Add Data Source" fields={formFields} onSubmit={handleCreate} size="lg" />
       {selected && (

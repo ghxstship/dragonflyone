@@ -22,7 +22,8 @@ import {
   ModalFooter,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface CaseStudy {
   id: string;
@@ -65,13 +66,17 @@ export default function CaseStudiesPage() {
         <Container>
           <Stack gap={10}>
             {/* Page Header */}
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Case Studies"
-              description="Project post-mortems and lessons learned"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Case Studies"
+        subtitle="Project post-mortems and lessons learned"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Case Studies' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             {/* Stats Grid */}
             <Grid cols={4} gap={6}>

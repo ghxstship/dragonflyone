@@ -151,7 +151,15 @@ export default function AssetsPage() {
         stats={stats}
         emptyMessage="No assets found"
         emptyAction={{ label: 'Add Asset', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated />}
+        header={<CreatorNavigationAuthenticated
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Assets' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings />}
       />
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Add Asset" fields={formFields} onSubmit={handleCreate} size="lg" />
       <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedAsset} title={(a) => a.name} subtitle={(a) => a.id} sections={detailSections} onEdit={(a) => router.push(`/assets/${a.id}/edit`)} onDelete={(a) => { setAssetToDelete(a); setDeleteConfirmOpen(true); setDrawerOpen(false); }} />

@@ -122,7 +122,15 @@ export default function AssetOptimizationPage() {
         onExport={() => console.log('Export')}
         stats={stats}
         emptyMessage="No recommendations found"
-        header={<CreatorNavigationAuthenticated />}
+        header={<CreatorNavigationAuthenticated
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Assets', href: '/assets' }, { label: 'Optimization' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings />}
       />
       {selected && (
         <DetailDrawer

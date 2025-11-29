@@ -119,7 +119,15 @@ export default function LeadScoringPage() {
         onExport={() => console.log('Export leads')}
         stats={stats}
         emptyMessage="No leads found"
-        header={<CreatorNavigationAuthenticated />}
+        header={<CreatorNavigationAuthenticated
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Crm', href: '/crm' }, { label: 'Lead Scoring' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings />}
       />
       {selected && (
         <DetailDrawer

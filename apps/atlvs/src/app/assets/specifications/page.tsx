@@ -9,7 +9,8 @@ import {
   Card, Tabs, TabsList, Tab, TabPanel, Badge,
   Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
   PageLayout, SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface AssetSpec {
   id: string;
@@ -150,13 +151,17 @@ export default function AssetSpecificationsPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={8}>
-            <SectionHeader
-              kicker="ATLVS"
-              title="Asset Specifications Library"
-              description="Technical documentation, specifications, and manuals for all equipment"
-              colorScheme="on-dark"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Asset Specifications Library"
+        subtitle="Technical documentation, specifications, and manuals for all equipment"
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Assets', href: '/assets' }, { label: 'Specifications' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
           <Grid cols={4} gap={6}>
             <StatCard label="Spec Sheets" value={mockSpecs.length} className="bg-transparent border-2 border-ink-800" />

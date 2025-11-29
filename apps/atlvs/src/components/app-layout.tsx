@@ -1,6 +1,7 @@
 "use client";
 
 import { ReactNode } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import {
   PageLayout,
   Footer,
@@ -12,16 +13,19 @@ import {
   Stack,
   Label,
   LoadingSpinner,
+  AuthenticatedShell,
+  Link,
 } from "@ghxstship/ui";
 import {
   CreatorNavigationPublic,
-  CreatorNavigationAuthenticated,
 } from "./navigation";
-import type { ContextLevel } from "@ghxstship/ui";
+import { atlvsSidebarNavigation, atlvsQuickActions } from "../data/atlvs";
+import type { ContextLevel, SidebarNavSection } from "@ghxstship/ui";
 
 // =============================================================================
 // ATLVS APP LAYOUT WRAPPERS
 // Bold Contemporary Pop Art Adventure Design System - Dark Theme (B2B)
+// ClickUp-style sidebar navigation for enterprise dashboard
 // =============================================================================
 
 interface AppLayoutProps {
@@ -32,7 +36,7 @@ interface AppLayoutProps {
   contextLevels?: ContextLevel[];
   /** Custom user menu for authenticated navigation */
   userMenu?: ReactNode;
-  /** Show footer (default: true) */
+  /** Show footer (default: true for public, false for authenticated) */
   showFooter?: boolean;
   /** Background color */
   background?: "black" | "white";
@@ -42,36 +46,90 @@ interface AppLayoutProps {
 
 /**
  * AtlvsAppLayout - Unified layout wrapper for all ATLVS pages
- * Provides consistent header, footer, and styling across the app
+ * Uses ClickUp-style sidebar for authenticated pages
+ * Uses traditional header/footer for public pages
  */
 export function AtlvsAppLayout({
   children,
   variant = "authenticated",
-  contextLevels = [],
-  userMenu,
-  showFooter = true,
+  contextLevels: _contextLevels = [],
+  userMenu: _userMenu,
+  showFooter,
   background = "black",
   className,
 }: AppLayoutProps) {
-  const getNavigation = () => {
-    switch (variant) {
-      case "public":
-        return <CreatorNavigationPublic />;
-      case "authenticated":
-        return <CreatorNavigationAuthenticated contextLevels={contextLevels} userMenu={userMenu} />;
-      default:
-        return <CreatorNavigationAuthenticated contextLevels={contextLevels} userMenu={userMenu} />;
-    }
+  const pathname = usePathname();
+  const router = useRouter();
+
+  // Demo notifications for header
+  const demoNotifications = [
+    { id: "1", title: "New project created", message: "Project 'Summer Campaign' was created", time: "2 min ago", read: false },
+    { id: "2", title: "Budget approved", message: "Q4 budget has been approved by finance", time: "1 hour ago", read: false },
+    { id: "3", title: "Team member added", message: "Sarah joined the Marketing team", time: "3 hours ago", read: true },
+  ];
+
+  // Demo workspaces for header
+  const demoWorkspaces = [
+    { id: "ghxstship", name: "GHXSTSHIP", current: true },
+    { id: "acme", name: "ACME Corp", current: false },
+    { id: "personal", name: "Personal", current: false },
+  ];
+
+  // Handle sign out
+  const handleSignOut = () => {
+    router.push("/auth/signin");
   };
 
+  // Handle workspace switch
+  const handleWorkspaceSwitch = (workspaceId: string) => {
+    // In a real app, this would switch the workspace context
+    console.log("Switching to workspace:", workspaceId);
+    router.push("/dashboard");
+  };
+
+  // For authenticated pages, use the new sidebar shell
+  if (variant === "authenticated") {
+    return (
+      <AuthenticatedShell
+        navigation={atlvsSidebarNavigation as SidebarNavSection[]}
+        currentPath={pathname}
+        logo={
+          <Link href="/dashboard" className="font-display text-h5-md uppercase text-white transition-colors hover:text-grey-200">
+            ATLVS
+          </Link>
+        }
+        workspaceName="GHXSTSHIP"
+        user={{
+          name: "Demo User",
+          email: "demo@ghxstship.com",
+        }}
+        quickActions={atlvsQuickActions.slice(0, 3)}
+        inverted={background === "black"}
+        onNavigate={(href: string) => router.push(href)}
+        settingsPath="/settings"
+        notifications={demoNotifications}
+        workspaces={demoWorkspaces}
+        onWorkspaceSwitch={handleWorkspaceSwitch}
+        onSignOut={handleSignOut}
+        className={className}
+      >
+        <div className="p-6 lg:p-8">
+          {children}
+        </div>
+      </AuthenticatedShell>
+    );
+  }
+
+  // For public pages, use the traditional layout with header/footer
   const isDark = background === "black";
+  const shouldShowFooter = showFooter ?? true;
 
   return (
     <PageLayout
       background={background}
-      header={getNavigation()}
+      header={<CreatorNavigationPublic />}
       footer={
-        showFooter ? (
+        shouldShowFooter ? (
           <Footer
             logo={<Display size="md">ATLVS</Display>}
             copyright={`© ${new Date().getFullYear()} GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED.`}

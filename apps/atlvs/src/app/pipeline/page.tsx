@@ -110,7 +110,15 @@ export default function PipelinePage() {
         stats={stats}
         emptyMessage="No deals found"
         emptyAction={{ label: 'Add Deal', onClick: () => router.push('/pipeline/new') }}
-        header={<CreatorNavigationAuthenticated />}
+        header={<CreatorNavigationAuthenticated
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Pipeline' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings />}
       />
       {selectedDeal && (
         <DetailDrawer

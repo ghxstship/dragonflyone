@@ -27,7 +27,8 @@ import {
   Textarea,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface PhotoSet {
   id: string;
@@ -91,13 +92,17 @@ export default function PhotoDocumentationPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Photo Documentation"
-              description="Phase-by-phase photo and video documentation for all projects"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Photo Documentation"
+        subtitle="Phase-by-phase photo and video documentation for all projects"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Photo Documentation' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             <Grid cols={4} gap={6}>
               <StatCard value={mockPhotoSets.length.toString()} label="Photo Sets" />

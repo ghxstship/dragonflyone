@@ -3,7 +3,9 @@
 import { useState, useEffect } from "react";
 import { useRouter, notFound } from "next/navigation";
 import { CreatorNavigationAuthenticated } from "../../../components/navigation";
-import { ProgressBar, Button, Stack, StatusBadge, LoadingSpinner, Container, useNotifications, H2, H3, Body, Label, Card, Grid, Link, Badge, Section, PageLayout, SectionHeader } from "@ghxstship/ui";
+import { ProgressBar, Button, Stack, StatusBadge, LoadingSpinner, Container, useNotifications, H2, H3, Body, Label, Card, Grid, Link, Badge, Section, PageLayout, SectionHeader,
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface Project {
   id: string;

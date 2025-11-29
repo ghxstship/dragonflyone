@@ -27,7 +27,8 @@ import {
   Textarea,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface Stakeholder {
   id: string;
@@ -95,13 +96,17 @@ export default function StakeholderPortalPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Stakeholder Portal"
-              description="Role-based communication portal for project stakeholders"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Stakeholder Portal"
+        subtitle="Role-based communication portal for project stakeholders"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Stakeholder Portal' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             <Grid cols={4} gap={6}>
               <StatCard label="Total Stakeholders" value={mockStakeholders.length.toString()} />

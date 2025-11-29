@@ -17,7 +17,8 @@ import {
   Badge,
   PageLayout,
   SectionHeader,
-} from '@ghxstship/ui';
+  EnterprisePageHeader,
+  MainContent,} from '@ghxstship/ui';
 
 interface DirectoryEntry {
   id: string;
@@ -70,13 +71,17 @@ export default function DirectoryFiltersPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Directory Search"
-              description="Filter by language and specialty"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Directory Search"
+        subtitle="Filter by language and specialty"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Directory', href: '/directory' }, { label: 'Filters' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             <Grid cols={4} gap={6}>
               <StatCard value={filteredEntries.length.toString()} label="Total Results" />

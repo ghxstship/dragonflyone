@@ -106,7 +106,15 @@ export default function AdvanceReviewQueuePage() {
         onExport={() => console.log('Export')}
         stats={stats}
         emptyMessage="No advances pending review"
-        header={<CreatorNavigationAuthenticated />}
+        header={<CreatorNavigationAuthenticated
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Advances' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings />}
       />
       <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedAdvance} title={(a) => a.activation_name || 'Advance'} subtitle={(a) => a.organization?.name || ''} sections={detailSections} actions={[{ id: 'review', label: 'Review', icon: '✅' }]} onAction={(id, a) => id === 'review' && router.push(`/advances/${a.id}`)} />
     </>

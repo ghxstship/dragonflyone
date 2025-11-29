@@ -128,7 +128,15 @@ export default function QuotesPage() {
         stats={stats}
         emptyMessage="No quotes found"
         emptyAction={{ label: 'Create Quote', onClick: () => router.push('/quotes/new') }}
-        header={<CreatorNavigationAuthenticated />}
+        header={<CreatorNavigationAuthenticated
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Quotes' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings />}
       />
       {selectedQuote && (
         <DetailDrawer

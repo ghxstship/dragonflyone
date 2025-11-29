@@ -117,7 +117,15 @@ export default function AdvancingPage() {
         onExport={() => router.push('/advancing/export')}
         stats={stats}
         emptyMessage="No advance requests found"
-        header={<CreatorNavigationAuthenticated />}
+        header={<CreatorNavigationAuthenticated
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Advancing' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings />}
       />
       <DetailDrawer
         open={drawerOpen}

@@ -26,7 +26,8 @@ import {
   ModalFooter,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface Settlement {
   id: string;
@@ -143,13 +144,17 @@ export default function SettlementPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Post-Production Settlement"
-              description="Financial closeout and settlement for completed projects"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Post-Production Settlement"
+        subtitle="Financial closeout and settlement for completed projects"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Settlement' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             <Grid cols={4} gap={6}>
               <StatCard value={pendingCount.toString()} label="Pending Settlements" />

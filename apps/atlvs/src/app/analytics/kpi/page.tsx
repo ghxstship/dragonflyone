@@ -22,7 +22,8 @@ import {
   PageLayout,
   SectionHeader,
   StatCard,
-} from '@ghxstship/ui';
+  EnterprisePageHeader,
+  MainContent,} from '@ghxstship/ui';
 import { BarChart3, TrendingUp, Target, Activity } from 'lucide-react';
 
 interface KPIDefinition {
@@ -156,13 +157,17 @@ export default function KPILibraryPage() {
         <Container>
           <Stack gap={10}>
             {/* Page Header */}
-            <SectionHeader
-              kicker="ATLVS Analytics"
-              title="KPI Master Library"
-              description="Complete reference library of 200 preconfigured KPI metrics for analytics and insights"
-              colorScheme="on-dark"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="KPI Master Library"
+        subtitle="Complete reference library of 200 preconfigured KPI metrics for analytics and insights"
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Analytics', href: '/analytics' }, { label: 'Kpi' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             {/* Stats Grid */}
             <Grid cols={4} gap={6}>

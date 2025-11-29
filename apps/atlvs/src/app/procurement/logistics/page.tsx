@@ -8,7 +8,8 @@ import {
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Button,
   Section, Card, Tabs, TabsList, Tab, Badge, PageLayout, SectionHeader,
   Modal, ModalHeader, ModalBody, ModalFooter, Alert, ProgressBar,
-} from '@ghxstship/ui';
+  EnterprisePageHeader,
+  MainContent,} from '@ghxstship/ui';
 
 interface Shipment {
   id: string;
@@ -70,13 +71,17 @@ export default function LogisticsPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="ATLVS"
-              title="Freight & Logistics"
-              description="Coordinate shipments and track deliveries"
-              colorScheme="on-dark"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Freight & Logistics"
+        subtitle="Coordinate shipments and track deliveries"
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Procurement', href: '/procurement' }, { label: 'Logistics' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
           <Grid cols={4} gap={6}>
             <StatCard label="Active Shipments" value={activeShipments.length} className="bg-transparent border-2 border-ink-800" />

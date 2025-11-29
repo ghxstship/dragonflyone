@@ -172,7 +172,15 @@ export default function ContactsPage() {
         stats={stats}
         emptyMessage="No contacts yet"
         emptyAction={{ label: 'Add Contact', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated />}
+        header={<CreatorNavigationAuthenticated
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Contacts' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings />}
       />
 
       <RecordFormModal

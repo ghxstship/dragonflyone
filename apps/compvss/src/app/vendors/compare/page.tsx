@@ -16,7 +16,8 @@ import {
   ProgressBar,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface Vendor {
   id: string;
@@ -88,13 +89,17 @@ export default function VendorComparePage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Vendor Comparison"
-              description="Compare vendors side-by-side to make informed decisions"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Vendor Comparison"
+        subtitle="Compare vendors side-by-side to make informed decisions"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Vendors', href: '/vendors' }, { label: 'Compare' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             <Grid cols={4} gap={6}>
               <StatCard label="Vendors Available" value={mockVendors.length.toString()} />

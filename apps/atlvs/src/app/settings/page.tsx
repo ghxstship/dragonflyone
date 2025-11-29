@@ -17,7 +17,8 @@ import {
   Section,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 import { CreatorNavigationAuthenticated } from "../../components/navigation";
 
 export default function SettingsPage() {
@@ -43,13 +44,17 @@ export default function SettingsPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="ATLVS"
-              title="Settings"
-              description="Configure your account preferences and notifications"
-              colorScheme="on-dark"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Settings"
+        subtitle="Configure your account preferences and notifications"
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Settings' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
           <Section border noPadding title="Notification Preferences">
             <Stack gap={4}>

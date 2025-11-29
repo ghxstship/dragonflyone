@@ -19,7 +19,8 @@ import {
   H3,
   PageLayout,
   SectionHeader,
-} from '@ghxstship/ui';
+  EnterprisePageHeader,
+  MainContent,} from '@ghxstship/ui';
 import { useCrew } from '../../hooks/useCrew';
 
 // Available languages for filtering
@@ -211,13 +212,17 @@ export default function DirectoryPage() {
         <Container>
           <Stack gap={10}>
             {/* Page Header */}
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Directory"
-              description="Search and filter crew, vendors, and venues by language, specialty, and more"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Directory"
+        subtitle="Search and filter crew, vendors, and venues by language, specialty, and more"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Directory' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
           {/* Primary Search and Filters */}
           <Card className="p-6">

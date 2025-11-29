@@ -3,7 +3,9 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { CreatorNavigationAuthenticated } from '../../components/navigation';
-import { Container, Section, H2, H3, Body, Button, Input, Select, Card, Grid, Badge, Stack, Modal, ModalHeader, ModalBody, ModalFooter, Textarea, Alert, Breadcrumb, BreadcrumbItem, PageLayout, SectionHeader } from '@ghxstship/ui';
+import { Container, Section, H2, H3, Body, Button, Input, Select, Card, Grid, Badge, Stack, Modal, ModalHeader, ModalBody, ModalFooter, Textarea, Alert, Breadcrumb, BreadcrumbItem, PageLayout, SectionHeader,
+  EnterprisePageHeader,
+  MainContent,} from '@ghxstship/ui';
 import { Search, Briefcase, DollarSign, MapPin, Clock, FileText } from 'lucide-react';
 
 export default function OpportunitiesPage() {
@@ -105,13 +107,17 @@ export default function OpportunitiesPage() {
           </Breadcrumb>
 
           <Stack gap={4} direction="horizontal" className="mb-8 items-start justify-between">
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Opportunities"
-              description="RFPs, careers, and gig board"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Opportunities"
+        subtitle="RFPs, careers, and gig board"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Opportunities' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
             <Button onClick={() => router.push('/opportunities/new')}>
               <FileText className="mr-2 size-4" />
               POST OPPORTUNITY

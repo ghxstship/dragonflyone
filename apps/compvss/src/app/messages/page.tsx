@@ -17,7 +17,8 @@ import {
   Textarea,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface Conversation {
   id: string;
@@ -70,13 +71,17 @@ export default function MessagesPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Messages"
-              description="Direct messaging with crew and vendors"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Messages"
+        subtitle="Direct messaging with crew and vendors"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Messages' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             <Grid cols={4} gap={6}>
               <StatCard value={mockConversations.length.toString()} label="Conversations" />

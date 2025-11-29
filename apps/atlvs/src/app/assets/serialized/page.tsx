@@ -31,7 +31,8 @@ import {
   Alert,
   PageLayout,
   SectionHeader,
-} from '@ghxstship/ui';
+  EnterprisePageHeader,
+  MainContent,} from '@ghxstship/ui';
 
 interface SerializedComponent {
   id: string;
@@ -200,13 +201,17 @@ export default function SerializedComponentsPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={8}>
-            <SectionHeader
-              kicker="ATLVS"
-              title="Serialized Component Tracking"
-              description="Track individual components within assets by serial number"
-              colorScheme="on-dark"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Serialized Component Tracking"
+        subtitle="Track individual components within assets by serial number"
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Assets', href: '/assets' }, { label: 'Serialized' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
           <Grid cols={4} gap={6}>
             <StatCard label="Total Components" value={components.length} className="bg-transparent border-2 border-ink-800" />

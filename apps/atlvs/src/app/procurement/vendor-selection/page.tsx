@@ -8,7 +8,8 @@ import {
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Button,
   Section, Card, Tabs, TabsList, Tab, TabPanel, Badge, PageLayout, SectionHeader,
   Modal, ModalHeader, ModalBody, ModalFooter, Alert, ProgressBar, Textarea,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface VendorSelection {
   id: string;
@@ -130,13 +131,17 @@ export default function VendorSelectionPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="ATLVS"
-              title="Vendor Selection"
-              description="Evaluate bids, score vendors, and route for approval"
-              colorScheme="on-dark"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Vendor Selection"
+        subtitle="Evaluate bids, score vendors, and route for approval"
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Procurement', href: '/procurement' }, { label: 'Vendor Selection' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
           <Grid cols={4} gap={6}>
             <StatCard label="Active Selections" value={mockSelections.length} className="bg-transparent border-2 border-ink-800" />

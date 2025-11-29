@@ -27,7 +27,8 @@ import {
   Textarea,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface ArtistProfile {
   id: string;
@@ -96,13 +97,17 @@ export default function SocialAmplificationPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Social Amplification"
-              description="Coordinate artist and performer social media promotion"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Social Amplification"
+        subtitle="Coordinate artist and performer social media promotion"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Social Amplification' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             <Grid cols={4} gap={6}>
               <StatCard value={formatNumber(totalReach)} label="Total Reach" />

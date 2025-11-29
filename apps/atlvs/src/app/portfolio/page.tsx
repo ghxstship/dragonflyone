@@ -178,7 +178,15 @@ export default function PortfolioPage() {
         stats={stats}
         emptyMessage="No portfolio projects found"
         emptyAction={{ label: 'Add Project', onClick: () => router.push('/portfolio/new') }}
-        header={<CreatorNavigationAuthenticated />}
+        header={<CreatorNavigationAuthenticated
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Portfolio' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings />}
       />
 
       {selectedProject && (

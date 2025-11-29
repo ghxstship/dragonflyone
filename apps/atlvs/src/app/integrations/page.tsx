@@ -19,7 +19,8 @@ import {
   StatCard,
   PageLayout,
   SectionHeader,
-} from '@ghxstship/ui';
+  EnterprisePageHeader,
+  MainContent,} from '@ghxstship/ui';
 
 interface IntegrationResult {
   created?: boolean;
@@ -74,13 +75,17 @@ export default function IntegrationsPage() {
         <Container>
           <Stack gap={10}>
             {/* Page Header - Bold Contemporary Pop Art Adventure */}
-            <SectionHeader
-              kicker="ATLVS"
-              title="Cross-Platform Integrations"
-              description="Manage data synchronization between ATLVS, COMPVSS, and GVTEWAY platforms"
-              colorScheme="on-dark"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Cross-Platform Integrations"
+        subtitle="Manage data synchronization between ATLVS, COMPVSS, and GVTEWAY platforms"
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Integrations' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
         <Card className="p-8 border-2 border-ink-800 bg-transparent">
           <H2 className="text-white">Deal → Project Handoff (ATLVS → COMPVSS)</H2>

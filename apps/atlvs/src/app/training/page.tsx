@@ -130,7 +130,15 @@ export default function TrainingPage() {
         stats={stats}
         emptyMessage="No training programs found"
         emptyAction={{ label: 'Create Program', onClick: () => router.push('/training/new') }}
-        header={<CreatorNavigationAuthenticated />}
+        header={<CreatorNavigationAuthenticated
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Training' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings />}
       />
 
       {selectedProgram && (

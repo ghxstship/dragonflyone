@@ -223,7 +223,15 @@ export default function EquipmentPage() {
         stats={stats}
         emptyMessage="No equipment found"
         emptyAction={{ label: 'Add Equipment', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated />}
+        header={<CreatorNavigationAuthenticated
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Equipment' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings />}
       />
 
       <RecordFormModal

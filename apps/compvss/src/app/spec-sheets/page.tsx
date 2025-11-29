@@ -26,7 +26,8 @@ import {
   TableCell,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface SpecSheet {
   id: string;
@@ -82,13 +83,17 @@ export default function SpecSheetsPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Technical Specifications"
-              description="Equipment specification sheets and cut sheets library"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Technical Specifications"
+        subtitle="Equipment specification sheets and cut sheets library"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Spec Sheets' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             <Grid cols={4} gap={6}>
               <StatCard value={mockSpecs.length.toString()} label="Total Specs" />

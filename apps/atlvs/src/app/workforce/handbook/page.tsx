@@ -33,7 +33,8 @@ import {
   ProgressBar,
   PageLayout,
   SectionHeader,
-} from '@ghxstship/ui';
+  EnterprisePageHeader,
+  MainContent,} from '@ghxstship/ui';
 
 interface HandbookSection {
   id: string;
@@ -111,13 +112,17 @@ export default function HandbookPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="ATLVS"
-              title="Employee Handbook & Policies"
-              description="Manage handbook sections and track policy acknowledgments"
-              colorScheme="on-dark"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Employee Handbook & Policies"
+        subtitle="Manage handbook sections and track policy acknowledgments"
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Workforce', href: '/workforce' }, { label: 'Handbook' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
           <Grid cols={4} gap={6}>
             <StatCard label="Handbook Sections" value={mockSections.length} className="bg-transparent border-2 border-ink-800" />

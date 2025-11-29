@@ -22,7 +22,8 @@ import {
   StatCard,
   PageLayout,
   SectionHeader,
-} from '@ghxstship/ui';
+  EnterprisePageHeader,
+  MainContent,} from '@ghxstship/ui';
 import { Target, CheckCircle, AlertTriangle, BarChart3 } from 'lucide-react';
 
 interface StrategicGoal {
@@ -161,13 +162,17 @@ export default function StrategicAlignmentPage() {
           <Stack gap={10}>
             {/* Page Header - Bold Contemporary Pop Art Adventure */}
             <Stack direction="horizontal" className="flex-col items-start justify-between md:flex-row md:items-center">
-              <SectionHeader
-                kicker="ATLVS"
-                title="Strategic Alignment"
-                description="Measure how projects align with strategic goals"
-                colorScheme="on-dark"
-                gap="lg"
-              />
+              <EnterprisePageHeader
+        title="Strategic Alignment"
+        subtitle="Measure how projects align with strategic goals"
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Alignment' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
               <Button variant="solid" onClick={() => setShowAlignModal(true)}>
                 Align Project
               </Button>

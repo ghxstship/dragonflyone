@@ -24,7 +24,8 @@ import {
   Alert,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface EmergencyContact {
   id: string;
@@ -78,13 +79,17 @@ export default function EmergencyPage() {
         <Container>
           <Stack gap={10}>
             {/* Page Header */}
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Emergency Procedures"
-              description="Contact tree, emergency protocols, and response procedures"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Emergency Procedures"
+        subtitle="Contact tree, emergency protocols, and response procedures"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Emergency' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             {/* Emergency Alert */}
             <Alert variant="warning">

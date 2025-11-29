@@ -22,7 +22,8 @@ import {
   ModalFooter,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface BestPractice {
   id: string;
@@ -67,13 +68,17 @@ export default function BestPracticesPage() {
         <Container>
           <Stack gap={10}>
             {/* Page Header */}
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Best Practices Library"
-              description="Industry best practices organized by discipline"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Best Practices Library"
+        subtitle="Industry best practices organized by discipline"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Best Practices' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             {/* Stats Grid */}
             <Grid cols={4} gap={6}>

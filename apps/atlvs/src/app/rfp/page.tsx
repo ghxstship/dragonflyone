@@ -128,7 +128,15 @@ export default function RFPPage() {
         stats={stats}
         emptyMessage="No RFPs found"
         emptyAction={{ label: 'Create RFP', onClick: () => router.push('/rfp/new') }}
-        header={<CreatorNavigationAuthenticated />}
+        header={<CreatorNavigationAuthenticated
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Rfp' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings />}
       />
       {selectedRfp && (
         <DetailDrawer

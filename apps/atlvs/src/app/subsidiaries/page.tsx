@@ -137,7 +137,15 @@ export default function SubsidiariesPage() {
         stats={stats}
         emptyMessage="No subsidiaries found"
         emptyAction={{ label: 'Add Entity', onClick: () => router.push('/subsidiaries/new') }}
-        header={<CreatorNavigationAuthenticated />}
+        header={<CreatorNavigationAuthenticated
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Subsidiaries' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings />}
       />
       {selectedEntity && (
         <DetailDrawer

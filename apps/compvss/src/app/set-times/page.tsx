@@ -26,7 +26,8 @@ import {
   Alert,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface SetTime {
   id: string;
@@ -101,13 +102,17 @@ export default function SetTimesPage() {
         <Container>
           <Stack gap={10}>
             <Stack direction="horizontal" className="items-start justify-between">
-              <SectionHeader
-                kicker="COMPVSS"
-                title="Set Time Tracking"
-                description="Track actual start/end times and monitor schedule variance"
-                colorScheme="on-light"
-                gap="lg"
-              />
+              <EnterprisePageHeader
+        title="Set Time Tracking"
+        subtitle="Track actual start/end times and monitor schedule variance"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Set Times' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
               <Card className="p-4">
                 <Stack gap={1} className="text-center">
                   <Body className="text-body-sm">Current Time</Body>

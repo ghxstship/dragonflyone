@@ -1,6 +1,7 @@
 "use client";
 
 import { ReactNode } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import {
   PageLayout,
   Footer,
@@ -12,16 +13,19 @@ import {
   Stack,
   Label,
   LoadingSpinner,
+  AuthenticatedShell,
+  Link,
 } from "@ghxstship/ui";
 import {
   CreatorNavigationPublic,
-  CreatorNavigationAuthenticated,
 } from "./navigation";
-import type { ContextLevel } from "@ghxstship/ui";
+import { compvssSidebarNavigation, compvssQuickActions } from "../data/compvss";
+import type { ContextLevel, SidebarNavSection } from "@ghxstship/ui";
 
 // =============================================================================
 // COMPVSS APP LAYOUT WRAPPERS
 // Bold Contemporary Pop Art Adventure Design System - Light/Dark Theme
+// ClickUp-style sidebar navigation for production management
 // =============================================================================
 
 interface AppLayoutProps {
@@ -32,7 +36,7 @@ interface AppLayoutProps {
   contextLevels?: ContextLevel[];
   /** Custom user menu for authenticated navigation */
   userMenu?: ReactNode;
-  /** Show footer (default: true) */
+  /** Show footer (default: true for public, false for authenticated) */
   showFooter?: boolean;
   /** Background color */
   background?: "black" | "white";
@@ -42,36 +46,62 @@ interface AppLayoutProps {
 
 /**
  * CompvssAppLayout - Unified layout wrapper for all COMPVSS pages
- * Provides consistent header, footer, and styling across the app
+ * Uses ClickUp-style sidebar for authenticated pages
+ * Uses traditional header/footer for public pages
  */
 export function CompvssAppLayout({
   children,
   variant = "authenticated",
-  contextLevels = [],
-  userMenu,
-  showFooter = true,
+  contextLevels: _contextLevels = [],
+  userMenu: _userMenu,
+  showFooter,
   background = "white",
   className,
 }: AppLayoutProps) {
-  const getNavigation = () => {
-    switch (variant) {
-      case "public":
-        return <CreatorNavigationPublic />;
-      case "authenticated":
-        return <CreatorNavigationAuthenticated contextLevels={contextLevels} userMenu={userMenu} />;
-      default:
-        return <CreatorNavigationAuthenticated contextLevels={contextLevels} userMenu={userMenu} />;
-    }
-  };
+  const pathname = usePathname();
+  const router = useRouter();
 
+  // For authenticated pages, use the new sidebar shell
+  if (variant === "authenticated") {
+    // COMPVSS uses light theme by default (production crews prefer light mode)
+    const inverted = background === "black";
+    
+    return (
+      <AuthenticatedShell
+        navigation={compvssSidebarNavigation as SidebarNavSection[]}
+        currentPath={pathname}
+        logo={
+          <Link href="/dashboard" className={`font-display text-h5-md uppercase ${inverted ? "text-white hover:text-grey-200" : "text-black hover:text-grey-700"} transition-colors`}>
+            COMPVSS
+          </Link>
+        }
+        workspaceName="PRODUCTION"
+        user={{
+          name: "Crew Lead",
+          email: "crew@ghxstship.com",
+        }}
+        quickActions={compvssQuickActions.slice(0, 3)}
+        inverted={inverted}
+        onNavigate={(href: string) => router.push(href)}
+        className={className}
+      >
+        <div className="p-6 lg:p-8">
+          {children}
+        </div>
+      </AuthenticatedShell>
+    );
+  }
+
+  // For public pages, use the traditional layout with header/footer
   const isDark = background === "black";
+  const shouldShowFooter = showFooter ?? true;
 
   return (
     <PageLayout
       background={background}
-      header={getNavigation()}
+      header={<CreatorNavigationPublic />}
       footer={
-        showFooter ? (
+        shouldShowFooter ? (
           <Footer
             logo={<Display size="md">COMPVSS</Display>}
             copyright={`© ${new Date().getFullYear()} GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED.`}

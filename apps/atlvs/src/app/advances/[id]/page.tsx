@@ -30,7 +30,8 @@ import {
   PageLayout,
   SectionHeader,
   LoadingSpinner,
-} from '@ghxstship/ui';
+  EnterprisePageHeader,
+  MainContent,} from '@ghxstship/ui';
 
 export default function AdvanceReviewDetailPage({ params }: { params: { id: string } }) {
   const router = useRouter();

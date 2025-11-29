@@ -99,7 +99,15 @@ export default function CRMPage() {
         stats={stats}
         emptyMessage="No contacts found"
         emptyAction={{ label: 'Add Contact', onClick: () => router.push('/contacts') }}
-        header={<CreatorNavigationAuthenticated />}
+        header={<CreatorNavigationAuthenticated
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Crm' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings />}
       />
       <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedContact} title={(c) => c.name} subtitle={(c) => c.company || c.email} sections={detailSections} onEdit={(c) => router.push(`/contacts/${c.id}/edit`)} actions={[{ id: 'email', label: 'Send Email', icon: '✉️' }]} onAction={(id, c) => id === 'email' && (window.location.href = `mailto:${c.email}`)} />
     </>

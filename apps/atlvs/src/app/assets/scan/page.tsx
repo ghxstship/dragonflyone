@@ -23,7 +23,8 @@ import {
   StatCard,
   PageLayout,
   SectionHeader,
-} from '@ghxstship/ui';
+  EnterprisePageHeader,
+  MainContent,} from '@ghxstship/ui';
 
 interface ScannedAsset {
   id: string;
@@ -158,13 +159,17 @@ export default function AssetScanPage() {
         <Container>
           <Stack gap={10}>
             <Stack direction="horizontal" className="items-center justify-between">
-              <SectionHeader
-                kicker="ATLVS"
-                title="Barcode Scanner"
-                description="Scan assets for check-in, check-out, and inventory"
-                colorScheme="on-dark"
-                gap="lg"
-              />
+              <EnterprisePageHeader
+        title="Barcode Scanner"
+        subtitle="Scan assets for check-in, check-out, and inventory"
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Assets', href: '/assets' }, { label: 'Scan' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
               <Button variant="outline" onClick={() => router.push('/assets')}>
                 Asset List
               </Button>

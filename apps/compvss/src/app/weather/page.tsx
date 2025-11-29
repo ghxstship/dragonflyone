@@ -24,7 +24,8 @@ import {
   Section,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface WeatherAlert {
   id: string;
@@ -106,13 +107,17 @@ export default function WeatherPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Weather Monitoring"
-              description="Track weather alerts and forecasts for event planning"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Weather Monitoring"
+        subtitle="Track weather alerts and forecasts for event planning"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Weather' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             <Grid cols={4} gap={6}>
               <StatCard

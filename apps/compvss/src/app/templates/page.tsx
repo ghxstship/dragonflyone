@@ -23,7 +23,8 @@ import {
   Textarea,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface Template {
   id: string;
@@ -89,13 +90,17 @@ export default function TemplatesPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Template Library"
-              description="Contracts, checklists, forms, riders, and standard operating procedures"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Template Library"
+        subtitle="Contracts, checklists, forms, riders, and standard operating procedures"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Templates' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             <Grid cols={4} gap={6}>
               <StatCard label="Templates" value={mockTemplates.length.toString()} />

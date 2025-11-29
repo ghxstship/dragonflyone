@@ -12,7 +12,8 @@ import {
   Section,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 const venues = [
   { id: "VEN-001", name: "Bayfront Park", city: "Miami, FL", capacity: 65000, type: "Outdoor", status: "Available" },
@@ -26,13 +27,17 @@ export default function VenuesPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Venue Directory"
-              description="Browse and manage venue information for productions"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Venue Directory"
+        subtitle="Browse and manage venue information for productions"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Venues' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
             <Grid cols={3} gap={6}>
               {venues.map((venue) => (
                 <Card key={venue.id}>

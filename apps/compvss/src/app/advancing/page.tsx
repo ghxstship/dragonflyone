@@ -17,7 +17,8 @@ import {
   TabPanel,
   PageLayout,
   SectionHeader,
-} from '@ghxstship/ui';
+  EnterprisePageHeader,
+  MainContent,} from '@ghxstship/ui';
 import { AdvanceRequestsList } from '@/components/advancing/advance-requests-list';
 
 export default function AdvancingPage() {
@@ -38,13 +39,17 @@ export default function AdvancingPage() {
         <Container>
           <Stack gap={10}>
             {/* Page Header */}
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Production Advancing"
-              description="Submit and manage production advance requests"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Production Advancing"
+        subtitle="Submit and manage production advance requests"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Advancing' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             {/* Stats Grid */}
             <Grid cols={4} gap={6}>

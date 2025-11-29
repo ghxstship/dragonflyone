@@ -19,7 +19,8 @@ import {
   Body,
   Label,
   PageLayout,
-} from '@ghxstship/ui';
+  EnterprisePageHeader,
+  MainContent,} from '@ghxstship/ui';
 import { TrendingUp, TrendingDown, Activity, Target } from 'lucide-react';
 
 interface KPI {
@@ -137,13 +138,17 @@ export default function AnalyticsPage() {
         <Container>
           <Stack gap={12}>
             {/* Page Header - Bold Contemporary Pop Art Adventure */}
-            <SectionHeader
-              kicker="ATLVS Analytics"
-              title="Analytics Dashboard"
-              description="Real-time financial metrics and KPI tracking for production operations"
-              colorScheme="on-dark"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Analytics Dashboard"
+        subtitle="Real-time financial metrics and KPI tracking for production operations"
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Analytics' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             {/* Stats Grid - Hard offset shadows, 2px borders */}
             <Grid cols={4} gap={6}>

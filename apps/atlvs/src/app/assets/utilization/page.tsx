@@ -109,7 +109,15 @@ export default function AssetUtilizationPage() {
         onExport={() => console.log('Export')}
         stats={stats}
         emptyMessage="No utilization data found"
-        header={<CreatorNavigationAuthenticated />}
+        header={<CreatorNavigationAuthenticated
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Assets', href: '/assets' }, { label: 'Utilization' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings />}
       />
       {selected && (
         <DetailDrawer

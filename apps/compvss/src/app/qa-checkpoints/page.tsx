@@ -26,7 +26,8 @@ import {
   Alert,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface QACheckpoint {
   id: string;
@@ -123,13 +124,17 @@ export default function QACheckpointsPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="COMPVSS"
-              title="QA Checkpoints"
-              description="Quality assurance and sign-off tracking for production phases"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="QA Checkpoints"
+        subtitle="Quality assurance and sign-off tracking for production phases"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Qa Checkpoints' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             <Grid cols={4} gap={6}>
               <StatCard value={passedCount.toString()} label="Passed" />

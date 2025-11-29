@@ -146,7 +146,15 @@ export default function OKRsPage() {
         stats={stats}
         emptyMessage="No OKRs found"
         emptyAction={{ label: 'Create OKR', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated />}
+        header={<CreatorNavigationAuthenticated
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Okrs' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings />}
       />
 
       <RecordFormModal

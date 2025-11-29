@@ -160,7 +160,15 @@ export default function BackgroundChecksPage() {
         onExport={() => router.push("/workforce/background-checks/export")}
         stats={stats}
         emptyMessage="No background checks found"
-        header={<CreatorNavigationAuthenticated />}
+        header={<CreatorNavigationAuthenticated
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Workforce', href: '/workforce' }, { label: 'Background Checks' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings />}
       />
 
       <RecordFormModal

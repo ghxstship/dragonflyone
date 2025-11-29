@@ -33,7 +33,8 @@ import {
   Textarea,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface VIPGuest {
   id: string;
@@ -87,13 +88,17 @@ export default function VIPManagementPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="COMPVSS"
-              title="VIP & Backstage Management"
-              description="Guest list management and access control"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="VIP & Backstage Management"
+        subtitle="Guest list management and access control"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Vip Management' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             <Grid cols={4} gap={6}>
               <StatCard label="Checked In" value={mockVIPGuests.filter(g => g.status === "Checked In").length.toString()} />

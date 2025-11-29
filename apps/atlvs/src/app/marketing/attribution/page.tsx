@@ -8,7 +8,8 @@ import {
   Section, Card, Tabs, TabsList, Tab, TabPanel, Badge, ProgressBar, PageLayout, SectionHeader,
   Modal, ModalHeader, ModalBody, ModalFooter,
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface MarketingSource {
   id: string;
@@ -65,13 +66,17 @@ export default function MarketingAttributionPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="ATLVS"
-              title="Marketing Attribution"
-              description="Track marketing sources and campaign performance"
-              colorScheme="on-dark"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Marketing Attribution"
+        subtitle="Track marketing sources and campaign performance"
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Marketing', href: '/marketing' }, { label: 'Attribution' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
           <Grid cols={4} gap={6}>
             <StatCard label="Total Leads" value={totalLeads} className="bg-transparent border-2 border-ink-800" />

@@ -7,7 +7,8 @@ import {
   Body,
   PageLayout,
   SectionHeader,
-} from '@ghxstship/ui';
+  EnterprisePageHeader,
+  MainContent,} from '@ghxstship/ui';
 
 /**
  * Stage Management Page
@@ -18,13 +19,17 @@ export default function StageManagementPage() {
     <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
       <Section className="min-h-screen py-16">
         <Container>
-          <SectionHeader
-            kicker="COMPVSS"
-            title="Stage Management"
-            description="Manage stage configurations, layouts, and technical requirements for productions."
-            colorScheme="on-light"
-            gap="lg"
-          />
+          <EnterprisePageHeader
+        title="Stage Management"
+        subtitle="Manage stage configurations, layouts, and technical requirements for productions."
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Stage Management' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
           <Body className="mt-8">Coming soon: Stage plot designer, equipment layouts, and technical specifications.</Body>
         </Container>
       </Section>

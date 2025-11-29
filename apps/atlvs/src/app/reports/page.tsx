@@ -1,7 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useNotifications } from '@ghxstship/ui';
+import { useNotifications,
+  EnterprisePageHeader,
+  MainContent,} from '@ghxstship/ui';
 import { CreatorNavigationAuthenticated } from '../../components/navigation';
 import { Container, Section, H2, H3, Body, Button, Card, Grid, Select, LoadingSpinner, ProgressBar, Stack, Display, PageLayout, SectionHeader } from '@ghxstship/ui';
 import { Download, TrendingUp, DollarSign, Users, Package } from 'lucide-react';
@@ -100,13 +102,17 @@ export default function ReportsPage() {
       <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
         <Section className="min-h-screen py-16">
           <Container>
-            <SectionHeader
-              kicker="ATLVS"
-              title="Executive Reports"
-              description="No data available"
-              colorScheme="on-dark"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Executive Reports"
+        subtitle="No data available"
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Reports' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
           </Container>
         </Section>
       </PageLayout>

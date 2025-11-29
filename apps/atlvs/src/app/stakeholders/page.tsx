@@ -156,6 +156,14 @@ export default function StakeholdersPage() {
         stats={stats}
         emptyMessage="No stakeholders found"
         emptyAction={{ label: 'Invite Stakeholder', onClick: () => setCreateModalOpen(true) }}
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Stakeholders' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings
       />
 
       <RecordFormModal

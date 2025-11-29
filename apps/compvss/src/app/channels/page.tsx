@@ -26,7 +26,8 @@ import {
   Tab,
   PageLayout,
   SectionHeader,
-} from '@ghxstship/ui';
+  EnterprisePageHeader,
+  MainContent,} from '@ghxstship/ui';
 import { CreatorNavigationAuthenticated } from '../../components/navigation';
 
 interface Channel {
@@ -166,13 +167,17 @@ export default function ChannelsPage() {
         <Container>
           <Stack gap={10}>
             <Stack direction="horizontal" className="justify-between items-start">
-              <SectionHeader
-                kicker="COMPVSS"
-                title="Department Channels"
-                description="Team communication and messaging"
-                colorScheme="on-light"
-                gap="lg"
-              />
+              <EnterprisePageHeader
+        title="Department Channels"
+        subtitle="Team communication and messaging"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Channels' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
               <Button variant="solid" onClick={() => setShowCreateModal(true)}>
                 Create Channel
               </Button>

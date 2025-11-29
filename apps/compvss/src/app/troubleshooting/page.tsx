@@ -22,7 +22,8 @@ import {
   ModalFooter,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface TroubleshootingGuide {
   id: string;
@@ -62,13 +63,17 @@ export default function TroubleshootingPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Troubleshooting Guides"
-              description="Decision trees and step-by-step problem resolution"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Troubleshooting Guides"
+        subtitle="Decision trees and step-by-step problem resolution"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Troubleshooting' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             <Grid cols={4} gap={6}>
               <StatCard label="Total Guides" value={mockGuides.length.toString()} />

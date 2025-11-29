@@ -16,7 +16,8 @@ import {
   StatCard,
   PageLayout,
   SectionHeader,
-} from '@ghxstship/ui';
+  EnterprisePageHeader,
+  MainContent,} from '@ghxstship/ui';
 import { Radio, Phone, Users, MessageSquare, Bell, AlertCircle } from 'lucide-react';
 
 export default function CommunicationsPage() {
@@ -40,13 +41,17 @@ export default function CommunicationsPage() {
           <Stack gap={10}>
             {/* Page Header */}
             <Stack direction="horizontal" className="items-start justify-between">
-              <SectionHeader
-                kicker="COMPVSS"
-                title="Communications"
-                description="Radio channels and team messaging"
-                colorScheme="on-light"
-                gap="lg"
-              />
+              <EnterprisePageHeader
+        title="Communications"
+        subtitle="Radio channels and team messaging"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Communications' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
               <Stack gap={3} direction="horizontal">
                 <Button variant="outline" onClick={() => router.push('/communications/alerts')}>
                   <Bell className="mr-2 size-4" />

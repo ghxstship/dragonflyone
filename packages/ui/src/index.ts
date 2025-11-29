@@ -202,6 +202,10 @@ export { WorkflowTimeline } from "./organisms/workflow-timeline.js";
 export type { WorkflowTimelineProps, WorkflowStage } from "./organisms/workflow-timeline.js";
 export { ProtectedRoute } from "./organisms/protected-route.js";
 export type { ProtectedRouteProps } from "./organisms/protected-route.js";
+export { AppSidebar, MobileAppSidebar } from "./organisms/app-sidebar.js";
+export type { AppSidebarProps, MobileAppSidebarProps, SidebarNavSection, SidebarNavItem, SidebarNavSubsection } from "./organisms/app-sidebar.js";
+export { PageHeader as EnterprisePageHeader } from "./organisms/page-header.js";
+export type { PageHeaderProps as EnterprisePageHeaderProps, BreadcrumbItem as EnterpriseBreadcrumbItem, TabItem, ViewOption } from "./organisms/page-header.js";
 
 // =============================================================================
 // TEMPLATES - Page-level layouts
@@ -211,6 +215,8 @@ export type { PageLayoutProps } from "./templates/page-layout.js";
 // SectionLayout removed - use Section from foundations/layout instead
 export { AppShell } from "./templates/app-shell.js";
 export type { AppShellProps } from "./templates/app-shell.js";
+export { AuthenticatedShell } from "./templates/authenticated-shell.js";
+export type { AuthenticatedShellProps } from "./templates/authenticated-shell.js";
 export { ListPage } from "./templates/list-page.js";
 export type { ListPageProps, ListPageColumn, ListPageFilter, ListPageAction, ListPageBulkAction } from "./templates/list-page.js";
 export { ErrorPage } from "./templates/error-page.js";
@@ -225,6 +231,26 @@ export { AuthPage } from "./templates/auth-page.js";
 export type { AuthPageProps } from "./templates/auth-page.js";
 export { SignInForm } from "./templates/sign-in-form.js";
 export type { SignInFormProps } from "./templates/sign-in-form.js";
+export { 
+  MainContent, 
+  SplitLayout as EnterpriseSplitLayout, 
+  PanelLayout, 
+  Toolbar, 
+  ContentSection, 
+  KanbanLayout, 
+  KanbanCard 
+} from "./templates/content-layout.js";
+export type { 
+  ContentLayoutProps, 
+  MainContentProps, 
+  SplitLayoutProps as EnterpriseSplitLayoutProps, 
+  PanelLayoutProps, 
+  ToolbarProps, 
+  ContentSectionProps, 
+  KanbanColumn, 
+  KanbanLayoutProps, 
+  KanbanCardProps 
+} from "./templates/content-layout.js";
 
 // =============================================================================
 // FOUNDATIONS - Layout primitives

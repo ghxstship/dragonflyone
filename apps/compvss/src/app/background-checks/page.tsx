@@ -153,7 +153,15 @@ export default function BackgroundChecksPage() {
         stats={stats}
         emptyMessage="No background checks found"
         emptyAction={{ label: 'Initiate Check', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated />}
+        header={<CreatorNavigationAuthenticated
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Background Checks' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings />}
       />
 
       <RecordFormModal

@@ -127,7 +127,15 @@ export default function DocumentsPage() {
         stats={stats}
         emptyMessage="No documents found"
         emptyAction={{ label: 'Upload Document', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated />}
+        header={<CreatorNavigationAuthenticated
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Documents' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings />}
       />
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Upload Document" fields={formFields} onSubmit={handleCreate} size="lg" />
       <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedDoc} title={(d) => d.name} subtitle={(d) => `${d.type} • ${d.folder}`} sections={detailSections} onEdit={(d) => router.push(`/documents/${d.id}/edit`)} onDelete={(d) => { setDocToDelete(d); setDeleteConfirmOpen(true); setDrawerOpen(false); }} actions={[{ id: 'download', label: 'Download', icon: '⬇️' }]} onAction={(id, d) => id === 'download' && window.open(`/api/documents/${d.id}/download`, '_blank')} />

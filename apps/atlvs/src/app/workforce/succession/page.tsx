@@ -7,7 +7,8 @@ import {
   Container, H3, Body, Label, Grid, Stack, StatCard, Select,
   Button, Section, Card, Badge, PageLayout, SectionHeader,
   Modal, ModalHeader, ModalBody, ModalFooter, ProgressBar,
-} from '@ghxstship/ui';
+  EnterprisePageHeader,
+  MainContent,} from '@ghxstship/ui';
 
 interface SuccessionPlan {
   id: string;
@@ -77,13 +78,17 @@ export default function SuccessionPlanningPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="ATLVS"
-              title="Succession Planning"
-              description="Identify and develop future leaders for key positions"
-              colorScheme="on-dark"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Succession Planning"
+        subtitle="Identify and develop future leaders for key positions"
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Workforce', href: '/workforce' }, { label: 'Succession' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
           <Grid cols={4} gap={6}>
             <StatCard label="Key Positions" value={mockPlans.length} className="bg-transparent border-2 border-ink-800" />

@@ -112,7 +112,15 @@ export default function AccountsReceivablePage() {
         onExport={() => console.log('Export')}
         stats={stats}
         emptyMessage="No invoices found"
-        header={<CreatorNavigationAuthenticated />}
+        header={<CreatorNavigationAuthenticated
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Finance', href: '/finance' }, { label: 'Accounts Receivable' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings />}
       />
       {selectedInvoice && (
         <DetailDrawer

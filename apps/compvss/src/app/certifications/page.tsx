@@ -193,7 +193,15 @@ export default function CertificationsPage() {
         stats={stats}
         emptyMessage="No certifications found"
         emptyAction={{ label: 'Add Certification', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated />}
+        header={<CreatorNavigationAuthenticated
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Certifications' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings />}
       />
 
       <RecordFormModal

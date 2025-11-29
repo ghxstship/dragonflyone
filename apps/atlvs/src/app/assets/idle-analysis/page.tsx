@@ -104,7 +104,15 @@ export default function IdleAnalysisPage() {
         onExport={() => console.log('Export')}
         stats={stats}
         emptyMessage="No idle assets found"
-        header={<CreatorNavigationAuthenticated />}
+        header={<CreatorNavigationAuthenticated
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Assets', href: '/assets' }, { label: 'Idle Analysis' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings />}
       />
       {selected && (
         <DetailDrawer

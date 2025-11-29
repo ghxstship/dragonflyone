@@ -124,7 +124,15 @@ export default function PerformancePage() {
         stats={stats}
         emptyMessage="No reviews found"
         emptyAction={{ label: 'Schedule Review', onClick: () => router.push('/performance/reviews/new') }}
-        header={<CreatorNavigationAuthenticated />}
+        header={<CreatorNavigationAuthenticated
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Performance' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings />}
       />
       {selectedReview && (
         <DetailDrawer

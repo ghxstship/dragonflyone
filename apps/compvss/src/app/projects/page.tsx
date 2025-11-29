@@ -3,7 +3,9 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { CreatorNavigationAuthenticated } from '../../components/navigation';
-import { H3, Body, Button, Card, Badge, Grid, Stack, Container, LoadingSpinner, Section, PageLayout, SectionHeader, StatCard } from '@ghxstship/ui';
+import { H3, Body, Button, Card, Badge, Grid, Stack, Container, LoadingSpinner, Section, PageLayout, SectionHeader, StatCard,
+  EnterprisePageHeader,
+  MainContent,} from '@ghxstship/ui';
 import { useProjects } from '../../hooks/useProjects';
 
 export default function ProjectsPage() {
@@ -37,13 +39,17 @@ export default function ProjectsPage() {
         <Container>
           <Stack gap={10}>
             <Stack direction="horizontal" className="items-start justify-between">
-              <SectionHeader
-                kicker="COMPVSS"
-                title="Production Projects"
-                description="Manage events and production workflows"
-                colorScheme="on-light"
-                gap="lg"
-              />
+              <EnterprisePageHeader
+        title="Production Projects"
+        subtitle="Manage events and production workflows"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Projects' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
               {canCreateProject && (
                 <Button variant="solid" onClick={() => router.push('/projects/new')}>
                   New Project

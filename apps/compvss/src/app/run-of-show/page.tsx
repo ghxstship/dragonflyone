@@ -14,7 +14,8 @@ import {
   LoadingSpinner,
   PageLayout,
   SectionHeader,
-} from '@ghxstship/ui';
+  EnterprisePageHeader,
+  MainContent,} from '@ghxstship/ui';
 import { useSchedule } from '@/hooks/useSchedule';
 
 interface CueItem {

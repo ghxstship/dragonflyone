@@ -26,7 +26,8 @@ import {
   Tab,
   PageLayout,
   SectionHeader,
-} from '@ghxstship/ui';
+  EnterprisePageHeader,
+  MainContent,} from '@ghxstship/ui';
 import { CreatorNavigationAuthenticated } from '../../components/navigation';
 
 interface CrewMember {
@@ -129,13 +130,17 @@ export default function CrewSocialPage() {
         <Container>
           <Stack gap={10}>
             <Stack direction="horizontal" className="justify-between items-start">
-              <SectionHeader
-                kicker="COMPVSS"
-                title="Crew Social"
-                description="Connect with your crew, share photos, build your network"
-                colorScheme="on-light"
-                gap="lg"
-              />
+              <EnterprisePageHeader
+        title="Crew Social"
+        subtitle="Connect with your crew, share photos, build your network"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Crew Social' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
               <Button variant="solid" onClick={() => router.push('/crew')}>
                 Full Directory
               </Button>

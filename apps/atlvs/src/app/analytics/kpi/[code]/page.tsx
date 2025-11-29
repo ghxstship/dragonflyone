@@ -20,7 +20,8 @@ import {
   SectionHeader,
   LoadingSpinner,
   StatCard,
-} from '@ghxstship/ui';
+  EnterprisePageHeader,
+  MainContent,} from '@ghxstship/ui';
 import { ArrowLeft, TrendingUp, Target, AlertTriangle, Activity } from 'lucide-react';
 
 interface KPIDefinition {
@@ -103,13 +104,15 @@ export default function KPIDetailPage() {
         <Section className="min-h-screen py-16">
           <Container>
             <Stack gap={6}>
-              <SectionHeader
-                kicker="ATLVS"
-                title="KPI Detail"
-                description="Loading KPI data..."
-                colorScheme="on-dark"
-                gap="lg"
-              />
+              <EnterprisePageHeader
+        title="KPI Detail"
+        subtitle="Loading KPI data..."
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Analytics', href: '/analytics' }, { label: 'Kpi', href: '/analytics/kpi' }, { label: 'Detail' }]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
               <Stack className="items-center justify-center py-12">
                 <LoadingSpinner size="lg" text="Loading KPI data..." />
               </Stack>

@@ -123,7 +123,15 @@ export default function BudgetsPage() {
         stats={stats}
         emptyMessage="No budgets found"
         emptyAction={{ label: 'Create Budget', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated />}
+        header={<CreatorNavigationAuthenticated
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Budgets' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings />}
       />
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Create Budget" fields={formFields} onSubmit={handleCreate} size="lg" />
       {selected && (

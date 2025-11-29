@@ -23,7 +23,8 @@ import {
   BreadcrumbItem,
   PageLayout,
   SectionHeader,
-} from '@ghxstship/ui';
+  EnterprisePageHeader,
+  MainContent,} from '@ghxstship/ui';
 import { CreatorNavigationAuthenticated } from '../../../components/navigation';
 import type { ProductionCatalogItem } from '@ghxstship/config/types/advancing';
 import { Search, Package, Filter, X } from 'lucide-react';

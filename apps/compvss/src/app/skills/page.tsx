@@ -26,7 +26,8 @@ import {
   Body,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 const skillCategories = ["Rigging", "Audio", "Video", "Lighting", "Staging", "Electrical", "Safety"];
 
@@ -113,13 +114,17 @@ export default function SkillsPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Skills Matrix"
-              description="Crew skills, certifications, and proficiency levels"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Skills Matrix"
+        subtitle="Crew skills, certifications, and proficiency levels"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Skills' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             <Grid cols={4} gap={6}>
               <StatCard

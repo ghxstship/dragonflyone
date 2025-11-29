@@ -126,7 +126,15 @@ export default function GovernancePage() {
         stats={stats}
         emptyMessage="No meetings scheduled"
         emptyAction={{ label: 'Schedule Meeting', onClick: () => router.push('/governance/meetings/new') }}
-        header={<CreatorNavigationAuthenticated />}
+        header={<CreatorNavigationAuthenticated
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Governance' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings />}
       />
 
       {selectedMeeting && (

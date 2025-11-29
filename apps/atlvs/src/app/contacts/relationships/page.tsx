@@ -26,7 +26,8 @@ import {
   Tab,
   PageLayout,
   SectionHeader,
-} from '@ghxstship/ui';
+  EnterprisePageHeader,
+  MainContent,} from '@ghxstship/ui';
 
 interface Contact {
   id: string;
@@ -176,13 +177,17 @@ export default function RelationshipsPage() {
         <Container>
           <Stack gap={10}>
             <Stack gap={4} direction="horizontal" className="items-start justify-between">
-              <SectionHeader
-                kicker="ATLVS"
-                title="Relationship Mapping"
-                description="Stakeholder org charts and relationship visualization"
-                colorScheme="on-dark"
-                gap="lg"
-              />
+              <EnterprisePageHeader
+        title="Relationship Mapping"
+        subtitle="Stakeholder org charts and relationship visualization"
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Contacts', href: '/contacts' }, { label: 'Relationships' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
               <Button variant="solid" onClick={() => setShowAddModal(true)}>
                 Add Relationship
               </Button>

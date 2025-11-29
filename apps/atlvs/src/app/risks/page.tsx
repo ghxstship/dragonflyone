@@ -107,7 +107,15 @@ export default function RisksPage() {
         stats={stats}
         emptyMessage="No risks found"
         emptyAction={{ label: 'Report New Risk', onClick: () => router.push('/risks/new') }}
-        header={<CreatorNavigationAuthenticated />}
+        header={<CreatorNavigationAuthenticated
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Risks' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings />}
       />
       {selectedRisk && (
         <DetailDrawer

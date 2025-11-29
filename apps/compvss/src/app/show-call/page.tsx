@@ -20,7 +20,8 @@ import {
   Input,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface CrewMember {
   id: string;
@@ -94,13 +95,17 @@ export default function ShowCallPage() {
         <Container>
           <Stack gap={10}>
             <Stack direction="horizontal" className="items-start justify-between">
-              <SectionHeader
-                kicker="COMPVSS"
-                title="Show Call Status"
-                description="Real-time crew check-in and attendance tracking"
-                colorScheme="on-light"
-                gap="lg"
-              />
+              <EnterprisePageHeader
+        title="Show Call Status"
+        subtitle="Real-time crew check-in and attendance tracking"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Show Call' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
               <Card className="p-4">
                 <Stack gap={1} className="text-center">
                   <Body className="text-body-sm">Current Time</Body>

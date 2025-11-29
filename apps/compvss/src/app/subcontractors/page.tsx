@@ -27,7 +27,8 @@ import {
   useNotifications,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface Subcontractor {
   id: string;
@@ -157,13 +158,17 @@ export default function SubcontractorsPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Subcontractor Management"
-              description="Manage subcontractor relationships, contracts, and performance tracking"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Subcontractor Management"
+        subtitle="Manage subcontractor relationships, contracts, and performance tracking"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Subcontractors' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             <Grid cols={4} gap={6}>
               <StatCard

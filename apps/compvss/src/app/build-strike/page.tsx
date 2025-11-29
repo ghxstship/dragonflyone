@@ -15,7 +15,8 @@ import {
   StatCard,
   PageLayout,
   SectionHeader,
-} from '@ghxstship/ui';
+  EnterprisePageHeader,
+  MainContent,} from '@ghxstship/ui';
 
 interface Task {
   id: string;
@@ -51,13 +52,17 @@ export default function BuildStrikePage() {
         <Container>
           <Stack gap={10}>
             {/* Page Header */}
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Build & Strike"
-              description="Build Progress: 45%"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Build & Strike"
+        subtitle="Build Progress: 45%"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Build Strike' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             {/* Stats Grid */}
             <Grid cols={3} gap={6}>

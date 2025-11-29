@@ -22,7 +22,8 @@ import {
   ModalFooter,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface GlossaryTerm {
   id: string;
@@ -73,13 +74,17 @@ export default function GlossaryPage() {
         <Container>
           <Stack gap={10}>
             {/* Page Header */}
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Industry Glossary"
-              description="Comprehensive glossary of live event production terminology"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Industry Glossary"
+        subtitle="Comprehensive glossary of live event production terminology"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Glossary' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             {/* Stats Grid */}
             <Grid cols={4} gap={6}>

@@ -144,7 +144,15 @@ export default function IPTrackingPage() {
         stats={stats}
         emptyMessage="No IP assets found"
         emptyAction={{ label: 'Register New IP', onClick: () => router.push('/ip-tracking/new') }}
-        header={<CreatorNavigationAuthenticated />}
+        header={<CreatorNavigationAuthenticated
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Ip Tracking' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings />}
       />
       {selectedAsset && (
         <DetailDrawer

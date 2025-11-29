@@ -32,7 +32,8 @@ import {
   Badge,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface AccessPoint {
   id: string;
@@ -94,13 +95,17 @@ export default function SiteAccessPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Site Access Management"
-              description="Gates, parking, loading docks, and vehicle passes"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Site Access Management"
+        subtitle="Gates, parking, loading docks, and vehicle passes"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Site Access' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             <Grid cols={4} gap={6}>
               <StatCard value={`${openPoints}/${mockAccessPoints.length}`} label="Open Access Points" />

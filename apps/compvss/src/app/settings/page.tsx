@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useNotifications } from "@ghxstship/ui";
+import { useNotifications,
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 import { CreatorNavigationAuthenticated } from "../../components/navigation";
 import {
   H2,
@@ -39,13 +41,17 @@ export default function SettingsPage() {
         <Container>
           <Stack gap={10}>
             {/* Page Header - Bold Contemporary Pop Art Adventure */}
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Production Settings"
-              description="Configure alerts, radio channels, and safety settings"
-              colorScheme="on-dark"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Production Settings"
+        subtitle="Configure alerts, radio channels, and safety settings"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Settings' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
           <Card className="p-spacing-6 border-2 border-ink-800 bg-transparent">
             <Stack gap={6}>

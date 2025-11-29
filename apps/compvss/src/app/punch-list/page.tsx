@@ -34,7 +34,8 @@ import {
   Alert,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface PunchItem {
   id: string;
@@ -102,13 +103,17 @@ export default function PunchListPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Punch List"
-              description="Track and resolve outstanding items before show"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Punch List"
+        subtitle="Track and resolve outstanding items before show"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Punch List' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             <Grid cols={4} gap={6}>
               <StatCard value={openItems.length.toString()} label="Open Items" />

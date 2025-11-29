@@ -128,7 +128,15 @@ export default function RelationshipsPage() {
         stats={stats}
         emptyMessage="No stakeholders found"
         emptyAction={{ label: 'Add Stakeholder', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated />}
+        header={<CreatorNavigationAuthenticated
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Crm', href: '/crm' }, { label: 'Relationships' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings />}
       />
       {selectedStakeholder && (
         <DetailDrawer

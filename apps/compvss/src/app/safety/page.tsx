@@ -3,7 +3,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { CreatorNavigationAuthenticated } from '../../components/navigation';
-import { Container, Section, H2, H3, Body, Button, Card, Grid, Badge, LoadingSpinner, EmptyState, Stack, Breadcrumb, BreadcrumbItem, PageLayout, SectionHeader, StatCard } from '@ghxstship/ui';
+import { Container, Section, H2, H3, Body, Button, Card, Grid, Badge, LoadingSpinner, EmptyState, Stack, Breadcrumb, BreadcrumbItem, PageLayout, SectionHeader, StatCard,
+  EnterprisePageHeader,
+  MainContent,} from '@ghxstship/ui';
 import { AlertTriangle, FileText, Shield } from 'lucide-react';
 
 interface Incident {
@@ -105,13 +107,17 @@ export default function SafetyPage() {
           </Breadcrumb>
 
           <Stack gap={4} direction="horizontal" className="mb-8 items-start justify-between">
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Safety Management"
-              description="Incident reporting and safety compliance"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Safety Management"
+        subtitle="Incident reporting and safety compliance"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Safety' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
             <Button onClick={() => router.push('/safety/report')}>
               <AlertTriangle className="mr-2 size-4" />
               REPORT INCIDENT

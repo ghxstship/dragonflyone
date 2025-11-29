@@ -115,7 +115,15 @@ export default function CompensationPage() {
         stats={stats}
         emptyMessage="No compensation plans found"
         emptyAction={{ label: 'Create Plan', onClick: () => router.push('/workforce/compensation/new') }}
-        header={<CreatorNavigationAuthenticated />}
+        header={<CreatorNavigationAuthenticated
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Workforce', href: '/workforce' }, { label: 'Compensation' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings />}
       />
       {selectedPlan && (
         <DetailDrawer

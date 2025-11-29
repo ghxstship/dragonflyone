@@ -33,7 +33,8 @@ import {
   TableCell,
   PageLayout,
   SectionHeader,
-} from '@ghxstship/ui';
+  EnterprisePageHeader,
+  MainContent,} from '@ghxstship/ui';
 
 interface Lead {
   id: string;
@@ -178,13 +179,17 @@ export default function LeadScoringPage() {
         <Container>
           <Stack gap={10}>
             <Stack gap={4} direction="horizontal" className="items-start justify-between">
-              <SectionHeader
-                kicker="ATLVS"
-                title="Lead Scoring"
-                description="Automated lead qualification and scoring"
-                colorScheme="on-light"
-                gap="lg"
-              />
+              <EnterprisePageHeader
+        title="Lead Scoring"
+        subtitle="Automated lead qualification and scoring"
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Leads', href: '/leads' }, { label: 'Scoring' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
               <Stack direction="horizontal" gap={4}>
                 <Button variant="outline" onClick={() => setShowRuleModal(true)}>
                   Add Rule

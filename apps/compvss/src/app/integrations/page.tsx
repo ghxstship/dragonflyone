@@ -2,7 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useNotifications } from '@ghxstship/ui';
+import { useNotifications,
+  EnterprisePageHeader,
+  MainContent,} from '@ghxstship/ui';
 import { CreatorNavigationAuthenticated } from '../../components/navigation';
 import { Container, Section, H2, H3, Body, Button, Card, Badge, Grid, Stack, StatCard, Table, TableHeader, TableBody, TableRow, TableHead, TableCell, LoadingSpinner, PageLayout, SectionHeader } from '@ghxstship/ui';
 
@@ -69,13 +71,17 @@ export default function CompvssIntegrationsPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Platform Integrations"
-              description="Monitor cross-platform data synchronization and manage production workflows."
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Platform Integrations"
+        subtitle="Monitor cross-platform data synchronization and manage production workflows."
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Integrations' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             <Grid cols={3} gap={6}>
               <StatCard value="24" label="Projects from ATLVS" />

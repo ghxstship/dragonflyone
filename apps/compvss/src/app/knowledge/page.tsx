@@ -3,7 +3,9 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { CreatorNavigationAuthenticated } from '../../components/navigation';
-import { Container, Section, H2, H3, Body, Button, Input, Card, Grid, Badge, Stack, StatCard, PageLayout, SectionHeader } from '@ghxstship/ui';
+import { Container, Section, H2, H3, Body, Button, Input, Card, Grid, Badge, Stack, StatCard, PageLayout, SectionHeader,
+  EnterprisePageHeader,
+  MainContent,} from '@ghxstship/ui';
 import { Search, BookOpen, Video, FileText, Download, Star } from 'lucide-react';
 
 export default function KnowledgePage() {
@@ -51,13 +53,17 @@ export default function KnowledgePage() {
         <Container>
           <Stack gap={10}>
             <Stack gap={4} direction="horizontal" className="flex-col items-center justify-between md:flex-row">
-              <SectionHeader
-                kicker="COMPVSS"
-                title="Knowledge Base"
-                description="SOPs, guides, and training materials"
-                colorScheme="on-light"
-                gap="lg"
-              />
+              <EnterprisePageHeader
+        title="Knowledge Base"
+        subtitle="SOPs, guides, and training materials"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Knowledge' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
               <Button variant="solid" onClick={() => router.push('/knowledge/contribute')}>
                 <FileText className="mr-2 size-4" />
                 CONTRIBUTE

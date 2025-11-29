@@ -20,7 +20,8 @@ import {
   Form,
   PageLayout,
   SectionHeader,
-} from '@ghxstship/ui';
+  EnterprisePageHeader,
+  MainContent,} from '@ghxstship/ui';
 
 export default function NewProjectPage() {
   const router = useRouter();
@@ -67,13 +68,17 @@ export default function NewProjectPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="COMPVSS"
-              title="New Production"
-              description="Create a new production project"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="New Production"
+        subtitle="Create a new production project"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Projects', href: '/projects' }, { label: 'New' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             {error && (
               <Alert variant="error">

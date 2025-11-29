@@ -31,7 +31,8 @@ import {
   ProgressBar,
   PageLayout,
   SectionHeader,
-} from '@ghxstship/ui';
+  EnterprisePageHeader,
+  MainContent,} from '@ghxstship/ui';
 
 interface TranslatedContent {
   id: string;
@@ -95,13 +96,17 @@ export default function MultilingualPage() {
         <Container>
           <Stack gap={10}>
             <Stack direction="horizontal" className="justify-between">
-              <SectionHeader
-                kicker="COMPVSS"
-                title="Multilingual Support"
-                description="Content translations for international crews"
-                colorScheme="on-light"
-                gap="lg"
-              />
+              <EnterprisePageHeader
+        title="Multilingual Support"
+        subtitle="Content translations for international crews"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Knowledge', href: '/knowledge' }, { label: 'Multilingual' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
               <Select value={userLanguage} onChange={(e) => setUserLanguage(e.target.value)}>
                 {mockLanguages.filter(l => l.enabled).map(lang => (
                   <option key={lang.code} value={lang.code}>{lang.nativeName} ({lang.name})</option>

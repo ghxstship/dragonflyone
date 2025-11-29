@@ -34,7 +34,8 @@ import {
   TableCell,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface TechRehearsalSession {
   id: string;
@@ -114,13 +115,17 @@ export default function TechRehearsalPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Technical Rehearsals"
-              description="Schedule and manage tech rehearsals, sound checks, and run-throughs"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Technical Rehearsals"
+        subtitle="Schedule and manage tech rehearsals, sound checks, and run-throughs"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Tech Rehearsal' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             <Grid cols={4} gap={6}>
               <StatCard label="Today Sessions" value={todaySessions.length.toString()} />

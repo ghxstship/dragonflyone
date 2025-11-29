@@ -28,7 +28,8 @@ import {
   Alert,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface Risk {
   id: string;
@@ -95,13 +96,17 @@ export default function RiskRegisterPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Risk Register"
-              description="Identify, assess, and mitigate project risks"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Risk Register"
+        subtitle="Identify, assess, and mitigate project risks"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Risk Register' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             <Grid cols={4} gap={6}>
               <StatCard value={activeRisks.length.toString()} label="Active Risks" />

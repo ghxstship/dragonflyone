@@ -125,7 +125,15 @@ export default function TaxesPage() {
         stats={stats}
         emptyMessage="No tax documents found"
         emptyAction={{ label: 'Add Tax Document', onClick: () => router.push('/taxes/new') }}
-        header={<CreatorNavigationAuthenticated />}
+        header={<CreatorNavigationAuthenticated
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Taxes' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings />}
       />
       {selectedDoc && (
         <DetailDrawer

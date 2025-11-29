@@ -214,6 +214,14 @@ export default function VendorsPage() {
         stats={stats}
         emptyMessage="No vendors found"
         emptyAction={{ label: 'Add Vendor', onClick: () => setCreateModalOpen(true) }}
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Vendors' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings
       />
 
       <RecordFormModal

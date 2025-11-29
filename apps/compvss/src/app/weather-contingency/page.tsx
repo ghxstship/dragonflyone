@@ -27,7 +27,8 @@ import {
   Textarea,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface WeatherPlan {
   id: string;
@@ -144,13 +145,17 @@ export default function WeatherContingencyPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Weather Contingency Planning"
-              description="Monitor conditions and manage weather-related contingency plans"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Weather Contingency Planning"
+        subtitle="Monitor conditions and manage weather-related contingency plans"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Weather Contingency' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             <Grid cols={4} gap={6}>
               <StatCard label="Active Plans" value={activePlans.toString()} />

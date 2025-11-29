@@ -153,7 +153,15 @@ export default function AssetMaintenancePage() {
         stats={stats}
         emptyMessage="No maintenance records found"
         emptyAction={{ label: 'Schedule Maintenance', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated />}
+        header={<CreatorNavigationAuthenticated
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Assets', href: '/assets' }, { label: 'Maintenance' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings />}
       />
       {selectedRecord && (
         <DetailDrawer

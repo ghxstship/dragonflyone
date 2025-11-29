@@ -31,7 +31,8 @@ import {
   TableHeader,
   TableRow,
   TableCell,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface SoundcheckSlot {
   id: string;
@@ -96,13 +97,17 @@ export default function SoundcheckPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Soundcheck Coordination"
-              description="Schedule and manage soundcheck and focus time for all artists"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Soundcheck Coordination"
+        subtitle="Schedule and manage soundcheck and focus time for all artists"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Soundcheck' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             <Grid cols={4} gap={6}>
               <StatCard value={completed.toString()} label="Completed" />

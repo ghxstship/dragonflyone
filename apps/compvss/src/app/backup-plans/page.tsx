@@ -23,7 +23,8 @@ import {
   Textarea,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface BackupPlan {
   id: string;
@@ -73,13 +74,17 @@ export default function BackupPlansPage() {
         <Container>
           <Stack gap={10}>
             {/* Page Header */}
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Backup Plans"
-              description="Contingency and backup plan documentation"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Backup Plans"
+        subtitle="Contingency and backup plan documentation"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Backup Plans' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             {/* Stats Grid */}
             <Grid cols={4} gap={6}>

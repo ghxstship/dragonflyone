@@ -26,7 +26,8 @@ import {
   Input,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface Channel {
   id: string;
@@ -78,13 +79,17 @@ export default function ChannelsPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Communication Channels"
-              description="Department-specific channels and groups"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Communication Channels"
+        subtitle="Department-specific channels and groups"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Communications', href: '/communications' }, { label: 'Channels' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             <Grid cols={4} gap={6}>
               <StatCard value={mockChannels.length.toString()} label="Total Channels" />

@@ -26,7 +26,8 @@ import {
   useNotifications,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface SiteSurvey {
   id: string;
@@ -167,13 +168,17 @@ export default function SiteSurveysPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Site Surveys"
-              description="Venue assessments, technical specifications, and site documentation"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Site Surveys"
+        subtitle="Venue assessments, technical specifications, and site documentation"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Site Surveys' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             <Grid cols={4} gap={6}>
               <StatCard

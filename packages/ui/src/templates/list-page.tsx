@@ -83,6 +83,37 @@ export interface ListPageProps<T> {
   inverted?: boolean;
   /** Custom className */
   className?: string;
+  
+  // =========================================================================
+  // ENTERPRISE LAYOUT PROPS (ClickUp-style)
+  // =========================================================================
+  
+  /** Breadcrumb navigation */
+  breadcrumbs?: Array<{ label: string; href?: string }>;
+  /** Tab navigation */
+  tabs?: Array<{ id: string; label: string; count?: number }>;
+  /** Active tab ID */
+  activeTab?: string;
+  /** Tab change handler */
+  onTabChange?: (tabId: string) => void;
+  /** View options (list, grid, kanban, etc.) */
+  views?: Array<{ id: string; label: string; icon: "list" | "grid" | "kanban" | "calendar" | "gantt" | "table" }>;
+  /** Active view ID */
+  activeView?: string;
+  /** View change handler */
+  onViewChange?: (viewId: string) => void;
+  /** Show favorite toggle */
+  showFavorite?: boolean;
+  /** Is favorited */
+  isFavorited?: boolean;
+  /** Favorite toggle handler */
+  onFavoriteToggle?: () => void;
+  /** Show settings button */
+  showSettings?: boolean;
+  /** Settings handler */
+  onSettings?: () => void;
+  /** Use enterprise header layout */
+  useEnterpriseHeader?: boolean;
 }
 
 export function ListPage<T>({

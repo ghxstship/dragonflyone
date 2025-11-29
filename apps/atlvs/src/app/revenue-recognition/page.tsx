@@ -3,7 +3,9 @@
 import { useState } from 'react';
 import { CreatorNavigationAuthenticated } from '../../components/navigation';
 import { useRevenueRecognition } from '@/hooks/useRevenueRecognition';
-import { Section, H2, H3, Body, Label, Button, Card, CardHeader, CardBody, StatCard, Container, Alert, Stack, Grid, Badge, LoadingSpinner, PageLayout, SectionHeader } from '@ghxstship/ui';
+import { Section, H2, H3, Body, Label, Button, Card, CardHeader, CardBody, StatCard, Container, Alert, Stack, Grid, Badge, LoadingSpinner, PageLayout, SectionHeader,
+  EnterprisePageHeader,
+  MainContent,} from '@ghxstship/ui';
 
 export default function RevenueRecognitionPage() {
   const {
@@ -77,13 +79,17 @@ export default function RevenueRecognitionPage() {
           <Stack gap={10}>
             {/* Header */}
             <Stack direction="horizontal" className="flex-col md:flex-row md:items-start md:justify-between">
-              <SectionHeader
-                kicker="ATLVS"
-                title="Revenue Recognition"
-                description="Manage revenue recognition rules and schedules"
-                colorScheme="on-dark"
-                gap="lg"
-              />
+              <EnterprisePageHeader
+        title="Revenue Recognition"
+        subtitle="Manage revenue recognition rules and schedules"
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Revenue Recognition' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
               <Button variant="solid" onClick={() => setShowCreateForm(true)}>
                 Create Rule
               </Button>

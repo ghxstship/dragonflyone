@@ -17,7 +17,8 @@ import {
   Section,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 import { getBadgeVariant } from "@ghxstship/config";
 
 interface ScheduleItem {
@@ -123,13 +124,17 @@ export default function SchedulePage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Production Schedule"
-              description="Manage production timeline and crew assignments"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Production Schedule"
+        subtitle="Manage production timeline and crew assignments"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Schedule' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             <Grid cols={4} gap={6}>
               <StatCard

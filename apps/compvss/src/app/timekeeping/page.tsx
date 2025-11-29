@@ -24,7 +24,8 @@ import {
   Body,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 export default function TimekeepingPage() {
   const router = useRouter();
@@ -69,13 +70,17 @@ export default function TimekeepingPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Timekeeping"
-              description="Track crew hours, overtime, and timesheet approvals"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Timekeeping"
+        subtitle="Track crew hours, overtime, and timesheet approvals"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Timekeeping' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             <Grid cols={4} gap={6}>
               <StatCard

@@ -131,7 +131,15 @@ export default function FinancePage() {
         onExport={() => console.log('Export')}
         stats={stats}
         emptyMessage="No transactions found"
-        header={<CreatorNavigationAuthenticated />}
+        header={<CreatorNavigationAuthenticated
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Finance' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings />}
       />
       {selectedTxn && (
         <DetailDrawer

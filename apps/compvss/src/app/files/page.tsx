@@ -28,7 +28,8 @@ import {
   TableCell,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface ProjectFile {
   id: string;
@@ -88,13 +89,17 @@ export default function FileSharingPage() {
         <Container>
           <Stack gap={10}>
             {/* Page Header */}
-            <SectionHeader
-              kicker="COMPVSS"
-              title="File Sharing"
-              description="Project files with version control and cloud storage"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="File Sharing"
+        subtitle="Project files with version control and cloud storage"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Files' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             {/* Stats Grid */}
             <Grid cols={4} gap={6}>

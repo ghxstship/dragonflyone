@@ -26,7 +26,8 @@ import {
   useNotifications,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface Permit {
   id: string;
@@ -170,13 +171,17 @@ export default function PermitsPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Permit Management"
-              description="Track permit applications, approvals, and compliance requirements"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Permit Management"
+        subtitle="Track permit applications, approvals, and compliance requirements"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Permits' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             <Grid cols={4} gap={6}>
               <StatCard

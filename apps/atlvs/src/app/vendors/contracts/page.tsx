@@ -122,7 +122,15 @@ export default function VendorContractsPage() {
         onExport={() => router.push("/vendors/contracts/export")}
         stats={stats}
         emptyMessage="No vendor contracts found"
-        header={<CreatorNavigationAuthenticated />}
+        header={<CreatorNavigationAuthenticated
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Vendors', href: '/vendors' }, { label: 'Contracts' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings />}
       />
 
       {selectedContract && (

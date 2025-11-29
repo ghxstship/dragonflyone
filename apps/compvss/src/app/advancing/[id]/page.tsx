@@ -13,7 +13,8 @@ import {
   Stack,
   PageLayout,
   SectionHeader,
-} from '@ghxstship/ui';
+  EnterprisePageHeader,
+  MainContent,} from '@ghxstship/ui';
 import { useAdvancingRequest } from '@ghxstship/config';
 import { AdvanceRequestDetail } from '@/components/advancing/advance-request-detail';
 import { FulfillmentManager } from '@/components/advancing/fulfillment-manager';

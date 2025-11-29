@@ -28,7 +28,8 @@ import {
   ProgressBar,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface Mentor {
   id: string;
@@ -100,13 +101,17 @@ export default function MentorshipPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Mentorship Program"
-              description="Connect with experienced professionals and accelerate your career"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Mentorship Program"
+        subtitle="Connect with experienced professionals and accelerate your career"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Mentorship' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             <Grid cols={4} gap={6}>
               <StatCard value={mockMentors.length.toString()} label="Active Mentors" />

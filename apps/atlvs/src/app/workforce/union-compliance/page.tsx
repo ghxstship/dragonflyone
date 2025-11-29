@@ -8,7 +8,8 @@ import {
   Section, Card, Tabs, TabsList, Tab, TabPanel, Badge, Alert, PageLayout, SectionHeader,
   Modal, ModalHeader, ModalBody, ModalFooter,
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface UnionLocal {
   id: string;
@@ -68,13 +69,17 @@ export default function UnionCompliancePage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="ATLVS"
-              title="Union Compliance"
-              description="Union rules, agreements, and compliance tracking"
-              colorScheme="on-dark"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Union Compliance"
+        subtitle="Union rules, agreements, and compliance tracking"
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Workforce', href: '/workforce' }, { label: 'Union Compliance' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
           {expiringCount > 0 && (
             <Alert variant="warning">

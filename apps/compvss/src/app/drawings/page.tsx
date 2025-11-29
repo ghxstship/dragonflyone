@@ -23,7 +23,8 @@ import {
   Textarea,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface Drawing {
   id: string;
@@ -76,13 +77,17 @@ export default function DrawingsPage() {
         <Container>
           <Stack gap={10}>
             {/* Page Header */}
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Drawings & CAD Files"
-              description="Technical drawings with markup and version control"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Drawings & CAD Files"
+        subtitle="Technical drawings with markup and version control"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Drawings' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             {/* Stats Grid */}
             <Grid cols={4} gap={6}>

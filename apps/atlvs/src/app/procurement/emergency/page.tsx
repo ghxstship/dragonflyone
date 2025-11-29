@@ -8,7 +8,8 @@ import {
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Button,
   Section, Card, Badge, PageLayout, SectionHeader,
   Modal, ModalHeader, ModalBody, ModalFooter, Alert, Textarea,
-} from '@ghxstship/ui';
+  EnterprisePageHeader,
+  MainContent,} from '@ghxstship/ui';
 
 interface EmergencyProcurement {
   id: string;
@@ -66,13 +67,17 @@ export default function EmergencyProcurementPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="ATLVS"
-              title="Emergency Procurement"
-              description="Fast-track procurement for urgent operational needs"
-              colorScheme="on-dark"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Emergency Procurement"
+        subtitle="Fast-track procurement for urgent operational needs"
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Procurement', href: '/procurement' }, { label: 'Emergency' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
           <Grid cols={4} gap={6}>
             <StatCard label="Pending Requests" value={pendingCount} trend={pendingCount > 0 ? 'down' : 'neutral'} className="bg-transparent border-2 border-ink-800" />

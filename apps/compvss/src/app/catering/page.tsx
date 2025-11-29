@@ -26,7 +26,8 @@ import {
   useNotifications,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface MealService {
   id: string;
@@ -173,13 +174,17 @@ export default function CateringPage() {
       <Section className="min-h-screen py-16">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Catering & Hospitality"
-              description="Manage crew meals, dietary requirements, and hospitality services"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Catering & Hospitality"
+        subtitle="Manage crew meals, dietary requirements, and hospitality services"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Catering' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             <Grid cols={4} gap={6}>
               <StatCard

@@ -175,7 +175,15 @@ export default function PayrollPage() {
         stats={stats}
         emptyMessage="No payroll entries found"
         emptyAction={{ label: 'Add Entry', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated />}
+        header={<CreatorNavigationAuthenticated
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Payroll' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings />}
       />
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Add Payroll Entry" fields={formFields} onSubmit={handleCreate} size="lg" />
       <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedEntry} title={(e) => e.employee_name} subtitle={(e) => e.department} sections={detailSections} actions={[{ id: 'process', label: 'Process', icon: '✅' }]} onAction={(id) => id === 'process' && handleProcessPayroll()} />

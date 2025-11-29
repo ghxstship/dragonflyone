@@ -107,7 +107,15 @@ export default function DashboardBuilderPage() {
         stats={stats}
         emptyMessage="No dashboards found"
         emptyAction={{ label: 'Create Dashboard', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated />}
+        header={<CreatorNavigationAuthenticated
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Analytics', href: '/analytics' }, { label: 'Dashboard Builder' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings />}
       />
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Create Dashboard" fields={formFields} onSubmit={handleCreate} />
       {selected && (

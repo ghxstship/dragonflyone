@@ -21,7 +21,8 @@ import {
   Grid,
   Section,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 import { useProjects } from "../../hooks/useProjects";
 
 const mockProjects = [
@@ -119,13 +120,17 @@ export default function DashboardPage() {
     <AtlvsAppLayout>
       <Stack gap={10}>
             <Stack gap={4} direction="horizontal" className="items-start justify-between">
-              <SectionHeader
-                kicker="ATLVS"
-                title="Executive Dashboard"
-                description="Real-time operations command center"
-                colorScheme="on-dark"
-                gap="lg"
-              />
+              <EnterprisePageHeader
+        title="Executive Dashboard"
+        subtitle="Real-time operations command center"
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Dashboard' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
               <Stack direction="horizontal" gap={3}>
                 <Button
                   onClick={() => setTimeRange("week")}

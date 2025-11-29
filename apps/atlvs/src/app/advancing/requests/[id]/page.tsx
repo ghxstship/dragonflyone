@@ -1,16 +1,27 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { Container, Section, Button, Stack, PageLayout } from '@ghxstship/ui';
-import { CreatorNavigationAuthenticated } from '../../../../components/navigation';
+import { Container, Button, Stack, EnterprisePageHeader, MainContent } from '@ghxstship/ui';
+import { AtlvsAppLayout } from '../../../../components/app-layout';
 import { AdvanceRequestDetail } from '@/components/advancing/advance-request-detail';
 
 export default function AdvanceRequestPage({ params }: { params: { id: string } }) {
   const router = useRouter();
 
   return (
-    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
+    <AtlvsAppLayout>
+      <EnterprisePageHeader
+        title="Advance Request"
+        subtitle={`Request ID: ${params.id}`}
+        breadcrumbs={[
+          { label: 'ATLVS', href: '/dashboard' },
+          { label: 'Advancing', href: '/advancing' },
+          { label: 'Request Detail' },
+        ]}
+        showFavorite
+        showSettings
+      />
+      <MainContent padding="lg">
         <Container>
           <Stack gap={6}>
             <Button variant="outline" onClick={() => router.back()}>
@@ -23,7 +34,7 @@ export default function AdvanceRequestPage({ params }: { params: { id: string } 
             />
           </Stack>
         </Container>
-      </Section>
-    </PageLayout>
+      </MainContent>
+    </AtlvsAppLayout>
   );
 }

@@ -26,7 +26,8 @@ import {
   Textarea,
   PageLayout,
   SectionHeader,
-} from "@ghxstship/ui";
+  EnterprisePageHeader,
+  MainContent,} from "@ghxstship/ui";
 
 interface BidOpportunity {
   id: string;
@@ -67,13 +68,17 @@ export default function BidPortalPage() {
         <Container>
           <Stack gap={10}>
             {/* Page Header */}
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Bid Submission Portal"
-              description="Submit proposals and track bid opportunities"
-              colorScheme="on-light"
-              gap="lg"
-            />
+            <EnterprisePageHeader
+        title="Bid Submission Portal"
+        subtitle="Submit proposals and track bid opportunities"
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Bid Portal' }]}
+        views={[
+          { id: 'default', label: 'Default', icon: 'grid' },
+        ]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
 
             {/* Stats Grid */}
             <Grid cols={4} gap={6}>

@@ -172,7 +172,15 @@ export default function RateCardsPage() {
         onExport={() => router.push("/vendors/rate-cards/export")}
         stats={stats}
         emptyMessage="No rate cards found"
-        header={<CreatorNavigationAuthenticated />}
+        header={<CreatorNavigationAuthenticated
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Vendors', href: '/vendors' }, { label: 'Rate Cards' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings />}
       />
 
       {selectedRateCard && (

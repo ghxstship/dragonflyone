@@ -16,7 +16,8 @@ import {
   Badge,
   SectionHeader,
   LoadingSpinner,
-} from '@ghxstship/ui';
+  EnterprisePageHeader,
+  MainContent,} from '@ghxstship/ui';
 
 /**
  * COMPVSS Production Operations Dashboard

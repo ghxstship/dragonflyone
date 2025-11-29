@@ -141,7 +141,15 @@ export default function TravelPage() {
         stats={stats}
         emptyMessage="No travel bookings"
         emptyAction={{ label: 'Book Travel', onClick: () => router.push('/travel/new') }}
-        header={<CreatorNavigationAuthenticated />}
+        header={<CreatorNavigationAuthenticated
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Travel' }]}
+        views={[
+          { id: 'list', label: 'List', icon: 'list' },
+          { id: 'grid', label: 'Grid', icon: 'grid' },
+        ]}
+        activeView="list"
+        showFavorite
+        showSettings />}
       />
       {selectedBooking && (
         <DetailDrawer
