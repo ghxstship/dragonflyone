@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useNotifications, AuthPage, SignInForm, Button } from "@ghxstship/ui";
 import { useAuthContext } from "@ghxstship/config";
 import NextLink from "next/link";
@@ -11,13 +10,13 @@ import NextLink from "next/link";
 // =============================================================================
 
 export default function SignInPage() {
-  const router = useRouter();
   const { login } = useAuthContext();
   const { addNotification } = useNotifications();
 
   const handleSubmit = async (email: string, password: string) => {
     await login(email, password);
-    router.push("/dashboard");
+    // Use full page reload to ensure cookies are set for middleware
+    window.location.href = "/dashboard";
   };
 
   const handleOAuthSignIn = async (provider: "google" | "apple") => {

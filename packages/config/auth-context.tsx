@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { PlatformRole, EventRole } from './roles';
+import { supabase } from './supabase-client';
 
 /**
  * User Authentication & Role Context
@@ -37,12 +38,49 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Load user from session/localStorage
+    // Check for existing Supabase session
     const loadUser = async () => {
       try {
-        const storedUser = localStorage.getItem('ghxstship_user');
-        if (storedUser) {
-          setUser(JSON.parse(storedUser));
+        const { data: { session } } = await supabase.auth.getSession();
+        
+        if (session?.user) {
+          // Fetch user profile and roles
+          const { data: platformUser } = await supabase
+            .from('platform_users')
+            .select('id')
+            .eq('auth_user_id', session.user.id)
+            .single();
+
+          let platformRoles: PlatformRole[] = [PlatformRole.GVTEWAY_MEMBER];
+
+          if (platformUser) {
+            const { data: userRoles } = await supabase
+              .from('user_roles')
+              .select('role_code')
+              .eq('platform_user_id', platformUser.id);
+
+            if (userRoles && userRoles.length > 0) {
+              platformRoles = userRoles.map(r => r.role_code as PlatformRole);
+            }
+          }
+
+          const authenticatedUser: User = {
+            id: session.user.id,
+            email: session.user.email || '',
+            name: session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || '',
+            platformRoles,
+            eventRolesByEvent: {},
+            avatar: session.user.user_metadata?.avatar_url,
+          };
+          
+          setUser(authenticatedUser);
+          localStorage.setItem('ghxstship_user', JSON.stringify(authenticatedUser));
+        } else {
+          // Try localStorage as fallback
+          const storedUser = localStorage.getItem('ghxstship_user');
+          if (storedUser) {
+            setUser(JSON.parse(storedUser));
+          }
         }
       } catch (error) {
         console.error('Failed to load user:', error);
@@ -52,57 +90,60 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
 
     loadUser();
+
+    // Listen for auth state changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, _session) => {
+      if (event === 'SIGNED_OUT') {
+        setUser(null);
+        localStorage.removeItem('ghxstship_user');
+      }
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
   const login = async (email: string, password: string) => {
     setIsLoading(true);
     try {
-      // Use Supabase authentication
-      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-      const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-      
-      if (!supabaseUrl || !supabaseAnonKey) {
-        throw new Error('Supabase configuration missing');
-      }
-
-      const response = await fetch(`${supabaseUrl}/auth/v1/token?grant_type=password`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'apikey': supabaseAnonKey,
-        },
-        body: JSON.stringify({ email, password }),
+      // Use Supabase client for authentication (handles cookies automatically)
+      const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error_description || 'Authentication failed');
+      if (authError) {
+        throw new Error(authError.message || 'Authentication failed');
       }
 
-      const authData = await response.json();
-      
+      if (!authData.user) {
+        throw new Error('No user returned from authentication');
+      }
+
       // Fetch user profile and roles from platform_users table
-      const profileResponse = await fetch(`${supabaseUrl}/rest/v1/platform_users?auth_user_id=eq.${authData.user.id}&select=*`, {
-        headers: {
-          'apikey': supabaseAnonKey,
-          'Authorization': `Bearer ${authData.access_token}`,
-        },
-      });
+      const { data: platformUser } = await supabase
+        .from('platform_users')
+        .select('id')
+        .eq('auth_user_id', authData.user.id)
+        .single();
 
       let platformRoles: PlatformRole[] = [PlatformRole.GVTEWAY_MEMBER];
-      let eventRolesByEvent: Record<string, EventRole[]> = {};
+      const eventRolesByEvent: Record<string, EventRole[]> = {};
 
-      if (profileResponse.ok) {
-        const profileData = await profileResponse.json();
-        if (profileData.length > 0) {
-          platformRoles = profileData[0].platform_roles || [PlatformRole.GVTEWAY_MEMBER];
-          eventRolesByEvent = profileData[0].event_roles || {};
+      if (platformUser) {
+        // Get user roles
+        const { data: userRoles } = await supabase
+          .from('user_roles')
+          .select('role_code')
+          .eq('platform_user_id', platformUser.id);
+
+        if (userRoles && userRoles.length > 0) {
+          platformRoles = userRoles.map(r => r.role_code as PlatformRole);
         }
       }
 
       const authenticatedUser: User = {
         id: authData.user.id,
-        email: authData.user.email,
+        email: authData.user.email || email,
         name: authData.user.user_metadata?.full_name || email.split('@')[0],
         platformRoles,
         eventRolesByEvent,
@@ -111,8 +152,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       
       setUser(authenticatedUser);
       localStorage.setItem('ghxstship_user', JSON.stringify(authenticatedUser));
-      localStorage.setItem('ghxstship_access_token', authData.access_token);
-      localStorage.setItem('ghxstship_refresh_token', authData.refresh_token);
     } catch (error) {
       console.error('Login failed:', error);
       throw error;
@@ -123,27 +162,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = async () => {
     try {
-      // Optionally call Supabase logout endpoint
-      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-      const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-      const accessToken = localStorage.getItem('ghxstship_access_token');
-      
-      if (supabaseUrl && supabaseAnonKey && accessToken) {
-        await fetch(`${supabaseUrl}/auth/v1/logout`, {
-          method: 'POST',
-          headers: {
-            'apikey': supabaseAnonKey,
-            'Authorization': `Bearer ${accessToken}`,
-          },
-        });
-      }
+      await supabase.auth.signOut();
     } catch (error) {
       console.error('Logout error:', error);
     } finally {
       setUser(null);
       localStorage.removeItem('ghxstship_user');
-      localStorage.removeItem('ghxstship_access_token');
-      localStorage.removeItem('ghxstship_refresh_token');
     }
   };
 
