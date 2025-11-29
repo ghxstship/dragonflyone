@@ -194,7 +194,7 @@ async function seedDemoUsers() {
       });
 
       if (error) {
-        console.error(`❌ Error creating ${user.email}:`, error.message);
+        console.error(`❌ Error creating ${user.email}:`, error.message, error);
         errors++;
         continue;
       }
