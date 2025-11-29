@@ -1,5 +1,5 @@
-import { CreatorNavigationAuthenticated } from "../components/navigation";
-import { Badge, ProgressBar, Button, StatusBadge, Stack, Grid, Card, Container, Link, H1, H2, H3, H4, Body, List, ListItem, Article, Header, Box, Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Section, SectionHeader } from "@ghxstship/ui";
+import { CompvssAppLayout } from "../components/app-layout";
+import { Badge, ProgressBar, Button, StatusBadge, Stack, Grid, Card, Container, Link, H1, H2, H3, H4, Body, List, ListItem, Article, Header, Box, Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Section, SectionHeader, MainContent } from "@ghxstship/ui";
 import { CrewIntelligence } from "../components/crew-intelligence";
 import { getStatusVariant } from "@ghxstship/config";
 import {
@@ -33,9 +33,10 @@ export const runtime = "edge";
 export default function Home() {
 
   return (
-    <Section className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50" id="top">
-      <Card className="grid-overlay pointer-events-none absolute inset-0 opacity-40" />
-      <CreatorNavigationAuthenticated />
+    <CompvssAppLayout>
+      <MainContent padding="none">
+        <Section className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50" id="top">
+          <Card className="grid-overlay pointer-events-none absolute inset-0 opacity-40" />
 
       <Container className="relative mx-auto flex max-w-container-6xl flex-col gap-spacing-16 px-spacing-6 pb-spacing-24 pt-spacing-16 lg:px-spacing-8">
         <Header className="flex flex-col gap-spacing-10 lg:flex-row lg:items-end lg:justify-between" id="command">
@@ -580,5 +581,7 @@ export default function Home() {
         </Section>
       </Container>
     </Section>
+      </MainContent>
+    </CompvssAppLayout>
   );
 }

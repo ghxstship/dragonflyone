@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   useNotifications,
-  H2,
   Body,
   Button,
   Switch,
@@ -15,11 +14,10 @@ import {
   Grid,
   Card,
   Section,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+  MainContent,
+} from "@ghxstship/ui";
+import { AtlvsAppLayout } from "../../components/app-layout";
 
 export default function SettingsPage() {
   const router = useRouter();
@@ -40,21 +38,19 @@ export default function SettingsPage() {
   });
 
   return (
-    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <EnterprisePageHeader
+    <AtlvsAppLayout>
+      <EnterprisePageHeader
         title="Settings"
         subtitle="Configure your account preferences and notifications"
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Settings' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
           <Section border noPadding title="Notification Preferences">
             <Stack gap={4}>
@@ -188,7 +184,7 @@ export default function SettingsPage() {
             </Stack>
           </Stack>
         </Container>
-      </Section>
-    </PageLayout>
+      </MainContent>
+    </AtlvsAppLayout>
   );
 }

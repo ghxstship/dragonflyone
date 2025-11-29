@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { Eye, Pencil } from "lucide-react";
+import { AtlvsAppLayout } from "../../components/app-layout";
 import {
   ListPage,
   Badge,
@@ -122,8 +123,8 @@ export default function PayrollPage() {
   };
 
   const rowActions: ListPageAction<PayrollEntry>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedEntry(r); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (r) => console.log('Edit:', r.id) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedEntry(r); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => console.log('Edit:', r.id) },
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
@@ -156,7 +157,7 @@ export default function PayrollPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<PayrollEntry>
         title="Payroll Management"
         subtitle="Process payroll, track hours, and manage employee compensation"
@@ -175,7 +176,6 @@ export default function PayrollPage() {
         stats={stats}
         emptyMessage="No payroll entries found"
         emptyAction={{ label: 'Add Entry', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Payroll' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -183,10 +183,10 @@ export default function PayrollPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Add Payroll Entry" fields={formFields} onSubmit={handleCreate} size="lg" />
       <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedEntry} title={(e) => e.employee_name} subtitle={(e) => e.department} sections={detailSections} actions={[{ id: 'process', label: 'Process', icon: '✅' }]} onAction={(id) => id === 'process' && handleProcessPayroll()} />
-    </>
+    </AtlvsAppLayout>
   );
 }

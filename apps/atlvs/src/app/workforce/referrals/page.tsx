@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../../components/navigation";
+import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
   ListPage,
   Badge,
@@ -121,7 +121,7 @@ export default function ReferralProgramPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<Referral>
         title="Referral Program"
         subtitle="Employee referral tracking and bonus management"
@@ -139,7 +139,6 @@ export default function ReferralProgramPage() {
         stats={stats}
         emptyMessage="No referrals found"
         emptyAction={{ label: "Submit Referral", onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Workforce', href: '/workforce' }, { label: 'Referrals' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -147,7 +146,7 @@ export default function ReferralProgramPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
 
       <RecordFormModal
@@ -169,6 +168,6 @@ export default function ReferralProgramPage() {
           sections={detailSections}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

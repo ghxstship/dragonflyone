@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { Eye, Pencil, Star } from "lucide-react";
+import { AtlvsAppLayout } from "../../components/app-layout";
 import {
   ListPage,
   Badge,
@@ -112,9 +113,9 @@ export default function PortfolioPage() {
   const featuredCount = mockProjects.filter(p => p.featured).length;
 
   const rowActions: ListPageAction<PortfolioProject>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedProject(r); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (r) => router.push(`/portfolio/${r.id}/edit`) },
-    { id: 'feature', label: 'Toggle Featured', icon: '⭐', onClick: (r) => console.log('Toggle featured:', r.id) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedProject(r); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/portfolio/${r.id}/edit`) },
+    { id: 'feature', label: 'Toggle Featured', icon: <Star className="size-4" />, onClick: (r) => console.log('Toggle featured:', r.id) },
   ];
 
   const stats = [
@@ -160,7 +161,7 @@ export default function PortfolioPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<PortfolioProject>
         title="Portfolio"
         subtitle="Showcasing our past work and successful productions"
@@ -178,7 +179,6 @@ export default function PortfolioPage() {
         stats={stats}
         emptyMessage="No portfolio projects found"
         emptyAction={{ label: 'Add Project', onClick: () => router.push('/portfolio/new') }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Portfolio' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -186,7 +186,7 @@ export default function PortfolioPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
 
       {selectedProject && (
@@ -209,6 +209,6 @@ export default function PortfolioPage() {
           }}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

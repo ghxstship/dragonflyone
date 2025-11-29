@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { CompvssAppLayout } from "../../components/app-layout";
 import {
   Container,
   H3,
@@ -13,7 +13,6 @@ import {
   Input,
   Select,
   Button,
-  Section,
   Card,
   Badge,
   Modal,
@@ -21,10 +20,9 @@ import {
   ModalBody,
   ModalFooter,
   Textarea,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
+  MainContent,
+} from "@ghxstship/ui";
 
 interface BackupPlan {
   id: string;
@@ -69,24 +67,20 @@ export default function BackupPlansPage() {
   };
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            {/* Page Header */}
-            <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Backup Plans"
         subtitle="Contingency and backup plan documentation"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Backup Plans' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
+        primaryAction={{ label: 'Create Plan', onClick: () => setShowCreateModal(true) }}
         showFavorite
         showSettings
       />
-
-            {/* Stats Grid */}
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
             <Grid cols={4} gap={6}>
               <StatCard value={mockPlans.length.toString()} label="Total Plans" />
               <StatCard value={activePlans.toString()} label="Active" />
@@ -145,7 +139,7 @@ export default function BackupPlansPage() {
             </Grid>
           </Stack>
         </Container>
-      </Section>
+      </MainContent>
 
       {/* View Plan Modal */}
       <Modal open={!!selectedPlan} onClose={() => setSelectedPlan(null)}>
@@ -221,6 +215,6 @@ export default function BackupPlansPage() {
           <Button variant="solid" onClick={() => setShowCreateModal(false)}>Create</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </CompvssAppLayout>
   );
 }

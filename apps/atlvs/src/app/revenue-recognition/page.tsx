@@ -1,11 +1,27 @@
 'use client';
 
 import { useState } from 'react';
-import { CreatorNavigationAuthenticated } from '../../components/navigation';
+import { AtlvsAppLayout } from '../../components/app-layout';
 import { useRevenueRecognition } from '@/hooks/useRevenueRecognition';
-import { Section, H2, H3, Body, Label, Button, Card, CardHeader, CardBody, StatCard, Container, Alert, Stack, Grid, Badge, LoadingSpinner, PageLayout, SectionHeader,
+import {
+  H2,
+  H3,
+  Body,
+  Label,
+  Button,
+  Card,
+  CardHeader,
+  CardBody,
+  StatCard,
+  Container,
+  Alert,
+  Stack,
+  Grid,
+  Badge,
+  LoadingSpinner,
   EnterprisePageHeader,
-  MainContent,} from '@ghxstship/ui';
+  MainContent,
+} from '@ghxstship/ui';
 
 export default function RevenueRecognitionPage() {
   const {
@@ -62,38 +78,31 @@ export default function RevenueRecognitionPage() {
 
   if (loading) {
     return (
-      <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
-        <Section className="min-h-screen">
+      <AtlvsAppLayout>
+        <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
             <LoadingSpinner size="lg" text="Loading revenue recognition data..." />
           </Container>
-        </Section>
-      </PageLayout>
+        </MainContent>
+      </AtlvsAppLayout>
     );
   }
 
   return (
-    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            {/* Header */}
-            <Stack direction="horizontal" className="flex-col md:flex-row md:items-start md:justify-between">
-              <EnterprisePageHeader
+    <AtlvsAppLayout>
+      <EnterprisePageHeader
         title="Revenue Recognition"
         subtitle="Manage revenue recognition rules and schedules"
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Revenue Recognition' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
+        primaryAction={{ label: 'Create Rule', onClick: () => setShowCreateForm(true) }}
         showFavorite
         showSettings
       />
-              <Button variant="solid" onClick={() => setShowCreateForm(true)}>
-                Create Rule
-              </Button>
-            </Stack>
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
         {error && (
           <Alert variant="error">
@@ -301,7 +310,7 @@ export default function RevenueRecognitionPage() {
         )}
           </Stack>
         </Container>
-      </Section>
-    </PageLayout>
+      </MainContent>
+    </AtlvsAppLayout>
   );
 }

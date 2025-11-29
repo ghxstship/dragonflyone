@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../components/navigation';
+import { Eye, Pencil, ClipboardList, Trash2, Archive, Download } from 'lucide-react';
+import { AtlvsAppLayout } from '../../components/app-layout';
 import { 
   ListPage, 
   Badge, 
@@ -115,16 +116,16 @@ export default function ProjectsPage() {
   const [projectToDelete, setProjectToDelete] = useState<Project | null>(null);
 
   const rowActions: ListPageAction<Project>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (row) => { setSelectedProject(row); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (row) => router.push(`/projects/${row.id}/edit`) },
-    { id: 'duplicate', label: 'Duplicate', icon: '📋', onClick: (row) => console.log('Duplicate', row.id) },
-    { id: 'delete', label: 'Delete', icon: '🗑️', variant: 'danger', onClick: (row) => { setProjectToDelete(row); setDeleteConfirmOpen(true); } },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (row) => { setSelectedProject(row); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (row) => router.push(`/projects/${row.id}/edit`) },
+    { id: 'duplicate', label: 'Duplicate', icon: <ClipboardList className="size-4" />, onClick: (row) => console.log('Duplicate', row.id) },
+    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (row) => { setProjectToDelete(row); setDeleteConfirmOpen(true); } },
   ];
 
   const bulkActions: ListPageBulkAction[] = [
-    { id: 'archive', label: 'Archive', icon: '📦' },
-    { id: 'export', label: 'Export', icon: '⬇️' },
-    { id: 'delete', label: 'Delete', icon: '🗑️', variant: 'danger' },
+    { id: 'archive', label: 'Archive', icon: <Archive className="size-4" /> },
+    { id: 'export', label: 'Export', icon: <Download className="size-4" /> },
+    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger' },
   ];
 
   const handleBulkAction = async (actionId: string, selectedIds: string[]) => {
@@ -180,7 +181,7 @@ export default function ProjectsPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<Project>
         title="Projects"
         subtitle="Manage production projects and track progress"
@@ -202,7 +203,6 @@ export default function ProjectsPage() {
         stats={stats}
         emptyMessage="No projects yet"
         emptyAction={{ label: 'Create Project', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Projects' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -210,7 +210,7 @@ export default function ProjectsPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
 
       <RecordFormModal
@@ -243,6 +243,6 @@ export default function ProjectsPage() {
         onConfirm={handleDelete}
         onCancel={() => { setDeleteConfirmOpen(false); setProjectToDelete(null); }}
       />
-    </>
+    </AtlvsAppLayout>
   );
 }

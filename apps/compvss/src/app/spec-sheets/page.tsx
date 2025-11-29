@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { CompvssAppLayout } from "../../components/app-layout";
 import {
   Container,
   H3,
@@ -13,7 +13,6 @@ import {
   Input,
   Select,
   Button,
-  Section,
   Card,
   Badge,
   Modal,
@@ -24,10 +23,9 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
+  MainContent,
+} from "@ghxstship/ui";
 
 interface SpecSheet {
   id: string;
@@ -79,21 +77,19 @@ export default function SpecSheetsPage() {
   };
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Technical Specifications"
         subtitle="Equipment specification sheets and cut sheets library"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Spec Sheets' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
             <Grid cols={4} gap={6}>
               <StatCard value={mockSpecs.length.toString()} label="Total Specs" />
@@ -144,7 +140,7 @@ export default function SpecSheetsPage() {
             </Grid>
           </Stack>
         </Container>
-      </Section>
+      </MainContent>
 
       <Modal open={!!selectedSpec} onClose={() => setSelectedSpec(null)}>
         <ModalHeader><H3>{selectedSpec?.name}</H3></ModalHeader>
@@ -199,6 +195,6 @@ export default function SpecSheetsPage() {
           <Button variant="solid">Download PDF</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </CompvssAppLayout>
   );
 }

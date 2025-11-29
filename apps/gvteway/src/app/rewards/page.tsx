@@ -1,11 +1,8 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { ConsumerNavigationPublic } from '@/components/navigation';
+import { GvtewayAppLayout, GvtewayLoadingLayout, GvtewayEmptyLayout } from '@/components/app-layout';
 import { 
-  Container, 
-  Section, 
-  Display,
   H2, 
   H3, 
   Body, 
@@ -14,13 +11,8 @@ import {
   Grid, 
   Badge, 
   ProgressBar, 
-  LoadingSpinner, 
   EmptyState, 
   Stack, 
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
   Kicker,
   Label,
 } from '@ghxstship/ui';
@@ -107,134 +99,21 @@ export default function RewardsPage() {
   const rewards = userRewards?.rewards || [];
 
   if (loading) {
-    return (
-      <PageLayout
-        background="black"
-        header={<ConsumerNavigationPublic />}
-        footer={
-          <Footer
-            logo={<Display size="md">GVTEWAY</Display>}
-            copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-          >
-            <FooterColumn title="Discover">
-              <FooterLink href="/events">Browse Events</FooterLink>
-              <FooterLink href="/venues">Find Venues</FooterLink>
-              <FooterLink href="/artists">Artists</FooterLink>
-            </FooterColumn>
-            <FooterColumn title="Support">
-              <FooterLink href="/help">Help Center</FooterLink>
-              <FooterLink href="/help#contact">Contact</FooterLink>
-            </FooterColumn>
-            <FooterColumn title="Legal">
-              <FooterLink href="/legal/privacy">Privacy</FooterLink>
-              <FooterLink href="/legal/terms">Terms</FooterLink>
-            </FooterColumn>
-          </Footer>
-        }
-      >
-        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-          <div
-            className="pointer-events-none absolute inset-0 opacity-5"
-            style={{
-              backgroundImage: `
-                linear-gradient(#fff 1px, transparent 1px),
-                linear-gradient(90deg, #fff 1px, transparent 1px)
-              `,
-              backgroundSize: "40px 40px",
-            }}
-          />
-          <Container className="relative z-10 flex min-h-[60vh] items-center justify-center">
-            <LoadingSpinner size="lg" text="Loading rewards..." />
-          </Container>
-        </Section>
-      </PageLayout>
-    );
+    return <GvtewayLoadingLayout text="Loading rewards..." />;
   }
 
   if (error) {
     return (
-      <PageLayout
-        background="black"
-        header={<ConsumerNavigationPublic />}
-        footer={
-          <Footer
-            logo={<Display size="md">GVTEWAY</Display>}
-            copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-          >
-            <FooterColumn title="Discover">
-              <FooterLink href="/events">Browse Events</FooterLink>
-              <FooterLink href="/venues">Find Venues</FooterLink>
-              <FooterLink href="/artists">Artists</FooterLink>
-            </FooterColumn>
-            <FooterColumn title="Legal">
-              <FooterLink href="/legal/privacy">Privacy</FooterLink>
-              <FooterLink href="/legal/terms">Terms</FooterLink>
-            </FooterColumn>
-          </Footer>
-        }
-      >
-        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-          <div
-            className="pointer-events-none absolute inset-0 opacity-5"
-            style={{
-              backgroundImage: `
-                linear-gradient(#fff 1px, transparent 1px),
-                linear-gradient(90deg, #fff 1px, transparent 1px)
-              `,
-              backgroundSize: "40px 40px",
-            }}
-          />
-          <Container className="relative z-10">
-            <EmptyState
-              title="Error Loading Rewards"
-              description={error}
-              action={{ label: "Retry", onClick: fetchRewards }}
-              inverted
-            />
-          </Container>
-        </Section>
-      </PageLayout>
+      <GvtewayEmptyLayout
+        title="Error Loading Rewards"
+        description={error}
+        action={{ label: "Retry", onClick: fetchRewards }}
+      />
     );
   }
 
   return (
-    <PageLayout
-      background="black"
-      header={<ConsumerNavigationPublic />}
-      footer={
-        <Footer
-          logo={<Display size="md">GVTEWAY</Display>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Discover">
-            <FooterLink href="/events">Browse Events</FooterLink>
-            <FooterLink href="/venues">Find Venues</FooterLink>
-            <FooterLink href="/artists">Artists</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Support">
-            <FooterLink href="/help">Help Center</FooterLink>
-            <FooterLink href="/help#contact">Contact</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Legal">
-            <FooterLink href="/legal/privacy">Privacy</FooterLink>
-            <FooterLink href="/legal/terms">Terms</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        {/* Grid Pattern Background */}
-        <div
-          className="pointer-events-none absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `
-              linear-gradient(#fff 1px, transparent 1px),
-              linear-gradient(90deg, #fff 1px, transparent 1px)
-            `,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
+    <GvtewayAppLayout>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -351,8 +230,6 @@ export default function RewardsPage() {
               </Stack>
             </Card>
           </Stack>
-        </Container>
-      </Section>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { Eye, Pencil, Check } from "lucide-react";
+import { CompvssAppLayout } from "../../components/app-layout";
 import { useMaintenance } from "../../hooks/useMaintenance";
 import {
   ListPage,
@@ -12,6 +13,8 @@ import {
   Grid,
   Stack,
   Body,
+  EnterprisePageHeader,
+  MainContent,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -76,9 +79,9 @@ export default function MaintenancePage() {
   const inProgressCount = items.filter(i => i.status === "in-progress").length;
 
   const rowActions: ListPageAction<MaintenanceItem>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedItem(r); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (r) => router.push(`/maintenance/${r.id}`) },
-    { id: 'complete', label: 'Mark Complete', icon: '✅', onClick: (r) => console.log('Complete', r.id) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedItem(r); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/maintenance/${r.id}`) },
+    { id: 'complete', label: 'Mark Complete', icon: <Check className="size-4" />, onClick: (r) => console.log('Complete', r.id) },
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
@@ -108,36 +111,42 @@ export default function MaintenancePage() {
   ] : [];
 
   return (
-    <>
-      <ListPage<MaintenanceItem>
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Equipment Maintenance"
         subtitle="Track and schedule equipment maintenance tasks"
-        data={items}
-        columns={columns}
-        rowKey="id"
-        loading={isLoading}
-        error={error instanceof Error ? error : undefined}
-        onRetry={() => refetch?.()}
-        searchPlaceholder="Search equipment..."
-        filters={filters}
-        rowActions={rowActions}
-        onRowClick={(r) => { setSelectedItem(r); setDrawerOpen(true); }}
-        createLabel="Schedule Maintenance"
-        onCreate={() => setCreateModalOpen(true)}
-        onExport={() => console.log('Export')}
-        stats={stats}
-        emptyMessage="No maintenance records found"
-        emptyAction={{ label: 'Schedule Maintenance', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Maintenance' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
         ]}
         activeView="list"
+        primaryAction={{ label: 'Schedule Maintenance', onClick: () => setCreateModalOpen(true) }}
         showFavorite
-        showSettings />}
+        showSettings
       />
+      <MainContent padding="lg">
+        <ListPage<MaintenanceItem>
+          title="Equipment Maintenance"
+          subtitle="Track and schedule equipment maintenance tasks"
+          data={items}
+          columns={columns}
+          rowKey="id"
+          loading={isLoading}
+          error={error instanceof Error ? error : undefined}
+          onRetry={() => refetch?.()}
+          searchPlaceholder="Search equipment..."
+          filters={filters}
+          rowActions={rowActions}
+          onRowClick={(r) => { setSelectedItem(r); setDrawerOpen(true); }}
+          createLabel="Schedule Maintenance"
+          onCreate={() => setCreateModalOpen(true)}
+          onExport={() => console.log('Export')}
+          stats={stats}
+          emptyMessage="No maintenance records found"
+          emptyAction={{ label: 'Schedule Maintenance', onClick: () => setCreateModalOpen(true) }}
+        />
+      </MainContent>
 
       <RecordFormModal
         open={createModalOpen}
@@ -161,6 +170,6 @@ export default function MaintenancePage() {
           onAction={(id) => console.log('Action', id)}
         />
       )}
-    </>
+    </CompvssAppLayout>
   );
 }

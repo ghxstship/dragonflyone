@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../../components/navigation";
+import { Eye, Paperclip } from "lucide-react";
+import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
   ListPage, Badge, DetailDrawer,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
@@ -61,8 +62,8 @@ export default function CreditCardsPage() {
   const missingReceipts = data.filter(t => t.status === "Posted" && !t.receipt).length;
 
   const rowActions: ListPageAction<CreditCardTxn>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
-    { id: 'receipt', label: 'Upload Receipt', icon: '📎', onClick: (r) => console.log('Upload receipt', r.id) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
+    { id: 'receipt', label: 'Upload Receipt', icon: <Paperclip className="size-4" />, onClick: (r) => console.log('Upload receipt', r.id) },
   ];
 
   const stats = [
@@ -89,7 +90,7 @@ export default function CreditCardsPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<CreditCardTxn>
         title="Credit Card Management"
         subtitle="Corporate credit card integration and reconciliation"
@@ -104,7 +105,6 @@ export default function CreditCardsPage() {
         onExport={() => console.log('Export')}
         stats={stats}
         emptyMessage="No transactions found"
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Finance', href: '/finance' }, { label: 'Credit Cards' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -112,7 +112,7 @@ export default function CreditCardsPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       {selected && (
         <DetailDrawer
@@ -126,6 +126,6 @@ export default function CreditCardsPage() {
           onAction={(id, r) => { console.log(id, r.id); setDrawerOpen(false); }}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

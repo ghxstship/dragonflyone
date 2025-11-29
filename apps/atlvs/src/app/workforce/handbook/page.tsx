@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../../components/navigation';
+import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   Container,
   H3,
@@ -19,7 +19,6 @@ import {
   TableHead,
   TableCell,
   Button,
-  Section,
   Card,
   Tabs,
   TabsList,
@@ -31,10 +30,9 @@ import {
   ModalFooter,
   Alert,
   ProgressBar,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from '@ghxstship/ui';
+  MainContent,
+} from '@ghxstship/ui';
 
 interface HandbookSection {
   id: string;
@@ -108,21 +106,19 @@ export default function HandbookPage() {
   };
 
   return (
-    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <EnterprisePageHeader
+    <AtlvsAppLayout>
+      <EnterprisePageHeader
         title="Employee Handbook & Policies"
         subtitle="Manage handbook sections and track policy acknowledgments"
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Workforce', href: '/workforce' }, { label: 'Handbook' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
           <Grid cols={4} gap={6}>
             <StatCard label="Handbook Sections" value={mockSections.length} className="bg-transparent border-2 border-ink-800" />
@@ -324,9 +320,6 @@ export default function HandbookPage() {
                 Dashboard
               </Button>
             </Grid>
-          </Stack>
-        </Container>
-      </Section>
 
       <Modal open={!!selectedSection} onClose={() => setSelectedSection(null)}>
         <ModalHeader>
@@ -416,6 +409,9 @@ export default function HandbookPage() {
           </Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+          </Stack>
+        </Container>
+      </MainContent>
+    </AtlvsAppLayout>
   );
 }

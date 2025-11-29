@@ -1,6 +1,6 @@
 "use client";
 
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { CompvssAppLayout } from "../../components/app-layout";
 import {
   H3,
   Body,
@@ -9,11 +9,9 @@ import {
   Container,
   Grid,
   Stack,
-  Section,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
+  MainContent,
+} from "@ghxstship/ui";
 
 const venues = [
   { id: "VEN-001", name: "Bayfront Park", city: "Miami, FL", capacity: 65000, type: "Outdoor", status: "Available" },
@@ -23,21 +21,19 @@ const venues = [
 
 export default function VenuesPage() {
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Venue Directory"
         subtitle="Browse and manage venue information for productions"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Venues' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
             <Grid cols={3} gap={6}>
               {venues.map((venue) => (
                 <Card key={venue.id}>
@@ -66,7 +62,7 @@ export default function VenuesPage() {
             </Grid>
           </Stack>
         </Container>
-      </Section>
-    </PageLayout>
+      </MainContent>
+    </CompvssAppLayout>
   );
 }

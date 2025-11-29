@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { Eye, Pencil, Mail, DollarSign, ClipboardList, Trash2, Download, Bell } from "lucide-react";
+import { AtlvsAppLayout } from "../../components/app-layout";
 import {
   ListPage,
   Badge,
@@ -158,19 +159,19 @@ export default function InvoicesPage() {
   };
 
   const rowActions: ListPageAction<Invoice>[] = [
-    { id: 'view', label: 'View', icon: '👁️', onClick: (row) => { setSelectedInvoice(row); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (row) => router.push(`/invoices/${row.id}/edit`) },
-    { id: 'send', label: 'Send', icon: '📧', onClick: handleSendInvoice },
-    { id: 'payment', label: 'Record Payment', icon: '💰', onClick: (row) => router.push(`/invoices/${row.id}/payment`) },
-    { id: 'duplicate', label: 'Duplicate', icon: '📋', onClick: (row) => router.push(`/invoices/new?from=${row.id}`) },
-    { id: 'delete', label: 'Delete', icon: '🗑️', variant: 'danger', onClick: (row) => { setInvoiceToDelete(row); setDeleteConfirmOpen(true); } },
+    { id: 'view', label: 'View', icon: <Eye className="size-4" />, onClick: (row) => { setSelectedInvoice(row); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (row) => router.push(`/invoices/${row.id}/edit`) },
+    { id: 'send', label: 'Send', icon: <Mail className="size-4" />, onClick: handleSendInvoice },
+    { id: 'payment', label: 'Record Payment', icon: <DollarSign className="size-4" />, onClick: (row) => router.push(`/invoices/${row.id}/payment`) },
+    { id: 'duplicate', label: 'Duplicate', icon: <ClipboardList className="size-4" />, onClick: (row) => router.push(`/invoices/new?from=${row.id}`) },
+    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (row) => { setInvoiceToDelete(row); setDeleteConfirmOpen(true); } },
   ];
 
   const bulkActions: ListPageBulkAction[] = [
-    { id: 'send', label: 'Send', icon: '📧' },
-    { id: 'export', label: 'Export', icon: '⬇️' },
-    { id: 'remind', label: 'Send Reminders', icon: '🔔' },
-    { id: 'delete', label: 'Delete', icon: '🗑️', variant: 'danger' },
+    { id: 'send', label: 'Send', icon: <Mail className="size-4" /> },
+    { id: 'export', label: 'Export', icon: <Download className="size-4" /> },
+    { id: 'remind', label: 'Send Reminders', icon: <Bell className="size-4" /> },
+    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger' },
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
@@ -224,7 +225,7 @@ export default function InvoicesPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<Invoice>
         title="Invoice Management"
         subtitle="Create, send, and track invoices for all client projects"
@@ -246,7 +247,6 @@ export default function InvoicesPage() {
         stats={stats}
         emptyMessage="No invoices found"
         emptyAction={{ label: 'Create Invoice', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Invoices' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -254,7 +254,7 @@ export default function InvoicesPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
 
       <RecordFormModal
@@ -295,6 +295,6 @@ export default function InvoicesPage() {
         onConfirm={handleDelete}
         onCancel={() => { setDeleteConfirmOpen(false); setInvoiceToDelete(null); }}
       />
-    </>
+    </AtlvsAppLayout>
   );
 }

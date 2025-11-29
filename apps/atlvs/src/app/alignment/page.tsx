@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { CreatorNavigationAuthenticated } from '../../components/navigation';
+import { AtlvsAppLayout } from '../../components/app-layout';
 import {
   Container,
   Section,
@@ -20,10 +20,9 @@ import {
   Modal,
   LoadingSpinner,
   StatCard,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from '@ghxstship/ui';
+  MainContent,
+} from '@ghxstship/ui';
 import { Target, CheckCircle, AlertTriangle, BarChart3 } from 'lucide-react';
 
 interface StrategicGoal {
@@ -137,13 +136,13 @@ export default function StrategicAlignmentPage() {
 
   if (loading) {
     return (
-      <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
-        <Section className="min-h-screen">
+      <AtlvsAppLayout>
+        <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
             <LoadingSpinner size="lg" text="Loading alignment data..." />
           </Container>
-        </Section>
-      </PageLayout>
+        </MainContent>
+      </AtlvsAppLayout>
     );
   }
 
@@ -156,27 +155,20 @@ export default function StrategicAlignmentPage() {
   const goalsOnTrack = goals.filter(g => g.status === 'on_track' || g.status === 'completed').length;
 
   return (
-    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            {/* Page Header - Bold Contemporary Pop Art Adventure */}
-            <Stack direction="horizontal" className="flex-col items-start justify-between md:flex-row md:items-center">
-              <EnterprisePageHeader
+    <AtlvsAppLayout>
+      <EnterprisePageHeader
         title="Strategic Alignment"
         subtitle="Measure how projects align with strategic goals"
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Alignment' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
+        primaryAction={{ label: 'Align Project', onClick: () => setShowAlignModal(true) }}
         showFavorite
         showSettings
       />
-              <Button variant="solid" onClick={() => setShowAlignModal(true)}>
-                Align Project
-              </Button>
-            </Stack>
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
         {error && (
           <Alert variant="error" className="mb-6" onClose={() => setError(null)}>
@@ -429,7 +421,7 @@ export default function StrategicAlignmentPage() {
             </Modal>
           </Stack>
         </Container>
-      </Section>
-    </PageLayout>
+      </MainContent>
+    </AtlvsAppLayout>
   );
 }

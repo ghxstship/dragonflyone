@@ -2,14 +2,37 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../../components/navigation";
+import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
-  Container, H3, Body, Label, Grid, Stack, StatCard, Select, Button,
-  Section, Card, Tabs, TabsList, Tab, TabPanel, Badge, ProgressBar, PageLayout, SectionHeader,
-  Modal, ModalHeader, ModalBody, ModalFooter,
-  Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
+  Container,
+  H3,
+  Body,
+  Label,
+  Grid,
+  Stack,
+  StatCard,
+  Select,
+  Button,
+  Card,
+  Tabs,
+  TabsList,
+  Tab,
+  TabPanel,
+  Badge,
+  ProgressBar,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
   EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
+  MainContent,
+} from "@ghxstship/ui";
 
 interface MarketingSource {
   id: string;
@@ -62,21 +85,19 @@ export default function MarketingAttributionPage() {
   const formatCurrency = (amount: number) => `$${amount.toLocaleString()}`;
 
   return (
-    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <EnterprisePageHeader
+    <AtlvsAppLayout>
+      <EnterprisePageHeader
         title="Marketing Attribution"
         subtitle="Track marketing sources and campaign performance"
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Marketing', href: '/marketing' }, { label: 'Attribution' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
           <Grid cols={4} gap={6}>
             <StatCard label="Total Leads" value={totalLeads} className="bg-transparent border-2 border-ink-800" />
@@ -189,9 +210,6 @@ export default function MarketingAttributionPage() {
               <Button variant="outline" className="border-grey-700 text-grey-400" onClick={() => router.push("/analytics")}>Analytics</Button>
               <Button variant="outline" className="border-grey-700 text-grey-400" onClick={() => router.push("/")}>Dashboard</Button>
             </Grid>
-          </Stack>
-        </Container>
-      </Section>
 
       <Modal open={!!selectedSource} onClose={() => setSelectedSource(null)}>
         <ModalHeader><H3>{selectedSource?.name}</H3></ModalHeader>
@@ -221,6 +239,9 @@ export default function MarketingAttributionPage() {
           <Button variant="solid">View Leads</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+          </Stack>
+        </Container>
+      </MainContent>
+    </AtlvsAppLayout>
   );
 }

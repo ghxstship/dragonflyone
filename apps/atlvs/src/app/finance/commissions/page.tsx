@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../../components/navigation";
+import { Eye, Check } from "lucide-react";
+import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
   ListPage,
   Badge,
@@ -96,8 +97,8 @@ export default function CommissionsPage() {
   };
 
   const rowActions: ListPageAction<CommissionRecord>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedRecord(r); setDrawerOpen(true); } },
-    { id: 'approve', label: 'Approve', icon: '✓', onClick: (r) => setRecords(records.map(rec => rec.id === r.id ? { ...rec, status: 'Approved' as const } : rec)) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedRecord(r); setDrawerOpen(true); } },
+    { id: 'approve', label: 'Approve', icon: <Check className="size-4" />, onClick: (r) => setRecords(records.map(rec => rec.id === r.id ? { ...rec, status: 'Approved' as const } : rec)) },
   ];
 
   const stats = [
@@ -124,7 +125,7 @@ export default function CommissionsPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<CommissionRecord>
         title="Commission Management"
         subtitle="Calculate, track, and manage sales commissions"
@@ -142,7 +143,6 @@ export default function CommissionsPage() {
         stats={stats}
         emptyMessage="No commission records found"
         emptyAction={{ label: 'Add Commission', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Finance', href: '/finance' }, { label: 'Commissions' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -150,7 +150,7 @@ export default function CommissionsPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       {selectedRecord && (
         <DetailDrawer
@@ -179,6 +179,6 @@ export default function CommissionsPage() {
         onSubmit={handleCreate}
         mode="create"
       />
-    </>
+    </AtlvsAppLayout>
   );
 }

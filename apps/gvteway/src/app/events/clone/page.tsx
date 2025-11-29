@@ -2,12 +2,11 @@
 
 import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ConsumerNavigationPublic } from "@/components/navigation";
+import { GvtewayAppLayout, GvtewayLoadingLayout } from "@/components/app-layout";
 import {
-  Container, H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section, Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter, Textarea, LoadingSpinner,
-  PageLayout, Footer, FooterColumn, FooterLink, Display, Kicker,
+  H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
+  Card, Tabs, TabsList, Tab, TabPanel, Badge,
+  Modal, ModalHeader, ModalBody, ModalFooter, Textarea, Kicker,
 } from "@ghxstship/ui";
 
 interface EventTemplate {
@@ -63,33 +62,8 @@ function EventCloneContent() {
     }
   };
 
-  const footerContent = (
-    <Footer
-      logo={<Display size="md">GVTEWAY</Display>}
-      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-    >
-      <FooterColumn title="Events">
-        <FooterLink href="/events">Events</FooterLink>
-        <FooterLink href="/events/clone">Create Event</FooterLink>
-      </FooterColumn>
-      <FooterColumn title="Legal">
-        <FooterLink href="/legal/privacy">Privacy</FooterLink>
-        <FooterLink href="/legal/terms">Terms</FooterLink>
-      </FooterColumn>
-    </Footer>
-  );
-
   return (
-    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
+    <GvtewayAppLayout>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -197,8 +171,6 @@ function EventCloneContent() {
 
           <Button variant="outlineInk" onClick={() => router.push("/events")}>Back to Events</Button>
           </Stack>
-        </Container>
-      </Section>
 
       <Modal open={!!selectedTemplate} onClose={() => setSelectedTemplate(null)}>
         <ModalHeader><H3>Use Template</H3></ModalHeader>
@@ -310,17 +282,13 @@ function EventCloneContent() {
           <Button variant="solid" onClick={() => setShowCreateModal(false)}>Create Template</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }
 
 export default function EventClonePage() {
   return (
-    <Suspense fallback={
-      <Section background="black" className="flex min-h-screen items-center justify-center">
-        <LoadingSpinner size="lg" />
-      </Section>
-    }>
+    <Suspense fallback={<GvtewayLoadingLayout />}>
       <EventCloneContent />
     </Suspense>
   );

@@ -2,7 +2,8 @@
 
 import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { Eye, Package, Truck, Trash2, Printer, Download } from "lucide-react";
+import { CompvssAppLayout } from "../../components/app-layout";
 import {
   ListPage,
   Badge,
@@ -12,6 +13,8 @@ import {
   Grid,
   Stack,
   Body,
+  EnterprisePageHeader,
+  MainContent,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -115,16 +118,16 @@ export default function DeliveriesPage() {
   }, []);
 
   const rowActions: ListPageAction<Delivery>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (row) => { setSelectedDelivery(row); setDrawerOpen(true); } },
-    { id: 'receive', label: 'Receive', icon: '📦', onClick: (row) => router.push(`/deliveries/${row.id}/receive`) },
-    { id: 'track', label: 'Track', icon: '🚚', onClick: (row) => row.trackingNumber && window.open(`https://track.example.com/${row.trackingNumber}`) },
-    { id: 'delete', label: 'Cancel', icon: '🗑️', variant: 'danger', onClick: (row) => { setDeliveryToDelete(row); setDeleteConfirmOpen(true); } },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (row) => { setSelectedDelivery(row); setDrawerOpen(true); } },
+    { id: 'receive', label: 'Receive', icon: <Package className="size-4" />, onClick: (row) => router.push(`/deliveries/${row.id}/receive`) },
+    { id: 'track', label: 'Track', icon: <Truck className="size-4" />, onClick: (row) => row.trackingNumber && window.open(`https://track.example.com/${row.trackingNumber}`) },
+    { id: 'delete', label: 'Cancel', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (row) => { setDeliveryToDelete(row); setDeleteConfirmOpen(true); } },
   ];
 
   const bulkActions: ListPageBulkAction[] = [
-    { id: 'print', label: 'Print Manifest', icon: '🖨️' },
-    { id: 'export', label: 'Export', icon: '⬇️' },
-    { id: 'delete', label: 'Cancel', icon: '🗑️', variant: 'danger' },
+    { id: 'print', label: 'Print Manifest', icon: <Printer className="size-4" /> },
+    { id: 'export', label: 'Export', icon: <Download className="size-4" /> },
+    { id: 'delete', label: 'Cancel', icon: <Trash2 className="size-4" />, variant: 'danger' },
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
@@ -190,37 +193,43 @@ export default function DeliveriesPage() {
   ] : [];
 
   return (
-    <>
-      <ListPage<Delivery>
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Delivery Tracking"
         subtitle="Track incoming deliveries, receiving, and signature capture"
-        data={deliveries}
-        columns={columns}
-        rowKey="id"
-        loading={loading}
-        onRetry={refetch}
-        searchPlaceholder="Search deliveries..."
-        filters={filters}
-        rowActions={rowActions}
-        bulkActions={bulkActions}
-        onBulkAction={handleBulkAction}
-        onRowClick={(row) => { setSelectedDelivery(row); setDrawerOpen(true); }}
-        createLabel="Add Delivery"
-        onCreate={() => setCreateModalOpen(true)}
-        onExport={() => console.log('Export deliveries')}
-        stats={stats}
-        emptyMessage="No deliveries found"
-        emptyAction={{ label: 'Add Delivery', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Deliveries' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
         ]}
         activeView="list"
+        primaryAction={{ label: 'Add Delivery', onClick: () => setCreateModalOpen(true) }}
         showFavorite
-        showSettings />}
+        showSettings
       />
+      <MainContent padding="lg">
+        <ListPage<Delivery>
+          title="Delivery Tracking"
+          subtitle="Track incoming deliveries, receiving, and signature capture"
+          data={deliveries}
+          columns={columns}
+          rowKey="id"
+          loading={loading}
+          onRetry={refetch}
+          searchPlaceholder="Search deliveries..."
+          filters={filters}
+          rowActions={rowActions}
+          bulkActions={bulkActions}
+          onBulkAction={handleBulkAction}
+          onRowClick={(row) => { setSelectedDelivery(row); setDrawerOpen(true); }}
+          createLabel="Add Delivery"
+          onCreate={() => setCreateModalOpen(true)}
+          onExport={() => console.log('Export deliveries')}
+          stats={stats}
+          emptyMessage="No deliveries found"
+          emptyAction={{ label: 'Add Delivery', onClick: () => setCreateModalOpen(true) }}
+        />
+      </MainContent>
 
       <RecordFormModal
         open={createModalOpen}
@@ -260,6 +269,6 @@ export default function DeliveriesPage() {
         onConfirm={handleDelete}
         onCancel={() => { setDeleteConfirmOpen(false); setDeliveryToDelete(null); }}
       />
-    </>
+    </CompvssAppLayout>
   );
 }

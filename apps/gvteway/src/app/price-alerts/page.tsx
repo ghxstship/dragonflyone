@@ -2,10 +2,8 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { ConsumerNavigationPublic } from '@/components/navigation';
+import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
-  Container,
-  Section,
   H2,
   H3,
   Body,
@@ -17,12 +15,6 @@ import {
   Badge,
   Switch,
   Alert,
-  LoadingSpinner,
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Display,
   Kicker,
 } from '@ghxstship/ui';
 
@@ -109,66 +101,11 @@ export default function PriceAlertsPage() {
   const inactiveAlerts = alerts.filter(a => !a.is_active && !a.triggered);
 
   if (loading) {
-    return (
-      <PageLayout
-        background="black"
-        header={<ConsumerNavigationPublic />}
-        footer={
-          <Footer
-            logo={<Display size="md">GVTEWAY</Display>}
-            copyright="© 2024 GHXSTSHIP INDUSTRIES."
-          >
-            <FooterColumn title="Discover">
-              <FooterLink href="/price-alerts">Price Alerts</FooterLink>
-            </FooterColumn>
-          </Footer>
-        }
-      >
-        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-          <div
-            className="pointer-events-none absolute inset-0 opacity-5"
-            style={{
-              backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-              backgroundSize: "40px 40px",
-            }}
-          />
-          <Container className="relative z-10 flex min-h-[60vh] items-center justify-center">
-            <LoadingSpinner size="lg" text="Loading price alerts..." />
-          </Container>
-        </Section>
-      </PageLayout>
-    );
+    return <GvtewayLoadingLayout text="Loading price alerts..." />;
   }
 
   return (
-    <PageLayout
-      background="black"
-      header={<ConsumerNavigationPublic />}
-      footer={
-        <Footer
-          logo={<Display size="md">GVTEWAY</Display>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Discover">
-            <FooterLink href="/price-alerts">Price Alerts</FooterLink>
-            <FooterLink href="/browse">Browse Events</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Legal">
-            <FooterLink href="/legal/privacy">Privacy</FooterLink>
-            <FooterLink href="/legal/terms">Terms</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
+    <GvtewayAppLayout>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack direction="horizontal" className="items-center justify-between">
@@ -400,8 +337,6 @@ export default function PriceAlertsPage() {
           </Grid>
         </Card>
           </Stack>
-        </Container>
-      </Section>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

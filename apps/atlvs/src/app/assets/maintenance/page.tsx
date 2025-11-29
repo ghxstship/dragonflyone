@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../../components/navigation";
+import { Eye, Check, Pencil } from "lucide-react";
+import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
   ListPage,
   Badge,
@@ -106,8 +107,8 @@ export default function AssetMaintenancePage() {
   };
 
   const rowActions: ListPageAction<MaintenanceRecord>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedRecord(r); setDrawerOpen(true); } },
-    { id: 'complete', label: 'Mark Complete', icon: '✓', onClick: (r) => setRecords(records.map(rec => rec.id === r.id ? { ...rec, status: 'Completed' as const, completedDate: new Date().toISOString().split('T')[0] } : rec)) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedRecord(r); setDrawerOpen(true); } },
+    { id: 'complete', label: 'Mark Complete', icon: <Check className="size-4" />, onClick: (r) => setRecords(records.map(rec => rec.id === r.id ? { ...rec, status: 'Completed' as const, completedDate: new Date().toISOString().split('T')[0] } : rec)) },
   ];
 
   const stats = [
@@ -135,7 +136,7 @@ export default function AssetMaintenancePage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<MaintenanceRecord>
         title="Asset Maintenance"
         subtitle="Maintenance scheduling, service records, and preventive maintenance tracking"
@@ -153,7 +154,6 @@ export default function AssetMaintenancePage() {
         stats={stats}
         emptyMessage="No maintenance records found"
         emptyAction={{ label: 'Schedule Maintenance', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Assets', href: '/assets' }, { label: 'Maintenance' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -161,7 +161,7 @@ export default function AssetMaintenancePage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       {selectedRecord && (
         <DetailDrawer
@@ -171,7 +171,7 @@ export default function AssetMaintenancePage() {
           title={(r) => r.assetName}
           subtitle={(r) => `${r.type} • ${r.status}`}
           sections={detailSections}
-          actions={[{ id: 'complete', label: 'Mark Complete', icon: '✓' }, { id: 'edit', label: 'Edit', icon: '✏️' }]}
+          actions={[{ id: 'complete', label: 'Mark Complete', icon: <Check className="size-4" /> }, { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" /> }]}
           onAction={(id, r) => {
             if (id === 'complete') setRecords(records.map(rec => rec.id === r.id ? { ...rec, status: 'Completed' as const } : rec));
             setDrawerOpen(false);
@@ -186,6 +186,6 @@ export default function AssetMaintenancePage() {
         onSubmit={handleCreate}
         mode="create"
       />
-    </>
+    </AtlvsAppLayout>
   );
 }

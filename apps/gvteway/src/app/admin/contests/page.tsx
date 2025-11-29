@@ -1,17 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { ConsumerNavigationPublic } from "@/components/navigation";
+import { Eye, ClipboardList, Flag } from "lucide-react";
+import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   ListPage,
   Badge,
   RecordFormModal,
   DetailDrawer,
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Display,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -92,9 +88,9 @@ export default function ContestsPage() {
   const totalPrizeValue = contests.reduce((sum, c) => sum + c.prizeValue, 0);
 
   const rowActions: ListPageAction<Contest>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedContest(r); setDrawerOpen(true); } },
-    { id: 'entries', label: 'View Entries', icon: '📋', onClick: (r) => console.log('View entries', r.id) },
-    { id: 'end', label: 'End Contest', icon: '🏁', onClick: (r) => handleEndContest(r.id) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedContest(r); setDrawerOpen(true); } },
+    { id: 'entries', label: 'View Entries', icon: <ClipboardList className="size-4" />, onClick: (r) => console.log('View entries', r.id) },
+    { id: 'end', label: 'End Contest', icon: <Flag className="size-4" />, onClick: (r) => handleEndContest(r.id) },
   ];
 
   const handleEndContest = (contestId: string) => {
@@ -145,24 +141,8 @@ export default function ContestsPage() {
     )},
   ] : [];
 
-  const footerContent = (
-    <Footer
-      logo={<Display size="md">GVTEWAY</Display>}
-      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-    >
-      <FooterColumn title="Admin">
-        <FooterLink href="/admin/contests">Contests</FooterLink>
-        <FooterLink href="/admin/promo-codes">Promo Codes</FooterLink>
-      </FooterColumn>
-      <FooterColumn title="Legal">
-        <FooterLink href="/legal/privacy">Privacy</FooterLink>
-        <FooterLink href="/legal/terms">Terms</FooterLink>
-      </FooterColumn>
-    </Footer>
-  );
-
   return (
-    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+    <GvtewayAppLayout>
       <ListPage<Contest>
         title="Contests & Giveaways"
         subtitle="Create and manage social media contests and promotional giveaways"
@@ -210,6 +190,6 @@ export default function ContestsPage() {
           }}
         />
       )}
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

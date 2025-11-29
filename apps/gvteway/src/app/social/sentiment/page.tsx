@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ConsumerNavigationPublic } from "@/components/navigation";
+import { GvtewayAppLayout } from "@/components/app-layout";
 import {
-  Container, H2, H3, Body, Label, Grid, Stack, StatCard, Input, Button,
-  Section, Card, Tabs, TabsList, Tab, TabPanel, Badge, Alert, ProgressBar,
+  H2, H3, Body, Label, Grid, Stack, StatCard, Input, Button,
+  Card, Tabs, TabsList, Tab, TabPanel, Badge, Alert, ProgressBar,
   Modal, ModalHeader, ModalBody, ModalFooter,
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
-  PageLayout, Footer, FooterColumn, FooterLink, Display, Kicker,
+  Kicker,
 } from "@ghxstship/ui";
 
 interface SentimentAlert {
@@ -67,34 +67,7 @@ export default function SentimentAnalysisPage() {
   const criticalAlerts = mockAlerts.filter(a => a.severity === "Critical" && a.status === "Active").length;
 
   return (
-    <PageLayout
-      background="black"
-      header={<ConsumerNavigationPublic />}
-      footer={
-        <Footer
-          logo={<Display size="md">GVTEWAY</Display>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Social">
-            <FooterLink href="/social">Social Hub</FooterLink>
-            <FooterLink href="/social/sentiment">Sentiment</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Legal">
-            <FooterLink href="/legal/privacy">Privacy</FooterLink>
-            <FooterLink href="/legal/terms">Terms</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
+    <GvtewayAppLayout>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -228,8 +201,6 @@ export default function SentimentAnalysisPage() {
 
           <Button variant="outlineInk" onClick={() => router.push("/social")}>Back to Social</Button>
           </Stack>
-        </Container>
-      </Section>
 
       <Modal open={!!selectedAlert} onClose={() => setSelectedAlert(null)}>
         <ModalHeader><H3>Alert Details</H3></ModalHeader>
@@ -259,6 +230,6 @@ export default function SentimentAnalysisPage() {
           {selectedAlert?.status !== "Resolved" && <Button variant="solid">Resolve</Button>}
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

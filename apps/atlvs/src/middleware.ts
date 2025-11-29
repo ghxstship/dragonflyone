@@ -3,6 +3,7 @@ import type { NextRequest } from 'next/server';
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
 
 const publicPaths = [
+  '/',
   '/auth/signin',
   '/auth/signup',
   '/auth/forgot-password',
@@ -11,6 +12,12 @@ const publicPaths = [
   '/auth/verify-email',
   '/auth/callback',
   '/api/auth',
+  '/verticals',
+  '/contact',
+  '/demo',
+  '/help',
+  '/about',
+  '/legal',
 ];
 
 const _onboardingPath = '/onboarding';
@@ -28,7 +35,9 @@ export async function middleware(request: NextRequest) {
   const response = NextResponse.next({ request });
 
   // Check if the path is public
-  const isPublicPath = publicPaths.some(path => pathname.startsWith(path));
+  const isPublicPath = publicPaths.some(path => 
+    path === '/' ? pathname === '/' : pathname.startsWith(path)
+  );
   const _isOnboardingPath = pathname.startsWith(_onboardingPath);
 
   // Create Supabase client for middleware

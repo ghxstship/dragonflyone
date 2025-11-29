@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../../components/navigation';
+import { Eye, Check } from 'lucide-react';
+import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   ListPage, Badge, DetailDrawer, RecordFormModal,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig,
@@ -74,8 +75,8 @@ export default function RentalEquipmentPage() {
   const vendorCount = new Set(data.map(r => r.vendor)).size;
 
   const rowActions: ListPageAction<RentalEquipment>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
-    { id: 'return', label: 'Mark Returned', icon: '✅', onClick: (r) => setData(data.map(rec => rec.id === r.id ? { ...rec, status: 'Returned' as const } : rec)) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
+    { id: 'return', label: 'Mark Returned', icon: <Check className="size-4" />, onClick: (r) => setData(data.map(rec => rec.id === r.id ? { ...rec, status: 'Returned' as const } : rec)) },
   ];
 
   const stats = [
@@ -103,7 +104,7 @@ export default function RentalEquipmentPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<RentalEquipment>
         title="Rental Equipment Tracking"
         subtitle="Track third-party rental equipment across all projects"
@@ -119,7 +120,6 @@ export default function RentalEquipmentPage() {
         onExport={() => console.log('Export')}
         stats={stats}
         emptyMessage="No rentals found"
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Assets', href: '/assets' }, { label: 'Rentals' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -127,7 +127,7 @@ export default function RentalEquipmentPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       {selected && (
         <DetailDrawer
@@ -149,6 +149,6 @@ export default function RentalEquipmentPage() {
         fields={formFields}
         onSubmit={async (values) => { console.log('Create rental:', values); setModalOpen(false); }}
       />
-    </>
+    </AtlvsAppLayout>
   );
 }

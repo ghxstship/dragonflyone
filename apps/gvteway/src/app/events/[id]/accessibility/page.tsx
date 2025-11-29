@@ -2,12 +2,11 @@
 
 import { useState } from "react";
 import { useRouter, useParams } from "next/navigation";
-import { ConsumerNavigationPublic } from "@/components/navigation";
+import { GvtewayAppLayout } from "@/components/app-layout";
 import {
-  Container, H2, H3, Body, Label, Grid, Stack, Button,
-  Section, Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter, Input, Select, Textarea, Alert,
-  PageLayout, Footer, FooterColumn, FooterLink, Display, Kicker,
+  H2, H3, Body, Label, Grid, Stack, Button,
+  Card, Tabs, TabsList, Tab, TabPanel, Badge,
+  Modal, ModalHeader, ModalBody, ModalFooter, Input, Select, Textarea, Alert, Kicker,
 } from "@ghxstship/ui";
 
 interface AccessibilityService {
@@ -66,33 +65,7 @@ export default function AccessibilityPage() {
   const [selectedService, setSelectedService] = useState<AccessibilityService | null>(null);
 
   return (
-    <PageLayout
-      background="black"
-      header={<ConsumerNavigationPublic />}
-      footer={
-        <Footer
-          logo={<Display size="md">GVTEWAY</Display>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Events">
-            <FooterLink href="/events">Events</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Legal">
-            <FooterLink href="/legal/privacy">Privacy</FooterLink>
-            <FooterLink href="/legal/terms">Terms</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
+    <GvtewayAppLayout>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -255,8 +228,6 @@ export default function AccessibilityPage() {
             <Button variant="solid" inverted onClick={() => setShowRequestModal(true)}>Request Accommodation</Button>
           </Grid>
           </Stack>
-        </Container>
-      </Section>
 
       <Modal open={showRequestModal} onClose={() => { setShowRequestModal(false); setSelectedService(null); }}>
         <ModalHeader><H3>Request Accessibility Service</H3></ModalHeader>
@@ -303,6 +274,6 @@ export default function AccessibilityPage() {
           <Button variant="solid" onClick={() => { setShowRequestModal(false); setSelectedService(null); }}>Submit Request</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

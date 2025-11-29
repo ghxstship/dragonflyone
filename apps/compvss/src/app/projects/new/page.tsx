@@ -2,10 +2,9 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../../components/navigation';
+import { CompvssAppLayout } from '../../../components/app-layout';
 import {
   Container,
-  Section,
   H2,
   Button,
   Card,
@@ -18,10 +17,9 @@ import {
   Spinner,
   Stack,
   Form,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from '@ghxstship/ui';
+  MainContent,
+} from '@ghxstship/ui';
 
 export default function NewProjectPage() {
   const router = useRouter();
@@ -64,21 +62,19 @@ export default function NewProjectPage() {
   };
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="New Production"
         subtitle="Create a new production project"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Projects', href: '/projects' }, { label: 'New' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
             {error && (
               <Alert variant="error">
@@ -215,7 +211,7 @@ export default function NewProjectPage() {
             </Form>
           </Stack>
         </Container>
-      </Section>
-    </PageLayout>
+      </MainContent>
+    </CompvssAppLayout>
   );
 }

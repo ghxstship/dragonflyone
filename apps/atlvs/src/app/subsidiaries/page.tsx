@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { Eye, Pencil, BarChart3 } from "lucide-react";
+import { AtlvsAppLayout } from "../../components/app-layout";
 import {
   ListPage,
   Badge,
@@ -86,8 +87,8 @@ export default function SubsidiariesPage() {
   const jurisdictions = new Set(subsidiaries.map(s => s.jurisdiction)).size;
 
   const rowActions: ListPageAction<Subsidiary>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedEntity(r); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (r) => router.push(`/subsidiaries/${r.id}/edit`) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedEntity(r); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/subsidiaries/${r.id}/edit`) },
   ];
 
   const stats = [
@@ -117,7 +118,7 @@ export default function SubsidiariesPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<Subsidiary>
         title="Legal Entities & Subsidiaries"
         subtitle="Manage corporate structure and legal entity documentation"
@@ -137,7 +138,6 @@ export default function SubsidiariesPage() {
         stats={stats}
         emptyMessage="No subsidiaries found"
         emptyAction={{ label: 'Add Entity', onClick: () => router.push('/subsidiaries/new') }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Subsidiaries' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -145,7 +145,7 @@ export default function SubsidiariesPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       {selectedEntity && (
         <DetailDrawer
@@ -155,10 +155,10 @@ export default function SubsidiariesPage() {
           title={(e) => e.name}
           subtitle={(e) => `${e.entity_type} • ${e.jurisdiction}`}
           sections={detailSections}
-          actions={[{ id: 'edit', label: 'Edit Entity', icon: '✏️' }, { id: 'orgchart', label: 'Org Chart', icon: '📊' }]}
+          actions={[{ id: 'edit', label: 'Edit Entity', icon: <Pencil className="size-4" /> }, { id: 'orgchart', label: 'Org Chart', icon: <BarChart3 className="size-4" /> }]}
           onAction={(id, e) => { if (id === 'edit') router.push(`/subsidiaries/${e.id}/edit`); setDrawerOpen(false); }}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

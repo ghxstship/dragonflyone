@@ -2,6 +2,7 @@
 
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import clsx from "clsx";
+import { Search, X, ChevronUp, ChevronDown, Check } from "lucide-react";
 
 export interface FilterOption {
   value: string;
@@ -168,7 +169,7 @@ export function SearchFilter({
               compact ? "left-spacing-3 text-body-sm" : "left-spacing-4 text-body-md"
             )}
           >
-            🔍
+            <Search className={compact ? "size-4" : "size-5"} />
           </span>
           {/* Clear Search */}
           {localSearch && (
@@ -180,7 +181,7 @@ export function SearchFilter({
               )}
               aria-label="Clear search"
             >
-              ✕
+              <X className={compact ? "size-4" : "size-5"} />
             </button>
           )}
         </div>
@@ -217,7 +218,7 @@ export function SearchFilter({
                       {groupActiveCount}
                     </span>
                   )}
-                  <span className="text-micro">{isExpanded ? "▲" : "▼"}</span>
+                  {isExpanded ? <ChevronUp className="size-3" /> : <ChevronDown className="size-3" />}
                 </button>
 
                 {/* Dropdown */}
@@ -252,7 +253,7 @@ export function SearchFilter({
                                     : clsx("border-black", isActive ? "bg-black text-white" : "bg-white")
                                 )}
                               >
-                                {isActive && "✓"}
+                                {isActive && <Check className="size-3" />}
                               </span>
                             )}
                             {option.label}
@@ -300,7 +301,7 @@ export function SearchFilter({
                   )}
                 >
                   {option.label}
-                  <span className={inverted ? "text-grey-500" : "text-grey-500"}>✕</span>
+                  <X className="size-3" />
                 </button>
               );
             });

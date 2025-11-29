@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { CompvssAppLayout } from "../../components/app-layout";
 import {
   H3,
   Body,
@@ -14,11 +14,9 @@ import {
   Container,
   Grid,
   Stack,
-  Section,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
+  MainContent,
+} from "@ghxstship/ui";
 import { getBadgeVariant } from "@ghxstship/config";
 
 interface ScheduleItem {
@@ -93,20 +91,20 @@ export default function SchedulePage() {
 
   if (loading) {
     return (
-      <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-        <Section className="min-h-screen py-16">
+      <CompvssAppLayout>
+        <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
             <LoadingSpinner size="lg" text="Loading schedule..." />
           </Container>
-        </Section>
-      </PageLayout>
+        </MainContent>
+      </CompvssAppLayout>
     );
   }
 
   if (error) {
     return (
-      <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-        <Section className="min-h-screen py-16">
+      <CompvssAppLayout>
+        <MainContent padding="lg">
           <Container>
             <EmptyState
               title="Error Loading Schedule"
@@ -114,27 +112,25 @@ export default function SchedulePage() {
               action={{ label: "Retry", onClick: fetchSchedule }}
             />
           </Container>
-        </Section>
-      </PageLayout>
+        </MainContent>
+      </CompvssAppLayout>
     );
   }
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Production Schedule"
         subtitle="Manage production timeline and crew assignments"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Schedule' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
             <Grid cols={4} gap={6}>
               <StatCard
@@ -194,7 +190,7 @@ export default function SchedulePage() {
             )}
           </Stack>
         </Container>
-      </Section>
-    </PageLayout>
+      </MainContent>
+    </CompvssAppLayout>
   );
 }

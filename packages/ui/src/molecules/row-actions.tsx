@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import clsx from "clsx";
+import { Settings, ChevronUp, ChevronDown, MoreVertical } from "lucide-react";
 
 export interface RowAction<T = unknown> {
   /** Unique action identifier */
@@ -140,7 +141,7 @@ export function RowActions<T = unknown>({
           aria-expanded={isOpen}
           aria-haspopup="menu"
         >
-          <span className={clsx(config.triggerIcon, "tracking-widest")}>⋮</span>
+          <MoreVertical className={clsx(config.triggerIcon, "w-4 h-4")} />
         </button>
       );
     }
@@ -158,7 +159,7 @@ export function RowActions<T = unknown>({
           aria-expanded={isOpen}
           aria-haspopup="menu"
         >
-          <span className={size === "sm" ? "text-mono-sm" : "text-body-sm"}>⚙️</span>
+          <Settings className={size === "sm" ? "w-3 h-3" : "w-4 h-4"} />
         </button>
       );
     }
@@ -179,7 +180,7 @@ export function RowActions<T = unknown>({
         aria-haspopup="menu"
       >
         {triggerLabel}
-        <span className="ml-spacing-1 text-micro">{isOpen ? "▲" : "▼"}</span>
+        {isOpen ? <ChevronUp className="ml-spacing-1 w-3 h-3" /> : <ChevronDown className="ml-spacing-1 w-3 h-3" />}
       </button>
     );
   };

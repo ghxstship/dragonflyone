@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../components/navigation';
+import { Eye, Pencil, BarChart3 } from 'lucide-react';
+import { AtlvsAppLayout } from '../../components/app-layout';
 import {
   ListPage, Badge, DetailDrawer, RecordFormModal,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig,
@@ -74,8 +75,8 @@ export default function BudgetsPage() {
   const overBudgetCount = budgets.filter(b => b.status === 'over').length;
 
   const rowActions: ListPageAction<Budget>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Adjust Budget', icon: '✏️', onClick: (r) => router.push(`/budgets/${r.id}/edit`) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Adjust Budget', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/budgets/${r.id}/edit`) },
   ];
 
   const stats = [
@@ -105,7 +106,7 @@ export default function BudgetsPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<Budget>
         title="Budget Management"
         subtitle="Track and analyze financial performance across all budgets"
@@ -123,7 +124,6 @@ export default function BudgetsPage() {
         stats={stats}
         emptyMessage="No budgets found"
         emptyAction={{ label: 'Create Budget', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Budgets' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -131,7 +131,7 @@ export default function BudgetsPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Create Budget" fields={formFields} onSubmit={handleCreate} size="lg" />
       {selected && (
@@ -142,10 +142,10 @@ export default function BudgetsPage() {
           title={(r) => r.name}
           subtitle={(r) => `${r.category} • ${r.status.replace('-', ' ').toUpperCase()}`}
           sections={detailSections}
-          actions={[{ id: 'edit', label: 'Adjust Budget', icon: '✏️' }, { id: 'forecast', label: 'View Forecast', icon: '📊' }]}
+          actions={[{ id: 'edit', label: 'Adjust Budget', icon: <Pencil className="size-4" /> }, { id: 'forecast', label: 'View Forecast', icon: <BarChart3 className="size-4" /> }]}
           onAction={(id, r) => { if (id === 'edit') router.push(`/budgets/${r.id}/edit`); setDrawerOpen(false); }}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

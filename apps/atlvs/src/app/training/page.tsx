@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { Eye, FileEdit, Pencil } from "lucide-react";
+import { AtlvsAppLayout } from "../../components/app-layout";
 import {
   ListPage,
   Badge,
@@ -80,8 +81,8 @@ export default function TrainingPage() {
   const totalEnrolled = programs.reduce((sum, p) => sum + (p.enrolled_count || 0), 0);
 
   const rowActions: ListPageAction<TrainingProgram>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedProgram(r); setDrawerOpen(true); } },
-    { id: 'enroll', label: 'Enroll', icon: '📝', onClick: (r) => router.push(`/training/${r.id}/enroll`) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedProgram(r); setDrawerOpen(true); } },
+    { id: 'enroll', label: 'Enroll', icon: <FileEdit className="size-4" />, onClick: (r) => router.push(`/training/${r.id}/enroll`) },
   ];
 
   const stats = [
@@ -110,7 +111,7 @@ export default function TrainingPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<TrainingProgram>
         title="Training & Development"
         subtitle="Manage training programs and employee development"
@@ -130,7 +131,6 @@ export default function TrainingPage() {
         stats={stats}
         emptyMessage="No training programs found"
         emptyAction={{ label: 'Create Program', onClick: () => router.push('/training/new') }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Training' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -138,7 +138,7 @@ export default function TrainingPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
 
       {selectedProgram && (
@@ -150,8 +150,8 @@ export default function TrainingPage() {
           subtitle={(p) => `${p.category} • ${p.duration_hours} hours`}
           sections={detailSections}
           actions={[
-            { id: 'enroll', label: 'Enroll Employee', icon: '📝' },
-            { id: 'edit', label: 'Edit Program', icon: '✏️' },
+            { id: 'enroll', label: 'Enroll Employee', icon: <FileEdit className="size-4" /> },
+            { id: 'edit', label: 'Edit Program', icon: <Pencil className="size-4" /> },
           ]}
           onAction={(id, p) => {
             if (id === 'enroll') router.push(`/training/${p.id}/enroll`);
@@ -160,6 +160,6 @@ export default function TrainingPage() {
           }}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

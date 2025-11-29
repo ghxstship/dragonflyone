@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../../components/navigation';
+import { Eye, Target, Mail } from 'lucide-react';
+import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   ListPage, Badge, DetailDrawer,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
@@ -71,9 +72,9 @@ export default function LeadScoringPage() {
   const totalPipeline = data.reduce((sum, l) => sum + (l.estimatedValue || 0), 0);
 
   const rowActions: ListPageAction<Lead>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
-    { id: 'convert', label: 'Convert to Deal', icon: '🎯', onClick: (r) => router.push(`/deals/new?lead=${r.id}`) },
-    { id: 'email', label: 'Send Email', icon: '✉️', onClick: (r) => window.location.href = `mailto:${r.email}` },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
+    { id: 'convert', label: 'Convert to Deal', icon: <Target className="size-4" />, onClick: (r) => router.push(`/deals/new?lead=${r.id}`) },
+    { id: 'email', label: 'Send Email', icon: <Mail className="size-4" />, onClick: (r) => window.location.href = `mailto:${r.email}` },
   ];
 
   const stats = [
@@ -104,7 +105,7 @@ export default function LeadScoringPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<Lead>
         title="Lead Scoring & Qualification"
         subtitle="Automated lead scoring, grading, and qualification workflows"
@@ -119,15 +120,14 @@ export default function LeadScoringPage() {
         onExport={() => console.log('Export leads')}
         stats={stats}
         emptyMessage="No leads found"
-        header={<CreatorNavigationAuthenticated
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Crm', href: '/crm' }, { label: 'Lead Scoring' }]}
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'CRM', href: '/crm' }, { label: 'Lead Scoring' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       {selected && (
         <DetailDrawer
@@ -141,6 +141,6 @@ export default function LeadScoringPage() {
           onAction={(id, r) => { if (id === 'convert') router.push(`/deals/new?lead=${r.id}`); if (id === 'email') window.location.href = `mailto:${r.email}`; setDrawerOpen(false); }}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

@@ -2,14 +2,37 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../../components/navigation";
+import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
-  Container, H3, Body, Label, Grid, Stack, StatCard, Select, Button,
-  Section, Card, Tabs, TabsList, Tab, TabPanel, Badge, Alert, PageLayout, SectionHeader,
-  Modal, ModalHeader, ModalBody, ModalFooter,
-  Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
+  Container,
+  H3,
+  Body,
+  Label,
+  Grid,
+  Stack,
+  StatCard,
+  Select,
+  Button,
+  Card,
+  Tabs,
+  TabsList,
+  Tab,
+  TabPanel,
+  Badge,
+  Alert,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
   EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
+  MainContent,
+} from "@ghxstship/ui";
 
 interface UnionLocal {
   id: string;
@@ -65,21 +88,19 @@ export default function UnionCompliancePage() {
   };
 
   return (
-    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <EnterprisePageHeader
+    <AtlvsAppLayout>
+      <EnterprisePageHeader
         title="Union Compliance"
         subtitle="Union rules, agreements, and compliance tracking"
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Workforce', href: '/workforce' }, { label: 'Union Compliance' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
           {expiringCount > 0 && (
             <Alert variant="warning">
@@ -191,9 +212,6 @@ export default function UnionCompliancePage() {
               <Button variant="outline" className="border-grey-700 text-grey-400" onClick={() => router.push("/employees")}>Employees</Button>
               <Button variant="outline" className="border-grey-700 text-grey-400" onClick={() => router.push("/")}>Dashboard</Button>
             </Grid>
-          </Stack>
-        </Container>
-      </Section>
 
       <Modal open={!!selectedLocal} onClose={() => setSelectedLocal(null)}>
         <ModalHeader><H3>{selectedLocal?.name}</H3></ModalHeader>
@@ -238,6 +256,9 @@ export default function UnionCompliancePage() {
           <Button variant="outline" onClick={() => setSelectedRule(null)}>Close</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+          </Stack>
+        </Container>
+      </MainContent>
+    </AtlvsAppLayout>
   );
 }

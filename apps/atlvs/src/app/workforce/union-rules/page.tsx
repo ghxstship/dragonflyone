@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../../components/navigation';
+import { Eye, Pencil, Trash2 } from 'lucide-react';
+import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   ListPage, Badge, DetailDrawer,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
@@ -59,8 +60,8 @@ export default function UnionRulesPage() {
   const totalPenalties = data.filter((r) => r.penaltyAmount).reduce((sum, r) => sum + (r.penaltyAmount || 0), 0);
 
   const rowActions: ListPageAction<UnionRule>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Edit Rule', icon: '✏️', onClick: (r) => console.log('Edit rule', r.id) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit Rule', icon: <Pencil className="size-4" />, onClick: (r) => console.log('Edit rule', r.id) },
   ];
 
   const stats = [
@@ -85,7 +86,7 @@ export default function UnionRulesPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<UnionRule>
         title="Union Rules & Compliance"
         subtitle="Track union rules, agreements, and compliance across all projects"
@@ -100,7 +101,6 @@ export default function UnionRulesPage() {
         onExport={() => console.log('Export')}
         stats={stats}
         emptyMessage="No union rules found"
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Workforce', href: '/workforce' }, { label: 'Union Rules' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -108,7 +108,7 @@ export default function UnionRulesPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       {selected && (
         <DetailDrawer
@@ -118,10 +118,10 @@ export default function UnionRulesPage() {
           title={(r) => r.rule}
           subtitle={(r) => `${r.union} • ${r.category}`}
           sections={detailSections}
-          actions={[{ id: 'edit', label: 'Edit Rule', icon: '✏️' }, { id: 'delete', label: 'Delete', icon: '🗑️' }]}
+          actions={[{ id: 'edit', label: 'Edit Rule', icon: <Pencil className="size-4" /> }, { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" /> }]}
           onAction={(id, r) => { console.log(id, r.id); setDrawerOpen(false); }}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

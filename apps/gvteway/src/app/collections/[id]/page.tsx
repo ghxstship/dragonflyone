@@ -2,10 +2,8 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { ConsumerNavigationPublic } from '@/components/navigation';
+import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
-  Container,
-  Section,
   H2,
   Body,
   Button,
@@ -13,13 +11,7 @@ import {
   Grid,
   Stack,
   Badge,
-  LoadingSpinner,
   ProjectCard,
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Display,
   Kicker,
 } from '@ghxstship/ui';
 
@@ -75,37 +67,13 @@ export default function CollectionPage() {
     router.push(`/events/${eventId}`);
   };
 
-  const footerContent = (
-    <Footer
-      logo={<Display size="md">GVTEWAY</Display>}
-      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-    >
-      <FooterColumn title="Discover">
-        <FooterLink href="/discover">Discover</FooterLink>
-        <FooterLink href="/collections">Collections</FooterLink>
-      </FooterColumn>
-      <FooterColumn title="Legal">
-        <FooterLink href="/legal/privacy">Privacy</FooterLink>
-        <FooterLink href="/legal/terms">Terms</FooterLink>
-      </FooterColumn>
-    </Footer>
-  );
-
   if (loading) {
-    return (
-      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
-        <Section background="black" className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading collection..." />
-        </Section>
-      </PageLayout>
-    );
+    return <GvtewayLoadingLayout />;
   }
 
   if (error || !collection) {
     return (
-      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
-        <Section background="black" className="min-h-screen py-16">
-          <Container>
+      <GvtewayAppLayout>
             <Card inverted className="p-12 text-center">
               <H2 className="mb-4 text-white">Collection Not Found</H2>
               <Body className="text-on-dark-muted mb-6">
@@ -115,23 +83,12 @@ export default function CollectionPage() {
                 Browse Collections
               </Button>
             </Card>
-          </Container>
-        </Section>
-      </PageLayout>
+      </GvtewayAppLayout>
     );
   }
 
   return (
-    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
+    <GvtewayAppLayout>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -154,7 +111,7 @@ export default function CollectionPage() {
                 key={event.id}
                 title={event.title}
                 image={event.image || ''}
-                metadata={`${event.date} • ${event.venue}`}
+                metadata={`${event.date} - ${event.venue}`}
                 tags={[event.category]}
                 onClick={() => handleEventClick(event.id)}
               />
@@ -170,8 +127,6 @@ export default function CollectionPage() {
               Back to Discover
             </Button>
           </Stack>
-        </Container>
-      </Section>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

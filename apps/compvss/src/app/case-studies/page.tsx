@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { CompvssAppLayout } from "../../components/app-layout";
 import {
   Container,
   H3,
@@ -13,17 +13,15 @@ import {
   Input,
   Select,
   Button,
-  Section,
   Card,
   Badge,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
+  MainContent,
+} from "@ghxstship/ui";
 
 interface CaseStudy {
   id: string;
@@ -61,22 +59,19 @@ export default function CaseStudiesPage() {
   });
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            {/* Page Header */}
-            <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Case Studies"
         subtitle="Project post-mortems and lessons learned"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Case Studies' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
             {/* Stats Grid */}
             <Grid cols={4} gap={6}>
@@ -124,7 +119,7 @@ export default function CaseStudiesPage() {
             <Button variant="outline" onClick={() => router.push("/knowledge")}>Knowledge Base</Button>
           </Stack>
         </Container>
-      </Section>
+      </MainContent>
 
       {/* Detail Modal */}
       <Modal open={!!selectedStudy} onClose={() => setSelectedStudy(null)}>
@@ -177,6 +172,6 @@ export default function CaseStudiesPage() {
           <Button variant="solid">Download PDF</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </CompvssAppLayout>
   );
 }

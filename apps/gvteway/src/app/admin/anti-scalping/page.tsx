@@ -2,10 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ConsumerNavigationPublic } from '@/components/navigation';
+import { GvtewayAppLayout } from '@/components/app-layout';
 import {
-  Container,
-  Section,
   H2,
   H3,
   Body,
@@ -34,11 +32,6 @@ import {
   TableRow,
   TableHead,
   TableCell,
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Display,
   Kicker,
 } from '@ghxstship/ui';
 
@@ -197,34 +190,7 @@ export default function AntiScalpingPage() {
   const ticketsProtected = alerts.filter(a => a.status === 'blocked').reduce((sum, a) => sum + a.ticket_count, 0);
 
   return (
-    <PageLayout
-      background="black"
-      header={<ConsumerNavigationPublic />}
-      footer={
-        <Footer
-          logo={<Display size="md">GVTEWAY</Display>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Admin">
-            <FooterLink href="/admin">Dashboard</FooterLink>
-            <FooterLink href="/admin/anti-scalping">Anti-Scalping</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Legal">
-            <FooterLink href="/legal/privacy">Privacy</FooterLink>
-            <FooterLink href="/legal/terms">Terms</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
+    <GvtewayAppLayout>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack direction="horizontal" className="items-center justify-between">
@@ -480,8 +446,6 @@ export default function AntiScalpingPage() {
             Back to Admin
           </Button>
           </Stack>
-        </Container>
-      </Section>
 
       <Modal open={!!selectedAlert} onClose={() => setSelectedAlert(null)}>
         <ModalHeader><H3>Alert Details</H3></ModalHeader>
@@ -572,6 +536,6 @@ export default function AntiScalpingPage() {
           <Button variant="solid" onClick={handleAddBlock}>Block</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

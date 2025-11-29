@@ -2,10 +2,21 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../components/navigation';
-import { H3, Body, Button, Card, Badge, Grid, Stack, Container, LoadingSpinner, Section, PageLayout, SectionHeader, StatCard,
+import { CompvssAppLayout } from '../../components/app-layout';
+import {
+  H3,
+  Body,
+  Button,
+  Card,
+  Badge,
+  Grid,
+  Stack,
+  Container,
+  LoadingSpinner,
+  StatCard,
   EnterprisePageHeader,
-  MainContent,} from '@ghxstship/ui';
+  MainContent,
+} from '@ghxstship/ui';
 import { useProjects } from '../../hooks/useProjects';
 
 export default function ProjectsPage() {
@@ -23,40 +34,31 @@ export default function ProjectsPage() {
 
   if (isLoading) {
     return (
-      <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-        <Section className="min-h-screen py-16">
+      <CompvssAppLayout>
+        <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
             <LoadingSpinner size="lg" text="Loading projects..." />
           </Container>
-        </Section>
-      </PageLayout>
+        </MainContent>
+      </CompvssAppLayout>
     );
   }
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <Stack direction="horizontal" className="items-start justify-between">
-              <EnterprisePageHeader
-        title="Production Projects"
-        subtitle="Manage events and production workflows"
+    <CompvssAppLayout>
+      <EnterprisePageHeader
+        title="Projects"
+        subtitle="Manage production projects and events"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Projects' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
+        primaryAction={canCreateProject ? { label: 'New Project', onClick: () => router.push('/projects/new') } : undefined}
         showFavorite
         showSettings
       />
-              {canCreateProject && (
-                <Button variant="solid" onClick={() => router.push('/projects/new')}>
-                  New Project
-                </Button>
-              )}
-            </Stack>
-
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
             <Grid cols={3} gap={6}>
               <StatCard value={filteredProjects.length.toString()} label="Total Projects" />
               <StatCard value={`$${(totalBudget / 1000000).toFixed(1)}M`} label="Total Budget" />
@@ -140,7 +142,7 @@ export default function ProjectsPage() {
             </Stack>
           </Stack>
         </Container>
-      </Section>
-    </PageLayout>
+      </MainContent>
+    </CompvssAppLayout>
   );
 }

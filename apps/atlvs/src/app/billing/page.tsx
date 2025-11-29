@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { Eye, Mail, Trash2 } from "lucide-react";
+import { AtlvsAppLayout } from "../../components/app-layout";
 import {
   ListPage,
   Badge,
@@ -109,14 +110,14 @@ export default function BillingPage() {
   useEffect(() => { fetchInvoices(); }, [fetchInvoices]);
 
   const rowActions: ListPageAction<Invoice>[] = [
-    { id: 'view', label: 'View', icon: '👁️', onClick: (r) => { setSelectedInvoice(r); setDrawerOpen(true); } },
-    { id: 'send', label: 'Send', icon: '📧', onClick: async (r) => {
+    { id: 'view', label: 'View', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedInvoice(r); setDrawerOpen(true); } },
+    { id: 'send', label: 'Send', icon: <Mail className="size-4" />, onClick: async (r) => {
       try {
         const res = await fetch(`/api/invoices/${r.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'send' }) });
         if (res.ok) { addNotification({ type: 'success', title: 'Success', message: 'Invoice sent' }); fetchInvoices(); }
       } catch { addNotification({ type: 'error', title: 'Error', message: 'Failed to send' }); }
     }},
-    { id: 'delete', label: 'Delete', icon: '🗑️', variant: 'danger', onClick: (r) => { setInvoiceToDelete(r); setDeleteConfirmOpen(true); } },
+    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (r) => { setInvoiceToDelete(r); setDeleteConfirmOpen(true); } },
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
@@ -156,7 +157,7 @@ export default function BillingPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<Invoice>
         title="Client Billing"
         subtitle="Manage invoices and track payments"
@@ -176,7 +177,6 @@ export default function BillingPage() {
         stats={stats}
         emptyMessage="No invoices found"
         emptyAction={{ label: 'Create Invoice', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Billing' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -184,11 +184,11 @@ export default function BillingPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Create Invoice" fields={formFields} onSubmit={handleCreate} size="lg" />
       <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedInvoice} title={(i) => i.invoice_number} subtitle={(i) => i.client?.name || 'No client'} sections={detailSections} onEdit={(i) => router.push(`/billing/invoices/${i.id}/edit`)} onDelete={(i) => { setInvoiceToDelete(i); setDeleteConfirmOpen(true); setDrawerOpen(false); }} />
       <ConfirmDialog open={deleteConfirmOpen} title="Delete Invoice" message={`Delete invoice "${invoiceToDelete?.invoice_number}"?`} variant="danger" confirmLabel="Delete" onConfirm={handleDelete} onCancel={() => { setDeleteConfirmOpen(false); setInvoiceToDelete(null); }} />
-    </>
+    </AtlvsAppLayout>
   );
 }

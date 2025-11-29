@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../../components/navigation";
+import { CompvssAppLayout } from "../../../components/app-layout";
 import {
   Container,
   H3,
@@ -11,7 +11,6 @@ import {
   Stack,
   StatCard,
   Button,
-  Section,
   Card,
   Tabs,
   TabsList,
@@ -23,10 +22,9 @@ import {
   ModalBody,
   ModalFooter,
   Textarea,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
+  MainContent,
+} from "@ghxstship/ui";
 
 interface BidOpportunity {
   id: string;
@@ -87,21 +85,19 @@ export default function BidDecisionPage() {
     mockOpportunities.filter(o => o.status.toLowerCase().replace(" ", "") === activeTab);
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Bid/No-Bid Decisions"
         subtitle="Opportunity evaluation and decision workflow"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Opportunities', href: '/opportunities' }, { label: 'Bid Decision' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
             <Grid cols={4} gap={6}>
               <StatCard label="Pending Review" value={pendingCount.toString()} />
@@ -161,7 +157,7 @@ export default function BidDecisionPage() {
             </Grid>
           </Stack>
         </Container>
-      </Section>
+      </MainContent>
 
       <Modal open={!!selectedOpp} onClose={() => setSelectedOpp(null)}>
         <ModalHeader><H3>Evaluate Opportunity</H3></ModalHeader>
@@ -215,6 +211,6 @@ export default function BidDecisionPage() {
           <Button variant="solid">Bid</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </CompvssAppLayout>
   );
 }

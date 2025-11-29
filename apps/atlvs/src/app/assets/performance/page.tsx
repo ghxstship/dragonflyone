@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../../components/navigation';
+import { Eye, Wrench } from 'lucide-react';
+import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   ListPage, Badge, DetailDrawer,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
@@ -63,8 +64,8 @@ export default function AssetPerformancePage() {
   const atRiskCount = data.filter(a => a.predictedFailure).length;
 
   const rowActions: ListPageAction<AssetPerformance>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
-    { id: 'maintenance', label: 'Schedule Maintenance', icon: '🔧', onClick: (r) => router.push(`/assets/maintenance?asset=${r.id}`) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
+    { id: 'maintenance', label: 'Schedule Maintenance', icon: <Wrench className="size-4" />, onClick: (r) => router.push(`/assets/maintenance?asset=${r.id}`) },
   ];
 
   const stats = [
@@ -92,7 +93,7 @@ export default function AssetPerformancePage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<AssetPerformance>
         title="Asset Performance Analytics"
         subtitle="Performance metrics and failure prediction for all assets"
@@ -107,7 +108,6 @@ export default function AssetPerformancePage() {
         onExport={() => console.log('Export')}
         stats={stats}
         emptyMessage="No performance data found"
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Assets', href: '/assets' }, { label: 'Performance' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -115,7 +115,7 @@ export default function AssetPerformancePage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       {selected && (
         <DetailDrawer
@@ -129,6 +129,6 @@ export default function AssetPerformancePage() {
           onAction={(id, r) => { if (id === 'maintenance') router.push(`/assets/maintenance?asset=${r.id}`); setDrawerOpen(false); }}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

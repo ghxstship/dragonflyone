@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { CompvssAppLayout } from "../../components/app-layout";
 import {
   Container,
   H3,
@@ -13,7 +13,6 @@ import {
   Input,
   Select,
   Button,
-  Section,
   Card,
   Tabs,
   TabsList,
@@ -32,10 +31,9 @@ import {
   TableRow,
   TableHead,
   TableCell,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
+  MainContent,
+} from "@ghxstship/ui";
 
 interface TechRehearsalSession {
   id: string;
@@ -111,21 +109,20 @@ export default function TechRehearsalPage() {
   };
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Technical Rehearsals"
         subtitle="Schedule and manage tech rehearsals, sound checks, and run-throughs"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Tech Rehearsal' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
+        primaryAction={{ label: 'Schedule Rehearsal', onClick: () => setShowAddModal(true) }}
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
             <Grid cols={4} gap={6}>
               <StatCard label="Today Sessions" value={todaySessions.length.toString()} />
@@ -251,7 +248,7 @@ export default function TechRehearsalPage() {
             </Grid>
           </Stack>
         </Container>
-      </Section>
+      </MainContent>
 
       <Modal open={showAddModal} onClose={() => setShowAddModal(false)}>
         <ModalHeader><H3>Schedule Rehearsal</H3></ModalHeader>
@@ -355,6 +352,6 @@ export default function TechRehearsalPage() {
           {selectedSession?.status === "Scheduled" && <Button variant="solid">Start Session</Button>}
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </CompvssAppLayout>
   );
 }

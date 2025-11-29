@@ -2,14 +2,38 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../../components/navigation';
+import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
-  Container, H3, Body, Label, Grid, Stack, StatCard, Select, Input,
-  Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Button,
-  Section, Card, Tabs, TabsList, Tab, Badge, PageLayout, SectionHeader,
-  Modal, ModalHeader, ModalBody, ModalFooter, ProgressBar, Alert,
+  Container,
+  H3,
+  Body,
+  Label,
+  Grid,
+  Stack,
+  StatCard,
+  Select,
+  Input,
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+  Button,
+  Card,
+  Tabs,
+  TabsList,
+  Tab,
+  Badge,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  ProgressBar,
+  Alert,
   EnterprisePageHeader,
-  MainContent,} from '@ghxstship/ui';
+  MainContent,
+} from '@ghxstship/ui';
 
 interface VendorAudit {
   id: string;
@@ -67,21 +91,19 @@ export default function VendorAuditsPage() {
     : mockAudits;
 
   return (
-    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <EnterprisePageHeader
+    <AtlvsAppLayout>
+      <EnterprisePageHeader
         title="Vendor Audit & Evaluation"
         subtitle="Schedule and track vendor audits and evaluations"
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Procurement', href: '/procurement' }, { label: 'Vendor Audits' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
           <Grid cols={4} gap={6}>
             <StatCard label="Upcoming Audits" value={upcomingAudits.length} className="bg-transparent border-2 border-ink-800" />
@@ -146,9 +168,6 @@ export default function VendorAuditsPage() {
           </Table>
 
             <Button variant="outline" className="border-grey-700 text-grey-400" onClick={() => router.push('/procurement')}>Back to Procurement</Button>
-          </Stack>
-        </Container>
-      </Section>
 
       <Modal open={!!selectedAudit} onClose={() => setSelectedAudit(null)}>
         <ModalHeader><H3>Audit Details</H3></ModalHeader>
@@ -231,6 +250,9 @@ export default function VendorAuditsPage() {
           <Button variant="solid" onClick={() => setShowScheduleModal(false)}>Schedule</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+          </Stack>
+        </Container>
+      </MainContent>
+    </AtlvsAppLayout>
   );
 }

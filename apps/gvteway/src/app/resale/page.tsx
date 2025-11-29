@@ -2,17 +2,13 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { ConsumerNavigationPublic } from "@/components/navigation";
+import { Eye, ShoppingCart, X } from "lucide-react";
+import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   ListPage,
   Badge,
   DetailDrawer,
   ConfirmDialog,
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Display,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -103,9 +99,9 @@ export default function ResalePage() {
   const totalValue = listings.reduce((sum, l) => sum + l.asking_price, 0);
 
   const rowActions: ListPageAction<ResaleListing>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedListing(r); setDrawerOpen(true); } },
-    { id: 'buy', label: 'Buy Now', icon: '🛒', onClick: (r) => router.push(`/checkout?listing=${r.id}`) },
-    { id: 'cancel', label: 'Cancel', icon: '❌', onClick: (r) => { setSelectedListing(r); setDeleteConfirmOpen(true); }, variant: 'danger' },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedListing(r); setDrawerOpen(true); } },
+    { id: 'buy', label: 'Buy Now', icon: <ShoppingCart className="size-4" />, onClick: (r) => router.push(`/checkout?listing=${r.id}`) },
+    { id: 'cancel', label: 'Cancel', icon: <X className="size-4" />, onClick: (r) => { setSelectedListing(r); setDeleteConfirmOpen(true); }, variant: 'danger' },
   ];
 
   const stats = [
@@ -134,24 +130,8 @@ export default function ResalePage() {
     )},
   ] : [];
 
-  const footerContent = (
-    <Footer
-      logo={<Display size="md">GVTEWAY</Display>}
-      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-    >
-      <FooterColumn title="Marketplace">
-        <FooterLink href="/resale">Resale</FooterLink>
-        <FooterLink href="/events">Events</FooterLink>
-      </FooterColumn>
-      <FooterColumn title="Legal">
-        <FooterLink href="/legal/privacy">Privacy</FooterLink>
-        <FooterLink href="/legal/terms">Terms</FooterLink>
-      </FooterColumn>
-    </Footer>
-  );
-
   return (
-    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+    <GvtewayAppLayout>
       <ListPage<ResaleListing>
         title="Ticket Resale"
         subtitle="Buy and sell tickets safely through our verified marketplace"
@@ -180,7 +160,7 @@ export default function ResalePage() {
           title={(l) => l.event_name}
           subtitle={(l) => `${l.venue_name} • ${formatCurrency(l.asking_price)}`}
           sections={detailSections}
-          actions={[{ id: 'buy', label: 'Buy Now', icon: '🛒' }]}
+          actions={[{ id: 'buy', label: 'Buy Now', icon: <ShoppingCart className="size-4" /> }]}
           onAction={(id, l) => { if (id === 'buy') router.push(`/checkout?listing=${l.id}`); setDrawerOpen(false); }}
         />
       )}
@@ -193,6 +173,6 @@ export default function ResalePage() {
         onConfirm={handleDelete}
         variant="danger"
       />
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

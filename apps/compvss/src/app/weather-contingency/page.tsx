@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { CompvssAppLayout } from "../../components/app-layout";
 import {
   Container,
   H3,
@@ -12,7 +12,6 @@ import {
   StatCard,
   Select,
   Button,
-  Section,
   Card,
   Tabs,
   TabsList,
@@ -25,10 +24,9 @@ import {
   ModalBody,
   ModalFooter,
   Textarea,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
+  MainContent,
+} from "@ghxstship/ui";
 
 interface WeatherPlan {
   id: string;
@@ -141,11 +139,8 @@ export default function WeatherContingencyPage() {
   };
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Weather Contingency Planning"
         subtitle="Monitor conditions and manage weather-related contingency plans"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Weather Contingency' }]}
@@ -156,7 +151,9 @@ export default function WeatherContingencyPage() {
         showFavorite
         showSettings
       />
-
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
             <Grid cols={4} gap={6}>
               <StatCard label="Active Plans" value={activePlans.toString()} />
               <StatCard label="Triggered" value={triggeredPlans.toString()} />
@@ -254,7 +251,7 @@ export default function WeatherContingencyPage() {
             </Grid>
           </Stack>
         </Container>
-      </Section>
+      </MainContent>
 
       <Modal open={!!selectedPlan} onClose={() => setSelectedPlan(null)}>
         <ModalHeader><H3>Weather Plan Details</H3></ModalHeader>
@@ -318,6 +315,6 @@ export default function WeatherContingencyPage() {
           <Button variant="solid" onClick={() => setShowCreateModal(false)}>Create</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </CompvssAppLayout>
   );
 }

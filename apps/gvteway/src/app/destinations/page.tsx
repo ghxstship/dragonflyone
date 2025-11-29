@@ -2,28 +2,20 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { ConsumerNavigationPublic } from "@/components/navigation";
+import { GvtewayAppLayout, GvtewayLoadingLayout, GvtewayEmptyLayout } from "@/components/app-layout";
 import {
   H2,
   Body,
   StatCard,
   Select,
   Badge,
-  LoadingSpinner,
-  EmptyState,
-  Container,
   Grid,
   Stack,
   Card,
-  Section,
   Input,
   Field,
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Display,
   Kicker,
+  EmptyState,
 } from "@ghxstship/ui";
 
 interface Destination {
@@ -91,60 +83,22 @@ export default function DestinationsPage() {
     }).format(amount);
   };
 
-  const footerContent = (
-    <Footer
-      logo={<Display size="md">GVTEWAY</Display>}
-      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-    >
-      <FooterColumn title="Discover">
-        <FooterLink href="/events">Events</FooterLink>
-        <FooterLink href="/destinations">Destinations</FooterLink>
-      </FooterColumn>
-      <FooterColumn title="Legal">
-        <FooterLink href="/legal/privacy">Privacy</FooterLink>
-        <FooterLink href="/legal/terms">Terms</FooterLink>
-      </FooterColumn>
-    </Footer>
-  );
-
   if (loading) {
-    return (
-      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
-        <Section background="black" className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading destinations..." />
-        </Section>
-      </PageLayout>
-    );
+    return <GvtewayLoadingLayout text="Loading destinations..." />;
   }
 
   if (error) {
     return (
-      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
-        <Section background="black" className="min-h-screen py-16">
-          <Container>
-            <EmptyState
-              title="Error Loading Destinations"
-              description={error}
-              action={{ label: "Retry", onClick: fetchDestinations }}
-              inverted
-            />
-          </Container>
-        </Section>
-      </PageLayout>
+      <GvtewayEmptyLayout
+        title="Error Loading Destinations"
+        description={error}
+        action={{ label: "Retry", onClick: fetchDestinations }}
+      />
     );
   }
 
   return (
-    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
+    <GvtewayAppLayout>
           <Stack gap={8}>
             <Stack gap={2}>
               <Kicker colorScheme="on-dark">Explore</Kicker>
@@ -298,8 +252,6 @@ export default function DestinationsPage() {
             </Grid>
           )}
           </Stack>
-        </Container>
-      </Section>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

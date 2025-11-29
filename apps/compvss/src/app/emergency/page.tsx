@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { CompvssAppLayout } from "../../components/app-layout";
 import {
   Container,
   H3,
@@ -10,7 +10,6 @@ import {
   Grid,
   Stack,
   Button,
-  Section,
   Card,
   Tabs,
   TabsList,
@@ -22,10 +21,9 @@ import {
   ModalBody,
   ModalFooter,
   Alert,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
+  MainContent,
+} from "@ghxstship/ui";
 
 interface EmergencyContact {
   id: string;
@@ -74,22 +72,19 @@ export default function EmergencyPage() {
   const [selectedContact, setSelectedContact] = useState<EmergencyContact | null>(null);
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            {/* Page Header */}
-            <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Emergency Procedures"
         subtitle="Contact tree, emergency protocols, and response procedures"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Emergency' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
             {/* Emergency Alert */}
             <Alert variant="warning">
@@ -230,7 +225,7 @@ export default function EmergencyPage() {
             </Grid>
           </Stack>
         </Container>
-      </Section>
+      </MainContent>
 
       {/* Procedure Modal */}
       <Modal open={!!selectedProcedure} onClose={() => setSelectedProcedure(null)}>
@@ -286,6 +281,6 @@ export default function EmergencyPage() {
           <Button variant="outline" onClick={() => setShowCallModal(false)}>Cancel</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </CompvssAppLayout>
   );
 }

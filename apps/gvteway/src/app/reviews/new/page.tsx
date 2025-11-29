@@ -2,10 +2,8 @@
 
 import { useState, useEffect, useCallback, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { ConsumerNavigationPublic } from '@/components/navigation';
+import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
-  Container,
-  Section,
   H2,
   H3,
   Body,
@@ -18,14 +16,8 @@ import {
   Grid,
   Stack,
   Alert,
-  LoadingSpinner,
   Figure,
   Form,
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Display,
   Kicker,
 } from '@ghxstship/ui';
 import Image from 'next/image';
@@ -164,37 +156,13 @@ function NewReviewContent() {
     </Stack>
   );
 
-  const footerContent = (
-    <Footer
-      logo={<Display size="md">GVTEWAY</Display>}
-      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-    >
-      <FooterColumn title="Reviews">
-        <FooterLink href="/reviews">Reviews</FooterLink>
-        <FooterLink href="/my-events">My Events</FooterLink>
-      </FooterColumn>
-      <FooterColumn title="Legal">
-        <FooterLink href="/legal/privacy">Privacy</FooterLink>
-        <FooterLink href="/legal/terms">Terms</FooterLink>
-      </FooterColumn>
-    </Footer>
-  );
-
   if (loading) {
-    return (
-      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
-        <Section background="black" className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading..." />
-        </Section>
-      </PageLayout>
-    );
+    return <GvtewayLoadingLayout />;
   }
 
   if (!event) {
     return (
-      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
-        <Section background="black" className="min-h-screen py-16">
-          <Container>
+      <GvtewayAppLayout>
             <Card inverted className="p-12 text-center mt-12">
               <H2 className="mb-4 text-white">Event Not Found</H2>
               <Body className="text-on-dark-muted mb-6">
@@ -204,41 +172,25 @@ function NewReviewContent() {
                 View My Events
               </Button>
             </Card>
-          </Container>
-        </Section>
-      </PageLayout>
+      </GvtewayAppLayout>
     );
   }
 
   if (success) {
     return (
-      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
-        <Section background="black" className="min-h-screen py-16">
-          <Container>
+      <GvtewayAppLayout>
             <Card inverted className="p-12 text-center mt-12">
               <H2 className="mb-4 text-white">Thank You!</H2>
               <Body className="text-on-dark-muted mb-6">
                 Your review has been submitted successfully.
               </Body>
-              <LoadingSpinner size="sm" />
             </Card>
-          </Container>
-        </Section>
-      </PageLayout>
+      </GvtewayAppLayout>
     );
   }
 
   return (
-    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
+    <GvtewayAppLayout>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -371,36 +323,13 @@ function NewReviewContent() {
           </Stack>
         </Grid>
           </Stack>
-        </Container>
-      </Section>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }
 
 export default function NewReviewPage() {
-  const fallbackFooter = (
-    <Footer
-      logo={<Display size="md">GVTEWAY</Display>}
-      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-    >
-      <FooterColumn title="Reviews">
-        <FooterLink href="/reviews">Reviews</FooterLink>
-      </FooterColumn>
-      <FooterColumn title="Legal">
-        <FooterLink href="/legal/privacy">Privacy</FooterLink>
-        <FooterLink href="/legal/terms">Terms</FooterLink>
-      </FooterColumn>
-    </Footer>
-  );
-
   return (
-    <Suspense fallback={
-      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={fallbackFooter}>
-        <Section background="black" className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading..." />
-        </Section>
-      </PageLayout>
-    }>
+    <Suspense fallback={<GvtewayLoadingLayout />}>
       <NewReviewContent />
     </Suspense>
   );

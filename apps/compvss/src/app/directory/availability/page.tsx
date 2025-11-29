@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../../components/navigation";
+import { CompvssAppLayout } from "../../../components/app-layout";
 import {
   Container,
   H3,
@@ -12,17 +12,15 @@ import {
   StatCard,
   Select,
   Button,
-  Section,
   Card,
   Badge,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
+  MainContent,
+} from "@ghxstship/ui";
 
 interface CrewAvailability {
   id: string;
@@ -62,21 +60,19 @@ export default function AvailabilityPage() {
   const availableCount = mockCrew.filter(c => c.status === "Available").length;
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Availability Calendar"
         subtitle="Crew availability integration with calendars"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Directory', href: '/directory' }, { label: 'Availability' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
             <Grid cols={4} gap={6}>
               <StatCard value={mockCrew.length.toString()} label="Total Crew" />
@@ -181,7 +177,7 @@ export default function AvailabilityPage() {
             </Grid>
           </Stack>
         </Container>
-      </Section>
+      </MainContent>
 
       <Modal open={!!selectedCrew} onClose={() => setSelectedCrew(null)}>
         <ModalHeader><H3>{selectedCrew?.name}</H3></ModalHeader>
@@ -233,6 +229,6 @@ export default function AvailabilityPage() {
           <Button variant="solid">Book Crew</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </CompvssAppLayout>
   );
 }

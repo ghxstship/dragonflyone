@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../../components/navigation';
+import { CompvssAppLayout } from '../../../components/app-layout';
 import {
   Container,
   H3,
@@ -18,7 +18,6 @@ import {
   TableHead,
   TableCell,
   Button,
-  Section,
   Card,
   Tabs,
   TabsList,
@@ -30,10 +29,9 @@ import {
   ModalFooter,
   ProgressBar,
   Alert,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from '@ghxstship/ui';
+  MainContent,
+} from '@ghxstship/ui';
 
 interface OfflineContent {
   id: string;
@@ -103,21 +101,19 @@ export default function OfflineAccessPage() {
   };
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Offline Access"
         subtitle="Download content for mobile-optimized offline access"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Knowledge', href: '/knowledge' }, { label: 'Offline' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
             <Grid cols={4} gap={6}>
               <StatCard label="Synced Content" value={syncedCount.toString()} />
@@ -274,7 +270,7 @@ export default function OfflineAccessPage() {
             <Button variant="outline" onClick={() => router.push('/knowledge')}>Back to Knowledge Base</Button>
           </Stack>
         </Container>
-      </Section>
+      </MainContent>
 
       <Modal open={!!selectedPackage} onClose={() => setSelectedPackage(null)}>
         <ModalHeader><H3>{selectedPackage?.name}</H3></ModalHeader>
@@ -306,6 +302,6 @@ export default function OfflineAccessPage() {
           )}
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </CompvssAppLayout>
   );
 }

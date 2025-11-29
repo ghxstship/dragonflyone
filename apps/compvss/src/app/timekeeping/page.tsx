@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { CompvssAppLayout } from "../../components/app-layout";
 import { useTimekeeping, useApproveTimeEntry } from "../../hooks/useTimekeeping";
 import {
   StatCard,
@@ -20,12 +20,10 @@ import {
   Container,
   Grid,
   Stack,
-  Section,
   Body,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
+  MainContent,
+} from "@ghxstship/ui";
 
 export default function TimekeepingPage() {
   const router = useRouter();
@@ -55,32 +53,40 @@ export default function TimekeepingPage() {
 
   if (isLoading) {
     return (
-      <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-        <Section className="min-h-screen py-16">
+      <CompvssAppLayout>
+        <EnterprisePageHeader
+          title="Timekeeping"
+          subtitle="Track crew hours, overtime, and timesheet approvals"
+          breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Timekeeping' }]}
+          views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
+          activeView="default"
+          showFavorite
+          showSettings
+        />
+        <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
             <LoadingSpinner size="lg" text="Loading timekeeping data..." />
           </Container>
-        </Section>
-      </PageLayout>
+        </MainContent>
+      </CompvssAppLayout>
     );
   }
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Timekeeping"
         subtitle="Track crew hours, overtime, and timesheet approvals"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Timekeeping' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
+        primaryAction={{ label: 'Log Time', onClick: () => router.push('/timekeeping/log') }}
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
             <Grid cols={4} gap={6}>
               <StatCard
@@ -170,7 +176,7 @@ export default function TimekeepingPage() {
             </Stack>
           </Stack>
         </Container>
-      </Section>
-    </PageLayout>
+      </MainContent>
+    </CompvssAppLayout>
   );
 }

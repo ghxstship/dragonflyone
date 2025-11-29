@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { CompvssAppLayout } from "../../components/app-layout";
 import {
   Container,
   H3,
@@ -13,7 +13,6 @@ import {
   Input,
   Select,
   Button,
-  Section,
   Card,
   Tabs,
   TabsList,
@@ -26,10 +25,9 @@ import {
   ModalFooter,
   Textarea,
   Alert,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
+  MainContent,
+} from "@ghxstship/ui";
 
 interface Risk {
   id: string;
@@ -92,21 +90,20 @@ export default function RiskRegisterPage() {
   const getImpactValue = (i: string) => i === "Critical" ? 5 : i === "High" ? 4 : i === "Medium" ? 3 : 2;
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Risk Register"
         subtitle="Identify, assess, and mitigate project risks"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Risk Register' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
+        primaryAction={{ label: 'Add Risk', onClick: () => setShowAddModal(true) }}
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
             <Grid cols={4} gap={6}>
               <StatCard value={activeRisks.length.toString()} label="Active Risks" />
@@ -213,7 +210,7 @@ export default function RiskRegisterPage() {
             </Grid>
           </Stack>
         </Container>
-      </Section>
+      </MainContent>
 
       <Modal open={!!selectedRisk} onClose={() => setSelectedRisk(null)}>
         <ModalHeader><H3>Risk Details</H3></ModalHeader>
@@ -333,6 +330,6 @@ export default function RiskRegisterPage() {
           <Button variant="solid" onClick={() => setShowAddModal(false)}>Add Risk</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </CompvssAppLayout>
   );
 }

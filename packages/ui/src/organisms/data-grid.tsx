@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo, useCallback } from "react";
 import clsx from "clsx";
+import { Search, ChevronUp, ChevronDown, MoreVertical } from "lucide-react";
 
 // Types
 export interface DataGridColumn<T> {
@@ -218,7 +219,7 @@ export function DataGrid<T>({
                   compact ? "py-spacing-2 px-spacing-3 text-body-sm" : "py-spacing-3 px-spacing-4 text-body-md"
                 )}
               />
-              <span className="absolute left-spacing-3 top-1/2 -translate-y-1/2 text-grey-500">🔍</span>
+              <span className="absolute left-spacing-3 top-1/2 -translate-y-1/2 text-grey-500"><Search className="size-4" /></span>
             </div>
           )}
 
@@ -232,7 +233,7 @@ export function DataGrid<T>({
                   activeFilters[group.key] ? "bg-surface-inverse text-text-inverse" : "bg-surface-primary text-text-primary"
                 )}
               >
-                {group.label} {expandedFilter === group.key ? "▲" : "▼"}
+                {group.label} {expandedFilter === group.key ? <ChevronUp className="size-3 inline" /> : <ChevronDown className="size-3 inline" />}
               </button>
               {expandedFilter === group.key && (
                 <div className="absolute top-full left-0 mt-spacing-1 min-w-container-sm max-h-container-lg overflow-y-auto bg-surface-elevated border-2 border-border-primary z-dropdown">
@@ -315,8 +316,8 @@ export function DataGrid<T>({
                     {column.label}
                     {column.sortable && (
                       <span className="flex flex-col text-micro-xs leading-none">
-                        <span className={sortColumn === column.key && sortDirection === "asc" ? "opacity-100" : "opacity-30"}>▲</span>
-                        <span className={sortColumn === column.key && sortDirection === "desc" ? "opacity-100" : "opacity-30"}>▼</span>
+                        <ChevronUp className={clsx("size-2", sortColumn === column.key && sortDirection === "asc" ? "opacity-100" : "opacity-30")} />
+                        <ChevronDown className={clsx("size-2", sortColumn === column.key && sortDirection === "desc" ? "opacity-100" : "opacity-30")} />
                       </span>
                     )}
                   </span>
@@ -430,7 +431,7 @@ function RowActionsDropdown<T>({ row, actions, onAction }: { row: T; actions: Ro
 
   return (
     <div className="relative inline-block">
-      <button onClick={() => setOpen(!open)} className="p-spacing-1 bg-transparent border-none cursor-pointer text-body-md hover:text-grey-600">⋮</button>
+      <button onClick={() => setOpen(!open)} className="p-spacing-1 bg-transparent border-none cursor-pointer text-body-md hover:text-grey-600"><MoreVertical className="size-4" /></button>
       {open && (
         <div className="absolute top-full right-0 min-w-container-xs bg-surface-elevated border-2 border-border-primary z-dropdown">
           {visibleActions.map((action) => {

@@ -1,801 +1,375 @@
-import { CreatorNavigationAuthenticated } from "../components/navigation";
-import { ContactWizard } from "../components/contact-wizard";
-import { Stack, Grid, Card, Body, H1, H2, H3, Label, Button, Link, Container, Display, Table, TableHeader, TableBody, TableRow, TableHead, TableCell, List, ListItem, Article, Header, Main, Box, Text, Badge, Badge as UIBadge, StatusBadge, Section, SectionHeader } from "@ghxstship/ui";
+import { AtlvsAppLayout } from "../components/app-layout";
 import {
-  atlvsCapabilityPanels,
-  atlvsComplianceChecklist,
-  atlvsExecutiveSummary,
-  atlvsFinalCta,
-  atlvsFormGuidelines,
-  atlvsAssetInsights,
-  atlvsFinanceKPIs,
-  atlvsSlaCommitments,
-  atlvsHero,
-  atlvsImmediateNextSteps,
-  atlvsIntegrationMatrix,
-  atlvsIntegrationWorkflows,
-  atlvsPillars,
-  atlvsRoadmapSections,
-  atlvsRoles,
-  atlvsTriPlatformFlows,
-  atlvsFeatureChecklist,
-  atlvsStats,
-  atlvsWorkflowTimeline,
-  atlvsAuditFocus,
-  atlvsAutomationProgram,
-  atlvsDevelopmentPhases,
-  atlvsSuccessMetrics,
-  atlvsCompetitiveMatrix,
-  atlvsInnovationTracks,
-  atlvsGtmPlan,
-  atlvsPortfolioSync,
-  atlvsEntities,
-  atlvsDocumentVault,
-  atlvsComplianceAlerts,
+  Stack,
+  Grid,
+  Card,
+  Body,
+  H2,
+  H3,
+  Label,
+  Link,
+  Container,
+  Display,
+  List,
+  ListItem,
+  Article,
+  Box,
+  Text,
+  SectionHeader,
+  FullBleedSection,
+  Button,
+} from "@ghxstship/ui";
+import NextLink from "next/link";
+import {
+  Tent,
+  Zap,
+  Palette,
+  MapPin,
+  HardHat,
+  Building,
+  Handshake,
+  BarChart3,
+  Link2,
+  Clock,
+  Calendar,
+  Users,
+  Package,
+  FileText,
+  DollarSign,
+  Shield,
+  Puzzle,
+  Check,
+} from "lucide-react";
+import {
+  atlvsLandingHero,
+  atlvsVerticals,
+  atlvsProblemSection,
+  atlvsPillarsSolution,
+  atlvsFeatureGrid,
+  atlvsCompvssSection,
+  atlvsSocialProof,
+  atlvsPricing,
+  atlvsLandingCta,
 } from "../data/atlvs";
 
 export const runtime = "edge";
 
-type PortfolioSync = (typeof atlvsPortfolioSync)[number];
+// =============================================================================
+// ATLVS LANDING PAGE
+// Marketing page for ATLVS - Production Management Platform
+// Design: Bold Contemporary Pop Art Adventure with ATLVS Miami Pink accent
+// =============================================================================
 
 export default function Home() {
   return (
-    <Section className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50" id="top">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-
-      <Container className="relative mx-auto flex max-w-container-6xl flex-col gap-16 px-6 pt-16 pb-24 lg:px-8">
-        <Header className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
-          <Stack gap={6}>
-            <Label className="text-body-sm uppercase tracking-display text-ink-400">{atlvsHero.kicker}</Label>
-            <H1 className="text-h2-md uppercase text-ink-50 md:text-h1-md lg:text-display-md">
-              {atlvsHero.headline}
-            </H1>
-            <Body className="max-w-2xl text-body-sm text-ink-300 md:text-body-md">{atlvsHero.description}</Body>
-            <Stack direction="horizontal" gap={3} className="flex-wrap text-mono-xs uppercase tracking-kicker text-ink-400">
-              {atlvsHero.tags.map((tag) => (
-                <Badge key={tag}>{tag}</Badge>
+    <AtlvsAppLayout variant="public" background="white" rawContent>
+      {/* SECTION 1: HERO */}
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="relative min-h-screen">
+        <Container className="relative mx-auto max-w-container-6xl px-6 py-16 lg:px-8 lg:py-24">
+          <Grid cols={2} gap={12} className="items-center lg:grid-cols-2">
+            <Stack gap={8}>
+              <Label className="font-mono text-mono-sm uppercase tracking-widest text-grey-500">
+                {atlvsLandingHero.kicker}
+              </Label>
+              <Display className="font-display text-display-md uppercase leading-none tracking-tight text-ink-950 md:text-display-lg">
+                {atlvsLandingHero.headline}
+              </Display>
+              <Body className="max-w-xl text-body-lg text-grey-600">
+                {atlvsLandingHero.description}
+              </Body>
+              <Stack direction="horizontal" gap={4} className="flex-wrap">
+                <Link
+                  href={atlvsLandingHero.primaryCta.href}
+                  className="border-2 border-ink-950 bg-[#FF006E] px-8 py-4 font-display text-body-md uppercase tracking-wide text-white shadow-[4px_4px_0_#000] transition-all duration-150 hover:-translate-y-1 hover:shadow-[6px_6px_0_#000]"
+                >
+                  {atlvsLandingHero.primaryCta.label}
+                </Link>
+                <Link
+                  href={atlvsLandingHero.secondaryCta.href}
+                  className="border-2 border-ink-950 bg-white px-8 py-4 font-display text-body-md uppercase tracking-wide text-ink-950 shadow-[4px_4px_0_rgba(0,0,0,0.15)] transition-all duration-150 hover:-translate-y-1 hover:shadow-[6px_6px_0_rgba(0,0,0,0.2)]"
+                >
+                  {atlvsLandingHero.secondaryCta.label}
+                </Link>
+              </Stack>
+            </Stack>
+            <Box className="relative hidden lg:block">
+              <Card className="border-2 aspect-video border-ink-950 bg-grey-100 shadow-[8px_8px_0_#FF006E]">
+                <Box className="flex h-full items-center justify-center">
+                  <Stack gap={4} className="text-center">
+                    <Text className="font-mono text-mono-sm uppercase tracking-widest text-grey-400">
+                      Product Dashboard
+                    </Text>
+                    <Text className="font-display text-h4-md uppercase text-grey-300">
+                      Screenshot Placeholder
+                    </Text>
+                  </Stack>
+                </Box>
+              </Card>
+            </Box>
+          </Grid>
+          <Box className="mt-16 border-t-2 border-grey-200 pt-8">
+            <Label className="mb-6 block text-center font-mono text-mono-xs uppercase tracking-widest text-grey-400">
+              Trusted by industry leaders
+            </Label>
+            <Stack direction="horizontal" gap={8} className="flex-wrap items-center justify-center">
+              {atlvsLandingHero.trustedBy.map((company) => (
+                <Text key={company} className="font-display text-h5-md uppercase tracking-wide text-grey-300">
+                  {company}
+                </Text>
               ))}
             </Stack>
-          </Stack>
-          <Stack gap={6} className="text-right">
-            <Label className="text-mono-xs tracking-display text-ink-500">STATUS</Label>
-            <Body className="font-code text-h5-md text-ink-100">{atlvsHero.status}</Body>
-            <Button variant="outline" className="inline-flex items-center gap-spacing-2 border border-ink-50 px-spacing-8 py-spacing-4 text-body-sm uppercase tracking-kicker transition hover:-translate-y-1 hover:bg-ink-50 hover:text-ink-950">
-              {atlvsHero.cta}
-            </Button>
-          </Stack>
-        </Header>
+          </Box>
+        </Container>
+      </FullBleedSection>
 
-        <Section id="entities" border>
-          <SectionHeader
-            kicker="Operating Model"
-            title="Multi-entity lattice"
-            description="Direction, Development, Design, and Disruption verticals lifted directly from the roadmap with utilization, OKRs, and dependency mapping."
-          />
-          <Grid cols={2} gap={6}>
-            {atlvsEntities.map((entity) => (
-              <Article key={entity.id} className="flex flex-col gap-spacing-4 border border-ink-800 p-spacing-5">
-                <Stack direction="horizontal" className="items-center justify-between">
-                  <Stack>
-                    <Label className="font-code text-mono-xs uppercase tracking-display text-ink-500">{entity.vertical}</Label>
-                    <H3 className="text-h5-md uppercase">{entity.name}</H3>
-                  </Stack>
-                  <Stack className="text-right text-body-sm text-ink-300">
-                    <Body>
-                      Headcount: <Text className="font-display text-ink-50">{entity.headcount}</Text>
-                    </Body>
-                    <Body>
-                      Revenue: <Text className="font-display text-ink-50">{entity.revenue}</Text>
-                    </Body>
-                    <Body>
-                      Utilization: <Text className="font-display text-ink-50">{Math.round(entity.utilization * 100)}%</Text>
-                    </Body>
-                  </Stack>
-                </Stack>
-                <Body className="text-body-sm text-ink-300">{entity.description}</Body>
-                <Stack direction="horizontal" gap={2} className="flex-wrap text-mono-xs uppercase tracking-kicker text-ink-400">
-                  {entity.dependencies.map((dependency) => (
-                    <Badge key={dependency}>{dependency}</Badge>
+      {/* SECTION 2: FOUR VERTICALS - Features */}
+      <FullBleedSection id="features" background="white" className="py-24">
+        <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
+          <SectionHeader title="BUILT FOR YOUR INDUSTRY" description="Four verticals. One platform. Infinite possibilities." align="center" />
+          <Grid cols={4} gap={6} className="mt-12 md:grid-cols-2 lg:grid-cols-4">
+            {atlvsVerticals.map((vertical) => (
+              <Article key={vertical.id} className="group border-2 border-ink-950 bg-white p-6 shadow-[4px_4px_0_rgba(0,0,0,0.1)] transition-all duration-150 hover:-translate-y-2 hover:shadow-[8px_8px_0_#FF006E]">
+                <Box className="mb-4 flex h-12 w-12 items-center justify-center border-2 border-ink-950 bg-grey-100">
+                  {vertical.icon === "Tent" && <Tent className="h-6 w-6 text-ink-950" />}
+                  {vertical.icon === "Zap" && <Zap className="h-6 w-6 text-ink-950" />}
+                  {vertical.icon === "Palette" && <Palette className="h-6 w-6 text-ink-950" />}
+                  {vertical.icon === "MapPin" && <MapPin className="h-6 w-6 text-ink-950" />}
+                </Box>
+                <H3 className="font-display text-h5-md uppercase tracking-wide text-ink-950">{vertical.title}</H3>
+                <Body className="mt-3 text-body-sm text-grey-600">{vertical.description}</Body>
+                <List className="mt-4 space-y-1">
+                  {vertical.features.map((feature) => (
+                    <ListItem key={feature} className="font-mono text-mono-xs uppercase tracking-wide text-grey-500">{feature}</ListItem>
                   ))}
-                </Stack>
-                <Stack>
-                  <Label className="font-code text-mono-xs uppercase tracking-display text-ink-500">Top OKRs</Label>
-                  <List className="mt-2 space-y-1 text-body-sm text-ink-200">
-                    {entity.okrs.map((okr) => (
-                      <ListItem key={okr} className="flex gap-spacing-2">
-                        <Text className="text-ink-500">{"//"}</Text>
-                        <Text>{okr}</Text>
+                </List>
+                <Link href={vertical.href} className="mt-6 inline-block font-mono text-mono-xs uppercase tracking-widest text-[#FF006E] transition-colors hover:text-ink-950">
+                  Learn More →
+                </Link>
+              </Article>
+            ))}
+          </Grid>
+        </Container>
+      </FullBleedSection>
+
+      {/* SECTION 3: THE PROBLEM */}
+      <FullBleedSection background="ink" className="py-24">
+        <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
+          <H2 className="text-center font-display text-display-sm uppercase tracking-tight text-white md:text-display-md">
+            {atlvsProblemSection.headline}
+          </H2>
+          <Grid cols={3} gap={6} className="mt-12 md:grid-cols-3">
+            {atlvsProblemSection.problems.map((problem) => (
+              <Article key={problem.title} className="border-2 border-grey-700 bg-ink-900 p-6">
+                <Box className="mb-4 flex h-12 w-12 items-center justify-center border-2 border-grey-600 bg-ink-800">
+                  {problem.icon === "chaos" && <BarChart3 className="h-6 w-6 text-grey-400" />}
+                  {problem.icon === "silos" && <Link2 className="h-6 w-6 text-grey-400" />}
+                  {problem.icon === "clock" && <Clock className="h-6 w-6 text-grey-400" />}
+                </Box>
+                <H3 className="font-display text-h5-md uppercase tracking-wide text-white">{problem.title}</H3>
+                <Body className="mt-3 text-body-sm text-grey-400">{problem.description}</Body>
+              </Article>
+            ))}
+          </Grid>
+          <Body className="mx-auto mt-12 max-w-2xl text-center text-body-lg text-grey-300">
+            {atlvsProblemSection.tagline}
+          </Body>
+        </Container>
+      </FullBleedSection>
+
+      {/* SECTION 4: THREE PILLARS - Solutions */}
+      <FullBleedSection id="solutions" background="white" className="py-24">
+        <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
+          <SectionHeader title="ONE PLATFORM. THREE PILLARS." align="center" />
+          <Stack gap={16} className="mt-12">
+            {atlvsPillarsSolution.map((pillar, index) => (
+              <Article key={pillar.id} className={`grid gap-8 lg:grid-cols-2 ${index % 2 === 1 ? "lg:flex-row-reverse" : ""}`}>
+                <Card className={`border-2 aspect-video border-ink-950 bg-grey-100 shadow-[6px_6px_0_#FF006E] ${index % 2 === 1 ? "lg:order-2" : ""}`}>
+                  <Box className="flex h-full items-center justify-center">
+                    <Text className="font-mono text-mono-sm uppercase tracking-widest text-grey-400">{pillar.title} Screenshot</Text>
+                  </Box>
+                </Card>
+                <Stack gap={6} className={index % 2 === 1 ? "lg:order-1" : ""}>
+                  <H3 className="font-display text-h3-md uppercase tracking-wide text-ink-950">{pillar.title}</H3>
+                  <Body className="text-body-md text-grey-600">{pillar.description}</Body>
+                  <List className="space-y-2">
+                    {pillar.features.map((feature) => (
+                      <ListItem key={feature} className="flex items-start gap-3">
+                        <Check className="h-4 w-4 flex-shrink-0 text-[#FF006E]" />
+                        <Text className="text-body-sm text-grey-700">{feature}</Text>
                       </ListItem>
                     ))}
                   </List>
+                  <Text className="font-mono text-mono-xs uppercase tracking-widest text-[#FF006E]">Replaces: {pillar.replaces}</Text>
                 </Stack>
               </Article>
             ))}
+          </Stack>
+        </Container>
+      </FullBleedSection>
+
+      {/* SECTION 5: FEATURE GRID */}
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
+        <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
+          <SectionHeader title="EVERYTHING YOU NEED TO SHIP THE SHOW" align="center" />
+          <Grid cols={3} gap={6} className="mt-12 md:grid-cols-2 lg:grid-cols-3">
+            {atlvsFeatureGrid.map((feature) => (
+              <Article key={feature.title} className="border-2 border-grey-200 bg-white p-6 transition-all duration-150 hover:border-ink-950 hover:shadow-[4px_4px_0_rgba(0,0,0,0.1)]">
+                <Box className="mb-4 flex h-10 w-10 items-center justify-center border-2 border-ink-950 bg-grey-100">
+                  {feature.icon === "Calendar" && <Calendar className="h-5 w-5 text-ink-950" />}
+                  {feature.icon === "Users" && <Users className="h-5 w-5 text-ink-950" />}
+                  {feature.icon === "Box" && <Package className="h-5 w-5 text-ink-950" />}
+                  {feature.icon === "FileText" && <FileText className="h-5 w-5 text-ink-950" />}
+                  {feature.icon === "DollarSign" && <DollarSign className="h-5 w-5 text-ink-950" />}
+                  {feature.icon === "Zap" && <Zap className="h-5 w-5 text-ink-950" />}
+                  {feature.icon === "BarChart" && <BarChart3 className="h-5 w-5 text-ink-950" />}
+                  {feature.icon === "Shield" && <Shield className="h-5 w-5 text-ink-950" />}
+                  {feature.icon === "Puzzle" && <Puzzle className="h-5 w-5 text-ink-950" />}
+                </Box>
+                <H3 className="font-display text-h6-md uppercase tracking-wide text-ink-950">{feature.title}</H3>
+                <Body className="mt-2 text-body-sm text-grey-600">{feature.description}</Body>
+              </Article>
+            ))}
           </Grid>
-        </Section>
+        </Container>
+      </FullBleedSection>
 
-        <Section id="portfolio-sync" border>
-          <SectionHeader
-            kicker="Cross-App Telemetry"
-            title="Portfolio sync status"
-            description="Live state of ATLVS ⇄ COMPVSS project links so exec ops can see exactly which productions are pending, in-progress, or blocked."
-          />
-          <Box className="overflow-x-auto">
-            <Table variant="bordered" className="min-w-full border border-ink-800 text-left text-body-sm">
-              <TableHeader className="bg-ink-900 text-ink-400">
-                <TableRow>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Project</TableHead>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">COMPVSS Link</TableHead>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Status</TableHead>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Last Sync</TableHead>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Delta</TableHead>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Blockers</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {atlvsPortfolioSync.map((sync: PortfolioSync) => (
-                  <TableRow key={sync.id} className="border-t border-ink-800">
-                    <TableCell className="border border-ink-800 px-4 py-3 text-ink-50">{sync.project}</TableCell>
-                    <TableCell className="border border-ink-800 px-4 py-3 text-ink-300">{sync.compvssSlug}</TableCell>
-                    <TableCell className="border border-ink-800 px-4 py-3">
-                      <Text
-                        className={`inline-flex items-center gap-2 px-3 py-1 text-mono-xs uppercase tracking-kicker ${
-                          sync.status === "synced"
-                            ? "bg-ink-50 text-ink-950"
-                            : sync.status === "in-progress"
-                              ? "bg-ink-200 text-ink-900"
-                              : sync.status === "pending"
-                                ? "bg-ink-700 text-ink-200"
-                                : "bg-error-500 text-ink-950"
-                        }`}
-                      >
-                        {sync.status}
-                      </Text>
-                    </TableCell>
-                    <TableCell className="border border-ink-800 px-4 py-3 text-ink-300">{sync.lastSync}</TableCell>
-                    <TableCell className="border border-ink-800 px-4 py-3 text-ink-200">{sync.delta}</TableCell>
-                    <TableCell className="border border-ink-800 px-4 py-3 text-ink-200">
-                      {sync.blockers.length ? (
-                        <List className="list-disc pl-4 text-ink-200">
-                          {sync.blockers.map((blocker: string) => (
-                            <ListItem key={blocker}>{blocker}</ListItem>
-                          ))}
-                        </List>
-                      ) : (
-                        <Text className="text-ink-400">None</Text>
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </Box>
-        </Section>
-
-        <Section border id="executive">
-          <SectionHeader kicker="Executive Summary" title="Signal report" description="Live highlights and OKR signals for stakeholders." />
-          <Grid cols={2} gap={6} className="md:grid-cols-[2fr_1fr]">
-            <List className="space-y-3 text-body-sm text-ink-300">
-              {atlvsExecutiveSummary.highlights.map((item) => (
-                <ListItem key={item} className="flex gap-2">
-                  <Text className="text-ink-500">{"//"}</Text>
-                  <Text>{item}</Text>
-                </ListItem>
+      {/* SECTION 6: COMPVSS */}
+      <FullBleedSection background="ink" className="py-24">
+        <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
+          <Box className="border-2 border-grey-700 bg-ink-900 p-8 lg:p-12">
+            <Label className="font-mono text-mono-xs uppercase tracking-widest text-[#00BFFF]">{atlvsCompvssSection.kicker}</Label>
+            <Display className="mt-4 font-display text-display-sm uppercase tracking-tight text-white md:text-display-md">{atlvsCompvssSection.title}</Display>
+            <Body className="mt-4 text-body-lg text-grey-400">{atlvsCompvssSection.subtitle}</Body>
+            <Box className="my-8 h-px bg-grey-700" />
+            <Body className="max-w-3xl text-body-md text-grey-300">{atlvsCompvssSection.description}</Body>
+            <Grid cols={3} gap={6} className="mt-8 md:grid-cols-3">
+              {atlvsCompvssSection.features.map((feature) => (
+                <Article key={feature.title} className="border-2 border-grey-700 bg-ink-800 p-4">
+                  <Box className="mb-2 flex h-10 w-10 items-center justify-center border-2 border-grey-600 bg-ink-900">
+                    {feature.icon === "HardHat" && <HardHat className="h-5 w-5 text-[#00BFFF]" />}
+                    {feature.icon === "Building" && <Building className="h-5 w-5 text-[#00BFFF]" />}
+                    {feature.icon === "Handshake" && <Handshake className="h-5 w-5 text-[#00BFFF]" />}
+                  </Box>
+                  <H3 className="font-display text-h6-md uppercase tracking-wide text-white">{feature.title}</H3>
+                  <Body className="mt-2 text-body-sm text-grey-400">{feature.description}</Body>
+                </Article>
               ))}
-            </List>
-            <Card className="border border-ink-800 p-4">
-              <Label className="text-mono-xs uppercase tracking-kicker text-ink-500">Signals</Label>
-              <Stack gap={4} className="mt-4">
-                {atlvsExecutiveSummary.signals.map((signal) => (
-                  <Stack key={signal.label} direction="horizontal" className="items-center justify-between">
-                    <Stack>
-                      <Label className="text-mono-xs uppercase tracking-kicker text-ink-500">{signal.label}</Label>
-                      <Body className="font-display text-h4-md text-ink-50">{signal.value}</Body>
-                    </Stack>
-                    <Text className="text-mono-xs uppercase tracking-kicker text-ink-400">{signal.trend}</Text>
-                  </Stack>
-                ))}
+            </Grid>
+            <Stack gap={4} className="mt-8">
+              <Stack direction="horizontal" gap={2} className="items-center">
+                <Check className="h-4 w-4 text-[#00BFFF]" />
+                <Text className="font-mono text-mono-xs uppercase tracking-widest text-[#00BFFF]">{atlvsCompvssSection.note}</Text>
               </Stack>
-            </Card>
-          </Grid>
-        </Section>
-
-        <Section id="governance" border>
-          <SectionHeader
-            kicker="Governance Vault"
-            title="Document intelligence + compliance alerts"
-            description="Roadmap-mandated documentation control paired with live compliance escalations so executives can unblock legal and risk items in seconds."
-          />
-          <Grid cols={3} gap={6}>
-            <Box className="overflow-x-auto lg:col-span-2">
-              <Table variant="bordered" className="min-w-full border border-ink-800 text-left text-body-sm">
-                <TableHeader className="bg-ink-900 text-ink-400">
-                  <TableRow>
-                    <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Doc</TableHead>
-                    <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Owner</TableHead>
-                    <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Category</TableHead>
-                    <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Status</TableHead>
-                    <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Updated</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {atlvsDocumentVault.map((doc) => (
-                    <TableRow key={doc.id} className="border-t border-ink-800">
-                      <TableCell className="border border-ink-800 px-4 py-3 font-display text-ink-50">{doc.title}</TableCell>
-                      <TableCell className="border border-ink-800 px-4 py-3 text-ink-300">{doc.owner}</TableCell>
-                      <TableCell className="border border-ink-800 px-4 py-3 text-ink-300">{doc.category}</TableCell>
-                      <TableCell className="border border-ink-800 px-4 py-3">
-                        <Text
-                          className={`inline-flex items-center gap-2 border px-3 py-1 text-mono-xs uppercase tracking-kicker ${
-                            doc.status === "approved"
-                              ? "border-ink-200 text-ink-100"
-                              : doc.status === "in-review"
-                                ? "border-ink-500 text-ink-200"
-                                : "border-ink-700 text-ink-400"
-                          }`}
-                        >
-                          <Text className="block size-2 rounded-full bg-ink-200" />
-                          {doc.status}
-                        </Text>
-                      </TableCell>
-                      <TableCell className="border border-ink-800 px-4 py-3 text-ink-400">{doc.updated}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Box>
-            <Stack gap={4}>
-              <Label className="font-code text-mono-xs uppercase tracking-display text-ink-500">Active Compliance Alerts</Label>
-              <List className="space-y-3">
-                {atlvsComplianceAlerts.map((alert) => (
-                  <ListItem key={alert.id} className="border border-ink-800 p-4">
-                    <Stack direction="horizontal" className="items-center justify-between text-mono-xs uppercase tracking-kicker">
-                      <Text className="text-ink-500">{alert.area}</Text>
-                      <Text className="text-ink-400">Due {alert.due}</Text>
-                    </Stack>
-                    <Body className="mt-2 text-body-sm text-ink-50">{alert.detail}</Body>
-                    <Stack direction="horizontal" className="mt-3 items-center justify-between text-mono-xs uppercase tracking-kicker">
-                      <Text className="text-ink-400">Owner: {alert.owner}</Text>
-                      <Text className={`px-3 py-1 text-ink-950 ${
-                        alert.severity === "high"
-                          ? "bg-ink-50"
-                          : alert.severity === "medium"
-                            ? "bg-ink-200 text-ink-900"
-                            : "bg-ink-400"
-                      }`}>{alert.severity}</Text>
-                    </Stack>
-                  </ListItem>
-                ))}
-              </List>
+              <Link href={atlvsCompvssSection.cta.href} className="inline-block border-2 border-[#00BFFF] bg-transparent px-6 py-3 font-mono text-mono-sm uppercase tracking-widest text-[#00BFFF] transition-all duration-150 hover:bg-[#00BFFF] hover:text-ink-950">
+                {atlvsCompvssSection.cta.label}
+              </Link>
             </Stack>
-          </Grid>
-        </Section>
-
-        <Section id="gtm" border>
-          <SectionHeader
-            kicker="Go-To-Market"
-            title="Multi-year commercial motion"
-            description="Sequenced targets, tactics, and metrics for ATLVS adoption pulled straight from the master roadmap."
-          />
-          <Stack gap={6}>
-            {atlvsGtmPlan.map((phase) => (
-              <Article key={phase.phase} className="border border-ink-800 p-6">
-                <Stack direction="horizontal" className="flex-col gap-2 md:flex-row md:items-center md:justify-between">
-                  <Stack>
-                    <Label className="font-code text-mono-xs uppercase tracking-display text-ink-500">{phase.phase}</Label>
-                    <H3 className="text-h5-md uppercase">{phase.target}</H3>
-                  </Stack>
-                  <Text className="text-body-sm text-ink-400">Key tactics + proof metrics</Text>
-                </Stack>
-                <Grid cols={2} gap={4} className="mt-4">
-                  <Stack>
-                    <Label className="text-mono-xs uppercase tracking-kicker text-ink-500">Tactics</Label>
-                    <List className="mt-2 space-y-1 text-body-sm text-ink-200">
-                      {phase.tactics.map((tactic) => (
-                        <ListItem key={tactic} className="flex gap-2">
-                          <Text className="text-ink-500">{"//"}</Text>
-                          <Text>{tactic}</Text>
-                        </ListItem>
-                      ))}
-                    </List>
-                  </Stack>
-                  <Stack>
-                    <Label className="text-mono-xs uppercase tracking-kicker text-ink-500">Metrics</Label>
-                    <List className="mt-2 space-y-1 text-body-sm text-ink-200">
-                      {phase.metrics.map((metric) => (
-                        <ListItem key={metric} className="flex gap-2">
-                          <Text className="text-ink-500">{"//"}</Text>
-                          <Text>{metric}</Text>
-                        </ListItem>
-                      ))}
-                    </List>
-                  </Stack>
-                </Grid>
-              </Article>
-            ))}
-          </Stack>
-        </Section>
-
-        <Section id="innovation">
-          <SectionHeader
-            kicker="Innovation Tracks"
-            title="Future-state R&D"
-            description="Priority technology bets from the roadmap spanning AI, Web3, immersive, and IoT layers to keep ATLVS ahead."
-          />
-          <Grid cols={2} gap={6}>
-            {atlvsInnovationTracks.map((track) => (
-              <Article key={track.title} className="border border-ink-800 p-6">
-                <Label className="font-code text-mono-xs uppercase tracking-display text-ink-500">{track.title}</Label>
-                <List className="mt-4 space-y-2 text-body-sm text-ink-200">
-                  {track.bullets.map((bullet) => (
-                    <ListItem key={bullet} className="flex gap-2">
-                      <Text className="text-ink-500">{"//"}</Text>
-                      <Text>{bullet}</Text>
-                    </ListItem>
-                  ))}
-                </List>
-              </Article>
-            ))}
-          </Grid>
-        </Section>
-
-        <Section id="competitive">
-          <SectionHeader
-            kicker="Positioning"
-            title="Competitive advantage"
-            description="Reference grid articulating why ATLVS wins against horizontal operators across every subsystem."
-          />
-          <Box className="overflow-x-auto">
-            <Table variant="bordered" className="min-w-full border border-ink-800 text-left text-body-sm">
-              <TableHeader>
-                <TableRow className="bg-ink-900 text-ink-400">
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Feature</TableHead>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Competitors</TableHead>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">ATLVS Advantage</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {atlvsCompetitiveMatrix.map((row) => (
-                  <TableRow key={row.feature} className="border-t border-ink-800">
-                    <TableCell className="border border-ink-800 px-4 py-3 text-ink-50">{row.feature}</TableCell>
-                    <TableCell className="border border-ink-800 px-4 py-3 text-ink-300">{row.competitors}</TableCell>
-                    <TableCell className="border border-ink-800 px-4 py-3 text-ink-200">{row.advantage}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
           </Box>
-        </Section>
+        </Container>
+      </FullBleedSection>
 
-        <Section id="roadmap" border>
-          <SectionHeader
-            kicker="Delivery Roadmap"
-            title="Phase gates"
-            description="Month-by-month commitments lifted from the master roadmap so leadership can align resourcing and sequencing."
-          />
-          <Stack gap={6}>
-            {atlvsDevelopmentPhases.map((phase) => (
-              <Article key={phase.id} className="border border-ink-800 p-6">
-                <Stack direction="horizontal" className="flex-col gap-2 md:flex-row md:items-center md:justify-between">
-                  <Stack>
-                    <Label className="font-code text-mono-xs uppercase tracking-display text-ink-500">{phase.phase}</Label>
-                    <H3 className="text-h5-md uppercase">{phase.timeframe}</H3>
-                  </Stack>
-                  <Text className="text-body-sm text-ink-400">{phase.description}</Text>
-                </Stack>
-                <List className="mt-4 space-y-1 text-body-sm text-ink-200">
-                  {phase.deliverables.map((item) => (
-                    <ListItem key={item} className="flex gap-2">
-                      <Text className="text-ink-500">{"//"}</Text>
-                      <Text>{item}</Text>
-                    </ListItem>
-                  ))}
-                </List>
-              </Article>
+      {/* SECTION 7: SOCIAL PROOF - About */}
+      <FullBleedSection id="about" background="white" className="py-24">
+        <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
+          <H2 className="text-center font-display text-h2-md uppercase tracking-wide text-ink-950">{atlvsSocialProof.headline}</H2>
+          <Article className="border-2 mx-auto mt-12 max-w-4xl border-ink-950 bg-white p-8 shadow-[6px_6px_0_#FF006E] lg:p-12">
+            <Body className="text-center text-body-lg text-grey-700 italic">&ldquo;{atlvsSocialProof.testimonial.quote}&rdquo;</Body>
+            <Text className="mt-6 block text-center font-mono text-mono-sm uppercase tracking-widest text-grey-500">
+              — {atlvsSocialProof.testimonial.author}, {atlvsSocialProof.testimonial.company}
+            </Text>
+          </Article>
+          <Grid cols={4} gap={6} className="mt-12 md:grid-cols-2 lg:grid-cols-4">
+            {atlvsSocialProof.stats.map((stat) => (
+              <Stack key={stat.label} className="text-center">
+                <Display className="font-display text-display-sm uppercase text-ink-950">{stat.value}</Display>
+                <Text className="mt-2 font-mono text-mono-xs uppercase tracking-widest text-grey-500">{stat.label}</Text>
+              </Stack>
             ))}
+          </Grid>
+        </Container>
+      </FullBleedSection>
+
+      {/* SECTION 8: PRICING */}
+      <FullBleedSection id="pricing" background="white" pattern="grid" patternOpacity={0.03} className="py-24">
+        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+          <Stack gap={4} className="mb-16 text-center">
+            <H2 className="text-ink-950">{atlvsPricing.headline}</H2>
+            <Body className="text-grey-600">{atlvsPricing.subheadline}</Body>
           </Stack>
-        </Section>
 
-        <Section id="automation">
-          <SectionHeader
-            kicker="Automation & DX"
-            title="Open integration program"
-            description="Sequenced deliverables for Zapier, Make, n8n, and OpenAPI so partners can extend ATLVS without waiting on core teams."
-          />
-          <Grid cols={2} gap={6}>
-            {atlvsAutomationProgram.map((track) => (
-              <Article key={track.id} className="border border-ink-800 p-6">
-                <Label className="font-code text-mono-xs uppercase tracking-display text-ink-500">{track.title}</Label>
-                <List className="mt-4 space-y-2 text-body-sm text-ink-200">
-                  {track.bullets.map((bullet) => (
-                    <ListItem key={bullet} className="flex gap-2">
-                      <Text className="text-ink-500">{"//"}</Text>
-                      <Text>{bullet}</Text>
-                    </ListItem>
-                  ))}
-                </List>
-              </Article>
-            ))}
-          </Grid>
-        </Section>
-
-        <Section id="tri-platform">
-          <SectionHeader
-            kicker="Unified Cycles"
-            title="Tri-platform signal loops"
-            description="Macro flows that combine inquiry, operations, finance, and guest telemetry into one master view, mirroring the roadmap glue requirements."
-          />
-          <Grid gap={4}>
-            {atlvsTriPlatformFlows.map((flow) => (
-              <Article key={flow.title} className="flex flex-col gap-2 border border-ink-800 p-4 md:flex-row md:items-center md:justify-between">
-                <Stack>
-                  <H3 className="text-h6-md uppercase">{flow.title}</H3>
-                  <Body className="text-body-sm text-ink-300">{flow.detail}</Body>
-                </Stack>
-                <Text className="text-mono-xs uppercase tracking-kicker text-ink-500">ATLVS · COMPVSS · GVTEWAY</Text>
-              </Article>
-            ))}
-          </Grid>
-        </Section>
-
-        <Section id="feature-checklist" border>
-          <SectionHeader
-            kicker="Roadmap Compliance"
-            title="Critical feature checklist"
-            description="Operational scope derived directly from the master roadmap so each subsystem ships with verifiable coverage before production toggles."
-          />
-          <Grid cols={2} gap={6}>
-            {atlvsFeatureChecklist.map((segment) => (
-              <Article key={segment.id} className="border border-ink-800 p-6">
-                <Label className="font-code text-mono-xs uppercase tracking-display text-ink-500">{segment.kicker}</Label>
-                <H3 className="mt-4 text-h5-md uppercase">{segment.title}</H3>
-                <List className="mt-4 space-y-2 text-body-sm text-ink-200">
-                  {segment.items.map((item) => (
-                    <ListItem key={item} className="flex gap-2">
-                      <Text className="text-ink-500">{"//"}</Text>
-                      <Text>{item}</Text>
-                    </ListItem>
-                  ))}
-                </List>
-              </Article>
-            ))}
-          </Grid>
-        </Section>
-
-        <Section id="integration-workflows">
-          <SectionHeader
-            kicker="Workflow Specs"
-            title="Cross-platform automation"
-            description="Line-item coverage for bridge scenarios pulled from the master roadmap to guide service ownership conversations."
-          />
-          <Grid gap={8}>
-            {atlvsIntegrationWorkflows.map((workflow) => (
-              <Article key={workflow.id} className="border border-ink-800 p-6">
-                <Stack direction="horizontal" className="flex-col gap-2 md:flex-row md:items-center md:justify-between">
-                  <Label className="font-code text-mono-xs uppercase tracking-display text-ink-500">{workflow.title}</Label>
-                  <Text className="text-body-sm text-ink-400">{workflow.description}</Text>
-                </Stack>
-                <List className="mt-4 grid gap-2 text-body-sm text-ink-200 md:grid-cols-2">
-                  {workflow.items.map((item) => (
-                    <ListItem key={item} className="flex gap-2">
-                      <Text className="text-ink-500">{"//"}</Text>
-                      <Text>{item}</Text>
-                    </ListItem>
-                  ))}
-                </List>
-              </Article>
-            ))}
-          </Grid>
-        </Section>
-
-        <Section id="metrics">
-          <Grid cols={4} gap={6} className="md:grid-cols-2 lg:grid-cols-4">
-            {atlvsStats.map((stat) => (
-              <Stack key={stat.label} gap={1}>
-                <Text className="font-code text-mono-xs tracking-display text-ink-500">{stat.label}</Text>
-                <Text className="font-display text-h3-md text-ink-50 md:text-h2-md">{stat.value}</Text>
-              </Stack>
-            ))}
-          </Grid>
-        </Section>
-
-        <Section id="kpis" border>
-          <SectionHeader
-            kicker="Success Metrics"
-            title="Command KPIs"
-            description="Scorecard of executive signals uplifted directly from the master roadmap so ATLVS launches with measurable accountability."
-          />
-          <Grid cols={2} gap={6}>
-            {atlvsSuccessMetrics.map((group) => (
-              <Article key={group.id} className="border border-ink-800 p-6">
-                <Label className="font-code text-mono-xs uppercase tracking-display text-ink-500">{group.title}</Label>
-                <List className="mt-4 space-y-2 text-body-sm text-ink-200">
-                  {group.metrics.map((metric) => (
-                    <ListItem key={metric} className="flex gap-2">
-                      <Text className="text-ink-500">{"//"}</Text>
-                      <Text>{metric}</Text>
-                    </ListItem>
-                  ))}
-                </List>
-              </Article>
-            ))}
-          </Grid>
-        </Section>
-
-        <Section border id="sla">
-          <SectionHeader
-            kicker="Service Level"
-            title="Operational commitments"
-            description="Derived from the audit standards: time-to-response expectations across executive ops, assets, and finance."
-          />
           <Grid cols={3} gap={6}>
-            {atlvsSlaCommitments.map((group) => (
-              <Article key={group.category} className="border border-ink-800 p-4">
-                <H3 size="sm">{group.category}</H3>
-                <List className="mt-3 space-y-2 text-body-sm text-ink-300">
-                  {group.entries.map((entry) => (
-                    <ListItem key={entry}>• {entry}</ListItem>
-                  ))}
-                </List>
-              </Article>
-            ))}
-          </Grid>
-        </Section>
+            {atlvsPricing.tiers.map((tier) => (
+              <Card
+                key={tier.id}
+                className={`relative flex h-full flex-col border-2 p-8 ${
+                  tier.popular
+                    ? "border-primary shadow-primary"
+                    : "border-ink-950 shadow-md"
+                } bg-white`}
+              >
+                {tier.popular && (
+                  <Label size="xs" className="absolute -top-3 left-1/2 -translate-x-1/2 border-2 border-ink-950 bg-primary px-4 py-1 text-white">
+                    MOST POPULAR
+                  </Label>
+                )}
 
-        <Section border={false} className="grid gap-8 lg:grid-cols-2">
-          {atlvsCapabilityPanels.map((panel) => (
-            <Article key={panel.title} className="surface p-8">
-              <Label className="font-code text-mono-xs tracking-display text-ink-400">{panel.kicker}</Label>
-              <H2 className="mt-6 text-h4-md md:text-h3-md">{panel.title}</H2>
-              <Body className="mt-4 text-ink-300">{panel.description}</Body>
-              <List className="mt-6 space-y-2 text-body-sm text-ink-200">
-                {panel.bullets.map((bullet) => (
-                  <ListItem key={bullet}>• {bullet}</ListItem>
-                ))}
-              </List>
-            </Article>
-          ))}
-        </Section>
+                <Stack gap={6} className="flex-1">
+                  <H3 className="text-ink-950">{tier.name}</H3>
 
-        <Section id="operations">
-          <SectionHeader kicker="Platform Pillars" title="Operational Spine" description="Core subsystems powering ATLVS across business ops, projects, assets, and finance" />
-          <Grid cols={4} gap={6} className="md:grid-cols-2 lg:grid-cols-4">
-            {atlvsPillars.map((pillar) => (
-              <Stack key={pillar.label} gap={4} className="border border-ink-800 p-4">
-                <H3 className="text-h6-md text-ink-50">{pillar.label}</H3>
-                <List className="space-y-2 text-body-sm text-ink-300">
-                  {pillar.items.map((item) => (
-                    <ListItem key={item}>{item}</ListItem>
-                  ))}
-                </List>
-              </Stack>
-            ))}
-          </Grid>
-        </Section>
-
-        <Section id="projects" border={false} className="space-y-8">
-          <SectionHeader
-            kicker="Roadmap Execution"
-            title="Full-stack initiative stream"
-            description="Direct lift from the ATLVS feature checklist to ensure every subsystem ships with executive clarity, audit trails, and integration fidelity."
-          />
-          <Grid cols={2} gap={6}>
-            {atlvsRoadmapSections.map((section) => (
-              <Article key={section.id} id={section.id} className="border border-ink-800 p-6">
-                <Label className="font-code text-mono-xs tracking-display text-ink-500">{section.kicker}</Label>
-                <H3 className="mt-4 text-h5-md">{section.title}</H3>
-                <Body className="mt-2 text-ink-300">{section.description}</Body>
-                <List className="mt-4 space-y-1 text-body-sm text-ink-200">
-                  {section.bullets.map((bullet) => (
-                    <ListItem key={bullet}>• {bullet}</ListItem>
-                  ))}
-                </List>
-              </Article>
-            ))}
-          </Grid>
-        </Section>
-
-        <Section id="workflow">
-          <SectionHeader
-            kicker="Tri-Platform Workflow"
-            title="Inquiry → Execution → Intelligence"
-            description="Step-by-step signal chain ensuring client, production, asset, and guest workflows stay synchronized across ATLVS, COMPVSS, and GVTEWAY."
-          />
-          <Grid gap={4}>
-            {atlvsWorkflowTimeline.map((stage) => (
-              <Article key={stage.label} className="flex flex-col gap-3 border border-ink-800 p-4 md:flex-row md:items-start md:gap-6">
-                <Text className="font-display text-h3-md text-ink-500">{stage.label}</Text>
-                <Stack gap={3} className="flex-1">
-                  <Stack>
-                    <H3 className="text-h5-md uppercase">{stage.title}</H3>
-                    <Body className="mt-2 text-body-sm text-ink-300">{stage.description}</Body>
+                  <Stack direction="horizontal" className="items-baseline gap-1">
+                    <Display size="md" className="text-ink-950">{tier.price}</Display>
+                    <Label size="sm" className="text-grey-500">{tier.period}</Label>
                   </Stack>
-                  <Stack direction="horizontal" gap={2} className="flex-wrap text-mono-xs uppercase tracking-kicker text-ink-400">
-                    {stage.tags.map((tag) => (
-                      <Badge key={tag}>{tag}</Badge>
+
+                  <Body size="sm" className="text-grey-600">
+                    {tier.description}
+                  </Body>
+
+                  <Stack gap={3} className="flex-1 border-t border-grey-200 py-4">
+                    {tier.features.map((feature) => (
+                      <Stack key={feature} direction="horizontal" gap={3} className="items-start">
+                        <Check className="mt-0.5 size-4 shrink-0 text-primary" />
+                        <Label size="xs" className="text-grey-700">{feature}</Label>
+                      </Stack>
                     ))}
                   </Stack>
                 </Stack>
-              </Article>
+
+                <NextLink href={tier.cta.href} className="mt-6 w-full">
+                  <Button
+                    variant={tier.popular ? "pop" : "outlineInk"}
+                    size="md"
+                    fullWidth
+                  >
+                    {tier.cta.label}
+                  </Button>
+                </NextLink>
+              </Card>
             ))}
           </Grid>
-        </Section>
 
-        <Section id="assets">
-          <SectionHeader
-            kicker="Asset Intelligence"
-            title="Macro readiness"
-            description="Telemetry-informed snapshot of maintenance, availability, and incident queues across every depot."
-          />
-          <Grid cols={3} gap={6}>
-            {atlvsAssetInsights.map((card) => (
-              <Article key={card.title} className="border border-ink-800 p-6">
-                <H3 size="sm">{card.title}</H3>
-                <Stack direction="horizontal" gap={6} className="mt-4">
-                  {card.metrics.map((metric) => (
-                    <Stack key={metric.label}>
-                      <Label className="text-mono-xs uppercase tracking-kicker text-ink-500">{metric.label}</Label>
-                      <Body className="font-display text-h4-md text-ink-50">{metric.value}</Body>
-                    </Stack>
-                  ))}
-                </Stack>
-                <Body className="mt-4 text-body-sm text-ink-300">{card.description}</Body>
-              </Article>
-            ))}
-          </Grid>
-        </Section>
+          <Label size="xs" className="mt-8 block text-center text-grey-500">
+            {atlvsPricing.footnote}
+          </Label>
+        </Container>
+      </FullBleedSection>
 
-        <Section id="integrations">
-          <SectionHeader
-            kicker="Tri-Platform Links"
-            title="Systems Integration Matrix"
-            description="Ecosystem handshake between ATLVS, COMPVSS, and GVTEWAY so financial, production, and guest signals never drift."
-          />
-          <Grid cols={3} gap={6}>
-            {atlvsIntegrationMatrix.map((block) => (
-              <Article key={block.title} className="border border-ink-800 p-6">
-                <H3 size="sm">{block.title}</H3>
-                <Body className="mt-2 text-body-sm text-ink-300">{block.description}</Body>
-                <List className="mt-4 space-y-1 text-mono-xs text-ink-200">
-                  {block.bullets.map((bullet) => (
-                    <ListItem key={bullet}>• {bullet}</ListItem>
-                  ))}
-                </List>
-              </Article>
-            ))}
-          </Grid>
-        </Section>
-
-        <Section className="lg:flex-row lg:items-center lg:justify-between" >
-          <Stack>
-            <Label className="font-code text-mono-xs tracking-display text-ink-500">ROLE MATRIX</Label>
-            <H2 className="mt-4 text-h5-md">Legend → Atlvs → Compvss interlocks</H2>
-            <Body className="mt-2 max-w-2xl text-ink-300">
-              Granular RBAC spans Legend god-mode through ATLVS admin, member, and viewer layers,
-              ensuring precision control and secure impersonation for support flows.
-            </Body>
-          </Stack>
-          <Grid gap={3} className="w-full text-body-sm uppercase tracking-kicker text-ink-200 lg:max-w-md">
-            {atlvsRoles.map((role) => (
-              <Stack key={role.name} className="border border-ink-700 px-4 py-3">
-                <Text>{role.name}</Text>
-                <Text className="font-code text-mono-xs text-ink-500">{role.detail}</Text>
-              </Stack>
-            ))}
-          </Grid>
-        </Section>
-
-        <Section id="forms">
-          <SectionHeader
-            kicker="Forms & Input System"
-            title="Monochrome contact flow"
-            description="Derived from the design prompts: bold multi-step wizardry, inline intelligence, and resilient submission states."
-          />
-          <Grid cols={3} gap={6}>
-            {atlvsFormGuidelines.map((card) => (
-              <Article key={card.title} className="border border-ink-800 p-4">
-                <H3 className="text-h6-md">{card.title}</H3>
-                <Body className="mt-2 text-body-sm text-ink-300">{card.description}</Body>
-                <List className="mt-4 space-y-1 text-mono-xs text-ink-200">
-                  {card.bullets.map((bullet) => (
-                    <ListItem key={bullet}>• {bullet}</ListItem>
-                  ))}
-                </List>
-              </Article>
-            ))}
-          </Grid>
-          <ContactWizard />
-        </Section>
-
-        <Section id="finance">
-          <SectionHeader
-            kicker="Finance Stack"
-            title="Live KPIs"
-            description="Multi-entity cash, utilization, margin, and collections views derived from ATLVS finance automation."
-          />
-          <Grid cols={4} gap={6}>
-            {atlvsFinanceKPIs.map((kpi) => (
-              <Article key={kpi.label} className="border border-ink-800 p-4">
-                <Label className="text-mono-xs uppercase tracking-kicker text-ink-500">{kpi.label}</Label>
-                <Body className="font-display text-h3-md text-ink-50">{kpi.value}</Body>
-                <Body className="mt-2 text-body-sm text-ink-300">{kpi.detail}</Body>
-              </Article>
-            ))}
-          </Grid>
-        </Section>
-
-        <Section id="compliance">
-          <SectionHeader
-            kicker="Full Stack Compliance"
-            title="Design + Security Checklist"
-            description="Guardrails derived from the audit standards to ensure every release is accessible, secure, and production-ready."
-          />
-          <Grid cols={3} gap={6}>
-            {atlvsComplianceChecklist.map((item) => (
-              <Article key={item.title} className="border border-ink-800 p-4">
-                <H3 className="text-h6-md">{item.title}</H3>
-                <Body className="mt-2 text-body-sm text-ink-300">{item.description}</Body>
-                <List className="mt-4 space-y-1 text-mono-xs text-ink-200">
-                  {item.bullets.map((bullet) => (
-                    <ListItem key={bullet}>• {bullet}</ListItem>
-                  ))}
-                </List>
-              </Article>
-            ))}
-          </Grid>
-        </Section>
-
-        <Section id="next" className="grid gap-6 md:grid-cols-3">
-          {atlvsImmediateNextSteps.map((step) => (
-            <Stack key={step.title} gap={3}>
-              <Label className="font-code text-mono-xs tracking-display text-ink-500">NEXT</Label>
-              <H3 className="text-h6-md">{step.title}</H3>
-              <Body className="text-body-sm text-ink-300">{step.detail}</Body>
-            </Stack>
-          ))}
-        </Section>
-
-        <Section id="audit">
-          <SectionHeader kicker="Production Audit Focus" title="Zero-defect release gates" />
-          <Grid cols={3} gap={6}>
-            {atlvsAuditFocus.map((item) => (
-              <Article key={item.title} className="border border-ink-800 p-4">
-                <H3 className="text-h6-md">{item.title}</H3>
-                <Body className="mt-2 text-body-sm text-ink-300">{item.detail}</Body>
-                <List className="mt-4 space-y-1 text-mono-xs text-ink-200">
-                  {item.bullets.map((bullet) => (
-                    <ListItem key={bullet}>• {bullet}</ListItem>
-                  ))}
-                </List>
-              </Article>
-            ))}
-          </Grid>
-        </Section>
-
-        <Section id="cta" border={false} className="border border-ink-50/30 p-8 text-center">
-          <SectionHeader
-            kicker={atlvsFinalCta.kicker}
-            title={atlvsFinalCta.title}
-            description={atlvsFinalCta.description}
-            align="center"
-          />
-          <Stack direction="horizontal" gap={4} className="flex-col items-center justify-center md:flex-row">
-            <Link
-              href={atlvsFinalCta.primary.href}
-              className="border border-ink-50 px-8 py-4 text-mono-xs uppercase tracking-kicker transition hover:-translate-y-1 hover:bg-ink-50 hover:text-ink-950"
-            >
-              {atlvsFinalCta.primary.label}
+      {/* SECTION 9: FINAL CTA */}
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-24">
+        <Container className="mx-auto max-w-container-4xl px-6 text-center lg:px-8">
+          <Display className="font-display text-display-md uppercase tracking-tight text-white md:text-display-lg">{atlvsLandingCta.headline}</Display>
+          <Body className="mx-auto mt-6 max-w-xl text-body-lg text-grey-400">{atlvsLandingCta.subheadline}</Body>
+          <Stack direction="horizontal" gap={4} className="mt-8 flex-wrap justify-center">
+            <Link href={atlvsLandingCta.primaryCta.href} className="border-2 border-[#FF006E] bg-[#FF006E] px-8 py-4 font-display text-body-md uppercase tracking-wide text-white shadow-[4px_4px_0_rgba(255,0,110,0.4)] transition-all duration-150 hover:-translate-y-1 hover:shadow-[6px_6px_0_rgba(255,0,110,0.5)]">
+              {atlvsLandingCta.primaryCta.label}
             </Link>
-            <Link
-              href={atlvsFinalCta.secondary.href}
-              className="border border-ink-700 px-8 py-4 text-mono-xs uppercase tracking-kicker text-ink-400 transition hover:-translate-y-1 hover:border-ink-50 hover:text-ink-50"
-            >
-              {atlvsFinalCta.secondary.label}
+            <Link href={atlvsLandingCta.secondaryCta.href} className="border-2 border-white bg-transparent px-8 py-4 font-display text-body-md uppercase tracking-wide text-white transition-all duration-150 hover:-translate-y-1 hover:bg-white hover:text-ink-950">
+              {atlvsLandingCta.secondaryCta.label}
             </Link>
           </Stack>
-        </Section>
-      </Container>
-    </Section>
+          <Text className="mt-8 font-mono text-mono-xs uppercase tracking-widest text-grey-500">{atlvsLandingCta.footnote}</Text>
+        </Container>
+      </FullBleedSection>
+    </AtlvsAppLayout>
   );
 }

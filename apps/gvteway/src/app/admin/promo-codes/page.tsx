@@ -1,17 +1,13 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { ConsumerNavigationPublic } from '@/components/navigation';
+import { RefreshCw, Trash2, Pause, Play } from 'lucide-react';
+import { GvtewayAppLayout } from '@/components/app-layout';
 import {
   ListPage,
   Badge,
   RecordFormModal,
   ConfirmDialog,
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Display,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -203,22 +199,22 @@ export default function PromoCodesPage() {
     { 
       id: 'toggle', 
       label: 'Toggle Status', 
-      icon: '🔄', 
+      icon: <RefreshCw className="size-4" />, 
       onClick: handleToggleStatus 
     },
     { 
       id: 'delete', 
       label: 'Delete', 
-      icon: '🗑️', 
+      icon: <Trash2 className="size-4" />, 
       variant: 'danger', 
       onClick: (row) => { setPromoToDelete(row); setDeleteConfirmOpen(true); } 
     },
   ];
 
   const bulkActions: ListPageBulkAction[] = [
-    { id: 'disable', label: 'Disable', icon: '⏸️' },
-    { id: 'enable', label: 'Enable', icon: '▶️' },
-    { id: 'delete', label: 'Delete', icon: '🗑️', variant: 'danger' },
+    { id: 'disable', label: 'Disable', icon: <Pause className="size-4" /> },
+    { id: 'enable', label: 'Enable', icon: <Play className="size-4" /> },
+    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger' },
   ];
 
   const handleBulkAction = async (actionId: string, selectedIds: string[]) => {
@@ -233,24 +229,8 @@ export default function PromoCodesPage() {
     { label: 'Expired', value: promoCodes.filter(p => p.status === 'expired').length },
   ];
 
-  const footerContent = (
-    <Footer
-      logo={<Display size="md">GVTEWAY</Display>}
-      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-    >
-      <FooterColumn title="Admin">
-        <FooterLink href="/admin/promo-codes">Promo Codes</FooterLink>
-        <FooterLink href="/admin/will-call">Will Call</FooterLink>
-      </FooterColumn>
-      <FooterColumn title="Legal">
-        <FooterLink href="/legal/privacy">Privacy</FooterLink>
-        <FooterLink href="/legal/terms">Terms</FooterLink>
-      </FooterColumn>
-    </Footer>
-  );
-
   return (
-    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+    <GvtewayAppLayout>
       <ListPage<PromoCode>
         title="Promo Codes"
         subtitle="Manage discount codes and promotional offers"
@@ -291,6 +271,6 @@ export default function PromoCodesPage() {
         onConfirm={handleDelete}
         onCancel={() => { setDeleteConfirmOpen(false); setPromoToDelete(null); }}
       />
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

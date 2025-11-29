@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { CompvssAppLayout } from "../../components/app-layout";
 import {
   H2,
   Body,
@@ -22,13 +22,11 @@ import {
   Grid,
   Stack,
   Card,
-  Section,
   Input,
   useNotifications,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
+  MainContent,
+} from "@ghxstship/ui";
 
 interface Subcontractor {
   id: string;
@@ -127,20 +125,20 @@ export default function SubcontractorsPage() {
 
   if (loading) {
     return (
-      <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-        <Section className="min-h-screen py-16">
+      <CompvssAppLayout>
+        <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
             <LoadingSpinner size="lg" text="Loading subcontractors..." />
           </Container>
-        </Section>
-      </PageLayout>
+        </MainContent>
+      </CompvssAppLayout>
     );
   }
 
   if (error) {
     return (
-      <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-        <Section className="min-h-screen py-16">
+      <CompvssAppLayout>
+        <MainContent padding="lg">
           <Container>
             <EmptyState
               title="Error Loading Subcontractors"
@@ -148,28 +146,26 @@ export default function SubcontractorsPage() {
               action={{ label: "Retry", onClick: fetchSubcontractors }}
             />
           </Container>
-        </Section>
-      </PageLayout>
+        </MainContent>
+      </CompvssAppLayout>
     );
   }
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <EnterprisePageHeader
-        title="Subcontractor Management"
-        subtitle="Manage subcontractor relationships, contracts, and performance tracking"
+    <CompvssAppLayout>
+      <EnterprisePageHeader
+        title="Subcontractor Directory"
+        subtitle="Manage subcontractor relationships and compliance"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Subcontractors' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
+        primaryAction={{ label: 'Add Subcontractor', onClick: () => router.push('/subcontractors/new') }}
         showFavorite
         showSettings
       />
-
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
             <Grid cols={4} gap={6}>
               <StatCard
                 value={(summary?.total_subcontractors || 0).toString()}
@@ -315,7 +311,7 @@ export default function SubcontractorsPage() {
             </Stack>
           </Stack>
         </Container>
-      </Section>
-    </PageLayout>
+      </MainContent>
+    </CompvssAppLayout>
   );
 }

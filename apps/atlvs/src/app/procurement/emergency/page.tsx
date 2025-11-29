@@ -2,14 +2,35 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../../components/navigation';
+import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
-  Container, H3, Body, Label, Grid, Stack, StatCard, Select, Input,
-  Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Button,
-  Section, Card, Badge, PageLayout, SectionHeader,
-  Modal, ModalHeader, ModalBody, ModalFooter, Alert, Textarea,
+  Container,
+  H3,
+  Body,
+  Label,
+  Grid,
+  Stack,
+  StatCard,
+  Select,
+  Input,
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+  Button,
+  Card,
+  Badge,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Alert,
+  Textarea,
   EnterprisePageHeader,
-  MainContent,} from '@ghxstship/ui';
+  MainContent,
+} from '@ghxstship/ui';
 
 interface EmergencyProcurement {
   id: string;
@@ -63,21 +84,19 @@ export default function EmergencyProcurementPage() {
   };
 
   return (
-    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <EnterprisePageHeader
+    <AtlvsAppLayout>
+      <EnterprisePageHeader
         title="Emergency Procurement"
         subtitle="Fast-track procurement for urgent operational needs"
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Procurement', href: '/procurement' }, { label: 'Emergency' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
           <Grid cols={4} gap={6}>
             <StatCard label="Pending Requests" value={pendingCount} trend={pendingCount > 0 ? 'down' : 'neutral'} className="bg-transparent border-2 border-ink-800" />
@@ -175,9 +194,6 @@ export default function EmergencyProcurementPage() {
           </Table>
 
             <Button variant="outline" className="border-grey-700 text-grey-400" onClick={() => router.push('/procurement')}>Back to Procurement</Button>
-          </Stack>
-        </Container>
-      </Section>
 
       <Modal open={!!selectedRequest} onClose={() => setSelectedRequest(null)}>
         <ModalHeader><H3>Emergency Request Details</H3></ModalHeader>
@@ -249,6 +265,9 @@ export default function EmergencyProcurementPage() {
           <Button variant="solid" onClick={() => setShowNewRequestModal(false)}>Submit Request</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+          </Stack>
+        </Container>
+      </MainContent>
+    </AtlvsAppLayout>
   );
 }

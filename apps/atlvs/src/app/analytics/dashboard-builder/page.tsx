@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../../components/navigation';
+import { Eye, Pencil, Copy } from 'lucide-react';
+import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   ListPage, Badge, DetailDrawer, RecordFormModal,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig,
@@ -57,9 +58,9 @@ export default function DashboardBuilderPage() {
   const totalWidgets = data.reduce((sum, d) => sum + d.widgetCount, 0);
 
   const rowActions: ListPageAction<Dashboard>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Edit Dashboard', icon: '✏️', onClick: (r) => router.push(`/analytics/dashboard-builder/${r.id}`) },
-    { id: 'duplicate', label: 'Duplicate', icon: '📋', onClick: (r) => console.log('Duplicate', r.id) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit Dashboard', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/analytics/dashboard-builder/${r.id}`) },
+    { id: 'duplicate', label: 'Duplicate', icon: <Copy className="size-4" />, onClick: (r) => console.log('Duplicate', r.id) },
   ];
 
   const stats = [
@@ -89,7 +90,7 @@ export default function DashboardBuilderPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<Dashboard>
         title="Dashboard Builder"
         subtitle="Create and customize analytics dashboards"
@@ -107,7 +108,6 @@ export default function DashboardBuilderPage() {
         stats={stats}
         emptyMessage="No dashboards found"
         emptyAction={{ label: 'Create Dashboard', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Analytics', href: '/analytics' }, { label: 'Dashboard Builder' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -115,7 +115,7 @@ export default function DashboardBuilderPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Create Dashboard" fields={formFields} onSubmit={handleCreate} />
       {selected && (
@@ -126,10 +126,10 @@ export default function DashboardBuilderPage() {
           title={(r) => r.name}
           subtitle={(r) => `${r.widgetCount} widgets • ${r.status}`}
           sections={detailSections}
-          actions={[{ id: 'edit', label: 'Edit Dashboard', icon: '✏️' }, { id: 'duplicate', label: 'Duplicate', icon: '📋' }]}
+          actions={[{ id: 'edit', label: 'Edit Dashboard', icon: <Pencil className="size-4" /> }, { id: 'duplicate', label: 'Duplicate', icon: <Copy className="size-4" /> }]}
           onAction={(id, r) => { if (id === 'edit') router.push(`/analytics/dashboard-builder/${r.id}`); setDrawerOpen(false); }}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

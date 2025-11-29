@@ -42,6 +42,8 @@ interface AppLayoutProps {
   background?: "black" | "white";
   /** Additional className for the main section */
   className?: string;
+  /** If true, children are rendered directly without wrapper (for landing pages with custom sections) */
+  rawContent?: boolean;
 }
 
 /**
@@ -57,6 +59,7 @@ export function AtlvsAppLayout({
   showFooter,
   background = "black",
   className,
+  rawContent = false,
 }: AppLayoutProps) {
   const pathname = usePathname();
   const router = useRouter();
@@ -156,16 +159,20 @@ export function AtlvsAppLayout({
         ) : undefined
       }
     >
-      <FullBleedSection
-        background={isDark ? "ink" : "white"}
-        pattern="grid"
-        patternOpacity={isDark ? 0.03 : 0.04}
-        className={`min-h-screen ${className || ""}`}
-      >
-        <Container className="py-8 sm:py-12 md:py-16">
-          {children}
-        </Container>
-      </FullBleedSection>
+      {rawContent ? (
+        children
+      ) : (
+        <FullBleedSection
+          background={isDark ? "ink" : "white"}
+          pattern="grid"
+          patternOpacity={isDark ? 0.03 : 0.04}
+          className={`min-h-screen ${className || ""}`}
+        >
+          <Container className="py-8 sm:py-12 md:py-16">
+            {children}
+          </Container>
+        </FullBleedSection>
+      )}
     </PageLayout>
   );
 }

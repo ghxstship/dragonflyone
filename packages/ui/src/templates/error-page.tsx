@@ -2,6 +2,7 @@
 
 import { useEffect, ReactNode } from 'react';
 import clsx from 'clsx';
+import { AlertTriangle } from 'lucide-react';
 import { Stack } from '../foundations/layout.js';
 import { Container, Section } from '../foundations/layout.js';
 import { H2, Body } from '../atoms/typography.js';
@@ -55,7 +56,7 @@ export function ErrorPage({
         <Stack gap={8} className="mx-auto max-w-2xl">
           {/* Error Icon */}
           <div className="text-center">
-            <span className="inline-block text-8xl animate-shake">⚠️</span>
+            <AlertTriangle className="inline-block size-24 animate-shake" />
           </div>
 
           <Stack gap={4} className="text-center">

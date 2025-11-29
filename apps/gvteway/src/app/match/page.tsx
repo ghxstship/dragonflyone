@@ -3,10 +3,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { ConsumerNavigationPublic } from '@/components/navigation';
+import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
-  Container,
-  Section,
   H2,
   H3,
   Body,
@@ -18,13 +16,7 @@ import {
   Badge,
   Alert,
   Modal,
-  LoadingSpinner,
   StatCard,
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Display,
   Kicker,
 } from '@ghxstship/ui';
 
@@ -159,68 +151,13 @@ export default function MatchPage() {
   }, {} as Record<string, Interest[]>);
 
   if (loading) {
-    return (
-      <PageLayout
-        background="black"
-        header={<ConsumerNavigationPublic />}
-        footer={
-          <Footer
-            logo={<Display size="md">GVTEWAY</Display>}
-            copyright="© 2024 GHXSTSHIP INDUSTRIES."
-          >
-            <FooterColumn title="Social">
-              <FooterLink href="/match">Find Fans</FooterLink>
-            </FooterColumn>
-          </Footer>
-        }
-      >
-        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-          <div
-            className="pointer-events-none absolute inset-0 opacity-5"
-            style={{
-              backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-              backgroundSize: "40px 40px",
-            }}
-          />
-          <Container className="relative z-10 flex min-h-[60vh] items-center justify-center">
-            <LoadingSpinner size="lg" />
-          </Container>
-        </Section>
-      </PageLayout>
-    );
+    return <GvtewayLoadingLayout />;
   }
 
   const highMatches = matches.filter(m => m.match_score >= 70);
 
   return (
-    <PageLayout
-      background="black"
-      header={<ConsumerNavigationPublic />}
-      footer={
-        <Footer
-          logo={<Display size="md">GVTEWAY</Display>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Social">
-            <FooterLink href="/match">Find Fans</FooterLink>
-            <FooterLink href="/friends">Friends</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Legal">
-            <FooterLink href="/legal/privacy">Privacy</FooterLink>
-            <FooterLink href="/legal/terms">Terms</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
+    <GvtewayAppLayout>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack direction="horizontal" className="items-center justify-between">
@@ -500,8 +437,6 @@ export default function MatchPage() {
           )}
         </Modal>
           </Stack>
-        </Container>
-      </Section>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

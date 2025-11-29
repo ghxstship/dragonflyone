@@ -2,10 +2,28 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, notFound } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../../components/navigation";
-import { ProgressBar, Button, Stack, StatusBadge, LoadingSpinner, Container, useNotifications, H2, H3, Body, Label, Card, Grid, Link, Badge, Section, PageLayout, SectionHeader,
+import { AtlvsAppLayout } from "../../../components/app-layout";
+import {
+  ProgressBar,
+  Button,
+  Stack,
+  StatusBadge,
+  LoadingSpinner,
+  Container,
+  useNotifications,
+  H1,
+  H2,
+  H3,
+  Body,
+  Label,
+  Card,
+  Grid,
+  Link,
+  Badge,
+  Section,
   EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
+  MainContent,
+} from "@ghxstship/ui";
 
 interface Project {
   id: string;
@@ -84,28 +102,42 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
 
   if (loading) {
     return (
-      <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
-        <Section className="min-h-screen">
+      <AtlvsAppLayout>
+        <EnterprisePageHeader
+          title="Loading..."
+          subtitle="Fetching project details"
+          breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Projects', href: '/projects' }, { label: 'Loading...' }]}
+          views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
+          activeView="default"
+        />
+        <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
             <LoadingSpinner size="lg" text="Loading project..." />
           </Container>
-        </Section>
-      </PageLayout>
+        </MainContent>
+      </AtlvsAppLayout>
     );
   }
 
   if (error || !project) {
     return (
-      <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
-        <Section className="min-h-screen">
+      <AtlvsAppLayout>
+        <EnterprisePageHeader
+          title="Error"
+          subtitle={error || "Project not found"}
+          breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Projects', href: '/projects' }, { label: 'Error' }]}
+          views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
+          activeView="default"
+        />
+        <MainContent padding="lg">
           <Container className="flex min-h-[60vh] flex-col items-center justify-center gap-4">
-            <H2 className="text-white">{error || "Project not found"}</H2>
-            <Button variant="outlineWhite" onClick={() => router.push("/projects")}>
+            <H2>{error || "Project not found"}</H2>
+            <Button variant="outline" onClick={() => router.push("/projects")}>
               Back to Projects
             </Button>
           </Container>
-        </Section>
-      </PageLayout>
+        </MainContent>
+      </AtlvsAppLayout>
     );
   }
 
@@ -132,34 +164,42 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
   ];
 
   return (
-    <Section className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
-      <Card className="pointer-events-none absolute inset-0 grid-overlay opacity-40" />
-      <CreatorNavigationAuthenticated />
-
-      <Container className="relative mx-auto flex max-w-7xl flex-col gap-8 px-6 pb-24 pt-16 lg:px-8">
-        <Stack direction="horizontal" className="items-start justify-between">
-          <Stack>
-            <Stack direction="horizontal" gap={3} className="items-center">
-              <Link href="/dashboard" className="text-ink-400 hover:text-white">
-                ← Back
-              </Link>
+    <AtlvsAppLayout>
+      <EnterprisePageHeader
+        title={project.name}
+        subtitle={project.client?.name || project.client_name || "No client"}
+        breadcrumbs={[
+          { label: 'ATLVS', href: '/dashboard' },
+          { label: 'Projects', href: '/projects' },
+          { label: project.name },
+        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
+        activeView="default"
+        primaryAction={{ label: 'Update Status', onClick: handleUpdateStatus }}
+        secondaryActions={[
+          { id: 'milestone', label: 'Add Milestone', onClick: handleAddMilestone },
+          { id: 'report', label: 'Generate Report', onClick: handleGenerateReport },
+        ]}
+        showFavorite
+        showSettings
+      />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={6}>
+            <Stack direction="horizontal" className="items-center justify-between">
               <Badge variant="outline">{project.id}</Badge>
+              <StatusBadge
+                status={
+                  health === "On Track"
+                    ? "success"
+                    : health === "At Risk"
+                      ? "warning"
+                      : "info"
+                }
+              >
+                {health}
+              </StatusBadge>
             </Stack>
-            <H1 className="mt-4 text-white">{project.name}</H1>
-            <Body className="mt-2 font-mono text-body-sm uppercase tracking-widest text-ink-400">{project.client?.name || project.client_name || "—"}</Body>
-          </Stack>
-          <StatusBadge
-            status={
-              health === "On Track"
-                ? "success"
-                : health === "At Risk"
-                  ? "warning"
-                  : "info"
-            }
-          >
-            {health}
-          </StatusBadge>
-        </Stack>
 
         <Grid cols={4} gap={6}>
           <Card className="border-2 border-ink-800 p-6">
@@ -263,7 +303,9 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
             </Section>
           </Stack>
         </Grid>
-      </Container>
-    </Section>
+          </Stack>
+        </Container>
+      </MainContent>
+    </AtlvsAppLayout>
   );
 }

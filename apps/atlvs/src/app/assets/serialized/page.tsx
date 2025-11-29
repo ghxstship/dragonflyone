@@ -2,16 +2,14 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../../components/navigation';
+import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   Container,
-  Section,
   H3,
   Body,
   Label,
   Grid,
   Stack,
-  StatCard,
   Input,
   Select,
   Table,
@@ -29,10 +27,10 @@ import {
   ModalFooter,
   Textarea,
   Alert,
-  PageLayout,
-  SectionHeader,
+  StatCard,
   EnterprisePageHeader,
-  MainContent,} from '@ghxstship/ui';
+  MainContent,
+} from '@ghxstship/ui';
 
 interface SerializedComponent {
   id: string;
@@ -197,21 +195,20 @@ export default function SerializedComponentsPage() {
   };
 
   return (
-    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={8}>
-            <EnterprisePageHeader
+    <AtlvsAppLayout>
+      <EnterprisePageHeader
         title="Serialized Component Tracking"
         subtitle="Track individual components within assets by serial number"
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Assets', href: '/assets' }, { label: 'Serialized' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
+        primaryAction={{ label: 'Add Component', onClick: () => setShowAddModal(true) }}
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={8}>
 
           <Grid cols={4} gap={6}>
             <StatCard label="Total Components" value={components.length} className="bg-transparent border-2 border-ink-800" />
@@ -479,7 +476,7 @@ export default function SerializedComponentsPage() {
       </Modal>
           </Stack>
         </Container>
-      </Section>
-    </PageLayout>
+      </MainContent>
+    </AtlvsAppLayout>
   );
 }

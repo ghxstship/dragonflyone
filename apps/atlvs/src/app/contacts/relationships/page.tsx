@@ -2,10 +2,9 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../../components/navigation';
+import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   Container,
-  Section,
   H2,
   H3,
   Body,
@@ -24,10 +23,9 @@ import {
   Tabs,
   TabsList,
   Tab,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from '@ghxstship/ui';
+  MainContent,
+} from '@ghxstship/ui';
 
 interface Contact {
   id: string;
@@ -172,26 +170,20 @@ export default function RelationshipsPage() {
   };
 
   return (
-    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <Stack gap={4} direction="horizontal" className="items-start justify-between">
-              <EnterprisePageHeader
+    <AtlvsAppLayout>
+      <EnterprisePageHeader
         title="Relationship Mapping"
         subtitle="Stakeholder org charts and relationship visualization"
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Contacts', href: '/contacts' }, { label: 'Relationships' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
+        primaryAction={{ label: 'Add Relationship', onClick: () => setShowAddModal(true) }}
         showFavorite
         showSettings
       />
-              <Button variant="solid" onClick={() => setShowAddModal(true)}>
-                Add Relationship
-              </Button>
-            </Stack>
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
         {error && (
           <Alert variant="error" className="mb-6" onClose={() => setError(null)}>
@@ -482,7 +474,7 @@ export default function RelationshipsPage() {
         </Modal>
           </Stack>
         </Container>
-      </Section>
-    </PageLayout>
+      </MainContent>
+    </AtlvsAppLayout>
   );
 }

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { CompvssAppLayout } from "../../components/app-layout";
 import {
   Container,
   H3,
@@ -12,7 +12,6 @@ import {
   StatCard,
   Input,
   Button,
-  Section,
   Card,
   Tabs,
   TabsList,
@@ -24,10 +23,9 @@ import {
   ModalBody,
   ModalFooter,
   Alert,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
+  MainContent,
+} from "@ghxstship/ui";
 
 interface SetTime {
   id: string;
@@ -97,22 +95,20 @@ export default function SetTimesPage() {
   };
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <Stack direction="horizontal" className="items-start justify-between">
-              <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Set Time Tracking"
         subtitle="Track actual start/end times and monitor schedule variance"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Set Times' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
+            <Stack direction="horizontal" className="items-start justify-between">
               <Card className="p-4">
                 <Stack gap={1} className="text-center">
                   <Body className="text-body-sm">Current Time</Body>
@@ -262,7 +258,7 @@ export default function SetTimesPage() {
             </Grid>
           </Stack>
         </Container>
-      </Section>
+      </MainContent>
 
       <Modal open={!!selectedSet && !showStartModal} onClose={() => setSelectedSet(null)}>
         <ModalHeader><H3>Set Details</H3></ModalHeader>
@@ -337,6 +333,6 @@ export default function SetTimesPage() {
           </Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </CompvssAppLayout>
   );
 }

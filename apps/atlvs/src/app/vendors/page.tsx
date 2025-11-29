@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Eye, Pencil, Package, Trash2, Download, Check, Pause } from 'lucide-react';
 import {
   ListPage,
   Badge,
@@ -119,17 +120,17 @@ export default function VendorsPage() {
   const [vendorToDelete, setVendorToDelete] = useState<Vendor | null>(null);
 
   const rowActions: ListPageAction<Vendor>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (row) => { setSelectedVendor(row); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (row) => router.push(`/vendors/${row.id}/edit`) },
-    { id: 'order', label: 'New Order', icon: '📦', onClick: (row) => router.push(`/procurement/new?vendor=${row.id}`) },
-    { id: 'delete', label: 'Delete', icon: '🗑️', variant: 'danger', onClick: (row) => { setVendorToDelete(row); setDeleteConfirmOpen(true); } },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (row) => { setSelectedVendor(row); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (row) => router.push(`/vendors/${row.id}/edit`) },
+    { id: 'order', label: 'New Order', icon: <Package className="size-4" />, onClick: (row) => router.push(`/procurement/new?vendor=${row.id}`) },
+    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (row) => { setVendorToDelete(row); setDeleteConfirmOpen(true); } },
   ];
 
   const bulkActions: ListPageBulkAction[] = [
-    { id: 'export', label: 'Export', icon: '⬇️' },
-    { id: 'activate', label: 'Activate', icon: '✅' },
-    { id: 'deactivate', label: 'Deactivate', icon: '⏸️' },
-    { id: 'delete', label: 'Delete', icon: '🗑️', variant: 'danger' },
+    { id: 'export', label: 'Export', icon: <Download className="size-4" /> },
+    { id: 'activate', label: 'Activate', icon: <Check className="size-4" /> },
+    { id: 'deactivate', label: 'Deactivate', icon: <Pause className="size-4" /> },
+    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger' },
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {

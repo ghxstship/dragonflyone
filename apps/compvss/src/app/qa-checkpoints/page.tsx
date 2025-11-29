@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { CompvssAppLayout } from "../../components/app-layout";
 import {
   Container,
   H3,
@@ -12,7 +12,6 @@ import {
   StatCard,
   Input,
   Button,
-  Section,
   Card,
   Tabs,
   TabsList,
@@ -24,10 +23,9 @@ import {
   ModalFooter,
   Badge,
   Alert,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
+  MainContent,
+} from "@ghxstship/ui";
 
 interface QACheckpoint {
   id: string;
@@ -120,21 +118,19 @@ export default function QACheckpointsPage() {
   const filteredCheckpoints = activeTab === "all" ? mockCheckpoints : mockCheckpoints.filter(c => c.phase.toLowerCase().replace(" ", "-") === activeTab);
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="QA Checkpoints"
         subtitle="Quality assurance and sign-off tracking for production phases"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Qa Checkpoints' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'QA Checkpoints' }]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
             <Grid cols={4} gap={6}>
               <StatCard value={passedCount.toString()} label="Passed" />
@@ -200,7 +196,7 @@ export default function QACheckpointsPage() {
             </Grid>
           </Stack>
         </Container>
-      </Section>
+      </MainContent>
 
       <Modal open={!!selectedCheckpoint && !showSignOffModal} onClose={() => setSelectedCheckpoint(null)}>
         <ModalHeader><H3>Checkpoint Details</H3></ModalHeader>
@@ -269,6 +265,6 @@ export default function QACheckpointsPage() {
           <Button variant="solid" onClick={() => { setShowSignOffModal(false); setSelectedCheckpoint(null); }}>Sign Off</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </CompvssAppLayout>
   );
 }

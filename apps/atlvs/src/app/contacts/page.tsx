@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../components/navigation';
+import { Eye, Mail, Pencil, Trash2, Download, Tag } from 'lucide-react';
+import { AtlvsAppLayout } from '../../components/app-layout';
 import {
   ListPage,
   Badge,
@@ -89,16 +90,16 @@ export default function ContactsPage() {
   const [contactToDelete, setContactToDelete] = useState<Contact | null>(null);
 
   const rowActions: ListPageAction<Contact>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (row) => { setSelectedContact(row); setDrawerOpen(true); } },
-    { id: 'email', label: 'Send Email', icon: '✉️', onClick: (row) => window.location.href = `mailto:${row.email}` },
-    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (row) => router.push(`/contacts/${row.id}/edit`) },
-    { id: 'delete', label: 'Delete', icon: '🗑️', variant: 'danger', onClick: (row) => { setContactToDelete(row); setDeleteConfirmOpen(true); } },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (row) => { setSelectedContact(row); setDrawerOpen(true); } },
+    { id: 'email', label: 'Send Email', icon: <Mail className="size-4" />, onClick: (row) => window.location.href = `mailto:${row.email}` },
+    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (row) => router.push(`/contacts/${row.id}/edit`) },
+    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (row) => { setContactToDelete(row); setDeleteConfirmOpen(true); } },
   ];
 
   const bulkActions: ListPageBulkAction[] = [
-    { id: 'export', label: 'Export', icon: '⬇️' },
-    { id: 'tag', label: 'Add Tag', icon: '🏷️' },
-    { id: 'delete', label: 'Delete', icon: '🗑️', variant: 'danger' },
+    { id: 'export', label: 'Export', icon: <Download className="size-4" /> },
+    { id: 'tag', label: 'Add Tag', icon: <Tag className="size-4" /> },
+    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger' },
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
@@ -150,7 +151,7 @@ export default function ContactsPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<Contact>
         title="Contacts"
         subtitle="Manage your business contacts and relationships"
@@ -172,7 +173,6 @@ export default function ContactsPage() {
         stats={stats}
         emptyMessage="No contacts yet"
         emptyAction={{ label: 'Add Contact', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Contacts' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -180,7 +180,7 @@ export default function ContactsPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
 
       <RecordFormModal
@@ -216,6 +216,6 @@ export default function ContactsPage() {
         onConfirm={handleDelete}
         onCancel={() => { setDeleteConfirmOpen(false); setContactToDelete(null); }}
       />
-    </>
+    </AtlvsAppLayout>
   );
 }

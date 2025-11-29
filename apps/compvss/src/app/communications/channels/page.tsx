@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../../components/navigation";
+import { CompvssAppLayout } from "../../../components/app-layout";
 import {
   Container,
   H3,
@@ -12,7 +12,6 @@ import {
   StatCard,
   Select,
   Button,
-  Section,
   Card,
   Tabs,
   TabsList,
@@ -24,10 +23,9 @@ import {
   ModalFooter,
   Textarea,
   Input,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
+  MainContent,
+} from "@ghxstship/ui";
 
 interface Channel {
   id: string;
@@ -75,21 +73,20 @@ export default function ChannelsPage() {
   };
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Communication Channels"
         subtitle="Department-specific channels and groups"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Communications', href: '/communications' }, { label: 'Channels' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
+        primaryAction={{ label: 'Create Channel', onClick: () => setShowCreateModal(true) }}
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
             <Grid cols={4} gap={6}>
               <StatCard value={mockChannels.length.toString()} label="Total Channels" />
@@ -152,7 +149,7 @@ export default function ChannelsPage() {
             </Grid>
           </Stack>
         </Container>
-      </Section>
+      </MainContent>
 
       <Modal open={!!selectedChannel} onClose={() => setSelectedChannel(null)}>
         <ModalHeader><H3>{selectedChannel?.name}</H3></ModalHeader>
@@ -227,6 +224,6 @@ export default function ChannelsPage() {
           <Button variant="solid" onClick={() => setShowCreateModal(false)}>Create</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </CompvssAppLayout>
   );
 }

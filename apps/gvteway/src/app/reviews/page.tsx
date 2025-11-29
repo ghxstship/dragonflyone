@@ -2,13 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ConsumerNavigationPublic } from "@/components/navigation";
+import { GvtewayAppLayout } from "@/components/app-layout";
 import {
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Display,
   H2,
   H3,
   Body,
@@ -16,8 +11,6 @@ import {
   Badge,
   Card,
   Select,
-  Section,
-  Container,
   Stack,
   Kicker,
   Label,
@@ -39,42 +32,7 @@ export default function ReviewsPage() {
   );
 
   return (
-    <PageLayout
-      background="black"
-      header={<ConsumerNavigationPublic />}
-      footer={
-        <Footer
-          logo={<Display size="md">GVTEWAY</Display>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Account">
-            <FooterLink href="/profile">Profile</FooterLink>
-            <FooterLink href="/reviews">Reviews</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Discover">
-            <FooterLink href="/events">Browse Events</FooterLink>
-            <FooterLink href="/venues">Find Venues</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Legal">
-            <FooterLink href="/legal/privacy">Privacy</FooterLink>
-            <FooterLink href="/legal/terms">Terms</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        {/* Grid Pattern Background */}
-        <div
-          className="pointer-events-none absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `
-              linear-gradient(#fff 1px, transparent 1px),
-              linear-gradient(90deg, #fff 1px, transparent 1px)
-            `,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
+    <GvtewayAppLayout>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -134,8 +92,6 @@ export default function ReviewsPage() {
               </Stack>
             </Card>
           </Stack>
-        </Container>
-      </Section>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

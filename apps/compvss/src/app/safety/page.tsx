@@ -2,10 +2,23 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../components/navigation';
-import { Container, Section, H2, H3, Body, Button, Card, Grid, Badge, LoadingSpinner, EmptyState, Stack, Breadcrumb, BreadcrumbItem, PageLayout, SectionHeader, StatCard,
+import { CompvssAppLayout } from '../../components/app-layout';
+import {
+  Container,
+  H2,
+  H3,
+  Body,
+  Button,
+  Card,
+  Grid,
+  Badge,
+  LoadingSpinner,
+  EmptyState,
+  Stack,
+  StatCard,
   EnterprisePageHeader,
-  MainContent,} from '@ghxstship/ui';
+  MainContent,
+} from '@ghxstship/ui';
 import { AlertTriangle, FileText, Shield } from 'lucide-react';
 
 interface Incident {
@@ -70,20 +83,20 @@ export default function SafetyPage() {
 
   if (loading) {
     return (
-      <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-        <Section className="min-h-screen py-16">
+      <CompvssAppLayout>
+        <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
             <LoadingSpinner size="lg" text="Loading safety data..." />
           </Container>
-        </Section>
-      </PageLayout>
+        </MainContent>
+      </CompvssAppLayout>
     );
   }
 
   if (error) {
     return (
-      <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-        <Section className="min-h-screen py-16">
+      <CompvssAppLayout>
+        <MainContent padding="lg">
           <Container>
             <EmptyState
               title="Error Loading Safety Data"
@@ -91,38 +104,25 @@ export default function SafetyPage() {
               action={{ label: "Retry", onClick: fetchIncidents }}
             />
           </Container>
-        </Section>
-      </PageLayout>
+        </MainContent>
+      </CompvssAppLayout>
     );
   }
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          {/* Breadcrumb */}
-          <Breadcrumb className="mb-6">
-            <BreadcrumbItem href="/dashboard">Dashboard</BreadcrumbItem>
-            <BreadcrumbItem active>Safety</BreadcrumbItem>
-          </Breadcrumb>
-
-          <Stack gap={4} direction="horizontal" className="mb-8 items-start justify-between">
-            <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Safety Management"
         subtitle="Incident reporting and safety compliance"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Safety' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
+        primaryAction={{ label: 'Report Incident', onClick: () => router.push('/safety/report') }}
         showFavorite
         showSettings
       />
-            <Button onClick={() => router.push('/safety/report')}>
-              <AlertTriangle className="mr-2 size-4" />
-              REPORT INCIDENT
-            </Button>
-          </Stack>
+      <MainContent padding="lg">
+        <Container>
 
           <Grid cols={4} gap={4} className="mb-8">
             <StatCard value="0" label="Days Since Incident" />
@@ -214,7 +214,7 @@ export default function SafetyPage() {
             </Grid>
           </Card>
         </Container>
-      </Section>
-    </PageLayout>
+      </MainContent>
+    </CompvssAppLayout>
   );
 }

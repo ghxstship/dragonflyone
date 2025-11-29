@@ -2,10 +2,9 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../components/navigation';
+import { CompvssAppLayout } from '../../components/app-layout';
 import {
   Container,
-  Section,
   Body,
   Button,
   Card,
@@ -13,10 +12,9 @@ import {
   Badge,
   Stack,
   StatCard,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from '@ghxstship/ui';
+  MainContent,
+} from '@ghxstship/ui';
 
 interface Task {
   id: string;
@@ -47,22 +45,20 @@ export default function BuildStrikePage() {
   };
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            {/* Page Header */}
-            <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Build & Strike"
         subtitle="Build Progress: 45%"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Build Strike' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
+        primaryAction={{ label: 'Add Task', onClick: () => router.push('/build-strike/new') }}
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
             {/* Stats Grid */}
             <Grid cols={3} gap={6}>
@@ -131,7 +127,7 @@ export default function BuildStrikePage() {
             </Stack>
           </Stack>
         </Container>
-      </Section>
-    </PageLayout>
+      </MainContent>
+    </CompvssAppLayout>
   );
 }

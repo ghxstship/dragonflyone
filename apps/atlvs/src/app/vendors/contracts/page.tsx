@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../../components/navigation";
+import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
   ListPage,
   Badge,
@@ -107,7 +107,7 @@ export default function VendorContractsPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<VendorContract>
         title="Vendor Contracts"
         subtitle="Contract expiration alerts and renewal workflows"
@@ -122,7 +122,6 @@ export default function VendorContractsPage() {
         onExport={() => router.push("/vendors/contracts/export")}
         stats={stats}
         emptyMessage="No vendor contracts found"
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Vendors', href: '/vendors' }, { label: 'Contracts' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -130,7 +129,7 @@ export default function VendorContractsPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
 
       {selectedContract && (
@@ -145,6 +144,6 @@ export default function VendorContractsPage() {
           onAction={(id, c) => { if (id === "renew") router.push(`/vendors/contracts/${c.id}/renew`); setDrawerOpen(false); }}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

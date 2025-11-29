@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { CompvssAppLayout } from "../../components/app-layout";
 import {
   Container,
   H3,
@@ -13,17 +13,15 @@ import {
   Input,
   Select,
   Button,
-  Section,
   Card,
   Badge,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
+  MainContent,
+} from "@ghxstship/ui";
 
 interface BestPractice {
   id: string;
@@ -63,22 +61,19 @@ export default function BestPracticesPage() {
   });
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            {/* Page Header */}
-            <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Best Practices Library"
         subtitle="Industry best practices organized by discipline"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Best Practices' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
             {/* Stats Grid */}
             <Grid cols={4} gap={6}>
@@ -125,9 +120,8 @@ export default function BestPracticesPage() {
             <Button variant="outline" onClick={() => router.push("/knowledge")}>Knowledge Base</Button>
           </Stack>
         </Container>
-      </Section>
+      </MainContent>
 
-      {/* Detail Modal */}
       <Modal open={!!selectedPractice} onClose={() => setSelectedPractice(null)}>
         <ModalHeader><H3>{selectedPractice?.title}</H3></ModalHeader>
         <ModalBody>
@@ -150,6 +144,6 @@ export default function BestPracticesPage() {
           <Button variant="solid">View Full Guide</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </CompvssAppLayout>
   );
 }

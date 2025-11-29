@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { Eye, RefreshCw, Pencil, Trash2, Bell, Download } from "lucide-react";
+import { CompvssAppLayout } from "../../components/app-layout";
 import {
   ListPage,
   Badge,
@@ -12,6 +13,8 @@ import {
   Grid,
   Stack,
   Body,
+  EnterprisePageHeader,
+  MainContent,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -115,16 +118,16 @@ export default function CertificationsPage() {
   }, []);
 
   const rowActions: ListPageAction<Certification>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (row) => { setSelectedCert(row); setDrawerOpen(true); } },
-    { id: 'renew', label: 'Renew', icon: '🔄', onClick: (row) => router.push(`/certifications/${row.id}/renew`) },
-    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (row) => router.push(`/certifications/${row.id}/edit`) },
-    { id: 'delete', label: 'Delete', icon: '🗑️', variant: 'danger', onClick: (row) => { setCertToDelete(row); setDeleteConfirmOpen(true); } },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (row) => { setSelectedCert(row); setDrawerOpen(true); } },
+    { id: 'renew', label: 'Renew', icon: <RefreshCw className="size-4" />, onClick: (row) => router.push(`/certifications/${row.id}/renew`) },
+    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (row) => router.push(`/certifications/${row.id}/edit`) },
+    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (row) => { setCertToDelete(row); setDeleteConfirmOpen(true); } },
   ];
 
   const bulkActions: ListPageBulkAction[] = [
-    { id: 'remind', label: 'Send Reminders', icon: '🔔' },
-    { id: 'export', label: 'Export', icon: '⬇️' },
-    { id: 'delete', label: 'Delete', icon: '🗑️', variant: 'danger' },
+    { id: 'remind', label: 'Send Reminders', icon: <Bell className="size-4" /> },
+    { id: 'export', label: 'Export', icon: <Download className="size-4" /> },
+    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger' },
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
@@ -172,37 +175,43 @@ export default function CertificationsPage() {
   ] : [];
 
   return (
-    <>
-      <ListPage<Certification>
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Certifications & Licenses"
         subtitle="Track crew certifications, licenses, and renewal dates"
-        data={certifications}
-        columns={columns}
-        rowKey="id"
-        loading={loading}
-        onRetry={refetch}
-        searchPlaceholder="Search certifications..."
-        filters={filters}
-        rowActions={rowActions}
-        bulkActions={bulkActions}
-        onBulkAction={handleBulkAction}
-        onRowClick={(row) => { setSelectedCert(row); setDrawerOpen(true); }}
-        createLabel="Add Certification"
-        onCreate={() => setCreateModalOpen(true)}
-        onExport={() => console.log('Export certifications')}
-        stats={stats}
-        emptyMessage="No certifications found"
-        emptyAction={{ label: 'Add Certification', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Certifications' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
         ]}
         activeView="list"
+        primaryAction={{ label: 'Add Certification', onClick: () => setCreateModalOpen(true) }}
         showFavorite
-        showSettings />}
+        showSettings
       />
+      <MainContent padding="lg">
+        <ListPage<Certification>
+          title="Certifications & Licenses"
+          subtitle="Track crew certifications, licenses, and renewal dates"
+          data={certifications}
+          columns={columns}
+          rowKey="id"
+          loading={loading}
+          onRetry={refetch}
+          searchPlaceholder="Search certifications..."
+          filters={filters}
+          rowActions={rowActions}
+          bulkActions={bulkActions}
+          onBulkAction={handleBulkAction}
+          onRowClick={(row) => { setSelectedCert(row); setDrawerOpen(true); }}
+          createLabel="Add Certification"
+          onCreate={() => setCreateModalOpen(true)}
+          onExport={() => console.log('Export certifications')}
+          stats={stats}
+          emptyMessage="No certifications found"
+          emptyAction={{ label: 'Add Certification', onClick: () => setCreateModalOpen(true) }}
+        />
+      </MainContent>
 
       <RecordFormModal
         open={createModalOpen}
@@ -238,6 +247,6 @@ export default function CertificationsPage() {
         onConfirm={handleDelete}
         onCancel={() => { setDeleteConfirmOpen(false); setCertToDelete(null); }}
       />
-    </>
+    </CompvssAppLayout>
   );
 }

@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { Eye, Upload, Pencil } from "lucide-react";
+import { AtlvsAppLayout } from "../../components/app-layout";
 import {
   ListPage,
   Badge,
@@ -80,8 +81,8 @@ export default function RFPPage() {
   const totalResponses = rfps.reduce((sum, r) => sum + (r.responses?.[0]?.count || 0), 0);
 
   const rowActions: ListPageAction<RFP>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedRfp(r); setDrawerOpen(true); } },
-    { id: 'publish', label: 'Publish', icon: '📤', onClick: async (r) => { await fetch(`/api/rfp/${r.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status: 'open' }) }); fetchRFPs(); } },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedRfp(r); setDrawerOpen(true); } },
+    { id: 'publish', label: 'Publish', icon: <Upload className="size-4" />, onClick: async (r) => { await fetch(`/api/rfp/${r.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status: 'open' }) }); fetchRFPs(); } },
   ];
 
   const stats = [
@@ -108,7 +109,7 @@ export default function RFPPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<RFP>
         title="RFP Management"
         subtitle="Create and manage requests for proposals"
@@ -128,15 +129,14 @@ export default function RFPPage() {
         stats={stats}
         emptyMessage="No RFPs found"
         emptyAction={{ label: 'Create RFP', onClick: () => router.push('/rfp/new') }}
-        header={<CreatorNavigationAuthenticated
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Rfp' }]}
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'RFP' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       {selectedRfp && (
         <DetailDrawer
@@ -146,10 +146,10 @@ export default function RFPPage() {
           title={(r) => r.title}
           subtitle={(r) => `${r.project_type || 'General'} • ${r.status}`}
           sections={detailSections}
-          actions={[{ id: 'edit', label: 'Edit RFP', icon: '✏️' }, { id: 'publish', label: 'Publish', icon: '📤' }]}
+          actions={[{ id: 'edit', label: 'Edit RFP', icon: <Pencil className="size-4" /> }, { id: 'publish', label: 'Publish', icon: <Upload className="size-4" /> }]}
           onAction={(id, r) => { if (id === 'edit') router.push(`/rfp/${r.id}`); setDrawerOpen(false); }}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

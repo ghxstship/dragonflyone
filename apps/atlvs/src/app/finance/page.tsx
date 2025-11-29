@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { Eye } from "lucide-react";
+import { AtlvsAppLayout } from "../../components/app-layout";
 import { supabase } from "@/lib/supabase";
 import {
   ListPage,
@@ -88,7 +89,7 @@ export default function FinancePage() {
   const netProfit = totalRevenue - totalExpenses;
 
   const rowActions: ListPageAction<Transaction>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedTxn(r); setDrawerOpen(true); } },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedTxn(r); setDrawerOpen(true); } },
   ];
 
   const stats = [
@@ -112,7 +113,7 @@ export default function FinancePage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<Transaction>
         title="Finance Management"
         subtitle="Track revenue, expenses, and financial transactions"
@@ -131,7 +132,6 @@ export default function FinancePage() {
         onExport={() => console.log('Export')}
         stats={stats}
         emptyMessage="No transactions found"
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Finance' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -139,7 +139,7 @@ export default function FinancePage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       {selectedTxn && (
         <DetailDrawer
@@ -151,6 +151,6 @@ export default function FinancePage() {
           sections={detailSections}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

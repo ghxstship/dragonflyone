@@ -3,10 +3,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { ConsumerNavigationPublic } from '@/components/navigation';
+import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
-  Container,
-  Section,
   H2,
   H3,
   Body,
@@ -20,14 +18,8 @@ import {
   Badge,
   Alert,
   Modal,
-  LoadingSpinner,
   StatCard,
   Form,
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Display,
   Kicker,
 } from '@ghxstship/ui';
 
@@ -130,35 +122,7 @@ export default function PhotoGalleriesPage() {
   };
 
   if (loading) {
-    return (
-      <PageLayout
-        background="black"
-        header={<ConsumerNavigationPublic />}
-        footer={
-          <Footer
-            logo={<Display size="md">GVTEWAY</Display>}
-            copyright="© 2024 GHXSTSHIP INDUSTRIES."
-          >
-            <FooterColumn title="Discover">
-              <FooterLink href="/photos">Photos</FooterLink>
-            </FooterColumn>
-          </Footer>
-        }
-      >
-        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-          <div
-            className="pointer-events-none absolute inset-0 opacity-5"
-            style={{
-              backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-              backgroundSize: "40px 40px",
-            }}
-          />
-          <Container className="relative z-10 flex min-h-[60vh] items-center justify-center">
-            <LoadingSpinner size="lg" text="Loading photos..." />
-          </Container>
-        </Section>
-      </PageLayout>
-    );
+    return <GvtewayLoadingLayout />;
   }
 
   const totalPhotos = galleries.reduce((sum, g) => sum + g.photo_count, 0);
@@ -166,34 +130,7 @@ export default function PhotoGalleriesPage() {
   const featuredPhotos = photos.filter(p => p.is_featured).length;
 
   return (
-    <PageLayout
-      background="black"
-      header={<ConsumerNavigationPublic />}
-      footer={
-        <Footer
-          logo={<Display size="md">GVTEWAY</Display>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Community">
-            <FooterLink href="/photos">Photos</FooterLink>
-            <FooterLink href="/community">Community</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Legal">
-            <FooterLink href="/legal/privacy">Privacy</FooterLink>
-            <FooterLink href="/legal/terms">Terms</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
+    <GvtewayAppLayout>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack direction="horizontal" className="items-center justify-between">
@@ -485,8 +422,6 @@ export default function PhotoGalleriesPage() {
           )}
         </Modal>
           </Stack>
-        </Container>
-      </Section>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { Eye, Check, X, Trash2, Download } from "lucide-react";
+import { CompvssAppLayout } from "../../components/app-layout";
 import {
   ListPage,
   Badge,
@@ -112,23 +113,23 @@ export default function ExpensesPage() {
   useEffect(() => { fetchExpenses(); }, [fetchExpenses]);
 
   const rowActions: ListPageAction<Expense>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedExpense(r); setDrawerOpen(true); } },
-    { id: 'approve', label: 'Approve', icon: '✅', onClick: async (r) => {
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedExpense(r); setDrawerOpen(true); } },
+    { id: 'approve', label: 'Approve', icon: <Check className="size-4" />, onClick: async (r) => {
       await fetch(`/api/expenses/${r.id}/approve`, { method: 'POST' });
       addNotification({ type: 'success', title: 'Success', message: 'Expense approved' });
       fetchExpenses();
     }},
-    { id: 'reject', label: 'Reject', icon: '❌', variant: 'danger', onClick: async (r) => {
+    { id: 'reject', label: 'Reject', icon: <X className="size-4" />, variant: 'danger', onClick: async (r) => {
       await fetch(`/api/expenses/${r.id}/reject`, { method: 'POST' });
       addNotification({ type: 'success', title: 'Success', message: 'Expense rejected' });
       fetchExpenses();
     }},
-    { id: 'delete', label: 'Delete', icon: '🗑️', variant: 'danger', onClick: (r) => { setExpenseToDelete(r); setDeleteConfirmOpen(true); } },
+    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (r) => { setExpenseToDelete(r); setDeleteConfirmOpen(true); } },
   ];
 
   const bulkActions: ListPageBulkAction[] = [
-    { id: 'approve', label: 'Bulk Approve', icon: '✅' },
-    { id: 'export', label: 'Export', icon: '⬇️' },
+    { id: 'approve', label: 'Bulk Approve', icon: <Check className="size-4" /> },
+    { id: 'export', label: 'Export', icon: <Download className="size-4" /> },
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
@@ -169,7 +170,7 @@ export default function ExpensesPage() {
   ] : [];
 
   return (
-    <>
+    <CompvssAppLayout>
       <ListPage<Expense>
         title="Production Expenses"
         subtitle="Track and approve crew expenses, per diems, and production costs"
@@ -190,7 +191,6 @@ export default function ExpensesPage() {
         stats={stats}
         emptyMessage="No expenses found"
         emptyAction={{ label: 'Submit Expense', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Expenses' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -198,11 +198,11 @@ export default function ExpensesPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Submit Expense" fields={formFields} onSubmit={handleCreate} size="lg" />
       <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedExpense} title={(e) => e.expense_number} subtitle={(e) => e.crew_member_name} sections={detailSections} onEdit={(e) => router.push(`/expenses/${e.id}/edit`)} onDelete={(e) => { setExpenseToDelete(e); setDeleteConfirmOpen(true); setDrawerOpen(false); }} />
       <ConfirmDialog open={deleteConfirmOpen} title="Delete Expense" message={`Delete expense "${expenseToDelete?.expense_number}"?`} variant="danger" confirmLabel="Delete" onConfirm={handleDelete} onCancel={() => { setDeleteConfirmOpen(false); setExpenseToDelete(null); }} />
-    </>
+    </CompvssAppLayout>
   );
 }

@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { Eye, Pencil, Trash2 } from "lucide-react";
+import { AtlvsAppLayout } from "../../components/app-layout";
 import {
   ListPage,
   Badge,
@@ -89,9 +90,9 @@ export default function CompliancePage() {
   const complianceRate = summary ? Math.round((summary.active / Math.max(summary.total, 1)) * 100) : 0;
 
   const rowActions: ListPageAction<ComplianceItem>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedItem(r); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (r) => router.push(`/compliance/${r.id}/edit`) },
-    { id: 'delete', label: 'Delete', icon: '🗑️', variant: 'danger', onClick: (r) => { setItemToDelete(r); setDeleteConfirmOpen(true); } },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedItem(r); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/compliance/${r.id}/edit`) },
+    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (r) => { setItemToDelete(r); setDeleteConfirmOpen(true); } },
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
@@ -143,7 +144,7 @@ export default function CompliancePage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<ComplianceItem>
         title="Compliance Tracking"
         subtitle="Manage insurance, licenses, certifications, and permits"
@@ -162,7 +163,6 @@ export default function CompliancePage() {
         stats={stats}
         emptyMessage="No compliance items found"
         emptyAction={{ label: 'Add Item', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Compliance' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -170,11 +170,11 @@ export default function CompliancePage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Add Compliance Item" fields={formFields} onSubmit={handleCreate} size="lg" />
       <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedItem} title={(i) => i.title} subtitle={(i) => i.compliance_type} sections={detailSections} onEdit={(i) => router.push(`/compliance/${i.id}/edit`)} onDelete={(i) => { setItemToDelete(i); setDeleteConfirmOpen(true); setDrawerOpen(false); }} />
       <ConfirmDialog open={deleteConfirmOpen} title="Delete Compliance Item" message={`Delete "${itemToDelete?.title}"?`} variant="danger" confirmLabel="Delete" onConfirm={handleDelete} onCancel={() => { setDeleteConfirmOpen(false); setItemToDelete(null); }} />
-    </>
+    </AtlvsAppLayout>
   );
 }

@@ -2,6 +2,7 @@
 
 import React, { useState, useCallback } from "react";
 import clsx from "clsx";
+import { Search, Upload, Download, ChevronUp, ChevronDown, MoreVertical } from "lucide-react";
 
 export interface ListPageColumn<T> {
   key: string;
@@ -301,12 +302,12 @@ export function ListPage<T>({
             <div className="flex gap-gap-sm">
               {onImport && (
                 <button onClick={onImport} className={clsx("px-spacing-4 py-spacing-2 font-code text-mono-sm cursor-pointer", secondaryBtnClass)}>
-                  ⬆️ Import
+                  <Upload className="size-4 inline mr-1" />Import
                 </button>
               )}
               {onExport && (
                 <button onClick={onExport} className={clsx("px-spacing-4 py-spacing-2 font-code text-mono-sm cursor-pointer", secondaryBtnClass)}>
-                  ⬇️ Export
+                  <Download className="size-4 inline mr-1" />Export
                 </button>
               )}
               {onCreate && (
@@ -348,7 +349,7 @@ export function ListPage<T>({
                   : "bg-white text-black border-grey-300 focus:border-grey-500"
               )}
             />
-            <span className={clsx("absolute left-spacing-3 top-1/2 -translate-y-1/2", inverted ? "text-grey-500" : "text-grey-400")}>🔍</span>
+            <span className={clsx("absolute left-spacing-3 top-1/2 -translate-y-1/2", inverted ? "text-grey-500" : "text-grey-400")}><Search className="size-4" /></span>
           </div>
           {filters.map(filter => (
             <select
@@ -442,7 +443,7 @@ export function ListPage<T>({
                         {col.label}
                         {col.sortable && (
                           <span className={clsx("text-micro", sortColumn === col.key ? "opacity-100" : "opacity-30")}>
-                            {sortColumn === col.key && sortDirection === "asc" ? "▲" : sortColumn === col.key && sortDirection === "desc" ? "▼" : "▲▼"}
+                            {sortColumn === col.key && sortDirection === "asc" ? <ChevronUp className="size-3" /> : sortColumn === col.key && sortDirection === "desc" ? <ChevronDown className="size-3" /> : <><ChevronUp className="size-2" /><ChevronDown className="size-2" /></>}
                           </span>
                         )}
                       </span>
@@ -511,7 +512,7 @@ function RowActionsMenu<T>({ row, actions, inverted = true }: { row: T; actions:
           inverted ? "text-grey-400 hover:text-grey-300" : "text-grey-500 hover:text-grey-700"
         )}
       >
-        ⋮
+        <MoreVertical className="size-4" />
       </button>
       {open && (
         <div className={clsx(

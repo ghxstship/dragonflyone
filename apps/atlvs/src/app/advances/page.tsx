@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../components/navigation';
+import { Eye, Check } from 'lucide-react';
 import { useAdvanceReviewQueue } from '@/hooks/useAdvanceReview';
+import { AtlvsAppLayout } from '../../components/app-layout';
 import {
   ListPage,
   Badge,
@@ -62,8 +63,8 @@ export default function AdvanceReviewQueuePage() {
   const totalValue = advances.reduce((sum, a) => sum + (a.estimated_cost || 0), 0);
 
   const rowActions: ListPageAction<Advance>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedAdvance(r); setDrawerOpen(true); } },
-    { id: 'review', label: 'Review', icon: '✅', onClick: (r) => router.push(`/advances/${r.id}`) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedAdvance(r); setDrawerOpen(true); } },
+    { id: 'review', label: 'Review', icon: <Check className="size-4" />, onClick: (r) => router.push(`/advances/${r.id}`) },
   ];
 
   const stats = [
@@ -90,7 +91,7 @@ export default function AdvanceReviewQueuePage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<Advance>
         title="Production Advance Review Queue"
         subtitle="Review and approve production advance requests from COMPVSS"
@@ -106,7 +107,6 @@ export default function AdvanceReviewQueuePage() {
         onExport={() => console.log('Export')}
         stats={stats}
         emptyMessage="No advances pending review"
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Advances' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -114,9 +114,9 @@ export default function AdvanceReviewQueuePage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedAdvance} title={(a) => a.activation_name || 'Advance'} subtitle={(a) => a.organization?.name || ''} sections={detailSections} actions={[{ id: 'review', label: 'Review', icon: '✅' }]} onAction={(id, a) => id === 'review' && router.push(`/advances/${a.id}`)} />
-    </>
+    </AtlvsAppLayout>
   );
 }

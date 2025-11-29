@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../../components/navigation";
+import { CompvssAppLayout } from "../../../components/app-layout";
 import {
   Container,
   H3,
@@ -12,7 +12,6 @@ import {
   StatCard,
   Input,
   Button,
-  Section,
   Card,
   Tabs,
   TabsList,
@@ -23,10 +22,9 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
+  MainContent,
+} from "@ghxstship/ui";
 
 interface CrewMember {
   id: string;
@@ -82,21 +80,19 @@ export default function CrewSocialPage() {
   };
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Crew Social"
         subtitle="Connect with your crew, share updates, and build connections"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Crew', href: '/crew' }, { label: 'Social' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
             <Grid cols={4} gap={6}>
               <StatCard value={mockCrew.length.toString()} label="Crew Members" />
@@ -262,7 +258,7 @@ export default function CrewSocialPage() {
             <Button variant="outline" onClick={() => router.push("/crew")}>Crew Directory</Button>
           </Stack>
         </Container>
-      </Section>
+      </MainContent>
 
       <Modal open={!!selectedMember} onClose={() => setSelectedMember(null)}>
         <ModalHeader><H3>{selectedMember?.name}</H3></ModalHeader>
@@ -296,6 +292,6 @@ export default function CrewSocialPage() {
           <Button variant="solid">Connect</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </CompvssAppLayout>
   );
 }

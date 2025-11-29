@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { Eye, Pencil, RefreshCw, Trash2, Download } from "lucide-react";
+import { AtlvsAppLayout } from "../../components/app-layout";
 import { useContracts } from "../../hooks/useContracts";
 import {
   ListPage,
@@ -128,16 +129,16 @@ export default function ContractsPage() {
   };
 
   const rowActions: ListPageAction<Contract>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (row) => { setSelectedContract(row); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (row) => router.push(`/contracts/${row.id}/edit`) },
-    { id: 'renew', label: 'Renew', icon: '🔄', onClick: (row) => router.push(`/contracts/${row.id}/renew`) },
-    { id: 'delete', label: 'Delete', icon: '🗑️', variant: 'danger', onClick: (row) => { setContractToDelete(row); setDeleteConfirmOpen(true); } },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (row) => { setSelectedContract(row); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (row) => router.push(`/contracts/${row.id}/edit`) },
+    { id: 'renew', label: 'Renew', icon: <RefreshCw className="size-4" />, onClick: (row) => router.push(`/contracts/${row.id}/renew`) },
+    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (row) => { setContractToDelete(row); setDeleteConfirmOpen(true); } },
   ];
 
   const bulkActions: ListPageBulkAction[] = [
-    { id: 'export', label: 'Export', icon: '⬇️' },
-    { id: 'renew', label: 'Bulk Renew', icon: '🔄' },
-    { id: 'delete', label: 'Delete', icon: '🗑️', variant: 'danger' },
+    { id: 'export', label: 'Export', icon: <Download className="size-4" /> },
+    { id: 'renew', label: 'Bulk Renew', icon: <RefreshCw className="size-4" /> },
+    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger' },
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
@@ -201,7 +202,7 @@ export default function ContractsPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<Contract>
         title="Contract Management"
         subtitle="Manage vendor and client contracts"
@@ -223,7 +224,6 @@ export default function ContractsPage() {
         stats={stats}
         emptyMessage="No contracts found"
         emptyAction={{ label: 'Create Contract', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Contracts' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -231,7 +231,7 @@ export default function ContractsPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
 
       <RecordFormModal
@@ -268,6 +268,6 @@ export default function ContractsPage() {
         onConfirm={handleDelete}
         onCancel={() => { setDeleteConfirmOpen(false); setContractToDelete(null); }}
       />
-    </>
+    </AtlvsAppLayout>
   );
 }

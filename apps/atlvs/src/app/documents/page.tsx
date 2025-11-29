@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../components/navigation';
+import { Eye, Download, Pencil, Trash2 } from 'lucide-react';
+import { AtlvsAppLayout } from '../../components/app-layout';
 import {
   ListPage,
   Badge,
@@ -67,10 +68,10 @@ export default function DocumentsPage() {
   const [docToDelete, setDocToDelete] = useState<Document | null>(null);
 
   const rowActions: ListPageAction<Document>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedDoc(r); setDrawerOpen(true); } },
-    { id: 'download', label: 'Download', icon: '⬇️', onClick: (r) => window.open(`/api/documents/${r.id}/download`, '_blank') },
-    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (r) => router.push(`/documents/${r.id}/edit`) },
-    { id: 'delete', label: 'Delete', icon: '🗑️', variant: 'danger', onClick: (r) => { setDocToDelete(r); setDeleteConfirmOpen(true); } },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedDoc(r); setDrawerOpen(true); } },
+    { id: 'download', label: 'Download', icon: <Download className="size-4" />, onClick: (r) => window.open(`/api/documents/${r.id}/download`, '_blank') },
+    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/documents/${r.id}/edit`) },
+    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (r) => { setDocToDelete(r); setDeleteConfirmOpen(true); } },
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
@@ -109,7 +110,7 @@ export default function DocumentsPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<Document>
         title="Document Management"
         subtitle="Centralized document storage with version control"
@@ -127,7 +128,6 @@ export default function DocumentsPage() {
         stats={stats}
         emptyMessage="No documents found"
         emptyAction={{ label: 'Upload Document', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Documents' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -135,11 +135,11 @@ export default function DocumentsPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Upload Document" fields={formFields} onSubmit={handleCreate} size="lg" />
       <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedDoc} title={(d) => d.name} subtitle={(d) => `${d.type} • ${d.folder}`} sections={detailSections} onEdit={(d) => router.push(`/documents/${d.id}/edit`)} onDelete={(d) => { setDocToDelete(d); setDeleteConfirmOpen(true); setDrawerOpen(false); }} actions={[{ id: 'download', label: 'Download', icon: '⬇️' }]} onAction={(id, d) => id === 'download' && window.open(`/api/documents/${d.id}/download`, '_blank')} />
       <ConfirmDialog open={deleteConfirmOpen} title="Delete Document" message={`Delete "${docToDelete?.name}"?`} variant="danger" confirmLabel="Delete" onConfirm={handleDelete} onCancel={() => { setDeleteConfirmOpen(false); setDocToDelete(null); }} />
-    </>
+    </AtlvsAppLayout>
   );
 }

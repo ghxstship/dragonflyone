@@ -2,14 +2,39 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../../components/navigation";
+import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
-  Container, H3, Body, Label, Grid, Stack, StatCard, Select,
-  Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Button,
-  Section, Card, Tabs, TabsList, Tab, TabPanel, Badge, PageLayout, SectionHeader,
-  Modal, ModalHeader, ModalBody, ModalFooter, Alert, ProgressBar, Textarea,
+  Container,
+  H3,
+  Body,
+  Label,
+  Grid,
+  Stack,
+  StatCard,
+  Select,
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+  Button,
+  Card,
+  Tabs,
+  TabsList,
+  Tab,
+  TabPanel,
+  Badge,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Alert,
+  ProgressBar,
+  Textarea,
   EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
+  MainContent,
+} from "@ghxstship/ui";
 
 interface VendorSelection {
   id: string;
@@ -127,21 +152,19 @@ export default function VendorSelectionPage() {
   };
 
   return (
-    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <EnterprisePageHeader
+    <AtlvsAppLayout>
+      <EnterprisePageHeader
         title="Vendor Selection"
         subtitle="Evaluate bids, score vendors, and route for approval"
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Procurement', href: '/procurement' }, { label: 'Vendor Selection' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
           <Grid cols={4} gap={6}>
             <StatCard label="Active Selections" value={mockSelections.length} className="bg-transparent border-2 border-ink-800" />
@@ -244,9 +267,6 @@ export default function VendorSelectionPage() {
               <Button variant="outline" className="border-grey-700 text-grey-400">Export Report</Button>
               <Button variant="outline" className="border-grey-700 text-grey-400" onClick={() => router.push("/procurement")}>Back to Procurement</Button>
             </Grid>
-          </Stack>
-        </Container>
-      </Section>
 
       <Modal open={!!selectedSelection && !showApprovalModal} onClose={() => setSelectedSelection(null)}>
         <ModalHeader><H3>Selection Details</H3></ModalHeader>
@@ -325,6 +345,9 @@ export default function VendorSelectionPage() {
           <Button variant="solid" onClick={() => { setShowApprovalModal(false); setSelectedSelection(null); }}>Submit Decision</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+          </Stack>
+        </Container>
+      </MainContent>
+    </AtlvsAppLayout>
   );
 }

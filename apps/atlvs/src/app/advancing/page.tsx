@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../components/navigation';
+import { Eye, Check } from 'lucide-react';
+import { AtlvsAppLayout } from '../../components/app-layout';
 import {
   ListPage,
   Badge,
@@ -75,8 +76,8 @@ export default function AdvancingPage() {
   const _inProgressCount = requests.filter(r => r.status === 'in_progress').length;
 
   const rowActions: ListPageAction<ProductionAdvance>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedRequest(r); setDrawerOpen(true); } },
-    { id: 'review', label: 'Review', icon: '✅', onClick: (r) => router.push(`/advancing/requests/${r.id}`) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedRequest(r); setDrawerOpen(true); } },
+    { id: 'review', label: 'Review', icon: <Check className="size-4" />, onClick: (r) => router.push(`/advancing/requests/${r.id}`) },
   ];
 
   const stats = [
@@ -101,7 +102,7 @@ export default function AdvancingPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<ProductionAdvance>
         title="Production Advancing"
         subtitle="Manage production advance requests and catalog items"
@@ -117,7 +118,6 @@ export default function AdvancingPage() {
         onExport={() => router.push('/advancing/export')}
         stats={stats}
         emptyMessage="No advance requests found"
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Advancing' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -125,7 +125,7 @@ export default function AdvancingPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       <DetailDrawer
         open={drawerOpen}
@@ -137,6 +137,6 @@ export default function AdvancingPage() {
         actions={[{ id: 'review', label: 'Review Request', icon: '✅' }]}
         onAction={(id, r) => { if (id === 'review') router.push(`/advancing/requests/${r.id}`); setDrawerOpen(false); }}
       />
-    </>
+    </AtlvsAppLayout>
   );
 }

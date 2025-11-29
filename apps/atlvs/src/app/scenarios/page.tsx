@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { Eye, Pencil, BarChart3 } from "lucide-react";
+import { AtlvsAppLayout } from "../../components/app-layout";
 import {
   ListPage,
   Badge,
@@ -138,9 +139,9 @@ export default function ScenariosPage() {
   }, [fetchScenarios]);
 
   const rowActions: ListPageAction<Scenario>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedScenario(r); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (r) => router.push(`/scenarios/${r.id}/edit`) },
-    { id: 'compare', label: 'Compare', icon: '📊', onClick: (r) => router.push(`/scenarios/compare?id=${r.id}`) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedScenario(r); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/scenarios/${r.id}/edit`) },
+    { id: 'compare', label: 'Compare', icon: <BarChart3 className="size-4" />, onClick: (r) => router.push(`/scenarios/compare?id=${r.id}`) },
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
@@ -186,7 +187,7 @@ export default function ScenariosPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<Scenario>
         title="Scenario Planning"
         subtitle="Model different business scenarios and outcomes"
@@ -206,7 +207,6 @@ export default function ScenariosPage() {
         stats={stats}
         emptyMessage="No scenarios found"
         emptyAction={{ label: 'Create Scenario', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Scenarios' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -214,7 +214,7 @@ export default function ScenariosPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
 
       <RecordFormModal
@@ -245,6 +245,6 @@ export default function ScenariosPage() {
           }}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

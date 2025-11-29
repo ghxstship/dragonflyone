@@ -225,17 +225,10 @@ export const atlvsBottomNavigation = [
 
 // Landing page anchor navigation (for marketing/overview page)
 export const atlvsLandingNavigation = [
-  { label: "Overview", href: "#top" },
-  { label: "Operations", href: "#operations" },
-  { label: "Projects", href: "#projects" },
-  { label: "Workflow", href: "#workflow" },
-  { label: "Assets", href: "#assets" },
-  { label: "Finance", href: "#finance" },
-  { label: "Integrations", href: "#integrations" },
-  { label: "Compliance", href: "#compliance" },
-  { label: "Audit", href: "#audit" },
-  { label: "Forms", href: "#forms" },
-  { label: "Contact", href: "#cta" },
+  { label: "Features", href: "#features" },
+  { label: "Solutions", href: "#solutions" },
+  { label: "Pricing", href: "#pricing" },
+  { label: "About", href: "#about" },
 ];
 
 export const atlvsEntities = [
@@ -787,13 +780,341 @@ export const atlvsSlaCommitments = [
 ];
 
 export const atlvsHero = {
-  kicker: "GHXSTSHIP // ATLVS",
-  headline: "Executive Operations Command Surface",
+  kicker: "FOR PRODUCTION PROFESSIONALS",
+  headline: "PRODUCTION MANAGEMENT THAT SCALES",
   description:
-    "ATLVS unifies governance, finance, assets, workforce, and CRM into one monochrome control surface built for velocity, accountability, and total situational awareness.",
-  tags: ["Operations", "Finance", "Assets", "Workforce", "CRM"],
+    "The all-in-one platform for managing productions, activations, installations, and destinations at any scale.",
+  tags: ["Productions", "Activations", "Installations", "Destinations"],
   status: "BUILD 0.1.0 · INTERNAL",
-  cta: "Launch Console",
+  cta: "START FREE TRIAL",
+  secondaryCta: "WATCH DEMO",
+  tagline: "Where chaos becomes choreography.",
+};
+
+// Landing page hero for marketing
+export const atlvsLandingHero = {
+  kicker: "FOR PRODUCTION PROFESSIONALS",
+  headline: "PRODUCTION MANAGEMENT THAT SCALES",
+  description:
+    "The all-in-one platform for managing productions, activations, installations, and destinations at any scale.",
+  primaryCta: { label: "START FREE TRIAL", href: "/auth/signup" },
+  secondaryCta: { label: "WATCH DEMO", href: "#demo" },
+  tagline: "Where chaos becomes choreography.",
+  trustedBy: ["INSOMNIAC", "RED BULL", "SUPERFLY", "AEG", "C3 PRESENTS"],
+};
+
+// Four verticals for landing page
+export const atlvsVerticals = [
+  {
+    id: "productions",
+    icon: "Tent",
+    title: "PRODUCTIONS",
+    description: "Live entertainment at any scale — from 200-person club shows to 400K-attendee festivals",
+    features: ["Festivals", "Concerts", "Tours", "Live events"],
+    workflows: ["Run-of-show", "Stage management", "Artist advancing", "Crew scheduling"],
+    href: "/verticals/productions",
+  },
+  {
+    id: "activations",
+    icon: "Zap",
+    title: "ACTIVATIONS",
+    description: "Brand experiences that create lasting impressions — pop-ups, roadshows, experiential marketing",
+    features: ["Brand experiences", "Pop-ups", "Roadshows", "Launches"],
+    workflows: ["Brand asset management", "Footprint planning", "Activation calendars"],
+    href: "/verticals/activations",
+  },
+  {
+    id: "installations",
+    icon: "Palette",
+    title: "INSTALLATIONS",
+    description: "Immersive environments and artistic exhibitions — permanent and temporary",
+    features: ["Art", "Immersive", "Exhibitions", "Themed environments"],
+    workflows: ["Build schedules", "Technical specs", "Maintenance workflows"],
+    href: "/verticals/installations",
+  },
+  {
+    id: "destinations",
+    icon: "MapPin",
+    title: "DESTINATIONS",
+    description: "Venues, retreats, and experience properties — spaces designed for extraordinary moments",
+    features: ["Venues", "Retreats", "Resorts", "Experience properties"],
+    workflows: ["Property operations", "Booking management", "Guest experience flows"],
+    href: "/verticals/destinations",
+  },
+];
+
+// Problem section for landing page
+export const atlvsProblemSection = {
+  headline: "THE OLD WAY IS BREAKING",
+  tagline: "You didn't get into this industry to manage spreadsheets. You got into it to create experiences.",
+  problems: [
+    {
+      icon: "chaos",
+      title: "SPREADSHEET CHAOS",
+      description: "Your production lives in 47 spreadsheets, 3 Slack channels, and someone's email inbox.",
+    },
+    {
+      icon: "silos",
+      title: "DISCONNECTED TEAMS",
+      description: "Crew in Slack. Budget in Sheets. Timeline in Asana. Nothing talks to anything.",
+    },
+    {
+      icon: "clock",
+      title: "LAST-MINUTE FIRES",
+      description: '"Where\'s the updated call sheet?" at 2am the night before load-in.',
+    },
+  ],
+};
+
+// Three pillars for landing page
+export const atlvsPillarsSolution = [
+  {
+    id: "project-management",
+    title: "PROJECT MANAGEMENT",
+    description:
+      "From concept to wrap, manage every phase of your production with purpose-built tools. Gantt timelines, milestone tracking, and production calendars that understand how shows actually get made.",
+    features: [
+      "Production timelines with dependencies",
+      "Milestone tracking with automated alerts",
+      "Multi-project portfolio views",
+      "Template library for repeatable productions",
+    ],
+    replaces: "Asana, Monday.com, Smartsheet",
+    screenshot: "/images/atlvs-project-dashboard.png",
+  },
+  {
+    id: "workflow-management",
+    title: "WORKFLOW MANAGEMENT",
+    description:
+      "Production advancing, vendor coordination, and approval chains that keep everyone aligned. From artist riders to site plans, nothing falls through the cracks.",
+    features: [
+      "Production advancing workflows",
+      "Approval chains with digital sign-off",
+      "Document management and version control",
+      "Automated status updates and notifications",
+    ],
+    replaces: "DocuSign workflows, email chains, paper forms",
+    screenshot: "/images/atlvs-workflow-board.png",
+  },
+  {
+    id: "resource-management",
+    title: "RESOURCE MANAGEMENT",
+    description:
+      "People, equipment, and budget — all in one view. Know who's where, what's allocated, and how much you've spent before you overspend.",
+    features: [
+      "Crew scheduling and availability",
+      "Equipment inventory and allocation",
+      "Budget tracking with real-time spend",
+      "Vendor and contractor management",
+    ],
+    replaces: "Sortly, ConnectTeam, spreadsheet budgets",
+    screenshot: "/images/atlvs-resource-allocation.png",
+  },
+];
+
+// Feature grid for landing page
+export const atlvsFeatureGrid = [
+  {
+    icon: "Calendar",
+    title: "PRODUCTION CALENDAR",
+    description:
+      "Multi-view calendars with production phases, load-in, show days, and strike windows.",
+  },
+  {
+    icon: "Users",
+    title: "CREW MANAGEMENT",
+    description:
+      "Build your team, manage availability, and schedule shifts across multiple simultaneous shows.",
+  },
+  {
+    icon: "Box",
+    title: "INVENTORY",
+    description:
+      "Track every piece of gear from warehouse to site and back again.",
+  },
+  {
+    icon: "FileText",
+    title: "DOCUMENT HUB",
+    description:
+      "Contracts, riders, tech specs, site plans — organized, versioned, and always accessible.",
+  },
+  {
+    icon: "DollarSign",
+    title: "BUDGET & FINANCE",
+    description:
+      "Real-time budget tracking, expense management, and vendor payments in one place.",
+  },
+  {
+    icon: "Zap",
+    title: "AUTOMATIONS",
+    description:
+      "Trigger-based workflows that eliminate manual tasks and keep you moving.",
+  },
+  {
+    icon: "BarChart",
+    title: "ANALYTICS & REPORTS",
+    description:
+      "Production KPIs, budget variance, resource utilization — know your numbers.",
+  },
+  {
+    icon: "Shield",
+    title: "COMPLIANCE & SAFETY",
+    description:
+      "Union rules, safety briefings, incident reporting — stay compliant at scale.",
+  },
+  {
+    icon: "Puzzle",
+    title: "INTEGRATIONS",
+    description:
+      "Connect to Zapier, Make, n8n, and your existing stack.",
+  },
+];
+
+// COMPVSS section for landing page
+export const atlvsCompvssSection = {
+  kicker: "INTRODUCING",
+  title: "COMPVSS",
+  subtitle: "The collaboration portal for your extended production team",
+  description:
+    "ATLVS is your command center. COMPVSS is how you bring everyone else into the mission — crew, vendors, freelancers, partners, and collaborators who need access without the complexity.",
+  features: [
+    {
+      icon: "HardHat",
+      title: "CREW",
+      description: "Schedules, call sheets, check-ins",
+    },
+    {
+      icon: "Building",
+      title: "VENDORS",
+      description: "POs, invoices, deliverables, contracts",
+    },
+    {
+      icon: "Handshake",
+      title: "PARTNERS",
+      description: "Shared views, approvals, co-production",
+    },
+  ],
+  note: "Included with ATLVS Professional and Enterprise plans",
+  cta: { label: "LEARN MORE ABOUT COMPVSS →", href: "/compvss" },
+};
+
+// Social proof for landing page
+export const atlvsSocialProof = {
+  headline: "TRUSTED BY PRODUCTION TEAMS WORLDWIDE",
+  testimonial: {
+    quote:
+      "ATLVS transformed how we manage our festival portfolio. What used to take 3 production managers and endless spreadsheets now runs from a single dashboard. We shipped 12 festivals last year with half the coordination overhead.",
+    author: "PRODUCTION DIRECTOR",
+    company: "MAJOR FESTIVAL COMPANY",
+  },
+  stats: [
+    { value: "2,400+", label: "Productions Managed" },
+    { value: "50M+", label: "Attendees Served" },
+    { value: "$2.1B", label: "Budgets Tracked" },
+    { value: "99.9%", label: "Uptime SLA" },
+  ],
+};
+
+// Pricing tiers for landing page
+export const atlvsPricing = {
+  headline: "PRICING THAT SCALES WITH YOUR PRODUCTION",
+  subheadline: "Start free. Upgrade when you're ready.",
+  tiers: [
+    {
+      id: "starter",
+      name: "STARTER",
+      price: "$29",
+      period: "/user/month",
+      description: "For small teams and single productions",
+      features: [
+        "5 projects",
+        "Core PM tools",
+        "Basic reporting",
+        "5 team members",
+      ],
+      cta: { label: "START FREE", href: "/auth/signup?plan=starter" },
+      popular: false,
+    },
+    {
+      id: "professional",
+      name: "PROFESSIONAL",
+      price: "$79",
+      period: "/user/month",
+      description: "For growing teams with multiple concurrent shows",
+      features: [
+        "25 projects",
+        "All 3 pillars",
+        "COMPVSS access",
+        "Integrations",
+        "Priority support",
+      ],
+      cta: { label: "START TRIAL", href: "/auth/signup?plan=professional" },
+      popular: true,
+    },
+    {
+      id: "enterprise",
+      name: "ENTERPRISE",
+      price: "Custom",
+      period: "pricing",
+      description: "For large orgs and multi-venue operations",
+      features: [
+        "Unlimited projects",
+        "Custom roles",
+        "SSO/SAML",
+        "API access",
+        "Dedicated CSM",
+        "White-label",
+        "On-prem option",
+      ],
+      cta: { label: "CONTACT SALES", href: "/contact?plan=enterprise" },
+      popular: false,
+    },
+  ],
+  footnote: "All plans include: Unlimited guests • 24/7 support • 99.9% uptime SLA",
+};
+
+// Final CTA for landing page
+export const atlvsLandingCta = {
+  headline: "READY TO SHIP YOUR NEXT SHOW?",
+  subheadline: "Join 2,400+ productions running on ATLVS",
+  primaryCta: { label: "START FREE TRIAL", href: "/auth/signup" },
+  secondaryCta: { label: "SCHEDULE DEMO", href: "/demo" },
+  footnote: "No credit card required • 14-day free trial",
+};
+
+// Footer navigation for landing page
+export const atlvsFooterNavigation = {
+  product: [
+    { label: "Features", href: "/features" },
+    { label: "Pricing", href: "/pricing" },
+    { label: "Integrations", href: "/integrations" },
+    { label: "Security", href: "/security" },
+    { label: "Roadmap", href: "/roadmap" },
+  ],
+  verticals: [
+    { label: "Productions", href: "/verticals/productions" },
+    { label: "Activations", href: "/verticals/activations" },
+    { label: "Installations", href: "/verticals/installations" },
+    { label: "Destinations", href: "/verticals/destinations" },
+  ],
+  resources: [
+    { label: "Help Center", href: "/help" },
+    { label: "Blog", href: "/blog" },
+    { label: "Guides", href: "/guides" },
+    { label: "Templates", href: "/templates" },
+    { label: "API Docs", href: "/docs/api" },
+  ],
+  company: [
+    { label: "About", href: "/about" },
+    { label: "Careers", href: "/careers" },
+    { label: "Press", href: "/press" },
+    { label: "Contact", href: "/contact" },
+  ],
+  ecosystem: [
+    { label: "ATLVS", href: "/", current: true },
+    { label: "COMPVSS", href: "https://compvss.ghxstship.com" },
+    { label: "GVTEWAY", href: "https://gvteway.ghxstship.com" },
+  ],
 };
 
 export const atlvsExecutiveSummary = {

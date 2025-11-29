@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { CompvssAppLayout } from "../../components/app-layout";
 import {
   Container,
   H3,
@@ -13,7 +13,6 @@ import {
   Input,
   Select,
   Button,
-  Section,
   Card,
   Tabs,
   TabsList,
@@ -25,14 +24,13 @@ import {
   ModalBody,
   ModalFooter,
   Textarea,
-  PageLayout,
-  SectionHeader,
   Table,
   TableHeader,
   TableRow,
   TableCell,
   EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
+  MainContent,
+} from "@ghxstship/ui";
 
 interface SoundcheckSlot {
   id: string;
@@ -93,21 +91,20 @@ export default function SoundcheckPage() {
   };
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Soundcheck Coordination"
         subtitle="Schedule and manage soundcheck and focus time for all artists"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Soundcheck' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
+        primaryAction={{ label: 'Add Soundcheck', onClick: () => setShowAddModal(true) }}
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
             <Grid cols={4} gap={6}>
               <StatCard value={completed.toString()} label="Completed" />
@@ -227,7 +224,7 @@ export default function SoundcheckPage() {
             </Grid>
           </Stack>
         </Container>
-      </Section>
+      </MainContent>
 
       <Modal open={!!selectedSlot} onClose={() => setSelectedSlot(null)}>
         <ModalHeader><H3>Soundcheck Details</H3></ModalHeader>
@@ -325,6 +322,6 @@ export default function SoundcheckPage() {
           <Button variant="solid" onClick={() => setShowAddModal(false)}>Add Soundcheck</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </CompvssAppLayout>
   );
 }

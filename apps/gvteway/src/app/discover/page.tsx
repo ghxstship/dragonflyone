@@ -2,10 +2,8 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { ConsumerNavigationPublic } from '../../components/navigation';
+import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
-  Container,
-  Section,
   SectionHeader,
   H3,
   Body,
@@ -15,13 +13,8 @@ import {
   Grid,
   Stack,
   Badge,
-  LoadingSpinner,
   ProjectCard,
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Display,
+  Section,
 } from '@ghxstship/ui';
 import { Music, Tent, Drama, Trophy, Laugh, Moon, ArrowRight } from 'lucide-react';
 
@@ -109,39 +102,13 @@ export default function DiscoverPage() {
     router.push(`/events/${eventId}`);
   };
 
+  if (loading) {
+    return <GvtewayLoadingLayout text="Loading events..." />;
+  }
+
   return (
-    <PageLayout
-      background="black"
-      header={<ConsumerNavigationPublic />}
-      footer={
-        <Footer
-          logo={<Display size="md">GVTEWAY</Display>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Discover">
-            <FooterLink href="/events">Browse Events</FooterLink>
-            <FooterLink href="/venues">Find Venues</FooterLink>
-            <FooterLink href="/artists">Artists</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Support">
-            <FooterLink href="/help">Help Center</FooterLink>
-            <FooterLink href="/help#contact">Contact</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Legal">
-            <FooterLink href="/legal/privacy">Privacy</FooterLink>
-            <FooterLink href="/legal/terms">Terms</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <Section className="bg-black py-16">
-        <Container>
-          {loading ? (
-            <Stack className="flex min-h-[60vh] items-center justify-center">
-              <LoadingSpinner size="lg" text="Loading events..." />
-            </Stack>
-          ) : (
-            <Stack gap={16}>
+    <GvtewayAppLayout>
+      <Stack gap={16}>
               {/* Page Header */}
               <SectionHeader
                 kicker="Personalized For You"
@@ -333,10 +300,7 @@ export default function DiscoverPage() {
                   </Button>
                 </Card>
               </Section>
-            </Stack>
-          )}
-        </Container>
-      </Section>
-    </PageLayout>
+      </Stack>
+    </GvtewayAppLayout>
   );
 }

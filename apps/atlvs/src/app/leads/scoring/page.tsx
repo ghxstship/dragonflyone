@@ -2,10 +2,9 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../../components/navigation';
+import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   Container,
-  Section,
   H2,
   H3,
   Body,
@@ -31,10 +30,9 @@ import {
   TableRow,
   TableHead,
   TableCell,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from '@ghxstship/ui';
+  MainContent,
+} from '@ghxstship/ui';
 
 interface Lead {
   id: string;
@@ -174,31 +172,21 @@ export default function LeadScoringPage() {
   const avgScore = Math.round(leads.reduce((sum, l) => sum + l.score, 0) / leads.length);
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <Stack gap={4} direction="horizontal" className="items-start justify-between">
-              <EnterprisePageHeader
+    <AtlvsAppLayout>
+      <EnterprisePageHeader
         title="Lead Scoring"
         subtitle="Automated lead qualification and scoring"
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Leads', href: '/leads' }, { label: 'Scoring' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
+        primaryAction={{ label: 'View Pipeline', onClick: () => router.push('/deals') }}
+        secondaryActions={[{ id: 'add-rule', label: 'Add Rule', onClick: () => setShowRuleModal(true) }]}
         showFavorite
         showSettings
       />
-              <Stack direction="horizontal" gap={4}>
-                <Button variant="outline" onClick={() => setShowRuleModal(true)}>
-                  Add Rule
-                </Button>
-                <Button variant="solid" onClick={() => router.push('/deals')}>
-                  View Pipeline
-                </Button>
-              </Stack>
-            </Stack>
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
         {error && (
           <Alert variant="error" className="mb-6" onClose={() => setError(null)}>
@@ -592,7 +580,7 @@ export default function LeadScoringPage() {
         </Modal>
           </Stack>
         </Container>
-      </Section>
-    </PageLayout>
+      </MainContent>
+    </AtlvsAppLayout>
   );
 }

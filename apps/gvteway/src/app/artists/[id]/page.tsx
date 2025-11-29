@@ -3,10 +3,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNotifications } from '@ghxstship/ui';
 import { useParams, useRouter } from 'next/navigation';
-import { ConsumerNavigationPublic } from '@/components/navigation';
+import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
-  Container,
-  Section,
   H2,
   H3,
   Body,
@@ -16,14 +14,8 @@ import {
   Grid,
   Stack,
   Badge,
-  LoadingSpinner,
   ProjectCard,
   Figure,
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Display,
   Kicker,
 } from '@ghxstship/ui';
 import Image from 'next/image';
@@ -122,60 +114,26 @@ export default function ArtistPage() {
     }
   };
 
-  const footerContent = (
-    <Footer
-      logo={<Display size="md">GVTEWAY</Display>}
-      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-    >
-      <FooterColumn title="Artists">
-        <FooterLink href="/artists">Browse Artists</FooterLink>
-      </FooterColumn>
-      <FooterColumn title="Legal">
-        <FooterLink href="/legal/privacy">Privacy</FooterLink>
-        <FooterLink href="/legal/terms">Terms</FooterLink>
-      </FooterColumn>
-    </Footer>
-  );
-
   if (loading) {
-    return (
-      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
-        <Section background="black" className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading artist..." />
-        </Section>
-      </PageLayout>
-    );
+    return <GvtewayLoadingLayout text="Loading artist..." />;
   }
 
   if (!artist) {
     return (
-      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
-        <Section background="black" className="min-h-screen py-16">
-          <Container>
-            <Stack className="items-center justify-center min-h-[40vh]" gap={4}>
-              <H2 className="text-white">Artist Not Found</H2>
-              <Body className="text-on-dark-muted">The artist you are looking for does not exist.</Body>
-              <Button variant="outlineInk" onClick={() => router.push('/artists')}>
-                Browse Artists
-              </Button>
-            </Stack>
-          </Container>
-        </Section>
-      </PageLayout>
+      <GvtewayAppLayout>
+        <Stack className="items-center justify-center min-h-[40vh]" gap={4}>
+          <H2 className="text-white">Artist Not Found</H2>
+          <Body className="text-on-dark-muted">The artist you are looking for does not exist.</Body>
+          <Button variant="outlineInk" onClick={() => router.push('/artists')}>
+            Browse Artists
+          </Button>
+        </Stack>
+      </GvtewayAppLayout>
     );
   }
 
   return (
-    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
+    <GvtewayAppLayout>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -288,8 +246,6 @@ export default function ArtistPage() {
           )}
         </Stack>
           </Stack>
-        </Container>
-      </Section>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { Eye, Key } from 'lucide-react';
 import {
   ListPage,
   Badge,
@@ -109,8 +110,8 @@ export default function StakeholdersPage() {
   const invitedCount = stakeholders.filter(s => s.status === 'invited').length;
 
   const rowActions: ListPageAction<Stakeholder>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedStakeholder(r); setDrawerOpen(true); } },
-    { id: 'manage', label: 'Manage Access', icon: '🔑', onClick: (r) => console.log('Manage', r.id) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedStakeholder(r); setDrawerOpen(true); } },
+    { id: 'manage', label: 'Manage Access', icon: <Key className="size-4" />, onClick: (r) => console.log('Manage', r.id) },
   ];
 
   const stats = [

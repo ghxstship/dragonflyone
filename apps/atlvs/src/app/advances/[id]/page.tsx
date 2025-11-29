@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useAdvanceForReview, useApproveAdvance, useRejectAdvance } from '@/hooks/useAdvanceReview';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../../components/navigation';
+import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   Alert,
   Skeleton,
@@ -18,7 +18,6 @@ import {
   Label,
   Display,
   Container,
-  Section,
   Stack,
   Grid,
   Input,
@@ -27,11 +26,8 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  PageLayout,
-  SectionHeader,
-  LoadingSpinner,
-  EnterprisePageHeader,
-  MainContent,} from '@ghxstship/ui';
+  MainContent,
+} from '@ghxstship/ui';
 
 export default function AdvanceReviewDetailPage({ params }: { params: { id: string } }) {
   const router = useRouter();
@@ -76,30 +72,30 @@ export default function AdvanceReviewDetailPage({ params }: { params: { id: stri
 
   if (isLoading) {
     return (
-      <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
-        <Section className="min-h-screen py-16">
+      <AtlvsAppLayout>
+        <MainContent padding="lg">
           <Container>
             <Stack gap={4}>
               <Skeleton className="h-8 w-1/3" />
               <SkeletonCard />
             </Stack>
           </Container>
-        </Section>
-      </PageLayout>
+        </MainContent>
+      </AtlvsAppLayout>
     );
   }
 
   if (error || !data?.advance) {
     return (
-      <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
-        <Section className="min-h-screen py-16">
+      <AtlvsAppLayout>
+        <MainContent padding="lg">
           <Container>
             <Alert variant="error" title="Error Loading Advance">
               {error?.message || 'Advance not found'}
             </Alert>
           </Container>
-        </Section>
-      </PageLayout>
+        </MainContent>
+      </AtlvsAppLayout>
     );
   }
 
@@ -107,8 +103,8 @@ export default function AdvanceReviewDetailPage({ params }: { params: { id: stri
   const cost = advance.estimated_cost || 0;
 
   return (
-    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
+    <AtlvsAppLayout>
+      <MainContent padding="lg">
         <Container>
           <Stack gap={6}>
             {/* Header */}
@@ -316,7 +312,7 @@ export default function AdvanceReviewDetailPage({ params }: { params: { id: stri
       </Modal>
           </Stack>
         </Container>
-      </Section>
-    </PageLayout>
+      </MainContent>
+    </AtlvsAppLayout>
   );
 }

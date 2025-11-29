@@ -2,10 +2,22 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../components/navigation';
-import { Container, Section, H2, H3, Body, Button, Input, Card, Grid, Badge, Stack, StatCard, PageLayout, SectionHeader,
+import { CompvssAppLayout } from '../../components/app-layout';
+import {
+  Container,
+  H2,
+  H3,
+  Body,
+  Button,
+  Input,
+  Card,
+  Grid,
+  Badge,
+  Stack,
+  StatCard,
   EnterprisePageHeader,
-  MainContent,} from '@ghxstship/ui';
+  MainContent,
+} from '@ghxstship/ui';
 import { Search, BookOpen, Video, FileText, Download, Star } from 'lucide-react';
 
 export default function KnowledgePage() {
@@ -48,27 +60,20 @@ export default function KnowledgePage() {
   const categories = ['All', 'Safety', 'Technical', 'Operations', 'Equipment', 'Compliance'];
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <Stack gap={4} direction="horizontal" className="flex-col items-center justify-between md:flex-row">
-              <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Knowledge Base"
         subtitle="SOPs, guides, and training materials"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Knowledge' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
+        primaryAction={{ label: 'Contribute', onClick: () => router.push('/knowledge/contribute') }}
         showFavorite
         showSettings
       />
-              <Button variant="solid" onClick={() => router.push('/knowledge/contribute')}>
-                <FileText className="mr-2 size-4" />
-                CONTRIBUTE
-              </Button>
-            </Stack>
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
             <Card>
               <Stack className="relative">
@@ -161,7 +166,7 @@ export default function KnowledgePage() {
             </Grid>
           </Stack>
         </Container>
-      </Section>
-    </PageLayout>
+      </MainContent>
+    </CompvssAppLayout>
   );
 }

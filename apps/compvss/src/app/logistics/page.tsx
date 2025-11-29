@@ -2,7 +2,8 @@
 
 import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { Eye, MapPin, Pencil } from "lucide-react";
+import { CompvssAppLayout } from "../../components/app-layout";
 import { useShipments } from "@/hooks/useLogistics";
 import {
   ListPage,
@@ -13,6 +14,8 @@ import {
   Grid,
   Stack,
   Body,
+  EnterprisePageHeader,
+  MainContent,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -67,9 +70,9 @@ export default function LogisticsPage() {
   const deliveredCount = shipments.filter(s => s.status === 'delivered').length;
 
   const rowActions: ListPageAction<Shipment>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedShipment(r); setDrawerOpen(true); } },
-    { id: 'track', label: 'Track', icon: '📍', onClick: (r) => router.push(`/logistics/${r.id}`) },
-    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (r) => router.push(`/logistics/${r.id}/edit`) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedShipment(r); setDrawerOpen(true); } },
+    { id: 'track', label: 'Track', icon: <MapPin className="size-4" />, onClick: (r) => router.push(`/logistics/${r.id}`) },
+    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/logistics/${r.id}/edit`) },
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
@@ -101,37 +104,43 @@ export default function LogisticsPage() {
   ] : [];
 
   return (
-    <>
-      <ListPage<Shipment>
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Logistics & Transportation"
         subtitle="Track shipments, manage fleet, and coordinate deliveries"
-        data={shipments}
-        columns={columns}
-        rowKey="id"
-        loading={isLoading}
-        onRetry={() => refetch?.()}
-        searchPlaceholder="Search shipments..."
-        filters={filters}
-        rowActions={rowActions}
-        onRowClick={(r) => { setSelectedShipment(r); setDrawerOpen(true); }}
-        createLabel="Schedule Shipment"
-        onCreate={() => setCreateModalOpen(true)}
-        onExport={() => console.log('Export')}
-        stats={stats}
-        emptyMessage="No shipments found"
-        emptyAction={{ label: 'Schedule Shipment', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Logistics' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
         ]}
         activeView="list"
+        primaryAction={{ label: 'Schedule Shipment', onClick: () => setCreateModalOpen(true) }}
         showFavorite
-        showSettings />}
+        showSettings
       />
+      <MainContent padding="lg">
+        <ListPage<Shipment>
+          title="Logistics & Transportation"
+          subtitle="Track shipments, manage fleet, and coordinate deliveries"
+          data={shipments}
+          columns={columns}
+          rowKey="id"
+          loading={isLoading}
+          onRetry={() => refetch?.()}
+          searchPlaceholder="Search shipments..."
+          filters={filters}
+          rowActions={rowActions}
+          onRowClick={(r) => { setSelectedShipment(r); setDrawerOpen(true); }}
+          createLabel="Schedule Shipment"
+          onCreate={() => setCreateModalOpen(true)}
+          onExport={() => console.log('Export')}
+          stats={stats}
+          emptyMessage="No shipments found"
+          emptyAction={{ label: 'Schedule Shipment', onClick: () => setCreateModalOpen(true) }}
+        />
+      </MainContent>
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Schedule Shipment" fields={formFields} onSubmit={handleCreate} size="lg" />
       <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedShipment} title={(s) => s.id} subtitle={(s) => s.equipment} sections={detailSections} onEdit={(s) => router.push(`/logistics/${s.id}/edit`)} actions={[{ id: 'track', label: 'Track', icon: '📍' }]} onAction={(id, s) => id === 'track' && router.push(`/logistics/${s.id}`)} />
-    </>
+    </CompvssAppLayout>
   );
 }

@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../../components/navigation';
+import { Eye, Link, Pencil } from 'lucide-react';
+import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   ListPage, Badge, DetailDrawer,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
@@ -62,8 +63,8 @@ export default function LaborLawsPage() {
   const updatedLaws = data.filter((l) => l.status === 'Updated').length;
 
   const rowActions: ListPageAction<StateLaborLaw>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
-    { id: 'source', label: 'View Source', icon: '🔗', onClick: (r) => console.log('View source', r.id) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
+    { id: 'source', label: 'View Source', icon: <Link className="size-4" />, onClick: (r) => console.log('View source', r.id) },
   ];
 
   const stats = [
@@ -88,7 +89,7 @@ export default function LaborLawsPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<StateLaborLaw>
         title="Multi-State Labor Law Management"
         subtitle="Track and comply with labor laws across all operating states"
@@ -103,7 +104,6 @@ export default function LaborLawsPage() {
         onExport={() => console.log('Export')}
         stats={stats}
         emptyMessage="No labor laws found"
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Workforce', href: '/workforce' }, { label: 'Labor Laws' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -111,7 +111,7 @@ export default function LaborLawsPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       {selected && (
         <DetailDrawer
@@ -121,10 +121,10 @@ export default function LaborLawsPage() {
           title={(r) => r.requirement}
           subtitle={(r) => `${r.state} • ${r.category}`}
           sections={detailSections}
-          actions={[{ id: 'source', label: 'View Source', icon: '🔗' }, { id: 'edit', label: 'Edit', icon: '✏️' }]}
+          actions={[{ id: 'source', label: 'View Source', icon: <Link className="size-4" /> }, { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" /> }]}
           onAction={(id, r) => { console.log(id, r.id); setDrawerOpen(false); }}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

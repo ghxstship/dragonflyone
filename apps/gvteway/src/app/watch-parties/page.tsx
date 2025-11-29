@@ -3,10 +3,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { ConsumerNavigationPublic } from '@/components/navigation';
+import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
-  Container,
-  Section,
   H2,
   H3,
   Body,
@@ -21,15 +19,9 @@ import {
   Badge,
   Alert,
   Modal,
-  LoadingSpinner,
   StatCard,
   Checkbox,
   Form,
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Display,
   Kicker,
 } from '@ghxstship/ui';
 
@@ -216,69 +208,14 @@ export default function WatchPartiesPage() {
   };
 
   if (loading) {
-    return (
-      <PageLayout
-        background="black"
-        header={<ConsumerNavigationPublic />}
-        footer={
-          <Footer
-            logo={<Display size="md">GVTEWAY</Display>}
-            copyright="© 2024 GHXSTSHIP INDUSTRIES."
-          >
-            <FooterColumn title="Social">
-              <FooterLink href="/watch-parties">Watch Parties</FooterLink>
-            </FooterColumn>
-          </Footer>
-        }
-      >
-        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-          <div
-            className="pointer-events-none absolute inset-0 opacity-5"
-            style={{
-              backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-              backgroundSize: "40px 40px",
-            }}
-          />
-          <Container className="relative z-10 flex min-h-[60vh] items-center justify-center">
-            <LoadingSpinner size="lg" text="Loading watch parties..." />
-          </Container>
-        </Section>
-      </PageLayout>
-    );
+    return <GvtewayLoadingLayout text="Loading watch parties..." />;
   }
 
   const liveParties = parties.filter(p => p.status === 'live');
   const upcomingParties = parties.filter(p => p.status === 'upcoming');
 
   return (
-    <PageLayout
-      background="black"
-      header={<ConsumerNavigationPublic />}
-      footer={
-        <Footer
-          logo={<Display size="md">GVTEWAY</Display>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Social">
-            <FooterLink href="/watch-parties">Watch Parties</FooterLink>
-            <FooterLink href="/friends">Friends</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Legal">
-            <FooterLink href="/legal/privacy">Privacy</FooterLink>
-            <FooterLink href="/legal/terms">Terms</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
+    <GvtewayAppLayout>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack direction="horizontal" className="items-center justify-between">
@@ -349,8 +286,8 @@ export default function WatchPartiesPage() {
         </Stack>
 
         {liveParties.length > 0 && filter !== 'upcoming' && (
-          <Section className="mb-8">
-            <H2 className="mb-4">🔴 HAPPENING NOW</H2>
+          <Stack className="mb-8" gap={4}>
+            <H2>HAPPENING NOW</H2>
             <Grid cols={2} gap={6}>
               {liveParties.map(party => (
                 <Card
@@ -390,7 +327,7 @@ export default function WatchPartiesPage() {
                 </Card>
               ))}
             </Grid>
-          </Section>
+          </Stack>
         )}
 
         <Grid cols={3} gap={6}>
@@ -613,8 +550,6 @@ export default function WatchPartiesPage() {
           )}
         </Modal>
           </Stack>
-        </Container>
-      </Section>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

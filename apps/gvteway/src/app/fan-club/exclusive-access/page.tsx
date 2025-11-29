@@ -2,12 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ConsumerNavigationPublic } from "@/components/navigation";
+import { GvtewayAppLayout } from "@/components/app-layout";
 import {
-  Container, H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section, Card, Tabs, TabsList, Tab, TabPanel, Badge, ProgressBar,
-  Modal, ModalHeader, ModalBody, ModalFooter,
-  PageLayout, Footer, FooterColumn, FooterLink, Display, Kicker,
+  H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
+  Card, Tabs, TabsList, Tab, TabPanel, Badge, ProgressBar,
+  Modal, ModalHeader, ModalBody, ModalFooter, Kicker,
 } from "@ghxstship/ui";
 
 interface ExclusiveWindow {
@@ -72,34 +71,7 @@ export default function ExclusiveAccessPage() {
   };
 
   return (
-    <PageLayout
-      background="black"
-      header={<ConsumerNavigationPublic />}
-      footer={
-        <Footer
-          logo={<Display size="md">GVTEWAY</Display>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Fan Club">
-            <FooterLink href="/fan-club">Fan Club</FooterLink>
-            <FooterLink href="/fan-club/exclusive-access">Exclusive Access</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Legal">
-            <FooterLink href="/legal/privacy">Privacy</FooterLink>
-            <FooterLink href="/legal/terms">Terms</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
+    <GvtewayAppLayout>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -215,8 +187,6 @@ export default function ExclusiveAccessPage() {
 
           <Button variant="outlineInk" onClick={() => router.push("/fan-club")}>Back to Fan Club</Button>
           </Stack>
-        </Container>
-      </Section>
 
       <Modal open={!!selectedWindow} onClose={() => setSelectedWindow(null)}>
         <ModalHeader><H3>Manage Access Window</H3></ModalHeader>
@@ -292,6 +262,6 @@ export default function ExclusiveAccessPage() {
           <Button variant="solid" onClick={() => setShowCreateModal(false)}>Create Window</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

@@ -2,12 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
-import { ConsumerNavigationPublic } from "@/components/navigation";
+import { GvtewayAppLayout } from "@/components/app-layout";
 import {
-  Container, H2, H3, Body, Label, Grid, Stack, StatCard, Button,
-  Section, Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter,
-  PageLayout, Footer, FooterColumn, FooterLink, Display, Kicker,
+  H2, H3, Body, Label, Grid, Stack, StatCard, Button,
+  Card, Tabs, TabsList, Tab, TabPanel, Badge,
+  Modal, ModalHeader, ModalBody, ModalFooter, Kicker,
 } from "@ghxstship/ui";
 
 interface SocialPost {
@@ -74,33 +73,7 @@ export default function SocialWallPage() {
   const filteredPosts = activeTab === "all" ? posts : posts.filter(p => p.platform.toLowerCase() === activeTab);
 
   return (
-    <PageLayout
-      background="black"
-      header={<ConsumerNavigationPublic />}
-      footer={
-        <Footer
-          logo={<Display size="md">GVTEWAY</Display>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Events">
-            <FooterLink href="/events">Events</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Legal">
-            <FooterLink href="/legal/privacy">Privacy</FooterLink>
-            <FooterLink href="/legal/terms">Terms</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
+    <GvtewayAppLayout>
           <Stack gap={8}>
             <Stack gap={2}>
               <Kicker colorScheme="on-dark">Live Feed</Kicker>
@@ -109,7 +82,7 @@ export default function SocialWallPage() {
             </Stack>
             <Stack direction="horizontal" className="items-center justify-between">
             <Stack direction="horizontal" gap={4} className="items-center">
-              {isLive && <Badge variant="solid" className="bg-error-500 animate-pulse">● LIVE</Badge>}
+              {isLive && <Badge variant="solid" className="bg-error-500 animate-pulse">LIVE</Badge>}
               <Button variant={isLive ? "solid" : "outline"} onClick={() => setIsLive(!isLive)}>
                 {isLive ? "Pause Feed" : "Resume Feed"}
               </Button>
@@ -180,8 +153,6 @@ export default function SocialWallPage() {
             <Button variant="outlineInk" onClick={() => router.push(`/events/${eventId}/photo-booth`)}>Photo Booth</Button>
           </Grid>
           </Stack>
-        </Container>
-      </Section>
 
       <Modal open={!!selectedPost} onClose={() => setSelectedPost(null)}>
         <ModalHeader><H3>Post Details</H3></ModalHeader>
@@ -220,6 +191,6 @@ export default function SocialWallPage() {
           <Button variant="solid">Share</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

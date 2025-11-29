@@ -2,23 +2,21 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { CompvssAppLayout } from '../../../components/app-layout';
 import {
   Container,
-  Section,
   Button,
   Tabs,
   TabsList,
   Tab,
   TabPanel,
   Stack,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from '@ghxstship/ui';
+  MainContent,
+} from '@ghxstship/ui';
 import { useAdvancingRequest } from '@ghxstship/config';
 import { AdvanceRequestDetail } from '@/components/advancing/advance-request-detail';
 import { FulfillmentManager } from '@/components/advancing/fulfillment-manager';
-import { CreatorNavigationAuthenticated } from '../../../components/navigation';
 
 export default function AdvanceRequestPage({ params }: { params: { id: string } }) {
   const router = useRouter();
@@ -28,18 +26,20 @@ export default function AdvanceRequestPage({ params }: { params: { id: string } 
   const canFulfill = request && ['approved', 'in_progress'].includes(request.status);
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
+    <CompvssAppLayout>
+      <EnterprisePageHeader
+        title="Advance Request"
+        subtitle={`Request ID: ${params.id}`}
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Advancing', href: '/advancing' }, { label: params.id }]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
+      <MainContent padding="lg">
         <Container>
           <Stack gap={10}>
-            <Stack direction="horizontal" className="items-center justify-between">
-              <SectionHeader
-                kicker="COMPVSS"
-                title="Advance Request"
-                description={`Request ID: ${params.id}`}
-                colorScheme="on-light"
-                gap="lg"
-              />
+            <Stack direction="horizontal" className="items-center justify-end">
               <Button variant="outline" onClick={() => router.back()}>
                 Back
               </Button>
@@ -65,7 +65,7 @@ export default function AdvanceRequestPage({ params }: { params: { id: string } 
             )}
           </Stack>
         </Container>
-      </Section>
-    </PageLayout>
+      </MainContent>
+    </CompvssAppLayout>
   );
 }

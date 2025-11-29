@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { CompvssAppLayout } from "../../components/app-layout";
 import {
   Container,
   H3,
@@ -13,17 +13,15 @@ import {
   Input,
   Select,
   Button,
-  Section,
   Card,
   Badge,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
+  MainContent,
+} from "@ghxstship/ui";
 
 interface GlossaryTerm {
   id: string;
@@ -69,22 +67,19 @@ export default function GlossaryPage() {
   }).sort((a, b) => a.term.localeCompare(b.term));
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            {/* Page Header */}
-            <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Industry Glossary"
         subtitle="Comprehensive glossary of live event production terminology"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Glossary' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
             {/* Stats Grid */}
             <Grid cols={4} gap={6}>
@@ -154,7 +149,7 @@ export default function GlossaryPage() {
             </Grid>
           </Stack>
         </Container>
-      </Section>
+      </MainContent>
 
       {/* Term Detail Modal */}
       <Modal open={!!selectedTerm} onClose={() => setSelectedTerm(null)}>
@@ -184,6 +179,6 @@ export default function GlossaryPage() {
           <Button variant="outline">Edit Term</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </CompvssAppLayout>
   );
 }

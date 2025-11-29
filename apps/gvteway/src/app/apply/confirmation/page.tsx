@@ -1,17 +1,11 @@
 "use client";
 
-import { MembershipNavigationPublic } from "@/components/navigation";
+import { GvtewayAppLayout } from "@/components/app-layout";
 import {
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
   Display,
   H2,
   Body,
   Button,
-  Section,
-  Container,
   Stack,
   Card,
   Label,
@@ -22,40 +16,7 @@ import NextLink from "next/link";
 
 export default function ApplicationConfirmationPage() {
   return (
-    <PageLayout
-      background="black"
-      header={<MembershipNavigationPublic />}
-      footer={
-        <Footer
-          logo={<Display size="md">GVTEWAY</Display>}
-          copyright="© 2025 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Membership">
-            <FooterLink href="/">Home</FooterLink>
-            <FooterLink href="/membership">Learn More</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Support">
-            <FooterLink href="/help">Help Center</FooterLink>
-            <FooterLink href="/contact">Contact</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Legal">
-            <FooterLink href="/legal/privacy">Privacy</FooterLink>
-            <FooterLink href="/legal/terms">Terms</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <Section background="black" className="relative flex min-h-screen items-center overflow-hidden py-24">
-        {/* Halftone pattern */}
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)",
-            backgroundSize: "20px 20px",
-          }}
-        />
-
-        <Container className="relative z-10">
+    <GvtewayAppLayout variant="membership">
           <Stack gap={12} className="mx-auto max-w-xl text-center">
             <ScrollReveal animation="scale">
               {/* Success Icon */}
@@ -140,8 +101,6 @@ export default function ApplicationConfirmationPage() {
               </Stack>
             </ScrollReveal>
           </Stack>
-        </Container>
-      </Section>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

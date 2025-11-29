@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { CompvssAppLayout } from "../../components/app-layout";
 import {
   Container,
   H3,
@@ -13,7 +13,6 @@ import {
   Input,
   Select,
   Button,
-  Section,
   Card,
   Badge,
   Modal,
@@ -21,10 +20,9 @@ import {
   ModalBody,
   ModalFooter,
   Textarea,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
+  MainContent,
+} from "@ghxstship/ui";
 
 interface Drawing {
   id: string;
@@ -72,24 +70,20 @@ export default function DrawingsPage() {
   };
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            {/* Page Header */}
-            <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Drawings & CAD Files"
         subtitle="Technical drawings with markup and version control"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Drawings' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
+        primaryAction={{ label: 'Upload Drawing', onClick: () => setShowUploadModal(true) }}
         showFavorite
         showSettings
       />
-
-            {/* Stats Grid */}
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
             <Grid cols={4} gap={6}>
               <StatCard value={mockDrawings.length.toString()} label="Total Drawings" />
               <StatCard value={(categories.length - 1).toString()} label="Categories" />
@@ -178,7 +172,7 @@ export default function DrawingsPage() {
             </Grid>
           </Stack>
         </Container>
-      </Section>
+      </MainContent>
 
       {/* View Drawing Modal */}
       <Modal open={!!selectedDrawing} onClose={() => setSelectedDrawing(null)}>
@@ -265,6 +259,6 @@ export default function DrawingsPage() {
           <Button variant="solid" onClick={() => setShowUploadModal(false)}>Upload</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </CompvssAppLayout>
   );
 }

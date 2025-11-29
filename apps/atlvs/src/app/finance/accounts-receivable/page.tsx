@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../../components/navigation";
+import { Eye, DollarSign, Mail } from "lucide-react";
+import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
   ListPage,
   Badge,
@@ -64,9 +65,9 @@ export default function AccountsReceivablePage() {
   const overdueCount = invoices.filter(i => i.status === "Overdue").length;
 
   const rowActions: ListPageAction<Invoice>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedInvoice(r); setDrawerOpen(true); } },
-    { id: 'payment', label: 'Record Payment', icon: '💰', onClick: (r) => console.log('Record payment', r.id) },
-    { id: 'reminder', label: 'Send Reminder', icon: '📧', onClick: (r) => console.log('Send reminder', r.id) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedInvoice(r); setDrawerOpen(true); } },
+    { id: 'payment', label: 'Record Payment', icon: <DollarSign className="size-4" />, onClick: (r) => console.log('Record payment', r.id) },
+    { id: 'reminder', label: 'Send Reminder', icon: <Mail className="size-4" />, onClick: (r) => console.log('Send reminder', r.id) },
   ];
 
   const stats = [
@@ -95,7 +96,7 @@ export default function AccountsReceivablePage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<Invoice>
         title="Accounts Receivable"
         subtitle="Invoice tracking, collections, and payment management"
@@ -112,7 +113,6 @@ export default function AccountsReceivablePage() {
         onExport={() => console.log('Export')}
         stats={stats}
         emptyMessage="No invoices found"
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Finance', href: '/finance' }, { label: 'Accounts Receivable' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -120,7 +120,7 @@ export default function AccountsReceivablePage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       {selectedInvoice && (
         <DetailDrawer
@@ -134,6 +134,6 @@ export default function AccountsReceivablePage() {
           onAction={(id, r) => { console.log(id, r.id); setDrawerOpen(false); }}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

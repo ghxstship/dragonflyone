@@ -2,11 +2,8 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { ConsumerNavigationPublic } from '@/components/navigation';
+import { GvtewayAppLayout, GvtewayLoadingLayout, GvtewayEmptyLayout } from '@/components/app-layout';
 import {
-  Container,
-  Section,
-  Display,
   H2,
   H3,
   Body,
@@ -15,14 +12,10 @@ import {
   Grid,
   Stack,
   Badge,
-  LoadingSpinner,
   ProjectCard,
   Figure,
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Kicker,
+  Section,
+  Display,
 } from '@ghxstship/ui';
 import Image from 'next/image';
 
@@ -111,59 +104,22 @@ export default function VenuePage() {
     }
   };
 
-  const footerContent = (
-    <Footer
-      logo={<Display size="md">GVTEWAY</Display>}
-      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-    >
-      <FooterColumn title="Venues">
-        <FooterLink href="/venues">All Venues</FooterLink>
-      </FooterColumn>
-      <FooterColumn title="Legal">
-        <FooterLink href="/legal/privacy">Privacy</FooterLink>
-        <FooterLink href="/legal/terms">Terms</FooterLink>
-      </FooterColumn>
-    </Footer>
-  );
-
   if (loading) {
-    return (
-      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
-        <Section background="black" className="flex min-h-screen items-center justify-center">
-          <LoadingSpinner size="lg" />
-        </Section>
-      </PageLayout>
-    );
+    return <GvtewayLoadingLayout text="Loading venue..." />;
   }
 
   if (!venue) {
     return (
-      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
-        <Section background="black" className="min-h-screen">
-          <Container>
-            <Stack className="items-center justify-center min-h-[60vh]" gap={4}>
-              <Display className="text-white">VENUE NOT FOUND</Display>
-              <Button variant="outlineInk" onClick={() => router.push('/venues')}>
-                Browse Venues
-              </Button>
-            </Stack>
-          </Container>
-        </Section>
-      </PageLayout>
+      <GvtewayEmptyLayout
+        title="Venue Not Found"
+        description="The venue you're looking for doesn't exist or has been removed."
+        action={{ label: "Browse Venues", href: "/venues" }}
+      />
     );
   }
 
   return (
-    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
+    <GvtewayAppLayout>
         {venue.image && (
           <Section className="mb-8 -mx-4 md:-mx-8">
             <Figure className="relative h-64 md:h-96 bg-ink-100 overflow-hidden">
@@ -281,8 +237,6 @@ export default function VenuePage() {
             </Card>
           </Stack>
         </Grid>
-        </Container>
-      </Section>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

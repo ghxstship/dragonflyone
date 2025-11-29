@@ -2,10 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../../../components/navigation';
+import { AtlvsAppLayout } from '../../../../components/app-layout';
 import {
   Container,
-  Section,
   H2,
   H3,
   Body,
@@ -16,12 +15,12 @@ import {
   Button,
   Stack,
   Label,
-  PageLayout,
   SectionHeader,
   LoadingSpinner,
   StatCard,
   EnterprisePageHeader,
-  MainContent,} from '@ghxstship/ui';
+  MainContent,
+} from '@ghxstship/ui';
 import { ArrowLeft, TrendingUp, Target, AlertTriangle, Activity } from 'lucide-react';
 
 interface KPIDefinition {
@@ -100,26 +99,13 @@ export default function KPIDetailPage() {
 
   if (loading || !kpi) {
     return (
-      <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
-        <Section className="min-h-screen py-16">
-          <Container>
-            <Stack gap={6}>
-              <EnterprisePageHeader
-        title="KPI Detail"
-        subtitle="Loading KPI data..."
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Analytics', href: '/analytics' }, { label: 'Kpi', href: '/analytics/kpi' }, { label: 'Detail' }]}
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
-        showFavorite
-        showSettings
-      />
-              <Stack className="items-center justify-center py-12">
-                <LoadingSpinner size="lg" text="Loading KPI data..." />
-              </Stack>
-            </Stack>
+      <AtlvsAppLayout>
+        <MainContent padding="lg">
+          <Container className="flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" text="Loading KPI data..." />
           </Container>
-        </Section>
-      </PageLayout>
+        </MainContent>
+      </AtlvsAppLayout>
     );
   }
 
@@ -142,20 +128,23 @@ export default function KPIDetailPage() {
   const change = latestValue && previousValue ? ((latestValue - previousValue) / previousValue) * 100 : null;
 
   return (
-    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
+    <AtlvsAppLayout>
+      <EnterprisePageHeader
+        title={kpi.name}
+        subtitle={kpi.description}
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Analytics', href: '/analytics' }, { label: 'KPI', href: '/analytics/kpi' }, { label: kpi.code }]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
+        activeView="default"
+        secondaryActions={[{ id: 'back', label: 'Back to Library', onClick: () => router.push('/analytics/kpi') }]}
+        showFavorite
+        showSettings
+      />
+      <MainContent padding="lg">
         <Container>
           <Stack gap={10}>
             {/* Header */}
             <Stack direction="horizontal" className="items-start justify-between">
               <Stack gap={4}>
-                <SectionHeader
-                  kicker="ATLVS"
-                  title={kpi.name}
-                  description={kpi.description}
-                  colorScheme="on-dark"
-                  gap="lg"
-                />
                 <Stack direction="horizontal" gap={3} className="items-center">
                   <Badge variant="outline" className="font-mono">
                     {kpi.code}
@@ -325,7 +314,7 @@ export default function KPIDetailPage() {
         </Card>
           </Stack>
         </Container>
-      </Section>
-    </PageLayout>
+      </MainContent>
+    </AtlvsAppLayout>
   );
 }

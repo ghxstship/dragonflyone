@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../../components/navigation';
+import { Eye, Reply, Link } from 'lucide-react';
+import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   ListPage, Badge, DetailDrawer,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
@@ -54,9 +55,9 @@ export default function EmailIntegrationPage() {
   const linkedCount = data.filter(e => e.linkedContact || e.linkedDeal).length;
 
   const rowActions: ListPageAction<EmailThread>[] = [
-    { id: 'view', label: 'View Email', icon: '👁️', onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
-    { id: 'reply', label: 'Reply', icon: '↩️', onClick: (r) => console.log('Reply to', r.id) },
-    { id: 'link', label: 'Link to Contact', icon: '🔗', onClick: (r) => console.log('Link', r.id) },
+    { id: 'view', label: 'View Email', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
+    { id: 'reply', label: 'Reply', icon: <Reply className="size-4" />, onClick: (r) => console.log('Reply to', r.id) },
+    { id: 'link', label: 'Link to Contact', icon: <Link className="size-4" />, onClick: (r) => console.log('Link', r.id) },
   ];
 
   const stats = [
@@ -82,7 +83,7 @@ export default function EmailIntegrationPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<EmailThread>
         title="Email Integration"
         subtitle="Connect email accounts and auto-log communications to CRM"
@@ -97,15 +98,14 @@ export default function EmailIntegrationPage() {
         onExport={() => console.log('Export')}
         stats={stats}
         emptyMessage="No emails found"
-        header={<CreatorNavigationAuthenticated
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Crm', href: '/crm' }, { label: 'Email Integration' }]}
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'CRM', href: '/crm' }, { label: 'Email Integration' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       {selected && (
         <DetailDrawer
@@ -119,6 +119,6 @@ export default function EmailIntegrationPage() {
           onAction={(id, r) => { console.log(id, r.id); setDrawerOpen(false); }}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

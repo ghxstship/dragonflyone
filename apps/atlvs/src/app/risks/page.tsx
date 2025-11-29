@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { Eye, Pencil } from "lucide-react";
+import { AtlvsAppLayout } from "../../components/app-layout";
 import { useRisks } from "../../hooks/useRisks";
 import {
   ListPage,
@@ -60,8 +61,8 @@ export default function RisksPage() {
   const mitigatedRisks = riskData.filter(r => r.status === "mitigated").length;
 
   const rowActions: ListPageAction<Risk>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedRisk(r); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (r) => router.push(`/risks/${r.id}/edit`) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedRisk(r); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/risks/${r.id}/edit`) },
   ];
 
   const stats = [
@@ -87,7 +88,7 @@ export default function RisksPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<Risk>
         title="Risk Management"
         subtitle="Identify, assess, and mitigate organizational risks"
@@ -107,7 +108,6 @@ export default function RisksPage() {
         stats={stats}
         emptyMessage="No risks found"
         emptyAction={{ label: 'Report New Risk', onClick: () => router.push('/risks/new') }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Risks' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -115,7 +115,7 @@ export default function RisksPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       {selectedRisk && (
         <DetailDrawer
@@ -125,10 +125,10 @@ export default function RisksPage() {
           title={(r) => r.title}
           subtitle={(r) => `${r.category} • ${r.severity}`}
           sections={detailSections}
-          actions={[{ id: 'edit', label: 'Edit Risk', icon: '✏️' }]}
+          actions={[{ id: 'edit', label: 'Edit Risk', icon: <Pencil className="size-4" /> }]}
           onAction={(id, r) => { if (id === 'edit') router.push(`/risks/${r.id}/edit`); setDrawerOpen(false); }}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

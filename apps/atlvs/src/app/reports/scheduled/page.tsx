@@ -2,14 +2,38 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../../components/navigation";
+import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
-  Container, H3, Body, Label, Grid, Stack, StatCard, Select, Button, Input,
-  Section, Card, Tabs, TabsList, Tab, Badge, PageLayout, SectionHeader,
-  Modal, ModalHeader, ModalBody, ModalFooter, Textarea, Alert,
-  Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
+  Container,
+  H3,
+  Body,
+  Label,
+  Grid,
+  Stack,
+  StatCard,
+  Select,
+  Button,
+  Input,
+  Card,
+  Tabs,
+  TabsList,
+  Tab,
+  Badge,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Textarea,
+  Alert,
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
   EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
+  MainContent,
+} from "@ghxstship/ui";
 
 interface ScheduledReport {
   id: string;
@@ -59,21 +83,20 @@ export default function ScheduledReportsPage() {
     mockReports.filter(r => r.status === "Paused" || r.status === "Failed");
 
   return (
-    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <EnterprisePageHeader
+    <AtlvsAppLayout>
+      <EnterprisePageHeader
         title="Scheduled Reports"
         subtitle="Automated report generation and distribution"
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Reports', href: '/reports' }, { label: 'Scheduled' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
+        primaryAction={{ label: 'Create Schedule', onClick: () => setShowCreateModal(true) }}
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
           <Grid cols={4} gap={6}>
             <StatCard label="Total Schedules" value={mockReports.length} className="bg-transparent border-2 border-ink-800" />
@@ -140,8 +163,6 @@ export default function ScheduledReportsPage() {
               <Button variant="outline" className="border-grey-700 text-grey-400" onClick={() => router.push("/analytics")}>Analytics</Button>
             </Grid>
           </Stack>
-        </Container>
-      </Section>
 
       <Modal open={!!selectedReport} onClose={() => setSelectedReport(null)}>
         <ModalHeader><H3>Edit Schedule</H3></ModalHeader>
@@ -203,6 +224,8 @@ export default function ScheduledReportsPage() {
           <Button variant="solid" onClick={() => setShowCreateModal(false)}>Create</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+        </Container>
+      </MainContent>
+    </AtlvsAppLayout>
   );
 }

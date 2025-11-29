@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { CompvssAppLayout } from "../../components/app-layout";
 import {
   Container,
   H3,
@@ -13,7 +13,6 @@ import {
   Input,
   Select,
   Button,
-  Section,
   Card,
   Badge,
   Modal,
@@ -26,10 +25,9 @@ import {
   TableRow,
   TableHead,
   TableCell,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
+  MainContent,
+} from "@ghxstship/ui";
 
 interface ProjectFile {
   id: string;
@@ -84,22 +82,20 @@ export default function FileSharingPage() {
   };
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            {/* Page Header */}
-            <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="File Sharing"
         subtitle="Project files with version control and cloud storage"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Files' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
+        primaryAction={{ label: 'Upload File', onClick: () => setShowUploadModal(true) }}
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
             {/* Stats Grid */}
             <Grid cols={4} gap={6}>
@@ -175,7 +171,7 @@ export default function FileSharingPage() {
             </Grid>
           </Stack>
         </Container>
-      </Section>
+      </MainContent>
 
       {/* File Details Modal */}
       <Modal open={!!selectedFile} onClose={() => setSelectedFile(null)}>
@@ -256,6 +252,6 @@ export default function FileSharingPage() {
           <Button variant="solid" onClick={() => setShowUploadModal(false)}>Upload</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </CompvssAppLayout>
   );
 }

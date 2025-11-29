@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../../components/navigation';
+import { Eye, BarChart3 } from 'lucide-react';
+import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   ListPage, Badge, DetailDrawer,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
@@ -65,8 +66,8 @@ export default function AssetUtilizationPage() {
   const overallROI = ((totalRevenue / totalAssetValue) * 100).toFixed(1);
 
   const rowActions: ListPageAction<AssetUtilization>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
-    { id: 'history', label: 'View History', icon: '📊', onClick: (r) => router.push(`/assets/${r.id}/history`) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
+    { id: 'history', label: 'View History', icon: <BarChart3 className="size-4" />, onClick: (r) => router.push(`/assets/${r.id}/history`) },
   ];
 
   const stats = [
@@ -94,7 +95,7 @@ export default function AssetUtilizationPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<AssetUtilization>
         title="Asset Utilization & ROI"
         subtitle="Performance analytics, utilization rates, and return on investment"
@@ -109,7 +110,6 @@ export default function AssetUtilizationPage() {
         onExport={() => console.log('Export')}
         stats={stats}
         emptyMessage="No utilization data found"
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Assets', href: '/assets' }, { label: 'Utilization' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -117,7 +117,7 @@ export default function AssetUtilizationPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       {selected && (
         <DetailDrawer
@@ -131,6 +131,6 @@ export default function AssetUtilizationPage() {
           onAction={(id, r) => { if (id === 'history') router.push(`/assets/${r.id}/history`); setDrawerOpen(false); }}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

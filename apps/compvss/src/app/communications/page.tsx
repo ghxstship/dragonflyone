@@ -1,10 +1,9 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../components/navigation';
+import { CompvssAppLayout } from '../../components/app-layout';
 import {
   Container,
-  Section,
   H2,
   H3,
   Body,
@@ -14,10 +13,9 @@ import {
   Badge,
   Stack,
   StatCard,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from '@ghxstship/ui';
+  MainContent,
+} from '@ghxstship/ui';
 import { Radio, Phone, Users, MessageSquare, Bell, AlertCircle } from 'lucide-react';
 
 export default function CommunicationsPage() {
@@ -35,34 +33,19 @@ export default function CommunicationsPage() {
   ];
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            {/* Page Header */}
-            <Stack direction="horizontal" className="items-start justify-between">
-              <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Communications"
         subtitle="Radio channels and team messaging"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Communications' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite
         showSettings
       />
-              <Stack gap={3} direction="horizontal">
-                <Button variant="outline" onClick={() => router.push('/communications/alerts')}>
-                  <Bell className="mr-2 size-4" />
-                  ALERTS
-                </Button>
-                <Button variant="solid" onClick={() => router.push('/communications/channels/new')}>
-                  <Radio className="mr-2 size-4" />
-                  NEW CHANNEL
-                </Button>
-              </Stack>
-            </Stack>
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
             {/* Stats Grid */}
             <Grid cols={4} gap={6}>
@@ -153,7 +136,7 @@ export default function CommunicationsPage() {
             </Card>
           </Stack>
         </Container>
-      </Section>
-    </PageLayout>
+      </MainContent>
+    </CompvssAppLayout>
   );
 }

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { CompvssAppLayout } from "../../components/app-layout";
 import { useCrewSkills } from "../../hooks/useSkills";
 import { useCrew } from "../../hooks/useCrew";
 import {
@@ -22,12 +22,10 @@ import {
   Container,
   Grid,
   Stack,
-  Section,
   Body,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
+  MainContent,
+} from "@ghxstship/ui";
 
 const skillCategories = ["Rigging", "Audio", "Video", "Lighting", "Staging", "Electrical", "Safety"];
 
@@ -43,20 +41,38 @@ export default function SkillsPage() {
 
   if (isLoading) {
     return (
-      <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-        <Section className="min-h-screen py-16">
+      <CompvssAppLayout>
+        <EnterprisePageHeader
+          title="Skills Matrix"
+          subtitle="Crew skills, certifications, and proficiency levels"
+          breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Skills' }]}
+          views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
+          activeView="default"
+          showFavorite
+          showSettings
+        />
+        <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
             <LoadingSpinner size="lg" text="Loading skills matrix..." />
           </Container>
-        </Section>
-      </PageLayout>
+        </MainContent>
+      </CompvssAppLayout>
     );
   }
 
   if (skillsError) {
     return (
-      <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-        <Section className="min-h-screen py-16">
+      <CompvssAppLayout>
+        <EnterprisePageHeader
+          title="Skills Matrix"
+          subtitle="Crew skills, certifications, and proficiency levels"
+          breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Skills' }]}
+          views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
+          activeView="default"
+          showFavorite
+          showSettings
+        />
+        <MainContent padding="lg">
           <Container>
             <EmptyState
               title="Error Loading Skills"
@@ -64,8 +80,8 @@ export default function SkillsPage() {
               action={{ label: "Retry", onClick: () => refetch() }}
             />
           </Container>
-        </Section>
-      </PageLayout>
+        </MainContent>
+      </CompvssAppLayout>
     );
   }
 
@@ -110,21 +126,20 @@ export default function SkillsPage() {
   };
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Skills Matrix"
         subtitle="Crew skills, certifications, and proficiency levels"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Skills' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
+        primaryAction={{ label: 'Add Skills', onClick: () => router.push('/skills/new') }}
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
             <Grid cols={4} gap={6}>
               <StatCard
@@ -234,7 +249,7 @@ export default function SkillsPage() {
             </Stack>
           </Stack>
         </Container>
-      </Section>
-    </PageLayout>
+      </MainContent>
+    </CompvssAppLayout>
   );
 }

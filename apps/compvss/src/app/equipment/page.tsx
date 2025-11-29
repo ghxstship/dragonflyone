@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../components/navigation';
+import { Eye, Pencil, ClipboardList, Wrench, Trash2, Download } from 'lucide-react';
+import { CompvssAppLayout } from '../../components/app-layout';
 import {
   ListPage,
   Badge,
@@ -12,6 +13,8 @@ import {
   Grid,
   Stack,
   Body,
+  EnterprisePageHeader,
+  MainContent,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -128,18 +131,18 @@ export default function EquipmentPage() {
   const equipmentList = (equipment || []) as unknown as Equipment[];
 
   const rowActions: ListPageAction<Equipment>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (row) => { setSelectedEquipment(row); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (row) => router.push(`/equipment/${row.id}/edit`) },
-    { id: 'assign', label: 'Assign', icon: '📋', onClick: (row) => router.push(`/equipment/${row.id}/assign`) },
-    { id: 'maintenance', label: 'Log Maintenance', icon: '🔧', onClick: (row) => router.push(`/equipment/${row.id}/maintenance`) },
-    { id: 'delete', label: 'Delete', icon: '🗑️', variant: 'danger', onClick: (row) => { setEquipmentToDelete(row); setDeleteConfirmOpen(true); } },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (row) => { setSelectedEquipment(row); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (row) => router.push(`/equipment/${row.id}/edit`) },
+    { id: 'assign', label: 'Assign', icon: <ClipboardList className="size-4" />, onClick: (row) => router.push(`/equipment/${row.id}/assign`) },
+    { id: 'maintenance', label: 'Log Maintenance', icon: <Wrench className="size-4" />, onClick: (row) => router.push(`/equipment/${row.id}/maintenance`) },
+    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (row) => { setEquipmentToDelete(row); setDeleteConfirmOpen(true); } },
   ];
 
   const bulkActions: ListPageBulkAction[] = [
-    { id: 'assign', label: 'Assign to Project', icon: '📋' },
-    { id: 'maintenance', label: 'Schedule Maintenance', icon: '🔧' },
-    { id: 'export', label: 'Export', icon: '⬇️' },
-    { id: 'retire', label: 'Retire', icon: '🗑️', variant: 'danger' },
+    { id: 'assign', label: 'Assign to Project', icon: <ClipboardList className="size-4" /> },
+    { id: 'maintenance', label: 'Schedule Maintenance', icon: <Wrench className="size-4" /> },
+    { id: 'export', label: 'Export', icon: <Download className="size-4" /> },
+    { id: 'retire', label: 'Retire', icon: <Trash2 className="size-4" />, variant: 'danger' },
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
@@ -202,37 +205,43 @@ export default function EquipmentPage() {
   ] : [];
 
   return (
-    <>
-      <ListPage<Equipment>
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Equipment Inventory"
         subtitle="Track and manage production equipment"
-        data={equipmentList}
-        columns={columns}
-        rowKey="id"
-        loading={isLoading}
-        onRetry={refetch}
-        searchPlaceholder="Search equipment..."
-        filters={filters}
-        rowActions={rowActions}
-        bulkActions={bulkActions}
-        onBulkAction={handleBulkAction}
-        onRowClick={(row) => { setSelectedEquipment(row); setDrawerOpen(true); }}
-        createLabel="Add Equipment"
-        onCreate={() => setCreateModalOpen(true)}
-        onExport={() => console.log('Export equipment')}
-        stats={stats}
-        emptyMessage="No equipment found"
-        emptyAction={{ label: 'Add Equipment', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Equipment' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
         ]}
         activeView="list"
+        primaryAction={{ label: 'Add Equipment', onClick: () => setCreateModalOpen(true) }}
         showFavorite
-        showSettings />}
+        showSettings
       />
+      <MainContent padding="lg">
+        <ListPage<Equipment>
+          title="Equipment Inventory"
+          subtitle="Track and manage production equipment"
+          data={equipmentList}
+          columns={columns}
+          rowKey="id"
+          loading={isLoading}
+          onRetry={refetch}
+          searchPlaceholder="Search equipment..."
+          filters={filters}
+          rowActions={rowActions}
+          bulkActions={bulkActions}
+          onBulkAction={handleBulkAction}
+          onRowClick={(row) => { setSelectedEquipment(row); setDrawerOpen(true); }}
+          createLabel="Add Equipment"
+          onCreate={() => setCreateModalOpen(true)}
+          onExport={() => console.log('Export equipment')}
+          stats={stats}
+          emptyMessage="No equipment found"
+          emptyAction={{ label: 'Add Equipment', onClick: () => setCreateModalOpen(true) }}
+        />
+      </MainContent>
 
       <RecordFormModal
         open={createModalOpen}
@@ -272,6 +281,6 @@ export default function EquipmentPage() {
         onConfirm={handleDelete}
         onCancel={() => { setDeleteConfirmOpen(false); setEquipmentToDelete(null); }}
       />
-    </>
+    </CompvssAppLayout>
   );
 }

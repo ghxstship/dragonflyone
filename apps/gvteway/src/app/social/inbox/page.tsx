@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ConsumerNavigationPublic } from "@/components/navigation";
+import { GvtewayAppLayout } from "@/components/app-layout";
 import {
-  Container, H2, H3, Body, Label, Grid, Stack, StatCard, Select, Button,
-  Section, Card, Tabs, TabsList, Tab, Badge, Textarea,
+  H2, H3, Body, Label, Grid, Stack, StatCard, Select, Button,
+  Card, Tabs, TabsList, Tab, Badge, Textarea,
   Modal, ModalHeader, ModalBody, ModalFooter,
-  PageLayout, Footer, FooterColumn, FooterLink, Display, Kicker,
+  Kicker,
 } from "@ghxstship/ui";
 
 interface SocialMessage {
@@ -78,34 +78,7 @@ export default function SocialInboxPage() {
   });
 
   return (
-    <PageLayout
-      background="black"
-      header={<ConsumerNavigationPublic />}
-      footer={
-        <Footer
-          logo={<Display size="md">GVTEWAY</Display>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Social">
-            <FooterLink href="/social">Social Hub</FooterLink>
-            <FooterLink href="/social/inbox">Inbox</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Legal">
-            <FooterLink href="/legal/privacy">Privacy</FooterLink>
-            <FooterLink href="/legal/terms">Terms</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
+    <GvtewayAppLayout>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -166,8 +139,6 @@ export default function SocialInboxPage() {
 
           <Button variant="outlineInk" onClick={() => router.push("/social")}>Back to Social</Button>
           </Stack>
-        </Container>
-      </Section>
 
       <Modal open={!!selectedMessage} onClose={() => setSelectedMessage(null)}>
         <ModalHeader><H3>Reply to Message</H3></ModalHeader>
@@ -215,6 +186,6 @@ export default function SocialInboxPage() {
           <Button variant="solid">Send Reply</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

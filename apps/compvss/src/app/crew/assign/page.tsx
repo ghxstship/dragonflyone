@@ -2,10 +2,9 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../../components/navigation';
+import { CompvssAppLayout } from '../../../components/app-layout';
 import {
   Container,
-  Section,
   H2,
   Body,
   Button,
@@ -16,10 +15,9 @@ import {
   Grid,
   Badge,
   Stack,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from '@ghxstship/ui';
+  MainContent,
+} from '@ghxstship/ui';
 
 interface CrewMember {
   id: string;
@@ -72,21 +70,19 @@ export default function AssignCrewPage() {
   };
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Assign Crew"
         subtitle="Assign crew members to projects"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Crew', href: '/crew' }, { label: 'Assign' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
             <Grid cols={3} gap={4}>
               <Field label="Project">
@@ -192,7 +188,7 @@ export default function AssignCrewPage() {
             </Stack>
           </Stack>
         </Container>
-      </Section>
-    </PageLayout>
+      </MainContent>
+    </CompvssAppLayout>
   );
 }

@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useCallback } from "react";
 import clsx from "clsx";
+import { Image, Video, Music, FileText, BarChart3, FileEdit, Package, Paperclip, Upload, X } from "lucide-react";
 
 export interface UploadedFile {
   id: string;
@@ -51,15 +52,15 @@ function formatFileSize(bytes: number): string {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + " " + sizes[i];
 }
 
-function getFileIcon(type: string): string {
-  if (type.startsWith("image/")) return "🖼️";
-  if (type.startsWith("video/")) return "🎬";
-  if (type.startsWith("audio/")) return "🎵";
-  if (type.includes("pdf")) return "📄";
-  if (type.includes("spreadsheet") || type.includes("excel")) return "📊";
-  if (type.includes("document") || type.includes("word")) return "📝";
-  if (type.includes("zip") || type.includes("archive")) return "📦";
-  return "📎";
+function getFileIcon(type: string): React.ReactNode {
+  if (type.startsWith("image/")) return <Image className="size-5" />;
+  if (type.startsWith("video/")) return <Video className="size-5" />;
+  if (type.startsWith("audio/")) return <Music className="size-5" />;
+  if (type.includes("pdf")) return <FileText className="size-5" />;
+  if (type.includes("spreadsheet") || type.includes("excel")) return <BarChart3 className="size-5" />;
+  if (type.includes("document") || type.includes("word")) return <FileEdit className="size-5" />;
+  if (type.includes("zip") || type.includes("archive")) return <Package className="size-5" />;
+  return <Paperclip className="size-5" />;
 }
 
 export function FileUpload({
@@ -215,7 +216,7 @@ export function FileUpload({
 
         {/* Upload icon */}
         <div className={compact ? "text-h2-sm mb-spacing-2" : "text-h1-sm mb-spacing-4"}>
-          ⬆️
+          <Upload className={compact ? "size-6 mx-auto" : "size-10 mx-auto"} />
         </div>
 
         {/* Label */}
@@ -295,7 +296,7 @@ export function FileUpload({
                   className="w-icon-lg h-icon-lg bg-transparent border-none cursor-pointer text-grey-500 text-mono-sm flex items-center justify-center transition-colors duration-fast hover:text-black"
                   aria-label={`Remove ${file.name}`}
                 >
-                  ✕
+                  <X className="size-4" />
                 </button>
               )}
             </div>

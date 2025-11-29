@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../components/navigation';
+import { Eye, Pencil, Trash2 } from 'lucide-react';
+import { AtlvsAppLayout } from '../../components/app-layout';
 import {
   ListPage,
   Badge,
@@ -69,9 +70,9 @@ export default function DealsPage() {
   const wonDeals = deals.filter(d => d.status === 'won').length;
 
   const rowActions: ListPageAction<Deal>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedDeal(r); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (r) => router.push(`/deals/${r.id}/edit`) },
-    { id: 'delete', label: 'Delete', icon: '🗑️', variant: 'danger', onClick: (r) => { setDealToDelete(r); setDeleteConfirmOpen(true); } },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedDeal(r); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/deals/${r.id}/edit`) },
+    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (r) => { setDealToDelete(r); setDeleteConfirmOpen(true); } },
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
@@ -111,7 +112,7 @@ export default function DealsPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<Deal>
         title="Deals"
         subtitle="Manage your sales pipeline and opportunities"
@@ -130,7 +131,6 @@ export default function DealsPage() {
         stats={stats}
         emptyMessage="No deals yet"
         emptyAction={{ label: 'Create Deal', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Deals' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -138,11 +138,11 @@ export default function DealsPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="New Deal" fields={formFields} onSubmit={handleCreate} size="lg" />
       <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedDeal} title={(d) => d.title} subtitle={(d) => d.client || 'No client'} sections={detailSections} onEdit={(d) => router.push(`/deals/${d.id}/edit`)} onDelete={(d) => { setDealToDelete(d); setDeleteConfirmOpen(true); setDrawerOpen(false); }} />
       <ConfirmDialog open={deleteConfirmOpen} title="Delete Deal" message={`Delete deal "${dealToDelete?.title}"?`} variant="danger" confirmLabel="Delete" onConfirm={handleDelete} onCancel={() => { setDeleteConfirmOpen(false); setDealToDelete(null); }} />
-    </>
+    </AtlvsAppLayout>
   );
 }

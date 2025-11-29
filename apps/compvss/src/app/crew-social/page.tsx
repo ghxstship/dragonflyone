@@ -2,9 +2,9 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { CompvssAppLayout } from '../../components/app-layout';
 import {
   Container,
-  Section,
   H3,
   Body,
   Button,
@@ -24,11 +24,9 @@ import {
   Tabs,
   TabsList,
   Tab,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from '@ghxstship/ui';
-import { CreatorNavigationAuthenticated } from '../../components/navigation';
+  MainContent,
+} from '@ghxstship/ui';
 
 interface CrewMember {
   id: string;
@@ -125,26 +123,20 @@ export default function CrewSocialPage() {
   const totalConnections = crewMembers.reduce((sum, m) => sum + m.connections.length, 0) / 2;
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <Stack direction="horizontal" className="justify-between items-start">
-              <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Crew Social"
         subtitle="Connect with your crew, share photos, build your network"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Crew Social' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
+        primaryAction={{ label: 'Full Directory', onClick: () => router.push('/crew') }}
         showFavorite
         showSettings
       />
-              <Button variant="solid" onClick={() => router.push('/crew')}>
-                Full Directory
-              </Button>
-            </Stack>
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
           {error && (
             <Alert variant="error" onClose={() => setError(null)}>
@@ -337,7 +329,7 @@ export default function CrewSocialPage() {
             </Grid>
           </Stack>
         </Container>
-      </Section>
+      </MainContent>
 
       <Modal open={!!selectedMember && !showConnectModal} onClose={() => setSelectedMember(null)}>
         <ModalHeader><H3>Crew Profile</H3></ModalHeader>
@@ -425,6 +417,6 @@ export default function CrewSocialPage() {
           </Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </CompvssAppLayout>
   );
 }

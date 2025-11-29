@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../../components/navigation';
+import { CompvssAppLayout } from '../../../components/app-layout';
 import {
   Container,
   H3,
@@ -18,7 +18,6 @@ import {
   TableHead,
   TableCell,
   Button,
-  Section,
   Card,
   Tabs,
   TabsList,
@@ -29,10 +28,9 @@ import {
   ModalBody,
   ModalFooter,
   ProgressBar,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from '@ghxstship/ui';
+  MainContent,
+} from '@ghxstship/ui';
 
 interface TranslatedContent {
   id: string;
@@ -91,22 +89,20 @@ export default function MultilingualPage() {
   };
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <Stack direction="horizontal" className="justify-between">
-              <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Multilingual Support"
         subtitle="Content translations for international crews"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Knowledge', href: '/knowledge' }, { label: 'Multilingual' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
+            <Stack direction="horizontal" className="justify-end">
               <Select value={userLanguage} onChange={(e) => setUserLanguage(e.target.value)}>
                 {mockLanguages.filter(l => l.enabled).map(lang => (
                   <option key={lang.code} value={lang.code}>{lang.nativeName} ({lang.name})</option>
@@ -261,7 +257,7 @@ export default function MultilingualPage() {
             <Button variant="outline" onClick={() => router.push('/knowledge')}>Back to Knowledge Base</Button>
           </Stack>
         </Container>
-      </Section>
+      </MainContent>
 
       <Modal open={!!selectedContent} onClose={() => setSelectedContent(null)}>
         <ModalHeader><H3>Translation Status</H3></ModalHeader>
@@ -295,6 +291,6 @@ export default function MultilingualPage() {
           <Button variant="solid">Request Translation</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </CompvssAppLayout>
   );
 }

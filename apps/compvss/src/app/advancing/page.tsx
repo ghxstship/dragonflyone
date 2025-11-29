@@ -2,10 +2,9 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../components/navigation';
+import { CompvssAppLayout } from '../../components/app-layout';
 import {
   Container,
-  Section,
   Button,
   Card,
   Grid,
@@ -15,10 +14,9 @@ import {
   TabsList,
   Tab,
   TabPanel,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from '@ghxstship/ui';
+  MainContent,
+} from '@ghxstship/ui';
 import { AdvanceRequestsList } from '@/components/advancing/advance-requests-list';
 
 export default function AdvancingPage() {
@@ -34,22 +32,20 @@ export default function AdvancingPage() {
   };
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            {/* Page Header */}
-            <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Production Advancing"
         subtitle="Submit and manage production advance requests"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Advancing' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
+        primaryAction={{ label: 'Create New Request', onClick: () => router.push('/advancing/new') }}
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
             {/* Stats Grid */}
             <Grid cols={4} gap={6}>
@@ -118,7 +114,7 @@ export default function AdvancingPage() {
             </Grid>
           </Stack>
         </Container>
-      </Section>
-    </PageLayout>
+      </MainContent>
+    </CompvssAppLayout>
   );
 }

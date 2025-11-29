@@ -2,12 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ConsumerNavigationPublic } from "@/components/navigation";
+import { GvtewayAppLayout } from "@/components/app-layout";
 import {
-  Container, H2, H3, Body, Label, Grid, Stack, StatCard, Button,
-  Section, Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter, ProgressBar,
-  PageLayout, Footer, FooterColumn, FooterLink, Display, Kicker,
+  H2, H3, Body, Label, Grid, Stack, StatCard, Button,
+  Card, Tabs, TabsList, Tab, TabPanel, Badge,
+  Modal, ModalHeader, ModalBody, ModalFooter, ProgressBar, Kicker,
 } from "@ghxstship/ui";
 
 interface Challenge {
@@ -77,34 +76,7 @@ export default function ChallengesPage() {
   const filteredChallenges = activeTab === "all" ? mockChallenges : mockChallenges.filter(c => c.status.toLowerCase() === activeTab);
 
   return (
-    <PageLayout
-      background="black"
-      header={<ConsumerNavigationPublic />}
-      footer={
-        <Footer
-          logo={<Display size="md">GVTEWAY</Display>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Community">
-            <FooterLink href="/community">Community</FooterLink>
-            <FooterLink href="/community/challenges">Challenges</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Legal">
-            <FooterLink href="/legal/privacy">Privacy</FooterLink>
-            <FooterLink href="/legal/terms">Terms</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
+    <GvtewayAppLayout>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -245,8 +217,6 @@ export default function ChallengesPage() {
 
           <Button variant="outlineInk" onClick={() => router.push("/community")}>Back to Community</Button>
           </Stack>
-        </Container>
-      </Section>
 
       <Modal open={!!selectedChallenge} onClose={() => setSelectedChallenge(null)}>
         <ModalHeader><H3>{selectedChallenge?.title}</H3></ModalHeader>
@@ -284,6 +254,6 @@ export default function ChallengesPage() {
           )}
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

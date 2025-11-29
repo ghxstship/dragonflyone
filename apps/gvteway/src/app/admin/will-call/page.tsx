@@ -2,18 +2,14 @@
 
 import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { ConsumerNavigationPublic } from "@/components/navigation";
+import { Eye, Check } from "lucide-react";
+import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   ListPage,
   Badge,
   RecordFormModal,
   DetailDrawer,
   ConfirmDialog,
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Display,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -79,8 +75,8 @@ export default function WillCallPage() {
   const pendingCount = tickets.filter(t => t.status === "Pending").length;
 
   const rowActions: ListPageAction<WillCallTicket>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedTicket(r); setDrawerOpen(true); } },
-    { id: 'release', label: 'Release Tickets', icon: '✅', onClick: (r) => { setTicketToRelease(r); setReleaseConfirmOpen(true); } },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedTicket(r); setDrawerOpen(true); } },
+    { id: 'release', label: 'Release Tickets', icon: <Check className="size-4" />, onClick: (r) => { setTicketToRelease(r); setReleaseConfirmOpen(true); } },
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
@@ -121,24 +117,8 @@ export default function WillCallPage() {
     )},
   ] : [];
 
-  const footerContent = (
-    <Footer
-      logo={<Display size="md">GVTEWAY</Display>}
-      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-    >
-      <FooterColumn title="Admin">
-        <FooterLink href="/admin/will-call">Will Call</FooterLink>
-        <FooterLink href="/admin/promo-codes">Promo Codes</FooterLink>
-      </FooterColumn>
-      <FooterColumn title="Legal">
-        <FooterLink href="/legal/privacy">Privacy</FooterLink>
-        <FooterLink href="/legal/terms">Terms</FooterLink>
-      </FooterColumn>
-    </Footer>
-  );
-
   return (
-    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+    <GvtewayAppLayout>
       <ListPage<WillCallTicket>
         title="Will Call Management"
         subtitle="Manage ticket pickups with ID verification"
@@ -158,8 +138,8 @@ export default function WillCallPage() {
         emptyAction={{ label: 'Add Will Call', onClick: () => setCreateModalOpen(true) }}
       />
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Add Will Call Entry" fields={formFields} onSubmit={handleCreate} size="lg" />
-      <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedTicket} title={(t) => t.customerName} subtitle={(t) => t.orderNumber} sections={detailSections} actions={[{ id: 'release', label: 'Release Tickets', icon: '✅' }]} onAction={(id, t) => { if (id === 'release') { setTicketToRelease(t); setReleaseConfirmOpen(true); setDrawerOpen(false); } }} />
+      <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedTicket} title={(t) => t.customerName} subtitle={(t) => t.orderNumber} sections={detailSections} actions={[{ id: 'release', label: 'Release Tickets', icon: <Check className="size-4" /> }]} onAction={(id, t) => { if (id === 'release') { setTicketToRelease(t); setReleaseConfirmOpen(true); setDrawerOpen(false); } }} />
       <ConfirmDialog open={releaseConfirmOpen} title="Release Tickets" message={`Release ${ticketToRelease?.quantity} ticket(s) to ${ticketToRelease?.customerName}? Verify government-issued photo ID before releasing.`} confirmLabel="Confirm Release" onConfirm={handleRelease} onCancel={() => { setReleaseConfirmOpen(false); setTicketToRelease(null); }} />
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

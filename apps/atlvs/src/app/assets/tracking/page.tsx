@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../../components/navigation';
+import { Eye, History } from 'lucide-react';
+import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   ListPage, Badge, DetailDrawer,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
@@ -65,8 +66,8 @@ export default function AssetTrackingPage() {
   const offlineAssets = data.filter(a => a.status === 'Offline').length;
 
   const rowActions: ListPageAction<AssetLocation>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
-    { id: 'history', label: 'View History', icon: '📜', onClick: (r) => console.log('History:', r.id) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
+    { id: 'history', label: 'View History', icon: <History className="size-4" />, onClick: (r) => console.log('History:', r.id) },
   ];
 
   const stats = [
@@ -95,7 +96,7 @@ export default function AssetTrackingPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<AssetLocation>
         title="Asset Location Tracking"
         subtitle="Real-time GPS and RFID tracking for production equipment"
@@ -110,7 +111,6 @@ export default function AssetTrackingPage() {
         onExport={() => console.log('Export')}
         stats={stats}
         emptyMessage="No tracked assets found"
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Assets', href: '/assets' }, { label: 'Tracking' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -118,7 +118,7 @@ export default function AssetTrackingPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       {selected && (
         <DetailDrawer
@@ -132,6 +132,6 @@ export default function AssetTrackingPage() {
           onAction={(id) => { console.log('Action:', id); setDrawerOpen(false); }}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

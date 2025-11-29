@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../../components/navigation";
+import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
   ListPage,
   Badge,
@@ -155,7 +155,7 @@ export default function RateCardsPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<RateCard>
         title="Rate Cards & Pricing"
         subtitle="Vendor rate cards and pricing information"
@@ -172,7 +172,6 @@ export default function RateCardsPage() {
         onExport={() => router.push("/vendors/rate-cards/export")}
         stats={stats}
         emptyMessage="No rate cards found"
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Vendors', href: '/vendors' }, { label: 'Rate Cards' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -180,7 +179,7 @@ export default function RateCardsPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
 
       {selectedRateCard && (
@@ -195,6 +194,6 @@ export default function RateCardsPage() {
           onAction={(id, r) => { if (id === "quote") router.push(`/vendors/rate-cards/${r.id}/quote`); setDrawerOpen(false); }}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ConsumerNavigationPublic } from "@/components/navigation";
+import { GvtewayAppLayout } from "@/components/app-layout";
 import {
-  Container, H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select,
+  H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select,
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Button,
-  Section, Card, Tabs, TabsList, Tab, TabPanel, Badge,
+  Card, Tabs, TabsList, Tab, TabPanel, Badge,
   Modal, ModalHeader, ModalBody, ModalFooter, Textarea, Alert,
-  PageLayout, Footer, FooterColumn, FooterLink, Display, Kicker,
+  Kicker,
 } from "@ghxstship/ui";
 
 interface SMSCampaign {
@@ -68,34 +68,7 @@ export default function SMSMarketingPage() {
   const segmentCount = Math.ceil(characterCount / 160);
 
   return (
-    <PageLayout
-      background="black"
-      header={<ConsumerNavigationPublic />}
-      footer={
-        <Footer
-          logo={<Display size="md">GVTEWAY</Display>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Admin">
-            <FooterLink href="/admin/marketing">Marketing</FooterLink>
-            <FooterLink href="/admin/marketing/sms">SMS</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Legal">
-            <FooterLink href="/legal/privacy">Privacy</FooterLink>
-            <FooterLink href="/legal/terms">Terms</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
+    <GvtewayAppLayout>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -220,8 +193,6 @@ export default function SMSMarketingPage() {
 
           <Button variant="outlineInk" onClick={() => router.push("/admin/marketing")}>Back to Marketing</Button>
           </Stack>
-        </Container>
-      </Section>
 
       <Modal open={showCreateModal} onClose={() => setShowCreateModal(false)}>
         <ModalHeader><H3>Create SMS Campaign</H3></ModalHeader>
@@ -305,6 +276,6 @@ export default function SMSMarketingPage() {
           <Button variant="outline" onClick={() => setSelectedCampaign(null)}>Close</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

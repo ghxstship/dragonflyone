@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../../components/navigation';
+import { Eye, Calendar, Pencil } from 'lucide-react';
+import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   ListPage, Badge, DetailDrawer,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
@@ -60,8 +61,8 @@ export default function CalibrationCertificationPage() {
   const dueSoonCount = data.filter((c) => c.status === 'Due Soon').length;
 
   const rowActions: ListPageAction<CalibrationRecord>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
-    { id: 'schedule', label: 'Schedule', icon: '📅', onClick: (r) => console.log('Schedule', r.id) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
+    { id: 'schedule', label: 'Schedule', icon: <Calendar className="size-4" />, onClick: (r) => console.log('Schedule', r.id) },
   ];
 
   const stats = [
@@ -88,7 +89,7 @@ export default function CalibrationCertificationPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<CalibrationRecord>
         title="Calibration & Certification Schedules"
         subtitle="Track calibration and certification requirements for all assets"
@@ -103,7 +104,6 @@ export default function CalibrationCertificationPage() {
         onExport={() => console.log('Export')}
         stats={stats}
         emptyMessage="No calibration records found"
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Assets', href: '/assets' }, { label: 'Calibration' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -111,7 +111,7 @@ export default function CalibrationCertificationPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       {selected && (
         <DetailDrawer
@@ -121,10 +121,10 @@ export default function CalibrationCertificationPage() {
           title={(r) => r.assetName}
           subtitle={(r) => `${r.calibrationType} • ${r.frequency}`}
           sections={detailSections}
-          actions={[{ id: 'schedule', label: 'Schedule Calibration', icon: '📅' }, { id: 'edit', label: 'Edit', icon: '✏️' }]}
+          actions={[{ id: 'schedule', label: 'Schedule Calibration', icon: <Calendar className="size-4" /> }, { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" /> }]}
           onAction={(id, r) => { console.log(id, r.id); setDrawerOpen(false); }}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

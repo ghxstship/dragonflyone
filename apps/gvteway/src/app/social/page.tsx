@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ConsumerNavigationPublic } from '@/components/navigation';
-import { Container, Section, H2, H3, Body, Button, Card, Grid, Stack, useNotifications, PageLayout, Footer, FooterColumn, FooterLink, Display, Kicker, Label } from '@ghxstship/ui';
+import { GvtewayAppLayout } from '@/components/app-layout';
+import { H2, H3, Body, Button, Card, Grid, Stack, useNotifications, Kicker, Label } from '@ghxstship/ui';
 import { Share2, ThumbsUp, MessageCircle, Users, TrendingUp, Image as ImageIcon } from 'lucide-react';
 
 export default function SocialPage() {
@@ -59,34 +59,7 @@ export default function SocialPage() {
   ];
 
   return (
-    <PageLayout
-      background="black"
-      header={<ConsumerNavigationPublic />}
-      footer={
-        <Footer
-          logo={<Display size="md">GVTEWAY</Display>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Community">
-            <FooterLink href="/social">Social Feed</FooterLink>
-            <FooterLink href="/community">Community</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Legal">
-            <FooterLink href="/legal/privacy">Privacy</FooterLink>
-            <FooterLink href="/legal/terms">Terms</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
+    <GvtewayAppLayout>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -199,8 +172,6 @@ export default function SocialPage() {
               </Stack>
             </Grid>
           </Stack>
-        </Container>
-      </Section>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

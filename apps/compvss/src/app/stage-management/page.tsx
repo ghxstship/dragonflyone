@@ -1,14 +1,12 @@
 'use client';
 
-import { CreatorNavigationAuthenticated } from '../../components/navigation';
+import { CompvssAppLayout } from '../../components/app-layout';
 import {
   Container,
-  Section,
   Body,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from '@ghxstship/ui';
+  MainContent,
+} from '@ghxstship/ui';
 
 /**
  * Stage Management Page
@@ -16,23 +14,21 @@ import {
  */
 export default function StageManagementPage() {
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Stage Management"
         subtitle="Manage stage configurations, layouts, and technical requirements for productions."
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Stage Management' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
           <Body className="mt-8">Coming soon: Stage plot designer, equipment layouts, and technical specifications.</Body>
         </Container>
-      </Section>
-    </PageLayout>
+      </MainContent>
+    </CompvssAppLayout>
   );
 }

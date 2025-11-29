@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { CompvssAppLayout } from "../../components/app-layout";
 import {
   Container,
   Body,
@@ -10,7 +10,6 @@ import {
   Stack,
   StatCard,
   Button,
-  Section,
   Card,
   Tabs,
   TabsList,
@@ -18,10 +17,9 @@ import {
   TabPanel,
   Badge,
   Input,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
+  MainContent,
+} from "@ghxstship/ui";
 
 interface CrewMember {
   id: string;
@@ -90,22 +88,20 @@ export default function ShowCallPage() {
   };
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <Stack direction="horizontal" className="items-start justify-between">
-              <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Show Call Status"
         subtitle="Real-time crew check-in and attendance tracking"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Show Call' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
+            <Stack direction="horizontal" className="items-start justify-between">
               <Card className="p-4">
                 <Stack gap={1} className="text-center">
                   <Body className="text-body-sm">Current Time</Body>
@@ -195,7 +191,7 @@ export default function ShowCallPage() {
             </Grid>
           </Stack>
         </Container>
-      </Section>
-    </PageLayout>
+      </MainContent>
+    </CompvssAppLayout>
   );
 }

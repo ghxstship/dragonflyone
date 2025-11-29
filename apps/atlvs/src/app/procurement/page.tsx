@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../components/navigation';
+import { Eye, Pencil, Check, Trash2, Download } from 'lucide-react';
+import { AtlvsAppLayout } from '../../components/app-layout';
 import {
   ListPage,
   Badge,
@@ -126,16 +127,16 @@ export default function ProcurementPage() {
   const poList = (purchaseOrders || mockPurchaseOrders) as PurchaseOrder[];
 
   const rowActions: ListPageAction<PurchaseOrder>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (row) => { setSelectedPO(row); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (row) => router.push(`/procurement/${row.id}/edit`) },
-    { id: 'approve', label: 'Approve', icon: '✅', onClick: (row) => router.push(`/procurement/${row.id}/approve`) },
-    { id: 'delete', label: 'Delete', icon: '🗑️', variant: 'danger', onClick: (row) => { setPOToDelete(row); setDeleteConfirmOpen(true); } },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (row) => { setSelectedPO(row); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (row) => router.push(`/procurement/${row.id}/edit`) },
+    { id: 'approve', label: 'Approve', icon: <Check className="size-4" />, onClick: (row) => router.push(`/procurement/${row.id}/approve`) },
+    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (row) => { setPOToDelete(row); setDeleteConfirmOpen(true); } },
   ];
 
   const bulkActions: ListPageBulkAction[] = [
-    { id: 'export', label: 'Export', icon: '⬇️' },
-    { id: 'approve', label: 'Bulk Approve', icon: '✅' },
-    { id: 'delete', label: 'Delete', icon: '🗑️', variant: 'danger' },
+    { id: 'export', label: 'Export', icon: <Download className="size-4" /> },
+    { id: 'approve', label: 'Bulk Approve', icon: <Check className="size-4" /> },
+    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger' },
   ];
 
   const handleBulkAction = async (actionId: string, selectedIds: string[]) => {
@@ -189,7 +190,7 @@ export default function ProcurementPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<PurchaseOrder>
         title="Procurement"
         subtitle="Purchase orders and vendor management"
@@ -211,7 +212,6 @@ export default function ProcurementPage() {
         stats={stats}
         emptyMessage="No purchase orders found"
         emptyAction={{ label: 'Create Purchase Order', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Procurement' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -219,7 +219,7 @@ export default function ProcurementPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
 
       <RecordFormModal
@@ -258,6 +258,6 @@ export default function ProcurementPage() {
         onConfirm={handleDelete}
         onCancel={() => { setDeleteConfirmOpen(false); setPOToDelete(null); }}
       />
-    </>
+    </AtlvsAppLayout>
   );
 }

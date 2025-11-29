@@ -2,10 +2,10 @@
 
 import { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
+import { CompvssAppLayout } from '../../../components/app-layout';
 import { useAdvancingCatalog } from '@/hooks/useAdvancingCatalog';
 import { 
   Container, 
-  Section, 
   H3, 
   Body, 
   Button, 
@@ -19,13 +19,9 @@ import {
   EmptyState,
   Select,
   Field,
-  Breadcrumb,
-  BreadcrumbItem,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from '@ghxstship/ui';
-import { CreatorNavigationAuthenticated } from '../../../components/navigation';
+  MainContent,
+} from '@ghxstship/ui';
 import type { ProductionCatalogItem } from '@ghxstship/config/types/advancing';
 import { Search, Package, Filter, X } from 'lucide-react';
 
@@ -79,37 +75,33 @@ export default function CatalogPage() {
 
   if (error) {
     return (
-      <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-        <Section className="min-h-screen py-16">
+      <CompvssAppLayout>
+        <MainContent padding="lg">
           <Container>
             <Alert variant="error" title="Error Loading Catalog">
               {error.message}
             </Alert>
           </Container>
-        </Section>
-      </PageLayout>
+        </MainContent>
+      </CompvssAppLayout>
     );
   }
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
+    <CompvssAppLayout>
+      <EnterprisePageHeader
+        title="Production Advancing Catalog"
+        subtitle={`Browse ${data?.total || 329} standardized production items across all categories`}
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Advancing', href: '/advancing' }, { label: 'Catalog' }]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
+        activeView="default"
+        showFavorite
+        showSettings
+      />
+      <MainContent padding="lg">
         <Container>
-          {/* Breadcrumb */}
-          <Breadcrumb className="mb-6">
-            <BreadcrumbItem href="/advancing">Advancing</BreadcrumbItem>
-            <BreadcrumbItem active>Catalog</BreadcrumbItem>
-          </Breadcrumb>
-
-          {/* Header */}
-          <Stack direction="horizontal" className="mb-8 items-start justify-between">
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Production Advancing Catalog"
-              description={`Browse ${data?.total || 329} standardized production items across all categories`}
-              colorScheme="on-light"
-              gap="lg"
-            />
+          {/* Header Actions */}
+          <Stack direction="horizontal" className="mb-8 items-start justify-end">
             <Stack direction="horizontal" gap={3}>
               {selectedItems.length > 0 && (
                 <Button onClick={() => {
@@ -295,7 +287,7 @@ export default function CatalogPage() {
             </Body>
           )}
         </Container>
-      </Section>
-    </PageLayout>
+      </MainContent>
+    </CompvssAppLayout>
   );
 }

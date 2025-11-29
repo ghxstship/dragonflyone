@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../components/navigation';
+import { Eye, Pencil } from 'lucide-react';
+import { AtlvsAppLayout } from '../../components/app-layout';
 import {
   ListPage,
   Badge,
@@ -84,8 +85,8 @@ export default function PartnershipsPage() {
   const companiesCount = partnerships.filter(p => p.company).length;
 
   const rowActions: ListPageAction<Partnership>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedPartnership(r); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (r) => router.push(`/partnerships/${r.id}/edit`) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedPartnership(r); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/partnerships/${r.id}/edit`) },
   ];
 
   const stats = [
@@ -115,7 +116,7 @@ export default function PartnershipsPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<Partnership>
         title="Partnerships"
         subtitle="Strategic alliances and joint ventures"
@@ -134,7 +135,6 @@ export default function PartnershipsPage() {
         stats={stats}
         emptyMessage="No partnerships found"
         emptyAction={{ label: 'Add Partnership', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Partnerships' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -142,7 +142,7 @@ export default function PartnershipsPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
 
       <RecordFormModal
@@ -167,6 +167,6 @@ export default function PartnershipsPage() {
           onAction={(id, p) => { console.log(id, p.id); setDrawerOpen(false); }}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

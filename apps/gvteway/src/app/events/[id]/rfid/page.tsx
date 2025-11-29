@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter, useParams } from "next/navigation";
+import { Eye, CreditCard } from "lucide-react";
 import {
   ListPage,
   Badge,
@@ -69,8 +70,8 @@ export default function RFIDPage() {
   const totalTxns = wristbands.reduce((sum, w) => sum + w.transactions, 0);
 
   const rowActions: ListPageAction<RFIDWristband>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedWristband(r); setDrawerOpen(true); } },
-    { id: 'topup', label: 'Top Up', icon: '💳', onClick: (r) => console.log('Top up', r.id) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedWristband(r); setDrawerOpen(true); } },
+    { id: 'topup', label: 'Top Up', icon: <CreditCard className="size-4" />, onClick: (r) => console.log('Top up', r.id) },
   ];
 
   const stats = [

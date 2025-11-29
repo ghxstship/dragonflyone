@@ -2,10 +2,8 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { ConsumerNavigationPublic } from '@/components/navigation';
+import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
-  Container,
-  Section,
   H2,
   H3,
   Body,
@@ -15,14 +13,8 @@ import {
   Grid,
   Stack,
   Alert,
-  LoadingSpinner,
   Text,
   Box,
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Display,
   Kicker,
 } from '@ghxstship/ui';
 import Image from 'next/image';
@@ -221,68 +213,39 @@ export default function SurveyPage() {
     }
   };
 
-  const footerContent = (
-    <Footer
-      logo={<Display size="md">GVTEWAY</Display>}
-      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-    >
-      <FooterColumn title="Surveys">
-        <FooterLink href="/surveys">Surveys</FooterLink>
-      </FooterColumn>
-      <FooterColumn title="Legal">
-        <FooterLink href="/legal/privacy">Privacy</FooterLink>
-        <FooterLink href="/legal/terms">Terms</FooterLink>
-      </FooterColumn>
-    </Footer>
-  );
-
   if (loading) {
-    return (
-      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
-        <Section background="black" className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading survey..." />
-        </Section>
-      </PageLayout>
-    );
+    return <GvtewayLoadingLayout text="Loading survey..." />;
   }
 
   if (!survey) {
     return (
-      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
-        <Section background="black" className="min-h-screen py-16">
-          <Container>
-            <Card inverted className="p-12 text-center mt-12">
-              <H2 className="mb-4 text-white">SURVEY NOT FOUND</H2>
-              <Body className="text-on-dark-muted mb-6">
-                This survey may have expired or been removed.
-              </Body>
-              <Button variant="solid" inverted onClick={() => router.push('/my-events')}>
-                View My Events
-              </Button>
-            </Card>
-          </Container>
-        </Section>
-      </PageLayout>
+      <GvtewayAppLayout>
+        <Card inverted className="p-12 text-center mt-12">
+          <H2 className="mb-4 text-white">SURVEY NOT FOUND</H2>
+          <Body className="text-on-dark-muted mb-6">
+            This survey may have expired or been removed.
+          </Body>
+          <Button variant="solid" inverted onClick={() => router.push('/my-events')}>
+            View My Events
+          </Button>
+        </Card>
+      </GvtewayAppLayout>
     );
   }
 
   if (success) {
     return (
-      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
-        <Section background="black" className="min-h-screen py-16">
-          <Container>
-            <Card inverted className="p-12 text-center mt-12">
-              <H2 className="mb-4 text-white">THANK YOU!</H2>
-              <Body className="text-on-dark-muted mb-6">
-                Your feedback has been submitted. We appreciate you taking the time to share your experience.
-              </Body>
-              <Button variant="solid" inverted onClick={() => router.push('/my-events')}>
-                Back to My Events
-              </Button>
-            </Card>
-          </Container>
-        </Section>
-      </PageLayout>
+      <GvtewayAppLayout>
+        <Card inverted className="p-12 text-center mt-12">
+          <H2 className="mb-4 text-white">THANK YOU!</H2>
+          <Body className="text-on-dark-muted mb-6">
+            Your feedback has been submitted. We appreciate you taking the time to share your experience.
+          </Body>
+          <Button variant="solid" inverted onClick={() => router.push('/my-events')}>
+            Back to My Events
+          </Button>
+        </Card>
+      </GvtewayAppLayout>
     );
   }
 
@@ -294,16 +257,7 @@ export default function SurveyPage() {
   );
 
   return (
-    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
+    <GvtewayAppLayout>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -405,8 +359,6 @@ export default function SurveyPage() {
           </Stack>
         </Grid>
           </Stack>
-        </Container>
-      </Section>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

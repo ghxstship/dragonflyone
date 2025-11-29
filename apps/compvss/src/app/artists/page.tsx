@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { Eye, Pencil, Trash2, Check, Circle } from "lucide-react";
+import { CompvssAppLayout } from "../../components/app-layout";
 import {
   ListPage,
   Badge,
@@ -12,6 +13,8 @@ import {
   Grid,
   Stack,
   Body,
+  EnterprisePageHeader,
+  MainContent,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -83,9 +86,9 @@ export default function ArtistsPage() {
   const upcomingTotal = artists.reduce((sum, a) => sum + a.upcomingShows, 0);
 
   const rowActions: ListPageAction<Artist>[] = [
-    { id: 'view', label: 'View Profile', icon: '👁️', onClick: (r) => { setSelectedArtist(r); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (r) => router.push(`/artists/${r.id}/edit`) },
-    { id: 'delete', label: 'Delete', icon: '🗑️', variant: 'danger', onClick: (r) => { setArtistToDelete(r); setDeleteConfirmOpen(true); } },
+    { id: 'view', label: 'View Profile', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedArtist(r); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/artists/${r.id}/edit`) },
+    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (r) => { setArtistToDelete(r); setDeleteConfirmOpen(true); } },
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
@@ -139,43 +142,49 @@ export default function ArtistsPage() {
     )},
     { id: 'documents', title: 'Documents on File', content: (
       <Grid cols={2} gap={2}>
-        <Body>{selectedArtist.technicalRider ? '✓' : '○'} Technical Rider</Body>
-        <Body>{selectedArtist.hospitalityRider ? '✓' : '○'} Hospitality Rider</Body>
-        <Body>{selectedArtist.inputList ? '✓' : '○'} Input List</Body>
-        <Body>{selectedArtist.stageplot ? '✓' : '○'} Stage Plot</Body>
+        <Body className="flex items-center gap-2">{selectedArtist.technicalRider ? <Check className="size-4" /> : <Circle className="size-4" />} Technical Rider</Body>
+        <Body className="flex items-center gap-2">{selectedArtist.hospitalityRider ? <Check className="size-4" /> : <Circle className="size-4" />} Hospitality Rider</Body>
+        <Body className="flex items-center gap-2">{selectedArtist.inputList ? <Check className="size-4" /> : <Circle className="size-4" />} Input List</Body>
+        <Body className="flex items-center gap-2">{selectedArtist.stageplot ? <Check className="size-4" /> : <Circle className="size-4" />} Stage Plot</Body>
       </Grid>
     )},
   ] : [];
 
   return (
-    <>
-      <ListPage<Artist>
-        title="Artist Database"
-        subtitle="Performer profiles, technical requirements, and contact information"
-        data={artists}
-        columns={columns}
-        rowKey="id"
-        loading={false}
-        searchPlaceholder="Search artists..."
-        filters={filters}
-        rowActions={rowActions}
-        onRowClick={(r) => { setSelectedArtist(r); setDrawerOpen(true); }}
-        createLabel="Add Artist"
-        onCreate={() => setCreateModalOpen(true)}
-        onExport={() => console.log('Export artists')}
-        stats={stats}
-        emptyMessage="No artists found"
-        emptyAction={{ label: 'Add Artist', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated
+    <CompvssAppLayout>
+      <EnterprisePageHeader
+        title="Artist Management"
+        subtitle="Manage artists, riders, and performance requirements"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Artists' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
         ]}
         activeView="list"
+        primaryAction={{ label: 'Add Artist', onClick: () => setCreateModalOpen(true) }}
         showFavorite
-        showSettings />}
+        showSettings
       />
+      <MainContent padding="lg">
+        <ListPage<Artist>
+          title="Artist Management"
+          subtitle="Manage artists, riders, and performance requirements"
+          data={artists}
+          columns={columns}
+          rowKey="id"
+          loading={false}
+          searchPlaceholder="Search artists..."
+          filters={filters}
+          rowActions={rowActions}
+          onRowClick={(r) => { setSelectedArtist(r); setDrawerOpen(true); }}
+          createLabel="Add Artist"
+          onCreate={() => setCreateModalOpen(true)}
+          onExport={() => console.log('Export artists')}
+          stats={stats}
+          emptyMessage="No artists found"
+          emptyAction={{ label: 'Add Artist', onClick: () => setCreateModalOpen(true) }}
+        />
+      </MainContent>
 
       <RecordFormModal
         open={createModalOpen}
@@ -209,6 +218,6 @@ export default function ArtistsPage() {
         onConfirm={handleDelete}
         onCancel={() => { setDeleteConfirmOpen(false); setArtistToDelete(null); }}
       />
-    </>
+    </CompvssAppLayout>
   );
 }

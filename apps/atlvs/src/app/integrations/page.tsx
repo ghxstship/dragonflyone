@@ -1,26 +1,24 @@
 'use client';
 
 import { useState } from 'react';
-import { CreatorNavigationAuthenticated } from '../../components/navigation';
-import { 
-  Container, 
-  Section, 
-  H2, 
-  H3, 
-  Body, 
-  Button, 
-  Card, 
-  Field, 
-  Label, 
-  Input, 
-  Alert, 
-  Stack, 
-  Grid, 
+import { AtlvsAppLayout } from '../../components/app-layout';
+import {
+  Container,
+  H2,
+  H3,
+  Body,
+  Button,
+  Card,
+  Field,
+  Label,
+  Input,
+  Alert,
+  Stack,
+  Grid,
   StatCard,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from '@ghxstship/ui';
+  MainContent,
+} from '@ghxstship/ui';
 
 interface IntegrationResult {
   created?: boolean;
@@ -70,22 +68,19 @@ export default function IntegrationsPage() {
   };
 
   return (
-    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            {/* Page Header - Bold Contemporary Pop Art Adventure */}
-            <EnterprisePageHeader
+    <AtlvsAppLayout>
+      <EnterprisePageHeader
         title="Cross-Platform Integrations"
         subtitle="Manage data synchronization between ATLVS, COMPVSS, and GVTEWAY platforms"
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Integrations' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
         <Card className="p-8 border-2 border-ink-800 bg-transparent">
           <H2 className="text-white">Deal → Project Handoff (ATLVS → COMPVSS)</H2>
@@ -204,7 +199,7 @@ export default function IntegrationsPage() {
         </Card>
           </Stack>
         </Container>
-      </Section>
-    </PageLayout>
+      </MainContent>
+    </AtlvsAppLayout>
   );
 }

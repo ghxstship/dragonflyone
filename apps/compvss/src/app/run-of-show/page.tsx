@@ -2,20 +2,18 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../components/navigation';
+import { CompvssAppLayout } from '../../components/app-layout';
 import {
   Container,
-  Section,
   Body,
   Button,
   Card,
   Grid,
   Stack,
   LoadingSpinner,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from '@ghxstship/ui';
+  MainContent,
+} from '@ghxstship/ui';
 import { useSchedule } from '@/hooks/useSchedule';
 
 interface CueItem {
@@ -44,13 +42,13 @@ export default function RunOfShowPage() {
 
   if (isLoading) {
     return (
-      <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-        <Section className="min-h-screen py-16">
+      <CompvssAppLayout>
+        <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
             <LoadingSpinner size="lg" text="Loading run of show..." />
           </Container>
-        </Section>
-      </PageLayout>
+        </MainContent>
+      </CompvssAppLayout>
     );
   }
 
@@ -62,17 +60,20 @@ export default function RunOfShowPage() {
   };
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
+    <CompvssAppLayout>
+      <EnterprisePageHeader
+        title="Run of Show"
+        subtitle={`Current Time: ${currentTime}`}
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Run of Show' }]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
+        activeView="default"
+        primaryAction={{ label: 'Add Cue', onClick: () => router.push('/run-of-show/cues/new') }}
+        showFavorite
+        showSettings
+      />
+      <MainContent padding="lg">
         <Container>
           <Stack gap={10}>
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Run of Show"
-              description={`Current Time: ${currentTime}`}
-              colorScheme="on-light"
-              gap="lg"
-            />
 
             <Stack gap={4}>
               {displayCues.map(cue => (
@@ -123,7 +124,7 @@ export default function RunOfShowPage() {
             </Stack>
           </Stack>
         </Container>
-      </Section>
-    </PageLayout>
+      </MainContent>
+    </CompvssAppLayout>
   );
 }

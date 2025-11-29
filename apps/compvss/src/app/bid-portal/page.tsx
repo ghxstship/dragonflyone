@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { CompvssAppLayout } from "../../components/app-layout";
 import {
   Container,
   H3,
@@ -12,7 +12,6 @@ import {
   StatCard,
   Input,
   Button,
-  Section,
   Card,
   Tabs,
   TabsList,
@@ -24,10 +23,9 @@ import {
   ModalBody,
   ModalFooter,
   Textarea,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
+  MainContent,
+} from "@ghxstship/ui";
 
 interface BidOpportunity {
   id: string;
@@ -63,22 +61,19 @@ export default function BidPortalPage() {
   const filteredBids = activeTab === "all" ? mockBids : activeTab === "open" ? mockBids.filter(b => b.status === "Open") : mockBids.filter(b => b.status !== "Open");
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            {/* Page Header */}
-            <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Bid Submission Portal"
         subtitle="Submit proposals and track bid opportunities"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Bid Portal' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
             {/* Stats Grid */}
             <Grid cols={4} gap={6}>
@@ -148,7 +143,7 @@ export default function BidPortalPage() {
             <Button variant="outline" onClick={() => router.push("/opportunities")}>Browse Opportunities</Button>
           </Stack>
         </Container>
-      </Section>
+      </MainContent>
 
       {/* Submit Proposal Modal */}
       <Modal open={showSubmitModal} onClose={() => { setShowSubmitModal(false); setSelectedBid(null); }}>
@@ -205,6 +200,6 @@ export default function BidPortalPage() {
           <Button variant="outline" onClick={() => setSelectedBid(null)}>Close</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </CompvssAppLayout>
   );
 }

@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../components/navigation';
+import { Eye, Pencil, ClipboardList, Calendar, Trash2, Download, RefreshCw } from 'lucide-react';
+import { AtlvsAppLayout } from '../../components/app-layout';
 import {
   ListPage,
   Badge,
@@ -113,18 +114,18 @@ export default function WorkforcePage() {
   const employeeList = (employees || []) as Employee[];
 
   const rowActions: ListPageAction<Employee>[] = [
-    { id: 'view', label: 'View Profile', icon: '👁️', onClick: (row) => { setSelectedEmployee(row); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (row) => router.push(`/employees/${row.id}/edit`) },
-    { id: 'assign', label: 'Assign to Project', icon: '📋', onClick: (row) => router.push(`/employees/${row.id}/assign`) },
-    { id: 'schedule', label: 'View Schedule', icon: '📅', onClick: (row) => router.push(`/employees/${row.id}/schedule`) },
-    { id: 'delete', label: 'Delete', icon: '🗑️', variant: 'danger', onClick: (row) => { setEmployeeToDelete(row); setDeleteConfirmOpen(true); } },
+    { id: 'view', label: 'View Profile', icon: <Eye className="size-4" />, onClick: (row) => { setSelectedEmployee(row); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (row) => router.push(`/employees/${row.id}/edit`) },
+    { id: 'assign', label: 'Assign to Project', icon: <ClipboardList className="size-4" />, onClick: (row) => router.push(`/employees/${row.id}/assign`) },
+    { id: 'schedule', label: 'View Schedule', icon: <Calendar className="size-4" />, onClick: (row) => router.push(`/employees/${row.id}/schedule`) },
+    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (row) => { setEmployeeToDelete(row); setDeleteConfirmOpen(true); } },
   ];
 
   const bulkActions: ListPageBulkAction[] = [
-    { id: 'export', label: 'Export', icon: '⬇️' },
-    { id: 'assign', label: 'Bulk Assign', icon: '📋' },
-    { id: 'status', label: 'Update Status', icon: '🔄' },
-    { id: 'delete', label: 'Delete', icon: '🗑️', variant: 'danger' },
+    { id: 'export', label: 'Export', icon: <Download className="size-4" /> },
+    { id: 'assign', label: 'Bulk Assign', icon: <ClipboardList className="size-4" /> },
+    { id: 'status', label: 'Update Status', icon: <RefreshCw className="size-4" /> },
+    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger' },
   ];
 
   const handleBulkAction = async (actionId: string, selectedIds: string[]) => {
@@ -172,7 +173,7 @@ export default function WorkforcePage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<Employee>
         title="Workforce Management"
         subtitle="Manage employees, schedules, and team assignments"
@@ -194,7 +195,6 @@ export default function WorkforcePage() {
         stats={stats}
         emptyMessage="No employees found"
         emptyAction={{ label: 'Add Employee', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Workforce' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -202,7 +202,7 @@ export default function WorkforcePage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
 
       <RecordFormModal
@@ -243,6 +243,6 @@ export default function WorkforcePage() {
         onConfirm={handleDelete}
         onCancel={() => { setDeleteConfirmOpen(false); setEmployeeToDelete(null); }}
       />
-    </>
+    </AtlvsAppLayout>
   );
 }

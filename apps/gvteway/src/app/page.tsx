@@ -1,22 +1,16 @@
 "use client";
 
-import { MembershipNavigationPublic } from "../components/navigation";
+import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   Stack,
   Grid,
   Card,
-  Container,
   Display,
   H2,
   H3,
   Body,
   Label,
   Button,
-  Section,
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
   ScrollReveal,
   StaggerChildren,
 } from "@ghxstship/ui";
@@ -179,41 +173,11 @@ const partners = ["INSOMNIAC", "F1", "HEINEKEN", "RED BULL", "PATRÓN"];
 
 export default function MembershipLandingPage() {
   return (
-    <PageLayout
-      background="black"
-      header={<MembershipNavigationPublic />}
-      footer={
-        <Footer
-          logo={<Display size="md">GVTEWAY</Display>}
-          copyright="© 2025 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Experiences">
-            <FooterLink href="/experiences">Browse Experiences</FooterLink>
-            <FooterLink href="/membership">Membership</FooterLink>
-            <FooterLink href="/about">About</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Support">
-            <FooterLink href="/help">Help Center</FooterLink>
-            <FooterLink href="/contact">Contact</FooterLink>
-            <FooterLink href="/faq">FAQ</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Legal">
-            <FooterLink href="/legal/privacy">Privacy</FooterLink>
-            <FooterLink href="/legal/terms">Terms</FooterLink>
-            <FooterLink href="/accessibility">Accessibility</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="For Creators">
-            <Label size="xs" className="text-on-dark-muted mb-2">Event organizers & venues</Label>
-            <FooterLink href="https://atlvs.ghxstship.com">ATLVS</FooterLink>
-            <FooterLink href="https://compvss.ghxstship.com">COMPVSS</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
+    <GvtewayAppLayout>
       {/* ═══════════════════════════════════════════════════════════════════════════
           SECTION 1: HERO - Full Viewport Immersive
           ═══════════════════════════════════════════════════════════════════════════ */}
-      <Section background="black" className="relative min-h-screen overflow-hidden">
+      <Stack className="relative min-h-screen overflow-hidden">
         {/* Background gradient overlay */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
         
@@ -226,16 +190,16 @@ export default function MembershipLandingPage() {
           }}
         />
 
-        <Container className="relative z-10 flex min-h-screen flex-col items-center justify-center py-32 text-center">
+        <Stack className="relative z-10 flex min-h-screen flex-col items-center justify-center py-32 text-center">
           <ScrollReveal animation="slide-up" duration={800}>
             <Stack gap={8} className="max-w-4xl">
               {/* Main Headline - ANTON display font, stacked */}
-              <Display size="xl" className="text-white leading-[0.9]">
+              <H2 size="lg" className="text-white leading-[0.9]">
                 EXPERIENCE
-              </Display>
-              <Display size="xl" className="text-white leading-[0.9] -mt-4">
+              </H2>
+              <H2 size="lg" className="text-white leading-[0.9] -mt-4">
                 BEYOND EVENTS
-              </Display>
+              </H2>
               
               {/* Subhead */}
               <Body size="lg" className="mx-auto max-w-2xl text-on-dark-secondary mt-4">
@@ -265,14 +229,13 @@ export default function MembershipLandingPage() {
               </Label>
             </Stack>
           </ScrollReveal>
-        </Container>
-      </Section>
+        </Stack>
+      </Stack>
 
       {/* ═══════════════════════════════════════════════════════════════════════════
           SECTION 2: THE PROBLEM - Empathy Hook
           ═══════════════════════════════════════════════════════════════════════════ */}
-      <Section background="black" className="py-24 border-t border-ink-900">
-        <Container>
+      <Stack className="py-24 border-t border-ink-900">
           <ScrollReveal animation="fade">
             <H2 size="lg" className="text-white text-center mb-16 tracking-wide">
               THE OLD WAY IS BROKEN
@@ -300,14 +263,12 @@ export default function MembershipLandingPage() {
               ))}
             </Grid>
           </StaggerChildren>
-        </Container>
-      </Section>
+      </Stack>
 
       {/* ═══════════════════════════════════════════════════════════════════════════
           SECTION 3: MEMBERSHIP TIERS - Value Visualization
           ═══════════════════════════════════════════════════════════════════════════ */}
-      <Section background="black" className="py-24 border-t border-ink-900">
-        <Container>
+      <Stack className="py-24 border-t border-ink-900">
           <ScrollReveal animation="fade">
             <Stack gap={4} className="text-center mb-16">
               <H2 size="lg" className="text-white tracking-wide">
@@ -378,14 +339,12 @@ export default function MembershipLandingPage() {
               FOUNDING MEMBER PRICING • RATES INCREASE SOON
             </Label>
           </ScrollReveal>
-        </Container>
-      </Section>
+      </Stack>
 
       {/* ═══════════════════════════════════════════════════════════════════════════
           SECTION 4: EXPERIENCE CATEGORIES - Lifestyle Pillars
           ═══════════════════════════════════════════════════════════════════════════ */}
-      <Section background="black" className="py-24 border-t border-ink-900">
-        <Container size="xl">
+      <Stack className="py-24 border-t border-ink-900">
           <ScrollReveal animation="fade">
             <H2 size="lg" className="text-white text-center mb-16 tracking-wide">
               WHAT MEMBERS UNLOCK
@@ -469,14 +428,12 @@ export default function MembershipLandingPage() {
               </Card>
             </div>
           </StaggerChildren>
-        </Container>
-      </Section>
+      </Stack>
 
       {/* ═══════════════════════════════════════════════════════════════════════════
           SECTION 5: THE GVTEWAY DIFFERENCE - Features Grid
           ═══════════════════════════════════════════════════════════════════════════ */}
-      <Section background="black" className="py-24 border-t border-ink-900">
-        <Container>
+      <Stack className="py-24 border-t border-ink-900">
           <ScrollReveal animation="fade">
             <H2 size="lg" className="text-white text-center mb-16 tracking-wide">
               MEMBERSHIP MEANS MORE
@@ -504,14 +461,12 @@ export default function MembershipLandingPage() {
               ))}
             </Grid>
           </StaggerChildren>
-        </Container>
-      </Section>
+      </Stack>
 
       {/* ═══════════════════════════════════════════════════════════════════════════
           SECTION 6: SOCIAL PROOF - Testimonials + Credibility
           ═══════════════════════════════════════════════════════════════════════════ */}
-      <Section background="black" className="py-24 border-t border-ink-900">
-        <Container>
+      <Stack className="py-24 border-t border-ink-900">
           <ScrollReveal animation="fade">
             <H2 size="lg" className="text-white text-center mb-16 tracking-wide">
               WHAT MEMBERS SAY
@@ -553,13 +508,12 @@ export default function MembershipLandingPage() {
               </Stack>
             </Stack>
           </ScrollReveal>
-        </Container>
-      </Section>
+      </Stack>
 
       {/* ═══════════════════════════════════════════════════════════════════════════
           SECTION 7: APPLICATION CTA - Final Conversion
           ═══════════════════════════════════════════════════════════════════════════ */}
-      <Section background="black" className="py-32 border-t border-ink-900 relative overflow-hidden">
+      <Stack className="py-32 border-t border-ink-900 relative overflow-hidden">
         {/* Subtle texture */}
         <div
           className="pointer-events-none absolute inset-0 opacity-[0.02]"
@@ -569,12 +523,11 @@ export default function MembershipLandingPage() {
           }}
         />
 
-        <Container className="relative z-10">
           <ScrollReveal animation="scale" duration={600}>
             <Stack gap={8} className="items-center text-center max-w-2xl mx-auto">
-              <Display size="md" className="text-white">
+              <H2 size="lg" className="text-white">
                 READY TO JOIN?
-              </Display>
+              </H2>
               
               <Body size="lg" className="text-on-dark-secondary">
                 Membership is by application only. Approval takes 24-48 hours.
@@ -596,8 +549,7 @@ export default function MembershipLandingPage() {
               </Label>
             </Stack>
           </ScrollReveal>
-        </Container>
-      </Section>
-    </PageLayout>
+      </Stack>
+    </GvtewayAppLayout>
   );
 }

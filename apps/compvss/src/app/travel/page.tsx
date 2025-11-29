@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { Eye, Pencil } from "lucide-react";
+import { CompvssAppLayout } from "../../components/app-layout";
 import {
   ListPage,
   Badge,
@@ -10,6 +11,8 @@ import {
   Grid,
   Stack,
   Body,
+  EnterprisePageHeader,
+  MainContent,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -89,8 +92,8 @@ export default function TravelPage() {
   const totalCost = bookings.reduce((sum, b) => sum + b.cost, 0);
 
   const rowActions: ListPageAction<TravelBooking>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedBooking(r); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (r) => router.push(`/travel/${r.id}/edit`) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedBooking(r); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/travel/${r.id}/edit`) },
   ];
 
   const stats = [
@@ -121,36 +124,42 @@ export default function TravelPage() {
   ] : [];
 
   return (
-    <>
-      <ListPage<TravelBooking>
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Travel Coordination"
         subtitle="Manage crew flights, accommodations, and travel logistics"
-        data={bookings}
-        columns={columns}
-        rowKey="id"
-        loading={loading}
-        error={error ? new Error(error) : undefined}
-        onRetry={fetchTravelData}
-        searchPlaceholder="Search bookings..."
-        filters={filters}
-        rowActions={rowActions}
-        onRowClick={(r) => { setSelectedBooking(r); setDrawerOpen(true); }}
-        createLabel="Book Travel"
-        onCreate={() => router.push('/travel/new')}
-        onExport={() => console.log('Export')}
-        stats={stats}
-        emptyMessage="No travel bookings"
-        emptyAction={{ label: 'Book Travel', onClick: () => router.push('/travel/new') }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Travel' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
         ]}
         activeView="list"
+        primaryAction={{ label: 'Book Travel', onClick: () => router.push('/travel/new') }}
         showFavorite
-        showSettings />}
+        showSettings
       />
+      <MainContent padding="lg">
+        <ListPage<TravelBooking>
+          title="Travel Coordination"
+          subtitle="Manage crew flights, accommodations, and travel logistics"
+          data={bookings}
+          columns={columns}
+          rowKey="id"
+          loading={loading}
+          error={error ? new Error(error) : undefined}
+          onRetry={fetchTravelData}
+          searchPlaceholder="Search bookings..."
+          filters={filters}
+          rowActions={rowActions}
+          onRowClick={(r) => { setSelectedBooking(r); setDrawerOpen(true); }}
+          createLabel="Book Travel"
+          onCreate={() => router.push('/travel/new')}
+          onExport={() => console.log('Export')}
+          stats={stats}
+          emptyMessage="No travel bookings"
+          emptyAction={{ label: 'Book Travel', onClick: () => router.push('/travel/new') }}
+        />
+      </MainContent>
       {selectedBooking && (
         <DetailDrawer
           open={drawerOpen}
@@ -159,10 +168,10 @@ export default function TravelPage() {
           title={(b) => b.booking_reference}
           subtitle={(b) => `${b.crew_member_name} • ${b.origin} → ${b.destination}`}
           sections={detailSections}
-          actions={[{ id: 'edit', label: 'Edit Booking', icon: '✏️' }]}
+          actions={[{ id: 'edit', label: 'Edit Booking', icon: <Pencil className="size-4" /> }]}
           onAction={(id, b) => { if (id === 'edit') router.push(`/travel/${b.id}/edit`); setDrawerOpen(false); }}
         />
       )}
-    </>
+    </CompvssAppLayout>
   );
 }

@@ -2,9 +2,9 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { CompvssAppLayout } from '../../components/app-layout';
 import {
   Container,
-  Section,
   H3,
   Body,
   Button,
@@ -24,11 +24,9 @@ import {
   Tabs,
   TabsList,
   Tab,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from '@ghxstship/ui';
-import { CreatorNavigationAuthenticated } from '../../components/navigation';
+  MainContent,
+} from '@ghxstship/ui';
 
 interface Channel {
   id: string;
@@ -162,26 +160,20 @@ export default function ChannelsPage() {
   const onlineMembers = mockMembers.filter(m => m.is_online).length;
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <Stack direction="horizontal" className="justify-between items-start">
-              <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Department Channels"
         subtitle="Team communication and messaging"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Channels' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
+        primaryAction={{ label: 'Create Channel', onClick: () => setShowCreateModal(true) }}
         showFavorite
         showSettings
       />
-              <Button variant="solid" onClick={() => setShowCreateModal(true)}>
-                Create Channel
-              </Button>
-            </Stack>
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
           {error && (
             <Alert variant="error" onClose={() => setError(null)}>
@@ -315,7 +307,7 @@ export default function ChannelsPage() {
             </Grid>
           </Stack>
         </Container>
-      </Section>
+      </MainContent>
 
       <Modal open={showCreateModal} onClose={() => setShowCreateModal(false)}>
         <ModalHeader><H3>Create Channel</H3></ModalHeader>
@@ -390,6 +382,6 @@ export default function ChannelsPage() {
           <Button variant="solid">Add Members</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </CompvssAppLayout>
   );
 }

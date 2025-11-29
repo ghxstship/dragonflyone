@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../../components/navigation';
+import { Eye, Check, Pencil } from 'lucide-react';
+import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   ListPage,
   Badge,
@@ -69,8 +70,8 @@ export default function CompensationPage() {
   const pendingCount = plans.filter(p => p.status === 'Pending Approval').length;
 
   const rowActions: ListPageAction<CompensationPlan>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedPlan(r); setDrawerOpen(true); } },
-    { id: 'approve', label: 'Approve', icon: '✓', onClick: (r) => setPlans(plans.map(p => p.id === r.id ? { ...p, status: 'Approved' as const } : p)) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedPlan(r); setDrawerOpen(true); } },
+    { id: 'approve', label: 'Approve', icon: <Check className="size-4" />, onClick: (r) => setPlans(plans.map(p => p.id === r.id ? { ...p, status: 'Approved' as const } : p)) },
   ];
 
   const stats = [
@@ -98,7 +99,7 @@ export default function CompensationPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<CompensationPlan>
         title="Compensation Planning & Equity"
         subtitle="Manage compensation plans and equity grants"
@@ -115,7 +116,6 @@ export default function CompensationPage() {
         stats={stats}
         emptyMessage="No compensation plans found"
         emptyAction={{ label: 'Create Plan', onClick: () => router.push('/workforce/compensation/new') }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Workforce', href: '/workforce' }, { label: 'Compensation' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -123,7 +123,7 @@ export default function CompensationPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       {selectedPlan && (
         <DetailDrawer
@@ -133,13 +133,13 @@ export default function CompensationPage() {
           title={(p) => p.employeeName}
           subtitle={(p) => `${p.department} • ${p.role}`}
           sections={detailSections}
-          actions={[{ id: 'approve', label: 'Approve', icon: '✓' }, { id: 'edit', label: 'Edit', icon: '✏️' }]}
+          actions={[{ id: 'approve', label: 'Approve', icon: <Check className="size-4" /> }, { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" /> }]}
           onAction={(id, p) => {
             if (id === 'approve') setPlans(plans.map(plan => plan.id === p.id ? { ...plan, status: 'Approved' as const } : plan));
             setDrawerOpen(false);
           }}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

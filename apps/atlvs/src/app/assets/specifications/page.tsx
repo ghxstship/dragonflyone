@@ -2,15 +2,38 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../../components/navigation";
+import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
-  Container, Section, H3, Body, Label, Grid, Stack, StatCard, Input, Select,
-  Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Button,
-  Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
-  PageLayout, SectionHeader,
+  Container,
+  H3,
+  Body,
+  Label,
+  Grid,
+  Stack,
+  StatCard,
+  Input,
+  Select,
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+  Button,
+  Card,
+  Tabs,
+  TabsList,
+  Tab,
+  TabPanel,
+  Badge,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Textarea,
   EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
+  MainContent,
+} from "@ghxstship/ui";
 
 interface AssetSpec {
   id: string;
@@ -147,21 +170,19 @@ export default function AssetSpecificationsPage() {
   const totalDocs = mockSpecs.reduce((sum, s) => sum + s.documents.length, 0);
 
   return (
-    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={8}>
-            <EnterprisePageHeader
+    <AtlvsAppLayout>
+      <EnterprisePageHeader
         title="Asset Specifications Library"
         subtitle="Technical documentation, specifications, and manuals for all equipment"
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Assets', href: '/assets' }, { label: 'Specifications' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={8}>
 
           <Grid cols={4} gap={6}>
             <StatCard label="Spec Sheets" value={mockSpecs.length} className="bg-transparent border-2 border-ink-800" />
@@ -350,7 +371,7 @@ export default function AssetSpecificationsPage() {
       </Modal>
           </Stack>
         </Container>
-      </Section>
-    </PageLayout>
+      </MainContent>
+    </AtlvsAppLayout>
   );
 }

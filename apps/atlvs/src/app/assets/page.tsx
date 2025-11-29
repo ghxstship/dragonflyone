@@ -2,7 +2,8 @@
 
 import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { Eye, Upload, Wrench, Trash2, Download } from "lucide-react";
+import { AtlvsAppLayout } from "../../components/app-layout";
 import {
   ListPage,
   Badge,
@@ -77,16 +78,16 @@ export default function AssetsPage() {
   const refetch = useCallback(() => setAssets(mockAssets), []);
 
   const rowActions: ListPageAction<Asset>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedAsset(r); setDrawerOpen(true); } },
-    { id: 'checkout', label: 'Check Out', icon: '📤', onClick: (r) => router.push(`/assets/${r.id}/checkout`) },
-    { id: 'maintenance', label: 'Schedule Maintenance', icon: '🔧', onClick: (r) => router.push(`/assets/${r.id}/maintenance`) },
-    { id: 'delete', label: 'Delete', icon: '🗑️', variant: 'danger', onClick: (r) => { setAssetToDelete(r); setDeleteConfirmOpen(true); } },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedAsset(r); setDrawerOpen(true); } },
+    { id: 'checkout', label: 'Check Out', icon: <Upload className="size-4" />, onClick: (r) => router.push(`/assets/${r.id}/checkout`) },
+    { id: 'maintenance', label: 'Schedule Maintenance', icon: <Wrench className="size-4" />, onClick: (r) => router.push(`/assets/${r.id}/maintenance`) },
+    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (r) => { setAssetToDelete(r); setDeleteConfirmOpen(true); } },
   ];
 
   const bulkActions: ListPageBulkAction[] = [
-    { id: 'export', label: 'Export', icon: '⬇️' },
-    { id: 'maintenance', label: 'Schedule Maintenance', icon: '🔧' },
-    { id: 'delete', label: 'Delete', icon: '🗑️', variant: 'danger' },
+    { id: 'export', label: 'Export', icon: <Download className="size-4" /> },
+    { id: 'maintenance', label: 'Schedule Maintenance', icon: <Wrench className="size-4" /> },
+    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger' },
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
@@ -130,7 +131,7 @@ export default function AssetsPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<Asset>
         title="Asset Management"
         subtitle="Production equipment, AV gear, staging, and technical inventory"
@@ -151,7 +152,6 @@ export default function AssetsPage() {
         stats={stats}
         emptyMessage="No assets found"
         emptyAction={{ label: 'Add Asset', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Assets' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -159,11 +159,11 @@ export default function AssetsPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Add Asset" fields={formFields} onSubmit={handleCreate} size="lg" />
       <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedAsset} title={(a) => a.name} subtitle={(a) => a.id} sections={detailSections} onEdit={(a) => router.push(`/assets/${a.id}/edit`)} onDelete={(a) => { setAssetToDelete(a); setDeleteConfirmOpen(true); setDrawerOpen(false); }} />
       <ConfirmDialog open={deleteConfirmOpen} title="Delete Asset" message={`Delete "${assetToDelete?.name}"?`} variant="danger" confirmLabel="Delete" onConfirm={handleDelete} onCancel={() => { setDeleteConfirmOpen(false); setAssetToDelete(null); }} />
-    </>
+    </AtlvsAppLayout>
   );
 }

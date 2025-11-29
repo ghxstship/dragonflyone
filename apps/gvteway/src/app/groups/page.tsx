@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { ConsumerNavigationPublic } from "@/components/navigation";
+import { GvtewayAppLayout, GvtewayLoadingLayout, GvtewayEmptyLayout } from "@/components/app-layout";
 import {
   H2,
   Body,
@@ -10,22 +10,14 @@ import {
   Select,
   Button,
   Badge,
-  LoadingSpinner,
-  EmptyState,
-  Container,
   Grid,
   Stack,
   Card,
-  Section,
   Input,
   Field,
   useNotifications,
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Display,
   Kicker,
+  EmptyState,
 } from "@ghxstship/ui";
 
 interface Group {
@@ -112,60 +104,22 @@ export default function GroupsPage() {
     }
   };
 
-  const footerContent = (
-    <Footer
-      logo={<Display size="md">GVTEWAY</Display>}
-      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-    >
-      <FooterColumn title="Community">
-        <FooterLink href="/groups">Groups</FooterLink>
-        <FooterLink href="/forums">Forums</FooterLink>
-      </FooterColumn>
-      <FooterColumn title="Legal">
-        <FooterLink href="/legal/privacy">Privacy</FooterLink>
-        <FooterLink href="/legal/terms">Terms</FooterLink>
-      </FooterColumn>
-    </Footer>
-  );
-
   if (loading) {
-    return (
-      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
-        <Section background="black" className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading groups..." />
-        </Section>
-      </PageLayout>
-    );
+    return <GvtewayLoadingLayout text="Loading groups..." />;
   }
 
   if (error) {
     return (
-      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
-        <Section background="black" className="min-h-screen py-16">
-          <Container>
-            <EmptyState
-              title="Error Loading Groups"
-              description={error}
-              action={{ label: "Retry", onClick: fetchGroups }}
-              inverted
-            />
-          </Container>
-        </Section>
-      </PageLayout>
+      <GvtewayEmptyLayout
+        title="Error Loading Groups"
+        description={error}
+        action={{ label: "Retry", onClick: fetchGroups }}
+      />
     );
   }
 
   return (
-    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
+    <GvtewayAppLayout>
           <Stack gap={8}>
             <Stack gap={2}>
               <Kicker colorScheme="on-dark">Community</Kicker>
@@ -298,8 +252,6 @@ export default function GroupsPage() {
             </Button>
           </Stack>
           </Stack>
-        </Container>
-      </Section>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

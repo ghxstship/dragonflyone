@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../../components/navigation';
+import { CompvssAppLayout } from '../../../components/app-layout';
 import {
   Container,
   H3,
@@ -12,13 +12,11 @@ import {
   StatCard,
   Select,
   Button,
-  Section,
   Card,
   Badge,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from '@ghxstship/ui';
+  MainContent,
+} from '@ghxstship/ui';
 
 interface DirectoryEntry {
   id: string;
@@ -67,21 +65,19 @@ export default function DirectoryFiltersPage() {
   };
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Directory Search"
         subtitle="Filter by language and specialty"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Directory', href: '/directory' }, { label: 'Filters' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
             <Grid cols={4} gap={6}>
               <StatCard value={filteredEntries.length.toString()} label="Total Results" />
@@ -187,7 +183,7 @@ export default function DirectoryFiltersPage() {
             <Button variant="outline" onClick={() => router.push('/directory')}>Back to Directory</Button>
           </Stack>
         </Container>
-      </Section>
-    </PageLayout>
+      </MainContent>
+    </CompvssAppLayout>
   );
 }

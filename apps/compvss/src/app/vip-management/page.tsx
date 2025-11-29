@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { CompvssAppLayout } from "../../components/app-layout";
 import {
   Container,
   H3,
@@ -19,7 +19,6 @@ import {
   TableHead,
   TableCell,
   Button,
-  Section,
   Card,
   Tabs,
   TabsList,
@@ -31,10 +30,9 @@ import {
   ModalFooter,
   Badge,
   Textarea,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
+  MainContent,
+} from "@ghxstship/ui";
 
 interface VIPGuest {
   id: string;
@@ -84,21 +82,20 @@ export default function VIPManagementPage() {
   };
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="VIP & Backstage Management"
         subtitle="Guest list management and access control"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Vip Management' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'VIP Management' }]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
+        primaryAction={{ label: 'Add Guest', onClick: () => setShowAddModal(true) }}
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
             <Grid cols={4} gap={6}>
               <StatCard label="Checked In" value={mockVIPGuests.filter(g => g.status === "Checked In").length.toString()} />
@@ -177,7 +174,7 @@ export default function VIPManagementPage() {
             </Grid>
           </Stack>
         </Container>
-      </Section>
+      </MainContent>
 
       <Modal open={showAddModal} onClose={() => setShowAddModal(false)}>
         <ModalHeader><H3>Add VIP Guest</H3></ModalHeader>
@@ -218,6 +215,6 @@ export default function VIPManagementPage() {
           <Button variant="solid">Edit</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </CompvssAppLayout>
   );
 }

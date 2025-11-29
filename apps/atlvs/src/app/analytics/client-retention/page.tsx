@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../../components/navigation';
+import { Eye, Phone } from 'lucide-react';
+import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   ListPage, Badge, DetailDrawer,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
@@ -71,8 +72,8 @@ export default function ClientRetentionPage() {
   const avgHealthScore = Math.round(data.reduce((sum, c) => sum + c.healthScore, 0) / data.length);
 
   const rowActions: ListPageAction<ClientRetention>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
-    { id: 'contact', label: 'Schedule Call', icon: '📞', onClick: (r) => console.log('Schedule call', r.id) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
+    { id: 'contact', label: 'Schedule Call', icon: <Phone className="size-4" />, onClick: (r) => console.log('Schedule call', r.id) },
   ];
 
   const stats = [
@@ -101,7 +102,7 @@ export default function ClientRetentionPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<ClientRetention>
         title="Client Retention & Churn Analysis"
         subtitle="Monitor client health, identify churn risks, and improve retention"
@@ -116,7 +117,6 @@ export default function ClientRetentionPage() {
         onExport={() => router.push('/analytics/client-retention/export')}
         stats={stats}
         emptyMessage="No client retention data found"
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Analytics', href: '/analytics' }, { label: 'Client Retention' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -124,7 +124,7 @@ export default function ClientRetentionPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       {selected && (
         <DetailDrawer
@@ -138,6 +138,6 @@ export default function ClientRetentionPage() {
           onAction={(id, r) => { console.log(id, r.id); setDrawerOpen(false); }}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

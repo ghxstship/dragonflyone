@@ -2,10 +2,9 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ConsumerNavigationPublic } from '@/components/navigation';
+import { Wifi, CreditCard, Smartphone, Watch, QrCode } from 'lucide-react';
+import { GvtewayAppLayout } from '@/components/app-layout';
 import {
-  Container,
-  Section,
   H2,
   H3,
   Body,
@@ -33,11 +32,6 @@ import {
   TableRow,
   TableHead,
   TableCell,
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Display,
   Kicker,
 } from '@ghxstship/ui';
 
@@ -97,11 +91,11 @@ const mockTransactions: Transaction[] = [
 ];
 
 const mockPaymentMethods: PaymentMethod[] = [
-  { id: 'PM-001', name: 'Contactless (Tap)', type: 'contactless', icon: '📶', enabled: true, fee_percent: 2.6, processing_time: '< 2 sec' },
-  { id: 'PM-002', name: 'Chip (EMV)', type: 'chip', icon: '💳', enabled: true, fee_percent: 2.4, processing_time: '3-5 sec' },
-  { id: 'PM-003', name: 'Magnetic Swipe', type: 'swipe', icon: '📇', enabled: true, fee_percent: 2.9, processing_time: '2-3 sec' },
-  { id: 'PM-004', name: 'Apple Pay / Google Pay', type: 'mobile', icon: '📱', enabled: true, fee_percent: 2.6, processing_time: '< 2 sec' },
-  { id: 'PM-005', name: 'RFID Wristband', type: 'wristband', icon: '⌚', enabled: true, fee_percent: 1.5, processing_time: '< 1 sec' },
+  { id: 'PM-001', name: 'Contactless (Tap)', type: 'contactless', icon: 'wifi', enabled: true, fee_percent: 2.6, processing_time: '< 2 sec' },
+  { id: 'PM-002', name: 'Chip (EMV)', type: 'chip', icon: 'creditcard', enabled: true, fee_percent: 2.4, processing_time: '3-5 sec' },
+  { id: 'PM-003', name: 'Magnetic Swipe', type: 'swipe', icon: 'creditcard', enabled: true, fee_percent: 2.9, processing_time: '2-3 sec' },
+  { id: 'PM-004', name: 'Apple Pay / Google Pay', type: 'mobile', icon: 'smartphone', enabled: true, fee_percent: 2.6, processing_time: '< 2 sec' },
+  { id: 'PM-005', name: 'RFID Wristband', type: 'wristband', icon: 'watch', enabled: true, fee_percent: 1.5, processing_time: '< 1 sec' },
 ];
 
 export default function CashlessPaymentPage() {
@@ -159,34 +153,7 @@ export default function CashlessPaymentPage() {
   const locations = [...new Set(terminals.map(t => t.location))];
 
   return (
-    <PageLayout
-      background="black"
-      header={<ConsumerNavigationPublic />}
-      footer={
-        <Footer
-          logo={<Display size="md">GVTEWAY</Display>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Admin">
-            <FooterLink href="/admin/pos">POS</FooterLink>
-            <FooterLink href="/admin/pos/cashless">Cashless</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Legal">
-            <FooterLink href="/legal/privacy">Privacy</FooterLink>
-            <FooterLink href="/legal/terms">Terms</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
+    <GvtewayAppLayout>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack direction="horizontal" className="items-center justify-between">
@@ -474,8 +441,6 @@ export default function CashlessPaymentPage() {
             Back to Admin
           </Button>
           </Stack>
-        </Container>
-      </Section>
 
       <Modal open={!!selectedTerminal} onClose={() => setSelectedTerminal(null)}>
         <ModalHeader><H3>Terminal Details</H3></ModalHeader>
@@ -528,6 +493,6 @@ export default function CashlessPaymentPage() {
           <Button variant="solid">View Transactions</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

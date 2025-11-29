@@ -2,13 +2,12 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ConsumerNavigationPublic } from "@/components/navigation";
+import { GvtewayAppLayout } from "@/components/app-layout";
 import {
-  Container, H2, H3, Body, Label, Grid, Stack, StatCard, Button,
-  Section, Card, Tabs, TabsList, Tab, TabPanel, Badge, Alert,
+  H2, H3, Body, Label, Grid, Stack, StatCard, Button,
+  Card, Tabs, TabsList, Tab, TabPanel, Badge, Alert,
   Modal, ModalHeader, ModalBody, ModalFooter,
-  Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
-  PageLayout, Footer, FooterColumn, FooterLink, Display, Kicker,
+  Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Kicker,
 } from "@ghxstship/ui";
 
 interface FlaggedTransaction {
@@ -74,34 +73,7 @@ export default function AntiScalpingPage() {
   };
 
   return (
-    <PageLayout
-      background="black"
-      header={<ConsumerNavigationPublic />}
-      footer={
-        <Footer
-          logo={<Display size="md">GVTEWAY</Display>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Admin">
-            <FooterLink href="/admin">Dashboard</FooterLink>
-            <FooterLink href="/tickets/anti-scalping">Anti-Scalping</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Legal">
-            <FooterLink href="/legal/privacy">Privacy</FooterLink>
-            <FooterLink href="/legal/terms">Terms</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
+    <GvtewayAppLayout>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -234,9 +206,6 @@ export default function AntiScalpingPage() {
             <Button variant="outlineInk" onClick={() => router.push("/admin")}>Admin Dashboard</Button>
           </Grid>
           </Stack>
-        </Container>
-      </Section>
-
       <Modal open={!!selectedTransaction} onClose={() => setSelectedTransaction(null)}>
         <ModalHeader><H3>Review Transaction</H3></ModalHeader>
         <ModalBody>
@@ -263,6 +232,6 @@ export default function AntiScalpingPage() {
           <Button variant="solid" className="bg-error-600">Block</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

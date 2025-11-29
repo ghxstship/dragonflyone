@@ -1,12 +1,24 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useNotifications,
+import {
+  useNotifications,
   EnterprisePageHeader,
-  MainContent,} from '@ghxstship/ui';
-import { CreatorNavigationAuthenticated } from '../../components/navigation';
-import { Container, Section, H2, H3, Body, Button, Card, Grid, Select, LoadingSpinner, ProgressBar, Stack, Display, PageLayout, SectionHeader } from '@ghxstship/ui';
-import { Download, TrendingUp, DollarSign, Users, Package } from 'lucide-react';
+  MainContent,
+  Container,
+  H2,
+  H3,
+  Body,
+  Card,
+  Grid,
+  Select,
+  LoadingSpinner,
+  ProgressBar,
+  Stack,
+  Display,
+} from '@ghxstship/ui';
+import { AtlvsAppLayout } from '../../components/app-layout';
+import { TrendingUp, DollarSign, Users, Package } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 
 interface Analytics {
@@ -87,66 +99,78 @@ export default function ReportsPage() {
 
   if (loading) {
     return (
-      <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
-        <Section className="min-h-screen py-16">
+      <AtlvsAppLayout>
+        <EnterprisePageHeader
+          title="Executive Reports"
+          subtitle="Loading..."
+          breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Reports' }]}
+          views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
+          activeView="default"
+          showFavorite
+          showSettings
+        />
+        <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
             <LoadingSpinner size="lg" text="Loading reports..." />
           </Container>
-        </Section>
-      </PageLayout>
+        </MainContent>
+      </AtlvsAppLayout>
     );
   }
 
   if (!analytics) {
     return (
-      <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
-        <Section className="min-h-screen py-16">
+      <AtlvsAppLayout>
+        <EnterprisePageHeader
+          title="Executive Reports"
+          subtitle="No data available"
+          breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Reports' }]}
+          views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
+          activeView="default"
+          showFavorite
+          showSettings
+        />
+        <MainContent padding="lg">
           <Container>
-            <EnterprisePageHeader
-        title="Executive Reports"
-        subtitle="No data available"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Reports' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
-        activeView="default"
-        showFavorite
-        showSettings
-      />
+            <Body className="text-ink-400">No analytics data available.</Body>
           </Container>
-        </Section>
-      </PageLayout>
+        </MainContent>
+      </AtlvsAppLayout>
     );
   }
 
   return (
-    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
+    <AtlvsAppLayout>
+      <EnterprisePageHeader
+        title="Executive Reports"
+        subtitle="Business intelligence and analytics dashboard"
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Reports' }]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
+        activeView="default"
+        secondaryActions={[
+          {
+            id: 'export',
+            label: 'Export',
+            onClick: () => addNotification({ type: 'info', title: 'Exporting', message: 'Generating report export...' }),
+            icon: 'download',
+          },
+        ]}
+        showFavorite
+        showSettings
+      />
+      <MainContent padding="lg">
         <Container>
           <Stack gap={10}>
             <Stack gap={4} direction="horizontal" className="items-start justify-between">
-              <SectionHeader
-                kicker="ATLVS"
-                title="Executive Reports"
-                description="Business intelligence and analytics dashboard"
-                colorScheme="on-dark"
-                gap="lg"
-              />
-              <Stack gap={3} direction="horizontal">
-                <Select 
-                  className="w-48 bg-grey-900 border-grey-700 text-white"
-                  value={timeRange}
-                  onChange={(e) => setTimeRange(e.target.value)}
-                >
-                  <option value="30">Last 30 Days</option>
-                  <option value="90">Last Quarter</option>
-                  <option value="365">Last Year</option>
-                </Select>
-                <Button variant="outlineWhite" onClick={() => { addNotification({ type: 'info', title: 'Exporting', message: 'Generating report export...' }); }}>
-                  <Download className="size-4 mr-2" />
-                  EXPORT
-                </Button>
-              </Stack>
+              <Select 
+                className="w-48 bg-grey-900 border-grey-700 text-white"
+                value={timeRange}
+                onChange={(e) => setTimeRange(e.target.value)}
+              >
+                <option value="30">Last 30 Days</option>
+                <option value="90">Last Quarter</option>
+                <option value="365">Last Year</option>
+              </Select>
             </Stack>
 
         {/* Key Metrics */}
@@ -326,7 +350,7 @@ export default function ReportsPage() {
           </Card>
           </Stack>
         </Container>
-      </Section>
-    </PageLayout>
+      </MainContent>
+    </AtlvsAppLayout>
   );
 }

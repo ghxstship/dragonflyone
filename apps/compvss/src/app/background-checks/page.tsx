@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { Eye, RefreshCw, Download } from "lucide-react";
+import { CompvssAppLayout } from "../../components/app-layout";
 import {
   ListPage,
   Badge,
@@ -90,9 +91,9 @@ export default function BackgroundChecksPage() {
   const cleared = checks.filter(c => c.status === "Cleared").length;
 
   const rowActions: ListPageAction<BackgroundCheck>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedCheck(r); setDrawerOpen(true); } },
-    { id: 'renew', label: 'Renew', icon: '🔄', onClick: (r) => console.log('Renew', r.id) },
-    { id: 'download', label: 'Download Report', icon: '⬇️', onClick: (r) => console.log('Download', r.id) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedCheck(r); setDrawerOpen(true); } },
+    { id: 'renew', label: 'Renew', icon: <RefreshCw className="size-4" />, onClick: (r) => console.log('Renew', r.id) },
+    { id: 'download', label: 'Download Report', icon: <Download className="size-4" />, onClick: (r) => console.log('Download', r.id) },
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
@@ -135,7 +136,7 @@ export default function BackgroundChecksPage() {
   ] : [];
 
   return (
-    <>
+    <CompvssAppLayout>
       <ListPage<BackgroundCheck>
         title="Background Checks"
         subtitle="Crew background check status and renewal management"
@@ -153,7 +154,6 @@ export default function BackgroundChecksPage() {
         stats={stats}
         emptyMessage="No background checks found"
         emptyAction={{ label: 'Initiate Check', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Background Checks' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -161,7 +161,7 @@ export default function BackgroundChecksPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
 
       <RecordFormModal
@@ -188,6 +188,6 @@ export default function BackgroundChecksPage() {
           onAction={(id) => console.log('Action', id)}
         />
       )}
-    </>
+    </CompvssAppLayout>
   );
 }

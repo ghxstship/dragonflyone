@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { Eye, Upload } from "lucide-react";
+import { AtlvsAppLayout } from "../../components/app-layout";
 import {
   ListPage,
   Badge,
@@ -76,8 +77,8 @@ export default function TaxesPage() {
   const totalLiability = documents.reduce((sum, d) => sum + (d.amount_due || 0), 0);
 
   const rowActions: ListPageAction<TaxDocument>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedDoc(r); setDrawerOpen(true); } },
-    { id: 'file', label: 'File', icon: '📤', onClick: async (r) => { await fetch(`/api/taxes/${r.id}/file`, { method: 'POST' }); fetchTaxDocuments(); } },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedDoc(r); setDrawerOpen(true); } },
+    { id: 'file', label: 'File', icon: <Upload className="size-4" />, onClick: async (r) => { await fetch(`/api/taxes/${r.id}/file`, { method: 'POST' }); fetchTaxDocuments(); } },
   ];
 
   const stats = [
@@ -105,7 +106,7 @@ export default function TaxesPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<TaxDocument>
         title="Tax Documentation"
         subtitle="Manage tax filings, track deadlines, and maintain compliance"
@@ -125,7 +126,6 @@ export default function TaxesPage() {
         stats={stats}
         emptyMessage="No tax documents found"
         emptyAction={{ label: 'Add Tax Document', onClick: () => router.push('/taxes/new') }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Taxes' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -133,7 +133,7 @@ export default function TaxesPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       {selectedDoc && (
         <DetailDrawer
@@ -147,6 +147,6 @@ export default function TaxesPage() {
           onAction={(id, d) => { if (id === 'file') fetch(`/api/taxes/${d.id}/file`, { method: 'POST' }); setDrawerOpen(false); }}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

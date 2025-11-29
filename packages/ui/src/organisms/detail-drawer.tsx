@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import clsx from "clsx";
+import { X, Pencil, Trash2, ChevronUp, ChevronDown } from "lucide-react";
 
 /**
  * DetailDrawer component - Bold Contemporary Pop Art Adventure
@@ -193,7 +194,7 @@ export function DetailDrawer<T = unknown>({
             className="p-spacing-2 bg-transparent border-none text-white cursor-pointer text-body-lg leading-none hover:text-grey-300"
             aria-label="Close drawer"
           >
-            ✕
+            <X className="size-5" />
           </button>
         </div>
 
@@ -206,7 +207,7 @@ export function DetailDrawer<T = unknown>({
                 onClick={() => onEdit(record)}
                 className="flex items-center gap-gap-xs px-spacing-3 py-spacing-2 font-code text-mono-sm tracking-wide uppercase bg-black text-white border-2 border-black cursor-pointer transition-colors duration-fast hover:bg-grey-900"
               >
-                ✏️ Edit
+                <Pencil className="size-4" /> Edit
               </button>
             )}
 
@@ -237,7 +238,7 @@ export function DetailDrawer<T = unknown>({
                 onClick={() => onDelete(record)}
                 className="flex items-center gap-gap-xs px-spacing-3 py-spacing-2 font-code text-mono-sm tracking-wide uppercase bg-surface-primary text-text-secondary border-2 border-border-secondary cursor-pointer transition-colors duration-fast ml-auto hover:bg-surface-secondary"
               >
-                🗑️ Delete
+                <Trash2 className="size-4" /> Delete
               </button>
             )}
           </div>
@@ -293,7 +294,7 @@ function DetailSectionComponent({ section }: { section: DetailSection }) {
             className="p-spacing-1 bg-transparent border-none cursor-pointer text-mono-xs text-grey-500 hover:text-grey-700"
             aria-expanded={!collapsed}
           >
-            {collapsed ? "▼" : "▲"}
+            {collapsed ? <ChevronDown className="size-3" /> : <ChevronUp className="size-3" />}
           </button>
         )}
       </div>

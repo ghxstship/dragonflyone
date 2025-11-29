@@ -2,10 +2,28 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../components/navigation';
-import { Container, Section, H2, H3, Body, Button, Input, Select, Card, Grid, Badge, Stack, Modal, ModalHeader, ModalBody, ModalFooter, Textarea, Alert, Breadcrumb, BreadcrumbItem, PageLayout, SectionHeader,
+import { CompvssAppLayout } from '../../components/app-layout';
+import {
+  Container,
+  H2,
+  H3,
+  Body,
+  Button,
+  Input,
+  Select,
+  Card,
+  Grid,
+  Badge,
+  Stack,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Textarea,
+  Alert,
   EnterprisePageHeader,
-  MainContent,} from '@ghxstship/ui';
+  MainContent,
+} from '@ghxstship/ui';
 import { Search, Briefcase, DollarSign, MapPin, Clock, FileText } from 'lucide-react';
 
 export default function OpportunitiesPage() {
@@ -97,32 +115,19 @@ export default function OpportunitiesPage() {
   ];
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          {/* Breadcrumb */}
-          <Breadcrumb className="mb-6">
-            <BreadcrumbItem href="/dashboard">Dashboard</BreadcrumbItem>
-            <BreadcrumbItem active>Opportunities</BreadcrumbItem>
-          </Breadcrumb>
-
-          <Stack gap={4} direction="horizontal" className="mb-8 items-start justify-between">
-            <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Opportunities"
         subtitle="RFPs, careers, and gig board"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Opportunities' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
+        primaryAction={{ label: 'Post Opportunity', onClick: () => router.push('/opportunities/new') }}
         showFavorite
         showSettings
       />
-            <Button onClick={() => router.push('/opportunities/new')}>
-              <FileText className="mr-2 size-4" />
-              POST OPPORTUNITY
-            </Button>
-          </Stack>
+      <MainContent padding="lg">
+        <Container>
 
           {/* Tabs */}
           <Stack gap={4} direction="horizontal" className="mb-8">
@@ -275,7 +280,7 @@ export default function OpportunitiesPage() {
             </Stack>
           )}
         </Container>
-      </Section>
+      </MainContent>
 
       {/* Application Modal */}
       <Modal open={showApplyModal} onClose={() => setShowApplyModal(false)}>
@@ -326,6 +331,6 @@ export default function OpportunitiesPage() {
           </Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </CompvssAppLayout>
   );
 }

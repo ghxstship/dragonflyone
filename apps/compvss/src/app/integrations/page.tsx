@@ -2,11 +2,29 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useNotifications,
+import { CompvssAppLayout } from '../../components/app-layout';
+import {
+  Container,
+  H2,
+  H3,
+  Body,
+  Button,
+  Card,
+  Badge,
+  Grid,
+  Stack,
+  StatCard,
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+  LoadingSpinner,
+  useNotifications,
   EnterprisePageHeader,
-  MainContent,} from '@ghxstship/ui';
-import { CreatorNavigationAuthenticated } from '../../components/navigation';
-import { Container, Section, H2, H3, Body, Button, Card, Badge, Grid, Stack, StatCard, Table, TableHeader, TableBody, TableRow, TableHead, TableCell, LoadingSpinner, PageLayout, SectionHeader } from '@ghxstship/ui';
+  MainContent,
+} from '@ghxstship/ui';
 
 interface SyncJob {
   id: string;
@@ -67,21 +85,19 @@ export default function CompvssIntegrationsPage() {
   };
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Platform Integrations"
         subtitle="Monitor cross-platform data synchronization and manage production workflows."
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Integrations' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
             <Grid cols={3} gap={6}>
               <StatCard value="24" label="Projects from ATLVS" />
@@ -193,7 +209,7 @@ export default function CompvssIntegrationsPage() {
             </Card>
           </Stack>
         </Container>
-      </Section>
-    </PageLayout>
+      </MainContent>
+    </CompvssAppLayout>
   );
 }

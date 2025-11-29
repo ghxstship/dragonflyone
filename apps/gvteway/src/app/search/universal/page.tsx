@@ -2,10 +2,8 @@
 
 import { useState, useEffect, useCallback, useMemo, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { ConsumerNavigationPublic } from '@/components/navigation';
+import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
-  Container,
-  Section,
   H2,
   H3,
   Body,
@@ -16,14 +14,9 @@ import {
   Grid,
   Stack,
   Badge,
-  LoadingSpinner,
   Figure,
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Display,
   Kicker,
+  LoadingSpinner,
 } from '@ghxstship/ui';
 import Image from 'next/image';
 
@@ -142,34 +135,7 @@ function UniversalSearchContent() {
   };
 
   return (
-    <PageLayout
-      background="black"
-      header={<ConsumerNavigationPublic />}
-      footer={
-        <Footer
-          logo={<Display size="md">GVTEWAY</Display>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Search">
-            <FooterLink href="/search/universal">Universal Search</FooterLink>
-            <FooterLink href="/browse">Browse</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Legal">
-            <FooterLink href="/legal/privacy">Privacy</FooterLink>
-            <FooterLink href="/legal/terms">Terms</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
+    <GvtewayAppLayout>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -188,7 +154,7 @@ function UniversalSearchContent() {
             </Stack>
 
         {!query && recentSearches.length > 0 && (
-          <Section className="mb-8">
+          <Stack className="mb-8">
             <Stack direction="horizontal" className="justify-between items-center mb-4">
               <H3>RECENT SEARCHES</H3>
               <Button variant="ghost" size="sm" onClick={handleClearRecent}>
@@ -206,7 +172,7 @@ function UniversalSearchContent() {
                 </Button>
               ))}
             </Stack>
-          </Section>
+          </Stack>
         )}
 
         {query && (
@@ -305,7 +271,7 @@ function UniversalSearchContent() {
         )}
 
         {!query && (
-          <Section>
+          <Stack>
             <H2 className="mb-6">BROWSE BY CATEGORY</H2>
             <Grid cols={4} gap={4}>
               {['Concerts', 'Festivals', 'Theater', 'Sports', 'Comedy', 'Nightlife', 'Family', 'Arts'].map(category => (
@@ -318,46 +284,16 @@ function UniversalSearchContent() {
                 </Card>
               ))}
             </Grid>
-          </Section>
+          </Stack>
         )}
           </Stack>
-        </Container>
-      </Section>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }
 
 export default function UniversalSearchPage() {
   return (
-    <Suspense fallback={
-      <PageLayout
-        background="black"
-        header={<ConsumerNavigationPublic />}
-        footer={
-          <Footer
-            logo={<Display size="md">GVTEWAY</Display>}
-            copyright="© 2024 GHXSTSHIP INDUSTRIES."
-          >
-            <FooterColumn title="Search">
-              <FooterLink href="/search/universal">Search</FooterLink>
-            </FooterColumn>
-          </Footer>
-        }
-      >
-        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-          <div
-            className="pointer-events-none absolute inset-0 opacity-5"
-            style={{
-              backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-              backgroundSize: "40px 40px",
-            }}
-          />
-          <Container className="relative z-10 flex min-h-[60vh] items-center justify-center">
-            <LoadingSpinner size="lg" text="Loading..." />
-          </Container>
-        </Section>
-      </PageLayout>
-    }>
+    <Suspense fallback={<GvtewayLoadingLayout text="Loading..." />}>
       <UniversalSearchContent />
     </Suspense>
   );

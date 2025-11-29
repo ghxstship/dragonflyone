@@ -2,11 +2,8 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { ConsumerNavigationPublic } from '@/components/navigation';
+import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
-  Container,
-  Section,
-  Display,
   H2,
   H3,
   Body,
@@ -17,12 +14,7 @@ import {
   Stack,
   Badge,
   Alert,
-  LoadingSpinner,
   ProjectCard,
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
   Kicker,
   Label,
   EmptyState,
@@ -106,88 +98,11 @@ export default function FavoritesPage() {
   const pastFavorites = sortedFavorites.filter(f => new Date(f.date) < new Date());
 
   if (loading) {
-    return (
-      <PageLayout
-        background="black"
-        header={<ConsumerNavigationPublic />}
-        footer={
-          <Footer
-            logo={<Display size="md">GVTEWAY</Display>}
-            copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-          >
-            <FooterColumn title="Discover">
-              <FooterLink href="/events">Browse Events</FooterLink>
-              <FooterLink href="/venues">Find Venues</FooterLink>
-              <FooterLink href="/artists">Artists</FooterLink>
-            </FooterColumn>
-            <FooterColumn title="Support">
-              <FooterLink href="/help">Help Center</FooterLink>
-              <FooterLink href="/help#contact">Contact</FooterLink>
-            </FooterColumn>
-            <FooterColumn title="Legal">
-              <FooterLink href="/legal/privacy">Privacy</FooterLink>
-              <FooterLink href="/legal/terms">Terms</FooterLink>
-            </FooterColumn>
-          </Footer>
-        }
-      >
-        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-          <div
-            className="pointer-events-none absolute inset-0 opacity-5"
-            style={{
-              backgroundImage: `
-                linear-gradient(#fff 1px, transparent 1px),
-                linear-gradient(90deg, #fff 1px, transparent 1px)
-              `,
-              backgroundSize: "40px 40px",
-            }}
-          />
-          <Container className="relative z-10 flex min-h-[60vh] items-center justify-center">
-            <LoadingSpinner size="lg" text="Loading favorites..." />
-          </Container>
-        </Section>
-      </PageLayout>
-    );
+    return <GvtewayLoadingLayout text="Loading favorites..." />;
   }
 
   return (
-    <PageLayout
-      background="black"
-      header={<ConsumerNavigationPublic />}
-      footer={
-        <Footer
-          logo={<Display size="md">GVTEWAY</Display>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Discover">
-            <FooterLink href="/events">Browse Events</FooterLink>
-            <FooterLink href="/venues">Find Venues</FooterLink>
-            <FooterLink href="/artists">Artists</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Support">
-            <FooterLink href="/help">Help Center</FooterLink>
-            <FooterLink href="/help#contact">Contact</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Legal">
-            <FooterLink href="/legal/privacy">Privacy</FooterLink>
-            <FooterLink href="/legal/terms">Terms</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        {/* Grid Pattern Background */}
-        <div
-          className="pointer-events-none absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `
-              linear-gradient(#fff 1px, transparent 1px),
-              linear-gradient(90deg, #fff 1px, transparent 1px)
-            `,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
+    <GvtewayAppLayout>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack direction="horizontal" className="flex-col items-start justify-between gap-4 md:flex-row md:items-center">
@@ -319,8 +234,6 @@ export default function FavoritesPage() {
               </Stack>
             </Card>
           </Stack>
-        </Container>
-      </Section>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

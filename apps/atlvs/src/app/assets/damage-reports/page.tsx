@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../../components/navigation";
+import { Eye, Pencil, Check } from "lucide-react";
+import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
   ListPage, Badge, DetailDrawer,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
@@ -69,8 +70,8 @@ export default function DamageReportsPage() {
   const totalEstimatedCost = data.filter(r => r.status !== "Resolved").reduce((sum, r) => sum + (r.estimatedCost || 0), 0);
 
   const rowActions: ListPageAction<DamageReport>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
-    { id: 'update', label: 'Update Status', icon: '✏️', onClick: (r) => console.log('Update', r.id) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
+    { id: 'update', label: 'Update Status', icon: <Pencil className="size-4" />, onClick: (r) => console.log('Update', r.id) },
   ];
 
   const stats = [
@@ -98,7 +99,7 @@ export default function DamageReportsPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<DamageReport>
         title="Damage Reports & Repairs"
         subtitle="Track equipment damage, repairs, and insurance claims"
@@ -113,7 +114,6 @@ export default function DamageReportsPage() {
         onExport={() => console.log('Export')}
         stats={stats}
         emptyMessage="No damage reports found"
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Assets', href: '/assets' }, { label: 'Damage Reports' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -121,7 +121,7 @@ export default function DamageReportsPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       {selected && (
         <DetailDrawer
@@ -131,10 +131,10 @@ export default function DamageReportsPage() {
           title={(r) => r.assetName}
           subtitle={(r) => `${r.severity} • ${r.status}`}
           sections={detailSections}
-          actions={[{ id: 'update', label: 'Update Status', icon: '✏️' }, { id: 'resolve', label: 'Resolve', icon: '✅' }]}
+          actions={[{ id: 'update', label: 'Update Status', icon: <Pencil className="size-4" /> }, { id: 'resolve', label: 'Resolve', icon: <Check className="size-4" /> }]}
           onAction={(id, r) => { console.log(id, r.id); setDrawerOpen(false); }}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

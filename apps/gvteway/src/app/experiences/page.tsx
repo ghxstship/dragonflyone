@@ -3,13 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useEvents } from "@/hooks/useEvents";
-import { ConsumerNavigationAuthenticated } from "@/components/navigation";
+import { GvtewayAppLayout, GvtewayLoadingLayout, GvtewayEmptyLayout } from "@/components/app-layout";
 import {
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Display,
   H2,
   H3,
   Body,
@@ -17,13 +12,10 @@ import {
   Input,
   Select,
   Badge,
-  Section,
   ProjectCard,
   Stack,
   Grid,
   Card,
-  Container,
-  LoadingSpinner,
   Label,
   Kicker,
   EmptyState,
@@ -107,44 +99,7 @@ export default function ExperiencesPage() {
   };
 
   return (
-    <PageLayout
-      background="black"
-      header={<ConsumerNavigationAuthenticated />}
-      footer={
-        <Footer
-          logo={<Display size="md">GVTEWAY</Display>}
-          copyright="© 2025 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Experiences">
-            <FooterLink href="/experiences">Browse All</FooterLink>
-            <FooterLink href="/experiences/upcoming">Upcoming</FooterLink>
-            <FooterLink href="/experiences/exclusive">Exclusive</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Account">
-            <FooterLink href="/dashboard">Dashboard</FooterLink>
-            <FooterLink href="/profile">Profile</FooterLink>
-            <FooterLink href="/membership">Membership</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Support">
-            <FooterLink href="/help">Help Center</FooterLink>
-            <FooterLink href="/contact">Concierge</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        {/* Grid Pattern Background */}
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: `
-              linear-gradient(#fff 1px, transparent 1px),
-              linear-gradient(90deg, #fff 1px, transparent 1px)
-            `,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
+    <GvtewayAppLayout>
           <Stack gap={10}>
             {/* Page Header */}
             <ScrollReveal animation="fade">
@@ -257,9 +212,7 @@ export default function ExperiencesPage() {
 
             {/* Experiences Display */}
             {isLoading ? (
-              <Stack className="flex items-center justify-center py-20">
-                <LoadingSpinner size="lg" text="Loading experiences..." />
-              </Stack>
+              <GvtewayLoadingLayout text="Loading experiences..." />
             ) : filteredExperiences.length === 0 ? (
               <EmptyState
                 title="No experiences found"
@@ -433,8 +386,6 @@ export default function ExperiencesPage() {
               </Stack>
             )}
           </Stack>
-        </Container>
-      </Section>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

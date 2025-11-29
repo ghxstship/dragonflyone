@@ -2,10 +2,9 @@
 
 import { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../components/navigation';
+import { CompvssAppLayout } from '../../components/app-layout';
 import {
   Container,
-  Section,
   Body,
   Button,
   Card,
@@ -17,10 +16,9 @@ import {
   Stack,
   LoadingSpinner,
   H3,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from '@ghxstship/ui';
+  MainContent,
+} from '@ghxstship/ui';
 import { useCrew } from '../../hooks/useCrew';
 
 // Available languages for filtering
@@ -198,43 +196,41 @@ export default function DirectoryPage() {
 
   if (isLoading) {
     return (
-      <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-        <Section className="flex min-h-screen items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading directory..." />
-        </Section>
-      </PageLayout>
+      <CompvssAppLayout>
+        <MainContent padding="lg">
+          <Container className="flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner size="lg" text="Loading directory..." />
+          </Container>
+        </MainContent>
+      </CompvssAppLayout>
     );
   }
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            {/* Page Header */}
-            <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Directory"
         subtitle="Search and filter crew, vendors, and venues by language, specialty, and more"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Directory' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite
         showSettings
       />
-
-          {/* Primary Search and Filters */}
-          <Card className="p-6">
-            <Stack gap={6}>
-              <Grid cols={4} gap={4}>
-                <Field label="Search">
-                  <Input
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    placeholder="Search by name, skill, language..."
-                  />
-                </Field>
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
+            {/* Primary Search and Filters */}
+            <Card className="p-6">
+              <Stack gap={6}>
+                <Grid cols={4} gap={4}>
+                  <Field label="Search">
+                    <Input
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      placeholder="Search by name, skill, language..."
+                    />
+                  </Field>
 
                 <Field label="Type">
                   <Select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)}>
@@ -397,7 +393,7 @@ export default function DirectoryPage() {
           </Stack>
         </Stack>
       </Container>
-    </Section>
-  </PageLayout>
+    </MainContent>
+  </CompvssAppLayout>
 );
 }

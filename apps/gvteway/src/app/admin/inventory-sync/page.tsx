@@ -2,49 +2,16 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ConsumerNavigationPublic } from '@/components/navigation';
+import { Eye, Check, RefreshCw } from 'lucide-react';
+import { GvtewayAppLayout } from '@/components/app-layout';
 import {
   ListPage,
   Badge,
   DetailDrawer,
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Display,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
   type DetailSection,
-  Section,
-  Container,
-  Stack,
-  Grid,
-  H2,
-  H3,
-  Body,
-  Label,
-  Button,
-  Alert,
-  StatCard,
-  Tabs,
-  TabsList,
-  Tab,
-  Field,
-  Select,
-  Table,
-  Kicker,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableHead,
-  TableCell,
-  Card,
-  Input,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
 } from '@ghxstship/ui';
 
 interface InventoryLocation {
@@ -152,9 +119,9 @@ export default function InventorySyncPage() {
   };
 
   const rowActions: ListPageAction<InventoryItem>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedItem(r); setDrawerOpen(true); } },
-    { id: 'resolve', label: 'Resolve Conflict', icon: '✅', onClick: (r) => handleResolveConflict(r.id) },
-    { id: 'sync', label: 'Sync Item', icon: '🔄', onClick: (r) => handleResolveConflict(r.id) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedItem(r); setDrawerOpen(true); } },
+    { id: 'resolve', label: 'Resolve Conflict', icon: <Check className="size-4" />, onClick: (r) => handleResolveConflict(r.id) },
+    { id: 'sync', label: 'Sync Item', icon: <RefreshCw className="size-4" />, onClick: (r) => handleResolveConflict(r.id) },
   ];
 
   const stats = [
@@ -180,24 +147,8 @@ export default function InventorySyncPage() {
     )},
   ] : [];
 
-  const footerContent = (
-    <Footer
-      logo={<Display size="md">GVTEWAY</Display>}
-      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-    >
-      <FooterColumn title="Admin">
-        <FooterLink href="/admin/inventory-sync">Inventory</FooterLink>
-        <FooterLink href="/admin/promo-codes">Promo Codes</FooterLink>
-      </FooterColumn>
-      <FooterColumn title="Legal">
-        <FooterLink href="/legal/privacy">Privacy</FooterLink>
-        <FooterLink href="/legal/terms">Terms</FooterLink>
-      </FooterColumn>
-    </Footer>
-  );
-
   return (
-    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+    <GvtewayAppLayout>
       <ListPage<InventoryItem>
         title="Inventory Synchronization"
         subtitle="Real-time inventory sync between online and physical locations"
@@ -225,8 +176,8 @@ export default function InventorySyncPage() {
           subtitle={(i) => `${i.sku} • ${i.category}`}
           sections={detailSections}
           actions={[
-            { id: 'sync', label: 'Sync Item', icon: '🔄' },
-            ...(selectedItem.sync_status === 'conflict' ? [{ id: 'resolve', label: 'Resolve Conflict', icon: '✅' }] : []),
+            { id: 'sync', label: 'Sync Item', icon: <RefreshCw className="size-4" /> },
+            ...(selectedItem.sync_status === 'conflict' ? [{ id: 'resolve', label: 'Resolve Conflict', icon: <Check className="size-4" /> }] : []),
           ]}
           onAction={(id, i) => {
             if (id === 'sync' || id === 'resolve') handleResolveConflict(i.id);
@@ -234,6 +185,6 @@ export default function InventorySyncPage() {
           }}
         />
       )}
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

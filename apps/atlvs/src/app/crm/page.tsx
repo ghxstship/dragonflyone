@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../components/navigation';
+import { Eye, Pencil, Mail } from 'lucide-react';
+import { AtlvsAppLayout } from '../../components/app-layout';
 import {
   ListPage,
   Badge,
@@ -55,9 +56,9 @@ export default function CRMPage() {
   const totalValue = dealList.reduce((sum: number, d: { value?: number }) => sum + (d.value || 0), 0);
 
   const rowActions: ListPageAction<Contact>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedContact(r); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (r) => router.push(`/contacts/${r.id}/edit`) },
-    { id: 'email', label: 'Send Email', icon: '✉️', onClick: (r) => window.location.href = `mailto:${r.email}` },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedContact(r); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/contacts/${r.id}/edit`) },
+    { id: 'email', label: 'Send Email', icon: <Mail className="size-4" />, onClick: (r) => window.location.href = `mailto:${r.email}` },
   ];
 
   const stats = [
@@ -80,7 +81,7 @@ export default function CRMPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<Contact>
         title="CRM"
         subtitle="Manage contacts, deals, and customer relationships"
@@ -99,17 +100,16 @@ export default function CRMPage() {
         stats={stats}
         emptyMessage="No contacts found"
         emptyAction={{ label: 'Add Contact', onClick: () => router.push('/contacts') }}
-        header={<CreatorNavigationAuthenticated
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Crm' }]}
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'CRM' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedContact} title={(c) => c.name} subtitle={(c) => c.company || c.email} sections={detailSections} onEdit={(c) => router.push(`/contacts/${c.id}/edit`)} actions={[{ id: 'email', label: 'Send Email', icon: '✉️' }]} onAction={(id, c) => id === 'email' && (window.location.href = `mailto:${c.email}`)} />
-    </>
+    </AtlvsAppLayout>
   );
 }

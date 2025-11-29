@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../components/navigation';
+import { Eye, Pencil, Calendar } from 'lucide-react';
+import { CompvssAppLayout } from '../../components/app-layout';
 import {
   ListPage,
   Badge,
@@ -11,6 +12,8 @@ import {
   Grid,
   Stack,
   Body,
+  EnterprisePageHeader,
+  MainContent,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -78,7 +81,7 @@ const columns: ListPageColumn<AvailabilitySlot>[] = [
   { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v) => <Badge variant={getStatusVariant(String(v))}>{String(v).toUpperCase()}</Badge> },
   { key: 'start_time', label: 'Start', accessor: (r) => r.start_time || '-' },
   { key: 'end_time', label: 'End', accessor: (r) => r.end_time || '-' },
-  { key: 'calendar_source', label: 'Source', accessor: (r) => r.calendar_source === 'google' ? '📅 Google' : '✏️ Manual' },
+  { key: 'calendar_source', label: 'Source', accessor: 'calendar_source', render: (v) => v === 'google' ? 'Google' : 'Manual' },
 ];
 
 const filters: ListPageFilter[] = [
@@ -125,8 +128,8 @@ export default function AvailabilityPage() {
   };
 
   const rowActions: ListPageAction<AvailabilitySlot>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedSlot(r); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (r) => { setSelectedSlot(r); setCreateModalOpen(true); } },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedSlot(r); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => { setSelectedSlot(r); setCreateModalOpen(true); } },
   ];
 
   const stats = [
@@ -146,40 +149,46 @@ export default function AvailabilityPage() {
         <Stack gap={1}><Body className="font-display">Status</Body><Body>{selectedSlot.status}</Body></Stack>
         <Stack gap={1}><Body className="font-display">Start Time</Body><Body>{selectedSlot.start_time || '-'}</Body></Stack>
         <Stack gap={1}><Body className="font-display">End Time</Body><Body>{selectedSlot.end_time || '-'}</Body></Stack>
-        <Stack gap={1}><Body className="font-display">Source</Body><Body>{selectedSlot.calendar_source === 'google' ? '📅 Google' : '✏️ Manual'}</Body></Stack>
+        <Stack gap={1}><Body className="font-display">Source</Body><Body className="flex items-center gap-2">{selectedSlot.calendar_source === 'google' ? <><Calendar className="size-4" /> Google</> : <><Pencil className="size-4" /> Manual</>}</Body></Stack>
         {selectedSlot.notes && <Stack gap={1} className="col-span-2"><Body className="font-display">Notes</Body><Body>{selectedSlot.notes}</Body></Stack>}
       </Grid>
     )},
   ] : [];
 
   return (
-    <>
-      <ListPage<AvailabilitySlot>
-        title="Availability Calendar"
-        subtitle="Manage crew availability and calendar integrations"
-        data={availability}
-        columns={columns}
-        rowKey="id"
-        loading={false}
-        searchPlaceholder="Search availability..."
-        filters={filters}
-        rowActions={rowActions}
-        onRowClick={(r) => { setSelectedSlot(r); setDrawerOpen(true); }}
-        createLabel="Set Availability"
-        onCreate={() => setCreateModalOpen(true)}
-        onExport={() => console.log('Export')}
-        stats={stats}
-        emptyMessage="No availability records"
-        header={<CreatorNavigationAuthenticated
+    <CompvssAppLayout>
+      <EnterprisePageHeader
+        title="Availability"
+        subtitle="Crew availability and calendar integration"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Availability' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
         ]}
         activeView="list"
+        primaryAction={{ label: 'Set Availability', onClick: () => setCreateModalOpen(true) }}
         showFavorite
-        showSettings />}
+        showSettings
       />
+      <MainContent padding="lg">
+        <ListPage<AvailabilitySlot>
+          title="Availability"
+          subtitle="Crew availability and calendar integration"
+          data={availability}
+          columns={columns}
+          rowKey="id"
+          loading={false}
+          searchPlaceholder="Search availability..."
+          filters={filters}
+          rowActions={rowActions}
+          onRowClick={(r) => { setSelectedSlot(r); setDrawerOpen(true); }}
+          createLabel="Set Availability"
+          onCreate={() => setCreateModalOpen(true)}
+          onExport={() => console.log('Export')}
+          stats={stats}
+          emptyMessage="No availability records"
+        />
+      </MainContent>
 
       <RecordFormModal
         open={createModalOpen}
@@ -199,7 +208,7 @@ export default function AvailabilityPage() {
           subtitle={(s) => `${s.role} • ${s.department}`}
           sections={detailSections}
           actions={[
-            { id: 'edit', label: 'Edit', icon: '✏️' },
+            { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" /> },
           ]}
           onAction={(id, s) => {
             if (id === 'edit') { setSelectedSlot(s); setCreateModalOpen(true); }
@@ -207,6 +216,6 @@ export default function AvailabilityPage() {
           }}
         />
       )}
-    </>
+    </CompvssAppLayout>
   );
 }

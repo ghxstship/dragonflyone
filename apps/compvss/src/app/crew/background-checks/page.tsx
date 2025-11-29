@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../../components/navigation";
+import { CompvssAppLayout } from "../../../components/app-layout";
 import {
   Container,
   H3,
@@ -12,7 +12,6 @@ import {
   StatCard,
   Select,
   Button,
-  Section,
   Card,
   Tabs,
   TabsList,
@@ -29,10 +28,9 @@ import {
   TableRow,
   TableHead,
   TableCell,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
+  MainContent,
+} from "@ghxstship/ui";
 
 interface BackgroundCheck {
   id: string;
@@ -72,21 +70,19 @@ export default function BackgroundChecksPage() {
     mockChecks.filter(c => c.status === "In Progress" || c.status === "Pending");
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Background Checks"
         subtitle="Background check status and renewal alerts"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Crew', href: '/crew' }, { label: 'Background Checks' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
             {(expiringCount > 0 || expiredCount > 0) && (
               <Alert variant="warning">
@@ -172,7 +168,7 @@ export default function BackgroundChecksPage() {
             </Grid>
           </Stack>
         </Container>
-      </Section>
+      </MainContent>
 
       <Modal open={!!selectedCheck} onClose={() => setSelectedCheck(null)}>
         <ModalHeader><H3>Background Check Details</H3></ModalHeader>
@@ -259,6 +255,6 @@ export default function BackgroundChecksPage() {
           <Button variant="solid" onClick={() => setShowInitiateModal(false)}>Submit Request</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </CompvssAppLayout>
   );
 }

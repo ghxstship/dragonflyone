@@ -2,13 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { GvtewayAppLayout } from "@/components/app-layout";
 import {
-  PageLayout,
-  Navigation,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Display,
   H2,
   H3,
   Body,
@@ -16,11 +11,8 @@ import {
   Input,
   Badge,
   Card,
-  Section,
-  Container,
   Stack,
   useDebounce,
-  Link,
 } from "@ghxstship/ui";
 
 const mockResults = [
@@ -40,30 +32,7 @@ export default function SearchPage() {
   ) : [];
 
   return (
-    <PageLayout
-      background="black"
-      header={
-        <Navigation
-          logo={<Display size="md" className="text-display-md">GVTEWAY</Display>}
-          cta={<Button variant="outlineWhite" size="sm" onClick={() => router.push('/auth/signin')}>SIGN IN</Button>}
-        >
-          <Link href="/" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Home</Link>
-          <Link href="/events" className="font-heading text-body-sm uppercase tracking-widest hover:text-ink-400">Events</Link>
-        </Navigation>
-      }
-      footer={
-        <Footer
-          logo={<Display size="md" className="text-white text-display-md">GVTEWAY</Display>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Discover">
-            <FooterLink href="/events">Browse Events</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <Section background="black">
-        <Container size="lg">
+    <GvtewayAppLayout>
           <Stack gap={8}>
             <H2 className="text-white">Search</H2>
             <Input
@@ -95,8 +64,6 @@ export default function SearchPage() {
               </Stack>
             )}
           </Stack>
-        </Container>
-      </Section>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

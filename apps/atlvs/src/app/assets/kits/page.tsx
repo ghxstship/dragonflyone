@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../../components/navigation';
+import { Eye, Rocket, Pencil } from 'lucide-react';
+import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   ListPage, Badge, DetailDrawer, RecordFormModal,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig,
@@ -64,9 +65,9 @@ export default function AssetKitsPage() {
   const availableKits = data.filter(k => k.status === 'Available').length;
 
   const rowActions: ListPageAction<AssetKit>[] = [
-    { id: 'view', label: 'View Contents', icon: '👁️', onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
-    { id: 'deploy', label: 'Deploy Kit', icon: '🚀', onClick: (r) => console.log('Deploy', r.id) },
-    { id: 'edit', label: 'Edit Kit', icon: '✏️', onClick: (r) => console.log('Edit', r.id) },
+    { id: 'view', label: 'View Contents', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
+    { id: 'deploy', label: 'Deploy Kit', icon: <Rocket className="size-4" />, onClick: (r) => console.log('Deploy', r.id) },
+    { id: 'edit', label: 'Edit Kit', icon: <Pencil className="size-4" />, onClick: (r) => console.log('Edit', r.id) },
   ];
 
   const stats = [
@@ -105,7 +106,7 @@ export default function AssetKitsPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<AssetKit>
         title="Asset Kits"
         subtitle="Pre-configured equipment bundles and packages"
@@ -123,7 +124,6 @@ export default function AssetKitsPage() {
         stats={stats}
         emptyMessage="No kits found"
         emptyAction={{ label: 'Create Kit', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Assets', href: '/assets' }, { label: 'Kits' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -131,7 +131,7 @@ export default function AssetKitsPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Create Kit" fields={formFields} onSubmit={handleCreate} />
       {selected && (
@@ -142,10 +142,10 @@ export default function AssetKitsPage() {
           title={(r) => r.name}
           subtitle={(r) => `${r.category} • ${r.itemCount} items • ${formatCurrency(r.totalValue)}`}
           sections={detailSections}
-          actions={[{ id: 'deploy', label: 'Deploy Kit', icon: '🚀' }, { id: 'edit', label: 'Edit Kit', icon: '✏️' }]}
+          actions={[{ id: 'deploy', label: 'Deploy Kit', icon: <Rocket className="size-4" /> }, { id: 'edit', label: 'Edit Kit', icon: <Pencil className="size-4" /> }]}
           onAction={(id, r) => { console.log(id, r.id); setDrawerOpen(false); }}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

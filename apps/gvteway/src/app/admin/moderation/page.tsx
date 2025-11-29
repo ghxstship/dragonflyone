@@ -1,16 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { ConsumerNavigationPublic } from "@/components/navigation";
+import { Eye, Check, Trash2, ArrowUp } from "lucide-react";
+import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   ListPage,
   Badge,
   DetailDrawer,
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Display,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -80,9 +76,9 @@ export default function ModerationPage() {
   const autoFlagged = flaggedContent.filter(f => f.reportedBy === "auto-filter").length;
 
   const rowActions: ListPageAction<FlaggedContent>[] = [
-    { id: 'view', label: 'Review', icon: '👁️', onClick: (r) => { setSelectedContent(r); setDrawerOpen(true); } },
-    { id: 'approve', label: 'Approve', icon: '✅', onClick: (r) => handleModerate(r.id, 'Approved') },
-    { id: 'remove', label: 'Remove', icon: '🗑️', variant: 'danger', onClick: (r) => handleModerate(r.id, 'Removed') },
+    { id: 'view', label: 'Review', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedContent(r); setDrawerOpen(true); } },
+    { id: 'approve', label: 'Approve', icon: <Check className="size-4" />, onClick: (r) => handleModerate(r.id, 'Approved') },
+    { id: 'remove', label: 'Remove', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (r) => handleModerate(r.id, 'Removed') },
   ];
 
   const handleModerate = (contentId: string, newStatus: FlaggedContent['status']) => {
@@ -114,24 +110,8 @@ export default function ModerationPage() {
     )},
   ] : [];
 
-  const footerContent = (
-    <Footer
-      logo={<Display size="md">GVTEWAY</Display>}
-      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-    >
-      <FooterColumn title="Admin">
-        <FooterLink href="/admin/moderation">Moderation</FooterLink>
-        <FooterLink href="/admin/promo-codes">Promo Codes</FooterLink>
-      </FooterColumn>
-      <FooterColumn title="Legal">
-        <FooterLink href="/legal/privacy">Privacy</FooterLink>
-        <FooterLink href="/legal/terms">Terms</FooterLink>
-      </FooterColumn>
-    </Footer>
-  );
-
   return (
-    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+    <GvtewayAppLayout>
       <ListPage<FlaggedContent>
         title="Content Moderation"
         subtitle="Review flagged content and manage community guidelines"
@@ -156,9 +136,9 @@ export default function ModerationPage() {
           subtitle={(c) => `Reported by ${c.reportedBy}`}
           sections={detailSections}
           actions={[
-            { id: 'approve', label: 'Approve', icon: '✅' },
-            { id: 'escalate', label: 'Escalate', icon: '⬆️' },
-            { id: 'remove', label: 'Remove', icon: '🗑️' },
+            { id: 'approve', label: 'Approve', icon: <Check className="size-4" /> },
+            { id: 'escalate', label: 'Escalate', icon: <ArrowUp className="size-4" /> },
+            { id: 'remove', label: 'Remove', icon: <Trash2 className="size-4" /> },
           ]}
           onAction={(id, c) => {
             if (id === 'approve') handleModerate(c.id, 'Approved');
@@ -168,6 +148,6 @@ export default function ModerationPage() {
           }}
         />
       )}
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

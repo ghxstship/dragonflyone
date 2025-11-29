@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../../components/navigation';
+import { Eye, Package } from 'lucide-react';
+import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   ListPage, Badge, DetailDrawer,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
@@ -61,8 +62,8 @@ export default function StorageOptimizationPage() {
   const fullLocations = data.filter(l => l.status === 'Full').length;
 
   const rowActions: ListPageAction<StorageLocation>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
-    { id: 'assets', label: 'View Assets', icon: '📦', onClick: (r) => router.push(`/assets?location=${r.id}`) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
+    { id: 'assets', label: 'View Assets', icon: <Package className="size-4" />, onClick: (r) => router.push(`/assets?location=${r.id}`) },
   ];
 
   const stats = [
@@ -89,7 +90,7 @@ export default function StorageOptimizationPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<StorageLocation>
         title="Storage Optimization"
         subtitle="Storage location management and optimization recommendations"
@@ -104,7 +105,6 @@ export default function StorageOptimizationPage() {
         onExport={() => console.log('Export')}
         stats={stats}
         emptyMessage="No locations found"
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Assets', href: '/assets' }, { label: 'Storage' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -112,7 +112,7 @@ export default function StorageOptimizationPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       {selected && (
         <DetailDrawer
@@ -126,6 +126,6 @@ export default function StorageOptimizationPage() {
           onAction={(id, r) => { if (id === 'assets') router.push(`/assets?location=${r.id}`); setDrawerOpen(false); }}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

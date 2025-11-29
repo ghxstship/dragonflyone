@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 import clsx from 'clsx';
-import { X } from '../atoms/icon.js';
+import { X, Check, AlertTriangle, Info } from 'lucide-react';
 
 export interface Toast {
   id: string;
@@ -59,10 +59,10 @@ export function NotificationToast({
   };
 
   const icons = {
-    success: '✓',
-    error: '✕',
-    info: 'ℹ',
-    warning: '⚠',
+    success: <Check className="size-5" />,
+    error: <X className="size-5" />,
+    info: <Info className="size-5" />,
+    warning: <AlertTriangle className="size-5" />,
   };
 
   return (
@@ -95,7 +95,7 @@ export function NotificationToast({
             )}
             aria-label="Dismiss notification"
           >
-            <X size="sm" />
+            <X className="size-4" />
           </button>
         </div>
       </div>

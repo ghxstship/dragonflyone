@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { Eye } from "lucide-react";
+import { AtlvsAppLayout } from "../../components/app-layout";
 import {
   ListPage,
   Badge,
@@ -70,7 +71,7 @@ export default function AuditPage() {
   useEffect(() => { fetchAuditLogs(); }, [fetchAuditLogs]);
 
   const rowActions: ListPageAction<AuditLog>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedLog(r); setDrawerOpen(true); } },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedLog(r); setDrawerOpen(true); } },
   ];
 
   const stats = [
@@ -94,7 +95,7 @@ export default function AuditPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<AuditLog>
         title="Audit Trail"
         subtitle="Track all system activity and user actions"
@@ -110,7 +111,6 @@ export default function AuditPage() {
         onExport={() => router.push('/audit/export')}
         stats={stats}
         emptyMessage="No audit logs found"
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Audit' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -118,9 +118,9 @@ export default function AuditPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedLog} title={(l) => l.action} subtitle={(l) => l.user?.email || l.user_email || 'Unknown user'} sections={detailSections} />
-    </>
+    </AtlvsAppLayout>
   );
 }

@@ -2,6 +2,7 @@
 
 import React, { useState, useCallback } from "react";
 import clsx from "clsx";
+import { X, Upload, AlertTriangle, ArrowRight } from "lucide-react";
 
 export type ExportFormat = "csv" | "json" | "excel" | "pdf";
 
@@ -157,7 +158,7 @@ export function ImportExportDialog({
             disabled={processing}
             className={clsx("p-spacing-2 bg-transparent border-none text-h5-md", processing ? "cursor-not-allowed" : "cursor-pointer")}
           >
-            ✕
+            <X className="size-5" />
           </button>
         </div>
 
@@ -165,7 +166,7 @@ export function ImportExportDialog({
         <div className="flex-1 overflow-auto p-spacing-6">
           {error && (
             <div className="px-spacing-4 py-spacing-3 mb-spacing-4 bg-surface-secondary border border-border-secondary font-code text-mono-sm text-text-secondary">
-              ⚠️ {error}
+              <AlertTriangle className="size-4 inline mr-2" />{error}
             </div>
           )}
 
@@ -190,7 +191,7 @@ export function ImportExportDialog({
                     onChange={(e) => e.target.files?.[0] && handleFileSelect(e.target.files[0])}
                     className="hidden"
                   />
-                  <div className="text-h2-md mb-spacing-4">⬆️</div>
+                  <div className="text-h2-md mb-spacing-4"><Upload className="size-10 mx-auto" /></div>
                   <div className="font-code text-mono-md tracking-widest mb-spacing-2">
                     DROP FILE HERE OR CLICK TO UPLOAD
                   </div>
@@ -236,7 +237,7 @@ export function ImportExportDialog({
                         {sampleFields.map(field => (
                           <div key={field} className="flex items-center gap-gap-sm">
                             <span className="flex-1 font-code text-mono-sm">{field}</span>
-                            <span className="text-grey-400">→</span>
+                            <ArrowRight className="size-4 text-grey-400" />
                             <input
                               type="text"
                               value={fieldMapping[field] || ""}

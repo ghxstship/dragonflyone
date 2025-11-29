@@ -2,16 +2,12 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ConsumerNavigationPublic } from '@/components/navigation';
+import { Eye, Download } from 'lucide-react';
+import { GvtewayAppLayout } from '@/components/app-layout';
 import {
   ListPage,
   Badge,
   DetailDrawer,
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Display,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -81,8 +77,8 @@ export default function SalesReportingPage() {
   const avgTransaction = totalSales / totalTransactions;
 
   const rowActions: ListPageAction<SalesData>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedPeriod(r); setDrawerOpen(true); } },
-    { id: 'export', label: 'Export', icon: '⬇️', onClick: (r) => console.log('Export', r.id) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedPeriod(r); setDrawerOpen(true); } },
+    { id: 'export', label: 'Export', icon: <Download className="size-4" />, onClick: (r) => console.log('Export', r.id) },
   ];
 
   const stats = [
@@ -118,24 +114,8 @@ export default function SalesReportingPage() {
     )},
   ] : [];
 
-  const footerContent = (
-    <Footer
-      logo={<Display size="md">GVTEWAY</Display>}
-      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-    >
-      <FooterColumn title="Admin">
-        <FooterLink href="/admin/sales-reporting">Sales</FooterLink>
-        <FooterLink href="/admin/promo-codes">Promo Codes</FooterLink>
-      </FooterColumn>
-      <FooterColumn title="Legal">
-        <FooterLink href="/legal/privacy">Privacy</FooterLink>
-        <FooterLink href="/legal/terms">Terms</FooterLink>
-      </FooterColumn>
-    </Footer>
-  );
-
   return (
-    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
+    <GvtewayAppLayout>
       <ListPage<SalesData>
         title="Sales Reporting"
         subtitle="Sales analytics by location and time period"
@@ -164,6 +144,6 @@ export default function SalesReportingPage() {
           onAction={(id) => id === 'export' && console.log('Export period')}
         />
       )}
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

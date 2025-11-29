@@ -1,20 +1,13 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { MembershipNavigationPublic } from "@/components/navigation";
+import { GvtewayAppLayout } from "@/components/app-layout";
 import {
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Display,
   H2,
   H3,
   Body,
   Button,
   Card,
-  Section,
-  Container,
   Stack,
   Grid,
   Label,
@@ -148,32 +141,9 @@ export default function MembershipPage() {
   const router = useRouter();
 
   return (
-    <PageLayout
-      background="black"
-      header={<MembershipNavigationPublic />}
-      footer={
-        <Footer
-          logo={<Display size="md">GVTEWAY</Display>}
-          copyright="© 2025 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Membership">
-            <FooterLink href="/">Home</FooterLink>
-            <FooterLink href="/apply">Apply Now</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Support">
-            <FooterLink href="/help">Help Center</FooterLink>
-            <FooterLink href="/contact">Contact</FooterLink>
-            <FooterLink href="/faq">FAQ</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Legal">
-            <FooterLink href="/legal/privacy">Privacy</FooterLink>
-            <FooterLink href="/legal/terms">Terms</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
+    <GvtewayAppLayout>
       {/* Hero Section */}
-      <Section background="black" className="relative overflow-hidden py-24">
+      <Stack className="relative overflow-hidden py-24">
         <div
           className="pointer-events-none absolute inset-0 opacity-[0.03]"
           style={{
@@ -181,23 +151,20 @@ export default function MembershipPage() {
             backgroundSize: "20px 20px",
           }}
         />
-        <Container className="relative z-10">
           <ScrollReveal animation="fade">
             <Stack gap={6} className="mx-auto max-w-3xl text-center">
-              <Display size="lg" className="text-white">
+              <H2 size="lg" className="text-white">
                 MEMBERSHIP TIERS
-              </Display>
+              </H2>
               <Body size="lg" className="text-on-dark-secondary">
                 Choose the level that matches your lifestyle. Every tier unlocks extraordinary—higher tiers unlock more.
               </Body>
             </Stack>
           </ScrollReveal>
-        </Container>
-      </Section>
+      </Stack>
 
       {/* Membership Tiers */}
-      <Section background="black" className="border-t border-ink-900 py-24">
-        <Container>
+      <Stack className="border-t border-ink-900 py-24">
           <StaggerChildren staggerDelay={150} animation="slide-up">
             <Grid cols={3} gap={6} className="mx-auto max-w-5xl">
               {membershipTiers.map((tier) => (
@@ -223,7 +190,7 @@ export default function MembershipPage() {
                     <H3 className="text-white">{tier.name}</H3>
 
                     <div className="flex items-baseline gap-1">
-                      <Display size="md" className="text-white">{tier.price}</Display>
+                      <H2 size="md" className="text-white">{tier.price}</H2>
                       <Label size="sm" className="text-on-dark-muted">{tier.period}</Label>
                     </div>
 
@@ -259,12 +226,10 @@ export default function MembershipPage() {
               ))}
             </Grid>
           </StaggerChildren>
-        </Container>
-      </Section>
+      </Stack>
 
       {/* Benefits Grid */}
-      <Section background="black" className="border-t border-ink-900 py-24">
-        <Container>
+      <Stack className="border-t border-ink-900 py-24">
           <ScrollReveal animation="fade">
             <H2 size="lg" className="mb-16 text-center text-white">
               WHAT MEMBERSHIP MEANS
@@ -292,12 +257,10 @@ export default function MembershipPage() {
               ))}
             </Grid>
           </StaggerChildren>
-        </Container>
-      </Section>
+      </Stack>
 
       {/* FAQ Section */}
-      <Section background="black" className="border-t border-ink-900 py-24">
-        <Container>
+      <Stack className="border-t border-ink-900 py-24">
           <ScrollReveal animation="fade">
             <H2 size="lg" className="mb-16 text-center text-white">
               FREQUENTLY ASKED
@@ -316,17 +279,15 @@ export default function MembershipPage() {
               </ScrollReveal>
             ))}
           </Stack>
-        </Container>
-      </Section>
+      </Stack>
 
       {/* Final CTA */}
-      <Section background="black" className="border-t border-ink-900 py-24">
-        <Container>
+      <Stack className="border-t border-ink-900 py-24">
           <ScrollReveal animation="scale">
             <Stack gap={8} className="mx-auto max-w-xl items-center text-center">
-              <Display size="md" className="text-white">
+              <H2 size="lg" className="text-white">
                 READY TO JOIN?
-              </Display>
+              </H2>
               <Body className="text-on-dark-secondary">
                 Applications are reviewed within 24-48 hours. No payment required until approved.
               </Body>
@@ -343,8 +304,7 @@ export default function MembershipPage() {
               </NextLink>
             </Stack>
           </ScrollReveal>
-        </Container>
-      </Section>
-    </PageLayout>
+      </Stack>
+    </GvtewayAppLayout>
   );
 }

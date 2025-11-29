@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { CreatorNavigationAuthenticated } from '../../components/navigation';
+import { AtlvsAppLayout } from '../../components/app-layout';
 import {
   StatCard,
   Card,
@@ -12,15 +12,13 @@ import {
   Container,
   Grid,
   Stack,
-  Section,
-  SectionHeader,
   Badge,
   H3,
   Body,
   Label,
-  PageLayout,
   EnterprisePageHeader,
-  MainContent,} from '@ghxstship/ui';
+  MainContent,
+} from '@ghxstship/ui';
 import { TrendingUp, TrendingDown, Activity, Target } from 'lucide-react';
 
 interface KPI {
@@ -105,20 +103,20 @@ export default function AnalyticsPage() {
 
   if (loading) {
     return (
-      <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
-        <Section className="min-h-screen">
+      <AtlvsAppLayout>
+        <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
             <LoadingSpinner size="lg" text="Loading analytics..." />
           </Container>
-        </Section>
-      </PageLayout>
+        </MainContent>
+      </AtlvsAppLayout>
     );
   }
 
   if (error) {
     return (
-      <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
-        <Section className="min-h-screen">
+      <AtlvsAppLayout>
+        <MainContent padding="lg">
           <Container className="py-16">
             <EmptyState
               title="Error Loading Analytics"
@@ -127,28 +125,25 @@ export default function AnalyticsPage() {
               inverted
             />
           </Container>
-        </Section>
-      </PageLayout>
+        </MainContent>
+      </AtlvsAppLayout>
     );
   }
 
   return (
-    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={12}>
-            {/* Page Header - Bold Contemporary Pop Art Adventure */}
-            <EnterprisePageHeader
+    <AtlvsAppLayout>
+      <EnterprisePageHeader
         title="Analytics Dashboard"
         subtitle="Real-time financial metrics and KPI tracking for production operations"
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Analytics' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={12}>
 
             {/* Stats Grid - Hard offset shadows, 2px borders */}
             <Grid cols={4} gap={6}>
@@ -253,7 +248,7 @@ export default function AnalyticsPage() {
             </Grid>
           </Stack>
         </Container>
-      </Section>
-    </PageLayout>
+      </MainContent>
+    </AtlvsAppLayout>
   );
 }

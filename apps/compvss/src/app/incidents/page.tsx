@@ -2,7 +2,8 @@
 
 import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { Eye, Pencil, Trash2 } from "lucide-react";
+import { CompvssAppLayout } from "../../components/app-layout";
 import { useIncidents } from "../../hooks/useIncidents";
 import {
   ListPage,
@@ -13,6 +14,8 @@ import {
   Grid,
   Stack,
   Body,
+  EnterprisePageHeader,
+  MainContent,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -74,9 +77,9 @@ export default function IncidentsPage() {
   })();
 
   const rowActions: ListPageAction<Incident>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedIncident(r); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (r) => router.push(`/incidents/${r.id}/edit`) },
-    { id: 'delete', label: 'Delete', icon: '🗑️', variant: 'danger', onClick: (r) => { setIncidentToDelete(r); setDeleteConfirmOpen(true); } },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedIncident(r); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/incidents/${r.id}/edit`) },
+    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (r) => { setIncidentToDelete(r); setDeleteConfirmOpen(true); } },
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
@@ -116,38 +119,44 @@ export default function IncidentsPage() {
   ] : [];
 
   return (
-    <>
-      <ListPage<Incident>
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Safety Incidents"
         subtitle="Track and manage safety incidents across all events"
-        data={incidents}
-        columns={columns}
-        rowKey="id"
-        loading={isLoading}
-        onRetry={() => refetch?.()}
-        searchPlaceholder="Search incidents..."
-        filters={filters}
-        rowActions={rowActions}
-        onRowClick={(r) => { setSelectedIncident(r); setDrawerOpen(true); }}
-        createLabel="Report Incident"
-        onCreate={() => setCreateModalOpen(true)}
-        onExport={() => console.log('Export')}
-        stats={stats}
-        emptyMessage="No incidents found"
-        emptyAction={{ label: 'Report Incident', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Incidents' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
         ]}
         activeView="list"
+        primaryAction={{ label: 'Report Incident', onClick: () => setCreateModalOpen(true) }}
         showFavorite
-        showSettings />}
+        showSettings
       />
+      <MainContent padding="lg">
+        <ListPage<Incident>
+          title="Safety Incidents"
+          subtitle="Track and manage safety incidents across all events"
+          data={incidents}
+          columns={columns}
+          rowKey="id"
+          loading={isLoading}
+          onRetry={() => refetch?.()}
+          searchPlaceholder="Search incidents..."
+          filters={filters}
+          rowActions={rowActions}
+          onRowClick={(r) => { setSelectedIncident(r); setDrawerOpen(true); }}
+          createLabel="Report Incident"
+          onCreate={() => setCreateModalOpen(true)}
+          onExport={() => console.log('Export')}
+          stats={stats}
+          emptyMessage="No incidents found"
+          emptyAction={{ label: 'Report Incident', onClick: () => setCreateModalOpen(true) }}
+        />
+      </MainContent>
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Report Incident" fields={formFields} onSubmit={handleCreate} size="lg" />
       <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedIncident} title={(i) => `Incident ${i.id}`} subtitle={(i) => i.type} sections={detailSections} onEdit={(i) => router.push(`/incidents/${i.id}/edit`)} onDelete={(i) => { setIncidentToDelete(i); setDeleteConfirmOpen(true); setDrawerOpen(false); }} />
       <ConfirmDialog open={deleteConfirmOpen} title="Delete Incident" message={`Delete incident "${incidentToDelete?.id}"?`} variant="danger" confirmLabel="Delete" onConfirm={handleDelete} onCancel={() => { setDeleteConfirmOpen(false); setIncidentToDelete(null); }} />
-    </>
+    </CompvssAppLayout>
   );
 }

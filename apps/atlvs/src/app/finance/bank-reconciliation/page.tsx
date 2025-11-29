@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../../components/navigation";
+import { Eye, Link } from "lucide-react";
+import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
   ListPage,
   Badge,
@@ -62,8 +63,8 @@ export default function BankReconciliationPage() {
   const totalCredits = transactions.filter(t => t.amount > 0).reduce((s, t) => s + t.amount, 0);
 
   const rowActions: ListPageAction<BankTransaction>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedTxn(r); setDrawerOpen(true); } },
-    { id: 'match', label: 'Match', icon: '🔗', onClick: (r) => console.log('Match', r.id) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedTxn(r); setDrawerOpen(true); } },
+    { id: 'match', label: 'Match', icon: <Link className="size-4" />, onClick: (r) => console.log('Match', r.id) },
   ];
 
   const stats = [
@@ -88,7 +89,7 @@ export default function BankReconciliationPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<BankTransaction>
         title="Bank Reconciliation"
         subtitle="Automated bank statement matching and reconciliation"
@@ -105,7 +106,6 @@ export default function BankReconciliationPage() {
         onExport={() => console.log('Export')}
         stats={stats}
         emptyMessage="No transactions found"
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Finance', href: '/finance' }, { label: 'Bank Reconciliation' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -113,7 +113,7 @@ export default function BankReconciliationPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       {selectedTxn && (
         <DetailDrawer
@@ -127,6 +127,6 @@ export default function BankReconciliationPage() {
           onAction={(id, r) => { console.log(id, r.id); setDrawerOpen(false); }}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

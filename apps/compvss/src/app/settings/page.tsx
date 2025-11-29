@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useNotifications,
-  EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { CompvssAppLayout } from "../../components/app-layout";
 import {
+  useNotifications,
+  EnterprisePageHeader,
+  MainContent,
   H2,
   Body,
   Button,
@@ -16,9 +16,6 @@ import {
   Stack,
   Grid,
   Card,
-  Section,
-  PageLayout,
-  SectionHeader,
 } from "@ghxstship/ui";
 
 /**
@@ -36,23 +33,19 @@ export default function SettingsPage() {
   });
 
   return (
-    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            {/* Page Header - Bold Contemporary Pop Art Adventure */}
-            <EnterprisePageHeader
-        title="Production Settings"
-        subtitle="Configure alerts, radio channels, and safety settings"
+    <CompvssAppLayout>
+      <EnterprisePageHeader
+        title="Settings"
+        subtitle="Configure your COMPVSS preferences"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Settings' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite
         showSettings
       />
-
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
           <Card className="p-spacing-6 border-2 border-ink-800 bg-transparent">
             <Stack gap={6}>
               <H2>Alert Preferences</H2>
@@ -159,7 +152,7 @@ export default function SettingsPage() {
             </Stack>
           </Stack>
         </Container>
-      </Section>
-    </PageLayout>
+      </MainContent>
+    </CompvssAppLayout>
   );
 }

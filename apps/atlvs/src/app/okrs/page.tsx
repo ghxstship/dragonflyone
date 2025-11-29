@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { Eye, Pencil } from "lucide-react";
+import { AtlvsAppLayout } from "../../components/app-layout";
 import {
   ListPage,
   Badge,
@@ -89,8 +90,8 @@ export default function OKRsPage() {
   const atRiskCount = okrs.filter(o => o.progress < 50).length;
 
   const rowActions: ListPageAction<OKR>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedOKR(r); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (r) => router.push(`/okrs/${r.id}/edit`) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedOKR(r); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/okrs/${r.id}/edit`) },
   ];
 
   const stats = [
@@ -128,7 +129,7 @@ export default function OKRsPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<OKR>
         title="OKRs & Strategic Goals"
         subtitle="Track objectives and key results across the organization"
@@ -146,15 +147,14 @@ export default function OKRsPage() {
         stats={stats}
         emptyMessage="No OKRs found"
         emptyAction={{ label: 'Create OKR', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Okrs' }]}
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'OKRs' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
 
       <RecordFormModal
@@ -177,6 +177,6 @@ export default function OKRsPage() {
           onEdit={(o) => router.push(`/okrs/${o.id}/edit`)}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../../components/navigation";
+import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
   ListPage,
   Badge,
@@ -143,7 +143,7 @@ export default function BackgroundChecksPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<BackgroundCheck>
         title="Background Checks"
         subtitle="Employee background check tracking and compliance"
@@ -160,7 +160,6 @@ export default function BackgroundChecksPage() {
         onExport={() => router.push("/workforce/background-checks/export")}
         stats={stats}
         emptyMessage="No background checks found"
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Workforce', href: '/workforce' }, { label: 'Background Checks' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -168,7 +167,7 @@ export default function BackgroundChecksPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
 
       <RecordFormModal
@@ -190,6 +189,6 @@ export default function BackgroundChecksPage() {
           sections={detailSections}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

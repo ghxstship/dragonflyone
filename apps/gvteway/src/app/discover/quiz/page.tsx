@@ -2,10 +2,9 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ConsumerNavigationPublic } from '@/components/navigation';
+import { Guitar, Tent, Theater, Trophy, Laugh, Music2, Mic, Headphones, Piano, HardHat, Wind, Music, Users, Building2, DollarSign, Gem, Zap, Coffee, Handshake, Palette, Calendar, CalendarDays, CalendarRange, PartyPopper } from 'lucide-react';
+import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
-  Container,
-  Section,
   H2,
   H3,
   Body,
@@ -15,12 +14,6 @@ import {
   Stack,
   Badge,
   Alert,
-  LoadingSpinner,
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Display,
   Kicker,
 } from '@ghxstship/ui';
 import Image from 'next/image';
@@ -53,12 +46,12 @@ const QUIZ_QUESTIONS: QuizQuestion[] = [
     question: 'What type of events do you enjoy most?',
     type: 'multiple',
     options: [
-      { id: 'concert', label: 'Concerts', icon: '🎸' },
-      { id: 'festival', label: 'Festivals', icon: '🎪' },
-      { id: 'theater', label: 'Theater', icon: '🎭' },
-      { id: 'sports', label: 'Sports', icon: '⚽' },
-      { id: 'comedy', label: 'Comedy', icon: '😂' },
-      { id: 'dance', label: 'Dance/Club', icon: '💃' },
+      { id: 'concert', label: 'Concerts', icon: 'guitar' },
+      { id: 'festival', label: 'Festivals', icon: 'tent' },
+      { id: 'theater', label: 'Theater', icon: 'theater' },
+      { id: 'sports', label: 'Sports', icon: 'trophy' },
+      { id: 'comedy', label: 'Comedy', icon: 'laugh' },
+      { id: 'dance', label: 'Dance/Club', icon: 'music2' },
     ],
   },
   {
@@ -66,14 +59,14 @@ const QUIZ_QUESTIONS: QuizQuestion[] = [
     question: 'What music genres do you love?',
     type: 'multiple',
     options: [
-      { id: 'pop', label: 'Pop', icon: '🎤' },
-      { id: 'rock', label: 'Rock', icon: '🎸' },
-      { id: 'hiphop', label: 'Hip-Hop', icon: '🎧' },
-      { id: 'electronic', label: 'Electronic', icon: '🎹' },
-      { id: 'country', label: 'Country', icon: '🤠' },
-      { id: 'jazz', label: 'Jazz/Blues', icon: '🎷' },
-      { id: 'classical', label: 'Classical', icon: '🎻' },
-      { id: 'latin', label: 'Latin', icon: '💃' },
+      { id: 'pop', label: 'Pop', icon: 'mic' },
+      { id: 'rock', label: 'Rock', icon: 'guitar' },
+      { id: 'hiphop', label: 'Hip-Hop', icon: 'headphones' },
+      { id: 'electronic', label: 'Electronic', icon: 'piano' },
+      { id: 'country', label: 'Country', icon: 'hardhat' },
+      { id: 'jazz', label: 'Jazz/Blues', icon: 'wind' },
+      { id: 'classical', label: 'Classical', icon: 'music' },
+      { id: 'latin', label: 'Latin', icon: 'music2' },
     ],
   },
   {
@@ -81,10 +74,10 @@ const QUIZ_QUESTIONS: QuizQuestion[] = [
     question: 'What crowd size do you prefer?',
     type: 'single',
     options: [
-      { id: 'intimate', label: 'Intimate (under 500)', icon: '👥' },
-      { id: 'medium', label: 'Medium (500-5,000)', icon: '👥👥' },
-      { id: 'large', label: 'Large (5,000-20,000)', icon: '👥👥👥' },
-      { id: 'massive', label: 'Massive (20,000+)', icon: '🏟️' },
+      { id: 'intimate', label: 'Intimate (under 500)', icon: 'users' },
+      { id: 'medium', label: 'Medium (500-5,000)', icon: 'users' },
+      { id: 'large', label: 'Large (5,000-20,000)', icon: 'users' },
+      { id: 'massive', label: 'Massive (20,000+)', icon: 'building2' },
     ],
   },
   {
@@ -92,10 +85,10 @@ const QUIZ_QUESTIONS: QuizQuestion[] = [
     question: 'What\'s your typical budget for events?',
     type: 'single',
     options: [
-      { id: 'budget', label: 'Budget-friendly (under $50)', icon: '💵' },
-      { id: 'moderate', label: 'Moderate ($50-$150)', icon: '💵💵' },
-      { id: 'premium', label: 'Premium ($150-$300)', icon: '💵💵💵' },
-      { id: 'vip', label: 'VIP/No limit', icon: '💎' },
+      { id: 'budget', label: 'Budget-friendly (under $50)', icon: 'dollarsign' },
+      { id: 'moderate', label: 'Moderate ($50-$150)', icon: 'dollarsign' },
+      { id: 'premium', label: 'Premium ($150-$300)', icon: 'dollarsign' },
+      { id: 'vip', label: 'VIP/No limit', icon: 'gem' },
     ],
   },
   {
@@ -103,10 +96,10 @@ const QUIZ_QUESTIONS: QuizQuestion[] = [
     question: 'What vibe are you looking for?',
     type: 'single',
     options: [
-      { id: 'energetic', label: 'High energy & dancing', icon: '⚡' },
-      { id: 'chill', label: 'Chill & relaxed', icon: '😌' },
-      { id: 'social', label: 'Social & networking', icon: '🤝' },
-      { id: 'immersive', label: 'Immersive & artistic', icon: '🎨' },
+      { id: 'energetic', label: 'High energy & dancing', icon: 'zap' },
+      { id: 'chill', label: 'Chill & relaxed', icon: 'coffee' },
+      { id: 'social', label: 'Social & networking', icon: 'handshake' },
+      { id: 'immersive', label: 'Immersive & artistic', icon: 'palette' },
     ],
   },
   {
@@ -114,10 +107,10 @@ const QUIZ_QUESTIONS: QuizQuestion[] = [
     question: 'How often do you attend events?',
     type: 'single',
     options: [
-      { id: 'weekly', label: 'Weekly', icon: '📅' },
-      { id: 'monthly', label: 'Monthly', icon: '📆' },
-      { id: 'quarterly', label: 'A few times a year', icon: '🗓️' },
-      { id: 'special', label: 'Special occasions only', icon: '🎉' },
+      { id: 'weekly', label: 'Weekly', icon: 'calendar' },
+      { id: 'monthly', label: 'Monthly', icon: 'calendardays' },
+      { id: 'quarterly', label: 'A few times a year', icon: 'calendarrange' },
+      { id: 'special', label: 'Special occasions only', icon: 'partypopper' },
     ],
   },
 ];
@@ -199,70 +192,12 @@ export default function DiscoveryQuizPage() {
   };
 
   if (loading) {
-    return (
-      <PageLayout
-        background="black"
-        header={<ConsumerNavigationPublic />}
-        footer={
-          <Footer
-            logo={<Display size="md">GVTEWAY</Display>}
-            copyright="© 2024 GHXSTSHIP INDUSTRIES."
-          >
-            <FooterColumn title="Discover">
-              <FooterLink href="/discover/quiz">Quiz</FooterLink>
-            </FooterColumn>
-          </Footer>
-        }
-      >
-        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-          <div
-            className="pointer-events-none absolute inset-0 opacity-5"
-            style={{
-              backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-              backgroundSize: "40px 40px",
-            }}
-          />
-          <Container className="relative z-10 flex min-h-[60vh] items-center justify-center">
-            <Stack className="items-center" gap={4}>
-              <LoadingSpinner size="lg" />
-              <Body className="text-on-dark-muted">Finding your perfect events...</Body>
-            </Stack>
-          </Container>
-        </Section>
-      </PageLayout>
-    );
+    return <GvtewayLoadingLayout text="Finding your perfect events..." />;
   }
 
   if (results) {
     return (
-      <PageLayout
-        background="black"
-        header={<ConsumerNavigationPublic />}
-        footer={
-          <Footer
-            logo={<Display size="md">GVTEWAY</Display>}
-            copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-          >
-            <FooterColumn title="Discover">
-              <FooterLink href="/discover/quiz">Quiz</FooterLink>
-              <FooterLink href="/browse">Browse Events</FooterLink>
-            </FooterColumn>
-            <FooterColumn title="Legal">
-              <FooterLink href="/legal/privacy">Privacy</FooterLink>
-              <FooterLink href="/legal/terms">Terms</FooterLink>
-            </FooterColumn>
-          </Footer>
-        }
-      >
-        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-          <div
-            className="pointer-events-none absolute inset-0 opacity-5"
-            style={{
-              backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-              backgroundSize: "40px 40px",
-            }}
-          />
-          <Container className="relative z-10">
+      <GvtewayAppLayout>
             <Stack gap={10}>
               {/* Page Header */}
               <Stack gap={2}>
@@ -355,43 +290,14 @@ export default function DiscoveryQuizPage() {
             </Stack>
           </Grid>
             </Stack>
-          </Container>
-        </Section>
-      </PageLayout>
+      </GvtewayAppLayout>
     );
   }
 
   const selectedOptions = answers[currentQuestion.id] || [];
 
   return (
-    <PageLayout
-      background="black"
-      header={<ConsumerNavigationPublic />}
-      footer={
-        <Footer
-          logo={<Display size="md">GVTEWAY</Display>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Discover">
-            <FooterLink href="/discover/quiz">Quiz</FooterLink>
-            <FooterLink href="/browse">Browse Events</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Legal">
-            <FooterLink href="/legal/privacy">Privacy</FooterLink>
-            <FooterLink href="/legal/terms">Terms</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
+    <GvtewayAppLayout>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -464,9 +370,7 @@ export default function DiscoveryQuizPage() {
           </Stack>
         </Stack>
           </Stack>
-        </Container>
-      </Section>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }
 

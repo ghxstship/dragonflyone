@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { Eye, ClipboardList, Pencil, Trash2, Download } from "lucide-react";
+import { CompvssAppLayout } from "../../components/app-layout";
 import { useCrew } from "../../hooks/useCrew";
 import {
   ListPage,
@@ -207,16 +208,16 @@ export default function CrewPage() {
   const crewList = crewData || mockCrewForFallback;
 
   const rowActions: ListPageAction<CrewMember>[] = [
-    { id: 'view', label: 'View Profile', icon: '👁️', onClick: (row) => { setSelectedMember(row); setDrawerOpen(true); } },
-    { id: 'assign', label: 'Assign to Project', icon: '📋', onClick: (row) => router.push(`/crew/assign?member=${row.id}`) },
-    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (row) => router.push(`/crew/${row.id}/edit`) },
-    { id: 'delete', label: 'Remove', icon: '🗑️', variant: 'danger', onClick: (row) => { setMemberToDelete(row); setDeleteConfirmOpen(true); } },
+    { id: 'view', label: 'View Profile', icon: <Eye className="size-4" />, onClick: (row) => { setSelectedMember(row); setDrawerOpen(true); } },
+    { id: 'assign', label: 'Assign to Project', icon: <ClipboardList className="size-4" />, onClick: (row) => router.push(`/crew/assign?member=${row.id}`) },
+    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (row) => router.push(`/crew/${row.id}/edit`) },
+    { id: 'delete', label: 'Remove', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (row) => { setMemberToDelete(row); setDeleteConfirmOpen(true); } },
   ];
 
   const bulkActions: ListPageBulkAction[] = [
-    { id: 'assign', label: 'Assign to Project', icon: '📋' },
-    { id: 'export', label: 'Export', icon: '⬇️' },
-    { id: 'remove', label: 'Remove', icon: '🗑️', variant: 'danger' },
+    { id: 'assign', label: 'Assign to Project', icon: <ClipboardList className="size-4" /> },
+    { id: 'export', label: 'Export', icon: <Download className="size-4" /> },
+    { id: 'remove', label: 'Remove', icon: <Trash2 className="size-4" />, variant: 'danger' },
   ];
 
   const handleBulkAction = async (actionId: string, selectedIds: string[]) => {
@@ -305,7 +306,7 @@ export default function CrewPage() {
   ] : [];
 
   return (
-    <>
+    <CompvssAppLayout>
       <ListPage<any>
         title="Crew Directory"
         subtitle="Vetted production professionals and technical specialists"
@@ -325,7 +326,6 @@ export default function CrewPage() {
         stats={stats}
         emptyMessage="No crew members found"
         emptyAction={{ label: 'Add Crew Member', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Crew' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -333,7 +333,7 @@ export default function CrewPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
 
       <RecordFormModal
@@ -372,6 +372,6 @@ export default function CrewPage() {
         onConfirm={handleDelete}
         onCancel={() => { setDeleteConfirmOpen(false); setMemberToDelete(null); }}
       />
-    </>
+    </CompvssAppLayout>
   );
 }

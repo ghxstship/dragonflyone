@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../components/navigation';
+import { Eye, ArrowUp, Check } from 'lucide-react';
+import { CompvssAppLayout } from '../../components/app-layout';
 import {
   ListPage,
   Badge,
@@ -11,6 +12,8 @@ import {
   Grid,
   Stack,
   Body,
+  EnterprisePageHeader,
+  MainContent,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -92,9 +95,9 @@ export default function IssuesPage() {
   const escalatedCount = issues.filter(i => i.status === 'escalated').length;
 
   const rowActions: ListPageAction<Issue>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedIssue(r); setDrawerOpen(true); } },
-    { id: 'escalate', label: 'Escalate', icon: '⬆️', onClick: (r) => handleEscalate(r.id) },
-    { id: 'resolve', label: 'Resolve', icon: '✅', onClick: (r) => handleResolve(r.id) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedIssue(r); setDrawerOpen(true); } },
+    { id: 'escalate', label: 'Escalate', icon: <ArrowUp className="size-4" />, onClick: (r) => handleEscalate(r.id) },
+    { id: 'resolve', label: 'Resolve', icon: <Check className="size-4" />, onClick: (r) => handleResolve(r.id) },
   ];
 
   const handleEscalate = (issueId: string) => {
@@ -151,34 +154,40 @@ export default function IssuesPage() {
   ] : [];
 
   return (
-    <>
-      <ListPage<Issue>
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Live Issue Tracking"
         subtitle="Real-time issue management and escalation"
-        data={issues}
-        columns={columns}
-        rowKey="id"
-        loading={false}
-        searchPlaceholder="Search issues..."
-        filters={filters}
-        rowActions={rowActions}
-        onRowClick={(r) => { setSelectedIssue(r); setDrawerOpen(true); }}
-        createLabel="Report Issue"
-        onCreate={() => setCreateModalOpen(true)}
-        onExport={() => console.log('Export')}
-        stats={stats}
-        emptyMessage="No issues found"
-        emptyAction={{ label: 'Report Issue', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Issues' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
         ]}
         activeView="list"
+        primaryAction={{ label: 'Report Issue', onClick: () => setCreateModalOpen(true) }}
         showFavorite
-        showSettings />}
+        showSettings
       />
+      <MainContent padding="lg">
+        <ListPage<Issue>
+          title="Live Issue Tracking"
+          subtitle="Real-time issue management and escalation"
+          data={issues}
+          columns={columns}
+          rowKey="id"
+          loading={false}
+          searchPlaceholder="Search issues..."
+          filters={filters}
+          rowActions={rowActions}
+          onRowClick={(r) => { setSelectedIssue(r); setDrawerOpen(true); }}
+          createLabel="Report Issue"
+          onCreate={() => setCreateModalOpen(true)}
+          onExport={() => console.log('Export')}
+          stats={stats}
+          emptyMessage="No issues found"
+          emptyAction={{ label: 'Report Issue', onClick: () => setCreateModalOpen(true) }}
+        />
+      </MainContent>
 
       <RecordFormModal
         open={createModalOpen}
@@ -209,6 +218,6 @@ export default function IssuesPage() {
           }}
         />
       )}
-    </>
+    </CompvssAppLayout>
   );
 }

@@ -2,12 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { MembershipNavigationPublic } from "@/components/navigation";
+import { GvtewayAppLayout } from "@/components/app-layout";
 import {
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
   Display,
   H2,
   H3,
@@ -15,8 +11,6 @@ import {
   Button,
   Input,
   Textarea,
-  Section,
-  Container,
   Stack,
   Grid,
   Card,
@@ -172,40 +166,7 @@ export default function ApplyPage() {
   };
 
   return (
-    <PageLayout
-      background="black"
-      header={<MembershipNavigationPublic />}
-      footer={
-        <Footer
-          logo={<Display size="md">GVTEWAY</Display>}
-          copyright="© 2025 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Membership">
-            <FooterLink href="/">Home</FooterLink>
-            <FooterLink href="/membership">Learn More</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Support">
-            <FooterLink href="/help">Help Center</FooterLink>
-            <FooterLink href="/contact">Contact</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Legal">
-            <FooterLink href="/legal/privacy">Privacy</FooterLink>
-            <FooterLink href="/legal/terms">Terms</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <Section background="black" className="relative min-h-screen overflow-hidden py-24">
-        {/* Halftone pattern */}
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)",
-            backgroundSize: "20px 20px",
-          }}
-        />
-
-        <Container className="relative z-10">
+    <GvtewayAppLayout variant="membership">
           <Stack gap={12} className="mx-auto max-w-2xl">
             {/* Header */}
             <ScrollReveal animation="fade">
@@ -592,8 +553,6 @@ export default function ApplyPage() {
               </Stack>
             </Card>
           </Stack>
-        </Container>
-      </Section>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

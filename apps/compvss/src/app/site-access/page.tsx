@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { CompvssAppLayout } from "../../components/app-layout";
 import {
   Container,
   H3,
@@ -19,7 +19,6 @@ import {
   TableHead,
   TableCell,
   Button,
-  Section,
   Card,
   Tabs,
   TabsList,
@@ -30,10 +29,9 @@ import {
   ModalBody,
   ModalFooter,
   Badge,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
+  MainContent,
+} from "@ghxstship/ui";
 
 interface AccessPoint {
   id: string;
@@ -91,21 +89,20 @@ export default function SiteAccessPage() {
   };
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Site Access Management"
         subtitle="Gates, parking, loading docks, and vehicle passes"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Site Access' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
+        primaryAction={{ label: 'Issue Vehicle Pass', onClick: () => setShowAddPassModal(true) }}
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
             <Grid cols={4} gap={6}>
               <StatCard value={`${openPoints}/${mockAccessPoints.length}`} label="Open Access Points" />
@@ -231,7 +228,7 @@ export default function SiteAccessPage() {
             </Grid>
           </Stack>
         </Container>
-      </Section>
+      </MainContent>
 
       <Modal open={showAddPassModal} onClose={() => setShowAddPassModal(false)}>
         <ModalHeader><H3>Issue Vehicle Pass</H3></ModalHeader>
@@ -294,6 +291,6 @@ export default function SiteAccessPage() {
           <Button variant="solid">Print Pass</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </CompvssAppLayout>
   );
 }

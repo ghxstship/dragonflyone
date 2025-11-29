@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { Eye, Pencil } from "lucide-react";
+import { AtlvsAppLayout } from "../../components/app-layout";
 import {
   ListPage,
   Badge,
@@ -76,8 +77,8 @@ export default function PerformancePage() {
   const avgScore = reviews.filter(r => r.overall_score > 0).reduce((sum, r) => sum + r.overall_score, 0) / (reviews.filter(r => r.overall_score > 0).length || 1);
 
   const rowActions: ListPageAction<Review>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedReview(r); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (r) => router.push(`/performance/reviews/${r.id}`) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedReview(r); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/performance/reviews/${r.id}`) },
   ];
 
   const stats = [
@@ -104,7 +105,7 @@ export default function PerformancePage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<Review>
         title="Performance Reviews"
         subtitle="Track employee performance and development"
@@ -124,7 +125,6 @@ export default function PerformancePage() {
         stats={stats}
         emptyMessage="No reviews found"
         emptyAction={{ label: 'Schedule Review', onClick: () => router.push('/performance/reviews/new') }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Performance' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -132,7 +132,7 @@ export default function PerformancePage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       {selectedReview && (
         <DetailDrawer
@@ -142,10 +142,10 @@ export default function PerformancePage() {
           title={(r) => r.employee?.full_name || 'Review'}
           subtitle={(r) => `${r.review_period} • ${formatStatus(r.review_type)}`}
           sections={detailSections}
-          actions={[{ id: 'edit', label: 'Edit Review', icon: '✏️' }]}
+          actions={[{ id: 'edit', label: 'Edit Review', icon: <Pencil className="size-4" /> }]}
           onAction={(id, r) => { if (id === 'edit') router.push(`/performance/reviews/${r.id}`); setDrawerOpen(false); }}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

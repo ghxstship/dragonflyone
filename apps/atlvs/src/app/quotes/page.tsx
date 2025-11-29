@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { Eye, Pencil, Upload } from "lucide-react";
+import { AtlvsAppLayout } from "../../components/app-layout";
 import {
   ListPage,
   Badge,
@@ -80,9 +81,9 @@ export default function QuotesPage() {
   const winRate = quotes.length > 0 ? Math.round((acceptedCount / quotes.length) * 100) : 0;
 
   const rowActions: ListPageAction<Quote>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedQuote(r); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (r) => router.push(`/quotes/${r.id}`) },
-    { id: 'send', label: 'Send', icon: '📤', onClick: async (r) => { await fetch('/api/quotes', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ quote_id: r.id, action: 'send' }) }); fetchQuotes(); } },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedQuote(r); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/quotes/${r.id}`) },
+    { id: 'send', label: 'Send', icon: <Upload className="size-4" />, onClick: async (r) => { await fetch('/api/quotes', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ quote_id: r.id, action: 'send' }) }); fetchQuotes(); } },
   ];
 
   const stats = [
@@ -108,7 +109,7 @@ export default function QuotesPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<Quote>
         title="Quote Management"
         subtitle="Create and manage client quotes"
@@ -128,7 +129,6 @@ export default function QuotesPage() {
         stats={stats}
         emptyMessage="No quotes found"
         emptyAction={{ label: 'Create Quote', onClick: () => router.push('/quotes/new') }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Quotes' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -136,7 +136,7 @@ export default function QuotesPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       {selectedQuote && (
         <DetailDrawer
@@ -146,10 +146,10 @@ export default function QuotesPage() {
           title={(q) => q.quote_number}
           subtitle={(q) => `${q.client?.name || q.client_name} • ${formatCurrency(Number(q.total_amount) || 0)}`}
           sections={detailSections}
-          actions={[{ id: 'edit', label: 'Edit Quote', icon: '✏️' }, { id: 'send', label: 'Send Quote', icon: '📤' }]}
+          actions={[{ id: 'edit', label: 'Edit Quote', icon: <Pencil className="size-4" /> }, { id: 'send', label: 'Send Quote', icon: <Upload className="size-4" /> }]}
           onAction={(id, q) => { if (id === 'edit') router.push(`/quotes/${q.id}`); setDrawerOpen(false); }}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

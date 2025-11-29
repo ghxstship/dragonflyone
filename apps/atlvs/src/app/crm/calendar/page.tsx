@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../../components/navigation';
+import { Eye, Pencil, X, Link } from 'lucide-react';
+import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   ListPage, Badge, DetailDrawer, RecordFormModal,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig,
@@ -69,9 +70,9 @@ export default function CalendarIntegrationPage() {
   const meetings = data.filter(e => e.type === 'Meeting').length;
 
   const rowActions: ListPageAction<CalendarEvent>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Edit Event', icon: '✏️', onClick: (r) => console.log('Edit', r.id) },
-    { id: 'cancel', label: 'Cancel Event', icon: '❌', onClick: (r) => console.log('Cancel', r.id) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit Event', icon: <Pencil className="size-4" />, onClick: (r) => console.log('Edit', r.id) },
+    { id: 'cancel', label: 'Cancel Event', icon: <X className="size-4" />, onClick: (r) => console.log('Cancel', r.id) },
   ];
 
   const stats = [
@@ -104,7 +105,7 @@ export default function CalendarIntegrationPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<CalendarEvent>
         title="Calendar Integration"
         subtitle="Sync calendars and schedule meetings with contacts"
@@ -122,15 +123,14 @@ export default function CalendarIntegrationPage() {
         stats={stats}
         emptyMessage="No events scheduled"
         emptyAction={{ label: 'Schedule Meeting', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Crm', href: '/crm' }, { label: 'Calendar' }]}
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'CRM', href: '/crm' }, { label: 'Calendar' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Schedule Meeting" fields={formFields} onSubmit={handleCreate} />
       {selected && (
@@ -141,10 +141,10 @@ export default function CalendarIntegrationPage() {
           title={(r) => r.title}
           subtitle={(r) => `${r.type} • ${r.date} ${r.time}`}
           sections={detailSections}
-          actions={[{ id: 'edit', label: 'Edit Event', icon: '✏️' }, { id: 'join', label: 'Join Meeting', icon: '🔗' }]}
+          actions={[{ id: 'edit', label: 'Edit Event', icon: <Pencil className="size-4" /> }, { id: 'join', label: 'Join Meeting', icon: <Link className="size-4" /> }]}
           onAction={(id, r) => { console.log(id, r.id); setDrawerOpen(false); }}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

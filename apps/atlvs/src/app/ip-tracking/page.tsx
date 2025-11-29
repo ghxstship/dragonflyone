@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { Eye, Pencil, Calendar } from "lucide-react";
+import { AtlvsAppLayout } from "../../components/app-layout";
 import {
   ListPage,
   Badge,
@@ -94,8 +95,8 @@ export default function IPTrackingPage() {
   const totalValue = assets.reduce((sum, a) => sum + (a.estimated_value || 0), 0);
 
   const rowActions: ListPageAction<IntellectualProperty>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedAsset(r); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (r) => router.push(`/ip-tracking/${r.id}/edit`) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedAsset(r); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/ip-tracking/${r.id}/edit`) },
   ];
 
   const stats = [
@@ -124,7 +125,7 @@ export default function IPTrackingPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<IntellectualProperty>
         title="Intellectual Property"
         subtitle="Track trademarks, patents, copyrights, and trade secrets"
@@ -144,15 +145,14 @@ export default function IPTrackingPage() {
         stats={stats}
         emptyMessage="No IP assets found"
         emptyAction={{ label: 'Register New IP', onClick: () => router.push('/ip-tracking/new') }}
-        header={<CreatorNavigationAuthenticated
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Ip Tracking' }]}
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'IP Tracking' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       {selectedAsset && (
         <DetailDrawer
@@ -162,10 +162,10 @@ export default function IPTrackingPage() {
           title={(a) => a.title}
           subtitle={(a) => `${getTypeIcon(a.ip_type)} ${a.ip_type} • ${a.jurisdiction}`}
           sections={detailSections}
-          actions={[{ id: 'edit', label: 'Edit Asset', icon: '✏️' }, { id: 'renew', label: 'Renewal Calendar', icon: '📅' }]}
+          actions={[{ id: 'edit', label: 'Edit Asset', icon: <Pencil className="size-4" /> }, { id: 'renew', label: 'Renewal Calendar', icon: <Calendar className="size-4" /> }]}
           onAction={(id, a) => { if (id === 'edit') router.push(`/ip-tracking/${a.id}/edit`); setDrawerOpen(false); }}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

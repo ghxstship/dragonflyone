@@ -2,13 +2,12 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ConsumerNavigationPublic } from "@/components/navigation";
+import { GvtewayAppLayout } from "@/components/app-layout";
 import {
-  Container, H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section, Card, Tabs, TabsList, Tab, TabPanel, Badge, Alert,
+  H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
+  Card, Tabs, TabsList, Tab, TabPanel, Badge, Alert,
   Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
-  Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
-  PageLayout, Footer, FooterColumn, FooterLink, Display, Kicker,
+  Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Kicker,
 } from "@ghxstship/ui";
 
 interface TrackingPixel {
@@ -81,34 +80,7 @@ export default function PixelsPage() {
   const formatCurrency = (amount: number) => `$${amount.toLocaleString()}`;
 
   return (
-    <PageLayout
-      background="black"
-      header={<ConsumerNavigationPublic />}
-      footer={
-        <Footer
-          logo={<Display size="md">GVTEWAY</Display>}
-          copyright="&copy; 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Marketing">
-            <FooterLink href="/marketing">Marketing Hub</FooterLink>
-            <FooterLink href="/marketing/pixels">Pixels</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Legal">
-            <FooterLink href="/legal/privacy">Privacy</FooterLink>
-            <FooterLink href="/legal/terms">Terms</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
+    <GvtewayAppLayout>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -240,8 +212,6 @@ export default function PixelsPage() {
 
           <Button variant="outlineInk" onClick={() => router.push("/marketing")}>Back to Marketing</Button>
           </Stack>
-        </Container>
-      </Section>
 
       <Modal open={!!selectedPixel} onClose={() => setSelectedPixel(null)}>
         <ModalHeader><H3>Configure Pixel</H3></ModalHeader>
@@ -307,6 +277,6 @@ export default function PixelsPage() {
           <Button variant="solid" onClick={() => setShowAddModal(false)}>Add Pixel</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { Sunrise, Sun, Moon, Popcorn, UtensilsCrossed } from "lucide-react";
+import { CompvssAppLayout } from "../../components/app-layout";
 import {
   H2,
   Body,
@@ -22,12 +23,10 @@ import {
   Grid,
   Stack,
   Card,
-  Section,
   useNotifications,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
+  MainContent,
+} from "@ghxstship/ui";
 
 interface MealService {
   id: string;
@@ -129,34 +128,52 @@ export default function CateringPage() {
   const getMealIcon = (mealType: string) => {
     switch (mealType?.toLowerCase()) {
       case "breakfast":
-        return "🌅";
+        return <Sunrise className="size-4" />;
       case "lunch":
-        return "☀️";
+        return <Sun className="size-4" />;
       case "dinner":
-        return "🌙";
+        return <Moon className="size-4" />;
       case "snacks":
-        return "🍿";
+        return <Popcorn className="size-4" />;
       default:
-        return "🍽️";
+        return <UtensilsCrossed className="size-4" />;
     }
   };
 
   if (loading) {
     return (
-      <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-        <Section className="min-h-screen py-16">
+      <CompvssAppLayout>
+        <EnterprisePageHeader
+          title="Catering & Hospitality"
+          subtitle="Manage crew meals, dietary requirements, and hospitality services"
+          breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Catering' }]}
+          views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
+          activeView="default"
+          showFavorite
+          showSettings
+        />
+        <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
             <LoadingSpinner size="lg" text="Loading catering data..." />
           </Container>
-        </Section>
-      </PageLayout>
+        </MainContent>
+      </CompvssAppLayout>
     );
   }
 
   if (error) {
     return (
-      <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-        <Section className="min-h-screen py-16">
+      <CompvssAppLayout>
+        <EnterprisePageHeader
+          title="Catering & Hospitality"
+          subtitle="Manage crew meals, dietary requirements, and hospitality services"
+          breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Catering' }]}
+          views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
+          activeView="default"
+          showFavorite
+          showSettings
+        />
+        <MainContent padding="lg">
           <Container>
             <EmptyState
               title="Error Loading Catering Data"
@@ -164,27 +181,26 @@ export default function CateringPage() {
               action={{ label: "Retry", onClick: fetchCateringData }}
             />
           </Container>
-        </Section>
-      </PageLayout>
+        </MainContent>
+      </CompvssAppLayout>
     );
   }
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Catering & Hospitality"
         subtitle="Manage crew meals, dietary requirements, and hospitality services"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Catering' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
+        primaryAction={{ label: 'Schedule Meal', onClick: () => router.push('/catering/schedule') }}
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
             <Grid cols={4} gap={6}>
               <StatCard
@@ -245,7 +261,7 @@ export default function CateringPage() {
                     <Card>
                       <Stack gap={1} direction="horizontal" className="items-center justify-between">
                         <Stack gap={1} direction="horizontal" className="items-center">
-                          <Body>🌅</Body>
+                          <Sunrise className="size-4" />
                           <Body className="font-display">Breakfast</Body>
                         </Stack>
                         <Body className="text-body-sm">6:00 AM - 45 pax</Body>
@@ -254,7 +270,7 @@ export default function CateringPage() {
                     <Card>
                       <Stack gap={1} direction="horizontal" className="items-center justify-between">
                         <Stack gap={1} direction="horizontal" className="items-center">
-                          <Body>☀️</Body>
+                          <Sun className="size-4" />
                           <Body className="font-display">Lunch</Body>
                         </Stack>
                         <Body className="text-body-sm">12:00 PM - 52 pax</Body>
@@ -263,7 +279,7 @@ export default function CateringPage() {
                     <Card>
                       <Stack gap={1} direction="horizontal" className="items-center justify-between">
                         <Stack gap={1} direction="horizontal" className="items-center">
-                          <Body>🌙</Body>
+                          <Moon className="size-4" />
                           <Body className="font-display">Dinner</Body>
                         </Stack>
                         <Body className="text-body-sm">6:00 PM - 48 pax</Body>
@@ -367,7 +383,7 @@ export default function CateringPage() {
             </Stack>
           </Stack>
         </Container>
-      </Section>
-    </PageLayout>
+      </MainContent>
+    </CompvssAppLayout>
   );
 }

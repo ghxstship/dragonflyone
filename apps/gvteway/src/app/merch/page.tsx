@@ -3,44 +3,20 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useNotifications } from "@ghxstship/ui";
-import { ConsumerNavigationPublic } from "@/components/navigation";
+import { GvtewayAppLayout, GvtewayLoadingLayout } from "@/components/app-layout";
 import { useMerch } from "../../hooks/useMerch";
 import {
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Display,
   H2,
   Body,
   Button,
   Badge,
   Select,
-  Section,
-  LoadingSpinner,
   EmptyState,
-  Container,
   Grid,
   Stack,
   Card,
   Kicker,
 } from "@ghxstship/ui";
-
-const footerContent = (
-  <Footer
-    logo={<Display size="md">GVTEWAY</Display>}
-    copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-  >
-    <FooterColumn title="Shop">
-      <FooterLink href="/merch">Merchandise</FooterLink>
-      <FooterLink href="/cart">Cart</FooterLink>
-    </FooterColumn>
-    <FooterColumn title="Legal">
-      <FooterLink href="/legal/privacy">Privacy</FooterLink>
-      <FooterLink href="/legal/terms">Terms</FooterLink>
-    </FooterColumn>
-  </Footer>
-);
 
 export default function MerchPage() {
   const _router = useRouter();
@@ -59,44 +35,26 @@ export default function MerchPage() {
   });
 
   if (isLoading) {
-    return (
-      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
-        <Section background="black" className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading merchandise..." />
-        </Section>
-      </PageLayout>
-    );
+    return <GvtewayLoadingLayout text="Loading merchandise..." />;
   }
 
   if (error) {
     return (
-      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
-        <Section background="black" className="min-h-screen py-16">
-          <Container>
-            <EmptyState
-              title="Error Loading Merchandise"
-              description={error instanceof Error ? error.message : "An error occurred"}
-              action={{ label: "Retry", onClick: () => refetch() }}
-              inverted
-            />
-          </Container>
-        </Section>
-      </PageLayout>
+      <GvtewayAppLayout>
+        <EmptyState
+          title="Error Loading Merchandise"
+          description={error instanceof Error ? error.message : "An error occurred"}
+          action={{ label: "Retry", onClick: () => refetch() }}
+          inverted
+        />
+      </GvtewayAppLayout>
     );
   }
 
   return (
-    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
-          <Stack gap={8}>
+    <GvtewayAppLayout>
+          <Stack gap={10}>
+            {/* Page Header */}
             <Stack gap={2}>
               <Kicker colorScheme="on-dark">Shop</Kicker>
               <H2 size="lg" className="text-white">Official Merchandise</H2>
@@ -159,8 +117,6 @@ export default function MerchPage() {
               </Grid>
             )}
           </Stack>
-        </Container>
-      </Section>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

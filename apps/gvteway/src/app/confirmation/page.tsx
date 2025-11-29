@@ -2,24 +2,16 @@
 
 import { useState, useEffect, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ConsumerNavigationPublic } from "@/components/navigation";
+import { GvtewayAppLayout, GvtewayLoadingLayout, GvtewayEmptyLayout } from "@/components/app-layout";
 import {
   H2,
   H3,
   Body,
   Button,
   Badge,
-  LoadingSpinner,
-  Container,
   Grid,
   Stack,
   Card,
-  Section,
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Display,
   Kicker,
 } from "@ghxstship/ui";
 
@@ -48,22 +40,6 @@ interface OrderItem {
   unit_price: number;
   total: number;
 }
-
-const footerContent = (
-  <Footer
-    logo={<Display size="md">GVTEWAY</Display>}
-    copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-  >
-    <FooterColumn title="Orders">
-      <FooterLink href="/orders">My Orders</FooterLink>
-      <FooterLink href="/tickets">My Tickets</FooterLink>
-    </FooterColumn>
-    <FooterColumn title="Legal">
-      <FooterLink href="/legal/privacy">Privacy</FooterLink>
-      <FooterLink href="/legal/terms">Terms</FooterLink>
-    </FooterColumn>
-  </Footer>
-);
 
 function ConfirmationContent() {
   const router = useRouter();
@@ -119,44 +95,21 @@ function ConfirmationContent() {
   };
 
   if (loading) {
-    return (
-      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
-        <Section background="black" className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading order details..." />
-        </Section>
-      </PageLayout>
-    );
+    return <GvtewayLoadingLayout text="Loading order details..." />;
   }
 
   if (!order) {
     return (
-      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
-        <Section background="black" className="min-h-screen py-16">
-          <Container className="text-center">
-            <Stack gap={4} className="items-center">
-              <H2 size="lg" className="text-white">Order Not Found</H2>
-              <Body className="text-on-dark-muted">We couldn&apos;t find this order.</Body>
-              <Button variant="outlineInk" onClick={() => router.push("/orders")}>
-                View All Orders
-              </Button>
-            </Stack>
-          </Container>
-        </Section>
-      </PageLayout>
+      <GvtewayEmptyLayout
+        title="Order Not Found"
+        description="We couldn't find this order."
+        action={{ label: "View All Orders", onClick: () => router.push("/orders") }}
+      />
     );
   }
 
   return (
-    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
+    <GvtewayAppLayout>
           <Stack gap={8} className="mx-auto max-w-3xl">
             <Stack gap={4} className="text-center">
               <Body className="text-h3-md">✓</Body>
@@ -279,21 +232,13 @@ function ConfirmationContent() {
             </Button>
           </Stack>
           </Stack>
-        </Container>
-      </Section>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }
 
 export default function ConfirmationPage() {
   return (
-    <Suspense fallback={
-      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
-        <Section background="black" className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading order details..." />
-        </Section>
-      </PageLayout>
-    }>
+    <Suspense fallback={<GvtewayLoadingLayout text="Loading order details..." />}>
       <ConfirmationContent />
     </Suspense>
   );

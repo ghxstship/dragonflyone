@@ -2,10 +2,8 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { ConsumerNavigationPublic } from '@/components/navigation';
+import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
-  Container,
-  Section,
   H2,
   H3,
   Body,
@@ -16,14 +14,8 @@ import {
   Stack,
   Badge,
   Alert,
-  LoadingSpinner,
   Box,
   Form,
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
-  Display,
   Kicker,
 } from '@ghxstship/ui';
 import Image from 'next/image';
@@ -126,56 +118,29 @@ export default function EventChatPage() {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
-  const footerContent = (
-    <Footer
-      logo={<Display size="md">GVTEWAY</Display>}
-      copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-    >
-      <FooterColumn title="Events">
-        <FooterLink href="/events">Events</FooterLink>
-      </FooterColumn>
-      <FooterColumn title="Legal">
-        <FooterLink href="/legal/privacy">Privacy</FooterLink>
-        <FooterLink href="/legal/terms">Terms</FooterLink>
-      </FooterColumn>
-    </Footer>
-  );
-
   if (loading) {
-    return (
-      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
-        <Section background="black" className="flex min-h-[60vh] items-center justify-center">
-          <LoadingSpinner size="lg" text="Loading chat..." />
-        </Section>
-      </PageLayout>
-    );
+    return <GvtewayLoadingLayout text="Loading chat..." />;
   }
 
   if (!chatRoom) {
     return (
-      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
-        <Section background="black" className="min-h-screen py-16">
-          <Container>
-            <Card inverted className="p-12 text-center mt-12">
-              <H2 className="mb-4 text-white">CHAT NOT AVAILABLE</H2>
-              <Body className="text-on-dark-muted mb-6">
-                The chat room for this event is not available yet.
-              </Body>
-              <Button variant="solid" inverted onClick={() => router.back()}>
-                Go Back
-              </Button>
-            </Card>
-          </Container>
-        </Section>
-      </PageLayout>
+      <GvtewayAppLayout>
+        <Card inverted className="p-12 text-center mt-12">
+          <H2 className="mb-4 text-white">CHAT NOT AVAILABLE</H2>
+          <Body className="text-on-dark-muted mb-6">
+            The chat room for this event is not available yet.
+          </Body>
+          <Button variant="solid" inverted onClick={() => router.back()}>
+            Go Back
+          </Button>
+        </Card>
+      </GvtewayAppLayout>
     );
   }
 
   if (chatRoom.status === 'archived') {
     return (
-      <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
-        <Section background="black" className="min-h-screen py-16">
-          <Container>
+      <GvtewayAppLayout>
             <Stack gap={8}>
               <Stack gap={2}>
                 <Kicker colorScheme="on-dark">Events</Kicker>
@@ -206,23 +171,12 @@ export default function EventChatPage() {
             </Stack>
             </Card>
             </Stack>
-          </Container>
-        </Section>
-      </PageLayout>
+      </GvtewayAppLayout>
     );
   }
 
   return (
-    <PageLayout background="black" header={<ConsumerNavigationPublic />} footer={footerContent}>
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
+    <GvtewayAppLayout>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack direction="horizontal" className="flex-col items-start justify-between border-b-2 border-ink-800 pb-8 md:flex-row md:items-center">
@@ -369,8 +323,6 @@ export default function EventChatPage() {
           </Stack>
         </Grid>
           </Stack>
-        </Container>
-      </Section>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

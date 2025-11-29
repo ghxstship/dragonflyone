@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../../components/navigation';
+import { Eye, RefreshCw, Plug } from 'lucide-react';
+import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   ListPage, Badge, DetailDrawer, RecordFormModal,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig,
@@ -70,9 +71,9 @@ export default function DataWarehousePage() {
   const totalRecords = data.reduce((sum, s) => sum + s.recordCount, 0);
 
   const rowActions: ListPageAction<DataSource>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
-    { id: 'sync', label: 'Sync Now', icon: '🔄', onClick: (r) => console.log('Sync', r.id) },
-    { id: 'reconnect', label: 'Reconnect', icon: '🔌', onClick: (r) => console.log('Reconnect', r.id) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
+    { id: 'sync', label: 'Sync Now', icon: <RefreshCw className="size-4" />, onClick: (r) => console.log('Sync', r.id) },
+    { id: 'reconnect', label: 'Reconnect', icon: <Plug className="size-4" />, onClick: (r) => console.log('Reconnect', r.id) },
   ];
 
   const stats = [
@@ -101,7 +102,7 @@ export default function DataWarehousePage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<DataSource>
         title="Data Warehouse Integration"
         subtitle="Manage data sources, ETL pipelines, and warehouse connections"
@@ -119,7 +120,6 @@ export default function DataWarehousePage() {
         stats={stats}
         emptyMessage="No data sources configured"
         emptyAction={{ label: 'Add Data Source', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Analytics', href: '/analytics' }, { label: 'Data Warehouse' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -127,7 +127,7 @@ export default function DataWarehousePage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Add Data Source" fields={formFields} onSubmit={handleCreate} size="lg" />
       {selected && (
@@ -142,6 +142,6 @@ export default function DataWarehousePage() {
           onAction={(id, r) => { console.log(id, r.id); setDrawerOpen(false); }}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

@@ -2,12 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ConsumerNavigationPublic } from "@/components/navigation";
+import { GvtewayAppLayout } from "@/components/app-layout";
 import {
-  Container, H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Section, Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
-  PageLayout, Footer, FooterColumn, FooterLink, Display, Kicker,
+  H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
+  Card, Tabs, TabsList, Tab, TabPanel, Badge,
+  Modal, ModalHeader, ModalBody, ModalFooter, Textarea, Kicker,
 } from "@ghxstship/ui";
 
 interface MediaAsset {
@@ -75,34 +74,7 @@ export default function MediaKitPage() {
   };
 
   return (
-    <PageLayout
-      background="black"
-      header={<ConsumerNavigationPublic />}
-      footer={
-        <Footer
-          logo={<Display size="md">GVTEWAY</Display>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Marketing">
-            <FooterLink href="/marketing">Marketing Hub</FooterLink>
-            <FooterLink href="/marketing/media-kit">Media Kit</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Legal">
-            <FooterLink href="/legal/privacy">Privacy</FooterLink>
-            <FooterLink href="/legal/terms">Terms</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
+    <GvtewayAppLayout>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -244,8 +216,6 @@ export default function MediaKitPage() {
 
           <Button variant="outlineInk" onClick={() => router.push("/marketing")}>Back to Marketing</Button>
           </Stack>
-        </Container>
-      </Section>
 
       <Modal open={!!selectedAsset} onClose={() => setSelectedAsset(null)}>
         <ModalHeader><H3>Asset Preview</H3></ModalHeader>
@@ -327,6 +297,6 @@ export default function MediaKitPage() {
           <Button variant="solid" onClick={() => setShowReleaseModal(false)}>Publish</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

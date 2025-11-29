@@ -2,10 +2,9 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../../components/navigation';
+import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   Container,
-  Section,
   H2,
   H3,
   Body,
@@ -21,10 +20,9 @@ import {
   Alert,
   Modal,
   StatCard,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from '@ghxstship/ui';
+  MainContent,
+} from '@ghxstship/ui';
 
 interface ScannedAsset {
   id: string;
@@ -154,26 +152,20 @@ export default function AssetScanPage() {
   }).length;
 
   return (
-    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <Stack direction="horizontal" className="items-center justify-between">
-              <EnterprisePageHeader
+    <AtlvsAppLayout>
+      <EnterprisePageHeader
         title="Barcode Scanner"
         subtitle="Scan assets for check-in, check-out, and inventory"
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Assets', href: '/assets' }, { label: 'Scan' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
+        secondaryActions={[{ id: 'asset-list', label: 'Asset List', onClick: () => router.push('/assets') }]}
         showFavorite
         showSettings
       />
-              <Button variant="outline" onClick={() => router.push('/assets')}>
-                Asset List
-              </Button>
-            </Stack>
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
         {error && (
           <Alert variant="error" className="mb-6" onClose={() => setError(null)}>
@@ -388,7 +380,7 @@ export default function AssetScanPage() {
         </Modal>
           </Stack>
         </Container>
-      </Section>
-    </PageLayout>
+      </MainContent>
+    </AtlvsAppLayout>
   );
 }

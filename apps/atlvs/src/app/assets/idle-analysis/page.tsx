@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../../components/navigation';
+import { Eye, Zap } from 'lucide-react';
+import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   ListPage, Badge, DetailDrawer,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
@@ -61,8 +62,8 @@ export default function IdleAnalysisPage() {
   const avgIdleDays = Math.round(data.reduce((s, a) => s + a.idleDays, 0) / data.length);
 
   const rowActions: ListPageAction<IdleAsset>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
-    { id: 'action', label: 'Take Action', icon: '⚡', onClick: (r) => console.log('Action', r.id) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
+    { id: 'action', label: 'Take Action', icon: <Zap className="size-4" />, onClick: (r) => console.log('Action', r.id) },
   ];
 
   const stats = [
@@ -89,7 +90,7 @@ export default function IdleAnalysisPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<IdleAsset>
         title="Idle Asset Analysis"
         subtitle="Asset utilization rates and idle time analysis"
@@ -104,7 +105,6 @@ export default function IdleAnalysisPage() {
         onExport={() => console.log('Export')}
         stats={stats}
         emptyMessage="No idle assets found"
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Assets', href: '/assets' }, { label: 'Idle Analysis' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -112,7 +112,7 @@ export default function IdleAnalysisPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       {selected && (
         <DetailDrawer
@@ -126,6 +126,6 @@ export default function IdleAnalysisPage() {
           onAction={(id, r) => { console.log(id, r.id); setDrawerOpen(false); }}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

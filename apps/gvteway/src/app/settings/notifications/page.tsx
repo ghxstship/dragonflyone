@@ -1,11 +1,8 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { ConsumerNavigationPublic } from '@/components/navigation';
+import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
-  Container,
-  Section,
-  Display,
   H2,
   H3,
   Body,
@@ -15,11 +12,6 @@ import {
   Stack,
   Switch,
   Select,
-  LoadingSpinner,
-  PageLayout,
-  Footer,
-  FooterColumn,
-  FooterLink,
   Kicker,
 } from '@ghxstship/ui';
 import { Bell, Mail, Smartphone, MessageSquare, Clock } from 'lucide-react';
@@ -129,71 +121,11 @@ export default function NotificationSettingsPage() {
   };
 
   if (loading) {
-    return (
-      <PageLayout
-        background="black"
-        header={<ConsumerNavigationPublic />}
-        footer={
-          <Footer
-            logo={<Display size="md">GVTEWAY</Display>}
-            copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-          >
-            <FooterColumn title="Account">
-              <FooterLink href="/settings">Settings</FooterLink>
-              <FooterLink href="/profile">Profile</FooterLink>
-            </FooterColumn>
-            <FooterColumn title="Legal">
-              <FooterLink href="/legal/privacy">Privacy</FooterLink>
-              <FooterLink href="/legal/terms">Terms</FooterLink>
-            </FooterColumn>
-          </Footer>
-        }
-      >
-        <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-          <div
-            className="pointer-events-none absolute inset-0 opacity-5"
-            style={{
-              backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-              backgroundSize: "40px 40px",
-            }}
-          />
-          <Container className="relative z-10 flex min-h-[60vh] items-center justify-center">
-            <LoadingSpinner size="lg" text="Loading notification settings..." />
-          </Container>
-        </Section>
-      </PageLayout>
-    );
+    return <GvtewayLoadingLayout text="Loading notification settings..." />;
   }
 
   return (
-    <PageLayout
-      background="black"
-      header={<ConsumerNavigationPublic />}
-      footer={
-        <Footer
-          logo={<Display size="md">GVTEWAY</Display>}
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Account">
-            <FooterLink href="/settings">Settings</FooterLink>
-            <FooterLink href="/profile">Profile</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Legal">
-            <FooterLink href="/legal/privacy">Privacy</FooterLink>
-            <FooterLink href="/legal/terms">Terms</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
-      <Section background="black" className="relative min-h-screen overflow-hidden py-16">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <Container className="relative z-10">
+    <GvtewayAppLayout>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -463,8 +395,6 @@ export default function NotificationSettingsPage() {
               </Button>
             </Stack>
           </Stack>
-        </Container>
-      </Section>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

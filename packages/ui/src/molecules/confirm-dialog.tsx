@@ -2,6 +2,7 @@
 
 import React from "react";
 import clsx from "clsx";
+import { AlertTriangle, Zap, Info } from "lucide-react";
 
 export type ConfirmDialogVariant = "danger" | "warning" | "info";
 
@@ -32,10 +33,10 @@ export interface ConfirmDialogProps {
   className?: string;
 }
 
-const variantIcons: Record<ConfirmDialogVariant, string> = {
-  danger: "⚠️",
-  warning: "⚡",
-  info: "ℹ️",
+const variantIcons: Record<ConfirmDialogVariant, React.ReactNode> = {
+  danger: <AlertTriangle className="size-6" />,
+  warning: <Zap className="size-6" />,
+  info: <Info className="size-6" />,
 };
 
 /**

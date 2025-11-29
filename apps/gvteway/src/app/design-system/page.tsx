@@ -1,5 +1,6 @@
 "use client";
 
+import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   Hero,
   Button,
@@ -8,13 +9,6 @@ import {
   H3,
   Body,
   Label,
-  PageLayout,
-  Section,
-  Navigation,
-  NavLink,
-  Footer,
-  FooterColumn,
-  FooterLink,
   ProjectCard,
   ServiceCard,
   StatCard,
@@ -36,57 +30,12 @@ import {
   Stack,
   Grid,
   Card,
+  Section,
 } from "@ghxstship/ui";
 
 export default function DesignSystemPage() {
   return (
-    <PageLayout
-      background="white"
-      header={
-        <Navigation
-          logo={
-            <Display size="md" className="text-display-md">
-              GHXSTSHIP
-            </Display>
-          }
-          cta={
-            <Button variant="outline" size="sm">
-              START A PROJECT
-            </Button>
-          }
-        >
-          <NavLink href="#typography">Typography</NavLink>
-          <NavLink href="#components">Components</NavLink>
-          <NavLink href="#cards">Cards</NavLink>
-          <NavLink href="#forms">Forms</NavLink>
-        </Navigation>
-      }
-      footer={
-        <Footer
-          logo={
-            <Display size="md" className="text-white text-display-md">
-              GHXSTSHIP
-            </Display>
-          }
-          copyright="© 2024 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED."
-        >
-          <FooterColumn title="Company">
-            <FooterLink href="#">About</FooterLink>
-            <FooterLink href="#">Careers</FooterLink>
-            <FooterLink href="#">Contact</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Products">
-            <FooterLink href="#">ATLVS</FooterLink>
-            <FooterLink href="#">COMPVSS</FooterLink>
-            <FooterLink href="#">GVTEWAY</FooterLink>
-          </FooterColumn>
-          <FooterColumn title="Legal">
-            <FooterLink href="#">Privacy</FooterLink>
-            <FooterLink href="#">Terms</FooterLink>
-          </FooterColumn>
-        </Footer>
-      }
-    >
+    <GvtewayAppLayout>
       <Hero
         title="Design System"
         subtitle="Contemporary Minimal Pop Art"
@@ -375,6 +324,6 @@ export default function DesignSystemPage() {
           </Table>
         </Stack>
       </Section>
-    </PageLayout>
+    </GvtewayAppLayout>
   );
 }

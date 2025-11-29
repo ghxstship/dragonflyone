@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { CompvssAppLayout } from "../../components/app-layout";
 import {
   Container,
   H3,
@@ -13,7 +13,6 @@ import {
   Input,
   Select,
   Button,
-  Section,
   Card,
   Tabs,
   TabsList,
@@ -25,10 +24,9 @@ import {
   ModalBody,
   ModalFooter,
   Textarea,
-  PageLayout,
-  SectionHeader,
   EnterprisePageHeader,
-  MainContent,} from "@ghxstship/ui";
+  MainContent,
+} from "@ghxstship/ui";
 
 interface PhotoSet {
   id: string;
@@ -88,21 +86,20 @@ export default function PhotoDocumentationPage() {
   };
 
   return (
-    <PageLayout background="white" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <EnterprisePageHeader
+    <CompvssAppLayout>
+      <EnterprisePageHeader
         title="Photo Documentation"
         subtitle="Phase-by-phase photo and video documentation for all projects"
         breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Photo Documentation' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
+        primaryAction={{ label: 'Upload Photos', onClick: () => setShowUploadModal(true) }}
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
             <Grid cols={4} gap={6}>
               <StatCard value={mockPhotoSets.length.toString()} label="Photo Sets" />
@@ -180,7 +177,7 @@ export default function PhotoDocumentationPage() {
             </Grid>
           </Stack>
         </Container>
-      </Section>
+      </MainContent>
 
       <Modal open={!!selectedSet} onClose={() => setSelectedSet(null)}>
         <ModalHeader><H3>Photo Set Details</H3></ModalHeader>
@@ -262,6 +259,6 @@ export default function PhotoDocumentationPage() {
           <Button variant="solid" onClick={() => setShowUploadModal(false)}>Upload</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+    </CompvssAppLayout>
   );
 }

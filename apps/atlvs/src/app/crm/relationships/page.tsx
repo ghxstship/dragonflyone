@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../../components/navigation";
+import { Eye, Pencil } from "lucide-react";
+import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
   ListPage,
   Badge,
@@ -85,8 +86,8 @@ export default function RelationshipsPage() {
   };
 
   const rowActions: ListPageAction<Stakeholder>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedStakeholder(r); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (r) => router.push(`/crm/relationships/${r.id}/edit`) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedStakeholder(r); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/crm/relationships/${r.id}/edit`) },
   ];
 
   const stats = [
@@ -110,7 +111,7 @@ export default function RelationshipsPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<Stakeholder>
         title="Relationship Mapping"
         subtitle="Visualize and manage stakeholder relationships"
@@ -128,15 +129,14 @@ export default function RelationshipsPage() {
         stats={stats}
         emptyMessage="No stakeholders found"
         emptyAction={{ label: 'Add Stakeholder', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Crm', href: '/crm' }, { label: 'Relationships' }]}
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'CRM', href: '/crm' }, { label: 'Relationships' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       {selectedStakeholder && (
         <DetailDrawer
@@ -146,7 +146,7 @@ export default function RelationshipsPage() {
           title={(s) => s.name}
           subtitle={(s) => `${s.role} • ${s.company}`}
           sections={detailSections}
-          actions={[{ id: 'edit', label: 'Edit', icon: '✏️' }]}
+          actions={[{ id: 'edit', label: 'Edit', icon: <Pencil className="size-4" /> }]}
           onAction={(id, s) => { if (id === 'edit') router.push(`/crm/relationships/${s.id}/edit`); setDrawerOpen(false); }}
         />
       )}
@@ -158,6 +158,6 @@ export default function RelationshipsPage() {
         onSubmit={handleCreate}
         mode="create"
       />
-    </>
+    </AtlvsAppLayout>
   );
 }

@@ -2,14 +2,36 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../../components/navigation';
+import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
-  Container, H3, Body, Label, Grid, Stack, StatCard, Select,
-  Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Button,
-  Section, Card, Tabs, TabsList, Tab, Badge, PageLayout, SectionHeader,
-  Modal, ModalHeader, ModalBody, ModalFooter, ProgressBar,
+  Container,
+  H3,
+  Body,
+  Label,
+  Grid,
+  Stack,
+  StatCard,
+  Select,
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+  Button,
+  Card,
+  Tabs,
+  TabsList,
+  Tab,
+  Badge,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  ProgressBar,
   EnterprisePageHeader,
-  MainContent,} from '@ghxstship/ui';
+  MainContent,
+} from '@ghxstship/ui';
 
 interface Category {
   id: string;
@@ -78,21 +100,19 @@ export default function CategoryManagementPage() {
   };
 
   return (
-    <PageLayout background="black" header={<CreatorNavigationAuthenticated />}>
-      <Section className="min-h-screen py-16">
-        <Container>
-          <Stack gap={10}>
-            <EnterprisePageHeader
+    <AtlvsAppLayout>
+      <EnterprisePageHeader
         title="Category Management"
         subtitle="Manage spend categories and sourcing strategies"
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Procurement', href: '/procurement' }, { label: 'Categories' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
+        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite
         showSettings
       />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
 
           <Grid cols={4} gap={6}>
             <StatCard label="Categories" value={mockCategories.length} className="bg-transparent border-2 border-ink-800" />
@@ -248,9 +268,6 @@ export default function CategoryManagementPage() {
           )}
 
             <Button variant="outline" className="border-grey-700 text-grey-400" onClick={() => router.push('/procurement')}>Back to Procurement</Button>
-          </Stack>
-        </Container>
-      </Section>
 
       <Modal open={!!selectedCategory} onClose={() => setSelectedCategory(null)}>
         <ModalHeader><H3>{selectedCategory?.name}</H3></ModalHeader>
@@ -277,6 +294,9 @@ export default function CategoryManagementPage() {
           <Button variant="solid">Edit Category</Button>
         </ModalFooter>
       </Modal>
-    </PageLayout>
+          </Stack>
+        </Container>
+      </MainContent>
+    </AtlvsAppLayout>
   );
 }

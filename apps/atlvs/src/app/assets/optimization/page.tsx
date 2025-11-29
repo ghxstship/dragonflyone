@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreatorNavigationAuthenticated } from '../../../components/navigation';
+import { Eye, Check, X } from 'lucide-react';
+import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   ListPage, Badge, DetailDrawer,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
@@ -69,9 +70,9 @@ export default function AssetOptimizationPage() {
   const avgUtilization = Math.round(data.reduce((sum, r) => sum + r.current_utilization, 0) / data.length);
 
   const rowActions: ListPageAction<OptimizationRecommendation>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
-    { id: 'implement', label: 'Implement', icon: '✅', onClick: (r) => setData(data.map(rec => rec.id === r.id ? { ...rec, status: 'implemented' as const } : rec)) },
-    { id: 'dismiss', label: 'Dismiss', icon: '❌', onClick: (r) => setData(data.map(rec => rec.id === r.id ? { ...rec, status: 'dismissed' as const } : rec)) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
+    { id: 'implement', label: 'Implement', icon: <Check className="size-4" />, onClick: (r) => setData(data.map(rec => rec.id === r.id ? { ...rec, status: 'implemented' as const } : rec)) },
+    { id: 'dismiss', label: 'Dismiss', icon: <X className="size-4" />, onClick: (r) => setData(data.map(rec => rec.id === r.id ? { ...rec, status: 'dismissed' as const } : rec)) },
   ];
 
   const stats = [
@@ -107,7 +108,7 @@ export default function AssetOptimizationPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<OptimizationRecommendation>
         title="Inventory Optimization"
         subtitle="Usage patterns and optimization recommendations"
@@ -122,7 +123,6 @@ export default function AssetOptimizationPage() {
         onExport={() => console.log('Export')}
         stats={stats}
         emptyMessage="No recommendations found"
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Assets', href: '/assets' }, { label: 'Optimization' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -130,7 +130,7 @@ export default function AssetOptimizationPage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       {selected && (
         <DetailDrawer
@@ -148,6 +148,6 @@ export default function AssetOptimizationPage() {
           }}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

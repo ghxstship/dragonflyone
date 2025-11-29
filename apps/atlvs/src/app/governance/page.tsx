@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { Eye, FileText, Pencil } from "lucide-react";
+import { AtlvsAppLayout } from "../../components/app-layout";
 import {
   ListPage,
   Badge,
@@ -75,8 +76,8 @@ export default function GovernancePage() {
   const completedCount = meetings.filter(m => m.status === 'completed').length;
 
   const rowActions: ListPageAction<BoardMeeting>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedMeeting(r); setDrawerOpen(true); } },
-    { id: 'minutes', label: 'View Minutes', icon: '📄', onClick: (r) => r.minutes_url && window.open(r.minutes_url, '_blank') },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedMeeting(r); setDrawerOpen(true); } },
+    { id: 'minutes', label: 'View Minutes', icon: <FileText className="size-4" />, onClick: (r) => r.minutes_url && window.open(r.minutes_url, '_blank') },
   ];
 
   const stats = [
@@ -106,7 +107,7 @@ export default function GovernancePage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<BoardMeeting>
         title="Corporate Governance"
         subtitle="Board meetings, corporate policies, and governance documentation"
@@ -126,7 +127,6 @@ export default function GovernancePage() {
         stats={stats}
         emptyMessage="No meetings scheduled"
         emptyAction={{ label: 'Schedule Meeting', onClick: () => router.push('/governance/meetings/new') }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Governance' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -134,7 +134,7 @@ export default function GovernancePage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
 
       {selectedMeeting && (
@@ -146,8 +146,8 @@ export default function GovernancePage() {
           subtitle={(m) => `${m.meeting_type} • ${new Date(m.scheduled_date).toLocaleDateString()}`}
           sections={detailSections}
           actions={[
-            { id: 'edit', label: 'Edit Meeting', icon: '✏️' },
-            ...(selectedMeeting.minutes_url ? [{ id: 'minutes', label: 'View Minutes', icon: '📄' }] : []),
+            { id: 'edit', label: 'Edit Meeting', icon: <Pencil className="size-4" /> },
+            ...(selectedMeeting.minutes_url ? [{ id: 'minutes', label: 'View Minutes', icon: <FileText className="size-4" /> }] : []),
           ]}
           onAction={(id, m) => {
             if (id === 'edit') router.push(`/governance/meetings/${m.id}/edit`);
@@ -156,6 +156,6 @@ export default function GovernancePage() {
           }}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

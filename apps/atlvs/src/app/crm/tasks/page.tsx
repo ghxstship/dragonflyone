@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../../components/navigation";
+import { Eye, Check, Pencil, Trash2 } from "lucide-react";
+import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
   ListPage,
   Badge,
@@ -91,10 +92,10 @@ export default function TasksPage() {
   const completedCount = tasks.filter(t => t.status === "Completed").length;
 
   const rowActions: ListPageAction<Task>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedTask(r); setDrawerOpen(true); } },
-    { id: 'complete', label: 'Mark Complete', icon: '✅', onClick: (r) => setTasks(tasks.map(t => t.id === r.id ? { ...t, status: 'Completed' } : t)) },
-    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (r) => { setSelectedTask(r); setEditModalOpen(true); } },
-    { id: 'delete', label: 'Delete', icon: '🗑️', variant: 'danger', onClick: (r) => { setTaskToDelete(r); setDeleteConfirmOpen(true); } },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedTask(r); setDrawerOpen(true); } },
+    { id: 'complete', label: 'Mark Complete', icon: <Check className="size-4" />, onClick: (r) => setTasks(tasks.map(t => t.id === r.id ? { ...t, status: 'Completed' } : t)) },
+    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => { setSelectedTask(r); setEditModalOpen(true); } },
+    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (r) => { setTaskToDelete(r); setDeleteConfirmOpen(true); } },
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
@@ -153,7 +154,7 @@ export default function TasksPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<Task>
         title="Tasks & Follow-ups"
         subtitle="Manage tasks and automated reminders"
@@ -171,15 +172,14 @@ export default function TasksPage() {
         stats={stats}
         emptyMessage="No tasks found"
         emptyAction={{ label: 'Create Task', onClick: () => setCreateModalOpen(true) }}
-        header={<CreatorNavigationAuthenticated
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Crm', href: '/crm' }, { label: 'Tasks' }]}
+        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'CRM', href: '/crm' }, { label: 'Tasks' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
 
       <RecordFormModal
@@ -227,6 +227,6 @@ export default function TasksPage() {
         onConfirm={handleDelete}
         onCancel={() => { setDeleteConfirmOpen(false); setTaskToDelete(null); }}
       />
-    </>
+    </AtlvsAppLayout>
   );
 }

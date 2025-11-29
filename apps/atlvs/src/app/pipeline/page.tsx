@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CreatorNavigationAuthenticated } from "../../components/navigation";
+import { Eye, Pencil } from "lucide-react";
+import { AtlvsAppLayout } from "../../components/app-layout";
 import { useDeals } from "@/hooks/useDeals";
 import {
   ListPage,
@@ -63,8 +64,8 @@ export default function PipelinePage() {
   const winRate = dealData.length > 0 ? Math.round((wonDeals / dealData.length) * 100) : 0;
 
   const rowActions: ListPageAction<Deal>[] = [
-    { id: 'view', label: 'View Details', icon: '👁️', onClick: (r) => { setSelectedDeal(r); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Edit', icon: '✏️', onClick: (r) => router.push(`/pipeline/${r.id}`) },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedDeal(r); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/pipeline/${r.id}`) },
   ];
 
   const stats = [
@@ -90,7 +91,7 @@ export default function PipelinePage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<Deal>
         title="Sales Pipeline"
         subtitle="Track and manage sales opportunities"
@@ -110,7 +111,6 @@ export default function PipelinePage() {
         stats={stats}
         emptyMessage="No deals found"
         emptyAction={{ label: 'Add Deal', onClick: () => router.push('/pipeline/new') }}
-        header={<CreatorNavigationAuthenticated
         breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Pipeline' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
@@ -118,7 +118,7 @@ export default function PipelinePage() {
         ]}
         activeView="list"
         showFavorite
-        showSettings />}
+        showSettings
       />
       {selectedDeal && (
         <DetailDrawer
@@ -128,10 +128,10 @@ export default function PipelinePage() {
           title={(d) => d.name}
           subtitle={(d) => `${d.client} • ${formatCurrency(d.value || 0)}`}
           sections={detailSections}
-          actions={[{ id: 'edit', label: 'Edit Deal', icon: '✏️' }]}
+          actions={[{ id: 'edit', label: 'Edit Deal', icon: <Pencil className="size-4" /> }]}
           onAction={(id, d) => { if (id === 'edit') router.push(`/pipeline/${d.id}`); setDrawerOpen(false); }}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }
