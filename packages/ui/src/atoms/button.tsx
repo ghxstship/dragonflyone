@@ -14,7 +14,7 @@ const sizeClasses = {
   icon: "p-3 min-h-[44px] min-w-[44px]",
 };
 
-export type ButtonVariant = "solid" | "outline" | "ghost" | "outlineWhite" | "outlineInk" | "pop" | "destructive" | "secondary" | "accent";
+export type ButtonVariant = "solid" | "outline" | "ghost" | "outlineWhite" | "outlineInk" | "outlineFill" | "outlineFillWhite" | "pop" | "destructive" | "secondary" | "accent";
 
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: ButtonVariant;
@@ -43,6 +43,8 @@ export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
  * - destructive: Error/delete actions
  * - outlineWhite: White border for dark backgrounds
  * - outlineInk: Subtle ink border for dark backgrounds
+ * - outlineFill: Border that fills with color on hover (light bg)
+ * - outlineFillWhite: Border that fills white on hover (dark bg)
  */
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
   { variant = "solid", size = "md", icon, iconPosition = "right", fullWidth = false, inverted = false, className, children, ...props },
@@ -79,6 +81,24 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
           "shadow-[3px_3px_0_rgba(255,255,255,0.1)]",
           "hover:border-white hover:text-white hover:shadow-[5px_5px_0_rgba(255,255,255,0.2)]",
           "active:shadow-[1px_1px_0_rgba(255,255,255,0.1)]",
+          "focus-visible:ring-white focus-visible:ring-offset-ink-950"
+        );
+      case "outlineFill":
+        // Fill on hover - for light backgrounds
+        return clsx(
+          "border-black text-black bg-transparent",
+          "shadow-none",
+          "hover:bg-black hover:text-white hover:shadow-none",
+          "active:bg-grey-900",
+          "focus-visible:ring-black focus-visible:ring-offset-white"
+        );
+      case "outlineFillWhite":
+        // Fill on hover - for dark backgrounds
+        return clsx(
+          "border-white text-white bg-transparent",
+          "shadow-none",
+          "hover:bg-white hover:text-ink-950 hover:shadow-none",
+          "active:bg-grey-200",
           "focus-visible:ring-white focus-visible:ring-offset-ink-950"
         );
       case "pop":
@@ -131,9 +151,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
         case "outline":
           return clsx(
             "border-white text-white bg-transparent",
-            "shadow-[3px_3px_0_rgba(255,255,255,0.2)]",
-            "hover:bg-white hover:text-black hover:shadow-[5px_5px_0_rgba(255,255,255,0.3)]",
-            "active:shadow-[1px_1px_0_rgba(255,255,255,0.2)]",
+            "shadow-none",
+            "hover:bg-white hover:text-black hover:shadow-none",
+            "active:bg-grey-200",
             "focus-visible:ring-white focus-visible:ring-offset-ink-950"
           );
         case "ghost":
@@ -158,10 +178,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
           );
         case "outline":
           return clsx(
-            "border-black text-black bg-white",
-            "shadow-[3px_3px_0_rgba(0,0,0,0.15)]",
-            "hover:bg-black hover:text-white hover:shadow-[5px_5px_0_rgba(0,0,0,0.2)]",
-            "active:shadow-[1px_1px_0_rgba(0,0,0,0.15)]",
+            "border-black text-black bg-transparent",
+            "shadow-none",
+            "hover:bg-black hover:text-white hover:shadow-none",
+            "active:bg-grey-900",
             "focus-visible:ring-black focus-visible:ring-offset-white"
           );
         case "ghost":

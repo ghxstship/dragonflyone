@@ -4,7 +4,7 @@ import {
   Grid,
   Card,
   Body,
-  H2,
+  H1,
   Label,
   Container,
   Display,
@@ -44,7 +44,7 @@ export default function DemoPage() {
           <Grid cols={2} gap={12} className="items-center">
             <Stack gap={8}>
               <Stack direction="horizontal" gap={3} className="items-center">
-                <Play className="size-6 text-primary" />
+                <Play className="size-6 text-[#FF006E]" />
                 <Label size="xs" className="text-on-dark-muted">
                   PRODUCT DEMO
                 </Label>
@@ -58,7 +58,7 @@ export default function DemoPage() {
               <Stack gap={3}>
                 {demoData.benefits.map((benefit) => (
                   <Stack key={benefit} direction="horizontal" gap={3} className="items-center">
-                    <Check className="size-4 text-primary" />
+                    <Check className="size-4 text-[#FF006E]" />
                     <Label size="sm" className="text-on-dark-secondary">
                       {benefit}
                     </Label>
@@ -71,8 +71,8 @@ export default function DemoPage() {
             <Card inverted className="aspect-video border-2 border-ink-800 bg-ink-900">
               <Stack className="flex h-full items-center justify-center">
                 <Stack gap={4} className="items-center text-center">
-                  <Stack className="flex size-16 items-center justify-center rounded-full border-2 border-primary bg-ink-800">
-                    <Play className="size-8 text-primary" />
+                  <Stack className="flex size-16 items-center justify-center rounded-full border-2 border-[#FF006E] bg-ink-800">
+                    <Play className="size-8 text-[#FF006E]" />
                   </Stack>
                   <Label size="sm" className="text-on-dark-muted">
                     Watch Product Overview
@@ -90,7 +90,7 @@ export default function DemoPage() {
           <Grid cols={3} gap={8}>
             {demoData.stats.map((stat) => (
               <Stack key={stat.label} className="items-center text-center">
-                <stat.icon className="mb-4 size-8 text-primary" />
+                <stat.icon className="mb-4 size-8 text-[#FF006E]" />
                 <Display size="md" className="text-ink-950">
                   {stat.value}
                 </Display>
@@ -109,7 +109,7 @@ export default function DemoPage() {
           <Card className="border-2 border-ink-950 bg-white p-8 shadow-lg lg:p-12">
             <Stack gap={8}>
               <Stack gap={4} className="text-center">
-                <H2 className="text-ink-950">SCHEDULE YOUR DEMO</H2>
+                <H1 className="text-ink-950">SCHEDULE YOUR DEMO</H1>
                 <Body className="text-grey-600">
                   Fill out the form and we&apos;ll reach out to schedule a time that works for you.
                 </Body>
@@ -150,7 +150,7 @@ export default function DemoPage() {
                     <Label size="xs" className="text-ink-950">
                       TEAM SIZE
                     </Label>
-                    <select className="w-full border-2 border-ink-950 bg-white px-4 py-3 text-ink-950 focus:outline-none focus:ring-2 focus:ring-primary">
+                    <select className="w-full border-2 border-ink-950 bg-white px-4 py-3 text-ink-950 focus:outline-none focus:ring-2 focus:ring-[#FF006E]">
                       <option value="">Select team size</option>
                       <option value="1-10">1-10 people</option>
                       <option value="11-50">11-50 people</option>
@@ -163,7 +163,7 @@ export default function DemoPage() {
                     <Label size="xs" className="text-ink-950">
                       WHICH VERTICAL ARE YOU MOST INTERESTED IN?
                     </Label>
-                    <select className="w-full border-2 border-ink-950 bg-white px-4 py-3 text-ink-950 focus:outline-none focus:ring-2 focus:ring-primary">
+                    <select className="w-full border-2 border-ink-950 bg-white px-4 py-3 text-ink-950 focus:outline-none focus:ring-2 focus:ring-[#FF006E]">
                       <option value="">Select a vertical</option>
                       <option value="productions">Productions</option>
                       <option value="activations">Activations</option>
@@ -178,7 +178,7 @@ export default function DemoPage() {
 
                   <Body size="xs" className="text-center text-grey-500">
                     By submitting this form, you agree to our{" "}
-                    <NextLink href="/legal/privacy" className="text-primary underline">
+                    <NextLink href="/legal/privacy" className="text-[#FF006E] underline">
                       Privacy Policy
                     </NextLink>
                   </Body>

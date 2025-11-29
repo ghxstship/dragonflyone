@@ -4,7 +4,7 @@ import {
   Grid,
   Card,
   Body,
-  H2,
+  H1,
   H3,
   Label,
   Link,
@@ -15,7 +15,6 @@ import {
   Article,
   Box,
   Text,
-  SectionHeader,
   FullBleedSection,
   Button,
 } from "@ghxstship/ui";
@@ -125,7 +124,10 @@ export default function Home() {
       {/* SECTION 2: FOUR VERTICALS - Features */}
       <FullBleedSection id="features" background="white" className="py-24">
         <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
-          <SectionHeader title="BUILT FOR YOUR INDUSTRY" description="Four verticals. One platform. Infinite possibilities." align="center" />
+          <Stack gap={4} className="text-center">
+            <H1 className="text-ink-950">BUILT FOR YOUR INDUSTRY</H1>
+            <Body className="text-grey-600">Four verticals. One platform. Infinite possibilities.</Body>
+          </Stack>
           <Grid cols={4} gap={6} className="mt-12 md:grid-cols-2 lg:grid-cols-4">
             {atlvsVerticals.map((vertical) => (
               <Article key={vertical.id} className="group border-2 border-ink-950 bg-white p-6 shadow-[4px_4px_0_rgba(0,0,0,0.1)] transition-all duration-150 hover:-translate-y-2 hover:shadow-[8px_8px_0_#FF006E]">
@@ -154,9 +156,9 @@ export default function Home() {
       {/* SECTION 3: THE PROBLEM */}
       <FullBleedSection background="ink" className="py-24">
         <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
-          <H2 className="text-center font-display text-display-sm uppercase tracking-tight text-white md:text-display-md">
+          <H1 className="text-center text-white">
             {atlvsProblemSection.headline}
-          </H2>
+          </H1>
           <Grid cols={3} gap={6} className="mt-12 md:grid-cols-3">
             {atlvsProblemSection.problems.map((problem) => (
               <Article key={problem.title} className="border-2 border-grey-700 bg-ink-900 p-6">
@@ -179,7 +181,7 @@ export default function Home() {
       {/* SECTION 4: THREE PILLARS - Solutions */}
       <FullBleedSection id="solutions" background="white" className="py-24">
         <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
-          <SectionHeader title="ONE PLATFORM. THREE PILLARS." align="center" />
+          <H1 className="text-center text-ink-950">ONE PLATFORM. THREE PILLARS.</H1>
           <Stack gap={16} className="mt-12">
             {atlvsPillarsSolution.map((pillar, index) => (
               <Article key={pillar.id} className={`grid gap-8 lg:grid-cols-2 ${index % 2 === 1 ? "lg:flex-row-reverse" : ""}`}>
@@ -210,7 +212,7 @@ export default function Home() {
       {/* SECTION 5: FEATURE GRID */}
       <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
         <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
-          <SectionHeader title="EVERYTHING YOU NEED TO SHIP THE SHOW" align="center" />
+          <H1 className="text-center text-ink-950">EVERYTHING YOU NEED TO SHIP THE SHOW</H1>
           <Grid cols={3} gap={6} className="mt-12 md:grid-cols-2 lg:grid-cols-3">
             {atlvsFeatureGrid.map((feature) => (
               <Article key={feature.title} className="border-2 border-grey-200 bg-white p-6 transition-all duration-150 hover:border-ink-950 hover:shadow-[4px_4px_0_rgba(0,0,0,0.1)]">
@@ -271,7 +273,7 @@ export default function Home() {
       {/* SECTION 7: SOCIAL PROOF - About */}
       <FullBleedSection id="about" background="white" className="py-24">
         <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
-          <H2 className="text-center font-display text-h2-md uppercase tracking-wide text-ink-950">{atlvsSocialProof.headline}</H2>
+          <H1 className="text-center text-ink-950">{atlvsSocialProof.headline}</H1>
           <Article className="border-2 mx-auto mt-12 max-w-4xl border-ink-950 bg-white p-8 shadow-[6px_6px_0_#FF006E] lg:p-12">
             <Body className="text-center text-body-lg text-grey-700 italic">&ldquo;{atlvsSocialProof.testimonial.quote}&rdquo;</Body>
             <Text className="mt-6 block text-center font-mono text-mono-sm uppercase tracking-widest text-grey-500">
@@ -293,7 +295,7 @@ export default function Home() {
       <FullBleedSection id="pricing" background="white" pattern="grid" patternOpacity={0.03} className="py-24">
         <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
           <Stack gap={4} className="mb-16 text-center">
-            <H2 className="text-ink-950">{atlvsPricing.headline}</H2>
+            <H1 className="text-ink-950">{atlvsPricing.headline}</H1>
             <Body className="text-grey-600">{atlvsPricing.subheadline}</Body>
           </Stack>
 
@@ -303,12 +305,12 @@ export default function Home() {
                 key={tier.id}
                 className={`relative flex h-full flex-col border-2 p-8 ${
                   tier.popular
-                    ? "border-primary shadow-primary"
+                    ? "border-[#FF006E] shadow-[4px_4px_0_#FF006E]"
                     : "border-ink-950 shadow-md"
                 } bg-white`}
               >
                 {tier.popular && (
-                  <Label size="xs" className="absolute -top-3 left-1/2 -translate-x-1/2 border-2 border-ink-950 bg-primary px-4 py-1 text-white">
+                  <Label size="xs" className="absolute -top-3 left-1/2 -translate-x-1/2 border-2 border-[#FF006E] bg-[#FF006E] px-4 py-1 text-white">
                     MOST POPULAR
                   </Label>
                 )}
@@ -328,7 +330,7 @@ export default function Home() {
                   <Stack gap={3} className="flex-1 border-t border-grey-200 py-4">
                     {tier.features.map((feature) => (
                       <Stack key={feature} direction="horizontal" gap={3} className="items-start">
-                        <Check className="mt-0.5 size-4 shrink-0 text-primary" />
+                        <Check className="mt-0.5 size-4 shrink-0 text-[#FF006E]" />
                         <Label size="xs" className="text-grey-700">{feature}</Label>
                       </Stack>
                     ))}
@@ -336,13 +338,17 @@ export default function Home() {
                 </Stack>
 
                 <NextLink href={tier.cta.href} className="mt-6 w-full">
-                  <Button
-                    variant={tier.popular ? "pop" : "outlineInk"}
-                    size="md"
-                    fullWidth
-                  >
-                    {tier.cta.label}
-                  </Button>
+                  {tier.popular ? (
+                    <button
+                      className="inline-flex w-full items-center justify-center gap-2 border-4 border-current bg-white px-6 py-3 font-heading text-sm font-bold uppercase tracking-wider text-black shadow-[4px_4px_0_#FF006E] transition-all duration-100 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_#FF006E] active:translate-x-0.5 active:translate-y-0.5 active:shadow-[2px_2px_0_#FF006E]"
+                    >
+                      {tier.cta.label}
+                    </button>
+                  ) : (
+                    <Button variant="outline" size="md" fullWidth>
+                      {tier.cta.label}
+                    </Button>
+                  )}
                 </NextLink>
               </Card>
             ))}
@@ -363,9 +369,11 @@ export default function Home() {
             <Link href={atlvsLandingCta.primaryCta.href} className="border-2 border-[#FF006E] bg-[#FF006E] px-8 py-4 font-display text-body-md uppercase tracking-wide text-white shadow-[4px_4px_0_rgba(255,0,110,0.4)] transition-all duration-150 hover:-translate-y-1 hover:shadow-[6px_6px_0_rgba(255,0,110,0.5)]">
               {atlvsLandingCta.primaryCta.label}
             </Link>
-            <Link href={atlvsLandingCta.secondaryCta.href} className="border-2 border-white bg-transparent px-8 py-4 font-display text-body-md uppercase tracking-wide text-white transition-all duration-150 hover:-translate-y-1 hover:bg-white hover:text-ink-950">
-              {atlvsLandingCta.secondaryCta.label}
-            </Link>
+            <NextLink href={atlvsLandingCta.secondaryCta.href}>
+              <Button variant="outline" size="lg" inverted>
+                {atlvsLandingCta.secondaryCta.label}
+              </Button>
+            </NextLink>
           </Stack>
           <Text className="mt-8 font-mono text-mono-xs uppercase tracking-widest text-grey-500">{atlvsLandingCta.footnote}</Text>
         </Container>

@@ -4,7 +4,7 @@ import {
   Grid,
   Card,
   Body,
-  H2,
+  H1,
   H3,
   Label,
   Container,
@@ -107,7 +107,7 @@ export default function DestinationsPage() {
         <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
           <Stack gap={8} className="max-w-3xl">
             <Stack direction="horizontal" gap={3} className="items-center">
-              <MapPin className="size-6 text-primary" />
+              <MapPin className="size-6 text-[#FF006E]" />
               <Label size="xs" className="text-on-dark-muted">
                 {destinationsData.hero.kicker}
               </Label>
@@ -156,7 +156,7 @@ export default function DestinationsPage() {
       <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
         <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
           <Stack gap={4} className="mb-16 text-center">
-            <H2 className="text-ink-950">PURPOSE-BUILT FOR DESTINATIONS</H2>
+            <H1 className="text-ink-950">PURPOSE-BUILT FOR DESTINATIONS</H1>
             <Body className="mx-auto max-w-2xl text-grey-600">
               Every feature designed by hospitality professionals, for hospitality professionals.
             </Body>
@@ -189,7 +189,7 @@ export default function DestinationsPage() {
       <FullBleedSection background="ink" className="py-24">
         <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
           <Stack gap={4} className="mb-16 text-center">
-            <H2 className="text-white">BUILT FOR EVERY DESTINATION TYPE</H2>
+            <H1 className="text-white">BUILT FOR EVERY DESTINATION TYPE</H1>
           </Stack>
 
           <Grid cols={4} gap={6}>
@@ -205,7 +205,7 @@ export default function DestinationsPage() {
                   <Stack gap={2}>
                     {useCase.examples.map((example) => (
                       <Stack key={example} direction="horizontal" gap={2} className="items-center">
-                        <Check className="size-3 text-primary" />
+                        <Check className="size-3 text-[#FF006E]" />
                         <Label size="xs" className="text-on-dark-secondary">
                           {example}
                         </Label>
@@ -222,7 +222,7 @@ export default function DestinationsPage() {
       {/* Testimonial */}
       <FullBleedSection background="white" className="py-24">
         <Container className="mx-auto max-w-container-4xl px-6 lg:px-8">
-          <Card className="border-2 border-ink-950 bg-white p-12 shadow-primary">
+          <Card className="border-2 border-ink-950 bg-white p-12 shadow-[6px_6px_0_#FF006E]">
             <Stack gap={6} className="text-center">
               <Body size="lg" className="text-grey-700 italic">
                 &ldquo;{destinationsData.testimonial.quote}&rdquo;

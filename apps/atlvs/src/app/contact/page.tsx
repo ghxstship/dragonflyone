@@ -4,7 +4,7 @@ import {
   Grid,
   Card,
   Body,
-  H2,
+  H1,
   H3,
   Label,
   Container,
@@ -83,7 +83,7 @@ export default function ContactPage() {
                   <Body size="sm" className="text-grey-600">
                     {option.description}
                   </Body>
-                  <Label size="sm" className="text-primary">
+                  <Label size="sm" className="text-[#FF006E]">
                     {option.cta}
                   </Label>
                 </Stack>
@@ -99,7 +99,7 @@ export default function ContactPage() {
           <Card className="border-2 border-ink-950 bg-white p-8 shadow-lg lg:p-12">
             <Stack gap={8}>
               <Stack gap={4} className="text-center">
-                <H2 className="text-ink-950">SEND US A MESSAGE</H2>
+                <H1 className="text-ink-950">SEND US A MESSAGE</H1>
                 <Body className="text-grey-600">
                   Fill out the form below and we&apos;ll get back to you within 24 hours.
                 </Body>
@@ -143,7 +143,7 @@ export default function ContactPage() {
                     <textarea
                       placeholder="Tell us about your production needs..."
                       rows={5}
-                      className="w-full border-2 border-ink-950 bg-white px-4 py-3 text-ink-950 placeholder:text-grey-400 focus:outline-none focus:ring-2 focus:ring-primary"
+                      className="w-full border-2 border-ink-950 bg-white px-4 py-3 text-ink-950 placeholder:text-grey-400 focus:outline-none focus:ring-2 focus:ring-[#FF006E]"
                     />
                   </Stack>
 

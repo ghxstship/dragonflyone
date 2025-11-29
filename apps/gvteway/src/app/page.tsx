@@ -6,7 +6,7 @@ import {
   Grid,
   Card,
   Display,
-  H2,
+  H1,
   H3,
   Body,
   Label,
@@ -22,7 +22,6 @@ import {
   Globe,
   Users,
   Compass,
-  Sparkles,
   ArrowRight,
   Check,
   Quote,
@@ -92,25 +91,6 @@ const membershipTiers = [
   },
 ];
 
-// Problem statements
-const problems = [
-  {
-    icon: Lock,
-    title: "FIGHTING FOR ACCESS",
-    description: "Refreshing pages. Lottery systems. Sold out instantly.",
-  },
-  {
-    icon: DollarSign,
-    title: "OVERPRICED RESELLERS",
-    description: "Paying 3x face value for experiences you deserve.",
-  },
-  {
-    icon: Sparkles,
-    title: "FORGETTABLE EXPERIENCES",
-    description: "Standing in the back, seeing nothing, remembering less.",
-  },
-];
-
 // Membership benefits
 const membershipBenefits = [
   {
@@ -164,9 +144,6 @@ const testimonials = [
   },
 ];
 
-// Partner logos (placeholder names)
-const partners = ["INSOMNIAC", "F1", "HEINEKEN", "RED BULL", "PATRÓN"];
-
 // =============================================================================
 // COMPONENT
 // =============================================================================
@@ -194,12 +171,12 @@ export default function MembershipLandingPage() {
           <ScrollReveal animation="slide-up" duration={800}>
             <Stack gap={8} className="max-w-4xl">
               {/* Main Headline - ANTON display font, stacked */}
-              <H2 size="lg" className="text-white leading-[0.9]">
+              <H1 size="lg" className="text-white leading-[0.9]">
                 EXPERIENCE
-              </H2>
-              <H2 size="lg" className="text-white leading-[0.9] -mt-4">
+              </H1>
+              <H1 size="lg" className="text-white leading-[0.9] -mt-4">
                 BEYOND EVENTS
-              </H2>
+              </H1>
               
               {/* Subhead */}
               <Body size="lg" className="mx-auto max-w-2xl text-on-dark-secondary mt-4">
@@ -233,49 +210,16 @@ export default function MembershipLandingPage() {
       </Stack>
 
       {/* ═══════════════════════════════════════════════════════════════════════════
-          SECTION 2: THE PROBLEM - Empathy Hook
-          ═══════════════════════════════════════════════════════════════════════════ */}
-      <Stack className="py-24 border-t border-ink-900">
-          <ScrollReveal animation="fade">
-            <H2 size="lg" className="text-white text-center mb-16 tracking-wide">
-              THE OLD WAY IS BROKEN
-            </H2>
-          </ScrollReveal>
-          
-          <StaggerChildren staggerDelay={150} animation="slide-up">
-            <Grid cols={3} gap={8} className="max-w-5xl mx-auto">
-              {problems.map((problem) => (
-                <Card
-                  key={problem.title}
-                  inverted
-                  className="p-8 border-2 border-ink-800 bg-ink-950 text-center"
-                >
-                  <Stack gap={6} className="items-center">
-                    <div className="flex size-16 items-center justify-center border-2 border-ink-700 bg-ink-900">
-                      <problem.icon className="size-8 text-on-dark-secondary" />
-                    </div>
-                    <H3 className="text-white tracking-wide">{problem.title}</H3>
-                    <Body size="sm" className="text-on-dark-muted">
-                      {problem.description}
-                    </Body>
-                  </Stack>
-                </Card>
-              ))}
-            </Grid>
-          </StaggerChildren>
-      </Stack>
-
-      {/* ═══════════════════════════════════════════════════════════════════════════
-          SECTION 3: MEMBERSHIP TIERS - Value Visualization
+          SECTION 2: MEMBERSHIP TIERS - Value Visualization
           ═══════════════════════════════════════════════════════════════════════════ */}
       <Stack className="py-24 border-t border-ink-900">
           <ScrollReveal animation="fade">
             <Stack gap={4} className="text-center mb-16">
-              <H2 size="lg" className="text-white tracking-wide">
-                CHOOSE YOUR VOYAGE
-              </H2>
+              <H1 size="md" className="text-white tracking-wide">
+                YOUR EXPEDITION AWAITS
+              </H1>
               <Body className="text-on-dark-muted max-w-xl mx-auto">
-                Every level unlocks extraordinary. Higher tiers unlock more.
+                Choose the membership that matches your appetite for adventure.
               </Body>
             </Stack>
           </ScrollReveal>
@@ -342,86 +286,136 @@ export default function MembershipLandingPage() {
       </Stack>
 
       {/* ═══════════════════════════════════════════════════════════════════════════
-          SECTION 4: EXPERIENCE CATEGORIES - Lifestyle Pillars
+          SECTION 3: EXPERIENCE CATEGORIES - Lifestyle Pillars
           ═══════════════════════════════════════════════════════════════════════════ */}
       <Stack className="py-24 border-t border-ink-900">
           <ScrollReveal animation="fade">
-            <H2 size="lg" className="text-white text-center mb-16 tracking-wide">
-              WHAT MEMBERS UNLOCK
-            </H2>
+            <H1 size="md" className="text-white text-center mb-16 tracking-wide">
+              DESTINATIONS THAT DEFINE YOU
+            </H1>
           </ScrollReveal>
 
           <StaggerChildren staggerDelay={50} animation="slide-up">
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 auto-rows-[140px]">
               {/* Row 1 */}
-              <Card inverted className="col-span-2 row-span-2 flex flex-col justify-end p-5 border-2 border-ink-800 bg-ink-950">
-                <Stack gap={1}>
+              <Card inverted className="group col-span-2 row-span-2 relative flex flex-col justify-end p-5 border-2 border-ink-800 overflow-hidden">
+                <div 
+                  className="absolute inset-0 bg-cover bg-center transition-all duration-slow brightness-[0.3] saturate-[0.3] group-hover:brightness-[0.5] group-hover:saturate-100"
+                  style={{ backgroundImage: "url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80')" }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                <Stack gap={1} className="relative z-10">
                   <Search className="size-5 text-accent" />
                   <Label size="xs" className="text-white tracking-wider">DISCOVERY</Label>
                 </Stack>
               </Card>
               
-              <Card inverted className="flex flex-col justify-end p-5 border-2 border-ink-800 bg-ink-950">
-                <Stack gap={1}>
+              <Card inverted className="group relative flex flex-col justify-end p-5 border-2 border-ink-800 overflow-hidden">
+                <div 
+                  className="absolute inset-0 bg-cover bg-center transition-all duration-slow brightness-[0.3] saturate-[0.3] group-hover:brightness-[0.5] group-hover:saturate-100"
+                  style={{ backgroundImage: "url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&q=80')" }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                <Stack gap={1} className="relative z-10">
                   <Users className="size-5 text-accent" />
                   <Label size="xs" className="text-white tracking-wider">COMMUNITY</Label>
                 </Stack>
               </Card>
               
-              <Card inverted className="col-span-2 flex flex-col justify-end p-5 border-2 border-ink-800 bg-ink-950">
-                <Stack gap={1}>
+              <Card inverted className="group col-span-2 relative flex flex-col justify-end p-5 border-2 border-ink-800 overflow-hidden">
+                <div 
+                  className="absolute inset-0 bg-cover bg-center transition-all duration-slow brightness-[0.3] saturate-[0.3] group-hover:brightness-[0.5] group-hover:saturate-100"
+                  style={{ backgroundImage: "url('https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=800&q=80')" }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                <Stack gap={1} className="relative z-10">
                   <Zap className="size-5 text-accent" />
                   <Label size="xs" className="text-white tracking-wider">EXPERIENCES</Label>
                 </Stack>
               </Card>
 
               {/* Row 2 */}
-              <Card inverted className="flex flex-col justify-end p-5 border-2 border-ink-800 bg-ink-950">
-                <Stack gap={1}>
+              <Card inverted className="group relative flex flex-col justify-end p-5 border-2 border-ink-800 overflow-hidden">
+                <div 
+                  className="absolute inset-0 bg-cover bg-center transition-all duration-slow brightness-[0.3] saturate-[0.3] group-hover:brightness-[0.5] group-hover:saturate-100"
+                  style={{ backgroundImage: "url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&q=80')" }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                <Stack gap={1} className="relative z-10">
                   <Compass className="size-5 text-accent" />
                   <Label size="xs" className="text-white tracking-wider">ADVENTURES</Label>
                 </Stack>
               </Card>
               
-              <Card inverted className="col-span-2 flex flex-col justify-end p-5 border-2 border-ink-800 bg-ink-950">
-                <Stack gap={1}>
+              <Card inverted className="group col-span-2 relative flex flex-col justify-end p-5 border-2 border-ink-800 overflow-hidden">
+                <div 
+                  className="absolute inset-0 bg-cover bg-center transition-all duration-slow brightness-[0.3] saturate-[0.3] group-hover:brightness-[0.5] group-hover:saturate-100"
+                  style={{ backgroundImage: "url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&q=80')" }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                <Stack gap={1} className="relative z-10">
                   <Palette className="size-5 text-accent" />
                   <Label size="xs" className="text-white tracking-wider">CULTURE</Label>
                 </Stack>
               </Card>
 
               {/* Row 3 */}
-              <Card inverted className="row-span-2 flex flex-col justify-end p-5 border-2 border-ink-800 bg-ink-950">
-                <Stack gap={1}>
+              <Card inverted className="group row-span-2 relative flex flex-col justify-end p-5 border-2 border-ink-800 overflow-hidden">
+                <div 
+                  className="absolute inset-0 bg-cover bg-center transition-all duration-slow brightness-[0.3] saturate-[0.3] group-hover:brightness-[0.5] group-hover:saturate-100"
+                  style={{ backgroundImage: "url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600&q=80')" }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                <Stack gap={1} className="relative z-10">
                   <Target className="size-5 text-accent" />
                   <Label size="xs" className="text-white tracking-wider">DISCIPLINE</Label>
                 </Stack>
               </Card>
               
-              <Card inverted className="col-span-2 row-span-2 flex flex-col justify-end p-5 border-2 border-ink-800 bg-ink-950">
-                <Stack gap={1}>
+              <Card inverted className="group col-span-2 row-span-2 relative flex flex-col justify-end p-5 border-2 border-ink-800 overflow-hidden">
+                <div 
+                  className="absolute inset-0 bg-cover bg-center transition-all duration-slow brightness-[0.3] saturate-[0.3] group-hover:brightness-[0.5] group-hover:saturate-100"
+                  style={{ backgroundImage: "url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80')" }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                <Stack gap={1} className="relative z-10">
                   <Handshake className="size-5 text-accent" />
                   <Label size="xs" className="text-white tracking-wider">COLLABORATION</Label>
                 </Stack>
               </Card>
               
-              <Card inverted className="flex flex-col justify-end p-5 border-2 border-ink-800 bg-ink-950">
-                <Stack gap={1}>
+              <Card inverted className="group relative flex flex-col justify-end p-5 border-2 border-ink-800 overflow-hidden">
+                <div 
+                  className="absolute inset-0 bg-cover bg-center transition-all duration-slow brightness-[0.3] saturate-[0.3] group-hover:brightness-[0.5] group-hover:saturate-100"
+                  style={{ backgroundImage: "url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80')" }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                <Stack gap={1} className="relative z-10">
                   <Lightbulb className="size-5 text-accent" />
                   <Label size="xs" className="text-white tracking-wider">INSPIRATION</Label>
                 </Stack>
               </Card>
               
-              <Card inverted className="flex flex-col justify-end p-5 border-2 border-ink-800 bg-ink-950">
-                <Stack gap={1}>
+              <Card inverted className="group relative flex flex-col justify-end p-5 border-2 border-ink-800 overflow-hidden">
+                <div 
+                  className="absolute inset-0 bg-cover bg-center transition-all duration-slow brightness-[0.3] saturate-[0.3] group-hover:brightness-[0.5] group-hover:saturate-100"
+                  style={{ backgroundImage: "url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&q=80')" }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                <Stack gap={1} className="relative z-10">
                   <TrendingUp className="size-5 text-accent" />
                   <Label size="xs" className="text-white tracking-wider">INVESTMENT</Label>
                 </Stack>
               </Card>
 
               {/* Row 4 */}
-              <Card inverted className="col-span-2 flex flex-col justify-end p-5 border-2 border-ink-800 bg-ink-950">
-                <Stack gap={1}>
+              <Card inverted className="group col-span-2 relative flex flex-col justify-end p-5 border-2 border-ink-800 overflow-hidden">
+                <div 
+                  className="absolute inset-0 bg-cover bg-center transition-all duration-slow brightness-[0.3] saturate-[0.3] group-hover:brightness-[0.5] group-hover:saturate-100"
+                  style={{ backgroundImage: "url('https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=800&q=80')" }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                <Stack gap={1} className="relative z-10">
                   <Heart className="size-5 text-accent" />
                   <Label size="xs" className="text-white tracking-wider">IMPACT</Label>
                 </Stack>
@@ -431,13 +425,13 @@ export default function MembershipLandingPage() {
       </Stack>
 
       {/* ═══════════════════════════════════════════════════════════════════════════
-          SECTION 5: THE GVTEWAY DIFFERENCE - Features Grid
+          SECTION 4: THE GVTEWAY DIFFERENCE - Features Grid
           ═══════════════════════════════════════════════════════════════════════════ */}
       <Stack className="py-24 border-t border-ink-900">
           <ScrollReveal animation="fade">
-            <H2 size="lg" className="text-white text-center mb-16 tracking-wide">
-              MEMBERSHIP MEANS MORE
-            </H2>
+            <H1 size="md" className="text-white text-center mb-16 tracking-wide">
+              THE EXPEDITION ADVANTAGE
+            </H1>
           </ScrollReveal>
 
           <StaggerChildren staggerDelay={100} animation="slide-up">
@@ -464,17 +458,17 @@ export default function MembershipLandingPage() {
       </Stack>
 
       {/* ═══════════════════════════════════════════════════════════════════════════
-          SECTION 6: SOCIAL PROOF - Testimonials + Credibility
+          SECTION 5: SOCIAL PROOF - Testimonials
           ═══════════════════════════════════════════════════════════════════════════ */}
       <Stack className="py-24 border-t border-ink-900">
           <ScrollReveal animation="fade">
-            <H2 size="lg" className="text-white text-center mb-16 tracking-wide">
-              WHAT MEMBERS SAY
-            </H2>
+            <H1 size="md" className="text-white text-center mb-16 tracking-wide">
+              STORIES FROM THE FIELD
+            </H1>
           </ScrollReveal>
 
           <StaggerChildren staggerDelay={150} animation="slide-up">
-            <Grid cols={3} gap={6} className="max-w-5xl mx-auto mb-16">
+            <Grid cols={3} gap={6} className="max-w-5xl mx-auto">
               {testimonials.map((testimonial, index) => (
                 <Card
                   key={index}
@@ -495,23 +489,10 @@ export default function MembershipLandingPage() {
               ))}
             </Grid>
           </StaggerChildren>
-
-          <ScrollReveal animation="fade" delay={300}>
-            <Stack gap={6} className="items-center">
-              <Label size="xs" className="text-on-dark-disabled tracking-wider">TRUSTED BY PARTNERS</Label>
-              <Stack direction="horizontal" gap={8} className="flex-wrap justify-center">
-                {partners.map((partner) => (
-                  <Label key={partner} size="sm" className="text-ink-700 font-bold tracking-wider">
-                    {partner}
-                  </Label>
-                ))}
-              </Stack>
-            </Stack>
-          </ScrollReveal>
       </Stack>
 
       {/* ═══════════════════════════════════════════════════════════════════════════
-          SECTION 7: APPLICATION CTA - Final Conversion
+          SECTION 6: APPLICATION CTA - Final Conversion
           ═══════════════════════════════════════════════════════════════════════════ */}
       <Stack className="py-32 border-t border-ink-900 relative overflow-hidden">
         {/* Subtle texture */}
@@ -525,9 +506,9 @@ export default function MembershipLandingPage() {
 
           <ScrollReveal animation="scale" duration={600}>
             <Stack gap={8} className="items-center text-center max-w-2xl mx-auto">
-              <H2 size="lg" className="text-white">
-                READY TO JOIN?
-              </H2>
+              <H1 size="md" className="text-white">
+                BEGIN YOUR JOURNEY
+              </H1>
               
               <Body size="lg" className="text-on-dark-secondary">
                 Membership is by application only. Approval takes 24-48 hours.

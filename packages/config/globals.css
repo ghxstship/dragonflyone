@@ -133,26 +133,27 @@
   --spacing-page: 96px;
 
   /* ═══════════════════════════════════════════════════════════════════════════
-     BORDER RADIUS SYSTEM (REBUILT - Sharp to rounded scale)
+     BORDER RADIUS SYSTEM - SHARP EDGES (Pop Art Aesthetic)
+     All radii set to 0 for bold, geometric, comic-panel look
      ═══════════════════════════════════════════════════════════════════════════ */
   --radius-none: 0px;
-  --radius-sm: 2px;        /* Subtle rounding */
-  --radius-DEFAULT: 4px;   /* Default interactive */
-  --radius-md: 6px;        /* Medium elements */
-  --radius-lg: 8px;        /* Cards, panels */
-  --radius-xl: 12px;       /* Large cards */
-  --radius-2xl: 16px;      /* Modals, feature cards */
-  --radius-3xl: 24px;      /* Hero elements */
-  --radius-full: 9999px;   /* Pills, avatars */
+  --radius-sm: 0px;
+  --radius-DEFAULT: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+  --radius-3xl: 0px;
+  --radius-full: 9999px;   /* Keep for avatars only */
   
-  /* Component-specific radius */
-  --radius-button: 4px;    /* Sharp, bold action */
-  --radius-input: 4px;     /* Matches buttons */
-  --radius-card: 8px;      /* Panel aesthetic */
-  --radius-modal: 16px;    /* Contained, prominent */
-  --radius-badge: 2px;     /* Label-like, sharp */
-  --radius-avatar: 9999px; /* Always circular */
-  --radius-tooltip: 4px;   /* Speech bubble */
+  /* Component-specific radius - ALL SHARP */
+  --radius-button: 0px;
+  --radius-input: 0px;
+  --radius-card: 0px;
+  --radius-modal: 0px;
+  --radius-badge: 0px;
+  --radius-avatar: 9999px; /* Avatars stay circular */
+  --radius-tooltip: 0px;
 
   /* ═══════════════════════════════════════════════════════════════════════════
      SHADOW SYSTEM (REBUILT - Hard Offset Comic Panel Style)

@@ -4,7 +4,7 @@ import {
   Grid,
   Card,
   Body,
-  H2,
+  H1,
   H3,
   Label,
   Container,
@@ -91,9 +91,9 @@ export default function AboutPage() {
       {/* Mission */}
       <FullBleedSection background="white" className="py-24">
         <Container className="mx-auto max-w-container-4xl px-6 lg:px-8">
-          <Card className="border-2 border-ink-950 bg-white p-12 shadow-primary">
+          <Card className="border-2 border-ink-950 bg-white p-12 shadow-[6px_6px_0_#FF006E]">
             <Stack gap={6} className="text-center">
-              <H2 className="text-ink-950">{aboutData.mission.title}</H2>
+              <H1 className="text-ink-950">{aboutData.mission.title}</H1>
               <Body size="lg" className="text-grey-700">
                 {aboutData.mission.description}
               </Body>
@@ -124,7 +124,7 @@ export default function AboutPage() {
       <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
         <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
           <Stack gap={4} className="mb-16 text-center">
-            <H2 className="text-ink-950">OUR VALUES</H2>
+            <H1 className="text-ink-950">OUR VALUES</H1>
           </Stack>
 
           <Grid cols={4} gap={6}>
@@ -151,7 +151,7 @@ export default function AboutPage() {
       <FullBleedSection background="ink" className="py-24">
         <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
           <Stack gap={4} className="mb-16 text-center">
-            <H2 className="text-white">{aboutData.team.title}</H2>
+            <H1 className="text-white">{aboutData.team.title}</H1>
           </Stack>
 
           <Grid cols={4} gap={6}>
@@ -165,7 +165,7 @@ export default function AboutPage() {
                     <H3 size="sm" className="text-white">
                       {member.name}
                     </H3>
-                    <Label size="xs" className="text-primary">
+                    <Label size="xs" className="text-[#FF006E]">
                       {member.role}
                     </Label>
                   </Stack>
