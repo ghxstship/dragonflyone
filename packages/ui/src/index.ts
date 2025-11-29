@@ -223,6 +223,8 @@ export { DetailPage } from "./templates/detail-page.js";
 export type { DetailPageProps, DetailPageTab } from "./templates/detail-page.js";
 export { AuthPage } from "./templates/auth-page.js";
 export type { AuthPageProps } from "./templates/auth-page.js";
+export { SignInForm } from "./templates/sign-in-form.js";
+export type { SignInFormProps } from "./templates/sign-in-form.js";
 
 // =============================================================================
 // FOUNDATIONS - Layout primitives
