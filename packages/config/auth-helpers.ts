@@ -1,4 +1,5 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { createBrowserClient as createSSRBrowserClient } from '@supabase/ssr';
 import type { Database } from './supabase-types';
 
 export type TypedSupabaseClient = SupabaseClient<Database>;
@@ -41,18 +42,15 @@ export interface SessionContext {
 
 /**
  * Create a typed Supabase client for browser usage
+ * Uses @supabase/ssr to properly handle cookies for middleware compatibility
  */
 export function createBrowserClient(
   supabaseUrl: string,
   supabaseAnonKey: string
 ): TypedSupabaseClient {
-  return createClient<Database>(supabaseUrl, supabaseAnonKey, {
-    auth: {
-      autoRefreshToken: true,
-      persistSession: true,
-      detectSessionInUrl: true,
-    },
-  });
+  // Use SSR browser client for cookie-based session management
+  // Type assertion needed due to @supabase/ssr generic signature difference
+  return createSSRBrowserClient<Database>(supabaseUrl, supabaseAnonKey) as unknown as TypedSupabaseClient;
 }
 
 /**
