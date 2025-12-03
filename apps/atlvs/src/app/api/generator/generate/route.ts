@@ -1,14 +1,82 @@
 import { NextRequest, NextResponse } from "next/server";
+import OpenAI from "openai";
 import type { GeneratedBlueprint } from "../../../generator/types";
 
 export const runtime = "edge";
+export const maxDuration = 60; // Allow up to 60 seconds for AI generation
 
 // =============================================================================
 // EXPERIENCE GENERATOR API
-// Generates a complete experience blueprint from a creative seed
+// Generates a complete experience blueprint from a creative seed using AI
 // =============================================================================
 
-// Mock data generator for MVP - will be replaced with actual AI call
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
+const SYSTEM_PROMPT = `You are the GHXSTSHIP Experience Generator, an expert in immersive experience design, live entertainment production, and transformative event creation.
+
+Given a single creative seed word, generate a complete production blueprint following the Universal Immersive Experience Generator v4.0 framework.
+
+Your output MUST be valid JSON matching this exact structure:
+{
+  "concept": {
+    "name": "string - evocative experience name based on the seed",
+    "tagline": "string - 8-12 words capturing the essence",
+    "narrative": "string - 2-3 paragraphs describing the experience",
+    "targetTransformation": "string - what guests become through the experience",
+    "visualIdentity": {
+      "colorPalette": ["#hex1", "#hex2", "#hex3", "#hex4", "#hex5"],
+      "typography": "string - typography description",
+      "moodKeywords": ["keyword1", "keyword2", "keyword3", "keyword4", "keyword5"]
+    }
+  },
+  "sensoryDesign": {
+    "sight": { "primary": "string", "secondary": ["string", "string", "string"], "technicalRequirements": ["string", "string"], "accessibility": "string" },
+    "sound": { "primary": "string", "secondary": ["string", "string", "string"], "technicalRequirements": ["string", "string"], "accessibility": "string" },
+    "touch": { "primary": "string", "secondary": ["string", "string", "string"], "technicalRequirements": ["string", "string"], "accessibility": "string" },
+    "taste": { "primary": "string", "secondary": ["string", "string", "string"], "technicalRequirements": ["string", "string"], "accessibility": "string" },
+    "smell": { "primary": "string", "secondary": ["string", "string", "string"], "technicalRequirements": ["string", "string"], "accessibility": "string" }
+  },
+  "spatialTemporal": {
+    "x": { "level": 1-5, "description": "string", "rationale": "string" },
+    "y": { "level": 1-5, "description": "string", "rationale": "string" },
+    "z": { "level": 1-5, "description": "string", "rationale": "string" },
+    "zones": [
+      { "name": "string", "code": "string", "type": "public|vip|backstage|production|operations|restricted", "description": "string", "capacity": number, "accessLevel": 1-10 }
+    ]
+  },
+  "guestJourney": {
+    "phase1_digital_pre": { "name": "Digital Pre-Event", "touchpoints": ["string"], "emotionalState": "string", "actions": ["string"], "technology": ["string"] },
+    "phase2_threshold_in": { "name": "Hybrid Threshold In", "touchpoints": ["string"], "emotionalState": "string", "actions": ["string"], "technology": ["string"] },
+    "phase3_physical": { "name": "Physical Event", "touchpoints": ["string"], "emotionalState": "string", "actions": ["string"], "technology": ["string"] },
+    "phase4_threshold_out": { "name": "Hybrid Threshold Out", "touchpoints": ["string"], "emotionalState": "string", "actions": ["string"], "technology": ["string"] },
+    "phase5_digital_post": { "name": "Digital Post-Event", "touchpoints": ["string"], "emotionalState": "string", "actions": ["string"], "technology": ["string"] }
+  },
+  "documents": {
+    "onePageOverview": "string - executive summary paragraph",
+    "orgChartPreview": [{ "title": "string", "tier": 1-4, "department": "string" }],
+    "schedulePhases": [{ "name": "string", "code": "string", "duration": "string", "description": "string" }],
+    "credentialTypes": [{ "name": "string", "code": "string", "accessLevel": 1-10, "color": "#hex" }],
+    "complianceChecklist": [{ "category": "string", "item": "string", "required": boolean }]
+  },
+  "executionTiers": {
+    "tier1_minimal": { "name": "Minimum Viable", "budget": "$XXX,XXX", "description": "string", "includes": ["string"], "excludes": ["string"] },
+    "tier2_enhanced": { "name": "Enhanced", "budget": "$XXX,XXX", "description": "string", "includes": ["string"], "excludes": ["string"] },
+    "tier3_premium": { "name": "Premium", "budget": "$XXX,XXX", "description": "string", "includes": ["string"], "excludes": ["string"] },
+    "tier4_ultimate": { "name": "Ultimate Expression", "budget": "$X,XXX,XXX+", "description": "string", "includes": ["string"], "excludes": [] }
+  }
+}
+
+XYZ Axis Reference:
+- X-Axis (Distance/Scale): 1=Personal(1-10), 2=Local(10-100), 3=Regional(100-1000), 4=National(1000-10000), 5=Global(10000+)
+- Y-Axis (Space/Footprint): 1=Contained(single room), 2=Venue(single building), 3=Campus(multiple buildings), 4=District(city section), 5=Boundless(city-wide/virtual)
+- Z-Axis (Time/Duration): 1=Moment(<1hr), 2=Session(1-4hrs), 3=Day(4-12hrs), 4=Extended(multi-day), 5=Persistent(ongoing)
+
+Be creative, specific, and production-ready. Generate 6-8 zones, 8 schedule phases, 10 credential types, and realistic budget tiers.
+Output ONLY valid JSON, no markdown, no explanation.`;
+
+// Fallback mock data generator when AI is unavailable
 function generateMockBlueprint(creativeSeed: string): GeneratedBlueprint {
   const seed = creativeSeed.toUpperCase();
   const id = crypto.randomUUID();
@@ -259,10 +327,46 @@ function generateMockBlueprint(creativeSeed: string): GeneratedBlueprint {
   };
 }
 
+async function generateWithAI(creativeSeed: string): Promise<GeneratedBlueprint> {
+  const id = crypto.randomUUID();
+  const seed = creativeSeed.toUpperCase();
+
+  try {
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [
+        { role: "system", content: SYSTEM_PROMPT },
+        { role: "user", content: `Generate a complete experience blueprint for the creative seed: "${seed}"` },
+      ],
+      temperature: 0.8,
+      max_tokens: 4000,
+      response_format: { type: "json_object" },
+    });
+
+    const content = completion.choices[0]?.message?.content;
+    if (!content) {
+      throw new Error("No content in AI response");
+    }
+
+    const aiBlueprint = JSON.parse(content);
+
+    return {
+      id,
+      creativeSeed: seed,
+      generatedAt: new Date().toISOString(),
+      ...aiBlueprint,
+    };
+  } catch (error) {
+    console.error("AI generation failed, falling back to mock:", error);
+    // Fall back to mock data if AI fails
+    return generateMockBlueprint(creativeSeed);
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { creativeSeed } = body;
+    const { creativeSeed, useAI = true } = body;
 
     if (!creativeSeed || typeof creativeSeed !== "string") {
       return NextResponse.json(
@@ -278,14 +382,20 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // TODO: Replace with actual AI generation using OpenAI/Anthropic
-    // For MVP, we use mock data
-    const blueprint = generateMockBlueprint(creativeSeed);
+    // Use AI generation if API key is available and useAI is true
+    const hasApiKey = !!process.env.OPENAI_API_KEY;
+    let blueprint: GeneratedBlueprint;
+
+    if (hasApiKey && useAI) {
+      blueprint = await generateWithAI(creativeSeed);
+    } else {
+      blueprint = generateMockBlueprint(creativeSeed);
+    }
 
     // TODO: Store blueprint in database for retrieval
     // await supabase.from('generated_blueprints').insert(blueprint);
 
-    return NextResponse.json({ blueprint });
+    return NextResponse.json({ blueprint, generatedWithAI: hasApiKey && useAI });
   } catch (error) {
     console.error("Generation error:", error);
     return NextResponse.json(

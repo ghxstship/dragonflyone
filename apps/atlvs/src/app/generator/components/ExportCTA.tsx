@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   Stack,
   Container,
@@ -12,7 +13,7 @@ import {
   Card,
   Grid,
 } from "@ghxstship/ui";
-import { ArrowRight, Download, Share2, RotateCcw, Check } from "lucide-react";
+import { ArrowRight, Download, Share2, RotateCcw, Check, Loader2 } from "lucide-react";
 import type { GeneratedBlueprint } from "../types";
 
 // =============================================================================
@@ -34,22 +35,66 @@ const BENEFITS = [
 ];
 
 export function ExportCTA({ blueprint, onReset }: ExportCTAProps) {
+  const [shareStatus, setShareStatus] = useState<"idle" | "loading" | "copied">("idle");
+  const [pdfLoading, setPdfLoading] = useState(false);
+
   const handleExport = async () => {
-    // TODO: Implement export to ATLVS
-    // This will redirect to auth if not logged in, then create the production
-    window.location.href = `/auth/signup?blueprint=${blueprint.id}&redirect=/dashboard`;
+    // Store blueprint in sessionStorage for retrieval after auth
+    sessionStorage.setItem("pendingBlueprint", JSON.stringify(blueprint));
+    window.location.href = `/auth/signup?blueprint=${blueprint.id}&redirect=/onboarding/import-blueprint`;
   };
 
   const handleDownloadPDF = async () => {
-    // TODO: Implement PDF download
-    window.open(`/api/generator/pdf/${blueprint.id}`, "_blank");
+    setPdfLoading(true);
+    try {
+      const response = await fetch("/api/generator/pdf", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ blueprint, isAuthenticated: false }),
+      });
+      
+      if (response.ok) {
+        const html = await response.text();
+        // Open in new window for printing
+        const printWindow = window.open("", "_blank");
+        if (printWindow) {
+          printWindow.document.write(html);
+          printWindow.document.close();
+          // Auto-trigger print dialog
+          setTimeout(() => printWindow.print(), 500);
+        }
+      }
+    } catch (error) {
+      console.error("PDF download failed:", error);
+    } finally {
+      setPdfLoading(false);
+    }
   };
 
   const handleShare = async () => {
-    // TODO: Implement share functionality
-    const shareUrl = `${window.location.origin}/generator/share/${blueprint.id}`;
-    await navigator.clipboard.writeText(shareUrl);
-    alert("Share link copied to clipboard!");
+    setShareStatus("loading");
+    try {
+      const response = await fetch("/api/generator/share", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ blueprint }),
+      });
+      
+      const data = await response.json();
+      
+      if (data.shareUrl) {
+        await navigator.clipboard.writeText(data.shareUrl);
+        setShareStatus("copied");
+        setTimeout(() => setShareStatus("idle"), 3000);
+      }
+    } catch (error) {
+      console.error("Share failed:", error);
+      // Fallback to simple URL
+      const shareUrl = `${window.location.origin}/generator/share/${blueprint.id}`;
+      await navigator.clipboard.writeText(shareUrl);
+      setShareStatus("copied");
+      setTimeout(() => setShareStatus("idle"), 3000);
+    }
   };
 
   return (
@@ -58,9 +103,9 @@ export function ExportCTA({ blueprint, onReset }: ExportCTAProps) {
         <Grid cols={2} gap={12} className="items-center lg:grid-cols-2">
           {/* Left: CTA Content */}
           <Stack gap={6}>
-            <H2 className="font-display text-display-sm uppercase tracking-display text-white">
+            <H2 className="text-display-sm font-display uppercase tracking-display text-white">
               Ready to bring{" "}
-              <Text className="text-[#FF006E]">{blueprint.concept.name}</Text>{" "}
+              <Text className="text-accent">{blueprint.concept.name}</Text>{" "}
               to life?
             </H2>
             <Body className="text-body-lg text-grey-400">
@@ -71,7 +116,7 @@ export function ExportCTA({ blueprint, onReset }: ExportCTAProps) {
             {/* Primary CTA */}
             <Button
               onClick={handleExport}
-              className="flex w-full items-center justify-center gap-3 border-2 border-white bg-[#FF006E] px-8 py-5 font-display text-body-md uppercase tracking-label text-white shadow-lg transition-all duration-150 hover:-translate-y-1 hover:shadow-xl"
+              className="flex w-full items-center justify-center gap-3 border-2 border-white bg-primary px-8 py-5 font-display text-body-md uppercase tracking-label text-white shadow-xl duration-150 hover:-translate-y-1"
             >
               Launch in ATLVS
               <ArrowRight className="size-5" />
@@ -81,17 +126,19 @@ export function ExportCTA({ blueprint, onReset }: ExportCTAProps) {
             <Stack direction="horizontal" gap={4} className="flex-wrap">
               <Button
                 onClick={handleDownloadPDF}
-                className="flex flex-1 items-center justify-center gap-2 border-2 border-grey-600 bg-transparent px-6 py-3 font-mono text-mono-sm uppercase tracking-label text-grey-400 transition-colors hover:border-white hover:text-white"
+                disabled={pdfLoading}
+                className="flex flex-1 items-center justify-center gap-2 border-2 border-grey-600 bg-transparent px-6 py-3 font-mono text-mono-sm uppercase tracking-label text-grey-400 transition-colors hover:border-white hover:text-white disabled:opacity-50"
               >
-                <Download className="size-4" />
-                Download PDF
+                {pdfLoading ? <Loader2 className="size-4 animate-spin" /> : <Download className="size-4" />}
+                {pdfLoading ? "Generating..." : "Download PDF"}
               </Button>
               <Button
                 onClick={handleShare}
-                className="flex flex-1 items-center justify-center gap-2 border-2 border-grey-600 bg-transparent px-6 py-3 font-mono text-mono-sm uppercase tracking-label text-grey-400 transition-colors hover:border-white hover:text-white"
+                disabled={shareStatus === "loading"}
+                className="flex flex-1 items-center justify-center gap-2 border-2 border-grey-600 bg-transparent px-6 py-3 font-mono text-mono-sm uppercase tracking-label text-grey-400 transition-colors hover:border-white hover:text-white disabled:opacity-50"
               >
-                <Share2 className="size-4" />
-                Share Blueprint
+                {shareStatus === "loading" ? <Loader2 className="size-4 animate-spin" /> : shareStatus === "copied" ? <Check className="size-4" /> : <Share2 className="size-4" />}
+                {shareStatus === "copied" ? "Link Copied!" : shareStatus === "loading" ? "Sharing..." : "Share Blueprint"}
               </Button>
               <Button
                 onClick={onReset}
