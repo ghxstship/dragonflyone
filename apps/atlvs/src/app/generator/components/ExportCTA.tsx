@@ -15,6 +15,8 @@ import {
 } from "@ghxstship/ui";
 import { ArrowRight, Download, Share2, RotateCcw, Check, Loader2 } from "lucide-react";
 import type { GeneratedBlueprint } from "../types";
+import { EmailCaptureModal } from "./EmailCaptureModal";
+import { useGeneratorAnalytics } from "../hooks/useGeneratorAnalytics";
 
 // =============================================================================
 // EXPORT CTA COMPONENT
@@ -37,14 +39,26 @@ const BENEFITS = [
 export function ExportCTA({ blueprint, onReset }: ExportCTAProps) {
   const [shareStatus, setShareStatus] = useState<"idle" | "loading" | "copied">("idle");
   const [pdfLoading, setPdfLoading] = useState(false);
+  const [showEmailModal, setShowEmailModal] = useState(false);
+  
+  const { trackExport, trackPdfDownload, trackShare, trackReset } = useGeneratorAnalytics({
+    blueprintId: blueprint.id,
+    creativeSeed: blueprint.creativeSeed,
+  });
 
   const handleExport = async () => {
+    trackExport(false);
     // Store blueprint in sessionStorage for retrieval after auth
     sessionStorage.setItem("pendingBlueprint", JSON.stringify(blueprint));
     window.location.href = `/auth/signup?blueprint=${blueprint.id}&redirect=/onboarding/import-blueprint`;
   };
 
-  const handleDownloadPDF = async () => {
+  const handleDownloadPDF = () => {
+    trackPdfDownload(true);
+    setShowEmailModal(true);
+  };
+
+  const handleEmailCaptureSuccess = async () => {
     setPdfLoading(true);
     try {
       const response = await fetch("/api/generator/pdf", {
@@ -63,6 +77,7 @@ export function ExportCTA({ blueprint, onReset }: ExportCTAProps) {
           // Auto-trigger print dialog
           setTimeout(() => printWindow.print(), 500);
         }
+        trackPdfDownload(false);
       }
     } catch (error) {
       console.error("PDF download failed:", error);
@@ -72,6 +87,7 @@ export function ExportCTA({ blueprint, onReset }: ExportCTAProps) {
   };
 
   const handleShare = async () => {
+    trackShare(false);
     setShareStatus("loading");
     try {
       const response = await fetch("/api/generator/share", {
@@ -85,6 +101,7 @@ export function ExportCTA({ blueprint, onReset }: ExportCTAProps) {
       if (data.shareUrl) {
         await navigator.clipboard.writeText(data.shareUrl);
         setShareStatus("copied");
+        trackShare(true);
         setTimeout(() => setShareStatus("idle"), 3000);
       }
     } catch (error) {
@@ -95,6 +112,11 @@ export function ExportCTA({ blueprint, onReset }: ExportCTAProps) {
       setShareStatus("copied");
       setTimeout(() => setShareStatus("idle"), 3000);
     }
+  };
+
+  const handleReset = () => {
+    trackReset();
+    onReset();
   };
 
   return (
@@ -141,7 +163,7 @@ export function ExportCTA({ blueprint, onReset }: ExportCTAProps) {
                 {shareStatus === "copied" ? "Link Copied!" : shareStatus === "loading" ? "Sharing..." : "Share Blueprint"}
               </Button>
               <Button
-                onClick={onReset}
+                onClick={handleReset}
                 className="flex flex-1 items-center justify-center gap-2 border-2 border-grey-600 bg-transparent px-6 py-3 font-mono text-mono-sm uppercase tracking-label text-grey-400 transition-colors hover:border-white hover:text-white"
               >
                 <RotateCcw className="size-4" />
@@ -175,6 +197,14 @@ export function ExportCTA({ blueprint, onReset }: ExportCTAProps) {
           </Card>
         </Grid>
       </Container>
+
+      {/* Email Capture Modal */}
+      <EmailCaptureModal
+        blueprint={blueprint}
+        isOpen={showEmailModal}
+        onClose={() => setShowEmailModal(false)}
+        onSuccess={handleEmailCaptureSuccess}
+      />
     </FullBleedSection>
   );
 }

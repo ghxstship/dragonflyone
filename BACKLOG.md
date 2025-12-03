@@ -382,12 +382,12 @@ Public-facing AI-powered tool that transforms a single creative concept (noun) i
 - `/generator/share/[id]/opengraph-image.tsx` - Dynamic OG image
 
 ### Remaining Tasks
-- [ ] Email capture gate for PDF download
+- [x] Email capture gate for PDF download - COMPLETE
 - [ ] A/B testing framework
-- [ ] Analytics event tracking
+- [x] Analytics event tracking - COMPLETE
 - [ ] Embed widget for partners
-- [ ] SEO meta tags optimization
-- [ ] Create `shared_blueprints` table in Supabase
+- [x] SEO meta tags optimization - COMPLETE
+- [x] Create `shared_blueprints` table in Supabase - COMPLETE (migration 0142)
 
 ### Success Metrics Targets
 - 10,000 page views/month
