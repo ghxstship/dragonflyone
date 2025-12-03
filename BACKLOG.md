@@ -330,6 +330,59 @@ The design system architecture has been updated to support proper component vari
 
 ---
 
+## AI Experience Generator (Lead Magnet) - NEW
+
+**Status:** Strategy complete, implementation pending
+**Identified:** December 3, 2025
+**Documentation:** See `docs/EXPERIENCE_GENERATOR_STRATEGY.md`
+
+### Overview
+Public-facing AI-powered tool that transforms a single creative concept (noun) into a complete production blueprint, then exports as a draft project into ATLVS. Acts as a zero-friction lead magnet for new users/organizers.
+
+### Implementation Phases
+
+**Phase 1: MVP (Week 1-2)**
+- [ ] Create `/generator` public page in ATLVS
+- [ ] Build AI generation endpoint with OpenAI/Anthropic
+- [ ] Simple preview display of generated blueprint
+- [ ] Basic PDF export (watermarked)
+- [ ] Email capture for PDF download
+
+**Phase 2: Enhanced Preview (Week 3-4)**
+- [ ] Tabbed preview interface (Concept, Sensory, Spatial, Journey, Docs)
+- [ ] Visual representations (color palettes, XYZ charts)
+- [ ] Journey timeline component
+- [ ] Animated generation progress with streaming
+
+**Phase 3: ATLVS Integration (Week 5-6)**
+- [ ] OAuth signup flow from generator
+- [ ] Export to ATLVS server action
+- [ ] Production record creation with all related records
+- [ ] Onboarding redirect with pre-populated project
+
+**Phase 4: Optimization (Week 7-8)**
+- [ ] A/B testing framework
+- [ ] Analytics dashboard for conversion tracking
+- [ ] Social sharing with OG images
+- [ ] Embed widget for partners
+- [ ] SEO optimization
+
+### Key Components to Build
+- `GeneratorHero.tsx` - Hero section with creative seed input
+- `GeneratorProgress.tsx` - Real-time generation progress
+- `BlueprintPreview.tsx` - Tabbed preview of generated content
+- `ExportCTA.tsx` - Conversion call-to-action
+- `useExperienceGenerator.ts` - AI generation hook
+- `useExportToATLVS.ts` - Export/conversion hook
+
+### Success Metrics Targets
+- 10,000 page views/month
+- 40% generation start rate
+- 15% signup conversion
+- 60% export to ATLVS rate
+
+---
+
 ## Notes
 
 - Vercel Hobby plan allows 2 cron jobs total across all projects

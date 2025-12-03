@@ -1,0 +1,259 @@
+
+UNIVERSAL IMMERSIVE
+EXPERIENCE GENERATOR
+Version 4.0 — Data-Driven Production Architecture
+GHXSTSHIP Industries
+Transforming Single Words into Complete Production Ecosystems
+December 2024
+
+OVERVIEW
+The Universal Immersive Experience Generator v4.0 is a comprehensive framework for transforming single creative concepts into fully realized, data-driven immersive productions. This version integrates a complete database architecture enabling real-time operational management, API connectivity with business tools, and normalized metrics tracking.
+What's New in v4.0
+	•	Complete Supabase database schema with 45+ normalized tables
+	•	Open API architecture for integration with Slack, Notion, Airtable, Monday, Asana
+	•	Normalized metrics and KPI tracking across all production dimensions
+	•	Webhook system for real-time event notifications
+	•	Row Level Security for multi-tenant SaaS deployment
+	•	Comprehensive audit logging and compliance tracking
+Core Methodologies
+5 Senses Framework: Systematic activation of Sight, Sound, Touch, Taste, and Smell to create multi-dimensional experiences.
+XYZ Spatial-Temporal Foundation: Three-axis design covering Distance (X), Space (Y), and Time (Z) for scalable execution.
+URL→IRL Lifecycle: Five-phase guest journey from Digital Pre-Event through Physical Event to Digital Post-Event.
+Data-Driven Operations: Real-time database integration enabling API-connected production management.
+Deliverable Categories
+	•	Creative Concept Package — Name, narrative, visual identity, transformation promise
+	•	Sensory Design Specifications — Technical requirements for all five senses
+	•	Spatial-Temporal Blueprint — Distance/space/time execution framework
+	•	Guest Journey Map — Complete URL→IRL lifecycle progression
+	•	Partner Ecosystem Matrix — 26-department organizational coverage
+	•	Scalable Execution Model — Budget-flexible implementation tiers
+	•	Marketing & Content Strategy — Pre/during/post communication plan
+	•	Production Documentation Package — 12 operational template categories
+	•	Database Architecture — API-ready schema with normalized metrics (NEW)
+
+THE PROMPT
+Copy and paste the following prompt into any AI assistant, replacing [NOUN] with your creative seed:
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+INPUT: Creative Seed Noun
+[NOUN] — A single word that will anchor the entire experience concept.
+
+PART 1: XYZ SPATIAL-TEMPORAL FOUNDATION
+Design the experience across three axes:
+X-Axis: Distance (Reach & Scale)
+	•	X1 — Personal (1-10): Intimate gatherings, private experiences
+	•	X2 — Local (10-100): Community events, pop-ups
+	•	X3 — Regional (100-1,000): City-wide activations, festivals
+	•	X4 — National (1,000-10,000): Multi-city tours, branded experiences
+	•	X5 — Global (10,000+): Worldwide simultaneous events
+Y-Axis: Space (Physical Footprint)
+	•	Y1 — Contained (Single room/booth)
+	•	Y2 — Venue (Single building)
+	•	Y3 — Campus (Multiple buildings)
+	•	Y4 — District (City section)
+	•	Y5 — Boundless (City-wide/virtual)
+Z-Axis: Time (Duration)
+	•	Z1 — Moment (< 1 hour)
+	•	Z2 — Session (1-4 hours)
+	•	Z3 — Day (4-12 hours)
+	•	Z4 — Extended (Multi-day)
+	•	Z5 — Persistent (Ongoing)
+
+PART 2: 5 SENSES ACTIVATION MATRIX
+For each sense, define specific activations tied to the creative concept:
+SIGHT
+Color palette, lighting design, scenic elements, projection/video, costume design, graphic design.
+SOUND
+Original score, sound effects, spatial audio, live music, ambient soundscapes, interactive triggers.
+TOUCH
+Texture palette, temperature, interactive elements, haptics, wearables, tactile wayfinding.
+TASTE
+Signature food/beverages, interactive dining, flavor progression, dietary accommodations.
+SMELL
+Signature scent, zone-specific scenting, scent triggers, aroma integration, scent-memory activation.
+
+PART 3: URL→IRL LIFECYCLE
+Phase 1: Digital Pre-Event (URL)
+Discovery, engagement, transaction, anticipation, preparation.
+Phase 2: Hybrid Threshold In
+Arrival, transition, orientation, onboarding.
+Phase 3: Physical Event (IRL)
+Core experience, peak moments, interactive elements, social touchpoints, support services.
+Phase 4: Hybrid Threshold Out
+Resolution, transition, retail opportunity, documentation.
+Phase 5: Digital Post-Event (URL)
+Follow-up, content distribution, community continuation, re-engagement, advocacy activation.
+
+PART 4: OUTPUT FORMAT & DELIVERABLES
+Deliverable 1: Creative Concept Package
+Experience name/tagline, core narrative, target transformation, visual identity, tone/personality.
+Deliverable 2: Sensory Design Specifications
+Detailed specs for all 5 senses, technical requirements, integration points, accessibility.
+Deliverable 3: Spatial-Temporal Blueprint
+XYZ coordinates with rationale, scalability options, zone breakdown, timeline structure.
+Deliverable 4: Guest Journey Map
+Touchpoints for all 5 phases, emotional arc, decision points, friction solutions.
+Deliverable 5: Partner Ecosystem Matrix
+26 organizational functions: Executive, Finance, Legal, HR, Creative, Production, Technical, Operations, Marketing, Technology, Guest Experience, Safety.
+Deliverable 6: Scalable Execution Model
+Tier 1 (Minimum Viable), Tier 2 (Enhanced), Tier 3 (Premium), Tier 4 (Ultimate Expression).
+Deliverable 7: Marketing & Content Strategy
+Pre-event calendar, during-event capture, post-event distribution, influencer/media strategy.
+
+PART 5: PRODUCTION DOCUMENTATION (12 Templates)
+8.1 One Page Overview
+Executive summary: concept, dates, venue, financials, audience, contacts, digital assets.
+8.2 Org Chart
+4-tier structure: Executive → Department Heads → Managers → Staff with reporting relationships.
+8.3 Contact Directory
+6 categories: Core Team, Vendors, Venue, Emergency, Sponsors, Media.
+8.4 Sponsorship Deck
+12-15 slides with tier details (Presenting, Premier, Supporting, Official).
+8.5 Investor Deck
+15-20 slides: problem/solution, market, business model, traction, team, financials.
+8.6 Legal Compliance
+5 checklists: Permits, Insurance, Safety/ADA, Employment, Privacy.
+8.7 Contract Templates
+9 types: Partner, FT/PT Employee, Seasonal, Contractor, Subcontractor, Vendor, Artist, Sponsor, Intern.
+8.8 Production Schedule
+WHO/WHAT/WHEN/WHERE/WHY/HOW + IF/THEN contingencies across 8 phases.
+8.9 Credential Matrix
+10 credential types × 6 zones access grid.
+8.10 Run of Show
+Cue entries with time, department cues, talent, props, operations notes.
+8.11 Operations SOPs
+5 categories: Guest Services, Security, Emergency, F&B, Production.
+8.12 Reporting Templates
+5 types: Incident, Lost & Found, Expense, Daily Ops, Post-Event Wrap.
+
+PART 6: DATABASE ARCHITECTURE (NEW v4.0)
+Complete data-driven production management with API connectivity:
+9.1 Schema Overview (45+ Tables)
+	•	Core: organizations, productions, venues, zones
+	•	People: contacts, departments, roles, production_assignments
+	•	Credentials: credential_types, credentials, credential_zone_access
+	•	Scheduling: schedule_phases, schedule_tasks, task_contingencies
+	•	Shows: shows, cues
+	•	Contracts: contract_types, contracts
+	•	Compliance: permits, insurance_policies, compliance_checklists, compliance_items
+	•	Sponsors/Investors: sponsor_tiers, sponsors, investors, investment_rounds, investments
+	•	SOPs: sop_categories, sops, sop_steps
+	•	Reporting: incidents, lost_found_items, expenses, expense_reports, daily_reports, wrap_reports
+	•	API: api_keys, webhooks, integrations, sync_logs, audit_logs
+	•	Metrics: metrics (normalized KPIs)
+9.2 Design Principles
+	•	Third Normal Form (3NF) — Eliminate redundancy
+	•	UUID Primary Keys — Global uniqueness for API compatibility
+	•	Soft Deletes — deleted_at timestamps for audit trails
+	•	Comprehensive Audit — created_at, updated_at, created_by, updated_by
+	•	Multi-Tenancy — organization_id on all tenant-scoped tables
+	•	JSONB Metadata — Flexible extensibility fields
+	•	Row Level Security — Supabase RLS for data isolation
+9.3 API Integration
+RESTful endpoints via Supabase: https://{project}.supabase.co/rest/v1/{table}
+	•	Operations: GET (list/read), POST (create), PATCH (update), DELETE
+	•	Query params: ?status=eq.active, ?select=id,title, ?order=created_at.desc
+	•	Nested resources: ?select=*,venue:venues(name,address)
+9.4 Integration Mappings
+	•	Slack — Real-time notifications, task assignments, incident alerts
+	•	Notion — Production databases synced as pages
+	•	Airtable — Table-to-base mapping with field conversion
+	•	Monday.com — Board sync with status/timeline mapping
+	•	Asana — Project sync with task dependencies
+	•	Google Workspace — Calendar, Drive, Sheets integration
+	•	Microsoft 365 — Teams, SharePoint, Excel integration
+	•	Zapier/Make — Webhook triggers for custom automation
+9.5 Webhook Events
+	•	production.created / .updated / .status_changed
+	•	show.scheduled / .started / .completed
+	•	incident.created / .escalated / .resolved
+	•	task.created / .assigned / .status_changed / .overdue
+	•	contract.created / .signed / .expiring
+	•	sponsor.confirmed / .payment_received
+	•	credential.issued / .revoked
+	•	expense.submitted / .approved
+9.6 Normalized Metrics
+	•	revenue_per_guest = total_revenue / attendance
+	•	capacity_utilization = attendance / capacity
+	•	cost_per_guest = total_cost / attendance
+	•	sponsor_roi = sponsor_value / total_revenue
+	•	incident_rate = incidents / attendance × 1000
+	•	nps = promoters - detractors
+	•	conversion_rate = tickets_sold / visitors
+9.7 Key Tables Reference
+productions
+Core entity: organization_id, title, format, status, dates, budgets, sensory_design (JSONB), xyz_foundation (JSONB), url_irl_journey (JSONB).
+schedule_tasks
+WHO (assignee, department, approver), WHAT (title, description), WHEN (dates, times, duration), WHERE (location, zone), WHY (purpose, impact), HOW (resources, budget), plus depends_on/blocks arrays.
+task_contingencies
+IF/THEN risk management: task_id, if_condition, then_action, escalation_contact_id, probability, impact, is_triggered.
+shows
+Performances: production_id, date, times, status, type, capacity, tickets_sold, attendance.
+cues
+Run of show: cue_number, scheduled_time, activity, department cues, talent, props, is_milestone.
+incidents
+Tracking: type, severity, status, description, persons_involved (JSONB), response_actions, medical/law_enforcement details.
+9.8 Aggregation Views
+	•	daily_metrics — Attendance and revenue by date
+	•	production_summary — Shows, attendance, incidents, sponsors per production
+	•	active_credentials — Currently valid credentials
+	•	upcoming_tasks — Non-complete tasks with assignee info
+9.9 Migration Phases
+	•	Core: organizations, productions, venues, contacts
+	•	Operational: credentials, schedules, shows, cues
+	•	Compliance: contracts, permits, insurance
+	•	Finance: sponsors, investors, expenses
+	•	Reporting: incidents, daily_reports, wrap_reports
+	•	Integrations: api_keys, webhooks, sync_logs
+	•	Metrics: metrics table, audit_logs, views
+9.10 Security Model
+	•	RLS enabled on all tables
+	•	Policies enforce organization_id via auth context
+	•	API scopes: read/write:productions, read/write:operations, read/write:finance, admin
+	•	Audit logs capture all access and modifications
+	•	Sensitive fields encrypted at rest
+
+PART 7: GENERATION INSTRUCTIONS
+Creative Principles
+	•	Prioritize emotional resonance over technical complexity
+	•	Create transformative experiences, not just entertainment
+	•	Design for accessibility and inclusion
+	•	Balance spectacle with intimate moments
+Practical Principles
+	•	Every element serves the core transformation
+	•	Design for multiple budget tiers from day one
+	•	Consider operational feasibility alongside vision
+	•	Populate documentation with concept-specific content
+Data Principles
+	•	Use normalized tables to avoid redundancy
+	•	Leverage JSONB for concept-specific extensibility
+	•	Configure webhooks for real-time awareness
+	•	Define KPIs before production begins
+	•	Plan integration touchpoints with existing tools
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+APPENDIX
+Companion Documents
+	•	Production Template Kit v1.0 — Detailed template structures and field definitions
+	•	database-schema.md — Complete ERD, table definitions, API patterns
+	•	supabase-migration.sql — Ready-to-deploy SQL migration
+Database Tables by Domain
+Core (4): organizations, productions, venues, zones
+People (4): contacts, departments, roles, production_assignments
+Credentials (3): credential_types, credentials, credential_zone_access
+Scheduling (3): schedule_phases, schedule_tasks, task_contingencies
+Shows (2): shows, cues
+Contracts (2): contract_types, contracts
+Compliance (4): permits, insurance_policies, compliance_checklists, compliance_items
+Sponsorship (5): sponsor_tiers, sponsors, investors, investment_rounds, investments
+SOPs (3): sop_categories, sops, sop_steps
+Reporting (6): incidents, lost_found_items, expenses, expense_reports, daily_reports, wrap_reports
+API (5): api_keys, webhooks, integrations, sync_logs, audit_logs
+Metrics (1): metrics
+Version History
+	•	v1.0 — 5 Senses + XYZ foundation
+	•	v2.0 — URL→IRL lifecycle, 26-department ecosystem, 8 deliverables
+	•	v3.0 — Production Documentation Package (12 templates)
+	•	v4.0 — Database architecture (45+ tables), API integration, normalized metrics, webhooks, RLS
+
+— End of Document —
