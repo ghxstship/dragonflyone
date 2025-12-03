@@ -1,0 +1,1608 @@
+-- ============================================================================
+-- GHXSTSHIP Production Management Database
+-- Supabase Migration v1.0.0
+-- ============================================================================
+-- This migration creates the complete database schema for immersive experience
+-- and live entertainment production management.
+-- ============================================================================
+
+-- Enable required extensions
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+
+-- ============================================================================
+-- ENUM TYPES
+-- ============================================================================
+
+-- Organization Types
+CREATE TYPE org_type_enum AS ENUM ('company', 'agency', 'venue', 'vendor', 'sponsor', 'investor');
+
+-- Production Types
+CREATE TYPE production_format_enum AS ENUM ('immersive', 'festival', 'activation', 'installation', 'theater', 'concert', 'conference', 'corporate', 'private', 'other');
+CREATE TYPE production_status_enum AS ENUM ('draft', 'planning', 'pre_production', 'production', 'active', 'completed', 'cancelled', 'archived');
+
+-- Venue & Zone Types
+CREATE TYPE venue_type_enum AS ENUM ('warehouse', 'theater', 'arena', 'stadium', 'outdoor', 'convention', 'hotel', 'restaurant', 'club', 'custom', 'other');
+CREATE TYPE zone_type_enum AS ENUM ('public', 'vip', 'backstage', 'production', 'operations', 'restricted', 'loading', 'parking', 'other');
+
+-- Contact Types
+CREATE TYPE contact_type_enum AS ENUM ('internal', 'vendor', 'contractor', 'sponsor', 'investor', 'media', 'artist', 'guest', 'emergency', 'other');
+CREATE TYPE contact_status_enum AS ENUM ('active', 'inactive', 'pending', 'archived');
+
+-- Department Types
+CREATE TYPE department_category_enum AS ENUM ('executive', 'production', 'operations');
+
+-- Credential Types
+CREATE TYPE credential_status_enum AS ENUM ('pending', 'active', 'suspended', 'revoked', 'expired');
+
+-- Task Types
+CREATE TYPE task_status_enum AS ENUM ('not_started', 'in_progress', 'blocked', 'complete', 'cancelled');
+CREATE TYPE priority_enum AS ENUM ('low', 'medium', 'high', 'critical');
+CREATE TYPE deadline_type_enum AS ENUM ('hard', 'soft', 'flexible');
+CREATE TYPE probability_enum AS ENUM ('low', 'medium', 'high');
+CREATE TYPE impact_enum AS ENUM ('low', 'medium', 'high', 'critical');
+
+-- Assignment Types
+CREATE TYPE assignment_status_enum AS ENUM ('pending', 'confirmed', 'declined', 'completed');
+
+-- Show & Cue Types
+CREATE TYPE show_status_enum AS ENUM ('scheduled', 'confirmed', 'in_progress', 'completed', 'cancelled');
+CREATE TYPE show_type_enum AS ENUM ('preview', 'regular', 'final', 'special', 'private');
+CREATE TYPE cue_type_enum AS ENUM ('master', 'lighting', 'sound', 'video', 'sfx', 'scenic', 'action', 'note');
+CREATE TYPE trigger_type_enum AS ENUM ('time', 'manual', 'sensor', 'previous_cue', 'conditional');
+
+-- Contract Types
+CREATE TYPE contract_category_enum AS ENUM ('partner', 'employment', 'contractor', 'subcontractor', 'vendor', 'artist', 'sponsor', 'intern', 'nda', 'other');
+CREATE TYPE contract_status_enum AS ENUM ('draft', 'pending_review', 'pending_signature', 'active', 'completed', 'terminated', 'expired');
+
+-- Permit & Insurance Types
+CREATE TYPE permit_type_enum AS ENUM ('business', 'event', 'fire', 'building', 'liquor', 'food', 'music', 'noise', 'temporary_structure', 'electrical', 'pyrotechnics', 'street_closure', 'parking', 'other');
+CREATE TYPE permit_status_enum AS ENUM ('not_started', 'applied', 'pending', 'approved', 'denied', 'expired');
+CREATE TYPE insurance_type_enum AS ENUM ('general_liability', 'workers_comp', 'employers_liability', 'liquor_liability', 'event_cancellation', 'property', 'auto', 'umbrella', 'cyber', 'dno', 'other');
+CREATE TYPE policy_status_enum AS ENUM ('pending', 'active', 'expired', 'cancelled');
+
+-- Compliance Types
+CREATE TYPE compliance_category_enum AS ENUM ('permits', 'insurance', 'safety', 'employment', 'privacy', 'other');
+CREATE TYPE checklist_status_enum AS ENUM ('not_started', 'in_progress', 'complete');
+CREATE TYPE item_status_enum AS ENUM ('pending', 'in_progress', 'complete', 'na');
+
+-- Sponsor & Investor Types
+CREATE TYPE sponsor_status_enum AS ENUM ('prospect', 'pitched', 'negotiating', 'confirmed', 'active', 'completed', 'declined');
+CREATE TYPE investor_type_enum AS ENUM ('individual', 'institution', 'family_office', 'vc', 'angel', 'corporate', 'other');
+CREATE TYPE investor_status_enum AS ENUM ('prospect', 'contacted', 'meeting', 'due_diligence', 'committed', 'funded', 'declined');
+CREATE TYPE round_type_enum AS ENUM ('pre_seed', 'seed', 'series_a', 'series_b', 'bridge', 'growth', 'other');
+CREATE TYPE round_status_enum AS ENUM ('planning', 'open', 'closing', 'closed');
+CREATE TYPE instrument_enum AS ENUM ('equity', 'safe', 'convertible_note', 'revenue_share', 'other');
+CREATE TYPE investment_status_enum AS ENUM ('committed', 'docs_sent', 'docs_signed', 'funded');
+
+-- SOP Types
+CREATE TYPE sop_status_enum AS ENUM ('draft', 'review', 'approved', 'archived');
+
+-- Incident Types
+CREATE TYPE incident_type_enum AS ENUM ('medical', 'security', 'property', 'guest_complaint', 'injury', 'theft', 'altercation', 'technical', 'weather', 'other');
+CREATE TYPE severity_enum AS ENUM ('1', '2', '3', '4', '5');
+CREATE TYPE incident_status_enum AS ENUM ('open', 'investigating', 'resolved', 'closed');
+
+-- Lost & Found Types
+CREATE TYPE lost_found_category_enum AS ENUM ('electronics', 'clothing', 'wallet_id', 'keys', 'jewelry', 'bag', 'glasses', 'medication', 'other');
+CREATE TYPE lost_found_status_enum AS ENUM ('stored', 'claimed', 'donated', 'disposed');
+
+-- Expense Types
+CREATE TYPE expense_category_enum AS ENUM ('travel', 'meals', 'lodging', 'supplies', 'equipment', 'services', 'shipping', 'marketing', 'entertainment', 'other');
+CREATE TYPE payment_method_enum AS ENUM ('personal_card', 'company_card', 'cash', 'invoice', 'check', 'wire', 'other');
+CREATE TYPE expense_report_status_enum AS ENUM ('draft', 'submitted', 'approved', 'rejected', 'paid');
+
+-- Report Types
+CREATE TYPE report_status_enum AS ENUM ('draft', 'review', 'final');
+
+-- Integration Types
+CREATE TYPE integration_provider_enum AS ENUM ('slack', 'notion', 'airtable', 'monday', 'asana', 'clickup', 'google_workspace', 'microsoft_365', 'zapier', 'make', 'hubspot', 'salesforce', 'quickbooks', 'xero', 'stripe', 'square', 'eventbrite', 'tixr', 'other');
+CREATE TYPE integration_status_enum AS ENUM ('pending', 'connected', 'error', 'disabled');
+CREATE TYPE sync_direction_enum AS ENUM ('inbound', 'outbound', 'bidirectional');
+CREATE TYPE sync_status_enum AS ENUM ('started', 'success', 'partial', 'failed');
+
+-- Audit Types
+CREATE TYPE audit_action_enum AS ENUM ('create', 'read', 'update', 'delete', 'export', 'import', 'login', 'logout', 'invite', 'approve', 'reject', 'archive', 'restore');
+
+-- Metrics Types
+CREATE TYPE granularity_enum AS ENUM ('minute', 'hour', 'day', 'week', 'month', 'quarter', 'year');
+
+
+-- ============================================================================
+-- CORE TABLES
+-- ============================================================================
+
+-- Organizations (Multi-tenant root)
+CREATE TABLE organizations (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  name VARCHAR(255) NOT NULL,
+  slug VARCHAR(100) UNIQUE NOT NULL,
+  legal_name VARCHAR(255),
+  type org_type_enum NOT NULL DEFAULT 'company',
+  tax_id VARCHAR(50),
+  website VARCHAR(255),
+  logo_url VARCHAR(500),
+  primary_color VARCHAR(7),
+  settings JSONB DEFAULT '{}',
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  deleted_at TIMESTAMPTZ
+);
+
+-- Venues
+CREATE TABLE venues (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+  name VARCHAR(255) NOT NULL,
+  slug VARCHAR(100),
+  type venue_type_enum,
+  address_line_1 VARCHAR(255),
+  address_line_2 VARCHAR(255),
+  city VARCHAR(100),
+  state VARCHAR(50),
+  postal_code VARCHAR(20),
+  country VARCHAR(2) DEFAULT 'US',
+  latitude DECIMAL(10,8),
+  longitude DECIMAL(11,8),
+  total_sqft INTEGER,
+  max_capacity INTEGER,
+  loading_dock BOOLEAN DEFAULT false,
+  parking_spaces INTEGER,
+  ada_accessible BOOLEAN DEFAULT true,
+  contact_name VARCHAR(255),
+  contact_phone VARCHAR(20),
+  contact_email VARCHAR(255),
+  amenities JSONB DEFAULT '[]',
+  technical_specs JSONB,
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  deleted_at TIMESTAMPTZ
+);
+
+-- Departments
+CREATE TABLE departments (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+  name VARCHAR(100) NOT NULL,
+  code VARCHAR(20),
+  category department_category_enum,
+  description TEXT,
+  parent_id UUID REFERENCES departments(id),
+  color VARCHAR(7),
+  sort_order INTEGER DEFAULT 0,
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Contacts (forward declaration for FK references)
+CREATE TABLE contacts (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+  user_id UUID,
+  type contact_type_enum NOT NULL DEFAULT 'internal',
+  status contact_status_enum DEFAULT 'active',
+  prefix VARCHAR(20),
+  first_name VARCHAR(100) NOT NULL,
+  last_name VARCHAR(100) NOT NULL,
+  nickname VARCHAR(50),
+  email VARCHAR(255),
+  email_secondary VARCHAR(255),
+  phone VARCHAR(20),
+  phone_secondary VARCHAR(20),
+  company VARCHAR(255),
+  job_title VARCHAR(100),
+  department_id UUID REFERENCES departments(id),
+  reports_to_id UUID REFERENCES contacts(id),
+  address_line_1 VARCHAR(255),
+  address_line_2 VARCHAR(255),
+  city VARCHAR(100),
+  state VARCHAR(50),
+  postal_code VARCHAR(20),
+  country VARCHAR(2) DEFAULT 'US',
+  timezone VARCHAR(50) DEFAULT 'America/New_York',
+  avatar_url VARCHAR(500),
+  emergency_contact_name VARCHAR(255),
+  emergency_contact_phone VARCHAR(20),
+  emergency_contact_relation VARCHAR(50),
+  notes TEXT,
+  tags TEXT[] DEFAULT '{}',
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  deleted_at TIMESTAMPTZ
+);
+
+-- Add department head FK after contacts exists
+ALTER TABLE departments ADD COLUMN head_contact_id UUID REFERENCES contacts(id);
+
+-- Productions
+CREATE TABLE productions (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  organization_id UUID NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,
+  title VARCHAR(255) NOT NULL,
+  slug VARCHAR(100) UNIQUE,
+  tagline VARCHAR(255),
+  description TEXT,
+  elevator_pitch TEXT,
+  format production_format_enum,
+  status production_status_enum DEFAULT 'draft',
+  genre VARCHAR(100),
+  target_transformation TEXT,
+  primary_venue_id UUID REFERENCES venues(id),
+  capacity_per_show INTEGER,
+  shows_per_day INTEGER,
+  runtime_minutes INTEGER,
+  announcement_date DATE,
+  on_sale_date DATE,
+  preview_start DATE,
+  opening_date DATE,
+  closing_date DATE,
+  load_in_start DATE,
+  load_out_end DATE,
+  production_budget DECIMAL(12,2),
+  operating_budget_weekly DECIMAL(10,2),
+  ticket_price_min DECIMAL(8,2),
+  ticket_price_max DECIMAL(8,2),
+  projected_gross DECIMAL(12,2),
+  break_even_percentage DECIMAL(5,2),
+  sponsorship_target DECIMAL(10,2),
+  color_palette JSONB,
+  sensory_design JSONB,
+  xyz_foundation JSONB,
+  url_irl_journey JSONB,
+  metadata JSONB DEFAULT '{}',
+  created_by UUID REFERENCES contacts(id),
+  updated_by UUID REFERENCES contacts(id),
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  deleted_at TIMESTAMPTZ
+);
+
+-- Zones
+CREATE TABLE zones (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  venue_id UUID REFERENCES venues(id) ON DELETE CASCADE,
+  production_id UUID REFERENCES productions(id) ON DELETE CASCADE,
+  name VARCHAR(100) NOT NULL,
+  code VARCHAR(20),
+  type zone_type_enum,
+  description TEXT,
+  sqft INTEGER,
+  capacity INTEGER,
+  access_level INTEGER DEFAULT 1,
+  color VARCHAR(7),
+  sort_order INTEGER DEFAULT 0,
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+
+-- ============================================================================
+-- ROLES & CREDENTIALS
+-- ============================================================================
+
+-- Credential Types
+CREATE TABLE credential_types (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+  name VARCHAR(100) NOT NULL,
+  code VARCHAR(20) NOT NULL,
+  description TEXT,
+  color VARCHAR(7),
+  access_level INTEGER DEFAULT 1,
+  requires_photo BOOLEAN DEFAULT false,
+  requires_background_check BOOLEAN DEFAULT false,
+  max_per_production INTEGER,
+  sort_order INTEGER DEFAULT 0,
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Roles
+CREATE TABLE roles (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+  department_id UUID REFERENCES departments(id),
+  title VARCHAR(100) NOT NULL,
+  tier INTEGER CHECK (tier BETWEEN 1 AND 4),
+  description TEXT,
+  responsibilities TEXT[] DEFAULT '{}',
+  qualifications TEXT[] DEFAULT '{}',
+  reports_to_role_id UUID REFERENCES roles(id),
+  is_management BOOLEAN DEFAULT false,
+  default_credential_type_id UUID REFERENCES credential_types(id),
+  hourly_rate_min DECIMAL(8,2),
+  hourly_rate_max DECIMAL(8,2),
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Credentials
+CREATE TABLE credentials (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  production_id UUID REFERENCES productions(id) ON DELETE CASCADE,
+  contact_id UUID REFERENCES contacts(id) ON DELETE CASCADE,
+  credential_type_id UUID REFERENCES credential_types(id),
+  credential_number VARCHAR(50),
+  status credential_status_enum DEFAULT 'active',
+  valid_from DATE NOT NULL,
+  valid_until DATE NOT NULL,
+  photo_url VARCHAR(500),
+  issued_by_id UUID REFERENCES contacts(id),
+  issued_at TIMESTAMPTZ,
+  revoked_at TIMESTAMPTZ,
+  revoked_by_id UUID REFERENCES contacts(id),
+  revocation_reason TEXT,
+  notes TEXT,
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Credential Zone Access (Junction)
+CREATE TABLE credential_zone_access (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  credential_type_id UUID NOT NULL REFERENCES credential_types(id) ON DELETE CASCADE,
+  zone_id UUID NOT NULL REFERENCES zones(id) ON DELETE CASCADE,
+  access_allowed BOOLEAN DEFAULT true,
+  time_restrictions JSONB,
+  notes TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(credential_type_id, zone_id)
+);
+
+-- Production Assignments
+CREATE TABLE production_assignments (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  production_id UUID NOT NULL REFERENCES productions(id) ON DELETE CASCADE,
+  contact_id UUID NOT NULL REFERENCES contacts(id) ON DELETE CASCADE,
+  role_id UUID REFERENCES roles(id),
+  department_id UUID REFERENCES departments(id),
+  status assignment_status_enum DEFAULT 'confirmed',
+  start_date DATE,
+  end_date DATE,
+  hourly_rate DECIMAL(8,2),
+  contract_id UUID,
+  notes TEXT,
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(production_id, contact_id, role_id)
+);
+
+
+-- ============================================================================
+-- SCHEDULING
+-- ============================================================================
+
+-- Schedule Phases
+CREATE TABLE schedule_phases (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+  name VARCHAR(100) NOT NULL,
+  code VARCHAR(20),
+  description TEXT,
+  sort_order INTEGER DEFAULT 0,
+  color VARCHAR(7),
+  is_default BOOLEAN DEFAULT false,
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Schedule Tasks
+CREATE TABLE schedule_tasks (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  production_id UUID NOT NULL REFERENCES productions(id) ON DELETE CASCADE,
+  phase_id UUID REFERENCES schedule_phases(id),
+  parent_task_id UUID REFERENCES schedule_tasks(id),
+  title VARCHAR(255) NOT NULL,
+  description TEXT,
+  status task_status_enum DEFAULT 'not_started',
+  priority priority_enum DEFAULT 'medium',
+  progress_percent INTEGER DEFAULT 0,
+  -- WHO
+  assignee_id UUID REFERENCES contacts(id),
+  department_id UUID REFERENCES departments(id),
+  approver_id UUID REFERENCES contacts(id),
+  -- WHEN
+  start_date DATE,
+  end_date DATE,
+  start_time TIME,
+  end_time TIME,
+  duration_hours DECIMAL(6,2),
+  deadline_type deadline_type_enum DEFAULT 'soft',
+  actual_start TIMESTAMPTZ,
+  actual_end TIMESTAMPTZ,
+  -- WHERE
+  location VARCHAR(255),
+  zone_id UUID REFERENCES zones(id),
+  is_remote BOOLEAN DEFAULT false,
+  -- WHY
+  purpose TEXT,
+  impact_if_delayed TEXT,
+  -- HOW
+  resources_required TEXT,
+  budget_allocated DECIMAL(10,2),
+  equipment_needed TEXT[] DEFAULT '{}',
+  labor_hours DECIMAL(6,2),
+  -- Dependencies
+  depends_on UUID[] DEFAULT '{}',
+  blocks UUID[] DEFAULT '{}',
+  -- Notes
+  internal_notes TEXT,
+  external_notes TEXT,
+  -- Meta
+  tags TEXT[] DEFAULT '{}',
+  metadata JSONB DEFAULT '{}',
+  created_by UUID REFERENCES contacts(id),
+  updated_by UUID REFERENCES contacts(id),
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  deleted_at TIMESTAMPTZ
+);
+
+-- Task Contingencies
+CREATE TABLE task_contingencies (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  task_id UUID NOT NULL REFERENCES schedule_tasks(id) ON DELETE CASCADE,
+  if_condition TEXT NOT NULL,
+  then_action TEXT NOT NULL,
+  escalation_contact_id UUID REFERENCES contacts(id),
+  probability probability_enum,
+  impact impact_enum,
+  is_triggered BOOLEAN DEFAULT false,
+  triggered_at TIMESTAMPTZ,
+  resolution_notes TEXT,
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+
+-- ============================================================================
+-- SHOWS & RUN OF SHOW
+-- ============================================================================
+
+-- Shows
+CREATE TABLE shows (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  production_id UUID NOT NULL REFERENCES productions(id) ON DELETE CASCADE,
+  venue_id UUID REFERENCES venues(id),
+  show_number INTEGER,
+  date DATE NOT NULL,
+  doors_time TIME,
+  start_time TIME NOT NULL,
+  end_time TIME,
+  actual_start TIMESTAMPTZ,
+  actual_end TIMESTAMPTZ,
+  status show_status_enum DEFAULT 'scheduled',
+  type show_type_enum DEFAULT 'regular',
+  capacity INTEGER,
+  tickets_sold INTEGER DEFAULT 0,
+  attendance INTEGER,
+  notes TEXT,
+  stage_manager_id UUID REFERENCES contacts(id),
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Cues
+CREATE TABLE cues (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  production_id UUID NOT NULL REFERENCES productions(id) ON DELETE CASCADE,
+  show_id UUID REFERENCES shows(id),
+  cue_number VARCHAR(20) NOT NULL,
+  sequence INTEGER,
+  -- Time
+  scheduled_time TIME,
+  running_time INTERVAL,
+  duration INTERVAL,
+  -- Content
+  activity TEXT NOT NULL,
+  zone_id UUID REFERENCES zones(id),
+  cue_type cue_type_enum,
+  -- Department Cues
+  audio_cue VARCHAR(50),
+  audio_notes TEXT,
+  lighting_cue VARCHAR(50),
+  lighting_notes TEXT,
+  video_cue VARCHAR(50),
+  video_notes TEXT,
+  sfx_cue VARCHAR(50),
+  sfx_notes TEXT,
+  scenic_cue VARCHAR(50),
+  scenic_notes TEXT,
+  -- Elements
+  talent TEXT[] DEFAULT '{}',
+  props TEXT[] DEFAULT '{}',
+  script_dialogue TEXT,
+  ops_notes TEXT,
+  -- Meta
+  is_milestone BOOLEAN DEFAULT false,
+  is_hold BOOLEAN DEFAULT false,
+  trigger_type trigger_type_enum,
+  notes TEXT,
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+
+-- ============================================================================
+-- CONTRACTS
+-- ============================================================================
+
+-- Contract Types
+CREATE TABLE contract_types (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+  name VARCHAR(100) NOT NULL,
+  code VARCHAR(20),
+  category contract_category_enum,
+  description TEXT,
+  template_url VARCHAR(500),
+  required_fields JSONB DEFAULT '[]',
+  default_terms JSONB DEFAULT '{}',
+  requires_legal_review BOOLEAN DEFAULT true,
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Contracts
+CREATE TABLE contracts (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  organization_id UUID NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,
+  production_id UUID REFERENCES productions(id),
+  contract_type_id UUID REFERENCES contract_types(id),
+  contract_number VARCHAR(50) UNIQUE,
+  title VARCHAR(255) NOT NULL,
+  status contract_status_enum DEFAULT 'draft',
+  -- Parties
+  party_a_org_id UUID REFERENCES organizations(id),
+  party_a_contact_id UUID REFERENCES contacts(id),
+  party_b_org_id UUID REFERENCES organizations(id),
+  party_b_contact_id UUID REFERENCES contacts(id),
+  -- Terms
+  effective_date DATE,
+  expiration_date DATE,
+  auto_renew BOOLEAN DEFAULT false,
+  renewal_terms TEXT,
+  termination_notice_days INTEGER,
+  -- Financial
+  total_value DECIMAL(12,2),
+  payment_terms VARCHAR(50),
+  payment_schedule JSONB,
+  -- Documents
+  document_url VARCHAR(500),
+  attachments JSONB DEFAULT '[]',
+  -- Signatures
+  party_a_signed_at TIMESTAMPTZ,
+  party_b_signed_at TIMESTAMPTZ,
+  -- Compliance
+  insurance_required BOOLEAN DEFAULT false,
+  insurance_verified BOOLEAN DEFAULT false,
+  w9_required BOOLEAN DEFAULT false,
+  w9_received BOOLEAN DEFAULT false,
+  background_check_required BOOLEAN DEFAULT false,
+  background_check_passed BOOLEAN,
+  -- Meta
+  notes TEXT,
+  metadata JSONB DEFAULT '{}',
+  created_by UUID REFERENCES contacts(id),
+  updated_by UUID REFERENCES contacts(id),
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  deleted_at TIMESTAMPTZ
+);
+
+-- Update production_assignments FK
+ALTER TABLE production_assignments 
+ADD CONSTRAINT fk_contract FOREIGN KEY (contract_id) REFERENCES contracts(id);
+
+
+-- ============================================================================
+-- COMPLIANCE
+-- ============================================================================
+
+-- Permits
+CREATE TABLE permits (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  production_id UUID REFERENCES productions(id) ON DELETE CASCADE,
+  venue_id UUID REFERENCES venues(id),
+  type permit_type_enum NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  permit_number VARCHAR(100),
+  issuing_authority VARCHAR(255),
+  status permit_status_enum DEFAULT 'not_started',
+  application_date DATE,
+  approval_date DATE,
+  expiration_date DATE,
+  cost DECIMAL(10,2),
+  document_url VARCHAR(500),
+  requirements TEXT[] DEFAULT '{}',
+  conditions TEXT,
+  contact_id UUID REFERENCES contacts(id),
+  notes TEXT,
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Insurance Policies
+CREATE TABLE insurance_policies (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+  production_id UUID REFERENCES productions(id),
+  type insurance_type_enum NOT NULL,
+  policy_number VARCHAR(100),
+  carrier VARCHAR(255) NOT NULL,
+  broker_contact_id UUID REFERENCES contacts(id),
+  coverage_amount DECIMAL(12,2),
+  deductible DECIMAL(10,2),
+  premium DECIMAL(10,2),
+  effective_date DATE NOT NULL,
+  expiration_date DATE NOT NULL,
+  status policy_status_enum DEFAULT 'active',
+  document_url VARCHAR(500),
+  coi_url VARCHAR(500),
+  additional_insureds JSONB DEFAULT '[]',
+  endorsements JSONB DEFAULT '[]',
+  claims JSONB DEFAULT '[]',
+  notes TEXT,
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Compliance Checklists
+CREATE TABLE compliance_checklists (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  production_id UUID REFERENCES productions(id) ON DELETE CASCADE,
+  category compliance_category_enum NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  status checklist_status_enum DEFAULT 'not_started',
+  completion_percent INTEGER DEFAULT 0,
+  due_date DATE,
+  completed_at TIMESTAMPTZ,
+  completed_by_id UUID REFERENCES contacts(id),
+  approved_by_id UUID REFERENCES contacts(id),
+  approved_at TIMESTAMPTZ,
+  notes TEXT,
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Compliance Items
+CREATE TABLE compliance_items (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  checklist_id UUID NOT NULL REFERENCES compliance_checklists(id) ON DELETE CASCADE,
+  title VARCHAR(255) NOT NULL,
+  description TEXT,
+  status item_status_enum DEFAULT 'pending',
+  is_required BOOLEAN DEFAULT true,
+  sort_order INTEGER DEFAULT 0,
+  due_date DATE,
+  completed_at TIMESTAMPTZ,
+  completed_by_id UUID REFERENCES contacts(id),
+  evidence_url VARCHAR(500),
+  notes TEXT,
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+
+-- ============================================================================
+-- SPONSORSHIP & INVESTMENT
+-- ============================================================================
+
+-- Sponsor Tiers
+CREATE TABLE sponsor_tiers (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+  production_id UUID REFERENCES productions(id),
+  name VARCHAR(100) NOT NULL,
+  level INTEGER NOT NULL,
+  investment_min DECIMAL(10,2),
+  investment_max DECIMAL(10,2),
+  is_exclusive BOOLEAN DEFAULT false,
+  max_sponsors INTEGER,
+  description TEXT,
+  benefits_summary TEXT,
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Sponsors
+CREATE TABLE sponsors (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  production_id UUID NOT NULL REFERENCES productions(id) ON DELETE CASCADE,
+  organization_id UUID REFERENCES organizations(id),
+  tier_id UUID REFERENCES sponsor_tiers(id),
+  status sponsor_status_enum DEFAULT 'prospect',
+  -- Financial
+  cash_value DECIMAL(10,2),
+  vik_value DECIMAL(10,2),
+  total_value DECIMAL(10,2) GENERATED ALWAYS AS (COALESCE(cash_value, 0) + COALESCE(vik_value, 0)) STORED,
+  payment_received DECIMAL(10,2) DEFAULT 0,
+  payment_schedule JSONB,
+  -- Contacts
+  primary_contact_id UUID REFERENCES contacts(id),
+  activation_contact_id UUID REFERENCES contacts(id),
+  day_of_contact_id UUID REFERENCES contacts(id),
+  -- Terms
+  contract_id UUID REFERENCES contracts(id),
+  category_exclusivity VARCHAR(100),
+  exclusivity_terms TEXT,
+  -- Deliverables
+  benefits JSONB DEFAULT '[]',
+  activations JSONB DEFAULT '[]',
+  hospitality_tickets INTEGER,
+  -- Reporting
+  deliverables_status JSONB DEFAULT '{}',
+  recap_due_date DATE,
+  recap_submitted BOOLEAN DEFAULT false,
+  -- Meta
+  notes TEXT,
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Investors
+CREATE TABLE investors (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  organization_id UUID REFERENCES organizations(id),
+  contact_id UUID REFERENCES contacts(id),
+  type investor_type_enum,
+  status investor_status_enum DEFAULT 'prospect',
+  accredited BOOLEAN,
+  investment_min DECIMAL(12,2),
+  investment_max DECIMAL(12,2),
+  interests TEXT[] DEFAULT '{}',
+  notes TEXT,
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Investment Rounds
+CREATE TABLE investment_rounds (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+  production_id UUID REFERENCES productions(id),
+  name VARCHAR(100) NOT NULL,
+  type round_type_enum,
+  status round_status_enum DEFAULT 'planning',
+  target_amount DECIMAL(12,2),
+  minimum_amount DECIMAL(12,2),
+  amount_raised DECIMAL(12,2) DEFAULT 0,
+  valuation DECIMAL(14,2),
+  instrument instrument_enum,
+  open_date DATE,
+  close_date DATE,
+  minimum_investment DECIMAL(10,2),
+  terms_url VARCHAR(500),
+  deck_url VARCHAR(500),
+  data_room_url VARCHAR(500),
+  notes TEXT,
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Investments
+CREATE TABLE investments (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  round_id UUID NOT NULL REFERENCES investment_rounds(id) ON DELETE CASCADE,
+  investor_id UUID NOT NULL REFERENCES investors(id),
+  amount DECIMAL(12,2) NOT NULL,
+  status investment_status_enum DEFAULT 'committed',
+  committed_at TIMESTAMPTZ,
+  funded_at TIMESTAMPTZ,
+  equity_percent DECIMAL(6,4),
+  contract_id UUID REFERENCES contracts(id),
+  notes TEXT,
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+
+-- ============================================================================
+-- SOPS
+-- ============================================================================
+
+-- SOP Categories
+CREATE TABLE sop_categories (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+  name VARCHAR(100) NOT NULL,
+  code VARCHAR(20),
+  description TEXT,
+  color VARCHAR(7),
+  sort_order INTEGER DEFAULT 0,
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- SOPs
+CREATE TABLE sops (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+  production_id UUID REFERENCES productions(id),
+  category_id UUID REFERENCES sop_categories(id),
+  title VARCHAR(255) NOT NULL,
+  version VARCHAR(20) DEFAULT '1.0',
+  status sop_status_enum DEFAULT 'draft',
+  effective_date DATE,
+  -- Content
+  purpose TEXT,
+  scope TEXT,
+  definitions JSONB DEFAULT '[]',
+  responsibilities JSONB DEFAULT '[]',
+  references JSONB DEFAULT '[]',
+  -- Approval
+  author_id UUID REFERENCES contacts(id),
+  approver_id UUID REFERENCES contacts(id),
+  approved_at TIMESTAMPTZ,
+  -- Meta
+  revision_history JSONB DEFAULT '[]',
+  document_url VARCHAR(500),
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- SOP Steps
+CREATE TABLE sop_steps (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  sop_id UUID NOT NULL REFERENCES sops(id) ON DELETE CASCADE,
+  step_number INTEGER NOT NULL,
+  title VARCHAR(255),
+  instruction TEXT NOT NULL,
+  responsible_role_id UUID REFERENCES roles(id),
+  notes TEXT,
+  warnings TEXT[] DEFAULT '{}',
+  media_urls TEXT[] DEFAULT '{}',
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+
+-- ============================================================================
+-- REPORTING
+-- ============================================================================
+
+-- Incidents
+CREATE TABLE incidents (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  production_id UUID REFERENCES productions(id) ON DELETE CASCADE,
+  show_id UUID REFERENCES shows(id),
+  report_number VARCHAR(50) UNIQUE,
+  -- Time & Location
+  incident_at TIMESTAMPTZ NOT NULL,
+  reported_at TIMESTAMPTZ DEFAULT NOW(),
+  zone_id UUID REFERENCES zones(id),
+  location_description TEXT,
+  -- Classification
+  type incident_type_enum NOT NULL,
+  severity severity_enum NOT NULL,
+  status incident_status_enum DEFAULT 'open',
+  -- Description
+  description TEXT NOT NULL,
+  -- People Involved
+  persons_involved JSONB DEFAULT '[]',
+  witnesses JSONB DEFAULT '[]',
+  -- Response
+  response_actions TEXT,
+  medical_attention BOOLEAN DEFAULT false,
+  medical_details TEXT,
+  law_enforcement_called BOOLEAN DEFAULT false,
+  law_enforcement_report VARCHAR(100),
+  -- Documentation
+  photos TEXT[] DEFAULT '{}',
+  videos TEXT[] DEFAULT '{}',
+  attachments JSONB DEFAULT '[]',
+  -- Follow-up
+  follow_up_required BOOLEAN DEFAULT false,
+  follow_up_description TEXT,
+  follow_up_due DATE,
+  follow_up_completed BOOLEAN DEFAULT false,
+  insurance_notified BOOLEAN DEFAULT false,
+  insurance_claim_number VARCHAR(100),
+  -- Signatures
+  reported_by_id UUID REFERENCES contacts(id),
+  reviewed_by_id UUID REFERENCES contacts(id),
+  reviewed_at TIMESTAMPTZ,
+  closed_by_id UUID REFERENCES contacts(id),
+  closed_at TIMESTAMPTZ,
+  -- Meta
+  notes TEXT,
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Lost & Found
+CREATE TABLE lost_found_items (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  production_id UUID REFERENCES productions(id) ON DELETE CASCADE,
+  show_id UUID REFERENCES shows(id),
+  item_number VARCHAR(50) UNIQUE,
+  -- Item Details
+  description TEXT NOT NULL,
+  category lost_found_category_enum,
+  estimated_value DECIMAL(10,2),
+  -- Found
+  found_at TIMESTAMPTZ NOT NULL,
+  found_zone_id UUID REFERENCES zones(id),
+  found_by_id UUID REFERENCES contacts(id),
+  -- Storage
+  storage_location VARCHAR(255),
+  status lost_found_status_enum DEFAULT 'stored',
+  -- Claim
+  owner_name VARCHAR(255),
+  owner_contact VARCHAR(255),
+  id_verified BOOLEAN DEFAULT false,
+  returned_at TIMESTAMPTZ,
+  returned_by_id UUID REFERENCES contacts(id),
+  owner_signature_url VARCHAR(500),
+  -- Disposal
+  disposed_at TIMESTAMPTZ,
+  disposal_method VARCHAR(100),
+  -- Meta
+  photos TEXT[] DEFAULT '{}',
+  notes TEXT,
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Expense Reports
+CREATE TABLE expense_reports (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  production_id UUID REFERENCES productions(id) ON DELETE CASCADE,
+  report_number VARCHAR(50) UNIQUE,
+  submitter_id UUID REFERENCES contacts(id),
+  department_id UUID REFERENCES departments(id),
+  period_start DATE,
+  period_end DATE,
+  status expense_report_status_enum DEFAULT 'draft',
+  advance_received DECIMAL(10,2) DEFAULT 0,
+  submitted_at TIMESTAMPTZ,
+  approved_by_id UUID REFERENCES contacts(id),
+  approved_at TIMESTAMPTZ,
+  paid_at TIMESTAMPTZ,
+  notes TEXT,
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Expenses
+CREATE TABLE expenses (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  production_id UUID REFERENCES productions(id) ON DELETE CASCADE,
+  report_id UUID REFERENCES expense_reports(id),
+  -- Transaction
+  date DATE NOT NULL,
+  vendor VARCHAR(255) NOT NULL,
+  description TEXT NOT NULL,
+  category expense_category_enum,
+  amount DECIMAL(10,2) NOT NULL,
+  currency VARCHAR(3) DEFAULT 'USD',
+  -- Payment
+  payment_method payment_method_enum,
+  reimbursable BOOLEAN DEFAULT true,
+  reimbursed BOOLEAN DEFAULT false,
+  reimbursed_at TIMESTAMPTZ,
+  -- Documentation
+  receipt_url VARCHAR(500),
+  receipt_verified BOOLEAN DEFAULT false,
+  -- Budget
+  budget_code VARCHAR(50),
+  department_id UUID REFERENCES departments(id),
+  task_id UUID REFERENCES schedule_tasks(id),
+  -- Meta
+  submitted_by_id UUID REFERENCES contacts(id),
+  approved_by_id UUID REFERENCES contacts(id),
+  approved_at TIMESTAMPTZ,
+  notes TEXT,
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Daily Reports
+CREATE TABLE daily_reports (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  production_id UUID REFERENCES productions(id) ON DELETE CASCADE,
+  show_id UUID REFERENCES shows(id),
+  date DATE NOT NULL,
+  -- Attendance
+  tickets_sold INTEGER DEFAULT 0,
+  attendance INTEGER DEFAULT 0,
+  capacity_percent DECIMAL(5,2),
+  -- Revenue
+  ticket_revenue DECIMAL(10,2) DEFAULT 0,
+  fb_revenue DECIMAL(10,2) DEFAULT 0,
+  merch_revenue DECIMAL(10,2) DEFAULT 0,
+  other_revenue DECIMAL(10,2) DEFAULT 0,
+  total_revenue DECIMAL(10,2) GENERATED ALWAYS AS (
+    COALESCE(ticket_revenue, 0) + COALESCE(fb_revenue, 0) + 
+    COALESCE(merch_revenue, 0) + COALESCE(other_revenue, 0)
+  ) STORED,
+  -- Operations
+  incidents_count INTEGER DEFAULT 0,
+  incidents_summary TEXT,
+  guest_feedback TEXT,
+  staff_issues TEXT,
+  technical_issues TEXT,
+  weather VARCHAR(100),
+  weather_impact TEXT,
+  notable_events TEXT,
+  -- Action Items
+  follow_up_items JSONB DEFAULT '[]',
+  -- Meta
+  submitted_by_id UUID REFERENCES contacts(id),
+  submitted_at TIMESTAMPTZ,
+  notes TEXT,
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Wrap Reports
+CREATE TABLE wrap_reports (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  production_id UUID NOT NULL REFERENCES productions(id) ON DELETE CASCADE,
+  status report_status_enum DEFAULT 'draft',
+  -- Financial
+  budget_total DECIMAL(12,2),
+  actual_spend DECIMAL(12,2),
+  variance DECIMAL(12,2) GENERATED ALWAYS AS (
+    COALESCE(budget_total, 0) - COALESCE(actual_spend, 0)
+  ) STORED,
+  revenue_breakdown JSONB,
+  expense_breakdown JSONB,
+  profit_loss DECIMAL(12,2),
+  -- Attendance
+  total_attendance INTEGER,
+  shows_count INTEGER,
+  peak_attendance INTEGER,
+  demographics JSONB,
+  -- Marketing
+  marketing_metrics JSONB,
+  acquisition_channels JSONB,
+  social_metrics JSONB,
+  press_coverage JSONB,
+  -- Sponsorship
+  sponsorship_revenue DECIMAL(10,2),
+  sponsor_satisfaction JSONB,
+  renewal_prospects JSONB,
+  -- Operations
+  operations_assessment TEXT,
+  guest_satisfaction DECIMAL(3,2),
+  guest_feedback_summary TEXT,
+  incident_summary JSONB,
+  vendor_assessments JSONB,
+  -- Learnings
+  lessons_learned JSONB DEFAULT '[]',
+  recommendations JSONB DEFAULT '[]',
+  -- Meta
+  prepared_by_id UUID REFERENCES contacts(id),
+  approved_by_id UUID REFERENCES contacts(id),
+  approved_at TIMESTAMPTZ,
+  attachments JSONB DEFAULT '[]',
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+
+-- ============================================================================
+-- API & INTEGRATIONS
+-- ============================================================================
+
+-- API Keys
+CREATE TABLE api_keys (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  organization_id UUID NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,
+  name VARCHAR(100) NOT NULL,
+  key_hash VARCHAR(255) NOT NULL,
+  key_prefix VARCHAR(10) NOT NULL,
+  permissions TEXT[] DEFAULT '{}',
+  rate_limit INTEGER DEFAULT 1000,
+  allowed_ips INET[],
+  allowed_origins TEXT[],
+  expires_at TIMESTAMPTZ,
+  last_used_at TIMESTAMPTZ,
+  is_active BOOLEAN DEFAULT true,
+  created_by_id UUID REFERENCES contacts(id),
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Webhooks
+CREATE TABLE webhooks (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  organization_id UUID NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,
+  name VARCHAR(100) NOT NULL,
+  url VARCHAR(500) NOT NULL,
+  secret VARCHAR(255),
+  events TEXT[] NOT NULL,
+  headers JSONB DEFAULT '{}',
+  is_active BOOLEAN DEFAULT true,
+  retry_count INTEGER DEFAULT 3,
+  timeout_seconds INTEGER DEFAULT 30,
+  last_triggered_at TIMESTAMPTZ,
+  last_status_code INTEGER,
+  failure_count INTEGER DEFAULT 0,
+  created_by_id UUID REFERENCES contacts(id),
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Integrations
+CREATE TABLE integrations (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  organization_id UUID NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,
+  provider integration_provider_enum NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  status integration_status_enum DEFAULT 'connected',
+  access_token TEXT,
+  refresh_token TEXT,
+  token_expires_at TIMESTAMPTZ,
+  scopes TEXT[] DEFAULT '{}',
+  settings JSONB DEFAULT '{}',
+  sync_enabled BOOLEAN DEFAULT true,
+  sync_frequency INTERVAL DEFAULT '15 minutes',
+  last_sync_at TIMESTAMPTZ,
+  last_sync_status VARCHAR(50),
+  error_message TEXT,
+  connected_by_id UUID REFERENCES contacts(id),
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Sync Logs
+CREATE TABLE sync_logs (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  integration_id UUID NOT NULL REFERENCES integrations(id) ON DELETE CASCADE,
+  direction sync_direction_enum,
+  status sync_status_enum,
+  started_at TIMESTAMPTZ DEFAULT NOW(),
+  completed_at TIMESTAMPTZ,
+  records_processed INTEGER DEFAULT 0,
+  records_created INTEGER DEFAULT 0,
+  records_updated INTEGER DEFAULT 0,
+  records_deleted INTEGER DEFAULT 0,
+  records_failed INTEGER DEFAULT 0,
+  errors JSONB DEFAULT '[]',
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Audit Logs
+CREATE TABLE audit_logs (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  organization_id UUID REFERENCES organizations(id),
+  user_id UUID REFERENCES contacts(id),
+  action audit_action_enum NOT NULL,
+  resource_type VARCHAR(100) NOT NULL,
+  resource_id UUID,
+  changes JSONB,
+  ip_address INET,
+  user_agent TEXT,
+  request_id UUID,
+  api_key_id UUID REFERENCES api_keys(id),
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+
+-- ============================================================================
+-- METRICS
+-- ============================================================================
+
+-- Metrics
+CREATE TABLE metrics (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+  production_id UUID REFERENCES productions(id),
+  metric_type VARCHAR(100) NOT NULL,
+  metric_name VARCHAR(100) NOT NULL,
+  value DECIMAL(15,4) NOT NULL,
+  unit VARCHAR(50),
+  dimensions JSONB DEFAULT '{}',
+  period_start TIMESTAMPTZ NOT NULL,
+  period_end TIMESTAMPTZ NOT NULL,
+  granularity granularity_enum,
+  source VARCHAR(100),
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+
+-- ============================================================================
+-- INDEXES
+-- ============================================================================
+
+-- Organizations
+CREATE INDEX idx_organizations_slug ON organizations(slug);
+CREATE INDEX idx_organizations_deleted ON organizations(deleted_at) WHERE deleted_at IS NULL;
+
+-- Venues
+CREATE INDEX idx_venues_org ON venues(organization_id);
+CREATE INDEX idx_venues_location ON venues(city, state);
+
+-- Contacts
+CREATE INDEX idx_contacts_org ON contacts(organization_id);
+CREATE INDEX idx_contacts_email ON contacts(email);
+CREATE INDEX idx_contacts_type ON contacts(type);
+CREATE INDEX idx_contacts_deleted ON contacts(deleted_at) WHERE deleted_at IS NULL;
+
+-- Productions
+CREATE INDEX idx_productions_org ON productions(organization_id);
+CREATE INDEX idx_productions_status ON productions(status);
+CREATE INDEX idx_productions_dates ON productions(opening_date, closing_date);
+CREATE INDEX idx_productions_venue ON productions(primary_venue_id);
+CREATE INDEX idx_productions_deleted ON productions(deleted_at) WHERE deleted_at IS NULL;
+
+-- Zones
+CREATE INDEX idx_zones_venue ON zones(venue_id);
+CREATE INDEX idx_zones_production ON zones(production_id);
+
+-- Credentials
+CREATE INDEX idx_credentials_production ON credentials(production_id);
+CREATE INDEX idx_credentials_contact ON credentials(contact_id);
+CREATE INDEX idx_credentials_status ON credentials(status);
+CREATE INDEX idx_credentials_dates ON credentials(valid_from, valid_until);
+
+-- Schedule Tasks
+CREATE INDEX idx_tasks_production ON schedule_tasks(production_id);
+CREATE INDEX idx_tasks_assignee ON schedule_tasks(assignee_id);
+CREATE INDEX idx_tasks_status ON schedule_tasks(status);
+CREATE INDEX idx_tasks_dates ON schedule_tasks(start_date, end_date);
+CREATE INDEX idx_tasks_deleted ON schedule_tasks(deleted_at) WHERE deleted_at IS NULL;
+
+-- Shows
+CREATE INDEX idx_shows_production ON shows(production_id);
+CREATE INDEX idx_shows_date ON shows(date);
+CREATE INDEX idx_shows_status ON shows(status);
+
+-- Cues
+CREATE INDEX idx_cues_production ON cues(production_id);
+CREATE INDEX idx_cues_show ON cues(show_id);
+CREATE INDEX idx_cues_sequence ON cues(sequence);
+
+-- Contracts
+CREATE INDEX idx_contracts_org ON contracts(organization_id);
+CREATE INDEX idx_contracts_production ON contracts(production_id);
+CREATE INDEX idx_contracts_status ON contracts(status);
+CREATE INDEX idx_contracts_dates ON contracts(effective_date, expiration_date);
+
+-- Permits
+CREATE INDEX idx_permits_production ON permits(production_id);
+CREATE INDEX idx_permits_status ON permits(status);
+CREATE INDEX idx_permits_expiration ON permits(expiration_date);
+
+-- Insurance
+CREATE INDEX idx_insurance_org ON insurance_policies(organization_id);
+CREATE INDEX idx_insurance_production ON insurance_policies(production_id);
+CREATE INDEX idx_insurance_expiration ON insurance_policies(expiration_date);
+
+-- Sponsors
+CREATE INDEX idx_sponsors_production ON sponsors(production_id);
+CREATE INDEX idx_sponsors_status ON sponsors(status);
+
+-- Incidents
+CREATE INDEX idx_incidents_production ON incidents(production_id);
+CREATE INDEX idx_incidents_show ON incidents(show_id);
+CREATE INDEX idx_incidents_type ON incidents(type);
+CREATE INDEX idx_incidents_status ON incidents(status);
+CREATE INDEX idx_incidents_date ON incidents(incident_at);
+
+-- Expenses
+CREATE INDEX idx_expenses_production ON expenses(production_id);
+CREATE INDEX idx_expenses_report ON expenses(report_id);
+CREATE INDEX idx_expenses_date ON expenses(date);
+
+-- Daily Reports
+CREATE INDEX idx_daily_reports_production ON daily_reports(production_id);
+CREATE INDEX idx_daily_reports_date ON daily_reports(date);
+
+-- API Keys
+CREATE INDEX idx_api_keys_org ON api_keys(organization_id);
+CREATE INDEX idx_api_keys_hash ON api_keys(key_hash);
+CREATE INDEX idx_api_keys_active ON api_keys(is_active) WHERE is_active = true;
+
+-- Integrations
+CREATE INDEX idx_integrations_org ON integrations(organization_id);
+CREATE INDEX idx_integrations_provider ON integrations(provider);
+CREATE INDEX idx_integrations_status ON integrations(status);
+
+-- Audit Logs
+CREATE INDEX idx_audit_org ON audit_logs(organization_id);
+CREATE INDEX idx_audit_user ON audit_logs(user_id);
+CREATE INDEX idx_audit_resource ON audit_logs(resource_type, resource_id);
+CREATE INDEX idx_audit_created ON audit_logs(created_at);
+
+-- Metrics
+CREATE INDEX idx_metrics_org ON metrics(organization_id);
+CREATE INDEX idx_metrics_production ON metrics(production_id);
+CREATE INDEX idx_metrics_type ON metrics(metric_type, metric_name);
+CREATE INDEX idx_metrics_period ON metrics(period_start, period_end);
+
+
+-- ============================================================================
+-- ROW LEVEL SECURITY
+-- ============================================================================
+
+-- Enable RLS on all tables
+ALTER TABLE organizations ENABLE ROW LEVEL SECURITY;
+ALTER TABLE venues ENABLE ROW LEVEL SECURITY;
+ALTER TABLE departments ENABLE ROW LEVEL SECURITY;
+ALTER TABLE contacts ENABLE ROW LEVEL SECURITY;
+ALTER TABLE productions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE zones ENABLE ROW LEVEL SECURITY;
+ALTER TABLE credential_types ENABLE ROW LEVEL SECURITY;
+ALTER TABLE roles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE credentials ENABLE ROW LEVEL SECURITY;
+ALTER TABLE credential_zone_access ENABLE ROW LEVEL SECURITY;
+ALTER TABLE production_assignments ENABLE ROW LEVEL SECURITY;
+ALTER TABLE schedule_phases ENABLE ROW LEVEL SECURITY;
+ALTER TABLE schedule_tasks ENABLE ROW LEVEL SECURITY;
+ALTER TABLE task_contingencies ENABLE ROW LEVEL SECURITY;
+ALTER TABLE shows ENABLE ROW LEVEL SECURITY;
+ALTER TABLE cues ENABLE ROW LEVEL SECURITY;
+ALTER TABLE contract_types ENABLE ROW LEVEL SECURITY;
+ALTER TABLE contracts ENABLE ROW LEVEL SECURITY;
+ALTER TABLE permits ENABLE ROW LEVEL SECURITY;
+ALTER TABLE insurance_policies ENABLE ROW LEVEL SECURITY;
+ALTER TABLE compliance_checklists ENABLE ROW LEVEL SECURITY;
+ALTER TABLE compliance_items ENABLE ROW LEVEL SECURITY;
+ALTER TABLE sponsor_tiers ENABLE ROW LEVEL SECURITY;
+ALTER TABLE sponsors ENABLE ROW LEVEL SECURITY;
+ALTER TABLE investors ENABLE ROW LEVEL SECURITY;
+ALTER TABLE investment_rounds ENABLE ROW LEVEL SECURITY;
+ALTER TABLE investments ENABLE ROW LEVEL SECURITY;
+ALTER TABLE sop_categories ENABLE ROW LEVEL SECURITY;
+ALTER TABLE sops ENABLE ROW LEVEL SECURITY;
+ALTER TABLE sop_steps ENABLE ROW LEVEL SECURITY;
+ALTER TABLE incidents ENABLE ROW LEVEL SECURITY;
+ALTER TABLE lost_found_items ENABLE ROW LEVEL SECURITY;
+ALTER TABLE expense_reports ENABLE ROW LEVEL SECURITY;
+ALTER TABLE expenses ENABLE ROW LEVEL SECURITY;
+ALTER TABLE daily_reports ENABLE ROW LEVEL SECURITY;
+ALTER TABLE wrap_reports ENABLE ROW LEVEL SECURITY;
+ALTER TABLE api_keys ENABLE ROW LEVEL SECURITY;
+ALTER TABLE webhooks ENABLE ROW LEVEL SECURITY;
+ALTER TABLE integrations ENABLE ROW LEVEL SECURITY;
+ALTER TABLE sync_logs ENABLE ROW LEVEL SECURITY;
+ALTER TABLE audit_logs ENABLE ROW LEVEL SECURITY;
+ALTER TABLE metrics ENABLE ROW LEVEL SECURITY;
+
+-- Note: RLS policies should be created based on your authentication model.
+-- Below are example policies for organization-based access.
+
+-- Example: Organizations (users can see orgs they belong to)
+-- CREATE POLICY "Users can view own organizations"
+-- ON organizations FOR SELECT
+-- USING (id IN (
+--   SELECT organization_id FROM organization_members
+--   WHERE user_id = auth.uid()
+-- ));
+
+-- Example: Productions (users can view productions in their org)
+-- CREATE POLICY "Users can view org productions"
+-- ON productions FOR SELECT
+-- USING (organization_id IN (
+--   SELECT organization_id FROM organization_members
+--   WHERE user_id = auth.uid()
+-- ));
+
+
+-- ============================================================================
+-- TRIGGERS
+-- ============================================================================
+
+-- Auto-update updated_at timestamps
+CREATE OR REPLACE FUNCTION update_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Apply to all tables with updated_at
+CREATE TRIGGER update_organizations_updated_at BEFORE UPDATE ON organizations FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_venues_updated_at BEFORE UPDATE ON venues FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_departments_updated_at BEFORE UPDATE ON departments FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_contacts_updated_at BEFORE UPDATE ON contacts FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_productions_updated_at BEFORE UPDATE ON productions FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_zones_updated_at BEFORE UPDATE ON zones FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_credential_types_updated_at BEFORE UPDATE ON credential_types FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_roles_updated_at BEFORE UPDATE ON roles FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_credentials_updated_at BEFORE UPDATE ON credentials FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_production_assignments_updated_at BEFORE UPDATE ON production_assignments FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_schedule_phases_updated_at BEFORE UPDATE ON schedule_phases FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_schedule_tasks_updated_at BEFORE UPDATE ON schedule_tasks FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_task_contingencies_updated_at BEFORE UPDATE ON task_contingencies FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_shows_updated_at BEFORE UPDATE ON shows FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_cues_updated_at BEFORE UPDATE ON cues FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_contract_types_updated_at BEFORE UPDATE ON contract_types FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_contracts_updated_at BEFORE UPDATE ON contracts FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_permits_updated_at BEFORE UPDATE ON permits FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_insurance_policies_updated_at BEFORE UPDATE ON insurance_policies FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_compliance_checklists_updated_at BEFORE UPDATE ON compliance_checklists FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_compliance_items_updated_at BEFORE UPDATE ON compliance_items FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_sponsor_tiers_updated_at BEFORE UPDATE ON sponsor_tiers FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_sponsors_updated_at BEFORE UPDATE ON sponsors FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_investors_updated_at BEFORE UPDATE ON investors FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_investment_rounds_updated_at BEFORE UPDATE ON investment_rounds FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_investments_updated_at BEFORE UPDATE ON investments FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_sop_categories_updated_at BEFORE UPDATE ON sop_categories FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_sops_updated_at BEFORE UPDATE ON sops FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_sop_steps_updated_at BEFORE UPDATE ON sop_steps FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_incidents_updated_at BEFORE UPDATE ON incidents FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_lost_found_items_updated_at BEFORE UPDATE ON lost_found_items FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_expense_reports_updated_at BEFORE UPDATE ON expense_reports FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_expenses_updated_at BEFORE UPDATE ON expenses FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_daily_reports_updated_at BEFORE UPDATE ON daily_reports FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_wrap_reports_updated_at BEFORE UPDATE ON wrap_reports FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_api_keys_updated_at BEFORE UPDATE ON api_keys FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_webhooks_updated_at BEFORE UPDATE ON webhooks FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_integrations_updated_at BEFORE UPDATE ON integrations FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
+
+-- ============================================================================
+-- VIEWS
+-- ============================================================================
+
+-- Daily Metrics View
+CREATE VIEW daily_metrics AS
+SELECT 
+  date,
+  production_id,
+  SUM(attendance) as total_attendance,
+  SUM(ticket_revenue) as ticket_revenue,
+  SUM(fb_revenue) as fb_revenue,
+  SUM(merch_revenue) as merch_revenue,
+  SUM(total_revenue) as total_revenue,
+  AVG(capacity_percent) as avg_capacity,
+  COUNT(DISTINCT show_id) as show_count
+FROM daily_reports
+GROUP BY date, production_id;
+
+-- Production Summary View
+CREATE VIEW production_summary AS
+SELECT
+  p.id,
+  p.title,
+  p.status,
+  p.opening_date,
+  p.closing_date,
+  COUNT(DISTINCT s.id) as total_shows,
+  SUM(s.attendance) as total_attendance,
+  COUNT(DISTINCT i.id) as total_incidents,
+  COUNT(DISTINCT sp.id) as sponsor_count
+FROM productions p
+LEFT JOIN shows s ON s.production_id = p.id
+LEFT JOIN incidents i ON i.production_id = p.id
+LEFT JOIN sponsors sp ON sp.production_id = p.id AND sp.status = 'active'
+WHERE p.deleted_at IS NULL
+GROUP BY p.id;
+
+-- Active Credentials View
+CREATE VIEW active_credentials AS
+SELECT 
+  c.*,
+  ct.name as credential_type_name,
+  ct.code as credential_type_code,
+  ct.access_level,
+  co.first_name,
+  co.last_name,
+  co.email,
+  p.title as production_title
+FROM credentials c
+JOIN credential_types ct ON c.credential_type_id = ct.id
+JOIN contacts co ON c.contact_id = co.id
+JOIN productions p ON c.production_id = p.id
+WHERE c.status = 'active'
+  AND c.valid_from <= CURRENT_DATE
+  AND c.valid_until >= CURRENT_DATE;
+
+-- Upcoming Tasks View
+CREATE VIEW upcoming_tasks AS
+SELECT 
+  t.*,
+  p.title as production_title,
+  a.first_name as assignee_first_name,
+  a.last_name as assignee_last_name,
+  d.name as department_name
+FROM schedule_tasks t
+JOIN productions p ON t.production_id = p.id
+LEFT JOIN contacts a ON t.assignee_id = a.id
+LEFT JOIN departments d ON t.department_id = d.id
+WHERE t.status NOT IN ('complete', 'cancelled')
+  AND t.deleted_at IS NULL
+  AND t.end_date >= CURRENT_DATE
+ORDER BY t.end_date, t.priority DESC;
+
+
+-- ============================================================================
+-- SEED DATA: Default Schedule Phases
+-- ============================================================================
+
+INSERT INTO schedule_phases (id, organization_id, name, code, description, sort_order, color, is_default) VALUES
+  (uuid_generate_v4(), NULL, 'Pre-Production', 'PRE', 'Planning, design, contracting, procurement', 1, '#3498db', true),
+  (uuid_generate_v4(), NULL, 'Production/Build', 'PROD', 'Fabrication, rehearsals, technical prep', 2, '#9b59b6', true),
+  (uuid_generate_v4(), NULL, 'Load-In', 'LOAD', 'Venue access, installation, technical setup', 3, '#e67e22', true),
+  (uuid_generate_v4(), NULL, 'Tech/Dress', 'TECH', 'Technical rehearsals, dress rehearsals', 4, '#f39c12', true),
+  (uuid_generate_v4(), NULL, 'Previews', 'PREV', 'Soft openings, invited audiences', 5, '#1abc9c', true),
+  (uuid_generate_v4(), NULL, 'Run', 'RUN', 'Live performances/operations', 6, '#27ae60', true),
+  (uuid_generate_v4(), NULL, 'Strike/Load-Out', 'STRK', 'Teardown, removal, restoration', 7, '#e74c3c', true),
+  (uuid_generate_v4(), NULL, 'Post-Production', 'POST', 'Wrap, archival, reporting', 8, '#95a5a6', true);
+
+
+-- ============================================================================
+-- SEED DATA: Default SOP Categories
+-- ============================================================================
+
+INSERT INTO sop_categories (id, organization_id, name, code, description, sort_order, color) VALUES
+  (uuid_generate_v4(), NULL, 'Guest Services', 'GS', 'Guest arrival, complaints, accommodations', 1, '#3498db'),
+  (uuid_generate_v4(), NULL, 'Security', 'SEC', 'Access control, incident response, ejections', 2, '#e74c3c'),
+  (uuid_generate_v4(), NULL, 'Emergency', 'EMG', 'Medical, fire, evacuation, weather', 3, '#c0392b'),
+  (uuid_generate_v4(), NULL, 'Food & Beverage', 'FB', 'Service, alcohol, cash handling, safety', 4, '#27ae60'),
+  (uuid_generate_v4(), NULL, 'Production', 'PRD', 'Show call, technical, performer protocols', 5, '#9b59b6');
+
+
+-- ============================================================================
+-- SEED DATA: Default Credential Types
+-- ============================================================================
+
+INSERT INTO credential_types (id, organization_id, name, code, description, access_level, color, requires_photo, sort_order) VALUES
+  (uuid_generate_v4(), NULL, 'All Access', 'AA', 'Executive team, key production leadership', 10, '#c0392b', true, 1),
+  (uuid_generate_v4(), NULL, 'Production', 'PROD', 'Production staff, technical crew, stagehands', 8, '#9b59b6', true, 2),
+  (uuid_generate_v4(), NULL, 'Artist/Talent', 'ART', 'Performers, talent entourage, management', 7, '#f39c12', true, 3),
+  (uuid_generate_v4(), NULL, 'Operations', 'OPS', 'FOH staff, guest services, security', 5, '#3498db', true, 4),
+  (uuid_generate_v4(), NULL, 'Food & Beverage', 'FB', 'Food and beverage staff', 4, '#27ae60', false, 5),
+  (uuid_generate_v4(), NULL, 'Vendor', 'VND', 'External vendors, suppliers', 3, '#95a5a6', false, 6),
+  (uuid_generate_v4(), NULL, 'Sponsor', 'SPNR', 'Sponsor representatives', 4, '#e67e22', false, 7),
+  (uuid_generate_v4(), NULL, 'Media', 'MED', 'Press, photographers, videographers', 5, '#1abc9c', true, 8),
+  (uuid_generate_v4(), NULL, 'VIP', 'VIP', 'VIP guests', 3, '#8e44ad', false, 9),
+  (uuid_generate_v4(), NULL, 'General', 'GA', 'Standard guest admission', 1, '#bdc3c7', false, 10);
+
+
+-- ============================================================================
+-- COMPLETION
+-- ============================================================================
+
+-- Grant usage on schema
+GRANT USAGE ON SCHEMA public TO anon, authenticated;
+
+-- Grant table permissions (adjust based on your needs)
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO anon;
+GRANT ALL ON ALL TABLES IN SCHEMA public TO authenticated;
+GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO authenticated;
+
+COMMENT ON SCHEMA public IS 'GHXSTSHIP Production Management Database v1.0.0';
