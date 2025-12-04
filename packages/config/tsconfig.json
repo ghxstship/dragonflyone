@@ -53,7 +53,13 @@
     "query-client.tsx",
     "query-utils.ts",
     "mfa.ts",
-    "cross-app-navigation.ts"
+    "cross-app-navigation.ts",
+    "api-versioning.ts",
+    "sso-config.ts",
+    "permissions.ts",
+    "logging.ts",
+    "session-config.ts",
+    "rate-limiting.ts"
   ],
   "exclude": [
     "node_modules",

@@ -5,6 +5,16 @@
   "buildCommand": "NODE_OPTIONS='--max-old-space-size=7168' pnpm turbo run build --filter=compvss...",
   "outputDirectory": ".next",
   "regions": ["iad1"],
+  "crons": [
+    {
+      "path": "/api/cron/sync-equipment",
+      "schedule": "0 4 * * *"
+    },
+    {
+      "path": "/api/cron/crew-notifications",
+      "schedule": "0 13 * * *"
+    }
+  ],
   "headers": [
     {
       "source": "/api/(.*)",

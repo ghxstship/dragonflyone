@@ -551,7 +551,7 @@
 107:29  Warning: Classname 'bg-primary/5' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
 107:29  Warning: Classname 'border-grey-200' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
 107:29  Warning: Classname 'hover:border-grey-400' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-118:47  Warning: ❌ PROHIBITED: Raw Tailwind font weight. Use design system: font-weight-normal, font-weight-medium, font-weight-semibold, font-weight-bold  no-restricted-syntax
+118:37  Warning: Classname 'font-weight-semibold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
 119:37  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
 130:33  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
 130:33  Warning: Classname 'text-grey-400' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
@@ -563,7 +563,7 @@
 143:29  Warning: Classname 'bg-primary/10' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
 143:29  Warning: Classname 'hover:bg-grey-50' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
 143:29  Warning: Classname 'border-grey-100' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-152:49  Warning: ❌ PROHIBITED: Raw Tailwind font weight. Use design system: font-weight-normal, font-weight-medium, font-weight-semibold, font-weight-bold  no-restricted-syntax
+152:39  Warning: Classname 'font-weight-semibold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
 153:39  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
 173:27  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
 173:27  Warning: Classname 'border-grey-300' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
@@ -576,14 +576,15 @@
 211:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
 211:23  Warning: Classname 'border-grey-200' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
 217:31  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-222:43  Warning: ❌ PROHIBITED: Raw Tailwind font weight. Use design system: font-weight-normal, font-weight-medium, font-weight-semibold, font-weight-bold  no-restricted-syntax
+222:33  Warning: Classname 'font-weight-semibold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
 226:29  Warning: Classname 'text-grey-400' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
 231:31  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-232:41  Warning: ❌ PROHIBITED: Raw Tailwind font weight. Use design system: font-weight-normal, font-weight-medium, font-weight-semibold, font-weight-bold  no-restricted-syntax
+232:31  Warning: Classname 'font-weight-semibold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
 233:31  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
 236:29  Warning: Classname 'text-grey-400' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
 241:31  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-242:41  Warning: ❌ PROHIBITED: Raw Tailwind font weight. Use design system: font-weight-normal, font-weight-medium, font-weight-semibold, font-weight-bold  no-restricted-syntax
+242:31  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+242:31  Warning: Classname 'font-weight-semibold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
 247:28  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
 247:28  Warning: Classname 'border-warning' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
 247:28  Warning: Classname 'bg-warning/10' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
@@ -617,11 +618,10 @@
 115:35  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
 117:32  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
 117:32  Warning: Classname 'bg-grey-200' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-117:42  Warning: ❌ PROHIBITED: Raw Tailwind border radius. Use design system: rounded-button (4px), rounded-card (8px), rounded-modal (16px), rounded-avatar (full), rounded-badge (2px)  no-restricted-syntax
-119:41  Warning: ❌ PROHIBITED: Raw Tailwind border radius. Use design system: rounded-button (4px), rounded-card (8px), rounded-modal (16px), rounded-avatar (full), rounded-badge (2px)  no-restricted-syntax
+119:31  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
 134:21  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
 134:21  Warning: Classname 'border-grey-200' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-142:39  Warning: ❌ PROHIBITED: Raw Tailwind border radius. Use design system: rounded-button (4px), rounded-card (8px), rounded-modal (16px), rounded-avatar (full), rounded-badge (2px)  no-restricted-syntax
+142:29  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
 147:31  Warning: Classname 'font-weight-semibold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
 157:21  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
 157:21  Warning: Classname 'border-grey-200' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
@@ -732,6 +732,9 @@
 276:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
 276:23  Warning: Classname 'border-grey-300' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
 
+./src/app/crew/loading.tsx
+22:33  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+
 ./src/app/crew/page.tsx
 224:5  Warning: Unexpected console statement.  no-console
 228:5  Warning: Unexpected console statement.  no-console
@@ -762,10 +765,14 @@
 295:53  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
 297:33  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
 297:33  Warning: Classnames 'w-12, h-12' could be replaced by the 'size-12' shorthand!  tailwindcss/enforces-shorthand
-297:43  Warning: ❌ PROHIBITED: Raw Tailwind border radius. Use design system: rounded-button (4px), rounded-card (8px), rounded-modal (16px), rounded-avatar (full), rounded-badge (2px)  no-restricted-syntax
 340:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
 340:23  Warning: Classnames 'w-16, h-16' could be replaced by the 'size-16' shorthand!  tailwindcss/enforces-shorthand
-340:33  Warning: ❌ PROHIBITED: Raw Tailwind border radius. Use design system: rounded-button (4px), rounded-card (8px), rounded-modal (16px), rounded-avatar (full), rounded-badge (2px)  no-restricted-syntax
+
+./src/app/dashboard/loading.tsx
+19:33  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+25:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+26:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+30:21  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
 
 ./src/app/dashboard/page.tsx
 4:28  Warning: 'CompvssLoadingLayout' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
@@ -883,4 +890,11 @@
 170:29  Warning: Unexpected console statement.  no-console
 
 ./src/app/mentorship/page.tsx
- ELIFECYCLE  Command failed with exit code 1.
+73:10  Warning: 'selectedProgram' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+79:9  Warning: 'getAvailabilityColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+88:9  Warning: 'getLevelColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/messages/page.tsx
+97:43  Warning: Classname 'bg-ink-100' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+99:33  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+109:37  Warning: Invalid Tailwind CSS classnames order  tailwindcss/c

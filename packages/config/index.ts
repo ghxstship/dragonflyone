@@ -69,3 +69,37 @@ export * from './mfa';
 
 // Cross-app navigation utilities
 export * from './cross-app-navigation';
+
+// API versioning utilities
+export * from './api-versioning';
+
+// SSO/SAML configuration for enterprise
+export * from './sso-config';
+
+// Detailed permission system
+export * from './permissions';
+
+// Centralized logging
+export * from './logging';
+
+// Session timeout configuration
+export * from './session-config';
+
+// Rate limiting (explicit exports to avoid conflicts with middleware)
+export {
+  RateLimiter,
+  rateLimited,
+  getRateLimiterForEndpoint,
+  rateLimiters,
+  RATE_LIMIT_PRESETS,
+  memoryRateLimitStore,
+  ipKeyGenerator,
+  userKeyGenerator,
+  endpointKeyGenerator,
+} from './rate-limiting';
+export type {
+  RateLimitConfig,
+  RateLimitInfo,
+  RateLimitResult,
+  RateLimitStore,
+} from './rate-limiting';

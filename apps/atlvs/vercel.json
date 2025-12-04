@@ -5,6 +5,16 @@
   "buildCommand": "pnpm turbo run build --filter=atlvs...",
   "outputDirectory": ".next",
   "regions": ["iad1"],
+  "crons": [
+    {
+      "path": "/api/cron/sync-ledger",
+      "schedule": "0 2 * * *"
+    },
+    {
+      "path": "/api/cron/cleanup-sessions",
+      "schedule": "0 3 * * *"
+    }
+  ],
   "headers": [
     {
       "source": "/api/(.*)",

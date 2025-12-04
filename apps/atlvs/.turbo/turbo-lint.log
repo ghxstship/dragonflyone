@@ -2,3 +2,829 @@
 > atlvs@0.1.0 lint /Users/julianclarkson/Documents/Dragonflyone/apps/atlvs
 > next lint --max-warnings 9999
 
+
+./src/app/about/page.tsx
+43:20  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+43:20  Warning: Classname 'max-w-container-5xl' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+45:30  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+51:29  Warning: Classname 'text-on-dark-secondary' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+60:20  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+60:20  Warning: Classname 'max-w-container-4xl' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+61:17  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+61:17  Warning: Classname 'border-ink-950' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+61:17  Warning: Classname 'shadow-brand-lg' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+63:19  Warning: Classname 'text-ink-950' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+64:31  Warning: Classname 'text-grey-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+74:20  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+74:20  Warning: Classname 'max-w-container-5xl' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+78:36  Warning: Classname 'text-ink-950' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+81:34  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+92:20  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+92:20  Warning: Classname 'max-w-container-5xl' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+94:17  Warning: Classname 'text-ink-950' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+99:39  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+99:39  Warning: Classname 'border-ink-950' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+101:26  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+101:26  Warning: Classname 'border-ink-950' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+101:26  Warning: Classname 'bg-grey-100' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+102:33  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+102:33  Warning: Classname 'text-ink-950' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+104:33  Warning: Classname 'text-ink-950' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+107:35  Warning: Classname 'text-grey-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+119:20  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+119:20  Warning: Classname 'max-w-container-5xl' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+126:48  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+126:48  Warning: Classname 'border-ink-800' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+126:48  Warning: Classname 'bg-ink-900' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+128:26  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+128:26  Warning: Classname 'border-ink-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+128:26  Warning: Classname 'bg-ink-800' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+129:28  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+129:28  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+135:38  Warning: Classname 'text-brand-pink' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+139:35  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+151:20  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+151:20  Warning: Classname 'max-w-container-5xl' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+153:30  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+158:49  Warning: Classname 'text-grey-400' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+169:20  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+169:20  Warning: Classname 'max-w-container-4xl' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+174:29  Warning: Classname 'text-on-dark-secondary' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+
+./src/app/action-items/page.tsx
+92:29  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+143:32  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+157:32  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+203:19  Warning: Classname 'border-error' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+203:19  Warning: Classname 'border-warning' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+203:19  Warning: Classname 'border-grey-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+203:19  Warning: Classname 'hover:border-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+220:41  Warning: Classname 'text-grey-300' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+225:44  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+
+./src/app/advances/[id]/page.tsx
+13:3  Warning: 'CardBody' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:3  Warning: 'Label' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+116:19  Warning: Classname 'text-ink-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+144:31  Warning: Classname 'font-weight-medium' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+144:31  Warning: Classname 'text-ink-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+148:31  Warning: Classname 'font-weight-medium' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+148:31  Warning: Classname 'text-ink-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+151:33  Warning: Classname 'text-ink-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+157:31  Warning: Classname 'font-weight-medium' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+157:31  Warning: Classname 'text-ink-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+161:31  Warning: Classname 'font-weight-medium' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+161:31  Warning: Classname 'text-ink-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+166:41  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+168:31  Warning: Classname 'font-weight-medium' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+168:31  Warning: Classname 'text-ink-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+170:31  Warning: Classname 'text-ink-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+173:31  Warning: Classname 'font-weight-medium' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+173:31  Warning: Classname 'text-ink-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+186:45  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+190:37  Warning: Classname 'text-ink-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+193:37  Warning: Classname 'text-ink-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+198:24  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+199:35  Warning: Classname 'font-weight-semibold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+203:37  Warning: Classname 'text-ink-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+208:37  Warning: Classname 'font-weight-bold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+215:24  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+216:35  Warning: Classname 'text-ink-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+232:31  Warning: Classname 'font-weight-medium' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+232:31  Warning: Classname 'text-ink-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+243:31  Warning: Classname 'font-weight-medium' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+243:31  Warning: Classname 'text-ink-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+275:15  Warning: Classname 'text-error-900' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+280:31  Warning: Classname 'font-weight-medium' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+280:31  Warning: Classname 'text-ink-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+307:13  Warning: Classname 'bg-error-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+307:13  Warning: Classname 'hover:bg-error-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+
+./src/app/advances/page.tsx
+109:25  Warning: Unexpected console statement.  no-console
+
+./src/app/alignment/page.tsx
+132:36  Warning: Classname 'bg-success-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+133:36  Warning: Classname 'bg-warning-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+134:19  Warning: Classname 'bg-error-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+224:51  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+227:31  Warning: Classname 'text-ink-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+233:32  Warning: Classname 'text-ink-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+234:31  Warning: Classname 'font-weight-bold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+236:30  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+236:30  Warning: Classname 'bg-ink-200' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+242:53  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+243:31  Warning: Classname 'text-ink-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+246:31  Warning: Classname 'text-ink-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+256:23  Warning: Classname 'text-ink-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+267:51  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+270:31  Warning: Classname 'text-ink-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+277:30  Warning: Classname 'text-ink-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+290:31  Warning: Classname 'text-ink-400' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+309:23  Warning: Classname 'text-ink-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+324:29  Warning: Classname 'text-ink-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+325:29  Warning: Classname 'font-weight-bold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+328:29  Warning: Classname 'text-ink-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+329:29  Warning: Classname 'font-weight-bold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+332:29  Warning: Classname 'text-ink-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+333:29  Warning: Classname 'font-weight-bold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+375:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+375:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+375:23  Warning: Classname 'bg-ink-50' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+375:23  Warning: Classname 'border-ink-200' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+375:23  Warning: Classname 'hover:border-ink-400' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+388:53  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+390:33  Warning: Classname 'font-weight-bold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+391:33  Warning: Classname 'text-ink-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+
+./src/app/analytics/client-retention/page.tsx
+76:98  Warning: Unexpected console statement.  no-console
+138:34  Warning: Unexpected console statement.  no-console
+
+./src/app/analytics/dashboard-builder/page.tsx
+63:95  Warning: Unexpected console statement.  no-console
+74:5  Warning: Unexpected console statement.  no-console
+107:25  Warning: Unexpected console statement.  no-console
+
+./src/app/analytics/data-warehouse/page.tsx
+75:94  Warning: Unexpected console statement.  no-console
+76:95  Warning: Unexpected console statement.  no-console
+87:5  Warning: Unexpected console statement.  no-console
+142:34  Warning: Unexpected console statement.  no-console
+
+./src/app/analytics/kpi/[code]/page.tsx
+12:3  Warning: 'CardBody' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:3  Warning: 'SectionHeader' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+20:3  Warning: 'StatCard' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+24:10  Warning: 'ArrowLeft' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+24:21  Warning: 'TrendingUp' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+24:33  Warning: 'Target' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+24:41  Warning: 'AlertTriangle' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+24:56  Warning: 'Activity' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+171:19  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+171:19  Warning: Classname 'bg-info-50' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+172:21  Warning: Classname 'text-ink-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+173:19  Warning: Classname 'text-info-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+177:23  Warning: Classname 'text-success-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+177:23  Warning: Classname 'text-error-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+185:23  Warning: Classname 'text-ink-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+186:21  Warning: Classname 'text-ink-900' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+190:25  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+190:25  Warning: Classname 'text-ink-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+198:21  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+198:21  Warning: Classname 'bg-warning-50' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+199:23  Warning: Classname 'text-ink-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+200:21  Warning: Classname 'text-warning-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+207:21  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+207:21  Warning: Classname 'bg-error-50' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+208:23  Warning: Classname 'text-ink-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+209:21  Warning: Classname 'text-error-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+220:19  Warning: Classname 'font-weight-bold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+237:15  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+239:18  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+239:18  Warning: Classname 'bg-ink-100' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+240:19  Warning: Classname 'text-ink-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+250:19  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+250:19  Warning: Classname 'bg-ink-50' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+259:33  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+259:33  Warning: Classname 'bg-ink-50' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+260:25  Warning: Classname 'font-weight-bold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+261:25  Warning: Classname 'text-ink-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+265:27  Warning: Classname 'text-ink-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+280:22  Warning: Classname 'font-weight-bold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+281:21  Warning: Classname 'text-ink-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+286:22  Warning: Classname 'font-weight-bold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+287:21  Warning: Classname 'text-ink-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+292:22  Warning: Classname 'font-weight-bold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+293:21  Warning: Classname 'text-ink-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+296:22  Warning: Classname 'font-weight-bold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+297:21  Warning: Classname 'text-ink-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+302:22  Warning: Classname 'font-weight-bold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+303:21  Warning: Classname 'text-ink-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+308:22  Warning: Classname 'font-weight-bold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+309:21  Warning: Classname 'text-ink-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+
+./src/app/analytics/kpi/page.tsx
+204:21  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+204:21  Warning: Classname 'ring-primary' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+212:31  Warning: Classname 'text-on-dark-secondary' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+236:25  Warning: Classname 'text-on-dark-secondary' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+255:31  Warning: Classname 'text-on-dark-secondary' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+257:44  Warning: Classname 'text-on-dark-disabled' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+260:44  Warning: Classname 'text-on-dark-disabled' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+263:44  Warning: Classname 'text-on-dark-disabled' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+270:48  Warning: Classname 'text-on-dark-secondary' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+275:48  Warning: Classname 'text-accent' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+280:48  Warning: Classname 'text-destructive' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+302:23  Warning: Classname 'text-on-dark-disabled' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+315:38  Warning: Classname 'text-on-dark-secondary' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+321:38  Warning: Classname 'text-on-dark-secondary' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+327:38  Warning: Classname 'text-on-dark-secondary' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+332:25  Warning: Classname 'text-accent' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+333:38  Warning: Classname 'text-on-dark-secondary' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+339:38  Warning: Classname 'text-on-dark-secondary' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+
+./src/app/analytics/loading.tsx
+17:33  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+22:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+23:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+
+./src/app/analytics/page.tsx
+198:42  Warning: Classname 'text-on-dark-disabled' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+199:31  Warning: Classname 'text-on-dark-secondary' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+205:42  Warning: Classname 'text-on-dark-disabled' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+206:31  Warning: Classname 'text-on-dark-secondary' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+212:42  Warning: Classname 'text-on-dark-disabled' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+213:31  Warning: Classname 'text-on-dark-secondary' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+235:44  Warning: Classname 'text-on-dark-disabled' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+241:29  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+241:29  Warning: Classname 'text-on-dark-disabled' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+
+./src/app/api/account-health/route.ts
+99:42  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+108:61  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/accounts-payable/route.ts
+91:45  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+126:42  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+127:40  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+132:39  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+159:52  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+160:56  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+164:53  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+207:57  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+208:59  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+209:60  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+210:60  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+211:57  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+287:11  Warning: 'query' is never reassigned. Use 'const' instead.  prefer-const
+346:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+511:44  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+512:42  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+570:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+637:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+681:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/accounts-receivable/route.ts
+79:45  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+123:57  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+124:59  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+125:60  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+126:60  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+127:57  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+131:45  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+211:48  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+305:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+467:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+496:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+540:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/advances/[id]/approve/route.ts
+16:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+66:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/advances/[id]/reject/route.ts
+15:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+64:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/advances/[id]/route.ts
+10:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+53:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/advances/route.ts
+69:46  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+84:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/advancing/analytics/route.ts
+115:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/advancing/batch/route.ts
+57:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+75:9  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+153:9  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+223:9  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/advancing/catalog/categories/route.ts
+11:27  Warning: 'request' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/api/advancing/requests/[id]/fulfill/route.ts
+75:32  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+77:43  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+117:52  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+118:50  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+128:77  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/advancing/requests/route.ts
+166:80  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/ai/asset-maintenance/route.ts
+40:44  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+118:38  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+282:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+282:50  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+282:58  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+333:38  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+333:52  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+365:42  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+365:50  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+382:39  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+382:53  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+382:61  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+398:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+398:77  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+418:46  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+418:54  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+420:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+456:44  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+464:37  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+464:45  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+473:20  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/ai/competitive-intelligence/route.ts
+187:40  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+192:40  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+421:25  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+455:48  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+455:67  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+455:75  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/ai/financial-forecasting/route.ts
+105:47  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+174:18  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/ai/portfolio-planning/route.ts
+354:45  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+374:46  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+374:54  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+383:58  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+383:84  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+398:55  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/ai/predictive-analytics/route.ts
+209:20  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+217:70  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+217:103  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+322:39  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+322:74  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+324:38  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/ai/resource-optimization/route.ts
+180:15  Warning: 'month' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+252:37  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+257:34  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+278:24  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+305:39  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+306:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+306:70  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+308:60  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+311:33  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+312:29  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+419:58  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+419:79  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+437:54  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+447:50  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/alignment/metrics/route.ts
+4:27  Warning: 'request' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+37:52  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+39:47  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/analytics/advanced-dashboard/route.ts
+120:54  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+270:55  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+416:40  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+416:73  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+539:31  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/analytics/dashboard/route.ts
+105:46  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+106:40  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+107:44  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+108:46  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+109:42  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+110:48  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/analytics/predictive/route.ts
+88:13  Warning: 'lostDeals' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+134:15  Warning: 'customerAge' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/api/analytics/route.ts
+46:55  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+46:63  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+81:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/anomaly-detection/route.ts
+24:24  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+31:34  Warning: 'i' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+88:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+95:24  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+118:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+144:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/app-store/route.ts
+87:45  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/asset-analytics/route.ts
+15:11  Warning: 'category' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:11  Warning: 'reportType' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+113:16  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+114:16  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+115:13  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+166:44  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+166:64  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+166:81  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+196:49  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+218:49  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/asset-insurance/route.ts
+88:48  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+89:52  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+95:58  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+225:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+269:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+383:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+432:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+457:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/asset-lifecycle/route.ts
+175:58  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+181:51  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+280:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+368:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+401:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+426:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/asset-maintenance/schedule/route.ts
+89:38  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/asset-tracking/route.ts
+174:63  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+250:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+460:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+511:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+546:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/asset-utilization/route.ts
+45:47  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+128:47  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+129:58  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+215:51  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+225:51  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+297:47  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+398:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+413:57  Warning: 'purchasePrice' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/api/assets/depreciation/route.ts
+82:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+128:40  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/assets/optimization/route.ts
+30:67  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/assets/scan/route.ts
+104:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/auth/callback/route.ts
+8:9  Warning: 'type' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/api/automated-insights/route.ts
+3:10  Warning: 'z' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+97:23  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+197:47  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+233:49  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+267:47  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+301:51  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+330:49  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+363:43  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/availability/route.ts
+56:65  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+255:38  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+301:24  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+301:47  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+332:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+383:48  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+449:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+492:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+527:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/bad-debt/route.ts
+185:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+335:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+364:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+389:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/bank-reconciliation/route.ts
+229:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+273:47  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+294:64  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+461:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+507:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+561:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/batch/operations/route.ts
+24:12  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+25:12  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+38:81  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+52:25  Warning: 'updated' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+52:81  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+67:66  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+80:67  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+111:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/batch/route.ts
+28:37  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+33:26  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+44:37  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/benchmarking/route.ts
+65:22  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+266:36  Warning: 'period' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/api/benefits/route.ts
+110:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/bi-integration/route.ts
+252:57  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/bid-comparison/route.ts
+26:70  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+101:34  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+101:49  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+101:55  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+102:17  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/budget-variance/route.ts
+319:42  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+319:50  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/business-continuity/route.ts
+45:40  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+134:53  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+148:54  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/calendar-integration/route.ts
+209:18  Warning: 'attendee' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+221:15  Warning: 'attendee_emails' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/api/capacity-planning/route.ts
+21:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+47:50  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+66:44  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/cash-flow/route.ts
+144:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+145:16  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+146:13  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+148:4  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+149:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+207:32  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+238:51  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+238:65  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+240:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/churn-analysis/route.ts
+32:25  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+60:53  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/client-onboarding/route.ts
+61:42  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/cohort-analysis/route.ts
+38:43  Warning: 'cohortMonth' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+102:43  Warning: 'cohortMonth' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+183:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/communication-history/route.ts
+239:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+377:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+403:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+428:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/compliance/regional/route.ts
+129:42  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/contacts/route.ts
+58:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+71:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+90:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/contracts/[id]/route.ts
+3:10  Warning: 'z' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+63:20  Warning: 'created_at' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+63:32  Warning: 'created_by' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+63:44  Warning: 'organization_id' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/api/cost-allocation/route.ts
+35:11  Warning: 'projectId' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+36:11  Warning: 'departmentId' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+128:87  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+133:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+186:24  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+194:37  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+195:43  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+197:38  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+205:27  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+231:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+316:40  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+451:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+480:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+505:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/credentials/route.ts
+171:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+225:50  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+253:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+308:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+337:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+362:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/crew-mobile/route.ts
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+85:22  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/crm/pipeline-forecasting/route.ts
+212:31  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+212:65  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+364:22  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/cross-platform/compvss-sync/route.ts
+175:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/cross-platform/gvteway-sync/route.ts
+3:10  Warning: 'z' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/api/currencies/route.ts
+77:40  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+77:51  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+97:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+183:77  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/data-export/route.ts
+42:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+72:15  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+137:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/deals/handoff/route.ts
+21:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+80:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/deals/route.ts
+59:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+72:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+91:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/deferred-revenue/route.ts
+63:56  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+97:60  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+187:60  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+258:37  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+295:45  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+306:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+371:58  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+443:60  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+478:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+507:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+533:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+547:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/documents/e-signature/route.ts
+454:102  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/email-integration/route.ts
+100:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/emergency-contacts/route.ts
+35:11  Warning: 'departmentId' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+107:67  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+108:45  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+111:59  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+123:61  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+131:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+156:74  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+167:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+290:47  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+309:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+355:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+380:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/employees/route.ts
+43:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+56:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+66:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/enterprise/data-residency/route.ts
+199:17  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
+299:32  Warning: 'report_type' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/api/enterprise/white-label/route.ts
+227:32  Warning: 'logo_data' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+264:32  Warning: 'domain' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/api/expenses/[id]/route.ts
+3:10  Warning: 'z' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+95:13  Warning: 'user_id' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/api/finance/enhanced/route.ts
+76:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+89:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+119:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/fixed-assets/route.ts
+178:46  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+241:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+458:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+487:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+494:39  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/governance/route.ts
+44:54  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/grants/route.ts
+77:47  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+196:39  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+258:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+340:49  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+423:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+472:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+507:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+519:4  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+523:7  Warning: 'current' is never reassigned. Use 'const' instead.  prefer-const
+
+./src/app/api/health/route.ts
+10:27  Warning: 'request' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/api/integrations/crm-sync/route.ts
+290:25  Warning: 'code' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/api/integrations/erp-sync/route.ts
+247:40  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+285:43  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+325:60  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+326:64  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/integrations/payroll/route.ts
+192:78  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+201:84  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+267:59  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/integrations/slack-teams/route.ts
+196:23  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+240:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/integrations/stripe-reconciliation/route.ts
+177:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+338:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/intercompany/route.ts
+199:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+364:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+390:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+431:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/invoices/[id]/route.ts
+80:13  Warning: 'user_id' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+80:22  Warning: 'line_items' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/api/job-costing/route.ts
+130:60  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+135:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+136:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+137:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+152:65  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+187:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+244:45  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+245:50  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+300:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+369:52  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+373:51  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+373:87  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+447:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+490:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+515:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/kpi/[code]/route.ts
+2:10  Warning: 'createClient' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/api/kpi/data/route.ts
+99:50  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+113:48  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+114:38  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/kpi/route.ts
+2:10  Warning: 'createClient' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+3:27  Warning: 'getKPIByCode' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/api/labor-compliance/route.ts
+136:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+145:42  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+177:58  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+215:42  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+217:38  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+252:45  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+252:81  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+324:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+436:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/late-payments/route.ts
+16:9  Warning: 'query' is neve
