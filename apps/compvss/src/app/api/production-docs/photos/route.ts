@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
@@ -85,7 +86,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Get production photos error:', error);
+    Logger.error('Get production photos error:', error);
     return NextResponse.json(
       { error: 'Failed to fetch photos' },
       { status: 500 }
@@ -150,7 +151,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Upload production photo error:', error);
+    Logger.error('Upload production photo error:', error);
     return NextResponse.json(
       { error: 'Failed to upload photo' },
       { status: 500 }

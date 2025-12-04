@@ -23,12 +23,12 @@ interface EmailThread {
   [key: string]: unknown;
 }
 
-const mockData: EmailThread[] = [
+const mockData = process.env.NODE_ENV === "development" ? : EmailThread[] = [
   { id: 'EM-001', subject: 'Re: Summer Festival Proposal', from: 'client@festival.com', to: 'john.smith@company.com', date: '2024-11-25 10:30', preview: 'Thanks for sending over the proposal. We have reviewed it and have a few questions...', linkedContact: 'Festival Productions', linkedDeal: 'Summer Fest 2025', status: 'Unread' },
   { id: 'EM-002', subject: 'Equipment Quote Request', from: 'vendor@audiohouse.com', to: 'john.smith@company.com', date: '2024-11-25 09:15', preview: 'Please find attached our quote for the L-Acoustics system rental...', linkedContact: 'Audio House Inc', status: 'Read' },
   { id: 'EM-003', subject: 'Contract Review - Corporate Gala', from: 'legal@techcorp.com', to: 'sales@company.com', date: '2024-11-24 16:45', preview: 'Our legal team has completed the review. Please see the attached redlines...', linkedContact: 'Tech Corp', linkedDeal: 'Corporate Gala 2024', status: 'Replied' },
   { id: 'EM-004', subject: 'Meeting Confirmation', from: 'assistant@venue.com', to: 'john.smith@company.com', date: '2024-11-24 14:20', preview: 'This confirms your site visit scheduled for November 28th at 2:00 PM...', linkedContact: 'Grand Arena', status: 'Read' },
-];
+] : [];
 
 const getStatusVariant = getBadgeVariant;
 
@@ -39,11 +39,11 @@ const columns: ListPageColumn<EmailThread>[] = [
   { key: 'linkedContact', label: 'Contact', accessor: (r) => r.linkedContact || '—', render: (v) => v !== '—' ? <Badge variant="outline">{String(v)}</Badge> : <span>—</span> },
   { key: 'linkedDeal', label: 'Deal', accessor: (r) => r.linkedDeal || '—', render: (v) => v !== '—' ? <Badge variant="solid">{String(v)}</Badge> : <span>—</span> },
   { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v) => <Badge variant={getStatusVariant(String(v))}>{String(v)}</Badge> },
-];
+] : [];
 
 const filters: ListPageFilter[] = [
   { key: 'status', label: 'Status', options: [{ value: 'Unread', label: 'Unread' }, { value: 'Read', label: 'Read' }, { value: 'Replied', label: 'Replied' }] },
-];
+] : [];
 
 export default function EmailIntegrationPage() {
   const router = useRouter();
@@ -58,14 +58,14 @@ export default function EmailIntegrationPage() {
     { id: 'view', label: 'View Email', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
     { id: 'reply', label: 'Reply', icon: <Reply className="size-4" />, onClick: (r) => console.log('Reply to', r.id) },
     { id: 'link', label: 'Link to Contact', icon: <Link className="size-4" />, onClick: (r) => console.log('Link', r.id) },
-  ];
+  ] : [];
 
   const stats = [
     { label: 'Connected Accounts', value: 2 },
     { label: 'Unread Emails', value: unreadCount },
     { label: 'Auto-Logged', value: linkedCount },
     { label: "Today's Emails", value: data.length },
-  ];
+  ] : [];
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Email Details', content: (
@@ -80,7 +80,7 @@ export default function EmailIntegrationPage() {
         {selected.linkedDeal && <Body size="sm"><strong>Deal:</strong> {selected.linkedDeal}</Body>}
       </Grid>
     )},
-  ] : [];
+  ] : [] : [];
 
   return (
     <AtlvsAppLayout>

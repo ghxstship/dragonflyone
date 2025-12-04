@@ -119,7 +119,7 @@ export default function SOPCategoriesPage() {
       color: data.color as string | undefined,
       sort_order: data.sort_order as number,
       is_active: data.is_active as boolean,
-      production_id: 'current-production-id', // TODO: Get from context
+      production_id: productionId || params?.productionId || '', 
     });
     setCreateModalOpen(false);
     refetch();

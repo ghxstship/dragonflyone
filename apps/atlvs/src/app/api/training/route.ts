@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -45,7 +46,7 @@ export async function GET(request: NextRequest) {
     const { data: programs, error } = await query;
 
     if (error) {
-      console.error('Error fetching training programs:', error);
+      Logger.error('Error fetching training programs:', error);
       return NextResponse.json(
         { error: 'Failed to fetch training programs', details: error.message },
         { status: 500 }
@@ -88,7 +89,7 @@ export async function GET(request: NextRequest) {
       summary,
     });
   } catch (error) {
-    console.error('Error in GET /api/training:', error);
+    Logger.error('Error in GET /api/training:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -120,7 +121,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      console.error('Error creating training program:', error);
+      Logger.error('Error creating training program:', error);
       return NextResponse.json(
         { error: 'Failed to create training program', details: error.message },
         { status: 500 }
@@ -136,7 +137,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.error('Error in POST /api/training:', error);
+    Logger.error('Error in POST /api/training:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

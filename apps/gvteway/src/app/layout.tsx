@@ -21,9 +21,40 @@ const shareTechMono = Share_Tech_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "GVTEWAY // Immersive Guest Platform",
+  title: {
+    default: "GVTEWAY | Your Gateway to Live Experiences",
+    template: "%s | GVTEWAY",
+  },
   description:
-    "Consumer-facing marketplace for GHXSTSHIP live experiences: ticketing, memberships, commerce, and community.",
+    "Discover and book tickets to the best live events, concerts, festivals, and experiences. Your gateway to unforgettable moments.",
+  keywords: ["live events", "concerts", "tickets", "festivals", "experiences", "entertainment"],
+  authors: [{ name: "GHXSTSHIP" }],
+  creator: "GHXSTSHIP",
+  publisher: "GHXSTSHIP",
+  robots: "index, follow",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://gvteway.com",
+    siteName: "GVTEWAY",
+    title: "GVTEWAY | Your Gateway to Live Experiences",
+    description: "Discover and book tickets to the best live events, concerts, festivals, and experiences.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "GVTEWAY - Live Events Platform",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "GVTEWAY | Your Gateway to Live Experiences",
+    description: "Discover and book tickets to the best live events, concerts, festivals, and experiences.",
+    creator: "@ghxstship",
+  },
+  metadataBase: new URL(process.env.NEXT_PUBLIC_GVTEWAY_URL || "https://gvteway.com"),
 };
 
 export default function RootLayout({

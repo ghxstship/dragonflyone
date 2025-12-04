@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
@@ -70,7 +71,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      console.error('Error fetching safety incidents:', error);
+      Logger.error('Error fetching safety incidents:', error);
       return NextResponse.json(
         { error: 'Failed to fetch incidents', details: error.message },
         { status: 500 }
@@ -110,7 +111,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ incidents: data, summary });
   } catch (error) {
-    console.error('Error in GET /api/safety/incidents:', error);
+    Logger.error('Error in GET /api/safety/incidents:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -147,7 +148,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      console.error('Error creating safety incident:', error);
+      Logger.error('Error creating safety incident:', error);
       return NextResponse.json(
         { error: 'Failed to report incident', details: error.message },
         { status: 500 }
@@ -172,7 +173,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Error in POST /api/safety/incidents:', error);
+    Logger.error('Error in POST /api/safety/incidents:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -265,7 +266,7 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json({ error: 'No action specified' }, { status: 400 });
   } catch (error) {
-    console.error('Error in PATCH /api/safety/incidents:', error);
+    Logger.error('Error in PATCH /api/safety/incidents:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

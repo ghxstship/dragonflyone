@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
@@ -54,7 +55,7 @@ export async function POST(request: NextRequest) {
       .eq('auth_user_id', user.id);
 
     if (platformError) {
-      console.error('Platform user update error:', platformError);
+      Logger.error('Platform user update error:', platformError);
     }
 
     // Update profiles
@@ -73,7 +74,7 @@ export async function POST(request: NextRequest) {
       .eq('id', user.id);
 
     if (profileError) {
-      console.error('Profile update error:', profileError);
+      Logger.error('Profile update error:', profileError);
       return NextResponse.json({ error: 'Failed to update profile' }, { status: 500 });
     }
 
@@ -85,7 +86,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Profile update error:', error);
+    Logger.error('Profile update error:', error);
     return NextResponse.json({ error: 'Failed to update profile' }, { status: 500 });
   }
 }

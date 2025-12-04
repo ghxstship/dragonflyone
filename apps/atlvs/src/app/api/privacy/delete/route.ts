@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -113,7 +114,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Delete data error:', error);
+    Logger.error('Delete data error:', error);
     return NextResponse.json(
       { error: 'Failed to delete data' },
       { status: 500 }

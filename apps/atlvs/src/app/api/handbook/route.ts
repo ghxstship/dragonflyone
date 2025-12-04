@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -49,7 +50,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ data });
   } catch (error) {
-    console.error('Error fetching handbooks:', error);
+    Logger.error('Error fetching handbooks:', error);
     return NextResponse.json(
       { error: 'Failed to fetch handbooks' },
       { status: 500 }
@@ -93,7 +94,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Error creating handbook:', error);
+    Logger.error('Error creating handbook:', error);
     return NextResponse.json(
       { error: 'Failed to create handbook' },
       { status: 500 }

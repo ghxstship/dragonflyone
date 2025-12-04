@@ -22,13 +22,13 @@ interface IdleAsset {
   [key: string]: unknown;
 }
 
-const mockData: IdleAsset[] = [
+const mockData = process.env.NODE_ENV === "development" ? : IdleAsset[] = [
   { id: 'AST-101', name: 'Meyer Sound LYON', category: 'Audio', idleDays: 45, lastUsed: '2024-10-10', location: 'Warehouse A', value: 85000, monthlyCarryCost: 850, recommendation: 'Rent Out' },
   { id: 'AST-102', name: 'Robe MegaPointe (12)', category: 'Lighting', idleDays: 62, lastUsed: '2024-09-23', location: 'Warehouse B', value: 48000, monthlyCarryCost: 480, recommendation: 'Redeploy' },
   { id: 'AST-103', name: 'Blackmagic ATEM 4K', category: 'Video', idleDays: 90, lastUsed: '2024-08-26', location: 'Warehouse A', value: 12000, monthlyCarryCost: 120, recommendation: 'Sell' },
   { id: 'AST-104', name: 'CM Lodestar 2T (8)', category: 'Rigging', idleDays: 30, lastUsed: '2024-10-25', location: 'Warehouse C', value: 32000, monthlyCarryCost: 320, recommendation: 'Monitor' },
   { id: 'AST-105', name: 'Stageline SL100', category: 'Staging', idleDays: 120, lastUsed: '2024-07-26', location: 'Yard', value: 95000, monthlyCarryCost: 1200, recommendation: 'Sell' },
-];
+] : [];
 
 const formatCurrency = (amount: number) => `$${amount.toLocaleString()}`;
 
@@ -44,12 +44,12 @@ const columns: ListPageColumn<IdleAsset>[] = [
   { key: 'value', label: 'Value', accessor: (r) => formatCurrency(r.value), sortable: true },
   { key: 'monthlyCarryCost', label: 'Carry Cost', accessor: (r) => `${formatCurrency(r.monthlyCarryCost)}/mo` },
   { key: 'recommendation', label: 'Recommendation', accessor: 'recommendation', sortable: true, render: (v) => <Badge variant={getRecVariant(String(v))}>{String(v)}</Badge> },
-];
+] : [];
 
 const filters: ListPageFilter[] = [
   { key: 'category', label: 'Category', options: [{ value: 'Audio', label: 'Audio' }, { value: 'Lighting', label: 'Lighting' }, { value: 'Video', label: 'Video' }, { value: 'Rigging', label: 'Rigging' }, { value: 'Staging', label: 'Staging' }] },
   { key: 'recommendation', label: 'Recommendation', options: [{ value: 'Sell', label: 'Sell' }, { value: 'Rent Out', label: 'Rent Out' }, { value: 'Redeploy', label: 'Redeploy' }, { value: 'Monitor', label: 'Monitor' }] },
-];
+] : [];
 
 export default function IdleAnalysisPage() {
   const router = useRouter();
@@ -64,14 +64,14 @@ export default function IdleAnalysisPage() {
   const rowActions: ListPageAction<IdleAsset>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
     { id: 'action', label: 'Take Action', icon: <Zap className="size-4" />, onClick: (r) => console.log('Action', r.id) },
-  ];
+  ] : [];
 
   const stats = [
     { label: 'Idle Assets', value: data.length },
     { label: 'Idle Value', value: formatCurrency(totalIdleValue) },
     { label: 'Monthly Carry Cost', value: formatCurrency(totalCarryCost) },
     { label: 'Avg Idle Days', value: avgIdleDays },
-  ];
+  ] : [];
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Idle Asset Details', content: (
@@ -87,7 +87,7 @@ export default function IdleAnalysisPage() {
         <Body size="sm" className="col-span-2"><strong>Annual Carry Cost:</strong> {formatCurrency(selected.monthlyCarryCost * 12)}</Body>
       </Grid>
     )},
-  ] : [];
+  ] : [] : [];
 
   return (
     <AtlvsAppLayout>

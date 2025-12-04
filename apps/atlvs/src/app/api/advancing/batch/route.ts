@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 // apps/atlvs/src/app/api/advancing/batch/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
@@ -62,7 +63,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.error('Error in batch operation:', error);
+    Logger.error('Error in batch operation:', error);
     return NextResponse.json(
       { error: 'Internal server error', details: error.message },
       { status: 500 }

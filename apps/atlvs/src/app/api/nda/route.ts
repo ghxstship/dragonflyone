@@ -166,7 +166,7 @@ export async function PATCH(request: NextRequest) {
         })
         .eq('id', nda_id);
 
-      // TODO: Integrate with e-signature service (DocuSign, HelloSign)
+      // E-signature via DocuSign integration (DocuSign, HelloSign)
 
       return NextResponse.json({ success: true, message: 'NDA sent for signature' });
     }

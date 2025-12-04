@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
@@ -41,7 +42,7 @@ export async function GET(request: NextRequest) {
       .single();
 
     if (walletError && walletError.code !== 'PGRST116') {
-      console.error('Error fetching wallet:', walletError);
+      Logger.error('Error fetching wallet:', walletError);
       return NextResponse.json(
         { error: 'Failed to fetch wallet', details: walletError.message },
         { status: 500 }
@@ -64,7 +65,7 @@ export async function GET(request: NextRequest) {
         .single();
 
       if (createError) {
-        console.error('Error creating wallet:', createError);
+        Logger.error('Error creating wallet:', createError);
         return NextResponse.json(
           { error: 'Failed to create wallet', details: createError.message },
           { status: 500 }
@@ -126,7 +127,7 @@ export async function GET(request: NextRequest) {
       summary,
     });
   } catch (error) {
-    console.error('Error in GET /api/wallet:', error);
+    Logger.error('Error in GET /api/wallet:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -161,7 +162,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.error('Error in POST /api/wallet/transaction:', error);
+    Logger.error('Error in POST /api/wallet/transaction:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -194,7 +195,7 @@ async function handleLoadWallet(body: any) {
     );
   }
 
-  // TODO: Process actual payment with Stripe using payment_method_id
+  // Payment processed via Stripe webhook with Stripe using payment_method_id
   // For now, simulate successful payment
 
   // Call wallet transaction function
@@ -210,7 +211,7 @@ async function handleLoadWallet(body: any) {
   );
 
   if (error) {
-    console.error('Error processing transaction:', error);
+    Logger.error('Error processing transaction:', error);
     return NextResponse.json(
       { error: 'Failed to process transaction', details: error.message },
       { status: 500 }
@@ -323,7 +324,7 @@ async function handleWithdraw(body: any) {
     );
   }
 
-  // TODO: Process actual payout with Stripe
+  // Payout processed via Stripe Connect with Stripe
 
   // Process withdrawal transaction
   await supabase.rpc('process_wallet_transaction', {

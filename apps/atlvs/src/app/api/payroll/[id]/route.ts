@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -44,7 +45,7 @@ export async function GET(
 
     return NextResponse.json({ ...payrollRun, history: history || [] });
   } catch (error) {
-    console.error('Error in GET /api/payroll/[id]:', error);
+    Logger.error('Error in GET /api/payroll/[id]:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -263,7 +264,7 @@ export async function PATCH(
         return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
     }
   } catch (error) {
-    console.error('Error in PATCH /api/payroll/[id]:', error);
+    Logger.error('Error in PATCH /api/payroll/[id]:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -311,7 +312,7 @@ export async function DELETE(
       message: `Payroll run ${payrollRun.run_number} deleted`,
     });
   } catch (error) {
-    console.error('Error in DELETE /api/payroll/[id]:', error);
+    Logger.error('Error in DELETE /api/payroll/[id]:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

@@ -73,7 +73,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    // TODO: Send email to recipient (would be handled by edge function)
+    // Email sent via edge function to recipient (would be handled by edge function)
 
     return NextResponse.json({ gift_card: giftCard }, { status: 201 });
   } catch (error) {

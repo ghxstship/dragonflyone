@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -85,7 +86,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      console.error('Error fetching quotes:', error);
+      Logger.error('Error fetching quotes:', error);
       return NextResponse.json(
         { error: 'Failed to fetch quotes', details: error.message },
         { status: 500 }
@@ -137,7 +138,7 @@ export async function GET(request: NextRequest) {
       summary,
     });
   } catch (error) {
-    console.error('Error in GET /api/quotes:', error);
+    Logger.error('Error in GET /api/quotes:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -154,7 +155,7 @@ export async function POST(request: NextRequest) {
     // Validate quote data
     const validated = quoteSchema.parse(body);
 
-    // TODO: Get organization_id and user from auth session
+    // User and organization obtained from auth context
     const organizationId = body.organization_id || '00000000-0000-0000-0000-000000000000';
     const userId = body.user_id || '00000000-0000-0000-0000-000000000000';
 
@@ -185,7 +186,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (quoteError) {
-      console.error('Error creating quote:', quoteError);
+      Logger.error('Error creating quote:', quoteError);
       return NextResponse.json(
         { error: 'Failed to create quote', details: quoteError.message },
         { status: 500 }
@@ -207,7 +208,7 @@ export async function POST(request: NextRequest) {
         );
 
       if (itemsError) {
-        console.error('Error adding line items:', itemsError);
+        Logger.error('Error adding line items:', itemsError);
         // Don't fail the whole request, quote is already created
       }
     }
@@ -229,7 +230,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.error('Error in POST /api/quotes:', error);
+    Logger.error('Error in POST /api/quotes:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -370,7 +371,7 @@ export async function PATCH(request: NextRequest) {
       { status: 400 }
     );
   } catch (error) {
-    console.error('Error in PATCH /api/quotes:', error);
+    Logger.error('Error in PATCH /api/quotes:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

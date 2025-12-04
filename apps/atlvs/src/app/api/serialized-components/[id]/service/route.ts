@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -59,7 +60,7 @@ export async function GET(
 
     return NextResponse.json({ data });
   } catch (error) {
-    console.error('Error fetching service history:', error);
+    Logger.error('Error fetching service history:', error);
     return NextResponse.json(
       { error: 'Failed to fetch service history' },
       { status: 500 }
@@ -120,7 +121,7 @@ export async function POST(
         { status: 400 }
       );
     }
-    console.error('Error creating service record:', error);
+    Logger.error('Error creating service record:', error);
     return NextResponse.json(
       { error: 'Failed to create service record' },
       { status: 500 }

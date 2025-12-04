@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -51,7 +52,7 @@ export async function GET(
 
     return NextResponse.json({ data });
   } catch (error) {
-    console.error('Error fetching equipment certification:', error);
+    Logger.error('Error fetching equipment certification:', error);
     return NextResponse.json(
       { error: 'Failed to fetch equipment certification' },
       { status: 500 }
@@ -93,7 +94,7 @@ export async function PATCH(
         { status: 400 }
       );
     }
-    console.error('Error updating equipment certification:', error);
+    Logger.error('Error updating equipment certification:', error);
     return NextResponse.json(
       { error: 'Failed to update equipment certification' },
       { status: 500 }
@@ -116,7 +117,7 @@ export async function DELETE(
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error deleting equipment certification:', error);
+    Logger.error('Error deleting equipment certification:', error);
     return NextResponse.json(
       { error: 'Failed to delete equipment certification' },
       { status: 500 }

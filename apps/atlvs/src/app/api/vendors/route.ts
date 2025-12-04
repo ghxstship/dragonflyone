@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -59,7 +60,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      console.error('Error fetching vendors:', error);
+      Logger.error('Error fetching vendors:', error);
       return NextResponse.json(
         { error: 'Failed to fetch vendors', details: error.message },
         { status: 500 }
@@ -92,7 +93,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ vendors: data, summary });
   } catch (error) {
-    console.error('Error in GET /api/vendors:', error);
+    Logger.error('Error in GET /api/vendors:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -127,7 +128,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      console.error('Error creating vendor:', error);
+      Logger.error('Error creating vendor:', error);
       return NextResponse.json(
         { error: 'Failed to create vendor', details: error.message },
         { status: 500 }
@@ -150,7 +151,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Error in POST /api/vendors:', error);
+    Logger.error('Error in POST /api/vendors:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

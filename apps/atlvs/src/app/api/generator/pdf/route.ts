@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from "next/server";
 import type { GeneratedBlueprint } from "../../../generator/types";
 
@@ -265,7 +266,7 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error("PDF generation error:", error);
+    Logger.error("PDF generation error:", error);
     return NextResponse.json(
       { error: "Failed to generate PDF" },
       { status: 500 }

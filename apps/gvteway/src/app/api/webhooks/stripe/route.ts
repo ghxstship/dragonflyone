@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextResponse } from "next/server";
 import type Stripe from "stripe";
 
@@ -86,7 +87,7 @@ export async function POST(request: Request) {
   try {
     event = stripe.webhooks.constructEvent(rawBody, signature, webhookSecret);
   } catch (error) {
-    console.error("Stripe webhook signature verification failed", error);
+    Logger.error("Stripe webhook signature verification failed", error);
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
 
@@ -117,7 +118,7 @@ export async function POST(request: Request) {
         break;
     }
   } catch (error) {
-    console.error(`Stripe webhook processing error for event ${event.id}`, error);
+    Logger.error(`Stripe webhook processing error for event ${event.id}`, error);
     return NextResponse.json({ error: "Webhook processing error" }, { status: 500 });
   }
 

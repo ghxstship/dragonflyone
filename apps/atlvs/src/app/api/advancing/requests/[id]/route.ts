@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 // apps/atlvs/src/app/api/advancing/requests/[id]/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
@@ -49,7 +50,7 @@ export async function GET(
         );
       }
 
-      console.error('Error fetching advance:', error);
+      Logger.error('Error fetching advance:', error);
       return NextResponse.json(
         { error: 'Failed to fetch advance request', details: error.message },
         { status: 500 }
@@ -58,7 +59,7 @@ export async function GET(
 
     return NextResponse.json({ data });
   } catch (error) {
-    console.error('Unexpected error:', error);
+    Logger.error('Unexpected error:', error);
     return NextResponse.json(
       { error: 'An unexpected error occurred' },
       { status: 500 }
@@ -119,7 +120,7 @@ export async function PATCH(
       .single();
 
     if (error) {
-      console.error('Error updating advance:', error);
+      Logger.error('Error updating advance:', error);
       return NextResponse.json(
         { error: 'Failed to update advance request', details: error.message },
         { status: 500 }
@@ -128,7 +129,7 @@ export async function PATCH(
 
     return NextResponse.json({ data });
   } catch (error) {
-    console.error('Unexpected error:', error);
+    Logger.error('Unexpected error:', error);
     return NextResponse.json(
       { error: 'An unexpected error occurred' },
       { status: 500 }
@@ -176,7 +177,7 @@ export async function DELETE(
       .eq('id', id);
 
     if (error) {
-      console.error('Error deleting advance:', error);
+      Logger.error('Error deleting advance:', error);
       return NextResponse.json(
         { error: 'Failed to delete advance request', details: error.message },
         { status: 500 }
@@ -185,7 +186,7 @@ export async function DELETE(
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Unexpected error:', error);
+    Logger.error('Unexpected error:', error);
     return NextResponse.json(
       { error: 'An unexpected error occurred' },
       { status: 500 }

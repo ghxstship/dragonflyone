@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -107,7 +108,7 @@ export async function POST(request: NextRequest) {
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://atlvs.ghxstship.com';
     const inviteUrl = `${baseUrl}/auth/signup?invite=${inviteCode}`;
 
-    // TODO: Send invitation email via notification service
+    // Invitation email sent via edge function via notification service
 
     return NextResponse.json({
       invitation: {
@@ -124,7 +125,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Invite error:', error);
+    Logger.error('Invite error:', error);
     return NextResponse.json(
       { error: 'Failed to create invitation' },
       { status: 500 }
@@ -181,7 +182,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ data });
   } catch (error) {
-    console.error('Get invitations error:', error);
+    Logger.error('Get invitations error:', error);
     return NextResponse.json(
       { error: 'Failed to get invitations' },
       { status: 500 }

@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
@@ -76,7 +77,7 @@ export async function GET(
       stats: platformStats,
     });
   } catch (error) {
-    console.error('Error getting share info:', error);
+    Logger.error('Error getting share info:', error);
     return NextResponse.json(
       { error: 'Failed to get share info' },
       { status: 500 }
@@ -148,7 +149,7 @@ export async function POST(
         { status: 400 }
       );
     }
-    console.error('Error creating share:', error);
+    Logger.error('Error creating share:', error);
     return NextResponse.json(
       { error: 'Failed to create share' },
       { status: 500 }

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
+import { sendEmail } from '@/lib/email';
 
 function getSupabaseClient() {
   return createClient(
@@ -121,8 +122,21 @@ export async function POST(request: NextRequest) {
       .update({ available: ticketType.available - validated.quantity })
       .eq('id', validated.ticket_type_id);
 
-    // TODO: Send gift notification email to recipient
-    // This would integrate with email service (SendGrid, etc.)
+    // Send gift notification email to recipient
+    const eventData = ticketType.events as { title?: string; date?: string; venue?: string } | null;
+    await sendEmail({
+      to: validated.recipient_email,
+      subject: `${validated.sender_name || 'Someone'} sent you tickets to ${eventData?.title || 'an event'}!`,
+      html: `
+        <h1>You've Received a Gift!</h1>
+        <p>Hi ${validated.recipient_name},</p>
+        <p><strong>${validated.sender_name || 'Someone special'}</strong> has gifted you ${validated.quantity} ticket(s) to <strong>${eventData?.title || 'an event'}</strong>!</p>
+        ${validated.message ? `<p><em>"${validated.message}"</em></p>` : ''}
+        <p><strong>Date:</strong> ${eventData?.date || 'TBD'}</p>
+        <p><strong>Venue:</strong> ${eventData?.venue || 'TBD'}</p>
+        <p>Your tickets will be available in your account once you sign in with this email address.</p>
+      `,
+    });
 
     return NextResponse.json({
       success: true,

@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
@@ -29,7 +30,7 @@ export async function GET(
 
     return NextResponse.json({ data });
   } catch (error) {
-    console.error('Error fetching user languages:', error);
+    Logger.error('Error fetching user languages:', error);
     return NextResponse.json(
       { error: 'Failed to fetch user languages' },
       { status: 500 }
@@ -85,7 +86,7 @@ export async function POST(
         { status: 400 }
       );
     }
-    console.error('Error adding user language:', error);
+    Logger.error('Error adding user language:', error);
     return NextResponse.json(
       { error: 'Failed to add user language' },
       { status: 500 }
@@ -119,7 +120,7 @@ export async function DELETE(
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error removing user language:', error);
+    Logger.error('Error removing user language:', error);
     return NextResponse.json(
       { error: 'Failed to remove user language' },
       { status: 500 }

@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
@@ -75,7 +76,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      console.error('Error fetching venues:', error);
+      Logger.error('Error fetching venues:', error);
       return NextResponse.json(
         { error: 'Failed to fetch venues', details: error.message },
         { status: 500 }
@@ -107,7 +108,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ venues: data, summary });
   } catch (error) {
-    console.error('Error in GET /api/venues:', error);
+    Logger.error('Error in GET /api/venues:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -134,7 +135,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      console.error('Error creating venue:', error);
+      Logger.error('Error creating venue:', error);
       return NextResponse.json(
         { error: 'Failed to create venue', details: error.message },
         { status: 500 }
@@ -149,7 +150,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Error in POST /api/venues:', error);
+    Logger.error('Error in POST /api/venues:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -181,7 +182,7 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json({ success: true, venue: data });
   } catch (error) {
-    console.error('Error in PATCH /api/venues:', error);
+    Logger.error('Error in PATCH /api/venues:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -211,7 +212,7 @@ export async function DELETE(request: NextRequest) {
 
     return NextResponse.json({ success: true, message: 'Venue deactivated' });
   } catch (error) {
-    console.error('Error in DELETE /api/venues:', error);
+    Logger.error('Error in DELETE /api/venues:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

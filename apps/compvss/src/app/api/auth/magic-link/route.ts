@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
@@ -40,7 +41,7 @@ export async function POST(request: NextRequest) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Invalid email address' }, { status: 400 });
     }
-    console.error('Magic link error:', error);
+    Logger.error('Magic link error:', error);
     return NextResponse.json({ error: 'Failed to send magic link' }, { status: 500 });
   }
 }

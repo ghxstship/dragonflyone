@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
@@ -98,12 +99,12 @@ export async function POST(request: NextRequest) {
 
     if (error) {
       // Log but don't fail - analytics shouldn't block user actions
-      console.error("Failed to track analytics:", error);
+      Logger.error("Failed to track analytics:", error);
     }
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Analytics error:", error);
+    Logger.error("Analytics error:", error);
     // Always return success - don't block user actions for analytics
     return NextResponse.json({ success: true });
   }
@@ -124,7 +125,7 @@ export async function GET(request: NextRequest) {
       });
 
     if (summaryError) {
-      console.error("Failed to get analytics summary:", summaryError);
+      Logger.error("Failed to get analytics summary:", summaryError);
       return NextResponse.json(
         { error: "Failed to retrieve analytics" },
         { status: 500 }
@@ -155,7 +156,7 @@ export async function GET(request: NextRequest) {
       period: { start: startDate, end: endDate },
     });
   } catch (error) {
-    console.error("Analytics GET error:", error);
+    Logger.error("Analytics GET error:", error);
     return NextResponse.json(
       { error: "Failed to retrieve analytics" },
       { status: 500 }

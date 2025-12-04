@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { stripe } from '@/lib/stripe';
@@ -115,7 +116,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json(response);
   } catch (error) {
-    console.error('Payouts fetch error:', error);
+    Logger.error('Payouts fetch error:', error);
     return NextResponse.json(
       { error: 'Failed to fetch payouts', message: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
@@ -159,7 +160,7 @@ export async function POST(request: Request) {
       }
     });
   } catch (error) {
-    console.error('Manual payout creation error:', error);
+    Logger.error('Manual payout creation error:', error);
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: error.issues }, { status: 422 });
     }

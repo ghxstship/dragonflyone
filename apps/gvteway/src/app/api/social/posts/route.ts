@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
@@ -72,7 +73,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Get social posts error:', error);
+    Logger.error('Get social posts error:', error);
     return NextResponse.json(
       { error: 'Failed to fetch posts' },
       { status: 500 }
@@ -149,7 +150,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Create social post error:', error);
+    Logger.error('Create social post error:', error);
     return NextResponse.json(
       { error: 'Failed to create post' },
       { status: 500 }

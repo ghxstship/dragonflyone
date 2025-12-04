@@ -140,8 +140,8 @@ export default function CredentialTypesPage() {
       requires_photo: data.requires_photo as boolean,
       requires_background_check: data.requires_background_check as boolean,
       is_active: data.is_active as boolean,
-      production_id: 'current-production-id', // TODO: Get from context
-      organization_id: 'current-org-id', // TODO: Get from context
+      production_id: productionId || params?.productionId || '', 
+      organization_id: user?.organization_id || '', 
     };
     await createMutation.mutateAsync(createData);
     setCreateModalOpen(false);

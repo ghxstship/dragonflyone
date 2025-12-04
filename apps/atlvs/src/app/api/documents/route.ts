@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -59,7 +60,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      console.error('Error fetching documents:', error);
+      Logger.error('Error fetching documents:', error);
       return NextResponse.json(
         { error: 'Failed to fetch documents', details: error.message },
         { status: 500 }
@@ -91,7 +92,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ documents: data, summary });
   } catch (error) {
-    console.error('Error in GET /api/documents:', error);
+    Logger.error('Error in GET /api/documents:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -122,7 +123,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      console.error('Error creating document:', error);
+      Logger.error('Error creating document:', error);
       return NextResponse.json(
         { error: 'Failed to create document', details: error.message },
         { status: 500 }
@@ -147,7 +148,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Error in POST /api/documents:', error);
+    Logger.error('Error in POST /api/documents:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -212,7 +213,7 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json({ success: true, document: data });
   } catch (error) {
-    console.error('Error in PATCH /api/documents:', error);
+    Logger.error('Error in PATCH /api/documents:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -242,7 +243,7 @@ export async function DELETE(request: NextRequest) {
 
     return NextResponse.json({ success: true, message: 'Document deleted' });
   } catch (error) {
-    console.error('Error in DELETE /api/documents:', error);
+    Logger.error('Error in DELETE /api/documents:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

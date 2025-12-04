@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -44,7 +45,7 @@ export async function GET(
 
     return NextResponse.json({ ...invoice, history: history || [] });
   } catch (error) {
-    console.error('Error in GET /api/invoices/[id]:', error);
+    Logger.error('Error in GET /api/invoices/[id]:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -102,7 +103,7 @@ export async function PUT(
 
     return NextResponse.json(updatedInvoice);
   } catch (error) {
-    console.error('Error in PUT /api/invoices/[id]:', error);
+    Logger.error('Error in PUT /api/invoices/[id]:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -316,7 +317,7 @@ export async function PATCH(
         { status: 400 }
       );
     }
-    console.error('Error in PATCH /api/invoices/[id]:', error);
+    Logger.error('Error in PATCH /api/invoices/[id]:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -364,7 +365,7 @@ export async function DELETE(
       message: `Invoice ${invoice.invoice_number} deleted`,
     });
   } catch (error) {
-    console.error('Error in DELETE /api/invoices/[id]:', error);
+    Logger.error('Error in DELETE /api/invoices/[id]:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

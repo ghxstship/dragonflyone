@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from '@/lib/supabase';
 
@@ -30,7 +31,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ locations: data || [] });
   } catch (error) {
-    console.error("Error fetching asset locations:", error);
+    Logger.error("Error fetching asset locations:", error);
     return NextResponse.json(
       { error: "Failed to fetch asset locations" },
       { status: 500 }
@@ -62,7 +63,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ location: data });
   } catch (error) {
-    console.error("Error creating asset location:", error);
+    Logger.error("Error creating asset location:", error);
     return NextResponse.json(
       { error: "Failed to create asset location" },
       { status: 500 }
@@ -96,7 +97,7 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json({ location: data });
   } catch (error) {
-    console.error("Error updating asset location:", error);
+    Logger.error("Error updating asset location:", error);
     return NextResponse.json(
       { error: "Failed to update asset location" },
       { status: 500 }

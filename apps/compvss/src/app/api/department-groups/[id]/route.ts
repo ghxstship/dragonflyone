@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
@@ -47,7 +48,7 @@ export async function GET(
 
     return NextResponse.json({ data });
   } catch (error) {
-    console.error('Error fetching department group:', error);
+    Logger.error('Error fetching department group:', error);
     return NextResponse.json(
       { error: 'Failed to fetch department group' },
       { status: 500 }
@@ -89,7 +90,7 @@ export async function PATCH(
         { status: 400 }
       );
     }
-    console.error('Error updating department group:', error);
+    Logger.error('Error updating department group:', error);
     return NextResponse.json(
       { error: 'Failed to update department group' },
       { status: 500 }
@@ -113,7 +114,7 @@ export async function DELETE(
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error deleting department group:', error);
+    Logger.error('Error deleting department group:', error);
     return NextResponse.json(
       { error: 'Failed to delete department group' },
       { status: 500 }

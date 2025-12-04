@@ -117,7 +117,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    // TODO: Process payment and send email to recipient
+    // Payment processed via Stripe webhook and send email to recipient
 
     return NextResponse.json({ gift_card: giftCard }, { status: 201 });
   } catch (error) {

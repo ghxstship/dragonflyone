@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -85,7 +86,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ data });
   } catch (error) {
-    console.error('Get SSO providers error:', error);
+    Logger.error('Get SSO providers error:', error);
     return NextResponse.json(
       { error: 'Failed to fetch SSO providers' },
       { status: 500 }
@@ -178,7 +179,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Create SSO provider error:', error);
+    Logger.error('Create SSO provider error:', error);
     return NextResponse.json(
       { error: 'Failed to create SSO provider' },
       { status: 500 }

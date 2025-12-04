@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -32,7 +33,7 @@ export async function GET(
         );
       }
 
-      console.error('Error fetching contract:', error);
+      Logger.error('Error fetching contract:', error);
       return NextResponse.json(
         { error: 'Failed to fetch contract', details: error.message },
         { status: 500 }
@@ -41,7 +42,7 @@ export async function GET(
 
     return NextResponse.json(data);
   } catch (error) {
-    console.error('Error in GET /api/contracts/[id]:', error);
+    Logger.error('Error in GET /api/contracts/[id]:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -85,7 +86,7 @@ export async function PATCH(
         );
       }
 
-      console.error('Error updating contract:', error);
+      Logger.error('Error updating contract:', error);
       return NextResponse.json(
         { error: 'Failed to update contract', details: error.message },
         { status: 500 }
@@ -94,7 +95,7 @@ export async function PATCH(
 
     return NextResponse.json(data);
   } catch (error) {
-    console.error('Error in PATCH /api/contracts/[id]:', error);
+    Logger.error('Error in PATCH /api/contracts/[id]:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -131,7 +132,7 @@ export async function DELETE(
       .eq('id', id);
 
     if (error) {
-      console.error('Error deleting contract:', error);
+      Logger.error('Error deleting contract:', error);
       return NextResponse.json(
         { error: 'Failed to delete contract', details: error.message },
         { status: 500 }
@@ -140,7 +141,7 @@ export async function DELETE(
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error in DELETE /api/contracts/[id]:', error);
+    Logger.error('Error in DELETE /api/contracts/[id]:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

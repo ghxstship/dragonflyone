@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
@@ -48,7 +49,7 @@ export async function GET(
 
     return NextResponse.json(mockVendor);
   } catch (error) {
-    console.error('Error fetching vendor:', error);
+    Logger.error('Error fetching vendor:', error);
     return NextResponse.json(
       { error: 'Failed to fetch vendor' },
       { status: 500 }
@@ -87,7 +88,7 @@ export async function PUT(
         { status: 400 }
       );
     }
-    console.error('Error updating vendor:', error);
+    Logger.error('Error updating vendor:', error);
     return NextResponse.json(
       { error: 'Failed to update vendor' },
       { status: 500 }
@@ -110,7 +111,7 @@ export async function DELETE(
 
     return NextResponse.json({ success: true, id });
   } catch (error) {
-    console.error('Error deleting vendor:', error);
+    Logger.error('Error deleting vendor:', error);
     return NextResponse.json(
       { error: 'Failed to delete vendor' },
       { status: 500 }

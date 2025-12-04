@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
@@ -70,7 +71,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      console.error('Error fetching schedule:', error);
+      Logger.error('Error fetching schedule:', error);
       return NextResponse.json(
         { error: 'Failed to fetch schedule', details: error.message },
         { status: 500 }
@@ -102,7 +103,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ schedule: data, summary });
   } catch (error) {
-    console.error('Error in GET /api/schedule:', error);
+    Logger.error('Error in GET /api/schedule:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -134,7 +135,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      console.error('Error creating schedule item:', error);
+      Logger.error('Error creating schedule item:', error);
       return NextResponse.json(
         { error: 'Failed to create schedule item', details: error.message },
         { status: 500 }
@@ -149,7 +150,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Error in POST /api/schedule:', error);
+    Logger.error('Error in POST /api/schedule:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -202,7 +203,7 @@ export async function PATCH(request: NextRequest) {
       schedule: data,
     });
   } catch (error) {
-    console.error('Error in PATCH /api/schedule:', error);
+    Logger.error('Error in PATCH /api/schedule:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

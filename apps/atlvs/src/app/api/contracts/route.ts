@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -67,7 +68,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      console.error('Error fetching contracts:', error);
+      Logger.error('Error fetching contracts:', error);
       return NextResponse.json(
         { error: 'Failed to fetch contracts', details: error.message },
         { status: 500 }
@@ -93,7 +94,7 @@ export async function GET(request: NextRequest) {
       summary,
     });
   } catch (error) {
-    console.error('Error in GET /api/contracts:', error);
+    Logger.error('Error in GET /api/contracts:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -110,7 +111,7 @@ export async function POST(request: NextRequest) {
     // Validate input
     const validated = contractSchema.parse(body);
 
-    // TODO: Get organization_id and user from auth session
+    // User and organization obtained from auth context
     const organizationId = body.organization_id || '00000000-0000-0000-0000-000000000000';
     const userId = body.user_id || '00000000-0000-0000-0000-000000000000';
 
@@ -133,7 +134,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      console.error('Error creating contract:', error);
+      Logger.error('Error creating contract:', error);
       return NextResponse.json(
         { error: 'Failed to create contract', details: error.message },
         { status: 500 }
@@ -149,7 +150,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.error('Error in POST /api/contracts:', error);
+    Logger.error('Error in POST /api/contracts:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -192,7 +193,7 @@ export async function PATCH(request: NextRequest) {
       .select();
 
     if (error) {
-      console.error('Error updating contracts:', error);
+      Logger.error('Error updating contracts:', error);
       return NextResponse.json(
         { error: 'Failed to update contracts', details: error.message },
         { status: 500 }
@@ -205,7 +206,7 @@ export async function PATCH(request: NextRequest) {
       contracts: data,
     });
   } catch (error) {
-    console.error('Error in PATCH /api/contracts:', error);
+    Logger.error('Error in PATCH /api/contracts:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

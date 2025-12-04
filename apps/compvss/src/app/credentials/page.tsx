@@ -185,7 +185,7 @@ export default function CredentialsPage() {
       await revokeMutation.mutateAsync({ 
         id: credentialToRevoke.id, 
         reason: 'Revoked by administrator',
-        revokedBy: 'current-user-id' // TODO: Get from auth context
+        revokedBy: user?.id || '' 
       });
       setRevokeDialogOpen(false);
       setCredentialToRevoke(null);

@@ -20,7 +20,7 @@ import {
 
 export default function KPIsPage() {
   const router = useRouter();
-  const { data: kpis } = useKPIs('current-production-id');
+  const { data: kpis } = useKPIs(productionId || params?.productionId || '');
 
   const kpiStatusColors: Record<string, 'success' | 'warning' | 'error'> = {
     on_track: 'success',

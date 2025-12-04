@@ -43,7 +43,7 @@ export default function DailyReportDetailPage() {
   const handleApprove = async () => {
     await approveMutation.mutateAsync({
       id: reportId,
-      reviewerId: 'current-user-id', // TODO: Get from auth context
+      reviewerId: user?.id || '', 
     });
     refetch();
   };

@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSupabase } from '@ghxstship/config';
 
@@ -28,7 +29,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ deliveries: data || [] });
   } catch (error) {
-    console.error("Error fetching deliveries:", error);
+    Logger.error("Error fetching deliveries:", error);
     return NextResponse.json({ error: "Failed to fetch deliveries" }, { status: 500 });
   }
 }
@@ -70,7 +71,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ delivery });
   } catch (error) {
-    console.error("Error creating delivery:", error);
+    Logger.error("Error creating delivery:", error);
     return NextResponse.json({ error: "Failed to create delivery" }, { status: 500 });
   }
 }
@@ -107,7 +108,7 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json({ delivery: data });
   } catch (error) {
-    console.error("Error updating delivery:", error);
+    Logger.error("Error updating delivery:", error);
     return NextResponse.json({ error: "Failed to update delivery" }, { status: 500 });
   }
 }

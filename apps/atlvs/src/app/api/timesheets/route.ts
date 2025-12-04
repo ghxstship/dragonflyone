@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -60,7 +61,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      console.error('Error fetching timesheets:', error);
+      Logger.error('Error fetching timesheets:', error);
       return NextResponse.json(
         { error: 'Failed to fetch timesheets', details: error.message },
         { status: 500 }
@@ -92,7 +93,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ timesheets: data, summary });
   } catch (error) {
-    console.error('Error in GET /api/timesheets:', error);
+    Logger.error('Error in GET /api/timesheets:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -154,7 +155,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      console.error('Error creating timesheet:', error);
+      Logger.error('Error creating timesheet:', error);
       return NextResponse.json(
         { error: 'Failed to create timesheet', details: error.message },
         { status: 500 }
@@ -169,7 +170,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Error in POST /api/timesheets:', error);
+    Logger.error('Error in POST /api/timesheets:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -247,7 +248,7 @@ export async function PATCH(request: NextRequest) {
       timesheets: data,
     });
   } catch (error) {
-    console.error('Error in PATCH /api/timesheets:', error);
+    Logger.error('Error in PATCH /api/timesheets:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

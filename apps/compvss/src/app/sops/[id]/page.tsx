@@ -86,7 +86,7 @@ export default function SOPDetailPage() {
   const handleAcknowledge = async () => {
     await acknowledgeMutation.mutateAsync({
       sopId,
-      userId: 'current-user-id', // TODO: Get from auth context
+      userId: user?.id || '', 
     });
     refetch();
   };

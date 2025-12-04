@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
@@ -62,7 +63,7 @@ export async function GET(
 
     return NextResponse.json({ data });
   } catch (error) {
-    console.error('Error fetching partner offers:', error);
+    Logger.error('Error fetching partner offers:', error);
     return NextResponse.json(
       { error: 'Failed to fetch partner offers' },
       { status: 500 }
@@ -113,7 +114,7 @@ export async function POST(
         { status: 400 }
       );
     }
-    console.error('Error creating partner offer:', error);
+    Logger.error('Error creating partner offer:', error);
     return NextResponse.json(
       { error: 'Failed to create partner offer' },
       { status: 500 }

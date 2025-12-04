@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
@@ -68,7 +69,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Get cookie consent error:', error);
+    Logger.error('Get cookie consent error:', error);
     return NextResponse.json(
       { error: 'Failed to fetch cookie consent' },
       { status: 500 }
@@ -132,7 +133,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Save cookie consent error:', error);
+    Logger.error('Save cookie consent error:', error);
     return NextResponse.json(
       { error: 'Failed to save cookie consent' },
       { status: 500 }

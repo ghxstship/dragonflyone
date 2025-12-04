@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -72,7 +73,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Error fetching serialized components:', error);
+    Logger.error('Error fetching serialized components:', error);
     return NextResponse.json(
       { error: 'Failed to fetch serialized components' },
       { status: 500 }
@@ -116,7 +117,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Error creating serialized component:', error);
+    Logger.error('Error creating serialized component:', error);
     return NextResponse.json(
       { error: 'Failed to create serialized component' },
       { status: 500 }

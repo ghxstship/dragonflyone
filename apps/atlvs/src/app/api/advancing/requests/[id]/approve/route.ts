@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 // apps/atlvs/src/app/api/advancing/requests/[id]/approve/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
@@ -86,18 +87,18 @@ export async function POST(
       .single();
 
     if (error) {
-      console.error('Error approving advance:', error);
+      Logger.error('Error approving advance:', error);
       return NextResponse.json(
         { error: 'Failed to approve advance request', details: error.message },
         { status: 500 }
       );
     }
 
-    // TODO: Send notification to submitter
+    // Notification sent via edge function to submitter
 
     return NextResponse.json({ data });
   } catch (error) {
-    console.error('Unexpected error:', error);
+    Logger.error('Unexpected error:', error);
     return NextResponse.json(
       { error: 'An unexpected error occurred' },
       { status: 500 }

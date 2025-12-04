@@ -80,7 +80,7 @@ const reportTemplates: ReportTemplate[] = [
 
 export default function MetricsReportsPage() {
   const router = useRouter();
-  const { data: metrics } = useProductionMetrics('current-production-id');
+  const { data: metrics } = useProductionMetrics(productionId || params?.productionId || '');
 
   const categoryColors: Record<string, 'success' | 'warning' | 'info' | 'default'> = {
     financial: 'success',

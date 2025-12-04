@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -102,7 +103,7 @@ export async function POST(
           .single();
 
         if (contractError) {
-          console.error('Error creating contract:', contractError);
+          Logger.error('Error creating contract:', contractError);
           return NextResponse.json(
             { error: 'Failed to create contract', details: contractError.message },
             { status: 500 }
@@ -188,7 +189,7 @@ export async function POST(
           .single();
 
         if (invoiceError) {
-          console.error('Error creating invoice:', invoiceError);
+          Logger.error('Error creating invoice:', invoiceError);
           return NextResponse.json(
             { error: 'Failed to create invoice', details: invoiceError.message },
             { status: 500 }
@@ -258,7 +259,7 @@ export async function POST(
           .single();
 
         if (projectError) {
-          console.error('Error creating project:', projectError);
+          Logger.error('Error creating project:', projectError);
           return NextResponse.json(
             { error: 'Failed to create project', details: projectError.message },
             { status: 500 }
@@ -313,7 +314,7 @@ export async function POST(
       );
     }
 
-    console.error('Error in POST /api/quotes/[id]/convert:', error);
+    Logger.error('Error in POST /api/quotes/[id]/convert:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
@@ -78,7 +79,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ data });
   } catch (error) {
-    console.error('Get production checklists error:', error);
+    Logger.error('Get production checklists error:', error);
     return NextResponse.json(
       { error: 'Failed to fetch checklists' },
       { status: 500 }
@@ -178,7 +179,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Create production checklist error:', error);
+    Logger.error('Create production checklist error:', error);
     return NextResponse.json(
       { error: 'Failed to create checklist' },
       { status: 500 }

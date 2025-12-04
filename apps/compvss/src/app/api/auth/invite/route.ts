@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
@@ -68,7 +69,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (inviteError) {
-      console.error('Invite creation error:', inviteError);
+      Logger.error('Invite creation error:', inviteError);
       return NextResponse.json({ error: 'Failed to create invitation' }, { status: 500 });
     }
 
@@ -84,7 +85,7 @@ export async function POST(request: NextRequest) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation error', details: error.errors }, { status: 400 });
     }
-    console.error('Invite error:', error);
+    Logger.error('Invite error:', error);
     return NextResponse.json({ error: 'Failed to send invitation' }, { status: 500 });
   }
 }

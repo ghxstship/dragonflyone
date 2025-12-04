@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -61,7 +62,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      console.error('Error fetching invoices:', error);
+      Logger.error('Error fetching invoices:', error);
       return NextResponse.json(
         { error: 'Failed to fetch invoices', details: error.message },
         { status: 500 }
@@ -103,7 +104,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ invoices: data, summary });
   } catch (error) {
-    console.error('Error in GET /api/invoices:', error);
+    Logger.error('Error in GET /api/invoices:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -147,7 +148,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (invoiceError) {
-      console.error('Error creating invoice:', invoiceError);
+      Logger.error('Error creating invoice:', invoiceError);
       return NextResponse.json(
         { error: 'Failed to create invoice', details: invoiceError.message },
         { status: 500 }
@@ -217,7 +218,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Error in POST /api/invoices:', error);
+    Logger.error('Error in POST /api/invoices:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

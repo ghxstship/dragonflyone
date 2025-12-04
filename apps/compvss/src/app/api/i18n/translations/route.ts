@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 
@@ -43,7 +44,7 @@ export async function GET(request: NextRequest) {
       translations,
     });
   } catch (error) {
-    console.error('Error fetching translations:', error);
+    Logger.error('Error fetching translations:', error);
     return NextResponse.json(
       { error: 'Failed to fetch translations' },
       { status: 500 }

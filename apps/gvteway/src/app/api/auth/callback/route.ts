@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
@@ -25,7 +26,7 @@ export async function GET(request: NextRequest) {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://gvteway.ghxstship.com';
 
   if (error) {
-    console.error('OAuth error:', error, errorDescription);
+    Logger.error('OAuth error:', error, errorDescription);
     return NextResponse.redirect(`${baseUrl}/auth/signin?error=${encodeURIComponent(errorDescription || error)}`);
   }
 
@@ -38,7 +39,7 @@ export async function GET(request: NextRequest) {
     const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
 
     if (exchangeError) {
-      console.error('Code exchange error:', exchangeError);
+      Logger.error('Code exchange error:', exchangeError);
       return NextResponse.redirect(`${baseUrl}/auth/signin?error=${encodeURIComponent(exchangeError.message)}`);
     }
 
@@ -92,7 +93,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.redirect(`${baseUrl}/dashboard`);
   } catch (err) {
-    console.error('Callback error:', err);
+    Logger.error('Callback error:', err);
     return NextResponse.redirect(`${baseUrl}/auth/signin?error=callback_failed`);
   }
 }

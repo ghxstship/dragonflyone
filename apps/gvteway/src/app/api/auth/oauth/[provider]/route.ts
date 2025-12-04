@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
@@ -46,13 +47,13 @@ export async function POST(
     });
 
     if (error) {
-      console.error('OAuth error:', error);
+      Logger.error('OAuth error:', error);
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
 
     return NextResponse.json({ url: data.url });
   } catch (error) {
-    console.error('OAuth error:', error);
+    Logger.error('OAuth error:', error);
     return NextResponse.json({ error: 'OAuth initialization failed' }, { status: 500 });
   }
 }

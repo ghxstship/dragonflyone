@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
@@ -75,7 +76,7 @@ export async function GET(
       grouped,
     });
   } catch (error) {
-    console.error('Error fetching event partners:', error);
+    Logger.error('Error fetching event partners:', error);
     return NextResponse.json(
       { error: 'Failed to fetch event partners' },
       { status: 500 }
@@ -159,7 +160,7 @@ export async function POST(
         { status: 400 }
       );
     }
-    console.error('Error creating event partner association:', error);
+    Logger.error('Error creating event partner association:', error);
     return NextResponse.json(
       { error: 'Failed to create event partner association' },
       { status: 500 }
@@ -200,7 +201,7 @@ export async function DELETE(
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error removing event partner:', error);
+    Logger.error('Error removing event partner:', error);
     return NextResponse.json(
       { error: 'Failed to remove event partner' },
       { status: 500 }

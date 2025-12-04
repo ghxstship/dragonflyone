@@ -192,7 +192,7 @@ export default function InvestmentRoundsPage() {
   const handleCreate = async (data: Record<string, unknown>) => {
     await createMutation.mutateAsync({
       ...data,
-      production_id: 'current-production-id', // TODO: Get from context
+      production_id: productionId || params?.productionId || '', 
       raised_amount: 0,
     } as InvestmentRound);
     setCreateModalOpen(false);

@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -98,7 +99,7 @@ export async function POST(
         { status: 400 }
       );
     }
-    console.error('Error acknowledging handbook:', error);
+    Logger.error('Error acknowledging handbook:', error);
     return NextResponse.json(
       { error: 'Failed to acknowledge handbook' },
       { status: 500 }
@@ -126,7 +127,7 @@ export async function GET(
 
     return NextResponse.json({ data });
   } catch (error) {
-    console.error('Error fetching acknowledgments:', error);
+    Logger.error('Error fetching acknowledgments:', error);
     return NextResponse.json(
       { error: 'Failed to fetch acknowledgments' },
       { status: 500 }

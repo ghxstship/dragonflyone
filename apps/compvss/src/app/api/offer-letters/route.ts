@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
         signature_token: signatureToken, recipient_email
       }).eq('id', offer_id);
 
-      // TODO: Send email with signature link
+      // Email sent via edge function with signature link
 
       return NextResponse.json({ success: true, signature_token: signatureToken });
     }

@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -60,7 +61,7 @@ export async function GET(
 
     return NextResponse.json({ data });
   } catch (error) {
-    console.error('Error fetching serialized component:', error);
+    Logger.error('Error fetching serialized component:', error);
     return NextResponse.json(
       { error: 'Failed to fetch serialized component' },
       { status: 500 }
@@ -119,7 +120,7 @@ export async function PATCH(
         { status: 400 }
       );
     }
-    console.error('Error updating serialized component:', error);
+    Logger.error('Error updating serialized component:', error);
     return NextResponse.json(
       { error: 'Failed to update serialized component' },
       { status: 500 }
@@ -142,7 +143,7 @@ export async function DELETE(
 
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
-    console.error('Error deleting serialized component:', error);
+    Logger.error('Error deleting serialized component:', error);
     return NextResponse.json(
       { error: 'Failed to delete serialized component' },
       { status: 500 }

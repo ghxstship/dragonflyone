@@ -168,7 +168,7 @@ export default function DailyReportsPage() {
     if (reportToApprove) {
       await approveMutation.mutateAsync({
         id: reportToApprove.id,
-        reviewerId: 'current-user-id', // TODO: Get from auth context
+        reviewerId: user?.id || '', 
       });
       setApproveDialogOpen(false);
       setReportToApprove(null);

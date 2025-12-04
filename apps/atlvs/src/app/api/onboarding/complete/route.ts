@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 
@@ -27,7 +28,7 @@ export async function POST(request: NextRequest) {
       .eq('id', user.id);
 
     if (profileError) {
-      console.error('Profile update error:', profileError);
+      Logger.error('Profile update error:', profileError);
       return NextResponse.json({ error: 'Failed to complete onboarding' }, { status: 500 });
     }
 
@@ -49,7 +50,7 @@ export async function POST(request: NextRequest) {
       redirectTo: '/dashboard'
     });
   } catch (error) {
-    console.error('Complete onboarding error:', error);
+    Logger.error('Complete onboarding error:', error);
     return NextResponse.json({ error: 'Failed to complete onboarding' }, { status: 500 });
   }
 }

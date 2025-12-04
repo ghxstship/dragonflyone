@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 // apps/atlvs/src/app/api/advancing/catalog/[id]/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
@@ -30,7 +31,7 @@ export async function GET(
         );
       }
 
-      console.error('Error fetching catalog item:', error);
+      Logger.error('Error fetching catalog item:', error);
       return NextResponse.json(
         { error: 'Failed to fetch catalog item', details: error.message },
         { status: 500 }
@@ -39,7 +40,7 @@ export async function GET(
 
     return NextResponse.json({ data });
   } catch (error) {
-    console.error('Unexpected error:', error);
+    Logger.error('Unexpected error:', error);
     return NextResponse.json(
       { error: 'An unexpected error occurred' },
       { status: 500 }

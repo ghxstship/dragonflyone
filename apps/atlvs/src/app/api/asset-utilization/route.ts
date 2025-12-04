@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 
@@ -396,7 +397,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error: any) {
-    console.error('Asset utilization error:', error);
+    Logger.error('Asset utilization error:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

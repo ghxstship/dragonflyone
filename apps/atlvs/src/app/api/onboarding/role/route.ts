@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -39,7 +40,7 @@ export async function POST(request: NextRequest) {
       .eq('id', user.id);
 
     if (profileError) {
-      console.error('Profile update error:', profileError);
+      Logger.error('Profile update error:', profileError);
       return NextResponse.json({ error: 'Failed to update role' }, { status: 500 });
     }
 
@@ -51,7 +52,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Role update error:', error);
+    Logger.error('Role update error:', error);
     return NextResponse.json({ error: 'Failed to update role' }, { status: 500 });
   }
 }

@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
@@ -106,7 +107,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Get email campaigns error:', error);
+    Logger.error('Get email campaigns error:', error);
     return NextResponse.json(
       { error: 'Failed to fetch campaigns' },
       { status: 500 }
@@ -171,7 +172,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Create email campaign error:', error);
+    Logger.error('Create email campaign error:', error);
     return NextResponse.json(
       { error: 'Failed to create campaign' },
       { status: 500 }

@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 
@@ -112,7 +113,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Metrics error:', error);
+    Logger.error('Metrics error:', error);
     return NextResponse.json(
       { error: 'Failed to fetch metrics' },
       { status: 500 }

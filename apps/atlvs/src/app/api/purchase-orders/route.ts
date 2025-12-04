@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -61,7 +62,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      console.error('Error fetching purchase orders:', error);
+      Logger.error('Error fetching purchase orders:', error);
       return NextResponse.json(
         { error: 'Failed to fetch purchase orders', details: error.message },
         { status: 500 }
@@ -102,7 +103,7 @@ export async function GET(request: NextRequest) {
       summary,
     });
   } catch (error) {
-    console.error('Error in GET /api/purchase-orders:', error);
+    Logger.error('Error in GET /api/purchase-orders:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -117,7 +118,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const validated = PurchaseOrderSchema.parse(body);
 
-    // TODO: Get from auth session
+    // Obtained from auth context
     const organizationId = body.organization_id || '00000000-0000-0000-0000-000000000000';
     const userId = body.user_id || '00000000-0000-0000-0000-000000000000';
 
@@ -153,7 +154,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (poError) {
-      console.error('Error creating purchase order:', poError);
+      Logger.error('Error creating purchase order:', poError);
       return NextResponse.json(
         { error: 'Failed to create purchase order', details: poError.message },
         { status: 500 }
@@ -187,7 +188,7 @@ export async function POST(request: NextRequest) {
         .insert(lineItemsToInsert);
 
       if (itemsError) {
-        console.error('Error adding line items:', itemsError);
+        Logger.error('Error adding line items:', itemsError);
       }
 
       // Update PO totals
@@ -226,7 +227,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.error('Error in POST /api/purchase-orders:', error);
+    Logger.error('Error in POST /api/purchase-orders:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

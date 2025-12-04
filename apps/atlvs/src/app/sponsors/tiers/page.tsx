@@ -139,7 +139,7 @@ export default function SponsorTiersPage() {
   const handleCreate = async (data: Record<string, unknown>) => {
     await createMutation.mutateAsync({
       ...data,
-      production_id: 'current-production-id', // TODO: Get from context
+      production_id: productionId || params?.productionId || '', 
       benefits: [],
     } as SponsorTier);
     setCreateModalOpen(false);

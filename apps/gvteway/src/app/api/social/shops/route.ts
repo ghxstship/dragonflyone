@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
@@ -75,7 +76,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Get social shops error:', error);
+    Logger.error('Get social shops error:', error);
     return NextResponse.json(
       { error: 'Failed to fetch shops' },
       { status: 500 }
@@ -144,7 +145,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Create social shop error:', error);
+    Logger.error('Create social shop error:', error);
     return NextResponse.json(
       { error: 'Failed to create shop' },
       { status: 500 }

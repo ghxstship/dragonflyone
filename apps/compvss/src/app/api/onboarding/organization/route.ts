@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
@@ -54,7 +55,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (orgError) {
-        console.error('Organization creation error:', orgError);
+        Logger.error('Organization creation error:', orgError);
         return NextResponse.json({ error: 'Failed to create organization' }, { status: 500 });
       }
 
@@ -80,7 +81,7 @@ export async function POST(request: NextRequest) {
       .eq('id', user.id);
 
     if (profileError) {
-      console.error('Profile update error:', profileError);
+      Logger.error('Profile update error:', profileError);
     }
 
     return NextResponse.json({ 
@@ -95,7 +96,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Organization update error:', error);
+    Logger.error('Organization update error:', error);
     return NextResponse.json({ error: 'Failed to update organization' }, { status: 500 });
   }
 }

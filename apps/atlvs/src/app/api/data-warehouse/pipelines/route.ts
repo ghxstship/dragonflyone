@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -63,7 +64,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ data });
   } catch (error) {
-    console.error('Error fetching ETL pipelines:', error);
+    Logger.error('Error fetching ETL pipelines:', error);
     return NextResponse.json(
       { error: 'Failed to fetch ETL pipelines' },
       { status: 500 }
@@ -121,7 +122,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Error creating ETL pipeline:', error);
+    Logger.error('Error creating ETL pipeline:', error);
     return NextResponse.json(
       { error: 'Failed to create ETL pipeline' },
       { status: 500 }

@@ -166,7 +166,7 @@ function SponsorFulfillmentPageContent() {
       await completeDeliverableMutation.mutateAsync({
         id: deliverableToComplete.id,
         sponsorId: deliverableToComplete.sponsor_id,
-        completedBy: 'current-user-id', // TODO: Get from auth context
+        completedBy: user?.id || '', 
       });
       setCompleteDialogOpen(false);
       setDeliverableToComplete(null);

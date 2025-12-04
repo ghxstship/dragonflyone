@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -52,7 +53,7 @@ export async function GET(
 
     return NextResponse.json({ data });
   } catch (error) {
-    console.error('Error fetching calibration schedule:', error);
+    Logger.error('Error fetching calibration schedule:', error);
     return NextResponse.json(
       { error: 'Failed to fetch calibration schedule' },
       { status: 500 }
@@ -94,7 +95,7 @@ export async function PATCH(
         { status: 400 }
       );
     }
-    console.error('Error updating calibration schedule:', error);
+    Logger.error('Error updating calibration schedule:', error);
     return NextResponse.json(
       { error: 'Failed to update calibration schedule' },
       { status: 500 }
@@ -117,7 +118,7 @@ export async function DELETE(
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error deleting calibration schedule:', error);
+    Logger.error('Error deleting calibration schedule:', error);
     return NextResponse.json(
       { error: 'Failed to delete calibration schedule' },
       { status: 500 }

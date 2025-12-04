@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 
@@ -174,7 +175,7 @@ export async function GET(request: NextRequest) {
       recentLogs: recentLogs?.slice(0, 20),
     });
   } catch (error) {
-    console.error('Integration analytics error:', error);
+    Logger.error('Integration analytics error:', error);
     return NextResponse.json(
       { error: 'Failed to fetch analytics' },
       { status: 500 }

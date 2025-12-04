@@ -93,7 +93,7 @@ export default function SponsorDetailPage() {
       await completeDeliverableMutation.mutateAsync({
         id: deliverableToComplete,
         sponsorId,
-        completedBy: 'current-user-id', // TODO: Get from auth context
+        completedBy: user?.id || '', 
       });
       setCompleteDialogOpen(false);
       setDeliverableToComplete(null);

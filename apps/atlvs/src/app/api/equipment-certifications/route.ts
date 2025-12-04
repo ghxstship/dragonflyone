@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -67,7 +68,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ data });
   } catch (error) {
-    console.error('Error fetching equipment certifications:', error);
+    Logger.error('Error fetching equipment certifications:', error);
     return NextResponse.json(
       { error: 'Failed to fetch equipment certifications' },
       { status: 500 }
@@ -109,7 +110,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Error creating equipment certification:', error);
+    Logger.error('Error creating equipment certification:', error);
     return NextResponse.json(
       { error: 'Failed to create equipment certification' },
       { status: 500 }

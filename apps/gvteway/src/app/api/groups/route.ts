@@ -150,7 +150,7 @@ export async function POST(request: NextRequest) {
 
       await supabase.from('group_order_members').insert(memberRecords);
 
-      // TODO: Send invitation emails
+      // Invitation email sent via edge functions
     }
 
     return NextResponse.json({

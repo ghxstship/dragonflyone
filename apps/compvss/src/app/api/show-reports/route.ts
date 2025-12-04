@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
@@ -54,7 +55,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      console.error('Error fetching show reports:', error);
+      Logger.error('Error fetching show reports:', error);
       return NextResponse.json(
         { error: 'Failed to fetch show reports', details: error.message },
         { status: 500 }
@@ -95,7 +96,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ reports: data, summary });
   } catch (error) {
-    console.error('Error in GET /api/show-reports:', error);
+    Logger.error('Error in GET /api/show-reports:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -131,7 +132,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      console.error('Error creating show report:', error);
+      Logger.error('Error creating show report:', error);
       return NextResponse.json(
         { error: 'Failed to create show report', details: error.message },
         { status: 500 }
@@ -146,7 +147,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Error in POST /api/show-reports:', error);
+    Logger.error('Error in POST /api/show-reports:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -217,7 +218,7 @@ export async function PATCH(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Error in PATCH /api/show-reports:', error);
+    Logger.error('Error in PATCH /api/show-reports:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

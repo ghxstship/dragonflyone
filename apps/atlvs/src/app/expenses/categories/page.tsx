@@ -120,7 +120,7 @@ export default function ExpenseCategoriesPage() {
 
   const handleCreate = async (data: Record<string, unknown>) => {
     await createMutation.mutateAsync({
-      production_id: 'current-production-id', // TODO: Get from context
+      production_id: productionId || params?.productionId || '', 
       name: data.name as string,
       description: data.description as string | undefined,
       budget_amount: data.budget_amount as number | undefined,

@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import crypto from 'crypto';
@@ -88,7 +89,7 @@ export async function GET(request: NextRequest) {
     // For now, we'll redirect directly (assuming user is authenticated)
     return NextResponse.redirect(redirectUrl.toString());
   } catch (error) {
-    console.error('OAuth authorize error:', error);
+    Logger.error('OAuth authorize error:', error);
     return NextResponse.json(
       { error: 'server_error', error_description: 'Internal server error' },
       { status: 500 }

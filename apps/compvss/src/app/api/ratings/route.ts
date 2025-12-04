@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
@@ -89,7 +90,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Get ratings error:', error);
+    Logger.error('Get ratings error:', error);
     return NextResponse.json(
       { error: 'Failed to fetch ratings' },
       { status: 500 }
@@ -172,7 +173,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Create rating error:', error);
+    Logger.error('Create rating error:', error);
     return NextResponse.json(
       { error: 'Failed to create rating' },
       { status: 500 }

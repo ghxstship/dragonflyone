@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { supabaseAdmin } from '@/lib/supabase';
@@ -106,7 +107,7 @@ export const POST = apiRoute(
           .insert(batch);
 
         if (seatsError) {
-          console.error('Failed to insert seat batch:', seatsError);
+          Logger.error('Failed to insert seat batch:', seatsError);
         }
       }
     }

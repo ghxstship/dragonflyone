@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
@@ -73,7 +74,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      console.error('Error fetching equipment:', error);
+      Logger.error('Error fetching equipment:', error);
       return NextResponse.json(
         { error: 'Failed to fetch equipment', details: error.message },
         { status: 500 }
@@ -107,7 +108,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ equipment: data, summary });
   } catch (error) {
-    console.error('Error in GET /api/equipment:', error);
+    Logger.error('Error in GET /api/equipment:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -133,7 +134,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      console.error('Error creating equipment:', error);
+      Logger.error('Error creating equipment:', error);
       return NextResponse.json(
         { error: 'Failed to create equipment', details: error.message },
         { status: 500 }
@@ -148,7 +149,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Error in POST /api/equipment:', error);
+    Logger.error('Error in POST /api/equipment:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -274,7 +275,7 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json({ error: 'No action specified' }, { status: 400 });
   } catch (error) {
-    console.error('Error in PATCH /api/equipment:', error);
+    Logger.error('Error in PATCH /api/equipment:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

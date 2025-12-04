@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { handleDealToProjectHandoff } from '@ghxstship/config/supabase-integration';
 
@@ -21,7 +22,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(result);
   } catch (error) {
-    console.error('Deal to project handoff API error:', error);
+    Logger.error('Deal to project handoff API error:', error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Internal server error' },
       { status: 500 }

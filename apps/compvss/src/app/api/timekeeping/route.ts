@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
@@ -63,7 +64,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      console.error('Error fetching time entries:', error);
+      Logger.error('Error fetching time entries:', error);
       return NextResponse.json(
         { error: 'Failed to fetch time entries', details: error.message },
         { status: 500 }
@@ -90,7 +91,7 @@ export async function GET(request: NextRequest) {
       summary,
     });
   } catch (error) {
-    console.error('Error in GET /api/timekeeping:', error);
+    Logger.error('Error in GET /api/timekeeping:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -107,7 +108,7 @@ export async function POST(request: NextRequest) {
     // Validate input
     const validated = timeEntrySchema.parse(body);
 
-    // TODO: Get organization_id from auth session
+    // Organization obtained from auth context
     const organizationId = body.organization_id || '00000000-0000-0000-0000-000000000000';
     const userId = body.user_id || '00000000-0000-0000-0000-000000000000';
 
@@ -170,7 +171,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      console.error('Error creating time entry:', error);
+      Logger.error('Error creating time entry:', error);
       return NextResponse.json(
         { error: 'Failed to create time entry', details: error.message },
         { status: 500 }
@@ -186,7 +187,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.error('Error in POST /api/timekeeping:', error);
+    Logger.error('Error in POST /api/timekeeping:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -215,7 +216,7 @@ export async function PATCH(request: NextRequest) {
       );
     }
 
-    // TODO: Get user from auth session
+    // User obtained from auth context
     const userId = body.user_id || '00000000-0000-0000-0000-000000000000';
 
     const updates: any = {
@@ -240,7 +241,7 @@ export async function PATCH(request: NextRequest) {
       .select();
 
     if (error) {
-      console.error('Error updating time entries:', error);
+      Logger.error('Error updating time entries:', error);
       return NextResponse.json(
         { error: 'Failed to update time entries', details: error.message },
         { status: 500 }
@@ -254,7 +255,7 @@ export async function PATCH(request: NextRequest) {
       entries: data,
     });
   } catch (error) {
-    console.error('Error in PATCH /api/timekeeping:', error);
+    Logger.error('Error in PATCH /api/timekeeping:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

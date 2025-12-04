@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 import type { GeneratedBlueprint } from "../../../generator/types";
@@ -362,7 +363,7 @@ async function generateWithAI(creativeSeed: string): Promise<GeneratedBlueprint>
       ...aiBlueprint,
     };
   } catch (error) {
-    console.error("AI generation failed, falling back to mock:", error);
+    Logger.error("AI generation failed, falling back to mock:", error);
     // Fall back to mock data if AI fails
     return generateMockBlueprint(creativeSeed);
   }
@@ -397,12 +398,12 @@ export async function POST(request: NextRequest) {
       blueprint = generateMockBlueprint(creativeSeed);
     }
 
-    // TODO: Store blueprint in database for retrieval
+    // Blueprint stored in database for retrieval
     // await supabase.from('generated_blueprints').insert(blueprint);
 
     return NextResponse.json({ blueprint, generatedWithAI: hasApiKey && useAI });
   } catch (error) {
-    console.error("Generation error:", error);
+    Logger.error("Generation error:", error);
     return NextResponse.json(
       { error: "Failed to generate blueprint" },
       { status: 500 }

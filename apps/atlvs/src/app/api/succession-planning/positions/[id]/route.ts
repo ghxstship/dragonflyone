@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -61,7 +62,7 @@ export async function GET(
 
     return NextResponse.json({ data });
   } catch (error) {
-    console.error('Error fetching key position:', error);
+    Logger.error('Error fetching key position:', error);
     return NextResponse.json(
       { error: 'Failed to fetch key position' },
       { status: 500 }
@@ -103,7 +104,7 @@ export async function PATCH(
         { status: 400 }
       );
     }
-    console.error('Error updating key position:', error);
+    Logger.error('Error updating key position:', error);
     return NextResponse.json(
       { error: 'Failed to update key position' },
       { status: 500 }
@@ -127,7 +128,7 @@ export async function DELETE(
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error deleting key position:', error);
+    Logger.error('Error deleting key position:', error);
     return NextResponse.json(
       { error: 'Failed to delete key position' },
       { status: 500 }

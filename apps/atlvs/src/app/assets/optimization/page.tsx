@@ -21,18 +21,18 @@ interface OptimizationRecommendation {
   target_utilization: number;
   recommendation: string;
   potential_savings: number;
-  action_items: string[];
+  action_items: string[] : [];
   status: 'pending' | 'in_progress' | 'implemented' | 'dismissed';
   [key: string]: unknown;
 }
 
-const mockData: OptimizationRecommendation[] = [
+const mockData = process.env.NODE_ENV === "development" ? : OptimizationRecommendation[] = [
   { id: 'REC-001', type: 'underutilized', priority: 'high', asset_id: 'AST-001', asset_name: 'LED Wall Panel Set A', category: 'Video', current_utilization: 15, target_utilization: 60, recommendation: 'Consider rental pooling or sale. Asset has been idle for 85% of the quarter.', potential_savings: 25000, action_items: ['List on rental marketplace', 'Get appraisal for sale', 'Review upcoming project needs'], status: 'pending' },
   { id: 'REC-002', type: 'overutilized', priority: 'medium', asset_id: 'AST-002', asset_name: 'Meyer Sound Line Array', category: 'Audio', current_utilization: 95, target_utilization: 75, recommendation: 'High demand asset. Consider purchasing additional units to reduce scheduling conflicts.', potential_savings: 15000, action_items: ['Request capital budget', 'Evaluate rental costs vs purchase', 'Review booking conflicts'], status: 'in_progress' },
   { id: 'REC-003', type: 'maintenance_due', priority: 'high', asset_id: 'AST-003', asset_name: 'Lighting Console grandMA3', category: 'Lighting', current_utilization: 70, target_utilization: 70, recommendation: 'Preventive maintenance overdue by 30 days. Schedule service to avoid downtime.', potential_savings: 5000, action_items: ['Schedule maintenance window', 'Arrange backup console', 'Update service records'], status: 'pending' },
   { id: 'REC-004', type: 'consolidation', priority: 'low', asset_id: 'AST-004', asset_name: 'Cable Inventory', category: 'Infrastructure', current_utilization: 40, target_utilization: 60, recommendation: 'Multiple cable types with low utilization. Consolidate to standard types.', potential_savings: 8000, action_items: ['Audit cable inventory', 'Identify redundant types', 'Create standardization plan'], status: 'pending' },
   { id: 'REC-005', type: 'replacement', priority: 'medium', asset_id: 'AST-005', asset_name: 'PTZ Camera Set', category: 'Video', current_utilization: 65, target_utilization: 70, recommendation: 'Asset approaching end of life. Plan replacement within 6 months.', potential_savings: 12000, action_items: ['Research replacement models', 'Get quotes', 'Plan transition timeline'], status: 'pending' },
-];
+] : [];
 
 const formatCurrency = (amount: number) => `$${amount.toLocaleString()}`;
 
@@ -50,13 +50,13 @@ const columns: ListPageColumn<OptimizationRecommendation>[] = [
   { key: 'priority', label: 'Priority', accessor: 'priority', sortable: true, render: (v) => <Badge variant={getPriorityVariant(String(v))}>{String(v)}</Badge> },
   { key: 'potential_savings', label: 'Savings', accessor: (r) => formatCurrency(r.potential_savings), sortable: true },
   { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v) => <Badge variant={getStatusVariant(String(v))}>{String(v).replace('_', ' ')}</Badge> },
-];
+] : [];
 
 const filters: ListPageFilter[] = [
   { key: 'type', label: 'Type', options: [{ value: 'underutilized', label: 'Underutilized' }, { value: 'overutilized', label: 'Overutilized' }, { value: 'maintenance_due', label: 'Maintenance Due' }, { value: 'replacement', label: 'Replacement' }, { value: 'consolidation', label: 'Consolidation' }] },
   { key: 'priority', label: 'Priority', options: [{ value: 'high', label: 'High' }, { value: 'medium', label: 'Medium' }, { value: 'low', label: 'Low' }] },
   { key: 'status', label: 'Status', options: [{ value: 'pending', label: 'Pending' }, { value: 'in_progress', label: 'In Progress' }, { value: 'implemented', label: 'Implemented' }, { value: 'dismissed', label: 'Dismissed' }] },
-];
+] : [];
 
 export default function AssetOptimizationPage() {
   const router = useRouter();
@@ -73,14 +73,14 @@ export default function AssetOptimizationPage() {
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
     { id: 'implement', label: 'Implement', icon: <Check className="size-4" />, onClick: (r) => setData(data.map(rec => rec.id === r.id ? { ...rec, status: 'implemented' as const } : rec)) },
     { id: 'dismiss', label: 'Dismiss', icon: <X className="size-4" />, onClick: (r) => setData(data.map(rec => rec.id === r.id ? { ...rec, status: 'dismissed' as const } : rec)) },
-  ];
+  ] : [];
 
   const stats = [
     { label: 'Pending Actions', value: pendingCount },
     { label: 'High Priority', value: highPriorityCount },
     { label: 'Potential Savings', value: `$${(totalSavings / 1000).toFixed(0)}K` },
     { label: 'Avg Utilization', value: `${avgUtilization}%` },
-  ];
+  ] : [];
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Recommendation Details', content: (
@@ -105,7 +105,7 @@ export default function AssetOptimizationPage() {
         ))}
       </Stack>
     )},
-  ] : [];
+  ] : [] : [];
 
   return (
     <AtlvsAppLayout>

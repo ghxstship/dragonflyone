@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSupabase } from '@ghxstship/config';
 
@@ -23,7 +24,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ artists: data || [] });
   } catch (error) {
-    console.error("Error fetching artists:", error);
+    Logger.error("Error fetching artists:", error);
     return NextResponse.json({ error: "Failed to fetch artists" }, { status: 500 });
   }
 }
@@ -57,7 +58,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ artist: data });
   } catch (error) {
-    console.error("Error creating artist:", error);
+    Logger.error("Error creating artist:", error);
     return NextResponse.json({ error: "Failed to create artist" }, { status: 500 });
   }
 }
@@ -93,7 +94,7 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json({ artist: data });
   } catch (error) {
-    console.error("Error updating artist:", error);
+    Logger.error("Error updating artist:", error);
     return NextResponse.json({ error: "Failed to update artist" }, { status: 500 });
   }
 }
@@ -111,7 +112,7 @@ export async function DELETE(request: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Error deleting artist:", error);
+    Logger.error("Error deleting artist:", error);
     return NextResponse.json({ error: "Failed to delete artist" }, { status: 500 });
   }
 }

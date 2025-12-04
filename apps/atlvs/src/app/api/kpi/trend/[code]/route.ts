@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 
@@ -64,7 +65,7 @@ export async function GET(
       count: trendData?.length || 0
     });
   } catch (error) {
-    console.error('Error fetching KPI trend:', error);
+    Logger.error('Error fetching KPI trend:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to fetch KPI trend' },
       { status: 500 }

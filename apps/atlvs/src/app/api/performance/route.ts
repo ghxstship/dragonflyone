@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -59,7 +60,7 @@ export async function GET(request: NextRequest) {
     const { data: reviews, error: reviewError } = await reviewQuery;
 
     if (reviewError) {
-      console.error('Error fetching reviews:', reviewError);
+      Logger.error('Error fetching reviews:', reviewError);
       return NextResponse.json(
         { error: 'Failed to fetch reviews', details: reviewError.message },
         { status: 500 }
@@ -112,7 +113,7 @@ export async function GET(request: NextRequest) {
       summary,
     });
   } catch (error) {
-    console.error('Error in GET /api/performance:', error);
+    Logger.error('Error in GET /api/performance:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -164,7 +165,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Error in POST /api/performance:', error);
+    Logger.error('Error in POST /api/performance:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -202,7 +203,7 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json(data);
   } catch (error) {
-    console.error('Error in PATCH /api/performance:', error);
+    Logger.error('Error in PATCH /api/performance:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

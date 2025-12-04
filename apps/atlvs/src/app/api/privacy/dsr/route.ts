@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -71,7 +72,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ data });
   } catch (error) {
-    console.error('Get DSR error:', error);
+    Logger.error('Get DSR error:', error);
     return NextResponse.json(
       { error: 'Failed to fetch data subject requests' },
       { status: 500 }
@@ -148,7 +149,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Create DSR error:', error);
+    Logger.error('Create DSR error:', error);
     return NextResponse.json(
       { error: 'Failed to create data subject request' },
       { status: 500 }

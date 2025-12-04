@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { ingestTicketRevenue } from '@ghxstship/config/supabase-integration';
 
@@ -24,7 +25,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(result);
   } catch (error) {
-    console.error('Ticket revenue ingestion API error:', error);
+    Logger.error('Ticket revenue ingestion API error:', error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Internal server error' },
       { status: 500 }

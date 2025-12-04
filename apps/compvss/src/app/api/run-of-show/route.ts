@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { supabaseAdmin, fromDynamic } from '@/lib/supabase';
@@ -134,7 +135,7 @@ export const POST = apiRoute(
         .insert(cuesWithIds);
 
       if (cuesError) {
-        console.error('Failed to create cues:', cuesError);
+        Logger.error('Failed to create cues:', cuesError);
       }
     }
 

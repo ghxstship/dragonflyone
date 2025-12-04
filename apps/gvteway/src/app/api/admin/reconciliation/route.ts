@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { stripe } from '@/lib/stripe';
@@ -212,7 +213,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(result);
   } catch (error) {
-    console.error('Reconciliation error:', error);
+    Logger.error('Reconciliation error:', error);
     return NextResponse.json(
       { error: 'Reconciliation failed', message: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
@@ -239,7 +240,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json({ logs: logs || [] });
   } catch (error) {
-    console.error('Failed to fetch reconciliation history:', error);
+    Logger.error('Failed to fetch reconciliation history:', error);
     return NextResponse.json(
       { error: 'Failed to fetch history', message: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }

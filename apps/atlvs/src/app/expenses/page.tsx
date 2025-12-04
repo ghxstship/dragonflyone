@@ -180,7 +180,7 @@ export default function ExpensesPage() {
 
   const handleApprove = async () => {
     if (expenseToAction) {
-      await approveMutation.mutateAsync({ id: expenseToAction.id, approverId: 'current-user-id' });
+      await approveMutation.mutateAsync({ id: expenseToAction.id, approverId: user?.id || '' });
       setApproveDialogOpen(false);
       setExpenseToAction(null);
       refetch();

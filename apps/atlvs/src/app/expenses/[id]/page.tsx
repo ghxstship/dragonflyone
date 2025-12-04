@@ -45,7 +45,7 @@ export default function ExpenseDetailPage() {
   };
 
   const handleApprove = async () => {
-    await approveMutation.mutateAsync({ id: expenseId, approverId: 'current-user-id' });
+    await approveMutation.mutateAsync({ id: expenseId, approverId: user?.id || '' });
     setApproveDialogOpen(false);
     refetch();
   };

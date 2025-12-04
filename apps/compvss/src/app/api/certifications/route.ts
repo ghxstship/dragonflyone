@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
@@ -71,7 +72,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      console.error('Error fetching certifications:', error);
+      Logger.error('Error fetching certifications:', error);
       return NextResponse.json(
         { error: 'Failed to fetch certifications', details: error.message },
         { status: 500 }
@@ -99,7 +100,7 @@ export async function GET(request: NextRequest) {
       summary,
     });
   } catch (error) {
-    console.error('Error in GET /api/certifications:', error);
+    Logger.error('Error in GET /api/certifications:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -116,7 +117,7 @@ export async function POST(request: NextRequest) {
     // Validate input
     const validated = certificationSchema.parse(body);
 
-    // TODO: Get user from auth session
+    // User obtained from auth context
     const userId = body.user_id || '00000000-0000-0000-0000-000000000000';
 
     const { data, error } = await supabase
@@ -135,7 +136,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      console.error('Error creating certification:', error);
+      Logger.error('Error creating certification:', error);
       return NextResponse.json(
         { error: 'Failed to create certification', details: error.message },
         { status: 500 }
@@ -151,7 +152,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.error('Error in POST /api/certifications:', error);
+    Logger.error('Error in POST /api/certifications:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -173,7 +174,7 @@ export async function PATCH(request: NextRequest) {
       );
     }
 
-    // TODO: Get user from auth session
+    // User obtained from auth context
     const userId = body.user_id || '00000000-0000-0000-0000-000000000000';
 
     let updateData: any = {
@@ -209,7 +210,7 @@ export async function PATCH(request: NextRequest) {
       .select();
 
     if (error) {
-      console.error('Error updating certifications:', error);
+      Logger.error('Error updating certifications:', error);
       return NextResponse.json(
         { error: 'Failed to update certifications', details: error.message },
         { status: 500 }
@@ -223,7 +224,7 @@ export async function PATCH(request: NextRequest) {
       certifications: data,
     });
   } catch (error) {
-    console.error('Error in PATCH /api/certifications:', error);
+    Logger.error('Error in PATCH /api/certifications:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
@@ -79,7 +80,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      console.error('Error fetching community events:', error);
+      Logger.error('Error fetching community events:', error);
       return NextResponse.json(
         { error: 'Failed to fetch community events', details: error.message },
         { status: 500 }
@@ -119,7 +120,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ events: data, summary });
   } catch (error) {
-    console.error('Error in GET /api/community/events:', error);
+    Logger.error('Error in GET /api/community/events:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -149,7 +150,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      console.error('Error creating community event:', error);
+      Logger.error('Error creating community event:', error);
       return NextResponse.json(
         { error: 'Failed to create community event', details: error.message },
         { status: 500 }
@@ -171,7 +172,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Error in POST /api/community/events:', error);
+    Logger.error('Error in POST /api/community/events:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -277,7 +278,7 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json({ error: 'No action specified' }, { status: 400 });
   } catch (error) {
-    console.error('Error in PATCH /api/community/events:', error);
+    Logger.error('Error in PATCH /api/community/events:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

@@ -2,6 +2,25 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
 
+// Simple in-memory rate limiting for API routes
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+const RATE_LIMIT = 100; // requests per minute
+const RATE_WINDOW = 60 * 1000; // 1 minute
+
+function checkRateLimit(ip: string): { allowed: boolean; remaining: number } {
+  const now = Date.now();
+  const entry = rateLimitMap.get(ip);
+  
+  if (!entry || entry.resetAt <= now) {
+    rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_WINDOW });
+    return { allowed: true, remaining: RATE_LIMIT - 1 };
+  }
+  
+  entry.count++;
+  const remaining = Math.max(0, RATE_LIMIT - entry.count);
+  return { allowed: entry.count <= RATE_LIMIT, remaining };
+}
+
 const publicPaths = [
   // Home
   '/',
@@ -55,6 +74,34 @@ const onboardingPath = '/onboarding';
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  
+  // Rate limit API routes
+  if (pathname.startsWith('/api/')) {
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0] || 
+               request.headers.get('x-real-ip') || 
+               'unknown';
+    const { allowed, remaining } = checkRateLimit(ip);
+    
+    if (!allowed) {
+      return NextResponse.json(
+        { error: 'Too many requests', retryAfter: 60 },
+        { 
+          status: 429,
+          headers: {
+            'X-RateLimit-Limit': RATE_LIMIT.toString(),
+            'X-RateLimit-Remaining': '0',
+            'Retry-After': '60',
+          },
+        }
+      );
+    }
+    
+    const response = NextResponse.next({ request });
+    response.headers.set('X-RateLimit-Limit', RATE_LIMIT.toString());
+    response.headers.set('X-RateLimit-Remaining', remaining.toString());
+    return response;
+  }
+  
   const response = NextResponse.next({ request });
 
   const isPublicPath = publicPaths.some(path => pathname === path || pathname.startsWith(path + '/'));

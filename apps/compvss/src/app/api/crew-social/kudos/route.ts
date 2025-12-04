@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
@@ -86,7 +87,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Error fetching kudos:', error);
+    Logger.error('Error fetching kudos:', error);
     return NextResponse.json(
       { error: 'Failed to fetch kudos' },
       { status: 500 }
@@ -152,7 +153,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Error giving kudos:', error);
+    Logger.error('Error giving kudos:', error);
     return NextResponse.json(
       { error: 'Failed to give kudos' },
       { status: 500 }

@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
@@ -36,7 +37,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ campaigns: data || [] });
   } catch (error) {
-    console.error("Error fetching SMS campaigns:", error);
+    Logger.error("Error fetching SMS campaigns:", error);
     return NextResponse.json({ error: "Failed to fetch campaigns" }, { status: 500 });
   }
 }
@@ -75,7 +76,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ campaign: data });
   } catch (error) {
-    console.error("Error creating SMS campaign:", error);
+    Logger.error("Error creating SMS campaign:", error);
     return NextResponse.json({ error: "Failed to create campaign" }, { status: 500 });
   }
 }
@@ -106,7 +107,7 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json({ campaign: data });
   } catch (error) {
-    console.error("Error updating SMS campaign:", error);
+    Logger.error("Error updating SMS campaign:", error);
     return NextResponse.json({ error: "Failed to update campaign" }, { status: 500 });
   }
 }
@@ -124,7 +125,7 @@ export async function DELETE(request: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Error deleting SMS campaign:", error);
+    Logger.error("Error deleting SMS campaign:", error);
     return NextResponse.json({ error: "Failed to delete campaign" }, { status: 500 });
   }
 }

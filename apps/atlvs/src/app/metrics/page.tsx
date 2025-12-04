@@ -21,8 +21,8 @@ import {
 
 export default function MetricsPage() {
   const router = useRouter();
-  const { data: metrics } = useProductionMetrics('current-production-id');
-  const { data: kpis } = useKPIs('current-production-id');
+  const { data: metrics } = useProductionMetrics(productionId || params?.productionId || '');
+  const { data: kpis } = useKPIs(productionId || params?.productionId || '');
 
   const kpiStatusColors: Record<string, 'success' | 'warning' | 'error'> = {
     on_track: 'success',

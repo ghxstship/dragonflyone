@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { getKPIByCode } from '@ghxstship/config/kpi-definitions';
@@ -25,7 +26,7 @@ export async function GET(
       data: kpi
     });
   } catch (error) {
-    console.error('Error fetching KPI definition:', error);
+    Logger.error('Error fetching KPI definition:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to fetch KPI definition' },
       { status: 500 }

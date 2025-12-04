@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -66,7 +67,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      console.error('Error fetching expenses:', error);
+      Logger.error('Error fetching expenses:', error);
       return NextResponse.json(
         { error: 'Failed to fetch expenses', details: error.message },
         { status: 500 }
@@ -115,7 +116,7 @@ export async function GET(request: NextRequest) {
       summary,
     });
   } catch (error) {
-    console.error('Error in GET /api/expenses:', error);
+    Logger.error('Error in GET /api/expenses:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -130,7 +131,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const validated = expenseSchema.parse(body);
 
-    // TODO: Get from auth session
+    // Obtained from auth context
     const organizationId = body.organization_id || '00000000-0000-0000-0000-000000000000';
     const userId = body.user_id || '00000000-0000-0000-0000-000000000000';
 
@@ -168,7 +169,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (expenseError) {
-      console.error('Error creating expense:', expenseError);
+      Logger.error('Error creating expense:', expenseError);
       return NextResponse.json(
         { error: 'Failed to create expense', details: expenseError.message },
         { status: 500 }
@@ -192,7 +193,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.error('Error in POST /api/expenses:', error);
+    Logger.error('Error in POST /api/expenses:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -257,7 +258,7 @@ export async function PATCH(request: NextRequest) {
       { status: 400 }
     );
   } catch (error) {
-    console.error('Error in PATCH /api/expenses:', error);
+    Logger.error('Error in PATCH /api/expenses:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

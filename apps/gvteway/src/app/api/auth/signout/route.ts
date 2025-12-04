@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
@@ -54,12 +55,12 @@ export async function POST(request: NextRequest) {
     const { error } = await supabase.auth.admin.signOut(token);
 
     if (error) {
-      console.error('Sign out error:', error);
+      Logger.error('Sign out error:', error);
     }
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Sign out error:', error);
+    Logger.error('Sign out error:', error);
     return NextResponse.json(
       { error: 'Sign out failed' },
       { status: 500 }

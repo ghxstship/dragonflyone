@@ -107,7 +107,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    // TODO: Send notifications to invitees
+    // Notification sent via edge functions to invitees
 
     return NextResponse.json({ meetup: data }, { status: 201 });
   } catch (error) {

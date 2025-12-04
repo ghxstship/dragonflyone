@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 // apps/atlvs/src/app/api/advancing/requests/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
@@ -74,7 +75,7 @@ export async function GET(request: NextRequest) {
     const { data, error, count } = await query;
 
     if (error) {
-      console.error('Error fetching advances:', error);
+      Logger.error('Error fetching advances:', error);
       return NextResponse.json(
         { error: 'Failed to fetch advance requests', details: error.message },
         { status: 500 }
@@ -88,7 +89,7 @@ export async function GET(request: NextRequest) {
       offset,
     });
   } catch (error) {
-    console.error('Unexpected error:', error);
+    Logger.error('Unexpected error:', error);
     return NextResponse.json(
       { error: 'An unexpected error occurred' },
       { status: 500 }
@@ -141,7 +142,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (advanceError) {
-      console.error('Error creating advance:', advanceError);
+      Logger.error('Error creating advance:', advanceError);
       return NextResponse.json(
         { error: 'Failed to create advance request', details: advanceError.message },
         { status: 500 }
@@ -161,7 +162,7 @@ export async function POST(request: NextRequest) {
       .select();
 
     if (itemsError) {
-      console.error('Error creating advance items:', itemsError);
+      Logger.error('Error creating advance items:', itemsError);
       // Rollback: delete the advance
       await supabase.from('production_advances').delete().eq('id', (advance as any).id);
 
@@ -182,7 +183,7 @@ export async function POST(request: NextRequest) {
       { status: 201 }
     );
   } catch (error) {
-    console.error('Unexpected error:', error);
+    Logger.error('Unexpected error:', error);
     return NextResponse.json(
       { error: 'An unexpected error occurred' },
       { status: 500 }

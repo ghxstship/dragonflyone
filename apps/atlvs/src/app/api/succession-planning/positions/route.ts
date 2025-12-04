@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -66,7 +67,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ data });
   } catch (error) {
-    console.error('Error fetching key positions:', error);
+    Logger.error('Error fetching key positions:', error);
     return NextResponse.json(
       { error: 'Failed to fetch key positions' },
       { status: 500 }
@@ -111,7 +112,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Error creating key position:', error);
+    Logger.error('Error creating key position:', error);
     return NextResponse.json(
       { error: 'Failed to create key position' },
       { status: 500 }

@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import crypto from 'crypto';
@@ -91,7 +92,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.redirect(authUrl.toString());
   } catch (error) {
-    console.error('OIDC login error:', error);
+    Logger.error('OIDC login error:', error);
     return NextResponse.json(
       { error: 'OIDC login failed' },
       { status: 500 }

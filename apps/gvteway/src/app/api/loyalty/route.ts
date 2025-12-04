@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
@@ -136,7 +137,7 @@ export async function GET(request: NextRequest) {
       available_rewards: rewardsRes.data || [],
     });
   } catch (error) {
-    console.error('Error in GET /api/loyalty:', error);
+    Logger.error('Error in GET /api/loyalty:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -305,7 +306,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Error in POST /api/loyalty:', error);
+    Logger.error('Error in POST /api/loyalty:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

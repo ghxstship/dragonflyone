@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -65,7 +66,7 @@ export async function GET(
       },
     });
   } catch (error) {
-    console.error('Error fetching handbook:', error);
+    Logger.error('Error fetching handbook:', error);
     return NextResponse.json(
       { error: 'Failed to fetch handbook' },
       { status: 500 }
@@ -124,7 +125,7 @@ export async function PATCH(
         { status: 400 }
       );
     }
-    console.error('Error updating handbook:', error);
+    Logger.error('Error updating handbook:', error);
     return NextResponse.json(
       { error: 'Failed to update handbook' },
       { status: 500 }
@@ -148,7 +149,7 @@ export async function DELETE(
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error archiving handbook:', error);
+    Logger.error('Error archiving handbook:', error);
     return NextResponse.json(
       { error: 'Failed to archive handbook' },
       { status: 500 }

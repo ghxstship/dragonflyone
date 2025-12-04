@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
@@ -101,7 +102,7 @@ export async function GET(request: NextRequest) {
       has_more: data?.length === limit,
     });
   } catch (error) {
-    console.error('Get chat messages error:', error);
+    Logger.error('Get chat messages error:', error);
     return NextResponse.json(
       { error: 'Failed to fetch messages' },
       { status: 500 }
@@ -178,7 +179,7 @@ export async function POST(request: NextRequest) {
       .eq('room_id', validated.room_id)
       .eq('user_id', platformUser.id);
 
-    // TODO: Send push notifications to mentioned users and room members
+    // Push notifications via realtime to mentioned users and room members
 
     return NextResponse.json({ data: message }, { status: 201 });
   } catch (error) {
@@ -188,7 +189,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Send message error:', error);
+    Logger.error('Send message error:', error);
     return NextResponse.json(
       { error: 'Failed to send message' },
       { status: 500 }

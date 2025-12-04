@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import type Stripe from "stripe";
@@ -127,7 +128,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: error.issues }, { status: 422 });
     }
 
-    console.error("Stripe checkout session error", error);
+    Logger.error("Stripe checkout session error", error);
     return NextResponse.json({ error: "Unable to create checkout session" }, { status: 500 });
   }
 }

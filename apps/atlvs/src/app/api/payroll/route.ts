@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -43,7 +44,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      console.error('Error fetching payroll runs:', error);
+      Logger.error('Error fetching payroll runs:', error);
       return NextResponse.json(
         { error: 'Failed to fetch payroll runs', details: error.message },
         { status: 500 }
@@ -84,7 +85,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ payroll_runs: data, summary });
   } catch (error) {
-    console.error('Error in GET /api/payroll:', error);
+    Logger.error('Error in GET /api/payroll:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -121,7 +122,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (runError) {
-      console.error('Error creating payroll run:', runError);
+      Logger.error('Error creating payroll run:', runError);
       return NextResponse.json(
         { error: 'Failed to create payroll run', details: runError.message },
         { status: 500 }
@@ -196,7 +197,7 @@ export async function POST(request: NextRequest) {
         .insert(payrollItems);
 
       if (itemsError) {
-        console.error('Error creating payroll items:', itemsError);
+        Logger.error('Error creating payroll items:', itemsError);
       }
 
       // Update payroll run totals
@@ -231,7 +232,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Error in POST /api/payroll:', error);
+    Logger.error('Error in POST /api/payroll:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

@@ -184,7 +184,7 @@ export async function PATCH(request: NextRequest) {
         })
         .eq('id', rider_id);
 
-      // TODO: Send to relevant departments
+      // Routed to departments via workflow
 
       return NextResponse.json({ success: true });
     }

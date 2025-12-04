@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createAdminClient } from '@/lib/supabase';
@@ -100,7 +101,7 @@ export const POST = apiRoute(
         .insert(actionsToInsert);
 
       if (actionsError) {
-        console.error('Failed to create workflow actions:', actionsError);
+        Logger.error('Failed to create workflow actions:', actionsError);
       }
     }
 

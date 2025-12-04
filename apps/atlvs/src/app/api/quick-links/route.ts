@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
@@ -56,7 +57,7 @@ export async function GET(request: NextRequest) {
       total: data.length,
     });
   } catch (error) {
-    console.error('Error fetching quick links:', error);
+    Logger.error('Error fetching quick links:', error);
     return NextResponse.json(
       { error: 'Failed to fetch quick links' },
       { status: 500 }

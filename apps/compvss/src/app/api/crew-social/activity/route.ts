@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 
@@ -72,7 +73,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Error fetching activity feed:', error);
+    Logger.error('Error fetching activity feed:', error);
     return NextResponse.json(
       { error: 'Failed to fetch activity feed' },
       { status: 500 }

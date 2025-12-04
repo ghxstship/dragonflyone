@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
@@ -84,7 +85,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Get production notes error:', error);
+    Logger.error('Get production notes error:', error);
     return NextResponse.json(
       { error: 'Failed to fetch notes' },
       { status: 500 }
@@ -152,7 +153,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Create production note error:', error);
+    Logger.error('Create production note error:', error);
     return NextResponse.json(
       { error: 'Failed to create note' },
       { status: 500 }

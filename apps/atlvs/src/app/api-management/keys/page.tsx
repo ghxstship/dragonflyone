@@ -133,13 +133,13 @@ export default function ApiKeysPage() {
 
   const handleCreate = async (data: Record<string, unknown>) => {
     await createMutation.mutateAsync({
-      production_id: 'current-production-id',
+      production_id: productionId || params?.productionId || '',
       name: data.name as string,
       permissions: data.permissions as string[],
       rate_limit: data.rate_limit as number | undefined,
       expires_at: data.expires_at as string | undefined,
       is_active: true,
-      created_by: 'current-user-id',
+      created_by: user?.id || '',
     });
     setCreateModalOpen(false);
     refetch();

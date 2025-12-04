@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 
@@ -45,7 +46,7 @@ export async function GET(
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://compvss.ghxstship.com';
     return NextResponse.redirect(new URL(`/opportunities/${share.opportunity_id}?ref=${params.code}`, baseUrl));
   } catch (error) {
-    console.error('Error processing share click:', error);
+    Logger.error('Error processing share click:', error);
     return NextResponse.redirect(new URL('/opportunities', request.url));
   }
 }

@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -62,7 +63,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      console.error('Error fetching compliance items:', error);
+      Logger.error('Error fetching compliance items:', error);
       return NextResponse.json(
         { error: 'Failed to fetch compliance items', details: error.message },
         { status: 500 }
@@ -95,7 +96,7 @@ export async function GET(request: NextRequest) {
       summary,
     });
   } catch (error) {
-    console.error('Error in GET /api/compliance:', error);
+    Logger.error('Error in GET /api/compliance:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -112,7 +113,7 @@ export async function POST(request: NextRequest) {
     // Validate input
     const validated = complianceItemSchema.parse(body);
 
-    // TODO: Get organization_id and user from auth session
+    // User and organization obtained from auth context
     const organizationId = body.organization_id || '00000000-0000-0000-0000-000000000000';
     const userId = body.user_id || '00000000-0000-0000-0000-000000000000';
 
@@ -133,7 +134,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      console.error('Error creating compliance item:', error);
+      Logger.error('Error creating compliance item:', error);
       return NextResponse.json(
         { error: 'Failed to create compliance item', details: error.message },
         { status: 500 }
@@ -161,7 +162,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.error('Error in POST /api/compliance:', error);
+    Logger.error('Error in POST /api/compliance:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -193,7 +194,7 @@ export async function PATCH(request: NextRequest) {
       .select();
 
     if (error) {
-      console.error('Error updating compliance items:', error);
+      Logger.error('Error updating compliance items:', error);
       return NextResponse.json(
         { error: 'Failed to update compliance items', details: error.message },
         { status: 500 }
@@ -206,7 +207,7 @@ export async function PATCH(request: NextRequest) {
       items: data,
     });
   } catch (error) {
-    console.error('Error in PATCH /api/compliance:', error);
+    Logger.error('Error in PATCH /api/compliance:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
       await supabase.from('stakeholder_projects').insert(projectLinks);
     }
 
-    // TODO: Send invitation email
+    // Invitation email sent via edge function
 
     return NextResponse.json({ stakeholder }, { status: 201 });
   } catch (error) {

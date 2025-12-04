@@ -148,7 +148,7 @@ export default function WebhooksPage() {
 
   const handleCreate = async (data: Record<string, unknown>) => {
     await createMutation.mutateAsync({
-      production_id: 'current-production-id',
+      production_id: productionId || params?.productionId || '',
       name: data.name as string,
       url: data.url as string,
       events: data.events as string[],

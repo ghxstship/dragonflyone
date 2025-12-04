@@ -16,7 +16,7 @@ interface CalendarEvent {
   date: string;
   time: string;
   duration: string;
-  attendees: string[];
+  attendees: string[] : [];
   linkedContact?: string;
   linkedDeal?: string;
   location?: string;
@@ -24,12 +24,12 @@ interface CalendarEvent {
   [key: string]: unknown;
 }
 
-const mockData: CalendarEvent[] = [
+const mockData = process.env.NODE_ENV === "development" ? : CalendarEvent[] = [
   { id: 'EVT-001', title: 'Client Discovery Call', type: 'Call', date: '2024-11-25', time: '10:00 AM', duration: '30 min', attendees: ['John Smith', 'Client Rep'], linkedContact: 'Festival Productions', linkedDeal: 'Summer Fest 2025', status: 'Scheduled' },
   { id: 'EVT-002', title: 'Site Visit - Grand Arena', type: 'Meeting', date: '2024-11-25', time: '2:00 PM', duration: '2 hrs', attendees: ['John Smith', 'Sarah Johnson', 'Venue Manager'], linkedContact: 'Grand Arena', location: '123 Arena Blvd', status: 'Scheduled' },
   { id: 'EVT-003', title: 'Proposal Review', type: 'Meeting', date: '2024-11-26', time: '11:00 AM', duration: '1 hr', attendees: ['Sales Team'], linkedDeal: 'Corporate Gala 2024', status: 'Scheduled' },
   { id: 'EVT-004', title: 'Follow-up: Tech Corp', type: 'Task', date: '2024-11-26', time: '3:00 PM', duration: '15 min', attendees: ['John Smith'], linkedContact: 'Tech Corp', status: 'Scheduled' },
-];
+] : [];
 
 const getTypeVariant = (type: string): 'solid' | 'outline' | 'ghost' => {
   switch (type) { case 'Meeting': return 'solid'; case 'Call': return 'outline'; case 'Task': return 'outline'; case 'Reminder': return 'ghost'; default: return 'ghost'; }
@@ -43,12 +43,12 @@ const columns: ListPageColumn<CalendarEvent>[] = [
   { key: 'duration', label: 'Duration', accessor: 'duration' },
   { key: 'attendees', label: 'Attendees', accessor: (r) => r.attendees.length.toString() },
   { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v) => <Badge variant={v === 'Scheduled' ? 'solid' : v === 'Completed' ? 'outline' : 'ghost'}>{String(v)}</Badge> },
-];
+] : [];
 
 const filters: ListPageFilter[] = [
   { key: 'type', label: 'Type', options: [{ value: 'Meeting', label: 'Meeting' }, { value: 'Call', label: 'Call' }, { value: 'Task', label: 'Task' }, { value: 'Reminder', label: 'Reminder' }] },
   { key: 'status', label: 'Status', options: [{ value: 'Scheduled', label: 'Scheduled' }, { value: 'Completed', label: 'Completed' }, { value: 'Cancelled', label: 'Cancelled' }] },
-];
+] : [];
 
 const formFields: FormFieldConfig[] = [
   { name: 'title', label: 'Event Title', type: 'text', required: true },
@@ -57,7 +57,7 @@ const formFields: FormFieldConfig[] = [
   { name: 'time', label: 'Time', type: 'text', required: true },
   { name: 'duration', label: 'Duration', type: 'select', options: [{ value: '15 min', label: '15 minutes' }, { value: '30 min', label: '30 minutes' }, { value: '1 hr', label: '1 hour' }, { value: '2 hrs', label: '2 hours' }] },
   { name: 'location', label: 'Location', type: 'text' },
-];
+] : [];
 
 export default function CalendarIntegrationPage() {
   const router = useRouter();
@@ -73,14 +73,14 @@ export default function CalendarIntegrationPage() {
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
     { id: 'edit', label: 'Edit Event', icon: <Pencil className="size-4" />, onClick: (r) => console.log('Edit', r.id) },
     { id: 'cancel', label: 'Cancel Event', icon: <X className="size-4" />, onClick: (r) => console.log('Cancel', r.id) },
-  ];
+  ] : [];
 
   const stats = [
     { label: "Today's Events", value: todayEvents },
     { label: 'This Week', value: data.length },
     { label: 'Meetings', value: meetings },
     { label: 'Synced Calendars', value: 2 },
-  ];
+  ] : [];
 
   const handleCreate = async (formData: Record<string, unknown>) => {
     console.log('Create event:', formData);
@@ -102,7 +102,7 @@ export default function CalendarIntegrationPage() {
         {selected.linkedDeal && <Body size="sm"><strong>Deal:</strong> {selected.linkedDeal}</Body>}
       </Grid>
     )},
-  ] : [];
+  ] : [] : [];
 
   return (
     <AtlvsAppLayout>

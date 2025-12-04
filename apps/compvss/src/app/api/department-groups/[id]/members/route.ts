@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
@@ -32,7 +33,7 @@ export async function GET(
 
     return NextResponse.json({ data });
   } catch (error) {
-    console.error('Error fetching group members:', error);
+    Logger.error('Error fetching group members:', error);
     return NextResponse.json(
       { error: 'Failed to fetch group members' },
       { status: 500 }
@@ -86,7 +87,7 @@ export async function POST(
         { status: 400 }
       );
     }
-    console.error('Error adding group member:', error);
+    Logger.error('Error adding group member:', error);
     return NextResponse.json(
       { error: 'Failed to add group member' },
       { status: 500 }
@@ -139,7 +140,7 @@ export async function PATCH(
         { status: 400 }
       );
     }
-    console.error('Error updating group member:', error);
+    Logger.error('Error updating group member:', error);
     return NextResponse.json(
       { error: 'Failed to update group member' },
       { status: 500 }
@@ -173,7 +174,7 @@ export async function DELETE(
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error removing group member:', error);
+    Logger.error('Error removing group member:', error);
     return NextResponse.json(
       { error: 'Failed to remove group member' },
       { status: 500 }

@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -54,7 +55,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      console.error('Error fetching audit findings:', error);
+      Logger.error('Error fetching audit findings:', error);
       return NextResponse.json(
         { error: 'Failed to fetch audit findings', details: error.message },
         { status: 500 }
@@ -99,7 +100,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ findings: data, summary });
   } catch (error) {
-    console.error('Error in GET /api/audit-findings:', error);
+    Logger.error('Error in GET /api/audit-findings:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -129,7 +130,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      console.error('Error creating audit finding:', error);
+      Logger.error('Error creating audit finding:', error);
       return NextResponse.json(
         { error: 'Failed to create audit finding', details: error.message },
         { status: 500 }
@@ -155,7 +156,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Error in POST /api/audit-findings:', error);
+    Logger.error('Error in POST /api/audit-findings:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -217,7 +218,7 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json({ success: true, finding: data });
   } catch (error) {
-    console.error('Error in PATCH /api/audit-findings:', error);
+    Logger.error('Error in PATCH /api/audit-findings:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

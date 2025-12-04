@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -231,7 +232,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ opportunities });
   } catch (error: any) {
-    console.error('Opportunities error:', error);
+    Logger.error('Opportunities error:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
@@ -326,7 +327,7 @@ export async function POST(request: NextRequest) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
-    console.error('Opportunities error:', error);
+    Logger.error('Opportunities error:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
@@ -439,7 +440,7 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json({ opportunity });
   } catch (error: any) {
-    console.error('Opportunities error:', error);
+    Logger.error('Opportunities error:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
@@ -464,7 +465,7 @@ export async function DELETE(request: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (error: any) {
-    console.error('Opportunities error:', error);
+    Logger.error('Opportunities error:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

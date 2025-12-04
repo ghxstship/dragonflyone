@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -245,7 +246,7 @@ export async function POST(
       );
     }
 
-    console.error('Error in POST /api/expenses/[id]/approve:', error);
+    Logger.error('Error in POST /api/expenses/[id]/approve:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

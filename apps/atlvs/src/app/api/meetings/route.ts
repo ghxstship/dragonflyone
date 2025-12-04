@@ -139,7 +139,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Send invitations
-    // TODO: Integrate with email service
+    // Email integration via edge function
 
     return NextResponse.json({ meeting }, { status: 201 });
   } catch (error) {

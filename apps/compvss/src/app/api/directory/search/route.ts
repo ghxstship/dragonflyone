@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 
@@ -152,7 +153,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Error searching directory:', error);
+    Logger.error('Error searching directory:', error);
     return NextResponse.json(
       { error: 'Failed to search directory' },
       { status: 500 }

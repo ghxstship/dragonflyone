@@ -56,7 +56,7 @@ export default function IssueCredentialPage() {
     setIsSubmitting(true);
     try {
       await issueMutation.mutateAsync({
-        production_id: 'current-production-id', // TODO: Get from context
+        production_id: productionId || params?.productionId || '', 
         credential_type_id: selectedTypeId,
         contact_id: selectedContactId,
         badge_number: badgeNumber,

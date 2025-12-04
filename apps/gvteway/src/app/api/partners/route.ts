@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
@@ -122,7 +123,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Error fetching partners:', error);
+    Logger.error('Error fetching partners:', error);
     return NextResponse.json(
       { error: 'Failed to fetch partners' },
       { status: 500 }
@@ -166,7 +167,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Error creating partner:', error);
+    Logger.error('Error creating partner:', error);
     return NextResponse.json(
       { error: 'Failed to create partner' },
       { status: 500 }

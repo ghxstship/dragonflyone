@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -54,7 +55,7 @@ export async function GET(
           { status: 404 }
         );
       }
-      console.error('Error fetching quote:', error);
+      Logger.error('Error fetching quote:', error);
       return NextResponse.json(
         { error: 'Failed to fetch quote', details: error.message },
         { status: 500 }
@@ -125,7 +126,7 @@ export async function GET(
       history,
     });
   } catch (error) {
-    console.error('Error in GET /api/quotes/[id]:', error);
+    Logger.error('Error in GET /api/quotes/[id]:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -182,7 +183,7 @@ export async function PUT(
       .single();
 
     if (updateError) {
-      console.error('Error updating quote:', updateError);
+      Logger.error('Error updating quote:', updateError);
       return NextResponse.json(
         { error: 'Failed to update quote', details: updateError.message },
         { status: 500 }
@@ -261,7 +262,7 @@ export async function PUT(
       );
     }
 
-    console.error('Error in PUT /api/quotes/[id]:', error);
+    Logger.error('Error in PUT /api/quotes/[id]:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -319,7 +320,7 @@ export async function DELETE(
       .eq('id', id);
 
     if (deleteError) {
-      console.error('Error deleting quote:', deleteError);
+      Logger.error('Error deleting quote:', deleteError);
       return NextResponse.json(
         { error: 'Failed to delete quote', details: deleteError.message },
         { status: 500 }
@@ -331,7 +332,7 @@ export async function DELETE(
       message: `Quote ${existingQuote.quote_number} deleted`,
     });
   } catch (error) {
-    console.error('Error in DELETE /api/quotes/[id]:', error);
+    Logger.error('Error in DELETE /api/quotes/[id]:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -581,7 +582,7 @@ export async function PATCH(
         );
     }
   } catch (error) {
-    console.error('Error in PATCH /api/quotes/[id]:', error);
+    Logger.error('Error in PATCH /api/quotes/[id]:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

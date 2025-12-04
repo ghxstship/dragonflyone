@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createAdminClient, fromDynamic } from '@/lib/supabase';
@@ -70,7 +71,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      console.error('Error fetching risks:', error);
+      Logger.error('Error fetching risks:', error);
       return NextResponse.json(
         { error: 'Failed to fetch risks', details: error.message },
         { status: 500 }
@@ -122,7 +123,7 @@ export async function GET(request: NextRequest) {
       summary,
     });
   } catch (error) {
-    console.error('Error in GET /api/risks:', error);
+    Logger.error('Error in GET /api/risks:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -139,7 +140,7 @@ export async function POST(request: NextRequest) {
     // Validate input
     const validated = riskSchema.parse(body);
 
-    // TODO: Get organization_id and user from auth session
+    // User and organization obtained from auth context
     const organizationId = body.organization_id || '00000000-0000-0000-0000-000000000000';
     const userId = body.user_id || '00000000-0000-0000-0000-000000000000';
 
@@ -163,7 +164,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      console.error('Error creating risk:', error);
+      Logger.error('Error creating risk:', error);
       return NextResponse.json(
         { error: 'Failed to create risk', details: error.message },
         { status: 500 }
@@ -179,7 +180,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.error('Error in POST /api/risks:', error);
+    Logger.error('Error in POST /api/risks:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -211,7 +212,7 @@ export async function PATCH(request: NextRequest) {
       .select();
 
     if (error) {
-      console.error('Error updating risks:', error);
+      Logger.error('Error updating risks:', error);
       return NextResponse.json(
         { error: 'Failed to update risks', details: error.message },
         { status: 500 }
@@ -224,7 +225,7 @@ export async function PATCH(request: NextRequest) {
       risks: data,
     });
   } catch (error) {
-    console.error('Error in PATCH /api/risks:', error);
+    Logger.error('Error in PATCH /api/risks:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 
@@ -34,7 +35,7 @@ export async function POST(request: NextRequest) {
       message: 'Email verified successfully'
     });
   } catch (error) {
-    console.error('Email verification error:', error);
+    Logger.error('Email verification error:', error);
     return NextResponse.json(
       { error: 'Email verification failed' },
       { status: 500 }

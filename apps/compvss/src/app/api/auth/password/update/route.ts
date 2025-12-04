@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
@@ -62,7 +63,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Password update error:', error);
+    Logger.error('Password update error:', error);
     return NextResponse.json(
       { error: 'Password update failed' },
       { status: 500 }

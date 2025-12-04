@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
@@ -259,7 +260,7 @@ async function generateShareContent(contentType: string, contentId: string | und
 async function postToSocialMedia(platform: string, account: any, content: any) {
   // This would integrate with actual social media APIs
   // For now, just log the action
-  console.log(`Posting to ${platform}:`, content);
+  Logger.info(`Posting to ${platform}:`, content);
   
   // In production, implement:
   // - Facebook Graph API

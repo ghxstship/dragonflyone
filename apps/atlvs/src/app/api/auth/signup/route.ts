@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -136,7 +137,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Sign up error:', error);
+    Logger.error('Sign up error:', error);
     return NextResponse.json(
       { error: 'Registration failed' },
       { status: 500 }

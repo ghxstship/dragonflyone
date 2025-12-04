@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -56,7 +57,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ data });
   } catch (error) {
-    console.error('Error fetching succession candidates:', error);
+    Logger.error('Error fetching succession candidates:', error);
     return NextResponse.json(
       { error: 'Failed to fetch succession candidates' },
       { status: 500 }
@@ -118,7 +119,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Error creating succession candidate:', error);
+    Logger.error('Error creating succession candidate:', error);
     return NextResponse.json(
       { error: 'Failed to create succession candidate' },
       { status: 500 }

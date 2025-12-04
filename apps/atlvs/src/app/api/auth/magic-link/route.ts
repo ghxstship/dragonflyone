@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -43,7 +44,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Magic link error:', error);
+    Logger.error('Magic link error:', error);
     return NextResponse.json(
       { error: 'Failed to send magic link' },
       { status: 500 }

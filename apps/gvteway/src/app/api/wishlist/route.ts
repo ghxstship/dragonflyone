@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
@@ -62,7 +63,7 @@ export async function GET(request: NextRequest) {
       .order('created_at', { ascending: false });
 
     if (error) {
-      console.error('Error fetching wishlist:', error);
+      Logger.error('Error fetching wishlist:', error);
       return NextResponse.json(
         { error: 'Failed to fetch wishlist', details: error.message },
         { status: 500 }
@@ -113,7 +114,7 @@ export async function GET(request: NextRequest) {
       available_count: wishlist.filter((w: { is_available: boolean }) => w.is_available).length,
     });
   } catch (error) {
-    console.error('Error in GET /api/wishlist:', error);
+    Logger.error('Error in GET /api/wishlist:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -155,7 +156,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      console.error('Error adding to wishlist:', error);
+      Logger.error('Error adding to wishlist:', error);
       return NextResponse.json(
         { error: 'Failed to add to wishlist', details: error.message },
         { status: 500 }
@@ -170,7 +171,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Error in POST /api/wishlist:', error);
+    Logger.error('Error in POST /api/wishlist:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -205,7 +206,7 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json({ success: true, item: data });
   } catch (error) {
-    console.error('Error in PATCH /api/wishlist:', error);
+    Logger.error('Error in PATCH /api/wishlist:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -250,7 +251,7 @@ export async function DELETE(request: NextRequest) {
 
     return NextResponse.json({ success: true, message: 'Removed from wishlist' });
   } catch (error) {
-    console.error('Error in DELETE /api/wishlist:', error);
+    Logger.error('Error in DELETE /api/wishlist:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

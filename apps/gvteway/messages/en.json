@@ -1,0 +1,113 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "retry": "Try again",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "viewAll": "View all",
+    "seeMore": "See more",
+    "showLess": "Show less"
+  },
+  "navigation": {
+    "home": "Home",
+    "events": "Events",
+    "artists": "Artists",
+    "venues": "Venues",
+    "tickets": "My Tickets",
+    "profile": "Profile",
+    "settings": "Settings",
+    "help": "Help",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "signOut": "Sign Out"
+  },
+  "home": {
+    "hero": {
+      "title": "Your Gateway to Live Experiences",
+      "subtitle": "Discover concerts, festivals, sports, and more",
+      "cta": "Explore Events"
+    },
+    "featured": {
+      "title": "Featured Events",
+      "viewAll": "View all events"
+    },
+    "trending": {
+      "title": "Trending Now",
+      "subtitle": "Popular events in your area"
+    }
+  },
+  "events": {
+    "title": "Events",
+    "filters": {
+      "date": "Date",
+      "location": "Location",
+      "category": "Category",
+      "price": "Price"
+    },
+    "noResults": "No events found",
+    "tryDifferent": "Try adjusting your filters"
+  },
+  "tickets": {
+    "title": "My Tickets",
+    "upcoming": "Upcoming",
+    "past": "Past",
+    "noTickets": "No tickets yet",
+    "browseEvents": "Browse events to get started",
+    "viewTicket": "View Ticket",
+    "transfer": "Transfer",
+    "gift": "Gift"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "orderSummary": "Order Summary",
+    "subtotal": "Subtotal",
+    "fees": "Service Fees",
+    "total": "Total",
+    "paymentMethod": "Payment Method",
+    "placeOrder": "Place Order",
+    "processing": "Processing..."
+  },
+  "auth": {
+    "signIn": {
+      "title": "Sign In",
+      "email": "Email",
+      "password": "Password",
+      "forgotPassword": "Forgot password?",
+      "noAccount": "Don't have an account?",
+      "createAccount": "Create account"
+    },
+    "signUp": {
+      "title": "Create Account",
+      "name": "Full Name",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "hasAccount": "Already have an account?",
+      "signIn": "Sign in"
+    }
+  },
+  "profile": {
+    "title": "Profile",
+    "editProfile": "Edit Profile",
+    "preferences": "Preferences",
+    "notifications": "Notifications",
+    "privacy": "Privacy",
+    "paymentMethods": "Payment Methods"
+  },
+  "errors": {
+    "notFound": "Page not found",
+    "unauthorized": "Please sign in to continue",
+    "serverError": "Something went wrong",
+    "networkError": "Check your connection"
+  }
+}

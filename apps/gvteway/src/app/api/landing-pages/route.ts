@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
@@ -36,7 +37,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ landingPage: data || null });
   } catch (error) {
-    console.error("Error fetching landing page:", error);
+    Logger.error("Error fetching landing page:", error);
     return NextResponse.json(
       { error: "Failed to fetch landing page" },
       { status: 500 }
@@ -83,7 +84,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ landingPage: data });
   } catch (error) {
-    console.error("Error creating landing page:", error);
+    Logger.error("Error creating landing page:", error);
     return NextResponse.json(
       { error: "Failed to create landing page" },
       { status: 500 }
@@ -128,7 +129,7 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json({ landingPage: data });
   } catch (error) {
-    console.error("Error updating landing page:", error);
+    Logger.error("Error updating landing page:", error);
     return NextResponse.json(
       { error: "Failed to update landing page" },
       { status: 500 }
@@ -155,7 +156,7 @@ export async function DELETE(request: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Error deleting landing page:", error);
+    Logger.error("Error deleting landing page:", error);
     return NextResponse.json(
       { error: "Failed to delete landing page" },
       { status: 500 }

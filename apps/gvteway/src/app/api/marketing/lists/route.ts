@@ -1,3 +1,4 @@
+import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
@@ -70,7 +71,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ data });
   } catch (error) {
-    console.error('Get email lists error:', error);
+    Logger.error('Get email lists error:', error);
     return NextResponse.json(
       { error: 'Failed to fetch lists' },
       { status: 500 }
@@ -157,7 +158,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.error('Create email list error:', error);
+    Logger.error('Create email list error:', error);
     return NextResponse.json(
       { error: 'Failed to create list' },
       { status: 500 }
