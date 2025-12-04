@@ -25,13 +25,13 @@ interface CreditCardTxn {
   [key: string]: unknown;
 }
 
-const mockData = process.env.NODE_ENV === "development" ? : CreditCardTxn[] = [
+const mockData: CreditCardTxn[] = [
   { id: "TXN-001", cardId: "CC-001", lastFour: "4521", cardHolder: "John Smith", merchant: "Audio Equipment Co", amount: 2450, date: "2024-11-24", category: "Equipment", status: "Posted", receipt: true, department: "Production" },
   { id: "TXN-002", cardId: "CC-002", lastFour: "7832", cardHolder: "Sarah Johnson", merchant: "Delta Airlines", amount: 1890, date: "2024-11-23", category: "Travel", status: "Posted", receipt: true, department: "Executive" },
   { id: "TXN-003", cardId: "CC-001", lastFour: "4521", cardHolder: "John Smith", merchant: "Staples", amount: 156, date: "2024-11-23", category: "Office Supplies", status: "Pending", department: "Production" },
   { id: "TXN-004", cardId: "CC-003", lastFour: "9156", cardHolder: "Mike Davis", merchant: "Hilton Hotels", amount: 890, date: "2024-11-22", category: "Travel", status: "Posted", receipt: false, department: "Operations" },
   { id: "TXN-005", cardId: "CC-002", lastFour: "7832", cardHolder: "Sarah Johnson", merchant: "Amazon Business", amount: 567, date: "2024-11-22", category: "Supplies", status: "Disputed", department: "Executive" },
-] : [];
+];
 
 const getStatusVariant = getBadgeVariant;
 
@@ -44,12 +44,12 @@ const columns: ListPageColumn<CreditCardTxn>[] = [
   { key: 'amount', label: 'Amount', accessor: (r) => `$${r.amount.toLocaleString()}`, sortable: true },
   { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v) => <Badge variant={getStatusVariant(String(v))}>{String(v)}</Badge> },
   { key: 'receipt', label: 'Receipt', accessor: (r) => r.receipt ? '✓' : '✗' },
-] : [];
+];
 
 const filters: ListPageFilter[] = [
   { key: 'status', label: 'Status', options: [{ value: 'Posted', label: 'Posted' }, { value: 'Pending', label: 'Pending' }, { value: 'Disputed', label: 'Disputed' }] },
   { key: 'category', label: 'Category', options: [{ value: 'Equipment', label: 'Equipment' }, { value: 'Travel', label: 'Travel' }, { value: 'Supplies', label: 'Supplies' }] },
-] : [];
+];
 
 export default function CreditCardsPage() {
   const router = useRouter();
@@ -64,14 +64,14 @@ export default function CreditCardsPage() {
   const rowActions: ListPageAction<CreditCardTxn>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
     { id: 'receipt', label: 'Upload Receipt', icon: <Paperclip className="size-4" />, onClick: (r) => console.log('Upload receipt', r.id) },
-  ] : [];
+  ];
 
   const stats = [
     { label: 'Total Spend', value: `$${totalSpend.toLocaleString()}` },
     { label: 'Transactions', value: data.length },
     { label: 'Pending', value: pendingCount },
     { label: 'Missing Receipts', value: missingReceipts },
-  ] : [];
+  ];
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Transaction Details', content: (
@@ -87,7 +87,7 @@ export default function CreditCardsPage() {
         <Body size="sm"><strong>Receipt:</strong> {selected.receipt ? 'Uploaded' : 'Missing'}</Body>
       </Grid>
     )},
-  ] : [] : [];
+  ] : [];
 
   return (
     <AtlvsAppLayout>

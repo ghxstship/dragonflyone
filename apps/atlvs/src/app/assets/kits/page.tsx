@@ -19,16 +19,16 @@ interface AssetKit {
   status: 'Available' | 'Deployed' | 'Partial';
   lastUsed?: string;
   description: string;
-  items: { name: string; quantity: number; category: string }[] : [];
+  items: { name: string; quantity: number; category: string }[];
   [key: string]: unknown;
 }
 
-const mockData = process.env.NODE_ENV === "development" ? : AssetKit[] = [
+const mockData: AssetKit[] = [
   { id: 'KIT-001', name: 'Festival Main Stage Audio', category: 'Audio', itemCount: 48, totalValue: 425000, status: 'Available', lastUsed: '2024-11-15', description: 'Complete L-Acoustics K2 system with subs and processing', items: [{ name: 'L-Acoustics K2', quantity: 24, category: 'Speakers' }, { name: 'KS28 Subs', quantity: 16, category: 'Speakers' }, { name: 'LA12X Amps', quantity: 8, category: 'Amplifiers' }] },
   { id: 'KIT-002', name: 'Corporate Event Lighting', category: 'Lighting', itemCount: 32, totalValue: 85000, status: 'Deployed', lastUsed: '2024-11-20', description: 'Versatile lighting package for corporate events', items: [{ name: 'Clay Paky Sharpy', quantity: 12, category: 'Moving Lights' }, { name: 'ETC Source Four', quantity: 16, category: 'Conventionals' }, { name: 'grandMA3', quantity: 1, category: 'Consoles' }] },
   { id: 'KIT-003', name: 'Video Wall 20x10', category: 'Video', itemCount: 200, totalValue: 320000, status: 'Available', description: 'ROE CB5 LED wall configuration', items: [{ name: 'ROE CB5 Panels', quantity: 200, category: 'LED' }, { name: 'Brompton Processors', quantity: 4, category: 'Processing' }] },
   { id: 'KIT-004', name: 'Outdoor Stage Package', category: 'Staging', itemCount: 156, totalValue: 175000, status: 'Partial', description: '40x32 outdoor stage with roof system', items: [{ name: 'Stage Decks', quantity: 80, category: 'Decking' }, { name: 'Roof Sections', quantity: 24, category: 'Roof' }, { name: 'Legs 4ft', quantity: 52, category: 'Support' }] },
-] : [];
+];
 
 const formatCurrency = (amount: number) => `$${amount.toLocaleString()}`;
 
@@ -41,18 +41,18 @@ const columns: ListPageColumn<AssetKit>[] = [
   { key: 'totalValue', label: 'Value', accessor: (r) => formatCurrency(r.totalValue), sortable: true },
   { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v) => <Badge variant={getStatusVariant(String(v))}>{String(v)}</Badge> },
   { key: 'lastUsed', label: 'Last Used', accessor: (r) => r.lastUsed || 'Never', sortable: true },
-] : [];
+];
 
 const filters: ListPageFilter[] = [
   { key: 'category', label: 'Category', options: [{ value: 'Audio', label: 'Audio' }, { value: 'Lighting', label: 'Lighting' }, { value: 'Video', label: 'Video' }, { value: 'Staging', label: 'Staging' }, { value: 'Rigging', label: 'Rigging' }] },
   { key: 'status', label: 'Status', options: [{ value: 'Available', label: 'Available' }, { value: 'Deployed', label: 'Deployed' }, { value: 'Partial', label: 'Partial' }] },
-] : [];
+];
 
 const formFields: FormFieldConfig[] = [
   { name: 'name', label: 'Kit Name', type: 'text', required: true },
   { name: 'category', label: 'Category', type: 'select', required: true, options: [{ value: 'Audio', label: 'Audio' }, { value: 'Lighting', label: 'Lighting' }, { value: 'Video', label: 'Video' }, { value: 'Staging', label: 'Staging' }] },
   { name: 'description', label: 'Description', type: 'textarea', required: true },
-] : [];
+];
 
 export default function AssetKitsPage() {
   const router = useRouter();
@@ -68,14 +68,14 @@ export default function AssetKitsPage() {
     { id: 'view', label: 'View Contents', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
     { id: 'deploy', label: 'Deploy Kit', icon: <Rocket className="size-4" />, onClick: (r) => console.log('Deploy', r.id) },
     { id: 'edit', label: 'Edit Kit', icon: <Pencil className="size-4" />, onClick: (r) => console.log('Edit', r.id) },
-  ] : [];
+  ];
 
   const stats = [
     { label: 'Total Kits', value: data.length },
     { label: 'Available', value: availableKits },
     { label: 'Total Value', value: formatCurrency(totalValue) },
     { label: 'Categories', value: 5 },
-  ] : [];
+  ];
 
   const handleCreate = async (formData: Record<string, unknown>) => {
     console.log('Create kit:', formData);
@@ -103,7 +103,7 @@ export default function AssetKitsPage() {
         ))}
       </Stack>
     )},
-  ] : [] : [];
+  ] : [];
 
   return (
     <AtlvsAppLayout>

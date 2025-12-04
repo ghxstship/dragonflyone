@@ -21,13 +21,13 @@ interface Dashboard {
   [key: string]: unknown;
 }
 
-const mockData = process.env.NODE_ENV === "development" ? : Dashboard[] = [
+const mockData: Dashboard[] = [
   { id: 'DB-001', name: 'Executive Overview', description: 'High-level KPIs for leadership', widgetCount: 8, isDefault: true, createdAt: '2024-11-01', lastModified: '2024-11-20', status: 'Active' },
   { id: 'DB-002', name: 'Finance Dashboard', description: 'Financial metrics and trends', widgetCount: 12, isDefault: false, createdAt: '2024-11-10', lastModified: '2024-11-18', status: 'Active' },
   { id: 'DB-003', name: 'Operations Dashboard', description: 'Operational KPIs and workflows', widgetCount: 6, isDefault: false, createdAt: '2024-11-15', lastModified: '2024-11-15', status: 'Draft' },
   { id: 'DB-004', name: 'Sales Pipeline', description: 'Deal tracking and forecasting', widgetCount: 10, isDefault: false, createdAt: '2024-10-20', lastModified: '2024-11-22', status: 'Active' },
   { id: 'DB-005', name: 'HR Analytics', description: 'Workforce metrics', widgetCount: 5, isDefault: false, createdAt: '2024-10-15', lastModified: '2024-11-10', status: 'Active' },
-] : [];
+];
 
 const columns: ListPageColumn<Dashboard>[] = [
   { key: 'name', label: 'Dashboard', accessor: 'name', sortable: true },
@@ -36,17 +36,17 @@ const columns: ListPageColumn<Dashboard>[] = [
   { key: 'isDefault', label: 'Default', accessor: (r) => r.isDefault ? '✓' : '—' },
   { key: 'lastModified', label: 'Last Modified', accessor: 'lastModified', sortable: true },
   { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v) => <Badge variant={v === 'Active' ? 'solid' : 'outline'}>{String(v)}</Badge> },
-] : [];
+];
 
 const filters: ListPageFilter[] = [
   { key: 'status', label: 'Status', options: [{ value: 'Active', label: 'Active' }, { value: 'Draft', label: 'Draft' }] },
-] : [];
+];
 
 const formFields: FormFieldConfig[] = [
   { name: 'name', label: 'Dashboard Name', type: 'text', required: true },
   { name: 'description', label: 'Description', type: 'textarea' },
   { name: 'template', label: 'Start From', type: 'select', options: [{ value: 'blank', label: 'Blank Dashboard' }, { value: 'executive', label: 'Executive Template' }, { value: 'finance', label: 'Finance Template' }] },
-] : [];
+];
 
 export default function DashboardBuilderPage() {
   const router = useRouter();
@@ -61,14 +61,14 @@ export default function DashboardBuilderPage() {
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
     { id: 'edit', label: 'Edit Dashboard', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/analytics/dashboard-builder/${r.id}`) },
     { id: 'duplicate', label: 'Duplicate', icon: <Copy className="size-4" />, onClick: (r) => console.log('Duplicate', r.id) },
-  ] : [];
+  ];
 
   const stats = [
     { label: 'Total Dashboards', value: data.length },
     { label: 'Active', value: data.filter(d => d.status === 'Active').length },
     { label: 'Total Widgets', value: totalWidgets },
     { label: 'Default Set', value: data.filter(d => d.isDefault).length },
-  ] : [];
+  ];
 
   const handleCreate = async (formData: Record<string, unknown>) => {
     console.log('Create dashboard:', formData);
@@ -87,7 +87,7 @@ export default function DashboardBuilderPage() {
         {selected.description && <Body size="sm" className="col-span-2"><strong>Description:</strong> {selected.description}</Body>}
       </Grid>
     )},
-  ] : [] : [];
+  ] : [];
 
   return (
     <AtlvsAppLayout>

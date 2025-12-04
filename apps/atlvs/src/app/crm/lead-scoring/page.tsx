@@ -27,13 +27,13 @@ interface Lead {
   [key: string]: unknown;
 }
 
-const mockData = process.env.NODE_ENV === "development" ? : Lead[] = [
+const mockData: Lead[] = [
   { id: 'LEAD-001', name: 'Sarah Mitchell', company: 'TechCorp Events', email: 'sarah@techcorp.com', source: 'Website', score: 92, grade: 'A', status: 'Qualified', lastActivity: '2024-11-24', engagementScore: 85, fitScore: 95, behaviorScore: 90, assignedTo: 'John Smith', estimatedValue: 125000 },
   { id: 'LEAD-002', name: 'Michael Chen', company: 'Festival Productions', email: 'mchen@festprod.com', source: 'Referral', score: 78, grade: 'B', status: 'Proposal', lastActivity: '2024-11-23', engagementScore: 70, fitScore: 85, behaviorScore: 75, assignedTo: 'Jane Doe', estimatedValue: 85000 },
   { id: 'LEAD-003', name: 'Emily Rodriguez', company: 'Corporate Events Inc', email: 'emily@corpevents.com', source: 'Trade Show', score: 65, grade: 'B', status: 'Contacted', lastActivity: '2024-11-22', engagementScore: 60, fitScore: 70, behaviorScore: 65, estimatedValue: 45000 },
   { id: 'LEAD-004', name: 'David Park', company: 'StartUp Ventures', email: 'dpark@startup.io', source: 'LinkedIn', score: 45, grade: 'C', status: 'New', lastActivity: '2024-11-24', engagementScore: 40, fitScore: 50, behaviorScore: 45, estimatedValue: 25000 },
   { id: 'LEAD-005', name: 'Lisa Thompson', company: 'Local Business', email: 'lisa@local.com', source: 'Cold Outreach', score: 28, grade: 'D', status: 'Contacted', lastActivity: '2024-11-20', engagementScore: 25, fitScore: 30, behaviorScore: 30, estimatedValue: 10000 },
-] : [];
+];
 
 const formatCurrency = (amount: number) => {
   if (amount >= 1000000) return `$${(amount / 1000000).toFixed(1)}M`;
@@ -53,13 +53,13 @@ const columns: ListPageColumn<Lead>[] = [
   { key: 'fitScore', label: 'Fit', accessor: (r) => `${r.fitScore}%` },
   { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v) => <Badge variant="outline">{String(v)}</Badge> },
   { key: 'estimatedValue', label: 'Est. Value', accessor: (r) => r.estimatedValue ? formatCurrency(r.estimatedValue) : '—', sortable: true },
-] : [];
+];
 
 const filters: ListPageFilter[] = [
   { key: 'grade', label: 'Grade', options: [{ value: 'A', label: 'Grade A (Hot)' }, { value: 'B', label: 'Grade B (Warm)' }, { value: 'C', label: 'Grade C (Cool)' }, { value: 'D', label: 'Grade D (Cold)' }] },
   { key: 'status', label: 'Status', options: [{ value: 'New', label: 'New' }, { value: 'Contacted', label: 'Contacted' }, { value: 'Qualified', label: 'Qualified' }, { value: 'Proposal', label: 'Proposal' }] },
   { key: 'source', label: 'Source', options: [{ value: 'Website', label: 'Website' }, { value: 'Referral', label: 'Referral' }, { value: 'LinkedIn', label: 'LinkedIn' }, { value: 'Trade Show', label: 'Trade Show' }] },
-] : [];
+];
 
 export default function LeadScoringPage() {
   const router = useRouter();
@@ -75,14 +75,14 @@ export default function LeadScoringPage() {
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
     { id: 'convert', label: 'Convert to Deal', icon: <Target className="size-4" />, onClick: (r) => router.push(`/deals/new?lead=${r.id}`) },
     { id: 'email', label: 'Send Email', icon: <Mail className="size-4" />, onClick: (r) => window.location.href = `mailto:${r.email}` },
-  ] : [];
+  ];
 
   const stats = [
     { label: 'Hot Leads (80+)', value: hotLeads },
     { label: 'Avg Lead Score', value: avgScore },
     { label: 'Total Leads', value: data.length },
     { label: 'Pipeline Value', value: formatCurrency(totalPipeline) },
-  ] : [];
+  ];
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Lead Score Breakdown', content: (
@@ -102,7 +102,7 @@ export default function LeadScoringPage() {
         <Body size="sm"><strong>Last Activity:</strong> {selected.lastActivity}</Body>
       </Grid>
     )},
-  ] : [] : [];
+  ] : [];
 
   return (
     <AtlvsAppLayout>

@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';

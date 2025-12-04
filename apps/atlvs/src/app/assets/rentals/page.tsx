@@ -26,14 +26,14 @@ interface RentalEquipment {
   [key: string]: unknown;
 }
 
-const mockData = process.env.NODE_ENV === "development" ? : RentalEquipment[] = [
+const mockData: RentalEquipment[] = [
   { id: 'RNT-001', name: 'Barco UDX-4K32', category: 'Video', vendor: 'PRG', projectName: 'Summer Fest 2024', rentalStart: '2024-11-20', rentalEnd: '2024-11-26', dailyRate: 1500, totalCost: 10500, status: 'On Rent', poNumber: 'PO-2024-456', condition: 'Excellent' },
   { id: 'RNT-002', name: 'd&b audiotechnik SL-SUB', category: 'Audio', vendor: 'Sound Systems Inc', projectName: 'Summer Fest 2024', rentalStart: '2024-11-20', rentalEnd: '2024-11-26', dailyRate: 200, totalCost: 1400, status: 'On Rent', poNumber: 'PO-2024-457', condition: 'Good' },
   { id: 'RNT-003', name: 'Stageline SL-320 Mobile Stage', category: 'Staging', vendor: 'Stageline', projectName: 'Summer Fest 2024', rentalStart: '2024-11-18', rentalEnd: '2024-11-27', dailyRate: 3500, totalCost: 35000, status: 'On Rent', poNumber: 'PO-2024-450', condition: 'Good' },
   { id: 'RNT-004', name: 'CM Lodestar 2-Ton (x10)', category: 'Rigging', vendor: 'Rigging Solutions', projectName: 'Corporate Gala', rentalStart: '2024-12-01', rentalEnd: '2024-12-05', dailyRate: 150, totalCost: 750, status: 'Reserved', condition: 'Excellent' },
   { id: 'RNT-005', name: 'Avolites Arena Console', category: 'Lighting', vendor: '4Wall', projectName: 'Fall Festival', rentalStart: '2024-11-10', rentalEnd: '2024-11-16', dailyRate: 500, totalCost: 3500, status: 'Returned', poNumber: 'PO-2024-440', condition: 'Good' },
   { id: 'RNT-006', name: 'Shure ULXD4Q Wireless', category: 'Audio', vendor: 'PRG', projectName: 'Fall Festival', rentalStart: '2024-11-10', rentalEnd: '2024-11-16', dailyRate: 75, totalCost: 525, status: 'Overdue', poNumber: 'PO-2024-441', condition: 'Good' },
-] : [];
+];
 
 const getStatusVariant = getBadgeVariant;
 
@@ -45,12 +45,12 @@ const columns: ListPageColumn<RentalEquipment>[] = [
   { key: 'rentalPeriod', label: 'Period', accessor: (r) => `${r.rentalStart} to ${r.rentalEnd}` },
   { key: 'totalCost', label: 'Cost', accessor: (r) => `$${r.totalCost.toLocaleString()}`, sortable: true },
   { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v) => <Badge variant={getStatusVariant(String(v))}>{String(v)}</Badge> },
-] : [];
+];
 
 const filters: ListPageFilter[] = [
   { key: 'status', label: 'Status', options: [{ value: 'On Rent', label: 'On Rent' }, { value: 'Reserved', label: 'Reserved' }, { value: 'Returned', label: 'Returned' }, { value: 'Overdue', label: 'Overdue' }] },
   { key: 'category', label: 'Category', options: [{ value: 'Audio', label: 'Audio' }, { value: 'Lighting', label: 'Lighting' }, { value: 'Video', label: 'Video' }, { value: 'Staging', label: 'Staging' }, { value: 'Rigging', label: 'Rigging' }] },
-] : [];
+];
 
 const formFields: FormFieldConfig[] = [
   { name: 'name', label: 'Equipment Name', type: 'text', required: true },
@@ -60,7 +60,7 @@ const formFields: FormFieldConfig[] = [
   { name: 'rentalStart', label: 'Start Date', type: 'date', required: true },
   { name: 'rentalEnd', label: 'End Date', type: 'date', required: true },
   { name: 'dailyRate', label: 'Daily Rate ($)', type: 'number', required: true },
-] : [];
+];
 
 export default function RentalEquipmentPage() {
   const router = useRouter();
@@ -77,14 +77,14 @@ export default function RentalEquipmentPage() {
   const rowActions: ListPageAction<RentalEquipment>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
     { id: 'return', label: 'Mark Returned', icon: <Check className="size-4" />, onClick: (r) => setData(data.map(rec => rec.id === r.id ? { ...rec, status: 'Returned' as const } : rec)) },
-  ] : [];
+  ];
 
   const stats = [
     { label: 'Active Rentals', value: activeRentals },
     { label: 'Overdue', value: overdueRentals },
     { label: 'Total Cost', value: `$${(totalCost / 1000).toFixed(1)}K` },
     { label: 'Vendors', value: vendorCount },
-  ] : [];
+  ];
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Rental Details', content: (
@@ -101,7 +101,7 @@ export default function RentalEquipmentPage() {
         {selected.poNumber && <Body size="sm"><strong>PO Number:</strong> {selected.poNumber}</Body>}
       </Grid>
     )},
-  ] : [] : [];
+  ] : [];
 
   return (
     <AtlvsAppLayout>

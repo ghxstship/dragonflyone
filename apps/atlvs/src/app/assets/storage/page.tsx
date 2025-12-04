@@ -23,14 +23,14 @@ interface StorageLocation {
   [key: string]: unknown;
 }
 
-const mockData = process.env.NODE_ENV === "development" ? : StorageLocation[] = [
+const mockData: StorageLocation[] = [
   { id: 'LOC-001', name: 'Main Warehouse', type: 'Warehouse', capacity: 50000, used: 38500, category: 'All', address: '123 Industrial Blvd', climate: 'Climate Controlled', status: 'Active' },
   { id: 'LOC-002', name: 'Audio Bay A', type: 'Bay', capacity: 5000, used: 4200, category: 'Audio', climate: 'Climate Controlled', status: 'Active' },
   { id: 'LOC-003', name: 'Lighting Bay B', type: 'Bay', capacity: 5000, used: 4800, category: 'Lighting', climate: 'Standard', status: 'Active' },
   { id: 'LOC-004', name: 'Video Storage', type: 'Bay', capacity: 3000, used: 3000, category: 'Video', climate: 'Climate Controlled', status: 'Full' },
   { id: 'LOC-005', name: 'Rigging Container', type: 'Container', capacity: 2000, used: 1500, category: 'Rigging', climate: 'Outdoor', status: 'Active' },
   { id: 'LOC-006', name: 'Staging Yard', type: 'Warehouse', capacity: 20000, used: 12000, category: 'Staging', address: '456 Staging Way', climate: 'Outdoor', status: 'Active' },
-] : [];
+];
 
 const getStatusVariant = getBadgeVariant;
 
@@ -42,13 +42,13 @@ const columns: ListPageColumn<StorageLocation>[] = [
   { key: 'capacity', label: 'Capacity', accessor: (r) => r.capacity.toLocaleString() },
   { key: 'climate', label: 'Climate', accessor: 'climate' },
   { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v) => <Badge variant={getStatusVariant(String(v))}>{String(v)}</Badge> },
-] : [];
+];
 
 const filters: ListPageFilter[] = [
   { key: 'type', label: 'Type', options: [{ value: 'Warehouse', label: 'Warehouse' }, { value: 'Bay', label: 'Bay' }, { value: 'Container', label: 'Container' }] },
   { key: 'status', label: 'Status', options: [{ value: 'Active', label: 'Active' }, { value: 'Full', label: 'Full' }, { value: 'Maintenance', label: 'Maintenance' }] },
   { key: 'climate', label: 'Climate', options: [{ value: 'Climate Controlled', label: 'Climate Controlled' }, { value: 'Standard', label: 'Standard' }, { value: 'Outdoor', label: 'Outdoor' }] },
-] : [];
+];
 
 export default function StorageOptimizationPage() {
   const router = useRouter();
@@ -64,14 +64,14 @@ export default function StorageOptimizationPage() {
   const rowActions: ListPageAction<StorageLocation>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
     { id: 'assets', label: 'View Assets', icon: <Package className="size-4" />, onClick: (r) => router.push(`/assets?location=${r.id}`) },
-  ] : [];
+  ];
 
   const stats = [
     { label: 'Total Capacity', value: `${(totalCapacity / 1000).toFixed(0)}K sq ft` },
     { label: 'Utilization', value: `${utilizationRate}%` },
     { label: 'Locations', value: data.length },
     { label: 'Full Locations', value: fullLocations },
-  ] : [];
+  ];
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Location Details', content: (
@@ -87,7 +87,7 @@ export default function StorageOptimizationPage() {
         {selected.address && <Body size="sm" className="col-span-2"><strong>Address:</strong> {selected.address}</Body>}
       </Grid>
     )},
-  ] : [] : [];
+  ] : [];
 
   return (
     <AtlvsAppLayout>

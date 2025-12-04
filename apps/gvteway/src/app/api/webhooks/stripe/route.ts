@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { Logger } from '@ghxstship/config';
 import { NextResponse } from "next/server";
 import type Stripe from "stripe";

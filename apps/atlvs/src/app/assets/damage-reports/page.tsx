@@ -25,18 +25,18 @@ interface DamageReport {
   estimatedCost?: number;
   actualCost?: number;
   insuranceClaim?: boolean;
-  photos?: string[] : [];
+  photos?: string[];
   repairVendor?: string;
   resolvedDate?: string;
   [key: string]: unknown;
 }
 
-const mockData = process.env.NODE_ENV === "development" ? : DamageReport[] = [
+const mockData: DamageReport[] = [
   { id: "DMG-001", assetId: "AST-003", assetName: "disguise gx 2c Media Server", category: "Video", reportedBy: "Mike Thompson", reportedDate: "2024-11-20", severity: "Moderate", status: "In Repair", description: "Fan failure causing overheating. Unit shut down during show.", location: "Tampa Convention Center", projectId: "PROJ-089", estimatedCost: 1200, repairVendor: "PRG Technical Services", insuranceClaim: false },
   { id: "DMG-002", assetId: "AST-002", assetName: "Robe MegaPointe #7", category: "Lighting", reportedBy: "Sarah Chen", reportedDate: "2024-11-18", severity: "Major", status: "Repair Scheduled", description: "Gobo wheel motor seized. Complete motor assembly replacement needed.", location: "Warehouse A", estimatedCost: 850, repairVendor: "Robe Service Center", insuranceClaim: false },
   { id: "DMG-003", assetId: "AST-004", assetName: "Staging Deck Module #23", category: "Staging", reportedBy: "Tom Wilson", reportedDate: "2024-11-15", severity: "Minor", status: "Resolved", description: "Surface scratches from load-in. Cosmetic only.", location: "Amalie Arena", projectId: "PROJ-088", estimatedCost: 150, actualCost: 120, resolvedDate: "2024-11-17" },
   { id: "DMG-004", assetId: "AST-005", assetName: "Chain Motor Hoist #12", category: "Rigging", reportedBy: "John Martinez", reportedDate: "2024-11-22", severity: "Critical", status: "Under Review", description: "Chain slippage detected during load test. Removed from service pending inspection.", location: "Warehouse A", insuranceClaim: true },
-] : [];
+];
 
 const getSeverityVariant = (severity: string): 'solid' | 'outline' | 'ghost' => {
   switch (severity) { case 'Critical': return 'solid'; case 'Major': return 'outline'; case 'Moderate': return 'outline'; case 'Minor': return 'ghost'; default: return 'ghost'; }
@@ -52,12 +52,12 @@ const columns: ListPageColumn<DamageReport>[] = [
   { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v) => <Badge variant={getStatusVariant(String(v))}>{String(v)}</Badge> },
   { key: 'estimatedCost', label: 'Est. Cost', accessor: (r) => r.estimatedCost ? `$${r.estimatedCost}` : '-' },
   { key: 'reportedDate', label: 'Reported', accessor: 'reportedDate', sortable: true },
-] : [];
+];
 
 const filters: ListPageFilter[] = [
   { key: 'severity', label: 'Severity', options: [{ value: 'Critical', label: 'Critical' }, { value: 'Major', label: 'Major' }, { value: 'Moderate', label: 'Moderate' }, { value: 'Minor', label: 'Minor' }] },
   { key: 'status', label: 'Status', options: [{ value: 'Reported', label: 'Reported' }, { value: 'Under Review', label: 'Under Review' }, { value: 'Repair Scheduled', label: 'Repair Scheduled' }, { value: 'In Repair', label: 'In Repair' }, { value: 'Resolved', label: 'Resolved' }] },
-] : [];
+];
 
 export default function DamageReportsPage() {
   const router = useRouter();
@@ -72,14 +72,14 @@ export default function DamageReportsPage() {
   const rowActions: ListPageAction<DamageReport>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
     { id: 'update', label: 'Update Status', icon: <Pencil className="size-4" />, onClick: (r) => console.log('Update', r.id) },
-  ] : [];
+  ];
 
   const stats = [
     { label: 'Active Reports', value: activeReports },
     { label: 'Critical Issues', value: criticalCount },
     { label: 'Est. Repair Cost', value: `$${totalEstimatedCost.toLocaleString()}` },
     { label: 'Total Reports', value: data.length },
-  ] : [];
+  ];
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Damage Report Details', content: (
@@ -96,7 +96,7 @@ export default function DamageReportsPage() {
         {selected.repairVendor && <Body size="sm"><strong>Repair Vendor:</strong> {selected.repairVendor}</Body>}
       </Grid>
     )},
-  ] : [] : [];
+  ] : [];
 
   return (
     <AtlvsAppLayout>

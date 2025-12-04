@@ -21,9 +21,11 @@ import {
 
 export default function ApiManagementPage() {
   const router = useRouter();
-  const { data: stats } = useApiStats(productionId || params?.productionId || '');
-  const { data: apiKeys } = useApiKeys({ productionId: productionId || params?.productionId || '' });
-  const { data: webhooks } = useWebhooks({ productionId: productionId || params?.productionId || '' });
+  // TODO: Get productionId from route params or context
+  const productionId = '';
+  const { data: stats } = useApiStats(productionId);
+  const { data: apiKeys } = useApiKeys({ productionId: productionId });
+  const { data: webhooks } = useWebhooks({ productionId: productionId });
 
   return (
     <AtlvsAppLayout>

@@ -117,7 +117,9 @@ const filters: ListPageFilter[] = [
 
 export default function ApiLogsPage() {
   const router = useRouter();
-  const { data: logs, isLoading, error, refetch } = useApiLogs({ productionId: productionId || params?.productionId || '' });
+  // TODO: Get productionId from route params or context
+  const productionId = '';
+  const { data: logs, isLoading, error, refetch } = useApiLogs({ productionId: productionId });
 
   const successCount = logs?.filter(l => l.status_code >= 200 && l.status_code < 300).length || 0;
   const errorCount = logs?.filter(l => l.status_code >= 400).length || 0;
