@@ -13,9 +13,9 @@
 
 | Metric | Count |
 |--------|-------|
-| P0 (Critical) | 0 |
-| P1 (High) | 0 |
-| P2 (Medium) | 0 |
+| P0 (Critical) | 3 |
+| P1 (High) | 5 |
+| P2 (Medium) | 4 |
 | P3 (Low) | 0 |
 | Completed (Last 30 Days) | 21 |
 | Total Pages | 512 |
@@ -34,19 +34,221 @@
 
 ---
 
-## P0 - Critical
+## P0 - Critical (Must Fix Before User Onboarding)
 
-*No critical items - all resolved*
+### BACK-014: Complete TODO Implementations in API Routes
+
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Owner** | Unassigned |
+| **Effort** | L (1-2 weeks) |
+| **Created** | Dec 4, 2025 |
+| **Count** | 30+ TODOs |
+
+**Description:**  
+Complete all TODO implementations in production API routes.
+
+**Critical Files:**
+- `apps/gvteway/src/app/api/tickets/gift/route.ts` - Gift notification email
+- `apps/gvteway/src/app/api/gift-cards/route.ts` - Payment processing
+- `apps/gvteway/src/app/api/wallet/route.ts` - Stripe payment/payout
+- `apps/gvteway/src/app/api/payment-methods/route.ts` - Payment tokenization
+- `apps/compvss/src/app/api/offer-letters/route.ts` - Email with signature
+- `apps/compvss/src/app/api/chat/messages/route.ts` - Push notifications
+
+**Acceptance Criteria:**
+- [ ] All payment-related TODOs completed
+- [ ] All email notification TODOs completed
+- [ ] All auth context TODOs replaced with actual session
 
 ---
 
-## P1 - High Priority
+### BACK-015: Replace Hardcoded User/Production IDs
 
-*No high priority items - all resolved*
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Owner** | Unassigned |
+| **Effort** | M (3-5 days) |
+| **Created** | Dec 4, 2025 |
+| **Count** | 15+ files |
+
+**Description:**  
+Replace all hardcoded IDs with actual auth context.
+
+**Files Affected:**
+- `apps/compvss/src/app/sops/[id]/page.tsx`
+- `apps/compvss/src/app/sops/categories/page.tsx`
+- `apps/compvss/src/app/credentials/types/page.tsx`
+- `apps/compvss/src/app/credentials/zones/page.tsx`
+- `apps/compvss/src/app/reports/daily/[id]/page.tsx`
+
+**Acceptance Criteria:**
+- [ ] All `'current-user-id'` replaced with auth context
+- [ ] All `'current-production-id'` replaced with route params
+- [ ] All `'current-org-id'` replaced with auth context
 
 ---
 
-## P2 - Medium Priority
+### BACK-016: Implement or Hide Stub Pages
+
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Owner** | Unassigned |
+| **Effort** | L (1-2 weeks) |
+| **Created** | Dec 4, 2025 |
+| **Count** | 30+ pages |
+
+**Description:**  
+Implement stub pages or hide from navigation.
+
+**Pages Showing "Coming Soon":**
+- GVTEWAY: resale, will-call, promo-codes, inventory-sync, sales-reporting, contests, moderation
+- COMPVSS: expenses, background-checks, crew, availability, maintenance, certifications, artists, sops, issues, equipment, logistics, travel, incidents
+
+**Acceptance Criteria:**
+- [ ] All stub pages either implemented or hidden from nav
+- [ ] No "Coming Soon" visible to users
+
+---
+
+## P1 - High Priority (Should Fix Before Launch)
+
+### BACK-017: Add Error Boundaries
+
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Owner** | Unassigned |
+| **Effort** | S (1-2 hours) |
+| **Created** | Dec 4, 2025 |
+| **Current** | 3 error.tsx files |
+
+**Acceptance Criteria:**
+- [ ] Root error.tsx in each app
+- [ ] Error boundaries for critical routes (auth, checkout, dashboard)
+
+---
+
+### BACK-018: Expand Rate Limiting Coverage
+
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Owner** | Unassigned |
+| **Effort** | M (3-5 days) |
+| **Created** | Dec 4, 2025 |
+| **Current** | 31 of 834 routes (3.7%) |
+
+**Acceptance Criteria:**
+- [ ] All public endpoints rate limited
+- [ ] Auth endpoints have strict limits
+- [ ] Rate limit headers in all responses
+
+---
+
+### BACK-019: Replace Console Statements with Logger
+
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Owner** | Unassigned |
+| **Effort** | L (1-2 weeks) |
+| **Created** | Dec 4, 2025 |
+| **Count** | 1,003 console statements |
+
+**Acceptance Criteria:**
+- [ ] All console.log replaced with Logger.info
+- [ ] All console.error replaced with Logger.error
+- [ ] Structured logging in API routes
+
+---
+
+### BACK-020: Add SEO Metadata to GVTEWAY
+
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Owner** | Unassigned |
+| **Effort** | M (3-5 days) |
+| **Created** | Dec 4, 2025 |
+| **Current** | 10 pages with metadata |
+
+**Acceptance Criteria:**
+- [ ] All public GVTEWAY pages have generateMetadata
+- [ ] Open Graph tags for social sharing
+- [ ] Proper title/description for SEO
+
+---
+
+### BACK-021: Remove Mock/Dummy Data
+
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Owner** | Unassigned |
+| **Effort** | M (3-5 days) |
+| **Created** | Dec 4, 2025 |
+| **Count** | 176 files |
+
+**Acceptance Criteria:**
+- [ ] All mock data removed or environment-gated
+- [ ] No test data visible in production
+
+---
+
+## P2 - Medium Priority (Fix Soon After Launch)
+
+### BACK-022: Implement Dark Mode
+
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Owner** | Unassigned |
+| **Effort** | L (1-2 weeks) |
+| **Created** | Dec 4, 2025 |
+
+**Acceptance Criteria:**
+- [ ] Dark mode toggle in settings
+- [ ] All components support dark: variants
+- [ ] System preference detection
+
+---
+
+### BACK-023: Accessibility Audit
+
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Owner** | Unassigned |
+| **Effort** | L (1-2 weeks) |
+| **Created** | Dec 4, 2025 |
+
+**Acceptance Criteria:**
+- [ ] ARIA labels on all interactive elements
+- [ ] Keyboard navigation working
+- [ ] Screen reader tested
+- [ ] WCAG 2.1 AA compliance
+
+---
+
+### BACK-024: Internationalization (i18n)
+
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Owner** | Unassigned |
+| **Effort** | XL (2+ weeks) |
+| **Created** | Dec 4, 2025 |
+
+**Acceptance Criteria:**
+- [ ] i18n framework implemented (next-intl)
+- [ ] GVTEWAY translated to Spanish
+- [ ] Language selector in UI
+
+---
 
 ### BACK-004: UI Style Guide Refactor
 
