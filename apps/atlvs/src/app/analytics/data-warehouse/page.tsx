@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Eye, RefreshCw, Plug } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
-  ListPage, Badge, DetailDrawer, RecordFormModal,
+  ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig,
 } from '@ghxstship/ui';
 import { getBadgeVariant } from '@ghxstship/config';
@@ -90,14 +90,14 @@ export default function DataWarehousePage() {
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Data Source Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Name:</strong> {selected.name}</div>
-        <div><strong>Type:</strong> {selected.type}</div>
-        <div><strong>Status:</strong> {selected.status}</div>
-        <div><strong>Sync Frequency:</strong> {selected.syncFrequency}</div>
-        <div><strong>Total Records:</strong> {selected.recordCount.toLocaleString()}</div>
-        <div><strong>Last Sync:</strong> {selected.lastSync}</div>
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Name:</strong> {selected.name}</Body>
+        <Body size="sm"><strong>Type:</strong> {selected.type}</Body>
+        <Body size="sm"><strong>Status:</strong> {selected.status}</Body>
+        <Body size="sm"><strong>Sync Frequency:</strong> {selected.syncFrequency}</Body>
+        <Body size="sm"><strong>Total Records:</strong> {selected.recordCount.toLocaleString()}</Body>
+        <Body size="sm"><strong>Last Sync:</strong> {selected.lastSync}</Body>
+      </Grid>
     )},
   ] : [];
 

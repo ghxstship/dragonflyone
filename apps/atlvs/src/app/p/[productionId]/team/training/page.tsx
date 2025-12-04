@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, Badge, Box } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Button, Body, Badge, Box, Grid } from "@ghxstship/ui";
 import { Plus, GraduationCap, CheckCircle } from "lucide-react";
 import { atlvsDemoProductions } from "../../../../../data/atlvs";
 
@@ -32,7 +32,7 @@ export default function TeamTrainingPage() {
         </Button>
       </Stack>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <Grid cols={1} gap={4} className="md:grid-cols-2">
         {training.map((item) => (
           <Card key={item.id} variant="elevated" inverted>
             <CardBody>
@@ -49,14 +49,14 @@ export default function TeamTrainingPage() {
                   </Stack>
                   {item.required && <Badge variant="error">REQUIRED</Badge>}
                 </Stack>
-                <div className="h-2 w-full overflow-hidden rounded bg-ink-800">
-                  <div className="h-full bg-primary" style={{ width: `${(item.completed / item.total) * 100}%` }} />
-                </div>
+                <Box className="h-2 w-full overflow-hidden rounded bg-ink-800">
+                  <Box className="h-full bg-primary" style={{ width: `${(item.completed / item.total) * 100}%` }} />
+                </Box>
               </Stack>
             </CardBody>
           </Card>
         ))}
-      </div>
+      </Grid>
     </Stack>
   );
 }

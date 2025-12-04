@@ -23,6 +23,8 @@ import {
   Container,
   Label,
   ScrollReveal,
+  Box,
+  Grid,
 } from "@ghxstship/ui";
 import NextLink from "next/link";
 
@@ -150,11 +152,11 @@ export default function OnboardingPage() {
             <Card className="border-2 border-black/10 bg-white p-6 shadow-md sm:p-8">
               <Stack gap={6} className="sm:gap-8">
                 {/* Progress Steps - Desktop */}
-                <div className="hidden sm:block">
+                <Box className="hidden sm:block">
                   <Stack direction="horizontal" className="items-center justify-between">
                     {STEPS.map((step, index) => (
                       <Stack key={step.id} direction="horizontal" className="items-center">
-                        <div
+                        <Box
                           className={`flex size-10 items-center justify-center border-2 text-body-sm ${
                             index <= currentStepIndex
                               ? "border-black bg-black text-white"
@@ -162,32 +164,32 @@ export default function OnboardingPage() {
                           }`}
                         >
                           {index < currentStepIndex ? <Check className="size-5" /> : step.icon}
-                        </div>
+                        </Box>
                         {index < STEPS.length - 1 && (
-                          <div className={`mx-2 h-0.5 w-6 md:w-10 lg:w-14 ${index < currentStepIndex ? "bg-black" : "bg-grey-300"}`} />
+                          <Box className={`mx-2 h-0.5 w-6 md:w-10 lg:w-14 ${index < currentStepIndex ? "bg-black" : "bg-grey-300"}`} />
                         )}
                       </Stack>
                     ))}
                   </Stack>
-                </div>
+                </Box>
 
                 {/* Mobile Progress Indicator */}
-                <div className="block sm:hidden">
+                <Box className="block sm:hidden">
                   <Stack gap={2} className="text-center">
                     <Label size="xs" className="text-muted">Step {currentStepIndex + 1} of {STEPS.length}</Label>
-                    <div className="flex gap-1">
+                    <Box className="flex gap-1">
                       {STEPS.map((_, index) => (
-                        <div key={index} className={`h-1 flex-1 ${index <= currentStepIndex ? "bg-black" : "bg-grey-300"}`} />
+                        <Box key={index} className={`h-1 flex-1 ${index <= currentStepIndex ? "bg-black" : "bg-grey-300"}`} />
                       ))}
-                    </div>
+                    </Box>
                   </Stack>
-                </div>
+                </Box>
 
                 {/* Step Header */}
                 <Stack gap={3} className="text-center sm:gap-4">
-                  <div className="mx-auto flex size-12 items-center justify-center border-2 border-black/10 bg-grey-100 sm:size-16">
+                  <Box className="mx-auto flex size-12 items-center justify-center border-2 border-black/10 bg-grey-100 sm:size-16">
                     {STEPS[currentStepIndex].icon}
-                  </div>
+                  </Box>
                   <H2 className="text-black">{STEPS[currentStepIndex].label.toUpperCase()}</H2>
                   <Body size="sm" className="text-muted">{STEPS[currentStepIndex].description}</Body>
                 </Stack>
@@ -197,14 +199,14 @@ export default function OnboardingPage() {
                 {/* Profile Step */}
                 {currentStep === "profile" && (
                   <Stack gap={4} className="sm:gap-6">
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <Grid cols={1} gap={4} className="sm:grid-cols-2">
                       <Field label="First Name">
                         <Input type="text" value={profile.firstName} onChange={(e) => setProfile({ ...profile, firstName: e.target.value })} placeholder="John" />
                       </Field>
                       <Field label="Last Name">
                         <Input type="text" value={profile.lastName} onChange={(e) => setProfile({ ...profile, lastName: e.target.value })} placeholder="Doe" />
                       </Field>
-                    </div>
+                    </Grid>
                     <Field label="Phone (Optional)">
                       <Input type="tel" value={profile.phone} onChange={(e) => setProfile({ ...profile, phone: e.target.value })} placeholder="+1 (555) 000-0000" />
                     </Field>
@@ -297,9 +299,9 @@ export default function OnboardingPage() {
                 {/* Complete Step */}
                 {currentStep === "complete" && (
                   <Stack gap={6} className="text-center sm:gap-8">
-                    <div className="mx-auto flex size-16 items-center justify-center border-2 border-black/10 bg-grey-100 sm:size-20">
+                    <Box className="mx-auto flex size-16 items-center justify-center border-2 border-black/10 bg-grey-100 sm:size-20">
                       <Check className="size-8 text-success sm:size-10" />
-                    </div>
+                    </Box>
                     <Stack gap={3} className="sm:gap-4">
                       <H3 className="text-black">Welcome to ATLVS!</H3>
                       <Body size="sm" className="text-muted">Your account is all set up. You&apos;re ready to start managing your projects.</Body>
@@ -314,7 +316,7 @@ export default function OnboardingPage() {
                       Back
                     </Button>
                   )}
-                  {currentStep !== "complete" && currentStep === "profile" && <div className="hidden sm:block" />}
+                  {currentStep !== "complete" && currentStep === "profile" && <Box className="hidden sm:block" />}
 
                   {currentStep === "complete" ? (
                     <Button type="button" variant="solid" size="lg" fullWidth onClick={handleComplete} disabled={loading} icon={<ArrowRight className="size-4" />} iconPosition="right">

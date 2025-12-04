@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Eye, Phone } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
-  ListPage, Badge, DetailDrawer,
+  ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
 } from '@ghxstship/ui';
 import { getBadgeVariant } from '@ghxstship/config';
@@ -85,19 +85,19 @@ export default function ClientRetentionPage() {
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Client Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Client:</strong> {selected.clientName}</div>
-        <div><strong>Segment:</strong> {selected.segment}</div>
-        <div><strong>Total Revenue:</strong> {formatCurrency(selected.totalRevenue)}</div>
-        <div><strong>Total Deals:</strong> {selected.totalDeals}</div>
-        <div><strong>Avg Deal Size:</strong> {formatCurrency(selected.avgDealSize)}</div>
-        <div><strong>Health Score:</strong> {selected.healthScore}%</div>
-        <div><strong>First Deal:</strong> {selected.firstDealDate}</div>
-        <div><strong>Last Deal:</strong> {selected.lastDealDate}</div>
-        <div><strong>Days Since Last Deal:</strong> {selected.daysSinceLastDeal}</div>
-        <div><strong>NPS Score:</strong> {selected.npsScore || 'N/A'}</div>
-        <div><strong>Status:</strong> {selected.status}</div>
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Client:</strong> {selected.clientName}</Body>
+        <Body size="sm"><strong>Segment:</strong> {selected.segment}</Body>
+        <Body size="sm"><strong>Total Revenue:</strong> {formatCurrency(selected.totalRevenue)}</Body>
+        <Body size="sm"><strong>Total Deals:</strong> {selected.totalDeals}</Body>
+        <Body size="sm"><strong>Avg Deal Size:</strong> {formatCurrency(selected.avgDealSize)}</Body>
+        <Body size="sm"><strong>Health Score:</strong> {selected.healthScore}%</Body>
+        <Body size="sm"><strong>First Deal:</strong> {selected.firstDealDate}</Body>
+        <Body size="sm"><strong>Last Deal:</strong> {selected.lastDealDate}</Body>
+        <Body size="sm"><strong>Days Since Last Deal:</strong> {selected.daysSinceLastDeal}</Body>
+        <Body size="sm"><strong>NPS Score:</strong> {selected.npsScore || 'N/A'}</Body>
+        <Body size="sm"><strong>Status:</strong> {selected.status}</Body>
+      </Grid>
     )},
   ] : [];
 

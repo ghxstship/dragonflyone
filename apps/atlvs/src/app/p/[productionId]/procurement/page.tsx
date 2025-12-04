@@ -20,12 +20,12 @@ export default function ProductionProcurementPage() {
   return (
     <Stack gap={8}>
       <SectionHeader kicker={production.name} title="Procurement" description="Manage RFPs, quotes, and purchase orders" colorScheme="on-dark" />
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <Grid cols={2} gap={4} className="lg:grid-cols-4">
         <StatCard label="Active RFPs" value={stats.rfps.toString()} icon={<FileSearch size={20} />} inverted />
         <StatCard label="Pending Quotes" value={stats.quotes.toString()} icon={<FileQuestion size={20} />} inverted />
         <StatCard label="Purchase Orders" value={stats.purchaseOrders.toString()} icon={<Receipt size={20} />} inverted />
         <StatCard label="Total Spend" value={`$${(stats.totalSpend / 1000).toFixed(0)}K`} icon={<DollarSign size={20} />} inverted />
-      </div>
+      </Grid>
       <Grid cols={3} gap={4}>
         <Card variant="elevated" inverted className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push(`/p/${productionId}/procurement/rfps`)}>
           <CardBody><Stack gap={3} className="items-center text-center"><Box className="flex size-12 items-center justify-center rounded bg-ink-800"><FileSearch size={24} className="text-primary" /></Box><Body className="font-weight-bold text-white">RFPs</Body></Stack></CardBody>

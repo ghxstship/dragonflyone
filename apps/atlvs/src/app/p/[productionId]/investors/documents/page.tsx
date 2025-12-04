@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, StatCard, Body, H3 } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, StatCard, Body, H3, Grid } from "@ghxstship/ui";
 import { FileText, Upload, Download, Eye } from "lucide-react";
 import { atlvsDemoProductions } from "../../../../../data/atlvs";
 
@@ -19,12 +19,12 @@ export default function InvestorDocumentsPage() {
   return (
     <Stack gap={8}>
       <SectionHeader kicker={production.name} title="Investor Documents" description="Share documents with investors" colorScheme="on-dark" />
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <Grid cols={2} gap={4} className="lg:grid-cols-4">
         <StatCard label="Total Documents" value={stats.total.toString()} icon={<FileText size={20} />} inverted />
         <StatCard label="Shared" value={stats.shared.toString()} icon={<Upload size={20} />} inverted />
         <StatCard label="Pending Review" value={stats.pending.toString()} icon={<Download size={20} />} inverted />
         <StatCard label="Total Views" value={stats.views.toString()} icon={<Eye size={20} />} inverted />
-      </div>
+      </Grid>
       <Card variant="elevated" inverted><CardBody><Stack gap={4}><H3 className="text-white">Document Library</H3><Body className="text-on-dark-muted">Investor documents will be displayed here.</Body></Stack></CardBody></Card>
     </Stack>
   );

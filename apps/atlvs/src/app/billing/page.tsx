@@ -11,6 +11,8 @@ import {
   DetailDrawer,
   ConfirmDialog,
   useNotifications,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -143,16 +145,16 @@ export default function BillingPage() {
 
   const detailSections: DetailSection[] = selectedInvoice ? [
     { id: 'overview', title: 'Invoice Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Invoice #:</strong> {selectedInvoice.invoice_number}</div>
-        <div><strong>Status:</strong> {selectedInvoice.status}</div>
-        <div><strong>Client:</strong> {selectedInvoice.client?.name || '—'}</div>
-        <div><strong>Project:</strong> {selectedInvoice.project?.name || '—'}</div>
-        <div><strong>Amount:</strong> {formatCurrency(selectedInvoice.total_amount)}</div>
-        <div><strong>Paid:</strong> {formatCurrency(selectedInvoice.amount_paid)}</div>
-        <div><strong>Due:</strong> {formatCurrency(selectedInvoice.amount_due)}</div>
-        <div><strong>Due Date:</strong> {selectedInvoice.due_date}</div>
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Invoice #:</strong> {selectedInvoice.invoice_number}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedInvoice.status}</Body>
+        <Body size="sm"><strong>Client:</strong> {selectedInvoice.client?.name || '—'}</Body>
+        <Body size="sm"><strong>Project:</strong> {selectedInvoice.project?.name || '—'}</Body>
+        <Body size="sm"><strong>Amount:</strong> {formatCurrency(selectedInvoice.total_amount)}</Body>
+        <Body size="sm"><strong>Paid:</strong> {formatCurrency(selectedInvoice.amount_paid)}</Body>
+        <Body size="sm"><strong>Due:</strong> {formatCurrency(selectedInvoice.amount_due)}</Body>
+        <Body size="sm"><strong>Due Date:</strong> {selectedInvoice.due_date}</Body>
+      </Grid>
     )},
   ] : [];
 

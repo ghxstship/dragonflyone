@@ -10,6 +10,9 @@ import {
   RecordFormModal,
   DetailDrawer,
   ConfirmDialog,
+  Grid,
+  Stack,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -164,24 +167,24 @@ export default function EmployeesPage() {
       id: 'overview',
       title: 'Employee Information',
       content: (
-        <div className="grid grid-cols-2 gap-4">
-          <div><strong>Email:</strong> {selectedEmployee.email}</div>
-          <div><strong>Phone:</strong> {selectedEmployee.phone || '—'}</div>
-          <div><strong>Role:</strong> {selectedEmployee.role}</div>
-          <div><strong>Department:</strong> {selectedEmployee.department_name || selectedEmployee.department_id}</div>
-          <div><strong>Status:</strong> {selectedEmployee.status.replace('_', ' ')}</div>
-          <div><strong>Hire Date:</strong> {new Date(selectedEmployee.hire_date).toLocaleDateString()}</div>
-        </div>
+        <Grid cols={2} gap={4}>
+          <Body size="sm"><strong>Email:</strong> {selectedEmployee.email}</Body>
+          <Body size="sm"><strong>Phone:</strong> {selectedEmployee.phone || '—'}</Body>
+          <Body size="sm"><strong>Role:</strong> {selectedEmployee.role}</Body>
+          <Body size="sm"><strong>Department:</strong> {selectedEmployee.department_name || selectedEmployee.department_id}</Body>
+          <Body size="sm"><strong>Status:</strong> {selectedEmployee.status.replace('_', ' ')}</Body>
+          <Body size="sm"><strong>Hire Date:</strong> {new Date(selectedEmployee.hire_date).toLocaleDateString()}</Body>
+        </Grid>
       ),
     },
     {
       id: 'skills',
       title: 'Skills & Certifications',
       content: (
-        <div>
-          <div><strong>Skills:</strong> {selectedEmployee.skills?.join(', ') || 'None listed'}</div>
-          <div><strong>Certifications:</strong> {selectedEmployee.certifications?.join(', ') || 'None listed'}</div>
-        </div>
+        <Stack>
+          <Body size="sm"><strong>Skills:</strong> {selectedEmployee.skills?.join(', ') || 'None listed'}</Body>
+          <Body size="sm"><strong>Certifications:</strong> {selectedEmployee.certifications?.join(', ') || 'None listed'}</Body>
+        </Stack>
       ),
     },
   ] : [];

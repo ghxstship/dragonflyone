@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Eye, Pencil, Check } from "lucide-react";
 import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
-  ListPage, Badge, DetailDrawer,
+  ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
 } from "@ghxstship/ui";
 import { getBadgeVariant } from "@ghxstship/config";
@@ -83,18 +83,18 @@ export default function DamageReportsPage() {
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Damage Report Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Asset:</strong> {selected.assetName}</div>
-        <div><strong>Category:</strong> {selected.category}</div>
-        <div><strong>Severity:</strong> {selected.severity}</div>
-        <div><strong>Status:</strong> {selected.status}</div>
-        <div><strong>Location:</strong> {selected.location}</div>
-        <div><strong>Reported By:</strong> {selected.reportedBy}</div>
-        <div><strong>Reported Date:</strong> {selected.reportedDate}</div>
-        <div><strong>Est. Cost:</strong> {selected.estimatedCost ? `$${selected.estimatedCost}` : 'N/A'}</div>
-        <div className="col-span-2"><strong>Description:</strong> {selected.description}</div>
-        {selected.repairVendor && <div><strong>Repair Vendor:</strong> {selected.repairVendor}</div>}
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Asset:</strong> {selected.assetName}</Body>
+        <Body size="sm"><strong>Category:</strong> {selected.category}</Body>
+        <Body size="sm"><strong>Severity:</strong> {selected.severity}</Body>
+        <Body size="sm"><strong>Status:</strong> {selected.status}</Body>
+        <Body size="sm"><strong>Location:</strong> {selected.location}</Body>
+        <Body size="sm"><strong>Reported By:</strong> {selected.reportedBy}</Body>
+        <Body size="sm"><strong>Reported Date:</strong> {selected.reportedDate}</Body>
+        <Body size="sm"><strong>Est. Cost:</strong> {selected.estimatedCost ? `$${selected.estimatedCost}` : 'N/A'}</Body>
+        <Body size="sm" className="col-span-2"><strong>Description:</strong> {selected.description}</Body>
+        {selected.repairVendor && <Body size="sm"><strong>Repair Vendor:</strong> {selected.repairVendor}</Body>}
+      </Grid>
     )},
   ] : [];
 

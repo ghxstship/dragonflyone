@@ -20,12 +20,12 @@ export default function ProductionInvestorsPage() {
   return (
     <Stack gap={8}>
       <SectionHeader kicker={production.name} title="Investors" description="Manage investor relationships and funding rounds" colorScheme="on-dark" />
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <Grid cols={2} gap={4} className="lg:grid-cols-4">
         <StatCard label="Investors" value={stats.totalInvestors.toString()} icon={<TrendingUp size={20} />} inverted />
         <StatCard label="Committed" value={`$${(stats.totalCommitted / 1000).toFixed(0)}K`} icon={<DollarSign size={20} />} inverted />
         <StatCard label="Rounds" value={stats.rounds.toString()} icon={<Layers size={20} />} inverted />
         <StatCard label="Documents" value={stats.documents.toString()} icon={<FileText size={20} />} inverted />
-      </div>
+      </Grid>
       <Grid cols={3} gap={4}>
         <Card variant="elevated" inverted className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push(`/p/${productionId}/investors/rounds`)}>
           <CardBody><Stack gap={3} className="items-center text-center"><Box className="flex size-12 items-center justify-center rounded bg-ink-800"><Layers size={24} className="text-primary" /></Box><Body className="font-weight-bold text-white">Rounds</Body></Stack></CardBody>

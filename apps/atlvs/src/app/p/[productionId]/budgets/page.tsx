@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, StatCard, Badge } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Button, Body, StatCard, Badge, Grid, Box } from "@ghxstship/ui";
 import { DollarSign, Plus, TrendingUp, TrendingDown, PieChart } from "lucide-react";
 import { atlvsDemoProductions } from "../../../../data/atlvs";
 
@@ -47,18 +47,18 @@ export default function ProductionBudgetsPage() {
         </Stack>
       </Stack>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
+      <Grid cols={1} gap={4} className="sm:grid-cols-4">
         <StatCard label="Total Budget" value={`$${(budgetStats.total / 1000).toFixed(0)}K`} icon={<DollarSign size={20} />} inverted />
         <StatCard label="Spent" value={`$${(budgetStats.spent / 1000).toFixed(0)}K`} icon={<TrendingDown size={20} />} inverted />
         <StatCard label="Remaining" value={`$${(budgetStats.remaining / 1000).toFixed(0)}K`} icon={<TrendingUp size={20} />} trend="up" inverted />
         <StatCard label="Variance" value={`$${(budgetStats.variance / 1000).toFixed(0)}K`} icon={<DollarSign size={20} />} trend={budgetStats.variance < 0 ? "down" : "up"} inverted />
-      </div>
+      </Grid>
 
       <Card variant="elevated" inverted>
         <CardBody>
           <Stack gap={0}>
             {categories.map((cat, index) => (
-              <div key={cat.id} className={`flex items-center justify-between border-ink-700 p-4 ${index < categories.length - 1 ? "border-b" : ""}`}>
+              <Box key={cat.id} className={`flex items-center justify-between border-ink-700 p-4 ${index < categories.length - 1 ? "border-b" : ""}`}>
                 <Stack gap={1}>
                   <Body className="font-weight-medium text-white">{cat.name}</Body>
                   <Body className="text-body-sm text-on-dark-muted">
@@ -66,12 +66,12 @@ export default function ProductionBudgetsPage() {
                   </Body>
                 </Stack>
                 <Stack direction="horizontal" gap={4} className="items-center">
-                  <div className="h-2 w-32 overflow-hidden rounded bg-ink-800">
-                    <div className={`h-full ${cat.spent > cat.budgeted ? "bg-error" : "bg-success"}`} style={{ width: `${Math.min((cat.spent / cat.budgeted) * 100, 100)}%` }} />
-                  </div>
+                  <Box className="h-2 w-32 overflow-hidden rounded bg-ink-800">
+                    <Box className={`h-full ${cat.spent > cat.budgeted ? "bg-error" : "bg-success"}`} style={{ width: `${Math.min((cat.spent / cat.budgeted) * 100, 100)}%` }} />
+                  </Box>
                   <Badge variant={statusColors[cat.status]}>{cat.status.replace("_", " ").toUpperCase()}</Badge>
                 </Stack>
-              </div>
+              </Box>
             ))}
           </Stack>
         </CardBody>

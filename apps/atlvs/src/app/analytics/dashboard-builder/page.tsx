@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Eye, Pencil, Copy } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
-  ListPage, Badge, DetailDrawer, RecordFormModal,
+  ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig,
 } from '@ghxstship/ui';
 
@@ -77,15 +77,15 @@ export default function DashboardBuilderPage() {
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Dashboard Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Name:</strong> {selected.name}</div>
-        <div><strong>Status:</strong> {selected.status}</div>
-        <div><strong>Widgets:</strong> {selected.widgetCount}</div>
-        <div><strong>Default:</strong> {selected.isDefault ? 'Yes' : 'No'}</div>
-        <div><strong>Created:</strong> {selected.createdAt}</div>
-        <div><strong>Last Modified:</strong> {selected.lastModified}</div>
-        {selected.description && <div className="col-span-2"><strong>Description:</strong> {selected.description}</div>}
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Name:</strong> {selected.name}</Body>
+        <Body size="sm"><strong>Status:</strong> {selected.status}</Body>
+        <Body size="sm"><strong>Widgets:</strong> {selected.widgetCount}</Body>
+        <Body size="sm"><strong>Default:</strong> {selected.isDefault ? 'Yes' : 'No'}</Body>
+        <Body size="sm"><strong>Created:</strong> {selected.createdAt}</Body>
+        <Body size="sm"><strong>Last Modified:</strong> {selected.lastModified}</Body>
+        {selected.description && <Body size="sm" className="col-span-2"><strong>Description:</strong> {selected.description}</Body>}
+      </Grid>
     )},
   ] : [];
 

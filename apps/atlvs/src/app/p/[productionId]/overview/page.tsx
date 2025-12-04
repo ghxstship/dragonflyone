@@ -10,6 +10,10 @@ import {
   Button,
   Badge,
   Container,
+  Grid,
+  Box,
+  Body,
+  H3,
 } from "@ghxstship/ui";
 import {
   Calendar,
@@ -90,7 +94,7 @@ export default function ProductionOverviewPage() {
       </Stack>
 
       {/* Key Metrics */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <Grid cols={1} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
           label="Budget"
           value={`$${(metrics.budget.spent / 1000).toFixed(0)}K`}
@@ -123,16 +127,16 @@ export default function ProductionOverviewPage() {
           trendValue={`${metrics.advances.approved} approved`}
           inverted
         />
-      </div>
+      </Grid>
 
       {/* Quick Actions & Alerts */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+      <Grid cols={1} gap={6} className="lg:grid-cols-2">
         {/* Quick Actions */}
         <Card variant="elevated" inverted>
           <CardBody>
             <Stack gap={4}>
-              <h3 className="font-heading text-body-lg font-weight-bold text-white">Quick Actions</h3>
-              <div className="grid grid-cols-2 gap-3">
+              <H3 className="text-white">Quick Actions</H3>
+              <Grid cols={2} gap={3}>
                 <Button variant="outline" size="sm" className="justify-start">
                   <Calendar size={16} className="mr-2" />
                   View Schedule
@@ -157,7 +161,7 @@ export default function ProductionOverviewPage() {
                   <TrendingUp size={16} className="mr-2" />
                   View Metrics
                 </Button>
-              </div>
+              </Grid>
             </Stack>
           </CardBody>
         </Card>
@@ -166,58 +170,58 @@ export default function ProductionOverviewPage() {
         <Card variant="elevated" inverted>
           <CardBody>
             <Stack gap={4}>
-              <h3 className="font-heading text-body-lg font-weight-bold text-white">Alerts</h3>
+              <H3 className="text-white">Alerts</H3>
               <Stack gap={3}>
                 {metrics.tasks.overdue > 0 && (
-                  <div className="flex items-center gap-3 rounded border-2 border-error-500/30 bg-error-500/10 p-3">
+                  <Box className="flex items-center gap-3 rounded border-2 border-error-500/30 bg-error-500/10 p-3">
                     <AlertTriangle size={20} className="text-error-500" />
-                    <div>
-                      <p className="text-body-sm font-weight-medium text-white">
+                    <Box>
+                      <Body size="sm" className="font-weight-medium text-white">
                         {metrics.tasks.overdue} Overdue Tasks
-                      </p>
-                      <p className="text-mono-xs text-on-dark-muted">
+                      </Body>
+                      <Body size="xs" className="text-on-dark-muted">
                         Review and update task deadlines
-                      </p>
-                    </div>
-                  </div>
+                      </Body>
+                    </Box>
+                  </Box>
                 )}
                 {metrics.advances.pending > 5 && (
-                  <div className="flex items-center gap-3 rounded border-2 border-warning-500/30 bg-warning-500/10 p-3">
+                  <Box className="flex items-center gap-3 rounded border-2 border-warning-500/30 bg-warning-500/10 p-3">
                     <Clock size={20} className="text-warning-500" />
-                    <div>
-                      <p className="text-body-sm font-weight-medium text-white">
+                    <Box>
+                      <Body size="sm" className="font-weight-medium text-white">
                         {metrics.advances.pending} Pending Advances
-                      </p>
-                      <p className="text-mono-xs text-on-dark-muted">
+                      </Body>
+                      <Body size="xs" className="text-on-dark-muted">
                         Review advance requests from crew
-                      </p>
-                    </div>
-                  </div>
+                      </Body>
+                    </Box>
+                  </Box>
                 )}
                 {metrics.team.pending > 0 && (
-                  <div className="flex items-center gap-3 rounded border-2 border-primary-500/30 bg-primary-500/10 p-3">
+                  <Box className="flex items-center gap-3 rounded border-2 border-primary-500/30 bg-primary-500/10 p-3">
                     <Users size={20} className="text-primary-500" />
-                    <div>
-                      <p className="text-body-sm font-weight-medium text-white">
+                    <Box>
+                      <Body size="sm" className="font-weight-medium text-white">
                         {metrics.team.pending} Pending Confirmations
-                      </p>
-                      <p className="text-mono-xs text-on-dark-muted">
+                      </Body>
+                      <Body size="xs" className="text-on-dark-muted">
                         Follow up with unconfirmed team members
-                      </p>
-                    </div>
-                  </div>
+                      </Body>
+                    </Box>
+                  </Box>
                 )}
               </Stack>
             </Stack>
           </CardBody>
         </Card>
-      </div>
+      </Grid>
 
       {/* Recent Activity */}
       <Card variant="elevated" inverted>
         <CardBody>
           <Stack gap={4}>
-            <h3 className="font-heading text-body-lg font-weight-bold text-white">Recent Activity</h3>
+            <H3 className="text-white">Recent Activity</H3>
             <Stack gap={2}>
               {[
                 { action: "Task completed", detail: "Stage setup checklist", time: "2 hours ago", icon: CheckCircle },
@@ -226,19 +230,19 @@ export default function ProductionOverviewPage() {
                 { action: "Budget updated", detail: "Catering allocation increased", time: "Yesterday", icon: DollarSign },
                 { action: "Document uploaded", detail: "Venue floor plan v2", time: "2 days ago", icon: FileText },
               ].map((activity, index) => (
-                <div
+                <Box
                   key={index}
                   className="flex items-center gap-3 border-b border-ink-800 py-3 last:border-0"
                 >
-                  <div className="flex size-8 items-center justify-center rounded bg-ink-800">
+                  <Box className="flex size-8 items-center justify-center rounded bg-ink-800">
                     <activity.icon size={16} className="text-ink-400" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-body-sm font-weight-medium text-white">{activity.action}</p>
-                    <p className="text-mono-xs text-on-dark-muted">{activity.detail}</p>
-                  </div>
-                  <span className="text-mono-xs text-ink-500">{activity.time}</span>
-                </div>
+                  </Box>
+                  <Box className="flex-1">
+                    <Body size="sm" className="font-weight-medium text-white">{activity.action}</Body>
+                    <Body size="xs" className="text-on-dark-muted">{activity.detail}</Body>
+                  </Box>
+                  <Body size="xs" className="text-ink-500">{activity.time}</Body>
+                </Box>
               ))}
             </Stack>
           </Stack>

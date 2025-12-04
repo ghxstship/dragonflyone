@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, Box } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Grid } from "@ghxstship/ui";
 import { FileText, Plus, Copy } from "lucide-react";
 import { atlvsDemoProductions } from "../../../../../data/atlvs";
 
@@ -33,7 +33,7 @@ export default function ProductionTemplatesPage() {
         </Button>
       </Stack>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <Grid cols={1} gap={4} className="md:grid-cols-2">
         {templates.map((template) => (
           <Card key={template.id} variant="elevated" inverted className="cursor-pointer transition-all hover:border-primary">
             <CardBody>
@@ -55,7 +55,7 @@ export default function ProductionTemplatesPage() {
             </CardBody>
           </Card>
         ))}
-      </div>
+      </Grid>
     </Stack>
   );
 }

@@ -37,12 +37,12 @@ export default function ProductionMarketingPage() {
         </Stack>
       </Stack>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
+      <Grid cols={1} gap={4} className="sm:grid-cols-4">
         <StatCard label="Total Reach" value={`${(marketingStats.reach / 1000).toFixed(0)}K`} icon={<Users size={20} />} trend="up" inverted />
         <StatCard label="Engagement Rate" value={`${marketingStats.engagement}%`} icon={<Share2 size={20} />} trend="up" inverted />
         <StatCard label="Conversions" value={marketingStats.conversions.toLocaleString()} icon={<Megaphone size={20} />} trend="up" inverted />
         <StatCard label="Ad Spend" value={`$${(marketingStats.spend / 1000).toFixed(0)}K`} icon={<BarChart size={20} />} inverted />
-      </div>
+      </Grid>
 
       <Grid cols={3} gap={4}>
         <Card variant="elevated" inverted className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push(`/p/${productionId}/marketing/social`)}>

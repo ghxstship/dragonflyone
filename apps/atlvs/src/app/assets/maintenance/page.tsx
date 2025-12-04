@@ -9,6 +9,8 @@ import {
   Badge,
   DetailDrawer,
   RecordFormModal,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -120,18 +122,18 @@ export default function AssetMaintenancePage() {
 
   const detailSections: DetailSection[] = selectedRecord ? [
     { id: 'overview', title: 'Maintenance Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Asset:</strong> {selectedRecord.assetName}</div>
-        <div><strong>Category:</strong> {selectedRecord.category}</div>
-        <div><strong>Type:</strong> {selectedRecord.type}</div>
-        <div><strong>Priority:</strong> {selectedRecord.priority}</div>
-        <div><strong>Status:</strong> {selectedRecord.status}</div>
-        <div><strong>Scheduled:</strong> {selectedRecord.scheduledDate}</div>
-        {selectedRecord.technician && <div><strong>Technician:</strong> {selectedRecord.technician}</div>}
-        {selectedRecord.cost && <div><strong>Cost:</strong> ${selectedRecord.cost.toLocaleString()}</div>}
-        {selectedRecord.laborHours && <div><strong>Labor Hours:</strong> {selectedRecord.laborHours}</div>}
-        {selectedRecord.notes && <div className="col-span-2"><strong>Notes:</strong> {selectedRecord.notes}</div>}
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Asset:</strong> {selectedRecord.assetName}</Body>
+        <Body size="sm"><strong>Category:</strong> {selectedRecord.category}</Body>
+        <Body size="sm"><strong>Type:</strong> {selectedRecord.type}</Body>
+        <Body size="sm"><strong>Priority:</strong> {selectedRecord.priority}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedRecord.status}</Body>
+        <Body size="sm"><strong>Scheduled:</strong> {selectedRecord.scheduledDate}</Body>
+        {selectedRecord.technician && <Body size="sm"><strong>Technician:</strong> {selectedRecord.technician}</Body>}
+        {selectedRecord.cost && <Body size="sm"><strong>Cost:</strong> ${selectedRecord.cost.toLocaleString()}</Body>}
+        {selectedRecord.laborHours && <Body size="sm"><strong>Labor Hours:</strong> {selectedRecord.laborHours}</Body>}
+        {selectedRecord.notes && <Body size="sm" className="col-span-2"><strong>Notes:</strong> {selectedRecord.notes}</Body>}
+      </Grid>
     )},
   ] : [];
 

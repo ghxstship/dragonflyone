@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Eye, Wrench } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
-  ListPage, Badge, DetailDrawer,
+  ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
 } from '@ghxstship/ui';
 
@@ -77,18 +77,18 @@ export default function AssetPerformancePage() {
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Performance Metrics', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Asset:</strong> {selected.name}</div>
-        <div><strong>Category:</strong> {selected.category}</div>
-        <div><strong>Utilization:</strong> {selected.utilizationRate}%</div>
-        <div><strong>Uptime:</strong> {selected.uptime}%</div>
-        <div><strong>MTBF:</strong> {selected.mtbf} hours</div>
-        <div><strong>MTTR:</strong> {selected.mttr} hours</div>
-        <div><strong>Health Score:</strong> {selected.healthScore}</div>
-        <div><strong>Failures (YTD):</strong> {selected.failureCount}</div>
-        <div><strong>Last Maintenance:</strong> {selected.lastMaintenance}</div>
-        {selected.predictedFailure && <div><strong>Predicted Failure:</strong> {selected.predictedFailure}</div>}
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Asset:</strong> {selected.name}</Body>
+        <Body size="sm"><strong>Category:</strong> {selected.category}</Body>
+        <Body size="sm"><strong>Utilization:</strong> {selected.utilizationRate}%</Body>
+        <Body size="sm"><strong>Uptime:</strong> {selected.uptime}%</Body>
+        <Body size="sm"><strong>MTBF:</strong> {selected.mtbf} hours</Body>
+        <Body size="sm"><strong>MTTR:</strong> {selected.mttr} hours</Body>
+        <Body size="sm"><strong>Health Score:</strong> {selected.healthScore}</Body>
+        <Body size="sm"><strong>Failures (YTD):</strong> {selected.failureCount}</Body>
+        <Body size="sm"><strong>Last Maintenance:</strong> {selected.lastMaintenance}</Body>
+        {selected.predictedFailure && <Body size="sm"><strong>Predicted Failure:</strong> {selected.predictedFailure}</Body>}
+      </Grid>
     )},
   ] : [];
 

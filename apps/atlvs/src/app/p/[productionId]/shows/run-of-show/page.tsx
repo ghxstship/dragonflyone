@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, Badge } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Button, Body, Badge, Box } from "@ghxstship/ui";
 import { Plus, Clock } from "lucide-react";
 import { atlvsDemoProductions } from "../../../../../data/atlvs";
 
@@ -45,17 +45,17 @@ export default function RunOfShowPage() {
         <CardBody>
           <Stack gap={0}>
             {runOfShow.map((item, index) => (
-              <div key={item.id} className={`flex items-center gap-4 border-ink-700 p-4 ${index < runOfShow.length - 1 ? "border-b" : ""}`}>
-                <div className="flex w-20 items-center gap-2">
+              <Box key={item.id} className={`flex items-center gap-4 border-ink-700 p-4 ${index < runOfShow.length - 1 ? "border-b" : ""}`}>
+                <Box className="flex w-20 items-center gap-2">
                   <Clock size={14} className="text-on-dark-muted" />
                   <Body className="font-weight-bold text-white">{item.time}</Body>
-                </div>
-                <div className="flex-1">
+                </Box>
+                <Box className="flex-1">
                   <Body className="font-weight-medium text-white">{item.item}</Body>
-                </div>
+                </Box>
                 <Body className="text-body-sm text-on-dark-muted">{item.duration}</Body>
                 <Badge variant={typeColors[item.type]}>{item.type.toUpperCase()}</Badge>
-              </div>
+              </Box>
             ))}
           </Stack>
         </CardBody>

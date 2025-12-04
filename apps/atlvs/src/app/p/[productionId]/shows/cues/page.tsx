@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, Badge } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Button, Body, Badge, Box } from "@ghxstship/ui";
 import { Plus, Zap } from "lucide-react";
 import { atlvsDemoProductions } from "../../../../../data/atlvs";
 
@@ -41,17 +41,17 @@ export default function CuesPage() {
         <CardBody>
           <Stack gap={0}>
             {cues.map((cue, index) => (
-              <div key={cue.id} className={`flex items-center gap-4 border-ink-700 p-4 ${index < cues.length - 1 ? "border-b" : ""}`}>
-                <div className="flex w-16 items-center gap-2">
+              <Box key={cue.id} className={`flex items-center gap-4 border-ink-700 p-4 ${index < cues.length - 1 ? "border-b" : ""}`}>
+                <Box className="flex w-16 items-center gap-2">
                   <Zap size={14} className="text-warning" />
                   <Body className="font-weight-bold text-white">{cue.number}</Body>
-                </div>
-                <div className="flex-1">
+                </Box>
+                <Box className="flex-1">
                   <Body className="font-weight-medium text-white">{cue.name}</Body>
-                </div>
+                </Box>
                 <Body className="text-body-sm text-on-dark-muted">{cue.trigger}</Body>
                 <Badge variant={typeColors[cue.type]}>{cue.type.toUpperCase()}</Badge>
-              </div>
+              </Box>
             ))}
           </Stack>
         </CardBody>

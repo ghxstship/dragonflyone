@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Eye, BarChart3 } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
-  ListPage, Badge, DetailDrawer,
+  ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
 } from '@ghxstship/ui';
 
@@ -79,18 +79,18 @@ export default function AssetUtilizationPage() {
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Utilization Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Asset:</strong> {selected.name}</div>
-        <div><strong>Category:</strong> {selected.category}</div>
-        <div><strong>Purchase Price:</strong> ${selected.purchasePrice.toLocaleString()}</div>
-        <div><strong>Current Value:</strong> ${selected.currentValue.toLocaleString()}</div>
-        <div><strong>Total Revenue:</strong> ${selected.totalRevenue.toLocaleString()}</div>
-        <div><strong>Utilization Rate:</strong> {(selected.utilizationRate * 100).toFixed(0)}%</div>
-        <div><strong>Days Deployed:</strong> {selected.daysDeployed}</div>
-        <div><strong>Project Count:</strong> {selected.projectCount}</div>
-        <div><strong>ROI:</strong> {selected.roi}%</div>
-        <div><strong>Cost Per Day:</strong> ${selected.costPerDay}</div>
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Asset:</strong> {selected.name}</Body>
+        <Body size="sm"><strong>Category:</strong> {selected.category}</Body>
+        <Body size="sm"><strong>Purchase Price:</strong> ${selected.purchasePrice.toLocaleString()}</Body>
+        <Body size="sm"><strong>Current Value:</strong> ${selected.currentValue.toLocaleString()}</Body>
+        <Body size="sm"><strong>Total Revenue:</strong> ${selected.totalRevenue.toLocaleString()}</Body>
+        <Body size="sm"><strong>Utilization Rate:</strong> {(selected.utilizationRate * 100).toFixed(0)}%</Body>
+        <Body size="sm"><strong>Days Deployed:</strong> {selected.daysDeployed}</Body>
+        <Body size="sm"><strong>Project Count:</strong> {selected.projectCount}</Body>
+        <Body size="sm"><strong>ROI:</strong> {selected.roi}%</Body>
+        <Body size="sm"><strong>Cost Per Day:</strong> ${selected.costPerDay}</Body>
+      </Grid>
     )},
   ] : [];
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Badge, StatCard } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Badge, StatCard, Grid } from "@ghxstship/ui";
 import { Handshake, Plus, DollarSign } from "lucide-react";
 import { atlvsDemoProductions } from "../../../../data/atlvs";
 
@@ -52,18 +52,18 @@ export default function ProductionSponsorsPage() {
         </Stack>
       </Stack>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
+      <Grid cols={1} gap={4} className="sm:grid-cols-4">
         <StatCard label="Total Sponsors" value={sponsorStats.total.toString()} icon={<Handshake size={20} />} inverted />
         <StatCard label="Confirmed" value={sponsorStats.confirmed.toString()} icon={<Handshake size={20} />} trend="up" inverted />
         <StatCard label="Pending" value={sponsorStats.pending.toString()} icon={<Handshake size={20} />} inverted />
         <StatCard label="Revenue" value={`$${(sponsorStats.revenue / 1000).toFixed(0)}K`} icon={<DollarSign size={20} />} trend="up" inverted />
-      </div>
+      </Grid>
 
       <Card variant="elevated" inverted>
         <CardBody>
           <Stack gap={0}>
             {sponsors.map((sponsor, index) => (
-              <div key={sponsor.id} className={`flex cursor-pointer items-center justify-between border-ink-700 p-4 transition-all hover:bg-ink-800/50 ${index < sponsors.length - 1 ? "border-b" : ""}`}>
+              <Box key={sponsor.id} className={`flex cursor-pointer items-center justify-between border-ink-700 p-4 transition-all hover:bg-ink-800/50 ${index < sponsors.length - 1 ? "border-b" : ""}`}>
                 <Stack direction="horizontal" gap={3} className="items-center">
                   <Box className="flex size-10 items-center justify-center rounded bg-ink-800">
                     <Handshake size={20} className="text-primary" />
@@ -77,7 +77,7 @@ export default function ProductionSponsorsPage() {
                   <Badge variant={tierColors[sponsor.tier]}>{sponsor.tier}</Badge>
                   <Badge variant={statusColors[sponsor.status]}>{sponsor.status.toUpperCase()}</Badge>
                 </Stack>
-              </div>
+              </Box>
             ))}
           </Stack>
         </CardBody>

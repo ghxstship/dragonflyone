@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Eye, Zap } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
-  ListPage, Badge, DetailDrawer,
+  ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
 } from '@ghxstship/ui';
 
@@ -75,17 +75,17 @@ export default function IdleAnalysisPage() {
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Idle Asset Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Asset:</strong> {selected.name}</div>
-        <div><strong>Category:</strong> {selected.category}</div>
-        <div><strong>Idle Days:</strong> {selected.idleDays}</div>
-        <div><strong>Last Used:</strong> {selected.lastUsed}</div>
-        <div><strong>Location:</strong> {selected.location}</div>
-        <div><strong>Value:</strong> {formatCurrency(selected.value)}</div>
-        <div><strong>Monthly Carry:</strong> {formatCurrency(selected.monthlyCarryCost)}</div>
-        <div><strong>Recommendation:</strong> {selected.recommendation}</div>
-        <div className="col-span-2"><strong>Annual Carry Cost:</strong> {formatCurrency(selected.monthlyCarryCost * 12)}</div>
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Asset:</strong> {selected.name}</Body>
+        <Body size="sm"><strong>Category:</strong> {selected.category}</Body>
+        <Body size="sm"><strong>Idle Days:</strong> {selected.idleDays}</Body>
+        <Body size="sm"><strong>Last Used:</strong> {selected.lastUsed}</Body>
+        <Body size="sm"><strong>Location:</strong> {selected.location}</Body>
+        <Body size="sm"><strong>Value:</strong> {formatCurrency(selected.value)}</Body>
+        <Body size="sm"><strong>Monthly Carry:</strong> {formatCurrency(selected.monthlyCarryCost)}</Body>
+        <Body size="sm"><strong>Recommendation:</strong> {selected.recommendation}</Body>
+        <Body size="sm" className="col-span-2"><strong>Annual Carry Cost:</strong> {formatCurrency(selected.monthlyCarryCost * 12)}</Body>
+      </Grid>
     )},
   ] : [];
 

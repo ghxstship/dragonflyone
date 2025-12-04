@@ -90,7 +90,7 @@ export default function ProductionAdvancingPage() {
       </Stack>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-5">
+      <Grid cols={2} gap={4} className="lg:grid-cols-5">
         <StatCard
           label="Pending Review"
           value={advanceStats.pending.toString()}
@@ -131,7 +131,7 @@ export default function ProductionAdvancingPage() {
           trendValue="This production"
           inverted
         />
-      </div>
+      </Grid>
 
       {/* Quick Navigation */}
       <Grid cols={3} gap={4}>

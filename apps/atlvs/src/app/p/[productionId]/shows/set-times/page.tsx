@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, Badge } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Button, Body, Badge, Box } from "@ghxstship/ui";
 import { Plus, Clock, Music } from "lucide-react";
 import { atlvsDemoProductions } from "../../../../../data/atlvs";
 
@@ -40,20 +40,20 @@ export default function SetTimesPage() {
         <CardBody>
           <Stack gap={0}>
             {setTimes.map((set, index) => (
-              <div key={set.id} className={`flex items-center gap-4 border-ink-700 p-4 ${index < setTimes.length - 1 ? "border-b" : ""}`}>
-                <div className="flex w-24 items-center gap-2">
+              <Box key={set.id} className={`flex items-center gap-4 border-ink-700 p-4 ${index < setTimes.length - 1 ? "border-b" : ""}`}>
+                <Box className="flex w-24 items-center gap-2">
                   <Clock size={14} className="text-on-dark-muted" />
                   <Body className="font-weight-bold text-white">{set.start}</Body>
-                </div>
-                <div className="flex size-10 items-center justify-center rounded bg-ink-800">
+                </Box>
+                <Box className="flex size-10 items-center justify-center rounded bg-ink-800">
                   <Music size={16} className="text-primary" />
-                </div>
-                <div className="flex-1">
+                </Box>
+                <Box className="flex-1">
                   <Body className="font-weight-medium text-white">{set.artist}</Body>
                   <Body className="text-body-sm text-on-dark-muted">{set.stage} · {set.start} - {set.end}</Body>
-                </div>
+                </Box>
                 <Badge variant={statusColors[set.status]}>{set.status.toUpperCase()}</Badge>
-              </div>
+              </Box>
             ))}
           </Stack>
         </CardBody>

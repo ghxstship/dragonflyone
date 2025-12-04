@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Eye, Package } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
-  ListPage, Badge, DetailDrawer,
+  ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
 } from '@ghxstship/ui';
 import { getBadgeVariant } from '@ghxstship/config';
@@ -75,17 +75,17 @@ export default function StorageOptimizationPage() {
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Location Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Name:</strong> {selected.name}</div>
-        <div><strong>Type:</strong> {selected.type}</div>
-        <div><strong>Category:</strong> {selected.category}</div>
-        <div><strong>Climate:</strong> {selected.climate}</div>
-        <div><strong>Capacity:</strong> {selected.capacity.toLocaleString()} sq ft</div>
-        <div><strong>Used:</strong> {selected.used.toLocaleString()} sq ft</div>
-        <div><strong>Utilization:</strong> {Math.round((selected.used / selected.capacity) * 100)}%</div>
-        <div><strong>Status:</strong> {selected.status}</div>
-        {selected.address && <div className="col-span-2"><strong>Address:</strong> {selected.address}</div>}
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Name:</strong> {selected.name}</Body>
+        <Body size="sm"><strong>Type:</strong> {selected.type}</Body>
+        <Body size="sm"><strong>Category:</strong> {selected.category}</Body>
+        <Body size="sm"><strong>Climate:</strong> {selected.climate}</Body>
+        <Body size="sm"><strong>Capacity:</strong> {selected.capacity.toLocaleString()} sq ft</Body>
+        <Body size="sm"><strong>Used:</strong> {selected.used.toLocaleString()} sq ft</Body>
+        <Body size="sm"><strong>Utilization:</strong> {Math.round((selected.used / selected.capacity) * 100)}%</Body>
+        <Body size="sm"><strong>Status:</strong> {selected.status}</Body>
+        {selected.address && <Body size="sm" className="col-span-2"><strong>Address:</strong> {selected.address}</Body>}
+      </Grid>
     )},
   ] : [];
 

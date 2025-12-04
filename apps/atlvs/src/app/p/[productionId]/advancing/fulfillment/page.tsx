@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, StatCard, Body, H3 } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, StatCard, Body, H3, Grid } from "@ghxstship/ui";
 import { Truck, CheckCircle, Clock, Package } from "lucide-react";
 import { atlvsDemoProductions } from "../../../../../data/atlvs";
 
@@ -28,12 +28,12 @@ export default function AdvancingFulfillmentPage() {
         description="Track delivery and receipt of allocated items"
         colorScheme="on-dark"
       />
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <Grid cols={2} gap={4} className="lg:grid-cols-4">
         <StatCard label="In Transit" value={fulfillmentStats.inTransit.toString()} icon={<Truck size={20} />} inverted />
         <StatCard label="Delivered" value={fulfillmentStats.delivered.toString()} icon={<Package size={20} />} inverted />
         <StatCard label="Confirmed" value={fulfillmentStats.confirmed.toString()} icon={<CheckCircle size={20} />} inverted />
         <StatCard label="Pending" value={fulfillmentStats.pending.toString()} icon={<Clock size={20} />} inverted />
-      </div>
+      </Grid>
       <Card variant="elevated" inverted>
         <CardBody>
           <Stack gap={4}>

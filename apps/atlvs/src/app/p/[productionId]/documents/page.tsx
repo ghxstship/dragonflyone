@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Badge } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Badge, Grid } from "@ghxstship/ui";
 import { FileText, Plus, Upload, Folder, Download } from "lucide-react";
 import { atlvsDemoProductions } from "../../../../data/atlvs";
 
@@ -46,7 +46,7 @@ export default function ProductionDocumentsPage() {
         </Stack>
       </Stack>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-5">
+      <Grid cols={1} gap={4} className="md:grid-cols-3 lg:grid-cols-5">
         {folders.map((folder) => (
           <Card key={folder.id} variant="elevated" inverted className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push(`/p/${productionId}/documents/${folder.name.toLowerCase().replace(" ", "-")}`)}>
             <CardBody>
@@ -62,7 +62,7 @@ export default function ProductionDocumentsPage() {
             </CardBody>
           </Card>
         ))}
-      </div>
+      </Grid>
 
       <Card variant="elevated" inverted>
         <CardBody>
@@ -70,7 +70,7 @@ export default function ProductionDocumentsPage() {
             <Body className="font-weight-bold text-white">Recent Files</Body>
             <Stack gap={0}>
               {recentFiles.map((file, index) => (
-                <div key={file.id} className={`flex cursor-pointer items-center justify-between border-ink-700 p-4 transition-all hover:bg-ink-800/50 ${index < recentFiles.length - 1 ? "border-b" : ""}`}>
+                <Box key={file.id} className={`flex cursor-pointer items-center justify-between border-ink-700 p-4 transition-all hover:bg-ink-800/50 ${index < recentFiles.length - 1 ? "border-b" : ""}`}>
                   <Stack direction="horizontal" gap={3} className="items-center">
                     <FileText size={20} className="text-primary" />
                     <Stack gap={1}>
@@ -81,7 +81,7 @@ export default function ProductionDocumentsPage() {
                   <Button variant="ghost" size="sm">
                     <Download size={16} />
                   </Button>
-                </div>
+                </Box>
               ))}
             </Stack>
           </Stack>

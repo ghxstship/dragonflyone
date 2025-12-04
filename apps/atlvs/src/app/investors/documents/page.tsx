@@ -277,7 +277,7 @@ function InvestorDocumentsPageContent() {
 
 export default function InvestorDocumentsPage() {
   return (
-    <Suspense fallback={<div className="flex min-h-screen items-center justify-center">Loading...</div>}>
+    <Suspense fallback={<Stack className="flex min-h-screen items-center justify-center"><Body>Loading...</Body></Stack>}>
       <InvestorDocumentsPageContent />
     </Suspense>
   );

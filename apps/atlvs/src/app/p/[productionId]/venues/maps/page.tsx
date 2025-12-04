@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, Box } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Grid } from "@ghxstship/ui";
 import { Plus, Map, Upload, Download } from "lucide-react";
 import { atlvsDemoProductions } from "../../../../../data/atlvs";
 
@@ -34,7 +34,7 @@ export default function VenueMapsPage() {
         </Stack>
       </Stack>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <Grid cols={1} gap={4} className="md:grid-cols-2">
         {maps.map((map) => (
           <Card key={map.id} variant="elevated" inverted className="cursor-pointer transition-all hover:border-primary">
             <CardBody>
@@ -56,7 +56,7 @@ export default function VenueMapsPage() {
             </CardBody>
           </Card>
         ))}
-      </div>
+      </Grid>
     </Stack>
   );
 }

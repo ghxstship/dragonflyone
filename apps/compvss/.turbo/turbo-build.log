@@ -1,20 +1,21 @@
 
+
 > compvss@0.1.0 build /Users/julianclarkson/Documents/Dragonflyone/apps/compvss
 > NODE_OPTIONS='--max-old-space-size=8192' next build
 
-  ▲ Next.js 14.2.3
+  [1m[38;2;173;127;168m▲ Next.js 14.2.3[39m[22m
   - Environments: .env.local
   - Experiments (use with caution):
     · missingSuspenseWithCSRBailout
 
-   Creating an optimized production build ...
- ✓ Compiled successfully
-   Skipping validation of types
-   Skipping linting
-   Collecting page data ...
- ⚠ Using edge runtime on a page currently disables static generation for that page
-   Generating static pages (0/320) ...
-Get user error: q [Error]: Dynamic server usage: Route /api/auth/me couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+ [37m[1m [22m[39m Creating an optimized production build ...
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (128kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+ [32m[1m✓[22m[39m Compiled successfully
+ [37m[1m [22m[39m Skipping validation of types
+ [37m[1m [22m[39m Skipping linting
+[?25l [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting page data  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting page data  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G[1A[2K[1G[?25h [33m[1m⚠[22m[39m Using edge runtime on a page currently disables static generation for that page
+[?25l [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G[1A[2K[1G[?25h [37m[1m [22m[39m Collecting page data     [32m[1m✓[22m[39m Collecting page data 
+[?25l [37m[1m [22m[39m Generating static pages (0/320)  [36m[    ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (15/320)  [36m[=   ][39mGet user error: q [Error]: Dynamic server usage: Route /api/auth/me couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
     at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
     at p (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/api/auth/me/route.js:1:590)
     at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
@@ -28,7 +29,7 @@ Get user error: q [Error]: Dynamic server usage: Route /api/auth/me couldn't be 
   description: "Route /api/auth/me couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
   digest: 'DYNAMIC_SERVER_USAGE'
 }
-Error fetching activity feed: q [Error]: Dynamic server usage: Route /api/crew-social/activity couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (36/320)  [36m[==  ][39mError fetching activity feed: q [Error]: Dynamic server usage: Route /api/crew-social/activity couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
     at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
     at l (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/api/crew-social/activity/route.js:1:612)
     at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
@@ -42,9 +43,9 @@ Error fetching activity feed: q [Error]: Dynamic server usage: Route /api/crew-s
   description: "Route /api/crew-social/activity couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
   digest: 'DYNAMIC_SERVER_USAGE'
 }
-Error fetching specialties: q [Error]: Dynamic server usage: Route /api/directory/specialties couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+Error fetching languages: q [Error]: Dynamic server usage: Route /api/directory/languages couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
     at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
-    at p (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/api/directory/specialties/route.js:1:612)
+    at p (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/api/directory/languages/route.js:1:612)
     at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
     at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:140:36
     at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
@@ -53,7 +54,7 @@ Error fetching specialties: q [Error]: Dynamic server usage: Route /api/director
     at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/ProxyTracer.js:36:24)
     at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:122:103
     at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19) {
-  description: "Route /api/directory/specialties couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  description: "Route /api/directory/languages couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
   digest: 'DYNAMIC_SERVER_USAGE'
 }
 Error searching directory: q [Error]: Dynamic server usage: Route /api/directory/search couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
@@ -70,6 +71,20 @@ Error searching directory: q [Error]: Dynamic server usage: Route /api/directory
   description: "Route /api/directory/search couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
   digest: 'DYNAMIC_SERVER_USAGE'
 }
+[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (62/320)  [36m[=== ][39mError fetching specialties: q [Error]: Dynamic server usage: Route /api/directory/specialties couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
+    at p (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/api/directory/specialties/route.js:1:612)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
+    at ContextAPI.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/api/context.js:60:46)
+    at NoopTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/NoopTracer.js:65:31)
+    at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/ProxyTracer.js:36:24)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:122:103
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19) {
+  description: "Route /api/directory/specialties couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
 Error fetching translations: q [Error]: Dynamic server usage: Route /api/i18n/translations couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
     at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
     at p (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/api/i18n/translations/route.js:1:612)
@@ -84,7 +99,7 @@ Error fetching translations: q [Error]: Dynamic server usage: Route /api/i18n/tr
   description: "Route /api/i18n/translations couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
   digest: 'DYNAMIC_SERVER_USAGE'
 }
-Error fetching locales: q [Error]: Dynamic server usage: Route /api/i18n/locales couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (88/320)  [36m[ ===][39mError fetching locales: q [Error]: Dynamic server usage: Route /api/i18n/locales couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
     at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
     at u (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/api/i18n/locales/route.js:1:612)
     at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
@@ -98,24 +113,7 @@ Error fetching locales: q [Error]: Dynamic server usage: Route /api/i18n/locales
   description: "Route /api/i18n/locales couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
   digest: 'DYNAMIC_SERVER_USAGE'
 }
-   Generating static pages (80/320) 
-Error fetching languages: q [Error]: Dynamic server usage: Route /api/directory/languages couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
-    at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
-    at p (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/api/directory/languages/route.js:1:612)
-    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
-    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:140:36
-    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
-    at ContextAPI.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/api/context.js:60:46)
-    at NoopTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/NoopTracer.js:65:31)
-    at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/ProxyTracer.js:36:24)
-    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:122:103
-    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19) {
-  description: "Route /api/directory/languages couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
-  digest: 'DYNAMIC_SERVER_USAGE'
-}
-   Generating static pages (160/320) 
-   Generating static pages (240/320) 
-API route error: q [Error]: Dynamic server usage: Route /api/advancing/catalog couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (117/320)  [36m[  ==][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (192/320)  [36m[   =][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (213/320)  [36m[    ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (258/320)  [36m[   =][39mAPI route error: q [Error]: Dynamic server usage: Route /api/advancing/catalog couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
     at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
     at /Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/435.js:1:4479
     at /Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/435.js:1:4804
@@ -129,10 +127,10 @@ API route error: q [Error]: Dynamic server usage: Route /api/advancing/catalog c
   description: "Route /api/advancing/catalog couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
   digest: 'DYNAMIC_SERVER_USAGE'
 }
- ⚠ Entire page "/sops/training" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+ ⚠ Entire page "/credentials/zones" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/1546.js:71:11178)
     at d (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/1546.js:71:22175)
-    at y (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/sops/training/page.js:1:4283)
+    at b (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/credentials/zones/page.js:1:4641)
     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46251)
     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47571)
     at nN (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64546)
@@ -151,10 +149,10 @@ API route error: q [Error]: Dynamic server usage: Route /api/advancing/catalog c
     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47717)
     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61546)
     at nN (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64546)
- ⚠ Entire page "/credentials/zones" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+ ⚠ Entire page "/sops/training" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/1546.js:71:11178)
     at d (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/1546.js:71:22175)
-    at b (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/credentials/zones/page.js:1:4641)
+    at y (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/sops/training/page.js:1:4283)
     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46251)
     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47571)
     at nN (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64546)
@@ -162,388 +160,389 @@ API route error: q [Error]: Dynamic server usage: Route /api/advancing/catalog c
     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47717)
     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61546)
     at nN (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64546)
- ✓ Generating static pages (320/320)
-   Finalizing page optimization ...
-   Collecting build traces ...
+[2K[1G[1A[2K[1G[?25h [32m[1m✓[22m[39m Generating static pages (320/320)
+[?25l [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[?25l [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[1A[2K[1G[?25h [37m[1m [22m[39m Collecting build traces     [32m[1m✓[22m[39m Collecting build traces 
+[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G[?25h [37m[1m [22m[39m Finalizing page optimization     [32m[1m✓[22m[39m Finalizing page optimization 
 
-Route (app)                                             Size     First Load JS
-┌ ƒ /                                                   5.01 kB         405 kB
-├ ○ /_not-found                                         143 B          87.4 kB
-├ ○ /advancing                                          3.08 kB         439 kB
-├ ƒ /advancing/[id]                                     3.74 kB         440 kB
-├ ○ /advancing/catalog                                  4.8 kB          345 kB
-├ ○ /advancing/new                                      3.9 kB          440 kB
-├ ƒ /api/advancing                                      0 B                0 B
-├ ƒ /api/advancing/[id]                                 0 B                0 B
-├ ƒ /api/advancing/[id]/fulfill                         0 B                0 B
-├ ƒ /api/advancing/catalog                              0 B                0 B
-├ ƒ /api/ai/scheduling                                  0 B                0 B
-├ ƒ /api/application-tracking                           0 B                0 B
-├ ƒ /api/artists                                        0 B                0 B
-├ ƒ /api/assets                                         0 B                0 B
-├ ƒ /api/assets/[id]                                    0 B                0 B
-├ ƒ /api/audience-flow                                  0 B                0 B
-├ ƒ /api/audio-lines                                    0 B                0 B
-├ ƒ /api/auth/callback                                  0 B                0 B
-├ ƒ /api/auth/invite                                    0 B                0 B
-├ ƒ /api/auth/magic-link                                0 B                0 B
-├ ƒ /api/auth/me                                        0 B                0 B
-├ ƒ /api/auth/mfa                                       0 B                0 B
-├ ƒ /api/auth/oauth/[provider]                          0 B                0 B
-├ ƒ /api/auth/password/reset                            0 B                0 B
-├ ƒ /api/auth/password/update                           0 B                0 B
-├ ƒ /api/auth/refresh                                   0 B                0 B
-├ ƒ /api/auth/signin                                    0 B                0 B
-├ ƒ /api/auth/signout                                   0 B                0 B
-├ ƒ /api/auth/signup                                    0 B                0 B
-├ ƒ /api/auth/verify-email                              0 B                0 B
-├ ƒ /api/availability                                   0 B                0 B
-├ ƒ /api/background-checks                              0 B                0 B
-├ ƒ /api/batch                                          0 B                0 B
-├ ƒ /api/best-practices                                 0 B                0 B
-├ ƒ /api/bid-decision                                   0 B                0 B
-├ ƒ /api/bid-submission                                 0 B                0 B
-├ ƒ /api/bookmarks                                      0 B                0 B
-├ ƒ /api/budget/forecast                                0 B                0 B
-├ ƒ /api/cable-runs                                     0 B                0 B
-├ ƒ /api/candidate-communication                        0 B                0 B
-├ ƒ /api/case-studies                                   0 B                0 B
-├ ƒ /api/catering                                       0 B                0 B
-├ ƒ /api/catering-vendors                               0 B                0 B
-├ ƒ /api/certifications                                 0 B                0 B
-├ ƒ /api/change-orders                                  0 B                0 B
-├ ƒ /api/channels                                       0 B                0 B
-├ ƒ /api/chat/messages                                  0 B                0 B
-├ ƒ /api/chat/presence                                  0 B                0 B
-├ ƒ /api/chat/rooms                                     0 B                0 B
-├ ƒ /api/client-requirements                            0 B                0 B
-├ ƒ /api/client-walkthrough                             0 B                0 B
-├ ƒ /api/code-regulations                               0 B                0 B
-├ ƒ /api/collaboration/comments                         0 B                0 B
-├ ƒ /api/collaborative-proposals                        0 B                0 B
-├ ƒ /api/credential-badges                              0 B                0 B
-├ ƒ /api/crew                                           0 B                0 B
-├ ƒ /api/crew-availability                              0 B                0 B
-├ ƒ /api/crew-calls                                     0 B                0 B
-├ ƒ /api/crew-manifest                                  0 B                0 B
-├ ƒ /api/crew-mobile                                    0 B                0 B
-├ ƒ /api/crew-performance                               0 B                0 B
-├ ƒ /api/crew-ratings                                   0 B                0 B
-├ ƒ /api/crew-rehire                                    0 B                0 B
-├ ƒ /api/crew-settlement                                0 B                0 B
-├ ƒ /api/crew-social/activity                           0 B                0 B
-├ ƒ /api/crew-social/connections                        0 B                0 B
-├ ƒ /api/crew-social/kudos                              0 B                0 B
-├ ƒ /api/crew-social/photos                             0 B                0 B
-├ ƒ /api/crew-social/roster                             0 B                0 B
-├ ƒ /api/crew/[id]                                      0 B                0 B
-├ ƒ /api/crew/assign                                    0 B                0 B
-├ ƒ /api/crew/enhanced                                  0 B                0 B
-├ ƒ /api/critical-path                                  0 B                0 B
-├ ƒ /api/cross-platform/gvteway-sync                    0 B                0 B
-├ ƒ /api/damage-assessment                              0 B                0 B
-├ ƒ /api/debrief-scheduling                             0 B                0 B
-├ ƒ /api/deliveries                                     0 B                0 B
-├ ƒ /api/delivery-tracking                              0 B                0 B
-├ ƒ /api/department-groups                              0 B                0 B
-├ ƒ /api/department-groups/[id]                         0 B                0 B
-├ ƒ /api/department-groups/[id]/members                 0 B                0 B
-├ ƒ /api/direct-messaging                               0 B                0 B
-├ ƒ /api/directory/languages                            0 B                0 B
-├ ƒ /api/directory/search                               0 B                0 B
-├ ƒ /api/directory/specialties                          0 B                0 B
-├ ƒ /api/emergency-contacts                             0 B                0 B
-├ ƒ /api/emergency-directory                            0 B                0 B
-├ ƒ /api/emergency-procedures                           0 B                0 B
-├ ƒ /api/encore-management                              0 B                0 B
-├ ƒ /api/equipment                                      0 B                0 B
-├ ƒ /api/equipment-manuals                              0 B                0 B
-├ ƒ /api/equipment-return                               0 B                0 B
-├ ƒ /api/equipment-specs                                0 B                0 B
-├ ƒ /api/faq-database                                   0 B                0 B
-├ ƒ /api/file-management                                0 B                0 B
-├ ƒ /api/final-inspection                               0 B                0 B
-├ ƒ /api/freelancer-marketplace                         0 B                0 B
-├ ƒ /api/ground-plans                                   0 B                0 B
-├ ƒ /api/guest-artist                                   0 B                0 B
-├ ○ /api/health                                         0 B                0 B
-├ ƒ /api/i18n/locales                                   0 B                0 B
-├ ƒ /api/i18n/translations                              0 B                0 B
-├ ƒ /api/incidents                                      0 B                0 B
-├ ƒ /api/industry-associations                          0 B                0 B
-├ ƒ /api/industry-glossary                              0 B                0 B
-├ ƒ /api/integrations/drone                             0 B                0 B
-├ ƒ /api/integrations/project-to-event                  0 B                0 B
-├ ƒ /api/internship-programs                            0 B                0 B
-├ ƒ /api/interview-scheduling                           0 B                0 B
-├ ƒ /api/issue-tracking                                 0 B                0 B
-├ ƒ /api/issues                                         0 B                0 B
-├ ƒ /api/knowledge-base                                 0 B                0 B
-├ ƒ /api/language-filter                                0 B                0 B
-├ ƒ /api/learning-paths                                 0 B                0 B
-├ ƒ /api/lighting-focus                                 0 B                0 B
-├ ƒ /api/load-in-out                                    0 B                0 B
-├ ƒ /api/load-out                                       0 B                0 B
-├ ƒ /api/maintenance/schedule                           0 B                0 B
-├ ƒ /api/marketplace                                    0 B                0 B
-├ ƒ /api/marketplace/opportunities                      0 B                0 B
-├ ƒ /api/meal-breaks                                    0 B                0 B
-├ ƒ /api/medical-coordination                           0 B                0 B
-├ ƒ /api/merch-coordination                             0 B                0 B
-├ ƒ /api/mobile-jobs                                    0 B                0 B
-├ ƒ /api/multilingual                                   0 B                0 B
-├ ƒ /api/multilingual-content                           0 B                0 B
-├ ƒ /api/notifications                                  0 B                0 B
-├ ƒ /api/offer-letters                                  0 B                0 B
-├ ƒ /api/offline-access                                 0 B                0 B
-├ ƒ /api/onboarding-workflow                            0 B                0 B
-├ ƒ /api/onboarding/complete                            0 B                0 B
-├ ƒ /api/onboarding/organization                        0 B                0 B
-├ ƒ /api/onboarding/preferences                         0 B                0 B
-├ ƒ /api/onboarding/profile                             0 B                0 B
-├ ƒ /api/onboarding/role                                0 B                0 B
-├ ƒ /api/opportunities                                  0 B                0 B
-├ ƒ /api/opportunities/[id]/share                       0 B                0 B
-├ ƒ /api/opportunity-alerts                             0 B                0 B
-├ ƒ /api/opportunity-analytics                          0 B                0 B
-├ ƒ /api/overtime-calc                                  0 B                0 B
-├ ƒ /api/partnership-opportunities                      0 B                0 B
-├ ƒ /api/pdf-generation                                 0 B                0 B
-├ ƒ /api/per-diem                                       0 B                0 B
-├ ƒ /api/performance-capture                            0 B                0 B
-├ ƒ /api/permit-authorities                             0 B                0 B
-├ ƒ /api/permits                                        0 B                0 B
-├ ƒ /api/photo-documentation                            0 B                0 B
-├ ƒ /api/portfolios                                     0 B                0 B
-├ ƒ /api/post-event-reporting                           0 B                0 B
-├ ƒ /api/post-production                                0 B                0 B
-├ ƒ /api/post-show                                      0 B                0 B
-├ ƒ /api/power-distribution                             0 B                0 B
-├ ƒ /api/product-datasheets                             0 B                0 B
-├ ƒ /api/production                                     0 B                0 B
-├ ƒ /api/production-book                                0 B                0 B
-├ ƒ /api/production-docs/checklists                     0 B                0 B
-├ ƒ /api/production-docs/notes                          0 B                0 B
-├ ƒ /api/production-docs/photos                         0 B                0 B
-├ ƒ /api/production-meetings                            0 B                0 B
-├ ƒ /api/production-templates                           0 B                0 B
-├ ƒ /api/projects                                       0 B                0 B
-├ ƒ /api/projects/[id]                                  0 B                0 B
-├ ƒ /api/projects/create                                0 B                0 B
-├ ƒ /api/projects/publish                               0 B                0 B
-├ ƒ /api/proposal-templates                             0 B                0 B
-├ ƒ /api/proximity-search                               0 B                0 B
-├ ƒ /api/punch-list                                     0 B                0 B
-├ ƒ /api/qa-checkpoints                                 0 B                0 B
-├ ƒ /api/rate-cards                                     0 B                0 B
-├ ƒ /api/ratings                                        0 B                0 B
-├ ƒ /api/rehire-notes                                   0 B                0 B
-├ ƒ /api/resources/allocate                             0 B                0 B
-├ ƒ /api/resume-database                                0 B                0 B
-├ ƒ /api/reviews-ratings                                0 B                0 B
-├ ƒ /api/rigging-calc                                   0 B                0 B
-├ ƒ /api/risk-detection                                 0 B                0 B
-├ ƒ /api/risk-register                                  0 B                0 B
-├ ƒ /api/run-of-show                                    0 B                0 B
-├ ƒ /api/run-of-show/[id]                               0 B                0 B
-├ ƒ /api/run-of-show/[id]/cues                          0 B                0 B
-├ ƒ /api/run-of-show/[id]/cues/[cueId]                  0 B                0 B
-├ ƒ /api/run-of-show/cue-system                         0 B                0 B
-├ ƒ /api/safety-compliance                              0 B                0 B
-├ ƒ /api/safety/incidents                               0 B                0 B
-├ ƒ /api/salary-transparency                            0 B                0 B
-├ ƒ /api/schedule                                       0 B                0 B
-├ ƒ /api/search                                         0 B                0 B
-├ ƒ /api/set-changes                                    0 B                0 B
-├ ƒ /api/settlement-calc                                0 B                0 B
-├ ƒ /api/share/[code]                                   0 B                0 B
-├ ƒ /api/show-reports                                   0 B                0 B
-├ ƒ /api/show-timing                                    0 B                0 B
-├ ƒ /api/site-restoration                               0 B                0 B
-├ ƒ /api/site-surveys                                   0 B                0 B
-├ ƒ /api/social-sharing                                 0 B                0 B
-├ ƒ /api/sound-monitoring                               0 B                0 B
-├ ƒ /api/soundcheck                                     0 B                0 B
-├ ƒ /api/spec-sheets                                    0 B                0 B
-├ ƒ /api/stage-management                               0 B                0 B
-├ ƒ /api/staging-areas                                  0 B                0 B
-├ ƒ /api/stakeholder-portal                             0 B                0 B
-├ ƒ /api/subcontractor-opportunities                    0 B                0 B
-├ ƒ /api/subcontractors                                 0 B                0 B
-├ ƒ /api/talent-pool                                    0 B                0 B
-├ ƒ /api/technical-escalation                           0 B                0 B
-├ ƒ /api/technical-rehearsal                            0 B                0 B
-├ ƒ /api/technical-rehearsals                           0 B                0 B
-├ ƒ /api/technical-riders                               0 B                0 B
-├ ƒ /api/template-library                               0 B                0 B
-├ ƒ /api/timekeeping                                    0 B                0 B
-├ ƒ /api/training                                       0 B                0 B
-├ ƒ /api/training-videos                                0 B                0 B
-├ ƒ /api/transportation-providers                       0 B                0 B
-├ ƒ /api/travel                                         0 B                0 B
-├ ƒ /api/troubleshooting                                0 B                0 B
-├ ƒ /api/union-compliance                               0 B                0 B
-├ ƒ /api/union-directory                                0 B                0 B
-├ ƒ /api/union-rules                                    0 B                0 B
-├ ƒ /api/user-contributions                             0 B                0 B
-├ ƒ /api/users/[id]/languages                           0 B                0 B
-├ ƒ /api/users/[id]/specialties                         0 B                0 B
-├ ƒ /api/vendor-compare                                 0 B                0 B
-├ ƒ /api/vendor-documentation                           0 B                0 B
-├ ƒ /api/vendor-hub                                     0 B                0 B
-├ ƒ /api/venues                                         0 B                0 B
-├ ƒ /api/verified-badges                                0 B                0 B
-├ ƒ /api/version-control                                0 B                0 B
-├ ƒ /api/video-interviews                               0 B                0 B
-├ ƒ /api/video-io                                       0 B                0 B
-├ ƒ /api/waste-disposal                                 0 B                0 B
-├ ƒ /api/weather                                        0 B                0 B
-├ ƒ /api/weather-contingency                            0 B                0 B
-├ ƒ /api/win-loss-tracking                              0 B                0 B
-├ ○ /artists                                            5.05 kB         337 kB
-├ ○ /auth/forgot-password                               2.37 kB         342 kB
-├ ○ /auth/magic-link                                    2.42 kB         342 kB
-├ ○ /auth/reset-password                                2.39 kB         342 kB
-├ ○ /auth/signin                                        956 B           444 kB
-├ ○ /auth/signup                                        2.11 kB         341 kB
-├ ○ /auth/verify-email                                  2.06 kB         341 kB
-├ ○ /availability                                       4.63 kB         441 kB
-├ ○ /background-checks                                  4.75 kB         441 kB
-├ ○ /backup-plans                                       3.77 kB         336 kB
-├ ○ /best-practices                                     3.2 kB          336 kB
-├ ○ /bid-portal                                         3.42 kB         336 kB
-├ ○ /build-strike                                       2.73 kB         335 kB
-├ ○ /case-studies                                       3.62 kB         336 kB
-├ ○ /catering                                           5.01 kB         337 kB
-├ ○ /certifications                                     5.01 kB         337 kB
-├ ○ /channels                                           4.11 kB         337 kB
-├ ○ /communications                                     4.39 kB         337 kB
-├ ○ /communications/channels                            3.54 kB         336 kB
-├ ○ /credentials                                        3.04 kB         443 kB
-├ ○ /credentials/issue                                  2.74 kB         443 kB
-├ ○ /credentials/reports                                2.2 kB          442 kB
-├ ○ /credentials/scan                                   2.95 kB         443 kB
-├ ○ /credentials/types                                  2.39 kB         442 kB
-├ ○ /credentials/zones                                  2.96 kB         443 kB
-├ ○ /crew                                               3.04 kB         442 kB
-├ ○ /crew-social                                        4.58 kB         337 kB
-├ ○ /crew/assign                                        3.07 kB         335 kB
-├ ○ /crew/background-checks                             3.64 kB         336 kB
-├ ○ /crew/social                                        3.89 kB         336 kB
-├ ○ /dashboard                                          3.4 kB          440 kB
-├ ○ /deliveries                                         5.61 kB         338 kB
-├ ○ /directory                                          4.29 kB         441 kB
-├ ○ /directory/availability                             3.44 kB         336 kB
-├ ○ /directory/filters                                  3.37 kB         336 kB
-├ ○ /drawings                                           3.7 kB          336 kB
-├ ○ /emergency                                          4.21 kB         337 kB
-├ ○ /equipment                                          2.67 kB         442 kB
-├ ○ /expenses                                           4.76 kB         337 kB
-├ ○ /files                                              3.55 kB         336 kB
-├ ○ /glossary                                           4.05 kB         336 kB
-├ ○ /incidents                                          4.57 kB         441 kB
-├ ○ /integrations                                       3.11 kB         336 kB
-├ ○ /issues                                             5.01 kB         441 kB
-├ ○ /knowledge                                          4.37 kB         337 kB
-├ ○ /knowledge/brand-guidelines                         3.92 kB         336 kB
-├ ○ /knowledge/multilingual                             3.8 kB          336 kB
-├ ○ /knowledge/offline                                  3.99 kB         336 kB
-├ ○ /knowledge/regulations                              3.68 kB         336 kB
-├ ○ /logistics                                          4.32 kB         441 kB
-├ ○ /maintenance                                        4.45 kB         441 kB
-├ ○ /mentorship                                         4.03 kB         336 kB
-├ ○ /messages                                           3.27 kB         336 kB
-├ ○ /notifications                                      4.33 kB         337 kB
-├ ○ /offline                                            1.05 kB         330 kB
-├ ○ /onboarding                                         4.82 kB         445 kB
-├ ○ /opportunities                                      4.86 kB         337 kB
-├ ○ /opportunities/bid-decision                         3.39 kB         336 kB
-├ ○ /opportunities/mobile                               4 kB            336 kB
-├ ○ /opportunities/proposals                            3.74 kB         336 kB
-├ ○ /opportunities/win-loss                             3.69 kB         336 kB
-├ ƒ /p/[productionId]/advancing                         2.41 kB         335 kB
-├ ƒ /p/[productionId]/communication                     2.22 kB         335 kB
-├ ƒ /p/[productionId]/communication/channels            1.89 kB         334 kB
-├ ƒ /p/[productionId]/communication/messages            1.95 kB         334 kB
-├ ƒ /p/[productionId]/communication/stakeholder-portal  2.01 kB         334 kB
-├ ƒ /p/[productionId]/credentials                       2.44 kB         335 kB
-├ ƒ /p/[productionId]/crew                              2.49 kB         335 kB
-├ ƒ /p/[productionId]/crew/timekeeping                  2.06 kB         334 kB
-├ ƒ /p/[productionId]/documents                         2.34 kB         335 kB
-├ ƒ /p/[productionId]/documents/backup-plans            1.92 kB         334 kB
-├ ƒ /p/[productionId]/documents/files                   1.99 kB         334 kB
-├ ƒ /p/[productionId]/documents/sops                    1.88 kB         334 kB
-├ ƒ /p/[productionId]/documents/spec-sheets             1.92 kB         334 kB
-├ ƒ /p/[productionId]/documents/templates               2.04 kB         334 kB
-├ ƒ /p/[productionId]/logistics                         2.75 kB         335 kB
-├ ƒ /p/[productionId]/operations                        2.42 kB         335 kB
-├ ƒ /p/[productionId]/overview                          3.75 kB         336 kB
-├ ƒ /p/[productionId]/quality                           2.36 kB         335 kB
-├ ƒ /p/[productionId]/quality/issues                    1.88 kB         334 kB
-├ ƒ /p/[productionId]/quality/punch-list                1.9 kB          334 kB
-├ ƒ /p/[productionId]/quality/qa-checkpoints            1.9 kB          334 kB
-├ ƒ /p/[productionId]/quality/troubleshooting           1.93 kB         334 kB
-├ ƒ /p/[productionId]/reports                           2.35 kB         335 kB
-├ ƒ /p/[productionId]/safety                            2.85 kB         335 kB
-├ ƒ /p/[productionId]/schedule                          2.36 kB         335 kB
-├ ƒ /p/[productionId]/schedule/build-strike             2.22 kB         335 kB
-├ ƒ /p/[productionId]/schedule/run-of-show              2.01 kB         334 kB
-├ ƒ /p/[productionId]/schedule/set-times                1.85 kB         334 kB
-├ ƒ /p/[productionId]/schedule/show-call                2.12 kB         335 kB
-├ ƒ /p/[productionId]/schedule/soundcheck               1.94 kB         334 kB
-├ ƒ /p/[productionId]/schedule/tech-rehearsal           1.93 kB         334 kB
-├ ƒ /p/[productionId]/settings                          2.63 kB         335 kB
-├ ○ /permits                                            3.54 kB         336 kB
-├ ○ /photo-documentation                                3.85 kB         336 kB
-├ ○ /profile                                            4.47 kB         337 kB
-├ ○ /projects                                           2.81 kB         439 kB
-├ ○ /projects/new                                       2.94 kB         335 kB
-├ ○ /punch-list                                         3.99 kB         336 kB
-├ ○ /qa-checkpoints                                     3.86 kB         336 kB
-├ ○ /reports/daily                                      2.39 kB         442 kB
-├ ƒ /reports/daily/[id]                                 2.06 kB         442 kB
-├ ○ /reports/wrap                                       2.38 kB         442 kB
-├ ƒ /reports/wrap/[id]                                  2.59 kB         442 kB
-├ ○ /risk-register                                      4.38 kB         337 kB
-├ ○ /run-of-show                                        2.82 kB         439 kB
-├ ○ /safety                                             4.29 kB         337 kB
-├ ○ /schedule                                           2.7 kB          439 kB
-├ ○ /set-times                                          3.81 kB         336 kB
-├ ○ /settings                                           2.79 kB         335 kB
-├ ○ /settlement                                         3.91 kB         336 kB
-├ ○ /show-call                                          3.27 kB         336 kB
-├ ○ /site-access                                        3.7 kB          336 kB
-├ ○ /site-surveys                                       3.43 kB         336 kB
-├ ○ /skills                                             3.51 kB         440 kB
-├ ○ /social-amplification                               3.75 kB         336 kB
-├ ○ /sops                                               2.63 kB         442 kB
-├ ƒ /sops/[id]                                          2.92 kB         443 kB
-├ ○ /sops/acknowledgments                               1.41 kB         441 kB
-├ ○ /sops/categories                                    2.29 kB         442 kB
-├ ○ /sops/training                                      2.2 kB          442 kB
-├ ○ /soundcheck                                         4 kB            336 kB
-├ ○ /spec-sheets                                        3.41 kB         336 kB
-├ ○ /stage-management                                   2.03 kB         334 kB
-├ ○ /stakeholder-portal                                 3.82 kB         336 kB
-├ ○ /subcontractors                                     3.35 kB         336 kB
-├ ○ /tech-rehearsal                                     4.27 kB         337 kB
-├ ○ /templates                                          4.03 kB         336 kB
-├ ○ /timekeeping                                        3.27 kB         440 kB
-├ ○ /travel                                             4.26 kB         441 kB
-├ ○ /troubleshooting                                    3.33 kB         336 kB
-├ ○ /vendors/compare                                    3.25 kB         336 kB
-├ ○ /venues                                             2.32 kB         335 kB
-├ ○ /vip-management                                     3.4 kB          336 kB
-├ ○ /weather                                            2.99 kB         335 kB
-└ ○ /weather-contingency                                3.91 kB         336 kB
-+ First Load JS shared by all                           87.3 kB
+[4mRoute (app)[24m                                             [4mSize[24m     [4mFirst Load JS[24m
+┌ ƒ /                                                   5 kB            [37m[1m405 kB[22m[39m
+├ ○ /_not-found                                         143 B          [37m[1m87.4 kB[22m[39m
+├ ○ /advancing                                          3.06 kB         [37m[1m439 kB[22m[39m
+├ ƒ /advancing/[id]                                     3.73 kB         [37m[1m440 kB[22m[39m
+├ ○ /advancing/catalog                                  4.79 kB         [37m[1m345 kB[22m[39m
+├ ○ /advancing/new                                      3.88 kB         [37m[1m440 kB[22m[39m
+├ ƒ /api/advancing                                      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/advancing/[id]                                 0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/advancing/[id]/fulfill                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/advancing/catalog                              0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/ai/scheduling                                  0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/application-tracking                           0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/artists                                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/assets                                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/assets/[id]                                    0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/audience-flow                                  0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/audio-lines                                    0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/auth/callback                                  0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/auth/invite                                    0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/auth/magic-link                                0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/auth/me                                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/auth/mfa                                       0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/auth/oauth/[provider]                          0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/auth/password/reset                            0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/auth/password/update                           0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/auth/refresh                                   0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/auth/signin                                    0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/auth/signout                                   0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/auth/signup                                    0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/auth/verify-email                              0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/availability                                   0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/background-checks                              0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/batch                                          0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/best-practices                                 0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/bid-decision                                   0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/bid-submission                                 0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/bookmarks                                      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/budget/forecast                                0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/cable-runs                                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/candidate-communication                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/case-studies                                   0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/catering                                       0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/catering-vendors                               0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/certifications                                 0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/change-orders                                  0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/channels                                       0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/chat/messages                                  0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/chat/presence                                  0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/chat/rooms                                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/client-requirements                            0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/client-walkthrough                             0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/code-regulations                               0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/collaboration/comments                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/collaborative-proposals                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/credential-badges                              0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/crew                                           0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/crew-availability                              0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/crew-calls                                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/crew-manifest                                  0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/crew-mobile                                    0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/crew-performance                               0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/crew-ratings                                   0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/crew-rehire                                    0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/crew-settlement                                0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/crew-social/activity                           0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/crew-social/connections                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/crew-social/kudos                              0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/crew-social/photos                             0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/crew-social/roster                             0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/crew/[id]                                      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/crew/assign                                    0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/crew/enhanced                                  0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/critical-path                                  0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/cross-platform/gvteway-sync                    0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/damage-assessment                              0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/debrief-scheduling                             0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/deliveries                                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/delivery-tracking                              0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/department-groups                              0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/department-groups/[id]                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/department-groups/[id]/members                 0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/direct-messaging                               0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/directory/languages                            0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/directory/search                               0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/directory/specialties                          0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/emergency-contacts                             0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/emergency-directory                            0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/emergency-procedures                           0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/encore-management                              0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/equipment                                      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/equipment-manuals                              0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/equipment-return                               0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/equipment-specs                                0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/faq-database                                   0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/file-management                                0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/final-inspection                               0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/freelancer-marketplace                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/ground-plans                                   0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/guest-artist                                   0 B                [37m[1m0 B[22m[39m
+├ ○ /api/health                                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/i18n/locales                                   0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/i18n/translations                              0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/incidents                                      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/industry-associations                          0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/industry-glossary                              0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/integrations/drone                             0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/integrations/project-to-event                  0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/internship-programs                            0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/interview-scheduling                           0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/issue-tracking                                 0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/issues                                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/knowledge-base                                 0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/language-filter                                0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/learning-paths                                 0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/lighting-focus                                 0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/load-in-out                                    0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/load-out                                       0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/maintenance/schedule                           0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/marketplace                                    0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/marketplace/opportunities                      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/meal-breaks                                    0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/medical-coordination                           0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/merch-coordination                             0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/mobile-jobs                                    0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/multilingual                                   0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/multilingual-content                           0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/notifications                                  0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/offer-letters                                  0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/offline-access                                 0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/onboarding-workflow                            0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/onboarding/complete                            0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/onboarding/organization                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/onboarding/preferences                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/onboarding/profile                             0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/onboarding/role                                0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/opportunities                                  0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/opportunities/[id]/share                       0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/opportunity-alerts                             0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/opportunity-analytics                          0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/overtime-calc                                  0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/partnership-opportunities                      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/pdf-generation                                 0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/per-diem                                       0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/performance-capture                            0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/permit-authorities                             0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/permits                                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/photo-documentation                            0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/portfolios                                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/post-event-reporting                           0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/post-production                                0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/post-show                                      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/power-distribution                             0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/product-datasheets                             0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/production                                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/production-book                                0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/production-docs/checklists                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/production-docs/notes                          0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/production-docs/photos                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/production-meetings                            0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/production-templates                           0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/projects                                       0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/projects/[id]                                  0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/projects/create                                0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/projects/publish                               0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/proposal-templates                             0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/proximity-search                               0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/punch-list                                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/qa-checkpoints                                 0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/rate-cards                                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/ratings                                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/rehire-notes                                   0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/resources/allocate                             0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/resume-database                                0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/reviews-ratings                                0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/rigging-calc                                   0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/risk-detection                                 0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/risk-register                                  0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/run-of-show                                    0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/run-of-show/[id]                               0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/run-of-show/[id]/cues                          0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/run-of-show/[id]/cues/[cueId]                  0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/run-of-show/cue-system                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/safety-compliance                              0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/safety/incidents                               0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/salary-transparency                            0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/schedule                                       0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/search                                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/set-changes                                    0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/settlement-calc                                0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/share/[code]                                   0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/show-reports                                   0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/show-timing                                    0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/site-restoration                               0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/site-surveys                                   0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/social-sharing                                 0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/sound-monitoring                               0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/soundcheck                                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/spec-sheets                                    0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/stage-management                               0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/staging-areas                                  0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/stakeholder-portal                             0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/subcontractor-opportunities                    0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/subcontractors                                 0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/talent-pool                                    0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/technical-escalation                           0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/technical-rehearsal                            0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/technical-rehearsals                           0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/technical-riders                               0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/template-library                               0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/timekeeping                                    0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/training                                       0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/training-videos                                0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/transportation-providers                       0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/travel                                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/troubleshooting                                0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/union-compliance                               0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/union-directory                                0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/union-rules                                    0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/user-contributions                             0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/users/[id]/languages                           0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/users/[id]/specialties                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/vendor-compare                                 0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/vendor-documentation                           0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/vendor-hub                                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/venues                                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/verified-badges                                0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/version-control                                0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/video-interviews                               0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/video-io                                       0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/waste-disposal                                 0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/weather                                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/weather-contingency                            0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/win-loss-tracking                              0 B                [37m[1m0 B[22m[39m
+├ ○ /artists                                            5.04 kB         [37m[1m337 kB[22m[39m
+├ ○ /auth/forgot-password                               2.36 kB         [37m[1m342 kB[22m[39m
+├ ○ /auth/magic-link                                    2.41 kB         [37m[1m342 kB[22m[39m
+├ ○ /auth/reset-password                                2.38 kB         [37m[1m342 kB[22m[39m
+├ ○ /auth/signin                                        945 B           [37m[1m444 kB[22m[39m
+├ ○ /auth/signup                                        2.1 kB          [37m[1m341 kB[22m[39m
+├ ○ /auth/verify-email                                  2.05 kB         [37m[1m341 kB[22m[39m
+├ ○ /availability                                       4.62 kB         [37m[1m441 kB[22m[39m
+├ ○ /background-checks                                  4.74 kB         [37m[1m441 kB[22m[39m
+├ ○ /backup-plans                                       3.76 kB         [37m[1m336 kB[22m[39m
+├ ○ /best-practices                                     3.19 kB         [37m[1m336 kB[22m[39m
+├ ○ /bid-portal                                         3.41 kB         [37m[1m336 kB[22m[39m
+├ ○ /build-strike                                       2.72 kB         [37m[1m335 kB[22m[39m
+├ ○ /case-studies                                       3.61 kB         [37m[1m336 kB[22m[39m
+├ ○ /catering                                           5 kB            [37m[1m337 kB[22m[39m
+├ ○ /certifications                                     5 kB            [37m[1m337 kB[22m[39m
+├ ○ /channels                                           4.1 kB          [37m[1m337 kB[22m[39m
+├ ○ /communications                                     4.38 kB         [37m[1m337 kB[22m[39m
+├ ○ /communications/channels                            3.53 kB         [37m[1m336 kB[22m[39m
+├ ○ /credentials                                        3.04 kB         [37m[1m443 kB[22m[39m
+├ ○ /credentials/issue                                  2.74 kB         [37m[1m443 kB[22m[39m
+├ ○ /credentials/reports                                2.2 kB          [37m[1m442 kB[22m[39m
+├ ○ /credentials/scan                                   2.95 kB         [37m[1m443 kB[22m[39m
+├ ○ /credentials/types                                  2.39 kB         [37m[1m442 kB[22m[39m
+├ ○ /credentials/zones                                  2.96 kB         [37m[1m443 kB[22m[39m
+├ ○ /crew                                               3.04 kB         [37m[1m442 kB[22m[39m
+├ ○ /crew-social                                        4.57 kB         [37m[1m337 kB[22m[39m
+├ ○ /crew/assign                                        3.06 kB         [37m[1m335 kB[22m[39m
+├ ○ /crew/background-checks                             3.63 kB         [37m[1m336 kB[22m[39m
+├ ○ /crew/social                                        3.87 kB         [37m[1m336 kB[22m[39m
+├ ○ /dashboard                                          3.4 kB          [37m[1m440 kB[22m[39m
+├ ○ /deliveries                                         5.6 kB          [37m[1m338 kB[22m[39m
+├ ○ /directory                                          4.28 kB         [37m[1m441 kB[22m[39m
+├ ○ /directory/availability                             3.43 kB         [37m[1m336 kB[22m[39m
+├ ○ /directory/filters                                  3.36 kB         [37m[1m336 kB[22m[39m
+├ ○ /drawings                                           3.69 kB         [37m[1m336 kB[22m[39m
+├ ○ /emergency                                          4.2 kB          [37m[1m337 kB[22m[39m
+├ ○ /equipment                                          2.67 kB         [37m[1m442 kB[22m[39m
+├ ○ /expenses                                           4.75 kB         [37m[1m337 kB[22m[39m
+├ ○ /files                                              3.54 kB         [37m[1m336 kB[22m[39m
+├ ○ /glossary                                           4.03 kB         [37m[1m336 kB[22m[39m
+├ ○ /incidents                                          4.56 kB         [37m[1m441 kB[22m[39m
+├ ○ /integrations                                       3.1 kB          [37m[1m336 kB[22m[39m
+├ ○ /issues                                             5 kB            [37m[1m441 kB[22m[39m
+├ ○ /knowledge                                          4.36 kB         [37m[1m337 kB[22m[39m
+├ ○ /knowledge/brand-guidelines                         3.92 kB         [37m[1m336 kB[22m[39m
+├ ○ /knowledge/multilingual                             3.8 kB          [37m[1m336 kB[22m[39m
+├ ○ /knowledge/offline                                  3.98 kB         [37m[1m336 kB[22m[39m
+├ ○ /knowledge/regulations                              3.67 kB         [37m[1m336 kB[22m[39m
+├ ○ /logistics                                          4.31 kB         [37m[1m441 kB[22m[39m
+├ ○ /maintenance                                        4.44 kB         [37m[1m441 kB[22m[39m
+├ ○ /mentorship                                         4.02 kB         [37m[1m336 kB[22m[39m
+├ ○ /messages                                           3.27 kB         [37m[1m336 kB[22m[39m
+├ ○ /notifications                                      4.32 kB         [37m[1m337 kB[22m[39m
+├ ○ /offline                                            1.05 kB         [37m[1m330 kB[22m[39m
+├ ○ /onboarding                                         4.82 kB         [37m[1m445 kB[22m[39m
+├ ○ /opportunities                                      4.84 kB         [37m[1m337 kB[22m[39m
+├ ○ /opportunities/bid-decision                         3.38 kB         [37m[1m336 kB[22m[39m
+├ ○ /opportunities/mobile                               3.99 kB         [37m[1m336 kB[22m[39m
+├ ○ /opportunities/proposals                            3.73 kB         [37m[1m336 kB[22m[39m
+├ ○ /opportunities/win-loss                             3.68 kB         [37m[1m336 kB[22m[39m
+├ ƒ /p/[productionId]/advancing                         2.41 kB         [37m[1m335 kB[22m[39m
+├ ƒ /p/[productionId]/communication                     2.22 kB         [37m[1m335 kB[22m[39m
+├ ƒ /p/[productionId]/communication/channels            1.89 kB         [37m[1m334 kB[22m[39m
+├ ƒ /p/[productionId]/communication/messages            1.95 kB         [37m[1m334 kB[22m[39m
+├ ƒ /p/[productionId]/communication/stakeholder-portal  2.01 kB         [37m[1m334 kB[22m[39m
+├ ƒ /p/[productionId]/credentials                       2.44 kB         [37m[1m335 kB[22m[39m
+├ ƒ /p/[productionId]/crew                              2.49 kB         [37m[1m335 kB[22m[39m
+├ ƒ /p/[productionId]/crew/timekeeping                  2.06 kB         [37m[1m334 kB[22m[39m
+├ ƒ /p/[productionId]/documents                         2.34 kB         [37m[1m335 kB[22m[39m
+├ ƒ /p/[productionId]/documents/backup-plans            1.92 kB         [37m[1m334 kB[22m[39m
+├ ƒ /p/[productionId]/documents/files                   1.99 kB         [37m[1m334 kB[22m[39m
+├ ƒ /p/[productionId]/documents/sops                    1.88 kB         [37m[1m334 kB[22m[39m
+├ ƒ /p/[productionId]/documents/spec-sheets             1.92 kB         [37m[1m334 kB[22m[39m
+├ ƒ /p/[productionId]/documents/templates               2.04 kB         [37m[1m334 kB[22m[39m
+├ ƒ /p/[productionId]/logistics                         2.75 kB         [37m[1m335 kB[22m[39m
+├ ƒ /p/[productionId]/operations                        2.42 kB         [37m[1m335 kB[22m[39m
+├ ƒ /p/[productionId]/overview                          3.75 kB         [37m[1m336 kB[22m[39m
+├ ƒ /p/[productionId]/quality                           2.36 kB         [37m[1m335 kB[22m[39m
+├ ƒ /p/[productionId]/quality/issues                    1.88 kB         [37m[1m334 kB[22m[39m
+├ ƒ /p/[productionId]/quality/punch-list                1.9 kB          [37m[1m334 kB[22m[39m
+├ ƒ /p/[productionId]/quality/qa-checkpoints            1.9 kB          [37m[1m334 kB[22m[39m
+├ ƒ /p/[productionId]/quality/troubleshooting           1.93 kB         [37m[1m334 kB[22m[39m
+├ ƒ /p/[productionId]/reports                           2.35 kB         [37m[1m335 kB[22m[39m
+├ ƒ /p/[productionId]/safety                            2.85 kB         [37m[1m335 kB[22m[39m
+├ ƒ /p/[productionId]/schedule                          2.36 kB         [37m[1m335 kB[22m[39m
+├ ƒ /p/[productionId]/schedule/build-strike             2.22 kB         [37m[1m335 kB[22m[39m
+├ ƒ /p/[productionId]/schedule/run-of-show              2.01 kB         [37m[1m334 kB[22m[39m
+├ ƒ /p/[productionId]/schedule/set-times                1.85 kB         [37m[1m334 kB[22m[39m
+├ ƒ /p/[productionId]/schedule/show-call                2.12 kB         [37m[1m335 kB[22m[39m
+├ ƒ /p/[productionId]/schedule/soundcheck               1.94 kB         [37m[1m334 kB[22m[39m
+├ ƒ /p/[productionId]/schedule/tech-rehearsal           1.93 kB         [37m[1m334 kB[22m[39m
+├ ƒ /p/[productionId]/settings                          2.63 kB         [37m[1m335 kB[22m[39m
+├ ○ /permits                                            3.53 kB         [37m[1m336 kB[22m[39m
+├ ○ /photo-documentation                                3.84 kB         [37m[1m336 kB[22m[39m
+├ ○ /profile                                            4.46 kB         [37m[1m337 kB[22m[39m
+├ ○ /projects                                           2.8 kB          [37m[1m439 kB[22m[39m
+├ ○ /projects/new                                       2.93 kB         [37m[1m335 kB[22m[39m
+├ ○ /punch-list                                         3.98 kB         [37m[1m336 kB[22m[39m
+├ ○ /qa-checkpoints                                     3.85 kB         [37m[1m336 kB[22m[39m
+├ ○ /reports/daily                                      2.39 kB         [37m[1m442 kB[22m[39m
+├ ƒ /reports/daily/[id]                                 2.06 kB         [37m[1m442 kB[22m[39m
+├ ○ /reports/wrap                                       2.38 kB         [37m[1m442 kB[22m[39m
+├ ƒ /reports/wrap/[id]                                  2.59 kB         [37m[1m442 kB[22m[39m
+├ ○ /risk-register                                      4.37 kB         [37m[1m337 kB[22m[39m
+├ ○ /run-of-show                                        2.81 kB         [37m[1m439 kB[22m[39m
+├ ○ /safety                                             4.28 kB         [37m[1m337 kB[22m[39m
+├ ○ /schedule                                           2.69 kB         [37m[1m439 kB[22m[39m
+├ ○ /set-times                                          3.8 kB          [37m[1m336 kB[22m[39m
+├ ○ /settings                                           2.78 kB         [37m[1m335 kB[22m[39m
+├ ○ /settlement                                         3.9 kB          [37m[1m336 kB[22m[39m
+├ ○ /show-call                                          3.26 kB         [37m[1m336 kB[22m[39m
+├ ○ /site-access                                        3.69 kB         [37m[1m336 kB[22m[39m
+├ ○ /site-surveys                                       3.42 kB         [37m[1m336 kB[22m[39m
+├ ○ /skills                                             3.5 kB          [37m[1m440 kB[22m[39m
+├ ○ /social-amplification                               3.74 kB         [37m[1m336 kB[22m[39m
+├ ○ /sops                                               2.63 kB         [37m[1m442 kB[22m[39m
+├ ƒ /sops/[id]                                          2.92 kB         [37m[1m443 kB[22m[39m
+├ ○ /sops/acknowledgments                               1.41 kB         [37m[1m441 kB[22m[39m
+├ ○ /sops/categories                                    2.29 kB         [37m[1m442 kB[22m[39m
+├ ○ /sops/training                                      2.2 kB          [37m[1m442 kB[22m[39m
+├ ○ /soundcheck                                         3.99 kB         [37m[1m336 kB[22m[39m
+├ ○ /spec-sheets                                        3.4 kB          [37m[1m336 kB[22m[39m
+├ ○ /stage-management                                   2.02 kB         [37m[1m334 kB[22m[39m
+├ ○ /stakeholder-portal                                 3.81 kB         [37m[1m336 kB[22m[39m
+├ ○ /subcontractors                                     3.34 kB         [37m[1m336 kB[22m[39m
+├ ○ /tech-rehearsal                                     4.26 kB         [37m[1m337 kB[22m[39m
+├ ○ /templates                                          4.01 kB         [37m[1m336 kB[22m[39m
+├ ○ /timekeeping                                        3.26 kB         [37m[1m440 kB[22m[39m
+├ ○ /travel                                             4.25 kB         [37m[1m441 kB[22m[39m
+├ ○ /troubleshooting                                    3.32 kB         [37m[1m336 kB[22m[39m
+├ ○ /vendors/compare                                    3.24 kB         [37m[1m336 kB[22m[39m
+├ ○ /venues                                             2.31 kB         [37m[1m335 kB[22m[39m
+├ ○ /vip-management                                     3.39 kB         [37m[1m336 kB[22m[39m
+├ ○ /weather                                            2.98 kB         [37m[1m335 kB[22m[39m
+└ ○ /weather-contingency                                3.9 kB          [37m[1m336 kB[22m[39m
++ First Load JS shared by all                           [37m[1m87.3 kB[22m[39m
   ├ chunks/3030-24184d2c4b93a50b.js                     31.7 kB
   ├ chunks/7357bd3c-75313584e71c3235.js                 53.6 kB
   └ other shared chunks (total)                         1.99 kB
 
 
-ƒ Middleware                                            75.5 kB
+ƒ Middleware                                            [37m[1m75.5 kB[22m[39m
 
 ○  (Static)   prerendered as static content
 ƒ  (Dynamic)  server-rendered on demand
 
+[?25h

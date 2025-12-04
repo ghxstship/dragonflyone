@@ -111,7 +111,7 @@ export default function ProductionSchedulePage() {
       </Stack>
 
       {/* Key Metrics */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <Grid cols={1} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
           label="Total Tasks"
           value={scheduleStats.totalTasks.toString()}
@@ -142,7 +142,7 @@ export default function ProductionSchedulePage() {
           trendValue="Next 7 days"
           inverted
         />
-      </div>
+      </Grid>
 
       {/* Quick Navigation */}
       <Grid cols={4} gap={4}>

@@ -9,12 +9,13 @@
     · cpus
 
  [37m[1m [22m[39m Creating an optimized production build ...
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (128kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
  [32m[1m✓[22m[39m Compiled successfully
  [37m[1m [22m[39m Skipping validation of types
  [37m[1m [22m[39m Skipping linting
-[?25l [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting page data  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting page data  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting page data  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting page data  [36m...[39m[2K[1G[1A[2K[1G[?25h [33m[1m⚠[22m[39m Using edge runtime on a page currently disables static generation for that page
+[?25l [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting page data  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting page data  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting page data  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting page data  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G[1A[2K[1G[?25h [33m[1m⚠[22m[39m Using edge runtime on a page currently disables static generation for that page
 [?25l [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G[1A[2K[1G[?25h [37m[1m [22m[39m Collecting page data     [32m[1m✓[22m[39m Collecting page data 
-[?25l [37m[1m [22m[39m Generating static pages (0/388)  [36m[    ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (1/388)  [36m[=   ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (5/388)  [36m[==  ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (6/388)  [36m[=== ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (7/388)  [36m[ ===][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (8/388)  [36m[  ==][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (12/388)  [36m[   =][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (16/388)  [36m[    ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (20/388)  [36m[   =][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (25/388)  [36m[  ==][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (29/388)  [36m[ ===][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (33/388)  [36m[====][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (35/388)  [36m[=== ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (40/388)  [36m[==  ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (50/388)  [36m[=   ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (59/388)  [36m[    ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (62/388)  [36m[=   ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (68/388)  [36m[==  ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (76/388)  [36m[=== ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (78/388)  [36m[ ===][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (80/388)  [36m[  ==][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (86/388)  [36m[   =][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (94/388)  [36m[    ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (100/388)  [36m[   =][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (102/388)  [36m[  ==][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (110/388)  [36m[ ===][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (121/388)  [36m[====][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (131/388)  [36m[=== ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (133/388)  [36m[==  ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (148/388)  [36m[=   ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (176/388)  [36m[    ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (185/388)  [36m[=   ][39mGet user error: q [Error]: Dynamic server usage: Route /api/auth/me couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+[?25l [37m[1m [22m[39m Generating static pages (0/388)  [36m[    ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (1/388)  [36m[=   ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (4/388)  [36m[==  ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (6/388)  [36m[=== ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (7/388)  [36m[ ===][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (9/388)  [36m[  ==][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (12/388)  [36m[   =][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (16/388)  [36m[    ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (20/388)  [36m[   =][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (24/388)  [36m[  ==][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (28/388)  [36m[ ===][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (32/388)  [36m[====][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (36/388)  [36m[=== ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (44/388)  [36m[==  ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (54/388)  [36m[=   ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (61/388)  [36m[    ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (69/388)  [36m[=   ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (76/388)  [36m[==  ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (78/388)  [36m[=== ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (86/388)  [36m[ ===][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (95/388)  [36m[  ==][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (102/388)  [36m[   =][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (108/388)  [36m[    ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (119/388)  [36m[   =][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (128/388)  [36m[  ==][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (130/388)  [36m[ ===][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (138/388)  [36m[====][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (150/388)  [36m[=== ][39mGet user error: q [Error]: Dynamic server usage: Route /api/auth/me couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
     at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
     at p (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/app/api/auth/me/route.js:1:631)
     at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
@@ -28,29 +29,29 @@
   description: "Route /api/auth/me couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
   digest: 'DYNAMIC_SERVER_USAGE'
 }
-[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (209/388)  [36m[==  ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (274/388)  [36m[=== ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (291/388)  [36m[ ===][39m[2K[1G[1A[2K[1G[?25h [32m[1m✓[22m[39m Generating static pages (388/388)
+[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (166/388)  [36m[==  ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (188/388)  [36m[=   ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (222/388)  [36m[    ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (268/388)  [36m[=   ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (282/388)  [36m[==  ][39m[2K[1G[1A[2K[1G[?25h [32m[1m✓[22m[39m Generating static pages (388/388)
 [?25l [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[?25l [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[1A[2K[1G[?25h [37m[1m [22m[39m Collecting build traces     [32m[1m✓[22m[39m Collecting build traces 
 [2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G[?25h [37m[1m [22m[39m Finalizing page optimization     [32m[1m✓[22m[39m Finalizing page optimization 
 
 [4mRoute (app)[24m                                   [4mSize[24m     [4mFirst Load JS[24m
-┌ ƒ /                                         7.89 kB         [37m[1m347 kB[22m[39m
+┌ ƒ /                                         7.88 kB         [37m[1m348 kB[22m[39m
 ├ ○ /_not-found                               143 B          [37m[1m87.4 kB[22m[39m
-├ ○ /accessibility                            4.28 kB         [37m[1m337 kB[22m[39m
-├ ○ /accessibility/request                    3.88 kB         [37m[1m337 kB[22m[39m
-├ ○ /activity                                 5.26 kB         [37m[1m343 kB[22m[39m
-├ ○ /admin/anti-scalping                      5.38 kB         [37m[1m338 kB[22m[39m
-├ ○ /admin/content-calendar                   3.25 kB         [37m[1m336 kB[22m[39m
+├ ○ /accessibility                            4.27 kB         [37m[1m337 kB[22m[39m
+├ ○ /accessibility/request                    3.87 kB         [37m[1m337 kB[22m[39m
+├ ○ /activity                                 5.25 kB         [37m[1m344 kB[22m[39m
+├ ○ /admin/anti-scalping                      5.37 kB         [37m[1m338 kB[22m[39m
+├ ○ /admin/content-calendar                   3.24 kB         [37m[1m336 kB[22m[39m
 ├ ○ /admin/contests                           4.95 kB         [37m[1m338 kB[22m[39m
 ├ ○ /admin/integrations                       3.25 kB         [37m[1m336 kB[22m[39m
-├ ○ /admin/inventory-sync                     4.51 kB         [37m[1m337 kB[22m[39m
-├ ○ /admin/marketing/sms                      4.37 kB         [37m[1m337 kB[22m[39m
-├ ○ /admin/moderation                         4.43 kB         [37m[1m337 kB[22m[39m
-├ ○ /admin/pos                                3.99 kB         [37m[1m337 kB[22m[39m
+├ ○ /admin/inventory-sync                     4.5 kB          [37m[1m337 kB[22m[39m
+├ ○ /admin/marketing/sms                      4.36 kB         [37m[1m337 kB[22m[39m
+├ ○ /admin/moderation                         4.42 kB         [37m[1m337 kB[22m[39m
+├ ○ /admin/pos                                3.98 kB         [37m[1m337 kB[22m[39m
 ├ ○ /admin/pos/cashless                       4.95 kB         [37m[1m338 kB[22m[39m
-├ ○ /admin/pricing/early-bird                 4.07 kB         [37m[1m337 kB[22m[39m
-├ ○ /admin/promo-codes                        4.64 kB         [37m[1m337 kB[22m[39m
-├ ○ /admin/sales-reporting                    4.54 kB         [37m[1m337 kB[22m[39m
-├ ○ /admin/will-call                          4.49 kB         [37m[1m337 kB[22m[39m
+├ ○ /admin/pricing/early-bird                 4.01 kB         [37m[1m337 kB[22m[39m
+├ ○ /admin/promo-codes                        4.63 kB         [37m[1m338 kB[22m[39m
+├ ○ /admin/sales-reporting                    4.55 kB         [37m[1m337 kB[22m[39m
+├ ○ /admin/will-call                          4.48 kB         [37m[1m337 kB[22m[39m
 ├ ƒ /api/ab-testing                           0 B                [37m[1m0 B[22m[39m
 ├ ƒ /api/abandoned-cart                       0 B                [37m[1m0 B[22m[39m
 ├ ƒ /api/accessibility                        0 B                [37m[1m0 B[22m[39m
@@ -343,164 +344,164 @@
 ├ ƒ /api/webhooks/stripe                      0 B                [37m[1m0 B[22m[39m
 ├ ƒ /api/will-call                            0 B                [37m[1m0 B[22m[39m
 ├ ƒ /api/wishlist                             0 B                [37m[1m0 B[22m[39m
-├ ○ /apply                                    5.97 kB         [37m[1m346 kB[22m[39m
-├ ○ /apply/confirmation                       3.66 kB         [37m[1m343 kB[22m[39m
-├ ○ /artists                                  4.57 kB         [37m[1m445 kB[22m[39m
-├ ƒ /artists/[id]                             3.19 kB         [37m[1m341 kB[22m[39m
-├ ○ /auth/forgot-password                     2.32 kB         [37m[1m338 kB[22m[39m
-├ ○ /auth/magic-link                          2.54 kB         [37m[1m339 kB[22m[39m
-├ ○ /auth/reset-password                      2.54 kB         [37m[1m339 kB[22m[39m
+├ ○ /apply                                    5.96 kB         [37m[1m346 kB[22m[39m
+├ ○ /apply/confirmation                       3.63 kB         [37m[1m343 kB[22m[39m
+├ ○ /artists                                  4.56 kB         [37m[1m445 kB[22m[39m
+├ ƒ /artists/[id]                             3.18 kB         [37m[1m341 kB[22m[39m
+├ ○ /auth/forgot-password                     2.3 kB          [37m[1m339 kB[22m[39m
+├ ○ /auth/magic-link                          2.52 kB         [37m[1m339 kB[22m[39m
+├ ○ /auth/reset-password                      2.52 kB         [37m[1m339 kB[22m[39m
 ├ ○ /auth/signin                              893 B           [37m[1m429 kB[22m[39m
-├ ○ /auth/signup                              3.05 kB         [37m[1m339 kB[22m[39m
-├ ○ /auth/verify-email                        2.12 kB         [37m[1m338 kB[22m[39m
+├ ○ /auth/signup                              3.03 kB         [37m[1m339 kB[22m[39m
+├ ○ /auth/verify-email                        2.1 kB          [37m[1m338 kB[22m[39m
 ├ ○ /browse                                   3.07 kB         [37m[1m433 kB[22m[39m
-├ ○ /calendar                                 3.73 kB         [37m[1m437 kB[22m[39m
-├ ○ /cart                                     4.75 kB         [37m[1m337 kB[22m[39m
-├ ○ /checkout                                 5.33 kB         [37m[1m430 kB[22m[39m
-├ ○ /checkout/currency                        4 kB            [37m[1m337 kB[22m[39m
-├ ƒ /collections/[id]                         2.53 kB         [37m[1m335 kB[22m[39m
-├ ○ /community                                4.88 kB         [37m[1m338 kB[22m[39m
-├ ○ /community/challenges                     4.1 kB          [37m[1m337 kB[22m[39m
-├ ○ /community/fan-content                    3.62 kB         [37m[1m336 kB[22m[39m
-├ ○ /community/guidelines                     3.96 kB         [37m[1m337 kB[22m[39m
-├ ○ /community/polls                          3.42 kB         [37m[1m336 kB[22m[39m
-├ ○ /confirmation                             3.27 kB         [37m[1m336 kB[22m[39m
-├ ○ /content                                  3.97 kB         [37m[1m342 kB[22m[39m
-├ ƒ /creators                                 2.22 kB         [37m[1m335 kB[22m[39m
+├ ○ /calendar                                 3.72 kB         [37m[1m437 kB[22m[39m
+├ ○ /cart                                     4.74 kB         [37m[1m338 kB[22m[39m
+├ ○ /checkout                                 5.32 kB         [37m[1m430 kB[22m[39m
+├ ○ /checkout/currency                        3.99 kB         [37m[1m337 kB[22m[39m
+├ ƒ /collections/[id]                         2.52 kB         [37m[1m335 kB[22m[39m
+├ ○ /community                                4.87 kB         [37m[1m338 kB[22m[39m
+├ ○ /community/challenges                     4.09 kB         [37m[1m337 kB[22m[39m
+├ ○ /community/fan-content                    3.6 kB          [37m[1m337 kB[22m[39m
+├ ○ /community/guidelines                     3.95 kB         [37m[1m337 kB[22m[39m
+├ ○ /community/polls                          3.41 kB         [37m[1m336 kB[22m[39m
+├ ○ /confirmation                             3.26 kB         [37m[1m336 kB[22m[39m
+├ ○ /content                                  3.96 kB         [37m[1m342 kB[22m[39m
+├ ƒ /creators                                 2.21 kB         [37m[1m335 kB[22m[39m
 ├ ○ /dashboard                                3.41 kB         [37m[1m440 kB[22m[39m
-├ ○ /deals                                    4.53 kB         [37m[1m337 kB[22m[39m
-├ ○ /design-system                            5.68 kB         [37m[1m338 kB[22m[39m
-├ ○ /destinations                             3.33 kB         [37m[1m336 kB[22m[39m
-├ ○ /directions                               4.1 kB          [37m[1m337 kB[22m[39m
-├ ○ /discover                                 4.79 kB         [37m[1m338 kB[22m[39m
+├ ○ /deals                                    4.52 kB         [37m[1m337 kB[22m[39m
+├ ○ /design-system                            5.68 kB         [37m[1m339 kB[22m[39m
+├ ○ /destinations                             3.32 kB         [37m[1m336 kB[22m[39m
+├ ○ /directions                               4.09 kB         [37m[1m337 kB[22m[39m
+├ ○ /discover                                 4.78 kB         [37m[1m338 kB[22m[39m
 ├ ○ /discover/quiz                            4.09 kB         [37m[1m342 kB[22m[39m
-├ ƒ /e/[eventId]                              2.69 kB         [37m[1m335 kB[22m[39m
-├ ƒ /e/[eventId]/chat                         2.07 kB         [37m[1m335 kB[22m[39m
-├ ƒ /e/[eventId]/engage                       2.17 kB         [37m[1m335 kB[22m[39m
-├ ƒ /e/[eventId]/engage/challenges            666 B           [37m[1m333 kB[22m[39m
-├ ƒ /e/[eventId]/engage/polls                 654 B           [37m[1m333 kB[22m[39m
+├ ƒ /e/[eventId]                              2.69 kB         [37m[1m336 kB[22m[39m
+├ ƒ /e/[eventId]/chat                         2.05 kB         [37m[1m335 kB[22m[39m
+├ ƒ /e/[eventId]/engage                       2.16 kB         [37m[1m335 kB[22m[39m
+├ ƒ /e/[eventId]/engage/challenges            666 B           [37m[1m334 kB[22m[39m
+├ ƒ /e/[eventId]/engage/polls                 654 B           [37m[1m334 kB[22m[39m
 ├ ƒ /e/[eventId]/engage/qa                    1.53 kB         [37m[1m334 kB[22m[39m
 ├ ƒ /e/[eventId]/engage/ugc                   1.55 kB         [37m[1m334 kB[22m[39m
 ├ ƒ /e/[eventId]/entry-info                   2.6 kB          [37m[1m335 kB[22m[39m
 ├ ƒ /e/[eventId]/friends                      2.11 kB         [37m[1m335 kB[22m[39m
 ├ ƒ /e/[eventId]/lineup                       2.02 kB         [37m[1m335 kB[22m[39m
-├ ƒ /e/[eventId]/map                          2.12 kB         [37m[1m335 kB[22m[39m
+├ ƒ /e/[eventId]/map                          2.1 kB          [37m[1m335 kB[22m[39m
 ├ ƒ /e/[eventId]/my-tickets                   2.38 kB         [37m[1m335 kB[22m[39m
-├ ƒ /e/[eventId]/navigate                     2.29 kB         [37m[1m335 kB[22m[39m
-├ ƒ /e/[eventId]/navigate/accessibility       2.21 kB         [37m[1m335 kB[22m[39m
-├ ƒ /e/[eventId]/navigate/directions          2.2 kB          [37m[1m335 kB[22m[39m
+├ ƒ /e/[eventId]/navigate                     2.27 kB         [37m[1m335 kB[22m[39m
+├ ƒ /e/[eventId]/navigate/accessibility       2.2 kB          [37m[1m335 kB[22m[39m
+├ ƒ /e/[eventId]/navigate/directions          2.19 kB         [37m[1m335 kB[22m[39m
 ├ ƒ /e/[eventId]/navigate/parking             1.86 kB         [37m[1m335 kB[22m[39m
 ├ ƒ /e/[eventId]/photos                       1.84 kB         [37m[1m335 kB[22m[39m
-├ ƒ /e/[eventId]/program                      2.04 kB         [37m[1m335 kB[22m[39m
+├ ƒ /e/[eventId]/program                      2.06 kB         [37m[1m335 kB[22m[39m
 ├ ƒ /e/[eventId]/reviews                      2.31 kB         [37m[1m335 kB[22m[39m
 ├ ƒ /e/[eventId]/seating                      1.99 kB         [37m[1m335 kB[22m[39m
-├ ƒ /e/[eventId]/services                     1.99 kB         [37m[1m335 kB[22m[39m
-├ ƒ /e/[eventId]/services/emergency           2.15 kB         [37m[1m335 kB[22m[39m
+├ ƒ /e/[eventId]/services                     1.98 kB         [37m[1m335 kB[22m[39m
+├ ƒ /e/[eventId]/services/emergency           2.14 kB         [37m[1m335 kB[22m[39m
 ├ ƒ /e/[eventId]/services/lost-found          1.54 kB         [37m[1m334 kB[22m[39m
-├ ƒ /e/[eventId]/services/support             662 B           [37m[1m333 kB[22m[39m
-├ ƒ /e/[eventId]/shop                         2.09 kB         [37m[1m335 kB[22m[39m
+├ ƒ /e/[eventId]/services/support             662 B           [37m[1m334 kB[22m[39m
+├ ƒ /e/[eventId]/shop                         2.07 kB         [37m[1m335 kB[22m[39m
 ├ ƒ /e/[eventId]/ticket                       2.15 kB         [37m[1m335 kB[22m[39m
 ├ ƒ /e/[eventId]/tickets                      2.18 kB         [37m[1m335 kB[22m[39m
 ├ ○ /events                                   2.14 kB         [37m[1m444 kB[22m[39m
-├ ƒ /events/[id]                              3.18 kB         [37m[1m434 kB[22m[39m
-├ ƒ /events/[id]/accessibility                4.1 kB          [37m[1m337 kB[22m[39m
+├ ƒ /events/[id]                              3.17 kB         [37m[1m434 kB[22m[39m
+├ ƒ /events/[id]/accessibility                4.09 kB         [37m[1m337 kB[22m[39m
 ├ ƒ /events/[id]/chat                         3.78 kB         [37m[1m342 kB[22m[39m
 ├ ƒ /events/[id]/entry-info                   3.53 kB         [37m[1m336 kB[22m[39m
 ├ ƒ /events/[id]/floor-config                 4.12 kB         [37m[1m337 kB[22m[39m
-├ ƒ /events/[id]/friends                      3.14 kB         [37m[1m336 kB[22m[39m
-├ ƒ /events/[id]/landing-builder              5.1 kB          [37m[1m338 kB[22m[39m
-├ ƒ /events/[id]/languages                    4.17 kB         [37m[1m337 kB[22m[39m
-├ ƒ /events/[id]/parking                      4.44 kB         [37m[1m337 kB[22m[39m
-├ ƒ /events/[id]/photo-booth                  3.72 kB         [37m[1m336 kB[22m[39m
-├ ƒ /events/[id]/program                      3.24 kB         [37m[1m341 kB[22m[39m
+├ ƒ /events/[id]/friends                      3.13 kB         [37m[1m336 kB[22m[39m
+├ ƒ /events/[id]/landing-builder              5.09 kB         [37m[1m338 kB[22m[39m
+├ ƒ /events/[id]/languages                    4.16 kB         [37m[1m337 kB[22m[39m
+├ ƒ /events/[id]/parking                      4.43 kB         [37m[1m337 kB[22m[39m
+├ ƒ /events/[id]/photo-booth                  3.71 kB         [37m[1m337 kB[22m[39m
+├ ƒ /events/[id]/program                      3.23 kB         [37m[1m341 kB[22m[39m
 ├ ƒ /events/[id]/rfid                         2.71 kB         [37m[1m332 kB[22m[39m
-├ ƒ /events/[id]/seating                      3.71 kB         [37m[1m336 kB[22m[39m
-├ ƒ /events/[id]/social-wall                  3.98 kB         [37m[1m337 kB[22m[39m
+├ ƒ /events/[id]/seating                      3.71 kB         [37m[1m337 kB[22m[39m
+├ ƒ /events/[id]/social-wall                  3.96 kB         [37m[1m337 kB[22m[39m
 ├ ƒ /events/[id]/waitlist                     3.56 kB         [37m[1m336 kB[22m[39m
 ├ ○ /events/clone                             4.15 kB         [37m[1m337 kB[22m[39m
-├ ○ /events/compare                           3.25 kB         [37m[1m341 kB[22m[39m
-├ ○ /events/create                            2.96 kB         [37m[1m336 kB[22m[39m
-├ ○ /events/create/collaboration              4.01 kB         [37m[1m337 kB[22m[39m
-├ ○ /events/templates                         3.19 kB         [37m[1m336 kB[22m[39m
+├ ○ /events/compare                           3.25 kB         [37m[1m342 kB[22m[39m
+├ ○ /events/create                            2.95 kB         [37m[1m336 kB[22m[39m
+├ ○ /events/create/collaboration              4 kB            [37m[1m337 kB[22m[39m
+├ ○ /events/templates                         3.18 kB         [37m[1m336 kB[22m[39m
 ├ ○ /experiences                              3.25 kB         [37m[1m445 kB[22m[39m
 ├ ○ /fan-club                                 4.03 kB         [37m[1m337 kB[22m[39m
-├ ○ /fan-club/exclusive-access                4.11 kB         [37m[1m337 kB[22m[39m
-├ ○ /fan-clubs                                3.49 kB         [37m[1m336 kB[22m[39m
-├ ○ /favorites                                4.51 kB         [37m[1m337 kB[22m[39m
-├ ○ /forums                                   3.38 kB         [37m[1m336 kB[22m[39m
-├ ○ /friends                                  5.41 kB         [37m[1m344 kB[22m[39m
-├ ○ /gift-cards                               4.21 kB         [37m[1m337 kB[22m[39m
-├ ○ /groups                                   3.25 kB         [37m[1m336 kB[22m[39m
+├ ○ /fan-club/exclusive-access                4.1 kB          [37m[1m337 kB[22m[39m
+├ ○ /fan-clubs                                3.48 kB         [37m[1m336 kB[22m[39m
+├ ○ /favorites                                4.5 kB          [37m[1m337 kB[22m[39m
+├ ○ /forums                                   3.37 kB         [37m[1m336 kB[22m[39m
+├ ○ /friends                                  5.4 kB          [37m[1m344 kB[22m[39m
+├ ○ /gift-cards                               4.19 kB         [37m[1m337 kB[22m[39m
+├ ○ /groups                                   3.24 kB         [37m[1m336 kB[22m[39m
 ├ ○ /help                                     4.17 kB         [37m[1m337 kB[22m[39m
 ├ ○ /login                                    1.17 kB         [37m[1m394 kB[22m[39m
-├ ○ /lost-found                               3.76 kB         [37m[1m342 kB[22m[39m
+├ ○ /lost-found                               3.75 kB         [37m[1m342 kB[22m[39m
 ├ ○ /map                                      3.91 kB         [37m[1m342 kB[22m[39m
 ├ ○ /marketing/ab-testing                     4.07 kB         [37m[1m337 kB[22m[39m
 ├ ○ /marketing/analytics                      3.98 kB         [37m[1m337 kB[22m[39m
-├ ○ /marketing/early-bird                     4.08 kB         [37m[1m337 kB[22m[39m
-├ ○ /marketing/influencers                    3.49 kB         [37m[1m336 kB[22m[39m
+├ ○ /marketing/early-bird                     4.04 kB         [37m[1m337 kB[22m[39m
+├ ○ /marketing/influencers                    3.48 kB         [37m[1m336 kB[22m[39m
 ├ ○ /marketing/media-kit                      4.13 kB         [37m[1m337 kB[22m[39m
 ├ ○ /marketing/pixels                         4.14 kB         [37m[1m337 kB[22m[39m
-├ ○ /match                                    4.01 kB         [37m[1m342 kB[22m[39m
-├ ○ /membership                               5.65 kB         [37m[1m345 kB[22m[39m
+├ ○ /match                                    4 kB            [37m[1m342 kB[22m[39m
+├ ○ /membership                               5.63 kB         [37m[1m345 kB[22m[39m
 ├ ○ /membership/benefits                      4.49 kB         [37m[1m337 kB[22m[39m
-├ ○ /merch                                    3.12 kB         [37m[1m436 kB[22m[39m
+├ ○ /merch                                    3.11 kB         [37m[1m436 kB[22m[39m
 ├ ƒ /merch/[artistId]                         4.11 kB         [37m[1m342 kB[22m[39m
-├ ○ /merch/bundles                            4.72 kB         [37m[1m337 kB[22m[39m
-├ ○ /messages                                 4.92 kB         [37m[1m343 kB[22m[39m
-├ ○ /moderate                                 2.59 kB         [37m[1m335 kB[22m[39m
-├ ○ /my-events                                5.26 kB         [37m[1m343 kB[22m[39m
-├ ○ /nearby                                   3.64 kB         [37m[1m336 kB[22m[39m
-├ ○ /new-events                               3.37 kB         [37m[1m336 kB[22m[39m
-├ ○ /notifications                            4.55 kB         [37m[1m337 kB[22m[39m
-├ ○ /onboarding                               4.54 kB         [37m[1m433 kB[22m[39m
+├ ○ /merch/bundles                            4.71 kB         [37m[1m338 kB[22m[39m
+├ ○ /messages                                 4.91 kB         [37m[1m343 kB[22m[39m
+├ ○ /moderate                                 2.58 kB         [37m[1m335 kB[22m[39m
+├ ○ /my-events                                5.25 kB         [37m[1m344 kB[22m[39m
+├ ○ /nearby                                   3.64 kB         [37m[1m337 kB[22m[39m
+├ ○ /new-events                               3.35 kB         [37m[1m336 kB[22m[39m
+├ ○ /notifications                            4.54 kB         [37m[1m337 kB[22m[39m
+├ ○ /onboarding                               4.52 kB         [37m[1m433 kB[22m[39m
 ├ ○ /orders                                   1.76 kB         [37m[1m438 kB[22m[39m
 ├ ○ /orders/history                           3.82 kB         [37m[1m337 kB[22m[39m
-├ ○ /packages                                 3.57 kB         [37m[1m336 kB[22m[39m
-├ ○ /photos                                   3.98 kB         [37m[1m342 kB[22m[39m
+├ ○ /packages                                 3.56 kB         [37m[1m336 kB[22m[39m
+├ ○ /photos                                   3.97 kB         [37m[1m342 kB[22m[39m
 ├ ○ /price-alerts                             3.44 kB         [37m[1m336 kB[22m[39m
-├ ○ /profile                                  4.65 kB         [37m[1m337 kB[22m[39m
-├ ○ /profile/badges                           3.7 kB          [37m[1m336 kB[22m[39m
-├ ○ /profile/reputation                       3.95 kB         [37m[1m337 kB[22m[39m
-├ ○ /qa-sessions                              4.16 kB         [37m[1m342 kB[22m[39m
-├ ○ /referrals                                4.59 kB         [37m[1m438 kB[22m[39m
-├ ○ /resale                                   4.51 kB         [37m[1m337 kB[22m[39m
-├ ○ /reviews                                  3.68 kB         [37m[1m336 kB[22m[39m
+├ ○ /profile                                  4.64 kB         [37m[1m338 kB[22m[39m
+├ ○ /profile/badges                           3.68 kB         [37m[1m337 kB[22m[39m
+├ ○ /profile/reputation                       3.92 kB         [37m[1m337 kB[22m[39m
+├ ○ /qa-sessions                              4.15 kB         [37m[1m342 kB[22m[39m
+├ ○ /referrals                                4.58 kB         [37m[1m438 kB[22m[39m
+├ ○ /resale                                   4.5 kB          [37m[1m337 kB[22m[39m
+├ ○ /reviews                                  3.67 kB         [37m[1m337 kB[22m[39m
 ├ ○ /reviews/new                              3.59 kB         [37m[1m342 kB[22m[39m
-├ ○ /rewards                                  4.9 kB          [37m[1m338 kB[22m[39m
-├ ○ /saved-searches                           3.98 kB         [37m[1m337 kB[22m[39m
-├ ○ /search                                   2.52 kB         [37m[1m335 kB[22m[39m
-├ ○ /search/universal                         3.49 kB         [37m[1m342 kB[22m[39m
-├ ○ /settings                                 4.14 kB         [37m[1m337 kB[22m[39m
-├ ○ /settings/language                        4.45 kB         [37m[1m337 kB[22m[39m
-├ ○ /settings/notifications                   4.97 kB         [37m[1m338 kB[22m[39m
+├ ○ /rewards                                  4.89 kB         [37m[1m338 kB[22m[39m
+├ ○ /saved-searches                           3.97 kB         [37m[1m337 kB[22m[39m
+├ ○ /search                                   2.51 kB         [37m[1m335 kB[22m[39m
+├ ○ /search/universal                         3.48 kB         [37m[1m342 kB[22m[39m
+├ ○ /settings                                 4.13 kB         [37m[1m337 kB[22m[39m
+├ ○ /settings/language                        4.39 kB         [37m[1m337 kB[22m[39m
+├ ○ /settings/notifications                   4.96 kB         [37m[1m338 kB[22m[39m
 ├ ○ /settings/privacy                         4.2 kB          [37m[1m342 kB[22m[39m
-├ ○ /shop/shoppable                           3.9 kB          [37m[1m337 kB[22m[39m
+├ ○ /shop/shoppable                           3.89 kB         [37m[1m337 kB[22m[39m
 ├ ○ /sitemap.xml                              0 B                [37m[1m0 B[22m[39m
-├ ○ /social                                   4.7 kB          [37m[1m337 kB[22m[39m
+├ ○ /social                                   4.69 kB         [37m[1m338 kB[22m[39m
 ├ ○ /social/crisis-management                 4.56 kB         [37m[1m337 kB[22m[39m
-├ ○ /social/inbox                             3.85 kB         [37m[1m337 kB[22m[39m
-├ ○ /social/sentiment                         3.76 kB         [37m[1m336 kB[22m[39m
+├ ○ /social/inbox                             3.84 kB         [37m[1m337 kB[22m[39m
+├ ○ /social/sentiment                         3.75 kB         [37m[1m337 kB[22m[39m
 ├ ○ /social/story-templates                   3.35 kB         [37m[1m336 kB[22m[39m
-├ ○ /social/tiktok-challenges                 3.55 kB         [37m[1m336 kB[22m[39m
+├ ○ /social/tiktok-challenges                 3.54 kB         [37m[1m336 kB[22m[39m
 ├ ○ /support/chat                             3.83 kB         [37m[1m337 kB[22m[39m
 ├ ƒ /surveys/[id]                             3.67 kB         [37m[1m342 kB[22m[39m
-├ ○ /tickets                                  4.58 kB         [37m[1m438 kB[22m[39m
-├ ○ /tickets/anti-scalping                    4.04 kB         [37m[1m337 kB[22m[39m
+├ ○ /tickets                                  4.57 kB         [37m[1m438 kB[22m[39m
+├ ○ /tickets/anti-scalping                    4.03 kB         [37m[1m337 kB[22m[39m
 ├ ○ /tickets/gift                             4.17 kB         [37m[1m337 kB[22m[39m
 ├ ○ /tickets/groups                           4.18 kB         [37m[1m337 kB[22m[39m
-├ ○ /tickets/print-at-home                    3.68 kB         [37m[1m336 kB[22m[39m
+├ ○ /tickets/print-at-home                    3.68 kB         [37m[1m337 kB[22m[39m
 ├ ○ /tickets/tracking                         3.46 kB         [37m[1m336 kB[22m[39m
 ├ ○ /tickets/transfer                         2.44 kB         [37m[1m332 kB[22m[39m
-├ ○ /tickets/urgency                          4.24 kB         [37m[1m337 kB[22m[39m
-├ ○ /tours                                    3.32 kB         [37m[1m341 kB[22m[39m
+├ ○ /tickets/urgency                          4.23 kB         [37m[1m337 kB[22m[39m
+├ ○ /tours                                    3.32 kB         [37m[1m342 kB[22m[39m
 ├ ○ /ugc                                      4.64 kB         [37m[1m343 kB[22m[39m
-├ ○ /venues                                   4.25 kB         [37m[1m437 kB[22m[39m
+├ ○ /venues                                   4.23 kB         [37m[1m438 kB[22m[39m
 ├ ƒ /venues/[id]                              3.19 kB         [37m[1m341 kB[22m[39m
-├ ○ /wallet                                   4.5 kB          [37m[1m337 kB[22m[39m
+├ ○ /wallet                                   4.49 kB         [37m[1m337 kB[22m[39m
 ├ ○ /wallet/offline                           3.38 kB         [37m[1m336 kB[22m[39m
-├ ○ /watch-parties                            4.62 kB         [37m[1m343 kB[22m[39m
-└ ○ /wishlist                                 4.63 kB         [37m[1m337 kB[22m[39m
+├ ○ /watch-parties                            4.61 kB         [37m[1m343 kB[22m[39m
+└ ○ /wishlist                                 4.62 kB         [37m[1m338 kB[22m[39m
 + First Load JS shared by all                 [37m[1m87.3 kB[22m[39m
   ├ chunks/3030-24184d2c4b93a50b.js           31.7 kB
   ├ chunks/7357bd3c-75313584e71c3235.js       53.6 kB

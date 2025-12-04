@@ -50,17 +50,17 @@ export default function ProductionTeamPage() {
         </Stack>
       </Stack>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <Grid cols={1} gap={4} className="sm:grid-cols-3">
         <StatCard label="Total Team" value={teamStats.total.toString()} icon={<Users size={20} />} inverted />
         <StatCard label="Confirmed" value={teamStats.confirmed.toString()} icon={<UserCheck size={20} />} trend="up" inverted />
         <StatCard label="Pending" value={teamStats.pending.toString()} icon={<Users size={20} />} trend={teamStats.pending > 0 ? "down" : "up"} inverted />
-      </div>
+      </Grid>
 
       <Card variant="elevated" inverted>
         <CardBody>
           <Stack gap={0}>
             {team.map((member, index) => (
-              <div key={member.id} className={`flex items-center justify-between border-ink-700 p-4 ${index < team.length - 1 ? "border-b" : ""}`}>
+              <Box key={member.id} className={`flex items-center justify-between border-ink-700 p-4 ${index < team.length - 1 ? "border-b" : ""}`}>
                 <Stack direction="horizontal" gap={3} className="items-center">
                   <Box className="flex size-10 items-center justify-center rounded-avatar bg-ink-800">
                     <Users size={20} className="text-primary" />
@@ -71,7 +71,7 @@ export default function ProductionTeamPage() {
                   </Stack>
                 </Stack>
                 <Badge variant={statusColors[member.status]}>{member.status.toUpperCase()}</Badge>
-              </div>
+              </Box>
             ))}
           </Stack>
         </CardBody>

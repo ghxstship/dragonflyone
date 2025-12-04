@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Eye, History } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
-  ListPage, Badge, DetailDrawer,
+  ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
 } from '@ghxstship/ui';
 import { getBadgeVariant } from '@ghxstship/config';
@@ -79,19 +79,19 @@ export default function AssetTrackingPage() {
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Tracking Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Asset:</strong> {selected.assetName}</div>
-        <div><strong>Asset ID:</strong> {selected.assetId}</div>
-        <div><strong>Category:</strong> {selected.category}</div>
-        <div><strong>Tracking Type:</strong> {selected.trackingType}</div>
-        <div><strong>Location:</strong> {selected.locationName}</div>
-        <div><strong>Address:</strong> {selected.locationAddress}</div>
-        {selected.zone && <div><strong>Zone:</strong> {selected.zone}</div>}
-        <div><strong>Last Seen:</strong> {formatTimestamp(selected.lastSeen)}</div>
-        <div><strong>Status:</strong> {selected.status}</div>
-        {selected.batteryLevel && <div><strong>Battery:</strong> {selected.batteryLevel}%</div>}
-        {selected.assignedProject && <div><strong>Project:</strong> {selected.assignedProject}</div>}
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Asset:</strong> {selected.assetName}</Body>
+        <Body size="sm"><strong>Asset ID:</strong> {selected.assetId}</Body>
+        <Body size="sm"><strong>Category:</strong> {selected.category}</Body>
+        <Body size="sm"><strong>Tracking Type:</strong> {selected.trackingType}</Body>
+        <Body size="sm"><strong>Location:</strong> {selected.locationName}</Body>
+        <Body size="sm"><strong>Address:</strong> {selected.locationAddress}</Body>
+        {selected.zone && <Body size="sm"><strong>Zone:</strong> {selected.zone}</Body>}
+        <Body size="sm"><strong>Last Seen:</strong> {formatTimestamp(selected.lastSeen)}</Body>
+        <Body size="sm"><strong>Status:</strong> {selected.status}</Body>
+        {selected.batteryLevel && <Body size="sm"><strong>Battery:</strong> {selected.batteryLevel}%</Body>}
+        {selected.assignedProject && <Body size="sm"><strong>Project:</strong> {selected.assignedProject}</Body>}
+      </Grid>
     )},
   ] : [];
 

@@ -48,18 +48,18 @@ export default function ProductionCompliancePage() {
         </Stack>
       </Stack>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
+      <Grid cols={1} gap={4} className="sm:grid-cols-4">
         <StatCard label="Total Requirements" value={complianceStats.total.toString()} icon={<Shield size={20} />} inverted />
         <StatCard label="Completed" value={complianceStats.completed.toString()} icon={<CheckCircle size={20} />} trend="up" inverted />
         <StatCard label="Pending" value={complianceStats.pending.toString()} icon={<FileCheck size={20} />} inverted />
         <StatCard label="Overdue" value={complianceStats.overdue.toString()} icon={<AlertTriangle size={20} />} trend={complianceStats.overdue > 0 ? "down" : "up"} inverted />
-      </div>
+      </Grid>
 
       <Card variant="elevated" inverted>
         <CardBody>
           <Stack gap={0}>
             {items.map((item, index) => (
-              <div key={item.id} className={`flex cursor-pointer items-center justify-between border-ink-700 p-4 transition-all hover:bg-ink-800/50 ${index < items.length - 1 ? "border-b" : ""}`}>
+              <Box key={item.id} className={`flex cursor-pointer items-center justify-between border-ink-700 p-4 transition-all hover:bg-ink-800/50 ${index < items.length - 1 ? "border-b" : ""}`}>
                 <Stack direction="horizontal" gap={3} className="items-center">
                   <Box className="flex size-10 items-center justify-center rounded bg-ink-800">
                     <Shield size={20} className="text-primary" />
@@ -70,7 +70,7 @@ export default function ProductionCompliancePage() {
                   </Stack>
                 </Stack>
                 <Badge variant={statusColors[item.status]}>{item.status.toUpperCase()}</Badge>
-              </div>
+              </Box>
             ))}
           </Stack>
         </CardBody>

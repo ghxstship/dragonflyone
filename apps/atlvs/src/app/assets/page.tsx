@@ -10,6 +10,8 @@ import {
   RecordFormModal,
   DetailDrawer,
   ConfirmDialog,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -116,17 +118,17 @@ export default function AssetsPage() {
 
   const detailSections: DetailSection[] = selectedAsset ? [
     { id: 'overview', title: 'Asset Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Category:</strong> {selectedAsset.category}</div>
-        <div><strong>Status:</strong> {selectedAsset.status}</div>
-        <div><strong>Location:</strong> {selectedAsset.location}</div>
-        <div><strong>Value:</strong> ${selectedAsset.value.toLocaleString()}</div>
-        <div><strong>Condition:</strong> {selectedAsset.condition}</div>
-        <div><strong>Utilization:</strong> {(selectedAsset.utilization * 100).toFixed(0)}%</div>
-        <div><strong>Last Maintenance:</strong> {selectedAsset.lastMaintenance}</div>
-        <div><strong>Next Maintenance:</strong> {selectedAsset.nextMaintenance}</div>
-        <div><strong>Projects Used:</strong> {selectedAsset.projects}</div>
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Category:</strong> {selectedAsset.category}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedAsset.status}</Body>
+        <Body size="sm"><strong>Location:</strong> {selectedAsset.location}</Body>
+        <Body size="sm"><strong>Value:</strong> ${selectedAsset.value.toLocaleString()}</Body>
+        <Body size="sm"><strong>Condition:</strong> {selectedAsset.condition}</Body>
+        <Body size="sm"><strong>Utilization:</strong> {(selectedAsset.utilization * 100).toFixed(0)}%</Body>
+        <Body size="sm"><strong>Last Maintenance:</strong> {selectedAsset.lastMaintenance}</Body>
+        <Body size="sm"><strong>Next Maintenance:</strong> {selectedAsset.nextMaintenance}</Body>
+        <Body size="sm"><strong>Projects Used:</strong> {selectedAsset.projects}</Body>
+      </Grid>
     )},
   ] : [];
 

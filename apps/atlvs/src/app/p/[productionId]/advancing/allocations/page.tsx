@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, StatCard, Body, H3 } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, StatCard, Body, H3, Grid } from "@ghxstship/ui";
 import { Package, Warehouse, Key, ShoppingCart } from "lucide-react";
 import { atlvsDemoProductions } from "../../../../../data/atlvs";
 
@@ -28,12 +28,12 @@ export default function AdvancingAllocationsPage() {
         description="Assign resources from inventory, rentals, or procurement"
         colorScheme="on-dark"
       />
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <Grid cols={2} gap={4} className="lg:grid-cols-4">
         <StatCard label="From Inventory" value={allocationStats.fromInventory.toString()} icon={<Warehouse size={20} />} inverted />
         <StatCard label="From Rentals" value={allocationStats.fromRentals.toString()} icon={<Key size={20} />} inverted />
         <StatCard label="From Procurement" value={allocationStats.fromProcurement.toString()} icon={<ShoppingCart size={20} />} inverted />
         <StatCard label="Total Allocated" value={allocationStats.total.toString()} icon={<Package size={20} />} inverted />
-      </div>
+      </Grid>
       <Card variant="elevated" inverted>
         <CardBody>
           <Stack gap={4}>
