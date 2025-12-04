@@ -52,7 +52,8 @@
     "providers.tsx",
     "query-client.tsx",
     "query-utils.ts",
-    "mfa.ts"
+    "mfa.ts",
+    "cross-app-navigation.ts"
   ],
   "exclude": [
     "node_modules",

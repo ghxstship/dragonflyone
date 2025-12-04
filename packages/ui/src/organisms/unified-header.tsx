@@ -84,8 +84,8 @@ export const UnifiedHeader = forwardRef<HTMLElement, UnifiedHeaderProps>(
           className={clsx(
             "sticky top-0 z-modal border-b-2",
             inverted
-              ? "bg-black border-grey-800"
-              : "bg-white border-grey-200",
+              ? "border-ink-800 bg-ink-950"
+              : "border-grey-200 bg-white",
             className
           )}
           {...props}
@@ -230,16 +230,16 @@ export const UnifiedHeader = forwardRef<HTMLElement, UnifiedHeaderProps>(
         {mobileMenuOpen && (
           <div
             className={clsx(
-              "fixed inset-0 z-modal-backdrop md:hidden animate-fade-in",
-              inverted ? "bg-black/95" : "bg-white/95"
+              "fixed inset-0 z-modal-backdrop animate-fade-in md:hidden",
+              inverted ? "bg-ink-950/95" : "bg-white/95"
             )}
           >
             <div className="flex flex-col h-full pt-20 px-6 pb-6">
               {/* Mobile Context Breadcrumb */}
               {contextLevels.length > 0 && (
                 <div className={clsx(
-                  "pb-4 mb-4 border-b-2",
-                  inverted ? "border-grey-800" : "border-grey-200"
+                  "mb-4 border-b-2 pb-4",
+                  inverted ? "border-ink-800" : "border-grey-200"
                 )}>
                   <ContextBreadcrumb
                     levels={contextLevels}

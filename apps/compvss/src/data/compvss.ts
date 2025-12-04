@@ -483,9 +483,9 @@ export const compvssRunOfShow = [
 
 export const compvssHero = {
   kicker: "GHXSTSHIP // COMPVSS",
-  headline: "Production Operation Spine",
+  headline: "Where Shows Actually Get Built",
   description:
-    "Mission control interface for everything between deal close and doors open: projects, crews, trucks, incidents, and show day telemetry.",
+    "The command center for everything between 'deal closed' and 'doors open.' Projects, crews, trucks, incidents, show day chaos — we've got you covered. No spreadsheets required.",
   tags: ["Production", "Crew", "Build & Strike", "Event Ops"],
   status: "BUILD 0.1.0 · INTERNAL",
   cta: "Launch Runbook",
@@ -493,14 +493,14 @@ export const compvssHero = {
 
 export const compvssSignal = {
   highlights: [
-    "Project intake + change order workflows drafted",
-    "Crew availability + credential matrix defined",
-    "Run-of-show builder + cue stack concept locked",
+    "Project intake + change order workflows locked and loaded",
+    "Crew availability + credential matrix dialed in",
+    "Run-of-show builder ready to orchestrate the chaos",
   ],
   indicators: [
-    { label: "Live Builds", value: "37", detail: "across festivals, tours, corporate" },
-    { label: "Crew Ready", value: "412", detail: "pre-vetted + scheduled" },
-    { label: "Risk Flags", value: "5", detail: "tracking weather + compliance" },
+    { label: "Live Builds", value: "37", detail: "festivals, tours, corporate — the works" },
+    { label: "Crew Ready", value: "412", detail: "vetted, scheduled, ready to roll" },
+    { label: "Risk Flags", value: "5", detail: "because we see problems before they see us" },
   ],
 };
 
@@ -516,14 +516,14 @@ export const compvssCommandPanels = [
     kicker: "Project Intake",
     title: "Production Brief Engine",
     description:
-      "Customizable intake wizard captures client requirements, technical riders, and risk envelopes before greenlighting builds.",
+      "Capture everything upfront so you're not chasing details at 2am. Client requirements, technical riders, risk envelopes — all in one place before the first truck rolls.",
     bullets: ["Scope + requirements templates", "Permit + compliance checklist", "Automated approvals"],
   },
   {
     kicker: "Interlocks",
     title: "ATLVS → COMPVSS Handoff",
     description:
-      "ATLVS deals instantiate COMPVSS projects with budgets, roles, and asset reservations already linked for zero drift.",
+      "When ATLVS closes a deal, COMPVSS spins up automatically. Budgets, roles, asset reservations — already linked. Zero drift. Zero drama.",
     bullets: ["Budget + change order sync", "Crew payroll + compliance bridge", "Asset readiness telemetry"],
   },
 ];
@@ -772,7 +772,7 @@ export const compvssCheckIns = [
 export const compvssRiskProtocols = [
   {
     title: "Risk register + escalation",
-    description: "Unified log for issues, SLAs, owners, and mitigation steps spanning project, field, and show ops.",
+    description: "One place for everything that could go wrong — and exactly who's responsible for making sure it doesn't.",
     bullets: [
       "Critical path impact scoring",
       "Auto-alerts to exec + client channels",
@@ -781,7 +781,7 @@ export const compvssRiskProtocols = [
   },
   {
     title: "Safety + compliance",
-    description: "Union, labor law, and OSHA guardrails built into crew scheduling, credentialing, and site inspections.",
+    description: "Union rules, labor laws, OSHA requirements — baked into every workflow. Because 'we didn't know' isn't a defense.",
     bullets: [
       "Union + jurisdiction logic",
       "Digital safety walks w/ signatures",
@@ -790,7 +790,7 @@ export const compvssRiskProtocols = [
   },
   {
     title: "Resilience playbooks",
-    description: "Weather, power, and contingency workflows with trigger thresholds and predefined backup plans.",
+    description: "Weather, power failures, vendor no-shows — we've got backup plans for your backup plans.",
     bullets: [
       "Weather API + threshold alerts",
       "Backup vendor + asset packages",
@@ -834,21 +834,21 @@ export const compvssShowConsole = [
     kicker: "Run Sheet",
     title: "Minute-by-minute timeline",
     description:
-      "Centralized cue stack with visual timing bars so stage management, lighting, audio, and video teams stay synchronized.",
+      "Every cue, every department, every second — visualized. When stage management calls 'go,' everyone knows exactly what's happening.",
     bullets: ["Cue ownership + confirmations", "Auto-curfew + encore alerts", "Inline contingency notes"],
   },
   {
     kicker: "Talent Ops",
     title: "Artist + guest logistics",
     description:
-      "Check-in, dressing room assignments, hospitality notes, and movement tracking with escalation routing to security and hospitality leads.",
+      "Where's the headliner? Which dressing room? Who needs what? All answered before anyone has to ask.",
     bullets: ["Badge tier + room access", "Catering + hospitality tracker", "Emergency / medical contact tree"],
   },
   {
     kicker: "Incident Desk",
     title: "Live issue triage",
     description:
-      "Multi-channel console for technical issues, safety events, and audience impacts with SLA timers and auto-report generation.",
+      "When things go sideways (and they will), this is your war room. Track issues, assign owners, keep the show moving.",
     bullets: ["Priority tagging + owners", "Broadcast to radios/SMS", "Post-show incident digest"],
   },
 ];
@@ -856,17 +856,17 @@ export const compvssShowConsole = [
 export const compvssDirectory = [
   {
     title: "Crew network",
-    description: "Searchable roster filtered by discipline, credentials, geography, rate, and union status.",
+    description: "Find the right people, fast. Filter by skills, credentials, location, rate, union status — whatever you need.",
     bullets: ["Skills + certification badges", "Availability + blackout overlay", "Rehire notes + ratings"],
   },
   {
     title: "Vendor + venue graph",
-    description: "Curated database of vendors, venues, and emergency partners with performance history and documentation.",
+    description: "Every vendor, every venue, every partner — with receipts. Performance history, documentation, the works.",
     bullets: ["Technical spec sheets + CAD", "Insurance + COI verification", "Past show scorecards"],
   },
   {
     title: "Emergency services",
-    description: "Rapid-access list for medical, safety, security, and municipal contacts tied to each jurisdiction.",
+    description: "When you need help, you need it now. One-tap access to medical, safety, security, and municipal contacts.",
     bullets: ["Geo-aware contact tree", "Permitting authority linkage", "Template brief packets"],
   },
 ];
@@ -874,17 +874,17 @@ export const compvssDirectory = [
 export const compvssKnowledgeBase = [
   {
     title: "SOP library",
-    description: "Operational checklists, equipment guides, and compliance docs with version history and approvals.",
+    description: "Everything your team needs to know, documented and version-controlled. No more 'I thought we did it this way.'",
     bullets: ["Discipline-specific SOPs", "OSHA + safety references", "Downloadable PDF + offline mode"],
   },
   {
     title: "Training hub",
-    description: "Video walkthroughs, certification tracks, and quizzes to onboard crew and vendors quickly.",
+    description: "Get new crew up to speed fast. Video walkthroughs, certification tracks, quizzes — the whole onboarding package.",
     bullets: ["Role-based learning paths", "Certification expiry reminders", "Progress analytics"],
   },
   {
     title: "Troubleshooting decks",
-    description: "Decision trees and escalation scripts for power, RF, networking, and staging incidents.",
+    description: "When something breaks, you don't have time to figure it out from scratch. Decision trees for every scenario.",
     bullets: ["Scenario-driven playbooks", "Inline chat + annotations", "Auto-sync to incident reports"],
   },
 ];
@@ -892,17 +892,17 @@ export const compvssKnowledgeBase = [
 export const compvssOpportunities = [
   {
     title: "RFP / RFQ Center",
-    description: "Weighted scoring sheets, redline tracking, and collaborative proposal editing with version control.",
+    description: "Win more bids with less chaos. Scoring sheets, redlines, collaborative editing — all in one place.",
     bullets: ["Bid/no-bid decision workflow", "Integrated e-sign + approval routing", "Source-of-truth document locker"],
   },
   {
     title: "Crew + gig board",
-    description: "Full-time roles, day-call gigs, and subcontractor postings with automated notifications and messaging.",
+    description: "Find work. Post work. Match skills to needs. The marketplace for production talent.",
     bullets: ["Skill + location matching", "Candidate pipeline + notes", "Offer + onboarding triggers"],
   },
   {
     title: "Partner & internship hub",
-    description: "Channel for internships, partnerships, and joint venture opportunities with referral + reward tracking.",
+    description: "Grow your network. Find your next collaboration. Track referrals and rewards.",
     bullets: ["Referral incentives dashboard", "Collaboration brief templates", "Status + analytics"],
   },
 ];
@@ -910,17 +910,17 @@ export const compvssOpportunities = [
 export const compvssAnalytics = [
   {
     title: "Executive dashboards",
-    description: "Drag-and-drop BI views for project profitability, crew utilization, and asset ROI with scheduled digests.",
+    description: "Numbers that matter, visualized. Profitability, utilization, ROI — see it all without digging through spreadsheets.",
     bullets: ["Margin + variance tiles", "Utilization + capacity heatmaps", "Auto-email stakeholder packets"],
   },
   {
     title: "Predictive signals",
-    description: "Anomaly detection on budget overrun, weather risk, and staffing gaps using telemetry from ATLVS + GVTEWAY.",
+    description: "See problems before they become problems. Budget overruns, weather risks, staffing gaps — we flag them early.",
     bullets: ["Risk scoring + alerts", "Scenario modeling", "Cross-platform KPI linking"],
   },
   {
     title: "Data portability",
-    description: "Exports, APIs, and warehouse feeds so finance, ops, and partners can query COMPVSS data directly.",
+    description: "Your data, your way. Exports, APIs, warehouse feeds — take it wherever you need it.",
     bullets: ["CSV/Excel/PDF exports", "Looker/Tableau connectors", "Webhook + API access"],
   },
 ];
@@ -1073,10 +1073,10 @@ export const compvssWorkflowTimeline = [
 ];
 
 export const compvssFinalCta = {
-  kicker: "Command the field",
-  title: "Activate COMPVSS mission control",
+  kicker: "Ready to run a tighter ship?",
+  title: "Let's get you set up",
   description:
-    "Deploy the complete production operating system for crews, vendors, and show callers across every GHXSTSHIP activation.",
+    "Your crews, your vendors, your shows — all orchestrated from one command center. No more chaos. No more crossed wires. Just productions that actually run smoothly.",
   primary: {
     label: "Schedule Production Review",
     href: "#",

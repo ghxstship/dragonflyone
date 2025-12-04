@@ -210,6 +210,10 @@ export { ContextSwitcher } from "./organisms/context-switcher.js";
 export type { ContextSwitcherProps, ProductionContext } from "./organisms/context-switcher.js";
 export { PageHeader as EnterprisePageHeader } from "./organisms/page-header.js";
 export type { PageHeaderProps as EnterprisePageHeaderProps, BreadcrumbItem as EnterpriseBreadcrumbItem, TabItem, ViewOption } from "./organisms/page-header.js";
+export { CommandPalette } from "./organisms/command-palette.js";
+export type { CommandPaletteProps, CommandItem, CommandCategory } from "./organisms/command-palette.js";
+export { MobileBottomNav } from "./organisms/mobile-bottom-nav.js";
+export type { MobileBottomNavProps, MobileNavItem } from "./organisms/mobile-bottom-nav.js";
 
 // =============================================================================
 // TEMPLATES - Page-level layouts

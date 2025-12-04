@@ -199,8 +199,8 @@ export const atlvsSidebarNavigation = [
     icon: "Settings",
     items: [
       { label: "Settings", href: "/settings", icon: "Settings", primary: true },
+      { label: "Appearance", href: "/settings/appearance", icon: "Palette" },
       { label: "Integrations", href: "/integrations", icon: "Plug" },
-      { label: "Design System", href: "/design-system", icon: "Palette" },
     ],
   },
 ];
@@ -1028,12 +1028,12 @@ export const atlvsHero = {
 // Landing page hero for marketing
 export const atlvsLandingHero = {
   kicker: "FOR PRODUCTION PROFESSIONALS",
-  headline: "PRODUCTION MANAGEMENT THAT SCALES",
+  headline: "PRODUCTION MANAGEMENT THAT ACTUALLY WORKS",
   description:
-    "The all-in-one platform for managing productions, activations, installations, and destinations at any scale.",
+    "Look, we get it. You've tried the spreadsheets, the Slack channels, the 2am panic attacks. Time to upgrade to something that doesn't make you want to throw your laptop into the ocean.",
   primaryCta: { label: "START FREE TRIAL", href: "/auth/signup" },
   secondaryCta: { label: "WATCH DEMO", href: "#demo" },
-  tagline: "Where chaos becomes choreography.",
+  tagline: "Where chaos meets its match.",
   trustedBy: ["INSOMNIAC", "RED BULL", "SUPERFLY", "AEG", "C3 PRESENTS"],
 };
 
@@ -1043,7 +1043,7 @@ export const atlvsVerticals = [
     id: "productions",
     icon: "Tent",
     title: "PRODUCTIONS",
-    description: "Live entertainment at any scale — from 200-person club shows to 400K-attendee festivals",
+    description: "From intimate club shows to festivals that need their own zip code. We've seen it all, built it all.",
     features: ["Festivals", "Concerts", "Tours", "Live events"],
     workflows: ["Run-of-show", "Stage management", "Artist advancing", "Crew scheduling"],
     href: "/verticals/productions",
@@ -1052,7 +1052,7 @@ export const atlvsVerticals = [
     id: "activations",
     icon: "Zap",
     title: "ACTIVATIONS",
-    description: "Brand experiences that create lasting impressions — pop-ups, roadshows, experiential marketing",
+    description: "Brand experiences that make people forget they're being marketed to. The good kind of manipulation.",
     features: ["Brand experiences", "Pop-ups", "Roadshows", "Launches"],
     workflows: ["Brand asset management", "Footprint planning", "Activation calendars"],
     href: "/verticals/activations",
@@ -1061,7 +1061,7 @@ export const atlvsVerticals = [
     id: "installations",
     icon: "Palette",
     title: "INSTALLATIONS",
-    description: "Immersive environments and artistic exhibitions — permanent and temporary",
+    description: "Immersive environments that make people question reality. In a good way. Mostly.",
     features: ["Art", "Immersive", "Exhibitions", "Themed environments"],
     workflows: ["Build schedules", "Technical specs", "Maintenance workflows"],
     href: "/verticals/installations",
@@ -1070,7 +1070,7 @@ export const atlvsVerticals = [
     id: "destinations",
     icon: "MapPin",
     title: "DESTINATIONS",
-    description: "Venues, retreats, and experience properties — spaces designed for extraordinary moments",
+    description: "Venues and properties where extraordinary things happen. Your passport to the places that matter.",
     features: ["Venues", "Retreats", "Resorts", "Experience properties"],
     workflows: ["Property operations", "Booking management", "Guest experience flows"],
     href: "/verticals/destinations",
@@ -1079,23 +1079,23 @@ export const atlvsVerticals = [
 
 // Problem section for landing page
 export const atlvsProblemSection = {
-  headline: "THE OLD WAY IS BREAKING",
-  tagline: "You didn't get into this industry to manage spreadsheets. You got into it to create experiences.",
+  headline: "LET'S BE HONEST",
+  tagline: "You didn't sign up for this job to become a professional spreadsheet wrangler. And yet, here we are.",
   problems: [
     {
       icon: "chaos",
-      title: "SPREADSHEET CHAOS",
-      description: "Your production lives in 47 spreadsheets, 3 Slack channels, and someone's email inbox.",
+      title: "SPREADSHEET PURGATORY",
+      description: "47 spreadsheets, 3 Slack channels, and that one critical doc buried in someone's email from 2019. Sound familiar?",
     },
     {
       icon: "silos",
-      title: "DISCONNECTED TEAMS",
-      description: "Crew in Slack. Budget in Sheets. Timeline in Asana. Nothing talks to anything.",
+      title: "TOOL SOUP",
+      description: "Crew in Slack. Budget in Sheets. Timeline in Asana. Sanity in... nowhere, actually.",
     },
     {
       icon: "clock",
-      title: "LAST-MINUTE FIRES",
-      description: '"Where\'s the updated call sheet?" at 2am the night before load-in.',
+      title: "THE 2AM SPECIAL",
+      description: "Nothing says 'I love my job' like hunting for the updated call sheet at 2am the night before load-in.",
     },
   ],
 };
@@ -1106,7 +1106,7 @@ export const atlvsPillarsSolution = [
     id: "project-management",
     title: "PROJECT MANAGEMENT",
     description:
-      "From concept to wrap, manage every phase of your production with purpose-built tools. Gantt timelines, milestone tracking, and production calendars that understand how shows actually get made.",
+      "From 'wouldn't it be cool if...' to 'we actually pulled it off' — manage every phase with tools built by people who've lived the chaos. Gantt timelines that don't make you want to cry.",
     features: [
       "Production timelines with dependencies",
       "Milestone tracking with automated alerts",
@@ -1120,7 +1120,7 @@ export const atlvsPillarsSolution = [
     id: "workflow-management",
     title: "WORKFLOW MANAGEMENT",
     description:
-      "Production advancing, vendor coordination, and approval chains that keep everyone aligned. From artist riders to site plans, nothing falls through the cracks.",
+      "Artist riders, vendor coordination, approval chains — the stuff that usually falls through the cracks? We built a net. A really good net.",
     features: [
       "Production advancing workflows",
       "Approval chains with digital sign-off",
@@ -1134,7 +1134,7 @@ export const atlvsPillarsSolution = [
     id: "resource-management",
     title: "RESOURCE MANAGEMENT",
     description:
-      "People, equipment, and budget — all in one view. Know who's where, what's allocated, and how much you've spent before you overspend.",
+      "People, equipment, budget — all visible in one place. Know who's where, what's allocated, and how much you've spent before your accountant has a heart attack.",
     features: [
       "Crew scheduling and availability",
       "Equipment inventory and allocation",
@@ -1152,65 +1152,65 @@ export const atlvsFeatureGrid = [
     icon: "Calendar",
     title: "PRODUCTION CALENDAR",
     description:
-      "Multi-view calendars with production phases, load-in, show days, and strike windows.",
+      "See everything at once. Load-in, show days, strike — no more 'wait, when was that again?'",
   },
   {
     icon: "Users",
     title: "CREW MANAGEMENT",
     description:
-      "Build your team, manage availability, and schedule shifts across multiple simultaneous shows.",
+      "Build your dream team, track availability, juggle multiple shows. Like a circus, but organized.",
   },
   {
     icon: "Box",
     title: "INVENTORY",
     description:
-      "Track every piece of gear from warehouse to site and back again.",
+      "Track every piece of gear from warehouse to site and back. No more 'who had the cables last?'",
   },
   {
     icon: "FileText",
     title: "DOCUMENT HUB",
     description:
-      "Contracts, riders, tech specs, site plans — organized, versioned, and always accessible.",
+      "Contracts, riders, tech specs — organized, versioned, and findable. Revolutionary, we know.",
   },
   {
     icon: "DollarSign",
     title: "BUDGET & FINANCE",
     description:
-      "Real-time budget tracking, expense management, and vendor payments in one place.",
+      "Real-time budget tracking so you know when you're about to blow it, not after.",
   },
   {
     icon: "Zap",
     title: "AUTOMATIONS",
     description:
-      "Trigger-based workflows that eliminate manual tasks and keep you moving.",
+      "Let the robots handle the boring stuff. You've got more important things to do.",
   },
   {
     icon: "BarChart",
     title: "ANALYTICS & REPORTS",
     description:
-      "Production KPIs, budget variance, resource utilization — know your numbers.",
+      "Numbers that actually mean something. Impress your stakeholders. Impress yourself.",
   },
   {
     icon: "Shield",
     title: "COMPLIANCE & SAFETY",
     description:
-      "Union rules, safety briefings, incident reporting — stay compliant at scale.",
+      "Union rules, safety briefings, incident reporting — stay compliant without the headache.",
   },
   {
     icon: "Puzzle",
     title: "INTEGRATIONS",
     description:
-      "Connect to Zapier, Make, n8n, and your existing stack.",
+      "Plays nice with Zapier, Make, n8n, and whatever else you're already using.",
   },
 ];
 
 // COMPVSS section for landing page
 export const atlvsCompvssSection = {
-  kicker: "INTRODUCING",
+  kicker: "MEET YOUR NEW BEST FRIEND",
   title: "COMPVSS",
-  subtitle: "The collaboration portal for your extended production team",
+  subtitle: "Where your extended crew actually gets stuff done",
   description:
-    "ATLVS is your command center. COMPVSS is how you bring everyone else into the mission — crew, vendors, freelancers, partners, and collaborators who need access without the complexity.",
+    "ATLVS is mission control. COMPVSS is how you bring everyone else aboard without giving them the keys to the whole ship. Crew, vendors, freelancers — they get exactly what they need. Nothing more, nothing less.",
   features: [
     {
       icon: "HardHat",
@@ -1234,10 +1234,10 @@ export const atlvsCompvssSection = {
 
 // Social proof for landing page
 export const atlvsSocialProof = {
-  headline: "TRUSTED BY PRODUCTION TEAMS WORLDWIDE",
+  headline: "DON'T JUST TAKE OUR WORD FOR IT",
   testimonial: {
     quote:
-      "ATLVS transformed how we manage our festival portfolio. What used to take 3 production managers and endless spreadsheets now runs from a single dashboard. We shipped 12 festivals last year with half the coordination overhead.",
+      "ATLVS transformed how we manage our festival portfolio. What used to take 3 production managers and endless spreadsheets now runs from a single dashboard. We shipped 12 festivals last year with half the coordination overhead. My blood pressure has never been lower.",
     author: "PRODUCTION DIRECTOR",
     company: "MAJOR FESTIVAL COMPANY",
   },
@@ -1251,15 +1251,15 @@ export const atlvsSocialProof = {
 
 // Pricing tiers for landing page
 export const atlvsPricing = {
-  headline: "PRICING THAT SCALES WITH YOUR PRODUCTION",
-  subheadline: "Get 2 months free on annual plans.",
+  headline: "PICK YOUR ADVENTURE",
+  subheadline: "Annual plans get 2 months free. Because math.",
   tiers: [
     {
       id: "deviator",
       name: "DEVIATOR",
       price: "$29",
       period: "/month",
-      description: "Best for Independent Contractors and Vendors",
+      description: "Perfect for solo operators who like to keep things lean.",
       features: [
         "ATLVS only",
         "Unlimited Projects",
@@ -1278,7 +1278,7 @@ export const atlvsPricing = {
       name: "NAVIGATOR",
       price: "$99",
       period: "/month",
-      description: "Best for Contractors, Subcontractors, and Project Managers",
+      description: "For teams who are done playing spreadsheet roulette.",
       features: [
         "ATLVS + COMPVSS",
         "Unlimited Projects",
@@ -1297,7 +1297,7 @@ export const atlvsPricing = {
       name: "AVIATOR",
       price: "$999",
       period: "/month",
-      description: "Best for Executives, Producers, and Directors",
+      description: "The whole enchilada. For those who refuse to compromise.",
       features: [
         "ATLVS + COMPVSS + GVTEWAY",
         "Unlimited Projects",
@@ -1317,11 +1317,11 @@ export const atlvsPricing = {
 
 // Final CTA for landing page
 export const atlvsLandingCta = {
-  headline: "READY TO SHIP YOUR NEXT SHOW?",
-  subheadline: "Join 2,400+ productions running on ATLVS",
+  headline: "READY TO STOP WINGING IT?",
+  subheadline: "Join 2,400+ productions that traded chaos for clarity",
   primaryCta: { label: "START FREE TRIAL", href: "/auth/signup" },
   secondaryCta: { label: "SCHEDULE DEMO", href: "/demo" },
-  footnote: "No credit card required • 14-day free trial",
+  footnote: "No credit card required • 14-day free trial • Cancel anytime",
 };
 
 // Footer navigation for landing page

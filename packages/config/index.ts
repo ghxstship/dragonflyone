@@ -66,3 +66,6 @@ export * from './middleware/csrf';
 
 // MFA (Multi-Factor Authentication) utilities
 export * from './mfa';
+
+// Cross-app navigation utilities
+export * from './cross-app-navigation';

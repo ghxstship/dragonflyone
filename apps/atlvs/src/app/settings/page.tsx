@@ -155,23 +155,34 @@ export default function SettingsPage() {
             </Grid>
           </Section>
 
+          <Section border noPadding title="Appearance">
+            <Stack gap={4}>
+              <Button variant="outlineInk" fullWidth className="justify-start text-left" onClick={() => router.push('/settings/appearance')}>
+                <Stack gap={1}>
+                  <Body className="font-heading uppercase tracking-label">Customize Appearance</Body>
+                  <Body className="text-body-sm text-ink-400">Theme, colors, density, and typography</Body>
+                </Stack>
+              </Button>
+            </Stack>
+          </Section>
+
           <Section border noPadding title="Security">
             <Stack gap={4}>
               <Button variant="outlineInk" fullWidth className="justify-start text-left" onClick={() => router.push('/settings/password')}>
                 <Stack gap={1}>
-                  <Body className="font-heading uppercase tracking-widest">Change Password</Body>
+                  <Body className="font-heading uppercase tracking-label">Change Password</Body>
                   <Body className="text-body-sm text-ink-400">Update your account password</Body>
                 </Stack>
               </Button>
               <Button variant="outlineInk" fullWidth className="justify-start text-left" onClick={() => router.push('/settings/2fa')}>
                 <Stack gap={1}>
-                  <Body className="font-heading uppercase tracking-widest">Two-Factor Authentication</Body>
+                  <Body className="font-heading uppercase tracking-label">Two-Factor Authentication</Body>
                   <Body className="text-body-sm text-ink-400">Add an extra layer of security</Body>
                 </Stack>
               </Button>
               <Button variant="outlineInk" fullWidth className="justify-start text-left" onClick={() => router.push('/settings/sessions')}>
                 <Stack gap={1}>
-                  <Body className="font-heading uppercase tracking-widest">Active Sessions</Body>
+                  <Body className="font-heading uppercase tracking-label">Active Sessions</Body>
                   <Body className="text-body-sm text-ink-400">Manage devices and active logins</Body>
                 </Stack>
               </Button>

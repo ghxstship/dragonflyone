@@ -19,35 +19,35 @@ export const runtime = "edge";
 
 const aboutData = {
   hero: {
-    headline: "BUILT BY PRODUCTION PEOPLE, FOR PRODUCTION PEOPLE",
+    headline: "BUILT BY PRODUCTION PEOPLE WHO GOT TIRED OF THE CHAOS",
     description:
-      "We started ATLVS because we lived the chaos. Spreadsheet hell, disconnected tools, 2am fire drills. We knew there had to be a better way.",
+      "We started ATLVS because we lived it. The spreadsheet nightmares, the disconnected tools, the 2am fire drills that made us question our life choices. We knew there had to be a better way. Turns out, there was. We just had to build it ourselves.",
   },
   mission: {
     title: "OUR MISSION",
     description:
-      "To give every production team the tools they need to create extraordinary experiences without the operational chaos. We believe that when the logistics disappear, the magic happens.",
+      "To give every production team the tools they need to create extraordinary experiences without losing their minds in the process. When the logistics disappear, the magic happens. That's not just a tagline — it's the whole point.",
   },
   values: [
     {
       icon: Target,
       title: "SHIP THE SHOW",
-      description: "Everything we build is in service of helping you deliver. No feature bloat, no complexity for complexity's sake.",
+      description: "Everything we build helps you deliver. No feature bloat, no complexity for complexity's sake. If it doesn't help you ship, it doesn't ship.",
     },
     {
       icon: Heart,
       title: "RESPECT THE CRAFT",
-      description: "Production is an art. Our tools are built to enhance your expertise, not replace it.",
+      description: "Production is an art. Our tools enhance your expertise, not replace it. You're the captain — we're just building a better ship.",
     },
     {
       icon: Zap,
       title: "MOVE FAST",
-      description: "In live events, speed matters. Our platform is built for the pace of real production.",
+      description: "In live events, speed isn't a luxury — it's survival. Our platform is built for the pace of real production, not theoretical workflows.",
     },
     {
       icon: Users,
       title: "CREW FIRST",
-      description: "Happy crews make great shows. We build tools that make everyone's job easier.",
+      description: "Happy crews make great shows. Burned out crews make mistakes. We build tools that make everyone's job easier. Including yours.",
     },
   ],
   stats: [

@@ -53,8 +53,6 @@ export function NotFoundPage({
             "drop-shadow-[8px_8px_0_rgba(0,0,0,0.3)]"
           )}>
             404
-            {/* Comic-style accent */}
-            <div className="absolute -top-4 -right-4 rotate-12 text-4xl">💥</div>
           </div>
           
           <H2 className="text-white uppercase tracking-wider">Page Not Found</H2>

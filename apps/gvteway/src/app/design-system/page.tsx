@@ -1,329 +1,312 @@
 "use client";
 
+import { useState } from "react";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
-  Hero,
-  Button,
-  Display,
-  H2,
-  H3,
-  Body,
-  Label,
-  ProjectCard,
-  ServiceCard,
-  StatCard,
-  Newsletter,
-  SocialIcon,
-  Input,
-  Textarea,
-  Select,
-  Checkbox,
-  Badge,
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableHead,
-  TableCell,
-  Alert,
-  ArrowRight,
-  Stack,
-  Grid,
-  Card,
-  Section,
+  Badge, Button, Checkbox, Input, Radio, Select, Spinner, Switch, Textarea,
+  Display, H1, H2, H3, H4, Body, Label, Kicker, ProgressBar,
+  StatusBadge, GridPattern,
+  Alert, ButtonGroup, Card,
+  Field, StatCard, Tabs, TabsList, Tab,
+  Modal, ModalHeader, ModalBody, ModalFooter,
+  Container, Section, Grid, Stack,
+  MainContent,
 } from "@ghxstship/ui";
+import { Box, Zap, Layers, Star } from "lucide-react";
+
+const INK_PALETTE = [
+  { name: "ink-50", hex: "#FFFFFF" },
+  { name: "ink-100", hex: "#F5F5F5" },
+  { name: "ink-200", hex: "#E5E5E5" },
+  { name: "ink-300", hex: "#D4D4D4" },
+  { name: "ink-400", hex: "#A3A3A3" },
+  { name: "ink-500", hex: "#737373" },
+  { name: "ink-600", hex: "#525252" },
+  { name: "ink-700", hex: "#404040" },
+  { name: "ink-800", hex: "#262626" },
+  { name: "ink-900", hex: "#171717" },
+  { name: "ink-950", hex: "#000000" },
+];
+
+const STATUS_COLORS = [
+  { name: "Success", hex: "#22C55E" },
+  { name: "Warning", hex: "#F59E0B" },
+  { name: "Error", hex: "#EF4444" },
+  { name: "Info", hex: "#3B82F6" },
+];
+
+const ACCENT_COLORS = [
+  { name: "Indigo", hex: "#6366F1" },
+  { name: "Violet", hex: "#8B5CF6" },
+  { name: "Purple", hex: "#A855F7" },
+  { name: "Pink", hex: "#EC4899" },
+  { name: "Cyan", hex: "#06B6D4" },
+  { name: "Teal", hex: "#14B8A6" },
+];
+
+const COMPONENT_COUNTS = {
+  atoms: 29, molecules: 37, organisms: 28, templates: 11, foundations: 12, hooks: 15,
+};
 
 export default function DesignSystemPage() {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [_currentPage, _setCurrentPage] = useState(1);
+  const [activeTab, setActiveTab] = useState("overview");
+  const totalComponents = Object.values(COMPONENT_COUNTS).reduce((a, b) => a + b, 0);
+
   return (
     <GvtewayAppLayout>
-      <Hero
-        title="Design System"
-        subtitle="Contemporary Minimal Pop Art"
-        background="black"
-        pattern="halftone"
-        cta={
-          <>
-            <Button variant="solid" icon={<ArrowRight />}>
-              Explore Components
-            </Button>
-            <Button variant="outlineWhite">View Documentation</Button>
-          </>
-        }
-      />
-
-      <Section id="typography">
-        <Stack gap={12}>
-          <Stack>
-            <Label size="sm" className="text-ink-600 mb-4 block">
-              Typography System
-            </Label>
-            <H2>Bold Typography</H2>
-            <Body className="mt-4">
-              GHXSTSHIP&apos;s design system features stark black and white contrast with strategic grey usage. Our typography system uses ANTON for display text, BEBAS NEUE for headings, SHARE TECH for body copy, and SHARE TECH MONO for labels and metadata.
-            </Body>
-          </Stack>
-
-          <Grid cols={2} gap={8}>
-            <Card className="border-2 border-black p-6">
-              <Label className="text-ink-600 mb-2">Display</Label>
-              <Display size="md">GHXSTSHIP</Display>
-            </Card>
-            <Card className="border-2 border-black p-6">
-              <Label className="text-ink-600 mb-2">Heading H2</Label>
-              <H2>We Create Beyond Reality</H2>
-            </Card>
-            <Card className="border-2 border-black p-6">
-              <Label className="text-ink-600 mb-2">Heading H3</Label>
-              <H3>Immersive Entertainment</H3>
-            </Card>
-            <Card className="border-2 border-black p-6">
-              <Label className="text-ink-600 mb-2">Body Text</Label>
-              <Body>
-                We architect impossible experiences that push the boundaries of what audiences expect, transforming abstract concepts into tangible realities.
+      <MainContent padding="none">
+        <div className="relative overflow-hidden border-b-2 border-ink-700 bg-ink-950">
+          <GridPattern className="absolute inset-0 opacity-30" />
+          <Container>
+            <div className="relative py-16">
+              <Kicker>GHXSTSHIP Platform</Kicker>
+              <Display className="mb-4 text-ink-50">Design System</Display>
+              <Body className="mb-8 max-w-2xl text-ink-400">
+                Bold Contemporary Pop Art Adventure aesthetic. Monochromatic palette with 
+                stark contrast, thick borders, hard shadows, and comic book energy.
               </Body>
-            </Card>
-          </Grid>
-        </Stack>
-      </Section>
+              <Stack direction="horizontal" gap={4}>
+                <Badge variant="solid">{totalComponents} Components</Badge>
+                <Badge variant="outline">ATLVS</Badge>
+                <Badge variant="outline">COMPVSS</Badge>
+                <Badge variant="outline">GVTEWAY</Badge>
+              </Stack>
+            </div>
+          </Container>
+        </div>
 
-      <Section id="components" background="grey">
-        <Stack gap={12}>
-          <Stack>
-            <Label size="sm" className="text-ink-600 mb-4 block">
-              Core Components
-            </Label>
-            <H2>Buttons & Actions</H2>
-          </Stack>
+        <div className="sticky top-0 z-10 border-b-2 border-ink-700 bg-ink-900">
+          <Container>
+            <Tabs>
+              <TabsList>
+                <Tab active={activeTab === "overview"} onClick={() => setActiveTab("overview")}>Overview</Tab>
+                <Tab active={activeTab === "colors"} onClick={() => setActiveTab("colors")}>Colors</Tab>
+                <Tab active={activeTab === "typography"} onClick={() => setActiveTab("typography")}>Typography</Tab>
+                <Tab active={activeTab === "components"} onClick={() => setActiveTab("components")}>Components</Tab>
+              </TabsList>
+            </Tabs>
+          </Container>
+        </div>
 
-          <Stack direction="horizontal" gap={4} className="flex-wrap">
-            <Button variant="solid">Solid Button</Button>
-            <Button variant="outline">Outline Button</Button>
-            <Button variant="ghost">Ghost Button</Button>
-            <Button variant="solid" size="lg" icon={<ArrowRight />}>
-              Large with Icon
-            </Button>
-            <Button variant="outline" size="sm">
-              Small Button
-            </Button>
-          </Stack>
+        <Container>
+          {activeTab === "overview" && (
+            <Section>
+              <Grid cols={6} gap={4} className="mb-12">
+                <StatCard label="Atoms" value={String(COMPONENT_COUNTS.atoms)} />
+                <StatCard label="Molecules" value={String(COMPONENT_COUNTS.molecules)} />
+                <StatCard label="Organisms" value={String(COMPONENT_COUNTS.organisms)} />
+                <StatCard label="Templates" value={String(COMPONENT_COUNTS.templates)} />
+                <StatCard label="Foundations" value={String(COMPONENT_COUNTS.foundations)} />
+                <StatCard label="Hooks" value={String(COMPONENT_COUNTS.hooks)} />
+              </Grid>
 
-          <Stack>
-            <H3 className="mb-6">Badges & Labels</H3>
-            <Stack direction="horizontal" gap={3} className="flex-wrap">
-              <Badge>Default</Badge>
-              <Badge>Status</Badge>
-              <Badge>Category</Badge>
-              <Label uppercase={false} className="text-ink-600">
-                TAMPA, FL // EST. 2022 // 52+ COUNTRIES
-              </Label>
+              <H2 className="mb-6 text-ink-50">Design Principles</H2>
+              <Grid cols={4} gap={4} className="mb-12">
+                {[
+                  { icon: <Box className="size-6" />, title: "Bold", desc: "Thick borders, heavy weights" },
+                  { icon: <Zap className="size-6" />, title: "Contemporary", desc: "Clean lines, modern energy" },
+                  { icon: <Layers className="size-6" />, title: "Pop Art", desc: "Hard shadows, halftone patterns" },
+                  { icon: <Star className="size-6" />, title: "Adventure", desc: "Motion, bounce, discovery" },
+                ].map((p) => (
+                  <Card key={p.title} className="border-2 border-ink-700 bg-ink-900 p-6">
+                    <div className="mb-4 text-ink-400">{p.icon}</div>
+                    <H4 className="mb-2 text-ink-50">{p.title}</H4>
+                    <Body className="text-body-sm text-ink-400">{p.desc}</Body>
+                  </Card>
+                ))}
+              </Grid>
+
+              <H2 className="mb-6 text-ink-50">Shadow System</H2>
+              <Grid cols={4} gap={6} className="mb-12">
+                <div className="border-2 border-ink-700 bg-ink-800 p-6 shadow-hard">
+                  <Label className="text-ink-400">shadow-hard</Label>
+                </div>
+                <div className="border-2 border-ink-700 bg-ink-800 p-6 shadow-hard-lg">
+                  <Label className="text-ink-400">shadow-hard-lg</Label>
+                </div>
+                <div className="border-2 border-ink-50 bg-ink-950 p-6 shadow-hard-white">
+                  <Label className="text-ink-400">shadow-hard-white</Label>
+                </div>
+                <div className="border-2 border-ink-50 bg-ink-950 p-6 shadow-hard-lg-white">
+                  <Label className="text-ink-400">shadow-hard-lg-white</Label>
+                </div>
+              </Grid>
+            </Section>
+          )}
+
+          {activeTab === "colors" && (
+            <Section>
+              <H2 className="mb-6 text-ink-50">Ink Palette</H2>
+              <Grid cols={6} gap={4} className="mb-12">
+                {INK_PALETTE.map((c) => (
+                  <div key={c.name} className="flex flex-col items-center">
+                    <div className="mb-2 size-16 border-2 border-ink-600" style={{ backgroundColor: c.hex }} />
+                    <Label className="text-body-xs text-ink-400">{c.name}</Label>
+                  </div>
+                ))}
+              </Grid>
+              <H2 className="mb-6 text-ink-50">Status Colors</H2>
+              <Grid cols={4} gap={4} className="mb-12">
+                {STATUS_COLORS.map((c) => (
+                  <Card key={c.name} className="border-2 border-ink-700 bg-ink-900 p-4">
+                    <div className="mb-3 h-12 w-full border-2 border-ink-600" style={{ backgroundColor: c.hex }} />
+                    <H4 className="text-ink-50">{c.name}</H4>
+                  </Card>
+                ))}
+              </Grid>
+              <H2 className="mb-6 text-ink-50">Accent Colors</H2>
+              <Grid cols={6} gap={4}>
+                {ACCENT_COLORS.map((c) => (
+                  <Card key={c.name} className="border-2 border-ink-700 bg-ink-900 p-4">
+                    <div className="mb-3 h-12 w-full border-2 border-ink-600" style={{ backgroundColor: c.hex }} />
+                    <H4 className="text-ink-50">{c.name}</H4>
+                  </Card>
+                ))}
+              </Grid>
+            </Section>
+          )}
+
+          {activeTab === "typography" && (
+            <Section>
+              <H2 className="mb-6 text-ink-50">Font Families</H2>
+              <Grid cols={2} gap={6} className="mb-12">
+                <Card className="border-2 border-ink-700 bg-ink-900 p-6">
+                  <Label className="mb-2 text-ink-400">Display / H1</Label>
+                  <div className="font-display text-display-md uppercase text-ink-50">ANTON</div>
+                </Card>
+                <Card className="border-2 border-ink-700 bg-ink-900 p-6">
+                  <Label className="mb-2 text-ink-400">Headings H2-H6</Label>
+                  <div className="font-heading text-h2-md uppercase tracking-label text-ink-50">BEBAS NEUE</div>
+                </Card>
+                <Card className="border-2 border-ink-700 bg-ink-900 p-6">
+                  <Label className="mb-2 text-ink-400">Body Text</Label>
+                  <div className="font-body text-body-lg text-ink-50">Share Tech</div>
+                </Card>
+                <Card className="border-2 border-ink-700 bg-ink-900 p-6">
+                  <Label className="mb-2 text-ink-400">Monospace</Label>
+                  <div className="font-mono text-mono-lg text-ink-50">Share Tech Mono</div>
+                </Card>
+              </Grid>
+              <H2 className="mb-6 text-ink-50">Type Scale</H2>
+              <Stack gap={4}>
+                <Display className="text-ink-50">Display - 120px</Display>
+                <H1 className="text-ink-50">Heading 1 - 56px</H1>
+                <H2 className="text-ink-50">Heading 2 - 40px</H2>
+                <H3 className="text-ink-50">Heading 3 - 32px</H3>
+                <H4 className="text-ink-50">Heading 4 - 24px</H4>
+                <Body className="text-ink-50">Body - 16px</Body>
+                <Label className="text-ink-50">Label - 12px</Label>
+              </Stack>
+            </Section>
+          )}
+
+          {activeTab === "components" && (
+            <Section>
+              <H2 className="mb-6 text-ink-50">Buttons</H2>
+              <Card className="mb-8 border-2 border-ink-700 bg-ink-900 p-6">
+                <Stack direction="horizontal" gap={4} className="mb-6 flex-wrap">
+                  <Button variant="solid">Solid</Button>
+                  <Button variant="outline">Outline</Button>
+                  <Button variant="ghost">Ghost</Button>
+                  <Button variant="outlineWhite">Outline White</Button>
+                </Stack>
+                <ButtonGroup>
+                  <Button>First</Button>
+                  <Button>Second</Button>
+                  <Button>Third</Button>
+                </ButtonGroup>
+              </Card>
+
+              <H2 className="mb-6 text-ink-50">Badges & Status</H2>
+              <Card className="mb-8 border-2 border-ink-700 bg-ink-900 p-6">
+                <Stack direction="horizontal" gap={3} className="mb-4 flex-wrap">
+                  <Badge variant="solid">Solid</Badge>
+                  <Badge variant="outline">Outline</Badge>
+                </Stack>
+                <Stack direction="horizontal" gap={3} className="flex-wrap">
+                  <StatusBadge status="active">Active</StatusBadge>
+                  <StatusBadge status="pending">Pending</StatusBadge>
+                  <StatusBadge status="success">Success</StatusBadge>
+                  <StatusBadge status="error">Error</StatusBadge>
+                </Stack>
+              </Card>
+
+              <H2 className="mb-6 text-ink-50">Form Controls</H2>
+              <Card className="mb-8 border-2 border-ink-700 bg-ink-900 p-6">
+                <Grid cols={2} gap={6}>
+                  <Field label="Text Input"><Input placeholder="Enter text..." inverted /></Field>
+                  <Field label="Select"><Select inverted><option>Option 1</option></Select></Field>
+                  <Field label="Textarea"><Textarea placeholder="Multi-line..." rows={3} inverted /></Field>
+                  <Stack gap={4}>
+                    <Checkbox label="Checkbox" />
+                    <Radio name="demo" label="Radio" />
+                    <Switch label="Switch" />
+                  </Stack>
+                </Grid>
+              </Card>
+
+              <H2 className="mb-6 text-ink-50">Alerts</H2>
+              <Stack gap={4} className="mb-8">
+                <Alert variant="success">Success message</Alert>
+                <Alert variant="warning">Warning message</Alert>
+                <Alert variant="error">Error message</Alert>
+                <Alert variant="info">Info message</Alert>
+              </Stack>
+
+              <H2 className="mb-6 text-ink-50">Cards & Stats</H2>
+              <Grid cols={4} gap={4} className="mb-8">
+                <StatCard label="Revenue" value="$124.5K" trendValue="+12.5%" trend="up" />
+                <StatCard label="Users" value="1,234" trendValue="-2.3%" trend="down" />
+                <StatCard label="Orders" value="856" trendValue="+8.1%" trend="up" />
+                <StatCard label="Rate" value="3.2%" />
+              </Grid>
+
+              <H2 className="mb-6 text-ink-50">Progress & Loading</H2>
+              <Card className="mb-8 border-2 border-ink-700 bg-ink-900 p-6">
+                <Stack gap={4} className="mb-6">
+                  <ProgressBar value={25} showLabel />
+                  <ProgressBar value={75} showLabel />
+                </Stack>
+                <Stack direction="horizontal" gap={6}>
+                  <Spinner size="sm" />
+                  <Spinner size="md" />
+                  <Spinner size="lg" />
+                </Stack>
+              </Card>
+
+              <H2 className="mb-6 text-ink-50">Modal</H2>
+              <Card className="mb-8 border-2 border-ink-700 bg-ink-900 p-6">
+                <Button variant="solid" onClick={() => setModalOpen(true)}>Open Modal</Button>
+                <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+                  <ModalHeader><H3>Modal Title</H3></ModalHeader>
+                  <ModalBody><Body className="text-ink-300">Modal content here.</Body></ModalBody>
+                  <ModalFooter>
+                    <ButtonGroup>
+                      <Button variant="outline" onClick={() => setModalOpen(false)}>Cancel</Button>
+                      <Button variant="solid" onClick={() => setModalOpen(false)}>Confirm</Button>
+                    </ButtonGroup>
+                  </ModalFooter>
+                </Modal>
+              </Card>
+            </Section>
+          )}
+        </Container>
+
+        <div className="mt-16 border-t-2 border-ink-700 bg-ink-900 py-8">
+          <Container>
+            <Stack direction="horizontal" className="items-center justify-between">
+              <Body className="text-ink-500">GHXSTSHIP Design System v1.0</Body>
+              <Stack direction="horizontal" gap={4}>
+                <Badge variant="outline">ATLVS</Badge>
+                <Badge variant="outline">COMPVSS</Badge>
+                <Badge variant="outline">GVTEWAY</Badge>
+              </Stack>
             </Stack>
-          </Stack>
-
-          <Stack>
-            <H3 className="mb-6">Alerts</H3>
-            <Stack gap={4}>
-              <Alert variant="success">Operation completed successfully</Alert>
-              <Alert variant="error">An error occurred during processing</Alert>
-              <Alert variant="warning">Please review your submission</Alert>
-              <Alert variant="info">New features available</Alert>
-            </Stack>
-          </Stack>
-        </Stack>
-      </Section>
-
-      <Section id="cards">
-        <Stack gap={12}>
-          <Stack>
-            <Label size="sm" className="text-ink-600 mb-4 block">
-              Card Components
-            </Label>
-            <H2>Content Cards</H2>
-          </Stack>
-
-          <Grid cols={3} gap={6}>
-            <StatCard
-              label="Total Events"
-              value="1,247"
-              trend="up"
-              trendValue="+12.5%"
-            />
-            <StatCard
-              label="Active Users"
-              value="52.3K"
-              trend="up"
-              trendValue="+8.3%"
-            />
-            <StatCard
-              label="Revenue"
-              value="$2.4M"
-              trend="down"
-              trendValue="-2.1%"
-            />
-          </Grid>
-
-          <Grid cols={3} gap={6}>
-            <ServiceCard
-              icon="🎭"
-              title="Design"
-              description="Strategic brand development, visual identity systems, and immersive experience design."
-              background="white"
-            />
-            <ServiceCard
-              icon="⚡"
-              title="Development"
-              description="Full-stack engineering, API architecture, and scalable cloud infrastructure."
-              background="white"
-            />
-            <ServiceCard
-              icon="🚀"
-              title="Direction"
-              description="Executive consulting, product strategy, and operational excellence."
-              background="white"
-            />
-          </Grid>
-
-          <Grid cols={3} gap={6}>
-            <ProjectCard
-              title="Formula 1 Miami GP"
-              image="https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=800"
-              imageAlt="Formula 1"
-              metadata="MIAMI, FL // 2024"
-              tags={["EXPERIENTIAL", "SPORTS", "LUXURY"]}
-            />
-            <ProjectCard
-              title="Ultra Music Festival"
-              image="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800"
-              imageAlt="Music Festival"
-              metadata="MIAMI, FL // 2024"
-              tags={["FESTIVAL", "MUSIC", "PRODUCTION"]}
-            />
-            <ProjectCard
-              title="Art Basel"
-              image="https://images.unsplash.com/photo-1531243269054-5ebf6f34081e?w=800"
-              imageAlt="Art Exhibition"
-              metadata="BASEL, CH // 2024"
-              tags={["ART", "LUXURY", "CULTURE"]}
-            />
-          </Grid>
-        </Stack>
-      </Section>
-
-      <Section id="forms" background="grey">
-        <Stack gap={12}>
-          <Stack>
-            <Label size="sm" className="text-ink-600 mb-4 block">
-              Form Elements
-            </Label>
-            <H2>Input Components</H2>
-          </Stack>
-
-          <Stack gap={6} className="max-w-2xl">
-            <Stack>
-              <Label className="mb-2 block">Email Address</Label>
-              <Input type="email" placeholder="your@email.com" />
-            </Stack>
-
-            <Stack>
-              <Label className="mb-2 block">Message</Label>
-              <Textarea placeholder="Tell us about your project..." rows={4} />
-            </Stack>
-
-            <Stack>
-              <Label className="mb-2 block">Service Type</Label>
-              <Select>
-                <option>Select a service</option>
-                <option>Design</option>
-                <option>Development</option>
-                <option>Direction</option>
-                <option>Disruption</option>
-              </Select>
-            </Stack>
-
-            <Stack direction="horizontal" gap={2} className="items-center">
-              <Checkbox id="terms" />
-              <Label className="cursor-pointer text-body-sm">
-                I agree to the terms and conditions
-              </Label>
-            </Stack>
-
-            <Button variant="solid" size="lg" className="w-full">
-              Submit Request
-            </Button>
-          </Stack>
-
-          <Stack className="max-w-md">
-            <H3 className="mb-4">Newsletter</H3>
-            <Newsletter
-              placeholder="Your email address"
-              buttonText="Subscribe"
-              onSubmit={async (email) => {
-                console.log("Newsletter signup:", email);
-              }}
-            />
-          </Stack>
-        </Stack>
-      </Section>
-
-      <Section background="black">
-        <Stack gap={8} className="text-center">
-          <H2 className="text-white">Ready to Start?</H2>
-          <Body className="text-ink-400 mx-auto max-w-2xl">
-            Connect with our team to discuss your next immersive experience project.
-          </Body>
-          <Stack direction="horizontal" gap={4} className="justify-center">
-            <SocialIcon platform="instagram" href="#" inverted />
-            <SocialIcon platform="twitter" href="#" inverted />
-            <SocialIcon platform="linkedin" href="#" inverted />
-            <SocialIcon platform="email" href="mailto:hello@ghxstship.com" inverted />
-          </Stack>
-        </Stack>
-      </Section>
-
-      <Section>
-        <Stack>
-          <Label size="sm" className="text-ink-600 mb-4 block">
-            Data Tables
-          </Label>
-          <H2 className="mb-8">Table Component</H2>
-
-          <Table variant="dark">
-            <TableHeader>
-              <TableRow>
-                <TableHead>Project</TableHead>
-                <TableHead>Client</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Budget</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              <TableRow>
-                <TableCell>Formula 1 Miami GP</TableCell>
-                <TableCell>Formula One Group</TableCell>
-                <TableCell>
-                  <Badge>Active</Badge>
-                </TableCell>
-                <TableCell>$2.5M</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>Ultra Music Festival</TableCell>
-                <TableCell>Ultra Worldwide</TableCell>
-                <TableCell>
-                  <Badge>Planning</Badge>
-                </TableCell>
-                <TableCell>$1.8M</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>Art Basel</TableCell>
-                <TableCell>MCH Group</TableCell>
-                <TableCell>
-                  <Badge>Completed</Badge>
-                </TableCell>
-                <TableCell>$950K</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </Stack>
-      </Section>
+          </Container>
+        </div>
+      </MainContent>
     </GvtewayAppLayout>
   );
 }
