@@ -77,3 +77,11 @@ jobs:
           cache: 'pnpm'
       - run: pnpm install --frozen-lockfile
       - run: pnpm turbo run test
+      - run: pnpm vitest run --coverage
+        continue-on-error: true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/
+          retention-days: 7
+        if: always()

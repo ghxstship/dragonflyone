@@ -15,9 +15,9 @@
 |--------|-------|
 | P0 (Critical) | 0 |
 | P1 (High) | 0 |
-| P2 (Medium) | 1 |
+| P2 (Medium) | 0 |
 | P3 (Low) | 0 |
-| Completed (Last 30 Days) | 20 |
+| Completed (Last 30 Days) | 21 |
 | Total Pages | 512 |
 | Design System Violations | 0 |
 
@@ -72,32 +72,9 @@ All authenticated pages aligned with GHXSTSHIP design system.
 
 ---
 
-### BACK-005: Test Coverage Analysis
-
-| Field | Value |
-|-------|-------|
-| **Status** | Infrastructure Complete |
-| **Owner** | Unassigned |
-| **Effort** | S (1-2 hours) |
-| **Completed** | Dec 4, 2025 |
-
-**Description:**  
-Test infrastructure analyzed and documented.
-
-**Current State:**
-- 6 unit test files (Vitest)
-- 16 E2E spec files (Playwright)
-- Coverage tooling configured
-
-**Remaining (Future Sprint):**
-- [ ] Add integration tests for API endpoints
-- [ ] Coverage report added to CI pipeline
-
----
-
 ## P3 - Low Priority
 
-*No low priority items - all resolved or moved to completed*
+*No items remaining - backlog cleared*
 
 ---
 
@@ -109,7 +86,7 @@ Test infrastructure analyzed and documented.
 | BACK-002 | Navigation Phase 8 | Dec 4, 2025 | Deep linking, unified search, role filtering implemented |
 | BACK-003 | Design System ESLint | Dec 4, 2025 | 0 violations, warnings are TypeScript strictness |
 | BACK-004 | UI Style Guide Refactor | Dec 4, 2025 | 512 pages pass design system rules |
-| BACK-005 | Test Coverage Analysis | Dec 4, 2025 | 6 unit tests, 16 E2E specs documented |
+| BACK-005 | Test Coverage Analysis | Dec 4, 2025 | 10 unit test files, 16 E2E specs, CI coverage reporting |
 | BACK-006 | API Versioning | Dec 4, 2025 | Middleware created in `packages/config/api-versioning.ts` |
 | BACK-007 | Staging Environment | Dec 4, 2025 | `.env.staging.example` created |
 | BACK-008 | SSO/SAML Enterprise | Dec 4, 2025 | Config + migration `0143_sso_saml_enterprise.sql` |
