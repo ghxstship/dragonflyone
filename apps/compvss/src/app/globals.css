@@ -8,4 +8,18 @@
 @tailwind components;
 @tailwind utilities;
 
-/* App-specific overrides (if any) go below */
+/* COMPVSS Brand Colors - Pineapple Yellow */
+:root {
+  --primary: 45 93% 47%; /* #eab308 - Yellow 500 */
+  --primary-foreground: 0 0% 0%;
+  
+  /* Yellow color scale for focus states and accents */
+  --color-primary-200: rgba(254, 240, 138, 0.3); /* yellow-200 with opacity */
+  --color-primary-300: rgba(253, 224, 71, 0.4); /* yellow-300 with opacity */
+  --color-primary-400: #facc15; /* yellow-400 */
+  --color-primary-500: #eab308; /* yellow-500 */
+  --color-primary-600: #ca8a04; /* yellow-600 */
+  
+  /* Update shadow for pop art effect */
+  --shadow-primary: 4px 4px 0 hsl(var(--primary));
+}

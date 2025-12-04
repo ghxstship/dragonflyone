@@ -194,7 +194,7 @@ export default function SOPCategoriesPage() {
         fields={formFields}
         onSubmit={handleCreate}
         size="md"
-        defaultValues={{ is_active: true, sort_order: (categories?.length || 0) + 1, color: '#6366f1' }}
+        defaultValues={{ is_active: true, sort_order: (categories?.length || 0) + 1, color: '#eab308' }}
       />
 
       <DetailDrawer

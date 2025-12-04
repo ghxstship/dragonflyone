@@ -10,7 +10,7 @@ export const darkTheme = {
   border: 'rgba(255,255,255,0.2)',
   borderLight: 'rgba(255,255,255,0.1)',
   shadow: 'rgba(255,255,255,0.15)',
-  primary: '#6366f1',
+  primary: 'var(--color-primary-500, #6366f1)', // Uses app-specific primary color
   secondary: '#8b5cf6',
   accent: '#f59e0b',
   destructive: '#ef4444',
@@ -28,7 +28,7 @@ export const lightTheme = {
   border: 'rgba(0,0,0,0.2)',
   borderLight: 'rgba(0,0,0,0.1)',
   shadow: 'rgba(0,0,0,0.15)',
-  primary: '#6366f1',
+  primary: 'var(--color-primary-500, #6366f1)', // Uses app-specific primary color
   secondary: '#8b5cf6',
   accent: '#f59e0b',
   destructive: '#ef4444',

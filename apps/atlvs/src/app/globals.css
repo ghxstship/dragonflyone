@@ -8,4 +8,18 @@
 @tailwind components;
 @tailwind utilities;
 
-/* App-specific overrides (if any) go below */
+/* ATLVS Brand Colors - Miami Pink */
+:root {
+  --primary: 330 81% 60%; /* #ec4899 - Pink 500 */
+  --primary-foreground: 0 0% 100%;
+  
+  /* Pink color scale for focus states and accents */
+  --color-primary-200: rgba(251, 207, 232, 0.3); /* pink-200 with opacity */
+  --color-primary-300: rgba(249, 168, 212, 0.4); /* pink-300 with opacity */
+  --color-primary-400: #f472b6; /* pink-400 */
+  --color-primary-500: #ec4899; /* pink-500 */
+  --color-primary-600: #db2777; /* pink-600 */
+  
+  /* Update shadow for pop art effect */
+  --shadow-primary: 4px 4px 0 hsl(var(--primary));
+}

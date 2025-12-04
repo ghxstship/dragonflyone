@@ -9,6 +9,8 @@ export { Button } from "./atoms/button.js";
 export type { ButtonProps } from "./atoms/button.js";
 export { Input } from "./atoms/input.js";
 export type { InputProps } from "./atoms/input.js";
+export { PasswordInput } from "./atoms/password-input.js";
+export type { PasswordInputProps } from "./atoms/password-input.js";
 export { Textarea } from "./atoms/textarea.js";
 export type { TextareaProps } from "./atoms/textarea.js";
 export { Select } from "./atoms/select.js";

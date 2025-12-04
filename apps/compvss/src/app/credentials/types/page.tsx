@@ -245,7 +245,7 @@ export default function CredentialTypesPage() {
         fields={formFields}
         onSubmit={handleCreate}
         size="lg"
-        defaultValues={{ is_active: true, requires_photo: false, requires_background_check: false, access_level: 1, color: '#6366f1' }}
+        defaultValues={{ is_active: true, requires_photo: false, requires_background_check: false, access_level: 1, color: '#eab308' }}
       />
 
       <RecordFormModal

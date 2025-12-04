@@ -8,6 +8,7 @@ import {
   Body,
   Button,
   Input,
+  PasswordInput,
   Alert,
   Stack,
   Card,
@@ -165,8 +166,7 @@ export default function SignUpPage() {
                     </Field>
 
                     <Field label="Password" hint="Minimum 8 characters">
-                      <Input
-                        type="password"
+                      <PasswordInput
                         value={formData.password}
                         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                         placeholder="Create a strong password"
@@ -175,8 +175,7 @@ export default function SignUpPage() {
                     </Field>
 
                     <Field label="Confirm Password">
-                      <Input
-                        type="password"
+                      <PasswordInput
                         value={formData.confirmPassword}
                         onChange={(e) =>
                           setFormData({ ...formData, confirmPassword: e.target.value })

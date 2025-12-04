@@ -8,25 +8,12 @@
 
    Creating an optimized production build ...
    Using tsconfig file: tsconfig.build.json
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (128kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
  ✓ Compiled successfully
    Skipping validation of types
    Collecting page data ...
  ⚠ Using edge runtime on a page currently disables static generation for that page
    Generating static pages (0/382) ...
-API route error: q [Error]: Dynamic server usage: Route /api/advances couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
-    at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
-    at /Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/chunks/435.js:1:4479
-    at /Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/chunks/435.js:1:4804
-    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
-    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:140:36
-    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
-    at ContextAPI.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/api/context.js:60:46)
-    at NoopTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/NoopTracer.js:65:31)
-    at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/ProxyTracer.js:36:24)
-    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:122:103 {
-  description: "Route /api/advances couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
-  digest: 'DYNAMIC_SERVER_USAGE'
-}
 API route error: q [Error]: Dynamic server usage: Route /api/analytics couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
     at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
     at /Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/chunks/435.js:1:4479
@@ -55,21 +42,21 @@ Asset utilization error: q [Error]: Dynamic server usage: Route /api/asset-utili
   description: "Route /api/asset-utilization couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
   digest: 'DYNAMIC_SERVER_USAGE'
 }
-   Generating static pages (95/382) 
-Metrics error: q [Error]: Dynamic server usage: Route /api/metrics couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+API route error: q [Error]: Dynamic server usage: Route /api/advances couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
     at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
-    at u (/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/app/api/metrics/route.js:1:589)
+    at /Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/chunks/435.js:1:4479
+    at /Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/chunks/435.js:1:4804
     at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
     at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:140:36
     at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
     at ContextAPI.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/api/context.js:60:46)
     at NoopTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/NoopTracer.js:65:31)
     at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/ProxyTracer.js:36:24)
-    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:122:103
-    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19) {
-  description: "Route /api/metrics couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:122:103 {
+  description: "Route /api/advances couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
   digest: 'DYNAMIC_SERVER_USAGE'
 }
+   Generating static pages (95/382) 
 Error fetching KPI definitions: q [Error]: Dynamic server usage: Route /api/kpi couldn't be rendered statically because it accessed `nextUrl.searchParams`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
     at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:38289)
     at p (/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/app/api/kpi/route.js:1:539)
@@ -82,6 +69,20 @@ Error fetching KPI definitions: q [Error]: Dynamic server usage: Route /api/kpi 
     at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:122:103
     at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19) {
   description: "Route /api/kpi couldn't be rendered statically because it accessed `nextUrl.searchParams`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Metrics error: q [Error]: Dynamic server usage: Route /api/metrics couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
+    at u (/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/app/api/metrics/route.js:1:589)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
+    at ContextAPI.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/api/context.js:60:46)
+    at NoopTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/NoopTracer.js:65:31)
+    at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/ProxyTracer.js:36:24)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:122:103
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19) {
+  description: "Route /api/metrics couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
   digest: 'DYNAMIC_SERVER_USAGE'
 }
 Export data error: q [Error]: Dynamic server usage: Route /api/privacy/export couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
@@ -99,6 +100,20 @@ Export data error: q [Error]: Dynamic server usage: Route /api/privacy/export co
   digest: 'DYNAMIC_SERVER_USAGE'
 }
    Generating static pages (190/382) 
+Spend analytics error: q [Error]: Dynamic server usage: Route /api/spend-analytics couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
+    at c (/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/app/api/spend-analytics/route.js:1:611)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
+    at ContextAPI.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/api/context.js:60:46)
+    at NoopTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/NoopTracer.js:65:31)
+    at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/ProxyTracer.js:36:24)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:122:103
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19) {
+  description: "Route /api/spend-analytics couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
 OIDC login error: q [Error]: Dynamic server usage: Route /api/sso/oidc/login couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
     at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
     at u (/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/app/api/sso/oidc/login/route.js:1:668)
@@ -127,9 +142,9 @@ SAML login error: q [Error]: Dynamic server usage: Route /api/sso/saml/login cou
   description: "Route /api/sso/saml/login couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
   digest: 'DYNAMIC_SERVER_USAGE'
 }
-Spend analytics error: q [Error]: Dynamic server usage: Route /api/spend-analytics couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+OAuth authorize error: q [Error]: Dynamic server usage: Route /api/zapier/oauth/authorize couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
     at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
-    at c (/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/app/api/spend-analytics/route.js:1:611)
+    at c (/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/app/api/zapier/oauth/authorize/route.js:1:668)
     at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
     at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:140:36
     at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
@@ -138,7 +153,7 @@ Spend analytics error: q [Error]: Dynamic server usage: Route /api/spend-analyti
     at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/ProxyTracer.js:36:24)
     at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:122:103
     at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19) {
-  description: "Route /api/spend-analytics couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  description: "Route /api/zapier/oauth/authorize couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
   digest: 'DYNAMIC_SERVER_USAGE'
 }
 Integration analytics error: q [Error]: Dynamic server usage: Route /api/zapier/analytics couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
@@ -155,42 +170,28 @@ Integration analytics error: q [Error]: Dynamic server usage: Route /api/zapier/
   description: "Route /api/zapier/analytics couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
   digest: 'DYNAMIC_SERVER_USAGE'
 }
-OAuth authorize error: q [Error]: Dynamic server usage: Route /api/zapier/oauth/authorize couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
-    at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
-    at c (/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/app/api/zapier/oauth/authorize/route.js:1:668)
-    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
-    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:140:36
-    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
-    at ContextAPI.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/api/context.js:60:46)
-    at NoopTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/NoopTracer.js:65:31)
-    at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/ProxyTracer.js:36:24)
-    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:122:103
-    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19) {
-  description: "Route /api/zapier/oauth/authorize couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
-  digest: 'DYNAMIC_SERVER_USAGE'
-}
    Generating static pages (286/382) 
  ✓ Generating static pages (382/382)
    Finalizing page optimization ...
    Collecting build traces ...
 
 Route (app)                                   Size     First Load JS
-┌ ƒ /                                         136 B           336 kB
-├ ○ /_not-found                               136 B           336 kB
-├ ƒ /about                                    136 B           336 kB
+┌ ƒ /                                         136 B           337 kB
+├ ○ /_not-found                               136 B           337 kB
+├ ƒ /about                                    136 B           337 kB
 ├ ○ /advances                                 1.71 kB         338 kB
-├ ƒ /advances/[id]                            1.99 kB         338 kB
+├ ƒ /advances/[id]                            1.99 kB         339 kB
 ├ ○ /advancing                                1.77 kB         338 kB
 ├ ƒ /advancing/requests/[id]                  1.54 kB         338 kB
 ├ ○ /alignment                                2.81 kB         339 kB
 ├ ○ /analytics                                1.8 kB          338 kB
-├ ○ /analytics/client-retention               2.07 kB         338 kB
+├ ○ /analytics/client-retention               2.07 kB         339 kB
 ├ ○ /analytics/dashboard-builder              1.84 kB         338 kB
-├ ○ /analytics/data-warehouse                 1.98 kB         338 kB
+├ ○ /analytics/data-warehouse                 1.98 kB         339 kB
 ├ ○ /analytics/kpi                            2.41 kB         339 kB
-├ ƒ /analytics/kpi/[code]                     2.05 kB         338 kB
+├ ƒ /analytics/kpi/[code]                     2.05 kB         339 kB
 ├ ○ /api-management                           1.45 kB         338 kB
-├ ○ /api-management/keys                      2.12 kB         338 kB
+├ ○ /api-management/keys                      2.12 kB         339 kB
 ├ ○ /api-management/logs                      1.61 kB         338 kB
 ├ ○ /api-management/webhooks                  2.27 kB         339 kB
 ├ ƒ /api/account-health                       0 B                0 B
@@ -500,85 +501,85 @@ Route (app)                                   Size     First Load JS
 ├ ƒ /api/zapier/triggers                      0 B                0 B
 ├ ƒ /api/zapier/webhooks                      0 B                0 B
 ├ ○ /assets                                   2.37 kB         339 kB
-├ ○ /assets/calibration                       1.91 kB         338 kB
-├ ○ /assets/damage-reports                    2.21 kB         338 kB
+├ ○ /assets/calibration                       1.91 kB         339 kB
+├ ○ /assets/damage-reports                    2.21 kB         339 kB
 ├ ○ /assets/idle-analysis                     1.87 kB         338 kB
-├ ○ /assets/kits                              2.18 kB         338 kB
+├ ○ /assets/kits                              2.18 kB         339 kB
 ├ ○ /assets/maintenance                       2.54 kB         339 kB
 ├ ○ /assets/optimization                      2.54 kB         339 kB
 ├ ○ /assets/performance                       1.86 kB         338 kB
-├ ○ /assets/rentals                           2.17 kB         338 kB
+├ ○ /assets/rentals                           2.17 kB         339 kB
 ├ ○ /assets/scan                              2.64 kB         339 kB
-├ ○ /assets/serialized                        3.12 kB         339 kB
-├ ○ /assets/specifications                    2.97 kB         339 kB
+├ ○ /assets/serialized                        3.12 kB         340 kB
+├ ○ /assets/specifications                    2.97 kB         340 kB
 ├ ○ /assets/storage                           1.79 kB         338 kB
-├ ○ /assets/tracking                          2.1 kB          338 kB
-├ ○ /assets/utilization                       1.94 kB         338 kB
+├ ○ /assets/tracking                          2.1 kB          339 kB
+├ ○ /assets/utilization                       1.94 kB         339 kB
 ├ ○ /audit                                    1.53 kB         338 kB
 ├ ○ /auth/forgot-password                     1.28 kB         338 kB
 ├ ○ /auth/magic-link                          1.33 kB         338 kB
 ├ ○ /auth/reset-password                      1.38 kB         338 kB
 ├ ○ /auth/signin                              587 B           337 kB
-├ ○ /auth/signup                              1.94 kB         338 kB
-├ ○ /auth/verify-email                        966 B           337 kB
-├ ○ /billing                                  2.15 kB         338 kB
-├ ○ /budgets                                  2.16 kB         338 kB
-├ ○ /compliance                               2.05 kB         338 kB
-├ ƒ /contact                                  135 B           336 kB
-├ ○ /contacts                                 1.92 kB         338 kB
-├ ○ /contacts/relationships                   2.94 kB         339 kB
+├ ○ /auth/signup                              1.94 kB         339 kB
+├ ○ /auth/verify-email                        966 B           338 kB
+├ ○ /billing                                  2.15 kB         339 kB
+├ ○ /budgets                                  2.16 kB         339 kB
+├ ○ /compliance                               2.05 kB         339 kB
+├ ƒ /contact                                  135 B           337 kB
+├ ○ /contacts                                 1.92 kB         339 kB
+├ ○ /contacts/relationships                   2.94 kB         340 kB
 ├ ○ /contracts                                2.55 kB         339 kB
 ├ ○ /crm                                      1.53 kB         338 kB
-├ ○ /crm/calendar                             2.05 kB         338 kB
-├ ○ /crm/email-integration                    1.91 kB         338 kB
+├ ○ /crm/calendar                             2.05 kB         339 kB
+├ ○ /crm/email-integration                    1.91 kB         339 kB
 ├ ○ /crm/lead-scoring                         2.27 kB         339 kB
 ├ ○ /crm/relationships                        1.77 kB         338 kB
 ├ ○ /crm/tasks                                2.52 kB         339 kB
 ├ ○ /dashboard                                2.7 kB          339 kB
 ├ ○ /deals                                    1.79 kB         338 kB
-├ ƒ /demo                                     136 B           336 kB
-├ ○ /design-system                            2.96 kB         339 kB
-├ ○ /documents                                2.03 kB         338 kB
-├ ○ /employees                                2.17 kB         338 kB
-├ ○ /expenses                                 2.14 kB         338 kB
-├ ƒ /expenses/[id]                            2.19 kB         338 kB
-├ ○ /expenses/categories                      1.91 kB         338 kB
+├ ƒ /demo                                     136 B           337 kB
+├ ○ /design-system                            2.96 kB         340 kB
+├ ○ /documents                                2.03 kB         339 kB
+├ ○ /employees                                2.17 kB         339 kB
+├ ○ /expenses                                 2.14 kB         339 kB
+├ ƒ /expenses/[id]                            2.19 kB         339 kB
+├ ○ /expenses/categories                      1.91 kB         339 kB
 ├ ○ /expenses/reports                         1.78 kB         338 kB
 ├ ○ /finance                                  1.75 kB         338 kB
-├ ○ /finance/accounts-receivable              1.95 kB         338 kB
+├ ○ /finance/accounts-receivable              1.95 kB         339 kB
 ├ ○ /finance/bank-reconciliation              1.72 kB         338 kB
-├ ○ /finance/commissions                      2.14 kB         338 kB
+├ ○ /finance/commissions                      2.14 kB         339 kB
 ├ ○ /finance/credit-cards                     1.78 kB         338 kB
 ├ ƒ /generator                                2.69 kB         339 kB
-├ ƒ /generator/share/[id]                     1.1 kB          337 kB
+├ ƒ /generator/share/[id]                     1.1 kB          338 kB
 ├ ƒ /generator/share/[id]/opengraph-image     0 B                0 B
 ├ ○ /governance                               1.81 kB         338 kB
-├ ƒ /help                                     136 B           336 kB
-├ ○ /insurance                                2.26 kB         338 kB
-├ ƒ /insurance/[id]                           1.96 kB         338 kB
+├ ƒ /help                                     136 B           337 kB
+├ ○ /insurance                                2.26 kB         339 kB
+├ ƒ /insurance/[id]                           1.96 kB         339 kB
 ├ ○ /integrations                             1.67 kB         338 kB
-├ ○ /investors                                2.11 kB         338 kB
-├ ƒ /investors/[id]                           2.04 kB         338 kB
-├ ○ /investors/documents                      1.97 kB         338 kB
+├ ○ /investors                                2.11 kB         339 kB
+├ ƒ /investors/[id]                           2.04 kB         339 kB
+├ ○ /investors/documents                      1.97 kB         339 kB
 ├ ○ /investors/reports                        1.79 kB         338 kB
-├ ○ /investors/rounds                         2.21 kB         338 kB
+├ ○ /investors/rounds                         2.21 kB         339 kB
 ├ ○ /invoices                                 2.56 kB         339 kB
-├ ○ /ip-tracking                              2.05 kB         338 kB
-├ ○ /leads/scoring                            4.12 kB         340 kB
-├ ƒ /legal/privacy                            135 B           336 kB
-├ ƒ /legal/terms                              135 B           336 kB
+├ ○ /ip-tracking                              2.05 kB         339 kB
+├ ○ /leads/scoring                            4.12 kB         341 kB
+├ ƒ /legal/privacy                            135 B           337 kB
+├ ƒ /legal/terms                              135 B           337 kB
 ├ ○ /marketing/attribution                    2.31 kB         339 kB
-├ ○ /metrics                                  1.9 kB          338 kB
+├ ○ /metrics                                  1.9 kB          339 kB
 ├ ○ /metrics/kpis                             1.59 kB         338 kB
 ├ ○ /metrics/reports                          1.8 kB          338 kB
-├ ○ /okrs                                     1.92 kB         338 kB
+├ ○ /okrs                                     1.92 kB         339 kB
 ├ ○ /onboarding                               3.37 kB         340 kB
-├ ƒ /p/[productionId]/overview                1.97 kB         338 kB
+├ ƒ /p/[productionId]/overview                1.97 kB         339 kB
 ├ ○ /partnerships                             1.64 kB         338 kB
-├ ○ /payroll                                  2.1 kB          338 kB
+├ ○ /payroll                                  2.1 kB          339 kB
 ├ ○ /performance                              1.84 kB         338 kB
-├ ○ /permits                                  2.13 kB         338 kB
-├ ƒ /permits/[id]                             1.88 kB         338 kB
+├ ○ /permits                                  2.13 kB         339 kB
+├ ƒ /permits/[id]                             1.88 kB         339 kB
 ├ ○ /pipeline                                 1.66 kB         338 kB
 ├ ○ /portfolio                                2.48 kB         339 kB
 ├ ○ /procurement                              2.63 kB         339 kB
@@ -586,57 +587,57 @@ Route (app)                                   Size     First Load JS
 ├ ○ /procurement/emergency                    2.63 kB         339 kB
 ├ ○ /procurement/logistics                    2.55 kB         339 kB
 ├ ○ /procurement/vendor-audits                2.41 kB         339 kB
-├ ○ /procurement/vendor-selection             2.89 kB         339 kB
-├ ○ /projects                                 2 kB            338 kB
+├ ○ /procurement/vendor-selection             2.89 kB         340 kB
+├ ○ /projects                                 2 kB            339 kB
 ├ ƒ /projects/[id]                            2.37 kB         339 kB
-├ ○ /quotes                                   1.95 kB         338 kB
+├ ○ /quotes                                   1.95 kB         339 kB
 ├ ○ /reports                                  2.35 kB         339 kB
 ├ ○ /reports/scheduled                        2.28 kB         339 kB
 ├ ○ /revenue-recognition                      2.57 kB         339 kB
-├ ○ /rfp                                      2 kB            338 kB
+├ ○ /rfp                                      2 kB            339 kB
 ├ ○ /risks                                    1.84 kB         338 kB
 ├ ○ /scenarios                                2.3 kB          339 kB
 ├ ○ /schedule                                 1.82 kB         338 kB
 ├ ○ /schedule/contingencies                   2.28 kB         339 kB
-├ ƒ /schedule/contingencies/[id]              2 kB            338 kB
-├ ○ /schedule/tasks                           2.2 kB          338 kB
+├ ƒ /schedule/contingencies/[id]              2 kB            339 kB
+├ ○ /schedule/tasks                           2.2 kB          339 kB
 ├ ƒ /schedule/tasks/[id]                      1.79 kB         338 kB
 ├ ○ /schedule/templates                       2.54 kB         339 kB
 ├ ○ /settings                                 1.67 kB         338 kB
-├ ○ /sponsors                                 2.19 kB         338 kB
+├ ○ /sponsors                                 2.19 kB         339 kB
 ├ ƒ /sponsors/[id]                            2.66 kB         339 kB
 ├ ○ /sponsors/deck                            1.83 kB         338 kB
-├ ○ /sponsors/fulfillment                     1.98 kB         338 kB
+├ ○ /sponsors/fulfillment                     1.98 kB         339 kB
 ├ ○ /sponsors/reports                         1.81 kB         338 kB
-├ ○ /sponsors/tiers                           2.09 kB         338 kB
-├ ○ /stakeholders                             1.97 kB         338 kB
-├ ○ /subsidiaries                             1.91 kB         338 kB
-├ ○ /taxes                                    1.87 kB         338 kB
-├ ○ /training                                 1.91 kB         338 kB
+├ ○ /sponsors/tiers                           2.09 kB         339 kB
+├ ○ /stakeholders                             1.97 kB         339 kB
+├ ○ /subsidiaries                             1.91 kB         339 kB
+├ ○ /taxes                                    1.87 kB         339 kB
+├ ○ /training                                 1.91 kB         339 kB
 ├ ○ /vendors                                  2.33 kB         339 kB
 ├ ○ /vendors/contracts                        1.78 kB         338 kB
-├ ○ /vendors/rate-cards                       2 kB            338 kB
-├ ○ /venues                                   2.21 kB         338 kB
-├ ƒ /venues/[id]                              2.03 kB         338 kB
-├ ○ /venues/maps                              1.91 kB         338 kB
+├ ○ /vendors/rate-cards                       2 kB            339 kB
+├ ○ /venues                                   2.21 kB         339 kB
+├ ƒ /venues/[id]                              2.03 kB         339 kB
+├ ○ /venues/maps                              1.91 kB         339 kB
 ├ ○ /venues/zones                             2.52 kB         339 kB
 ├ ƒ /venues/zones/[id]                        1.64 kB         338 kB
-├ ƒ /verticals/activations                    136 B           336 kB
-├ ƒ /verticals/destinations                   136 B           336 kB
-├ ƒ /verticals/installations                  136 B           336 kB
-├ ƒ /verticals/productions                    135 B           336 kB
-├ ○ /workforce                                2.08 kB         338 kB
-├ ○ /workforce/background-checks              2.08 kB         338 kB
+├ ƒ /verticals/activations                    136 B           337 kB
+├ ƒ /verticals/destinations                   136 B           337 kB
+├ ƒ /verticals/installations                  136 B           337 kB
+├ ƒ /verticals/productions                    135 B           337 kB
+├ ○ /workforce                                2.08 kB         339 kB
+├ ○ /workforce/background-checks              2.08 kB         339 kB
 ├ ○ /workforce/compensation                   1.85 kB         338 kB
 ├ ○ /workforce/handbook                       3.27 kB         340 kB
-├ ○ /workforce/labor-laws                     1.96 kB         338 kB
-├ ○ /workforce/referrals                      1.9 kB          338 kB
-├ ○ /workforce/succession                     2.17 kB         338 kB
+├ ○ /workforce/labor-laws                     1.96 kB         339 kB
+├ ○ /workforce/referrals                      1.9 kB          339 kB
+├ ○ /workforce/succession                     2.17 kB         339 kB
 ├ ○ /workforce/union-compliance               2.42 kB         339 kB
-└ ○ /workforce/union-rules                    1.92 kB         338 kB
-+ First Load JS shared by all                 336 kB
-  ├ chunks/commons-4ca53e3eca5594aa.js        95.9 kB
-  ├ chunks/lib-86e3c82f4991044c.js            238 kB
+└ ○ /workforce/union-rules                    1.92 kB         339 kB
++ First Load JS shared by all                 337 kB
+  ├ chunks/commons-3ab798b4bad36924.js        96.1 kB
+  ├ chunks/lib-005fc6842ea7c513.js            239 kB
   └ other shared chunks (total)               1.99 kB
 
 

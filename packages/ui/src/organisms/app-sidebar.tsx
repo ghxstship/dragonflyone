@@ -631,7 +631,7 @@ export const AppSidebar = forwardRef<HTMLElement, AppSidebarProps>(
                 >
                   <span
                     className="w-2 h-2 rounded-sm flex-shrink-0"
-                    style={{ backgroundColor: space.color || "#6366f1" }}
+                    style={{ backgroundColor: space.color || "var(--color-primary-500, #6366f1)" }}
                   />
                   <span className="truncate">{space.name}</span>
                 </a>

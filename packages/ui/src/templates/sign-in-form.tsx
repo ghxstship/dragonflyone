@@ -6,6 +6,7 @@ import type { HTMLAttributes, ReactNode } from "react";
 import { H2, Body, Label } from "../atoms/typography.js";
 import { Button } from "../atoms/button.js";
 import { Input } from "../atoms/input.js";
+import { PasswordInput } from "../atoms/password-input.js";
 import { Checkbox } from "../atoms/checkbox.js";
 import { Divider } from "../atoms/divider.js";
 import { Card } from "../molecules/card.js";
@@ -200,8 +201,7 @@ export const SignInForm = forwardRef<HTMLDivElement, SignInFormProps>(
                 </Field>
 
                 <Field label="Password" inverted={inverted}>
-                  <Input
-                    type="password"
+                  <PasswordInput
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter your password"

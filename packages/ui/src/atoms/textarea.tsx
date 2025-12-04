@@ -50,13 +50,13 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
                   "border-grey-700 bg-ink-900 text-white",
                   "shadow-[2px_2px_0_rgba(255,255,255,0.1)]",
                   "hover:border-grey-600",
-                  "focus:border-indigo-400 focus:-translate-x-px focus:-translate-y-px focus:shadow-[3px_3px_0_rgba(99,102,241,0.3)]"
+                  "focus:border-[var(--color-primary-400)] focus:-translate-x-px focus:-translate-y-px focus:shadow-[3px_3px_0_var(--color-primary-300)]"
                 )
               : clsx(
                   "border-grey-300 bg-white text-black",
                   "shadow-[2px_2px_0_rgba(0,0,0,0.08)]",
                   "hover:border-grey-400",
-                  "focus:border-indigo-500 focus:-translate-x-px focus:-translate-y-px focus:shadow-[3px_3px_0_rgba(99,102,241,0.2)]"
+                  "focus:border-[var(--color-primary-500)] focus:-translate-x-px focus:-translate-y-px focus:shadow-[3px_3px_0_var(--color-primary-200)]"
                 ),
           fullWidth ? "w-full" : "w-auto",
           className

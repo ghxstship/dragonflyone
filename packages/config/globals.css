@@ -41,6 +41,13 @@
   --destructive: 0 84% 60%;      /* #ef4444 - Red */
   --destructive-foreground: 0 0% 100%;
   
+  /* Primary color scale for focus states (apps can override) */
+  --color-primary-200: rgba(165, 180, 252, 0.3); /* indigo-200 with opacity */
+  --color-primary-300: rgba(129, 140, 248, 0.4); /* indigo-300 with opacity */
+  --color-primary-400: #818cf8; /* indigo-400 */
+  --color-primary-500: #6366f1; /* indigo-500 */
+  --color-primary-600: #4f46e5; /* indigo-600 */
+  
   /* Status Colors (PRESERVED) */
   --success: 142 71% 45%;        /* #22c55e - Green */
   --warning: 38 92% 50%;         /* #f59e0b - Amber */

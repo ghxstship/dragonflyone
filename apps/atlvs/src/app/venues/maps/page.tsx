@@ -41,7 +41,7 @@ export default function VenueMapsPage() {
   };
 
   const zoneTypeColors: Record<string, string> = {
-    stage: '#6366f1',
+    stage: '#ec4899', // ATLVS pink
     audience: '#22c55e',
     backstage: '#f59e0b',
     vip: '#8b5cf6',
