@@ -27,6 +27,35 @@ This document tracks incomplete, deferred, and planned features that need to be 
 
 ## Planned Features
 
+### Navigation Architecture Restructure (Proposed)
+**Status:** Architecture documented, implementation pending
+**Documentation:** `docs/NAVIGATION_ARCHITECTURE.md`
+**Proposed:** December 2024
+
+**Objective:** Restructure navigation across all three apps (ATLVS, COMPVSS, GVTEWAY) to properly separate platform-level from event-level contexts with role-based visibility.
+
+**Key Changes:**
+- **Context Switching**: Clear separation between Platform (org-wide) and Event (production-specific) navigation
+- **Role-Based Visibility**: Navigation items filtered by platform roles and event roles
+- **URL Restructure**: Event-level routes prefixed with `/p/[productionId]/` for ATLVS/COMPVSS, `/e/[eventId]/` for GVTEWAY
+- **Workflow-Aligned Grouping**: Features grouped by business process (Planning, People, Finance, Compliance, etc.)
+- **Shared Navigation Components**: Types and utilities in `packages/ui/src/navigation/`
+
+**Implementation Phases:**
+- [ ] Phase 1: Navigation Infrastructure (types, utils, components)
+- [ ] Phase 2: ATLVS Route Restructure (150 pages)
+- [ ] Phase 3: COMPVSS Route Restructure (107 pages)
+- [ ] Phase 4: GVTEWAY Route Restructure (147 pages)
+- [ ] Phase 5: Cross-App Integration (deep linking, unified search)
+
+**Files Created:**
+- `docs/NAVIGATION_ARCHITECTURE.md` - Full architecture specification
+- `packages/ui/src/navigation/types.ts` - Navigation type definitions
+- `packages/ui/src/navigation/utils.ts` - Navigation utility functions
+- `apps/atlvs/src/config/navigation.ts` - ATLVS navigation configuration
+
+---
+
 ### UI Style Guide Refactor (In Progress)
 **Status:** Partially complete - key pages refactored
 **Reference:** `docs/design/STYLE-GUIDE-PREVIEW.jsx`
