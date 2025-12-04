@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Body, H3 } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Body, H3, Grid } from "@ghxstship/ui";
 import { Accessibility, Eye, Ear, PersonStanding } from "lucide-react";
 import { gvtewayDemoEvents } from "../../../../../data/gvteway";
 
@@ -17,7 +17,7 @@ export default function AccessibilityPage() {
   return (
     <Stack gap={8}>
       <SectionHeader kicker={event.name} title="Accessibility" description="Accessibility services and accommodations" colorScheme="on-dark" />
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <Grid cols={2} gap={4}>
         <Card variant="elevated" inverted>
           <CardBody>
             <Stack gap={3}>
@@ -62,7 +62,7 @@ export default function AccessibilityPage() {
             </Stack>
           </CardBody>
         </Card>
-      </div>
+      </Grid>
       <Card variant="elevated" inverted>
         <CardBody>
           <Stack gap={4}>

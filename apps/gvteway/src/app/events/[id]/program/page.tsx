@@ -181,7 +181,7 @@ export default function EventProgramPage() {
                             {item.order || index + 1}
                           </Body>
                           <Stack className="flex-1">
-                            <Body className="font-medium">
+                            <Body className="font-weight-medium">
                               {item.title}
                               {item.is_encore && (
                                 <Badge className="ml-2 bg-warning-500 text-white text-mono-xs">
@@ -215,7 +215,7 @@ export default function EventProgramPage() {
                   {program.performers.map(performer => (
                     <Stack key={performer.id} direction="horizontal" gap={3}>
                       {performer.image && (
-                        <Figure className="relative w-12 h-12 bg-ink-100 rounded-full overflow-hidden flex-shrink-0">
+                        <Figure className="relative w-12 h-12 bg-ink-100 rounded-avatar overflow-hidden flex-shrink-0">
                           <Image
                             src={performer.image}
                             alt={performer.name}
@@ -225,7 +225,7 @@ export default function EventProgramPage() {
                         </Figure>
                       )}
                       <Stack>
-                        <Body className="font-medium">{performer.name}</Body>
+                        <Body className="font-weight-medium">{performer.name}</Body>
                         {performer.role && (
                           <Body className="text-body-sm text-ink-500">{performer.role}</Body>
                         )}

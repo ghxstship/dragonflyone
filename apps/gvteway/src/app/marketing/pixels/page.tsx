@@ -116,7 +116,7 @@ export default function PixelsPage() {
                           <Stack direction="horizontal" gap={3}>
                             <Label className="text-h4-md">{getPlatformIcon(pixel.platform)}</Label>
                             <Stack gap={1}>
-                              <Body className="font-bold">{pixel.name}</Body>
+                              <Body className="font-weight-bold">{pixel.name}</Body>
                               <Label className="font-mono text-ink-500">{pixel.pixelId}</Label>
                             </Stack>
                           </Stack>
@@ -163,7 +163,7 @@ export default function PixelsPage() {
                 <TableBody>
                   {mockEvents.map((event) => (
                     <TableRow key={event.id}>
-                      <TableCell><Label className="font-medium">{event.name}</Label></TableCell>
+                      <TableCell><Label className="font-weight-medium">{event.name}</Label></TableCell>
                       <TableCell><Badge variant="outline">{event.type}</Badge></TableCell>
                       <TableCell><Label className="font-mono">{event.count.toLocaleString()}</Label></TableCell>
                       <TableCell><Label className="font-mono">{event.value > 0 ? formatCurrency(event.value) : "-"}</Label></TableCell>
@@ -185,7 +185,7 @@ export default function PixelsPage() {
                 ].map((audience, idx) => (
                   <Card key={idx} className="border-2 border-black p-4">
                     <Grid cols={4} gap={4} className="items-center">
-                      <Body className="font-bold">{audience.name}</Body>
+                      <Body className="font-weight-bold">{audience.name}</Body>
                       <Stack gap={1}>
                         <Label className="text-ink-500">Audience Size</Label>
                         <Label className="font-mono">{audience.size.toLocaleString()}</Label>
@@ -221,7 +221,7 @@ export default function PixelsPage() {
               <Stack direction="horizontal" gap={3}>
                 <Label className="text-h4-md">{getPlatformIcon(selectedPixel.platform)}</Label>
                 <Stack gap={1}>
-                  <Body className="font-bold">{selectedPixel.name}</Body>
+                  <Body className="font-weight-bold">{selectedPixel.name}</Body>
                   <Badge variant="outline">{selectedPixel.platform}</Badge>
                 </Stack>
               </Stack>

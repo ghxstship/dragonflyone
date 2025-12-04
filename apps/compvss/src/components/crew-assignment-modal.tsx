@@ -66,7 +66,7 @@ export function CrewAssignmentModal({
               className="flex cursor-pointer items-center justify-between border-2 border-ink-300 p-4 hover:border-black transition-colors"
             >
               <Stack gap={1}>
-                <Body className="font-bold">{crew.name}</Body>
+                <Body className="font-weight-bold">{crew.name}</Body>
                 <Body className="text-body-sm text-ink-600">{crew.role}</Body>
               </Stack>
               <Checkbox

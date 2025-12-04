@@ -115,7 +115,7 @@ export default function EmergencyProcurementPage() {
               <Grid cols={3} gap={4}>
                 <Card className="p-4 border border-error-800 bg-error-900/20">
                   <Stack gap={2}>
-                    <Label className="text-error-400 font-bold">CRITICAL</Label>
+                    <Label className="text-error-400 font-weight-bold">CRITICAL</Label>
                     <Label className="text-ink-300">Show-stopping issue</Label>
                     <Label className="text-ink-400">Approval: VP or above</Label>
                     <Label className="text-ink-400">Target: 1 hour</Label>
@@ -123,7 +123,7 @@ export default function EmergencyProcurementPage() {
                 </Card>
                 <Card className="p-4 border border-warning-800 bg-warning-900/20">
                   <Stack gap={2}>
-                    <Label className="text-warning-400 font-bold">HIGH</Label>
+                    <Label className="text-warning-400 font-weight-bold">HIGH</Label>
                     <Label className="text-ink-300">Significant impact</Label>
                     <Label className="text-ink-400">Approval: Director</Label>
                     <Label className="text-ink-400">Target: 4 hours</Label>
@@ -131,7 +131,7 @@ export default function EmergencyProcurementPage() {
                 </Card>
                 <Card className="p-4 border border-warning-800 bg-warning-900/20">
                   <Stack gap={2}>
-                    <Label className="text-warning-400 font-bold">MEDIUM</Label>
+                    <Label className="text-warning-400 font-weight-bold">MEDIUM</Label>
                     <Label className="text-ink-300">Operational need</Label>
                     <Label className="text-ink-400">Approval: Manager</Label>
                     <Label className="text-ink-400">Target: 24 hours</Label>

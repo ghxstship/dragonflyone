@@ -8,6 +8,8 @@ import {
   ListPage,
   Badge,
   DetailDrawer,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -90,18 +92,18 @@ export default function TaxesPage() {
 
   const detailSections: DetailSection[] = selectedDoc ? [
     { id: 'overview', title: 'Tax Document Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Type:</strong> {selectedDoc.document_type}</div>
-        <div><strong>Entity:</strong> {selectedDoc.entity_name}</div>
-        <div><strong>Jurisdiction:</strong> {selectedDoc.jurisdiction}</div>
-        <div><strong>Tax Year:</strong> {selectedDoc.tax_year}</div>
-        <div><strong>Deadline:</strong> {formatDate(selectedDoc.filing_deadline)}</div>
-        <div><strong>Amount Due:</strong> {selectedDoc.amount_due ? formatCurrency(selectedDoc.amount_due) : '—'}</div>
-        <div><strong>Amount Paid:</strong> {selectedDoc.amount_paid ? formatCurrency(selectedDoc.amount_paid) : '—'}</div>
-        <div><strong>Status:</strong> {selectedDoc.status}</div>
-        {selectedDoc.filed_date && <div><strong>Filed Date:</strong> {formatDate(selectedDoc.filed_date)}</div>}
-        {selectedDoc.confirmation_number && <div><strong>Confirmation:</strong> {selectedDoc.confirmation_number}</div>}
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Type:</strong> {selectedDoc.document_type}</Body>
+        <Body size="sm"><strong>Entity:</strong> {selectedDoc.entity_name}</Body>
+        <Body size="sm"><strong>Jurisdiction:</strong> {selectedDoc.jurisdiction}</Body>
+        <Body size="sm"><strong>Tax Year:</strong> {selectedDoc.tax_year}</Body>
+        <Body size="sm"><strong>Deadline:</strong> {formatDate(selectedDoc.filing_deadline)}</Body>
+        <Body size="sm"><strong>Amount Due:</strong> {selectedDoc.amount_due ? formatCurrency(selectedDoc.amount_due) : '—'}</Body>
+        <Body size="sm"><strong>Amount Paid:</strong> {selectedDoc.amount_paid ? formatCurrency(selectedDoc.amount_paid) : '—'}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedDoc.status}</Body>
+        {selectedDoc.filed_date && <Body size="sm"><strong>Filed Date:</strong> {formatDate(selectedDoc.filed_date)}</Body>}
+        {selectedDoc.confirmation_number && <Body size="sm"><strong>Confirmation:</strong> {selectedDoc.confirmation_number}</Body>}
+      </Grid>
     )},
   ] : [];
 

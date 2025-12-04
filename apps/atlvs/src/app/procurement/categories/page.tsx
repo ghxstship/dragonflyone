@@ -220,7 +220,7 @@ export default function CategoryManagementPage() {
                 <Grid cols={2} gap={4}>
                   <Card className="p-4 border-2 border-info-800 bg-info-900/20">
                     <Stack gap={2}>
-                      <Label className="text-info-400 font-bold">STRATEGIC</Label>
+                      <Label className="text-info-400 font-weight-bold">STRATEGIC</Label>
                       <Label className="text-ink-300">High profit impact, High supply risk</Label>
                       <Stack gap={1}>
                         {mockCategories.filter(c => c.strategy === 'Strategic').map(c => (
@@ -231,7 +231,7 @@ export default function CategoryManagementPage() {
                   </Card>
                   <Card className="p-4 border-2 border-warning-800 bg-warning-900/20">
                     <Stack gap={2}>
-                      <Label className="text-warning-400 font-bold">BOTTLENECK</Label>
+                      <Label className="text-warning-400 font-weight-bold">BOTTLENECK</Label>
                       <Label className="text-ink-300">Low profit impact, High supply risk</Label>
                       <Stack gap={1}>
                         {mockCategories.filter(c => c.strategy === 'Bottleneck').map(c => (
@@ -242,7 +242,7 @@ export default function CategoryManagementPage() {
                   </Card>
                   <Card className="p-4 border-2 border-success-800 bg-success-900/20">
                     <Stack gap={2}>
-                      <Label className="text-success-400 font-bold">LEVERAGE</Label>
+                      <Label className="text-success-400 font-weight-bold">LEVERAGE</Label>
                       <Label className="text-ink-300">High profit impact, Low supply risk</Label>
                       <Stack gap={1}>
                         {mockCategories.filter(c => c.strategy === 'Leverage').map(c => (
@@ -253,7 +253,7 @@ export default function CategoryManagementPage() {
                   </Card>
                   <Card className="p-4 border-2 border-ink-700 bg-ink-800/50">
                     <Stack gap={2}>
-                      <Label className="text-ink-400 font-bold">NON-CRITICAL</Label>
+                      <Label className="text-ink-400 font-weight-bold">NON-CRITICAL</Label>
                       <Label className="text-ink-300">Low profit impact, Low supply risk</Label>
                       <Stack gap={1}>
                         {mockCategories.filter(c => c.strategy === 'Non-Critical').map(c => (

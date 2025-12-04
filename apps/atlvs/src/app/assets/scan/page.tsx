@@ -285,7 +285,7 @@ export default function AssetScanPage() {
                 <Card key={scan.id} className="p-4 border">
                   <Stack direction="horizontal" className="justify-between items-center">
                     <Stack gap={1}>
-                      <Body className="font-bold">{scan.asset_name}</Body>
+                      <Body className="font-weight-bold">{scan.asset_name}</Body>
                       <Label className="text-ink-500 font-mono">{scan.barcode}</Label>
                     </Stack>
                     <Stack className="text-right" gap={1}>
@@ -350,7 +350,7 @@ export default function AssetScanPage() {
 
               <Card className="p-4 border-2 border-black">
                 <Stack direction="horizontal" className="justify-between items-center">
-                  <Body className="font-bold">Action:</Body>
+                  <Body className="font-weight-bold">Action:</Body>
                   {getActionBadge(scanMode)}
                 </Stack>
               </Card>

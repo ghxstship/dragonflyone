@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Body, H3 } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Body, H3, Grid } from "@ghxstship/ui";
 import { AlertTriangle, Phone, MapPin, Shield } from "lucide-react";
 import { gvtewayDemoEvents } from "../../../../../data/gvteway";
 
@@ -17,7 +17,7 @@ export default function EmergencyPage() {
   return (
     <Stack gap={8}>
       <SectionHeader kicker={event.name} title="Emergency Info" description="Safety information and emergency contacts" colorScheme="on-dark" />
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <Grid cols={2} gap={4}>
         <Card variant="elevated" inverted>
           <CardBody>
             <Stack gap={3}>
@@ -62,7 +62,7 @@ export default function EmergencyPage() {
             </Stack>
           </CardBody>
         </Card>
-      </div>
+      </Grid>
     </Stack>
   );
 }

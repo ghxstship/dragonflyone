@@ -233,7 +233,7 @@ export default function ReportsPage() {
                   <Stack key={idx} gap={1}>
                     <Stack gap={2} direction="horizontal" className="justify-between">
                       <Body>{client.name}</Body>
-                      <Body className="font-bold">${(client.amount / 1000000).toFixed(2)}M</Body>
+                      <Body className="font-weight-bold">${(client.amount / 1000000).toFixed(2)}M</Body>
                     </Stack>
                     <ProgressBar value={client.percentage} />
                   </Stack>
@@ -278,7 +278,7 @@ export default function ReportsPage() {
               ].map((asset, idx) => (
                 <Stack key={idx} gap={1}>
                   <Stack gap={2} direction="horizontal" className="justify-between">
-                    <Body className="font-bold">{asset.category}</Body>
+                    <Body className="font-weight-bold">{asset.category}</Body>
                     <Body className="text-body-sm text-ink-600">{asset.utilization}%</Body>
                   </Stack>
                   <ProgressBar value={asset.utilization} size="lg" />
@@ -341,7 +341,7 @@ export default function ReportsPage() {
                   </Stack>
                   <Stack gap={2} direction="horizontal" className="justify-between">
                     <Body className="text-ink-600">Net Margin</Body>
-                    <Body className="font-bold">15.5%</Body>
+                    <Body className="font-weight-bold">15.5%</Body>
                   </Stack>
                 </Stack>
               </Stack>

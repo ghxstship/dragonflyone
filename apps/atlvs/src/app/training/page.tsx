@@ -8,6 +8,8 @@ import {
   ListPage,
   Badge,
   DetailDrawer,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -94,19 +96,19 @@ export default function TrainingPage() {
 
   const detailSections: DetailSection[] = selectedProgram ? [
     { id: 'overview', title: 'Program Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Title:</strong> {selectedProgram.title}</div>
-        <div><strong>Category:</strong> {selectedProgram.category}</div>
-        <div><strong>Duration:</strong> {selectedProgram.duration_hours} hours</div>
-        <div><strong>Instructor:</strong> {selectedProgram.instructor?.full_name || selectedProgram.instructor_name || '—'}</div>
-        <div><strong>Capacity:</strong> {selectedProgram.capacity}</div>
-        <div><strong>Enrolled:</strong> {selectedProgram.enrolled_count || 0}</div>
-        <div><strong>Start Date:</strong> {selectedProgram.start_date ? new Date(selectedProgram.start_date).toLocaleDateString() : '—'}</div>
-        <div><strong>End Date:</strong> {selectedProgram.end_date ? new Date(selectedProgram.end_date).toLocaleDateString() : '—'}</div>
-        <div><strong>Status:</strong> {selectedProgram.status}</div>
-        <div><strong>Virtual:</strong> {selectedProgram.is_virtual ? 'Yes' : 'No'}</div>
-        {selectedProgram.description && <div className="col-span-2"><strong>Description:</strong> {selectedProgram.description}</div>}
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Title:</strong> {selectedProgram.title}</Body>
+        <Body size="sm"><strong>Category:</strong> {selectedProgram.category}</Body>
+        <Body size="sm"><strong>Duration:</strong> {selectedProgram.duration_hours} hours</Body>
+        <Body size="sm"><strong>Instructor:</strong> {selectedProgram.instructor?.full_name || selectedProgram.instructor_name || '—'}</Body>
+        <Body size="sm"><strong>Capacity:</strong> {selectedProgram.capacity}</Body>
+        <Body size="sm"><strong>Enrolled:</strong> {selectedProgram.enrolled_count || 0}</Body>
+        <Body size="sm"><strong>Start Date:</strong> {selectedProgram.start_date ? new Date(selectedProgram.start_date).toLocaleDateString() : '—'}</Body>
+        <Body size="sm"><strong>End Date:</strong> {selectedProgram.end_date ? new Date(selectedProgram.end_date).toLocaleDateString() : '—'}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedProgram.status}</Body>
+        <Body size="sm"><strong>Virtual:</strong> {selectedProgram.is_virtual ? 'Yes' : 'No'}</Body>
+        {selectedProgram.description && <Body size="sm" className="col-span-2"><strong>Description:</strong> {selectedProgram.description}</Body>}
+      </Grid>
     )},
   ] : [];
 

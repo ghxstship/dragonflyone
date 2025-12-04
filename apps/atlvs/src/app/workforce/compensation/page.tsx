@@ -8,6 +8,8 @@ import {
   ListPage,
   Badge,
   DetailDrawer,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -83,18 +85,18 @@ export default function CompensationPage() {
 
   const detailSections: DetailSection[] = selectedPlan ? [
     { id: 'overview', title: 'Compensation Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Employee:</strong> {selectedPlan.employeeName}</div>
-        <div><strong>Department:</strong> {selectedPlan.department}</div>
-        <div><strong>Role:</strong> {selectedPlan.role}</div>
-        <div><strong>Status:</strong> {selectedPlan.status}</div>
-        <div><strong>Current Salary:</strong> ${selectedPlan.currentSalary.toLocaleString()}</div>
-        <div><strong>Proposed Salary:</strong> ${selectedPlan.proposedSalary.toLocaleString()}</div>
-        <div><strong>Change:</strong> +{((selectedPlan.proposedSalary - selectedPlan.currentSalary) / selectedPlan.currentSalary * 100).toFixed(1)}%</div>
-        <div><strong>Effective Date:</strong> {selectedPlan.effectiveDate}</div>
-        {selectedPlan.equityGrant && <div><strong>Equity Grant:</strong> {selectedPlan.equityGrant.toLocaleString()} shares</div>}
-        {selectedPlan.bonus && <div><strong>Bonus:</strong> ${selectedPlan.bonus.toLocaleString()}</div>}
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Employee:</strong> {selectedPlan.employeeName}</Body>
+        <Body size="sm"><strong>Department:</strong> {selectedPlan.department}</Body>
+        <Body size="sm"><strong>Role:</strong> {selectedPlan.role}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedPlan.status}</Body>
+        <Body size="sm"><strong>Current Salary:</strong> ${selectedPlan.currentSalary.toLocaleString()}</Body>
+        <Body size="sm"><strong>Proposed Salary:</strong> ${selectedPlan.proposedSalary.toLocaleString()}</Body>
+        <Body size="sm"><strong>Change:</strong> +{((selectedPlan.proposedSalary - selectedPlan.currentSalary) / selectedPlan.currentSalary * 100).toFixed(1)}%</Body>
+        <Body size="sm"><strong>Effective Date:</strong> {selectedPlan.effectiveDate}</Body>
+        {selectedPlan.equityGrant && <Body size="sm"><strong>Equity Grant:</strong> {selectedPlan.equityGrant.toLocaleString()} shares</Body>}
+        {selectedPlan.bonus && <Body size="sm"><strong>Bonus:</strong> ${selectedPlan.bonus.toLocaleString()}</Body>}
+      </Grid>
     )},
   ] : [];
 

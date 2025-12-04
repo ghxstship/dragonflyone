@@ -10,6 +10,8 @@ import {
   RecordFormModal,
   DetailDrawer,
   ConfirmDialog,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -139,17 +141,17 @@ export default function TasksPage() {
 
   const detailSections: DetailSection[] = selectedTask ? [
     { id: 'overview', title: 'Task Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Title:</strong> {selectedTask.title}</div>
-        <div><strong>Type:</strong> {selectedTask.type}</div>
-        <div><strong>Priority:</strong> {selectedTask.priority}</div>
-        <div><strong>Status:</strong> {selectedTask.status}</div>
-        <div><strong>Due:</strong> {selectedTask.dueDate} {selectedTask.dueTime || ''}</div>
-        <div><strong>Assigned To:</strong> {selectedTask.assignedTo}</div>
-        <div><strong>Contact:</strong> {selectedTask.linkedContact || '—'}</div>
-        <div><strong>Deal:</strong> {selectedTask.linkedDeal || '—'}</div>
-        <div><strong>Reminder:</strong> {selectedTask.reminder || 'None'}</div>
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Title:</strong> {selectedTask.title}</Body>
+        <Body size="sm"><strong>Type:</strong> {selectedTask.type}</Body>
+        <Body size="sm"><strong>Priority:</strong> {selectedTask.priority}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedTask.status}</Body>
+        <Body size="sm"><strong>Due:</strong> {selectedTask.dueDate} {selectedTask.dueTime || ''}</Body>
+        <Body size="sm"><strong>Assigned To:</strong> {selectedTask.assignedTo}</Body>
+        <Body size="sm"><strong>Contact:</strong> {selectedTask.linkedContact || '—'}</Body>
+        <Body size="sm"><strong>Deal:</strong> {selectedTask.linkedDeal || '—'}</Body>
+        <Body size="sm"><strong>Reminder:</strong> {selectedTask.reminder || 'None'}</Body>
+      </Grid>
     )},
   ] : [];
 

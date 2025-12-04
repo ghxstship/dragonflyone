@@ -8,6 +8,8 @@ import {
   ListPage,
   Badge,
   DetailDrawer,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -89,20 +91,20 @@ export default function GovernancePage() {
 
   const detailSections: DetailSection[] = selectedMeeting ? [
     { id: 'overview', title: 'Meeting Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Title:</strong> {selectedMeeting.title}</div>
-        <div><strong>Type:</strong> {selectedMeeting.meeting_type}</div>
-        <div><strong>Date:</strong> {new Date(selectedMeeting.scheduled_date).toLocaleDateString()}</div>
-        <div><strong>Location:</strong> {selectedMeeting.location}</div>
-        <div><strong>Status:</strong> {selectedMeeting.status}</div>
-        <div><strong>Attendees:</strong> {selectedMeeting.attendees?.length || 0}</div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Title:</strong> {selectedMeeting.title}</Body>
+        <Body size="sm"><strong>Type:</strong> {selectedMeeting.meeting_type}</Body>
+        <Body size="sm"><strong>Date:</strong> {new Date(selectedMeeting.scheduled_date).toLocaleDateString()}</Body>
+        <Body size="sm"><strong>Location:</strong> {selectedMeeting.location}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedMeeting.status}</Body>
+        <Body size="sm"><strong>Attendees:</strong> {selectedMeeting.attendees?.length || 0}</Body>
         {selectedMeeting.agenda_items?.length > 0 && (
-          <div className="col-span-2"><strong>Agenda:</strong> {selectedMeeting.agenda_items.join(', ')}</div>
+          <Body size="sm" className="col-span-2"><strong>Agenda:</strong> {selectedMeeting.agenda_items.join(', ')}</Body>
         )}
         {(selectedMeeting.resolutions?.length ?? 0) > 0 && (
-          <div className="col-span-2"><strong>Resolutions:</strong> {selectedMeeting.resolutions?.join(', ')}</div>
+          <Body size="sm" className="col-span-2"><strong>Resolutions:</strong> {selectedMeeting.resolutions?.join(', ')}</Body>
         )}
-      </div>
+      </Grid>
     )},
   ] : [];
 

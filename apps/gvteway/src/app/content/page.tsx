@@ -338,7 +338,7 @@ export default function ExclusiveContentPage() {
                 )}
                 {selectedContent.type === 'video' && (
                   <Stack className="absolute inset-0 flex items-center justify-center">
-                    <Button variant="solid" className="rounded-full w-16 h-16">
+                    <Button variant="solid" className="rounded-avatar w-16 h-16">
                       ▶️
                     </Button>
                   </Stack>

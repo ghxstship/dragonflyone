@@ -7,6 +7,9 @@ import {
   ListPage,
   Badge,
   DetailDrawer,
+  Grid,
+  Body,
+  Card,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -94,19 +97,19 @@ export default function ModerationPage() {
 
   const detailSections: DetailSection[] = selectedContent ? [
     { id: 'content', title: 'Flagged Content', content: (
-      <div className="mb-4 rounded-card bg-ink-800 p-4">
-        <p className="text-white">{selectedContent.content}</p>
-      </div>
+      <Card inverted className="mb-4 p-4">
+        <Body className="text-white">{selectedContent.content}</Body>
+      </Card>
     )},
     { id: 'details', title: 'Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Type:</strong> {getTypeIcon(selectedContent.type)} {selectedContent.type}</div>
-        <div><strong>Status:</strong> {selectedContent.status}</div>
-        <div><strong>Author:</strong> {selectedContent.author}</div>
-        <div><strong>Reported By:</strong> {selectedContent.reportedBy}</div>
-        <div><strong>Reason:</strong> {selectedContent.reason}</div>
-        <div><strong>Timestamp:</strong> {selectedContent.timestamp}</div>
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Type:</strong> {getTypeIcon(selectedContent.type)} {selectedContent.type}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedContent.status}</Body>
+        <Body size="sm"><strong>Author:</strong> {selectedContent.author}</Body>
+        <Body size="sm"><strong>Reported By:</strong> {selectedContent.reportedBy}</Body>
+        <Body size="sm"><strong>Reason:</strong> {selectedContent.reason}</Body>
+        <Body size="sm"><strong>Timestamp:</strong> {selectedContent.timestamp}</Body>
+      </Grid>
     )},
   ] : [];
 

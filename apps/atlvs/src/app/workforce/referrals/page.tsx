@@ -8,6 +8,8 @@ import {
   Badge,
   DetailDrawer,
   RecordFormModal,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -103,20 +105,20 @@ export default function ReferralProgramPage() {
 
   const detailSections: DetailSection[] = selectedReferral ? [
     { id: "overview", title: "Referral Details", content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Candidate:</strong> {selectedReferral.candidateName}</div>
-        <div><strong>Position:</strong> {selectedReferral.position}</div>
-        <div><strong>Referred By:</strong> {selectedReferral.referredBy}</div>
-        <div><strong>Department:</strong> {selectedReferral.referrerDept}</div>
-        <div><strong>Submitted:</strong> {selectedReferral.submittedDate}</div>
-        <div><strong>Status:</strong> {selectedReferral.status}</div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Candidate:</strong> {selectedReferral.candidateName}</Body>
+        <Body size="sm"><strong>Position:</strong> {selectedReferral.position}</Body>
+        <Body size="sm"><strong>Referred By:</strong> {selectedReferral.referredBy}</Body>
+        <Body size="sm"><strong>Department:</strong> {selectedReferral.referrerDept}</Body>
+        <Body size="sm"><strong>Submitted:</strong> {selectedReferral.submittedDate}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedReferral.status}</Body>
         {selectedReferral.bonusAmount && (
           <>
-            <div><strong>Bonus:</strong> ${selectedReferral.bonusAmount.toLocaleString()}</div>
-            <div><strong>Bonus Status:</strong> {selectedReferral.bonusStatus}</div>
+            <Body size="sm"><strong>Bonus:</strong> ${selectedReferral.bonusAmount.toLocaleString()}</Body>
+            <Body size="sm"><strong>Bonus Status:</strong> {selectedReferral.bonusStatus}</Body>
           </>
         )}
-      </div>
+      </Grid>
     )},
   ] : [];
 

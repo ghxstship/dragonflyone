@@ -112,7 +112,7 @@ export default function EventLanguagesPage() {
                       <Stack direction="horizontal" gap={3}>
                         <Label className="text-h4-md">{getLanguageFlag(translation.languageCode)}</Label>
                         <Stack gap={1}>
-                          <Body className="font-bold">{translation.language}</Body>
+                          <Body className="font-weight-bold">{translation.language}</Body>
                           <Label className="text-ink-500">{translation.languageCode.toUpperCase()}</Label>
                         </Stack>
                       </Stack>
@@ -152,7 +152,7 @@ export default function EventLanguagesPage() {
                 <Card key={idx} className="border-2 border-black p-4">
                   <Stack gap={3}>
                     <Stack direction="horizontal" className="justify-between">
-                      <Label className="font-bold">{field.field}</Label>
+                      <Label className="font-weight-bold">{field.field}</Label>
                       <Label className={getStatusColor(field.status)}>{field.status}</Label>
                     </Stack>
                     <Card className="p-3 bg-ink-50 border border-ink-200">
@@ -184,7 +184,7 @@ export default function EventLanguagesPage() {
                 <Stack gap={4}>
                   <Stack direction="horizontal" className="justify-between items-center">
                     <Stack gap={1}>
-                      <Label className="font-bold">Default Language</Label>
+                      <Label className="font-weight-bold">Default Language</Label>
                       <Label className="text-ink-500">Primary language for event content</Label>
                     </Stack>
                     <Select className="border-2 border-black w-48">
@@ -194,14 +194,14 @@ export default function EventLanguagesPage() {
                   </Stack>
                   <Stack direction="horizontal" className="justify-between items-center">
                     <Stack gap={1}>
-                      <Label className="font-bold">Auto-detect Language</Label>
+                      <Label className="font-weight-bold">Auto-detect Language</Label>
                       <Label className="text-ink-500">Show content in visitor&apos;s browser language</Label>
                     </Stack>
                     <Button variant="solid" size="sm">Enabled</Button>
                   </Stack>
                   <Stack direction="horizontal" className="justify-between items-center">
                     <Stack gap={1}>
-                      <Label className="font-bold">Machine Translation</Label>
+                      <Label className="font-weight-bold">Machine Translation</Label>
                       <Label className="text-ink-500">Use AI for initial translations</Label>
                     </Stack>
                     <Button variant="outline" size="sm">Disabled</Button>
@@ -222,7 +222,7 @@ export default function EventLanguagesPage() {
               <Stack direction="horizontal" gap={3}>
                 <Label className="text-h4-md">{getLanguageFlag(selectedTranslation.languageCode)}</Label>
                 <Stack gap={1}>
-                  <Label className="font-bold">{selectedTranslation.language}</Label>
+                  <Label className="font-weight-bold">{selectedTranslation.language}</Label>
                   <Badge variant="outline">{selectedTranslation.languageCode.toUpperCase()}</Badge>
                 </Stack>
               </Stack>

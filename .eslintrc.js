@@ -93,6 +93,8 @@ module.exports = {
         "bg-purple.*", "bg-pink.*", "bg-cyan.*", "bg-teal.*", "bg-violet.*", "bg-indigo.*",
         "text-purple.*", "text-pink.*", "text-cyan.*", "text-teal.*", "text-violet.*", "text-indigo.*",
         "border-purple.*", "border-pink.*", "border-cyan.*", "border-teal.*", "border-violet.*", "border-indigo.*",
+        // Brand colors
+        "bg-brand.*", "text-brand.*", "border-brand.*", "ring-brand.*", "focus:ring-brand.*",
         // Foreground/background semantic
         "bg-foreground.*", "text-foreground.*", "border-foreground.*",
         "bg-background.*", "text-background.*", "border-background.*",
@@ -163,6 +165,9 @@ module.exports = {
         "shadow-inset",           // Inset shadow
         "shadow-outline.*",       // Outline shadows
         "shadow-hard.*",          // Hard offset shadows
+        "shadow-brand.*",         // Brand color shadows
+        "shadow-pop.*",           // Pop art shadows
+        "shadow-subtle.*",        // Subtle shadows for cards
         
         // ═══════════════════════════════════════════════════════════════
         // ANIMATION TOKENS (REBUILT - SNAPPY WITH CHARACTER)
@@ -337,8 +342,8 @@ module.exports = {
         "message": "❌ PROHIBITED: Raw Tailwind font family. Use design system: font-display, font-heading, font-body, font-mono, font-code"
       },
       {
-        "selector": "Literal[value=/(?<![a-z-])leading-(none|tight|snug|normal|relaxed|loose)(?![a-z-])/]",
-        "message": "❌ PROHIBITED: Raw Tailwind line height. Use design system: leading-display, leading-heading, leading-body, leading-relaxed, leading-comfortable"
+        "selector": "Literal[value=/(?<![a-z-])leading-(tight|snug|normal|loose)(?![a-z-])/]",
+        "message": "❌ PROHIBITED: Raw Tailwind line height. Use design system: leading-display, leading-heading, leading-body, leading-relaxed, leading-comfortable, leading-none"
       },
       {
         "selector": "Literal[value=/(?<![a-z-])tracking-(tighter|tight|normal|wide|wider|widest)(?![a-z-])/]",
@@ -394,12 +399,13 @@ module.exports = {
       },
       
       // ────────────────────────────────────────────────────────────────
-      // PROHIBITED: Soft/Blur Shadows (Use Hard Offset Only)
-      // Pop Art aesthetic requires hard offset shadows, not soft blurs
+      // NOTE: shadow-sm, shadow-md, shadow-lg, shadow-xl are now design system tokens
+      // that resolve to hard offset shadows via CSS variables. No longer prohibited.
+      // Only shadow-inner remains prohibited as it's not part of the design system.
       // ────────────────────────────────────────────────────────────────
       {
-        "selector": "Literal[value=/(?<![a-z-])shadow-(sm|md|lg|xl|2xl|inner)(?![a-z-])/]",
-        "message": "❌ PROHIBITED: Soft Tailwind shadow. Pop Art requires HARD OFFSET shadows. Use: shadow-xs (2px), shadow-sm (3px), shadow-md (4px), shadow-lg (6px), shadow-xl (8px), shadow-primary, shadow-accent"
+        "selector": "Literal[value=/(?<![a-z-])shadow-inner(?![a-z-])/]",
+        "message": "❌ PROHIBITED: Inner shadow not part of design system. Use hard offset shadows: shadow-xs, shadow-sm, shadow-md, shadow-lg, shadow-xl, shadow-primary, shadow-accent"
       },
       
       // ────────────────────────────────────────────────────────────────

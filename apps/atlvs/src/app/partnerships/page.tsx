@@ -9,6 +9,8 @@ import {
   Badge,
   DetailDrawer,
   RecordFormModal,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -104,14 +106,14 @@ export default function PartnershipsPage() {
 
   const detailSections: DetailSection[] = selectedPartnership ? [
     { id: 'overview', title: 'Partnership Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Name:</strong> {selectedPartnership.name}</div>
-        <div><strong>Company:</strong> {selectedPartnership.company || '—'}</div>
-        <div><strong>Type:</strong> {selectedPartnership.type || 'Partner'}</div>
-        <div><strong>Status:</strong> {selectedPartnership.status || 'Active'}</div>
-        <div><strong>Email:</strong> {selectedPartnership.email || '—'}</div>
-        <div><strong>Phone:</strong> {selectedPartnership.phone || '—'}</div>
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Name:</strong> {selectedPartnership.name}</Body>
+        <Body size="sm"><strong>Company:</strong> {selectedPartnership.company || '—'}</Body>
+        <Body size="sm"><strong>Type:</strong> {selectedPartnership.type || 'Partner'}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedPartnership.status || 'Active'}</Body>
+        <Body size="sm"><strong>Email:</strong> {selectedPartnership.email || '—'}</Body>
+        <Body size="sm"><strong>Phone:</strong> {selectedPartnership.phone || '—'}</Body>
+      </Grid>
     )},
   ] : [];
 

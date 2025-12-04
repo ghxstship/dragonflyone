@@ -8,6 +8,8 @@ import {
   ListPage,
   Badge,
   DetailDrawer,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -70,13 +72,13 @@ export default function CRMPage() {
 
   const detailSections: DetailSection[] = selectedContact ? [
     { id: 'overview', title: 'Contact Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Name:</strong> {selectedContact.name}</div>
-        <div><strong>Email:</strong> {selectedContact.email}</div>
-        <div><strong>Company:</strong> {selectedContact.company || '—'}</div>
-        <div><strong>Type:</strong> {selectedContact.type || 'client'}</div>
-        <div><strong>Status:</strong> {selectedContact.status || 'active'}</div>
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Name:</strong> {selectedContact.name}</Body>
+        <Body size="sm"><strong>Email:</strong> {selectedContact.email}</Body>
+        <Body size="sm"><strong>Company:</strong> {selectedContact.company || '—'}</Body>
+        <Body size="sm"><strong>Type:</strong> {selectedContact.type || 'client'}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedContact.status || 'active'}</Body>
+      </Grid>
     )},
   ] : [];
 

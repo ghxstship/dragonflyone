@@ -149,7 +149,7 @@ export default function GiftTicketsContent() {
       <Section className="min-h-screen bg-white">
         <Container>
           <Stack className="items-center justify-center min-h-[60vh]" gap={6}>
-            <Stack className="w-24 h-24 bg-black rounded-full items-center justify-center">
+            <Stack className="w-24 h-24 bg-black rounded-avatar items-center justify-center">
               <Body className="text-white text-h3-md">🎁</Body>
             </Stack>
             <Display>GIFT SENT!</Display>
@@ -320,7 +320,7 @@ export default function GiftTicketsContent() {
                         onClick={() => setFormData({ ...formData, wrap_style: style.id })}
                       >
                         <Body className="text-h4-md mb-2">{style.emoji}</Body>
-                        <Body className="font-medium">{style.name}</Body>
+                        <Body className="font-weight-medium">{style.name}</Body>
                       </Card>
                     ))}
                   </Grid>
@@ -344,7 +344,7 @@ export default function GiftTicketsContent() {
               {selectedEvent && selectedTicketType ? (
                 <Stack gap={4}>
                   <Stack gap={2}>
-                    <Body className="font-bold">{selectedEvent.title}</Body>
+                    <Body className="font-weight-bold">{selectedEvent.title}</Body>
                     <Body className="text-body-sm text-ink-600">{selectedEvent.date}</Body>
                     <Body className="text-body-sm text-ink-600">{selectedEvent.venue}</Body>
                   </Stack>
@@ -362,8 +362,8 @@ export default function GiftTicketsContent() {
 
                   <Stack className="border-t-2 border-black pt-4">
                     <Stack direction="horizontal" className="justify-between">
-                      <Body className="font-bold">Total</Body>
-                      <Body className="font-bold">${totalPrice.toFixed(2)}</Body>
+                      <Body className="font-weight-bold">Total</Body>
+                      <Body className="font-weight-bold">${totalPrice.toFixed(2)}</Body>
                     </Stack>
                   </Stack>
                 </Stack>

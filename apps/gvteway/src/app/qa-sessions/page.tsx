@@ -253,7 +253,7 @@ export default function QASessionsPage() {
                   onClick={() => setSelectedSession(session)}
                 >
                   <Stack direction="horizontal" gap={4}>
-                    <Stack className="relative size-20 flex-shrink-0 overflow-hidden rounded-full bg-ink-800">
+                    <Stack className="relative size-20 flex-shrink-0 overflow-hidden rounded-avatar bg-ink-800">
                       {session.artist_image ? (
                         <Image src={session.artist_image} alt={session.artist_name} fill className="object-cover" />
                       ) : (

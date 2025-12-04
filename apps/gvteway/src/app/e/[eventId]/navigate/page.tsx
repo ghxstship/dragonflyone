@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Body, Box } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Body, Box, Grid } from "@ghxstship/ui";
 import { Navigation, Car, Accessibility, MapPin } from "lucide-react";
 import { gvtewayDemoEvents } from "../../../../data/gvteway";
 
@@ -18,7 +18,7 @@ export default function EventNavigatePage() {
   return (
     <Stack gap={8}>
       <SectionHeader kicker={event.name} title="Navigate" description="Directions, parking, and accessibility info" colorScheme="on-dark" />
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+      <Grid cols={3} gap={4}>
         <Card variant="elevated" inverted className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push(`/e/${eventId}/navigate/directions`)}>
           <CardBody>
             <Stack gap={3} className="items-center text-center">
@@ -58,7 +58,7 @@ export default function EventNavigatePage() {
             </Stack>
           </CardBody>
         </Card>
-      </div>
+      </Grid>
       <Card variant="elevated" inverted>
         <CardBody>
           <Stack gap={3}>

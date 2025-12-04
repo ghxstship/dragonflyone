@@ -141,11 +141,11 @@ export default function AdvanceReviewDetailPage({ params }: { params: { id: stri
         <Stack gap={6}>
           <Grid cols={2} gap={6}>
             <Stack gap={1}>
-              <Body size="sm" className="font-medium text-ink-500">Organization</Body>
+              <Body size="sm" className="font-weight-medium text-ink-500">Organization</Body>
               <Body size="lg">{advance.organization?.name || 'N/A'}</Body>
             </Stack>
             <Stack gap={1}>
-              <Body size="sm" className="font-medium text-ink-500">Project</Body>
+              <Body size="sm" className="font-weight-medium text-ink-500">Project</Body>
               <Body size="lg">{advance.project?.name || 'N/A'}</Body>
               {advance.project?.budget && (
                 <Body size="sm" className="text-ink-600">
@@ -154,23 +154,23 @@ export default function AdvanceReviewDetailPage({ params }: { params: { id: stri
               )}
             </Stack>
             <Stack gap={1}>
-              <Body size="sm" className="font-medium text-ink-500">Team/Workspace</Body>
+              <Body size="sm" className="font-weight-medium text-ink-500">Team/Workspace</Body>
               <Body size="lg">{advance.team_workspace || 'N/A'}</Body>
             </Stack>
             <Stack gap={1}>
-              <Body size="sm" className="font-medium text-ink-500">Activation</Body>
+              <Body size="sm" className="font-weight-medium text-ink-500">Activation</Body>
               <Body size="lg">{advance.activation_name || 'N/A'}</Body>
             </Stack>
           </Grid>
 
           <Stack direction="horizontal" className="justify-between items-center border-t pt-6">
             <Stack gap={1}>
-              <Body size="sm" className="font-medium text-ink-500">Submitted By</Body>
+              <Body size="sm" className="font-weight-medium text-ink-500">Submitted By</Body>
               <Body size="lg">{advance.submitter?.full_name || 'Unknown'}</Body>
               <Body size="sm" className="text-ink-600">{advance.submitter?.email}</Body>
             </Stack>
             <Stack className="text-right">
-              <Body size="sm" className="font-medium text-ink-500">Estimated Cost</Body>
+              <Body size="sm" className="font-weight-medium text-ink-500">Estimated Cost</Body>
               <Display>${cost.toLocaleString()}</Display>
             </Stack>
           </Stack>
@@ -196,7 +196,7 @@ export default function AdvanceReviewDetailPage({ params }: { params: { id: stri
                   )}
                 </Stack>
                 <Stack className="text-right ml-6">
-                  <Body size="lg" className="font-semibold">
+                  <Body size="lg" className="font-weight-semibold">
                     {item.quantity} {item.unit}
                   </Body>
                   {item.unit_cost && (
@@ -205,7 +205,7 @@ export default function AdvanceReviewDetailPage({ params }: { params: { id: stri
                     </Body>
                   )}
                   {item.total_cost && (
-                    <Body size="lg" className="font-bold mt-1">
+                    <Body size="lg" className="font-weight-bold mt-1">
                       ${item.total_cost.toLocaleString()}
                     </Body>
                   )}
@@ -229,7 +229,7 @@ export default function AdvanceReviewDetailPage({ params }: { params: { id: stri
         <ModalBody>
           <Stack gap={4}>
             <Stack gap={1}>
-              <Body size="sm" className="font-medium text-ink-700">
+              <Body size="sm" className="font-weight-medium text-ink-700">
                 Reviewer Notes (Optional)
               </Body>
               <Textarea
@@ -240,7 +240,7 @@ export default function AdvanceReviewDetailPage({ params }: { params: { id: stri
               />
             </Stack>
             <Stack gap={1}>
-              <Body size="sm" className="font-medium text-ink-700">
+              <Body size="sm" className="font-weight-medium text-ink-700">
                 Approved Cost (Optional)
               </Body>
               <Input
@@ -277,7 +277,7 @@ export default function AdvanceReviewDetailPage({ params }: { params: { id: stri
         <ModalBody>
           <Stack gap={4}>
             <Stack gap={1}>
-              <Body size="sm" className="font-medium text-ink-700">
+              <Body size="sm" className="font-weight-medium text-ink-700">
                 Reason for Rejection (Required)
               </Body>
               <Textarea

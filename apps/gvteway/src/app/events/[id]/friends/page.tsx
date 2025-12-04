@@ -62,7 +62,7 @@ export default function FriendFinderPage() {
           <Card className="p-4 border-2 border-black">
             <Stack direction="horizontal" className="justify-between items-center">
               <Stack gap={1}>
-                <Label className="font-bold">Share My Location</Label>
+                <Label className="font-weight-bold">Share My Location</Label>
                 <Label size="xs" className="text-ink-500">Let friends see where you are</Label>
               </Stack>
               <Button variant={shareLocation ? "solid" : "outline"} onClick={() => setShareLocation(!shareLocation)}>
@@ -83,7 +83,7 @@ export default function FriendFinderPage() {
                   <Stack gap={3}>
                     <Stack direction="horizontal" className="justify-between items-start">
                       <Stack gap={1}>
-                        <Body className="font-bold">{friend.name}</Body>
+                        <Body className="font-weight-bold">{friend.name}</Body>
                         {friend.shareLocation && friend.location && (
                           <Label size="xs" className="text-ink-500">
                             Section {friend.location.section}{friend.location.row && `, Row ${friend.location.row}`}
@@ -112,7 +112,7 @@ export default function FriendFinderPage() {
               {meetupSpots.map((spot) => (
                 <Card key={spot.id} className="p-4 border border-ink-200">
                   <Stack gap={2}>
-                    <Body className="font-bold">{spot.name}</Body>
+                    <Body className="font-weight-bold">{spot.name}</Body>
                     <Label size="xs" className="text-ink-500">{spot.description}</Label>
                     <Badge variant="outline">{spot.type}</Badge>
                   </Stack>
@@ -156,7 +156,7 @@ export default function FriendFinderPage() {
                 {meetupSpots.map((spot) => (
                   <Card key={spot.id} className="p-3 border border-ink-200 cursor-pointer hover:border-black">
                     <Stack gap={1}>
-                      <Label className="font-bold">{spot.name}</Label>
+                      <Label className="font-weight-bold">{spot.name}</Label>
                       <Label size="xs" className="text-ink-500">{spot.description}</Label>
                     </Stack>
                   </Card>

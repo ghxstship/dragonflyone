@@ -8,6 +8,8 @@ import {
   ListPage,
   Badge,
   DetailDrawer,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -90,17 +92,17 @@ export default function PerformancePage() {
 
   const detailSections: DetailSection[] = selectedReview ? [
     { id: 'overview', title: 'Review Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Employee:</strong> {selectedReview.employee?.full_name || '—'}</div>
-        <div><strong>Reviewer:</strong> {selectedReview.reviewer?.full_name || '—'}</div>
-        <div><strong>Period:</strong> {selectedReview.review_period}</div>
-        <div><strong>Type:</strong> {formatStatus(selectedReview.review_type)}</div>
-        <div><strong>Score:</strong> {selectedReview.overall_score > 0 ? selectedReview.overall_score.toFixed(1) : '—'}</div>
-        <div><strong>Status:</strong> {formatStatus(selectedReview.status)}</div>
-        <div><strong>Scheduled:</strong> {selectedReview.scheduled_date ? new Date(selectedReview.scheduled_date).toLocaleDateString() : '—'}</div>
-        {selectedReview.strengths?.length > 0 && <div className="col-span-2"><strong>Strengths:</strong> {selectedReview.strengths.join(', ')}</div>}
-        {selectedReview.improvements?.length > 0 && <div className="col-span-2"><strong>Improvements:</strong> {selectedReview.improvements.join(', ')}</div>}
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Employee:</strong> {selectedReview.employee?.full_name || '—'}</Body>
+        <Body size="sm"><strong>Reviewer:</strong> {selectedReview.reviewer?.full_name || '—'}</Body>
+        <Body size="sm"><strong>Period:</strong> {selectedReview.review_period}</Body>
+        <Body size="sm"><strong>Type:</strong> {formatStatus(selectedReview.review_type)}</Body>
+        <Body size="sm"><strong>Score:</strong> {selectedReview.overall_score > 0 ? selectedReview.overall_score.toFixed(1) : '—'}</Body>
+        <Body size="sm"><strong>Status:</strong> {formatStatus(selectedReview.status)}</Body>
+        <Body size="sm"><strong>Scheduled:</strong> {selectedReview.scheduled_date ? new Date(selectedReview.scheduled_date).toLocaleDateString() : '—'}</Body>
+        {selectedReview.strengths?.length > 0 && <Body size="sm" className="col-span-2"><strong>Strengths:</strong> {selectedReview.strengths.join(', ')}</Body>}
+        {selectedReview.improvements?.length > 0 && <Body size="sm" className="col-span-2"><strong>Improvements:</strong> {selectedReview.improvements.join(', ')}</Body>}
+      </Grid>
     )},
   ] : [];
 

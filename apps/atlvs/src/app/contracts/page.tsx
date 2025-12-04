@@ -12,6 +12,8 @@ import {
   DetailDrawer,
   ConfirmDialog,
   useNotifications,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -187,16 +189,16 @@ export default function ContractsPage() {
       id: 'overview',
       title: 'Contract Details',
       content: (
-        <div className="grid grid-cols-2 gap-4">
-          <div><strong>Title:</strong> {selectedContract.title}</div>
-          <div><strong>Client:</strong> {selectedContract.vendor?.name || '—'}</div>
-          <div><strong>Type:</strong> {selectedContract.type}</div>
-          <div><strong>Value:</strong> {formatCurrency(selectedContract.value)}</div>
-          <div><strong>Status:</strong> {selectedContract.status}</div>
-          <div><strong>Auto Renew:</strong> {selectedContract.auto_renew ? 'Yes' : 'No'}</div>
-          <div><strong>Start:</strong> {selectedContract.start_date ? new Date(selectedContract.start_date).toLocaleDateString() : '—'}</div>
-          <div><strong>End:</strong> {selectedContract.end_date ? new Date(selectedContract.end_date).toLocaleDateString() : '—'}</div>
-        </div>
+        <Grid cols={2} gap={4}>
+          <Body size="sm"><strong>Title:</strong> {selectedContract.title}</Body>
+          <Body size="sm"><strong>Client:</strong> {selectedContract.vendor?.name || '—'}</Body>
+          <Body size="sm"><strong>Type:</strong> {selectedContract.type}</Body>
+          <Body size="sm"><strong>Value:</strong> {formatCurrency(selectedContract.value)}</Body>
+          <Body size="sm"><strong>Status:</strong> {selectedContract.status}</Body>
+          <Body size="sm"><strong>Auto Renew:</strong> {selectedContract.auto_renew ? 'Yes' : 'No'}</Body>
+          <Body size="sm"><strong>Start:</strong> {selectedContract.start_date ? new Date(selectedContract.start_date).toLocaleDateString() : '—'}</Body>
+          <Body size="sm"><strong>End:</strong> {selectedContract.end_date ? new Date(selectedContract.end_date).toLocaleDateString() : '—'}</Body>
+        </Grid>
       ),
     },
   ] : [];

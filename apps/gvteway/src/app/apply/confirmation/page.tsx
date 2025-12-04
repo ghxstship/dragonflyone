@@ -10,6 +10,7 @@ import {
   Card,
   Label,
   ScrollReveal,
+  IconBox,
 } from "@ghxstship/ui";
 import { Check, Clock, Mail, ArrowRight } from "lucide-react";
 import NextLink from "next/link";
@@ -20,9 +21,9 @@ export default function ApplicationConfirmationPage() {
           <Stack gap={12} className="mx-auto max-w-xl text-center">
             <ScrollReveal animation="scale">
               {/* Success Icon */}
-              <div className="mx-auto mb-8 flex size-24 items-center justify-center border-4 border-success bg-success/10">
+              <IconBox size="xl" variant="success" inverted className="mx-auto mb-8 border-4">
                 <Check className="size-12 text-success" />
-              </div>
+              </IconBox>
 
               <Stack gap={6}>
                 <Display size="md" className="text-white">
@@ -42,9 +43,9 @@ export default function ApplicationConfirmationPage() {
 
                   <Stack gap={4}>
                     <Stack direction="horizontal" gap={4} className="items-start">
-                      <div className="flex size-10 shrink-0 items-center justify-center border-2 border-ink-700 bg-ink-900">
+                      <IconBox size="md" inverted>
                         <Mail className="size-5 text-warning" />
-                      </div>
+                      </IconBox>
                       <Stack gap={1}>
                         <Label size="sm" className="text-white">Check Your Email</Label>
                         <Body size="sm" className="text-on-dark-muted">
@@ -54,9 +55,9 @@ export default function ApplicationConfirmationPage() {
                     </Stack>
 
                     <Stack direction="horizontal" gap={4} className="items-start">
-                      <div className="flex size-10 shrink-0 items-center justify-center border-2 border-ink-700 bg-ink-900">
+                      <IconBox size="md" inverted>
                         <Clock className="size-5 text-warning" />
-                      </div>
+                      </IconBox>
                       <Stack gap={1}>
                         <Label size="sm" className="text-white">Review Period</Label>
                         <Body size="sm" className="text-on-dark-muted">
@@ -66,9 +67,9 @@ export default function ApplicationConfirmationPage() {
                     </Stack>
 
                     <Stack direction="horizontal" gap={4} className="items-start">
-                      <div className="flex size-10 shrink-0 items-center justify-center border-2 border-ink-700 bg-ink-900">
+                      <IconBox size="md" inverted>
                         <Check className="size-5 text-warning" />
-                      </div>
+                      </IconBox>
                       <Stack gap={1}>
                         <Label size="sm" className="text-white">Get Started</Label>
                         <Body size="sm" className="text-on-dark-muted">

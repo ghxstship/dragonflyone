@@ -133,24 +133,24 @@ export default function ReputationPage() {
           </Alert>
         )}
 
-        <Card className="p-8 mb-8 bg-gradient-to-r from-black to-gray-800 text-white">
+        <Card className="p-8 mb-8 bg-ink-950 text-white">
           <Grid cols={4} gap={6}>
             <Stack className="col-span-2">
               <Stack direction="horizontal" gap={4} className="items-center">
-                <Stack className="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center">
+                <Stack className="w-20 h-20 bg-white/10 rounded-avatar flex items-center justify-center">
                   <Body className="text-h3-md">{currentLevel.icon}</Body>
                 </Stack>
                 <Stack>
                   <Body className="text-ink-600 text-body-sm">LEVEL {currentLevel.level}</Body>
                   <H2 className="text-white">{currentLevel.name}</H2>
-                  <Body className="text-h5-md font-bold text-white">
+                  <Body className="text-h5-md font-weight-bold text-white">
                     {stats?.total_karma.toLocaleString() || 0} karma
                   </Body>
                 </Stack>
               </Stack>
               {nextLevel && (
                 <Stack className="mt-4">
-                  <Stack className="w-full bg-white/20 h-3 rounded-full overflow-hidden">
+                  <Stack className="w-full bg-white/20 h-3 rounded-avatar overflow-hidden">
                     <Stack
                       className="bg-white h-full transition-all"
                       style={{ '--progress-width': `${progressToNext}%`, width: 'var(--progress-width)' } as React.CSSProperties}
@@ -224,19 +224,19 @@ export default function ReputationPage() {
               <H3 className="mb-6">YOUR CONTRIBUTIONS</H3>
               <Grid cols={2} gap={4}>
                 <Card className="p-4 bg-ink-50 text-center">
-                  <Body className="text-h4-md font-bold">{stats?.reviews_count || 0}</Body>
+                  <Body className="text-h4-md font-weight-bold">{stats?.reviews_count || 0}</Body>
                   <Body className="text-ink-500 text-body-sm">Reviews</Body>
                 </Card>
                 <Card className="p-4 bg-ink-50 text-center">
-                  <Body className="text-h4-md font-bold">{stats?.answers_count || 0}</Body>
+                  <Body className="text-h4-md font-weight-bold">{stats?.answers_count || 0}</Body>
                   <Body className="text-ink-500 text-body-sm">Answers</Body>
                 </Card>
                 <Card className="p-4 bg-ink-50 text-center">
-                  <Body className="text-h4-md font-bold">{stats?.events_attended || 0}</Body>
+                  <Body className="text-h4-md font-weight-bold">{stats?.events_attended || 0}</Body>
                   <Body className="text-ink-500 text-body-sm">Events</Body>
                 </Card>
                 <Card className="p-4 bg-ink-50 text-center">
-                  <Body className="text-h4-md font-bold">{stats?.helpful_votes || 0}</Body>
+                  <Body className="text-h4-md font-weight-bold">{stats?.helpful_votes || 0}</Body>
                   <Body className="text-ink-500 text-body-sm">Helpful Votes</Body>
                 </Card>
               </Grid>
@@ -253,7 +253,7 @@ export default function ReputationPage() {
                     }`}
                   >
                     <Body className="text-h5-md mb-2">{level.icon}</Body>
-                    <Body className={`font-bold ${currentLevel.level >= level.level ? 'text-white' : ''}`}>
+                    <Body className={`font-weight-bold ${currentLevel.level >= level.level ? 'text-white' : ''}`}>
                       {level.name}
                     </Body>
                     <Body className={`text-mono-xs ${currentLevel.level >= level.level ? 'text-ink-600' : 'text-ink-500'}`}>
@@ -278,7 +278,7 @@ export default function ReputationPage() {
                     className="justify-between items-center py-3 border-b border-ink-100"
                   >
                     <Stack>
-                      <Body className="font-medium">{tx.description}</Body>
+                      <Body className="font-weight-medium">{tx.description}</Body>
                       <Body className="text-mono-xs text-ink-500">
                         {new Date(tx.created_at).toLocaleDateString()}
                       </Body>
@@ -305,13 +305,13 @@ export default function ReputationPage() {
                 className={`p-4 ${achievement.earned_at ? '' : 'opacity-50'}`}
               >
                 <Stack className="items-center text-center" gap={3}>
-                  <Stack className={`w-16 h-16 rounded-full flex items-center justify-center ${
+                  <Stack className={`w-16 h-16 rounded-avatar flex items-center justify-center ${
                     achievement.earned_at ? 'bg-black' : 'bg-ink-200'
                   }`}>
                     <Body className="text-h4-md">{achievement.icon}</Body>
                   </Stack>
                   <Stack>
-                    <Body className="font-bold">{achievement.name}</Body>
+                    <Body className="font-weight-bold">{achievement.name}</Body>
                     <Body className="text-mono-xs text-ink-500">{achievement.description}</Body>
                   </Stack>
                   <Badge className={achievement.earned_at ? 'bg-success-500 text-white' : 'bg-ink-300'}>
@@ -323,7 +323,7 @@ export default function ReputationPage() {
                     </Body>
                   ) : achievement.progress !== undefined && (
                     <Stack className="w-full">
-                      <Stack className="w-full bg-ink-200 h-2 rounded-full overflow-hidden">
+                      <Stack className="w-full bg-ink-200 h-2 rounded-avatar overflow-hidden">
                         <Stack
                           className="bg-black h-full"
                           style={{ '--progress-width': `${(achievement.progress / (achievement.total || 1)) * 100}%`, width: 'var(--progress-width)' } as React.CSSProperties}

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, Button,
-  Card, Badge, Alert,
+  Card, Badge, Alert, Box, ProgressBar,
   Modal, ModalHeader, ModalBody, ModalFooter, Kicker,
 } from "@ghxstship/ui";
 import { Globe, Check } from "lucide-react";
@@ -118,12 +118,12 @@ export default function LanguageSettingsPage() {
                         <Label size="xs" className="text-on-dark-disabled">Translation Coverage</Label>
                         <Label size="xs" className={getCoverageColor(lang.coverage)}>{lang.coverage}%</Label>
                       </Stack>
-                      <div className="h-2 overflow-hidden rounded-badge bg-ink-700">
-                        <div
-                          className={`h-full ${lang.coverage >= 95 ? "bg-success" : "bg-warning"}`}
-                          style={{ width: `${lang.coverage}%` }}
-                        />
-                      </div>
+                      <ProgressBar
+                        value={lang.coverage}
+                        max={100}
+                        variant={lang.coverage >= 95 ? "success" : "warning"}
+                        size="sm"
+                      />
                     </Stack>
                   </Card>
                 ))}

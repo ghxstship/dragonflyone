@@ -81,7 +81,7 @@ export default function StoryTemplatesPage() {
                 </Card>
                 <Stack className="p-4" gap={3}>
                   <Stack direction="horizontal" className="justify-between">
-                    <Body className="font-bold">{template.name}</Body>
+                    <Body className="font-weight-bold">{template.name}</Body>
                     <Badge variant="outline">{template.platform}</Badge>
                   </Stack>
                   <Stack direction="horizontal" gap={2}>

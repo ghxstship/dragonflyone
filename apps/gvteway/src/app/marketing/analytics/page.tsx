@@ -159,7 +159,7 @@ export default function MarketingAnalyticsPage() {
                 <TableBody>
                   {mockCampaigns.map((campaign) => (
                     <TableRow key={campaign.id}>
-                      <TableCell><Label className="font-medium">{campaign.name}</Label></TableCell>
+                      <TableCell><Label className="font-weight-medium">{campaign.name}</Label></TableCell>
                       <TableCell><Badge variant="outline">{campaign.channel}</Badge></TableCell>
                       <TableCell><Label className="font-mono">{campaign.impressions.toLocaleString()}</Label></TableCell>
                       <TableCell><Label className="font-mono">{campaign.clicks.toLocaleString()}</Label></TableCell>
@@ -240,7 +240,7 @@ export default function MarketingAnalyticsPage() {
                     ].map((stage, idx) => (
                       <Stack key={idx} gap={2}>
                         <Stack direction="horizontal" className="justify-between">
-                          <Label className="font-medium">{stage.stage}</Label>
+                          <Label className="font-weight-medium">{stage.stage}</Label>
                           <Stack direction="horizontal" gap={4}>
                             <Label className="font-mono">{stage.count.toLocaleString()}</Label>
                             <Label className="font-mono text-ink-500">{stage.pct}%</Label>

@@ -119,7 +119,7 @@ export default function SocialInboxPage() {
                   <Stack direction="horizontal" gap={3}>
                     <Label className="text-h5-md">{getPlatformIcon(message.platform)}</Label>
                     <Stack gap={1}>
-                      <Label className="font-bold">{message.author}</Label>
+                      <Label className="font-weight-bold">{message.author}</Label>
                       <Label size="xs" className="text-ink-500">{message.authorHandle}</Label>
                     </Stack>
                   </Stack>
@@ -151,7 +151,7 @@ export default function SocialInboxPage() {
                 <Badge variant="outline">{selectedMessage.type}</Badge>
               </Stack>
               <Stack gap={1}>
-                <Label className="font-bold">{selectedMessage.author}</Label>
+                <Label className="font-weight-bold">{selectedMessage.author}</Label>
                 <Label className="text-ink-500">{selectedMessage.authorHandle}</Label>
               </Stack>
               <Card className="p-4 border border-ink-200 bg-ink-50">

@@ -173,7 +173,7 @@ function CompareEventsContent() {
           <Card className="mt-4 p-4">
             <Stack gap={0}>
               <Stack direction="horizontal" className="border-b-2 border-black py-3">
-                <Body className="w-40 font-bold">Date & Time</Body>
+                <Body className="w-40 font-weight-bold">Date & Time</Body>
                 {events.map(event => (
                   <Stack key={event.id} className="flex-1 px-2">
                     <Body>{event.date}</Body>
@@ -183,7 +183,7 @@ function CompareEventsContent() {
               </Stack>
 
               <Stack direction="horizontal" className="border-b border-ink-200 py-3">
-                <Body className="w-40 font-bold">Venue</Body>
+                <Body className="w-40 font-weight-bold">Venue</Body>
                 {events.map(event => (
                   <Stack key={event.id} className="flex-1 px-2">
                     <Body>{event.venue}</Body>
@@ -193,10 +193,10 @@ function CompareEventsContent() {
               </Stack>
 
               <Stack direction="horizontal" className="border-b border-ink-200 py-3">
-                <Body className="w-40 font-bold">Price Range</Body>
+                <Body className="w-40 font-weight-bold">Price Range</Body>
                 {events.map(event => (
                   <Stack key={event.id} className="flex-1 px-2">
-                    <Body className="font-bold">
+                    <Body className="font-weight-bold">
                       ${event.price_min} - ${event.price_max}
                     </Body>
                   </Stack>
@@ -204,7 +204,7 @@ function CompareEventsContent() {
               </Stack>
 
               <Stack direction="horizontal" className="border-b border-ink-200 py-3">
-                <Body className="w-40 font-bold">Availability</Body>
+                <Body className="w-40 font-weight-bold">Availability</Body>
                 {events.map(event => {
                   const status = getAvailabilityStatus(event);
                   return (
@@ -221,7 +221,7 @@ function CompareEventsContent() {
               </Stack>
 
               <Stack direction="horizontal" className="border-b border-ink-200 py-3">
-                <Body className="w-40 font-bold">Age Restriction</Body>
+                <Body className="w-40 font-weight-bold">Age Restriction</Body>
                 {events.map(event => (
                   <Stack key={event.id} className="flex-1 px-2">
                     <Body>{event.age_restriction || 'All Ages'}</Body>
@@ -230,7 +230,7 @@ function CompareEventsContent() {
               </Stack>
 
               <Stack direction="horizontal" className="border-b border-ink-200 py-3">
-                <Body className="w-40 font-bold">Parking</Body>
+                <Body className="w-40 font-weight-bold">Parking</Body>
                 {events.map(event => (
                   <Stack key={event.id} className="flex-1 px-2">
                     <Body>{event.parking_available ? 'Available' : 'Not Available'}</Body>
@@ -239,7 +239,7 @@ function CompareEventsContent() {
               </Stack>
 
               <Stack direction="horizontal" className="border-b border-ink-200 py-3">
-                <Body className="w-40 font-bold">Accessibility</Body>
+                <Body className="w-40 font-weight-bold">Accessibility</Body>
                 {events.map(event => (
                   <Stack key={event.id} className="flex-1 px-2">
                     <Body>{event.accessibility ? 'ADA Accessible' : 'Contact Venue'}</Body>
@@ -248,7 +248,7 @@ function CompareEventsContent() {
               </Stack>
 
               <Stack direction="horizontal" className="py-4">
-                <Body className="w-40 font-bold">Actions</Body>
+                <Body className="w-40 font-weight-bold">Actions</Body>
                 {events.map(event => (
                   <Stack key={event.id} className="flex-1 px-2" gap={2}>
                     <Button

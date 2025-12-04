@@ -10,6 +10,8 @@ import {
   DetailDrawer,
   ConfirmDialog,
   useNotifications,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -142,17 +144,17 @@ export default function PayrollPage() {
 
   const detailSections: DetailSection[] = selectedEntry ? [
     { id: 'overview', title: 'Payroll Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Employee:</strong> {selectedEntry.employee_name}</div>
-        <div><strong>Department:</strong> {selectedEntry.department}</div>
-        <div><strong>Period:</strong> {selectedEntry.pay_period_start} - {selectedEntry.pay_period_end}</div>
-        <div><strong>Status:</strong> {selectedEntry.status}</div>
-        <div><strong>Regular Hours:</strong> {selectedEntry.regular_hours}</div>
-        <div><strong>OT Hours:</strong> {selectedEntry.overtime_hours}</div>
-        <div><strong>Gross Pay:</strong> {formatCurrency(selectedEntry.gross_pay)}</div>
-        <div><strong>Deductions:</strong> {formatCurrency(selectedEntry.deductions)}</div>
-        <div><strong>Net Pay:</strong> {formatCurrency(selectedEntry.net_pay)}</div>
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Employee:</strong> {selectedEntry.employee_name}</Body>
+        <Body size="sm"><strong>Department:</strong> {selectedEntry.department}</Body>
+        <Body size="sm"><strong>Period:</strong> {selectedEntry.pay_period_start} - {selectedEntry.pay_period_end}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedEntry.status}</Body>
+        <Body size="sm"><strong>Regular Hours:</strong> {selectedEntry.regular_hours}</Body>
+        <Body size="sm"><strong>OT Hours:</strong> {selectedEntry.overtime_hours}</Body>
+        <Body size="sm"><strong>Gross Pay:</strong> {formatCurrency(selectedEntry.gross_pay)}</Body>
+        <Body size="sm"><strong>Deductions:</strong> {formatCurrency(selectedEntry.deductions)}</Body>
+        <Body size="sm"><strong>Net Pay:</strong> {formatCurrency(selectedEntry.net_pay)}</Body>
+      </Grid>
     )},
   ] : [];
 

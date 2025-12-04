@@ -103,7 +103,7 @@ export default function ExclusiveAccessPage() {
                   <Card key={window.id} className="border-2 border-black p-6">
                     <Grid cols={6} gap={4} className="items-center">
                       <Stack gap={1}>
-                        <Body className="font-bold">{window.eventName}</Body>
+                        <Body className="font-weight-bold">{window.eventName}</Body>
                         <Label className="text-ink-500">{window.windowName}</Label>
                       </Stack>
                       <Badge className={getTierColor(window.tier)}>{window.tier}</Badge>
@@ -137,7 +137,7 @@ export default function ExclusiveAccessPage() {
                       </Stack>
                       <Stack gap={1}>
                         <Label className="text-ink-500">Early Access Window</Label>
-                        <Label className="font-bold">{tier.accessWindow} before public</Label>
+                        <Label className="font-weight-bold">{tier.accessWindow} before public</Label>
                       </Stack>
                       <Stack gap={2}>
                         <Label className="text-ink-500">Benefits</Label>
@@ -170,7 +170,7 @@ export default function ExclusiveAccessPage() {
                       <Card key={idx} className="p-4 border border-ink-200">
                         <Stack direction="horizontal" className="justify-between items-start">
                           <Stack gap={1}>
-                            <Label className="font-bold">{item.benefit}</Label>
+                            <Label className="font-weight-bold">{item.benefit}</Label>
                             <Label className="text-ink-500">{item.description}</Label>
                           </Stack>
                           <Button variant={item.enabled ? "solid" : "outline"} size="sm">
@@ -193,7 +193,7 @@ export default function ExclusiveAccessPage() {
         <ModalBody>
           {selectedWindow && (
             <Stack gap={4}>
-              <Body className="font-bold">{selectedWindow.eventName}</Body>
+              <Body className="font-weight-bold">{selectedWindow.eventName}</Body>
               <Input defaultValue={selectedWindow.windowName} placeholder="Window Name" className="border-2 border-black" />
               <Select defaultValue={selectedWindow.tier} className="border-2 border-black">
                 <option value="Platinum">Platinum</option>

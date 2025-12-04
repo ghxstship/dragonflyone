@@ -8,6 +8,8 @@ import {
   ListPage,
   Badge,
   DetailDrawer,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -83,14 +85,14 @@ export default function AuditPage() {
 
   const detailSections: DetailSection[] = selectedLog ? [
     { id: 'overview', title: 'Audit Log Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Timestamp:</strong> {selectedLog.timestamp || new Date(selectedLog.created_at).toLocaleString()}</div>
-        <div><strong>User:</strong> {selectedLog.user?.email || selectedLog.user_email || '—'}</div>
-        <div><strong>Action:</strong> {selectedLog.action}</div>
-        <div><strong>Resource:</strong> {selectedLog.resource_type}/{selectedLog.resource_id}</div>
-        <div><strong>IP Address:</strong> {selectedLog.ip_address || '—'}</div>
-        {selectedLog.details && <div className="col-span-2"><strong>Details:</strong> {selectedLog.details}</div>}
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Timestamp:</strong> {selectedLog.timestamp || new Date(selectedLog.created_at).toLocaleString()}</Body>
+        <Body size="sm"><strong>User:</strong> {selectedLog.user?.email || selectedLog.user_email || '—'}</Body>
+        <Body size="sm"><strong>Action:</strong> {selectedLog.action}</Body>
+        <Body size="sm"><strong>Resource:</strong> {selectedLog.resource_type}/{selectedLog.resource_id}</Body>
+        <Body size="sm"><strong>IP Address:</strong> {selectedLog.ip_address || '—'}</Body>
+        {selectedLog.details && <Body size="sm" className="col-span-2"><strong>Details:</strong> {selectedLog.details}</Body>}
+      </Grid>
     )},
   ] : [];
 

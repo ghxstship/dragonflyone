@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Body, Box } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Body, Box, Grid } from "@ghxstship/ui";
 import { MessageCircle, BarChart, Trophy, Camera } from "lucide-react";
 import { gvtewayDemoEvents } from "../../../../data/gvteway";
 
@@ -18,7 +18,7 @@ export default function EventEngagePage() {
   return (
     <Stack gap={8}>
       <SectionHeader kicker={event.name} title="Engage" description="Interact with the event and community" colorScheme="on-dark" />
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+      <Grid cols={4} gap={4}>
         <Card variant="elevated" inverted className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push(`/e/${eventId}/engage/qa`)}>
           <CardBody>
             <Stack gap={3} className="items-center text-center">
@@ -59,7 +59,7 @@ export default function EventEngagePage() {
             </Stack>
           </CardBody>
         </Card>
-      </div>
+      </Grid>
     </Stack>
   );
 }

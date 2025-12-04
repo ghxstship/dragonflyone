@@ -118,7 +118,7 @@ export default function EventCollaborationPage() {
                   <Stack gap={4}>
                     <Stack direction="horizontal" className="justify-between">
                       <Stack gap={1}>
-                        <Body className="font-bold">{collaborator.name}</Body>
+                        <Body className="font-weight-bold">{collaborator.name}</Body>
                         <Label className="text-ink-500">{collaborator.email}</Label>
                       </Stack>
                       <Stack gap={1} className="text-right">
@@ -161,7 +161,7 @@ export default function EventCollaborationPage() {
               <TableBody>
                 {mockActivity.map((activity) => (
                   <TableRow key={activity.id}>
-                    <TableCell><Label className="font-medium">{activity.user}</Label></TableCell>
+                    <TableCell><Label className="font-weight-medium">{activity.user}</Label></TableCell>
                     <TableCell><Label>{activity.action}</Label></TableCell>
                     <TableCell><Badge variant="outline">{activity.section}</Badge></TableCell>
                     <TableCell><Label className="text-ink-500">{activity.timestamp}</Label></TableCell>
@@ -207,7 +207,7 @@ export default function EventCollaborationPage() {
           {selectedCollaborator && (
             <Stack gap={4}>
               <Stack gap={1}>
-                <Label className="font-bold">{selectedCollaborator.name}</Label>
+                <Label className="font-weight-bold">{selectedCollaborator.name}</Label>
                 <Label className="text-ink-500">{selectedCollaborator.email}</Label>
               </Stack>
               <Stack gap={1}>

@@ -8,6 +8,8 @@ import {
   ListPage,
   Badge,
   DetailDrawer,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -94,17 +96,17 @@ export default function RFPPage() {
 
   const detailSections: DetailSection[] = selectedRfp ? [
     { id: 'overview', title: 'RFP Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Title:</strong> {selectedRfp.title}</div>
-        <div><strong>Type:</strong> {selectedRfp.project_type || 'General'}</div>
-        <div><strong>Budget:</strong> {selectedRfp.budget_min && selectedRfp.budget_max ? `${formatCurrency(selectedRfp.budget_min)} - ${formatCurrency(selectedRfp.budget_max)}` : '—'}</div>
-        <div><strong>Responses:</strong> {selectedRfp.responses?.[0]?.count || 0}</div>
-        <div><strong>Deadline:</strong> {selectedRfp.submission_deadline ? new Date(selectedRfp.submission_deadline).toLocaleDateString() : '—'}</div>
-        <div><strong>Status:</strong> {selectedRfp.status}</div>
-        <div><strong>Created By:</strong> {selectedRfp.created_by_user?.full_name || '—'}</div>
-        <div><strong>Created:</strong> {new Date(selectedRfp.created_at).toLocaleDateString()}</div>
-        {selectedRfp.description && <div className="col-span-2"><strong>Description:</strong> {selectedRfp.description}</div>}
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Title:</strong> {selectedRfp.title}</Body>
+        <Body size="sm"><strong>Type:</strong> {selectedRfp.project_type || 'General'}</Body>
+        <Body size="sm"><strong>Budget:</strong> {selectedRfp.budget_min && selectedRfp.budget_max ? `${formatCurrency(selectedRfp.budget_min)} - ${formatCurrency(selectedRfp.budget_max)}` : '—'}</Body>
+        <Body size="sm"><strong>Responses:</strong> {selectedRfp.responses?.[0]?.count || 0}</Body>
+        <Body size="sm"><strong>Deadline:</strong> {selectedRfp.submission_deadline ? new Date(selectedRfp.submission_deadline).toLocaleDateString() : '—'}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedRfp.status}</Body>
+        <Body size="sm"><strong>Created By:</strong> {selectedRfp.created_by_user?.full_name || '—'}</Body>
+        <Body size="sm"><strong>Created:</strong> {new Date(selectedRfp.created_at).toLocaleDateString()}</Body>
+        {selectedRfp.description && <Body size="sm" className="col-span-2"><strong>Description:</strong> {selectedRfp.description}</Body>}
+      </Grid>
     )},
   ] : [];
 

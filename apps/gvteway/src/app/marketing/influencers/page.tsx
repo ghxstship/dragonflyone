@@ -91,7 +91,7 @@ export default function InfluencersPage() {
                 <Stack gap={4}>
                   <Stack direction="horizontal" className="justify-between">
                     <Stack gap={1}>
-                      <Body className="font-bold">{influencer.name}</Body>
+                      <Body className="font-weight-bold">{influencer.name}</Body>
                       <Label className="text-ink-500">{influencer.handle}</Label>
                     </Stack>
                     <Stack gap={1} className="text-right">

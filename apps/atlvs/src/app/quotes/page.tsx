@@ -8,6 +8,8 @@ import {
   ListPage,
   Badge,
   DetailDrawer,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -95,16 +97,16 @@ export default function QuotesPage() {
 
   const detailSections: DetailSection[] = selectedQuote ? [
     { id: 'overview', title: 'Quote Details', content: (
-      <div className="grid grid-cols-2 gap-spacing-4">
-        <div><strong>Quote #:</strong> {selectedQuote.quote_number}</div>
-        <div><strong>Client:</strong> {selectedQuote.client?.name || selectedQuote.client_name}</div>
-        <div><strong>Project:</strong> {selectedQuote.opportunity_name || selectedQuote.title}</div>
-        <div><strong>Amount:</strong> {formatCurrency(Number(selectedQuote.total_amount) || 0)}</div>
-        <div><strong>Status:</strong> {selectedQuote.status}</div>
-        <div><strong>Valid Until:</strong> {selectedQuote.valid_until ? new Date(selectedQuote.valid_until).toLocaleDateString() : '—'}</div>
-        <div><strong>Line Items:</strong> {selectedQuote.line_items_count || 0}</div>
-        <div><strong>Created:</strong> {new Date(selectedQuote.created_at).toLocaleDateString()}</div>
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Quote #:</strong> {selectedQuote.quote_number}</Body>
+        <Body size="sm"><strong>Client:</strong> {selectedQuote.client?.name || selectedQuote.client_name}</Body>
+        <Body size="sm"><strong>Project:</strong> {selectedQuote.opportunity_name || selectedQuote.title}</Body>
+        <Body size="sm"><strong>Amount:</strong> {formatCurrency(Number(selectedQuote.total_amount) || 0)}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedQuote.status}</Body>
+        <Body size="sm"><strong>Valid Until:</strong> {selectedQuote.valid_until ? new Date(selectedQuote.valid_until).toLocaleDateString() : '—'}</Body>
+        <Body size="sm"><strong>Line Items:</strong> {selectedQuote.line_items_count || 0}</Body>
+        <Body size="sm"><strong>Created:</strong> {new Date(selectedQuote.created_at).toLocaleDateString()}</Body>
+      </Grid>
     )},
   ] : [];
 

@@ -109,7 +109,7 @@ export default function ParkingTransportPage() {
                     <Card className="p-4 bg-black text-white">
                       <Stack direction="horizontal" className="justify-between items-start">
                         <Stack gap={1}>
-                          <Body className="font-bold">{option.name}</Body>
+                          <Body className="font-weight-bold">{option.name}</Body>
                           <Label className="text-ink-600">{option.distance} • {option.walkTime} walk</Label>
                         </Stack>
                         <Badge className={getTypeColor(option.type)}>{option.type}</Badge>
@@ -158,7 +158,7 @@ export default function ParkingTransportPage() {
                     <Grid cols={3} gap={6} className="items-start">
                       <Stack gap={2}>
                         <Stack direction="horizontal" gap={2} className="items-center">
-                          <Body className="font-bold text-body-md">{option.name}</Body>
+                          <Body className="font-weight-bold text-body-md">{option.name}</Body>
                           <Badge variant="outline">{option.type}</Badge>
                         </Stack>
                         <Body className="text-ink-600">{option.description}</Body>
@@ -230,7 +230,7 @@ export default function ParkingTransportPage() {
               <Card className="p-4 bg-ink-50 border border-ink-200">
                 <Stack direction="horizontal" className="justify-between items-center">
                   <Stack gap={1}>
-                    <Body className="font-bold">{selectedParking.name}</Body>
+                    <Body className="font-weight-bold">{selectedParking.name}</Body>
                     <Badge className={getTypeColor(selectedParking.type)}>{selectedParking.type}</Badge>
                   </Stack>
                   <Label className="font-mono text-h5-md">${selectedParking.price}</Label>

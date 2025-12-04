@@ -115,7 +115,7 @@ export default function IssueCredentialPage() {
                               <Badge style={{ backgroundColor: type.color, color: '#fff' }}>
                                 {type.code}
                               </Badge>
-                              <Body className="font-semibold">{type.name}</Body>
+                              <Body className="font-weight-semibold">{type.name}</Body>
                               <Body className="text-body-sm text-grey-500">Level {type.access_level}</Body>
                             </Stack>
                           </Card>
@@ -149,7 +149,7 @@ export default function IssueCredentialPage() {
                           >
                             <Stack direction="horizontal" gap={3} className="items-center justify-between">
                               <Stack gap={0}>
-                                <Body className="font-semibold">{contact.first_name} {contact.last_name}</Body>
+                                <Body className="font-weight-semibold">{contact.first_name} {contact.last_name}</Body>
                                 <Body className="text-body-sm text-grey-500">{contact.email}</Body>
                               </Stack>
                               {selectedContactId === contact.id && (
@@ -219,7 +219,7 @@ export default function IssueCredentialPage() {
                           <Badge style={{ backgroundColor: selectedType.color, color: '#fff' }}>
                             {selectedType.code}
                           </Badge>
-                          <Body className="font-semibold">{selectedType.name}</Body>
+                          <Body className="font-weight-semibold">{selectedType.name}</Body>
                         </Stack>
                       </Stack>
                     ) : (
@@ -229,7 +229,7 @@ export default function IssueCredentialPage() {
                     {selectedContact ? (
                       <Stack gap={2}>
                         <Body className="text-body-sm text-grey-500">Holder</Body>
-                        <Body className="font-semibold">{selectedContact.first_name} {selectedContact.last_name}</Body>
+                        <Body className="font-weight-semibold">{selectedContact.first_name} {selectedContact.last_name}</Body>
                         <Body className="text-body-sm text-grey-500">{selectedContact.email}</Body>
                       </Stack>
                     ) : (
@@ -239,7 +239,7 @@ export default function IssueCredentialPage() {
                     {badgeNumber && (
                       <Stack gap={2}>
                         <Body className="text-body-sm text-grey-500">Badge Number</Body>
-                        <Body className="font-mono font-semibold">{badgeNumber}</Body>
+                        <Body className="font-mono font-weight-semibold">{badgeNumber}</Body>
                       </Stack>
                     )}
 

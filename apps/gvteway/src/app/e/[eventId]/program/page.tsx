@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Body, Badge } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Body, Badge, Box } from "@ghxstship/ui";
 import { Clock, Music, MapPin } from "lucide-react";
 import { gvtewayDemoEvents } from "../../../../data/gvteway";
 
@@ -37,24 +37,24 @@ export default function EventProgramPage() {
         <CardBody>
           <Stack gap={0}>
             {program.map((item, index) => (
-              <div key={item.id} className={`flex items-center gap-4 border-ink-700 p-4 ${index < program.length - 1 ? "border-b" : ""}`}>
-                <div className="flex w-20 items-center gap-2">
+              <Stack key={item.id} direction="horizontal" gap={4} className={`items-center border-ink-700 p-4 ${index < program.length - 1 ? "border-b" : ""}`}>
+                <Stack direction="horizontal" gap={2} className="w-20 items-center">
                   <Clock size={14} className="text-on-dark-muted" />
                   <Body className="font-weight-bold text-white">{item.time}</Body>
-                </div>
-                <div className="flex size-10 items-center justify-center rounded bg-ink-800">
+                </Stack>
+                <Box className="flex size-10 items-center justify-center rounded bg-ink-800">
                   {item.type === "performance" ? (
                     <Music size={16} className="text-primary" />
                   ) : (
                     <MapPin size={16} className="text-secondary" />
                   )}
-                </div>
-                <div className="flex-1">
+                </Box>
+                <Stack gap={0} className="flex-1">
                   <Body className="font-weight-medium text-white">{item.title}</Body>
                   <Body className="text-body-sm text-on-dark-muted">{item.stage}</Body>
-                </div>
+                </Stack>
                 <Badge variant={typeColors[item.type]}>{item.type.toUpperCase()}</Badge>
-              </div>
+              </Stack>
             ))}
           </Stack>
         </CardBody>

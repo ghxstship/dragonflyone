@@ -217,7 +217,7 @@ export default function KPIDetailPage() {
         {/* Trend Period Selector */}
         <Stack className="mb-6">
           <Stack direction="horizontal" gap={4} className="items-center">
-            <Body className="font-bold">TREND PERIOD:</Body>
+            <Body className="font-weight-bold">TREND PERIOD:</Body>
             <Stack direction="horizontal" gap={2}>
               {[7, 30, 90, 180, 365].map((d) => (
                 <Button
@@ -257,7 +257,7 @@ export default function KPIDetailPage() {
             <Stack gap={3}>
               {kpi.dataSources.map((source, idx) => (
                 <Card key={idx} className="bg-ink-50 p-3 rounded">
-                  <Body className="font-bold text-body-sm">Table: {source.table}</Body>
+                  <Body className="font-weight-bold text-body-sm">Table: {source.table}</Body>
                   <Body className="text-body-sm text-ink-600">
                     Fields: {source.fields.join(', ')}
                   </Body>
@@ -277,35 +277,35 @@ export default function KPIDetailPage() {
           <H3 className="mb-4">KPI PROPERTIES</H3>
           <Grid cols={3}>
             <Stack>
-              <Label className="font-bold mb-2">Update Frequency</Label>
+              <Label className="font-weight-bold mb-2">Update Frequency</Label>
               <Body className="text-ink-600">
                 {kpi.updateFrequency.replace(/_/g, ' ')}
               </Body>
             </Stack>
             <Stack>
-              <Label className="font-bold mb-2">Target Direction</Label>
+              <Label className="font-weight-bold mb-2">Target Direction</Label>
               <Body className="text-ink-600">
                 {kpi.targetDirection.replace(/_/g, ' ')}
               </Body>
             </Stack>
             <Stack>
-              <Label className="font-bold mb-2">Unit</Label>
+              <Label className="font-weight-bold mb-2">Unit</Label>
               <Body className="text-ink-600">{kpi.unit}</Body>
             </Stack>
             <Stack>
-              <Label className="font-bold mb-2">Category</Label>
+              <Label className="font-weight-bold mb-2">Category</Label>
               <Body className="text-ink-600">
                 {kpi.category.replace(/_/g, ' ')}
               </Body>
             </Stack>
             <Stack>
-              <Label className="font-bold mb-2">Subcategory</Label>
+              <Label className="font-weight-bold mb-2">Subcategory</Label>
               <Body className="text-ink-600">
                 {kpi.subcategory.replace(/_/g, ' ')}
               </Body>
             </Stack>
             <Stack>
-              <Label className="font-bold mb-2">Visualizations</Label>
+              <Label className="font-weight-bold mb-2">Visualizations</Label>
               <Body className="text-ink-600">
                 {kpi.visualizations.join(', ')}
               </Body>

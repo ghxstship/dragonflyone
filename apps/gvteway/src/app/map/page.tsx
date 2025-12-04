@@ -130,7 +130,7 @@ function MapViewContent() {
 
   // Simple map rendering (would integrate with Mapbox/Google Maps in production)
   const renderMap = () => (
-    <Stack className="relative w-full h-panel-md bg-ink-100 rounded-lg overflow-hidden">
+    <Stack className="relative w-full h-panel-md bg-ink-100 rounded-card overflow-hidden">
       {/* Map placeholder - in production would use Mapbox GL or Google Maps */}
       <Stack className="absolute inset-0 flex items-center justify-center">
         <Stack className="text-center">
@@ -161,7 +161,7 @@ function MapViewContent() {
             style={{ '--marker-x': `${x}%`, '--marker-y': `${y}%`, left: 'var(--marker-x)', top: 'var(--marker-y)' } as React.CSSProperties}
             onClick={() => handleEventClick(event)}
           >
-            <Stack className={`w-full h-full rounded-full flex items-center justify-center ${
+            <Stack className={`w-full h-full rounded-avatar flex items-center justify-center ${
               selectedEvent?.id === event.id ? 'bg-black' : 'bg-error-500'
             }`}>
               <Body className="text-white text-mono-xs">●</Body>
@@ -175,7 +175,7 @@ function MapViewContent() {
         <Stack
           className="absolute w-4 h-4 -ml-2 -mt-2 z-30 left-1/2 top-1/2"
         >
-          <Stack className="w-full h-full bg-info-500 rounded-full border-2 border-white shadow-lg" />
+          <Stack className="w-full h-full bg-info-500 rounded-avatar border-2 border-white shadow-lg" />
         </Stack>
       )}
 
@@ -295,13 +295,13 @@ function MapViewContent() {
                   </Figure>
                 )}
                 <Stack gap={2}>
-                  <Body className="font-bold">{selectedEvent.title}</Body>
+                  <Body className="font-weight-bold">{selectedEvent.title}</Body>
                   <Body className="text-ink-600">{selectedEvent.date}</Body>
                   <Body className="text-ink-500 text-body-sm">{selectedEvent.venue}</Body>
                   <Body className="text-ink-500 text-body-sm">{selectedEvent.city}</Body>
                   <Stack direction="horizontal" className="justify-between items-center mt-4">
                     <Badge>{selectedEvent.category}</Badge>
-                    <Body className="font-bold">From ${selectedEvent.price_min}</Body>
+                    <Body className="font-weight-bold">From ${selectedEvent.price_min}</Body>
                   </Stack>
                   <Button
                     variant="solid"
@@ -329,7 +329,7 @@ function MapViewContent() {
                     className="p-3 border border-ink-200 rounded cursor-pointer hover:bg-ink-50"
                     onClick={() => handleEventClick(event)}
                   >
-                    <Body className="font-medium text-body-sm">{event.title}</Body>
+                    <Body className="font-weight-medium text-body-sm">{event.title}</Body>
                     <Body className="text-mono-xs text-ink-500">{event.date}</Body>
                     <Body className="text-mono-xs text-ink-600">{event.venue}</Body>
                   </Stack>

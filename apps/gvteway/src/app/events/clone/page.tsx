@@ -96,7 +96,7 @@ function EventCloneContent() {
                         <Badge variant="outline">{template.type}</Badge>
                       </Stack>
                       <Stack gap={1}>
-                        <Body className="font-bold">{template.name}</Body>
+                        <Body className="font-weight-bold">{template.name}</Body>
                         <Label className="text-ink-500">{template.description}</Label>
                       </Stack>
                       <Stack direction="horizontal" gap={4}>
@@ -125,7 +125,7 @@ function EventCloneContent() {
                       <Stack direction="horizontal" gap={3}>
                         <Label className="text-h5-md">{getTypeIcon(event.type)}</Label>
                         <Stack gap={1}>
-                          <Body className="font-bold">{event.name}</Body>
+                          <Body className="font-weight-bold">{event.name}</Body>
                           <Badge variant="outline">{event.type}</Badge>
                         </Stack>
                       </Stack>
@@ -180,7 +180,7 @@ function EventCloneContent() {
               <Stack direction="horizontal" gap={3}>
                 <Label className="text-h4-md">{getTypeIcon(selectedTemplate.type)}</Label>
                 <Stack gap={1}>
-                  <Body className="font-bold">{selectedTemplate.name}</Body>
+                  <Body className="font-weight-bold">{selectedTemplate.name}</Body>
                   <Badge variant="outline">{selectedTemplate.type}</Badge>
                 </Stack>
               </Stack>
@@ -219,7 +219,7 @@ function EventCloneContent() {
               <Stack direction="horizontal" gap={3}>
                 <Label className="text-h4-md">{getTypeIcon(selectedEvent.type)}</Label>
                 <Stack gap={1}>
-                  <Body className="font-bold">{selectedEvent.name}</Body>
+                  <Body className="font-weight-bold">{selectedEvent.name}</Body>
                   <Badge variant="outline">{selectedEvent.type}</Badge>
                 </Stack>
               </Stack>

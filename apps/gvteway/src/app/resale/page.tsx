@@ -9,6 +9,8 @@ import {
   Badge,
   DetailDrawer,
   ConfirmDialog,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -113,20 +115,20 @@ export default function ResalePage() {
 
   const detailSections: DetailSection[] = selectedListing ? [
     { id: 'overview', title: 'Listing Details', content: (
-      <div className="grid grid-cols-2 gap-spacing-4">
-        <div><strong>Event:</strong> {selectedListing.event_name}</div>
-        <div><strong>Venue:</strong> {selectedListing.venue_name}</div>
-        <div><strong>Date:</strong> {new Date(selectedListing.event_date).toLocaleDateString()}</div>
-        <div><strong>Ticket Type:</strong> {selectedListing.ticket_type}</div>
-        <div><strong>Section:</strong> {selectedListing.section || 'GA'}</div>
-        <div><strong>Row:</strong> {selectedListing.row || '—'}</div>
-        <div><strong>Seat:</strong> {selectedListing.seat || '—'}</div>
-        <div><strong>Original Price:</strong> {formatCurrency(selectedListing.original_price)}</div>
-        <div><strong>Asking Price:</strong> {formatCurrency(selectedListing.asking_price)}</div>
-        <div><strong>Status:</strong> {selectedListing.status}</div>
-        <div><strong>Seller:</strong> {selectedListing.seller_name}</div>
-        <div><strong>Listed:</strong> {new Date(selectedListing.listed_at).toLocaleDateString()}</div>
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Event:</strong> {selectedListing.event_name}</Body>
+        <Body size="sm"><strong>Venue:</strong> {selectedListing.venue_name}</Body>
+        <Body size="sm"><strong>Date:</strong> {new Date(selectedListing.event_date).toLocaleDateString()}</Body>
+        <Body size="sm"><strong>Ticket Type:</strong> {selectedListing.ticket_type}</Body>
+        <Body size="sm"><strong>Section:</strong> {selectedListing.section || 'GA'}</Body>
+        <Body size="sm"><strong>Row:</strong> {selectedListing.row || '—'}</Body>
+        <Body size="sm"><strong>Seat:</strong> {selectedListing.seat || '—'}</Body>
+        <Body size="sm"><strong>Original Price:</strong> {formatCurrency(selectedListing.original_price)}</Body>
+        <Body size="sm"><strong>Asking Price:</strong> {formatCurrency(selectedListing.asking_price)}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedListing.status}</Body>
+        <Body size="sm"><strong>Seller:</strong> {selectedListing.seller_name}</Body>
+        <Body size="sm"><strong>Listed:</strong> {new Date(selectedListing.listed_at).toLocaleDateString()}</Body>
+      </Grid>
     )},
   ] : [];
 

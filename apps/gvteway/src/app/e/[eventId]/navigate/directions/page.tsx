@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Body, H3 } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Body, H3, Grid, Box } from "@ghxstship/ui";
 import { Navigation, Car, Train, Footprints } from "lucide-react";
 import { gvtewayDemoEvents } from "../../../../../data/gvteway";
 
@@ -17,7 +17,7 @@ export default function DirectionsPage() {
   return (
     <Stack gap={8}>
       <SectionHeader kicker={event.name} title="Directions" description="Get directions to the venue" colorScheme="on-dark" />
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+      <Grid cols={3} gap={4}>
         <Card variant="elevated" inverted>
           <CardBody>
             <Stack gap={3} className="items-center text-center">
@@ -45,14 +45,14 @@ export default function DirectionsPage() {
             </Stack>
           </CardBody>
         </Card>
-      </div>
+      </Grid>
       <Card variant="elevated" inverted>
         <CardBody>
           <Stack gap={4}>
             <H3 className="text-white">Map</H3>
-            <div className="flex h-64 items-center justify-center rounded border-2 border-ink-700 bg-ink-800">
+            <Box variant="bordered" className="flex h-64 items-center justify-center rounded bg-ink-800">
               <Body className="text-on-dark-muted">Directions map will be displayed here</Body>
-            </div>
+            </Box>
           </Stack>
         </CardBody>
       </Card>

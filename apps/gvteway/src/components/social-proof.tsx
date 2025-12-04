@@ -63,7 +63,7 @@ export function SocialProofWidget({ eventId, variant = "compact" }: SocialProofP
     <Card className="border-2 border-black p-4">
       <Stack gap={4}>
         <Stack direction="horizontal" className="justify-between items-center">
-          <Label className="font-bold">Live Activity</Label>
+          <Label className="font-weight-bold">Live Activity</Label>
           {data.trending && <Badge variant="solid" className="bg-error-500">🔥 Trending</Badge>}
         </Stack>
         
@@ -135,11 +135,11 @@ export function RecentPurchaseToast() {
   return (
     <Card className="fixed bottom-4 left-4 p-4 bg-white border-2 border-black shadow-lg animate-slide-up z-50">
       <Stack direction="horizontal" gap={3}>
-        <Card className="w-10 h-10 bg-success-100 flex items-center justify-center rounded-full">
+        <Card className="w-10 h-10 bg-success-100 flex items-center justify-center rounded-avatar">
           <Label>🎟️</Label>
         </Card>
         <Stack gap={1}>
-          <Label className="font-bold">{purchase.name} from {purchase.location}</Label>
+          <Label className="font-weight-bold">{purchase.name} from {purchase.location}</Label>
           <Label size="xs" className="text-ink-500">
             Just purchased {purchase.tickets} ticket{purchase.tickets > 1 ? "s" : ""}
           </Label>
@@ -155,7 +155,7 @@ export function AttendeeAvatars({ count = 5 }: { count?: number }) {
   return (
     <Stack direction="horizontal" gap={0}>
       {avatars.slice(0, count).map((avatar, idx) => (
-        <Card key={idx} className="w-8 h-8 bg-ink-100 border-2 border-white rounded-full flex items-center justify-center -ml-2 first:ml-0">
+        <Card key={idx} className="w-8 h-8 bg-ink-100 border-2 border-white rounded-avatar flex items-center justify-center -ml-2 first:ml-0">
           <Label size="xs">{avatar}</Label>
         </Card>
       ))}

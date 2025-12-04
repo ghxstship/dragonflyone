@@ -132,13 +132,13 @@ export default function SettingsPage() {
               <Stack gap={4}>
                 <Button variant="outlineInk" fullWidth className="justify-start text-left" onClick={() => router.push('/settings/emergency-contacts')}>
                   <Stack gap={1}>
-                    <Body className="font-heading uppercase tracking-widest">Emergency Contacts</Body>
+                    <Body className="font-heading uppercase tracking-label">Emergency Contacts</Body>
                     <Body className="text-body-sm text-ink-400">Manage emergency contact list</Body>
                   </Stack>
                 </Button>
                 <Button variant="outlineInk" fullWidth className="justify-start text-left" onClick={() => router.push('/settings/incident-reporting')}>
                   <Stack gap={1}>
-                    <Body className="font-heading uppercase tracking-widest">Incident Reporting</Body>
+                    <Body className="font-heading uppercase tracking-label">Incident Reporting</Body>
                     <Body className="text-body-sm text-ink-400">Configure incident notification settings</Body>
                   </Stack>
                 </Button>

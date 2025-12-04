@@ -9,6 +9,8 @@ import {
   Badge,
   DetailDrawer,
   RecordFormModal,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -169,20 +171,20 @@ export default function ScenariosPage() {
 
   const detailSections: DetailSection[] = selectedScenario ? [
     { id: 'overview', title: 'Scenario Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Name:</strong> {selectedScenario.name}</div>
-        <div><strong>Category:</strong> {selectedScenario.category}</div>
-        <div><strong>Type:</strong> {selectedScenario.scenario_type?.replace("_", " ")}</div>
-        <div><strong>Status:</strong> {selectedScenario.status}</div>
-        <div><strong>Revenue Forecast:</strong> {formatCurrency(selectedScenario.revenue_forecast || 0)}</div>
-        <div><strong>Cost Forecast:</strong> {formatCurrency(selectedScenario.cost_forecast || 0)}</div>
-        <div><strong>Probability:</strong> {selectedScenario.probability}%</div>
-        <div><strong>Impact:</strong> {selectedScenario.impact_level}</div>
-        {selectedScenario.description && <div className="col-span-2"><strong>Description:</strong> {selectedScenario.description}</div>}
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Name:</strong> {selectedScenario.name}</Body>
+        <Body size="sm"><strong>Category:</strong> {selectedScenario.category}</Body>
+        <Body size="sm"><strong>Type:</strong> {selectedScenario.scenario_type?.replace("_", " ")}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedScenario.status}</Body>
+        <Body size="sm"><strong>Revenue Forecast:</strong> {formatCurrency(selectedScenario.revenue_forecast || 0)}</Body>
+        <Body size="sm"><strong>Cost Forecast:</strong> {formatCurrency(selectedScenario.cost_forecast || 0)}</Body>
+        <Body size="sm"><strong>Probability:</strong> {selectedScenario.probability}%</Body>
+        <Body size="sm"><strong>Impact:</strong> {selectedScenario.impact_level}</Body>
+        {selectedScenario.description && <Body size="sm" className="col-span-2"><strong>Description:</strong> {selectedScenario.description}</Body>}
         {selectedScenario.assumptions?.length > 0 && (
-          <div className="col-span-2"><strong>Assumptions:</strong> {selectedScenario.assumptions.join(', ')}</div>
+          <Body size="sm" className="col-span-2"><strong>Assumptions:</strong> {selectedScenario.assumptions.join(', ')}</Body>
         )}
-      </div>
+      </Grid>
     )},
   ] : [];
 

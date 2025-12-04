@@ -7,6 +7,9 @@ import {
   ListPage,
   Badge,
   DetailDrawer,
+  Grid,
+  Stack,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -133,24 +136,24 @@ export default function RateCardsPage() {
 
   const detailSections: DetailSection[] = selectedRateCard ? [
     { id: "overview", title: "Rate Card Details", content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Vendor:</strong> {selectedRateCard.vendorName}</div>
-        <div><strong>Category:</strong> {selectedRateCard.category}</div>
-        <div><strong>Status:</strong> {selectedRateCard.status}</div>
-        <div><strong>Effective:</strong> {selectedRateCard.effectiveDate}</div>
-        <div><strong>Expires:</strong> {selectedRateCard.expirationDate}</div>
-        {selectedRateCard.notes && <div className="col-span-2"><strong>Notes:</strong> {selectedRateCard.notes}</div>}
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Vendor:</strong> {selectedRateCard.vendorName}</Body>
+        <Body size="sm"><strong>Category:</strong> {selectedRateCard.category}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedRateCard.status}</Body>
+        <Body size="sm"><strong>Effective:</strong> {selectedRateCard.effectiveDate}</Body>
+        <Body size="sm"><strong>Expires:</strong> {selectedRateCard.expirationDate}</Body>
+        {selectedRateCard.notes && <Body size="sm" className="col-span-2"><strong>Notes:</strong> {selectedRateCard.notes}</Body>}
+      </Grid>
     )},
     { id: "items", title: `Line Items (${selectedRateCard.items.length})`, content: (
-      <div className="space-y-2">
+      <Stack gap={2}>
         {selectedRateCard.items.map((item) => (
-          <div key={item.id} className="flex items-center justify-between border-b border-grey-200 py-2">
-            <span>{item.description}</span>
-            <span className="font-mono">${item.dailyRate}/day</span>
-          </div>
+          <Stack key={item.id} direction="horizontal" className="items-center justify-between border-b border-grey-200 py-2">
+            <Body size="sm">{item.description}</Body>
+            <Body size="sm" className="font-mono">${item.dailyRate}/day</Body>
+          </Stack>
         ))}
-      </div>
+      </Stack>
     )},
   ] : [];
 

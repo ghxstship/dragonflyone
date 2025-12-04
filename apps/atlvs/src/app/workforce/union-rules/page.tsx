@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Eye, Pencil, Trash2 } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
-  ListPage, Badge, DetailDrawer,
+  ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
 } from '@ghxstship/ui';
 import { getBadgeVariant } from '@ghxstship/config';
@@ -73,15 +73,15 @@ export default function UnionRulesPage() {
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Rule Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Union:</strong> {selected.union}</div>
-        <div><strong>Category:</strong> {selected.category}</div>
-        <div><strong>Rule:</strong> {selected.rule}</div>
-        <div><strong>Status:</strong> {selected.status}</div>
-        <div><strong>Effective Date:</strong> {selected.effectiveDate}</div>
-        <div><strong>Penalty:</strong> {selected.penaltyAmount ? `$${selected.penaltyAmount} (${selected.penaltyType})` : 'N/A'}</div>
-        <div className="col-span-2"><strong>Description:</strong> {selected.description}</div>
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Union:</strong> {selected.union}</Body>
+        <Body size="sm"><strong>Category:</strong> {selected.category}</Body>
+        <Body size="sm"><strong>Rule:</strong> {selected.rule}</Body>
+        <Body size="sm"><strong>Status:</strong> {selected.status}</Body>
+        <Body size="sm"><strong>Effective Date:</strong> {selected.effectiveDate}</Body>
+        <Body size="sm"><strong>Penalty:</strong> {selected.penaltyAmount ? `$${selected.penaltyAmount} (${selected.penaltyType})` : 'N/A'}</Body>
+        <Body size="sm" className="col-span-2"><strong>Description:</strong> {selected.description}</Body>
+      </Grid>
     )},
   ] : [];
 

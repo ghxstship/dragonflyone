@@ -48,7 +48,7 @@ export function GeneratorProgress({
           <Box className="w-full">
             <Box className="h-4 w-full border-2 border-ink-950 bg-grey-100">
               <Box
-                className="h-full bg-primary transition-all duration-500"
+                className="h-full bg-primary transition-all duration-slow"
                 style={{ width: `${progress.percentage}%` }}
               />
             </Box>

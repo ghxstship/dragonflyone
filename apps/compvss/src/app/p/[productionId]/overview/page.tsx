@@ -169,7 +169,7 @@ export default function ProductionOverviewPage() {
                   <div className="flex items-center gap-3 rounded border-2 border-warning-500/30 bg-warning-50 p-3">
                     <Clock size={20} className="text-warning-600" />
                     <div>
-                      <Body className="font-medium">
+                      <Body className="font-weight-medium">
                         {metrics.schedule.delayed} Delayed Cues
                       </Body>
                       <Label className="text-muted">
@@ -182,7 +182,7 @@ export default function ProductionOverviewPage() {
                   <div className="flex items-center gap-3 rounded border-2 border-error-500/30 bg-error-50 p-3">
                     <Package size={20} className="text-error-600" />
                     <div>
-                      <Body className="font-medium">
+                      <Body className="font-weight-medium">
                         {metrics.equipment.issues} Equipment Issues
                       </Body>
                       <Label className="text-muted">
@@ -195,7 +195,7 @@ export default function ProductionOverviewPage() {
                   <div className="flex items-center gap-3 rounded border-2 border-primary-500/30 bg-primary-50 p-3">
                     <Users size={20} className="text-primary-600" />
                     <div>
-                      <Body className="font-medium">
+                      <Body className="font-weight-medium">
                         {metrics.crew.pending} Pending Confirmations
                       </Body>
                       <Label className="text-muted">
@@ -208,7 +208,7 @@ export default function ProductionOverviewPage() {
                   <div className="flex items-center gap-3 rounded border-2 border-warning-500/30 bg-warning-50 p-3">
                     <Shield size={20} className="text-warning-600" />
                     <div>
-                      <Body className="font-medium">
+                      <Body className="font-weight-medium">
                         {metrics.safety.openIssues} Open Safety Issues
                       </Body>
                       <Label className="text-muted">
@@ -248,7 +248,7 @@ export default function ProductionOverviewPage() {
                     )}
                   </div>
                   <div className="flex-1">
-                    <Body className="font-medium">{cue.cue}</Body>
+                    <Body className="font-weight-medium">{cue.cue}</Body>
                     <Label className="text-muted">{cue.owner}</Label>
                   </div>
                   <Badge variant={cue.status === "in-progress" ? "info" : "outline"}>

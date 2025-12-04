@@ -13,6 +13,7 @@ import {
   Label,
   ScrollReveal,
   AuthPage,
+  IconBox,
 } from "@ghxstship/ui";
 import { Sparkles, ArrowRight, RefreshCw } from "lucide-react";
 import NextLink from "next/link";
@@ -67,9 +68,9 @@ export default function MagicLinkPage() {
               {submitted ? (
                 /* Success State */
                 <Stack gap={6} className="text-center sm:gap-8">
-                  <div className="mx-auto flex size-12 items-center justify-center border-2 border-white/20 bg-white/5 sm:size-16">
+                  <IconBox size="lg" variant="success" inverted className="mx-auto">
                     <Sparkles className="size-6 text-success sm:size-8" />
-                  </div>
+                  </IconBox>
 
                   <Stack gap={3} className="sm:gap-4">
                     <H2 className="text-white">CHECK YOUR EMAIL</H2>
@@ -99,9 +100,9 @@ export default function MagicLinkPage() {
                 <Stack gap={6} className="sm:gap-8">
                   {/* Header */}
                   <Stack gap={3} className="text-center sm:gap-4">
-                    <div className="mx-auto flex size-12 items-center justify-center border-2 border-white/20 bg-white/5 sm:size-16">
+                    <IconBox size="lg" variant="warning" inverted className="mx-auto">
                       <Sparkles className="size-6 text-warning sm:size-8" />
-                    </div>
+                    </IconBox>
                     <H2 className="text-white">MAGIC LINK</H2>
                     <Body size="sm" className="text-on-dark-muted">
                       Sign in without a password. We&apos;ll email you a magic link.

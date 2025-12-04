@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Eye, Target, Mail } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
-  ListPage, Badge, DetailDrawer,
+  ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
 } from '@ghxstship/ui';
 
@@ -86,21 +86,21 @@ export default function LeadScoringPage() {
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Lead Score Breakdown', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Name:</strong> {selected.name}</div>
-        <div><strong>Company:</strong> {selected.company}</div>
-        <div><strong>Email:</strong> {selected.email}</div>
-        <div><strong>Source:</strong> {selected.source}</div>
-        <div><strong>Overall Score:</strong> {selected.score}</div>
-        <div><strong>Grade:</strong> {selected.grade}</div>
-        <div><strong>Engagement:</strong> {selected.engagementScore}%</div>
-        <div><strong>Fit:</strong> {selected.fitScore}%</div>
-        <div><strong>Behavior:</strong> {selected.behaviorScore}%</div>
-        <div><strong>Status:</strong> {selected.status}</div>
-        <div><strong>Est. Value:</strong> {selected.estimatedValue ? formatCurrency(selected.estimatedValue) : '—'}</div>
-        <div><strong>Assigned To:</strong> {selected.assignedTo || '—'}</div>
-        <div><strong>Last Activity:</strong> {selected.lastActivity}</div>
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Name:</strong> {selected.name}</Body>
+        <Body size="sm"><strong>Company:</strong> {selected.company}</Body>
+        <Body size="sm"><strong>Email:</strong> {selected.email}</Body>
+        <Body size="sm"><strong>Source:</strong> {selected.source}</Body>
+        <Body size="sm"><strong>Overall Score:</strong> {selected.score}</Body>
+        <Body size="sm"><strong>Grade:</strong> {selected.grade}</Body>
+        <Body size="sm"><strong>Engagement:</strong> {selected.engagementScore}%</Body>
+        <Body size="sm"><strong>Fit:</strong> {selected.fitScore}%</Body>
+        <Body size="sm"><strong>Behavior:</strong> {selected.behaviorScore}%</Body>
+        <Body size="sm"><strong>Status:</strong> {selected.status}</Body>
+        <Body size="sm"><strong>Est. Value:</strong> {selected.estimatedValue ? formatCurrency(selected.estimatedValue) : '—'}</Body>
+        <Body size="sm"><strong>Assigned To:</strong> {selected.assignedTo || '—'}</Body>
+        <Body size="sm"><strong>Last Activity:</strong> {selected.lastActivity}</Body>
+      </Grid>
     )},
   ] : [];
 

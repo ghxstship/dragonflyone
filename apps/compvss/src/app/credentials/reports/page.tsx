@@ -114,9 +114,9 @@ export default function CredentialReportsPage() {
                             <Body className="text-body-sm">{type.name}</Body>
                             <Body className="text-body-sm text-grey-500">{type.count}</Body>
                           </Box>
-                          <Box className="h-2 overflow-hidden rounded-full bg-grey-200">
+                          <Box className="h-2 overflow-hidden rounded-avatar bg-grey-200">
                             <Box 
-                              className="h-full rounded-full" 
+                              className="h-full rounded-avatar" 
                               style={{ 
                                 backgroundColor: type.color, 
                                 width: `${(type.count / (stats?.total || 1)) * 100}%` 
@@ -139,7 +139,7 @@ export default function CredentialReportsPage() {
                       <Box key={item.status} className="flex items-center justify-between">
                         <Stack direction="horizontal" gap={2} className="items-center">
                           <Box 
-                            className="size-3 rounded-full" 
+                            className="size-3 rounded-avatar" 
                             style={{ backgroundColor: item.color }} 
                           />
                           <Body>{item.status}</Body>

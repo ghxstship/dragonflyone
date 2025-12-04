@@ -284,7 +284,7 @@ export default function SurveyPage() {
                       {currentStep * questionsPerPage + index + 1}.
                     </Body>
                     <Stack className="flex-1">
-                      <Body className="font-medium">
+                      <Body className="font-weight-medium">
                         {question.question}
                         {question.required && <Text className="text-error-500 ml-1">*</Text>}
                       </Body>
@@ -340,12 +340,12 @@ export default function SurveyPage() {
                   />
                 </Box>
               )}
-              <Body className="font-bold">{survey.event_title}</Body>
+              <Body className="font-weight-bold">{survey.event_title}</Body>
               <Body className="text-ink-600 text-body-sm">{survey.event_date}</Body>
 
               <Stack className="mt-6 pt-4 border-t border-ink-200">
                 <H3 className="mb-2">PROGRESS</H3>
-                <Stack className="w-full bg-ink-200 h-2 rounded-full overflow-hidden">
+                <Stack className="w-full bg-ink-200 h-2 rounded-avatar overflow-hidden">
                   <Stack
                     className="bg-black h-full transition-all"
                     style={{ '--progress-width': `${(Object.keys(answers).length / survey.questions.length) * 100}%`, width: 'var(--progress-width)' } as React.CSSProperties}

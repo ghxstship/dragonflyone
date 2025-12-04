@@ -260,7 +260,7 @@ export default function RelationshipsPage() {
                         onClick={() => setSelectedContact(stakeholder.contact)}
                       >
                         <Stack gap={2}>
-                          <Body className="font-bold">{stakeholder.contact.name}</Body>
+                          <Body className="font-weight-bold">{stakeholder.contact.name}</Body>
                           <Label className="text-ink-500">{stakeholder.contact.title}</Label>
                           <Badge variant="outline">{stakeholder.role}</Badge>
                           <Stack direction="horizontal" gap={2}>
@@ -284,7 +284,7 @@ export default function RelationshipsPage() {
                 <Stack className="items-center">
                   <Card className="p-4 border-2 border-black bg-ink-100 w-64">
                     <Stack gap={1} className="text-center">
-                      <Body className="font-bold">{mockContacts[3].name}</Body>
+                      <Body className="font-weight-bold">{mockContacts[3].name}</Body>
                       <Label className="text-ink-500">{mockContacts[3].title}</Label>
                       {getRelationshipBadge('decision_maker')}
                     </Stack>
@@ -298,7 +298,7 @@ export default function RelationshipsPage() {
                       <Card className="w-1 h-8 bg-black" />
                       <Card className="p-4 border-2 border-black w-56">
                         <Stack gap={1} className="text-center">
-                          <Body className="font-bold">{contact.name}</Body>
+                          <Body className="font-weight-bold">{contact.name}</Body>
                           <Label className="text-ink-500">{contact.title}</Label>
                         </Stack>
                       </Card>
@@ -312,7 +312,7 @@ export default function RelationshipsPage() {
                     <Card className="w-1 h-8 bg-black" />
                     <Card className="p-4 border border-ink-300 w-48">
                       <Stack gap={1} className="text-center">
-                        <Body className="font-bold">{mockContacts[1].name}</Body>
+                        <Body className="font-weight-bold">{mockContacts[1].name}</Body>
                         <Label className="text-ink-500">{mockContacts[1].title}</Label>
                       </Stack>
                     </Card>
@@ -321,7 +321,7 @@ export default function RelationshipsPage() {
                     <Card className="w-1 h-8 bg-black" />
                     <Card className="p-4 border border-ink-300 w-48">
                       <Stack gap={1} className="text-center">
-                        <Body className="font-bold">{mockContacts[4].name}</Body>
+                        <Body className="font-weight-bold">{mockContacts[4].name}</Body>
                         <Label className="text-ink-500">{mockContacts[4].title}</Label>
                       </Stack>
                     </Card>
@@ -338,7 +338,7 @@ export default function RelationshipsPage() {
               <Card key={rel.id} className="p-4 border">
                 <Grid cols={4} gap={4} className="items-center">
                   <Stack gap={1}>
-                    <Body className="font-bold">{rel.from_contact.name}</Body>
+                    <Body className="font-weight-bold">{rel.from_contact.name}</Body>
                     <Label className="text-ink-500">{rel.from_contact.title}</Label>
                   </Stack>
                   <Stack className="items-center">
@@ -346,7 +346,7 @@ export default function RelationshipsPage() {
                     <Body className="text-ink-600">→</Body>
                   </Stack>
                   <Stack gap={1}>
-                    <Body className="font-bold">{rel.to_contact.name}</Body>
+                    <Body className="font-weight-bold">{rel.to_contact.name}</Body>
                     <Label className="text-ink-500">{rel.to_contact.title}</Label>
                   </Stack>
                   <Stack className="items-end">

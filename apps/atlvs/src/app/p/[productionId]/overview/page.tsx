@@ -131,7 +131,7 @@ export default function ProductionOverviewPage() {
         <Card variant="elevated" inverted>
           <CardBody>
             <Stack gap={4}>
-              <h3 className="font-heading text-lg font-bold text-white">Quick Actions</h3>
+              <h3 className="font-heading text-body-lg font-weight-bold text-white">Quick Actions</h3>
               <div className="grid grid-cols-2 gap-3">
                 <Button variant="outline" size="sm" className="justify-start">
                   <Calendar size={16} className="mr-2" />
@@ -166,16 +166,16 @@ export default function ProductionOverviewPage() {
         <Card variant="elevated" inverted>
           <CardBody>
             <Stack gap={4}>
-              <h3 className="font-heading text-lg font-bold text-white">Alerts</h3>
+              <h3 className="font-heading text-body-lg font-weight-bold text-white">Alerts</h3>
               <Stack gap={3}>
                 {metrics.tasks.overdue > 0 && (
                   <div className="flex items-center gap-3 rounded border-2 border-error-500/30 bg-error-500/10 p-3">
                     <AlertTriangle size={20} className="text-error-500" />
                     <div>
-                      <p className="text-sm font-medium text-white">
+                      <p className="text-body-sm font-weight-medium text-white">
                         {metrics.tasks.overdue} Overdue Tasks
                       </p>
-                      <p className="text-xs text-on-dark-muted">
+                      <p className="text-mono-xs text-on-dark-muted">
                         Review and update task deadlines
                       </p>
                     </div>
@@ -185,10 +185,10 @@ export default function ProductionOverviewPage() {
                   <div className="flex items-center gap-3 rounded border-2 border-warning-500/30 bg-warning-500/10 p-3">
                     <Clock size={20} className="text-warning-500" />
                     <div>
-                      <p className="text-sm font-medium text-white">
+                      <p className="text-body-sm font-weight-medium text-white">
                         {metrics.advances.pending} Pending Advances
                       </p>
-                      <p className="text-xs text-on-dark-muted">
+                      <p className="text-mono-xs text-on-dark-muted">
                         Review advance requests from crew
                       </p>
                     </div>
@@ -198,10 +198,10 @@ export default function ProductionOverviewPage() {
                   <div className="flex items-center gap-3 rounded border-2 border-primary-500/30 bg-primary-500/10 p-3">
                     <Users size={20} className="text-primary-500" />
                     <div>
-                      <p className="text-sm font-medium text-white">
+                      <p className="text-body-sm font-weight-medium text-white">
                         {metrics.team.pending} Pending Confirmations
                       </p>
-                      <p className="text-xs text-on-dark-muted">
+                      <p className="text-mono-xs text-on-dark-muted">
                         Follow up with unconfirmed team members
                       </p>
                     </div>
@@ -217,7 +217,7 @@ export default function ProductionOverviewPage() {
       <Card variant="elevated" inverted>
         <CardBody>
           <Stack gap={4}>
-            <h3 className="font-heading text-lg font-bold text-white">Recent Activity</h3>
+            <h3 className="font-heading text-body-lg font-weight-bold text-white">Recent Activity</h3>
             <Stack gap={2}>
               {[
                 { action: "Task completed", detail: "Stage setup checklist", time: "2 hours ago", icon: CheckCircle },
@@ -234,10 +234,10 @@ export default function ProductionOverviewPage() {
                     <activity.icon size={16} className="text-ink-400" />
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm font-medium text-white">{activity.action}</p>
-                    <p className="text-xs text-on-dark-muted">{activity.detail}</p>
+                    <p className="text-body-sm font-weight-medium text-white">{activity.action}</p>
+                    <p className="text-mono-xs text-on-dark-muted">{activity.detail}</p>
                   </div>
-                  <span className="text-xs text-ink-500">{activity.time}</span>
+                  <span className="text-mono-xs text-ink-500">{activity.time}</span>
                 </div>
               ))}
             </Stack>

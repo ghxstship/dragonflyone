@@ -8,6 +8,8 @@ import {
   ListPage,
   Badge,
   DetailDrawer,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -100,20 +102,20 @@ export default function SubsidiariesPage() {
 
   const detailSections: DetailSection[] = selectedEntity ? [
     { id: 'overview', title: 'Entity Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Name:</strong> {selectedEntity.name}</div>
-        <div><strong>Legal Name:</strong> {selectedEntity.legal_name}</div>
-        <div><strong>Type:</strong> {selectedEntity.entity_type}</div>
-        <div><strong>Jurisdiction:</strong> {selectedEntity.jurisdiction}</div>
-        <div><strong>Ownership:</strong> {selectedEntity.ownership_percentage}%</div>
-        <div><strong>Tax ID:</strong> {selectedEntity.tax_id}</div>
-        <div><strong>Incorporated:</strong> {formatDate(selectedEntity.incorporation_date)}</div>
-        <div><strong>Revenue:</strong> {selectedEntity.annual_revenue ? formatCurrency(selectedEntity.annual_revenue) : '—'}</div>
-        <div><strong>Employees:</strong> {selectedEntity.employee_count || '—'}</div>
-        <div><strong>Status:</strong> {selectedEntity.status}</div>
-        {selectedEntity.registered_agent && <div><strong>Registered Agent:</strong> {selectedEntity.registered_agent}</div>}
-        {selectedEntity.address && <div className="col-span-2"><strong>Address:</strong> {selectedEntity.address}</div>}
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Name:</strong> {selectedEntity.name}</Body>
+        <Body size="sm"><strong>Legal Name:</strong> {selectedEntity.legal_name}</Body>
+        <Body size="sm"><strong>Type:</strong> {selectedEntity.entity_type}</Body>
+        <Body size="sm"><strong>Jurisdiction:</strong> {selectedEntity.jurisdiction}</Body>
+        <Body size="sm"><strong>Ownership:</strong> {selectedEntity.ownership_percentage}%</Body>
+        <Body size="sm"><strong>Tax ID:</strong> {selectedEntity.tax_id}</Body>
+        <Body size="sm"><strong>Incorporated:</strong> {formatDate(selectedEntity.incorporation_date)}</Body>
+        <Body size="sm"><strong>Revenue:</strong> {selectedEntity.annual_revenue ? formatCurrency(selectedEntity.annual_revenue) : '—'}</Body>
+        <Body size="sm"><strong>Employees:</strong> {selectedEntity.employee_count || '—'}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedEntity.status}</Body>
+        {selectedEntity.registered_agent && <Body size="sm"><strong>Registered Agent:</strong> {selectedEntity.registered_agent}</Body>}
+        {selectedEntity.address && <Body size="sm" className="col-span-2"><strong>Address:</strong> {selectedEntity.address}</Body>}
+      </Grid>
     )},
   ] : [];
 

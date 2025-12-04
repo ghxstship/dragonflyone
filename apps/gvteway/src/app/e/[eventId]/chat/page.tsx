@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, Box } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Input } from "@ghxstship/ui";
 import { MessageCircle, Send, Users } from "lucide-react";
 import { gvtewayDemoEvents } from "../../../../data/gvteway";
 
@@ -56,9 +56,7 @@ export default function EventChatPage() {
       <Card variant="elevated" inverted>
         <CardBody>
           <Stack direction="horizontal" gap={2}>
-            <div className="flex-1 rounded border-2 border-ink-700 bg-ink-900 px-4 py-2">
-              <Body className="text-on-dark-muted">Type a message...</Body>
-            </div>
+            <Input inverted placeholder="Type a message..." className="flex-1" />
             <Button variant="solid">
               <Send size={16} />
             </Button>

@@ -115,7 +115,7 @@ export default function MediaKitPage() {
                           <Label className="text-h3-md">{getTypeIcon(asset.type)}</Label>
                         </Card>
                         <Stack gap={1}>
-                          <Label className="font-bold">{asset.name}</Label>
+                          <Label className="font-weight-bold">{asset.name}</Label>
                           <Badge variant="outline">{asset.type}</Badge>
                         </Stack>
                         <Stack direction="horizontal" className="justify-between">
@@ -142,7 +142,7 @@ export default function MediaKitPage() {
                   <Card key={release.id} className="border-2 border-black p-6">
                     <Grid cols={4} gap={4} className="items-center">
                       <Stack gap={1}>
-                        <Body className="font-bold">{release.title}</Body>
+                        <Body className="font-weight-bold">{release.title}</Body>
                         <Label className="text-ink-500">{release.event}</Label>
                       </Stack>
                       <Label className="text-ink-600">{release.date}</Label>
@@ -168,21 +168,21 @@ export default function MediaKitPage() {
                   <Grid cols={2} gap={6}>
                     <Card className="p-4 border border-ink-200">
                       <Stack gap={2}>
-                        <Label className="font-bold">Media Inquiries</Label>
+                        <Label className="font-weight-bold">Media Inquiries</Label>
                         <Label>press@company.com</Label>
                         <Label>+1 (555) 123-4567</Label>
                       </Stack>
                     </Card>
                     <Card className="p-4 border border-ink-200">
                       <Stack gap={2}>
-                        <Label className="font-bold">Press Contact</Label>
+                        <Label className="font-weight-bold">Press Contact</Label>
                         <Label>Sarah Johnson</Label>
                         <Label>Director of Communications</Label>
                       </Stack>
                     </Card>
                   </Grid>
                   <Stack gap={2}>
-                    <Label className="font-bold">Distribution Lists</Label>
+                    <Label className="font-weight-bold">Distribution Lists</Label>
                     <Grid cols={3} gap={4}>
                       {[
                         { name: "Music Press", count: 245 },
@@ -225,7 +225,7 @@ export default function MediaKitPage() {
               <Card className="h-48 bg-ink-100 flex items-center justify-center">
                 <Label className="text-h1-sm">{getTypeIcon(selectedAsset.type)}</Label>
               </Card>
-              <Body className="font-bold">{selectedAsset.name}</Body>
+              <Body className="font-weight-bold">{selectedAsset.name}</Body>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}><Label className="text-ink-500">Type</Label><Badge variant="outline">{selectedAsset.type}</Badge></Stack>
                 <Stack gap={1}><Label className="text-ink-500">Format</Label><Label>{selectedAsset.format}</Label></Stack>

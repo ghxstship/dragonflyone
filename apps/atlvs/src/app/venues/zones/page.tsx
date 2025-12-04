@@ -337,7 +337,7 @@ function VenueZonesPageContent() {
 
 export default function VenueZonesPage() {
   return (
-    <Suspense fallback={<div className="flex min-h-screen items-center justify-center">Loading...</div>}>
+    <Suspense fallback={<Stack className="flex min-h-screen items-center justify-center"><Body>Loading...</Body></Stack>}>
       <VenueZonesPageContent />
     </Suspense>
   );

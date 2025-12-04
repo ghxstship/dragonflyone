@@ -118,11 +118,11 @@ export default function SocialWallPage() {
                     <Stack gap={3}>
                       <Stack direction="horizontal" className="justify-between items-start">
                         <Stack direction="horizontal" gap={2}>
-                          <Card className="w-10 h-10 bg-ink-800 flex items-center justify-center rounded-full">
+                          <Card className="w-10 h-10 bg-ink-800 flex items-center justify-center rounded-avatar">
                             <Label>{getPlatformIcon(post.platform)}</Label>
                           </Card>
                           <Stack gap={0}>
-                            <Label className="font-bold">{post.author}</Label>
+                            <Label className="font-weight-bold">{post.author}</Label>
                             <Label size="xs" className="text-ink-500">{post.handle}</Label>
                           </Stack>
                         </Stack>

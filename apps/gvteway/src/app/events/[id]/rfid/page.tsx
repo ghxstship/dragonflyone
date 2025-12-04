@@ -7,6 +7,8 @@ import {
   ListPage,
   Badge,
   DetailDrawer,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -83,17 +85,17 @@ export default function RFIDPage() {
 
   const detailSections: DetailSection[] = selectedWristband ? [
     { id: 'overview', title: 'Wristband Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Wristband ID:</strong> {selectedWristband.wristbandId}</div>
-        <div><strong>Guest:</strong> {selectedWristband.guestName}</div>
-        <div><strong>Email:</strong> {selectedWristband.email}</div>
-        <div><strong>Ticket Type:</strong> {selectedWristband.ticketType}</div>
-        <div><strong>Balance:</strong> ${selectedWristband.balance.toFixed(2)}</div>
-        <div><strong>Transactions:</strong> {selectedWristband.transactions}</div>
-        <div><strong>Status:</strong> {selectedWristband.status}</div>
-        <div><strong>Registered:</strong> {new Date(selectedWristband.registeredAt).toLocaleString()}</div>
-        {selectedWristband.lastUsed && <div><strong>Last Used:</strong> {new Date(selectedWristband.lastUsed).toLocaleString()}</div>}
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Wristband ID:</strong> {selectedWristband.wristbandId}</Body>
+        <Body size="sm"><strong>Guest:</strong> {selectedWristband.guestName}</Body>
+        <Body size="sm"><strong>Email:</strong> {selectedWristband.email}</Body>
+        <Body size="sm"><strong>Ticket Type:</strong> {selectedWristband.ticketType}</Body>
+        <Body size="sm"><strong>Balance:</strong> ${selectedWristband.balance.toFixed(2)}</Body>
+        <Body size="sm"><strong>Transactions:</strong> {selectedWristband.transactions}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedWristband.status}</Body>
+        <Body size="sm"><strong>Registered:</strong> {new Date(selectedWristband.registeredAt).toLocaleString()}</Body>
+        {selectedWristband.lastUsed && <Body size="sm"><strong>Last Used:</strong> {new Date(selectedWristband.lastUsed).toLocaleString()}</Body>}
+      </Grid>
     )},
   ] : [];
 

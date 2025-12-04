@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Eye, Pencil, BarChart3 } from 'lucide-react';
 import { AtlvsAppLayout } from '../../components/app-layout';
 import {
-  ListPage, Badge, DetailDrawer, RecordFormModal,
+  ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig,
 } from '@ghxstship/ui';
 import { getBadgeVariant } from '@ghxstship/config';
@@ -93,15 +93,15 @@ export default function BudgetsPage() {
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Budget Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Name:</strong> {selected.name}</div>
-        <div><strong>Category:</strong> {selected.category}</div>
-        <div><strong>Budgeted:</strong> {formatCurrency(selected.budgeted)}</div>
-        <div><strong>Actual:</strong> {formatCurrency(selected.actual)}</div>
-        <div><strong>Variance:</strong> {selected.variance >= 0 ? '+' : ''}{formatCurrency(selected.variance)}</div>
-        <div><strong>Utilization:</strong> {((selected.actual / selected.budgeted) * 100).toFixed(0)}%</div>
-        <div><strong>Status:</strong> {selected.status.replace('-', ' ').toUpperCase()}</div>
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Name:</strong> {selected.name}</Body>
+        <Body size="sm"><strong>Category:</strong> {selected.category}</Body>
+        <Body size="sm"><strong>Budgeted:</strong> {formatCurrency(selected.budgeted)}</Body>
+        <Body size="sm"><strong>Actual:</strong> {formatCurrency(selected.actual)}</Body>
+        <Body size="sm"><strong>Variance:</strong> {selected.variance >= 0 ? '+' : ''}{formatCurrency(selected.variance)}</Body>
+        <Body size="sm"><strong>Utilization:</strong> {((selected.actual / selected.budgeted) * 100).toFixed(0)}%</Body>
+        <Body size="sm"><strong>Status:</strong> {selected.status.replace('-', ' ').toUpperCase()}</Body>
+      </Grid>
     )},
   ] : [];
 

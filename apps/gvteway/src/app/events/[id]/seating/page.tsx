@@ -213,8 +213,8 @@ export default function SeatingPage() {
 
                   <Stack className="border-t-2 border-black pt-4">
                     <Stack direction="horizontal" className="justify-between">
-                      <Body className="font-bold">Total Seats</Body>
-                      <Body className="font-bold">{selectedSeats.length}</Body>
+                      <Body className="font-weight-bold">Total Seats</Body>
+                      <Body className="font-weight-bold">{selectedSeats.length}</Body>
                     </Stack>
                   </Stack>
 

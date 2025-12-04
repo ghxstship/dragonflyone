@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, StatCard, Body, Badge, Button, H3 } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, StatCard, Body, Badge, Button, H3, Grid, Box } from "@ghxstship/ui";
 import { FolderKanban, Calendar, Users, Plus, ArrowRight } from "lucide-react";
 import { atlvsDemoProductions } from "../../data/atlvs";
 
@@ -37,12 +37,12 @@ export default function ProductionsPage() {
         </Button>
       </Stack>
 
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <Grid cols={2} gap={4} className="lg:grid-cols-4">
         <StatCard label="Total Productions" value={stats.total.toString()} icon={<FolderKanban size={20} />} inverted />
         <StatCard label="Active" value={stats.active.toString()} icon={<Calendar size={20} />} trend="up" inverted />
         <StatCard label="Upcoming" value={stats.upcoming.toString()} icon={<Users size={20} />} inverted />
         <StatCard label="Past" value={stats.past.toString()} icon={<FolderKanban size={20} />} inverted />
-      </div>
+      </Grid>
 
       <Card variant="elevated" inverted>
         <CardBody>
@@ -50,7 +50,7 @@ export default function ProductionsPage() {
             <H3 className="text-white">All Productions</H3>
             <Stack gap={3}>
               {atlvsDemoProductions.map((production) => (
-                <div
+                <Box
                   key={production.id}
                   className="flex cursor-pointer items-center justify-between rounded border-2 border-ink-700 p-4 transition-all hover:border-ink-600 hover:bg-ink-800/50"
                   onClick={() => router.push(`/p/${production.id}/overview`)}
@@ -67,7 +67,7 @@ export default function ProductionsPage() {
                     </Badge>
                     <ArrowRight size={16} className="text-on-dark-muted" />
                   </Stack>
-                </div>
+                </Box>
               ))}
             </Stack>
           </Stack>

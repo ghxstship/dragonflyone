@@ -9,6 +9,8 @@ import {
   ListPage,
   Badge,
   DetailDrawer,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -77,16 +79,16 @@ export default function PipelinePage() {
 
   const detailSections: DetailSection[] = selectedDeal ? [
     { id: 'overview', title: 'Deal Details', content: (
-      <div className="grid grid-cols-2 gap-spacing-4">
-        <div><strong>Opportunity:</strong> {selectedDeal.name}</div>
-        <div><strong>Client:</strong> {selectedDeal.client}</div>
-        <div><strong>Value:</strong> {formatCurrency(selectedDeal.value || 0)}</div>
-        <div><strong>Probability:</strong> {selectedDeal.probability}%</div>
-        <div><strong>Stage:</strong> {selectedDeal.stage}</div>
-        <div><strong>Owner:</strong> {selectedDeal.owner}</div>
-        <div><strong>Close Date:</strong> {selectedDeal.closeDate ? new Date(selectedDeal.closeDate).toLocaleDateString() : '—'}</div>
-        {selectedDeal.description && <div className="col-span-2"><strong>Description:</strong> {selectedDeal.description}</div>}
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Opportunity:</strong> {selectedDeal.name}</Body>
+        <Body size="sm"><strong>Client:</strong> {selectedDeal.client}</Body>
+        <Body size="sm"><strong>Value:</strong> {formatCurrency(selectedDeal.value || 0)}</Body>
+        <Body size="sm"><strong>Probability:</strong> {selectedDeal.probability}%</Body>
+        <Body size="sm"><strong>Stage:</strong> {selectedDeal.stage}</Body>
+        <Body size="sm"><strong>Owner:</strong> {selectedDeal.owner}</Body>
+        <Body size="sm"><strong>Close Date:</strong> {selectedDeal.closeDate ? new Date(selectedDeal.closeDate).toLocaleDateString() : '—'}</Body>
+        {selectedDeal.description && <Body size="sm" className="col-span-2"><strong>Description:</strong> {selectedDeal.description}</Body>}
+      </Grid>
     )},
   ] : [];
 

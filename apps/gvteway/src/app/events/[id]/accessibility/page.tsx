@@ -120,7 +120,7 @@ export default function AccessibilityPage() {
                   <Card key={service.id} className={`border-2 p-4 ${service.available ? "border-black" : "border-ink-300 opacity-60"}`}>
                     <Stack gap={3}>
                       <Stack direction="horizontal" className="justify-between items-start">
-                        <Body className="font-bold">{service.name}</Body>
+                        <Body className="font-weight-bold">{service.name}</Body>
                         <Badge variant={service.available ? "solid" : "outline"}>
                           {service.available ? "Available" : "Not Available"}
                         </Badge>
@@ -151,7 +151,7 @@ export default function AccessibilityPage() {
                     <Card key={request.id} className="border-2 border-black p-4">
                       <Grid cols={4} gap={4} className="items-center">
                         <Stack gap={1}>
-                          <Body className="font-bold">{request.type}</Body>
+                          <Body className="font-weight-bold">{request.type}</Body>
                           <Label size="xs" className="text-ink-500">Requested {request.requestDate}</Label>
                         </Stack>
                         <Badge variant={request.status === "Approved" ? "solid" : "outline"}>
@@ -235,7 +235,7 @@ export default function AccessibilityPage() {
           <Stack gap={4}>
             {selectedService ? (
               <Card className="p-3 bg-ink-50 border border-ink-200">
-                <Body className="font-bold">{selectedService.name}</Body>
+                <Body className="font-weight-bold">{selectedService.name}</Body>
                 <Label className="text-ink-600 text-body-sm">{selectedService.description}</Label>
               </Card>
             ) : (

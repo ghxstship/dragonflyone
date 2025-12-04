@@ -13,6 +13,8 @@ import {
   Label,
   ScrollReveal,
   StaggerChildren,
+  Box,
+  IconBox,
 } from "@ghxstship/ui";
 import {
   Check,
@@ -144,7 +146,7 @@ export default function MembershipPage() {
     <GvtewayAppLayout>
       {/* Hero Section */}
       <Stack className="relative overflow-hidden py-24">
-        <div
+        <Box
           className="pointer-events-none absolute inset-0 opacity-[0.03]"
           style={{
             backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)",
@@ -178,21 +180,21 @@ export default function MembershipPage() {
                   } bg-ink-950`}
                 >
                   {tier.popular && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                    <Box className="absolute -top-3 left-1/2 -translate-x-1/2">
                       <Label size="xs" className="bg-accent-500 px-4 py-1 text-black">
                         <Sparkles className="mr-1 inline size-3" />
                         MOST POPULAR
                       </Label>
-                    </div>
+                    </Box>
                   )}
 
                   <Stack gap={6}>
                     <H3 className="text-white">{tier.name}</H3>
 
-                    <div className="flex items-baseline gap-1">
+                    <Stack direction="horizontal" gap={1} className="items-baseline">
                       <H2 size="md" className="text-white">{tier.price}</H2>
                       <Label size="sm" className="text-on-dark-muted">{tier.period}</Label>
-                    </div>
+                    </Stack>
 
                     <Body size="sm" className="text-on-dark-muted">
                       {tier.description}
@@ -245,9 +247,9 @@ export default function MembershipPage() {
                   className="border-2 border-ink-800 bg-ink-950 p-8"
                 >
                   <Stack gap={4}>
-                    <div className="flex size-12 items-center justify-center border-2 border-ink-700 bg-ink-900">
+                    <IconBox size="md" inverted>
                       <benefit.icon className="size-6 text-warning" />
-                    </div>
+                    </IconBox>
                     <H3 size="sm" className="text-white">{benefit.title}</H3>
                     <Body size="sm" className="text-on-dark-muted">
                       {benefit.description}

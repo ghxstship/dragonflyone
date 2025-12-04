@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Body, H3, Button } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Body, H3, Button, Box } from "@ghxstship/ui";
 import { Ticket, QrCode, Download, Share2 } from "lucide-react";
 import { gvtewayDemoEvents } from "../../../../data/gvteway";
 
@@ -21,9 +21,9 @@ export default function EventTicketPage() {
       <Card variant="elevated" inverted>
         <CardBody>
           <Stack gap={6} className="items-center text-center">
-            <div className="flex size-48 items-center justify-center rounded border-2 border-ink-700 bg-ink-800">
+            <Box variant="bordered" className="flex size-48 items-center justify-center rounded bg-ink-800">
               <QrCode size={120} className="text-white" />
-            </div>
+            </Box>
             <Stack gap={2} className="items-center">
               <Body className="font-weight-bold text-white">General Admission</Body>
               <Body className="text-on-dark-muted">Ticket #TKT-2024-001234</Body>

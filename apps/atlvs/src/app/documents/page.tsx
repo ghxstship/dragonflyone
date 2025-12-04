@@ -10,6 +10,8 @@ import {
   RecordFormModal,
   DetailDrawer,
   ConfirmDialog,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -96,16 +98,16 @@ export default function DocumentsPage() {
 
   const detailSections: DetailSection[] = selectedDoc ? [
     { id: 'overview', title: 'Document Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Name:</strong> {selectedDoc.name}</div>
-        <div><strong>Type:</strong> {selectedDoc.type}</div>
-        <div><strong>Folder:</strong> {selectedDoc.folder}</div>
-        <div><strong>Version:</strong> v{selectedDoc.version}</div>
-        <div><strong>Size:</strong> {selectedDoc.size}</div>
-        <div><strong>Status:</strong> {selectedDoc.status}</div>
-        <div><strong>Uploaded By:</strong> {selectedDoc.uploadedBy}</div>
-        <div><strong>Uploaded:</strong> {new Date(selectedDoc.uploadedAt).toLocaleDateString()}</div>
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Name:</strong> {selectedDoc.name}</Body>
+        <Body size="sm"><strong>Type:</strong> {selectedDoc.type}</Body>
+        <Body size="sm"><strong>Folder:</strong> {selectedDoc.folder}</Body>
+        <Body size="sm"><strong>Version:</strong> v{selectedDoc.version}</Body>
+        <Body size="sm"><strong>Size:</strong> {selectedDoc.size}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedDoc.status}</Body>
+        <Body size="sm"><strong>Uploaded By:</strong> {selectedDoc.uploadedBy}</Body>
+        <Body size="sm"><strong>Uploaded:</strong> {new Date(selectedDoc.uploadedAt).toLocaleDateString()}</Body>
+      </Grid>
     )},
   ] : [];
 

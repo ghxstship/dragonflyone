@@ -9,6 +9,8 @@ import {
   Badge,
   DetailDrawer,
   RecordFormModal,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -110,17 +112,17 @@ export default function CommissionsPage() {
 
   const detailSections: DetailSection[] = selectedRecord ? [
     { id: 'overview', title: 'Commission Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Sales Rep:</strong> {selectedRecord.salesRep}</div>
-        <div><strong>Status:</strong> {selectedRecord.status}</div>
-        <div><strong>Deal:</strong> {selectedRecord.dealName}</div>
-        <div><strong>Client:</strong> {selectedRecord.client}</div>
-        <div><strong>Deal Value:</strong> ${selectedRecord.dealValue.toLocaleString()}</div>
-        <div><strong>Rate:</strong> {selectedRecord.commissionRate}%</div>
-        <div><strong>Commission:</strong> ${selectedRecord.commissionAmount.toLocaleString()}</div>
-        <div><strong>Close Date:</strong> {selectedRecord.closeDate}</div>
-        {selectedRecord.paymentDate && <div><strong>Payment Date:</strong> {selectedRecord.paymentDate}</div>}
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Sales Rep:</strong> {selectedRecord.salesRep}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedRecord.status}</Body>
+        <Body size="sm"><strong>Deal:</strong> {selectedRecord.dealName}</Body>
+        <Body size="sm"><strong>Client:</strong> {selectedRecord.client}</Body>
+        <Body size="sm"><strong>Deal Value:</strong> ${selectedRecord.dealValue.toLocaleString()}</Body>
+        <Body size="sm"><strong>Rate:</strong> {selectedRecord.commissionRate}%</Body>
+        <Body size="sm"><strong>Commission:</strong> ${selectedRecord.commissionAmount.toLocaleString()}</Body>
+        <Body size="sm"><strong>Close Date:</strong> {selectedRecord.closeDate}</Body>
+        {selectedRecord.paymentDate && <Body size="sm"><strong>Payment Date:</strong> {selectedRecord.paymentDate}</Body>}
+      </Grid>
     )},
   ] : [];
 

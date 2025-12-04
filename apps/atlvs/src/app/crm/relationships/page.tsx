@@ -9,6 +9,8 @@ import {
   Badge,
   DetailDrawer,
   RecordFormModal,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -99,14 +101,14 @@ export default function RelationshipsPage() {
 
   const detailSections: DetailSection[] = selectedStakeholder ? [
     { id: 'overview', title: 'Stakeholder Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Name:</strong> {selectedStakeholder.name}</div>
-        <div><strong>Company:</strong> {selectedStakeholder.company}</div>
-        <div><strong>Role:</strong> {selectedStakeholder.role}</div>
-        <div><strong>Influence:</strong> {selectedStakeholder.influence}</div>
-        <div><strong>Sentiment:</strong> {selectedStakeholder.sentiment}</div>
-        <div><strong>Decision Maker:</strong> {selectedStakeholder.decisionMaker ? 'Yes' : 'No'}</div>
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Name:</strong> {selectedStakeholder.name}</Body>
+        <Body size="sm"><strong>Company:</strong> {selectedStakeholder.company}</Body>
+        <Body size="sm"><strong>Role:</strong> {selectedStakeholder.role}</Body>
+        <Body size="sm"><strong>Influence:</strong> {selectedStakeholder.influence}</Body>
+        <Body size="sm"><strong>Sentiment:</strong> {selectedStakeholder.sentiment}</Body>
+        <Body size="sm"><strong>Decision Maker:</strong> {selectedStakeholder.decisionMaker ? 'Yes' : 'No'}</Body>
+      </Grid>
     )},
   ] : [];
 

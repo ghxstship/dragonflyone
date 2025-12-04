@@ -172,7 +172,7 @@ export default function BundlesPage() {
                   <Stack gap={4}>
                     <Stack direction="horizontal" className="justify-between items-start">
                       <Stack gap={1}>
-                        <Body className="font-bold text-h6-md">{bundle.name}</Body>
+                        <Body className="font-weight-bold text-h6-md">{bundle.name}</Body>
                         {bundle.event_name && (
                           <Badge variant="outline">{bundle.event_name}</Badge>
                         )}
@@ -207,7 +207,7 @@ export default function BundlesPage() {
                         </Stack>
                         <Stack gap={1}>
                           <Label className="text-ink-500">Bundle Price</Label>
-                          <Body className="font-bold text-h6-md text-success-600">${bundle.bundle_price}</Body>
+                          <Body className="font-weight-bold text-h6-md text-success-600">${bundle.bundle_price}</Body>
                         </Stack>
                         <Stack gap={1}>
                           <Label className="text-ink-500">Savings</Label>
@@ -251,14 +251,14 @@ export default function BundlesPage() {
                   <Grid cols={6} gap={4} className="items-center">
                     <Stack gap={1}>
                       <Label className="text-ink-500">When buying</Label>
-                      <Body className="font-bold">{cs.trigger_product_name}</Body>
+                      <Body className="font-weight-bold">{cs.trigger_product_name}</Body>
                     </Stack>
                     <Stack className="items-center">
                       <Body className="text-h5-md">→</Body>
                     </Stack>
                     <Stack gap={1}>
                       <Label className="text-ink-500">Recommend</Label>
-                      <Body className="font-bold">{cs.recommended_product_name}</Body>
+                      <Body className="font-weight-bold">{cs.recommended_product_name}</Body>
                       <Label className="text-ink-600">${cs.recommended_product_price}</Label>
                     </Stack>
                     <Stack gap={1}>
@@ -271,7 +271,7 @@ export default function BundlesPage() {
                     </Stack>
                     <Stack gap={1}>
                       <Label className="text-ink-500">Conversion</Label>
-                      <Body className="font-bold">{cs.conversion_rate}%</Body>
+                      <Body className="font-weight-bold">{cs.conversion_rate}%</Body>
                     </Stack>
                     <Stack direction="horizontal" gap={2} className="justify-end">
                       <Button variant="ghost" size="sm">Edit</Button>
@@ -300,7 +300,7 @@ export default function BundlesPage() {
                         <Body>{bundle.name}</Body>
                         <Stack direction="horizontal" gap={4}>
                           <Label className="text-ink-500">{bundle.sold_count} sold</Label>
-                          <Body className="font-bold">${(bundle.bundle_price * bundle.sold_count).toLocaleString()}</Body>
+                          <Body className="font-weight-bold">${(bundle.bundle_price * bundle.sold_count).toLocaleString()}</Body>
                         </Stack>
                       </Stack>
                     ))}
@@ -328,15 +328,15 @@ export default function BundlesPage() {
                   <Stack gap={2}>
                     <Stack direction="horizontal" className="justify-between">
                       <Body>Bundle Revenue</Body>
-                      <Body className="font-bold text-success-600">${totalBundleRevenue.toLocaleString()}</Body>
+                      <Body className="font-weight-bold text-success-600">${totalBundleRevenue.toLocaleString()}</Body>
                     </Stack>
                     <Stack direction="horizontal" className="justify-between">
                       <Body>Cross-Sell Revenue</Body>
-                      <Body className="font-bold text-success-600">$24,500</Body>
+                      <Body className="font-weight-bold text-success-600">$24,500</Body>
                     </Stack>
                     <Stack direction="horizontal" className="justify-between">
                       <Body>Avg Order Value Lift</Body>
-                      <Body className="font-bold">+23%</Body>
+                      <Body className="font-weight-bold">+23%</Body>
                     </Stack>
                   </Stack>
                 </Stack>

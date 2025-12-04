@@ -20,6 +20,7 @@ import {
   Link,
   ScrollReveal,
   AuthPage,
+  IconBox,
 } from "@ghxstship/ui";
 import NextLink from "next/link";
 import { UserPlus, ArrowRight } from "lucide-react";
@@ -129,9 +130,9 @@ export default function SignUpPage() {
               <Stack gap={6} className="sm:gap-8">
                 {/* Header */}
                 <Stack gap={3} className="text-center sm:gap-4">
-                  <div className="mx-auto flex size-12 items-center justify-center border-2 border-white/20 bg-white/5 sm:size-16">
+                  <IconBox size="lg" variant="warning" inverted className="mx-auto">
                     <UserPlus className="size-6 text-warning sm:size-8" />
-                  </div>
+                  </IconBox>
                   <H2 className="text-white">CREATE ACCOUNT</H2>
                   <Body size="sm" className="text-on-dark-muted">
                     Join GVTEWAY to discover and experience unforgettable live events.

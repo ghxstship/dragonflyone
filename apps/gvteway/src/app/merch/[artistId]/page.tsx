@@ -171,7 +171,7 @@ export default function ArtistMerchPage() {
           <Stack gap={6} className="mb-8 border-b-2 border-ink-800 pb-8">
             <Kicker colorScheme="on-dark">Merch</Kicker>
             <Stack direction="horizontal" gap={6} className="items-center">
-              <Stack className="size-24 rounded-full bg-ink-200 overflow-hidden relative flex-shrink-0">
+              <Stack className="size-24 rounded-avatar bg-ink-200 overflow-hidden relative flex-shrink-0">
                 {artist.image_url ? (
                   <Image src={artist.image_url} alt={artist.name} fill className="object-cover" />
                 ) : (
@@ -291,7 +291,7 @@ export default function ArtistMerchPage() {
                   {getCategoryBadge(product.category)}
                   <H3 className="line-clamp-2">{product.name}</H3>
                   <Stack direction="horizontal" gap={2} className="items-center">
-                    <Body className="font-bold text-body-md">${product.price.toFixed(2)}</Body>
+                    <Body className="font-weight-bold text-body-md">${product.price.toFixed(2)}</Body>
                     {product.compare_at_price && product.compare_at_price > product.price && (
                       <Body className="text-ink-600 line-through text-body-sm">
                         ${product.compare_at_price.toFixed(2)}
@@ -347,7 +347,7 @@ export default function ArtistMerchPage() {
                   <H2>{selectedProduct.name}</H2>
                   <Body className="text-ink-600">{selectedProduct.description}</Body>
                   <Stack direction="horizontal" gap={2} className="items-center">
-                    <Body className="font-bold text-h5-md">
+                    <Body className="font-weight-bold text-h5-md">
                       ${(selectedVariant?.price || selectedProduct.price).toFixed(2)}
                     </Body>
                     {selectedProduct.compare_at_price && (

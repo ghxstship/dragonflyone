@@ -225,7 +225,7 @@ export default function CommunityPollsPage() {
                                 direction="horizontal"
                                 className="relative z-10 p-3 justify-between"
                               >
-                                <Body className={isVoted ? 'text-white font-medium' : ''}>
+                                <Body className={isVoted ? 'text-white font-weight-medium' : ''}>
                                   {option.text}
                                   {isVoted && ' ✓'}
                                 </Body>

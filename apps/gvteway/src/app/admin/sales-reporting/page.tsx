@@ -8,6 +8,9 @@ import {
   ListPage,
   Badge,
   DetailDrawer,
+  Grid,
+  Body,
+  Stack,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -90,27 +93,27 @@ export default function SalesReportingPage() {
 
   const detailSections: DetailSection[] = selectedPeriod ? [
     { id: 'overview', title: 'Period Summary', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Location:</strong> {selectedPeriod.location}</div>
-        <div><strong>Type:</strong> {selectedPeriod.location_type.replace('_', ' ')}</div>
-        <div><strong>Date:</strong> {selectedPeriod.date}</div>
-        <div><strong>Period:</strong> {selectedPeriod.period}</div>
-        <div><strong>Transactions:</strong> {selectedPeriod.transactions}</div>
-        <div><strong>Gross Sales:</strong> {formatCurrency(selectedPeriod.gross_sales)}</div>
-        <div><strong>Refunds:</strong> {formatCurrency(selectedPeriod.refunds)}</div>
-        <div><strong>Net Sales:</strong> {formatCurrency(selectedPeriod.net_sales)}</div>
-        <div><strong>Avg Transaction:</strong> {formatCurrency(selectedPeriod.avg_transaction)}</div>
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Location:</strong> {selectedPeriod.location}</Body>
+        <Body size="sm"><strong>Type:</strong> {selectedPeriod.location_type.replace('_', ' ')}</Body>
+        <Body size="sm"><strong>Date:</strong> {selectedPeriod.date}</Body>
+        <Body size="sm"><strong>Period:</strong> {selectedPeriod.period}</Body>
+        <Body size="sm"><strong>Transactions:</strong> {selectedPeriod.transactions}</Body>
+        <Body size="sm"><strong>Gross Sales:</strong> {formatCurrency(selectedPeriod.gross_sales)}</Body>
+        <Body size="sm"><strong>Refunds:</strong> {formatCurrency(selectedPeriod.refunds)}</Body>
+        <Body size="sm"><strong>Net Sales:</strong> {formatCurrency(selectedPeriod.net_sales)}</Body>
+        <Body size="sm"><strong>Avg Transaction:</strong> {formatCurrency(selectedPeriod.avg_transaction)}</Body>
+      </Grid>
     )},
     { id: 'top_items', title: 'Top Items', content: (
-      <div>
+      <Stack gap={0}>
         {selectedPeriod.top_items.map((item, idx) => (
-          <div key={idx} className="flex justify-between py-2 border-b border-ink-200">
-            <span>{item.name} ({item.quantity} sold)</span>
-            <strong>{formatCurrency(item.revenue)}</strong>
-          </div>
+          <Stack key={idx} direction="horizontal" className="justify-between border-b border-ink-200 py-2">
+            <Body size="sm">{item.name} ({item.quantity} sold)</Body>
+            <Body size="sm"><strong>{formatCurrency(item.revenue)}</strong></Body>
+          </Stack>
         ))}
-      </div>
+      </Stack>
     )},
   ] : [];
 

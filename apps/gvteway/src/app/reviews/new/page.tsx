@@ -316,7 +316,7 @@ function NewReviewContent() {
                   />
                 </Figure>
               )}
-              <Body className="font-bold">{event.title}</Body>
+              <Body className="font-weight-bold">{event.title}</Body>
               <Body className="text-ink-600 text-body-sm">{event.date}</Body>
               <Body className="text-ink-500 text-body-sm">{event.venue}</Body>
             </Card>

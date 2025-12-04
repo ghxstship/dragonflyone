@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Body, H3 } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Body, H3, Grid } from "@ghxstship/ui";
 import { ShoppingBag, Shirt, Coffee, Gift } from "lucide-react";
 import { gvtewayDemoEvents } from "../../../../data/gvteway";
 
@@ -17,7 +17,7 @@ export default function ShopPage() {
   return (
     <Stack gap={8}>
       <SectionHeader kicker={event.name} title="Shop" description="Merchandise and concessions" colorScheme="on-dark" />
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+      <Grid cols={4} gap={4}>
         <Card variant="elevated" inverted>
           <CardBody>
             <Stack gap={3} className="items-center text-center">
@@ -50,7 +50,7 @@ export default function ShopPage() {
             </Stack>
           </CardBody>
         </Card>
-      </div>
+      </Grid>
       <Card variant="elevated" inverted><CardBody><Stack gap={4}><H3 className="text-white">Featured Items</H3><Body className="text-on-dark-muted">Shop items will be displayed here.</Body></Stack></CardBody></Card>
     </Stack>
   );

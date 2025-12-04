@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Eye, Paperclip } from "lucide-react";
 import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
-  ListPage, Badge, DetailDrawer,
+  ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
 } from "@ghxstship/ui";
 import { getBadgeVariant } from "@ghxstship/config";
@@ -75,17 +75,17 @@ export default function CreditCardsPage() {
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Transaction Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Merchant:</strong> {selected.merchant}</div>
-        <div><strong>Amount:</strong> ${selected.amount.toLocaleString()}</div>
-        <div><strong>Date:</strong> {selected.date}</div>
-        <div><strong>Category:</strong> {selected.category}</div>
-        <div><strong>Card Holder:</strong> {selected.cardHolder}</div>
-        <div><strong>Card:</strong> ••••{selected.lastFour}</div>
-        <div><strong>Department:</strong> {selected.department}</div>
-        <div><strong>Status:</strong> {selected.status}</div>
-        <div><strong>Receipt:</strong> {selected.receipt ? 'Uploaded' : 'Missing'}</div>
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Merchant:</strong> {selected.merchant}</Body>
+        <Body size="sm"><strong>Amount:</strong> ${selected.amount.toLocaleString()}</Body>
+        <Body size="sm"><strong>Date:</strong> {selected.date}</Body>
+        <Body size="sm"><strong>Category:</strong> {selected.category}</Body>
+        <Body size="sm"><strong>Card Holder:</strong> {selected.cardHolder}</Body>
+        <Body size="sm"><strong>Card:</strong> ••••{selected.lastFour}</Body>
+        <Body size="sm"><strong>Department:</strong> {selected.department}</Body>
+        <Body size="sm"><strong>Status:</strong> {selected.status}</Body>
+        <Body size="sm"><strong>Receipt:</strong> {selected.receipt ? 'Uploaded' : 'Missing'}</Body>
+      </Grid>
     )},
   ] : [];
 

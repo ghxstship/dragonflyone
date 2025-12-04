@@ -8,7 +8,7 @@ import {
   Card, Tabs, TabsList, Tab, Badge,
   Modal, ModalHeader, ModalBody, ModalFooter, Alert,
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
-  Kicker,
+  Kicker, ProgressBar,
 } from "@ghxstship/ui";
 
 interface EarlyBirdCampaign {
@@ -122,9 +122,7 @@ export default function EarlyBirdPage() {
                       {campaign.ticketLimit ? (
                         <Stack gap={1}>
                           <Label size="sm" className="text-white">{campaign.ticketsSold}/{campaign.ticketLimit}</Label>
-                          <div className="h-2 w-20 overflow-hidden rounded-badge bg-ink-700">
-                            <div className="h-full bg-white" style={{ width: `${(campaign.ticketsSold / campaign.ticketLimit) * 100}%` }} />
-                          </div>
+                          <ProgressBar value={(campaign.ticketsSold / campaign.ticketLimit) * 100} size="sm" className="w-20" />
                         </Stack>
                       ) : (
                         <Label size="sm" className="text-white">{campaign.ticketsSold} sold</Label>
@@ -232,9 +230,7 @@ export default function EarlyBirdPage() {
               {selectedCampaign.ticketLimit && (
                 <Stack gap={2}>
                   <Label size="xs" className="text-on-light-muted">Progress</Label>
-                  <div className="h-3 overflow-hidden rounded-badge bg-ink-200">
-                    <div className="h-full bg-ink-900" style={{ width: `${(selectedCampaign.ticketsSold / selectedCampaign.ticketLimit) * 100}%` }} />
-                  </div>
+                  <ProgressBar value={(selectedCampaign.ticketsSold / selectedCampaign.ticketLimit) * 100} size="md" />
                   <Label size="sm">{selectedCampaign.ticketsSold} of {selectedCampaign.ticketLimit} tickets sold</Label>
                 </Stack>
               )}

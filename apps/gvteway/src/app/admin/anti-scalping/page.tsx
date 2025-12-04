@@ -289,7 +289,7 @@ export default function AntiScalpingPage() {
                           {getSeverityBadge(alert.severity)}
                           {getTypeBadge(alert.type)}
                         </Stack>
-                        <Body className="font-bold">{alert.event_name}</Body>
+                        <Body className="font-weight-bold">{alert.event_name}</Body>
                       </Stack>
                       <Stack gap={1}>
                         <Label size="xs" className="text-on-dark-muted">Details</Label>
@@ -457,12 +457,12 @@ export default function AntiScalpingPage() {
                 {getTypeBadge(selectedAlert.type)}
                 {getStatusBadge(selectedAlert.status)}
               </Stack>
-              <Body className="font-bold text-h6-md">{selectedAlert.event_name}</Body>
+              <Body className="font-weight-bold text-h6-md">{selectedAlert.event_name}</Body>
               <Body>{selectedAlert.details}</Body>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>
                   <Label className="text-ink-500">Ticket Count</Label>
-                  <Body className="font-bold">{selectedAlert.ticket_count}</Body>
+                  <Body className="font-weight-bold">{selectedAlert.ticket_count}</Body>
                 </Stack>
                 <Stack gap={1}>
                   <Label className="text-ink-500">Detected At</Label>

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Eye, Calendar, Pencil } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
-  ListPage, Badge, DetailDrawer,
+  ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
 } from '@ghxstship/ui';
 import { getBadgeVariant } from '@ghxstship/config';
@@ -74,17 +74,17 @@ export default function CalibrationCertificationPage() {
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Calibration Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Asset:</strong> {selected.assetName}</div>
-        <div><strong>Category:</strong> {selected.category}</div>
-        <div><strong>Type:</strong> {selected.calibrationType}</div>
-        <div><strong>Status:</strong> {selected.status}</div>
-        <div><strong>Last Calibration:</strong> {selected.lastCalibration}</div>
-        <div><strong>Next Due:</strong> {selected.nextDue}</div>
-        <div><strong>Frequency:</strong> {selected.frequency}</div>
-        <div><strong>Certified By:</strong> {selected.certifiedBy || 'N/A'}</div>
-        {selected.notes && <div className="col-span-2"><strong>Notes:</strong> {selected.notes}</div>}
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Asset:</strong> {selected.assetName}</Body>
+        <Body size="sm"><strong>Category:</strong> {selected.category}</Body>
+        <Body size="sm"><strong>Type:</strong> {selected.calibrationType}</Body>
+        <Body size="sm"><strong>Status:</strong> {selected.status}</Body>
+        <Body size="sm"><strong>Last Calibration:</strong> {selected.lastCalibration}</Body>
+        <Body size="sm"><strong>Next Due:</strong> {selected.nextDue}</Body>
+        <Body size="sm"><strong>Frequency:</strong> {selected.frequency}</Body>
+        <Body size="sm"><strong>Certified By:</strong> {selected.certifiedBy || 'N/A'}</Body>
+        {selected.notes && <Body size="sm" className="col-span-2"><strong>Notes:</strong> {selected.notes}</Body>}
+      </Grid>
     )},
   ] : [];
 

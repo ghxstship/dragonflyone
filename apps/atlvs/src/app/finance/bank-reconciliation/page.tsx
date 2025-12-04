@@ -8,6 +8,8 @@ import {
   ListPage,
   Badge,
   DetailDrawer,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -76,15 +78,15 @@ export default function BankReconciliationPage() {
 
   const detailSections: DetailSection[] = selectedTxn ? [
     { id: 'overview', title: 'Transaction Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Date:</strong> {selectedTxn.date}</div>
-        <div><strong>Account:</strong> {selectedTxn.bankAccount}</div>
-        <div><strong>Description:</strong> {selectedTxn.description}</div>
-        <div><strong>Type:</strong> {selectedTxn.type}</div>
-        <div><strong>Amount:</strong> {selectedTxn.amount > 0 ? '+' : ''}${Math.abs(selectedTxn.amount).toLocaleString()}</div>
-        <div><strong>Status:</strong> {selectedTxn.status}</div>
-        {selectedTxn.matchedTo && <div><strong>Matched To:</strong> {selectedTxn.matchedTo}</div>}
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Date:</strong> {selectedTxn.date}</Body>
+        <Body size="sm"><strong>Account:</strong> {selectedTxn.bankAccount}</Body>
+        <Body size="sm"><strong>Description:</strong> {selectedTxn.description}</Body>
+        <Body size="sm"><strong>Type:</strong> {selectedTxn.type}</Body>
+        <Body size="sm"><strong>Amount:</strong> {selectedTxn.amount > 0 ? '+' : ''}${Math.abs(selectedTxn.amount).toLocaleString()}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedTxn.status}</Body>
+        {selectedTxn.matchedTo && <Body size="sm"><strong>Matched To:</strong> {selectedTxn.matchedTo}</Body>}
+      </Grid>
     )},
   ] : [];
 

@@ -85,7 +85,7 @@ export default function EarlyBirdPage() {
               <Body className="text-on-dark-muted">Manage early bird pricing with countdown timers</Body>
             </Stack>
 
-          <Card className="border-2 border-black p-6 bg-gradient-to-r from-orange-50 to-yellow-50">
+          <Card className="border-2 border-black p-6 bg-warning-50">
             <Stack gap={4}>
               <H3>Active Campaign Countdown</H3>
               <Grid cols={4} gap={4}>
@@ -129,13 +129,13 @@ export default function EarlyBirdPage() {
               <Card key={campaign.id} className={`border-2 ${campaign.status === "Ending Soon" ? "border-warning-500" : "border-black"} p-6`}>
                 <Grid cols={6} gap={4} className="items-center">
                   <Stack gap={1}>
-                    <Body className="font-bold">{campaign.eventName}</Body>
+                    <Body className="font-weight-bold">{campaign.eventName}</Body>
                     <Badge variant="outline">{campaign.tierName}</Badge>
                   </Stack>
                   <Stack gap={1}>
                     <Stack direction="horizontal" gap={2}>
                       <Label className="line-through text-ink-600">{formatCurrency(campaign.originalPrice)}</Label>
-                      <Label className="font-bold text-success-600">{formatCurrency(campaign.discountedPrice)}</Label>
+                      <Label className="font-weight-bold text-success-600">{formatCurrency(campaign.discountedPrice)}</Label>
                     </Stack>
                     <Badge variant="solid" className="bg-success-600">{campaign.discountPercent}% OFF</Badge>
                   </Stack>
@@ -172,11 +172,11 @@ export default function EarlyBirdPage() {
         <ModalBody>
           {selectedCampaign && (
             <Stack gap={4}>
-              <Body className="font-bold">{selectedCampaign.eventName}</Body>
+              <Body className="font-weight-bold">{selectedCampaign.eventName}</Body>
               <Badge variant="outline">{selectedCampaign.tierName}</Badge>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}><Label className="text-ink-500">Original Price</Label><Label className="line-through">{formatCurrency(selectedCampaign.originalPrice)}</Label></Stack>
-                <Stack gap={1}><Label className="text-ink-500">Discounted Price</Label><Label className="font-bold text-success-600">{formatCurrency(selectedCampaign.discountedPrice)}</Label></Stack>
+                <Stack gap={1}><Label className="text-ink-500">Discounted Price</Label><Label className="font-weight-bold text-success-600">{formatCurrency(selectedCampaign.discountedPrice)}</Label></Stack>
               </Grid>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}><Label className="text-ink-500">Start Date</Label><Label>{selectedCampaign.startDate}</Label></Stack>

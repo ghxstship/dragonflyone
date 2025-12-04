@@ -13,18 +13,18 @@
    Collecting page data ...
  ⚠ Using edge runtime on a page currently disables static generation for that page
    Generating static pages (0/391) ...
-API route error: q [Error]: Dynamic server usage: Route /api/analytics couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+Error fetching action items: q [Error]: Dynamic server usage: Route /api/action-items couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
     at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
-    at /Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/chunks/70435.js:1:4483
-    at /Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/chunks/70435.js:1:4808
+    at c (/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/app/api/action-items/route.js:1:640)
     at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
     at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:140:36
     at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
     at ContextAPI.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/api/context.js:60:46)
     at NoopTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/NoopTracer.js:65:31)
     at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/ProxyTracer.js:36:24)
-    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:122:103 {
-  description: "Route /api/analytics couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:122:103
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19) {
+  description: "Route /api/action-items couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
   digest: 'DYNAMIC_SERVER_USAGE'
 }
 API route error: q [Error]: Dynamic server usage: Route /api/advances couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
@@ -41,20 +41,6 @@ API route error: q [Error]: Dynamic server usage: Route /api/advances couldn't b
   description: "Route /api/advances couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
   digest: 'DYNAMIC_SERVER_USAGE'
 }
-Error fetching action items: q [Error]: Dynamic server usage: Route /api/action-items couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
-    at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
-    at c (/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/app/api/action-items/route.js:1:640)
-    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
-    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:140:36
-    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
-    at ContextAPI.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/api/context.js:60:46)
-    at NoopTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/NoopTracer.js:65:31)
-    at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/ProxyTracer.js:36:24)
-    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:122:103
-    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19) {
-  description: "Route /api/action-items couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
-  digest: 'DYNAMIC_SERVER_USAGE'
-}
 Asset utilization error: q [Error]: Dynamic server usage: Route /api/asset-utilization couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
     at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
     at c (/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/app/api/asset-utilization/route.js:1:612)
@@ -67,6 +53,20 @@ Asset utilization error: q [Error]: Dynamic server usage: Route /api/asset-utili
     at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:122:103
     at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19) {
   description: "Route /api/asset-utilization couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+API route error: q [Error]: Dynamic server usage: Route /api/analytics couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
+    at /Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/chunks/70435.js:1:4483
+    at /Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/chunks/70435.js:1:4808
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
+    at ContextAPI.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/api/context.js:60:46)
+    at NoopTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/NoopTracer.js:65:31)
+    at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/ProxyTracer.js:36:24)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:122:103 {
+  description: "Route /api/analytics couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
   digest: 'DYNAMIC_SERVER_USAGE'
 }
    Generating static pages (97/391) 
@@ -127,20 +127,6 @@ Error fetching quick links: q [Error]: Dynamic server usage: Route /api/quick-li
   description: "Route /api/quick-links couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
   digest: 'DYNAMIC_SERVER_USAGE'
 }
-Spend analytics error: q [Error]: Dynamic server usage: Route /api/spend-analytics couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
-    at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
-    at c (/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/app/api/spend-analytics/route.js:1:613)
-    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
-    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:140:36
-    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
-    at ContextAPI.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/api/context.js:60:46)
-    at NoopTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/NoopTracer.js:65:31)
-    at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/ProxyTracer.js:36:24)
-    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:122:103
-    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19) {
-  description: "Route /api/spend-analytics couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
-  digest: 'DYNAMIC_SERVER_USAGE'
-}
 OIDC login error: q [Error]: Dynamic server usage: Route /api/sso/oidc/login couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
     at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
     at u (/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/app/api/sso/oidc/login/route.js:1:670)
@@ -153,6 +139,20 @@ OIDC login error: q [Error]: Dynamic server usage: Route /api/sso/oidc/login cou
     at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:122:103
     at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19) {
   description: "Route /api/sso/oidc/login couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Spend analytics error: q [Error]: Dynamic server usage: Route /api/spend-analytics couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
+    at c (/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/app/api/spend-analytics/route.js:1:613)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
+    at ContextAPI.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/api/context.js:60:46)
+    at NoopTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/NoopTracer.js:65:31)
+    at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/ProxyTracer.js:36:24)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:122:103
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19) {
+  description: "Route /api/spend-analytics couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
   digest: 'DYNAMIC_SERVER_USAGE'
 }
 SAML login error: q [Error]: Dynamic server usage: Route /api/sso/saml/login couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
@@ -169,20 +169,6 @@ SAML login error: q [Error]: Dynamic server usage: Route /api/sso/saml/login cou
   description: "Route /api/sso/saml/login couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
   digest: 'DYNAMIC_SERVER_USAGE'
 }
-Integration analytics error: q [Error]: Dynamic server usage: Route /api/zapier/analytics couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
-    at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
-    at l (/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/app/api/zapier/analytics/route.js:1:591)
-    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
-    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:140:36
-    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
-    at ContextAPI.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/api/context.js:60:46)
-    at NoopTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/NoopTracer.js:65:31)
-    at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/ProxyTracer.js:36:24)
-    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:122:103
-    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19) {
-  description: "Route /api/zapier/analytics couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
-  digest: 'DYNAMIC_SERVER_USAGE'
-}
 OAuth authorize error: q [Error]: Dynamic server usage: Route /api/zapier/oauth/authorize couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
     at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
     at c (/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/app/api/zapier/oauth/authorize/route.js:1:668)
@@ -195,6 +181,20 @@ OAuth authorize error: q [Error]: Dynamic server usage: Route /api/zapier/oauth/
     at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:122:103
     at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19) {
   description: "Route /api/zapier/oauth/authorize couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Integration analytics error: q [Error]: Dynamic server usage: Route /api/zapier/analytics couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
+    at l (/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/app/api/zapier/analytics/route.js:1:591)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
+    at ContextAPI.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/api/context.js:60:46)
+    at NoopTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/NoopTracer.js:65:31)
+    at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/ProxyTracer.js:36:24)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:122:103
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19) {
+  description: "Route /api/zapier/analytics couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
   digest: 'DYNAMIC_SERVER_USAGE'
 }
    Generating static pages (293/391) 

@@ -9,6 +9,8 @@ import {
   ListPage,
   Badge,
   DetailDrawer,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -101,14 +103,14 @@ export default function FinancePage() {
 
   const detailSections: DetailSection[] = selectedTxn ? [
     { id: 'overview', title: 'Transaction Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>ID:</strong> {selectedTxn.id}</div>
-        <div><strong>Type:</strong> {selectedTxn.type}</div>
-        <div><strong>Party:</strong> {selectedTxn.entity}</div>
-        <div><strong>Amount:</strong> ${Math.abs(selectedTxn.amount).toLocaleString()}</div>
-        <div><strong>Status:</strong> {selectedTxn.status}</div>
-        <div><strong>Date:</strong> {selectedTxn.date}</div>
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>ID:</strong> {selectedTxn.id}</Body>
+        <Body size="sm"><strong>Type:</strong> {selectedTxn.type}</Body>
+        <Body size="sm"><strong>Party:</strong> {selectedTxn.entity}</Body>
+        <Body size="sm"><strong>Amount:</strong> ${Math.abs(selectedTxn.amount).toLocaleString()}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedTxn.status}</Body>
+        <Body size="sm"><strong>Date:</strong> {selectedTxn.date}</Body>
+      </Grid>
     )},
   ] : [];
 

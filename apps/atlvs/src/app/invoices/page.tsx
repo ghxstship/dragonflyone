@@ -10,6 +10,8 @@ import {
   RecordFormModal,
   DetailDrawer,
   ConfirmDialog,
+  Grid,
+  Body,
   useNotifications,
   type ListPageColumn,
   type ListPageFilter,
@@ -210,16 +212,16 @@ export default function InvoicesPage() {
       id: 'overview',
       title: 'Invoice Details',
       content: (
-        <div className="grid grid-cols-2 gap-spacing-4">
-          <div><strong>Invoice #:</strong> {selectedInvoice.invoice_number}</div>
-          <div><strong>Client:</strong> {selectedInvoice.client_name}</div>
-          <div><strong>Project:</strong> {selectedInvoice.project_name || '—'}</div>
-          <div><strong>Status:</strong> {selectedInvoice.status}</div>
-          <div><strong>Total:</strong> {formatCurrency(selectedInvoice.total_amount)}</div>
-          <div><strong>Paid:</strong> {formatCurrency(selectedInvoice.amount_paid)}</div>
-          <div><strong>Due:</strong> {formatCurrency(selectedInvoice.amount_due)}</div>
-          <div><strong>Due Date:</strong> {formatDate(selectedInvoice.due_date)}</div>
-        </div>
+        <Grid cols={2} gap={4}>
+          <Body size="sm"><strong>Invoice #:</strong> {selectedInvoice.invoice_number}</Body>
+          <Body size="sm"><strong>Client:</strong> {selectedInvoice.client_name}</Body>
+          <Body size="sm"><strong>Project:</strong> {selectedInvoice.project_name || '—'}</Body>
+          <Body size="sm"><strong>Status:</strong> {selectedInvoice.status}</Body>
+          <Body size="sm"><strong>Total:</strong> {formatCurrency(selectedInvoice.total_amount)}</Body>
+          <Body size="sm"><strong>Paid:</strong> {formatCurrency(selectedInvoice.amount_paid)}</Body>
+          <Body size="sm"><strong>Due:</strong> {formatCurrency(selectedInvoice.amount_due)}</Body>
+          <Body size="sm"><strong>Due Date:</strong> {formatDate(selectedInvoice.due_date)}</Body>
+        </Grid>
       ),
     },
   ] : [];

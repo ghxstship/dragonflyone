@@ -8,6 +8,8 @@ import {
   ListPage,
   Badge,
   DetailDrawer,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -133,17 +135,17 @@ export default function InventorySyncPage() {
 
   const detailSections: DetailSection[] = selectedItem ? [
     { id: 'overview', title: 'Inventory Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>SKU:</strong> {selectedItem.sku}</div>
-        <div><strong>Name:</strong> {selectedItem.name}</div>
-        <div><strong>Category:</strong> {selectedItem.category}</div>
-        <div><strong>Status:</strong> {selectedItem.sync_status}</div>
-        <div><strong>Online Qty:</strong> {selectedItem.online_quantity}</div>
-        <div><strong>Physical Qty:</strong> {selectedItem.physical_quantity}</div>
-        <div><strong>Reserved:</strong> {selectedItem.reserved_quantity}</div>
-        <div><strong>Available:</strong> {selectedItem.available_quantity}</div>
-        <div><strong>Last Sync:</strong> {new Date(selectedItem.last_sync).toLocaleString()}</div>
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>SKU:</strong> {selectedItem.sku}</Body>
+        <Body size="sm"><strong>Name:</strong> {selectedItem.name}</Body>
+        <Body size="sm"><strong>Category:</strong> {selectedItem.category}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedItem.sync_status}</Body>
+        <Body size="sm"><strong>Online Qty:</strong> {selectedItem.online_quantity}</Body>
+        <Body size="sm"><strong>Physical Qty:</strong> {selectedItem.physical_quantity}</Body>
+        <Body size="sm"><strong>Reserved:</strong> {selectedItem.reserved_quantity}</Body>
+        <Body size="sm"><strong>Available:</strong> {selectedItem.available_quantity}</Body>
+        <Body size="sm"><strong>Last Sync:</strong> {new Date(selectedItem.last_sync).toLocaleString()}</Body>
+      </Grid>
     )},
   ] : [];
 

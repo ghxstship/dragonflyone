@@ -230,7 +230,7 @@ export default function WaitlistPage() {
               <H3 className="mb-4">HOW IT WORKS</H3>
               <Stack gap={3}>
                 <Stack direction="horizontal" gap={3} className="items-start">
-                  <Stack className="w-8 h-8 bg-black text-white rounded-full items-center justify-center flex-shrink-0">
+                  <Stack className="w-8 h-8 bg-black text-white rounded-avatar items-center justify-center flex-shrink-0">
                     <Body>1</Body>
                   </Stack>
                   <Body className="text-body-sm text-ink-600">
@@ -238,7 +238,7 @@ export default function WaitlistPage() {
                   </Body>
                 </Stack>
                 <Stack direction="horizontal" gap={3} className="items-start">
-                  <Stack className="w-8 h-8 bg-black text-white rounded-full items-center justify-center flex-shrink-0">
+                  <Stack className="w-8 h-8 bg-black text-white rounded-avatar items-center justify-center flex-shrink-0">
                     <Body>2</Body>
                   </Stack>
                   <Body className="text-body-sm text-ink-600">
@@ -246,7 +246,7 @@ export default function WaitlistPage() {
                   </Body>
                 </Stack>
                 <Stack direction="horizontal" gap={3} className="items-start">
-                  <Stack className="w-8 h-8 bg-black text-white rounded-full items-center justify-center flex-shrink-0">
+                  <Stack className="w-8 h-8 bg-black text-white rounded-avatar items-center justify-center flex-shrink-0">
                     <Body>3</Body>
                   </Stack>
                   <Body className="text-body-sm text-ink-600">
@@ -273,11 +273,11 @@ export default function WaitlistPage() {
                       className="justify-between items-center py-3 border-b border-ink-200"
                     >
                       <Stack direction="horizontal" gap={3} className="items-center">
-                        <Stack className="w-8 h-8 bg-ink-100 rounded-full items-center justify-center">
+                        <Stack className="w-8 h-8 bg-ink-100 rounded-avatar items-center justify-center">
                           <Label>#{entry.position}</Label>
                         </Stack>
                         <Stack>
-                          <Body className="font-medium">{entry.name}</Body>
+                          <Body className="font-weight-medium">{entry.name}</Body>
                           <Body className="text-body-sm text-ink-500">
                             {entry.ticket_type} x {entry.quantity}
                           </Body>

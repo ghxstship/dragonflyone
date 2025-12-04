@@ -128,7 +128,7 @@ export default function IntegrationsPage() {
           {result && (
             <Alert variant="success" className="mt-4">
               <Stack gap={2}>
-                <Body className="font-bold">Success!</Body>
+                <Body className="font-weight-bold">Success!</Body>
                 {result.created && <Body>New project created: {result.projectId}</Body>}
                 {result.alreadyExists && <Body>Project already exists: {result.projectId}</Body>}
               </Stack>

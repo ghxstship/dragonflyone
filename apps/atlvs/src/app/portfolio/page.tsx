@@ -8,6 +8,9 @@ import {
   ListPage,
   Badge,
   DetailDrawer,
+  Grid,
+  Stack,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -127,35 +130,35 @@ export default function PortfolioPage() {
 
   const detailSections: DetailSection[] = selectedProject ? [
     { id: 'overview', title: 'Project Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Name:</strong> {selectedProject.name}</div>
-        <div><strong>Client:</strong> {selectedProject.client}</div>
-        <div><strong>Category:</strong> {selectedProject.category}</div>
-        <div><strong>Location:</strong> {selectedProject.location}</div>
-        <div><strong>Date:</strong> {new Date(selectedProject.date).toLocaleDateString()}</div>
-        <div><strong>Featured:</strong> {selectedProject.featured ? 'Yes' : 'No'}</div>
-        <div className="col-span-2"><strong>Description:</strong> {selectedProject.description}</div>
-        <div className="col-span-2"><strong>Services:</strong> {selectedProject.services.join(', ')}</div>
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Name:</strong> {selectedProject.name}</Body>
+        <Body size="sm"><strong>Client:</strong> {selectedProject.client}</Body>
+        <Body size="sm"><strong>Category:</strong> {selectedProject.category}</Body>
+        <Body size="sm"><strong>Location:</strong> {selectedProject.location}</Body>
+        <Body size="sm"><strong>Date:</strong> {new Date(selectedProject.date).toLocaleDateString()}</Body>
+        <Body size="sm"><strong>Featured:</strong> {selectedProject.featured ? 'Yes' : 'No'}</Body>
+        <Body size="sm" className="col-span-2"><strong>Description:</strong> {selectedProject.description}</Body>
+        <Body size="sm" className="col-span-2"><strong>Services:</strong> {selectedProject.services.join(', ')}</Body>
+      </Grid>
     )},
     { id: 'metrics', title: 'Key Metrics', content: (
-      <div className="grid grid-cols-3 gap-4">
+      <Grid cols={3} gap={4}>
         {selectedProject.metrics.map((m, idx) => (
-          <div key={idx} className="text-center">
-            <div className="font-mono text-body-lg">{m.value}</div>
-            <div className="text-body-sm text-grey-400">{m.label}</div>
-          </div>
+          <Stack key={idx} className="text-center">
+            <Body className="font-mono text-body-lg">{m.value}</Body>
+            <Body size="sm" className="text-grey-400">{m.label}</Body>
+          </Stack>
         ))}
-      </div>
+      </Grid>
     )},
     ...(selectedProject.testimonial ? [{
       id: 'testimonial',
       title: 'Client Testimonial',
       content: (
-        <div className="border-l-4 border-primary pl-4">
-          <p className="italic">&ldquo;{selectedProject.testimonial.quote}&rdquo;</p>
-          <p className="mt-2 text-body-sm text-grey-400">— {selectedProject.testimonial.author}, {selectedProject.testimonial.role}</p>
-        </div>
+        <Stack className="border-l-4 border-primary pl-4">
+          <Body className="italic">&ldquo;{selectedProject.testimonial.quote}&rdquo;</Body>
+          <Body size="sm" className="mt-2 text-grey-400">— {selectedProject.testimonial.author}, {selectedProject.testimonial.role}</Body>
+        </Stack>
       ),
     }] : []),
   ] : [];

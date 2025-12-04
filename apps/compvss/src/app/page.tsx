@@ -1,5 +1,5 @@
 import { CompvssAppLayout } from "../components/app-layout";
-import { Badge, ProgressBar, Button, StatusBadge, Stack, Grid, Card, Container, Link, H1, H2, H3, H4, Body, List, ListItem, Article, Header, Box, Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Section, SectionHeader, MainContent } from "@ghxstship/ui";
+import { Badge, ProgressBar, Button, StatusBadge, Stack, Grid, Card, Container, Link, H1, H2, H3, H4, Body, Text, List, ListItem, Article, Header, Box, Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Section, SectionHeader, MainContent } from "@ghxstship/ui";
 import { CrewIntelligence } from "../components/crew-intelligence";
 import { getStatusVariant } from "@ghxstship/config";
 import {

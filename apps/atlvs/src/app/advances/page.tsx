@@ -9,6 +9,8 @@ import {
   ListPage,
   Badge,
   DetailDrawer,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -76,17 +78,17 @@ export default function AdvanceReviewQueuePage() {
 
   const detailSections: DetailSection[] = selectedAdvance ? [
     { id: 'overview', title: 'Advance Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Name:</strong> {selectedAdvance.activation_name || selectedAdvance.project?.name || 'Untitled'}</div>
-        <div><strong>Status:</strong> {selectedAdvance.status}</div>
-        <div><strong>Organization:</strong> {selectedAdvance.organization?.name || '—'}</div>
-        <div><strong>Project:</strong> {selectedAdvance.project?.name || '—'}</div>
-        <div><strong>Estimated Cost:</strong> {formatCurrency(selectedAdvance.estimated_cost)}</div>
-        <div><strong>Priority:</strong> {getPriorityLabel(selectedAdvance.estimated_cost || 0)}</div>
-        <div><strong>Submitter:</strong> {selectedAdvance.submitter?.full_name || '—'}</div>
-        <div><strong>Items:</strong> {selectedAdvance.items?.length || 0}</div>
-        <div><strong>Submitted:</strong> {new Date(selectedAdvance.submitted_at || selectedAdvance.created_at).toLocaleString()}</div>
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Name:</strong> {selectedAdvance.activation_name || selectedAdvance.project?.name || 'Untitled'}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedAdvance.status}</Body>
+        <Body size="sm"><strong>Organization:</strong> {selectedAdvance.organization?.name || '—'}</Body>
+        <Body size="sm"><strong>Project:</strong> {selectedAdvance.project?.name || '—'}</Body>
+        <Body size="sm"><strong>Estimated Cost:</strong> {formatCurrency(selectedAdvance.estimated_cost)}</Body>
+        <Body size="sm"><strong>Priority:</strong> {getPriorityLabel(selectedAdvance.estimated_cost || 0)}</Body>
+        <Body size="sm"><strong>Submitter:</strong> {selectedAdvance.submitter?.full_name || '—'}</Body>
+        <Body size="sm"><strong>Items:</strong> {selectedAdvance.items?.length || 0}</Body>
+        <Body size="sm"><strong>Submitted:</strong> {new Date(selectedAdvance.submitted_at || selectedAdvance.created_at).toLocaleString()}</Body>
+      </Grid>
     )},
   ] : [];
 

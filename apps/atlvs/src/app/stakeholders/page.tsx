@@ -7,6 +7,8 @@ import {
   Badge,
   RecordFormModal,
   DetailDrawer,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -123,16 +125,16 @@ export default function StakeholdersPage() {
 
   const detailSections: DetailSection[] = selectedStakeholder ? [
     { id: 'overview', title: 'Stakeholder Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Name:</strong> {selectedStakeholder.name}</div>
-        <div><strong>Email:</strong> {selectedStakeholder.email}</div>
-        <div><strong>Organization:</strong> {selectedStakeholder.organization}</div>
-        <div><strong>Role:</strong> {selectedStakeholder.role}</div>
-        <div><strong>Access Level:</strong> {selectedStakeholder.permission_level}</div>
-        <div><strong>Status:</strong> {selectedStakeholder.status}</div>
-        <div><strong>Projects:</strong> {selectedStakeholder.projects?.length || 0}</div>
-        <div><strong>Last Active:</strong> {selectedStakeholder.last_activity ? new Date(selectedStakeholder.last_activity).toLocaleDateString() : 'Never'}</div>
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Name:</strong> {selectedStakeholder.name}</Body>
+        <Body size="sm"><strong>Email:</strong> {selectedStakeholder.email}</Body>
+        <Body size="sm"><strong>Organization:</strong> {selectedStakeholder.organization}</Body>
+        <Body size="sm"><strong>Role:</strong> {selectedStakeholder.role}</Body>
+        <Body size="sm"><strong>Access Level:</strong> {selectedStakeholder.permission_level}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedStakeholder.status}</Body>
+        <Body size="sm"><strong>Projects:</strong> {selectedStakeholder.projects?.length || 0}</Body>
+        <Body size="sm"><strong>Last Active:</strong> {selectedStakeholder.last_activity ? new Date(selectedStakeholder.last_activity).toLocaleDateString() : 'Never'}</Body>
+      </Grid>
     )},
   ] : [];
 

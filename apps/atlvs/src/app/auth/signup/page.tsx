@@ -18,6 +18,8 @@ import {
   Label,
   ScrollReveal,
   AuthPage,
+  IconBox,
+  Grid,
 } from "@ghxstship/ui";
 import NextLink from "next/link";
 import { UserPlus, ArrowRight } from "lucide-react";
@@ -118,9 +120,9 @@ export default function SignUpPage() {
               <Stack gap={6} className="sm:gap-8">
                 {/* Header */}
                 <Stack gap={3} className="text-center sm:gap-4">
-                  <div className="mx-auto flex size-12 items-center justify-center border-2 border-black/10 bg-grey-100 sm:size-16">
+                  <IconBox size="lg" className="mx-auto">
                     <UserPlus className="size-6 text-black sm:size-8" />
-                  </div>
+                  </IconBox>
                   <H2 className="text-black">CREATE ACCOUNT</H2>
                   <Body size="sm" className="text-muted">
                     Join ATLVS to manage your projects and resources.
@@ -134,7 +136,7 @@ export default function SignUpPage() {
                 <form onSubmit={handleSignUp}>
                   <Stack gap={4} className="sm:gap-6">
                     {/* Name Fields - Responsive Grid */}
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <Grid cols={2} gap={4} className="grid-cols-1 sm:grid-cols-2">
                       <Field label="First Name">
                         <Input
                           type="text"
@@ -153,7 +155,7 @@ export default function SignUpPage() {
                           required
                         />
                       </Field>
-                    </div>
+                    </Grid>
 
                     <Field label="Email Address">
                       <Input

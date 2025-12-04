@@ -231,9 +231,9 @@ export default function StrategicAlignmentPage() {
                     <Stack gap={2}>
                       <Stack direction="horizontal" className="justify-between">
                         <Label className="text-ink-500">Progress</Label>
-                        <Body className="font-bold">{goal.progress}%</Body>
+                        <Body className="font-weight-bold">{goal.progress}%</Body>
                       </Stack>
-                      <Stack className="h-2 bg-ink-200 rounded-full overflow-hidden">
+                      <Stack className="h-2 bg-ink-200 rounded-avatar overflow-hidden">
                         <Stack
                           className="h-full bg-black transition-all"
                           style={{ '--progress-width': `${goal.progress}%`, width: 'var(--progress-width)' } as React.CSSProperties}
@@ -322,15 +322,15 @@ export default function StrategicAlignmentPage() {
                   <Stack gap={3}>
                     <Stack direction="horizontal" className="justify-between">
                       <Body className="text-ink-600">Aligned Projects</Body>
-                      <Body className="font-bold">{metric.aligned_projects}</Body>
+                      <Body className="font-weight-bold">{metric.aligned_projects}</Body>
                     </Stack>
                     <Stack direction="horizontal" className="justify-between">
                       <Body className="text-ink-600">Budget Aligned</Body>
-                      <Body className="font-bold">${metric.total_budget_aligned?.toLocaleString()}</Body>
+                      <Body className="font-weight-bold">${metric.total_budget_aligned?.toLocaleString()}</Body>
                     </Stack>
                     <Stack direction="horizontal" className="justify-between">
                       <Body className="text-ink-600">Avg Progress</Body>
-                      <Body className="font-bold">{metric.average_progress}%</Body>
+                      <Body className="font-weight-bold">{metric.average_progress}%</Body>
                     </Stack>
                   </Stack>
                 </Card>
@@ -387,7 +387,7 @@ export default function StrategicAlignmentPage() {
                     >
                       <Stack direction="horizontal" className="justify-between items-center">
                         <Stack gap={1}>
-                          <Body className="font-bold">{goal.name}</Body>
+                          <Body className="font-weight-bold">{goal.name}</Body>
                           <Body className="text-body-sm text-ink-600">{goal.category}</Body>
                         </Stack>
                         {selectedProject.aligned_goals?.includes(goal.id) && (

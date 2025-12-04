@@ -58,7 +58,7 @@ export default function AboutPage() {
       {/* Mission */}
       <FullBleedSection background="white" className="py-24">
         <Container className="mx-auto max-w-container-4xl px-6 lg:px-8">
-          <Card className="border-2 border-ink-950 bg-white p-12 shadow-[6px_6px_0_#FF006E]">
+          <Card className="border-2 border-ink-950 bg-white p-12 shadow-brand-lg">
             <Stack gap={6} className="text-center">
               <H1 className="text-ink-950">{aboutData.mission.title}</H1>
               <Body size="lg" className="text-grey-700">
@@ -132,7 +132,7 @@ export default function AboutPage() {
                     <H3 size="sm" className="text-white">
                       {member.name}
                     </H3>
-                    <Label size="xs" className="text-[#FF006E]">
+                    <Label size="xs" className="text-brand-pink">
                       {member.role}
                     </Label>
                   </Stack>

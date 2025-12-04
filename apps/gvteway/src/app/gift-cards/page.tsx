@@ -37,9 +37,9 @@ interface GiftCard {
 const GIFT_CARD_AMOUNTS = [25, 50, 75, 100, 150, 200, 250, 500];
 
 const GIFT_CARD_DESIGNS = [
-  { id: 'classic', name: 'Classic Black', color: 'bg-black' },
+  { id: 'classic', name: 'Classic Black', color: 'bg-ink-950' },
   { id: 'concert', name: 'Concert Vibes', color: 'bg-purple-600' },
-  { id: 'festival', name: 'Festival Fun', color: 'bg-gradient-to-r from-pink-500 to-yellow-500' },
+  { id: 'festival', name: 'Festival Fun', color: 'bg-brand-pink' },
   { id: 'sports', name: 'Game Day', color: 'bg-success-600' },
   { id: 'theater', name: 'Theater Night', color: 'bg-error-800' },
 ];

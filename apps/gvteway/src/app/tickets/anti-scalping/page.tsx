@@ -141,7 +141,7 @@ export default function AntiScalpingPage() {
                   <Card key={rule.id} className={`border-2 p-4 ${rule.enabled ? "border-black" : "border-ink-200"}`}>
                     <Grid cols={4} gap={4} className="items-center">
                       <Stack gap={1}>
-                        <Body className="font-bold">{rule.name}</Body>
+                        <Body className="font-weight-bold">{rule.name}</Body>
                         <Label className="text-ink-500">{rule.description}</Label>
                       </Stack>
                       {rule.threshold && (

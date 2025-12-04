@@ -200,7 +200,7 @@ export default function ToursContent() {
                         >
                           <Stack direction="horizontal" gap={6} className="items-center">
                             <Stack className="w-24">
-                              <Body className="font-bold">
+                              <Body className="font-weight-bold">
                                 {new Date(date.date).toLocaleDateString('en-US', {
                                   month: 'short',
                                   day: 'numeric',
@@ -213,7 +213,7 @@ export default function ToursContent() {
                               </Body>
                             </Stack>
                             <Stack>
-                              <Body className="font-medium">{date.city}, {date.state}</Body>
+                              <Body className="font-weight-medium">{date.city}, {date.state}</Body>
                               <Body className="text-body-sm text-ink-500">{date.venue}</Body>
                             </Stack>
                           </Stack>
@@ -221,7 +221,7 @@ export default function ToursContent() {
                           <Stack direction="horizontal" gap={4} className="items-center">
                             {getStatusBadge(date.status)}
                             {date.status !== 'sold_out' && date.price_min > 0 && (
-                              <Body className="font-bold">From ${date.price_min}</Body>
+                              <Body className="font-weight-bold">From ${date.price_min}</Body>
                             )}
                             <Button
                               variant={date.status === 'sold_out' ? 'outline' : 'solid'}

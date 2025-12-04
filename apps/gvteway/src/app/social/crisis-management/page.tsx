@@ -121,7 +121,7 @@ export default function CrisisManagementPage() {
                     <TableRow key={incident.id}>
                       <TableCell>
                         <Stack gap={1}>
-                          <Label className="font-bold">{incident.title}</Label>
+                          <Label className="font-weight-bold">{incident.title}</Label>
                           <Label size="xs" className="text-ink-500">{incident.startTime}</Label>
                         </Stack>
                       </TableCell>
@@ -149,7 +149,7 @@ export default function CrisisManagementPage() {
                     <Card key={template.id} className="border-2 border-black p-4">
                       <Stack gap={3}>
                         <Stack direction="horizontal" className="justify-between">
-                          <Body className="font-bold">{template.name}</Body>
+                          <Body className="font-weight-bold">{template.name}</Body>
                           <Badge variant="outline">{template.category}</Badge>
                         </Stack>
                         <Label className="text-ink-500 line-clamp-2">{template.content}</Label>
@@ -181,7 +181,7 @@ export default function CrisisManagementPage() {
                       ].map((item, idx) => (
                         <Card key={idx} className="p-3 border border-ink-200">
                           <Stack direction="horizontal" gap={3}>
-                            <Label className="font-bold">{item.step}</Label>
+                            <Label className="font-weight-bold">{item.step}</Label>
                             <Label className="text-ink-500">{item.desc}</Label>
                           </Stack>
                         </Card>
@@ -202,7 +202,7 @@ export default function CrisisManagementPage() {
                         <Card key={idx} className="p-3 border border-ink-200">
                           <Stack direction="horizontal" className="justify-between">
                             <Stack gap={0}>
-                              <Label className="font-bold">{contact.role}</Label>
+                              <Label className="font-weight-bold">{contact.role}</Label>
                               <Label className="text-ink-500">{contact.name}</Label>
                             </Stack>
                             <Label className="font-mono">{contact.phone}</Label>
@@ -224,7 +224,7 @@ export default function CrisisManagementPage() {
         <ModalBody>
           {selectedIncident && (
             <Stack gap={4}>
-              <Body className="font-bold">{selectedIncident.title}</Body>
+              <Body className="font-weight-bold">{selectedIncident.title}</Body>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}><Label className="text-ink-500">Severity</Label><Badge variant="outline" className={getSeverityColor(selectedIncident.severity)}>{selectedIncident.severity}</Badge></Stack>
                 <Stack gap={1}><Label className="text-ink-500">Status</Label><Label className={getStatusColor(selectedIncident.status)}>{selectedIncident.status}</Label></Stack>
@@ -250,7 +250,7 @@ export default function CrisisManagementPage() {
         <ModalBody>
           {selectedTemplate && (
             <Stack gap={4}>
-              <Body className="font-bold">{selectedTemplate.name}</Body>
+              <Body className="font-weight-bold">{selectedTemplate.name}</Body>
               <Textarea defaultValue={selectedTemplate.content} rows={4} className="border-2 border-black" />
               <Select className="border-2 border-black">
                 <option value="">Select Platform...</option>

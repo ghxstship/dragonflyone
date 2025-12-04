@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Eye, Check } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
-  ListPage, Badge, DetailDrawer, RecordFormModal,
+  ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig,
 } from '@ghxstship/ui';
 import { getBadgeVariant } from '@ghxstship/config';
@@ -88,18 +88,18 @@ export default function RentalEquipmentPage() {
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Rental Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Equipment:</strong> {selected.name}</div>
-        <div><strong>Category:</strong> {selected.category}</div>
-        <div><strong>Vendor:</strong> {selected.vendor}</div>
-        <div><strong>Project:</strong> {selected.projectName}</div>
-        <div><strong>Period:</strong> {selected.rentalStart} to {selected.rentalEnd}</div>
-        <div><strong>Daily Rate:</strong> ${selected.dailyRate}</div>
-        <div><strong>Total Cost:</strong> ${selected.totalCost.toLocaleString()}</div>
-        <div><strong>Status:</strong> {selected.status}</div>
-        <div><strong>Condition:</strong> {selected.condition}</div>
-        {selected.poNumber && <div><strong>PO Number:</strong> {selected.poNumber}</div>}
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Equipment:</strong> {selected.name}</Body>
+        <Body size="sm"><strong>Category:</strong> {selected.category}</Body>
+        <Body size="sm"><strong>Vendor:</strong> {selected.vendor}</Body>
+        <Body size="sm"><strong>Project:</strong> {selected.projectName}</Body>
+        <Body size="sm"><strong>Period:</strong> {selected.rentalStart} to {selected.rentalEnd}</Body>
+        <Body size="sm"><strong>Daily Rate:</strong> ${selected.dailyRate}</Body>
+        <Body size="sm"><strong>Total Cost:</strong> ${selected.totalCost.toLocaleString()}</Body>
+        <Body size="sm"><strong>Status:</strong> {selected.status}</Body>
+        <Body size="sm"><strong>Condition:</strong> {selected.condition}</Body>
+        {selected.poNumber && <Body size="sm"><strong>PO Number:</strong> {selected.poNumber}</Body>}
+      </Grid>
     )},
   ] : [];
 

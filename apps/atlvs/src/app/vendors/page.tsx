@@ -9,6 +9,9 @@ import {
   RecordFormModal,
   DetailDrawer,
   ConfirmDialog,
+  Grid,
+  Stack,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -171,24 +174,24 @@ export default function VendorsPage() {
       id: 'overview',
       title: 'Overview',
       content: (
-        <div className="grid grid-cols-2 gap-4">
-          <div><strong>Category:</strong> {selectedVendor.category}</div>
-          <div><strong>Status:</strong> {selectedVendor.status}</div>
-          <div><strong>Rating:</strong> {selectedVendor.rating ? `${selectedVendor.rating}★` : '—'}</div>
-          <div><strong>Total Orders:</strong> {selectedVendor.total_orders || 0}</div>
-          <div><strong>Total Spend:</strong> ${((selectedVendor.total_spend || 0) / 1000).toFixed(1)}K</div>
-        </div>
+        <Grid cols={2} gap={4}>
+          <Body size="sm"><strong>Category:</strong> {selectedVendor.category}</Body>
+          <Body size="sm"><strong>Status:</strong> {selectedVendor.status}</Body>
+          <Body size="sm"><strong>Rating:</strong> {selectedVendor.rating ? `${selectedVendor.rating}★` : '—'}</Body>
+          <Body size="sm"><strong>Total Orders:</strong> {selectedVendor.total_orders || 0}</Body>
+          <Body size="sm"><strong>Total Spend:</strong> ${((selectedVendor.total_spend || 0) / 1000).toFixed(1)}K</Body>
+        </Grid>
       ),
     },
     {
       id: 'contact',
       title: 'Contact Information',
       content: (
-        <div className="grid gap-2">
-          <div><strong>Contact:</strong> {selectedVendor.contact_name || '—'}</div>
-          <div><strong>Email:</strong> {selectedVendor.email}</div>
-          <div><strong>Phone:</strong> {selectedVendor.phone || '—'}</div>
-        </div>
+        <Stack gap={2}>
+          <Body size="sm"><strong>Contact:</strong> {selectedVendor.contact_name || '—'}</Body>
+          <Body size="sm"><strong>Email:</strong> {selectedVendor.email}</Body>
+          <Body size="sm"><strong>Phone:</strong> {selectedVendor.phone || '—'}</Body>
+        </Stack>
       ),
     },
   ] : [];

@@ -8,6 +8,8 @@ import {
   ListPage,
   Badge,
   DetailDrawer,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -108,19 +110,19 @@ export default function IPTrackingPage() {
 
   const detailSections: DetailSection[] = selectedAsset ? [
     { id: 'overview', title: 'IP Asset Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Title:</strong> {selectedAsset.title}</div>
-        <div><strong>Type:</strong> {getTypeIcon(selectedAsset.ip_type)} {selectedAsset.ip_type}</div>
-        <div><strong>Registration #:</strong> {selectedAsset.registration_number || '—'}</div>
-        <div><strong>Jurisdiction:</strong> {selectedAsset.jurisdiction}</div>
-        <div><strong>Owner:</strong> {selectedAsset.owner_entity}</div>
-        <div><strong>Status:</strong> {selectedAsset.status}</div>
-        <div><strong>Filed:</strong> {selectedAsset.filing_date ? formatDate(selectedAsset.filing_date) : '—'}</div>
-        <div><strong>Registered:</strong> {selectedAsset.registration_date ? formatDate(selectedAsset.registration_date) : '—'}</div>
-        <div><strong>Expires:</strong> {selectedAsset.expiration_date ? formatDate(selectedAsset.expiration_date) : 'N/A'}</div>
-        <div><strong>Value:</strong> {selectedAsset.estimated_value ? formatCurrency(selectedAsset.estimated_value) : '—'}</div>
-        {selectedAsset.description && <div className="col-span-2"><strong>Description:</strong> {selectedAsset.description}</div>}
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Title:</strong> {selectedAsset.title}</Body>
+        <Body size="sm"><strong>Type:</strong> {getTypeIcon(selectedAsset.ip_type)} {selectedAsset.ip_type}</Body>
+        <Body size="sm"><strong>Registration #:</strong> {selectedAsset.registration_number || '—'}</Body>
+        <Body size="sm"><strong>Jurisdiction:</strong> {selectedAsset.jurisdiction}</Body>
+        <Body size="sm"><strong>Owner:</strong> {selectedAsset.owner_entity}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedAsset.status}</Body>
+        <Body size="sm"><strong>Filed:</strong> {selectedAsset.filing_date ? formatDate(selectedAsset.filing_date) : '—'}</Body>
+        <Body size="sm"><strong>Registered:</strong> {selectedAsset.registration_date ? formatDate(selectedAsset.registration_date) : '—'}</Body>
+        <Body size="sm"><strong>Expires:</strong> {selectedAsset.expiration_date ? formatDate(selectedAsset.expiration_date) : 'N/A'}</Body>
+        <Body size="sm"><strong>Value:</strong> {selectedAsset.estimated_value ? formatCurrency(selectedAsset.estimated_value) : '—'}</Body>
+        {selectedAsset.description && <Body size="sm" className="col-span-2"><strong>Description:</strong> {selectedAsset.description}</Body>}
+      </Grid>
     )},
   ] : [];
 

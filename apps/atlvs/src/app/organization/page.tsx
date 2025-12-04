@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, StatCard, Body, Box, H3 } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, StatCard, Body, Box, H3, Grid } from "@ghxstship/ui";
 import { Building2, Users, CreditCard, Shield, Settings, Bell } from "lucide-react";
 
 export default function OrganizationPage() {
@@ -23,14 +23,14 @@ export default function OrganizationPage() {
         colorScheme="on-dark"
       />
 
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <Grid cols={4} gap={4} className="grid-cols-2 lg:grid-cols-4">
         <StatCard label="Members" value={orgStats.members.toString()} icon={<Users size={20} />} inverted />
         <StatCard label="Teams" value={orgStats.teams.toString()} icon={<Building2 size={20} />} inverted />
         <StatCard label="Productions" value={orgStats.productions.toString()} icon={<Building2 size={20} />} inverted />
         <StatCard label="Plan" value={orgStats.activeSubscription} icon={<CreditCard size={20} />} inverted />
-      </div>
+      </Grid>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+      <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3">
         <Card variant="elevated" inverted className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push("/organization/members")}>
           <CardBody>
             <Stack gap={3} className="items-center text-center">
@@ -70,7 +70,7 @@ export default function OrganizationPage() {
             </Stack>
           </CardBody>
         </Card>
-      </div>
+      </Grid>
 
       <Card variant="elevated" inverted>
         <CardBody>

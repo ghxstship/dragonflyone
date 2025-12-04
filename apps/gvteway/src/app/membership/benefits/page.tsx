@@ -121,13 +121,13 @@ export default function MemberBenefitsPage() {
                   <Card key={tier.id} className="border-2 border-black overflow-hidden">
                     <Card className="p-4" style={{ '--tier-color': tier.color, backgroundColor: 'var(--tier-color)' } as React.CSSProperties}>
                       <Stack gap={1}>
-                        <Body className="font-bold text-white text-body-md">{tier.name}</Body>
+                        <Body className="font-weight-bold text-white text-body-md">{tier.name}</Body>
                         <Label className="text-white/80">{tier.memberCount.toLocaleString()} members</Label>
                       </Stack>
                     </Card>
                     <Stack className="p-4" gap={4}>
                       <Stack direction="horizontal" className="justify-between items-baseline">
-                        <Label className="text-h4-md font-bold">${tier.price}</Label>
+                        <Label className="text-h4-md font-weight-bold">${tier.price}</Label>
                         <Label className="text-ink-500">/{tier.billingCycle === "Monthly" ? "mo" : "yr"}</Label>
                       </Stack>
                       <Stack gap={2}>
@@ -188,8 +188,8 @@ export default function MemberBenefitsPage() {
                           <Label>{tier.name}</Label>
                           <Label className="font-mono">{tier.memberCount.toLocaleString()}</Label>
                         </Stack>
-                        <Card className="h-3 bg-ink-200 rounded-full overflow-hidden">
-                          <Card className="h-full rounded-full" style={{ '--progress-width': `${(tier.memberCount / totalMembers) * 100}%`, '--tier-color': tier.color, width: 'var(--progress-width)', backgroundColor: 'var(--tier-color)' } as React.CSSProperties} />
+                        <Card className="h-3 bg-ink-200 rounded-avatar overflow-hidden">
+                          <Card className="h-full rounded-avatar" style={{ '--progress-width': `${(tier.memberCount / totalMembers) * 100}%`, '--tier-color': tier.color, width: 'var(--progress-width)', backgroundColor: 'var(--tier-color)' } as React.CSSProperties} />
                         </Card>
                       </Stack>
                     ))}
@@ -208,8 +208,8 @@ export default function MemberBenefitsPage() {
                       <Stack key={benefit.name} direction="horizontal" className="justify-between items-center">
                         <Label>{benefit.name}</Label>
                         <Stack direction="horizontal" gap={2} className="items-center">
-                          <Card className="h-2 w-24 bg-ink-200 rounded-full overflow-hidden">
-                            <Card className="h-full bg-black rounded-full" style={{ '--progress-width': `${benefit.usage}%`, width: 'var(--progress-width)' } as React.CSSProperties} />
+                          <Card className="h-2 w-24 bg-ink-200 rounded-avatar overflow-hidden">
+                            <Card className="h-full bg-black rounded-avatar" style={{ '--progress-width': `${benefit.usage}%`, width: 'var(--progress-width)' } as React.CSSProperties} />
                           </Card>
                           <Label className="font-mono text-body-sm w-12 text-right">{benefit.usage}%</Label>
                         </Stack>
@@ -243,7 +243,7 @@ export default function MemberBenefitsPage() {
                   <Card key={benefit.id} className="p-3 border border-ink-200">
                     <Stack direction="horizontal" className="justify-between items-center">
                       <Stack gap={0}>
-                        <Label className="font-bold">{benefit.name}</Label>
+                        <Label className="font-weight-bold">{benefit.name}</Label>
                         <Label size="xs" className="text-ink-500">{benefit.description}</Label>
                       </Stack>
                       <Badge className={getBenefitTypeColor(benefit.type)}>{benefit.type}</Badge>

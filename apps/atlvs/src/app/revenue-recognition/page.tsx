@@ -149,13 +149,13 @@ export default function RevenueRecognitionPage() {
                     className="justify-between items-center p-4 border border-ink-200 rounded"
                   >
                     <Stack gap={1}>
-                      <Label className="font-semibold">{entry.description}</Label>
+                      <Label className="font-weight-semibold">{entry.description}</Label>
                       <Body className="text-body-sm text-ink-500">
                         {formatDate(entry.recognition_date)}
                       </Body>
                     </Stack>
                     <Stack gap={2} className="items-end">
-                      <Body className="font-semibold">{formatCurrency(entry.amount)}</Body>
+                      <Body className="font-weight-semibold">{formatCurrency(entry.amount)}</Body>
                       <Button 
                         variant="outline" 
                         size="sm"
@@ -193,7 +193,7 @@ export default function RevenueRecognitionPage() {
               {rules.map((rule) => (
                 <Stack
                   key={rule.id}
-                  className="p-6 border-2 border-ink-200 rounded-lg transition-colors hover:border-ink-400 cursor-pointer"
+                  className="p-6 border-2 border-ink-200 rounded-card transition-colors hover:border-ink-400 cursor-pointer"
                   onClick={() => handleViewSchedule(rule.id)}
                   gap={4}
                 >
@@ -209,26 +209,26 @@ export default function RevenueRecognitionPage() {
                       <Stack direction="horizontal" gap={6} className="flex-wrap mt-4">
                         <Stack gap={1}>
                           <Label className="text-mono-xs text-ink-500">Type</Label>
-                          <Body className="font-semibold capitalize">
+                          <Body className="font-weight-semibold capitalize">
                             {rule.revenue_type.replace('_', ' ')}
                           </Body>
                         </Stack>
                         <Stack gap={1}>
                           <Label className="text-mono-xs text-ink-500">Total Amount</Label>
-                          <Body className="font-semibold">
+                          <Body className="font-weight-semibold">
                             {formatCurrency(rule.total_amount)}
                           </Body>
                         </Stack>
                         <Stack gap={1}>
                           <Label className="text-mono-xs text-ink-500">Start Date</Label>
-                          <Body className="font-semibold">
+                          <Body className="font-weight-semibold">
                             {formatDate(rule.recognition_start_date)}
                           </Body>
                         </Stack>
                         {rule.recognition_end_date && (
                           <Stack gap={1}>
                             <Label className="text-mono-xs text-ink-500">End Date</Label>
-                            <Body className="font-semibold">
+                            <Body className="font-weight-semibold">
                               {formatDate(rule.recognition_end_date)}
                             </Body>
                           </Stack>
@@ -244,7 +244,7 @@ export default function RevenueRecognitionPage() {
                   {/* Milestones for milestone-based rules */}
                   {rule.revenue_type === 'milestone' && rule.milestones && rule.milestones.length > 0 && (
                     <Stack gap={2} className="pt-4 border-t border-ink-200">
-                      <Label className="text-body-sm font-semibold">
+                      <Label className="text-body-sm font-weight-semibold">
                         Milestones
                       </Label>
                       <Stack direction="horizontal" gap={3} className="flex-wrap">
@@ -291,13 +291,13 @@ export default function RevenueRecognitionPage() {
                       className={`justify-between items-center p-4 border rounded ${entry.status === 'recognized' ? 'bg-ink-100 border-ink-300' : 'bg-white border-ink-200'}`}
                     >
                       <Stack gap={1}>
-                        <Body className="font-semibold">{entry.description}</Body>
+                        <Body className="font-weight-semibold">{entry.description}</Body>
                         <Label className="text-body-sm text-ink-500">
                           {formatDate(entry.recognition_date)}
                         </Label>
                       </Stack>
                       <Stack gap={2} className="items-end">
-                        <Body className="font-bold">{formatCurrency(entry.amount)}</Body>
+                        <Body className="font-weight-bold">{formatCurrency(entry.amount)}</Body>
                         <Badge variant={entry.status === 'recognized' ? 'solid' : 'ghost'} size="sm">
                           {entry.status}
                         </Badge>

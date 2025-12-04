@@ -9,6 +9,8 @@ import {
   ListPage,
   Badge,
   DetailDrawer,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -74,16 +76,16 @@ export default function RisksPage() {
 
   const detailSections: DetailSection[] = selectedRisk ? [
     { id: 'overview', title: 'Risk Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>ID:</strong> {selectedRisk.id.substring(0, 12).toUpperCase()}</div>
-        <div><strong>Title:</strong> {selectedRisk.title}</div>
-        <div><strong>Category:</strong> {selectedRisk.category}</div>
-        <div><strong>Severity:</strong> {selectedRisk.severity}</div>
-        <div><strong>Status:</strong> {selectedRisk.status}</div>
-        <div><strong>Owner:</strong> {selectedRisk.owner?.name || 'Unassigned'}</div>
-        {selectedRisk.description && <div className="col-span-2"><strong>Description:</strong> {selectedRisk.description}</div>}
-        {selectedRisk.mitigation_plan && <div className="col-span-2"><strong>Mitigation Plan:</strong> {selectedRisk.mitigation_plan}</div>}
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>ID:</strong> {selectedRisk.id.substring(0, 12).toUpperCase()}</Body>
+        <Body size="sm"><strong>Title:</strong> {selectedRisk.title}</Body>
+        <Body size="sm"><strong>Category:</strong> {selectedRisk.category}</Body>
+        <Body size="sm"><strong>Severity:</strong> {selectedRisk.severity}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedRisk.status}</Body>
+        <Body size="sm"><strong>Owner:</strong> {selectedRisk.owner?.name || 'Unassigned'}</Body>
+        {selectedRisk.description && <Body size="sm" className="col-span-2"><strong>Description:</strong> {selectedRisk.description}</Body>}
+        {selectedRisk.mitigation_plan && <Body size="sm" className="col-span-2"><strong>Mitigation Plan:</strong> {selectedRisk.mitigation_plan}</Body>}
+      </Grid>
     )},
   ] : [];
 

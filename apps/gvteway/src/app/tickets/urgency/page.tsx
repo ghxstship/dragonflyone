@@ -90,7 +90,7 @@ export default function UrgencyTacticsPage() {
             <Stack gap={4}>
               <Stack direction="horizontal" className="justify-between items-center">
                 <Stack gap={1}>
-                  <Label className="text-error-600 font-bold">🔥 EARLY BIRD ENDS SOON</Label>
+                  <Label className="text-error-600 font-weight-bold">🔥 EARLY BIRD ENDS SOON</Label>
                   <Body>Summer Music Festival 2025 - Save $50 on tickets</Body>
                 </Stack>
                 <Button variant="solid">Get Tickets</Button>
@@ -136,7 +136,7 @@ export default function UrgencyTacticsPage() {
                   <Stack direction="horizontal" gap={3}>
                     <Label className="text-h5-md">{getTypeIcon(tactic.type)}</Label>
                     <Stack gap={1}>
-                      <Body className="font-bold">{tactic.eventName}</Body>
+                      <Body className="font-weight-bold">{tactic.eventName}</Body>
                       <Badge variant="outline">{tactic.type}</Badge>
                     </Stack>
                   </Stack>
@@ -172,7 +172,7 @@ export default function UrgencyTacticsPage() {
                   <Stack direction="horizontal" gap={3}>
                     <Label className="text-h5-md">🔥</Label>
                     <Stack gap={1}>
-                      <Label className="font-bold text-warning-600">Only 23 VIP tickets left!</Label>
+                      <Label className="font-weight-bold text-warning-600">Only 23 VIP tickets left!</Label>
                       <Label className="text-ink-600">High demand - selling fast</Label>
                     </Stack>
                   </Stack>
@@ -181,7 +181,7 @@ export default function UrgencyTacticsPage() {
                   <Stack direction="horizontal" gap={3}>
                     <Label className="text-h5-md">⚡</Label>
                     <Stack gap={1}>
-                      <Label className="font-bold text-error-600">Final 12 tickets available!</Label>
+                      <Label className="font-weight-bold text-error-600">Final 12 tickets available!</Label>
                       <Label className="text-ink-600">Last chance to attend</Label>
                     </Stack>
                   </Stack>
@@ -200,7 +200,7 @@ export default function UrgencyTacticsPage() {
               <Stack direction="horizontal" gap={3}>
                 <Label className="text-h5-md">{getTypeIcon(selectedTactic.type)}</Label>
                 <Stack gap={1}>
-                  <Body className="font-bold">{selectedTactic.eventName}</Body>
+                  <Body className="font-weight-bold">{selectedTactic.eventName}</Body>
                   <Badge variant="outline">{selectedTactic.type}</Badge>
                 </Stack>
               </Stack>

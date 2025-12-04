@@ -7,6 +7,8 @@ import {
   ListPage,
   Badge,
   DetailDrawer,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -92,17 +94,17 @@ export default function VendorContractsPage() {
 
   const detailSections: DetailSection[] = selectedContract ? [
     { id: "overview", title: "Contract Details", content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Vendor:</strong> {selectedContract.vendorName}</div>
-        <div><strong>Type:</strong> {selectedContract.contractType}</div>
-        <div><strong>Category:</strong> {selectedContract.category}</div>
-        <div><strong>Status:</strong> {selectedContract.status}</div>
-        <div><strong>Value:</strong> {formatCurrency(selectedContract.value)}</div>
-        <div><strong>Auto-Renew:</strong> {selectedContract.autoRenew ? "Yes" : "No"}</div>
-        <div><strong>Start Date:</strong> {selectedContract.startDate}</div>
-        <div><strong>Expiry Date:</strong> {selectedContract.expiryDate}</div>
-        <div><strong>Days Until Expiry:</strong> {selectedContract.daysUntilExpiry < 0 ? `${Math.abs(selectedContract.daysUntilExpiry)} days ago` : `${selectedContract.daysUntilExpiry} days`}</div>
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Vendor:</strong> {selectedContract.vendorName}</Body>
+        <Body size="sm"><strong>Type:</strong> {selectedContract.contractType}</Body>
+        <Body size="sm"><strong>Category:</strong> {selectedContract.category}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedContract.status}</Body>
+        <Body size="sm"><strong>Value:</strong> {formatCurrency(selectedContract.value)}</Body>
+        <Body size="sm"><strong>Auto-Renew:</strong> {selectedContract.autoRenew ? "Yes" : "No"}</Body>
+        <Body size="sm"><strong>Start Date:</strong> {selectedContract.startDate}</Body>
+        <Body size="sm"><strong>Expiry Date:</strong> {selectedContract.expiryDate}</Body>
+        <Body size="sm"><strong>Days Until Expiry:</strong> {selectedContract.daysUntilExpiry < 0 ? `${Math.abs(selectedContract.daysUntilExpiry)} days ago` : `${selectedContract.daysUntilExpiry} days`}</Body>
+      </Grid>
     )},
   ] : [];
 

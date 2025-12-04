@@ -8,6 +8,8 @@ import {
   ListPage,
   Badge,
   DetailDrawer,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -79,19 +81,19 @@ export default function AccountsReceivablePage() {
 
   const detailSections: DetailSection[] = selectedInvoice ? [
     { id: 'overview', title: 'Invoice Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Invoice #:</strong> {selectedInvoice.invoiceNumber}</div>
-        <div><strong>Status:</strong> {selectedInvoice.status}</div>
-        <div><strong>Client:</strong> {selectedInvoice.client}</div>
-        <div><strong>Email:</strong> {selectedInvoice.clientEmail}</div>
-        <div><strong>Project:</strong> {selectedInvoice.project || '—'}</div>
-        <div><strong>Issue Date:</strong> {selectedInvoice.issueDate}</div>
-        <div><strong>Due Date:</strong> {selectedInvoice.dueDate}</div>
-        {selectedInvoice.daysPastDue && <div><strong>Days Overdue:</strong> {selectedInvoice.daysPastDue}</div>}
-        <div><strong>Total:</strong> ${selectedInvoice.amount.toLocaleString()}</div>
-        <div><strong>Paid:</strong> ${selectedInvoice.paidAmount.toLocaleString()}</div>
-        <div><strong>Balance:</strong> ${(selectedInvoice.amount - selectedInvoice.paidAmount).toLocaleString()}</div>
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Invoice #:</strong> {selectedInvoice.invoiceNumber}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedInvoice.status}</Body>
+        <Body size="sm"><strong>Client:</strong> {selectedInvoice.client}</Body>
+        <Body size="sm"><strong>Email:</strong> {selectedInvoice.clientEmail}</Body>
+        <Body size="sm"><strong>Project:</strong> {selectedInvoice.project || '—'}</Body>
+        <Body size="sm"><strong>Issue Date:</strong> {selectedInvoice.issueDate}</Body>
+        <Body size="sm"><strong>Due Date:</strong> {selectedInvoice.dueDate}</Body>
+        {selectedInvoice.daysPastDue && <Body size="sm"><strong>Days Overdue:</strong> {selectedInvoice.daysPastDue}</Body>}
+        <Body size="sm"><strong>Total:</strong> ${selectedInvoice.amount.toLocaleString()}</Body>
+        <Body size="sm"><strong>Paid:</strong> ${selectedInvoice.paidAmount.toLocaleString()}</Body>
+        <Body size="sm"><strong>Balance:</strong> ${(selectedInvoice.amount - selectedInvoice.paidAmount).toLocaleString()}</Body>
+      </Grid>
     )},
   ] : [];
 

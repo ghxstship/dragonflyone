@@ -33,7 +33,7 @@ export function CreatorNavigationPublic() {
           className="mx-auto max-w-6xl items-center justify-between px-6 py-6 lg:px-8"
         >
           {/* Logo */}
-          <Link href="/" className="font-display text-h2-md uppercase tracking-tight text-white">
+          <Link href="/" className="font-display text-h2-md uppercase text-white">
             ATLVS
           </Link>
 
@@ -64,7 +64,7 @@ export function CreatorNavigationPublic() {
           {/* Desktop CTAs + Mobile Toggle */}
           <Stack direction="horizontal" gap={3} className="items-center">
             <Link href="/auth/signup" className="hidden md:block">
-              <button className="inline-flex items-center justify-center gap-2 border-2 border-white bg-white px-4 py-2 font-heading text-sm font-bold uppercase tracking-wider text-black shadow-[3px_3px_0_#FF006E] transition-all duration-100 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[4px_4px_0_#FF006E] active:translate-x-0.5 active:translate-y-0.5 active:shadow-[2px_2px_0_#FF006E]">
+              <button className="inline-flex items-center justify-center gap-2 border-2 border-white bg-white px-4 py-2 font-heading text-body-sm font-weight-bold uppercase tracking-label text-black shadow-brand-sm transition-all duration-100 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-brand-md active:translate-x-0.5 active:translate-y-0.5 active:shadow-brand-active">
                 Get Started
               </button>
             </Link>
@@ -88,12 +88,12 @@ export function CreatorNavigationPublic() {
                   <Box
                     key={idx}
                     className={clsx(
-                      "block h-[2px] w-full bg-white transition-transform",
+                      "block h-0.5 w-full bg-white transition-transform",
                       isOpen && idx === 1 ? "opacity-0" : "opacity-100",
                       isOpen && idx !== 1
                         ? idx === 0
-                          ? "translate-y-[7px] rotate-45"
-                          : "-translate-y-[7px] -rotate-45"
+                          ? "translate-y-2 rotate-45"
+                          : "-translate-y-2 -rotate-45"
                         : ""
                     )}
                   />
@@ -125,7 +125,7 @@ export function CreatorNavigationPublic() {
             </Stack>
             <Stack gap={4}>
               <Link href="/auth/signup" onClick={handleClose} className="block">
-                <button className="inline-flex w-full items-center justify-center gap-2 border-2 border-white bg-white px-6 py-3 font-heading text-sm font-bold uppercase tracking-wider text-black shadow-[4px_4px_0_#FF006E] transition-all duration-100 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_#FF006E] active:translate-x-0.5 active:translate-y-0.5 active:shadow-[2px_2px_0_#FF006E]">
+                <button className="inline-flex w-full items-center justify-center gap-2 border-2 border-white bg-white px-6 py-3 font-heading text-body-sm font-weight-bold uppercase tracking-label text-black shadow-brand-md transition-all duration-100 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-brand-lg active:translate-x-0.5 active:translate-y-0.5 active:shadow-brand-active">
                   Get Started
                 </button>
               </Link>
@@ -165,7 +165,7 @@ export function CreatorNavigationAuthenticated({
   return (
     <UnifiedHeader
       logo={
-        <Link href="/dashboard" className="font-display text-h5-md uppercase tracking-tight text-white">
+        <Link href="/dashboard" className="font-display text-h5-md uppercase text-white">
           ATLVS
         </Link>
       }

@@ -10,6 +10,8 @@ import {
   RecordFormModal,
   DetailDrawer,
   ConfirmDialog,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -101,19 +103,19 @@ export default function WillCallPage() {
 
   const detailSections: DetailSection[] = selectedTicket ? [
     { id: 'overview', title: 'Ticket Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Order:</strong> {selectedTicket.orderNumber}</div>
-        <div><strong>Status:</strong> {selectedTicket.status}</div>
-        <div><strong>Customer:</strong> {selectedTicket.customerName}</div>
-        <div><strong>Email:</strong> {selectedTicket.email}</div>
-        <div><strong>Phone:</strong> {selectedTicket.phone || '—'}</div>
-        <div><strong>Event:</strong> {selectedTicket.eventName}</div>
-        <div><strong>Tickets:</strong> {selectedTicket.quantity}x {selectedTicket.ticketType}</div>
-        <div><strong>ID Required:</strong> {selectedTicket.idRequired ? 'Yes' : 'No'}</div>
-        {selectedTicket.pickedUpAt && <div><strong>Picked Up:</strong> {selectedTicket.pickedUpAt}</div>}
-        {selectedTicket.pickedUpBy && <div><strong>Picked Up By:</strong> {selectedTicket.pickedUpBy}</div>}
-        {selectedTicket.notes && <div className="col-span-2"><strong>Notes:</strong> {selectedTicket.notes}</div>}
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Order:</strong> {selectedTicket.orderNumber}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedTicket.status}</Body>
+        <Body size="sm"><strong>Customer:</strong> {selectedTicket.customerName}</Body>
+        <Body size="sm"><strong>Email:</strong> {selectedTicket.email}</Body>
+        <Body size="sm"><strong>Phone:</strong> {selectedTicket.phone || '—'}</Body>
+        <Body size="sm"><strong>Event:</strong> {selectedTicket.eventName}</Body>
+        <Body size="sm"><strong>Tickets:</strong> {selectedTicket.quantity}x {selectedTicket.ticketType}</Body>
+        <Body size="sm"><strong>ID Required:</strong> {selectedTicket.idRequired ? 'Yes' : 'No'}</Body>
+        {selectedTicket.pickedUpAt && <Body size="sm"><strong>Picked Up:</strong> {selectedTicket.pickedUpAt}</Body>}
+        {selectedTicket.pickedUpBy && <Body size="sm"><strong>Picked Up By:</strong> {selectedTicket.pickedUpBy}</Body>}
+        {selectedTicket.notes && <Body size="sm" className="col-span-2"><strong>Notes:</strong> {selectedTicket.notes}</Body>}
+      </Grid>
     )},
   ] : [];
 

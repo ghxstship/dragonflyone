@@ -59,7 +59,7 @@ export default function EventTemplatesPage() {
               <Card key={template.id} className="border-2 border-black p-6">
                 <Stack gap={4}>
                   <Stack direction="horizontal" className="justify-between">
-                    <Body className="font-bold">{template.name}</Body>
+                    <Body className="font-weight-bold">{template.name}</Body>
                     <Badge variant="outline">{template.type}</Badge>
                   </Stack>
                   <Label className="text-ink-500">{template.description}</Label>

@@ -294,7 +294,7 @@ export default function CrewSocialPage() {
                     <Card key={member.id}>
                       <Stack direction="horizontal" className="justify-between items-center">
                         <Stack direction="horizontal" gap={4} className="items-center">
-                          <Card className="w-12 h-12 rounded-full flex items-center justify-center">
+                          <Card className="w-12 h-12 rounded-avatar flex items-center justify-center">
                             <Body>{member.name.charAt(0)}</Body>
                           </Card>
                           <Stack gap={1}>
@@ -337,7 +337,7 @@ export default function CrewSocialPage() {
           {selectedMember && (
             <Stack gap={4}>
               <Stack direction="horizontal" gap={4} className="items-center">
-                <Card className="w-16 h-16 rounded-full flex items-center justify-center">
+                <Card className="w-16 h-16 rounded-avatar flex items-center justify-center">
                   <Body>{selectedMember.name.charAt(0)}</Body>
                 </Card>
                 <Stack gap={1}>

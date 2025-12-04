@@ -106,7 +106,7 @@ export default function FanClubPage() {
                   <Card key={club.id} className="border-2 border-black overflow-hidden">
                     <Card className="p-4 bg-black text-white">
                       <Stack gap={2}>
-                        <Body className="font-bold text-body-md">{club.name}</Body>
+                        <Body className="font-weight-bold text-body-md">{club.name}</Body>
                         {club.artistName && <Label className="text-ink-600">{club.artistName}</Label>}
                       </Stack>
                     </Card>
@@ -157,7 +157,7 @@ export default function FanClubPage() {
                   <Card key={perk.id} className="border-2 border-black p-4">
                     <Grid cols={4} gap={4} className="items-center">
                       <Stack gap={1}>
-                        <Body className="font-bold">{perk.title}</Body>
+                        <Body className="font-weight-bold">{perk.title}</Body>
                         <Label className="text-ink-600 text-body-sm">{perk.description}</Label>
                       </Stack>
                       <Stack gap={1}>

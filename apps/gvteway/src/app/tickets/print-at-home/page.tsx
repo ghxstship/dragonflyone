@@ -76,7 +76,7 @@ export default function PrintAtHomePage() {
                   <Card key={idx} className="p-4 border border-ink-200 text-center">
                     <Stack gap={2}>
                       <Label className="text-h5-md">{feature.icon}</Label>
-                      <Label className="font-bold">{feature.name}</Label>
+                      <Label className="font-weight-bold">{feature.name}</Label>
                       <Label className="text-ink-500">{feature.desc}</Label>
                     </Stack>
                   </Card>
@@ -95,7 +95,7 @@ export default function PrintAtHomePage() {
               <Card key={ticket.id} className="border-2 border-black p-6">
                 <Grid cols={6} gap={4} className="items-center">
                   <Stack gap={1}>
-                    <Body className="font-bold">{ticket.eventName}</Body>
+                    <Body className="font-weight-bold">{ticket.eventName}</Body>
                     <Badge variant="outline">{ticket.ticketType}</Badge>
                   </Stack>
                   <Stack gap={1}>
@@ -142,7 +142,7 @@ export default function PrintAtHomePage() {
                     <Stack gap={1}><Label className="text-ink-500">Ticket ID</Label><Label className="font-mono">{selectedTicket.id}</Label></Stack>
                     <Stack gap={1}><Label className="text-ink-500">Order</Label><Label className="font-mono">{selectedTicket.orderId}</Label></Stack>
                   </Grid>
-                  <Stack gap={1}><Label className="text-ink-500">Attendee</Label><Label className="font-bold">{selectedTicket.purchaserName}</Label></Stack>
+                  <Stack gap={1}><Label className="text-ink-500">Attendee</Label><Label className="font-weight-bold">{selectedTicket.purchaserName}</Label></Stack>
                   <Card className="p-2 bg-ink-200 text-center">
                     <Label className="font-mono text-mono-xs">||||||||||||||||||||||||</Label>
                   </Card>
@@ -171,7 +171,7 @@ export default function PrintAtHomePage() {
         <ModalBody>
           <Stack gap={4}>
             <Stack gap={2}>
-              <Label className="font-bold">Security Features</Label>
+              <Label className="font-weight-bold">Security Features</Label>
               <Stack gap={1}>
                 {["Include QR code", "Include barcode", "Add watermark with purchaser name", "Include holographic pattern", "Add event logo"].map((opt, idx) => (
                   <Stack key={idx} direction="horizontal" gap={2}>
@@ -182,7 +182,7 @@ export default function PrintAtHomePage() {
               </Stack>
             </Stack>
             <Stack gap={2}>
-              <Label className="font-bold">Print Limits</Label>
+              <Label className="font-weight-bold">Print Limits</Label>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>
                   <Label className="text-ink-500">Max prints per ticket</Label>
@@ -195,7 +195,7 @@ export default function PrintAtHomePage() {
               </Grid>
             </Stack>
             <Stack gap={2}>
-              <Label className="font-bold">Paper Size</Label>
+              <Label className="font-weight-bold">Paper Size</Label>
               <Select className="border-2 border-black">
                 <option value="letter">Letter (8.5 x 11)</option>
                 <option value="a4">A4</option>

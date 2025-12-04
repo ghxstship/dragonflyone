@@ -371,7 +371,7 @@ export default function DesignSystemPage() {
                 <Card className="border-2 border-ink-700 bg-ink-900 p-6">
                   <Label className="mb-4 text-ink-400">Headings</Label>
                   <H3 className="text-ink-50">UPPERCASE + TIGHT TRACKING</H3>
-                  <Body className="mt-2 text-ink-500">tracking-tight (-0.02em)</Body>
+                  <Body className="mt-2 text-ink-500">(-0.02em)</Body>
                 </Card>
                 <Card className="border-2 border-ink-700 bg-ink-900 p-6">
                   <Label className="mb-4 text-ink-400">Labels & Kickers</Label>
@@ -381,12 +381,12 @@ export default function DesignSystemPage() {
                 <Card className="border-2 border-ink-700 bg-ink-900 p-6">
                   <Label className="mb-4 text-ink-400">Body Text</Label>
                   <Body className="text-ink-50">Sentence case, normal tracking, 1.6 line height</Body>
-                  <Body className="mt-2 text-ink-500">tracking-normal (0)</Body>
+                  <Body className="mt-2 text-ink-500">(0)</Body>
                 </Card>
                 <Card className="border-2 border-ink-700 bg-ink-900 p-6">
                   <Label className="mb-4 text-ink-400">Buttons</Label>
                   <Button variant="solid">UPPERCASE ACTION</Button>
-                  <Body className="mt-2 text-ink-500">tracking-wide (0.05em)</Body>
+                  <Body className="mt-2 text-ink-500">tracking-label (0.05em)</Body>
                 </Card>
               </Grid>
             </Section>

@@ -274,7 +274,7 @@ export default function PrivacySettingsPage() {
 
                 <Stack direction="horizontal" className="justify-between items-center py-2">
                   <Stack>
-                    <Body className="font-medium">Show Activity</Body>
+                    <Body className="font-weight-medium">Show Activity</Body>
                     <Body className="text-body-sm text-ink-500">Let others see your recent activity</Body>
                   </Stack>
                   <Switch
@@ -285,7 +285,7 @@ export default function PrivacySettingsPage() {
 
                 <Stack direction="horizontal" className="justify-between items-center py-2">
                   <Stack>
-                    <Body className="font-medium">Show Events Attended</Body>
+                    <Body className="font-weight-medium">Show Events Attended</Body>
                     <Body className="text-body-sm text-ink-500">Display events on your profile</Body>
                   </Stack>
                   <Switch
@@ -296,7 +296,7 @@ export default function PrivacySettingsPage() {
 
                 <Stack direction="horizontal" className="justify-between items-center py-2">
                   <Stack>
-                    <Body className="font-medium">Show Reviews</Body>
+                    <Body className="font-weight-medium">Show Reviews</Body>
                     <Body className="text-body-sm text-ink-500">Display your reviews publicly</Body>
                   </Stack>
                   <Switch
@@ -328,21 +328,21 @@ export default function PrivacySettingsPage() {
                       className="justify-between items-center py-2 border-b border-ink-100"
                     >
                       <Stack direction="horizontal" gap={3} className="items-center">
-                        <Stack className="w-10 h-10 bg-ink-200 rounded-full flex items-center justify-center">
+                        <Stack className="w-10 h-10 bg-ink-200 rounded-avatar flex items-center justify-center">
                           {blocked.user_avatar ? (
                             <Image
                               src={blocked.user_avatar}
                               alt={blocked.user_name}
                               width={40}
                               height={40}
-                              className="w-full h-full rounded-full object-cover"
+                              className="w-full h-full rounded-avatar object-cover"
                             />
                           ) : (
                             <Body>{blocked.user_name.charAt(0)}</Body>
                           )}
                         </Stack>
                         <Stack>
-                          <Body className="font-medium">{blocked.user_name}</Body>
+                          <Body className="font-weight-medium">{blocked.user_name}</Body>
                           <Body className="text-mono-xs text-ink-500">
                             Blocked {new Date(blocked.blocked_at).toLocaleDateString()}
                           </Body>
@@ -380,7 +380,7 @@ export default function PrivacySettingsPage() {
                   {reports.map(report => (
                     <Card key={report.id} className="p-4">
                       <Stack direction="horizontal" className="justify-between items-start mb-2">
-                        <Body className="font-medium">{report.reported_user_name}</Body>
+                        <Body className="font-weight-medium">{report.reported_user_name}</Body>
                         {getStatusBadge(report.status)}
                       </Stack>
                       <Body className="text-body-sm text-ink-600">{report.reason}</Body>

@@ -312,7 +312,7 @@ function GiftTicketsContent() {
                         onClick={() => setFormData({ ...formData, wrap_style: style.id })}
                       >
                         <Body className="text-h4-md mb-2">{style.emoji}</Body>
-                        <Body className="font-medium">{style.name}</Body>
+                        <Body className="font-weight-medium">{style.name}</Body>
                       </Card>
                     ))}
                   </Grid>
@@ -336,7 +336,7 @@ function GiftTicketsContent() {
               {selectedEvent && selectedTicketType ? (
                 <Stack gap={4}>
                   <Stack gap={2}>
-                    <Body className="font-bold">{selectedEvent.title}</Body>
+                    <Body className="font-weight-bold">{selectedEvent.title}</Body>
                     <Body className="text-body-sm text-ink-600">{selectedEvent.date}</Body>
                     <Body className="text-body-sm text-ink-600">{selectedEvent.venue}</Body>
                   </Stack>
@@ -354,8 +354,8 @@ function GiftTicketsContent() {
 
                   <Stack className="border-t-2 border-black pt-4">
                     <Stack direction="horizontal" className="justify-between">
-                      <Body className="font-bold">Total</Body>
-                      <Body className="font-bold">${totalPrice.toFixed(2)}</Body>
+                      <Body className="font-weight-bold">Total</Body>
+                      <Body className="font-weight-bold">${totalPrice.toFixed(2)}</Body>
                     </Stack>
                   </Stack>
                 </Stack>

@@ -316,14 +316,14 @@ export default function UGCPage() {
                     </Stack>
                     <Stack className="p-3" gap={2}>
                       <Stack direction="horizontal" gap={2} className="items-center">
-                        <Stack className="w-6 h-6 rounded-full bg-ink-200 overflow-hidden relative">
+                        <Stack className="w-6 h-6 rounded-avatar bg-ink-200 overflow-hidden relative">
                           {post.author_avatar ? (
                             <Image src={post.author_avatar} alt={post.author_name} fill className="object-cover" />
                           ) : (
                             <Stack className="w-full h-full flex items-center justify-center text-mono-xs">👤</Stack>
                           )}
                         </Stack>
-                        <Body className="text-body-sm font-bold truncate">{post.author_name}</Body>
+                        <Body className="text-body-sm font-weight-bold truncate">{post.author_name}</Body>
                       </Stack>
                       {post.caption && (
                         <Body className="text-mono-xs text-ink-600 line-clamp-2">{post.caption}</Body>
@@ -366,11 +366,11 @@ export default function UGCPage() {
                     </Stack>
                     <Grid cols={2} gap={4}>
                       <Stack>
-                        <Body className="text-h5-md font-bold">{formatNumber(hashtag.post_count)}</Body>
+                        <Body className="text-h5-md font-weight-bold">{formatNumber(hashtag.post_count)}</Body>
                         <Body className="text-mono-xs text-ink-500">Posts</Body>
                       </Stack>
                       <Stack>
-                        <Body className="text-h5-md font-bold">{formatNumber(hashtag.engagement)}</Body>
+                        <Body className="text-h5-md font-weight-bold">{formatNumber(hashtag.engagement)}</Body>
                         <Body className="text-mono-xs text-ink-500">Engagement</Body>
                       </Stack>
                     </Grid>
@@ -405,7 +405,7 @@ export default function UGCPage() {
                           {campaign.status}
                         </Badge>
                       </Stack>
-                      <Body className="text-h6-md font-bold">#{campaign.hashtag}</Body>
+                      <Body className="text-h6-md font-weight-bold">#{campaign.hashtag}</Body>
                       {campaign.event_name && (
                         <Body className="text-body-sm text-ink-600">{campaign.event_name}</Body>
                       )}
@@ -416,11 +416,11 @@ export default function UGCPage() {
                     </Stack>
                     <Grid cols={2} gap={6}>
                       <Stack className="text-center">
-                        <Body className="text-h4-md font-bold">{formatNumber(campaign.post_count)}</Body>
+                        <Body className="text-h4-md font-weight-bold">{formatNumber(campaign.post_count)}</Body>
                         <Body className="text-mono-xs text-ink-500">Posts</Body>
                       </Stack>
                       <Stack className="text-center">
-                        <Body className="text-h4-md font-bold">{formatNumber(campaign.total_engagement)}</Body>
+                        <Body className="text-h4-md font-weight-bold">{formatNumber(campaign.total_engagement)}</Body>
                         <Body className="text-mono-xs text-ink-500">Engagement</Body>
                       </Stack>
                     </Grid>
@@ -473,7 +473,7 @@ export default function UGCPage() {
                       {getPlatformBadge(post.platform)}
                       <Badge className="bg-warning-500 text-white">⭐ Featured</Badge>
                     </Stack>
-                    <Body className="font-bold">{post.author_name}</Body>
+                    <Body className="font-weight-bold">{post.author_name}</Body>
                     {post.caption && (
                       <Body className="text-body-sm text-ink-600 line-clamp-2">{post.caption}</Body>
                     )}
@@ -514,7 +514,7 @@ export default function UGCPage() {
               </Stack>
               <Stack gap={2}>
                 <Stack direction="horizontal" gap={2} className="items-center">
-                  <Stack className="w-10 h-10 rounded-full bg-ink-200 overflow-hidden relative">
+                  <Stack className="w-10 h-10 rounded-avatar bg-ink-200 overflow-hidden relative">
                     {selectedPost.author_avatar ? (
                       <Image src={selectedPost.author_avatar} alt={selectedPost.author_name} fill className="object-cover" />
                     ) : (
@@ -522,7 +522,7 @@ export default function UGCPage() {
                     )}
                   </Stack>
                   <Stack>
-                    <Body className="font-bold">{selectedPost.author_name}</Body>
+                    <Body className="font-weight-bold">{selectedPost.author_name}</Body>
                     <Body className="text-body-sm text-ink-500">@{selectedPost.author_handle}</Body>
                   </Stack>
                   {getPlatformBadge(selectedPost.platform)}

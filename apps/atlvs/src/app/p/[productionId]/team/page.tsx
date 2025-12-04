@@ -62,7 +62,7 @@ export default function ProductionTeamPage() {
             {team.map((member, index) => (
               <div key={member.id} className={`flex items-center justify-between border-ink-700 p-4 ${index < team.length - 1 ? "border-b" : ""}`}>
                 <Stack direction="horizontal" gap={3} className="items-center">
-                  <Box className="flex size-10 items-center justify-center rounded-full bg-ink-800">
+                  <Box className="flex size-10 items-center justify-center rounded-avatar bg-ink-800">
                     <Users size={20} className="text-primary" />
                   </Box>
                   <Stack gap={1}>

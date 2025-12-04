@@ -87,7 +87,7 @@ export function GeneratorHero({
               <Button
                 type="submit"
                 disabled={isGenerating || !creativeSeed.trim()}
-                className="flex w-full items-center justify-center gap-3 border-2 border-ink-950 bg-[#FF006E] px-8 py-5 font-display text-body-md uppercase tracking-label text-white shadow-md transition-all duration-150 hover:-translate-y-1 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50"
+                className="flex w-full items-center justify-center gap-3 border-2 border-ink-950 bg-brand-pink px-8 py-5 font-display text-body-md uppercase tracking-label text-white shadow-md transition-all duration-150 hover:-translate-y-1 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <Sparkles className="size-5" />
                 Generate Blueprint

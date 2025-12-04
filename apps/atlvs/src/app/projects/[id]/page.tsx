@@ -203,22 +203,22 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
 
         <Grid cols={4} gap={6}>
           <Card className="border-2 border-ink-800 p-6">
-            <Label className="font-mono text-mono-xs uppercase tracking-widest text-ink-500">Budget</Label>
+            <Label className="font-mono text-mono-xs uppercase tracking-label text-ink-500">Budget</Label>
             <Body className="mt-3 font-display text-h4-md text-white">${(budget / 1000).toFixed(0)}K</Body>
           </Card>
           <Card className="border-2 border-ink-800 p-6">
-            <Label className="font-mono text-mono-xs uppercase tracking-widest text-ink-500">Actual</Label>
+            <Label className="font-mono text-mono-xs uppercase tracking-label text-ink-500">Actual</Label>
             <Body className="mt-3 font-display text-h4-md text-white">${(actual / 1000).toFixed(0)}K</Body>
           </Card>
           <Card className="border-2 border-ink-800 p-6">
-            <Label className="font-mono text-mono-xs uppercase tracking-widest text-ink-500">Variance</Label>
+            <Label className="font-mono text-mono-xs uppercase tracking-label text-ink-500">Variance</Label>
             <Body className={`mt-3 font-display text-h4-md ${variance > 0 ? "text-error-400" : "text-success-400"}`}>
               {variance > 0 ? "+" : ""}
               {variance}%
             </Body>
           </Card>
           <Card className="border-2 border-ink-800 p-6">
-            <Label className="font-mono text-mono-xs uppercase tracking-widest text-ink-500">Progress</Label>
+            <Label className="font-mono text-mono-xs uppercase tracking-label text-ink-500">Progress</Label>
             <Body className="mt-3 font-display text-h4-md text-white">{progress}%</Body>
           </Card>
         </Grid>
@@ -279,7 +279,7 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
                   <Card key={member.name} className="border-2 border-ink-800 p-4">
                     <Body className="font-display text-body-md text-white">{member.name}</Body>
                     <Body className="mt-1 text-body-sm text-ink-300">{member.role}</Body>
-                    <Label className="mt-1 font-mono text-mono-xs uppercase tracking-widest text-ink-500">
+                    <Label className="mt-1 font-mono text-mono-xs uppercase tracking-label text-ink-500">
                       {member.department}
                     </Label>
                   </Card>

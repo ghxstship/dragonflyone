@@ -128,7 +128,7 @@ export default function BadgesPage() {
           </Alert>
         )}
 
-        <Card className="p-6 mb-8 bg-gradient-to-r from-black to-gray-800 text-white">
+        <Card className="p-6 mb-8 bg-ink-950 text-white">
           <Grid cols={3} gap={6}>
             <Stack className="items-center">
               <Body className="text-ink-600 text-body-sm">TOTAL BADGES</Body>
@@ -174,11 +174,11 @@ export default function BadgesPage() {
               earnedBadges.map(badge => (
                 <Card key={badge.id} className="p-4 text-center">
                   <Stack className="items-center" gap={3}>
-                    <Stack className={`w-16 h-16 rounded-full ${getTierColor(badge.tier)} flex items-center justify-center`}>
+                    <Stack className={`w-16 h-16 rounded-avatar ${getTierColor(badge.tier)} flex items-center justify-center`}>
                       <Body className="text-h4-md">{badge.icon}</Body>
                     </Stack>
                     <Stack>
-                      <Body className="font-bold">{badge.name}</Body>
+                      <Body className="font-weight-bold">{badge.name}</Body>
                       <Body className="text-mono-xs text-ink-500">{badge.description}</Body>
                     </Stack>
                     <Badge className={getTierColor(badge.tier) + ' text-white'}>
@@ -216,15 +216,15 @@ export default function BadgesPage() {
             {availableBadges.filter(b => !b.is_earned).map(badge => (
               <Card key={badge.id} className="p-4">
                 <Stack direction="horizontal" gap={4}>
-                  <Stack className="w-12 h-12 bg-ink-200 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Stack className="w-12 h-12 bg-ink-200 rounded-avatar flex items-center justify-center flex-shrink-0">
                     <Body className="text-h5-md opacity-50">{badge.icon}</Body>
                   </Stack>
                   <Stack className="flex-1">
-                    <Body className="font-bold">{badge.name}</Body>
+                    <Body className="font-weight-bold">{badge.name}</Body>
                     <Body className="text-mono-xs text-ink-500">{badge.description}</Body>
                     <Body className="text-mono-xs text-ink-600 mt-1">{badge.requirement}</Body>
                     <Stack className="mt-2">
-                      <Stack className="w-full bg-ink-200 h-2 rounded-full overflow-hidden">
+                      <Stack className="w-full bg-ink-200 h-2 rounded-avatar overflow-hidden">
                         <Stack
                           className="bg-black h-full transition-all"
                           style={{ '--progress-width': `${(badge.progress / badge.total) * 100}%`, width: 'var(--progress-width)' } as React.CSSProperties}
@@ -256,7 +256,7 @@ export default function BadgesPage() {
                   className={`p-6 ${tier.is_current ? 'border-2 border-black' : ''} ${!isUnlocked ? 'opacity-50' : ''}`}
                 >
                   <Stack direction="horizontal" gap={6}>
-                    <Stack className={`w-20 h-20 rounded-full flex items-center justify-center ${
+                    <Stack className={`w-20 h-20 rounded-avatar flex items-center justify-center ${
                       isUnlocked ? 'bg-black text-white' : 'bg-ink-200'
                     }`}>
                       <Body className="text-h4-md">{tier.icon}</Body>
@@ -274,7 +274,7 @@ export default function BadgesPage() {
                             {tier.points_required.toLocaleString()} points required
                           </Body>
                         </Stack>
-                        <Body className="text-h5-md font-bold">Level {tier.level}</Body>
+                        <Body className="text-h5-md font-weight-bold">Level {tier.level}</Body>
                       </Stack>
                       <Stack className="mt-4">
                         <Label className="text-ink-500 mb-2">PERKS</Label>
@@ -286,7 +286,7 @@ export default function BadgesPage() {
                       </Stack>
                       {tier.is_current && nextTier && (
                         <Stack className="mt-4">
-                          <Stack className="w-full bg-ink-200 h-2 rounded-full overflow-hidden">
+                          <Stack className="w-full bg-ink-200 h-2 rounded-avatar overflow-hidden">
                             <Stack
                               className="bg-black h-full transition-all"
                               style={{ '--progress-width': `${Math.min(progress, 100)}%`, width: 'var(--progress-width)' } as React.CSSProperties}

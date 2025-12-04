@@ -71,7 +71,7 @@ export default function OfflineWalletPage() {
           <Card className={`p-4 border-2 ${isOnline ? "border-success-500 bg-success-50" : "border-warning-500 bg-warning-50"}`}>
             <Stack direction="horizontal" className="justify-between items-center">
               <Stack gap={1}>
-                <Label className="font-bold">{isOnline ? "Online" : "Offline Mode"}</Label>
+                <Label className="font-weight-bold">{isOnline ? "Online" : "Offline Mode"}</Label>
                 <Label size="xs" className="text-ink-500">
                   Last synced: {formatDate(lastSync)}
                 </Label>
@@ -104,7 +104,7 @@ export default function OfflineWalletPage() {
                   <Card className="p-4 bg-black text-white">
                     <Stack direction="horizontal" className="justify-between items-start">
                       <Stack gap={1}>
-                        <Body className="font-bold text-body-md">{ticket.eventName}</Body>
+                        <Body className="font-weight-bold text-body-md">{ticket.eventName}</Body>
                         <Label className="text-ink-600">{ticket.eventDate}</Label>
                       </Stack>
                       <Badge variant="solid">{ticket.ticketType}</Badge>
@@ -173,7 +173,7 @@ export default function OfflineWalletPage() {
                   <Label>Cached Data</Label>
                   <Label className="font-mono">2.4 MB</Label>
                 </Stack>
-                <Card className="h-2 bg-ink-200 rounded-full overflow-hidden">
+                <Card className="h-2 bg-ink-200 rounded-avatar overflow-hidden">
                   <Card className="h-full bg-black w-1/4" />
                 </Card>
                 <Label size="xs" className="text-ink-500">Using 2.4 MB of 10 MB available</Label>

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Eye, Rocket, Pencil } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
-  ListPage, Badge, DetailDrawer, RecordFormModal,
+  ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Stack, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig,
 } from '@ghxstship/ui';
 import { getBadgeVariant } from '@ghxstship/config';
@@ -84,24 +84,24 @@ export default function AssetKitsPage() {
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Kit Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Name:</strong> {selected.name}</div>
-        <div><strong>Category:</strong> {selected.category}</div>
-        <div><strong>Status:</strong> {selected.status}</div>
-        <div><strong>Item Count:</strong> {selected.itemCount}</div>
-        <div><strong>Total Value:</strong> {formatCurrency(selected.totalValue)}</div>
-        <div><strong>Last Used:</strong> {selected.lastUsed || 'Never'}</div>
-        <div className="col-span-2"><strong>Description:</strong> {selected.description}</div>
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Name:</strong> {selected.name}</Body>
+        <Body size="sm"><strong>Category:</strong> {selected.category}</Body>
+        <Body size="sm"><strong>Status:</strong> {selected.status}</Body>
+        <Body size="sm"><strong>Item Count:</strong> {selected.itemCount}</Body>
+        <Body size="sm"><strong>Total Value:</strong> {formatCurrency(selected.totalValue)}</Body>
+        <Body size="sm"><strong>Last Used:</strong> {selected.lastUsed || 'Never'}</Body>
+        <Body size="sm" className="col-span-2"><strong>Description:</strong> {selected.description}</Body>
+      </Grid>
     )},
     { id: 'contents', title: 'Kit Contents', content: (
-      <div>
+      <Stack>
         {selected.items.map((item, idx) => (
-          <div key={idx} className="py-2 border-b border-ink-700">
+          <Body key={idx} size="sm" className="border-b border-ink-700 py-2">
             <strong>{item.name}</strong> ({item.category}) - Qty: {item.quantity}
-          </div>
+          </Body>
         ))}
-      </div>
+      </Stack>
     )},
   ] : [];
 

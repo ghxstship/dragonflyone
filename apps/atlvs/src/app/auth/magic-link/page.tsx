@@ -14,6 +14,7 @@ import {
   Label,
   ScrollReveal,
   AuthPage,
+  IconBox,
 } from "@ghxstship/ui";
 import NextLink from "next/link";
 import { CreatorNavigationPublic } from "@/components/navigation";
@@ -58,9 +59,9 @@ export default function MagicLinkPage() {
               {submitted ? (
                 /* Success State */
                 <Stack gap={6} className="text-center sm:gap-8">
-                  <div className="mx-auto flex size-12 items-center justify-center border-2 border-black/10 bg-grey-100 sm:size-16">
+                  <IconBox size="lg" variant="success" className="mx-auto">
                     <Sparkles className="size-6 text-success sm:size-8" />
-                  </div>
+                  </IconBox>
 
                   <Stack gap={3} className="sm:gap-4">
                     <H2 className="text-black">CHECK YOUR EMAIL</H2>
@@ -89,9 +90,9 @@ export default function MagicLinkPage() {
                 <Stack gap={6} className="sm:gap-8">
                   {/* Header */}
                   <Stack gap={3} className="text-center sm:gap-4">
-                    <div className="mx-auto flex size-12 items-center justify-center border-2 border-black/10 bg-grey-100 sm:size-16">
+                    <IconBox size="lg" className="mx-auto">
                       <Sparkles className="size-6 text-black sm:size-8" />
-                    </div>
+                    </IconBox>
                     <H2 className="text-black">MAGIC LINK</H2>
                     <Body size="sm" className="text-muted">
                       Sign in without a password. We&apos;ll email you a magic link.

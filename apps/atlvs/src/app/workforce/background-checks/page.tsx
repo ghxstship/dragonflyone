@@ -8,6 +8,8 @@ import {
   Badge,
   DetailDrawer,
   RecordFormModal,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -127,18 +129,18 @@ export default function BackgroundChecksPage() {
 
   const detailSections: DetailSection[] = selectedCheck ? [
     { id: "overview", title: "Background Check Details", content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Employee:</strong> {selectedCheck.employeeName}</div>
-        <div><strong>Department:</strong> {selectedCheck.department}</div>
-        <div><strong>Check Type:</strong> {selectedCheck.checkType}</div>
-        <div><strong>Provider:</strong> {selectedCheck.provider}</div>
-        <div><strong>Requested:</strong> {selectedCheck.requestDate}</div>
-        <div><strong>Status:</strong> {selectedCheck.status}</div>
-        {selectedCheck.completedDate && <div><strong>Completed:</strong> {selectedCheck.completedDate}</div>}
-        {selectedCheck.expiryDate && <div><strong>Expires:</strong> {selectedCheck.expiryDate}</div>}
-        {selectedCheck.result && <div><strong>Result:</strong> {selectedCheck.result}</div>}
-        {selectedCheck.notes && <div className="col-span-2"><strong>Notes:</strong> {selectedCheck.notes}</div>}
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Employee:</strong> {selectedCheck.employeeName}</Body>
+        <Body size="sm"><strong>Department:</strong> {selectedCheck.department}</Body>
+        <Body size="sm"><strong>Check Type:</strong> {selectedCheck.checkType}</Body>
+        <Body size="sm"><strong>Provider:</strong> {selectedCheck.provider}</Body>
+        <Body size="sm"><strong>Requested:</strong> {selectedCheck.requestDate}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedCheck.status}</Body>
+        {selectedCheck.completedDate && <Body size="sm"><strong>Completed:</strong> {selectedCheck.completedDate}</Body>}
+        {selectedCheck.expiryDate && <Body size="sm"><strong>Expires:</strong> {selectedCheck.expiryDate}</Body>}
+        {selectedCheck.result && <Body size="sm"><strong>Result:</strong> {selectedCheck.result}</Body>}
+        {selectedCheck.notes && <Body size="sm" className="col-span-2"><strong>Notes:</strong> {selectedCheck.notes}</Body>}
+      </Grid>
     )},
   ] : [];
 

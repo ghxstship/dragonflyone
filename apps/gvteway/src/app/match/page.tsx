@@ -363,7 +363,7 @@ export default function MatchPage() {
           {selectedMatch && (
             <Stack gap={6}>
               <Stack direction="horizontal" gap={6} className="items-center">
-                <Stack className="w-24 h-24 rounded-full bg-ink-200 overflow-hidden relative flex-shrink-0">
+                <Stack className="w-24 h-24 rounded-avatar bg-ink-200 overflow-hidden relative flex-shrink-0">
                   {selectedMatch.avatar_url ? (
                     <Image src={selectedMatch.avatar_url} alt={selectedMatch.name} fill className="object-cover" />
                   ) : (
@@ -377,7 +377,7 @@ export default function MatchPage() {
                   {selectedMatch.location && (
                     <Body className="text-ink-500">📍 {selectedMatch.location}</Body>
                   )}
-                  <Body className={`text-h5-md font-bold ${getMatchScoreColor(selectedMatch.match_score)}`}>
+                  <Body className={`text-h5-md font-weight-bold ${getMatchScoreColor(selectedMatch.match_score)}`}>
                     {selectedMatch.match_score}% Match
                   </Body>
                 </Stack>
@@ -410,11 +410,11 @@ export default function MatchPage() {
 
               <Grid cols={2} gap={4}>
                 <Stack className="text-center p-4 bg-ink-50 rounded">
-                  <Body className="text-h5-md font-bold">{selectedMatch.events_attended}</Body>
+                  <Body className="text-h5-md font-weight-bold">{selectedMatch.events_attended}</Body>
                   <Body className="text-mono-xs text-ink-500">Events Attended</Body>
                 </Stack>
                 <Stack className="text-center p-4 bg-ink-50 rounded">
-                  <Body className="text-h5-md font-bold">{selectedMatch.mutual_friends}</Body>
+                  <Body className="text-h5-md font-weight-bold">{selectedMatch.mutual_friends}</Body>
                   <Body className="text-mono-xs text-ink-500">Mutual Friends</Body>
                 </Stack>
               </Grid>

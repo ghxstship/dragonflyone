@@ -230,7 +230,7 @@ export default function DiscoveryQuizPage() {
                         )}
                         <Stack className="flex-1">
                           <Stack direction="horizontal" className="justify-between items-start">
-                            <Body className="font-bold">{event.title}</Body>
+                            <Body className="font-weight-bold">{event.title}</Body>
                             <Badge className="bg-success-500 text-white">
                               {event.match_score}% Match
                             </Badge>
@@ -313,7 +313,7 @@ export default function DiscoveryQuizPage() {
         )}
 
         <Stack className="max-w-2xl mx-auto" gap={8}>
-          <Stack className="w-full bg-ink-200 h-2 rounded-full overflow-hidden">
+          <Stack className="w-full bg-ink-200 h-2 rounded-avatar overflow-hidden">
             <Stack
               className="bg-black h-full transition-all"
               style={{ '--progress-width': `${((currentStep + 1) / QUIZ_QUESTIONS.length) * 100}%`, width: 'var(--progress-width)' } as React.CSSProperties}

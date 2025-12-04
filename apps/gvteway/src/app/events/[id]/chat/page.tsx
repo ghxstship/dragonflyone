@@ -156,12 +156,12 @@ export default function EventChatPage() {
             <Stack gap={3} className="max-h-panel-md overflow-y-auto">
               {messages.map(message => (
                 <Stack key={message.id} direction="horizontal" gap={3}>
-                  <Stack className="w-8 h-8 bg-ink-200 rounded-full flex-shrink-0 flex items-center justify-center">
+                  <Stack className="w-8 h-8 bg-ink-200 rounded-avatar flex-shrink-0 flex items-center justify-center">
                     <Body className="text-mono-xs">{message.user_name.charAt(0)}</Body>
                   </Stack>
                   <Stack>
                     <Stack direction="horizontal" gap={2} className="items-center">
-                      <Body className="font-medium text-body-sm">{message.user_name}</Body>
+                      <Body className="font-weight-medium text-body-sm">{message.user_name}</Body>
                       <Body className="text-mono-xs text-ink-600">{formatTime(message.created_at)}</Body>
                     </Stack>
                     <Body className="text-ink-600">{message.content}</Body>
@@ -224,13 +224,13 @@ export default function EventChatPage() {
                   className={`${message.is_pinned ? 'bg-warning-50 p-2 rounded' : ''}`}
                 >
                   <Stack direction="horizontal" gap={3}>
-                    <Stack className="relative w-10 h-10 bg-ink-200 rounded-full flex-shrink-0 flex items-center justify-center overflow-hidden">
+                    <Stack className="relative w-10 h-10 bg-ink-200 rounded-avatar flex-shrink-0 flex items-center justify-center overflow-hidden">
                       {message.user_avatar ? (
                         <Image
                           src={message.user_avatar}
                           alt={message.user_name}
                           fill
-                          className="rounded-full object-cover"
+                          className="rounded-avatar object-cover"
                         />
                       ) : (
                         <Body>{message.user_name.charAt(0)}</Body>
@@ -238,7 +238,7 @@ export default function EventChatPage() {
                     </Stack>
                     <Stack className="flex-1">
                       <Stack direction="horizontal" gap={2} className="items-center">
-                        <Body className="font-medium">{message.user_name}</Body>
+                        <Body className="font-weight-medium">{message.user_name}</Body>
                         {message.is_moderator && (
                           <Badge className="bg-purple-500 text-white text-mono-xs">MOD</Badge>
                         )}

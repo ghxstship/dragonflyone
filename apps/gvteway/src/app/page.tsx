@@ -13,6 +13,8 @@ import {
   Button,
   ScrollReveal,
   StaggerChildren,
+  Box,
+  IconBox,
 } from "@ghxstship/ui";
 import {
   Lock,
@@ -88,8 +90,8 @@ export default function MembershipLandingPage() {
           SECTION 1: HERO - Full Viewport Immersive
           ═══════════════════════════════════════════════════════════════════════════ */}
       <Stack className="relative min-h-screen overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
-        <div
+        <Box className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
+        <Box
           className="pointer-events-none absolute inset-0 opacity-[0.04]"
           style={{
             backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)",
@@ -218,13 +220,13 @@ export default function MembershipLandingPage() {
         </ScrollReveal>
 
         <StaggerChildren staggerDelay={50} animation="slide-up">
-          <div className="grid auto-rows-[140px] grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
+          <Grid cols={6} gap={4} className="auto-rows-[140px] grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
             <Card inverted className="group relative col-span-2 row-span-2 flex flex-col justify-end overflow-hidden border-2 border-ink-800 p-5">
-              <div 
+              <Box 
                 className="absolute inset-0 bg-cover bg-center brightness-[0.3] saturate-[0.3] transition-all duration-slow group-hover:brightness-[0.5] group-hover:saturate-100"
                 style={{ backgroundImage: "url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80')" }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+              <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
               <Stack gap={1} className="relative z-10">
                 <Search className="size-5 text-accent" />
                 <Label size="xs" className="tracking-label text-white">DISCOVERY</Label>
@@ -232,11 +234,11 @@ export default function MembershipLandingPage() {
             </Card>
             
             <Card inverted className="group relative flex flex-col justify-end overflow-hidden border-2 border-ink-800 p-5">
-              <div 
+              <Box 
                 className="absolute inset-0 bg-cover bg-center brightness-[0.3] saturate-[0.3] transition-all duration-slow group-hover:brightness-[0.5] group-hover:saturate-100"
                 style={{ backgroundImage: "url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&q=80')" }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+              <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
               <Stack gap={1} className="relative z-10">
                 <Users className="size-5 text-accent" />
                 <Label size="xs" className="tracking-label text-white">COMMUNITY</Label>
@@ -244,11 +246,11 @@ export default function MembershipLandingPage() {
             </Card>
             
             <Card inverted className="group relative col-span-2 flex flex-col justify-end overflow-hidden border-2 border-ink-800 p-5">
-              <div 
+              <Box 
                 className="absolute inset-0 bg-cover bg-center brightness-[0.3] saturate-[0.3] transition-all duration-slow group-hover:brightness-[0.5] group-hover:saturate-100"
                 style={{ backgroundImage: "url('https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=800&q=80')" }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+              <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
               <Stack gap={1} className="relative z-10">
                 <Zap className="size-5 text-accent" />
                 <Label size="xs" className="tracking-label text-white">EXPERIENCES</Label>
@@ -256,11 +258,11 @@ export default function MembershipLandingPage() {
             </Card>
 
             <Card inverted className="group relative flex flex-col justify-end overflow-hidden border-2 border-ink-800 p-5">
-              <div 
+              <Box 
                 className="absolute inset-0 bg-cover bg-center brightness-[0.3] saturate-[0.3] transition-all duration-slow group-hover:brightness-[0.5] group-hover:saturate-100"
                 style={{ backgroundImage: "url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&q=80')" }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+              <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
               <Stack gap={1} className="relative z-10">
                 <Compass className="size-5 text-accent" />
                 <Label size="xs" className="tracking-label text-white">ADVENTURES</Label>
@@ -268,11 +270,11 @@ export default function MembershipLandingPage() {
             </Card>
             
             <Card inverted className="group relative col-span-2 flex flex-col justify-end overflow-hidden border-2 border-ink-800 p-5">
-              <div 
+              <Box 
                 className="absolute inset-0 bg-cover bg-center brightness-[0.3] saturate-[0.3] transition-all duration-slow group-hover:brightness-[0.5] group-hover:saturate-100"
                 style={{ backgroundImage: "url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&q=80')" }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+              <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
               <Stack gap={1} className="relative z-10">
                 <Palette className="size-5 text-accent" />
                 <Label size="xs" className="tracking-label text-white">CULTURE</Label>
@@ -280,11 +282,11 @@ export default function MembershipLandingPage() {
             </Card>
 
             <Card inverted className="group relative row-span-2 flex flex-col justify-end overflow-hidden border-2 border-ink-800 p-5">
-              <div 
+              <Box 
                 className="absolute inset-0 bg-cover bg-center brightness-[0.3] saturate-[0.3] transition-all duration-slow group-hover:brightness-[0.5] group-hover:saturate-100"
                 style={{ backgroundImage: "url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600&q=80')" }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+              <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
               <Stack gap={1} className="relative z-10">
                 <Target className="size-5 text-accent" />
                 <Label size="xs" className="tracking-label text-white">DISCIPLINE</Label>
@@ -292,11 +294,11 @@ export default function MembershipLandingPage() {
             </Card>
             
             <Card inverted className="group relative col-span-2 row-span-2 flex flex-col justify-end overflow-hidden border-2 border-ink-800 p-5">
-              <div 
+              <Box 
                 className="absolute inset-0 bg-cover bg-center brightness-[0.3] saturate-[0.3] transition-all duration-slow group-hover:brightness-[0.5] group-hover:saturate-100"
                 style={{ backgroundImage: "url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80')" }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+              <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
               <Stack gap={1} className="relative z-10">
                 <Handshake className="size-5 text-accent" />
                 <Label size="xs" className="tracking-label text-white">COLLABORATION</Label>
@@ -304,11 +306,11 @@ export default function MembershipLandingPage() {
             </Card>
             
             <Card inverted className="group relative flex flex-col justify-end overflow-hidden border-2 border-ink-800 p-5">
-              <div 
+              <Box 
                 className="absolute inset-0 bg-cover bg-center brightness-[0.3] saturate-[0.3] transition-all duration-slow group-hover:brightness-[0.5] group-hover:saturate-100"
                 style={{ backgroundImage: "url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80')" }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+              <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
               <Stack gap={1} className="relative z-10">
                 <Lightbulb className="size-5 text-accent" />
                 <Label size="xs" className="tracking-label text-white">INSPIRATION</Label>
@@ -316,11 +318,11 @@ export default function MembershipLandingPage() {
             </Card>
             
             <Card inverted className="group relative flex flex-col justify-end overflow-hidden border-2 border-ink-800 p-5">
-              <div 
+              <Box 
                 className="absolute inset-0 bg-cover bg-center brightness-[0.3] saturate-[0.3] transition-all duration-slow group-hover:brightness-[0.5] group-hover:saturate-100"
                 style={{ backgroundImage: "url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&q=80')" }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+              <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
               <Stack gap={1} className="relative z-10">
                 <TrendingUp className="size-5 text-accent" />
                 <Label size="xs" className="tracking-label text-white">INVESTMENT</Label>
@@ -328,17 +330,17 @@ export default function MembershipLandingPage() {
             </Card>
 
             <Card inverted className="group relative col-span-2 flex flex-col justify-end overflow-hidden border-2 border-ink-800 p-5">
-              <div 
+              <Box 
                 className="absolute inset-0 bg-cover bg-center brightness-[0.3] saturate-[0.3] transition-all duration-slow group-hover:brightness-[0.5] group-hover:saturate-100"
                 style={{ backgroundImage: "url('https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=800&q=80')" }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+              <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
               <Stack gap={1} className="relative z-10">
                 <Heart className="size-5 text-accent" />
                 <Label size="xs" className="tracking-label text-white">IMPACT</Label>
               </Stack>
             </Card>
-          </div>
+          </Grid>
         </StaggerChildren>
       </Stack>
 
@@ -366,9 +368,9 @@ export default function MembershipLandingPage() {
                 className="border-2 border-ink-800 bg-ink-950 p-8"
               >
                 <Stack gap={4}>
-                  <div className="flex size-12 items-center justify-center border-2 border-ink-700 bg-ink-900">
+                  <IconBox size="md" inverted>
                     <benefit.icon className="size-6 text-accent" />
-                  </div>
+                  </IconBox>
                   <H3 size="sm" className="text-white">{benefit.title}</H3>
                   <Body size="sm" className="text-on-dark-muted">
                     {benefit.description}
@@ -404,14 +406,14 @@ export default function MembershipLandingPage() {
                 className="border-2 border-ink-800 bg-ink-950 p-6 text-center"
               >
                 <Stack gap={4} className="items-center">
-                  <div className="relative">
-                    <div className="flex size-16 items-center justify-center border-2 border-ink-700 bg-ink-900">
+                  <Box className="relative">
+                    <IconBox size="lg" inverted>
                       <item.icon className="size-8 text-accent" />
-                    </div>
+                    </IconBox>
                     <Label size="xs" className="absolute -right-2 -top-2 flex size-6 items-center justify-center bg-accent text-black">
                       {item.step}
                     </Label>
-                  </div>
+                  </Box>
                   <H3 size="sm" className="text-white">{item.title}</H3>
                   <Body size="sm" className="text-on-dark-muted">
                     {item.description}
@@ -459,10 +461,10 @@ export default function MembershipLandingPage() {
                 <Stack gap={6} className="flex-1">
                   <H3 className="text-white">{tier.name}</H3>
                   
-                  <div className="flex items-baseline gap-1">
+                  <Stack direction="horizontal" gap={1} className="items-baseline">
                     <Display size="md" className="text-white">{tier.price}</Display>
                     <Label size="sm" className="text-on-dark-muted">{tier.period}</Label>
-                  </div>
+                  </Stack>
                   
                   <Body size="sm" className="text-on-dark-muted">
                     {tier.description}
@@ -538,7 +540,7 @@ export default function MembershipLandingPage() {
           SECTION 9: FINAL CTA
           ═══════════════════════════════════════════════════════════════════════════ */}
       <Stack className="relative overflow-hidden border-t border-ink-900 py-32">
-        <div
+        <Box
           className="pointer-events-none absolute inset-0 opacity-[0.02]"
           style={{
             backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)",

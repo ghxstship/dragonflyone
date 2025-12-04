@@ -448,7 +448,7 @@ export default function CashlessPaymentPage() {
           {selectedTerminal && (
             <Stack gap={4}>
               <Stack direction="horizontal" className="justify-between">
-                <Body className="font-bold text-h6-md">{selectedTerminal.name}</Body>
+                <Body className="font-weight-bold text-h6-md">{selectedTerminal.name}</Body>
                 {getStatusBadge(selectedTerminal.status)}
               </Stack>
               <Grid cols={2} gap={4}>
@@ -462,11 +462,11 @@ export default function CashlessPaymentPage() {
                 </Stack>
                 <Stack gap={1}>
                   <Label className="text-ink-500">Transactions Today</Label>
-                  <Body className="font-bold">{selectedTerminal.transactions_today}</Body>
+                  <Body className="font-weight-bold">{selectedTerminal.transactions_today}</Body>
                 </Stack>
                 <Stack gap={1}>
                   <Label className="text-ink-500">Revenue Today</Label>
-                  <Body className="font-bold text-success-600">${selectedTerminal.revenue_today.toLocaleString()}</Body>
+                  <Body className="font-weight-bold text-success-600">${selectedTerminal.revenue_today.toLocaleString()}</Body>
                 </Stack>
               </Grid>
               <Stack gap={2}>

@@ -124,7 +124,7 @@ export default function TicketTrackingPage() {
         <Stack key={index} direction="horizontal" gap={4} className="relative pb-6 last:pb-0">
           <Stack className="items-center">
             <Stack
-              className={`w-8 h-8 rounded-full flex items-center justify-center ${
+              className={`w-8 h-8 rounded-avatar flex items-center justify-center ${
                 step.status === 'completed' ? 'bg-success-500' :
                 step.status === 'current' ? 'bg-info-500' : 'bg-ink-300'
               }`}
@@ -132,9 +132,9 @@ export default function TicketTrackingPage() {
               {step.status === 'completed' ? (
                 <Body className="text-white text-body-sm">✓</Body>
               ) : step.status === 'current' ? (
-                <Stack className="w-3 h-3 bg-white rounded-full" />
+                <Stack className="w-3 h-3 bg-white rounded-avatar" />
               ) : (
-                <Stack className="w-3 h-3 bg-ink-400 rounded-full" />
+                <Stack className="w-3 h-3 bg-ink-400 rounded-avatar" />
               )}
             </Stack>
             {index < steps.length - 1 && (
@@ -146,7 +146,7 @@ export default function TicketTrackingPage() {
             )}
           </Stack>
           <Stack className="flex-1 pb-4">
-            <Body className={`font-medium ${step.status === 'pending' ? 'text-ink-600' : ''}`}>
+            <Body className={`font-weight-medium ${step.status === 'pending' ? 'text-ink-600' : ''}`}>
               {step.title}
             </Body>
             <Body className={`text-body-sm ${step.status === 'pending' ? 'text-ink-600' : 'text-ink-600'}`}>

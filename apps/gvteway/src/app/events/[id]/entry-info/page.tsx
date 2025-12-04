@@ -142,7 +142,7 @@ export default function EntryInfoPage() {
                   <Stack key={index} className="p-4 border border-ink-200 rounded">
                     <Stack direction="horizontal" className="justify-between items-start">
                       <Stack>
-                        <Body className="font-bold">{gate.name}</Body>
+                        <Body className="font-weight-bold">{gate.name}</Body>
                         <Body className="text-ink-600">{gate.location}</Body>
                       </Stack>
                       {gate.recommended_for && (
@@ -192,7 +192,7 @@ export default function EntryInfoPage() {
                     <Stack key={index} className="p-4 border border-ink-200 rounded">
                       <Stack direction="horizontal" className="justify-between">
                         <Stack>
-                          <Body className="font-bold">{lot.name}</Body>
+                          <Body className="font-weight-bold">{lot.name}</Body>
                           <Body className="text-ink-600 text-body-sm">{lot.address}</Body>
                         </Stack>
                         {lot.price && <Badge>{lot.price}</Badge>}
@@ -238,7 +238,7 @@ export default function EntryInfoPage() {
                 <Stack gap={4}>
                   {info.faq.map((item, index) => (
                     <Stack key={index} className="pb-4 border-b border-ink-200 last:border-0">
-                      <Body className="font-bold mb-2">{item.question}</Body>
+                      <Body className="font-weight-bold mb-2">{item.question}</Body>
                       <Body className="text-ink-600">{item.answer}</Body>
                     </Stack>
                   ))}

@@ -139,7 +139,7 @@ export default function ABTestingPage() {
                 <Stack gap={4}>
                   <Stack direction="horizontal" className="justify-between">
                     <Stack gap={1}>
-                      <Body className="font-bold">{test.name}</Body>
+                      <Body className="font-weight-bold">{test.name}</Body>
                       <Stack direction="horizontal" gap={2}>
                         <Badge variant="outline">{test.type}</Badge>
                         <Label className={getStatusColor(test.status)}>{test.status}</Label>
@@ -160,7 +160,7 @@ export default function ABTestingPage() {
                     {test.variants.map((variant, idx) => (
                       <Card key={idx} className={`p-4 border ${test.winner === variant.name ? "border-success-500 bg-success-50" : "border-ink-200"}`}>
                         <Stack gap={3}>
-                          <Label className="font-medium">{variant.name}</Label>
+                          <Label className="font-weight-medium">{variant.name}</Label>
                           <Grid cols={3} gap={2}>
                             <Stack gap={0}>
                               <Label className="font-mono">{variant.visitors.toLocaleString()}</Label>
@@ -206,7 +206,7 @@ export default function ABTestingPage() {
         <ModalBody>
           {selectedTest && (
             <Stack gap={4}>
-              <Body className="font-bold">{selectedTest.name}</Body>
+              <Body className="font-weight-bold">{selectedTest.name}</Body>
               <Stack direction="horizontal" gap={2}>
                 <Badge variant="outline">{selectedTest.type}</Badge>
                 <Label className={getStatusColor(selectedTest.status)}>{selectedTest.status}</Label>

@@ -114,7 +114,7 @@ export default function TicketTransferContent() {
       <Section className="min-h-screen bg-white">
         <Container>
           <Stack className="items-center justify-center min-h-[60vh]" gap={6}>
-            <Stack className="w-24 h-24 bg-black rounded-full items-center justify-center">
+            <Stack className="w-24 h-24 bg-black rounded-avatar items-center justify-center">
               <Body className="text-white text-h3-md">✓</Body>
             </Stack>
             <Display>TRANSFER COMPLETE</Display>
@@ -175,7 +175,7 @@ export default function TicketTransferContent() {
                             )}
                           </Stack>
                         </Stack>
-                        <Stack className={`w-6 h-6 rounded-full border-2 ${
+                        <Stack className={`w-6 h-6 rounded-avatar border-2 ${
                           selectedTicket === ticket.id 
                             ? 'border-black bg-black' 
                             : 'border-ink-300'

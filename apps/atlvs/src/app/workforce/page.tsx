@@ -10,6 +10,8 @@ import {
   RecordFormModal,
   DetailDrawer,
   ConfirmDialog,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -159,15 +161,15 @@ export default function WorkforcePage() {
       id: 'overview',
       title: 'Employee Details',
       content: (
-        <div className="grid grid-cols-2 gap-4">
-          <div><strong>Name:</strong> {selectedEmployee.full_name}</div>
-          <div><strong>Email:</strong> {selectedEmployee.email}</div>
-          <div><strong>Phone:</strong> {selectedEmployee.phone || '—'}</div>
-          <div><strong>Role:</strong> {selectedEmployee.role || '—'}</div>
-          <div><strong>Department:</strong> {selectedEmployee.department || '—'}</div>
-          <div><strong>Status:</strong> {selectedEmployee.status}</div>
-          <div><strong>Hire Date:</strong> {selectedEmployee.hire_date ? new Date(selectedEmployee.hire_date).toLocaleDateString() : '—'}</div>
-        </div>
+        <Grid cols={2} gap={4}>
+          <Body size="sm"><strong>Name:</strong> {selectedEmployee.full_name}</Body>
+          <Body size="sm"><strong>Email:</strong> {selectedEmployee.email}</Body>
+          <Body size="sm"><strong>Phone:</strong> {selectedEmployee.phone || '—'}</Body>
+          <Body size="sm"><strong>Role:</strong> {selectedEmployee.role || '—'}</Body>
+          <Body size="sm"><strong>Department:</strong> {selectedEmployee.department || '—'}</Body>
+          <Body size="sm"><strong>Status:</strong> {selectedEmployee.status}</Body>
+          <Body size="sm"><strong>Hire Date:</strong> {selectedEmployee.hire_date ? new Date(selectedEmployee.hire_date).toLocaleDateString() : '—'}</Body>
+        </Grid>
       ),
     },
   ] : [];

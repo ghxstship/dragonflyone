@@ -10,6 +10,8 @@ import {
   RecordFormModal,
   DetailDrawer,
   ConfirmDialog,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -175,16 +177,16 @@ export default function ProcurementPage() {
       id: 'overview',
       title: 'Purchase Order Details',
       content: (
-        <div className="grid grid-cols-2 gap-4">
-          <div><strong>PO Number:</strong> {selectedPO.id}</div>
-          <div><strong>Vendor:</strong> {selectedPO.vendor}</div>
-          <div><strong>Description:</strong> {selectedPO.description}</div>
-          <div><strong>Category:</strong> {selectedPO.category}</div>
-          <div><strong>Amount:</strong> {formatCurrency(selectedPO.amount)}</div>
-          <div><strong>Status:</strong> {selectedPO.status.toUpperCase()}</div>
-          <div><strong>Requested By:</strong> {selectedPO.requestedBy || selectedPO.requested_by || '—'}</div>
-          <div><strong>Due Date:</strong> {selectedPO.dueDate || selectedPO.due_date ? new Date(selectedPO.dueDate || selectedPO.due_date || '').toLocaleDateString() : '—'}</div>
-        </div>
+        <Grid cols={2} gap={4}>
+          <Body size="sm"><strong>PO Number:</strong> {selectedPO.id}</Body>
+          <Body size="sm"><strong>Vendor:</strong> {selectedPO.vendor}</Body>
+          <Body size="sm"><strong>Description:</strong> {selectedPO.description}</Body>
+          <Body size="sm"><strong>Category:</strong> {selectedPO.category}</Body>
+          <Body size="sm"><strong>Amount:</strong> {formatCurrency(selectedPO.amount)}</Body>
+          <Body size="sm"><strong>Status:</strong> {selectedPO.status.toUpperCase()}</Body>
+          <Body size="sm"><strong>Requested By:</strong> {selectedPO.requestedBy || selectedPO.requested_by || '—'}</Body>
+          <Body size="sm"><strong>Due Date:</strong> {selectedPO.dueDate || selectedPO.due_date ? new Date(selectedPO.dueDate || selectedPO.due_date || '').toLocaleDateString() : '—'}</Body>
+        </Grid>
       ),
     },
   ] : [];

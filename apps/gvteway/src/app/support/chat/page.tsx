@@ -188,7 +188,7 @@ function SupportChatContent() {
                     onClick={() => setActiveConversation(conv)}
                   >
                     <Stack direction="horizontal" className="justify-between items-start mb-2">
-                      <Body className={`font-medium ${
+                      <Body className={`font-weight-medium ${
                         activeConversation?.id === conv.id ? 'text-white' : ''
                       }`}>
                         {conv.subject}

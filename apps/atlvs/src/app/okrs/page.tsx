@@ -9,6 +9,9 @@ import {
   Badge,
   DetailDrawer,
   RecordFormModal,
+  Grid,
+  Stack,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -108,23 +111,23 @@ export default function OKRsPage() {
 
   const detailSections: DetailSection[] = selectedOKR ? [
     { id: 'overview', title: 'OKR Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>ID:</strong> {selectedOKR.id}</div>
-        <div><strong>Owner:</strong> {selectedOKR.owner}</div>
-        <div className="col-span-2"><strong>Objective:</strong> {selectedOKR.objective}</div>
-        <div><strong>Progress:</strong> {selectedOKR.progress}%</div>
-        <div><strong>Status:</strong> {selectedOKR.progress >= 70 ? 'On Track' : selectedOKR.progress >= 50 ? 'In Progress' : 'At Risk'}</div>
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>ID:</strong> {selectedOKR.id}</Body>
+        <Body size="sm"><strong>Owner:</strong> {selectedOKR.owner}</Body>
+        <Body size="sm" className="col-span-2"><strong>Objective:</strong> {selectedOKR.objective}</Body>
+        <Body size="sm"><strong>Progress:</strong> {selectedOKR.progress}%</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedOKR.progress >= 70 ? 'On Track' : selectedOKR.progress >= 50 ? 'In Progress' : 'At Risk'}</Body>
+      </Grid>
     )},
     { id: 'keyResults', title: 'Key Results', content: (
-      <div className="space-y-3">
+      <Stack gap={3}>
         {selectedOKR.keyResults.map((kr, idx) => (
-          <div key={idx} className="flex items-center justify-between border-l-2 border-grey-300 py-2 pl-4">
-            <span>{kr.kr}</span>
+          <Stack key={idx} direction="horizontal" className="items-center justify-between border-l-2 border-grey-300 py-2 pl-4">
+            <Body size="sm">{kr.kr}</Body>
             <Badge variant={getProgressVariant(kr.progress)}>{kr.progress}%</Badge>
-          </div>
+          </Stack>
         ))}
-      </div>
+      </Stack>
     )},
   ] : [];
 

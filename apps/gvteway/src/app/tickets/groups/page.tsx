@@ -101,7 +101,7 @@ export default function GroupTicketsPage() {
                       <TableRow key={group.id}>
                         <TableCell>
                           <Stack gap={0}>
-                            <Label className="font-medium">{group.organizerName}</Label>
+                            <Label className="font-weight-medium">{group.organizerName}</Label>
                             <Label className="text-ink-500">{group.organizerEmail}</Label>
                           </Stack>
                         </TableCell>
@@ -150,7 +150,7 @@ export default function GroupTicketsPage() {
                         <Grid cols={4} gap={4} className="items-center">
                           <Stack gap={1}>
                             <Label className="text-ink-500">Group Size</Label>
-                            <Label className="font-bold">{tier.min} - {tier.max || "∞"} tickets</Label>
+                            <Label className="font-weight-bold">{tier.min} - {tier.max || "∞"} tickets</Label>
                           </Stack>
                           <Stack gap={1}>
                             <Label className="text-ink-500">Discount</Label>
@@ -177,15 +177,15 @@ export default function GroupTicketsPage() {
                   <Grid cols={2} gap={6}>
                     <Stack gap={4}>
                       <Stack gap={2}>
-                        <Label className="font-bold">Minimum Group Size</Label>
+                        <Label className="font-weight-bold">Minimum Group Size</Label>
                         <Input type="number" defaultValue={10} className="border-2 border-black" />
                       </Stack>
                       <Stack gap={2}>
-                        <Label className="font-bold">Maximum Group Size</Label>
+                        <Label className="font-weight-bold">Maximum Group Size</Label>
                         <Input type="number" defaultValue={500} className="border-2 border-black" />
                       </Stack>
                       <Stack gap={2}>
-                        <Label className="font-bold">Registration Deadline</Label>
+                        <Label className="font-weight-bold">Registration Deadline</Label>
                         <Select className="border-2 border-black">
                           <option value="7">7 days before event</option>
                           <option value="14">14 days before event</option>
@@ -195,7 +195,7 @@ export default function GroupTicketsPage() {
                     </Stack>
                     <Stack gap={4}>
                       <Stack gap={2}>
-                        <Label className="font-bold">Organizer Features</Label>
+                        <Label className="font-weight-bold">Organizer Features</Label>
                         <Stack gap={1}>
                           {["Allow organizer to collect attendee info", "Send registration link to organizer", "Allow partial payments", "Enable attendee self-registration", "Send reminders to unregistered attendees"].map((opt, idx) => (
                             <Stack key={idx} direction="horizontal" gap={2}>
@@ -221,7 +221,7 @@ export default function GroupTicketsPage() {
           {selectedGroup && (
             <Stack gap={4}>
               <Stack gap={1}>
-                <Body className="font-bold">{selectedGroup.organizerName}</Body>
+                <Body className="font-weight-bold">{selectedGroup.organizerName}</Body>
                 <Label className="text-ink-500">{selectedGroup.organizerEmail}</Label>
               </Stack>
               <Stack gap={1}>

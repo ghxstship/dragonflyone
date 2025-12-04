@@ -186,7 +186,7 @@ export default function CalendarPage() {
                           <Badge
                             key={event.id}
                             variant={selectedDate?.toDateString() === day.date.toDateString() ? 'outline' : 'solid'}
-                            className="truncate text-xs"
+                            className="truncate text-mono-xs"
                           >
                             {event.title}
                           </Badge>

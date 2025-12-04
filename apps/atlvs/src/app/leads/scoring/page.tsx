@@ -295,7 +295,7 @@ export default function LeadScoringPage() {
                   <TableRow key={lead.id}>
                     <TableCell>
                       <Stack gap={1}>
-                        <Body className="font-bold">{lead.company}</Body>
+                        <Body className="font-weight-bold">{lead.company}</Body>
                         <Label className="text-ink-500">{lead.contact_name} • {lead.contact_title}</Label>
                       </Stack>
                     </TableCell>
@@ -309,7 +309,7 @@ export default function LeadScoringPage() {
                       <Badge variant="outline" className="capitalize">{lead.source.replace('_', ' ')}</Badge>
                     </TableCell>
                     <TableCell>
-                      <Body className="font-bold">${lead.estimated_value.toLocaleString()}</Body>
+                      <Body className="font-weight-bold">${lead.estimated_value.toLocaleString()}</Body>
                     </TableCell>
                     <TableCell>
                       <Label className="text-ink-500">
@@ -346,7 +346,7 @@ export default function LeadScoringPage() {
                       <Card key={rule.id} className={`p-4 border ${!rule.is_active ? 'opacity-50' : ''}`}>
                         <Stack direction="horizontal" className="justify-between items-center">
                           <Stack gap={1}>
-                            <Body className="font-bold">{rule.name}</Body>
+                            <Body className="font-weight-bold">{rule.name}</Body>
                             <Label className="text-ink-500 font-mono">{rule.condition}</Label>
                           </Stack>
                           <Stack direction="horizontal" gap={4} className="items-center">
@@ -379,15 +379,15 @@ export default function LeadScoringPage() {
                 <Stack gap={2}>
                   <Stack direction="horizontal" className="justify-between">
                     <Body>Hot (80+)</Body>
-                    <Body className="font-bold">{leads.filter(l => l.score >= 80).length} leads</Body>
+                    <Body className="font-weight-bold">{leads.filter(l => l.score >= 80).length} leads</Body>
                   </Stack>
                   <Stack direction="horizontal" className="justify-between">
                     <Body>Warm (50-79)</Body>
-                    <Body className="font-bold">{leads.filter(l => l.score >= 50 && l.score < 80).length} leads</Body>
+                    <Body className="font-weight-bold">{leads.filter(l => l.score >= 50 && l.score < 80).length} leads</Body>
                   </Stack>
                   <Stack direction="horizontal" className="justify-between">
                     <Body>Cold (&lt;50)</Body>
-                    <Body className="font-bold">{leads.filter(l => l.score < 50).length} leads</Body>
+                    <Body className="font-weight-bold">{leads.filter(l => l.score < 50).length} leads</Body>
                   </Stack>
                 </Stack>
               </Stack>
@@ -398,19 +398,19 @@ export default function LeadScoringPage() {
                 <Stack gap={2}>
                   <Stack direction="horizontal" className="justify-between">
                     <Body>Unqualified</Body>
-                    <Body className="font-bold">{leads.filter(l => l.qualification_status === 'unqualified').length}</Body>
+                    <Body className="font-weight-bold">{leads.filter(l => l.qualification_status === 'unqualified').length}</Body>
                   </Stack>
                   <Stack direction="horizontal" className="justify-between">
                     <Body>MQL</Body>
-                    <Body className="font-bold">{leads.filter(l => l.qualification_status === 'mql').length}</Body>
+                    <Body className="font-weight-bold">{leads.filter(l => l.qualification_status === 'mql').length}</Body>
                   </Stack>
                   <Stack direction="horizontal" className="justify-between">
                     <Body>SQL</Body>
-                    <Body className="font-bold">{leads.filter(l => l.qualification_status === 'sql').length}</Body>
+                    <Body className="font-weight-bold">{leads.filter(l => l.qualification_status === 'sql').length}</Body>
                   </Stack>
                   <Stack direction="horizontal" className="justify-between">
                     <Body>Opportunity</Body>
-                    <Body className="font-bold">{leads.filter(l => l.qualification_status === 'opportunity').length}</Body>
+                    <Body className="font-weight-bold">{leads.filter(l => l.qualification_status === 'opportunity').length}</Body>
                   </Stack>
                 </Stack>
               </Stack>
@@ -427,7 +427,7 @@ export default function LeadScoringPage() {
                     return (
                       <Stack key={source} direction="horizontal" className="justify-between">
                         <Body className="capitalize">{source.replace('_', ' ')}</Body>
-                        <Body className="font-bold">Avg: {avgSourceScore}</Body>
+                        <Body className="font-weight-bold">Avg: {avgSourceScore}</Body>
                       </Stack>
                     );
                   })}
@@ -440,13 +440,13 @@ export default function LeadScoringPage() {
                 <Stack gap={2}>
                   <Stack direction="horizontal" className="justify-between">
                     <Body>Total Pipeline</Body>
-                    <Body className="font-bold text-h6-md">
+                    <Body className="font-weight-bold text-h6-md">
                       ${leads.reduce((sum, l) => sum + l.estimated_value, 0).toLocaleString()}
                     </Body>
                   </Stack>
                   <Stack direction="horizontal" className="justify-between">
                     <Body>Hot Leads Value</Body>
-                    <Body className="font-bold text-success-600">
+                    <Body className="font-weight-bold text-success-600">
                       ${leads.filter(l => l.score >= 80).reduce((sum, l) => sum + l.estimated_value, 0).toLocaleString()}
                     </Body>
                   </Stack>
@@ -531,19 +531,19 @@ export default function LeadScoringPage() {
                   <Grid cols={2} gap={4}>
                     <Stack gap={1}>
                       <Label className="text-ink-500">Demographic</Label>
-                      <Body className="font-bold">{selectedLead.score_breakdown.demographic} pts</Body>
+                      <Body className="font-weight-bold">{selectedLead.score_breakdown.demographic} pts</Body>
                     </Stack>
                     <Stack gap={1}>
                       <Label className="text-ink-500">Behavioral</Label>
-                      <Body className="font-bold">{selectedLead.score_breakdown.behavioral} pts</Body>
+                      <Body className="font-weight-bold">{selectedLead.score_breakdown.behavioral} pts</Body>
                     </Stack>
                     <Stack gap={1}>
                       <Label className="text-ink-500">Engagement</Label>
-                      <Body className="font-bold">{selectedLead.score_breakdown.engagement} pts</Body>
+                      <Body className="font-weight-bold">{selectedLead.score_breakdown.engagement} pts</Body>
                     </Stack>
                     <Stack gap={1}>
                       <Label className="text-ink-500">Fit</Label>
-                      <Body className="font-bold">{selectedLead.score_breakdown.fit} pts</Body>
+                      <Body className="font-weight-bold">{selectedLead.score_breakdown.fit} pts</Body>
                     </Stack>
                   </Grid>
                 </Stack>
@@ -552,7 +552,7 @@ export default function LeadScoringPage() {
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>
                   <Label className="text-ink-500">Estimated Value</Label>
-                  <Body className="font-bold text-h6-md">${selectedLead.estimated_value.toLocaleString()}</Body>
+                  <Body className="font-weight-bold text-h6-md">${selectedLead.estimated_value.toLocaleString()}</Body>
                 </Stack>
                 <Stack gap={1}>
                   <Label className="text-ink-500">Source</Label>

@@ -14,6 +14,7 @@ import {
   Field,
   ScrollReveal,
   AuthPage,
+  IconBox,
 } from "@ghxstship/ui";
 import NextLink from "next/link";
 import { CreatorNavigationPublic } from "@/components/navigation";
@@ -77,9 +78,9 @@ export default function ResetPasswordPage() {
               {success ? (
                 /* Success State */
                 <Stack gap={6} className="text-center sm:gap-8">
-                  <div className="mx-auto flex size-12 items-center justify-center border-2 border-black/10 bg-grey-100 sm:size-16">
+                  <IconBox size="lg" variant="success" className="mx-auto">
                     <Check className="size-6 text-success sm:size-8" />
-                  </div>
+                  </IconBox>
 
                   <Stack gap={3} className="sm:gap-4">
                     <H2 className="text-black">PASSWORD RESET</H2>
@@ -93,9 +94,9 @@ export default function ResetPasswordPage() {
                 <Stack gap={6} className="sm:gap-8">
                   {/* Header */}
                   <Stack gap={3} className="text-center sm:gap-4">
-                    <div className="mx-auto flex size-12 items-center justify-center border-2 border-black/10 bg-grey-100 sm:size-16">
+                    <IconBox size="lg" className="mx-auto">
                       <KeyRound className="size-6 text-black sm:size-8" />
-                    </div>
+                    </IconBox>
                     <H2 className="text-black">NEW PASSWORD</H2>
                     <Body size="sm" className="text-muted">
                       Enter your new password below.

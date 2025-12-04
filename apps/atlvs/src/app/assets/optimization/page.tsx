@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Eye, Check, X } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
-  ListPage, Badge, DetailDrawer,
+  ListPage, Badge, DetailDrawer, Grid, Stack, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
 } from '@ghxstship/ui';
 import { getBadgeVariant } from '@ghxstship/config';
@@ -84,26 +84,26 @@ export default function AssetOptimizationPage() {
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Recommendation Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Asset:</strong> {selected.asset_name}</div>
-        <div><strong>Category:</strong> {selected.category}</div>
-        <div><strong>Type:</strong> {selected.type.replace('_', ' ')}</div>
-        <div><strong>Priority:</strong> {selected.priority}</div>
-        <div><strong>Current Utilization:</strong> {selected.current_utilization}%</div>
-        <div><strong>Target Utilization:</strong> {selected.target_utilization}%</div>
-        <div><strong>Potential Savings:</strong> {formatCurrency(selected.potential_savings)}</div>
-        <div><strong>Status:</strong> {selected.status.replace('_', ' ')}</div>
-        <div className="col-span-2"><strong>Recommendation:</strong> {selected.recommendation}</div>
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Asset:</strong> {selected.asset_name}</Body>
+        <Body size="sm"><strong>Category:</strong> {selected.category}</Body>
+        <Body size="sm"><strong>Type:</strong> {selected.type.replace('_', ' ')}</Body>
+        <Body size="sm"><strong>Priority:</strong> {selected.priority}</Body>
+        <Body size="sm"><strong>Current Utilization:</strong> {selected.current_utilization}%</Body>
+        <Body size="sm"><strong>Target Utilization:</strong> {selected.target_utilization}%</Body>
+        <Body size="sm"><strong>Potential Savings:</strong> {formatCurrency(selected.potential_savings)}</Body>
+        <Body size="sm"><strong>Status:</strong> {selected.status.replace('_', ' ')}</Body>
+        <Body size="sm" className="col-span-2"><strong>Recommendation:</strong> {selected.recommendation}</Body>
+      </Grid>
     )},
     { id: 'actions', title: 'Action Items', content: (
-      <div>
+      <Stack>
         {selected.action_items.map((item, idx) => (
-          <div key={idx} className="py-2 border-b border-ink-700">
+          <Body key={idx} size="sm" className="border-b border-ink-700 py-2">
             {idx + 1}. {item}
-          </div>
+          </Body>
         ))}
-      </div>
+      </Stack>
     )},
   ] : [];
 

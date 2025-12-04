@@ -76,7 +76,7 @@ export default function ModeratePage() {
                   <Body size="sm">{item.timestamp}</Body>
                 </Stack>
                 <Stack gap={2} className="col-span-2">
-                  <Body className="font-bold">{item.eventName}</Body>
+                  <Body className="font-weight-bold">{item.eventName}</Body>
                   <Body size="sm">By: {item.author}</Body>
                   <Body>{item.content}</Body>
                 </Stack>

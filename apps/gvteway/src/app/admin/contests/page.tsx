@@ -8,6 +8,8 @@ import {
   Badge,
   RecordFormModal,
   DetailDrawer,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -125,19 +127,19 @@ export default function ContestsPage() {
 
   const detailSections: DetailSection[] = selectedContest ? [
     { id: 'overview', title: 'Contest Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Name:</strong> {selectedContest.name}</div>
-        <div><strong>Type:</strong> {selectedContest.type}</div>
-        <div><strong>Status:</strong> {selectedContest.status}</div>
-        <div><strong>Event:</strong> {selectedContest.eventName || '—'}</div>
-        <div><strong>Prize:</strong> {selectedContest.prize}</div>
-        <div><strong>Value:</strong> ${selectedContest.prizeValue.toLocaleString()}</div>
-        <div><strong>Entries:</strong> {selectedContest.entries.toLocaleString()}</div>
-        <div><strong>Platforms:</strong> {selectedContest.platforms.join(', ')}</div>
-        <div><strong>Start:</strong> {selectedContest.startDate}</div>
-        <div><strong>End:</strong> {selectedContest.endDate}</div>
-        {selectedContest.winnerName && <div className="col-span-2"><strong>Winner:</strong> {selectedContest.winnerName}</div>}
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Name:</strong> {selectedContest.name}</Body>
+        <Body size="sm"><strong>Type:</strong> {selectedContest.type}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedContest.status}</Body>
+        <Body size="sm"><strong>Event:</strong> {selectedContest.eventName || '—'}</Body>
+        <Body size="sm"><strong>Prize:</strong> {selectedContest.prize}</Body>
+        <Body size="sm"><strong>Value:</strong> ${selectedContest.prizeValue.toLocaleString()}</Body>
+        <Body size="sm"><strong>Entries:</strong> {selectedContest.entries.toLocaleString()}</Body>
+        <Body size="sm"><strong>Platforms:</strong> {selectedContest.platforms.join(', ')}</Body>
+        <Body size="sm"><strong>Start:</strong> {selectedContest.startDate}</Body>
+        <Body size="sm"><strong>End:</strong> {selectedContest.endDate}</Body>
+        {selectedContest.winnerName && <Body size="sm" className="col-span-2"><strong>Winner:</strong> {selectedContest.winnerName}</Body>}
+      </Grid>
     )},
   ] : [];
 

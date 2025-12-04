@@ -57,10 +57,10 @@ export function TicketCard({
 
         <Stack gap={2}>
           <Body className="text-body-sm">
-            <Label className="font-bold">Type:</Label> {ticketType}
+            <Label className="font-weight-bold">Type:</Label> {ticketType}
           </Body>
           <Body className="text-body-sm">
-            <Label className="font-bold">Quantity:</Label> {quantity}
+            <Label className="font-weight-bold">Quantity:</Label> {quantity}
           </Body>
           <Body className="text-mono-xs text-ink-500">ID: {id}</Body>
         </Stack>

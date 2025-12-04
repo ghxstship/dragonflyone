@@ -292,8 +292,8 @@ export default function OrderHistoryPage() {
                         <Body className="font-mono">${order.tax.toFixed(2)}</Body>
                       </Stack>
                       <Stack direction="horizontal" className="justify-between pt-2 border-t border-ink-300">
-                        <Body className="font-bold">Total</Body>
-                        <Body className="font-mono font-bold">${order.total.toFixed(2)}</Body>
+                        <Body className="font-weight-bold">Total</Body>
+                        <Body className="font-mono font-weight-bold">${order.total.toFixed(2)}</Body>
                       </Stack>
                     </Stack>
 

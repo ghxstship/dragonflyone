@@ -97,7 +97,7 @@ export default function ShoppablePostsPage() {
                     </Card>
                     <Stack className="p-4" gap={3}>
                       <Stack direction="horizontal" className="justify-between">
-                        <Label className="font-bold">{post.creator}</Label>
+                        <Label className="font-weight-bold">{post.creator}</Label>
                         <Label className="text-ink-500">❤️ {post.likes.toLocaleString()}</Label>
                       </Stack>
                       <Body className="text-ink-600 line-clamp-2">{post.caption}</Body>
@@ -112,7 +112,7 @@ export default function ShoppablePostsPage() {
                                   <Label>🛍️</Label>
                                 </Card>
                                 <Label size="xs" className="truncate">{product.name}</Label>
-                                <Label size="xs" className="font-bold">${product.price}</Label>
+                                <Label size="xs" className="font-weight-bold">${product.price}</Label>
                               </Stack>
                             </Card>
                           ))}
@@ -141,14 +141,14 @@ export default function ShoppablePostsPage() {
               </Card>
               <Stack direction="horizontal" className="justify-between">
                 <Stack gap={1}>
-                  <Label className="font-bold">{selectedPost.creator}</Label>
+                  <Label className="font-weight-bold">{selectedPost.creator}</Label>
                   <Badge variant="outline">{selectedPost.platform}</Badge>
                 </Stack>
                 <Label>❤️ {selectedPost.likes.toLocaleString()}</Label>
               </Stack>
               <Body>{selectedPost.caption}</Body>
               <Stack gap={2}>
-                <Label className="font-bold">Products in this post:</Label>
+                <Label className="font-weight-bold">Products in this post:</Label>
                 {selectedPost.products.map((product) => (
                   <Card key={product.id} className="p-3 border border-ink-200">
                     <Stack direction="horizontal" className="justify-between items-center">
@@ -158,7 +158,7 @@ export default function ShoppablePostsPage() {
                         </Card>
                         <Stack gap={1}>
                           <Label>{product.name}</Label>
-                          <Label className="font-bold">${product.price}</Label>
+                          <Label className="font-weight-bold">${product.price}</Label>
                         </Stack>
                       </Stack>
                       <Button variant={product.inStock ? "solid" : "outline"} size="sm" disabled={!product.inStock}>
@@ -184,7 +184,7 @@ export default function ShoppablePostsPage() {
               <Card className="h-48 bg-ink-100 flex items-center justify-center">
                 <Label className="text-h1-sm">🛍️</Label>
               </Card>
-              <Body className="font-bold text-h6-md">{selectedProduct.name}</Body>
+              <Body className="font-weight-bold text-h6-md">{selectedProduct.name}</Body>
               <Label className="font-mono text-h5-md">${selectedProduct.price}</Label>
               <Label className={selectedProduct.inStock ? "text-success-600" : "text-error-600"}>
                 {selectedProduct.inStock ? "In Stock" : "Out of Stock"}

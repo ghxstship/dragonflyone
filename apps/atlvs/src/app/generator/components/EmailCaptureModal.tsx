@@ -121,7 +121,7 @@ export function EmailCaptureModal({
                 </H3>
                 <Body className="text-body-sm text-grey-600">
                   Enter your email to download the complete blueprint for{" "}
-                  <Text className="font-semibold">{blueprint.concept.name}</Text>
+                  <Text className="font-weight-semibold">{blueprint.concept.name}</Text>
                 </Body>
               </Stack>
 

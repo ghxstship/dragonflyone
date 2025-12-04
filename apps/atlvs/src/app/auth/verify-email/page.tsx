@@ -13,6 +13,7 @@ import {
   ScrollReveal,
   LoadingSpinner,
   AuthPage,
+  IconBox,
 } from "@ghxstship/ui";
 import NextLink from "next/link";
 import { CreatorNavigationPublic } from "@/components/navigation";
@@ -29,9 +30,9 @@ function VerifyEmailContent() {
   return (
     <Card className="border-2 border-black/10 bg-white p-6 shadow-md sm:p-8">
       <Stack gap={6} className="text-center sm:gap-8">
-        <div className="mx-auto flex size-12 items-center justify-center border-2 border-black/10 bg-grey-100 sm:size-16">
+        <IconBox size="lg" className="mx-auto">
           <Mail className="size-6 text-black sm:size-8" />
-        </div>
+        </IconBox>
 
         <Stack gap={3} className="sm:gap-4">
           <H2 className="text-black">VERIFY YOUR EMAIL</H2>

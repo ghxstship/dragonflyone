@@ -209,6 +209,12 @@ const accentPalette = {
     800: '#3730A3',
     900: '#312E81',
   },
+  // Brand accent colors
+  brand: {
+    DEFAULT: '#FF006E',
+    pink: '#FF006E',
+    cyan: '#00BFFF',
+  },
 };
 
 const fontFamilies = {
@@ -408,6 +414,20 @@ const shadowTokens = {
   'pop-lg': 'var(--shadow-lg)',
   'pop-primary': 'var(--shadow-primary)',
   'pop-accent': 'var(--shadow-accent)',
+  // Brand shadows - hard offset with brand colors
+  'brand-sm': '3px 3px 0 0 #FF006E',
+  'brand-md': '4px 4px 0 0 #FF006E',
+  'brand-lg': '6px 6px 0 0 #FF006E',
+  'brand-xl': '8px 8px 0 0 #FF006E',
+  'brand-hover': '6px 6px 0 0 #FF006E',
+  'brand-active': '2px 2px 0 0 #FF006E',
+  // Subtle shadows for cards/articles
+  'subtle-sm': '4px 4px 0 0 rgba(0,0,0,0.1)',
+  'subtle-md': '4px 4px 0 0 rgba(0,0,0,0.15)',
+  'subtle-lg': '6px 6px 0 0 rgba(0,0,0,0.2)',
+  // Brand glow shadows (semi-transparent brand color)
+  'brand-glow': '4px 4px 0 0 rgba(255,0,110,0.4)',
+  'brand-glow-hover': '6px 6px 0 0 rgba(255,0,110,0.5)',
 };
 
 /**
@@ -570,6 +590,7 @@ const baseTailwindConfig = {
         teal: accentPalette.teal,
         violet: accentPalette.violet,
         indigo: accentPalette.indigo,
+        brand: accentPalette.brand,
         // Semantic surface colors (CSS variable-based for theming)
         ...semanticSurfaceColors,
         // Semantic interactive state colors (CSS variable-based for theming)

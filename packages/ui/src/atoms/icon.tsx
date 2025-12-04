@@ -219,3 +219,73 @@ export const Download = forwardRef<SVGSVGElement, Omit<IconProps, "children">>(
     );
   }
 );
+
+// =============================================================================
+// ICON BOX - Container for icons with consistent styling
+// Bold Contemporary Pop Art Adventure Design System
+// =============================================================================
+
+export type IconBoxProps = {
+  /** Size of the icon box */
+  size?: "sm" | "md" | "lg" | "xl";
+  /** Visual variant */
+  variant?: "default" | "success" | "warning" | "error" | "info";
+  /** Whether to use inverted (dark) styling */
+  inverted?: boolean;
+  /** Additional className */
+  className?: string;
+  /** Icon or content to render inside */
+  children: React.ReactNode;
+};
+
+/**
+ * IconBox - A container for icons with consistent border and background styling
+ * 
+ * Features:
+ * - Consistent sizing across the design system
+ * - Bold 2px borders following Pop Art Adventure aesthetic
+ * - Support for semantic color variants
+ * - Inverted mode for dark backgrounds
+ */
+export const IconBox = forwardRef<HTMLDivElement, IconBoxProps>(
+  function IconBox({ size = "md", variant = "default", inverted = false, className, children }, ref) {
+    const sizeClasses = {
+      sm: "size-8",
+      md: "size-10",
+      lg: "size-12 sm:size-16",
+      xl: "size-16 sm:size-20",
+    };
+
+    const variantClasses = {
+      default: inverted 
+        ? "border-ink-700 bg-ink-900" 
+        : "border-ink-200 bg-ink-50",
+      success: inverted 
+        ? "border-success/30 bg-success/10" 
+        : "border-success bg-success/10",
+      warning: inverted 
+        ? "border-warning/30 bg-warning/10" 
+        : "border-warning bg-warning/10",
+      error: inverted 
+        ? "border-error/30 bg-error/10" 
+        : "border-error bg-error/10",
+      info: inverted 
+        ? "border-primary/30 bg-primary/10" 
+        : "border-primary bg-primary/10",
+    };
+
+    return (
+      <div
+        ref={ref}
+        className={clsx(
+          "flex shrink-0 items-center justify-center border-2",
+          sizeClasses[size],
+          variantClasses[variant],
+          className
+        )}
+      >
+        {children}
+      </div>
+    );
+  }
+);

@@ -135,7 +135,7 @@ export default function CheckoutContent() {
           <Stack gap={2} direction="horizontal" className="justify-between">
             {['cart', 'payment', 'confirm'].map((s, idx) => (
               <Stack key={s} gap={2} direction="horizontal" className="flex-1 items-center">
-                <Card className={`flex items-center justify-center w-10 h-10 rounded-full border-2 ${step === s ? 'bg-black text-white border-black' : 'border-ink-300 text-ink-600'}`}>
+                <Card className={`flex items-center justify-center w-10 h-10 rounded-avatar border-2 ${step === s ? 'bg-black text-white border-black' : 'border-ink-300 text-ink-600'}`}>
                   <Body>{idx + 1}</Body>
                 </Card>
                 {idx < 2 && <Card className={`flex-1 h-0.5 ${step !== 'cart' && idx === 0 || step === 'confirm' && idx === 1 ? 'bg-black' : 'bg-ink-300'} mx-2`} />}
@@ -157,7 +157,7 @@ export default function CheckoutContent() {
                           <Body className="text-ink-600">{item.ticket_type_name}</Body>
                           <Body className="text-body-sm text-ink-500">Qty: {item.qty}</Body>
                         </Stack>
-                        <Body className="font-bold">${(item.price * item.qty).toFixed(2)}</Body>
+                        <Body className="font-weight-bold">${(item.price * item.qty).toFixed(2)}</Body>
                       </Stack>
                     ))
                   ) : (
@@ -179,8 +179,8 @@ export default function CheckoutContent() {
                       <Body>${fees.toFixed(2)}</Body>
                     </Stack>
                     <Stack gap={2} direction="horizontal" className="justify-between border-t-2 border-black pt-2">
-                      <Body className="font-bold">Total</Body>
-                      <Body className="font-bold">${total.toFixed(2)}</Body>
+                      <Body className="font-weight-bold">Total</Body>
+                      <Body className="font-weight-bold">${total.toFixed(2)}</Body>
                     </Stack>
                   </Stack>
                   <Button className="w-full" onClick={() => setStep('payment')}>
@@ -262,15 +262,15 @@ export default function CheckoutContent() {
                   <H2 className="mb-4">TOTAL</H2>
                   <Stack gap={2}>
                     <Stack gap={2} direction="horizontal" className="justify-between border-t-2 border-black pt-2">
-                      <Body className="font-bold">Total</Body>
-                      <Body className="font-bold">${total.toFixed(2)}</Body>
+                      <Body className="font-weight-bold">Total</Body>
+                      <Body className="font-weight-bold">${total.toFixed(2)}</Body>
                     </Stack>
                   </Stack>
                 </Card>
                 <Card className="p-6 bg-ink-100">
                   <Stack gap={2} direction="horizontal" className="items-center mb-2">
                     <Lock className="w-4 h-4" />
-                    <Body className="font-bold text-body-sm">SECURE CHECKOUT</Body>
+                    <Body className="font-weight-bold text-body-sm">SECURE CHECKOUT</Body>
                   </Stack>
                   <Body className="text-mono-xs text-ink-600">Your payment information is encrypted and secure</Body>
                 </Card>
@@ -289,14 +289,14 @@ export default function CheckoutContent() {
           {/* Confirmation Step */}
           {step === 'confirm' && (
             <Card className="p-12 text-center">
-              <Card className="w-16 h-16 mx-auto mb-4 rounded-full bg-black flex items-center justify-center">
+              <Card className="w-16 h-16 mx-auto mb-4 rounded-avatar bg-black flex items-center justify-center">
                 <Check className="w-8 h-8 text-white" />
               </Card>
               <Display size="md" className="mb-2">ORDER CONFIRMED!</Display>
               <Body className="text-ink-600 mb-6">Order #{orderId || 'PROCESSING'}</Body>
               <Card className="p-6 bg-ink-50 mb-6">
                 <Body className="mb-4">Tickets have been sent to:</Body>
-                <Body className="font-bold">user@example.com</Body>
+                <Body className="font-weight-bold">user@example.com</Body>
               </Card>
               <Stack gap={4} direction="horizontal" className="justify-center">
                 <Button variant="outline" onClick={() => window.location.href = '/tickets'}>

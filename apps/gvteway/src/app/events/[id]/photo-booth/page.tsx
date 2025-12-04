@@ -95,7 +95,7 @@ export default function PhotoBoothPage() {
                   <Card key={booth.id} className="border-2 border-black overflow-hidden">
                     <Card className="p-4 bg-black text-white">
                       <Stack direction="horizontal" className="justify-between items-center">
-                        <Body className="font-bold">{booth.name}</Body>
+                        <Body className="font-weight-bold">{booth.name}</Body>
                         <Label className={getStatusColor(booth.status)}>{booth.status}</Label>
                       </Stack>
                     </Card>
@@ -187,7 +187,7 @@ export default function PhotoBoothPage() {
         <ModalBody>
           {selectedBooth && (
             <Stack gap={4}>
-              <Body className="font-bold text-body-md">{selectedBooth.name}</Body>
+              <Body className="font-weight-bold text-body-md">{selectedBooth.name}</Body>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}><Label size="xs" className="text-ink-500">Location</Label><Label>{selectedBooth.location}</Label></Stack>
                 <Stack gap={1}><Label size="xs" className="text-ink-500">Status</Label><Label className={getStatusColor(selectedBooth.status)}>{selectedBooth.status}</Label></Stack>

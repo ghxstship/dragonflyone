@@ -10,6 +10,8 @@ import {
   RecordFormModal,
   DetailDrawer,
   ConfirmDialog,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -139,13 +141,13 @@ export default function ContactsPage() {
       id: 'contact',
       title: 'Contact Information',
       content: (
-        <div className="grid grid-cols-2 gap-4">
-          <div><strong>Email:</strong> {selectedContact.email}</div>
-          <div><strong>Phone:</strong> {selectedContact.phone || '—'}</div>
-          <div><strong>Company:</strong> {selectedContact.company || '—'}</div>
-          <div><strong>Title:</strong> {selectedContact.title || '—'}</div>
-          <div><strong>Type:</strong> {selectedContact.type || '—'}</div>
-        </div>
+        <Grid cols={2} gap={4}>
+          <Body size="sm"><strong>Email:</strong> {selectedContact.email}</Body>
+          <Body size="sm"><strong>Phone:</strong> {selectedContact.phone || '—'}</Body>
+          <Body size="sm"><strong>Company:</strong> {selectedContact.company || '—'}</Body>
+          <Body size="sm"><strong>Title:</strong> {selectedContact.title || '—'}</Body>
+          <Body size="sm"><strong>Type:</strong> {selectedContact.type || '—'}</Body>
+        </Grid>
       ),
     },
   ] : [];

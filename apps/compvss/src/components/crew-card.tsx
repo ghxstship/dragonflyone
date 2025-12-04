@@ -16,7 +16,7 @@ export function CrewCard({ member }: CrewCardProps) {
     <Article variant="bordered" className="p-6">
       <Stack direction="horizontal" className="items-start justify-between">
         <Stack>
-          <Label className="font-mono text-mono-xs uppercase tracking-widest text-ink-500">{member.id}</Label>
+          <Label className="font-mono text-mono-xs uppercase tracking-label text-ink-500">{member.id}</Label>
           <H3 className="mt-1 font-display text-h5-md text-white">{member.name}</H3>
           <Body className="mt-1 text-body-sm text-ink-300">{member.role}</Body>
         </Stack>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Body, H3 } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Body, H3, Grid, Box } from "@ghxstship/ui";
 import { Map, MapPin, Navigation, Layers } from "lucide-react";
 import { gvtewayDemoEvents } from "../../../../data/gvteway";
 
@@ -17,7 +17,7 @@ export default function EventMapPage() {
   return (
     <Stack gap={8}>
       <SectionHeader kicker={event.name} title="Venue Map" description="Interactive venue map and points of interest" colorScheme="on-dark" />
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+      <Grid cols={4} gap={4}>
         <Card variant="elevated" inverted>
           <CardBody className="text-center">
             <Stack gap={2} className="items-center">
@@ -50,14 +50,14 @@ export default function EventMapPage() {
             </Stack>
           </CardBody>
         </Card>
-      </div>
+      </Grid>
       <Card variant="elevated" inverted>
         <CardBody>
           <Stack gap={4}>
             <H3 className="text-white">Interactive Map</H3>
-            <div className="flex h-96 items-center justify-center rounded border-2 border-ink-700 bg-ink-800">
+            <Box variant="bordered" className="flex h-96 items-center justify-center rounded bg-ink-800">
               <Body className="text-on-dark-muted">Interactive venue map will be displayed here</Body>
-            </div>
+            </Box>
           </Stack>
         </CardBody>
       </Card>

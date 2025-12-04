@@ -8,6 +8,8 @@ import {
   ListPage,
   Badge,
   DetailDrawer,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -89,15 +91,15 @@ export default function AdvancingPage() {
 
   const detailSections: DetailSection[] = selectedRequest ? [
     { id: 'overview', title: 'Request Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Request:</strong> {selectedRequest.team_workspace || selectedRequest.activation_name || 'Untitled'}</div>
-        <div><strong>Status:</strong> {selectedRequest.status.replace('_', ' ')}</div>
-        <div><strong>Project:</strong> {selectedRequest.project?.name || '—'}</div>
-        <div><strong>Submitter:</strong> {selectedRequest.submitter?.full_name || 'Unknown'}</div>
-        <div><strong>Estimated Cost:</strong> {formatCurrency(selectedRequest.estimated_cost)}</div>
-        <div><strong>Submitted:</strong> {formatDate(selectedRequest.submitted_at)}</div>
-        <div><strong>Items:</strong> {selectedRequest.items?.length || 0}</div>
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Request:</strong> {selectedRequest.team_workspace || selectedRequest.activation_name || 'Untitled'}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedRequest.status.replace('_', ' ')}</Body>
+        <Body size="sm"><strong>Project:</strong> {selectedRequest.project?.name || '—'}</Body>
+        <Body size="sm"><strong>Submitter:</strong> {selectedRequest.submitter?.full_name || 'Unknown'}</Body>
+        <Body size="sm"><strong>Estimated Cost:</strong> {formatCurrency(selectedRequest.estimated_cost)}</Body>
+        <Body size="sm"><strong>Submitted:</strong> {formatDate(selectedRequest.submitted_at)}</Body>
+        <Body size="sm"><strong>Items:</strong> {selectedRequest.items?.length || 0}</Body>
+      </Grid>
     )},
   ] : [];
 

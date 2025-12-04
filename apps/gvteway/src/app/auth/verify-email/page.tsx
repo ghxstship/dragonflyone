@@ -12,6 +12,7 @@ import {
   LoadingSpinner,
   ScrollReveal,
   AuthPage,
+  IconBox,
 } from "@ghxstship/ui";
 import { Mail, RefreshCw, ArrowLeft } from "lucide-react";
 import NextLink from "next/link";
@@ -29,9 +30,9 @@ function VerifyEmailContent() {
     <Card inverted className="border-2 border-white/20 bg-black p-6 shadow-md sm:p-8">
       <Stack gap={6} className="text-center sm:gap-8">
         {/* Icon */}
-        <div className="mx-auto flex size-12 items-center justify-center border-2 border-white/20 bg-white/5 sm:size-16">
+        <IconBox size="lg" variant="warning" inverted className="mx-auto">
           <Mail className="size-6 text-warning sm:size-8" />
-        </div>
+        </IconBox>
 
         <Stack gap={3} className="sm:gap-4">
           <H2 className="text-white">VERIFY YOUR EMAIL</H2>

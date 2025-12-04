@@ -21,6 +21,9 @@ import {
   Label,
   Select,
   ScrollReveal,
+  Box,
+  Grid,
+  IconBox,
 } from "@ghxstship/ui";
 import NextLink from "next/link";
 
@@ -151,7 +154,7 @@ export default function OnboardingPage() {
       {/* Main Content */}
       <main className="relative flex flex-1 items-center justify-center overflow-hidden px-4 py-8 sm:px-6 sm:py-12 md:py-16">
         {/* Halftone Pattern Background */}
-        <div
+        <Box
           className="pointer-events-none absolute inset-0 opacity-[0.03]"
           style={{
             backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)",
@@ -169,12 +172,12 @@ export default function OnboardingPage() {
             >
               <Stack gap={6} className="sm:gap-8">
                 {/* Progress Steps - Responsive */}
-                <div className="hidden sm:block">
+                <Box className="hidden sm:block">
                   <Stack direction="horizontal" className="items-center justify-between">
                     {STEPS.map((step, index) => (
                       <Stack key={step.id} direction="horizontal" className="items-center">
-                        <div
-                          className={`flex size-10 items-center justify-center border-2 text-sm ${
+                        <Box
+                          className={`flex size-10 items-center justify-center border-2 text-body-sm ${
                             index <= currentStepIndex
                               ? "border-white bg-white text-black"
                               : "border-ink-700 bg-ink-900 text-on-dark-muted"
@@ -185,9 +188,9 @@ export default function OnboardingPage() {
                           ) : (
                             step.icon
                           )}
-                        </div>
+                        </Box>
                         {index < STEPS.length - 1 && (
-                          <div
+                          <Box
                             className={`mx-2 h-0.5 w-8 md:w-12 lg:w-16 ${
                               index < currentStepIndex ? "bg-white" : "bg-ink-800"
                             }`}
@@ -196,32 +199,32 @@ export default function OnboardingPage() {
                       </Stack>
                     ))}
                   </Stack>
-                </div>
+                </Box>
 
                 {/* Mobile Progress Indicator */}
-                <div className="block sm:hidden">
+                <Box className="block sm:hidden">
                   <Stack gap={2} className="text-center">
                     <Label size="xs" className="text-on-dark-muted">
                       Step {currentStepIndex + 1} of {STEPS.length}
                     </Label>
-                    <div className="flex gap-1">
+                    <Stack direction="horizontal" gap={1}>
                       {STEPS.map((_, index) => (
-                        <div
+                        <Box
                           key={index}
                           className={`h-1 flex-1 ${
                             index <= currentStepIndex ? "bg-white" : "bg-ink-800"
                           }`}
                         />
                       ))}
-                    </div>
+                    </Stack>
                   </Stack>
-                </div>
+                </Box>
 
                 {/* Step Header */}
                 <Stack gap={3} className="text-center sm:gap-4">
-                  <div className="mx-auto flex size-12 items-center justify-center border-2 border-white/10 bg-ink-900 sm:size-16">
+                  <IconBox size="lg" inverted className="mx-auto">
                     {STEPS[currentStepIndex].icon}
-                  </div>
+                  </IconBox>
                   <H2 className="text-white">{STEPS[currentStepIndex].label.toUpperCase()}</H2>
                   <Body size="sm" className="text-on-dark-muted">
                     {STEPS[currentStepIndex].description}
@@ -234,7 +237,7 @@ export default function OnboardingPage() {
                 {/* Profile Step */}
                 {currentStep === "profile" && (
                   <Stack gap={4} className="sm:gap-6">
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <Grid cols={2} gap={4} className="grid-cols-1 sm:grid-cols-2">
                       <Field label="First Name" inverted>
                         <Input
                           type="text"
@@ -253,7 +256,7 @@ export default function OnboardingPage() {
                           inverted
                         />
                       </Field>
-                    </div>
+                    </Grid>
                     <Field label="Phone (Optional)" inverted>
                       <Input
                         type="tel"
@@ -281,7 +284,7 @@ export default function OnboardingPage() {
                     <Body size="sm" className="text-center text-on-dark-muted">
                       Select the types of events you&apos;re interested in:
                     </Body>
-                    <div className="grid grid-cols-2 gap-3">
+                    <Grid cols={2} gap={3}>
                       {EVENT_INTERESTS.map((interest) => (
                         <Button
                           key={interest}
@@ -295,7 +298,7 @@ export default function OnboardingPage() {
                           {interest}
                         </Button>
                       ))}
-                    </div>
+                    </Grid>
                   </Stack>
                 )}
 
@@ -360,9 +363,9 @@ export default function OnboardingPage() {
                 {/* Complete Step */}
                 {currentStep === "complete" && (
                   <Stack gap={6} className="text-center sm:gap-8">
-                    <div className="mx-auto flex size-16 items-center justify-center border-2 border-white/10 bg-ink-900 sm:size-20">
+                    <IconBox size="lg" variant="success" inverted className="mx-auto">
                       <Check className="size-8 text-success sm:size-10" />
-                    </div>
+                    </IconBox>
                     <Stack gap={3} className="sm:gap-4">
                       <H3 className="text-white">Welcome to GVTEWAY!</H3>
                       <Body size="sm" className="text-on-dark-muted">
@@ -391,7 +394,7 @@ export default function OnboardingPage() {
                     </Button>
                   )}
                   {currentStep !== "complete" && currentStep === "profile" && (
-                    <div className="hidden sm:block" />
+                    <Box className="hidden sm:block" />
                   )}
 
                   {currentStep === "complete" ? (

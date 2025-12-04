@@ -91,19 +91,19 @@ export default function FloorConfigPage() {
                     </Card>
                     <Card className="absolute top-28 left-1/4 w-48 h-32 border-2 flex items-center justify-center" style={{ '--section-bg': `${mockSections[1].color}20`, '--section-border': mockSections[1].color, backgroundColor: 'var(--section-bg)', borderColor: 'var(--section-border)' } as React.CSSProperties}>
                       <Stack gap={1} className="text-center">
-                        <Label className="text-mono-xs font-bold">{mockSections[1].name}</Label>
+                        <Label className="text-mono-xs font-weight-bold">{mockSections[1].name}</Label>
                         <Label className="text-mono-xs">{mockSections[1].capacity} cap</Label>
                       </Stack>
                     </Card>
                     <Card className="absolute top-28 right-4 w-24 h-32 border-2 flex items-center justify-center" style={{ '--section-bg': `${mockSections[2].color}20`, '--section-border': mockSections[2].color, backgroundColor: 'var(--section-bg)', borderColor: 'var(--section-border)' } as React.CSSProperties}>
                       <Stack gap={1} className="text-center">
-                        <Label className="text-mono-xs font-bold">VIP</Label>
+                        <Label className="text-mono-xs font-weight-bold">VIP</Label>
                         <Label className="text-mono-xs">{mockSections[2].capacity}</Label>
                       </Stack>
                     </Card>
                     <Card className="absolute bottom-4 left-4 right-4 h-32 border-2 flex items-center justify-center" style={{ '--section-bg': `${mockSections[0].color}20`, '--section-border': mockSections[0].color, backgroundColor: 'var(--section-bg)', borderColor: 'var(--section-border)' } as React.CSSProperties}>
                       <Stack gap={1} className="text-center">
-                        <Label className="font-bold">{mockSections[0].name}</Label>
+                        <Label className="font-weight-bold">{mockSections[0].name}</Label>
                         <Label className="text-body-sm">{mockSections[0].capacity.toLocaleString()} capacity</Label>
                       </Stack>
                     </Card>
@@ -119,7 +119,7 @@ export default function FloorConfigPage() {
                     <Grid cols={6} gap={4} className="items-center">
                       <Stack gap={1}>
                         <Card className="w-4 h-4 rounded" style={{ '--section-color': section.color, backgroundColor: 'var(--section-color)' } as React.CSSProperties} />
-                        <Body className="font-bold">{section.name}</Body>
+                        <Body className="font-weight-bold">{section.name}</Body>
                         <Badge variant="outline">{section.type}</Badge>
                       </Stack>
                       <Stack gap={1}>
@@ -156,8 +156,8 @@ export default function FloorConfigPage() {
                           <Label>{section.name}</Label>
                           <Label className="font-mono">{section.sold}/{section.capacity}</Label>
                         </Stack>
-                        <Card className="h-3 bg-ink-200 rounded-full overflow-hidden">
-                          <Card className="h-full rounded-full" style={{ '--progress-width': `${(section.sold / section.capacity) * 100}%`, '--section-color': section.color, width: 'var(--progress-width)', backgroundColor: 'var(--section-color)' } as React.CSSProperties} />
+                        <Card className="h-3 bg-ink-200 rounded-avatar overflow-hidden">
+                          <Card className="h-full rounded-avatar" style={{ '--progress-width': `${(section.sold / section.capacity) * 100}%`, '--section-color': section.color, width: 'var(--progress-width)', backgroundColor: 'var(--section-color)' } as React.CSSProperties} />
                         </Card>
                       </Stack>
                     ))}

@@ -83,7 +83,7 @@ export default function ContactPage() {
                   <Body size="sm" className="text-grey-600">
                     {option.description}
                   </Body>
-                  <Label size="sm" className="text-[#FF006E]">
+                  <Label size="sm" className="text-brand-pink">
                     {option.cta}
                   </Label>
                 </Stack>
@@ -143,7 +143,7 @@ export default function ContactPage() {
                     <textarea
                       placeholder="Tell us about your production needs..."
                       rows={5}
-                      className="w-full border-2 border-ink-950 bg-white px-4 py-3 text-ink-950 placeholder:text-grey-400 focus:outline-none focus:ring-2 focus:ring-[#FF006E]"
+                      className="w-full border-2 border-ink-950 bg-white px-4 py-3 text-ink-950 placeholder:text-grey-400 focus:outline-none focus:ring-2 focus:ring-brand-pink"
                     />
                   </Stack>
 

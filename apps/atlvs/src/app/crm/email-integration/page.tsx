@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Eye, Reply, Link } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
-  ListPage, Badge, DetailDrawer,
+  ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
 } from '@ghxstship/ui';
 import { getBadgeVariant } from '@ghxstship/config';
@@ -69,16 +69,16 @@ export default function EmailIntegrationPage() {
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Email Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>From:</strong> {selected.from}</div>
-        <div><strong>To:</strong> {selected.to}</div>
-        <div><strong>Date:</strong> {selected.date}</div>
-        <div><strong>Status:</strong> {selected.status}</div>
-        <div className="col-span-2"><strong>Subject:</strong> {selected.subject}</div>
-        <div className="col-span-2"><strong>Preview:</strong> {selected.preview}</div>
-        {selected.linkedContact && <div><strong>Contact:</strong> {selected.linkedContact}</div>}
-        {selected.linkedDeal && <div><strong>Deal:</strong> {selected.linkedDeal}</div>}
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>From:</strong> {selected.from}</Body>
+        <Body size="sm"><strong>To:</strong> {selected.to}</Body>
+        <Body size="sm"><strong>Date:</strong> {selected.date}</Body>
+        <Body size="sm"><strong>Status:</strong> {selected.status}</Body>
+        <Body size="sm" className="col-span-2"><strong>Subject:</strong> {selected.subject}</Body>
+        <Body size="sm" className="col-span-2"><strong>Preview:</strong> {selected.preview}</Body>
+        {selected.linkedContact && <Body size="sm"><strong>Contact:</strong> {selected.linkedContact}</Body>}
+        {selected.linkedDeal && <Body size="sm"><strong>Deal:</strong> {selected.linkedDeal}</Body>}
+      </Grid>
     )},
   ] : [];
 

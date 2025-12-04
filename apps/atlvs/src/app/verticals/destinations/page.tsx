@@ -107,7 +107,7 @@ export default function DestinationsPage() {
         <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
           <Stack gap={8} className="max-w-3xl">
             <Stack direction="horizontal" gap={3} className="items-center">
-              <MapPin className="size-6 text-[#FF006E]" />
+              <MapPin className="size-6 text-brand-pink" />
               <Label size="xs" className="text-on-dark-muted">
                 {destinationsData.hero.kicker}
               </Label>
@@ -205,7 +205,7 @@ export default function DestinationsPage() {
                   <Stack gap={2}>
                     {useCase.examples.map((example) => (
                       <Stack key={example} direction="horizontal" gap={2} className="items-center">
-                        <Check className="size-3 text-[#FF006E]" />
+                        <Check className="size-3 text-brand-pink" />
                         <Label size="xs" className="text-on-dark-secondary">
                           {example}
                         </Label>
@@ -222,7 +222,7 @@ export default function DestinationsPage() {
       {/* Testimonial */}
       <FullBleedSection background="white" className="py-24">
         <Container className="mx-auto max-w-container-4xl px-6 lg:px-8">
-          <Card className="border-2 border-ink-950 bg-white p-12 shadow-[6px_6px_0_#FF006E]">
+          <Card className="border-2 border-ink-950 bg-white p-12 shadow-brand-lg">
             <Stack gap={6} className="text-center">
               <Body size="lg" className="text-grey-700 italic">
                 &ldquo;{destinationsData.testimonial.quote}&rdquo;

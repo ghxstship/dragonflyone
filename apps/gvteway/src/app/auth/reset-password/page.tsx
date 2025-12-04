@@ -13,6 +13,7 @@ import {
   Field,
   ScrollReveal,
   AuthPage,
+  IconBox,
 } from "@ghxstship/ui";
 import { KeyRound, Check, ArrowRight, ArrowLeft } from "lucide-react";
 import NextLink from "next/link";
@@ -76,9 +77,9 @@ export default function ResetPasswordPage() {
               {success ? (
                 /* Success State */
                 <Stack gap={6} className="text-center sm:gap-8">
-                  <div className="mx-auto flex size-12 items-center justify-center border-2 border-white/20 bg-white/5 sm:size-16">
+                  <IconBox size="lg" variant="success" inverted className="mx-auto">
                     <Check className="size-6 text-success sm:size-8" />
-                  </div>
+                  </IconBox>
 
                   <Stack gap={3} className="sm:gap-4">
                     <H2 className="text-white">PASSWORD RESET</H2>
@@ -92,9 +93,9 @@ export default function ResetPasswordPage() {
                 <Stack gap={6} className="sm:gap-8">
                   {/* Header */}
                   <Stack gap={3} className="text-center sm:gap-4">
-                    <div className="mx-auto flex size-12 items-center justify-center border-2 border-white/20 bg-white/5 sm:size-16">
+                    <IconBox size="lg" variant="warning" inverted className="mx-auto">
                       <KeyRound className="size-6 text-warning sm:size-8" />
-                    </div>
+                    </IconBox>
                     <H2 className="text-white">NEW PASSWORD</H2>
                     <Body size="sm" className="text-on-dark-muted">
                       Enter your new password below.

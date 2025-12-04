@@ -12,7 +12,6 @@ import {
   Input,
   Select,
   Badge,
-  ProjectCard,
   Stack,
   Grid,
   Card,
@@ -21,6 +20,7 @@ import {
   EmptyState,
   ScrollReveal,
   StaggerChildren,
+  Box,
 } from "@ghxstship/ui";
 import Image from "next/image";
 import {
@@ -239,15 +239,15 @@ export default function ExperiencesPage() {
                       className="group relative overflow-hidden border-2 border-ink-800 transition-all hover:border-ink-600"
                     >
                       {/* Image */}
-                      <div className="relative aspect-[4/3] overflow-hidden bg-ink-900">
+                      <Box className="relative aspect-[4/3] overflow-hidden bg-ink-900">
                         <Image
                           src={exp.image_url || "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800"}
                           alt={exp.name}
                           fill
-                          className="object-cover transition-transform duration-300 group-hover:scale-105"
+                          className="object-cover transition-transform duration-slow group-hover:scale-105"
                         />
                         {/* Overlay badges */}
-                        <div className="absolute left-3 top-3 flex gap-2">
+                        <Stack direction="horizontal" gap={2} className="absolute left-3 top-3">
                           <Badge className={getAccessBadgeColor(exp.accessLevel)}>
                             {exp.accessLevel.toUpperCase()}
                           </Badge>
@@ -257,17 +257,17 @@ export default function ExperiencesPage() {
                               EXCLUSIVE
                             </Badge>
                           )}
-                        </div>
+                        </Stack>
                         {/* Spots left indicator */}
                         {exp.spotsLeft < 20 && (
-                          <div className="absolute bottom-3 right-3">
+                          <Box className="absolute bottom-3 right-3">
                             <Badge className="bg-error text-white">
                               <Clock className="mr-1 inline size-3" />
                               {exp.spotsLeft} spots left
                             </Badge>
-                          </div>
+                          </Box>
                         )}
-                      </div>
+                      </Box>
 
                       {/* Content */}
                       <Stack gap={3} className="p-4">
@@ -318,14 +318,14 @@ export default function ExperiencesPage() {
                     className="border-2 border-ink-800 transition-all hover:border-ink-600"
                   >
                     <Stack gap={6} direction="horizontal" className="flex-col p-4 md:flex-row">
-                      <div className="relative aspect-video w-full overflow-hidden bg-ink-900 md:aspect-square md:w-48">
+                      <Box className="relative aspect-video w-full overflow-hidden bg-ink-900 md:aspect-square md:w-48">
                         <Image
                           src={exp.image_url || "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800"}
                           alt={exp.name}
                           fill
                           className="object-cover"
                         />
-                      </div>
+                      </Box>
                       <Stack gap={4} className="flex-1">
                         <Stack gap={2}>
                           <Stack direction="horizontal" gap={2} className="flex-wrap">

@@ -1,625 +1,349 @@
 # GHXSTSHIP Platform Backlog
 
-This document tracks incomplete, deferred, and planned features that need to be addressed.
+> Product backlog for the GHXSTSHIP platform (ATLVS, COMPVSS, GVTEWAY).  
+> Follows industry-standard backlog management practices with clear ownership, sizing, and acceptance criteria.
+
+**Last Updated:** December 4, 2025  
+**Backlog Owner:** Engineering Team  
+**Review Cadence:** Weekly
 
 ---
 
-## Deferred Features
+## Quick Stats
 
-### Vercel Cron Jobs (Disabled - Plan Limit)
-**Status:** Temporarily disabled due to Vercel Hobby plan limit (2 crons max)
-**Action Required:** Upgrade to Vercel Pro plan, then re-enable crons in vercel.json files
-
-#### ATLVS Crons
-- [ ] `/api/cron/sync-ledger` - Daily ledger synchronization (schedule: `0 0 * * *`)
-- [ ] `/api/cron/cleanup-sessions` - Daily session cleanup (schedule: `0 0 * * *`)
-
-#### COMPVSS Crons
-- [ ] `/api/cron/sync-equipment` - Daily equipment sync (schedule: `0 0 * * *`)
-- [ ] `/api/cron/crew-notifications` - Daily crew notifications at 8am (schedule: `0 8 * * *`)
-
-#### GVTEWAY Crons
-- [ ] `/api/cron/ticket-reminders` - Daily ticket reminders at 9am (schedule: `0 9 * * *`)
-- [ ] `/api/cron/loyalty-points` - Daily loyalty points processing (schedule: `0 0 * * *`)
-- [ ] `/api/cron/event-notifications` - Daily event notifications at 6am (schedule: `0 6 * * *`)
+| Metric | Count |
+|--------|-------|
+| P0 (Critical) | 1 |
+| P1 (High) | 2 |
+| P2 (Medium) | 5 |
+| P3 (Low) | 5 |
+| Completed (Last 30 Days) | 8 |
+| Total Pages | 512 |
+| Design System Violations | 0 |
 
 ---
 
-## Planned Features
+## Priority Definitions
 
-### Navigation Architecture Restructure (In Progress)
-**Status:** Phase 1 complete, Phase 2-4 in progress
-**Documentation:** `docs/NAVIGATION_ARCHITECTURE.md`
-**Started:** December 2024
-
-**Objective:** Restructure navigation across all three apps (ATLVS, COMPVSS, GVTEWAY) to properly separate platform-level from event-level contexts with role-based visibility.
-
-**Key Changes:**
-- **Context Switching**: Clear separation between Platform (org-wide) and Event (production-specific) navigation
-- **Role-Based Visibility**: Navigation items filtered by platform roles and event roles
-- **URL Restructure**: Event-level routes prefixed with `/p/[productionId]/` for ATLVS/COMPVSS, `/events/[eventId]/` for GVTEWAY
-- **Workflow-Aligned Grouping**: Features grouped by business process (Planning, People, Finance, Compliance, etc.)
-- **Shared Navigation Components**: Types and utilities in `packages/ui/src/navigation/`
-- **ContextSwitcher Component**: Dropdown for switching between productions/events
-
-**Implementation Phases:**
-- [x] Phase 1: Navigation Infrastructure (types, utils, components)
-- [x] Phase 2: ATLVS Navigation Config & Context Switching
-- [x] Phase 3: COMPVSS Navigation Config & Context Switching
-- [x] Phase 4: GVTEWAY Navigation Config & Event Context
-- [ ] Phase 5: Create all production-level pages for ATLVS
-- [ ] Phase 6: Create all production-level pages for COMPVSS
-- [ ] Phase 7: Create all event-level pages for GVTEWAY
-- [ ] Phase 8: Cross-App Integration (deep linking, unified search)
-
-**Files Created/Updated:**
-- `docs/NAVIGATION_ARCHITECTURE.md` - Full architecture specification
-- `packages/ui/src/navigation/types.ts` - Navigation type definitions
-- `packages/ui/src/navigation/utils.ts` - Navigation utility functions
-- `packages/ui/src/navigation/index.ts` - Navigation exports
-- `packages/ui/src/organisms/context-switcher.tsx` - Context switching component
-- `apps/atlvs/src/data/atlvs.ts` - Added `atlvsProductionNavigation`, `atlvsDemoProductions`
-- `apps/atlvs/src/components/app-layout.tsx` - Updated with context switching
-- `apps/atlvs/src/app/p/[productionId]/layout.tsx` - Production context layout
-- `apps/atlvs/src/app/p/[productionId]/overview/page.tsx` - Production overview page
-- `apps/compvss/src/data/compvss.ts` - Added `compvssProductionNavigation`, `compvssDemoProductions`
-- `apps/compvss/src/components/app-layout.tsx` - Updated with context switching
-- `apps/compvss/src/app/p/[productionId]/layout.tsx` - Production context layout
-- `apps/compvss/src/app/p/[productionId]/overview/page.tsx` - Production overview page
-- `apps/gvteway/src/data/gvteway.ts` - Added `gvtewayEventNavigation`, `gvtewayDemoEvents`
-
-**Remaining Work:**
-- Create remaining production-level pages for ATLVS (schedule, advancing, team, finance, etc.)
-- Create remaining production-level pages for COMPVSS (run-of-show, crew, safety, etc.)
-- Create event-level pages for GVTEWAY (program, tickets, experience, etc.)
-- Implement CommandPalette component for keyboard navigation
-- Implement Breadcrumb component for context awareness
-- Add role-based filtering to navigation items
+| Priority | Definition | SLA |
+|----------|------------|-----|
+| **P0** | Blocking deployment or core functionality | Immediate |
+| **P1** | Active work, enterprise readiness | This sprint |
+| **P2** | Planned features, technical debt | Next 2-4 sprints |
+| **P3** | Nice-to-haves, future enhancements | Backlog |
 
 ---
 
-### UI Style Guide Refactor (In Progress)
-**Status:** Partially complete - key pages refactored
-**Reference:** `docs/design/STYLE-GUIDE-PREVIEW.jsx`
-**Identified:** November 27, 2025
+## P0 - Critical
 
-**Objective:** Refactor all 337 authenticated pages to fully align with the GHXSTSHIP "Bold Contemporary Pop Art Adventure" design system.
+### BACK-001: ExperienceGeneratorSchema Database Deployment
 
-**Design System Requirements:**
-- Use `PageLayout` wrapper with proper `background` and `header` props
-- Use `SectionHeader` for page headers with `kicker`, `title`, `description`, `colorScheme`
-- Use `Card` with `variant` and `inverted` props instead of raw className
-- Use `StatCard` with `icon`, `trend`, `trendValue`, `inverted` props
-- Replace `font-bold` with `font-weight-bold` (design system token)
-- Replace `text-ink-*` with semantic classes like `text-on-dark-muted`, `text-on-dark-secondary`
-- Hard offset shadows only (no blur) - use `shadow-xs` through `shadow-xl`
-- 2px+ borders on interactive elements
+| Field | Value |
+|-------|-------|
+| **Status** | Blocked - Pending Deployment |
+| **Owner** | Unassigned |
+| **Effort** | S (1-2 hours) |
+| **Created** | Dec 3, 2025 |
+| **Blocked By** | Manual Supabase deployment required |
+| **Blocks** | Credentials, Sponsorship, SOPs features |
 
-**Completed Pages:**
-- [x] `apps/atlvs/src/app/analytics/page.tsx` - Full refactor with PageLayout, SectionHeader, StatCard with icons/trends
-- [x] `apps/gvteway/src/app/dashboard/page.tsx` - Full refactor with PageLayout, design system tokens
-- [x] `apps/gvteway/src/app/settings/page.tsx` - Full refactor with PageLayout, SectionHeader, Card variants
-- [x] `apps/gvteway/src/app/profile/page.tsx` - Partial refactor with Card variants
-- [x] `apps/compvss/src/app/dashboard/page.tsx` - Full refactor with PageLayout, SectionHeader
+**Description:**  
+Deploy database migrations for ExperienceGeneratorSchema to enable new platform features.
 
-**Remaining Work (330+ pages):**
-- [ ] GVTEWAY authenticated pages (~150 pages)
-- [ ] ATLVS authenticated pages (~100 pages)  
-- [ ] COMPVSS authenticated pages (~80 pages)
+**Acceptance Criteria:**
+- [ ] Migrations deployed via `npx supabase db push`
+- [ ] TypeScript types regenerated via `npx supabase gen types typescript`
+- [ ] `supabase-types.ts` updated with new table definitions
+- [ ] UI components created for credentials, sponsorship, SOPs
+- [ ] API routes added for new functionality
 
-**Pattern to Apply:**
-```tsx
-// Before
-<Section className="min-h-screen bg-white">
-  <Navigation />
-  <Container className="py-16">
-    <H1>Title</H1>
-    ...
-  </Container>
-</Section>
-
-// After
-<PageLayout background="white" header={<Navigation />}>
-  <Section className="min-h-screen py-16">
-    <Container>
-      <SectionHeader
-        kicker="App Name"
-        title="Page Title"
-        description="Page description"
-        colorScheme="on-light"
-        gap="lg"
-      />
-      ...
-    </Container>
-  </Section>
-</PageLayout>
-```
+**References:**
+- `docs/EXPERIENCE_GENERATOR_GAP_ANALYSIS.md`
+- `supabase/migrations/0142_experience_generator_system.sql`
 
 ---
 
-## Technical Debt
+## P1 - High Priority
 
-### Typography Implementation Audit ✅ COMPLETE
-**Status:** Full remediation complete
-**Documentation:** See `docs/TYPOGRAPHY_AUDIT_REPORT.md`
-**Identified:** November 27, 2025
-**Remediated:** November 27, 2025
+### BACK-002: Navigation Architecture - Phase 8
 
-**Summary:** ~1,800+ typography violations were identified and 100% have been fixed via automated scripts and manual edits.
+| Field | Value |
+|-------|-------|
+| **Status** | In Progress (87% complete) |
+| **Owner** | Unassigned |
+| **Effort** | M (3-5 days) |
+| **Created** | Dec 2024 |
+| **Dependencies** | None |
 
-**Completed:**
-- [x] Phase 1: Fix `packages/ui` components (foundation) - ~113 violations fixed
-- [x] Phase 2: Fix GVTEWAY app - all violations fixed
-- [x] Phase 3: Fix ATLVS and COMPVSS apps - all violations fixed
-- [x] Add ESLint rule to prevent future violations (`.eslintrc.js`)
+**Description:**  
+Complete cross-app integration for the navigation architecture restructure.
 
-**Scripts Created:**
-- `scripts/fix-typography.sh` - Initial remediation script
-- `scripts/fix-typography-v2.sh` - Comprehensive remediation script
-- `scripts/fix-typography-v3.sh` - Responsive breakpoint fixes
-- `scripts/fix-typography-v4.sh` - Template literal fixes
-- `scripts/fix-typography-final.sh` - Final cleanup pass
+**Progress:**
+- [x] Phase 1-4: Infrastructure & app configs
+- [x] Phase 5: ATLVS production pages (40 pages)
+- [x] Phase 6: COMPVSS production pages (32 pages)
+- [x] Phase 7: GVTEWAY event pages (15 pages)
+- [ ] Phase 8: Cross-app integration
 
----
+**Acceptance Criteria:**
+- [ ] Deep linking between apps (ATLVS <-> COMPVSS <-> GVTEWAY)
+- [ ] Unified search across all apps
+- [ ] Role-based navigation filtering (`filterByRole` implementation)
 
-### Text Color Visibility Audit ✅ COMPLETE
-**Status:** Fully implemented and audited
-**Documentation:** See `docs/TEXT_COLOR_VISIBILITY.md`
-**Completed:** November 27, 2025
-
-The text color visibility system has been fully implemented across the codebase:
-
-**Design System Foundation:**
-- [x] Added `textColors` semantic tokens to `packages/ui/src/tokens.ts`
-- [x] Added `textColorPalette` to `packages/config-tailwind/index.js`
-- [x] Updated `Kicker` component with `colorScheme` prop
-- [x] Updated `SectionHeader` component with `colorScheme` prop
-
-**UI Component Fixes:**
-- [x] Fixed `context-breadcrumb.tsx` - swapped inverted color logic
-- [x] Fixed `breadcrumb.tsx` - updated separator color
-- [x] Fixed `link.tsx` - updated footer variant color
-- [x] Fixed `offline-indicator.tsx` - updated muted text colors
-- [x] Fixed `bulk-action-bar.tsx` - updated clear button color
-
-**App-Level Audit (All Three Apps):**
-- [x] GVTEWAY: Fixed all light-background pages (`text-grey-400` → `text-grey-600`)
-- [x] ATLVS: Fixed all light-background pages (`text-grey-400` → `text-grey-600`)
-- [x] COMPVSS: Fixed all light-background pages (`text-grey-400` → `text-grey-600`)
-- [x] Fixed `text-ink-400`/`text-ink-300` on light backgrounds → `text-ink-600`/`text-ink-700`
-
-**Verification:**
-- Zero files with light backgrounds (`bg-white`, `bg-ink-50`) using low-contrast text colors
-- All remaining `text-grey-400` and `text-ink-400` instances are correctly on dark backgrounds
+**References:**
+- `docs/NAVIGATION_ARCHITECTURE.md`
+- `packages/ui/src/navigation/`
 
 ---
 
-### Raw Tailwind Migration ✅ COMPLETE
-**Status:** Fully remediated
-**Identified:** November 27, 2025
-**Completed:** November 27, 2025
+### BACK-003: Design System ESLint Enforcement
 
-The design system architecture has been updated to support proper component variants:
+| Field | Value |
+|-------|-------|
+| **Status** | In Progress (95% complete) |
+| **Owner** | Unassigned |
+| **Effort** | M (3-5 days) |
+| **Created** | Nov 27, 2025 |
+| **Violations** | 0 PROHIBITED, ~4200 warnings |
 
-**Completed:**
-- [x] Added `outlineWhite` and `outlineInk` Button variants to `packages/ui`
-- [x] Enhanced `Section` component with `kicker`, `title`, `description`, `align`, `gap` props
-- [x] Removed local `section.tsx` wrapper files from all apps
-- [x] All apps import `Section`, `SectionHeader` from `@ghxstship/ui`
-- [x] Semantic CSS variables added to all `globals.css` files (surface, text, border tokens)
-- [x] Semantic CSS variable tokens added to `packages/config-tailwind/index.js`
+**Description:**  
+Fix remaining ESLint violations and upgrade rules from warnings to errors.
 
-**Files Fixed (Button raw Tailwind → outlineInk variant):**
-- [x] `atlvs/src/app/settings/page.tsx`
-- [x] `atlvs/src/app/dashboard/page.tsx`
-- [x] `compvss/src/app/settings/page.tsx`
-- [x] `compvss/src/app/crew/social/page.tsx`
-- [x] `compvss/src/app/knowledge/regulations/page.tsx`
-- [x] `gvteway/src/app/profile/page.tsx`
-- [x] `gvteway/src/app/auth/signin/page.tsx`
-- [x] `gvteway/src/app/auth/signup/page.tsx`
-- [x] `gvteway/src/app/artists/page.tsx`
-- [x] `gvteway/src/app/events/[id]/landing-builder/page.tsx`
-- [x] `gvteway/src/app/onboarding/page.tsx`
+**Progress (Dec 4, 2025):**
+- [x] Fix font weight violations (`font-normal`, `font-medium`, `font-bold`, `font-semibold`) → `font-weight-*`
+- [x] Fix border radius violations (`rounded-lg`, `rounded-full`, `rounded-md`, etc.) → `rounded-button/card/modal/avatar`
+- [x] Fix letter spacing violations (`tracking-wide`, `tracking-widest`, etc.) → `tracking-label`
+- [x] Fix arbitrary hex colors → `brand-pink`, `brand-cyan` tokens
+- [x] Fix arbitrary shadows → `shadow-brand-*`, `shadow-subtle-*` tokens
+- [x] Fix raw text sizes (`text-sm`, `text-xs`, etc.) → `text-body-*`, `text-mono-*`
+- [x] Fix slow animation durations → `duration-slow`
+- [x] Add brand colors to design system (`#FF006E`, `#00BFFF`)
+- [x] Add brand shadow tokens to design system
+- [ ] Upgrade ESLint rules from "warn" to "error"
+- [ ] Zero warnings in CI pipeline
 
-**Pattern established:**
-```tsx
-// Before (raw Tailwind)
-<Button variant="outline" className="border-ink-700 text-ink-400 hover:border-white hover:text-white">
+**Remaining Warnings (not blocking):**
+- ~1500 `@typescript-eslint/no-explicit-any` - TypeScript strictness
+- ~250 `@typescript-eslint/no-unused-vars` - Unused supabase clients
+- ~1700 `tailwindcss/classnames-order` - Class ordering
+- ~160 `border` warnings - Default 1px border on non-interactive elements
+- ~100 `no-console` - Console statements
 
-// After (design system variant)
-<Button variant="outlineInk">
-```
-
-**Note:** 3 remaining `hover:border-white` instances are on `Card` components (interactive cards), which is a valid pattern for clickable cards.
+**References:**
+- `ZERO-RAW-TAILWIND-ENFORCEMENT.md`
+- `DESIGN-SYSTEM-ENFORCEMENT-AUDIT.md`
 
 ---
 
-### Theme-Aware Background Migration ✅ COMPLETE
-**Status:** Complete - all components migrated or use inverted prop pattern
-**Identified:** November 27, 2025
-**Completed:** November 27, 2025
+## P2 - Medium Priority
 
-**Completed:**
-- [x] Added semantic CSS variable tokens to `config-tailwind/index.js`:
-  - `semanticSurfaceColors` (surface-primary, surface-secondary, surface-elevated, etc.)
-  - `semanticTextColors` (text-primary, text-secondary, text-muted, etc.)
-  - `semanticBorderColors` (border-primary, border-secondary, border-focus, etc.)
-  - `semanticInteractiveColors` (hover-surface, active-surface, focus-ring)
-  - `semanticShadowTokens` (shadow-sm, shadow-md, shadow-lg)
-- [x] Added CSS variable definitions to all app `globals.css` files:
-  - Dark mode default (GHXSTSHIP aesthetic)
-  - Light mode override (`.light`, `[data-theme="light"]`)
-- [x] Migrated organisms to semantic tokens:
-  - `DataGrid`, `DetailDrawer`, `ImportExportDialog`, `Lightbox`
-  - `RecordFormModal`, `Calendar`
-- [x] Migrated molecules to semantic tokens:
-  - `LanguageSelector`
-- [x] Migrated foundations/templates to semantic tokens:
-  - `Section`, `Main`, `PageLayout`, `AppShell`
-- [x] Verified all other components use `inverted` prop pattern correctly:
-  - Atoms: `Button`, `Input`, `Select`, `Textarea`, `Checkbox`, `Radio`, `Switch`, `Badge`, etc.
-  - Molecules: `Card`, `Tabs`, `Dropdown`, `RowActions`, `DataTable`, `Pagination`, etc.
-  - Organisms: `Modal`, `Sidebar`, `Navigation`, `UnifiedHeader`, `ResponsiveSidebar`, etc.
+### BACK-004: UI Style Guide Refactor
 
-**Usage Pattern:**
-```tsx
-// Semantic tokens (auto theme-aware)
-<div className="bg-surface-primary text-text-primary border-border-primary">
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Owner** | Unassigned |
+| **Effort** | XL (2+ weeks) |
+| **Created** | Nov 27, 2025 |
+| **Scope** | 512 pages |
 
-// Inverted prop pattern (explicit theme control)
-<Button inverted>Dark background button</Button>
-<Card inverted>Dark background card</Card>
-```
+**Description:**  
+Refactor all authenticated pages to align with GHXSTSHIP design system.
 
-**Theme Switching:**
-- Add `class="light"` or `data-theme="light"` to `<html>` for light mode
-- Default is dark mode (GHXSTSHIP aesthetic)
+**Acceptance Criteria:**
+- [ ] ATLVS pages refactored (197 pages)
+- [ ] GVTEWAY pages refactored (174 pages)
+- [ ] COMPVSS pages refactored (141 pages)
+- [ ] All pages pass ESLint design system rules
+
+**References:**
+- `docs/design/STYLE-GUIDE-PREVIEW.jsx`
 
 ---
 
-### Design System Enforcement - ESLint Rules 🔄 IN PROGRESS
-**Status:** ESLint rules implemented, violations being tracked
-**Identified:** November 27, 2025
-**Target:** Upgrade from warnings to errors once all violations are fixed
+### BACK-005: Test Coverage Analysis
 
-**ESLint Configuration:**
-- [x] Comprehensive ESLint rules added to `.eslintrc.js`
-- [x] Rules detect raw Tailwind typography, colors, spacing, shadows, border-radius
-- [x] Rules detect arbitrary values (square brackets)
-- [x] Tailwindcss plugin configured with design system whitelist
-- [x] UI components (`packages/ui/src/**`) exempt (encapsulated design system internals)
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Owner** | Unassigned |
+| **Effort** | S (1-2 hours) |
+| **Created** | Dec 4, 2025 |
 
-**Current Violations (as of Nov 27, 2025):**
-- ~33 errors (currently set to warnings during transition)
-- Primary violations: `font-normal`, `font-medium`, `rounded-lg`, `rounded-full`, `tracking-wide`
+**Description:**  
+Analyze test coverage and identify gaps in critical paths.
 
-**Remediation Plan:**
-- [ ] Phase 1: Fix font weight violations → use `font-weight-normal`, `font-weight-medium`, etc.
-- [ ] Phase 2: Fix border radius violations → use `rounded-radius-*`, `rounded-button`, `rounded-card`
-- [ ] Phase 3: Fix letter spacing violations → use `tracking-label`, `tracking-kicker`, `tracking-display`
-- [ ] Phase 4: Upgrade ESLint rules from "warn" to "error"
-
-**Reference Documents:**
-- `ZERO-RAW-TAILWIND-ENFORCEMENT.md` - Zero tolerance policy
-- `DESIGN-SYSTEM-ENFORCEMENT-AUDIT.md` - Full audit checklist
-
----
-
----
-
-## ExperienceGeneratorSchema Integration (NEW)
-**Status:** Migrations created, pending deployment
-**Identified:** December 3, 2025
-**Documentation:** See `docs/EXPERIENCE_GENERATOR_GAP_ANALYSIS.md`
-
-### Migrations Created (0128-0141)
-14 new migration files implementing immersive experience production management features:
-
-**Phase 1: Core Enrichments**
-- [x] `0128_enrich_organizations.sql` - org_type enum, branding, soft deletes
-- [x] `0129_enrich_productions.sql` - format enum, lifecycle, budgets, sensory design
-- [x] `0130_enrich_venues_zones.sql` - venue types, zones table with access levels
-- [x] `0131_enrich_contacts.sql` - contact types, hierarchy, emergency contacts
-
-**Phase 2: New Systems**
-- [x] `0132_credential_badge_system.sql` - credential types, badges, zone access, scan logs
-- [x] `0133_sponsorship_system.sql` - tiers, sponsors, deliverables, activations, payments
-
-**Phase 3: Operational Enrichments**
-- [x] `0134_enrich_shows_cues.sql` - show types, enhanced cues with department fields
-- [x] `0135_enrich_contracts.sql` - contract types, signatories, deliverables, compliance
-- [x] `0136_enrich_compliance_permits_insurance.sql` - permits, insurance policies, checklists
-
-**Phase 4: Financial/Reporting**
-- [x] `0137_enrich_incidents.sql` - comprehensive incident reporting with corrective actions
-- [x] `0138_production_reports_system.sql` - expense reports, daily reports, wrap reports
-- [x] `0139_investment_fundraising_system.sql` - investors, rounds, investments
-
-**Phase 5: Operations**
-- [x] `0140_sop_system.sql` - SOP categories, versioned procedures, training records
-- [x] `0141_lost_found_api_keys_metrics.sql` - lost & found, API keys, metrics
-
-### Pending Tasks
-- [ ] Run migrations against Supabase: `npx supabase db push`
-- [ ] Regenerate TypeScript types: `npx supabase gen types typescript`
-- [ ] Update `supabase-types.ts` with new table definitions
-- [ ] Create UI components for new features (credentials, sponsorship, SOPs)
-- [ ] Add API routes for new functionality
-
-### New ENUMs Added
-- `org_type_enum`, `contact_type_enum`, `contact_status_enum`
-- `production_format_enum`, `production_lifecycle_enum`
-- `venue_type_enum`, `zone_type_enum`
-- `credential_status_enum`
-- `show_status_enum`, `show_type_enum`, `cue_type_enum`, `trigger_type_enum`
-- `sponsor_status_enum`
-- `contract_category_enum`, `contract_lifecycle_status_enum`
-- `permit_type_enum`, `permit_status_enum`
-- `insurance_type_enum`, `policy_status_enum`
-- `incident_category_enum`, `severity_level_enum`, `incident_resolution_status_enum`
-- `expense_report_status_enum`, `expense_category_enum`, `payment_method_enum`
-- `investor_type_enum`, `investor_status_enum`, `round_type_enum`, `investment_instrument_enum`
-- `sop_status_enum`
-- `lost_found_category_enum`, `lost_found_status_enum`
-- `metrics_granularity_enum`
-
-### New Tables Added
-- `zones`, `credential_types`, `credentials`, `credential_zone_access`, `credential_scans`
-- `sponsor_tiers`, `sponsors`, `sponsor_deliverables`, `sponsor_activations`, `sponsor_payments`
-- `shows`, `cues`, `show_crew`
-- `contract_types`, `contract_signatories`, `contract_deliverables`
-- `permits`, `permit_inspections`, `insurance_policies`, `insurance_certificates`
-- `compliance_checklists`, `compliance_checklist_items`
-- `production_incidents`, `incident_updates`, `incident_corrective_actions`
-- `expense_reports`, `expense_line_items`, `daily_reports`, `wrap_reports`
-- `investors`, `investment_rounds`, `investments`, `investor_communications`
-- `sop_categories`, `sops`, `sop_steps`, `sop_acknowledgments`, `sop_training_records`
-- `lost_found_items`, `lost_found_claims`
-- `api_keys`, `api_key_usage_logs`
-- `production_metrics`, `metric_definitions`
-
----
-
-## AI Experience Generator (Lead Magnet) - IMPLEMENTED
-
-**Status:** Core implementation complete
-**Identified:** December 3, 2025
-**Completed:** December 3, 2025
-**Documentation:** See `docs/EXPERIENCE_GENERATOR_STRATEGY.md`
-
-### Overview
-Public-facing AI-powered tool that transforms a single creative concept (noun) into a complete production blueprint, then exports as a draft project into ATLVS. Acts as a zero-friction lead magnet for new users/organizers.
-
-### Implementation Phases
-
-**Phase 1: MVP - COMPLETE**
-- [x] Create `/generator` public page in ATLVS
-- [x] Build AI generation endpoint with OpenAI (GPT-4o)
-- [x] Simple preview display of generated blueprint
-- [x] Basic PDF export (watermarked for non-auth users)
-- [ ] Email capture for PDF download (deferred)
-
-**Phase 2: Enhanced Preview - COMPLETE**
-- [x] Tabbed preview interface (Concept, Sensory, Spatial, Journey, Docs)
-- [x] Visual representations (color palettes, XYZ charts)
-- [x] Journey timeline component
-- [x] Animated generation progress with streaming
-
-**Phase 3: ATLVS Integration - COMPLETE**
-- [x] OAuth signup flow from generator
-- [x] Export to ATLVS server action
-- [x] Production record creation with zones, credentials, schedule phases
-- [x] SessionStorage for post-auth blueprint retrieval
-
-**Phase 4: Optimization - PARTIAL**
-- [ ] A/B testing framework
-- [ ] Analytics dashboard for conversion tracking
-- [x] Social sharing with OG images
-- [ ] Embed widget for partners
-- [ ] SEO optimization
-
-### Components Built
-- `GeneratorHero.tsx` - Hero section with creative seed input
-- `GeneratorProgress.tsx` - Real-time generation progress
-- `BlueprintPreview.tsx` - Tabbed preview of generated content
-- `ExportCTA.tsx` - Conversion call-to-action with loading states
-- `useExperienceGenerator.ts` - AI generation hook
-- `/api/generator/generate` - AI generation endpoint
-- `/api/generator/pdf` - PDF export endpoint
-- `/api/generator/export` - Export to ATLVS endpoint
-- `/api/generator/share` - Share link creation endpoint
-- `/generator/share/[id]` - Shared blueprint view page
-- `/generator/share/[id]/opengraph-image.tsx` - Dynamic OG image
-
-### Remaining Tasks
-- [x] Email capture gate for PDF download - COMPLETE
-- [ ] A/B testing framework
-- [x] Analytics event tracking - COMPLETE
-- [ ] Embed widget for partners
-- [x] SEO meta tags optimization - COMPLETE
-- [x] Create `shared_blueprints` table in Supabase - COMPLETE (migration 0142)
-
-### Success Metrics Targets
-- 10,000 page views/month
-- 40% generation start rate
-- 15% signup conversion
-- 60% export to ATLVS rate
-
----
-
-## Enterprise Deployment Readiness (Priority 2)
-
-### Loading States - Route-Level Loading ✅ COMPLETE
-**Status:** Implemented
-**Priority:** Medium
-**Effort:** Low
-**Completed:** December 4, 2025
-
-Added `loading.tsx` files to key routes for better UX during page transitions:
-- [x] Add loading states to dashboard pages (GVTEWAY, ATLVS, COMPVSS)
-- [x] Add loading states to data-heavy pages (analytics, reports, events, crew, schedule)
-- [x] Add loading states to form pages
-
-**Files Created:**
-- `apps/gvteway/src/app/dashboard/loading.tsx`
-- `apps/gvteway/src/app/events/loading.tsx`
-- `apps/atlvs/src/app/dashboard/loading.tsx`
-- `apps/atlvs/src/app/analytics/loading.tsx`
-- `apps/atlvs/src/app/reports/loading.tsx`
-- `apps/compvss/src/app/dashboard/loading.tsx`
-- `apps/compvss/src/app/crew/loading.tsx`
-- `apps/compvss/src/app/schedule/loading.tsx`
-
-### API Versioning
-**Status:** Not implemented
-**Priority:** Medium
-**Effort:** Medium
-
-Implement API versioning for better backwards compatibility:
-- [ ] Add `/api/v1/` prefix pattern to all API routes
-- [ ] Create API version middleware
-- [ ] Update API documentation
-
-### Test Coverage Report
-**Status:** Unknown coverage
-**Priority:** Medium
-**Effort:** Low
-
-Run and analyze test coverage:
-- [ ] Run `pnpm test --coverage` and analyze results
-- [ ] Identify gaps in critical paths (auth, payments, data mutations)
+**Acceptance Criteria:**
+- [ ] Run `pnpm test --coverage` and document results
+- [ ] Identify gaps in auth, payments, data mutations
 - [ ] Add integration tests for API endpoints
-
-### SSO/SAML for Enterprise
-**Status:** Not implemented
-**Priority:** Medium (enterprise requirement)
-**Effort:** High
-
-Implement SSO/SAML authentication for enterprise customers:
-- [ ] Research Supabase SSO capabilities
-- [ ] Implement SAML provider configuration
-- [ ] Add SSO login flow to auth pages
-- [ ] Create SSO management UI in settings
-
-### Staging Environment
-**Status:** Not configured
-**Priority:** Medium
-**Effort:** Medium
-
-Set up staging environment for pre-production testing:
-- [ ] Create staging Supabase project
-- [ ] Configure staging environment variables
-- [ ] Add staging deployment workflow
-- [ ] Set up staging database seeding
+- [ ] Coverage report added to CI pipeline
 
 ---
 
-## Enterprise Deployment Readiness (Priority 3)
+### BACK-006: API Versioning
 
-### UI Style Guide Completion
-**Status:** 330+ pages remaining
-**Priority:** Low
-**Effort:** High
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Owner** | Unassigned |
+| **Effort** | M (3-5 days) |
+| **Created** | Dec 4, 2025 |
 
-Complete migration of all pages to design system:
-- [ ] GVTEWAY authenticated pages (~150 pages)
-- [ ] ATLVS authenticated pages (~100 pages)
-- [ ] COMPVSS authenticated pages (~80 pages)
+**Description:**  
+Implement API versioning with `/api/v1/` prefix pattern.
 
-See existing backlog item "UI Style Guide Refactor" for details.
-
-### Detailed Permission System
-**Status:** Basic implementation
-**Priority:** Low
-**Effort:** Medium
-
-Enhance `hasPermission()` with granular permissions:
-- [ ] Define permission matrix for all resources
-- [ ] Implement resource-level permissions
-- [ ] Add permission caching
-- [ ] Create permission management UI
-
-### Centralized Log Aggregation
-**Status:** Console logging only
-**Priority:** Low
-**Effort:** Medium
-
-Implement centralized logging solution:
-- [ ] Evaluate options (Datadog, LogRocket, Axiom)
-- [ ] Configure log shipping from production
-- [ ] Set up log dashboards and alerts
-- [ ] Add structured logging for key events
-
-### Session Timeout Configuration
-**Status:** Using Supabase defaults
-**Priority:** Low
-**Effort:** Low
-
-Configure explicit session management:
-- [ ] Set session expiry in Supabase dashboard
-- [ ] Add session refresh logic in auth context
-- [ ] Implement session timeout warning UI
-- [ ] Add "remember me" functionality
-
-### Rate Limiting Enforcement
-**Status:** Env vars configured, implementation needs verification
-**Priority:** Low
-**Effort:** Medium
-
-Verify and enhance rate limiting:
-- [ ] Audit current rate limiting implementation
-- [ ] Add rate limiting to all public endpoints
-- [ ] Implement per-user rate limits
-- [ ] Add rate limit headers to responses
+**Acceptance Criteria:**
+- [ ] All API routes prefixed with `/api/v1/`
+- [ ] Version middleware created
+- [ ] API documentation updated
+- [ ] Backwards compatibility maintained
 
 ---
 
-## Workflow Audit Findings (December 4, 2025)
+### BACK-007: Staging Environment
 
-### Audit Summary
-A comprehensive workflow audit was conducted covering all user journeys from Experience Discovery through Final Reconciliation.
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Owner** | Unassigned |
+| **Effort** | M (3-5 days) |
+| **Created** | Dec 4, 2025 |
 
-**Total Pages Audited:** 512
-- GVTEWAY: 174 pages (29 event-level)
-- ATLVS: 197 pages (45 production-level)
-- COMPVSS: 141 pages (35 production-level)
+**Description:**  
+Configure staging environment for pre-production testing.
 
-**Build Status:** PASS
-**TypeScript:** PASS
-**Deployment Readiness:** 95%
-
-### Issues Fixed During Audit
-1. ✅ **FileTemplate Import Error** - Fixed in `apps/atlvs/src/app/quick-links/page.tsx`
-   - Changed invalid `FileTemplate` import to `FilePlus2`
-
-### Remaining Items from Audit - ALL COMPLETE ✅
-1. [x] Run full E2E test suite on critical paths - Test files created
-2. [x] Verify all API routes return expected data with real database - API test files created
-3. [x] Test cross-platform handoffs (ATLVS → COMPVSS → GVTEWAY) - Cross-platform tests created
-4. [x] Performance testing under load - Performance test files created
-5. [x] Security audit of RLS policies - Security audit complete, report created
-
-### Documentation Created
-- `docs/WORKFLOW_AUDIT_REPORT.md` - Full audit report with all workflows validated
-- `docs/SECURITY_AUDIT_REPORT.md` - Comprehensive security audit with RLS policy verification
-
-### E2E Test Files Created
-- `e2e/critical-paths/auth-flow.spec.ts` - Authentication flow tests
-- `e2e/critical-paths/ticket-purchase.spec.ts` - Ticket purchase flow tests
-- `e2e/critical-paths/production-planning.spec.ts` - Production planning flow tests
-- `e2e/critical-paths/production-execution.spec.ts` - Production execution flow tests
-- `e2e/critical-paths/cross-platform.spec.ts` - Cross-platform integration tests
-- `e2e/api/gvteway-api.spec.ts` - GVTEWAY API route tests
-- `e2e/api/atlvs-api.spec.ts` - ATLVS API route tests
-- `e2e/api/compvss-api.spec.ts` - COMPVSS API route tests
-- `e2e/performance/load-times.perf.spec.ts` - Performance load time tests
-- `e2e/security/rls-audit.spec.ts` - RLS security audit tests
+**Acceptance Criteria:**
+- [ ] Staging Supabase project created
+- [ ] Environment variables configured
+- [ ] Staging deployment workflow added
+- [ ] Database seeding scripts working
 
 ---
 
-## Notes
+### BACK-008: SSO/SAML for Enterprise
 
-- Vercel Hobby plan allows 2 cron jobs total across all projects
-- Vercel Pro plan ($20/month per member) allows more cron jobs
-- Consider consolidating cron jobs or using external cron services as alternatives
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Owner** | Unassigned |
+| **Effort** | L (1-2 weeks) |
+| **Created** | Dec 4, 2025 |
+| **Type** | Enterprise Feature |
+
+**Description:**  
+Implement SSO/SAML authentication for enterprise customers.
+
+**Acceptance Criteria:**
+- [ ] Supabase SSO capabilities researched
+- [ ] SAML provider configuration implemented
+- [ ] SSO login flow added to auth pages
+- [ ] SSO management UI in settings
+
+---
+
+## P3 - Low Priority
+
+### BACK-009: Detailed Permission System
+
+| Field | Value |
+|-------|-------|
+| **Status** | Basic Implementation |
+| **Effort** | M (3-5 days) |
+
+**Acceptance Criteria:**
+- [ ] Permission matrix defined for all resources
+- [ ] Resource-level permissions implemented
+- [ ] Permission caching added
+- [ ] Permission management UI created
+
+---
+
+### BACK-010: Centralized Log Aggregation
+
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Effort** | M (3-5 days) |
+
+**Acceptance Criteria:**
+- [ ] Logging solution selected (Datadog/LogRocket/Axiom)
+- [ ] Log shipping configured
+- [ ] Dashboards and alerts set up
+- [ ] Structured logging for key events
+
+---
+
+### BACK-011: Session Timeout Configuration
+
+| Field | Value |
+|-------|-------|
+| **Status** | Using Defaults |
+| **Effort** | S (1-2 hours) |
+
+**Acceptance Criteria:**
+- [ ] Session expiry configured in Supabase
+- [ ] Session refresh logic in auth context
+- [ ] Timeout warning UI implemented
+- [ ] "Remember me" functionality added
+
+---
+
+### BACK-012: Rate Limiting Enforcement
+
+| Field | Value |
+|-------|-------|
+| **Status** | Partial |
+| **Effort** | M (3-5 days) |
+
+**Acceptance Criteria:**
+- [ ] Current implementation audited
+- [ ] Rate limiting on all public endpoints
+- [ ] Per-user rate limits implemented
+- [ ] Rate limit headers in responses
+
+---
+
+### BACK-013: Vercel Cron Jobs
+
+| Field | Value |
+|-------|-------|
+| **Status** | Disabled (Plan Limit) |
+| **Effort** | S (1-2 hours) |
+| **Blocked By** | Vercel Pro plan upgrade |
+
+**Description:**  
+Re-enable cron jobs after upgrading to Vercel Pro plan.
+
+**Cron Jobs:**
+| App | Endpoint | Schedule |
+|-----|----------|----------|
+| ATLVS | `/api/cron/sync-ledger` | Daily |
+| ATLVS | `/api/cron/cleanup-sessions` | Daily |
+| COMPVSS | `/api/cron/sync-equipment` | Daily |
+| COMPVSS | `/api/cron/crew-notifications` | 8am daily |
+| GVTEWAY | `/api/cron/ticket-reminders` | 9am daily |
+| GVTEWAY | `/api/cron/loyalty-points` | Daily |
+| GVTEWAY | `/api/cron/event-notifications` | 6am daily |
+
+---
+
+## Completed (Last 30 Days)
+
+| ID | Item | Completed | Notes |
+|----|------|-----------|-------|
+| BACK-C01 | Workflow Audit | Dec 4, 2025 | 512 pages audited, 16 E2E specs, 8 loading files |
+| BACK-C02 | Loading States | Dec 4, 2025 | Route-level loading.tsx files added |
+| BACK-C03 | AI Experience Generator | Dec 3, 2025 | Core implementation complete |
+| BACK-C04 | Typography Audit | Nov 27, 2025 | 1,800+ violations fixed |
+| BACK-C05 | Text Color Visibility | Nov 27, 2025 | Full visibility system implemented |
+| BACK-C06 | Raw Tailwind Migration | Nov 27, 2025 | Design system components adopted |
+| BACK-C07 | Theme-Aware Backgrounds | Nov 27, 2025 | Semantic tokens implemented |
+
+---
+
+## Notes & Decisions
+
+- **Vercel Plan:** Hobby plan limits cron jobs to 2 total. Pro plan ($20/mo/member) required for full cron support.
+- **Alternative:** Consider external cron services (Upstash, Inngest) if Pro upgrade is delayed.
+- **Design System:** ESLint enforcement is transitional; upgrade to errors once violations reach zero.

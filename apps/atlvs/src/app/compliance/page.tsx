@@ -11,6 +11,8 @@ import {
   DetailDrawer,
   ConfirmDialog,
   useNotifications,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -130,16 +132,16 @@ export default function CompliancePage() {
 
   const detailSections: DetailSection[] = selectedItem ? [
     { id: 'overview', title: 'Compliance Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Title:</strong> {selectedItem.title}</div>
-        <div><strong>Type:</strong> {selectedItem.compliance_type}</div>
-        <div><strong>Provider:</strong> {selectedItem.provider_name || '—'}</div>
-        <div><strong>Status:</strong> {selectedItem.status}</div>
-        <div><strong>Effective:</strong> {selectedItem.effective_date ? new Date(selectedItem.effective_date).toLocaleDateString() : '—'}</div>
-        <div><strong>Expires:</strong> {selectedItem.expiration_date ? new Date(selectedItem.expiration_date).toLocaleDateString() : '—'}</div>
-        {selectedItem.coverage_amount && <div><strong>Coverage:</strong> ${selectedItem.coverage_amount.toLocaleString()}</div>}
-        {selectedItem.annual_cost && <div><strong>Annual Cost:</strong> ${selectedItem.annual_cost.toLocaleString()}</div>}
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Title:</strong> {selectedItem.title}</Body>
+        <Body size="sm"><strong>Type:</strong> {selectedItem.compliance_type}</Body>
+        <Body size="sm"><strong>Provider:</strong> {selectedItem.provider_name || '—'}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedItem.status}</Body>
+        <Body size="sm"><strong>Effective:</strong> {selectedItem.effective_date ? new Date(selectedItem.effective_date).toLocaleDateString() : '—'}</Body>
+        <Body size="sm"><strong>Expires:</strong> {selectedItem.expiration_date ? new Date(selectedItem.expiration_date).toLocaleDateString() : '—'}</Body>
+        {selectedItem.coverage_amount && <Body size="sm"><strong>Coverage:</strong> ${selectedItem.coverage_amount.toLocaleString()}</Body>}
+        {selectedItem.annual_cost && <Body size="sm"><strong>Annual Cost:</strong> ${selectedItem.annual_cost.toLocaleString()}</Body>}
+      </Grid>
     )},
   ] : [];
 

@@ -58,8 +58,9 @@ export {
   ExternalLink,
   Upload,
   Download,
+  IconBox,
 } from "./atoms/icon.js";
-export type { IconProps } from "./atoms/icon.js";
+export type { IconProps, IconBoxProps } from "./atoms/icon.js";
 export { SocialIcon } from "./atoms/social-icon.js";
 export type { SocialIconProps } from "./atoms/social-icon.js";
 export { Countdown } from "./atoms/countdown.js";

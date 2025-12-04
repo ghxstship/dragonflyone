@@ -92,7 +92,7 @@ export default function TikTokChallengesPage() {
               <Card key={challenge.id} className="border-2 border-black p-6">
                 <Grid cols={6} gap={4} className="items-center">
                   <Stack gap={1}>
-                    <Body className="font-bold">{challenge.name}</Body>
+                    <Body className="font-weight-bold">{challenge.name}</Body>
                     <Label className="text-info-600">{challenge.hashtag}</Label>
                   </Stack>
                   <Stack gap={1}>

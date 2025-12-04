@@ -10,6 +10,8 @@ import {
   RecordFormModal,
   DetailDrawer,
   ConfirmDialog,
+  Grid,
+  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -99,15 +101,15 @@ export default function DealsPage() {
 
   const detailSections: DetailSection[] = selectedDeal ? [
     { id: 'overview', title: 'Deal Details', content: (
-      <div className="grid grid-cols-2 gap-4">
-        <div><strong>Title:</strong> {selectedDeal.title}</div>
-        <div><strong>Status:</strong> {selectedDeal.status}</div>
-        <div><strong>Client:</strong> {selectedDeal.client || '—'}</div>
-        <div><strong>Value:</strong> {formatCurrency(selectedDeal.value)}</div>
-        <div><strong>Stage:</strong> {selectedDeal.stage || '—'}</div>
-        <div><strong>Probability:</strong> {selectedDeal.probability ? `${selectedDeal.probability}%` : '—'}</div>
-        <div><strong>Close Date:</strong> {selectedDeal.closeDate || '—'}</div>
-      </div>
+      <Grid cols={2} gap={4}>
+        <Body size="sm"><strong>Title:</strong> {selectedDeal.title}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedDeal.status}</Body>
+        <Body size="sm"><strong>Client:</strong> {selectedDeal.client || '—'}</Body>
+        <Body size="sm"><strong>Value:</strong> {formatCurrency(selectedDeal.value)}</Body>
+        <Body size="sm"><strong>Stage:</strong> {selectedDeal.stage || '—'}</Body>
+        <Body size="sm"><strong>Probability:</strong> {selectedDeal.probability ? `${selectedDeal.probability}%` : '—'}</Body>
+        <Body size="sm"><strong>Close Date:</strong> {selectedDeal.closeDate || '—'}</Body>
+      </Grid>
     )},
   ] : [];
 
