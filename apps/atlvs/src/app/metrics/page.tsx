@@ -125,7 +125,7 @@ export default function MetricsPage() {
                             <Body className="text-body-sm text-grey-500">/ {kpi.target}{kpi.unit}</Body>
                           </Stack>
                         </Stack>
-                        <Box className="h-2 overflow-hidden rounded-badge bg-grey-200">
+                        <Box className="h-2 overflow-hidden bg-grey-200 rounded-badge">
                           <Box 
                             className={`h-full ${kpi.status === 'on_track' ? 'bg-success' : kpi.status === 'at_risk' ? 'bg-warning' : 'bg-error'}`}
                             style={{ width: `${Math.min(100, (kpi.value / kpi.target) * 100)}%` }} 
