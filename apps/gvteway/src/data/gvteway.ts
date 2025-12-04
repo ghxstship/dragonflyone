@@ -285,6 +285,105 @@ export const gvtewayAdminNavigation = [
   },
 ];
 
+// =============================================================================
+// EVENT-LEVEL NAVIGATION (Event Context)
+// Visible when viewing a specific event - uses /events/[eventId]/ prefix
+// =============================================================================
+export const gvtewayEventNavigation = [
+  {
+    section: "Event",
+    icon: "Calendar",
+    items: [
+      { label: "Overview", href: "/", icon: "Calendar", primary: true },
+      { label: "Program", href: "/program", icon: "ListOrdered" },
+      { label: "Lineup", href: "/lineup", icon: "Music" },
+    ],
+  },
+  {
+    section: "Tickets",
+    icon: "Ticket",
+    items: [
+      { label: "Buy Tickets", href: "/tickets", icon: "Ticket", primary: true },
+      { label: "Seating", href: "/seating", icon: "Grid" },
+      { label: "Waitlist", href: "/waitlist", icon: "Clock" },
+    ],
+  },
+  {
+    section: "Experience",
+    icon: "Sparkles",
+    items: [
+      { label: "Photo Booth", href: "/photo-booth", icon: "Camera" },
+      { label: "Social Wall", href: "/social-wall", icon: "MessageSquare" },
+      { label: "Chat", href: "/chat", icon: "MessageCircle" },
+      { label: "Friends", href: "/friends", icon: "Users" },
+    ],
+  },
+  {
+    section: "Info",
+    icon: "Info",
+    items: [
+      { label: "Entry Info", href: "/entry-info", icon: "DoorOpen" },
+      { label: "Parking", href: "/parking", icon: "Car" },
+      { label: "Accessibility", href: "/accessibility", icon: "Accessibility" },
+      { label: "Languages", href: "/languages", icon: "Globe" },
+    ],
+  },
+  {
+    section: "Venue",
+    icon: "MapPin",
+    items: [
+      { label: "Floor Map", href: "/floor-config", icon: "Map" },
+      { label: "Landing Builder", href: "/landing-builder", icon: "Layout" },
+      { label: "RFID", href: "/rfid", icon: "Wifi" },
+    ],
+  },
+];
+
+// =============================================================================
+// CONTEXT SWITCHER DATA
+// Available events for context switching
+// =============================================================================
+export interface EventContext {
+  id: string;
+  name: string;
+  status: 'live' | 'upcoming' | 'past' | 'draft';
+  date?: string;
+  venue?: string;
+  image?: string;
+}
+
+// Demo events for context switcher
+export const gvtewayDemoEvents: EventContext[] = [
+  {
+    id: "evt-001",
+    name: "Summer Music Festival 2025",
+    status: "upcoming",
+    date: "2025-06-15",
+    venue: "Central Park",
+  },
+  {
+    id: "evt-002",
+    name: "Winter Wonderland Gala",
+    status: "upcoming",
+    date: "2025-12-20",
+    venue: "Grand Ballroom",
+  },
+  {
+    id: "evt-003",
+    name: "Tech Innovation Summit",
+    status: "upcoming",
+    date: "2025-09-10",
+    venue: "Convention Center",
+  },
+  {
+    id: "evt-004",
+    name: "Spring Concert Series",
+    status: "draft",
+    date: "2025-04-01",
+    venue: "Multiple Venues",
+  },
+];
+
 // Landing page anchor navigation (for marketing/overview page)
 export const gvtewayLandingNavigation = [
   { label: "Overview", href: "#top" },

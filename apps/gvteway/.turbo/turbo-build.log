@@ -1,34 +1,487 @@
 
+
 > gvteway@0.1.0 build /Users/julianclarkson/Documents/Dragonflyone/apps/gvteway
 > NODE_OPTIONS='--max-old-space-size=8192' next build
 
-  ▲ Next.js 14.2.3
+  [1m[38;2;173;127;168m▲ Next.js 14.2.3[39m[22m
   - Environments: .env.local
   - Experiments (use with caution):
     · cpus
 
-   Creating an optimized production build ...
-<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (128kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
- ✓ Compiled successfully
-   Skipping validation of types
-   Skipping linting
-   Collecting page data ...
- ⚠ Using edge runtime on a page currently disables static generation for that page
-   Generating static pages (0/387) ...
-   Generating static pages (96/387) 
-Get user error: q [Error]: Dynamic server usage: Route /api/auth/me couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
-    at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
-    at p (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/app/api/auth/me/route.js:1:633)
-    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
-    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/server/lib/trace/tracer.js:140:36
-    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062)
-    at ContextAPI.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:518)
-    at NoopTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18093)
-    at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18854)
-    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/server/lib/trace/tracer.js:122:103
-    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062) {
+ [37m[1m [22m[39m Creating an optimized production build ...
+ [32m[1m✓[22m[39m Compiled successfully
+ [37m[1m [22m[39m Skipping validation of types
+ [37m[1m [22m[39m Skipping linting
+[?25l [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting page data  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting page data  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting page data  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting page data  [36m...[39m[2K[1G[1A[2K[1G[?25h [33m[1m⚠[22m[39m Using edge runtime on a page currently disables static generation for that page
+[?25l [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G[1A[2K[1G[?25h [37m[1m [22m[39m Collecting page data     [32m[1m✓[22m[39m Collecting page data 
+[?25l [37m[1m [22m[39m Generating static pages (0/387)  [36m[    ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (1/387)  [36m[=   ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (5/387)  [36m[==  ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (6/387)  [36m[=== ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (8/387)  [36m[ ===][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (11/387)  [36m[  ==][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (16/387)  [36m[   =][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (19/387)  [36m[    ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (24/387)  [36m[   =][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (29/387)  [36m[  ==][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (32/387)  [36m[ ===][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (37/387)  [36m[====][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (46/387)  [36m[=== ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (55/387)  [36m[==  ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (61/387)  [36m[=   ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (68/387)  [36m[    ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (75/387)  [36m[=   ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (78/387)  [36m[==  ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (84/387)  [36m[=== ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (90/387)  [36m[ ===][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (99/387)  [36m[  ==][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (100/387)  [36m[   =][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (108/387)  [36m[    ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (120/387)  [36m[   =][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (129/387)  [36m[  ==][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (131/387)  [36m[ ===][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (140/387)  [36m[====][39mGet user error: q [Error]: Dynamic server usage: Route /api/auth/me couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at Object.get (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
+    at p (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/app/api/auth/me/route.js:1:631)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
+    at ContextAPI.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/api/context.js:60:46)
+    at NoopTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/NoopTracer.js:65:31)
+    at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/ProxyTracer.js:36:24)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/server/lib/trace/tracer.js:122:103
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19) {
   description: "Route /api/auth/me couldn't be rendered statically because it accessed `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
   digest: 'DYNAMIC_SERVER_USAGE'
 }
-   Generating static pages (193/387) 
-   Generating static pages (290/387) 
+[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (167/387)  [36m[=== ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (179/387)  [36m[==  ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (202/387)  [36m[=   ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (269/387)  [36m[    ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (286/387)  [36m[=   ][39m[2K[1G[1A[2K[1G[?25h [32m[1m✓[22m[39m Generating static pages (387/387)
+[?25l [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[?25l [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[1A[2K[1G[?25h [37m[1m [22m[39m Collecting build traces     [32m[1m✓[22m[39m Collecting build traces 
+[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G[?25h [37m[1m [22m[39m Finalizing page optimization     [32m[1m✓[22m[39m Finalizing page optimization 
+
+[4mRoute (app)[24m                                   [4mSize[24m     [4mFirst Load JS[24m
+┌ ƒ /                                         6.65 kB         [37m[1m188 kB[22m[39m
+├ ○ /_not-found                               143 B          [37m[1m87.4 kB[22m[39m
+├ ○ /accessibility                            3.63 kB         [37m[1m179 kB[22m[39m
+├ ○ /accessibility/request                    3.23 kB         [37m[1m178 kB[22m[39m
+├ ○ /activity                                 4.61 kB         [37m[1m185 kB[22m[39m
+├ ○ /admin/anti-scalping                      4.73 kB         [37m[1m180 kB[22m[39m
+├ ○ /admin/content-calendar                   2.59 kB         [37m[1m178 kB[22m[39m
+├ ○ /admin/contests                           4.29 kB         [37m[1m179 kB[22m[39m
+├ ○ /admin/integrations                       2.59 kB         [37m[1m178 kB[22m[39m
+├ ○ /admin/inventory-sync                     3.85 kB         [37m[1m179 kB[22m[39m
+├ ○ /admin/marketing/sms                      3.72 kB         [37m[1m179 kB[22m[39m
+├ ○ /admin/moderation                         3.77 kB         [37m[1m179 kB[22m[39m
+├ ○ /admin/pos                                3.33 kB         [37m[1m178 kB[22m[39m
+├ ○ /admin/pos/cashless                       4.3 kB          [37m[1m179 kB[22m[39m
+├ ○ /admin/pricing/early-bird                 3.42 kB         [37m[1m178 kB[22m[39m
+├ ○ /admin/promo-codes                        3.97 kB         [37m[1m179 kB[22m[39m
+├ ○ /admin/sales-reporting                    3.88 kB         [37m[1m179 kB[22m[39m
+├ ○ /admin/will-call                          3.83 kB         [37m[1m179 kB[22m[39m
+├ ƒ /api/ab-testing                           0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/abandoned-cart                       0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/accessibility                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/accessibility/requests               0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/activity/feed                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/ad-campaigns                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/admin/payouts                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/admin/promo-codes                    0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/admin/promo-codes/[id]               0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/admin/reconciliation                 0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/admin/refunds                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/advanced-search                      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/age-restrictions                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/age-verification                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/ai-recommendations                   0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/ai/nlp-search                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/ai/recommendations                   0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/ambassador-program                   0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/anti-scalping                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/approval-workflows                   0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/ar-experiences                       0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/artist-amplification                 0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/artists                              0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/artists/[id]/follow                  0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/artists/[id]/follow/status           0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/auth/callback                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/auth/magic-link                      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/auth/me                              0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/auth/oauth/[provider]                0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/auth/password/reset                  0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/auth/password/update                 0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/auth/refresh                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/auth/signin                          0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/auth/signout                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/auth/signup                          0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/auth/verify-email                    0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/batch/tickets                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/bulk-posting                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/bundle-deals                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/bundles                              0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/campaigns                            0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/capacity                             0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/cashless-payments                    0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/charity-campaigns                    0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/checkout                             0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/checkout/session                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/collections                          0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/collections/[id]                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/comment-moderation                   0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/community                            0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/community-analytics                  0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/community-challenges                 0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/community/events                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/community/forums                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/community/groups                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/community/polls                      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/community/polls/[id]/vote            0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/content-calendar                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/content-optimization                 0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/content/categories                   0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/content/exclusive                    0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/contest-giveaway                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/contests                             0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/crisis-management                    0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/currency-pricing                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/deals                                0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/dietary-notifications                0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/digital-wallet                       0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/directions/parking                   0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/directions/route                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/directions/transport                 0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/directions/venue                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/discounts/verify                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/discover/quiz                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/early-access                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/early-bird                           0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/event-aggregators                    0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/event-collaboration                  0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/event-parking                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/events                               0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/events/[id]                          0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/events/[id]/chat                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/events/[id]/entry-info               0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/events/[id]/partners                 0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/events/[id]/program                  0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/events/[id]/qr-checkin               0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/events/[id]/seating                  0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/events/[id]/tickets/generate         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/events/[id]/waitlist                 0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/events/create                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/events/enhanced                      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/events/map                           0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/events/nearby                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/events/templates                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/exclusive-content                    0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/experience-discovery                 0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/experiences                          0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/fan-chapters                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/fan-club-access                      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/fan-clubs                            0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/fan-content                          0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/fan-mentorship                       0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/fan-profiles                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/fan-spotlight                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/favorites                            0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/follows                              0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/friends                              0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/friends/location                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/friends/meetups                      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/ga-floor-config                      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/gamification                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/gift-cards                           0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/gift-cards/my-cards                  0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/gift-cards/purchase                  0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/gift-cards/redeem                    0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/gift-registry                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/group-organizer                      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/groups                               0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/guest-chat                           0 B                [37m[1m0 B[22m[39m
+├ ○ /api/health                               0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/influencer-affiliates                0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/influencer-tracking                  0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/instagram-templates                  0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/integrations/iot                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/integrations/live-streaming          0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/integrations/marketing-sync          0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/integrations/payment-gateways        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/integrations/social-media            0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/integrations/streaming               0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/integrations/ticket-revenue          0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/inventory-alerts                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/inventory-sync                       0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/landing-pages                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/limited-releases                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/live-social-feed                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/live-tweet-wall                      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/local-partnerships                   0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/lost-found                           0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/loyalty                              0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/loyalty-rewards                      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/marketing-analytics                  0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/marketing/campaigns                  0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/marketing/lists                      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/marketing/templates                  0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/match/events                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/match/interests                      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/match/users                          0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/media-kit                            0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/member-benefits                      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/member-directory                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/memberships                          0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/memberships/subscribe                0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/memory-book                          0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/merch/catalog                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/merchandise                          0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/messages/conversations               0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/messages/conversations/[id]          0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/messaging                            0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/mobile-ticket-delivery               0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/multi-language                       0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/multi-language-events                0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/music-integration                    0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/nft-tickets                          0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/notifications                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/offline-tickets                      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/onboarding/complete                  0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/onboarding/interests                 0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/onboarding/preferences               0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/onboarding/profile                   0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/orders                               0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/orders/[id]                          0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/orders/history                       0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/orders/revenue-sync                  0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/paid-advertising                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/partners                             0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/partners/[id]                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/partners/[id]/offers                 0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/payment-methods                      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/payment-plans                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/payments                             0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/photo-booth                          0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/photos/[id]/like                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/photos/feed                          0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/photos/galleries                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/pos-terminal                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/preorders                            0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/press-media-kit                      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/price-alerts                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/price-alerts/[id]                    0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/pricing/dynamic                      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/print-at-home                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/privacy/cookies                      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/product-customization                0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/product-variants                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/profile                              0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/promo-codes                          0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/qa-sessions                          0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/qa-sessions/[id]/questions           0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/qa-sessions/questions/[id]/upvote    0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/queuing                              0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/receipts                             0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/recommendations                      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/referrals                            0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/refunds                              0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/related-events                       0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/retargeting-pixels                   0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/reviews                              0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/rewards                              0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/rfid-wristbands                      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/sales-reporting                      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/saved-searches                       0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/saved-searches/[id]                  0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/search                               0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/search/universal                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/seat-upgrades                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/secondary-market                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/sentiment-alerts                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/series-management                    0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/shoppable-posts                      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/similar-events                       0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/sms-campaigns                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/social                               0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/social-commerce                      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/social-content-scheduler             0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/social-graph                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/social-inbox                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/social-listening                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/social-proof                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/social-takeover                      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/social/affiliate                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/social/posts                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/social/shops                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/split-payment                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/sponsor-branding                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/streaming                            0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/subscription-box                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/support/conversations                0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/support/conversations/[id]/messages  0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/surveys/[id]                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/surveys/[id]/responses               0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/tax-calculation                      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/third-party-listings                 0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/ticket-insurance                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/tickets                              0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/tickets/[id]                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/tickets/addons                       0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/tickets/deliveries                   0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/tickets/enhanced                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/tickets/gift                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/tickets/track                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/tickets/transfer                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/tiktok-challenges                    0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/tips-gratuity                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/tourism-partnerships                 0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/tours                                0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/travel-packages                      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/ugc-campaigns                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/ugc/campaigns                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/ugc/hashtags                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/ugc/posts                            0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/urgency-tactics                      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/user/badges                          0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/user/blocked                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/user/events                          0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/user/favorites                       0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/user/favorites/[id]                  0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/user/notification-preferences        0 B                [37m[1m0 B[22m[39m
+├ ○ /api/user/profile                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/user/reports                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/user/reputation                      0 B                [37m[1m0 B[22m[39m
+├ ○ /api/user/settings                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/vendor-booths                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/venue-maps                           0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/venues                               0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/venues/[id]                          0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/venues/[id]/follow                   0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/venues/[id]/follow/status            0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/venues/[id]/map                      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/video-promo                          0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/vip-zones                            0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/visual-search                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/voice-search                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/vr-experiences                       0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/waitlist                             0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/wallet                               0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/watch-parties                        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/watch-parties/[id]/join              0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/weather-policies                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/webhooks/stripe                      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/will-call                            0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/wishlist                             0 B                [37m[1m0 B[22m[39m
+├ ○ /apply                                    5.32 kB         [37m[1m187 kB[22m[39m
+├ ○ /apply/confirmation                       3 kB            [37m[1m185 kB[22m[39m
+├ ○ /artists                                  3.93 kB         [37m[1m282 kB[22m[39m
+├ ƒ /artists/[id]                             2.54 kB         [37m[1m183 kB[22m[39m
+├ ○ /auth/forgot-password                     2.32 kB         [37m[1m183 kB[22m[39m
+├ ○ /auth/magic-link                          2.53 kB         [37m[1m184 kB[22m[39m
+├ ○ /auth/reset-password                      2.54 kB         [37m[1m184 kB[22m[39m
+├ ○ /auth/signin                              891 B           [37m[1m270 kB[22m[39m
+├ ○ /auth/signup                              3.04 kB         [37m[1m184 kB[22m[39m
+├ ○ /auth/verify-email                        2.12 kB         [37m[1m183 kB[22m[39m
+├ ○ /browse                                   3.05 kB         [37m[1m274 kB[22m[39m
+├ ○ /calendar                                 3.08 kB         [37m[1m274 kB[22m[39m
+├ ○ /cart                                     4.1 kB          [37m[1m179 kB[22m[39m
+├ ○ /checkout                                 4.7 kB          [37m[1m268 kB[22m[39m
+├ ○ /checkout/currency                        3.33 kB         [37m[1m178 kB[22m[39m
+├ ƒ /collections/[id]                         1.88 kB         [37m[1m177 kB[22m[39m
+├ ○ /community                                4.23 kB         [37m[1m179 kB[22m[39m
+├ ○ /community/challenges                     3.45 kB         [37m[1m178 kB[22m[39m
+├ ○ /community/fan-content                    2.96 kB         [37m[1m178 kB[22m[39m
+├ ○ /community/guidelines                     3.29 kB         [37m[1m178 kB[22m[39m
+├ ○ /community/polls                          2.75 kB         [37m[1m178 kB[22m[39m
+├ ○ /confirmation                             2.62 kB         [37m[1m178 kB[22m[39m
+├ ○ /content                                  3.31 kB         [37m[1m184 kB[22m[39m
+├ ƒ /creators                                 1.71 kB         [37m[1m177 kB[22m[39m
+├ ○ /dashboard                                5.29 kB         [37m[1m277 kB[22m[39m
+├ ○ /deals                                    3.88 kB         [37m[1m179 kB[22m[39m
+├ ○ /design-system                            3.45 kB         [37m[1m178 kB[22m[39m
+├ ○ /destinations                             2.68 kB         [37m[1m178 kB[22m[39m
+├ ○ /directions                               3.46 kB         [37m[1m178 kB[22m[39m
+├ ○ /discover                                 4.13 kB         [37m[1m179 kB[22m[39m
+├ ○ /discover/quiz                            3.44 kB         [37m[1m184 kB[22m[39m
+├ ○ /events                                   4.21 kB         [37m[1m281 kB[22m[39m
+├ ƒ /events/[id]                              2.52 kB         [37m[1m271 kB[22m[39m
+├ ƒ /events/[id]/accessibility                3.43 kB         [37m[1m178 kB[22m[39m
+├ ƒ /events/[id]/chat                         3.13 kB         [37m[1m183 kB[22m[39m
+├ ƒ /events/[id]/entry-info                   2.87 kB         [37m[1m178 kB[22m[39m
+├ ƒ /events/[id]/floor-config                 3.45 kB         [37m[1m178 kB[22m[39m
+├ ƒ /events/[id]/friends                      2.46 kB         [37m[1m177 kB[22m[39m
+├ ƒ /events/[id]/landing-builder              4.45 kB         [37m[1m179 kB[22m[39m
+├ ƒ /events/[id]/languages                    3.49 kB         [37m[1m178 kB[22m[39m
+├ ƒ /events/[id]/parking                      3.77 kB         [37m[1m179 kB[22m[39m
+├ ƒ /events/[id]/photo-booth                  3.04 kB         [37m[1m178 kB[22m[39m
+├ ƒ /events/[id]/program                      2.6 kB          [37m[1m183 kB[22m[39m
+├ ƒ /events/[id]/rfid                         2.71 kB         [37m[1m177 kB[22m[39m
+├ ƒ /events/[id]/seating                      3.05 kB         [37m[1m178 kB[22m[39m
+├ ƒ /events/[id]/social-wall                  3.31 kB         [37m[1m178 kB[22m[39m
+├ ƒ /events/[id]/waitlist                     2.91 kB         [37m[1m178 kB[22m[39m
+├ ○ /events/clone                             3.48 kB         [37m[1m178 kB[22m[39m
+├ ○ /events/compare                           2.59 kB         [37m[1m183 kB[22m[39m
+├ ○ /events/create                            2.29 kB         [37m[1m177 kB[22m[39m
+├ ○ /events/create/collaboration              3.34 kB         [37m[1m178 kB[22m[39m
+├ ○ /events/templates                         2.52 kB         [37m[1m177 kB[22m[39m
+├ ○ /experiences                              5.32 kB         [37m[1m282 kB[22m[39m
+├ ○ /fan-club                                 3.38 kB         [37m[1m178 kB[22m[39m
+├ ○ /fan-club/exclusive-access                3.44 kB         [37m[1m178 kB[22m[39m
+├ ○ /fan-clubs                                2.83 kB         [37m[1m178 kB[22m[39m
+├ ○ /favorites                                3.86 kB         [37m[1m179 kB[22m[39m
+├ ○ /forums                                   2.73 kB         [37m[1m178 kB[22m[39m
+├ ○ /friends                                  4.77 kB         [37m[1m185 kB[22m[39m
+├ ○ /gift-cards                               3.56 kB         [37m[1m178 kB[22m[39m
+├ ○ /groups                                   2.57 kB         [37m[1m178 kB[22m[39m
+├ ○ /help                                     3.53 kB         [37m[1m178 kB[22m[39m
+├ ○ /login                                    1.17 kB         [37m[1m239 kB[22m[39m
+├ ○ /lost-found                               3.12 kB         [37m[1m183 kB[22m[39m
+├ ○ /map                                      3.25 kB         [37m[1m184 kB[22m[39m
+├ ○ /marketing/ab-testing                     3.41 kB         [37m[1m178 kB[22m[39m
+├ ○ /marketing/analytics                      3.31 kB         [37m[1m178 kB[22m[39m
+├ ○ /marketing/early-bird                     3.42 kB         [37m[1m178 kB[22m[39m
+├ ○ /marketing/influencers                    2.82 kB         [37m[1m178 kB[22m[39m
+├ ○ /marketing/media-kit                      3.45 kB         [37m[1m178 kB[22m[39m
+├ ○ /marketing/pixels                         3.47 kB         [37m[1m178 kB[22m[39m
+├ ○ /match                                    3.36 kB         [37m[1m184 kB[22m[39m
+├ ○ /membership                               5 kB            [37m[1m187 kB[22m[39m
+├ ○ /membership/benefits                      3.83 kB         [37m[1m179 kB[22m[39m
+├ ○ /merch                                    2.46 kB         [37m[1m274 kB[22m[39m
+├ ƒ /merch/[artistId]                         3.47 kB         [37m[1m184 kB[22m[39m
+├ ○ /merch/bundles                            4.04 kB         [37m[1m179 kB[22m[39m
+├ ○ /messages                                 4.27 kB         [37m[1m185 kB[22m[39m
+├ ○ /moderate                                 1.92 kB         [37m[1m177 kB[22m[39m
+├ ○ /my-events                                4.61 kB         [37m[1m185 kB[22m[39m
+├ ○ /nearby                                   3 kB            [37m[1m178 kB[22m[39m
+├ ○ /new-events                               2.69 kB         [37m[1m178 kB[22m[39m
+├ ○ /notifications                            3.9 kB          [37m[1m179 kB[22m[39m
+├ ○ /onboarding                               4.54 kB         [37m[1m274 kB[22m[39m
+├ ○ /orders                                   3.75 kB         [37m[1m275 kB[22m[39m
+├ ○ /orders/history                           3.17 kB         [37m[1m178 kB[22m[39m
+├ ○ /packages                                 2.91 kB         [37m[1m178 kB[22m[39m
+├ ○ /photos                                   3.32 kB         [37m[1m184 kB[22m[39m
+├ ○ /price-alerts                             2.8 kB          [37m[1m178 kB[22m[39m
+├ ○ /profile                                  4 kB            [37m[1m179 kB[22m[39m
+├ ○ /profile/badges                           3.04 kB         [37m[1m178 kB[22m[39m
+├ ○ /profile/reputation                       3.28 kB         [37m[1m178 kB[22m[39m
+├ ○ /qa-sessions                              3.51 kB         [37m[1m184 kB[22m[39m
+├ ○ /referrals                                3.94 kB         [37m[1m275 kB[22m[39m
+├ ○ /resale                                   3.85 kB         [37m[1m179 kB[22m[39m
+├ ○ /reviews                                  3.02 kB         [37m[1m178 kB[22m[39m
+├ ○ /reviews/new                              2.94 kB         [37m[1m183 kB[22m[39m
+├ ○ /rewards                                  4.24 kB         [37m[1m179 kB[22m[39m
+├ ○ /saved-searches                           3.32 kB         [37m[1m178 kB[22m[39m
+├ ○ /search                                   1.85 kB         [37m[1m177 kB[22m[39m
+├ ○ /search/universal                         2.82 kB         [37m[1m183 kB[22m[39m
+├ ○ /settings                                 3.48 kB         [37m[1m178 kB[22m[39m
+├ ○ /settings/language                        3.79 kB         [37m[1m179 kB[22m[39m
+├ ○ /settings/notifications                   4.32 kB         [37m[1m179 kB[22m[39m
+├ ○ /settings/privacy                         3.54 kB         [37m[1m184 kB[22m[39m
+├ ○ /shop/shoppable                           3.23 kB         [37m[1m178 kB[22m[39m
+├ ○ /sitemap.xml                              0 B                [37m[1m0 B[22m[39m
+├ ○ /social                                   4.05 kB         [37m[1m179 kB[22m[39m
+├ ○ /social/crisis-management                 3.88 kB         [37m[1m179 kB[22m[39m
+├ ○ /social/inbox                             3.18 kB         [37m[1m178 kB[22m[39m
+├ ○ /social/sentiment                         3.1 kB          [37m[1m178 kB[22m[39m
+├ ○ /social/story-templates                   2.69 kB         [37m[1m178 kB[22m[39m
+├ ○ /social/tiktok-challenges                 2.88 kB         [37m[1m178 kB[22m[39m
+├ ○ /support/chat                             3.17 kB         [37m[1m178 kB[22m[39m
+├ ƒ /surveys/[id]                             3.02 kB         [37m[1m183 kB[22m[39m
+├ ○ /tickets                                  3.94 kB         [37m[1m275 kB[22m[39m
+├ ○ /tickets/anti-scalping                    3.38 kB         [37m[1m178 kB[22m[39m
+├ ○ /tickets/gift                             3.52 kB         [37m[1m178 kB[22m[39m
+├ ○ /tickets/groups                           3.51 kB         [37m[1m178 kB[22m[39m
+├ ○ /tickets/print-at-home                    3.02 kB         [37m[1m178 kB[22m[39m
+├ ○ /tickets/tracking                         2.8 kB          [37m[1m178 kB[22m[39m
+├ ○ /tickets/transfer                         2.41 kB         [37m[1m177 kB[22m[39m
+├ ○ /tickets/urgency                          3.58 kB         [37m[1m179 kB[22m[39m
+├ ○ /tours                                    2.66 kB         [37m[1m183 kB[22m[39m
+├ ○ /ugc                                      3.98 kB         [37m[1m184 kB[22m[39m
+├ ○ /venues                                   3.59 kB         [37m[1m275 kB[22m[39m
+├ ƒ /venues/[id]                              2.53 kB         [37m[1m183 kB[22m[39m
+├ ○ /wallet                                   3.85 kB         [37m[1m179 kB[22m[39m
+├ ○ /wallet/offline                           2.73 kB         [37m[1m178 kB[22m[39m
+├ ○ /watch-parties                            3.96 kB         [37m[1m184 kB[22m[39m
+└ ○ /wishlist                                 3.99 kB         [37m[1m179 kB[22m[39m
++ First Load JS shared by all                 [37m[1m87.3 kB[22m[39m
+  ├ chunks/3030-24184d2c4b93a50b.js           31.7 kB
+  ├ chunks/7357bd3c-75313584e71c3235.js       53.6 kB
+  └ other shared chunks (total)               1.99 kB
+
+
+ƒ Middleware                                  [37m[1m75.9 kB[22m[39m
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+[?25h

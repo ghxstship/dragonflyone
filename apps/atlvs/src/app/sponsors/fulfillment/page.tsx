@@ -1,8 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+export const dynamic = 'force-dynamic';
+
+import { Suspense, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { CheckCircle, Clock, AlertTriangle, Eye, Filter } from 'lucide-react';
+import { CheckCircle, AlertTriangle, Eye } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import { useSponsors, useCompleteDeliverable } from '../../../hooks/useSponsors';
 import {
@@ -95,7 +97,7 @@ const columns: ListPageColumn<Deliverable>[] = [
   },
 ];
 
-export default function SponsorFulfillmentPage() {
+function SponsorFulfillmentPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const sponsorId = searchParams.get('sponsor');
@@ -276,5 +278,13 @@ export default function SponsorFulfillmentPage() {
         onCancel={() => { setCompleteDialogOpen(false); setDeliverableToComplete(null); }}
       />
     </AtlvsAppLayout>
+  );
+}
+
+export default function SponsorFulfillmentPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center">Loading...</div>}>
+      <SponsorFulfillmentPageContent />
+    </Suspense>
   );
 }

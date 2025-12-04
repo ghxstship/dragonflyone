@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactNode } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useParams } from "next/navigation";
 import {
   PageLayout,
   Footer,
@@ -15,11 +15,18 @@ import {
   LoadingSpinner,
   AuthenticatedShell,
   Link,
+  ContextSwitcher,
 } from "@ghxstship/ui";
 import {
   CreatorNavigationPublic,
 } from "./navigation";
-import { compvssSidebarNavigation, compvssQuickActions } from "../data/compvss";
+import { 
+  compvssSidebarNavigation, 
+  compvssProductionNavigation,
+  compvssQuickActions,
+  compvssDemoProductions,
+  type ProductionContext,
+} from "../data/compvss";
 import type { ContextLevel, SidebarNavSection } from "@ghxstship/ui";
 
 // =============================================================================
@@ -60,6 +67,59 @@ export function CompvssAppLayout({
 }: AppLayoutProps) {
   const pathname = usePathname();
   const router = useRouter();
+  const params = useParams();
+
+  // Determine if we're in production context
+  const productionId = params?.productionId as string | undefined;
+  const isProductionContext = Boolean(productionId);
+  
+  // Find current production
+  const currentProduction = isProductionContext
+    ? compvssDemoProductions.find((p) => p.id === productionId)
+    : undefined;
+
+  // Get appropriate navigation based on context
+  const navigation = isProductionContext
+    ? compvssProductionNavigation
+    : compvssSidebarNavigation;
+
+  // Prefix hrefs with production context if needed
+  const getContextualNavigation = () => {
+    if (!isProductionContext || !productionId) {
+      return navigation as SidebarNavSection[];
+    }
+    
+    // Add /p/[productionId] prefix to all hrefs in production navigation
+    return (navigation as SidebarNavSection[]).map((section) => ({
+      ...section,
+      items: section.items.map((item) => ({
+        ...item,
+        href: item.href ? `/p/${productionId}${item.href}` : item.href,
+      })),
+      subsections: section.subsections?.map((subsection) => ({
+        ...subsection,
+        items: subsection.items.map((item) => ({
+          ...item,
+          href: item.href ? `/p/${productionId}${item.href}` : item.href,
+        })),
+      })),
+    }));
+  };
+
+  // Handle production selection
+  const handleSelectProduction = (production: ProductionContext) => {
+    router.push(`/p/${production.id}/overview`);
+  };
+
+  // Handle exit production
+  const handleExitProduction = () => {
+    router.push("/dashboard");
+  };
+
+  // Handle create production
+  const handleCreateProduction = () => {
+    router.push("/projects/new");
+  };
 
   // For authenticated pages, use the new sidebar shell
   if (variant === "authenticated") {
@@ -68,14 +128,14 @@ export function CompvssAppLayout({
     
     return (
       <AuthenticatedShell
-        navigation={compvssSidebarNavigation as SidebarNavSection[]}
+        navigation={getContextualNavigation()}
         currentPath={pathname}
         logo={
           <Link href="/dashboard" className={`font-display text-h5-md uppercase ${inverted ? "text-white hover:text-grey-200" : "text-black hover:text-grey-700"} transition-colors`}>
             COMPVSS
           </Link>
         }
-        workspaceName="PRODUCTION"
+        workspaceName={currentProduction?.name || "PRODUCTION"}
         user={{
           name: "Crew Lead",
           email: "crew@ghxstship.com",
@@ -83,7 +143,19 @@ export function CompvssAppLayout({
         quickActions={compvssQuickActions.slice(0, 3)}
         inverted={inverted}
         onNavigate={(href: string) => router.push(href)}
+        settingsPath={isProductionContext ? `/p/${productionId}/settings` : "/settings"}
         className={className}
+        headerActions={
+          <ContextSwitcher
+            contextLevel={isProductionContext ? "production" : "platform"}
+            currentProduction={currentProduction}
+            productions={compvssDemoProductions}
+            onSelectProduction={handleSelectProduction}
+            onExitProduction={handleExitProduction}
+            onCreateProduction={handleCreateProduction}
+            inverted={inverted}
+          />
+        }
       >
         <div className="p-6 lg:p-8">
           {children}

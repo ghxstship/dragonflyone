@@ -1,6 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+export const dynamic = 'force-dynamic';
+
+import { Suspense, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Eye, Download, FileText, Send, CheckCircle, Clock } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
@@ -92,7 +94,7 @@ const columns: ListPageColumn<InvestorDocument>[] = [
   },
 ];
 
-export default function InvestorDocumentsPage() {
+function InvestorDocumentsPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const investorId = searchParams.get('investor');
@@ -270,5 +272,13 @@ export default function InvestorDocumentsPage() {
         sections={detailSections}
       />
     </AtlvsAppLayout>
+  );
+}
+
+export default function InvestorDocumentsPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center">Loading...</div>}>
+      <InvestorDocumentsPageContent />
+    </Suspense>
   );
 }

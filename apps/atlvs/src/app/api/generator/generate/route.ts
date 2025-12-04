@@ -4,15 +4,19 @@ import type { GeneratedBlueprint } from "../../../generator/types";
 
 export const runtime = "edge";
 export const maxDuration = 60; // Allow up to 60 seconds for AI generation
+export const dynamic = "force-dynamic"; // Prevent static generation
 
 // =============================================================================
 // EXPERIENCE GENERATOR API
 // Generates a complete experience blueprint from a creative seed using AI
 // =============================================================================
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+// Initialize OpenAI client lazily to avoid build-time errors
+function getOpenAIClient() {
+  return new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+}
 
 const SYSTEM_PROMPT = `You are the GHXSTSHIP Experience Generator, an expert in immersive experience design, live entertainment production, and transformative event creation.
 
@@ -332,6 +336,7 @@ async function generateWithAI(creativeSeed: string): Promise<GeneratedBlueprint>
   const seed = creativeSeed.toUpperCase();
 
   try {
+    const openai = getOpenAIClient();
     const completion = await openai.chat.completions.create({
       model: "gpt-4o",
       messages: [

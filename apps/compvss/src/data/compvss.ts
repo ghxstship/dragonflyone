@@ -196,6 +196,199 @@ export const compvssSidebarNavigation = [
   },
 ];
 
+// =============================================================================
+// PRODUCTION-LEVEL NAVIGATION (Event Context)
+// Visible when a production is selected - uses /p/[productionId]/ prefix
+// =============================================================================
+export const compvssProductionNavigation = [
+  {
+    section: "Production",
+    icon: "LayoutDashboard",
+    items: [
+      { label: "Overview", href: "/overview", icon: "LayoutDashboard", primary: true },
+    ],
+  },
+  {
+    section: "Schedule",
+    icon: "Calendar",
+    items: [
+      { label: "Run of Show", href: "/run-of-show", icon: "ListOrdered", primary: true },
+      { label: "Show Call", href: "/show-call", icon: "Phone" },
+      { label: "Set Times", href: "/set-times", icon: "Clock" },
+      { label: "Soundcheck", href: "/soundcheck", icon: "Volume2" },
+      { label: "Tech Rehearsal", href: "/tech-rehearsal", icon: "Play" },
+      { label: "Build/Strike", href: "/build-strike", icon: "Hammer" },
+    ],
+  },
+  {
+    section: "Crew",
+    icon: "Users",
+    items: [
+      { label: "Assignments", href: "/crew", icon: "Users", primary: true },
+      { label: "Timekeeping", href: "/timekeeping", icon: "Clock" },
+      { label: "Onboarding", href: "/onboarding", icon: "UserPlus" },
+    ],
+    subsections: [
+      {
+        label: "Credentials",
+        items: [
+          { label: "All Credentials", href: "/credentials", icon: "IdCard" },
+          { label: "Issue", href: "/credentials/issue", icon: "Plus" },
+          { label: "Zone Access", href: "/credentials/zones", icon: "Layers" },
+          { label: "Scan", href: "/credentials/scan", icon: "QrCode" },
+          { label: "Reports", href: "/credentials/reports", icon: "BarChart" },
+        ],
+      },
+    ],
+  },
+  {
+    section: "Advancing",
+    icon: "FastForward",
+    items: [
+      { label: "Dashboard", href: "/advancing", icon: "FastForward", primary: true },
+      { label: "New Request", href: "/advancing/new", icon: "Plus" },
+      { label: "Catalog", href: "/advancing/catalog", icon: "Grid" },
+      { label: "Pending", href: "/advancing?status=pending", icon: "Clock" },
+      { label: "Approved", href: "/advancing?status=approved", icon: "CheckCircle" },
+      { label: "History", href: "/advancing?status=history", icon: "History" },
+    ],
+  },
+  {
+    section: "Operations",
+    icon: "Clapperboard",
+    items: [
+      { label: "Stage Management", href: "/stage-management", icon: "Monitor", primary: true },
+      { label: "Artists", href: "/artists", icon: "Music" },
+      { label: "VIP Management", href: "/vip-management", icon: "Crown" },
+      { label: "Catering", href: "/catering", icon: "UtensilsCrossed" },
+      { label: "Travel", href: "/travel", icon: "Plane" },
+    ],
+  },
+  {
+    section: "Logistics",
+    icon: "Truck",
+    items: [
+      { label: "Equipment", href: "/equipment", icon: "Package", primary: true },
+      { label: "Deliveries", href: "/deliveries", icon: "PackageCheck" },
+      { label: "Vendors", href: "/vendors/compare", icon: "GitCompare" },
+      { label: "Subcontractors", href: "/subcontractors", icon: "Users" },
+    ],
+    subsections: [
+      {
+        label: "Venues",
+        items: [
+          { label: "Venue Info", href: "/venues", icon: "Building" },
+          { label: "Site Surveys", href: "/site-surveys", icon: "MapPin" },
+          { label: "Site Access", href: "/site-access", icon: "Key" },
+          { label: "Drawings", href: "/drawings", icon: "PenTool" },
+        ],
+      },
+    ],
+  },
+  {
+    section: "Safety",
+    icon: "Shield",
+    items: [
+      { label: "Dashboard", href: "/safety", icon: "Shield", primary: true },
+      { label: "Emergency Plans", href: "/emergency", icon: "Siren" },
+      { label: "Incidents", href: "/incidents", icon: "AlertTriangle" },
+      { label: "Weather", href: "/weather", icon: "Cloud" },
+      { label: "Permits", href: "/permits", icon: "FileCheck" },
+      { label: "Risk Register", href: "/risk-register", icon: "FileWarning" },
+    ],
+  },
+  {
+    section: "Quality",
+    icon: "CheckSquare",
+    items: [
+      { label: "QA Checkpoints", href: "/qa-checkpoints", icon: "CheckSquare", primary: true },
+      { label: "Punch List", href: "/punch-list", icon: "ClipboardList" },
+      { label: "Issues", href: "/issues", icon: "AlertCircle" },
+      { label: "Troubleshooting", href: "/troubleshooting", icon: "HelpCircle" },
+    ],
+  },
+  {
+    section: "Reports",
+    icon: "FileText",
+    items: [
+      { label: "Daily Reports", href: "/reports/daily", icon: "FileText", primary: true },
+      { label: "Wrap Reports", href: "/reports/wrap", icon: "FileCheck" },
+      { label: "Expenses", href: "/expenses", icon: "Receipt" },
+      { label: "Photo Documentation", href: "/photo-documentation", icon: "Camera" },
+      { label: "Settlement", href: "/settlement", icon: "DollarSign" },
+    ],
+  },
+  {
+    section: "Documents",
+    icon: "FileArchive",
+    items: [
+      { label: "Files", href: "/files", icon: "FileArchive", primary: true },
+      { label: "SOPs", href: "/sops", icon: "Book" },
+      { label: "Spec Sheets", href: "/spec-sheets", icon: "FileSpreadsheet" },
+      { label: "Templates", href: "/templates", icon: "Copy" },
+      { label: "Backup Plans", href: "/backup-plans", icon: "LifeBuoy" },
+    ],
+  },
+  {
+    section: "Communication",
+    icon: "MessageSquare",
+    items: [
+      { label: "Messages", href: "/messages", icon: "Mail", primary: true },
+      { label: "Channels", href: "/channels", icon: "Radio" },
+      { label: "Stakeholder Portal", href: "/stakeholder-portal", icon: "Users" },
+      { label: "Social Amplification", href: "/social-amplification", icon: "Share2" },
+    ],
+  },
+  {
+    section: "Offline",
+    icon: "WifiOff",
+    items: [
+      { label: "Offline Mode", href: "/offline", icon: "WifiOff", primary: true },
+    ],
+  },
+];
+
+// =============================================================================
+// CONTEXT SWITCHER DATA
+// Available productions for context switching
+// =============================================================================
+export interface ProductionContext {
+  id: string;
+  name: string;
+  status: 'active' | 'upcoming' | 'past' | 'draft';
+  startDate?: string;
+  endDate?: string;
+  venue?: string;
+}
+
+// Demo productions for context switcher
+export const compvssDemoProductions: ProductionContext[] = [
+  {
+    id: "prod-001",
+    name: "Summer Festival 2025",
+    status: "active",
+    startDate: "2025-06-15",
+    endDate: "2025-06-18",
+    venue: "Central Park",
+  },
+  {
+    id: "prod-002",
+    name: "Winter Gala 2025",
+    status: "upcoming",
+    startDate: "2025-12-20",
+    endDate: "2025-12-21",
+    venue: "Grand Ballroom",
+  },
+  {
+    id: "prod-003",
+    name: "Tech Conference 2025",
+    status: "upcoming",
+    startDate: "2025-09-10",
+    endDate: "2025-09-12",
+    venue: "Convention Center",
+  },
+];
+
 // Quick actions for command palette and shortcuts
 export const compvssQuickActions = [
   { label: "New Project", href: "/projects/new", icon: "Plus", shortcut: "P" },

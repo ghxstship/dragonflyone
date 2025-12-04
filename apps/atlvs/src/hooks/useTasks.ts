@@ -411,3 +411,102 @@ export function useContingencyStats(productionId?: string) {
     },
   });
 }
+
+// =============================================================================
+// TASK TEMPLATES
+// Reusable templates for common production tasks
+// =============================================================================
+
+export interface TaskTemplate {
+  id: string;
+  name: string;
+  description?: string;
+  task_type: 'setup' | 'rehearsal' | 'performance' | 'teardown' | 'meeting' | 'other';
+  default_priority: 'low' | 'medium' | 'high' | 'critical';
+  default_duration_hours?: number;
+  department?: string;
+  checklist?: string[];
+  dependencies_template?: string[];
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+// Fetch task templates
+export function useTaskTemplates() {
+  return useQuery({
+    queryKey: ['task_templates'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('task_templates')
+        .select('*')
+        .order('name', { ascending: true });
+
+      if (error) throw error;
+      return data as unknown as TaskTemplate[];
+    },
+  });
+}
+
+// Create task template
+export function useCreateTaskTemplate() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (template: Omit<TaskTemplate, 'id' | 'created_at' | 'updated_at'>) => {
+      const { data, error } = await supabase
+        .from('task_templates')
+        .insert(template)
+        .select()
+        .single();
+
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['task_templates'] });
+    },
+  });
+}
+
+// Update task template
+export function useUpdateTaskTemplate() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ id, ...updates }: Partial<TaskTemplate> & { id: string }) => {
+      const { data, error } = await supabase
+        .from('task_templates')
+        .update(updates)
+        .eq('id', id)
+        .select()
+        .single();
+
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['task_templates'] });
+      queryClient.invalidateQueries({ queryKey: ['task_templates', variables.id] });
+    },
+  });
+}
+
+// Delete task template
+export function useDeleteTaskTemplate() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase
+        .from('task_templates')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['task_templates'] });
+    },
+  });
+}

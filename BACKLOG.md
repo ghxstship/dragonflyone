@@ -27,32 +27,54 @@ This document tracks incomplete, deferred, and planned features that need to be 
 
 ## Planned Features
 
-### Navigation Architecture Restructure (Proposed)
-**Status:** Architecture documented, implementation pending
+### Navigation Architecture Restructure (In Progress)
+**Status:** Phase 1 complete, Phase 2-4 in progress
 **Documentation:** `docs/NAVIGATION_ARCHITECTURE.md`
-**Proposed:** December 2024
+**Started:** December 2024
 
 **Objective:** Restructure navigation across all three apps (ATLVS, COMPVSS, GVTEWAY) to properly separate platform-level from event-level contexts with role-based visibility.
 
 **Key Changes:**
 - **Context Switching**: Clear separation between Platform (org-wide) and Event (production-specific) navigation
 - **Role-Based Visibility**: Navigation items filtered by platform roles and event roles
-- **URL Restructure**: Event-level routes prefixed with `/p/[productionId]/` for ATLVS/COMPVSS, `/e/[eventId]/` for GVTEWAY
+- **URL Restructure**: Event-level routes prefixed with `/p/[productionId]/` for ATLVS/COMPVSS, `/events/[eventId]/` for GVTEWAY
 - **Workflow-Aligned Grouping**: Features grouped by business process (Planning, People, Finance, Compliance, etc.)
 - **Shared Navigation Components**: Types and utilities in `packages/ui/src/navigation/`
+- **ContextSwitcher Component**: Dropdown for switching between productions/events
 
 **Implementation Phases:**
-- [ ] Phase 1: Navigation Infrastructure (types, utils, components)
-- [ ] Phase 2: ATLVS Route Restructure (150 pages)
-- [ ] Phase 3: COMPVSS Route Restructure (107 pages)
-- [ ] Phase 4: GVTEWAY Route Restructure (147 pages)
-- [ ] Phase 5: Cross-App Integration (deep linking, unified search)
+- [x] Phase 1: Navigation Infrastructure (types, utils, components)
+- [x] Phase 2: ATLVS Navigation Config & Context Switching
+- [x] Phase 3: COMPVSS Navigation Config & Context Switching
+- [x] Phase 4: GVTEWAY Navigation Config & Event Context
+- [ ] Phase 5: Create all production-level pages for ATLVS
+- [ ] Phase 6: Create all production-level pages for COMPVSS
+- [ ] Phase 7: Create all event-level pages for GVTEWAY
+- [ ] Phase 8: Cross-App Integration (deep linking, unified search)
 
-**Files Created:**
+**Files Created/Updated:**
 - `docs/NAVIGATION_ARCHITECTURE.md` - Full architecture specification
 - `packages/ui/src/navigation/types.ts` - Navigation type definitions
 - `packages/ui/src/navigation/utils.ts` - Navigation utility functions
-- `apps/atlvs/src/config/navigation.ts` - ATLVS navigation configuration
+- `packages/ui/src/navigation/index.ts` - Navigation exports
+- `packages/ui/src/organisms/context-switcher.tsx` - Context switching component
+- `apps/atlvs/src/data/atlvs.ts` - Added `atlvsProductionNavigation`, `atlvsDemoProductions`
+- `apps/atlvs/src/components/app-layout.tsx` - Updated with context switching
+- `apps/atlvs/src/app/p/[productionId]/layout.tsx` - Production context layout
+- `apps/atlvs/src/app/p/[productionId]/overview/page.tsx` - Production overview page
+- `apps/compvss/src/data/compvss.ts` - Added `compvssProductionNavigation`, `compvssDemoProductions`
+- `apps/compvss/src/components/app-layout.tsx` - Updated with context switching
+- `apps/compvss/src/app/p/[productionId]/layout.tsx` - Production context layout
+- `apps/compvss/src/app/p/[productionId]/overview/page.tsx` - Production overview page
+- `apps/gvteway/src/data/gvteway.ts` - Added `gvtewayEventNavigation`, `gvtewayDemoEvents`
+
+**Remaining Work:**
+- Create remaining production-level pages for ATLVS (schedule, advancing, team, finance, etc.)
+- Create remaining production-level pages for COMPVSS (run-of-show, crew, safety, etc.)
+- Create event-level pages for GVTEWAY (program, tickets, experience, etc.)
+- Implement CommandPalette component for keyboard navigation
+- Implement Breadcrumb component for context awareness
+- Add role-based filtering to navigation items
 
 ---
 

@@ -205,6 +205,218 @@ export const atlvsSidebarNavigation = [
   },
 ];
 
+// =============================================================================
+// PRODUCTION-LEVEL NAVIGATION (Event Context)
+// Visible when a production is selected - uses /p/[productionId]/ prefix
+// =============================================================================
+export const atlvsProductionNavigation = [
+  {
+    section: "Production",
+    icon: "LayoutDashboard",
+    items: [
+      { label: "Overview", href: "/overview", icon: "LayoutDashboard", primary: true },
+    ],
+  },
+  {
+    section: "Planning",
+    icon: "Calendar",
+    items: [
+      { label: "Schedule", href: "/schedule", icon: "Calendar", primary: true },
+      { label: "Tasks", href: "/schedule/tasks", icon: "CheckSquare" },
+      { label: "Contingencies", href: "/schedule/contingencies", icon: "AlertTriangle" },
+      { label: "Templates", href: "/schedule/templates", icon: "FileText" },
+    ],
+    subsections: [
+      {
+        label: "Shows",
+        items: [
+          { label: "Run of Show", href: "/shows/run-of-show", icon: "Play" },
+          { label: "Cues", href: "/shows/cues", icon: "Zap" },
+          { label: "Set Times", href: "/shows/set-times", icon: "Clock" },
+        ],
+      },
+      {
+        label: "Venues",
+        items: [
+          { label: "Locations", href: "/venues", icon: "MapPin" },
+          { label: "Zones", href: "/venues/zones", icon: "Layers" },
+          { label: "Maps", href: "/venues/maps", icon: "Map" },
+        ],
+      },
+    ],
+  },
+  {
+    section: "Advancing",
+    icon: "FastForward",
+    items: [
+      { label: "Dashboard", href: "/advancing", icon: "FastForward", primary: true },
+      { label: "Pending Review", href: "/advances", icon: "Clock" },
+      { label: "Approved", href: "/advances?status=approved", icon: "CheckCircle" },
+      { label: "Allocations", href: "/advancing/allocations", icon: "Package" },
+      { label: "Fulfillment", href: "/advancing/fulfillment", icon: "Truck" },
+      { label: "History", href: "/advancing/history", icon: "History" },
+    ],
+  },
+  {
+    section: "People",
+    icon: "Users",
+    items: [
+      { label: "Team", href: "/team", icon: "Users", primary: true },
+      { label: "Assignments", href: "/team/assignments", icon: "UserCheck" },
+      { label: "Training", href: "/team/training", icon: "GraduationCap" },
+      { label: "Stakeholders", href: "/stakeholders", icon: "Briefcase" },
+    ],
+    subsections: [
+      {
+        label: "Vendors",
+        items: [
+          { label: "Directory", href: "/vendors", icon: "Building" },
+          { label: "Contracts", href: "/vendors/contracts", icon: "FileText" },
+          { label: "Rate Cards", href: "/vendors/rate-cards", icon: "DollarSign" },
+        ],
+      },
+    ],
+  },
+  {
+    section: "Finance",
+    icon: "DollarSign",
+    items: [
+      { label: "Budget", href: "/budgets", icon: "PieChart", primary: true },
+      { label: "Scenarios", href: "/scenarios", icon: "GitCompare" },
+      { label: "Expenses", href: "/expenses", icon: "Receipt" },
+      { label: "Invoices", href: "/invoices", icon: "FileText" },
+      { label: "Contracts", href: "/contracts", icon: "FileCheck" },
+    ],
+    subsections: [
+      {
+        label: "Sponsors",
+        items: [
+          { label: "All Sponsors", href: "/sponsors", icon: "Handshake" },
+          { label: "Tiers", href: "/sponsors/tiers", icon: "Layers" },
+          { label: "Deliverables", href: "/sponsors/deliverables", icon: "CheckSquare" },
+          { label: "Deck", href: "/sponsors/deck", icon: "Presentation" },
+          { label: "Fulfillment", href: "/sponsors/fulfillment", icon: "Package" },
+          { label: "Reports", href: "/sponsors/reports", icon: "BarChart" },
+        ],
+      },
+      {
+        label: "Investors",
+        items: [
+          { label: "All Investors", href: "/investors", icon: "TrendingUp" },
+          { label: "Rounds", href: "/investors/rounds", icon: "Layers" },
+          { label: "Documents", href: "/investors/documents", icon: "FileText" },
+          { label: "Reports", href: "/investors/reports", icon: "BarChart" },
+        ],
+      },
+      {
+        label: "Procurement",
+        items: [
+          { label: "Overview", href: "/procurement", icon: "ShoppingCart" },
+          { label: "RFPs", href: "/rfp", icon: "FileSearch" },
+          { label: "Quotes", href: "/quotes", icon: "FileQuestion" },
+          { label: "Categories", href: "/procurement/categories", icon: "Grid" },
+          { label: "Vendor Selection", href: "/procurement/vendor-selection", icon: "UserCheck" },
+        ],
+      },
+    ],
+  },
+  {
+    section: "Compliance",
+    icon: "Shield",
+    items: [
+      { label: "Permits", href: "/permits", icon: "FileCheck", primary: true },
+      { label: "Insurance", href: "/insurance", icon: "Shield" },
+      { label: "Legal", href: "/legal", icon: "Scale" },
+      { label: "Governance", href: "/governance", icon: "Landmark" },
+      { label: "Risks", href: "/risks", icon: "AlertTriangle" },
+    ],
+  },
+  {
+    section: "Marketing",
+    icon: "Megaphone",
+    items: [
+      { label: "Campaigns", href: "/marketing", icon: "Megaphone", primary: true },
+      { label: "Partnerships", href: "/partnerships", icon: "Link" },
+      { label: "IP Tracking", href: "/ip-tracking", icon: "Lightbulb" },
+      { label: "Attribution", href: "/marketing/attribution", icon: "BarChart" },
+    ],
+  },
+  {
+    section: "Metrics",
+    icon: "BarChart3",
+    items: [
+      { label: "Dashboard", href: "/metrics", icon: "BarChart3", primary: true },
+      { label: "KPIs", href: "/metrics/kpis", icon: "Target" },
+      { label: "Reports", href: "/metrics/reports", icon: "FileBarChart" },
+      { label: "OKRs", href: "/okrs", icon: "Flag" },
+    ],
+  },
+  {
+    section: "Documents",
+    icon: "FileArchive",
+    items: [
+      { label: "Files", href: "/documents", icon: "FileArchive", primary: true },
+      { label: "Generator", href: "/generator", icon: "Sparkles" },
+    ],
+  },
+  {
+    section: "Settings",
+    icon: "Settings",
+    items: [
+      { label: "Production Settings", href: "/settings", icon: "Settings", primary: true },
+    ],
+  },
+];
+
+// =============================================================================
+// CONTEXT SWITCHER DATA
+// Available productions for context switching
+// =============================================================================
+export interface ProductionContext {
+  id: string;
+  name: string;
+  status: 'active' | 'upcoming' | 'past' | 'draft';
+  startDate?: string;
+  endDate?: string;
+  venue?: string;
+}
+
+// Demo productions for context switcher
+export const atlvsDemoProductions: ProductionContext[] = [
+  {
+    id: "prod-001",
+    name: "Summer Festival 2025",
+    status: "active",
+    startDate: "2025-06-15",
+    endDate: "2025-06-18",
+    venue: "Central Park",
+  },
+  {
+    id: "prod-002",
+    name: "Winter Gala 2025",
+    status: "upcoming",
+    startDate: "2025-12-20",
+    endDate: "2025-12-21",
+    venue: "Grand Ballroom",
+  },
+  {
+    id: "prod-003",
+    name: "Tech Conference 2025",
+    status: "upcoming",
+    startDate: "2025-09-10",
+    endDate: "2025-09-12",
+    venue: "Convention Center",
+  },
+  {
+    id: "prod-004",
+    name: "Spring Concert Series",
+    status: "draft",
+    startDate: "2025-04-01",
+    endDate: "2025-04-30",
+    venue: "Multiple Venues",
+  },
+];
+
 // Quick actions for command palette and shortcuts
 export const atlvsQuickActions = [
   { label: "New Deal", href: "/deals/new", icon: "Plus", shortcut: "D" },

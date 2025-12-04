@@ -1,8 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+export const dynamic = 'force-dynamic';
+
+import { Suspense, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Eye, Pencil, Trash2, MapPin, Users } from 'lucide-react';
+import { Eye, Pencil, Trash2 } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import { useVenueZones, useVenues, useCreateVenueZone, useDeleteVenueZone, type VenueZone } from '../../../hooks/useVenues';
 import {
@@ -96,7 +98,7 @@ const columns: ListPageColumn<VenueZone>[] = [
   },
 ];
 
-export default function VenueZonesPage() {
+function VenueZonesPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const venueIdParam = searchParams.get('venue');
@@ -330,5 +332,13 @@ export default function VenueZonesPage() {
         onCancel={() => { setDeleteDialogOpen(false); setZoneToDelete(null); }}
       />
     </AtlvsAppLayout>
+  );
+}
+
+export default function VenueZonesPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center">Loading...</div>}>
+      <VenueZonesPageContent />
+    </Suspense>
   );
 }

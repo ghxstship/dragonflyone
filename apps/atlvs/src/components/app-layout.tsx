@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactNode } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useParams } from "next/navigation";
 import {
   PageLayout,
   Footer,
@@ -15,11 +15,18 @@ import {
   LoadingSpinner,
   AuthenticatedShell,
   Link,
+  ContextSwitcher,
 } from "@ghxstship/ui";
 import {
   CreatorNavigationPublic,
 } from "./navigation";
-import { atlvsSidebarNavigation, atlvsQuickActions } from "../data/atlvs";
+import { 
+  atlvsSidebarNavigation, 
+  atlvsProductionNavigation,
+  atlvsQuickActions,
+  atlvsDemoProductions,
+  type ProductionContext,
+} from "../data/atlvs";
 import type { ContextLevel, SidebarNavSection } from "@ghxstship/ui";
 
 // =============================================================================
@@ -63,6 +70,44 @@ export function AtlvsAppLayout({
 }: AppLayoutProps) {
   const pathname = usePathname();
   const router = useRouter();
+  const params = useParams();
+
+  // Determine if we're in production context
+  const productionId = params?.productionId as string | undefined;
+  const isProductionContext = Boolean(productionId);
+  
+  // Find current production
+  const currentProduction = isProductionContext
+    ? atlvsDemoProductions.find((p) => p.id === productionId)
+    : undefined;
+
+  // Get appropriate navigation based on context
+  const navigation = isProductionContext
+    ? atlvsProductionNavigation
+    : atlvsSidebarNavigation;
+
+  // Prefix hrefs with production context if needed
+  const getContextualNavigation = () => {
+    if (!isProductionContext || !productionId) {
+      return navigation as SidebarNavSection[];
+    }
+    
+    // Add /p/[productionId] prefix to all hrefs in production navigation
+    return (navigation as SidebarNavSection[]).map((section) => ({
+      ...section,
+      items: section.items.map((item) => ({
+        ...item,
+        href: item.href ? `/p/${productionId}${item.href}` : item.href,
+      })),
+      subsections: section.subsections?.map((subsection) => ({
+        ...subsection,
+        items: subsection.items.map((item) => ({
+          ...item,
+          href: item.href ? `/p/${productionId}${item.href}` : item.href,
+        })),
+      })),
+    }));
+  };
 
   // Demo notifications for header
   const demoNotifications = [
@@ -85,23 +130,37 @@ export function AtlvsAppLayout({
 
   // Handle workspace switch
   const handleWorkspaceSwitch = (workspaceId: string) => {
-    // In a real app, this would switch the workspace context
-    console.log("Switching to workspace:", workspaceId);
+    void workspaceId; // Suppress unused variable warning
     router.push("/dashboard");
+  };
+
+  // Handle production selection
+  const handleSelectProduction = (production: ProductionContext) => {
+    router.push(`/p/${production.id}/overview`);
+  };
+
+  // Handle exit production
+  const handleExitProduction = () => {
+    router.push("/dashboard");
+  };
+
+  // Handle create production
+  const handleCreateProduction = () => {
+    router.push("/projects/new");
   };
 
   // For authenticated pages, use the new sidebar shell
   if (variant === "authenticated") {
     return (
       <AuthenticatedShell
-        navigation={atlvsSidebarNavigation as SidebarNavSection[]}
+        navigation={getContextualNavigation()}
         currentPath={pathname}
         logo={
           <Link href="/dashboard" className="font-display text-h5-md uppercase text-white transition-colors hover:text-grey-200">
             ATLVS
           </Link>
         }
-        workspaceName="GHXSTSHIP"
+        workspaceName={currentProduction?.name || "GHXSTSHIP"}
         user={{
           name: "Demo User",
           email: "demo@ghxstship.com",
@@ -109,12 +168,23 @@ export function AtlvsAppLayout({
         quickActions={atlvsQuickActions.slice(0, 3)}
         inverted={background === "black"}
         onNavigate={(href: string) => router.push(href)}
-        settingsPath="/settings"
+        settingsPath={isProductionContext ? `/p/${productionId}/settings` : "/settings"}
         notifications={demoNotifications}
         workspaces={demoWorkspaces}
         onWorkspaceSwitch={handleWorkspaceSwitch}
         onSignOut={handleSignOut}
         className={className}
+        headerActions={
+          <ContextSwitcher
+            contextLevel={isProductionContext ? "production" : "platform"}
+            currentProduction={currentProduction}
+            productions={atlvsDemoProductions}
+            onSelectProduction={handleSelectProduction}
+            onExitProduction={handleExitProduction}
+            onCreateProduction={handleCreateProduction}
+            inverted={background === "black"}
+          />
+        }
       >
         <div className="p-6 lg:p-8">
           {children}

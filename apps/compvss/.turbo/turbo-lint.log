@@ -4,40 +4,8 @@
 
 
 ./src/app/advancing/catalog/page.tsx
-10:3  Warning: 'H2' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-29:38  Warning: 'ChevronRight' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-99:39  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-122:15  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-124:20  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-125:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-125:23  Warning: Classnames 'h-4, w-4' could be replaced by the 'size-4' shorthand!  tailwindcss/enforces-shorthand
-125:23  Warning: Classname 'transform' is not needed in Tailwind CSS v3!  tailwindcss/migration-from-tailwind-2
-137:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-137:23  Warning: Classnames 'w-4, h-4' could be replaced by the 'size-4' shorthand!  tailwindcss/enforces-shorthand
-142:20  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-142:20  Warning: Classnames 'w-4, h-4' could be replaced by the 'size-4' shorthand!  tailwindcss/enforces-shorthand
-149:41  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-178:21  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-178:31  Warning: ❌ PROHIBITED: Raw Tailwind font weight. Use design system: font-weight-normal, font-weight-medium, font-weight-semibold, font-weight-bold  no-restricted-syntax
-203:28  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-218:18  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-226:17  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-231:47  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-233:30  Warning: Classnames 'h-4, w-4' could be replaced by the 'size-4' shorthand!  tailwindcss/enforces-shorthand
-239:28  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-245:55  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-246:26  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-249:26  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-255:25  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-262:36  Warning: ❌ PROHIBITED: Raw Tailwind font weight. Use design system: font-weight-normal, font-weight-medium, font-weight-semibold, font-weight-bold  no-restricted-syntax
-268:40  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-273:30  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-286:28  Warning: Classnames 'h-12, w-12' could be replaced by the 'size-12' shorthand!  tailwindcss/enforces-shorthand
-292:17  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-
-./src/app/advancing/page.tsx
-17:10  Warning: 'FulfillmentManager' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-18:15  Warning: 'AdvanceStatus' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+247:27  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+284:19  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
 
 ./src/app/api/advancing/[id]/fulfill/route.ts
 23:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
@@ -522,334 +490,390 @@
 12:11  Warning: 'period' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
 
 ./src/app/artists/page.tsx
-162:25  Warning: Unexpected console statement.  no-console
-
-./src/app/auth/forgot-password/page.tsx
-64:36  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-75:24  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-78:22  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-78:22  Warning: Classnames 'w-16, h-16' could be replaced by the 'size-16' shorthand!  tailwindcss/enforces-shorthand
-78:32  Warning: ❌ PROHIBITED: Raw Tailwind border radius. Use design system: rounded-radius-*, rounded-button, rounded-card, rounded-input, rounded-avatar  no-restricted-syntax
-79:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-79:23  Warning: Classnames 'w-8, h-8' could be replaced by the 'size-8' shorthand!  tailwindcss/enforces-shorthand
-
-./src/app/auth/magic-link/page.tsx
-60:36  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-71:24  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-74:22  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-74:22  Warning: Classnames 'w-16, h-16' could be replaced by the 'size-16' shorthand!  tailwindcss/enforces-shorthand
-74:32  Warning: ❌ PROHIBITED: Raw Tailwind border radius. Use design system: rounded-radius-*, rounded-button, rounded-card, rounded-input, rounded-avatar  no-restricted-syntax
-75:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-75:23  Warning: Classnames 'w-8, h-8' could be replaced by the 'size-8' shorthand!  tailwindcss/enforces-shorthand
-118:109  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-
-./src/app/auth/reset-password/page.tsx
-80:36  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-91:24  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-94:22  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-94:22  Warning: Classnames 'w-16, h-16' could be replaced by the 'size-16' shorthand!  tailwindcss/enforces-shorthand
-94:32  Warning: ❌ PROHIBITED: Raw Tailwind border radius. Use design system: rounded-radius-*, rounded-button, rounded-card, rounded-input, rounded-avatar  no-restricted-syntax
-95:24  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-95:24  Warning: Classnames 'w-8, h-8' could be replaced by the 'size-8' shorthand!  tailwindcss/enforces-shorthand
-118:35  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-
-./src/app/auth/signin/page.tsx
-82:32  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-96:24  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-129:43  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-151:105  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-163:31  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-
-./src/app/auth/signup/page.tsx
-119:32  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-133:24  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-203:105  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-207:107  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-220:105  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-232:31  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-
-./src/app/auth/verify-email/page.tsx
-25:20  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-26:14  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-26:14  Warning: Classnames 'w-16, h-16' could be replaced by the 'size-16' shorthand!  tailwindcss/enforces-shorthand
-26:24  Warning: ❌ PROHIBITED: Raw Tailwind border radius. Use design system: rounded-radius-*, rounded-button, rounded-card, rounded-input, rounded-avatar  no-restricted-syntax
-27:15  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-27:15  Warning: Classnames 'w-8, h-8' could be replaced by the 'size-8' shorthand!  tailwindcss/enforces-shorthand
-61:36  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-74:26  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-75:20  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-75:20  Warning: Classnames 'w-16, h-16' could be replaced by the 'size-16' shorthand!  tailwindcss/enforces-shorthand
-75:30  Warning: ❌ PROHIBITED: Raw Tailwind border radius. Use design system: rounded-radius-*, rounded-button, rounded-card, rounded-input, rounded-avatar  no-restricted-syntax
-76:21  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-76:21  Warning: Classnames 'w-8, h-8' could be replaced by the 'size-8' shorthand!  tailwindcss/enforces-shorthand
+182:27  Warning: Unexpected console statement.  no-console
 
 ./src/app/availability/page.tsx
-94:9  Warning: 'router' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-166:25  Warning: Unexpected console statement.  no-console
+101:9  Warning: 'router' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+187:27  Warning: Unexpected console statement.  no-console
 
 ./src/app/background-checks/page.tsx
-78:9  Warning: 'router' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-91:64  Warning: Unexpected console statement.  no-console
-92:77  Warning: Unexpected console statement.  no-console
-149:25  Warning: Unexpected console statement.  no-console
-177:29  Warning: Unexpected console statement.  no-console
-
-./src/app/backup-plans/page.tsx
-8:31  Warning: 'Tabs' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-8:37  Warning: 'TabsList' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-8:47  Warning: 'Tab' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-8:52  Warning: 'TabPanel' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-68:13  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-68:13  Warning: Classname 'grid-overlay' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-78:68  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-79:58  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-80:72  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-81:96  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-86:66  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-149:37  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-151:31  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-151:31  Warning: Classnames 'w-8, h-8' could be replaced by the 'size-8' shorthand!  tailwindcss/enforces-shorthand
-151:41  Warning: ❌ PROHIBITED: Raw Tailwind border radius. Use design system: rounded-radius-*, rounded-button, rounded-card, rounded-input, rounded-avatar  no-restricted-syntax
+82:9  Warning: 'router' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+95:92  Warning: Unexpected console statement.  no-console
+96:104  Warning: Unexpected console statement.  no-console
+153:25  Warning: Unexpected console statement.  no-console
+188:29  Warning: Unexpected console statement.  no-console
 
 ./src/app/best-practices/page.tsx
-8:31  Warning: 'Tabs' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-8:37  Warning: 'TabsList' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-8:47  Warning: 'Tab' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-8:52  Warning: 'TabPanel' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-51:13  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-51:13  Warning: Classname 'grid-overlay' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-61:73  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-62:72  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-63:98  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-64:54  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-79:39  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-
-./src/app/bid-portal/page.tsx
-7:65  Warning: 'Select' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-9:57  Warning: 'Alert' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-57:13  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-57:13  Warning: Classname 'grid-overlay' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-67:53  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-68:63  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-69:102  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-70:52  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-85:53  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-87:33  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-122:21  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-139:21  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-
-./src/app/build-strike/page.tsx
-17:3  Warning: 'LoadingSpinner' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-90:27  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-90:37  Warning: ❌ PROHIBITED: Raw Tailwind font weight. Use design system: font-weight-normal, font-weight-medium, font-weight-semibold, font-weight-bold  no-restricted-syntax
-116:39  Warning: ❌ PROHIBITED: Raw Tailwind font weight. Use design system: font-weight-normal, font-weight-medium, font-weight-semibold, font-weight-bold  no-restricted-syntax
-
-./src/app/case-studies/page.tsx
-8:31  Warning: 'Tabs' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-8:37  Warning: 'TabsList' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-8:47  Warning: 'Tab' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-8:52  Warning: 'TabPanel' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-58:13  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-58:13  Warning: Classname 'grid-overlay' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-68:76  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-69:112  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-70:113  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-71:72  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-86:36  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-124:37  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-125:30  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-134:35  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+100:41  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
 
 ./src/app/catering/page.tsx
-62:11  Warning: 'addNotification' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-184:15  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-189:15  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-194:15  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-199:15  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-204:19  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-208:25  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-210:29  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-210:39  Warning: ❌ PROHIBITED: Raw Tailwind letter spacing. Use design system: tracking-label, tracking-kicker, tracking-display, or specific values  no-restricted-syntax
-211:39  Warning: ❌ PROHIBITED: Raw Tailwind font weight. Use design system: font-weight-normal, font-weight-medium, font-weight-semibold, font-weight-bold  no-restricted-syntax
-214:25  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-216:29  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-216:39  Warning: ❌ PROHIBITED: Raw Tailwind letter spacing. Use design system: tracking-label, tracking-kicker, tracking-display, or specific values  no-restricted-syntax
-217:39  Warning: ❌ PROHIBITED: Raw Tailwind font weight. Use design system: font-weight-normal, font-weight-medium, font-weight-semibold, font-weight-bold  no-restricted-syntax
-220:25  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-222:29  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-222:39  Warning: ❌ PROHIBITED: Raw Tailwind letter spacing. Use design system: tracking-label, tracking-kicker, tracking-display, or specific values  no-restricted-syntax
-223:39  Warning: ❌ PROHIBITED: Raw Tailwind font weight. Use design system: font-weight-normal, font-weight-medium, font-weight-semibold, font-weight-bold  no-restricted-syntax
-226:25  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-228:29  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-228:39  Warning: ❌ PROHIBITED: Raw Tailwind letter spacing. Use design system: tracking-label, tracking-kicker, tracking-display, or specific values  no-restricted-syntax
-229:39  Warning: ❌ PROHIBITED: Raw Tailwind font weight. Use design system: font-weight-normal, font-weight-medium, font-weight-semibold, font-weight-bold  no-restricted-syntax
-236:19  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-240:25  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-244:41  Warning: ❌ PROHIBITED: Raw Tailwind font weight. Use design system: font-weight-normal, font-weight-medium, font-weight-semibold, font-weight-bold  no-restricted-syntax
-249:25  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-253:41  Warning: ❌ PROHIBITED: Raw Tailwind font weight. Use design system: font-weight-normal, font-weight-medium, font-weight-semibold, font-weight-bold  no-restricted-syntax
-258:25  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-262:41  Warning: ❌ PROHIBITED: Raw Tailwind font weight. Use design system: font-weight-normal, font-weight-medium, font-weight-semibold, font-weight-bold  no-restricted-syntax
-276:15  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-286:15  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+63:11  Warning: 'addNotification' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+348:31  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
 
 ./src/app/certifications/page.tsx
 3:20  Warning: 'useEffect' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-101:19  Warning: 'setLoading' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-128:5  Warning: Unexpected console statement.  no-console
-141:53  Warning: 'selectedIds' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
-189:25  Warning: Unexpected console statement.  no-console
+107:19  Warning: 'setLoading' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+134:5  Warning: Unexpected console statement.  no-console
+147:53  Warning: 'selectedIds' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+209:27  Warning: Unexpected console statement.  no-console
 
 ./src/app/channels/page.tsx
 3:20  Warning: 'useEffect' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
 3:31  Warning: 'useCallback' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-9:3  Warning: 'H2' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:3  Warning: 'Field' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-27:3  Warning: 'LoadingSpinner' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-29:3  Warning: 'Tabs' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-30:3  Warning: 'TabsList' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-31:3  Warning: 'Tab' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-32:3  Warning: 'TabPanel' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-169:13  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-169:13  Warning: Classname 'grid-overlay' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-173:41  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-196:96  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-197:67  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-198:68  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-199:72  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-206:47  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-211:21  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-225:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-228:53  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-233:38  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-250:49  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-263:34  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-267:57  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-269:47  Warning: ❌ PROHIBITED: Raw Tailwind font weight. Use design system: font-weight-normal, font-weight-medium, font-weight-semibold, font-weight-bold  no-restricted-syntax
-374:37  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-375:47  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-387:21  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+24:3  Warning: 'Tabs' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+25:3  Warning: 'TabsList' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+26:3  Warning: 'Tab' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+143:9  Warning: 'getTypeBadge' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+201:49  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+221:55  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+243:51  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+256:36  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+260:59  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+364:47  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
 
 ./src/app/communications/channels/page.tsx
-8:52  Warning: 'TabPanel' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-10:3  Warning: 'Table' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-10:10  Warning: 'TableHeader' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-10:23  Warning: 'TableBody' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-10:34  Warning: 'TableRow' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-10:44  Warning: 'TableHead' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-10:55  Warning: 'TableCell' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-60:13  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-60:13  Warning: Classname 'grid-overlay' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-70:74  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-71:61  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-72:66  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-73:74  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-111:49  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-142:96  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-149:37  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-149:37  Warning: Classnames 'w-10, h-10' could be replaced by the 'size-10' shorthand!  tailwindcss/enforces-shorthand
-149:47  Warning: ❌ PROHIBITED: Raw Tailwind border radius. Use design system: rounded-radius-*, rounded-button, rounded-card, rounded-input, rounded-avatar  no-restricted-syntax
-153:25  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-153:25  Warning: Classnames 'w-10, h-10' could be replaced by the 'size-10' shorthand!  tailwindcss/enforces-shorthand
-153:35  Warning: ❌ PROHIBITED: Raw Tailwind border radius. Use design system: rounded-radius-*, rounded-button, rounded-card, rounded-input, rounded-avatar  no-restricted-syntax
+181:37  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+185:25  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
 
 ./src/app/communications/page.tsx
-11:10  Warning: 'activeChannel' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-11:25  Warning: 'setActiveChannel' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-76:49  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-83:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-83:23  Warning: Classnames 'w-4, h-4' could be replaced by the 'size-4' shorthand!  tailwindcss/enforces-shorthand
-87:24  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-87:24  Warning: Classnames 'w-4, h-4' could be replaced by the 'size-4' shorthand!  tailwindcss/enforces-shorthand
-95:20  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-95:20  Warning: Classnames 'w-8, h-8' could be replaced by the 'size-8' shorthand!  tailwindcss/enforces-shorthand
-100:20  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-100:20  Warning: Classnames 'w-8, h-8' could be replaced by the 'size-8' shorthand!  tailwindcss/enforces-shorthand
-105:28  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-105:28  Warning: Classnames 'w-8, h-8' could be replaced by the 'size-8' shorthand!  tailwindcss/enforces-shorthand
-109:17  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-110:26  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-110:26  Warning: Classnames 'w-8, h-8' could be replaced by the 'size-8' shorthand!  tailwindcss/enforces-shorthand
-122:57  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-124:30  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-124:30  Warning: Classnames 'w-6, h-6' could be replaced by the 'size-6' shorthand!  tailwindcss/enforces-shorthand
-135:57  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-137:30  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-137:30  Warning: Classnames 'w-4, h-4' could be replaced by the 'size-4' shorthand!  tailwindcss/enforces-shorthand
-154:57  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-155:28  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-160:25  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-160:35  Warning: ❌ PROHIBITED: Raw Tailwind font weight. Use design system: font-weight-normal, font-weight-medium, font-weight-semibold, font-weight-bold  no-restricted-syntax
-166:19  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-167:30  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-167:30  Warning: Classnames 'w-8, h-8' could be replaced by the 'size-8' shorthand!  tailwindcss/enforces-shorthand
-168:19  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-174:15  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-182:31  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-184:33  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-184:33  Warning: Classnames 'w-6, h-6' could be replaced by the 'size-6' shorthand!  tailwindcss/enforces-shorthand
-186:37  Warning: ❌ PROHIBITED: Raw Tailwind font weight. Use design system: font-weight-normal, font-weight-medium, font-weight-semibold, font-weight-bold  no-restricted-syntax
+79:63  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+102:29  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
 
-./src/app/crew/assign/page.tsx
-74:16  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-120:49  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-122:39  Warning: ❌ PROHIBITED: Raw Tailwind font weight. Use design system: font-weight-normal, font-weight-medium, font-weight-semibold, font-weight-bold  no-restricted-syntax
-147:39  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-148:49  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-150:39  Warning: ❌ PROHIBITED: Raw Tailwind font weight. Use design system: font-weight-normal, font-weight-medium, font-weight-semibold, font-weight-bold  no-restricted-syntax
+./src/app/credentials/issue/page.tsx
+20:3  Warning: 'Select' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+77:16  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+77:16  Warning: Classname 'bg-grey-50' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+84:17  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+84:17  Warning: Classname 'border-grey-300' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+91:23  Warning: Classname 'text-grey-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+98:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+98:23  Warning: Classname 'border-grey-200' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+107:29  Warning: Classname 'bg-primary/5' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+107:29  Warning: Classname 'border-grey-200' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+107:29  Warning: Classname 'hover:border-grey-400' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+118:47  Warning: ❌ PROHIBITED: Raw Tailwind font weight. Use design system: font-weight-normal, font-weight-medium, font-weight-semibold, font-weight-bold  no-restricted-syntax
+119:37  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+130:33  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+130:33  Warning: Classname 'text-grey-400' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+136:27  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+136:27  Warning: Classname 'border-grey-300' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+139:28  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+139:28  Warning: Classname 'border-grey-200' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+143:29  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+143:29  Warning: Classname 'bg-primary/10' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+143:29  Warning: Classname 'hover:bg-grey-50' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+143:29  Warning: Classname 'border-grey-100' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+152:49  Warning: ❌ PROHIBITED: Raw Tailwind font weight. Use design system: font-weight-normal, font-weight-medium, font-weight-semibold, font-weight-bold  no-restricted-syntax
+153:39  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+173:27  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+173:27  Warning: Classname 'border-grey-300' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+177:27  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+177:27  Warning: Classname 'border-grey-300' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+191:25  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+191:25  Warning: Classname 'border-grey-300' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+202:25  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+202:25  Warning: Classname 'border-grey-300' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+211:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+211:23  Warning: Classname 'border-grey-200' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+217:31  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+222:43  Warning: ❌ PROHIBITED: Raw Tailwind font weight. Use design system: font-weight-normal, font-weight-medium, font-weight-semibold, font-weight-bold  no-restricted-syntax
+226:29  Warning: Classname 'text-grey-400' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+231:31  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+232:41  Warning: ❌ PROHIBITED: Raw Tailwind font weight. Use design system: font-weight-normal, font-weight-medium, font-weight-semibold, font-weight-bold  no-restricted-syntax
+233:31  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+236:29  Warning: Classname 'text-grey-400' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+241:31  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+242:41  Warning: ❌ PROHIBITED: Raw Tailwind font weight. Use design system: font-weight-normal, font-weight-medium, font-weight-semibold, font-weight-bold  no-restricted-syntax
+247:28  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+247:28  Warning: Classname 'border-warning' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+247:28  Warning: Classname 'bg-warning/10' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+249:35  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+256:28  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+256:28  Warning: Classname 'border-error' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+256:28  Warning: Classname 'bg-error/10' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+264:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+264:23  Warning: Classname 'bg-primary' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
 
-./src/app/crew/background-checks/page.tsx
-7:58  Warning: 'Input' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-8:52  Warning: 'TabPanel' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-8:76  Warning: 'ProgressBar' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-70:13  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-70:13  Warning: Classname 'grid-overlay' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-86:70  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-87:64  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-88:114  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-89:106  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-187:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-220:19  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+./src/app/credentials/page.tsx
+210:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+214:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+218:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+222:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+234:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+238:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+242:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+248:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+275:25  Warning: Unexpected console statement.  no-console
+
+./src/app/credentials/reports/page.tsx
+3:10  Warning: 'useState' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+55:16  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+55:16  Warning: Classname 'bg-grey-100' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+62:23  Warning: Classname 'text-grey-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+66:17  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+66:17  Warning: Classname 'border-grey-300' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+103:21  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+103:21  Warning: Classname 'border-grey-200' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+115:35  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+117:32  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+117:32  Warning: Classname 'bg-grey-200' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+117:42  Warning: ❌ PROHIBITED: Raw Tailwind border radius. Use design system: rounded-button (4px), rounded-card (8px), rounded-modal (16px), rounded-avatar (full), rounded-badge (2px)  no-restricted-syntax
+119:41  Warning: ❌ PROHIBITED: Raw Tailwind border radius. Use design system: rounded-button (4px), rounded-card (8px), rounded-modal (16px), rounded-avatar (full), rounded-badge (2px)  no-restricted-syntax
+134:21  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+134:21  Warning: Classname 'border-grey-200' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+142:39  Warning: ❌ PROHIBITED: Raw Tailwind border radius. Use design system: rounded-button (4px), rounded-card (8px), rounded-modal (16px), rounded-avatar (full), rounded-badge (2px)  no-restricted-syntax
+147:31  Warning: Classname 'font-weight-semibold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+157:21  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+157:21  Warning: Classname 'border-grey-200' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+164:25  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+164:25  Warning: Classname 'border-grey-100' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+167:33  Warning: Classname 'font-weight-medium' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+168:33  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+168:33  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+170:31  Warning: Classname 'text-grey-400' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+178:21  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+178:21  Warning: Classname 'border-grey-200' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+184:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+184:23  Warning: Classname 'border-grey-300' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+191:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+191:23  Warning: Classname 'border-grey-300' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+198:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+198:23  Warning: Classname 'border-grey-300' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+205:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+205:23  Warning: Classname 'border-grey-300' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+
+./src/app/credentials/scan/page.tsx
+3:20  Warning: 'useRef' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+3:28  Warning: 'useEffect' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+85:27  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+88:29  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+90:21  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+103:16  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+103:16  Warning: Classname 'bg-ink-950' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+110:17  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+110:17  Warning: Classname 'border-grey-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+117:23  Warning: Classname 'text-grey-400' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+125:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+125:23  Warning: Classname 'border-grey-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+125:23  Warning: Classname 'bg-grey-900' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+131:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+131:23  Warning: Classname 'border-grey-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+131:23  Warning: Classname 'bg-grey-800' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+144:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+144:23  Warning: Classname 'border-grey-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+144:23  Warning: Classname 'bg-grey-900' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+149:33  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+149:33  Warning: Classname 'text-grey-400' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+156:27  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+156:27  Warning: Classname 'border-grey-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+156:27  Warning: Classname 'bg-grey-800' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+162:25  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+162:25  Warning: Classname 'bg-primary' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+171:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+171:23  Warning: Classname 'border-grey-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+171:23  Warning: Classname 'bg-grey-900/50' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+173:29  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+173:29  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+174:25  Warning: Classname 'text-grey-400' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+175:27  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+179:29  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+179:29  Warning: Classname 'border-grey-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+179:29  Warning: Classname 'text-grey-400' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+200:31  Warning: Classname 'text-grey-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+204:31  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+204:31  Warning: Classname 'border-grey-200' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+213:37  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+213:37  Warning: Classname 'font-weight-bold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+217:35  Warning: Classname 'font-weight-semibold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+220:35  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+229:25  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+229:25  Warning: Classname 'border-grey-300' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+238:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+238:23  Warning: Classname 'border-grey-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+238:23  Warning: Classname 'bg-grey-900' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+242:29  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+248:29  Warning: Classname 'border-success/30' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+248:29  Warning: Classname 'bg-success/10' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+248:29  Warning: Classname 'border-error/30' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+248:29  Warning: Classname 'bg-error/10' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+254:46  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+256:42  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+259:39  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+262:39  Warning: Classname 'text-grey-400' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+
+./src/app/credentials/types/page.tsx
+5:23  Warning: 'Trash2' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+5:39  Warning: 'Download' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+13:3  Warning: 'ConfirmDialog' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+166:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+174:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+178:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+182:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+196:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+200:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+229:25  Warning: Unexpected console statement.  no-console
+
+./src/app/credentials/zones/page.tsx
+7:31  Warning: 'Shield' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+7:39  Warning: 'Plus' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+201:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+207:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+211:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+215:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+232:14  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+232:14  Warning: Classname 'bg-grey-50' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+237:23  Warning: Classname 'text-grey-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+244:19  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+244:19  Warning: Classname 'border-grey-300' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+250:19  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+250:19  Warning: Classname 'bg-primary' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+257:19  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+257:19  Warning: Classname 'border-grey-200' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+262:21  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+262:21  Warning: Classname 'border-grey-100' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+269:31  Warning: Classname 'font-weight-semibold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+270:31  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+276:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+276:23  Warning: Classname 'border-grey-300' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
 
 ./src/app/crew/page.tsx
-220:5  Warning: Unexpected console statement.  no-console
 224:5  Warning: Unexpected console statement.  no-console
-230:7  Warning: Unexpected console statement.  no-console
-282:20  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-292:20  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-306:17  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-321:25  Warning: Unexpected console statement.  no-console
+228:5  Warning: Unexpected console statement.  no-console
+234:7  Warning: Unexpected console statement.  no-console
+310:17  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+325:25  Warning: Unexpected console statement.  no-console
 
 ./src/app/crew/social/page.tsx
-7:65  Warning: 'Select' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-76:13  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-76:13  Warning: Classname 'grid-overlay' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-86:68  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-87:62  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-88:68  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-89:59  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-105:29  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-105:29  Warning: Classnames 'w-10, h-10' could be replaced by the 'size-10' shorthand!  tailwindcss/enforces-shorthand
-105:39  Warning: ❌ PROHIBITED: Raw Tailwind border radius. Use design system: rounded-radius-*, rounded-button, rounded-card, rounded-input, rounded-avatar  no-restricted-syntax
-108:78  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-117:35  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-117:35  Warning: Classnames 'w-12, h-12' could be replaced by the 'size-12' shorthand!  tailwindcss/enforces-shorthand
-117:45  Warning: ❌ PROHIBITED: Raw Tailwind border radius. Use design system: rounded-radius-*, rounded-button, rounded-card, rounded-input, rounded-avatar  no-restricted-syntax
-132:33  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-151:33  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-151:33  Warning: Classnames 'w-8, h-8' could be replaced by the 'size-8' shorthand!  tailwindcss/enforces-shorthand
-151:43  Warning: ❌ PROHIBITED: Raw Tailwind border radius. Use design system: rounded-radius-*, rounded-button, rounded-card, rounded-input, rounded-avatar  no-restricted-syntax
-153:35  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-153:35  Warning: Classnames 'w-2, h-2' could be replaced by the 'size-2' shorthand!  tailwindcss/enforces-shorthand
-167:71  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-169:35  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-169:35  Warning: Classnames 'w-8, h-8' could be replaced by the 'size-8' shorthand!  tailwindcss/enforces-shorthand
-169:45  Warning: ❌ PROHIBITED: Raw Tailwind border radius. Use design system: rounded-radius-*, rounded-button, rounded-card, rounded-input, rounded-avatar  no-restricted-syntax
-186:41  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-188:29  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-188:29  Warning: Classnames 'w-16, h-16' could be replaced by the 'size-16' shorthand!  tailwindcss/enforces-shorthand
-188:39  Warning: ❌ PROHIBITED: Raw Tailwind border radius. Use design system: rounded-radius-*, rounded-button, rounded-card, rounded-input, rounded-avatar  no-restricted-syntax
-190:31  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-190:31  Warning: Classnames 'w-4, h-4' could be replaced by the 'size-4' shorthand!  tailwindcss/enforces-shorthand
-210:35  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-221:51  Warning: Invalid Tailwind C
+117:31  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+129:37  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+163:35  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+180:37  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+199:31  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+239:33  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+268:21  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+
+./src/app/crew-social/page.tsx
+3:20  Warning: 'useEffect' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+3:31  Warning: 'useCallback' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+59:11  Warning: 'Connection' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+83:23  Warning: 'setCrewMembers' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+93:26  Warning: 'memberId' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+206:55  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+229:55  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+250:47  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+260:29  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+267:55  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+295:53  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+297:33  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+297:33  Warning: Classnames 'w-12, h-12' could be replaced by the 'size-12' shorthand!  tailwindcss/enforces-shorthand
+297:43  Warning: ❌ PROHIBITED: Raw Tailwind border radius. Use design system: rounded-button (4px), rounded-card (8px), rounded-modal (16px), rounded-avatar (full), rounded-badge (2px)  no-restricted-syntax
+340:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+340:23  Warning: Classnames 'w-16, h-16' could be replaced by the 'size-16' shorthand!  tailwindcss/enforces-shorthand
+340:33  Warning: ❌ PROHIBITED: Raw Tailwind border radius. Use design system: rounded-button (4px), rounded-card (8px), rounded-modal (16px), rounded-avatar (full), rounded-badge (2px)  no-restricted-syntax
+
+./src/app/dashboard/page.tsx
+4:28  Warning: 'CompvssLoadingLayout' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+19:3  Warning: 'EnterprisePageHeader' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+20:3  Warning: 'MainContent' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+162:21  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+163:55  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+182:21  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+182:21  Warning: Classname 'border-ink-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+183:55  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+202:21  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+202:21  Warning: Classname 'border-ink-400' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+203:55  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+
+./src/app/deliveries/page.tsx
+108:19  Warning: 'setLoading' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+134:5  Warning: Unexpected console statement.  no-console
+148:5  Warning: Unexpected console statement.  no-console
+185:38  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+185:38  Warning: Classname 'border-ink-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+227:27  Warning: Unexpected console statement.  no-console
+
+./src/app/directory/availability/page.tsx
+114:39  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+122:31  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+141:43  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+155:25  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+155:25  Warning: Classname 'bg-success-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+159:25  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+159:25  Warning: Classname 'bg-warning-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+163:25  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+163:25  Warning: Classname 'bg-error-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+167:25  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+167:25  Warning: Classname 'bg-ink-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+187:21  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+216:29  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+
+./src/app/directory/filters/page.tsx
+109:33  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+109:33  Warning: Classname 'bg-primary-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+121:33  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+121:33  Warning: Classname 'bg-primary-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+129:27  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+129:27  Warning: Classname 'bg-primary-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+
+./src/app/directory/page.tsx
+92:9  Warning: 'filterOptions' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+99:27  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+122:39  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+349:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+381:59  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+
+./src/app/equipment/page.tsx
+170:5  Warning: Unexpected console statement.  no-console
+239:27  Warning: Unexpected console statement.  no-console
+
+./src/app/expenses/page.tsx
+17:3  Warning: 'StatCard' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:3  Warning: 'Select' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+19:3  Warning: 'Table' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+20:3  Warning: 'TableHeader' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+21:3  Warning: 'TableBody' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+22:3  Warning: 'TableRow' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+23:3  Warning: 'TableHead' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+24:3  Warning: 'TableCell' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+25:3  Warning: 'Button' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+136:5  Warning: Unexpected console statement.  no-console
+186:36  Warning: Unexpected console statement.  no-console
+
+./src/app/glossary/page.tsx
+125:27  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+
+./src/app/incidents/page.tsx
+3:20  Warning: 'useCallback' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+86:5  Warning: Unexpected console statement.  no-console
+93:7  Warning: Unexpected console statement.  no-console
+151:27  Warning: Unexpected console statement.  no-console
+
+./src/app/integrations/page.tsx
+35:12  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+110:55  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+140:35  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+
+./src/app/issues/page.tsx
+87:9  Warning: 'router' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+185:27  Warning: Unexpected console statement.  no-console
+
+./src/app/knowledge/brand-guidelines/page.tsx
+167:27  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+175:27  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+175:27  Warning: Classname 'bg-primary-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+
+./src/app/knowledge/multilingual/page.tsx
+82:9  Warning: 'getStatusColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/knowledge/offline/page.tsx
+84:9  Warning: 'getStatusColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+94:9  Warning: 'getPriorityColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+160:40  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+
+./src/app/knowledge/regulations/page.tsx
+63:9  Warning: 'getStatusColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+135:51  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+
+./src/app/logistics/page.tsx
+3:20  Warning: 'useCallback' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+13:3  Warning: 'ConfirmDialog' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars

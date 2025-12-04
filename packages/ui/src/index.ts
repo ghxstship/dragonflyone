@@ -204,6 +204,8 @@ export { ProtectedRoute } from "./organisms/protected-route.js";
 export type { ProtectedRouteProps } from "./organisms/protected-route.js";
 export { AppSidebar, MobileAppSidebar } from "./organisms/app-sidebar.js";
 export type { AppSidebarProps, MobileAppSidebarProps, SidebarNavSection, SidebarNavItem, SidebarNavSubsection } from "./organisms/app-sidebar.js";
+export { ContextSwitcher } from "./organisms/context-switcher.js";
+export type { ContextSwitcherProps, ProductionContext } from "./organisms/context-switcher.js";
 export { PageHeader as EnterprisePageHeader } from "./organisms/page-header.js";
 export type { PageHeaderProps as EnterprisePageHeaderProps, BreadcrumbItem as EnterpriseBreadcrumbItem, TabItem, ViewOption } from "./organisms/page-header.js";
 

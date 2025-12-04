@@ -1,5 +1,3 @@
-import type { LucideIcon } from 'lucide-react';
-
 /**
  * Navigation Configuration Types
  * Shared across ATLVS, COMPVSS, and GVTEWAY applications
@@ -108,8 +106,8 @@ export interface NavItem {
   label: string;
   /** Navigation href (optional if has children) */
   href?: string;
-  /** Lucide icon component */
-  icon?: LucideIcon;
+  /** Lucide icon name as string */
+  icon?: string;
   /** Child navigation items */
   children?: NavItem[];
   /** Badge to display */

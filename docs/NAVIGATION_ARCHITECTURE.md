@@ -37,6 +37,166 @@ This document proposes a restructured navigation architecture across all three G
 
 ---
 
+## Cross-App Workflow: Advancing System
+
+The Advancing module is a **unified cross-app workflow** that uses the Global Catalog:
+
+### Workflow Flow
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                        ADVANCING WORKFLOW                                    │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  COMPVSS (Submit)              ATLVS (Process)           COMPVSS (Fulfill)  │
+│  ─────────────────             ──────────────            ─────────────────  │
+│                                                                             │
+│  1. Create Advance Request     3. Review Request         6. Receive Items   │
+│     - Select from Catalog      4. Approve/Deny/Modify    7. Confirm Receipt │
+│     - Specify quantities       5. Allocate Resources     8. Deploy to Event │
+│     - Set delivery details        - From inventory       9. Return/Reconcile│
+│  2. Submit for Approval           - From rentals                            │
+│                                   - From procurement                        │
+│                                                                             │
+│  CATALOG SOURCES:                                                           │
+│  ├── Global Asset Inventory (owned equipment)                               │
+│  ├── Rental Catalog (preferred vendors)                                     │
+│  ├── Procurement Items (purchasable goods)                                  │
+│  └── Service Catalog (labor, services)                                      │
+│                                                                             │
+│  ADVANCE TYPES:                                                             │
+│  ├── Production Advances (staging, lighting, audio, video)                  │
+│  ├── Artist Advances (hospitality, technical riders)                        │
+│  ├── Crew Advances (equipment, supplies, per diems)                         │
+│  └── Venue Advances (site-specific requirements)                            │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Existing Pages (to be unified)
+| App | Route | Purpose |
+|-----|-------|---------|
+| ATLVS | `/advances` | Advance requests queue (processing) |
+| ATLVS | `/advances/[id]` | Advance detail (approve/deny) |
+| ATLVS | `/advancing` | Advancing dashboard |
+| ATLVS | `/advancing/requests/[id]` | Request detail |
+| COMPVSS | `/advancing` | Advancing dashboard (submit) |
+| COMPVSS | `/advancing/[id]` | Advance detail |
+| COMPVSS | `/advancing/catalog` | Global catalog browser |
+| COMPVSS | `/advancing/new` | Create new advance request |
+
+---
+
+## Gap Analysis: Missing from Navigation Architecture
+
+### ATLVS Pages NOT in Proposed Navigation
+
+| Category | Existing Route | Status | Recommendation |
+|----------|---------------|--------|----------------|
+| **Advancing** | `/advances`, `/advances/[id]` | MISSING | Add to Operations section |
+| **Advancing** | `/advancing`, `/advancing/requests/[id]` | MISSING | Add to Operations section |
+| **Assets** | `/assets/calibration` | MISSING | Add to Assets > Maintenance |
+| **Assets** | `/assets/damage-reports` | MISSING | Add to Assets > Maintenance |
+| **Assets** | `/assets/idle-analysis` | MISSING | Add to Assets > Analytics |
+| **Assets** | `/assets/kits` | MISSING | Add to Assets > Inventory |
+| **Assets** | `/assets/optimization` | MISSING | Add to Assets > Analytics |
+| **Assets** | `/assets/performance` | MISSING | Add to Assets > Analytics |
+| **Assets** | `/assets/scan` | MISSING | Add to Assets > Tracking |
+| **Assets** | `/assets/serialized` | MISSING | Add to Assets > Inventory |
+| **Assets** | `/assets/specifications` | MISSING | Add to Assets > Inventory |
+| **Assets** | `/assets/storage` | MISSING | Add to Assets > Inventory |
+| **Assets** | `/assets/utilization` | MISSING | Add to Assets > Analytics |
+| **CRM** | `/crm`, `/crm/calendar`, `/crm/email-integration` | MISSING | Add to CRM section |
+| **CRM** | `/crm/lead-scoring`, `/crm/relationships`, `/crm/tasks` | MISSING | Add to CRM section |
+| **Finance** | `/finance`, `/finance/accounts-receivable` | MISSING | Add to Finance section |
+| **Finance** | `/finance/bank-reconciliation`, `/finance/commissions` | MISSING | Add to Finance section |
+| **Finance** | `/finance/credit-cards` | MISSING | Add to Finance section |
+| **Generator** | `/generator`, `/generator/share/[id]` | MISSING | Add to Documents section |
+| **Leads** | `/leads/scoring` | MISSING | Add to CRM > Leads |
+| **Legal** | `/legal/privacy`, `/legal/terms` | MISSING | Add to Compliance > Legal |
+| **Marketing** | `/marketing/attribution` | MISSING | Add to Marketing section |
+| **Procurement** | `/procurement/categories`, `/procurement/emergency` | MISSING | Add to Finance > Procurement |
+| **Procurement** | `/procurement/logistics`, `/procurement/vendor-audits` | MISSING | Add to Finance > Procurement |
+| **Procurement** | `/procurement/vendor-selection` | MISSING | Add to Finance > Procurement |
+| **Reports** | `/reports`, `/reports/scheduled` | MISSING | Add to Metrics > Reports |
+| **Vendors** | `/vendors/contracts`, `/vendors/rate-cards` | MISSING | Add to People > Vendors |
+| **Verticals** | `/verticals/activations`, `/verticals/destinations` | MISSING | Add to Productions |
+| **Verticals** | `/verticals/installations`, `/verticals/productions` | MISSING | Add to Productions |
+| **Workforce** | `/workforce`, `/workforce/background-checks` | MISSING | Add to Organization |
+| **Workforce** | `/workforce/compensation`, `/workforce/handbook` | MISSING | Add to Organization |
+| **Workforce** | `/workforce/labor-laws`, `/workforce/referrals` | MISSING | Add to Organization |
+| **Workforce** | `/workforce/succession`, `/workforce/union-*` | MISSING | Add to Organization |
+
+### COMPVSS Pages NOT in Proposed Navigation
+
+| Category | Existing Route | Status | Recommendation |
+|----------|---------------|--------|----------------|
+| **Advancing** | `/advancing/*` | MISSING | Add to Operations section |
+| **Artists** | `/artists` | MISSING | Add to Operations > Artists |
+| **Availability** | `/availability` | MISSING | Add to Crew section |
+| **Background Checks** | `/background-checks` | MISSING | Add to Crew section |
+| **Backup Plans** | `/backup-plans` | MISSING | Add to Documents section |
+| **Best Practices** | `/best-practices` | MISSING | Add to Resources section |
+| **Bid Portal** | `/bid-portal` | MISSING | Add to Opportunities section |
+| **Build/Strike** | `/build-strike` | MISSING | Add to Schedule section |
+| **Case Studies** | `/case-studies` | MISSING | Add to Resources section |
+| **Catering** | `/catering` | MISSING | Add to Operations section |
+| **Certifications** | `/certifications` | MISSING | Add to Crew section |
+| **Channels** | `/channels` | MISSING | Add to Communication section |
+| **Communications** | `/communications/*` | MISSING | Add to Communication section |
+| **Crew Social** | `/crew-social`, `/crew/social` | MISSING | Add to Community section |
+| **Crew** | `/crew`, `/crew/assign`, `/crew/background-checks` | PARTIAL | Expand Crew section |
+| **Deliveries** | `/deliveries` | MISSING | Add to Logistics section |
+| **Directory** | `/directory`, `/directory/*` | MISSING | Add to Crew section |
+| **Drawings** | `/drawings` | MISSING | Add to Logistics > Venues |
+| **Emergency** | `/emergency` | MISSING | Add to Safety section |
+| **Equipment** | `/equipment` | MISSING | Add to Logistics section |
+| **Expenses** | `/expenses` | MISSING | Add to Reports section |
+| **Files** | `/files` | MISSING | Add to Documents section |
+| **Glossary** | `/glossary` | MISSING | Add to Resources section |
+| **Incidents** | `/incidents` | MISSING | Add to Safety section |
+| **Integrations** | `/integrations` | MISSING | Add to Settings section |
+| **Issues** | `/issues` | MISSING | Add to Quality section |
+| **Knowledge** | `/knowledge/*` | MISSING | Add to Resources section |
+| **Logistics** | `/logistics` | MISSING | Add to Logistics section |
+| **Maintenance** | `/maintenance` | MISSING | Add to Logistics section |
+| **Mentorship** | `/mentorship` | MISSING | Add to Development section |
+| **Messages** | `/messages` | MISSING | Add to Communication section |
+| **Offline** | `/offline` | MISSING | Add to Settings section |
+| **Onboarding** | `/onboarding` | MISSING | Add to Crew section |
+| **Opportunities** | `/opportunities/*` | MISSING | Add to Opportunities section |
+| **Permits** | `/permits` | MISSING | Add to Safety section |
+| **Photo Documentation** | `/photo-documentation` | MISSING | Add to Reports section |
+| **Projects** | `/projects`, `/projects/new` | MISSING | Add to main nav |
+| **Punch List** | `/punch-list` | MISSING | Add to Quality section |
+| **QA Checkpoints** | `/qa-checkpoints` | MISSING | Add to Quality section |
+| **Risk Register** | `/risk-register` | MISSING | Add to Safety section |
+| **Run of Show** | `/run-of-show` | MISSING | Add to Schedule section |
+| **Safety** | `/safety` | MISSING | Add to Safety section |
+| **Schedule** | `/schedule` | MISSING | Add to Schedule section |
+| **Set Times** | `/set-times` | MISSING | Add to Schedule section |
+| **Settlement** | `/settlement` | MISSING | Add to Reports section |
+| **Show Call** | `/show-call` | MISSING | Add to Schedule section |
+| **Site Access** | `/site-access` | MISSING | Add to Logistics > Venues |
+| **Site Surveys** | `/site-surveys` | MISSING | Add to Logistics > Venues |
+| **Skills** | `/skills` | MISSING | Add to Crew section |
+| **Social Amplification** | `/social-amplification` | MISSING | Add to Communication section |
+| **Soundcheck** | `/soundcheck` | MISSING | Add to Schedule section |
+| **Spec Sheets** | `/spec-sheets` | MISSING | Add to Documents section |
+| **Stage Management** | `/stage-management` | MISSING | Add to Operations section |
+| **Stakeholder Portal** | `/stakeholder-portal` | MISSING | Add to Communication section |
+| **Subcontractors** | `/subcontractors` | MISSING | Add to Logistics section |
+| **Tech Rehearsal** | `/tech-rehearsal` | MISSING | Add to Schedule section |
+| **Templates** | `/templates` | MISSING | Add to Documents section |
+| **Timekeeping** | `/timekeeping` | MISSING | Add to Crew section |
+| **Travel** | `/travel` | MISSING | Add to Operations section |
+| **Troubleshooting** | `/troubleshooting` | MISSING | Add to Quality section |
+| **Vendors** | `/vendors/compare` | MISSING | Add to Logistics section |
+| **Venues** | `/venues` | MISSING | Add to Logistics section |
+| **VIP Management** | `/vip-management` | MISSING | Add to Operations section |
+| **Weather** | `/weather`, `/weather-contingency` | MISSING | Add to Safety section |
+
+---
+
 ## Proposed Architecture
 
 ### Core Principles
@@ -65,7 +225,12 @@ This document proposes a restructured navigation architecture across all three G
 │  │   ├── Active                                                 │
 │  │   ├── Upcoming                                               │
 │  │   ├── Archived                                               │
-│  │   └── Templates                                              │
+│  │   ├── Templates                                              │
+│  │   └── Verticals                # Production types            │
+│  │       ├── Productions                                        │
+│  │       ├── Activations                                        │
+│  │       ├── Installations                                      │
+│  │       └── Destinations                                       │
 │  │                                                              │
 │  ├── Organization                                               │
 │  │   ├── Settings                                               │
@@ -81,18 +246,48 @@ This document proposes a restructured navigation architecture across all three G
 │  │   ├── Taxes                                                  │
 │  │   └── Payroll                                                │
 │  │                                                              │
+│  ├── Workforce                                                  │
+│  │   ├── Employees                                              │
+│  │   ├── Background Checks                                      │
+│  │   ├── Compensation                                           │
+│  │   ├── Handbook                                               │
+│  │   ├── Labor Laws                                             │
+│  │   ├── Union Compliance                                       │
+│  │   ├── Referrals                                              │
+│  │   └── Succession Planning                                    │
+│  │                                                              │
 │  ├── CRM                                                        │
+│  │   ├── Dashboard                                              │
 │  │   ├── Contacts                                               │
 │  │   ├── Leads                                                  │
+│  │   │   └── Scoring                                            │
 │  │   ├── Deals                                                  │
 │  │   ├── Pipeline                                               │
-│  │   └── Relationships                                          │
+│  │   ├── Relationships                                          │
+│  │   ├── Tasks                                                  │
+│  │   ├── Calendar                                               │
+│  │   └── Email Integration                                      │
 │  │                                                              │
 │  ├── Assets (Global)                                            │
 │  │   ├── Inventory                                              │
+│  │   │   ├── All Items                                          │
+│  │   │   ├── Serialized                                         │
+│  │   │   ├── Kits                                               │
+│  │   │   ├── Specifications                                     │
+│  │   │   └── Storage                                            │
 │  │   ├── Maintenance                                            │
+│  │   │   ├── Schedule                                           │
+│  │   │   ├── Calibration                                        │
+│  │   │   └── Damage Reports                                     │
 │  │   ├── Rentals                                                │
-│  │   └── Tracking                                               │
+│  │   ├── Tracking                                               │
+│  │   │   ├── Location                                           │
+│  │   │   └── Scan                                               │
+│  │   └── Analytics                                              │
+│  │       ├── Utilization                                        │
+│  │       ├── Performance                                        │
+│  │       ├── Idle Analysis                                      │
+│  │       └── Optimization                                       │
 │  │                                                              │
 │  ├── Analytics (Platform)                                       │
 │  │   ├── KPIs                                                   │
@@ -144,6 +339,17 @@ This document proposes a restructured navigation architecture across all three G
 │  │   │   └── Maps                                               │
 │  │   └── Alignment                 # Stakeholder alignment      │
 │  │                                                              │
+│  ├── ADVANCING                      # Process requests from COMPVSS │
+│  │   ├── Dashboard                  # All advance requests      │
+│  │   ├── Pending Review             # Awaiting approval         │
+│  │   ├── Approved                   # Ready for allocation      │
+│  │   ├── Allocations                # Resource assignment       │
+│  │   │   ├── From Inventory         # Owned assets              │
+│  │   │   ├── From Rentals           # Rental vendors            │
+│  │   │   └── From Procurement       # Purchase orders           │
+│  │   ├── Fulfillment                # Delivery tracking         │
+│  │   └── History                    # Past requests             │
+│  │                                                              │
 │  ├── PEOPLE                                                     │
 │  │   ├── Team                                                   │
 │  │   │   ├── Assignments                                        │
@@ -151,6 +357,9 @@ This document proposes a restructured navigation architecture across all three G
 │  │   │   └── Training                                           │
 │  │   ├── Stakeholders                                           │
 │  │   ├── Vendors                                                │
+│  │   │   ├── Directory                                          │
+│  │   │   ├── Contracts                                          │
+│  │   │   └── Rate Cards                                         │
 │  │   └── Contacts                                               │
 │  │                                                              │
 │  ├── FINANCE                                                    │
@@ -174,15 +383,28 @@ This document proposes a restructured navigation architecture across all three G
 │  │   │   └── Updates                                            │
 │  │   ├── Invoices                                               │
 │  │   ├── Contracts                                              │
-│  │   └── Procurement                                            │
-│  │       ├── RFPs                                               │
-│  │       ├── Quotes                                             │
-│  │       └── Purchase Orders                                    │
+│  │   ├── Procurement                                            │
+│  │   │   ├── Dashboard                                          │
+│  │   │   ├── RFPs                                               │
+│  │   │   ├── Quotes                                             │
+│  │   │   ├── Purchase Orders                                    │
+│  │   │   ├── Categories                                         │
+│  │   │   ├── Vendor Selection                                   │
+│  │   │   ├── Vendor Audits                                      │
+│  │   │   ├── Logistics                                          │
+│  │   │   └── Emergency                                          │
+│  │   └── Accounts                                               │
+│  │       ├── Receivable                                         │
+│  │       ├── Bank Reconciliation                                │
+│  │       ├── Commissions                                        │
+│  │       └── Credit Cards                                       │
 │  │                                                              │
 │  ├── COMPLIANCE                                                 │
 │  │   ├── Permits                                                │
 │  │   ├── Insurance                                              │
 │  │   ├── Legal                                                  │
+│  │   │   ├── Privacy                                            │
+│  │   │   └── Terms                                              │
 │  │   ├── Governance                                             │
 │  │   └── Risks                                                  │
 │  │                                                              │
@@ -190,7 +412,8 @@ This document proposes a restructured navigation architecture across all three G
 │  │   ├── Campaigns                                              │
 │  │   ├── Content                                                │
 │  │   ├── Partnerships                                           │
-│  │   └── IP Tracking                                            │
+│  │   ├── IP Tracking                                            │
+│  │   └── Attribution                                            │
 │  │                                                              │
 │  ├── METRICS                                                    │
 │  │   ├── Dashboard                                              │
@@ -288,10 +511,18 @@ This document proposes a restructured navigation architecture across all three G
 │  │   │   └── Templates                                          │
 │  │   └── Onboarding                                             │
 │  │                                                              │
+│  ├── ADVANCING                   # Unified cross-app workflow   │
+│  │   ├── Dashboard                # My advance requests          │
+│  │   ├── New Request              # Create from catalog          │
+│  │   ├── Catalog                  # Browse global catalog        │
+│  │   ├── Pending                  # Awaiting approval            │
+│  │   ├── Approved                 # Ready for fulfillment        │
+│  │   └── History                  # Past requests                │
+│  │                                                              │
 │  ├── OPERATIONS                                                 │
 │  │   ├── Stage Management                                       │
 │  │   ├── Artists                                                │
-│  │   │   ├── Advancing                                          │
+│  │   │   ├── Roster                                             │
 │  │   │   └── Hospitality                                        │
 │  │   ├── VIP Management                                         │
 │  │   ├── Catering                                               │

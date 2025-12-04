@@ -6,7 +6,7 @@ import type {
   EventRole,
   Permission,
   NavigationConfig,
-} from './types';
+} from './types.js';
 
 /**
  * Navigation Utility Functions
@@ -182,7 +182,7 @@ export function isPathActive(itemHref: string | undefined, currentPath: string):
 export function hasActiveChild(item: NavItem, currentPath: string): boolean {
   if (!item.children) return false;
   
-  return item.children.some(child => 
+  return item.children.some((child: NavItem) => 
     isPathActive(child.href, currentPath) || hasActiveChild(child, currentPath)
   );
 }
@@ -357,7 +357,7 @@ export function searchNavItems(
     .filter(item => {
       const labelMatch = item.label.toLowerCase().includes(normalizedQuery);
       const descMatch = item.description?.toLowerCase().includes(normalizedQuery);
-      const pathMatch = item.path.some(p => p.toLowerCase().includes(normalizedQuery));
+      const pathMatch = item.path.some((p: string) => p.toLowerCase().includes(normalizedQuery));
       return labelMatch || descMatch || pathMatch;
     })
     .slice(0, 10); // Limit results

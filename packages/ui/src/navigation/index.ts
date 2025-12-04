@@ -24,7 +24,7 @@ export type {
   CommandPaletteProps,
   NavigationState,
   NavigationActions,
-} from './types';
+} from './types.js';
 
 // Utilities
 export {
@@ -46,4 +46,4 @@ export {
   searchNavItems,
   parseShortcut,
   matchesShortcut,
-} from './utils';
+} from './utils.js';
