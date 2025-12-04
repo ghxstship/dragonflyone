@@ -8,7 +8,6 @@
     · cpus
 
    Creating an optimized production build ...
-<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (128kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
  ✓ Compiled successfully
    Skipping validation of types
    Skipping linting
@@ -511,7 +510,7 @@ Route (app)                                   Size     First Load JS
   └ other shared chunks (total)               1.99 kB
 
 
-ƒ Middleware                                  75.8 kB
+ƒ Middleware                                  75.9 kB
 
 ○  (Static)   prerendered as static content
 ƒ  (Dynamic)  server-rendered on demand

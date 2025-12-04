@@ -52,7 +52,7 @@ import {
   Sparkles,
   LogOut,
   Upload,
-  FileTemplate,
+  FilePlus2,
 } from "lucide-react";
 import { useQuickLinks, useUserQuickLinkFavorites, useToggleQuickLinkFavorite, type QuickLink } from "@/hooks/useQuickLinks";
 
@@ -86,7 +86,7 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Sparkles,
   LogOut,
   Upload,
-  FileTemplate,
+  FilePlus2,
   Link: LinkIcon,
 };
 
