@@ -151,7 +151,7 @@ export default function EmergencyProcurementPage() {
             <Button variant="outlineWhite" onClick={() => setShowNewRequestModal(true)}>New Emergency Request</Button>
           </Stack>
 
-          <Table className="border-2 border-ink-800">
+          <Table variant="dark" className="border-2 border-ink-800">
             <TableHeader>
               <TableRow className="bg-ink-900">
                 <TableHead className="text-ink-400">Request</TableHead>

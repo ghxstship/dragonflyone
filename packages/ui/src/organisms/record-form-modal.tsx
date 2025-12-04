@@ -177,8 +177,8 @@ export function RecordFormModal<T = Record<string, unknown>>({
     const value = formData[field.name];
     const error = errors[field.name];
     const baseInputClasses = clsx(
-      "w-full px-spacing-4 py-spacing-3 font-body text-body-md bg-surface-primary text-text-primary border-2 outline-none transition-colors duration-fast",
-      error ? "border-grey-700" : "border-black focus:border-grey-700"
+      "w-full border-2 bg-surface-elevated px-spacing-4 py-spacing-3 font-body text-body-md text-text-primary outline-none transition-colors duration-fast",
+      error ? "border-error-500" : "border-grey-600 hover:border-grey-500 focus:border-indigo-500"
     );
 
     return (

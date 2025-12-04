@@ -264,7 +264,7 @@ export default function PermitsPage() {
                 action={{ label: "New Application", onClick: () => {} }}
               />
             ) : (
-              <Table>
+              <Table variant="dark">
                 <TableHeader>
                   <TableRow>
                     <TableHead>Permit #</TableHead>

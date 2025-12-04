@@ -71,8 +71,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
         return clsx(
           "border-white text-white bg-transparent",
           "shadow-none",
-          "hover:shadow-[4px_4px_0_hsl(239,84%,67%)]",
-          "active:shadow-[2px_2px_0_hsl(239,84%,67%)]",
+          "hover:shadow-[4px_4px_0_hsl(var(--primary))]",
+          "active:shadow-[2px_2px_0_hsl(var(--primary))]",
           "focus-visible:ring-primary focus-visible:ring-offset-ink-950"
         );
       case "outlineInk":
@@ -105,10 +105,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
         return clsx(
           "border-4 border-current",
           inverted 
-            ? "bg-ink-950 text-white shadow-[4px_4px_0_hsl(239,84%,67%)]" 
-            : "bg-white text-black shadow-[4px_4px_0_hsl(239,84%,67%)]",
-          "hover:shadow-[6px_6px_0_hsl(239,84%,67%)]",
-          "active:shadow-[2px_2px_0_hsl(239,84%,67%)]",
+            ? "bg-ink-950 text-white shadow-[4px_4px_0_hsl(var(--primary))]" 
+            : "bg-white text-black shadow-[4px_4px_0_hsl(var(--primary))]",
+          "hover:shadow-[6px_6px_0_hsl(var(--primary))]",
+          "active:shadow-[2px_2px_0_hsl(var(--primary))]",
           inverted ? "focus-visible:ring-white" : "focus-visible:ring-black"
         );
       case "destructive":

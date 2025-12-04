@@ -174,7 +174,7 @@ export default function PunchListPage() {
               </TabPanel>
 
               <TabPanel active={activeTab === "resolved"}>
-                <Table>
+                <Table variant="dark">
                   <TableHeader>
                     <TableRow>
                       <TableHead>Item</TableHead>

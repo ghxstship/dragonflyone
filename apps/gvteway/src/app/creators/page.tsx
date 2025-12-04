@@ -239,7 +239,7 @@ export default function CreatorsPage() {
             description="Create GA, VIP, and premium tiers with custom pricing, fees, and inventory controls."
           />
           <Box className="overflow-x-auto border border-ink-800">
-            <Table className="min-w-full text-left text-body-sm">
+            <Table variant="dark" className="min-w-full text-left text-body-sm">
               <TableHeader className="bg-ink-900 text-ink-500">
                 <TableRow>
                   <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Ticket</TableHead>
@@ -397,7 +397,7 @@ export default function CreatorsPage() {
             ))}
           </Grid>
           <Box className="overflow-x-auto border border-ink-800">
-            <Table className="min-w-full text-left text-body-sm">
+            <Table variant="dark" className="min-w-full text-left text-body-sm">
               <TableHeader className="bg-ink-900 text-ink-500">
                 <TableRow>
                   <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Run</TableHead>

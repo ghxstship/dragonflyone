@@ -245,7 +245,7 @@ export default function SubcontractorsPage() {
                 action={{ label: "Add Subcontractor", onClick: () => {} }}
               />
             ) : (
-              <Table>
+              <Table variant="dark">
                 <TableHeader>
                   <TableRow>
                     <TableHead>Company</TableHead>

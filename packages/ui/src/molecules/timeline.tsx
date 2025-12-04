@@ -36,16 +36,16 @@ export interface TimelineProps {
 
 // Status config for light mode
 const statusConfigLight = {
-  completed: { bgClass: "bg-black", borderClass: "border-black", textClass: "text-white", shadowClass: "shadow-[2px_2px_0_hsl(239,84%,67%)]" },
-  current: { bgClass: "bg-white", borderClass: "border-black", textClass: "text-black", shadowClass: "shadow-[3px_3px_0_hsl(239,84%,67%)]" },
+  completed: { bgClass: "bg-black", borderClass: "border-black", textClass: "text-white", shadowClass: "shadow-[2px_2px_0_hsl(var(--primary))]" },
+  current: { bgClass: "bg-white", borderClass: "border-black", textClass: "text-black", shadowClass: "shadow-[3px_3px_0_hsl(var(--primary))]" },
   upcoming: { bgClass: "bg-grey-200", borderClass: "border-grey-300", textClass: "text-grey-500", shadowClass: "shadow-[2px_2px_0_rgba(0,0,0,0.08)]" },
   error: { bgClass: "bg-error-500", borderClass: "border-error-500", textClass: "text-white", shadowClass: "shadow-[2px_2px_0_rgba(239,68,68,0.3)]" },
 };
 
 // Status config for dark/inverted mode
 const statusConfigDark = {
-  completed: { bgClass: "bg-white", borderClass: "border-white", textClass: "text-black", shadowClass: "shadow-[2px_2px_0_hsl(239,84%,67%)]" },
-  current: { bgClass: "bg-ink-900", borderClass: "border-white", textClass: "text-white", shadowClass: "shadow-[3px_3px_0_hsl(239,84%,67%)]" },
+  completed: { bgClass: "bg-white", borderClass: "border-white", textClass: "text-black", shadowClass: "shadow-[2px_2px_0_hsl(var(--primary))]" },
+  current: { bgClass: "bg-ink-900", borderClass: "border-white", textClass: "text-white", shadowClass: "shadow-[3px_3px_0_hsl(var(--primary))]" },
   upcoming: { bgClass: "bg-grey-800", borderClass: "border-grey-600", textClass: "text-grey-400", shadowClass: "shadow-[2px_2px_0_rgba(255,255,255,0.1)]" },
   error: { bgClass: "bg-error-500", borderClass: "border-error-500", textClass: "text-white", shadowClass: "shadow-[2px_2px_0_rgba(239,68,68,0.3)]" },
 };

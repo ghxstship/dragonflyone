@@ -23,8 +23,8 @@ const defaultQueryOptions: DefaultOptions = {
     // Retry failed requests 3 times with exponential backoff
     retry: 3,
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
-    // Refetch on window focus for real-time updates
-    refetchOnWindowFocus: true,
+    // Disable refetch on window focus - prevents constant reloading when switching tabs
+    refetchOnWindowFocus: false,
     // Don't refetch on mount if data is fresh
     refetchOnMount: false,
     // Refetch on reconnect
@@ -106,11 +106,12 @@ export function QueryClientProvider({ children }: { children: React.ReactNode })
  */
 export const queryPresets = {
   // Real-time data that changes frequently (e.g., live event updates)
+  // Use refetchInterval for polling instead of window focus
   realtime: {
     staleTime: 0,
     gcTime: 1000 * 60 * 5,
     refetchInterval: 30000, // Refetch every 30 seconds
-    refetchOnWindowFocus: true,
+    refetchOnWindowFocus: false,
   },
   // Static data that rarely changes (e.g., venue info, user profiles)
   static: {
@@ -122,7 +123,7 @@ export const queryPresets = {
   fresh: {
     staleTime: 0,
     gcTime: 0,
-    refetchOnWindowFocus: true,
+    refetchOnWindowFocus: false,
     refetchOnMount: true,
   },
   // Infinite scroll / pagination

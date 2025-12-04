@@ -119,7 +119,7 @@ export default function CompvssIntegrationsPage() {
                     <LoadingSpinner size="lg" text="Loading sync jobs..." />
                   </Stack>
                 ) : (
-                  <Table>
+                  <Table variant="dark">
                     <TableHeader>
                       <TableRow>
                         <TableHead>Source</TableHead>

@@ -258,7 +258,7 @@ export default function SiteSurveysPage() {
                 action={{ label: "Schedule Survey", onClick: () => {} }}
               />
             ) : (
-              <Table>
+              <Table variant="dark">
                 <TableHeader>
                   <TableRow>
                     <TableHead>Survey #</TableHead>

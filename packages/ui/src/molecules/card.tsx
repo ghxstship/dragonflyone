@@ -42,7 +42,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
           case "pop":
             return clsx(
               "bg-ink-950 border-4 border-white text-white",
-              "shadow-[6px_6px_0_hsl(239,84%,67%)]"
+              "shadow-[6px_6px_0_hsl(var(--primary))]"
             );
           default:
             return "";
@@ -67,7 +67,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
           case "pop":
             return clsx(
               "bg-white border-4 border-black text-black",
-              "shadow-[6px_6px_0_hsl(239,84%,67%)]"
+              "shadow-[6px_6px_0_hsl(var(--primary))]"
             );
           default:
             return "";

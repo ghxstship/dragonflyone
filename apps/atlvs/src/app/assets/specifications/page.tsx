@@ -245,7 +245,7 @@ export default function AssetSpecificationsPage() {
             </TabPanel>
 
             <TabPanel active={activeTab === "documents"}>
-              <Table className="border-2 border-ink-800">
+              <Table variant="dark" className="border-2 border-ink-800">
                 <TableHeader>
                   <TableRow className="bg-ink-900">
                     <TableHead>Document</TableHead>

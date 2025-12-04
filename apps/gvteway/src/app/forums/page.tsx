@@ -218,7 +218,7 @@ export default function ForumsPage() {
             />
           ) : (
             <Card inverted className="overflow-hidden p-0">
-              <Table>
+              <Table variant="dark">
                 <TableHeader>
                   <TableRow>
                     <TableHead>Discussion</TableHead>

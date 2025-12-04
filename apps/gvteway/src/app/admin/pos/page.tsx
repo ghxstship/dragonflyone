@@ -215,7 +215,7 @@ export default function POSPage() {
               <Card inverted className="overflow-hidden p-6">
                 <Stack gap={4}>
                   <H3 className="text-white">Sales by Category</H3>
-                  <Table>
+                  <Table variant="dark">
                     <TableHeader>
                       <TableRow className="bg-ink-900">
                         <TableHead className="text-on-dark-muted">Category</TableHead>

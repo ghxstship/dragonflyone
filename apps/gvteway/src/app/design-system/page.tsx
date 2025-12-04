@@ -286,7 +286,7 @@ export default function DesignSystemPage() {
           </Label>
           <H2 className="mb-8">Table Component</H2>
 
-          <Table>
+          <Table variant="dark">
             <TableHeader>
               <TableRow>
                 <TableHead>Project</TableHead>

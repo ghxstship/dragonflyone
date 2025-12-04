@@ -23,6 +23,7 @@ import {
 
 interface SOPCategory {
   id: string;
+  production_id: string;
   name: string;
   description?: string;
   icon?: string;
@@ -49,7 +50,7 @@ const columns: ListPageColumn<SOPCategory>[] = [
       </Stack>
     )
   },
-  { key: 'description', label: 'Description', accessor: 'description', render: (v) => v || '—' },
+  { key: 'description', label: 'Description', accessor: 'description', render: (v: unknown) => (v as string) || '—' },
   { 
     key: 'sort_order', 
     label: 'Order', 
@@ -62,7 +63,7 @@ const columns: ListPageColumn<SOPCategory>[] = [
     label: 'Status', 
     accessor: 'is_active', 
     render: (value) => (
-      <Badge variant={value ? 'success' : 'default'}>
+      <Badge variant={value ? 'success' : 'solid'}>
         {value ? 'ACTIVE' : 'INACTIVE'}
       </Badge>
     )
@@ -72,7 +73,7 @@ const columns: ListPageColumn<SOPCategory>[] = [
 const formFields: FormFieldConfig[] = [
   { name: 'name', label: 'Category Name', type: 'text', required: true, placeholder: 'e.g., Emergency Procedures', colSpan: 2 },
   { name: 'description', label: 'Description', type: 'textarea', colSpan: 2, placeholder: 'Describe this category...' },
-  { name: 'color', label: 'Color', type: 'color' },
+  { name: 'color', label: 'Color', type: 'text', placeholder: '#eab308' },
   { name: 'sort_order', label: 'Sort Order', type: 'number', placeholder: '1' },
   { name: 'is_active', label: 'Active', type: 'checkbox' },
 ];
@@ -112,9 +113,14 @@ export default function SOPCategoriesPage() {
 
   const handleCreate = async (data: Record<string, unknown>) => {
     await createMutation.mutateAsync({
-      ...data,
+      name: data.name as string,
+      description: data.description as string | undefined,
+      icon: data.icon as string | undefined,
+      color: data.color as string | undefined,
+      sort_order: data.sort_order as number,
+      is_active: data.is_active as boolean,
       production_id: 'current-production-id', // TODO: Get from context
-    } as SOPCategory);
+    });
     setCreateModalOpen(false);
     refetch();
   };
@@ -146,7 +152,7 @@ export default function SOPCategoriesPage() {
           </Stack>
           <Stack gap={1}>
             <Body className="text-body-sm text-grey-500">Status</Body>
-            <Badge variant={selectedCategory.is_active ? 'success' : 'default'}>
+            <Badge variant={selectedCategory.is_active ? 'success' : 'solid'}>
               {selectedCategory.is_active ? 'ACTIVE' : 'INACTIVE'}
             </Badge>
           </Stack>
@@ -194,7 +200,7 @@ export default function SOPCategoriesPage() {
         fields={formFields}
         onSubmit={handleCreate}
         size="md"
-        defaultValues={{ is_active: true, sort_order: (categories?.length || 0) + 1, color: '#eab308' }}
+        record={{ is_active: true, sort_order: (categories?.length || 0) + 1, color: '#eab308' }}
       />
 
       <DetailDrawer

@@ -417,6 +417,28 @@ export const atlvsDemoProductions: ProductionContext[] = [
   },
 ];
 
+// Demo teams for breadcrumb context
+export const atlvsDemoTeams = [
+  { id: "team-001", name: "Production", current: true },
+  { id: "team-002", name: "Marketing", current: false },
+  { id: "team-003", name: "Operations", current: false },
+  { id: "team-004", name: "Finance", current: false },
+];
+
+// Demo workspaces for breadcrumb context
+export const atlvsDemoWorkspaces = [
+  { id: "ws-001", name: "Main", current: true },
+  { id: "ws-002", name: "Staging", current: false },
+  { id: "ws-003", name: "Archive", current: false },
+];
+
+// Demo organizations for breadcrumb context
+export const atlvsDemoOrganizations = [
+  { id: "org-001", name: "GHXSTSHIP", current: true },
+  { id: "org-002", name: "ACME Corp", current: false },
+  { id: "org-003", name: "Personal", current: false },
+];
+
 // Quick actions for command palette and shortcuts
 export const atlvsQuickActions = [
   { label: "New Deal", href: "/deals/new", icon: "Plus", shortcut: "D" },

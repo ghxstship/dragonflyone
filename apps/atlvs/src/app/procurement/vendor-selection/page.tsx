@@ -213,7 +213,7 @@ export default function VendorSelectionPage() {
                         </Stack>
                       </Grid>
 
-                      <Table className="border border-ink-700">
+                      <Table variant="dark" className="border border-ink-700">
                         <TableHeader>
                           <TableRow className="bg-ink-800">
                             <TableHead>Rank</TableHead>

@@ -113,7 +113,7 @@ export default function VIPManagementPage() {
               </TabsList>
 
               <TabPanel active={activeTab === "guests"}>
-                <Table>
+                <Table variant="dark">
                   <TableHeader>
                     <TableRow>
                       <TableHead>Guest</TableHead>

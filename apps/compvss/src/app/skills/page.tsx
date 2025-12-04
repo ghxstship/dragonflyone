@@ -185,7 +185,7 @@ export default function SkillsPage() {
                 action={{ label: "Add Crew", onClick: () => router.push("/crew/new") }}
               />
             ) : (
-              <Table>
+              <Table variant="dark">
                 <TableHeader>
                   <TableRow>
                     <TableHead>Crew Member</TableHead>

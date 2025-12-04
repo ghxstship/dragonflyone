@@ -97,7 +97,7 @@ export function AdvanceRequestDetail({ requestId }: AdvanceRequestDetailProps) {
         )}
 
         <H4>Requested Items</H4>
-        <Table>
+        <Table variant="dark">
           <TableHeader>
             <TableRow>
               <TableHead>Item</TableHead>

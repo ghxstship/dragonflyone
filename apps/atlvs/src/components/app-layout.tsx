@@ -15,8 +15,8 @@ import {
   LoadingSpinner,
   AuthenticatedShell,
   Link,
-  ContextSwitcher,
 } from "@ghxstship/ui";
+import type { ContextLevel, SidebarNavSection, BreadcrumbContextItem, ContextOptions } from "@ghxstship/ui";
 import {
   CreatorNavigationPublic,
 } from "./navigation";
@@ -25,9 +25,11 @@ import {
   atlvsProductionNavigation,
   atlvsQuickActions,
   atlvsDemoProductions,
+  atlvsDemoTeams,
+  atlvsDemoWorkspaces,
+  atlvsDemoOrganizations,
   type ProductionContext,
 } from "../data/atlvs";
-import type { ContextLevel, SidebarNavSection } from "@ghxstship/ui";
 
 // =============================================================================
 // ATLVS APP LAYOUT WRAPPERS
@@ -116,37 +118,94 @@ export function AtlvsAppLayout({
     { id: "3", title: "Team member added", message: "Sarah joined the Marketing team", time: "3 hours ago", read: true },
   ];
 
-  // Demo workspaces for header
-  const demoWorkspaces = [
-    { id: "ghxstship", name: "GHXSTSHIP", current: true },
-    { id: "acme", name: "ACME Corp", current: false },
-    { id: "personal", name: "Personal", current: false },
-  ];
-
   // Handle sign out
   const handleSignOut = () => {
     router.push("/auth/signin");
   };
 
-  // Handle workspace switch
-  const handleWorkspaceSwitch = (workspaceId: string) => {
-    void workspaceId; // Suppress unused variable warning
-    router.push("/dashboard");
+  // Handle context switch at any level
+  const handleContextSwitch = (type: BreadcrumbContextItem["type"], id: string) => {
+    switch (type) {
+      case "organization":
+        // Switch organization - reload dashboard
+        router.push("/dashboard");
+        break;
+      case "project":
+        // Switch to project context
+        router.push(`/p/${id}/overview`);
+        break;
+      case "team":
+        // Switch team within current context
+        router.push(isProductionContext ? `/p/${productionId}/team/${id}` : `/teams/${id}`);
+        break;
+      case "workspace":
+        // Switch workspace within current context
+        router.push(isProductionContext ? `/p/${productionId}/workspace/${id}` : `/workspaces/${id}`);
+        break;
+    }
   };
 
-  // Handle production selection
-  const handleSelectProduction = (production: ProductionContext) => {
-    router.push(`/p/${production.id}/overview`);
+  // Build breadcrumb context based on current state
+  const buildBreadcrumbContext = (): BreadcrumbContextItem[] => {
+    const context: BreadcrumbContextItem[] = [];
+    
+    // Always show organization
+    const currentOrg = atlvsDemoOrganizations.find(o => o.current);
+    if (currentOrg) {
+      context.push({
+        id: currentOrg.id,
+        name: currentOrg.name,
+        type: "organization",
+        href: "/dashboard",
+      });
+    }
+    
+    // Show project if in production context
+    if (isProductionContext && currentProduction) {
+      context.push({
+        id: currentProduction.id,
+        name: currentProduction.name,
+        type: "project",
+        href: `/p/${currentProduction.id}/overview`,
+      });
+      
+      // Show team (default to first team)
+      const currentTeam = atlvsDemoTeams.find(t => t.current);
+      if (currentTeam) {
+        context.push({
+          id: currentTeam.id,
+          name: currentTeam.name,
+          type: "team",
+          href: `/p/${currentProduction.id}/team/${currentTeam.id}`,
+        });
+      }
+      
+      // Show workspace (default to first workspace)
+      const currentWorkspace = atlvsDemoWorkspaces.find(w => w.current);
+      if (currentWorkspace) {
+        context.push({
+          id: currentWorkspace.id,
+          name: currentWorkspace.name,
+          type: "workspace",
+          href: `/p/${currentProduction.id}/workspace/${currentWorkspace.id}`,
+        });
+      }
+    }
+    
+    return context;
   };
 
-  // Handle exit production
-  const handleExitProduction = () => {
-    router.push("/dashboard");
-  };
-
-  // Handle create production
-  const handleCreateProduction = () => {
-    router.push("/projects/new");
+  // Build context options for dropdowns
+  const contextOptions: ContextOptions = {
+    organizations: atlvsDemoOrganizations,
+    projects: atlvsDemoProductions.map(p => ({
+      id: p.id,
+      name: p.name,
+      status: p.status,
+      current: p.id === currentProduction?.id,
+    })),
+    teams: atlvsDemoTeams,
+    workspaces: atlvsDemoWorkspaces,
   };
 
   // For authenticated pages, use the new sidebar shell
@@ -160,7 +219,9 @@ export function AtlvsAppLayout({
             ATLVS
           </Link>
         }
-        workspaceName={currentProduction?.name || "GHXSTSHIP"}
+        breadcrumbContext={buildBreadcrumbContext()}
+        contextOptions={contextOptions}
+        onContextSwitch={handleContextSwitch}
         user={{
           name: "Demo User",
           email: "demo@ghxstship.com",
@@ -170,21 +231,8 @@ export function AtlvsAppLayout({
         onNavigate={(href: string) => router.push(href)}
         settingsPath={isProductionContext ? `/p/${productionId}/settings` : "/settings"}
         notifications={demoNotifications}
-        workspaces={demoWorkspaces}
-        onWorkspaceSwitch={handleWorkspaceSwitch}
         onSignOut={handleSignOut}
         className={className}
-        headerActions={
-          <ContextSwitcher
-            contextLevel={isProductionContext ? "production" : "platform"}
-            currentProduction={currentProduction}
-            productions={atlvsDemoProductions}
-            onSelectProduction={handleSelectProduction}
-            onExitProduction={handleExitProduction}
-            onCreateProduction={handleCreateProduction}
-            inverted={background === "black"}
-          />
-        }
       >
         <div className="p-6 lg:p-8">
           {children}

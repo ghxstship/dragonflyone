@@ -37,8 +37,8 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
       }
       if (variant === "pop") {
         return inverted
-          ? "bg-ink-950 text-white border-2 border-white shadow-[2px_2px_0_hsl(239,84%,67%)]"
-          : "bg-white text-black border-2 border-black shadow-[2px_2px_0_hsl(239,84%,67%)]";
+          ? "bg-ink-950 text-white border-2 border-white shadow-[2px_2px_0_hsl(var(--primary))]"
+          : "bg-white text-black border-2 border-black shadow-[2px_2px_0_hsl(var(--primary))]";
       }
 
       // Theme-aware base variants

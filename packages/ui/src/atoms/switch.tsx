@@ -39,8 +39,8 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
               : "border-black bg-transparent shadow-[2px_2px_0_rgba(0,0,0,0.1)]",
             // Checked state
             inverted
-              ? "peer-checked:bg-white peer-checked:border-white peer-checked:shadow-[3px_3px_0_hsl(239,84%,67%)]"
-              : "peer-checked:bg-black peer-checked:border-black peer-checked:shadow-[3px_3px_0_hsl(239,84%,67%)]",
+              ? "peer-checked:bg-white peer-checked:border-white peer-checked:shadow-[3px_3px_0_hsl(var(--primary))]"
+              : "peer-checked:bg-black peer-checked:border-black peer-checked:shadow-[3px_3px_0_hsl(var(--primary))]",
             // Focus state
             inverted
               ? "peer-focus:ring-white peer-focus:ring-offset-ink-950"

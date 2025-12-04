@@ -113,7 +113,7 @@ export default function ProposalsPage() {
               <Button variant="solid" onClick={() => setShowCreateModal(true)}>Create Proposal</Button>
             </Stack>
 
-            <Table>
+            <Table variant="dark">
               <TableHeader>
                 <TableRow>
                   <TableHead>Proposal</TableHead>

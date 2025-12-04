@@ -84,7 +84,7 @@ export default function GroupTicketsPage() {
                   <Input type="search" placeholder="Search groups..." className="border-2 border-black w-64" />
                   <Button variant="solid" onClick={() => setShowCreateModal(true)}>Create Group Order</Button>
                 </Stack>
-                <Table className="border-2 border-black">
+                <Table variant="dark" className="border-2 border-black">
                   <TableHeader>
                     <TableRow className="bg-black text-white">
                       <TableHead>Organizer</TableHead>

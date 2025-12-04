@@ -166,7 +166,7 @@ export default function SpecSheetsPage() {
               </Grid>
               <Stack gap={2}>
                 <Body className="font-display">Specifications</Body>
-                <Table>
+                <Table variant="dark">
                   <TableBody>
                     {selectedSpec.specs.map((spec, idx) => (
                       <TableRow key={idx}>

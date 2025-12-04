@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Eye, Pencil, Trash2, Shield, Download } from 'lucide-react';
+import { Eye, Pencil, Shield } from 'lucide-react';
 import { CompvssAppLayout } from '../../../components/app-layout';
 import { useCredentialTypes, useCreateCredentialType, useUpdateCredentialType } from '../../../hooks/useCredentials';
 import {
@@ -10,7 +10,6 @@ import {
   Badge,
   RecordFormModal,
   DetailDrawer,
-  ConfirmDialog,
   Grid,
   Stack,
   Body,
@@ -60,7 +59,7 @@ const columns: ListPageColumn<CredentialType>[] = [
     label: 'Max Issued', 
     accessor: 'max_issued', 
     sortable: true,
-    render: (value) => value || 'Unlimited'
+    render: (value) => (value ? String(value) : 'Unlimited')
   },
   { 
     key: 'requires_photo', 
@@ -79,7 +78,7 @@ const columns: ListPageColumn<CredentialType>[] = [
     label: 'Status', 
     accessor: 'is_active', 
     render: (value) => (
-      <Badge variant={value ? 'success' : 'default'}>
+      <Badge variant={value ? 'success' : 'ghost'}>
         {value ? 'ACTIVE' : 'INACTIVE'}
       </Badge>
     )
@@ -90,7 +89,7 @@ const formFields: FormFieldConfig[] = [
   { name: 'name', label: 'Type Name', type: 'text', required: true, placeholder: 'e.g., All Access', colSpan: 2 },
   { name: 'code', label: 'Code', type: 'text', required: true, placeholder: 'e.g., AA' },
   { name: 'access_level', label: 'Access Level (1-10)', type: 'number', required: true, placeholder: '1' },
-  { name: 'color', label: 'Badge Color', type: 'color', required: true },
+  { name: 'color', label: 'Badge Color', type: 'text', required: true, placeholder: '#eab308' },
   { name: 'max_issued', label: 'Max Credentials', type: 'number', placeholder: 'Leave empty for unlimited' },
   { name: 'description', label: 'Description', type: 'textarea', colSpan: 2, placeholder: 'Describe this credential type...' },
   { name: 'requires_photo', label: 'Requires Photo', type: 'checkbox' },
@@ -131,11 +130,20 @@ export default function CredentialTypesPage() {
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    await createMutation.mutateAsync({
-      ...data,
+    const createData = {
+      name: data.name as string,
+      code: data.code as string,
+      description: data.description as string | undefined,
+      access_level: data.access_level as number,
+      color: data.color as string,
+      max_issued: data.max_issued as number | undefined,
+      requires_photo: data.requires_photo as boolean,
+      requires_background_check: data.requires_background_check as boolean,
+      is_active: data.is_active as boolean,
       production_id: 'current-production-id', // TODO: Get from context
       organization_id: 'current-org-id', // TODO: Get from context
-    } as CredentialType);
+    };
+    await createMutation.mutateAsync(createData);
     setCreateModalOpen(false);
     refetch();
   };
@@ -180,7 +188,7 @@ export default function CredentialTypesPage() {
           </Stack>
           <Stack gap={1}>
             <Body className="text-body-sm text-grey-500">Status</Body>
-            <Badge variant={selectedType.is_active ? 'success' : 'default'}>
+            <Badge variant={selectedType.is_active ? 'success' : 'ghost'}>
               {selectedType.is_active ? 'ACTIVE' : 'INACTIVE'}
             </Badge>
           </Stack>
@@ -226,7 +234,7 @@ export default function CredentialTypesPage() {
         onRowClick={(row) => { setSelectedType(row); setDrawerOpen(true); }}
         createLabel="New Credential Type"
         onCreate={() => setCreateModalOpen(true)}
-        onExport={() => console.log('Export credential types')}
+        onExport={() => { /* TODO: Implement export */ }}
         stats={stats}
         emptyMessage="No credential types configured"
         emptyAction={{ label: 'Create First Type', onClick: () => setCreateModalOpen(true) }}
@@ -245,7 +253,7 @@ export default function CredentialTypesPage() {
         fields={formFields}
         onSubmit={handleCreate}
         size="lg"
-        defaultValues={{ is_active: true, requires_photo: false, requires_background_check: false, access_level: 1, color: '#eab308' }}
+        record={{ is_active: true, requires_photo: false, requires_background_check: false, access_level: 1, color: '#eab308' }}
       />
 
       <RecordFormModal
@@ -256,7 +264,7 @@ export default function CredentialTypesPage() {
         fields={formFields}
         onSubmit={handleUpdate}
         size="lg"
-        defaultValues={selectedType || {}}
+        record={selectedType ? { ...selectedType } : {}}
       />
 
       <DetailDrawer

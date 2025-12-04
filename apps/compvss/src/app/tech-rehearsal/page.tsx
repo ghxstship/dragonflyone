@@ -186,7 +186,7 @@ export default function TechRehearsalPage() {
               </TabPanel>
 
               <TabPanel active={activeTab === "notes"}>
-                <Table>
+                <Table variant="dark">
                   <TableHeader>
                     <TableRow>
                       <TableHead>Time</TableHead>

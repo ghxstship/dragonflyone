@@ -219,7 +219,7 @@ export default function DesignSystemShowcase() {
                 <H2>Data Table</H2>
               </CardHeader>
               <CardBody>
-                <Table>
+                <Table variant="dark">
                   <TableHeader>
                     <TableRow>
                       <TableHead>Name</TableHead>

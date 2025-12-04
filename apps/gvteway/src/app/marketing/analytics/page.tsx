@@ -142,7 +142,7 @@ export default function MarketingAnalyticsPage() {
             </TabPanel>
 
             <TabPanel active={activeTab === "campaigns"}>
-              <Table className="border-2 border-black">
+              <Table variant="dark" className="border-2 border-black">
                 <TableHeader>
                   <TableRow className="bg-black text-white">
                     <TableHead>Campaign</TableHead>

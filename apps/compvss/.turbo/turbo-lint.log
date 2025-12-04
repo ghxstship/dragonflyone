@@ -702,16 +702,12 @@
 262:39  Warning: Classname 'text-grey-400' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
 
 ./src/app/credentials/types/page.tsx
-5:23  Warning: 'Trash2' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-5:39  Warning: 'Download' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-13:3  Warning: 'ConfirmDialog' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-166:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
 174:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-178:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
 182:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-196:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-200:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-229:25  Warning: Unexpected console statement.  no-console
+186:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+190:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+204:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+208:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
 
 ./src/app/credentials/zones/page.tsx
 7:31  Warning: 'Shield' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
@@ -877,3 +873,14 @@
 ./src/app/logistics/page.tsx
 3:20  Warning: 'useCallback' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
 13:3  Warning: 'ConfirmDialog' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+79:5  Warning: Unexpected console statement.  no-console
+136:27  Warning: Unexpected console statement.  no-console
+
+./src/app/maintenance/page.tsx
+84:99  Warning: Unexpected console statement.  no-console
+88:5  Warning: Unexpected console statement.  no-console
+144:27  Warning: Unexpected console statement.  no-console
+170:29  Warning: Unexpected console statement.  no-console
+
+./src/app/mentorship/page.tsx
+ ELIFECYCLE  Command failed with exit code 1.

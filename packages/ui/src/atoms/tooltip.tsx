@@ -125,8 +125,8 @@ export function Tooltip({
             "transition-all duration-100",
             // Speech bubble style with accent shadow
             inverted 
-              ? "bg-white text-black border-black shadow-[3px_3px_0_hsl(239,84%,67%)]" 
-              : "bg-black text-white border-white shadow-[3px_3px_0_hsl(239,84%,67%)]",
+              ? "bg-white text-black border-black shadow-[3px_3px_0_hsl(var(--primary))]" 
+              : "bg-black text-white border-white shadow-[3px_3px_0_hsl(var(--primary))]",
             isVisible ? "opacity-100 animate-zoom-in" : "opacity-0",
             className
           )}

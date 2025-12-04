@@ -140,7 +140,7 @@ export default function OfflineAccessPage() {
             </Stack>
 
             {activeTab === 'content' && (
-              <Table>
+              <Table variant="dark">
                 <TableHeader>
                   <TableRow>
                     <TableHead>Content</TableHead>

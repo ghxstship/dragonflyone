@@ -124,7 +124,7 @@ export default function TimekeepingPage() {
               </Select>
             </Stack>
 
-            <Table>
+            <Table variant="dark">
               <TableHeader>
                 <TableRow>
                   <TableHead>ID</TableHead>

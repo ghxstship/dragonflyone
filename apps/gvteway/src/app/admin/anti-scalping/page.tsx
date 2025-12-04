@@ -363,7 +363,7 @@ export default function AntiScalpingPage() {
           {activeTab === 'blocked' && (
             <Stack gap={4}>
               <Card inverted className="overflow-hidden">
-                <Table>
+                <Table variant="dark">
                   <TableHeader>
                     <TableRow className="bg-ink-900">
                       <TableHead className="text-on-dark-muted">Type</TableHead>

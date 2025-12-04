@@ -122,7 +122,7 @@ export function AdvanceRequestsList({ projectId, status }: AdvanceRequestsListPr
           />
         ) : (
           <>
-            <Table>
+            <Table variant="dark">
               <TableHeader>
                 <TableRow>
                   <TableHead>Status</TableHead>

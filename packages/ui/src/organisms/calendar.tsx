@@ -270,8 +270,8 @@ export function Calendar({
                     "flex min-h-[72px] flex-col items-start gap-1 border-none p-2 transition-colors duration-100",
                     isSelected
                       ? inverted
-                        ? "bg-white shadow-[inset_0_0_0_2px_hsl(239,84%,67%)]"
-                        : "bg-black shadow-[inset_0_0_0_2px_hsl(239,84%,67%)]"
+                        ? "bg-white shadow-[inset_0_0_0_2px_hsl(var(--primary))]"
+                        : "bg-black shadow-[inset_0_0_0_2px_hsl(var(--primary))]"
                       : isToday
                         ? inverted ? "bg-grey-800" : "bg-grey-100"
                         : inverted ? "bg-ink-900 hover:bg-grey-800" : "bg-white hover:bg-grey-50",

@@ -110,7 +110,7 @@ export default function BackgroundChecksPage() {
             </Stack>
 
             <Card className="overflow-hidden">
-              <Table>
+              <Table variant="dark">
                 <TableHeader>
                   <TableRow>
                     <TableHead>Employee</TableHead>

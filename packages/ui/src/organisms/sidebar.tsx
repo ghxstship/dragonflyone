@@ -99,8 +99,8 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(
                           collapsed && "justify-center",
                           isActive
                             ? inverted
-                              ? "bg-white text-black border-2 border-white shadow-[3px_3px_0_hsl(239,84%,67%)]"
-                              : "bg-black text-white border-2 border-black shadow-[3px_3px_0_hsl(239,84%,67%)]"
+                              ? "bg-white text-black border-2 border-white shadow-[3px_3px_0_hsl(var(--primary))]"
+                              : "bg-black text-white border-2 border-black shadow-[3px_3px_0_hsl(var(--primary))]"
                             : inverted
                               ? clsx(
                                   "text-grey-300 border-2 border-transparent",

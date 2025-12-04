@@ -157,7 +157,7 @@ export default function WeatherPage() {
 
             <Stack gap={4}>
               <H3>Active Weather Alerts</H3>
-              <Table>
+              <Table variant="dark">
                 <TableHeader>
                   <TableRow>
                     <TableHead>Alert ID</TableHead>

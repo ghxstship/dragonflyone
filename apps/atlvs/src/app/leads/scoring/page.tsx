@@ -278,7 +278,7 @@ export default function LeadScoringPage() {
               </Field>
             </Stack>
 
-            <Table>
+            <Table variant="dark">
               <TableHeader>
                 <TableRow>
                   <TableHead>Lead</TableHead>

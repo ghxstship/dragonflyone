@@ -319,7 +319,7 @@ export default function CateringPage() {
                 action={{ label: "Schedule Meal", onClick: () => {} }}
               />
             ) : (
-              <Table>
+              <Table variant="dark">
                 <TableHeader>
                   <TableRow>
                     <TableHead>Meal</TableHead>

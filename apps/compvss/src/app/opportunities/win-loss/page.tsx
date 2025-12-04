@@ -157,7 +157,7 @@ export default function WinLossPage() {
               <Button variant="outline" onClick={() => setShowAnalysisModal(true)}>View Analysis</Button>
             </Stack>
 
-            <Table>
+            <Table variant="dark">
               <TableHeader>
                 <TableRow>
                   <TableHead>Opportunity</TableHead>

@@ -248,7 +248,7 @@ export default function SerializedComponentsPage() {
             </Button>
           </Grid>
 
-          <Table className="border-2 border-ink-800">
+          <Table variant="dark" className="border-2 border-ink-800">
             <TableHeader>
               <TableRow className="bg-ink-900">
                 <TableHead className="text-ink-400">Serial Number</TableHead>

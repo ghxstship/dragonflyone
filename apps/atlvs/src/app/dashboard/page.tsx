@@ -24,6 +24,67 @@ import {
   EnterprisePageHeader,
 } from "@ghxstship/ui";
 import { useProjects } from "../../hooks/useProjects";
+import { useActionItems } from "../../hooks/useActionItems";
+import { useUserQuickLinkFavorites } from "../../hooks/useQuickLinks";
+import { ArrowRight, Star, Link as LinkIcon, Zap, CalendarClock, Users, Trash2 } from "lucide-react";
+import type { ActionItem } from "../../hooks/useActionItems";
+
+// Eisenhower Matrix classification
+type EisenhowerQuadrant = 'do-first' | 'schedule' | 'delegate' | 'eliminate';
+
+function getEisenhowerQuadrant(item: ActionItem): EisenhowerQuadrant {
+  const isUrgent = (() => {
+    if (!item.due_date) return false;
+    const daysUntilDue = Math.ceil(
+      (new Date(item.due_date).getTime() - Date.now()) / (1000 * 60 * 60 * 24)
+    );
+    return daysUntilDue <= 3; // Urgent if due within 3 days
+  })();
+  
+  const isImportant = item.priority === 'critical' || item.priority === 'high';
+  
+  if (isUrgent && isImportant) return 'do-first';
+  if (!isUrgent && isImportant) return 'schedule';
+  if (isUrgent && !isImportant) return 'delegate';
+  return 'eliminate';
+}
+
+const eisenhowerConfig: Record<EisenhowerQuadrant, {
+  label: string;
+  action: string;
+  icon: React.ComponentType<{ className?: string }>;
+  borderColor: string;
+  actionColor: string;
+}> = {
+  'do-first': {
+    label: 'Do First',
+    action: 'Do Now',
+    icon: Zap,
+    borderColor: 'border-error',
+    actionColor: 'text-error',
+  },
+  'schedule': {
+    label: 'Schedule',
+    action: 'Schedule',
+    icon: CalendarClock,
+    borderColor: 'border-warning',
+    actionColor: 'text-warning',
+  },
+  'delegate': {
+    label: 'Delegate',
+    action: 'Delegate',
+    icon: Users,
+    borderColor: 'border-info',
+    actionColor: 'text-info',
+  },
+  'eliminate': {
+    label: 'Eliminate',
+    action: 'Remove',
+    icon: Trash2,
+    borderColor: 'border-grey-600',
+    actionColor: 'text-grey-400',
+  },
+};
 
 const mockProjects = [
   {
@@ -87,7 +148,11 @@ const recentActivity = [
 
 export default function DashboardPage() {
   const [timeRange, setTimeRange] = useState("month");
-  const { data: projects, isLoading } = useProjects({ status: 'active' });
+  const { data: projects, isLoading: projectsLoading } = useProjects({ status: 'active' });
+  const { data: actionItems, isLoading: actionItemsLoading } = useActionItems({ limit: 3 });
+  const { data: quickLinks, isLoading: quickLinksLoading } = useUserQuickLinkFavorites('demo-user');
+
+  const isLoading = projectsLoading;
 
   // Use live projects or fall back to mock data
   const displayProjects = projects || mockProjects;
@@ -114,44 +179,39 @@ export default function DashboardPage() {
   return (
     <AtlvsAppLayout>
       <Stack gap={10}>
-            <Stack gap={4} direction="horizontal" className="items-start justify-between">
-              <EnterprisePageHeader
-        title="Executive Dashboard"
-        subtitle="Real-time operations command center"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Dashboard' }]}
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
-        activeView="default"
-        showFavorite
-        showSettings
-      />
-              <Stack direction="horizontal" gap={3}>
-                <Button
-                  onClick={() => setTimeRange("week")}
-                  variant={timeRange === "week" ? "solid" : "outlineWhite"}
-                  size="sm"
-                >
-                  Week
-                </Button>
-                <Button
-                  onClick={() => setTimeRange("month")}
-                  variant={timeRange === "month" ? "solid" : "outlineWhite"}
-                  size="sm"
-                >
-                  Month
-                </Button>
-                <Button
-                  onClick={() => setTimeRange("quarter")}
-                  variant={timeRange === "quarter" ? "solid" : "outlineWhite"}
-                  size="sm"
-                >
-                  Quarter
-                </Button>
-              </Stack>
+        <EnterprisePageHeader
+          title="Executive Dashboard"
+          subtitle="Real-time operations command center"
+          showFavorite
+          showSettings
+          rightContent={
+            <Stack direction="horizontal" gap={2}>
+              <Button
+                onClick={() => setTimeRange("week")}
+                variant={timeRange === "week" ? "solid" : "outlineWhite"}
+                size="sm"
+              >
+                Week
+              </Button>
+              <Button
+                onClick={() => setTimeRange("month")}
+                variant={timeRange === "month" ? "solid" : "outlineWhite"}
+                size="sm"
+              >
+                Month
+              </Button>
+              <Button
+                onClick={() => setTimeRange("quarter")}
+                variant={timeRange === "quarter" ? "solid" : "outlineWhite"}
+                size="sm"
+              >
+                Quarter
+              </Button>
             </Stack>
+          }
+        />
 
-        <Section border={false} className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <Grid cols={4} gap={6}>
           {kpis.map((kpi) => (
             <StatCard
               key={kpi.label}
@@ -161,7 +221,7 @@ export default function DashboardPage() {
               trendValue={kpi.trend}
             />
           ))}
-        </Section>
+        </Grid>
 
         <Section border>
           <SectionHeader
@@ -169,7 +229,7 @@ export default function DashboardPage() {
             title="Active Projects"
             description="Real-time status of all projects across GHXSTSHIP verticals"
           />
-          <Table variant="bordered" className="bg-grey-900">
+          <Table variant="dark">
             <TableHeader>
               <TableRow>
                 <TableHead>Project</TableHead>
@@ -184,17 +244,17 @@ export default function DashboardPage() {
             </TableHeader>
             <TableBody>
               {displayProjects.map((project) => (
-                <TableRow key={project.id} className="hover:bg-grey-900/30">
+                <TableRow key={project.id}>
                   <TableCell>
                     <H3 className="text-white">{project.name}</H3>
                     <Body size="xs" className="font-mono text-grey-500">{project.id.substring(0, 12).toUpperCase()}</Body>
                   </TableCell>
-                  <TableCell className="text-grey-300">{(project as any).client_id || (project as any).client || 'N/A'}</TableCell>
-                  <TableCell className="text-grey-300">{(project as any).manager_id || (project as any).pm || 'N/A'}</TableCell>
+                  <TableCell>{(project as any).client_id || (project as any).client || 'N/A'}</TableCell>
+                  <TableCell>{(project as any).manager_id || (project as any).pm || 'N/A'}</TableCell>
                   <TableCell className="font-mono text-white">
                     ${((project.budget || 0) / 1000).toFixed(0)}K
                   </TableCell>
-                  <TableCell className="font-mono text-grey-300">
+                  <TableCell className="font-mono">
                     ${(((project as any).actual_cost || (project as any).actual || 0) / 1000).toFixed(0)}K
                   </TableCell>
                   <TableCell>
@@ -227,11 +287,11 @@ export default function DashboardPage() {
           />
           <Stack gap={3}>
             {recentActivity.map((activity) => (
-              <Card key={activity.id} className="border-2 border-grey-800 p-5 hover:border-grey-600 transition-colors">
+              <Card key={activity.id} inverted className="border-2 border-grey-700 p-5 transition-colors hover:border-grey-500">
                 <Stack gap={1}>
                   <H3 className="text-white">{activity.action}</H3>
                   <Body size="sm" className="text-grey-300">{activity.detail}</Body>
-                  <Body size="xs" className="font-mono text-grey-500 uppercase tracking-kicker mt-2">
+                  <Body size="xs" className="mt-2 font-mono uppercase tracking-kicker text-grey-500">
                     {activity.user} • {activity.time}
                   </Body>
                 </Stack>
@@ -242,58 +302,172 @@ export default function DashboardPage() {
 
         <Grid cols={2} gap={6}>
           <Section border>
-            <SectionHeader kicker="Quick Actions" title="Common Tasks" />
+            <SectionHeader 
+              kicker="Favorites" 
+              title="Quick Links" 
+              icon={<Star className="size-4 fill-warning text-warning" />}
+            />
             <Stack gap={3}>
-              <Button 
-                variant="outlineWhite" 
+              {quickLinksLoading ? (
+                <Card inverted className="border-2 border-grey-700 p-4">
+                  <Body className="text-grey-400">Loading quick links...</Body>
+                </Card>
+              ) : quickLinks && quickLinks.length > 0 ? (
+                quickLinks.slice(0, 4).map((favorite) => {
+                  const link = favorite.quick_link;
+                  if (!link) return null;
+                  return (
+                    <Button
+                      key={favorite.id}
+                      variant="outlineWhite"
+                      fullWidth
+                      className="justify-start text-left"
+                      onClick={() => window.location.href = link.href}
+                      icon={<LinkIcon className="size-4" />}
+                      iconPosition="left"
+                    >
+                      {link.name}
+                    </Button>
+                  );
+                })
+              ) : (
+                <>
+                  <Button 
+                    variant="outlineWhite" 
+                    fullWidth
+                    className="justify-start text-left"
+                    onClick={() => window.location.href = '/projects/new'}
+                    icon={<LinkIcon className="size-4" />}
+                    iconPosition="left"
+                  >
+                    Create New Project
+                  </Button>
+                  <Button 
+                    variant="outlineWhite" 
+                    fullWidth
+                    className="justify-start text-left"
+                    onClick={() => window.location.href = '/expenses/new'}
+                    icon={<LinkIcon className="size-4" />}
+                    iconPosition="left"
+                  >
+                    Submit Expense Report
+                  </Button>
+                  <Button 
+                    variant="outlineWhite" 
+                    fullWidth
+                    className="justify-start text-left"
+                    onClick={() => window.location.href = '/assets/availability'}
+                    icon={<LinkIcon className="size-4" />}
+                    iconPosition="left"
+                  >
+                    Check Asset Availability
+                  </Button>
+                  <Button 
+                    variant="outlineWhite" 
+                    fullWidth
+                    className="justify-start text-left"
+                    onClick={() => window.location.href = '/reports/financial/new'}
+                    icon={<LinkIcon className="size-4" />}
+                    iconPosition="left"
+                  >
+                    Generate Financial Report
+                  </Button>
+                </>
+              )}
+              
+              {/* View All Links Button */}
+              <Button
+                variant="outlineWhite"
                 fullWidth
-                className="justify-start text-left"
-                onClick={() => window.location.href = '/projects'}
+                onClick={() => window.location.href = '/quick-links'}
+                icon={<ArrowRight className="size-4" />}
+                iconPosition="right"
               >
-                Create New Project
-              </Button>
-              <Button 
-                variant="outlineInk" 
-                fullWidth
-                className="justify-start text-left"
-                onClick={() => window.location.href = '/finance'}
-              >
-                Submit Expense Report
-              </Button>
-              <Button 
-                variant="outlineInk" 
-                fullWidth
-                className="justify-start text-left"
-                onClick={() => window.location.href = '/assets'}
-              >
-                Check Asset Availability
-              </Button>
-              <Button 
-                variant="outlineInk" 
-                fullWidth
-                className="justify-start text-left"
-                onClick={() => window.location.href = '/reports'}
-              >
-                Generate Financial Report
+                View All Links
               </Button>
             </Stack>
           </Section>
 
           <Section border>
-            <SectionHeader kicker="Alerts" title="Action Items" />
+            <SectionHeader kicker="Eisenhower Matrix" title="Action Items" />
             <Stack gap={3}>
-              <Card className="border-2 border-black p-4">
-                <StatusBadge status="error" size="sm" className="mb-2">High Priority</StatusBadge>
-                <Body className="mt-2 text-body-sm text-white">Budget approval needed for F1 Miami GP expansion</Body>
-              </Card>
-              <Card className="border-2 border-grey-700 p-4">
-                <StatusBadge status="warning" size="sm" className="mb-2">Medium Priority</StatusBadge>
-                <Body className="mt-2 text-body-sm text-white">3 asset maintenance schedules due this week</Body>
-              </Card>
-              <Card className="border-2 border-grey-700 p-4">
-                <Body className="font-mono text-mono-xs uppercase tracking-kicker text-grey-400">Info</Body>
-                <Body className="mt-2 text-body-sm text-grey-200">Monthly financial reports ready for review</Body>
-              </Card>
+              {actionItemsLoading ? (
+                <Card inverted className="border-2 border-grey-700 p-4">
+                  <Body className="text-grey-400">Loading action items...</Body>
+                </Card>
+              ) : actionItems && actionItems.length > 0 ? (
+                actionItems.map((item) => {
+                  const quadrant = getEisenhowerQuadrant(item);
+                  const config = eisenhowerConfig[quadrant];
+                  const IconComponent = config.icon;
+                  
+                  return (
+                    <Card 
+                      key={`${item.source}-${item.id}`} 
+                      inverted 
+                      className={`border-2 p-4 ${config.borderColor}`}
+                    >
+                      <Stack gap={3} direction="horizontal" className="items-start justify-between">
+                        <Stack gap={2} className="flex-1">
+                          <Stack direction="horizontal" gap={2} className="items-center">
+                            <Badge variant="outline" className={config.actionColor}>
+                              {config.label}
+                            </Badge>
+                            <StatusBadge 
+                              status={item.priority === 'critical' ? 'error' : item.priority === 'high' ? 'warning' : 'info'} 
+                              size="sm"
+                            >
+                              {item.priority === 'critical' ? 'Critical' : item.priority === 'high' ? 'High' : 'Medium'}
+                            </StatusBadge>
+                          </Stack>
+                          <Body className="text-body-sm text-white">{item.title}</Body>
+                          {item.due_date && (
+                            <Body size="xs" className="font-mono text-grey-500">
+                              Due: {new Date(item.due_date).toLocaleDateString()}
+                            </Body>
+                          )}
+                        </Stack>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className={config.actionColor}
+                          onClick={() => {
+                            // Route based on quadrant action
+                            if (quadrant === 'do-first') {
+                              window.location.href = `/action-items?id=${item.id}`;
+                            } else if (quadrant === 'schedule') {
+                              window.location.href = `/schedule?task=${item.id}`;
+                            } else if (quadrant === 'delegate') {
+                              window.location.href = `/action-items?delegate=${item.id}`;
+                            } else {
+                              window.location.href = `/action-items?archive=${item.id}`;
+                            }
+                          }}
+                          icon={<IconComponent className="size-4" />}
+                          iconPosition="left"
+                        >
+                          {config.action}
+                        </Button>
+                      </Stack>
+                    </Card>
+                  );
+                })
+              ) : (
+                <Card inverted className="border-2 border-grey-700 p-4">
+                  <Body className="text-grey-400">No pending action items</Body>
+                </Card>
+              )}
+              
+              {/* View All Action Items Button */}
+              <Button
+                variant="outlineWhite"
+                fullWidth
+                onClick={() => window.location.href = '/action-items'}
+                icon={<ArrowRight className="size-4" />}
+                iconPosition="right"
+              >
+                View All Action Items
+              </Button>
             </Stack>
           </Section>
           </Grid>

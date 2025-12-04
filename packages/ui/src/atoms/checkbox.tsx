@@ -40,15 +40,15 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
                 : "border-black bg-transparent shadow-[2px_2px_0_rgba(0,0,0,0.1)]",
               // Checked state
               inverted
-                ? "checked:bg-white checked:border-white checked:shadow-[3px_3px_0_hsl(239,84%,67%)]"
-                : "checked:bg-black checked:border-black checked:shadow-[3px_3px_0_hsl(239,84%,67%)]",
+                ? "checked:bg-white checked:border-white checked:shadow-[3px_3px_0_hsl(var(--primary))]"
+                : "checked:bg-black checked:border-black checked:shadow-[3px_3px_0_hsl(var(--primary))]",
               // Focus state
               inverted
                 ? "focus:ring-white focus:ring-offset-ink-950"
                 : "focus:ring-black focus:ring-offset-white",
               // Hover lift
               "hover:-translate-x-px hover:-translate-y-px",
-              "checked:hover:shadow-[4px_4px_0_hsl(239,84%,67%)]",
+              "checked:hover:shadow-[4px_4px_0_hsl(var(--primary))]",
               // Active press
               "active:translate-x-0 active:translate-y-0",
               // Checkmark

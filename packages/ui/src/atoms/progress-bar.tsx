@@ -41,8 +41,8 @@ export const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
         return clsx(
           base,
           inverted
-            ? "bg-ink-900 border-white shadow-[3px_3px_0_hsl(239,84%,67%)]"
-            : "bg-grey-100 border-black shadow-[3px_3px_0_hsl(239,84%,67%)]"
+            ? "bg-ink-900 border-white shadow-[3px_3px_0_hsl(var(--primary))]"
+            : "bg-grey-100 border-black shadow-[3px_3px_0_hsl(var(--primary))]"
         );
       }
       

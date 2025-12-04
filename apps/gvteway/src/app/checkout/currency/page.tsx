@@ -82,7 +82,7 @@ export default function CurrencyPage() {
                   <Button variant="solid" inverted onClick={() => setShowAddModal(true)}>Add Currency</Button>
                 </Stack>
                 <Card inverted className="overflow-hidden">
-                  <Table>
+                  <Table variant="dark">
                     <TableHeader>
                       <TableRow className="bg-ink-900">
                         <TableHead className="text-on-dark-muted">Currency</TableHead>

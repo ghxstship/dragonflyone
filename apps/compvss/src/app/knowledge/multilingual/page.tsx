@@ -137,7 +137,7 @@ export default function MultilingualPage() {
                   <Button variant="outline">Request Translation</Button>
                 </Stack>
 
-                <Table>
+                <Table variant="dark">
                   <TableHeader>
                     <TableRow>
                       <TableHead>Content</TableHead>

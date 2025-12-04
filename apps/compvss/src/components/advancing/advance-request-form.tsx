@@ -193,7 +193,7 @@ export function AdvanceRequestForm({
               No items added yet. Add items from the catalog or create custom items.
             </Alert>
           ) : (
-            <Table>
+            <Table variant="dark">
               <TableHeader>
                 <TableRow>
                   <TableHead>Item</TableHead>

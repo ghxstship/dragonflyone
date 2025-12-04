@@ -142,7 +142,7 @@ export default function CategoryManagementPage() {
                 <Button variant="outlineWhite">Add Category</Button>
               </Stack>
 
-              <Table className="border-2 border-ink-800">
+              <Table variant="dark" className="border-2 border-ink-800">
                 <TableHeader>
                   <TableRow className="bg-ink-900">
                     <TableHead className="text-ink-400">Category</TableHead>

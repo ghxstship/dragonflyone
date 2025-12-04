@@ -120,7 +120,7 @@ export default function ScheduledReportsPage() {
             <Button variant="outlineWhite" onClick={() => setShowCreateModal(true)}>Create Schedule</Button>
           </Stack>
 
-          <Table className="border-2 border-ink-800">
+          <Table variant="dark" className="border-2 border-ink-800">
             <TableHeader>
               <TableRow className="bg-ink-900">
                 <TableHead className="text-ink-400">Report</TableHead>

@@ -120,7 +120,7 @@ export default function FileSharingPage() {
 
             {/* Files Table */}
             <Card className="overflow-hidden">
-              <Table>
+              <Table variant="dark">
                 <TableHeader>
                   <TableRow>
                     <TableHead>Name</TableHead>

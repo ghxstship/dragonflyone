@@ -145,7 +145,7 @@ export default function WalletPage() {
                 <H3 className="text-white">Transaction History</H3>
               </Stack>
               <Card inverted className="overflow-hidden p-0">
-                <Table>
+                <Table variant="dark">
                   <TableHeader>
                     <TableRow>
                       <TableHead>Date</TableHead>

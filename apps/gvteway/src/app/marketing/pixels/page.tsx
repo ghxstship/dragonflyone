@@ -149,7 +149,7 @@ export default function PixelsPage() {
             </TabPanel>
 
             <TabPanel active={activeTab === "events"}>
-              <Table className="border-2 border-black">
+              <Table variant="dark" className="border-2 border-black">
                 <TableHeader>
                   <TableRow className="bg-black text-white">
                     <TableHead>Event</TableHead>

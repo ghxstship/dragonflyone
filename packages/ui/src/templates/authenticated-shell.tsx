@@ -5,11 +5,27 @@ import clsx from "clsx";
 import { AppSidebar, MobileAppSidebar } from "../organisms/app-sidebar.js";
 import type { SidebarNavSection, SidebarNavItem } from "../organisms/app-sidebar.js";
 import { Dropdown, DropdownItem } from "../molecules/dropdown.js";
-import { Menu, Search, Bell, Settings, ChevronDown, User, LogOut, Building2, Plus, Check } from "lucide-react";
+import { Menu, Search, Bell, Settings, ChevronDown, User, LogOut, Building2, Plus, Check, FolderKanban, Users, Briefcase } from "lucide-react";
 
 // =============================================================================
 // TYPES
 // =============================================================================
+
+/** Context item for breadcrumb hierarchy */
+export interface BreadcrumbContextItem {
+  id: string;
+  name: string;
+  type: "organization" | "project" | "team" | "workspace";
+  href?: string;
+}
+
+/** Available items for each context level */
+export interface ContextOptions {
+  organizations?: Array<{ id: string; name: string; current?: boolean }>;
+  projects?: Array<{ id: string; name: string; status?: string; current?: boolean }>;
+  teams?: Array<{ id: string; name: string; current?: boolean }>;
+  workspaces?: Array<{ id: string; name: string; current?: boolean }>;
+}
 
 export type AuthenticatedShellProps = {
   children: ReactNode;
@@ -19,8 +35,14 @@ export type AuthenticatedShellProps = {
   currentPath: string;
   /** Logo element */
   logo?: ReactNode;
-  /** Workspace/org name for header */
+  /** Workspace/org name for header - DEPRECATED: use breadcrumbContext instead */
   workspaceName?: string;
+  /** Current breadcrumb context hierarchy: Organization > Project > Team > Workspace */
+  breadcrumbContext?: BreadcrumbContextItem[];
+  /** Available options for each context level */
+  contextOptions?: ContextOptions;
+  /** Callback when switching context at any level */
+  onContextSwitch?: (type: BreadcrumbContextItem["type"], id: string) => void;
   /** User info for avatar/menu */
   user?: {
     name: string;
@@ -35,7 +57,7 @@ export type AuthenticatedShellProps = {
   spaces?: Array<{ id: string; name: string; color?: string; href: string }>;
   /** Search component override */
   searchComponent?: ReactNode;
-  /** Header actions (notifications, settings, etc.) */
+  /** Header actions (context switcher, etc.) - DEPRECATED: use breadcrumbContext instead */
   headerActions?: ReactNode;
   /** Dark mode */
   inverted?: boolean;
@@ -47,9 +69,9 @@ export type AuthenticatedShellProps = {
   settingsPath?: string;
   /** Notifications */
   notifications?: Array<{ id: string; title: string; message: string; time: string; read?: boolean }>;
-  /** Available workspaces for switching */
+  /** Available workspaces for switching - DEPRECATED: use contextOptions.organizations instead */
   workspaces?: Array<{ id: string; name: string; current?: boolean }>;
-  /** Workspace switch callback */
+  /** Workspace switch callback - DEPRECATED: use onContextSwitch instead */
   onWorkspaceSwitch?: (workspaceId: string) => void;
   /** Sign out callback */
   onSignOut?: () => void;
@@ -274,6 +296,177 @@ function WorkspaceSelector({
 }
 
 // =============================================================================
+// HEADER BREADCRUMB COMPONENT
+// =============================================================================
+
+function BreadcrumbSeparator({ inverted = true }: { inverted?: boolean }) {
+  return (
+    <span className={clsx("text-lg mx-0.5", inverted ? "text-ink-600" : "text-ink-300")}>
+      /
+    </span>
+  );
+}
+
+function BreadcrumbDropdown({
+  item,
+  options = [],
+  inverted = true,
+  onSelect,
+  onNavigate,
+}: {
+  item: BreadcrumbContextItem;
+  options?: Array<{ id: string; name: string; status?: string; current?: boolean }>;
+  inverted?: boolean;
+  onSelect?: (id: string) => void;
+  onNavigate?: (href: string) => void;
+}) {
+  const getIcon = () => {
+    switch (item.type) {
+      case "organization":
+        return <Building2 size={14} />;
+      case "project":
+        return <FolderKanban size={14} />;
+      case "team":
+        return <Users size={14} />;
+      case "workspace":
+        return <Briefcase size={14} />;
+    }
+  };
+
+  const getCreatePath = () => {
+    switch (item.type) {
+      case "organization":
+        return "/organizations/new";
+      case "project":
+        return "/projects/new";
+      case "team":
+        return "/teams/new";
+      case "workspace":
+        return "/workspaces/new";
+    }
+  };
+
+  const getManagePath = () => {
+    switch (item.type) {
+      case "organization":
+        return "/organizations";
+      case "project":
+        return "/projects";
+      case "team":
+        return "/teams";
+      case "workspace":
+        return "/workspaces";
+    }
+  };
+
+  const trigger = (
+    <div className={clsx(
+      "flex items-center gap-1.5 px-2 py-1 rounded border-2 cursor-pointer transition-colors text-sm",
+      inverted 
+        ? "border-ink-700 hover:border-ink-600 text-white hover:bg-ink-800" 
+        : "border-ink-200 hover:border-ink-300 text-ink-900 hover:bg-ink-50"
+    )}>
+      <span className={inverted ? "text-ink-400" : "text-ink-500"}>{getIcon()}</span>
+      <span className="font-medium max-w-[120px] truncate">{item.name}</span>
+      <ChevronDown size={12} className={inverted ? "text-ink-500" : "text-ink-400"} />
+    </div>
+  );
+
+  return (
+    <Dropdown trigger={trigger} align="left" inverted={inverted}>
+      {options.length > 0 && (
+        <>
+          <div className={clsx(
+            "px-4 py-2 text-xs font-semibold uppercase tracking-wide",
+            inverted ? "text-ink-400" : "text-ink-500"
+          )}>
+            {item.type === "organization" ? "Organizations" : 
+             item.type === "project" ? "Projects" :
+             item.type === "team" ? "Teams" : "Workspaces"}
+          </div>
+          {options.map((opt) => (
+            <DropdownItem
+              key={opt.id}
+              inverted={inverted}
+              onClick={() => onSelect?.(opt.id)}
+            >
+              <span className="flex items-center justify-between gap-2 w-full">
+                <span className="flex items-center gap-2 truncate">
+                  {getIcon()}
+                  <span className="truncate">{opt.name}</span>
+                </span>
+                {opt.current && <Check size={14} className="text-success-500 shrink-0" />}
+              </span>
+            </DropdownItem>
+          ))}
+          <div className={clsx("border-t my-1", inverted ? "border-ink-700" : "border-ink-200")} />
+        </>
+      )}
+      <DropdownItem inverted={inverted} onClick={() => onNavigate?.(getCreatePath())}>
+        <span className="flex items-center gap-2 text-primary-400">
+          <Plus size={14} />
+          New {item.type.charAt(0).toUpperCase() + item.type.slice(1)}
+        </span>
+      </DropdownItem>
+      <DropdownItem inverted={inverted} onClick={() => onNavigate?.(getManagePath())}>
+        <span className="flex items-center gap-2">
+          {getIcon()}
+          Manage {item.type === "organization" ? "Organizations" : 
+                  item.type === "project" ? "Projects" :
+                  item.type === "team" ? "Teams" : "Workspaces"}
+        </span>
+      </DropdownItem>
+    </Dropdown>
+  );
+}
+
+function HeaderBreadcrumb({
+  breadcrumbContext = [],
+  contextOptions,
+  inverted = true,
+  onContextSwitch,
+  onNavigate,
+}: {
+  breadcrumbContext?: BreadcrumbContextItem[];
+  contextOptions?: ContextOptions;
+  inverted?: boolean;
+  onContextSwitch?: (type: BreadcrumbContextItem["type"], id: string) => void;
+  onNavigate?: (href: string) => void;
+}) {
+  if (breadcrumbContext.length === 0) return null;
+
+  const getOptionsForType = (type: BreadcrumbContextItem["type"]) => {
+    switch (type) {
+      case "organization":
+        return contextOptions?.organizations || [];
+      case "project":
+        return contextOptions?.projects || [];
+      case "team":
+        return contextOptions?.teams || [];
+      case "workspace":
+        return contextOptions?.workspaces || [];
+    }
+  };
+
+  return (
+    <div className="flex items-center">
+      {breadcrumbContext.map((item, index) => (
+        <div key={item.id} className="flex items-center">
+          {index > 0 && <BreadcrumbSeparator inverted={inverted} />}
+          <BreadcrumbDropdown
+            item={item}
+            options={getOptionsForType(item.type)}
+            inverted={inverted}
+            onSelect={(id) => onContextSwitch?.(item.type, id)}
+            onNavigate={onNavigate}
+          />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// =============================================================================
 // NOTIFICATIONS PANEL COMPONENT
 // =============================================================================
 
@@ -389,6 +582,9 @@ export const AuthenticatedShell = forwardRef<HTMLDivElement, AuthenticatedShellP
       currentPath,
       logo,
       workspaceName,
+      breadcrumbContext,
+      contextOptions,
+      onContextSwitch,
       user,
       quickActions,
       favorites,
@@ -497,8 +693,8 @@ export const AuthenticatedShell = forwardRef<HTMLDivElement, AuthenticatedShellP
             "flex items-center justify-between h-14 px-4 border-b-2 shrink-0",
             inverted ? "bg-ink-950 border-ink-800" : "bg-white border-ink-200"
           )}>
-            {/* Left: Mobile menu + Workspace */}
-            <div className="flex items-center gap-3">
+            {/* Left: Mobile menu + Breadcrumb context (Organization > Project > Team > Workspace) */}
+            <div className="flex items-center gap-1">
               {/* Mobile menu button */}
               <button
                 type="button"
@@ -514,22 +710,48 @@ export const AuthenticatedShell = forwardRef<HTMLDivElement, AuthenticatedShellP
                 <Menu size={20} />
               </button>
               
-              {/* Workspace selector dropdown */}
-              <div className="hidden sm:block">
-                <WorkspaceSelector
-                  workspaceName={workspaceName}
-                  workspaces={workspaces}
-                  inverted={inverted}
-                  onWorkspaceSwitch={onWorkspaceSwitch}
-                  onNavigate={onNavigate}
-                />
-              </div>
+              {/* New breadcrumb context (Organization > Project > Team > Workspace) */}
+              {breadcrumbContext && breadcrumbContext.length > 0 ? (
+                <div className="hidden sm:block">
+                  <HeaderBreadcrumb
+                    breadcrumbContext={breadcrumbContext}
+                    contextOptions={contextOptions}
+                    inverted={inverted}
+                    onContextSwitch={onContextSwitch}
+                    onNavigate={onNavigate}
+                  />
+                </div>
+              ) : (
+                <>
+                  {/* Legacy: Workspace selector dropdown */}
+                  <div className="hidden sm:block">
+                    <WorkspaceSelector
+                      workspaceName={workspaceName}
+                      workspaces={workspaces}
+                      inverted={inverted}
+                      onWorkspaceSwitch={onWorkspaceSwitch}
+                      onNavigate={onNavigate}
+                    />
+                  </div>
+                  
+                  {/* Legacy: Context switcher (production/project) */}
+                  {headerActions && (
+                    <>
+                      <span className={clsx(
+                        "hidden sm:block text-lg mx-1",
+                        inverted ? "text-ink-600" : "text-ink-300"
+                      )}>/</span>
+                      <div className="hidden sm:block">
+                        {headerActions}
+                      </div>
+                    </>
+                  )}
+                </>
+              )}
             </div>
 
-            {/* Right: Actions + User */}
+            {/* Right: Notifications + Settings + User */}
             <div className="flex items-center gap-2">
-              {/* Custom header actions */}
-              {headerActions}
               
               {/* Notifications dropdown */}
               <NotificationsPanel

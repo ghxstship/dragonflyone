@@ -166,7 +166,7 @@ export default function Home() {
           description="Badge, QR, and mobile confirmations feeding payroll + compliance audits."
         >
           <Box className="overflow-x-auto border border-ink-800">
-            <Table className="min-w-full text-left text-body-sm">
+            <Table variant="dark" className="min-w-full text-left text-body-sm">
               <TableHeader className="font-code text-mono-xs uppercase tracking-kicker text-ink-500">
                 <TableRow>
                   <TableHead className="px-spacing-4 py-spacing-3">Crew</TableHead>
@@ -211,7 +211,7 @@ export default function Home() {
           description="Live queue of productions moving from ATLVS deal capture into COMPVSS execution, with risk envelopes and ownership."
         >
           <Box className="overflow-x-auto border border-ink-800">
-            <Table className="min-w-full text-left text-body-sm">
+            <Table variant="dark" className="min-w-full text-left text-body-sm">
               <TableHeader className="font-code text-mono-xs uppercase tracking-kicker text-ink-500">
                 <TableRow>
                   <TableHead className="px-4 py-3">Project</TableHead>
@@ -336,7 +336,7 @@ export default function Home() {
             ))}
           </Grid>
           <Box className="mt-8 overflow-x-auto border border-ink-800">
-            <Table className="min-w-full text-left text-body-sm">
+            <Table variant="dark" className="min-w-full text-left text-body-sm">
               <TableHeader className="font-code text-mono-xs uppercase tracking-kicker text-ink-500">
                 <TableRow>
                   <TableHead className="px-4 py-3">Cue</TableHead>

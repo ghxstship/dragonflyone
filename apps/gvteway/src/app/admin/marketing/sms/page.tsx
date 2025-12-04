@@ -99,7 +99,7 @@ export default function SMSMarketingPage() {
                 </Stack>
 
                 <Card inverted className="overflow-hidden">
-                  <Table>
+                  <Table variant="dark">
                     <TableHeader>
                       <TableRow className="bg-ink-900">
                         <TableHead className="text-on-dark-muted">Campaign</TableHead>

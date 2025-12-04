@@ -130,7 +130,7 @@ export function CatalogBrowser({
           />
         ) : (
           <>
-            <Table>
+            <Table variant="dark">
               <TableHeader>
                 <TableRow>
                   <TableHead>Item ID</TableHead>

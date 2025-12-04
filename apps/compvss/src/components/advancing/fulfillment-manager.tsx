@@ -149,7 +149,7 @@ export function FulfillmentManager({ requestId, onSuccess }: FulfillmentManagerP
 
         <H4>Items to Fulfill</H4>
 
-        <Table>
+        <Table variant="dark">
           <TableHeader>
             <TableRow>
               <TableHead>Item</TableHead>

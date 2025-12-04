@@ -146,7 +146,7 @@ export default function SentimentAnalysisPage() {
             </TabPanel>
 
             <TabPanel active={activeTab === "alerts"}>
-              <Table className="border-2 border-black">
+              <Table variant="dark" className="border-2 border-black">
                 <TableHeader>
                   <TableRow className="bg-black text-white">
                     <TableHead>Type</TableHead>

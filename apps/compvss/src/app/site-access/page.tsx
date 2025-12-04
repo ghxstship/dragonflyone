@@ -146,7 +146,7 @@ export default function SiteAccessPage() {
               </TabPanel>
 
               <TabPanel active={activeTab === "vehicles"}>
-                <Table>
+                <Table variant="dark">
                   <TableHeader>
                     <TableRow>
                       <TableHead>Vehicle</TableHead>

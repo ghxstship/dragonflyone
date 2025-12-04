@@ -182,8 +182,8 @@ export function ConfirmDialog({
               "hover:-translate-x-0.5 hover:-translate-y-0.5",
               "active:translate-x-0 active:translate-y-0",
               inverted
-                ? "bg-white text-black border-white shadow-[3px_3px_0_hsl(239,84%,67%)] hover:shadow-[4px_4px_0_hsl(239,84%,67%)]"
-                : "bg-black text-white border-black shadow-[3px_3px_0_hsl(239,84%,67%)] hover:shadow-[4px_4px_0_hsl(239,84%,67%)]",
+                ? "bg-white text-black border-white shadow-[3px_3px_0_hsl(var(--primary))] hover:shadow-[4px_4px_0_hsl(var(--primary))]"
+                : "bg-black text-white border-black shadow-[3px_3px_0_hsl(var(--primary))] hover:shadow-[4px_4px_0_hsl(var(--primary))]",
               loading ? "cursor-not-allowed opacity-70" : "cursor-pointer"
             )}
           >

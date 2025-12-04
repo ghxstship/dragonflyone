@@ -1,0 +1,74 @@
+"use client";
+
+import { useParams, useRouter } from "next/navigation";
+import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Grid, Badge } from "@ghxstship/ui";
+import { MapPin, Plus, Map, Layers } from "lucide-react";
+import { atlvsDemoProductions } from "../../../../data/atlvs";
+
+export default function ProductionVenuesPage() {
+  const params = useParams();
+  const router = useRouter();
+  const productionId = params?.productionId as string;
+  const production = atlvsDemoProductions.find((p) => p.id === productionId);
+
+  const venues = [
+    { id: "1", name: "Main Stage", type: "Stage", capacity: 5000, status: "confirmed" },
+    { id: "2", name: "VIP Lounge", type: "Hospitality", capacity: 200, status: "confirmed" },
+    { id: "3", name: "Backstage Area", type: "Operations", capacity: 100, status: "confirmed" },
+    { id: "4", name: "Vendor Village", type: "Commercial", capacity: 1000, status: "pending" },
+  ];
+
+  const statusColors: Record<string, "success" | "warning" | "error" | "info" | "solid"> = {
+    confirmed: "success", pending: "warning", cancelled: "error",
+  };
+
+  return (
+    <Stack gap={8}>
+      <Stack gap={4}>
+        <SectionHeader
+          kicker={production?.name || "Production"}
+          title="Venues"
+          description="Manage locations, zones, and venue maps"
+          colorScheme="on-dark"
+        />
+        <Stack direction="horizontal" gap={2}>
+          <Button variant="solid" size="sm">
+            <Plus size={16} className="mr-2" />
+            Add Venue
+          </Button>
+          <Button variant="outline" size="sm" onClick={() => router.push(`/p/${productionId}/venues/zones`)}>
+            <Layers size={16} className="mr-2" />
+            Zones
+          </Button>
+          <Button variant="outline" size="sm" onClick={() => router.push(`/p/${productionId}/venues/maps`)}>
+            <Map size={16} className="mr-2" />
+            Maps
+          </Button>
+        </Stack>
+      </Stack>
+
+      <Grid cols={2} gap={4}>
+        {venues.map((venue) => (
+          <Card key={venue.id} variant="elevated" inverted className="cursor-pointer transition-all hover:border-primary">
+            <CardBody>
+              <Stack gap={4}>
+                <Stack direction="horizontal" gap={4} className="items-center justify-between">
+                  <Stack direction="horizontal" gap={3} className="items-center">
+                    <Box className="flex size-10 items-center justify-center rounded bg-ink-800">
+                      <MapPin size={20} className="text-primary" />
+                    </Box>
+                    <Stack gap={1}>
+                      <Body className="font-weight-bold text-white">{venue.name}</Body>
+                      <Body className="text-body-sm text-on-dark-muted">{venue.type} · Capacity: {venue.capacity}</Body>
+                    </Stack>
+                  </Stack>
+                  <Badge variant={statusColors[venue.status]}>{venue.status.toUpperCase()}</Badge>
+                </Stack>
+              </Stack>
+            </CardBody>
+          </Card>
+        ))}
+      </Grid>
+    </Stack>
+  );
+}

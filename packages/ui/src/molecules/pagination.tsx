@@ -90,8 +90,8 @@ export const Pagination = forwardRef<HTMLDivElement, PaginationProps>(
                 "px-spacing-4 py-spacing-2 border-2 rounded-[var(--radius-button)] transition-all duration-100 ease-[var(--ease-bounce)] font-heading uppercase text-mono-sm min-w-spacing-11",
                 currentPage === pageNumber
                   ? inverted
-                    ? "border-white bg-white text-black shadow-[3px_3px_0_hsl(239,84%,67%)]"
-                    : "border-black bg-black text-white shadow-[3px_3px_0_hsl(239,84%,67%)]"
+                    ? "border-white bg-white text-black shadow-[3px_3px_0_hsl(var(--primary))]"
+                    : "border-black bg-black text-white shadow-[3px_3px_0_hsl(var(--primary))]"
                   : inverted
                     ? "border-grey-600 bg-transparent text-grey-300 shadow-[2px_2px_0_rgba(255,255,255,0.1)] hover:border-grey-400 hover:-translate-x-0.5 hover:-translate-y-0.5"
                     : "border-grey-300 bg-white text-black shadow-[2px_2px_0_rgba(0,0,0,0.08)] hover:border-black hover:-translate-x-0.5 hover:-translate-y-0.5"

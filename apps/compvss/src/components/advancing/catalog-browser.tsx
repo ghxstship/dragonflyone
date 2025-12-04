@@ -117,7 +117,7 @@ export function CatalogBrowser({ onSelectItem, selectedItems = [] }: CatalogBrow
           />
         ) : (
           <>
-            <Table>
+            <Table variant="dark">
               <TableHeader>
                 <TableRow>
                   <TableHead>ID</TableHead>

@@ -293,7 +293,7 @@ export default function CashlessPaymentPage() {
 
           {activeTab === 'transactions' && (
             <Card inverted className="overflow-hidden">
-              <Table>
+              <Table variant="dark">
                 <TableHeader>
                   <TableRow className="bg-ink-900">
                     <TableHead className="text-on-dark-muted">Time</TableHead>

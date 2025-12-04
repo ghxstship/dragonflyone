@@ -38,7 +38,7 @@ export const TabsList = forwardRef<HTMLDivElement, TabsListProps>(
           "flex gap-1",
           variant === "line" && (inverted ? "border-b-2 border-grey-700" : "border-b-2 border-grey-200"),
           variant === "enclosed" && (inverted ? "border-2 border-grey-600 rounded-[var(--radius-card)]" : "border-2 border-black rounded-[var(--radius-card)]"),
-          variant === "pop" && (inverted ? "border-2 border-white rounded-[var(--radius-card)] shadow-[4px_4px_0_hsl(239,84%,67%)]" : "border-2 border-black rounded-[var(--radius-card)] shadow-[4px_4px_0_hsl(239,84%,67%)]"),
+          variant === "pop" && (inverted ? "border-2 border-white rounded-[var(--radius-card)] shadow-[4px_4px_0_hsl(var(--primary))]" : "border-2 border-black rounded-[var(--radius-card)] shadow-[4px_4px_0_hsl(var(--primary))]"),
           className
         )}
         {...props}

@@ -136,8 +136,8 @@ export const UnifiedHeader = forwardRef<HTMLElement, UnifiedHeaderProps>(
                         "transition-all duration-100 ease-[var(--ease-bounce)]",
                         isActive(item.href)
                           ? inverted
-                            ? "bg-white text-black border-white shadow-[2px_2px_0_hsl(239,84%,67%)]"
-                            : "bg-black text-white border-black shadow-[2px_2px_0_hsl(239,84%,67%)]"
+                            ? "bg-white text-black border-white shadow-[2px_2px_0_hsl(var(--primary))]"
+                            : "bg-black text-white border-black shadow-[2px_2px_0_hsl(var(--primary))]"
                           : inverted
                             ? clsx(
                                 "text-grey-400 border-transparent",
@@ -177,8 +177,8 @@ export const UnifiedHeader = forwardRef<HTMLElement, UnifiedHeaderProps>(
                       "hover:-translate-x-0.5 hover:-translate-y-0.5",
                       "active:translate-x-0 active:translate-y-0",
                       inverted
-                        ? "bg-white text-black border-white shadow-[3px_3px_0_hsl(239,84%,67%)] hover:shadow-[4px_4px_0_hsl(239,84%,67%)]"
-                        : "bg-black text-white border-black shadow-[3px_3px_0_hsl(239,84%,67%)] hover:shadow-[4px_4px_0_hsl(239,84%,67%)]"
+                        ? "bg-white text-black border-white shadow-[3px_3px_0_hsl(var(--primary))] hover:shadow-[4px_4px_0_hsl(var(--primary))]"
+                        : "bg-black text-white border-black shadow-[3px_3px_0_hsl(var(--primary))] hover:shadow-[4px_4px_0_hsl(var(--primary))]"
                     )}
                   >
                     {primaryCta.label}
@@ -263,8 +263,8 @@ export const UnifiedHeader = forwardRef<HTMLElement, UnifiedHeaderProps>(
                       "animate-slide-up-bounce",
                       isActive(item.href)
                         ? inverted
-                          ? "bg-white text-black border-white shadow-[3px_3px_0_hsl(239,84%,67%)]"
-                          : "bg-black text-white border-black shadow-[3px_3px_0_hsl(239,84%,67%)]"
+                          ? "bg-white text-black border-white shadow-[3px_3px_0_hsl(var(--primary))]"
+                          : "bg-black text-white border-black shadow-[3px_3px_0_hsl(var(--primary))]"
                         : inverted
                           ? "text-grey-400 border-grey-700 hover:text-white hover:bg-grey-800"
                           : "text-grey-600 border-grey-200 hover:text-black hover:bg-grey-100"
@@ -299,8 +299,8 @@ export const UnifiedHeader = forwardRef<HTMLElement, UnifiedHeaderProps>(
                     "transition-all duration-100",
                     "hover:-translate-x-0.5 hover:-translate-y-0.5",
                     inverted
-                      ? "bg-white text-black border-white shadow-[4px_4px_0_hsl(239,84%,67%)]"
-                      : "bg-black text-white border-black shadow-[4px_4px_0_hsl(239,84%,67%)]"
+                      ? "bg-white text-black border-white shadow-[4px_4px_0_hsl(var(--primary))]"
+                      : "bg-black text-white border-black shadow-[4px_4px_0_hsl(var(--primary))]"
                   )}
                 >
                   {primaryCta.label}

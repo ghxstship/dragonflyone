@@ -12,7 +12,9 @@ import {
   Stack,
   Label,
   LoadingSpinner,
+  AuthenticatedShell,
 } from "@ghxstship/ui";
+import type { SidebarNavSection } from "@ghxstship/ui";
 import {
   ConsumerNavigationPublic,
   ConsumerNavigationAuthenticated,
@@ -21,6 +23,7 @@ import {
   CreatorNavigationAuthenticated,
 } from "./navigation";
 import type { ContextLevel } from "@ghxstship/ui";
+import { gvtewaySidebarNavigation, gvtewayEventNavigation, gvtewayQuickActions } from "../data/gvteway";
 
 // =============================================================================
 // GVTEWAY APP LAYOUT WRAPPERS
@@ -30,7 +33,7 @@ import type { ContextLevel } from "@ghxstship/ui";
 interface AppLayoutProps {
   children: ReactNode;
   /** Navigation variant */
-  variant?: "consumer-public" | "consumer-auth" | "membership" | "creator-public" | "creator-auth";
+  variant?: "consumer-public" | "consumer-auth" | "consumer-shell" | "event-shell" | "membership" | "creator-public" | "creator-auth";
   /** Context breadcrumbs for authenticated navigation */
   contextLevels?: ContextLevel[];
   /** Custom user menu for authenticated navigation */
@@ -39,6 +42,10 @@ interface AppLayoutProps {
   showFooter?: boolean;
   /** Additional className for the main section */
   className?: string;
+  /** Current path for sidebar navigation */
+  currentPath?: string;
+  /** Event ID for event-context navigation */
+  eventId?: string;
 }
 
 /**
@@ -52,7 +59,58 @@ export function GvtewayAppLayout({
   userMenu,
   showFooter = true,
   className,
+  currentPath = "/",
+  eventId,
 }: AppLayoutProps) {
+  // Transform navigation data to SidebarNavSection format
+  const transformNavigation = (navData: typeof gvtewaySidebarNavigation, basePath = ""): SidebarNavSection[] => {
+    return navData.map((section) => ({
+      title: section.section,
+      items: section.items.map((item) => ({
+        label: item.label,
+        href: basePath + item.href,
+        icon: item.icon,
+      })),
+    }));
+  };
+
+  // Get sidebar navigation based on context
+  const getSidebarNavigation = (): SidebarNavSection[] => {
+    if (variant === "event-shell" && eventId) {
+      return transformNavigation(gvtewayEventNavigation, `/e/${eventId}`);
+    }
+    return transformNavigation(gvtewaySidebarNavigation);
+  };
+
+  // Shell variants use AuthenticatedShell with sidebar
+  if (variant === "consumer-shell" || variant === "event-shell") {
+    return (
+      <AuthenticatedShell
+        navigation={getSidebarNavigation()}
+        currentPath={currentPath}
+        logo={<Display size="sm">GVTEWAY</Display>}
+        workspaceName="GVTEWAY"
+        user={{
+          name: "Guest User",
+          email: "guest@gvteway.com",
+        }}
+        quickActions={gvtewayQuickActions}
+        inverted
+        onNavigate={(href) => {
+          if (typeof window !== "undefined") {
+            window.location.href = href;
+          }
+        }}
+        className={className}
+      >
+        <div className="p-6">
+          {children}
+        </div>
+      </AuthenticatedShell>
+    );
+  }
+
+  // Standard page layout for non-shell variants
   const getNavigation = () => {
     switch (variant) {
       case "consumer-public":

@@ -116,7 +116,7 @@ export function AdvanceRequestDetail({ requestId, onUpdate }: AdvanceRequestDeta
           </Field>
 
           <H4>Items</H4>
-          <Table>
+          <Table variant="dark">
             <TableHeader>
               <TableRow>
                 <TableHead>Item</TableHead>
