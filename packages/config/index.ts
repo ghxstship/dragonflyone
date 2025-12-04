@@ -60,3 +60,9 @@ export {
   completeOnboarding,
   getSession,
 } from './auth-actions';
+
+// CSRF protection middleware
+export * from './middleware/csrf';
+
+// MFA (Multi-Factor Authentication) utilities
+export * from './mfa';

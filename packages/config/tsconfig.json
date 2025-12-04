@@ -41,6 +41,7 @@
     "kpi-client.ts",
     "hooks/**/*.ts",
     "hooks/**/*.tsx",
+    "middleware/**/*.ts",
     "notifications/**/*.ts",
     "webhooks/**/*.ts",
     "types/**/*.ts",
@@ -50,7 +51,8 @@
     "stores/**/*.tsx",
     "providers.tsx",
     "query-client.tsx",
-    "query-utils.ts"
+    "query-utils.ts",
+    "mfa.ts"
   ],
   "exclude": [
     "node_modules",

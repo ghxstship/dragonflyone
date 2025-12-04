@@ -448,6 +448,122 @@ Public-facing AI-powered tool that transforms a single creative concept (noun) i
 
 ---
 
+## Enterprise Deployment Readiness (Priority 2)
+
+### Loading States - Route-Level Loading
+**Status:** Not implemented
+**Priority:** Medium
+**Effort:** Low
+
+Add `loading.tsx` files to key routes for better UX during page transitions:
+- [ ] Add loading states to dashboard pages
+- [ ] Add loading states to data-heavy pages (analytics, reports)
+- [ ] Add loading states to form pages
+
+### API Versioning
+**Status:** Not implemented
+**Priority:** Medium
+**Effort:** Medium
+
+Implement API versioning for better backwards compatibility:
+- [ ] Add `/api/v1/` prefix pattern to all API routes
+- [ ] Create API version middleware
+- [ ] Update API documentation
+
+### Test Coverage Report
+**Status:** Unknown coverage
+**Priority:** Medium
+**Effort:** Low
+
+Run and analyze test coverage:
+- [ ] Run `pnpm test --coverage` and analyze results
+- [ ] Identify gaps in critical paths (auth, payments, data mutations)
+- [ ] Add integration tests for API endpoints
+
+### SSO/SAML for Enterprise
+**Status:** Not implemented
+**Priority:** Medium (enterprise requirement)
+**Effort:** High
+
+Implement SSO/SAML authentication for enterprise customers:
+- [ ] Research Supabase SSO capabilities
+- [ ] Implement SAML provider configuration
+- [ ] Add SSO login flow to auth pages
+- [ ] Create SSO management UI in settings
+
+### Staging Environment
+**Status:** Not configured
+**Priority:** Medium
+**Effort:** Medium
+
+Set up staging environment for pre-production testing:
+- [ ] Create staging Supabase project
+- [ ] Configure staging environment variables
+- [ ] Add staging deployment workflow
+- [ ] Set up staging database seeding
+
+---
+
+## Enterprise Deployment Readiness (Priority 3)
+
+### UI Style Guide Completion
+**Status:** 330+ pages remaining
+**Priority:** Low
+**Effort:** High
+
+Complete migration of all pages to design system:
+- [ ] GVTEWAY authenticated pages (~150 pages)
+- [ ] ATLVS authenticated pages (~100 pages)
+- [ ] COMPVSS authenticated pages (~80 pages)
+
+See existing backlog item "UI Style Guide Refactor" for details.
+
+### Detailed Permission System
+**Status:** Basic implementation
+**Priority:** Low
+**Effort:** Medium
+
+Enhance `hasPermission()` with granular permissions:
+- [ ] Define permission matrix for all resources
+- [ ] Implement resource-level permissions
+- [ ] Add permission caching
+- [ ] Create permission management UI
+
+### Centralized Log Aggregation
+**Status:** Console logging only
+**Priority:** Low
+**Effort:** Medium
+
+Implement centralized logging solution:
+- [ ] Evaluate options (Datadog, LogRocket, Axiom)
+- [ ] Configure log shipping from production
+- [ ] Set up log dashboards and alerts
+- [ ] Add structured logging for key events
+
+### Session Timeout Configuration
+**Status:** Using Supabase defaults
+**Priority:** Low
+**Effort:** Low
+
+Configure explicit session management:
+- [ ] Set session expiry in Supabase dashboard
+- [ ] Add session refresh logic in auth context
+- [ ] Implement session timeout warning UI
+- [ ] Add "remember me" functionality
+
+### Rate Limiting Enforcement
+**Status:** Env vars configured, implementation needs verification
+**Priority:** Low
+**Effort:** Medium
+
+Verify and enhance rate limiting:
+- [ ] Audit current rate limiting implementation
+- [ ] Add rate limiting to all public endpoints
+- [ ] Implement per-user rate limits
+- [ ] Add rate limit headers to responses
+
+---
+
 ## Notes
 
 - Vercel Hobby plan allows 2 cron jobs total across all projects

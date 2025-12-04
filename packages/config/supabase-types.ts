@@ -7,30 +7,10 @@ export type Json =
   | Json[]
 
 export type Database = {
-  graphql_public: {
-    Tables: {
-      [_ in never]: never
-    }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      graphql: {
-        Args: {
-          extensions?: Json
-          operationName?: string
-          query?: string
-          variables?: Json
-        }
-        Returns: Json
-      }
-    }
-    Enums: {
-      [_ in never]: never
-    }
-    CompositeTypes: {
-      [_ in never]: never
-    }
+  // Allows to automatically instantiate createClient with right options
+  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
+  __InternalSupabase: {
+    PostgrestVersion: "13.0.5"
   }
   public: {
     Tables: {
@@ -232,13 +212,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "platform_users"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "activations_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
           },
           {
             foreignKeyName: "activations_project_id_fkey"
@@ -1105,50 +1078,151 @@ export type Database = {
           },
         ]
       }
+      api_key_usage_logs: {
+        Row: {
+          api_key_id: string
+          created_at: string | null
+          endpoint: string
+          error_message: string | null
+          id: string
+          ip_address: unknown
+          method: string
+          request_id: string | null
+          response_time_ms: number | null
+          status_code: number | null
+          user_agent: string | null
+        }
+        Insert: {
+          api_key_id: string
+          created_at?: string | null
+          endpoint: string
+          error_message?: string | null
+          id?: string
+          ip_address?: unknown
+          method: string
+          request_id?: string | null
+          response_time_ms?: number | null
+          status_code?: number | null
+          user_agent?: string | null
+        }
+        Update: {
+          api_key_id?: string
+          created_at?: string | null
+          endpoint?: string
+          error_message?: string | null
+          id?: string
+          ip_address?: unknown
+          method?: string
+          request_id?: string | null
+          response_time_ms?: number | null
+          status_code?: number | null
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "api_key_usage_logs_api_key_id_fkey"
+            columns: ["api_key_id"]
+            isOneToOne: false
+            referencedRelation: "api_keys"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       api_keys: {
         Row: {
+          allowed_endpoints: string[] | null
+          allowed_ips: unknown[] | null
+          allowed_origins: string[] | null
           created_at: string
+          created_by_id: string | null
+          description: string | null
           expires_at: string | null
           id: string
           is_active: boolean | null
           key_hash: string
           key_prefix: string
           last_used_at: string | null
+          metadata: Json | null
           name: string
+          organization_id: string | null
+          permissions: string[] | null
           rate_limit: number | null
+          rate_limit_window_seconds: number | null
           scopes: string[]
           updated_at: string
+          usage_count: number | null
           user_id: string
         }
         Insert: {
+          allowed_endpoints?: string[] | null
+          allowed_ips?: unknown[] | null
+          allowed_origins?: string[] | null
           created_at?: string
+          created_by_id?: string | null
+          description?: string | null
           expires_at?: string | null
           id?: string
           is_active?: boolean | null
           key_hash: string
           key_prefix: string
           last_used_at?: string | null
+          metadata?: Json | null
           name: string
+          organization_id?: string | null
+          permissions?: string[] | null
           rate_limit?: number | null
+          rate_limit_window_seconds?: number | null
           scopes: string[]
           updated_at?: string
+          usage_count?: number | null
           user_id: string
         }
         Update: {
+          allowed_endpoints?: string[] | null
+          allowed_ips?: unknown[] | null
+          allowed_origins?: string[] | null
           created_at?: string
+          created_by_id?: string | null
+          description?: string | null
           expires_at?: string | null
           id?: string
           is_active?: boolean | null
           key_hash?: string
           key_prefix?: string
           last_used_at?: string | null
+          metadata?: Json | null
           name?: string
+          organization_id?: string | null
+          permissions?: string[] | null
           rate_limit?: number | null
+          rate_limit_window_seconds?: number | null
           scopes?: string[]
           updated_at?: string
+          usage_count?: number | null
           user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "api_keys_created_by_id_fkey"
+            columns: ["created_by_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "api_keys_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_executive_dashboard"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "api_keys_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "api_keys_user_id_fkey"
             columns: ["user_id"]
@@ -1454,13 +1528,6 @@ export type Database = {
             foreignKeyName: "asset_assignments_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
-          },
-          {
-            foreignKeyName: "asset_assignments_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
             referencedRelation: "mv_project_financials"
             referencedColumns: ["project_id"]
           },
@@ -1712,13 +1779,6 @@ export type Database = {
             foreignKeyName: "assets_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
-          },
-          {
-            foreignKeyName: "assets_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
             referencedRelation: "mv_project_financials"
             referencedColumns: ["project_id"]
           },
@@ -1916,6 +1976,7 @@ export type Database = {
           metadata: Json
           new_data: Json | null
           old_data: Json | null
+          operation: string | null
           organization_id: string | null
           record_id: string | null
           resource_id: string | null
@@ -1934,6 +1995,7 @@ export type Database = {
           metadata?: Json
           new_data?: Json | null
           old_data?: Json | null
+          operation?: string | null
           organization_id?: string | null
           record_id?: string | null
           resource_id?: string | null
@@ -1952,6 +2014,7 @@ export type Database = {
           metadata?: Json
           new_data?: Json | null
           old_data?: Json | null
+          operation?: string | null
           organization_id?: string | null
           record_id?: string | null
           resource_id?: string | null
@@ -3136,13 +3199,6 @@ export type Database = {
             foreignKeyName: "calendar_meetings_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
-          },
-          {
-            foreignKeyName: "calendar_meetings_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
             referencedRelation: "mv_project_financials"
             referencedColumns: ["project_id"]
           },
@@ -3192,6 +3248,125 @@ export type Database = {
           {
             foreignKeyName: "campaign_clicks_user_id_fkey"
             columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      campaign_metrics: {
+        Row: {
+          bounced_count: number | null
+          campaign_id: string
+          click_rate: number | null
+          clicked_count: number | null
+          conversion_count: number | null
+          conversion_rate: number | null
+          created_at: string | null
+          delivered_count: number | null
+          id: string
+          open_rate: number | null
+          opened_count: number | null
+          revenue_generated: number | null
+          sent_count: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          bounced_count?: number | null
+          campaign_id: string
+          click_rate?: number | null
+          clicked_count?: number | null
+          conversion_count?: number | null
+          conversion_rate?: number | null
+          created_at?: string | null
+          delivered_count?: number | null
+          id?: string
+          open_rate?: number | null
+          opened_count?: number | null
+          revenue_generated?: number | null
+          sent_count?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          bounced_count?: number | null
+          campaign_id?: string
+          click_rate?: number | null
+          clicked_count?: number | null
+          conversion_count?: number | null
+          conversion_rate?: number | null
+          created_at?: string | null
+          delivered_count?: number | null
+          id?: string
+          open_rate?: number | null
+          opened_count?: number | null
+          revenue_generated?: number | null
+          sent_count?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaign_metrics_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: true
+            referencedRelation: "marketing_campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      campaign_sends: {
+        Row: {
+          campaign_id: string
+          clicked_at: string | null
+          created_at: string | null
+          delivered_at: string | null
+          error_message: string | null
+          id: string
+          metadata: Json | null
+          opened_at: string | null
+          recipient_email: string
+          recipient_id: string | null
+          sent_at: string | null
+          status: string
+        }
+        Insert: {
+          campaign_id: string
+          clicked_at?: string | null
+          created_at?: string | null
+          delivered_at?: string | null
+          error_message?: string | null
+          id?: string
+          metadata?: Json | null
+          opened_at?: string | null
+          recipient_email: string
+          recipient_id?: string | null
+          sent_at?: string | null
+          status?: string
+        }
+        Update: {
+          campaign_id?: string
+          clicked_at?: string | null
+          created_at?: string | null
+          delivered_at?: string | null
+          error_message?: string | null
+          id?: string
+          metadata?: Json | null
+          opened_at?: string | null
+          recipient_email?: string
+          recipient_id?: string | null
+          sent_at?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaign_sends_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "marketing_campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "campaign_sends_recipient_id_fkey"
+            columns: ["recipient_id"]
             isOneToOne: false
             referencedRelation: "platform_users"
             referencedColumns: ["id"]
@@ -4214,13 +4389,6 @@ export type Database = {
             foreignKeyName: "change_orders_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
-          },
-          {
-            foreignKeyName: "change_orders_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
             referencedRelation: "mv_project_financials"
             referencedColumns: ["project_id"]
           },
@@ -4425,13 +4593,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "organizations"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "client_feedback_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
           },
           {
             foreignKeyName: "client_feedback_project_id_fkey"
@@ -4692,13 +4853,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "organizations"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "communications_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
           },
           {
             foreignKeyName: "communications_project_id_fkey"
@@ -5249,6 +5403,230 @@ export type Database = {
           },
         ]
       }
+      compliance_checklist_items: {
+        Row: {
+          category: string | null
+          checklist_id: string
+          completed_at: string | null
+          completed_by_id: string | null
+          created_at: string | null
+          description: string | null
+          due_date: string | null
+          evidence_type: string | null
+          evidence_url: string | null
+          id: string
+          is_required: boolean | null
+          linked_contract_id: string | null
+          linked_permit_id: string | null
+          linked_policy_id: string | null
+          metadata: Json | null
+          notes: string | null
+          sort_order: number | null
+          status: string | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          category?: string | null
+          checklist_id: string
+          completed_at?: string | null
+          completed_by_id?: string | null
+          created_at?: string | null
+          description?: string | null
+          due_date?: string | null
+          evidence_type?: string | null
+          evidence_url?: string | null
+          id?: string
+          is_required?: boolean | null
+          linked_contract_id?: string | null
+          linked_permit_id?: string | null
+          linked_policy_id?: string | null
+          metadata?: Json | null
+          notes?: string | null
+          sort_order?: number | null
+          status?: string | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          category?: string | null
+          checklist_id?: string
+          completed_at?: string | null
+          completed_by_id?: string | null
+          created_at?: string | null
+          description?: string | null
+          due_date?: string | null
+          evidence_type?: string | null
+          evidence_url?: string | null
+          id?: string
+          is_required?: boolean | null
+          linked_contract_id?: string | null
+          linked_permit_id?: string | null
+          linked_policy_id?: string | null
+          metadata?: Json | null
+          notes?: string | null
+          sort_order?: number | null
+          status?: string | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "compliance_checklist_items_checklist_id_fkey"
+            columns: ["checklist_id"]
+            isOneToOne: false
+            referencedRelation: "compliance_checklists"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "compliance_checklist_items_completed_by_id_fkey"
+            columns: ["completed_by_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "compliance_checklist_items_linked_contract_id_fkey"
+            columns: ["linked_contract_id"]
+            isOneToOne: false
+            referencedRelation: "contracts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "compliance_checklist_items_linked_permit_id_fkey"
+            columns: ["linked_permit_id"]
+            isOneToOne: false
+            referencedRelation: "permits"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "compliance_checklist_items_linked_policy_id_fkey"
+            columns: ["linked_policy_id"]
+            isOneToOne: false
+            referencedRelation: "insurance_policies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      compliance_checklists: {
+        Row: {
+          approved_at: string | null
+          approved_by_id: string | null
+          category: string
+          completed_at: string | null
+          completed_by_id: string | null
+          completion_percent: number | null
+          created_at: string | null
+          created_by: string | null
+          description: string | null
+          due_date: string | null
+          id: string
+          metadata: Json | null
+          name: string
+          notes: string | null
+          organization_id: string | null
+          production_id: string | null
+          status: string | null
+          template_id: string | null
+          updated_at: string | null
+          venue_id: string | null
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by_id?: string | null
+          category: string
+          completed_at?: string | null
+          completed_by_id?: string | null
+          completion_percent?: number | null
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          metadata?: Json | null
+          name: string
+          notes?: string | null
+          organization_id?: string | null
+          production_id?: string | null
+          status?: string | null
+          template_id?: string | null
+          updated_at?: string | null
+          venue_id?: string | null
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by_id?: string | null
+          category?: string
+          completed_at?: string | null
+          completed_by_id?: string | null
+          completion_percent?: number | null
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          metadata?: Json | null
+          name?: string
+          notes?: string | null
+          organization_id?: string | null
+          production_id?: string | null
+          status?: string | null
+          template_id?: string | null
+          updated_at?: string | null
+          venue_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "compliance_checklists_approved_by_id_fkey"
+            columns: ["approved_by_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "compliance_checklists_completed_by_id_fkey"
+            columns: ["completed_by_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "compliance_checklists_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "compliance_checklists_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_executive_dashboard"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "compliance_checklists_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "compliance_checklists_production_id_fkey"
+            columns: ["production_id"]
+            isOneToOne: false
+            referencedRelation: "productions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "compliance_checklists_venue_id_fkey"
+            columns: ["venue_id"]
+            isOneToOne: false
+            referencedRelation: "venues"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       compliance_events: {
         Row: {
           compliance_item_id: string
@@ -5758,13 +6136,6 @@ export type Database = {
             foreignKeyName: "compvss_projects_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
-          },
-          {
-            foreignKeyName: "compvss_projects_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
             referencedRelation: "mv_project_financials"
             referencedColumns: ["project_id"]
           },
@@ -5939,48 +6310,136 @@ export type Database = {
       }
       contacts: {
         Row: {
+          address_line_1: string | null
+          address_line_2: string | null
+          avatar_url: string | null
+          city: string | null
           company: string | null
+          contact_status:
+            | Database["public"]["Enums"]["contact_status_enum"]
+            | null
+          contact_type: Database["public"]["Enums"]["contact_type_enum"] | null
+          country: string | null
           created_at: string
+          deleted_at: string | null
+          department_id: string | null
           email: string | null
+          email_secondary: string | null
+          emergency_contact_name: string | null
+          emergency_contact_phone: string | null
+          emergency_contact_relation: string | null
           first_name: string | null
           id: string
+          job_title: string | null
           last_activity_at: string | null
           last_name: string | null
           metadata: Json
+          nickname: string | null
+          notes: string | null
           organization_id: string
           phone: string | null
+          phone_secondary: string | null
+          postal_code: string | null
+          preferences: Json | null
+          prefix: string | null
+          reports_to_id: string | null
+          social_links: Json | null
+          state: string | null
+          tags: string[] | null
+          timezone: string | null
           total_revenue: number | null
           updated_at: string
         }
         Insert: {
+          address_line_1?: string | null
+          address_line_2?: string | null
+          avatar_url?: string | null
+          city?: string | null
           company?: string | null
+          contact_status?:
+            | Database["public"]["Enums"]["contact_status_enum"]
+            | null
+          contact_type?: Database["public"]["Enums"]["contact_type_enum"] | null
+          country?: string | null
           created_at?: string
+          deleted_at?: string | null
+          department_id?: string | null
           email?: string | null
+          email_secondary?: string | null
+          emergency_contact_name?: string | null
+          emergency_contact_phone?: string | null
+          emergency_contact_relation?: string | null
           first_name?: string | null
           id?: string
+          job_title?: string | null
           last_activity_at?: string | null
           last_name?: string | null
           metadata?: Json
+          nickname?: string | null
+          notes?: string | null
           organization_id: string
           phone?: string | null
+          phone_secondary?: string | null
+          postal_code?: string | null
+          preferences?: Json | null
+          prefix?: string | null
+          reports_to_id?: string | null
+          social_links?: Json | null
+          state?: string | null
+          tags?: string[] | null
+          timezone?: string | null
           total_revenue?: number | null
           updated_at?: string
         }
         Update: {
+          address_line_1?: string | null
+          address_line_2?: string | null
+          avatar_url?: string | null
+          city?: string | null
           company?: string | null
+          contact_status?:
+            | Database["public"]["Enums"]["contact_status_enum"]
+            | null
+          contact_type?: Database["public"]["Enums"]["contact_type_enum"] | null
+          country?: string | null
           created_at?: string
+          deleted_at?: string | null
+          department_id?: string | null
           email?: string | null
+          email_secondary?: string | null
+          emergency_contact_name?: string | null
+          emergency_contact_phone?: string | null
+          emergency_contact_relation?: string | null
           first_name?: string | null
           id?: string
+          job_title?: string | null
           last_activity_at?: string | null
           last_name?: string | null
           metadata?: Json
+          nickname?: string | null
+          notes?: string | null
           organization_id?: string
           phone?: string | null
+          phone_secondary?: string | null
+          postal_code?: string | null
+          preferences?: Json | null
+          prefix?: string | null
+          reports_to_id?: string | null
+          social_links?: Json | null
+          state?: string | null
+          tags?: string[] | null
+          timezone?: string | null
           total_revenue?: number | null
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "contacts_department_id_fkey"
+            columns: ["department_id"]
+            isOneToOne: false
+            referencedRelation: "departments"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "contacts_organization_id_fkey"
             columns: ["organization_id"]
@@ -5993,6 +6452,13 @@ export type Database = {
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contacts_reports_to_id_fkey"
+            columns: ["reports_to_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
             referencedColumns: ["id"]
           },
         ]
@@ -6143,6 +6609,97 @@ export type Database = {
           },
         ]
       }
+      contract_deliverables: {
+        Row: {
+          acceptance_criteria: string | null
+          accepted_at: string | null
+          accepted_by: string | null
+          contract_id: string
+          created_at: string | null
+          deliverable_type: string | null
+          delivered_date: string | null
+          description: string | null
+          due_date: string | null
+          id: string
+          metadata: Json | null
+          milestone_id: string | null
+          notes: string | null
+          quantity: number | null
+          rejection_reason: string | null
+          status: string | null
+          title: string
+          total_value: number | null
+          unit_price: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          acceptance_criteria?: string | null
+          accepted_at?: string | null
+          accepted_by?: string | null
+          contract_id: string
+          created_at?: string | null
+          deliverable_type?: string | null
+          delivered_date?: string | null
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          metadata?: Json | null
+          milestone_id?: string | null
+          notes?: string | null
+          quantity?: number | null
+          rejection_reason?: string | null
+          status?: string | null
+          title: string
+          total_value?: number | null
+          unit_price?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          acceptance_criteria?: string | null
+          accepted_at?: string | null
+          accepted_by?: string | null
+          contract_id?: string
+          created_at?: string | null
+          deliverable_type?: string | null
+          delivered_date?: string | null
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          metadata?: Json | null
+          milestone_id?: string | null
+          notes?: string | null
+          quantity?: number | null
+          rejection_reason?: string | null
+          status?: string | null
+          title?: string
+          total_value?: number | null
+          unit_price?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contract_deliverables_accepted_by_fkey"
+            columns: ["accepted_by"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contract_deliverables_contract_id_fkey"
+            columns: ["contract_id"]
+            isOneToOne: false
+            referencedRelation: "contracts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contract_deliverables_milestone_id_fkey"
+            columns: ["milestone_id"]
+            isOneToOne: false
+            referencedRelation: "contract_milestones"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       contract_milestones: {
         Row: {
           amount: number | null
@@ -6203,23 +6760,209 @@ export type Database = {
           },
         ]
       }
+      contract_signatories: {
+        Row: {
+          contract_id: string
+          created_at: string | null
+          id: string
+          ip_address: unknown
+          notes: string | null
+          party: string
+          signatory_contact_id: string | null
+          signatory_email: string | null
+          signatory_name: string
+          signatory_title: string | null
+          signature_order: number | null
+          signature_required: boolean | null
+          signature_url: string | null
+          signed_at: string | null
+        }
+        Insert: {
+          contract_id: string
+          created_at?: string | null
+          id?: string
+          ip_address?: unknown
+          notes?: string | null
+          party: string
+          signatory_contact_id?: string | null
+          signatory_email?: string | null
+          signatory_name: string
+          signatory_title?: string | null
+          signature_order?: number | null
+          signature_required?: boolean | null
+          signature_url?: string | null
+          signed_at?: string | null
+        }
+        Update: {
+          contract_id?: string
+          created_at?: string | null
+          id?: string
+          ip_address?: unknown
+          notes?: string | null
+          party?: string
+          signatory_contact_id?: string | null
+          signatory_email?: string | null
+          signatory_name?: string
+          signatory_title?: string | null
+          signature_order?: number | null
+          signature_required?: boolean | null
+          signature_url?: string | null
+          signed_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contract_signatories_contract_id_fkey"
+            columns: ["contract_id"]
+            isOneToOne: false
+            referencedRelation: "contracts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contract_signatories_signatory_contact_id_fkey"
+            columns: ["signatory_contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      contract_types: {
+        Row: {
+          category: Database["public"]["Enums"]["contract_category_enum"] | null
+          code: string | null
+          created_at: string | null
+          default_payment_terms: string | null
+          default_terms: Json | null
+          description: string | null
+          expiration_reminder_days: number | null
+          id: string
+          is_active: boolean | null
+          metadata: Json | null
+          name: string
+          organization_id: string | null
+          required_fields: Json | null
+          requires_background_check: boolean | null
+          requires_insurance: boolean | null
+          requires_legal_review: boolean | null
+          requires_nda: boolean | null
+          requires_w9: boolean | null
+          template_url: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          category?:
+            | Database["public"]["Enums"]["contract_category_enum"]
+            | null
+          code?: string | null
+          created_at?: string | null
+          default_payment_terms?: string | null
+          default_terms?: Json | null
+          description?: string | null
+          expiration_reminder_days?: number | null
+          id?: string
+          is_active?: boolean | null
+          metadata?: Json | null
+          name: string
+          organization_id?: string | null
+          required_fields?: Json | null
+          requires_background_check?: boolean | null
+          requires_insurance?: boolean | null
+          requires_legal_review?: boolean | null
+          requires_nda?: boolean | null
+          requires_w9?: boolean | null
+          template_url?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          category?:
+            | Database["public"]["Enums"]["contract_category_enum"]
+            | null
+          code?: string | null
+          created_at?: string | null
+          default_payment_terms?: string | null
+          default_terms?: Json | null
+          description?: string | null
+          expiration_reminder_days?: number | null
+          id?: string
+          is_active?: boolean | null
+          metadata?: Json | null
+          name?: string
+          organization_id?: string | null
+          required_fields?: Json | null
+          requires_background_check?: boolean | null
+          requires_insurance?: boolean | null
+          requires_legal_review?: boolean | null
+          requires_nda?: boolean | null
+          requires_w9?: boolean | null
+          template_url?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contract_types_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_executive_dashboard"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "contract_types_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       contracts: {
         Row: {
+          attachments: Json | null
           auto_renew: boolean | null
+          background_check_date: string | null
+          background_check_passed: boolean | null
+          background_check_required: boolean | null
+          category: Database["public"]["Enums"]["contract_category_enum"] | null
           client_id: string | null
           contract_number: string | null
+          contract_type_id: string | null
           counterparty_name: string | null
           created_at: string | null
           created_by: string | null
           currency: string
+          deleted_at: string | null
           document_url: string | null
           end_date: string | null
           id: string
+          insurance_policy_id: string | null
+          insurance_required: boolean | null
+          insurance_verified: boolean | null
+          insurance_verified_at: string | null
+          legal_review_at: string | null
+          legal_review_by: string | null
+          legal_review_completed: boolean | null
+          legal_review_notes: string | null
+          legal_review_required: boolean | null
+          lifecycle_status:
+            | Database["public"]["Enums"]["contract_lifecycle_status_enum"]
+            | null
+          nda_contract_id: string | null
+          nda_required: boolean | null
+          nda_signed: boolean | null
           notes: string | null
           notice_period_days: number | null
           organization_id: string
           owner_id: string | null
+          party_a_contact_id: string | null
+          party_a_org_id: string | null
+          party_a_signed_at: string | null
+          party_a_signed_by: string | null
+          party_b_contact_id: string | null
+          party_b_org_id: string | null
+          party_b_signed_at: string | null
+          party_b_signed_by: string | null
+          payment_schedule: Json | null
           payment_terms: string | null
+          production_id: string | null
           renewal_date: string | null
           renewal_terms: string | null
           signed_at: string | null
@@ -6235,23 +6978,61 @@ export type Database = {
           updated_at: string | null
           value: number
           vendor_id: string | null
+          w9_document_url: string | null
+          w9_received: boolean | null
+          w9_received_at: string | null
+          w9_required: boolean | null
         }
         Insert: {
+          attachments?: Json | null
           auto_renew?: boolean | null
+          background_check_date?: string | null
+          background_check_passed?: boolean | null
+          background_check_required?: boolean | null
+          category?:
+            | Database["public"]["Enums"]["contract_category_enum"]
+            | null
           client_id?: string | null
           contract_number?: string | null
+          contract_type_id?: string | null
           counterparty_name?: string | null
           created_at?: string | null
           created_by?: string | null
           currency?: string
+          deleted_at?: string | null
           document_url?: string | null
           end_date?: string | null
           id?: string
+          insurance_policy_id?: string | null
+          insurance_required?: boolean | null
+          insurance_verified?: boolean | null
+          insurance_verified_at?: string | null
+          legal_review_at?: string | null
+          legal_review_by?: string | null
+          legal_review_completed?: boolean | null
+          legal_review_notes?: string | null
+          legal_review_required?: boolean | null
+          lifecycle_status?:
+            | Database["public"]["Enums"]["contract_lifecycle_status_enum"]
+            | null
+          nda_contract_id?: string | null
+          nda_required?: boolean | null
+          nda_signed?: boolean | null
           notes?: string | null
           notice_period_days?: number | null
           organization_id: string
           owner_id?: string | null
+          party_a_contact_id?: string | null
+          party_a_org_id?: string | null
+          party_a_signed_at?: string | null
+          party_a_signed_by?: string | null
+          party_b_contact_id?: string | null
+          party_b_org_id?: string | null
+          party_b_signed_at?: string | null
+          party_b_signed_by?: string | null
+          payment_schedule?: Json | null
           payment_terms?: string | null
+          production_id?: string | null
           renewal_date?: string | null
           renewal_terms?: string | null
           signed_at?: string | null
@@ -6267,23 +7048,61 @@ export type Database = {
           updated_at?: string | null
           value?: number
           vendor_id?: string | null
+          w9_document_url?: string | null
+          w9_received?: boolean | null
+          w9_received_at?: string | null
+          w9_required?: boolean | null
         }
         Update: {
+          attachments?: Json | null
           auto_renew?: boolean | null
+          background_check_date?: string | null
+          background_check_passed?: boolean | null
+          background_check_required?: boolean | null
+          category?:
+            | Database["public"]["Enums"]["contract_category_enum"]
+            | null
           client_id?: string | null
           contract_number?: string | null
+          contract_type_id?: string | null
           counterparty_name?: string | null
           created_at?: string | null
           created_by?: string | null
           currency?: string
+          deleted_at?: string | null
           document_url?: string | null
           end_date?: string | null
           id?: string
+          insurance_policy_id?: string | null
+          insurance_required?: boolean | null
+          insurance_verified?: boolean | null
+          insurance_verified_at?: string | null
+          legal_review_at?: string | null
+          legal_review_by?: string | null
+          legal_review_completed?: boolean | null
+          legal_review_notes?: string | null
+          legal_review_required?: boolean | null
+          lifecycle_status?:
+            | Database["public"]["Enums"]["contract_lifecycle_status_enum"]
+            | null
+          nda_contract_id?: string | null
+          nda_required?: boolean | null
+          nda_signed?: boolean | null
           notes?: string | null
           notice_period_days?: number | null
           organization_id?: string
           owner_id?: string | null
+          party_a_contact_id?: string | null
+          party_a_org_id?: string | null
+          party_a_signed_at?: string | null
+          party_a_signed_by?: string | null
+          party_b_contact_id?: string | null
+          party_b_org_id?: string | null
+          party_b_signed_at?: string | null
+          party_b_signed_by?: string | null
+          payment_schedule?: Json | null
           payment_terms?: string | null
+          production_id?: string | null
           renewal_date?: string | null
           renewal_terms?: string | null
           signed_at?: string | null
@@ -6299,6 +7118,10 @@ export type Database = {
           updated_at?: string | null
           value?: number
           vendor_id?: string | null
+          w9_document_url?: string | null
+          w9_received?: boolean | null
+          w9_received_at?: string | null
+          w9_required?: boolean | null
         }
         Relationships: [
           {
@@ -6309,10 +7132,31 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "contracts_contract_type_id_fkey"
+            columns: ["contract_type_id"]
+            isOneToOne: false
+            referencedRelation: "contract_types"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "contracts_created_by_fkey"
             columns: ["created_by"]
             isOneToOne: false
             referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contracts_legal_review_by_fkey"
+            columns: ["legal_review_by"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contracts_nda_contract_id_fkey"
+            columns: ["nda_contract_id"]
+            isOneToOne: false
+            referencedRelation: "contracts"
             referencedColumns: ["id"]
           },
           {
@@ -6332,6 +7176,365 @@ export type Database = {
           {
             foreignKeyName: "contracts_owner_id_fkey"
             columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contracts_party_a_contact_id_fkey"
+            columns: ["party_a_contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contracts_party_a_org_id_fkey"
+            columns: ["party_a_org_id"]
+            isOneToOne: false
+            referencedRelation: "mv_executive_dashboard"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "contracts_party_a_org_id_fkey"
+            columns: ["party_a_org_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contracts_party_b_contact_id_fkey"
+            columns: ["party_b_contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contracts_party_b_org_id_fkey"
+            columns: ["party_b_org_id"]
+            isOneToOne: false
+            referencedRelation: "mv_executive_dashboard"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "contracts_party_b_org_id_fkey"
+            columns: ["party_b_org_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contracts_production_id_fkey"
+            columns: ["production_id"]
+            isOneToOne: false
+            referencedRelation: "productions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      credential_scans: {
+        Row: {
+          credential_id: string
+          device_id: string | null
+          id: string
+          latitude: number | null
+          location: string | null
+          longitude: number | null
+          notes: string | null
+          scan_result: string
+          scan_type: string
+          scanned_at: string | null
+          scanned_by_id: string | null
+          zone_id: string | null
+        }
+        Insert: {
+          credential_id: string
+          device_id?: string | null
+          id?: string
+          latitude?: number | null
+          location?: string | null
+          longitude?: number | null
+          notes?: string | null
+          scan_result: string
+          scan_type: string
+          scanned_at?: string | null
+          scanned_by_id?: string | null
+          zone_id?: string | null
+        }
+        Update: {
+          credential_id?: string
+          device_id?: string | null
+          id?: string
+          latitude?: number | null
+          location?: string | null
+          longitude?: number | null
+          notes?: string | null
+          scan_result?: string
+          scan_type?: string
+          scanned_at?: string | null
+          scanned_by_id?: string | null
+          zone_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "credential_scans_credential_id_fkey"
+            columns: ["credential_id"]
+            isOneToOne: false
+            referencedRelation: "credentials"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "credential_scans_scanned_by_id_fkey"
+            columns: ["scanned_by_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "credential_scans_zone_id_fkey"
+            columns: ["zone_id"]
+            isOneToOne: false
+            referencedRelation: "zones"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      credential_types: {
+        Row: {
+          access_level: number | null
+          code: string
+          color: string | null
+          created_at: string | null
+          description: string | null
+          id: string
+          is_active: boolean | null
+          max_per_production: number | null
+          metadata: Json | null
+          name: string
+          organization_id: string | null
+          requires_background_check: boolean | null
+          requires_nda: boolean | null
+          requires_photo: boolean | null
+          sort_order: number | null
+          updated_at: string | null
+          valid_days: number | null
+        }
+        Insert: {
+          access_level?: number | null
+          code: string
+          color?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          max_per_production?: number | null
+          metadata?: Json | null
+          name: string
+          organization_id?: string | null
+          requires_background_check?: boolean | null
+          requires_nda?: boolean | null
+          requires_photo?: boolean | null
+          sort_order?: number | null
+          updated_at?: string | null
+          valid_days?: number | null
+        }
+        Update: {
+          access_level?: number | null
+          code?: string
+          color?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          max_per_production?: number | null
+          metadata?: Json | null
+          name?: string
+          organization_id?: string | null
+          requires_background_check?: boolean | null
+          requires_nda?: boolean | null
+          requires_photo?: boolean | null
+          sort_order?: number | null
+          updated_at?: string | null
+          valid_days?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "credential_types_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_executive_dashboard"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "credential_types_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      credential_zone_access: {
+        Row: {
+          access_allowed: boolean | null
+          created_at: string | null
+          credential_type_id: string
+          id: string
+          max_entries_per_day: number | null
+          notes: string | null
+          requires_escort: boolean | null
+          time_restrictions: Json | null
+          zone_id: string
+        }
+        Insert: {
+          access_allowed?: boolean | null
+          created_at?: string | null
+          credential_type_id: string
+          id?: string
+          max_entries_per_day?: number | null
+          notes?: string | null
+          requires_escort?: boolean | null
+          time_restrictions?: Json | null
+          zone_id: string
+        }
+        Update: {
+          access_allowed?: boolean | null
+          created_at?: string | null
+          credential_type_id?: string
+          id?: string
+          max_entries_per_day?: number | null
+          notes?: string | null
+          requires_escort?: boolean | null
+          time_restrictions?: Json | null
+          zone_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "credential_zone_access_credential_type_id_fkey"
+            columns: ["credential_type_id"]
+            isOneToOne: false
+            referencedRelation: "credential_types"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "credential_zone_access_zone_id_fkey"
+            columns: ["zone_id"]
+            isOneToOne: false
+            referencedRelation: "zones"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      credentials: {
+        Row: {
+          activated_at: string | null
+          barcode: string | null
+          contact_id: string
+          created_at: string | null
+          credential_number: string | null
+          credential_type_id: string
+          id: string
+          issued_at: string | null
+          issued_by_id: string | null
+          last_scanned_at: string | null
+          last_scanned_zone_id: string | null
+          metadata: Json | null
+          notes: string | null
+          photo_url: string | null
+          production_id: string | null
+          qr_code: string | null
+          revocation_reason: string | null
+          revoked_at: string | null
+          revoked_by_id: string | null
+          scan_count: number | null
+          status: Database["public"]["Enums"]["credential_status_enum"] | null
+          updated_at: string | null
+          valid_from: string
+          valid_until: string
+        }
+        Insert: {
+          activated_at?: string | null
+          barcode?: string | null
+          contact_id: string
+          created_at?: string | null
+          credential_number?: string | null
+          credential_type_id: string
+          id?: string
+          issued_at?: string | null
+          issued_by_id?: string | null
+          last_scanned_at?: string | null
+          last_scanned_zone_id?: string | null
+          metadata?: Json | null
+          notes?: string | null
+          photo_url?: string | null
+          production_id?: string | null
+          qr_code?: string | null
+          revocation_reason?: string | null
+          revoked_at?: string | null
+          revoked_by_id?: string | null
+          scan_count?: number | null
+          status?: Database["public"]["Enums"]["credential_status_enum"] | null
+          updated_at?: string | null
+          valid_from: string
+          valid_until: string
+        }
+        Update: {
+          activated_at?: string | null
+          barcode?: string | null
+          contact_id?: string
+          created_at?: string | null
+          credential_number?: string | null
+          credential_type_id?: string
+          id?: string
+          issued_at?: string | null
+          issued_by_id?: string | null
+          last_scanned_at?: string | null
+          last_scanned_zone_id?: string | null
+          metadata?: Json | null
+          notes?: string | null
+          photo_url?: string | null
+          production_id?: string | null
+          qr_code?: string | null
+          revocation_reason?: string | null
+          revoked_at?: string | null
+          revoked_by_id?: string | null
+          scan_count?: number | null
+          status?: Database["public"]["Enums"]["credential_status_enum"] | null
+          updated_at?: string | null
+          valid_from?: string
+          valid_until?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "credentials_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "credentials_credential_type_id_fkey"
+            columns: ["credential_type_id"]
+            isOneToOne: false
+            referencedRelation: "credential_types"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "credentials_issued_by_id_fkey"
+            columns: ["issued_by_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "credentials_production_id_fkey"
+            columns: ["production_id"]
+            isOneToOne: false
+            referencedRelation: "productions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "credentials_revoked_by_id_fkey"
+            columns: ["revoked_by_id"]
             isOneToOne: false
             referencedRelation: "platform_users"
             referencedColumns: ["id"]
@@ -6458,13 +7661,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "organizations"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "crew_assignments_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
           },
           {
             foreignKeyName: "crew_assignments_project_id_fkey"
@@ -6738,13 +7934,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "productions"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "crew_calls_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
           },
           {
             foreignKeyName: "crew_calls_project_id_fkey"
@@ -7161,13 +8350,6 @@ export type Database = {
             foreignKeyName: "crew_notes_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
-          },
-          {
-            foreignKeyName: "crew_notes_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
             referencedRelation: "mv_project_financials"
             referencedColumns: ["project_id"]
           },
@@ -7255,13 +8437,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "events"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "crew_performance_reviews_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
           },
           {
             foreignKeyName: "crew_performance_reviews_project_id_fkey"
@@ -7808,13 +8983,6 @@ export type Database = {
             foreignKeyName: "crm_tasks_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
-          },
-          {
-            foreignKeyName: "crm_tasks_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
             referencedRelation: "mv_project_financials"
             referencedColumns: ["project_id"]
           },
@@ -7875,13 +9043,6 @@ export type Database = {
           sync_schedule?: string | null
         }
         Relationships: [
-          {
-            foreignKeyName: "cross_platform_links_atlvs_project_id_fkey"
-            columns: ["atlvs_project_id"]
-            isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
-          },
           {
             foreignKeyName: "cross_platform_links_atlvs_project_id_fkey"
             columns: ["atlvs_project_id"]
@@ -7978,6 +9139,190 @@ export type Database = {
             columns: ["synced_by"]
             isOneToOne: false
             referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cues: {
+        Row: {
+          activity: string
+          actual_time: string | null
+          audio_cue: string | null
+          audio_notes: string | null
+          blocking_notes: string | null
+          called_at: string | null
+          called_by_id: string | null
+          costumes: string[] | null
+          created_at: string | null
+          cue_number: string
+          cue_type: Database["public"]["Enums"]["cue_type_enum"] | null
+          depends_on_cue_id: string | null
+          duration: unknown
+          id: string
+          is_hold: boolean | null
+          is_milestone: boolean | null
+          is_standby: boolean | null
+          lighting_cue: string | null
+          lighting_notes: string | null
+          metadata: Json | null
+          notes: string | null
+          ops_notes: string | null
+          production_id: string
+          props: string[] | null
+          run_of_show_id: string | null
+          running_time: unknown
+          safety_notes: string | null
+          scenic_cue: string | null
+          scenic_notes: string | null
+          scheduled_time: string | null
+          script_dialogue: string | null
+          sequence: number | null
+          sfx_cue: string | null
+          sfx_notes: string | null
+          show_id: string | null
+          status: string | null
+          talent: string[] | null
+          trigger_condition: string | null
+          trigger_type: Database["public"]["Enums"]["trigger_type_enum"] | null
+          updated_at: string | null
+          variance_seconds: number | null
+          video_cue: string | null
+          video_notes: string | null
+          zone_id: string | null
+        }
+        Insert: {
+          activity: string
+          actual_time?: string | null
+          audio_cue?: string | null
+          audio_notes?: string | null
+          blocking_notes?: string | null
+          called_at?: string | null
+          called_by_id?: string | null
+          costumes?: string[] | null
+          created_at?: string | null
+          cue_number: string
+          cue_type?: Database["public"]["Enums"]["cue_type_enum"] | null
+          depends_on_cue_id?: string | null
+          duration?: unknown
+          id?: string
+          is_hold?: boolean | null
+          is_milestone?: boolean | null
+          is_standby?: boolean | null
+          lighting_cue?: string | null
+          lighting_notes?: string | null
+          metadata?: Json | null
+          notes?: string | null
+          ops_notes?: string | null
+          production_id: string
+          props?: string[] | null
+          run_of_show_id?: string | null
+          running_time?: unknown
+          safety_notes?: string | null
+          scenic_cue?: string | null
+          scenic_notes?: string | null
+          scheduled_time?: string | null
+          script_dialogue?: string | null
+          sequence?: number | null
+          sfx_cue?: string | null
+          sfx_notes?: string | null
+          show_id?: string | null
+          status?: string | null
+          talent?: string[] | null
+          trigger_condition?: string | null
+          trigger_type?: Database["public"]["Enums"]["trigger_type_enum"] | null
+          updated_at?: string | null
+          variance_seconds?: number | null
+          video_cue?: string | null
+          video_notes?: string | null
+          zone_id?: string | null
+        }
+        Update: {
+          activity?: string
+          actual_time?: string | null
+          audio_cue?: string | null
+          audio_notes?: string | null
+          blocking_notes?: string | null
+          called_at?: string | null
+          called_by_id?: string | null
+          costumes?: string[] | null
+          created_at?: string | null
+          cue_number?: string
+          cue_type?: Database["public"]["Enums"]["cue_type_enum"] | null
+          depends_on_cue_id?: string | null
+          duration?: unknown
+          id?: string
+          is_hold?: boolean | null
+          is_milestone?: boolean | null
+          is_standby?: boolean | null
+          lighting_cue?: string | null
+          lighting_notes?: string | null
+          metadata?: Json | null
+          notes?: string | null
+          ops_notes?: string | null
+          production_id?: string
+          props?: string[] | null
+          run_of_show_id?: string | null
+          running_time?: unknown
+          safety_notes?: string | null
+          scenic_cue?: string | null
+          scenic_notes?: string | null
+          scheduled_time?: string | null
+          script_dialogue?: string | null
+          sequence?: number | null
+          sfx_cue?: string | null
+          sfx_notes?: string | null
+          show_id?: string | null
+          status?: string | null
+          talent?: string[] | null
+          trigger_condition?: string | null
+          trigger_type?: Database["public"]["Enums"]["trigger_type_enum"] | null
+          updated_at?: string | null
+          variance_seconds?: number | null
+          video_cue?: string | null
+          video_notes?: string | null
+          zone_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cues_called_by_id_fkey"
+            columns: ["called_by_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cues_depends_on_cue_id_fkey"
+            columns: ["depends_on_cue_id"]
+            isOneToOne: false
+            referencedRelation: "cues"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cues_production_id_fkey"
+            columns: ["production_id"]
+            isOneToOne: false
+            referencedRelation: "productions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cues_run_of_show_id_fkey"
+            columns: ["run_of_show_id"]
+            isOneToOne: false
+            referencedRelation: "run_of_shows"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cues_show_id_fkey"
+            columns: ["show_id"]
+            isOneToOne: false
+            referencedRelation: "shows"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cues_zone_id_fkey"
+            columns: ["zone_id"]
+            isOneToOne: false
+            referencedRelation: "zones"
             referencedColumns: ["id"]
           },
         ]
@@ -8375,13 +9720,6 @@ export type Database = {
             foreignKeyName: "daily_production_reports_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
-          },
-          {
-            foreignKeyName: "daily_production_reports_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
             referencedRelation: "mv_project_financials"
             referencedColumns: ["project_id"]
           },
@@ -8395,6 +9733,211 @@ export type Database = {
           {
             foreignKeyName: "daily_production_reports_submitted_by_fkey"
             columns: ["submitted_by"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      daily_reports: {
+        Row: {
+          approved_at: string | null
+          approved_by_id: string | null
+          attachments: Json | null
+          attendance: number | null
+          capacity: number | null
+          capacity_percent: number | null
+          created_at: string | null
+          crew_count: number | null
+          crew_hours: number | null
+          daily_expenses: number | null
+          doors_time: string | null
+          fb_revenue: number | null
+          follow_up_items: Json | null
+          guest_complaints: number | null
+          guest_feedback: string | null
+          id: string
+          incidents_count: number | null
+          incidents_summary: string | null
+          labor_costs: number | null
+          media_coverage: string | null
+          merch_revenue: number | null
+          metadata: Json | null
+          no_shows: number | null
+          notable_events: string | null
+          notes: string | null
+          organization_id: string
+          other_revenue: number | null
+          overtime_hours: number | null
+          parking_revenue: number | null
+          production_id: string
+          report_date: string
+          show_end_time: string | null
+          show_id: string | null
+          show_start_time: string | null
+          staff_issues: string | null
+          status: Database["public"]["Enums"]["report_status_enum"] | null
+          submitted_at: string | null
+          submitted_by_id: string | null
+          technical_issues: string | null
+          temperature_high: number | null
+          temperature_low: number | null
+          ticket_revenue: number | null
+          tickets_comped: number | null
+          tickets_sold: number | null
+          total_revenue: number | null
+          updated_at: string | null
+          venue_clear_time: string | null
+          vip_guests: string | null
+          vip_revenue: number | null
+          weather: string | null
+          weather_impact: string | null
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by_id?: string | null
+          attachments?: Json | null
+          attendance?: number | null
+          capacity?: number | null
+          capacity_percent?: number | null
+          created_at?: string | null
+          crew_count?: number | null
+          crew_hours?: number | null
+          daily_expenses?: number | null
+          doors_time?: string | null
+          fb_revenue?: number | null
+          follow_up_items?: Json | null
+          guest_complaints?: number | null
+          guest_feedback?: string | null
+          id?: string
+          incidents_count?: number | null
+          incidents_summary?: string | null
+          labor_costs?: number | null
+          media_coverage?: string | null
+          merch_revenue?: number | null
+          metadata?: Json | null
+          no_shows?: number | null
+          notable_events?: string | null
+          notes?: string | null
+          organization_id: string
+          other_revenue?: number | null
+          overtime_hours?: number | null
+          parking_revenue?: number | null
+          production_id: string
+          report_date: string
+          show_end_time?: string | null
+          show_id?: string | null
+          show_start_time?: string | null
+          staff_issues?: string | null
+          status?: Database["public"]["Enums"]["report_status_enum"] | null
+          submitted_at?: string | null
+          submitted_by_id?: string | null
+          technical_issues?: string | null
+          temperature_high?: number | null
+          temperature_low?: number | null
+          ticket_revenue?: number | null
+          tickets_comped?: number | null
+          tickets_sold?: number | null
+          total_revenue?: number | null
+          updated_at?: string | null
+          venue_clear_time?: string | null
+          vip_guests?: string | null
+          vip_revenue?: number | null
+          weather?: string | null
+          weather_impact?: string | null
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by_id?: string | null
+          attachments?: Json | null
+          attendance?: number | null
+          capacity?: number | null
+          capacity_percent?: number | null
+          created_at?: string | null
+          crew_count?: number | null
+          crew_hours?: number | null
+          daily_expenses?: number | null
+          doors_time?: string | null
+          fb_revenue?: number | null
+          follow_up_items?: Json | null
+          guest_complaints?: number | null
+          guest_feedback?: string | null
+          id?: string
+          incidents_count?: number | null
+          incidents_summary?: string | null
+          labor_costs?: number | null
+          media_coverage?: string | null
+          merch_revenue?: number | null
+          metadata?: Json | null
+          no_shows?: number | null
+          notable_events?: string | null
+          notes?: string | null
+          organization_id?: string
+          other_revenue?: number | null
+          overtime_hours?: number | null
+          parking_revenue?: number | null
+          production_id?: string
+          report_date?: string
+          show_end_time?: string | null
+          show_id?: string | null
+          show_start_time?: string | null
+          staff_issues?: string | null
+          status?: Database["public"]["Enums"]["report_status_enum"] | null
+          submitted_at?: string | null
+          submitted_by_id?: string | null
+          technical_issues?: string | null
+          temperature_high?: number | null
+          temperature_low?: number | null
+          ticket_revenue?: number | null
+          tickets_comped?: number | null
+          tickets_sold?: number | null
+          total_revenue?: number | null
+          updated_at?: string | null
+          venue_clear_time?: string | null
+          vip_guests?: string | null
+          vip_revenue?: number | null
+          weather?: string | null
+          weather_impact?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "daily_reports_approved_by_id_fkey"
+            columns: ["approved_by_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "daily_reports_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_executive_dashboard"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "daily_reports_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "daily_reports_production_id_fkey"
+            columns: ["production_id"]
+            isOneToOne: false
+            referencedRelation: "productions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "daily_reports_show_id_fkey"
+            columns: ["show_id"]
+            isOneToOne: false
+            referencedRelation: "shows"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "daily_reports_submitted_by_id_fkey"
+            columns: ["submitted_by_id"]
             isOneToOne: false
             referencedRelation: "platform_users"
             referencedColumns: ["id"]
@@ -10489,13 +12032,6 @@ export type Database = {
             foreignKeyName: "email_logs_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
-          },
-          {
-            foreignKeyName: "email_logs_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
             referencedRelation: "mv_project_financials"
             referencedColumns: ["project_id"]
           },
@@ -11211,13 +12747,6 @@ export type Database = {
             foreignKeyName: "equipment_checkouts_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
-          },
-          {
-            foreignKeyName: "equipment_checkouts_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
             referencedRelation: "mv_project_financials"
             referencedColumns: ["project_id"]
           },
@@ -11463,13 +12992,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "events"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "equipment_reservations_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
           },
           {
             foreignKeyName: "equipment_reservations_project_id_fkey"
@@ -12407,13 +13929,6 @@ export type Database = {
             foreignKeyName: "event_role_assignments_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
-          },
-          {
-            foreignKeyName: "event_role_assignments_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
             referencedRelation: "mv_project_financials"
             referencedColumns: ["project_id"]
           },
@@ -13075,13 +14590,6 @@ export type Database = {
             foreignKeyName: "events_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
-          },
-          {
-            foreignKeyName: "events_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
             referencedRelation: "mv_project_financials"
             referencedColumns: ["project_id"]
           },
@@ -13090,6 +14598,274 @@ export type Database = {
             columns: ["project_id"]
             isOneToOne: false
             referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      expense_line_items: {
+        Row: {
+          amount: number
+          amount_usd: number | null
+          approved: boolean | null
+          billable_to_client: boolean | null
+          budget_code: string | null
+          category: Database["public"]["Enums"]["expense_category_enum"] | null
+          created_at: string | null
+          currency: string | null
+          department_id: string | null
+          description: string
+          exchange_rate: number | null
+          expense_date: string
+          expense_report_id: string
+          id: string
+          metadata: Json | null
+          notes: string | null
+          payment_method:
+            | Database["public"]["Enums"]["payment_method_enum"]
+            | null
+          production_id: string | null
+          receipt_url: string | null
+          receipt_verified: boolean | null
+          receipt_verified_at: string | null
+          receipt_verified_by: string | null
+          reimbursable: boolean | null
+          task_id: string | null
+          updated_at: string | null
+          vendor: string
+        }
+        Insert: {
+          amount: number
+          amount_usd?: number | null
+          approved?: boolean | null
+          billable_to_client?: boolean | null
+          budget_code?: string | null
+          category?: Database["public"]["Enums"]["expense_category_enum"] | null
+          created_at?: string | null
+          currency?: string | null
+          department_id?: string | null
+          description: string
+          exchange_rate?: number | null
+          expense_date: string
+          expense_report_id: string
+          id?: string
+          metadata?: Json | null
+          notes?: string | null
+          payment_method?:
+            | Database["public"]["Enums"]["payment_method_enum"]
+            | null
+          production_id?: string | null
+          receipt_url?: string | null
+          receipt_verified?: boolean | null
+          receipt_verified_at?: string | null
+          receipt_verified_by?: string | null
+          reimbursable?: boolean | null
+          task_id?: string | null
+          updated_at?: string | null
+          vendor: string
+        }
+        Update: {
+          amount?: number
+          amount_usd?: number | null
+          approved?: boolean | null
+          billable_to_client?: boolean | null
+          budget_code?: string | null
+          category?: Database["public"]["Enums"]["expense_category_enum"] | null
+          created_at?: string | null
+          currency?: string | null
+          department_id?: string | null
+          description?: string
+          exchange_rate?: number | null
+          expense_date?: string
+          expense_report_id?: string
+          id?: string
+          metadata?: Json | null
+          notes?: string | null
+          payment_method?:
+            | Database["public"]["Enums"]["payment_method_enum"]
+            | null
+          production_id?: string | null
+          receipt_url?: string | null
+          receipt_verified?: boolean | null
+          receipt_verified_at?: string | null
+          receipt_verified_by?: string | null
+          reimbursable?: boolean | null
+          task_id?: string | null
+          updated_at?: string | null
+          vendor?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "expense_line_items_department_id_fkey"
+            columns: ["department_id"]
+            isOneToOne: false
+            referencedRelation: "departments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "expense_line_items_expense_report_id_fkey"
+            columns: ["expense_report_id"]
+            isOneToOne: false
+            referencedRelation: "expense_reports"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "expense_line_items_production_id_fkey"
+            columns: ["production_id"]
+            isOneToOne: false
+            referencedRelation: "productions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "expense_line_items_receipt_verified_by_fkey"
+            columns: ["receipt_verified_by"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      expense_reports: {
+        Row: {
+          advance_received: number | null
+          amount_due: number | null
+          approval_notes: string | null
+          approved_amount: number | null
+          approved_at: string | null
+          approved_by_id: string | null
+          attachments: Json | null
+          created_at: string | null
+          department_id: string | null
+          id: string
+          metadata: Json | null
+          notes: string | null
+          organization_id: string
+          paid_at: string | null
+          payment_reference: string | null
+          period_end: string | null
+          period_start: string | null
+          production_id: string | null
+          report_number: string | null
+          review_notes: string | null
+          reviewed_at: string | null
+          reviewed_by_id: string | null
+          status:
+            | Database["public"]["Enums"]["expense_report_status_enum"]
+            | null
+          submitted_at: string | null
+          submitter_id: string | null
+          total_amount: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          advance_received?: number | null
+          amount_due?: number | null
+          approval_notes?: string | null
+          approved_amount?: number | null
+          approved_at?: string | null
+          approved_by_id?: string | null
+          attachments?: Json | null
+          created_at?: string | null
+          department_id?: string | null
+          id?: string
+          metadata?: Json | null
+          notes?: string | null
+          organization_id: string
+          paid_at?: string | null
+          payment_reference?: string | null
+          period_end?: string | null
+          period_start?: string | null
+          production_id?: string | null
+          report_number?: string | null
+          review_notes?: string | null
+          reviewed_at?: string | null
+          reviewed_by_id?: string | null
+          status?:
+            | Database["public"]["Enums"]["expense_report_status_enum"]
+            | null
+          submitted_at?: string | null
+          submitter_id?: string | null
+          total_amount?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          advance_received?: number | null
+          amount_due?: number | null
+          approval_notes?: string | null
+          approved_amount?: number | null
+          approved_at?: string | null
+          approved_by_id?: string | null
+          attachments?: Json | null
+          created_at?: string | null
+          department_id?: string | null
+          id?: string
+          metadata?: Json | null
+          notes?: string | null
+          organization_id?: string
+          paid_at?: string | null
+          payment_reference?: string | null
+          period_end?: string | null
+          period_start?: string | null
+          production_id?: string | null
+          report_number?: string | null
+          review_notes?: string | null
+          reviewed_at?: string | null
+          reviewed_by_id?: string | null
+          status?:
+            | Database["public"]["Enums"]["expense_report_status_enum"]
+            | null
+          submitted_at?: string | null
+          submitter_id?: string | null
+          total_amount?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "expense_reports_approved_by_id_fkey"
+            columns: ["approved_by_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "expense_reports_department_id_fkey"
+            columns: ["department_id"]
+            isOneToOne: false
+            referencedRelation: "departments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "expense_reports_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_executive_dashboard"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "expense_reports_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "expense_reports_production_id_fkey"
+            columns: ["production_id"]
+            isOneToOne: false
+            referencedRelation: "productions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "expense_reports_reviewed_by_id_fkey"
+            columns: ["reviewed_by_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "expense_reports_submitter_id_fkey"
+            columns: ["submitter_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
             referencedColumns: ["id"]
           },
         ]
@@ -13177,13 +14953,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "organizations"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "expenses_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
           },
           {
             foreignKeyName: "expenses_project_id_fkey"
@@ -13571,13 +15340,6 @@ export type Database = {
             foreignKeyName: "finance_expenses_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
-          },
-          {
-            foreignKeyName: "finance_expenses_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
             referencedRelation: "mv_project_financials"
             referencedColumns: ["project_id"]
           },
@@ -13690,13 +15452,6 @@ export type Database = {
             foreignKeyName: "finance_purchase_orders_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
-          },
-          {
-            foreignKeyName: "finance_purchase_orders_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
             referencedRelation: "mv_project_financials"
             referencedColumns: ["project_id"]
           },
@@ -13789,13 +15544,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "organizations"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "financial_reports_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
           },
           {
             foreignKeyName: "financial_reports_project_id_fkey"
@@ -14021,6 +15769,178 @@ export type Database = {
           {
             foreignKeyName: "forum_replies_user_id_fkey"
             columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      generator_analytics: {
+        Row: {
+          blueprint_id: string | null
+          browser: string | null
+          created_at: string | null
+          creative_seed: string | null
+          device_type: string | null
+          duration_ms: number | null
+          event_data: Json | null
+          event_type: string
+          id: string
+          ip_address: unknown
+          os: string | null
+          page_url: string | null
+          referrer: string | null
+          screen_resolution: string | null
+          session_id: string | null
+          user_agent: string | null
+          user_id: string | null
+          utm_campaign: string | null
+          utm_medium: string | null
+          utm_source: string | null
+        }
+        Insert: {
+          blueprint_id?: string | null
+          browser?: string | null
+          created_at?: string | null
+          creative_seed?: string | null
+          device_type?: string | null
+          duration_ms?: number | null
+          event_data?: Json | null
+          event_type: string
+          id?: string
+          ip_address?: unknown
+          os?: string | null
+          page_url?: string | null
+          referrer?: string | null
+          screen_resolution?: string | null
+          session_id?: string | null
+          user_agent?: string | null
+          user_id?: string | null
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+        }
+        Update: {
+          blueprint_id?: string | null
+          browser?: string | null
+          created_at?: string | null
+          creative_seed?: string | null
+          device_type?: string | null
+          duration_ms?: number | null
+          event_data?: Json | null
+          event_type?: string
+          id?: string
+          ip_address?: unknown
+          os?: string | null
+          page_url?: string | null
+          referrer?: string | null
+          screen_resolution?: string | null
+          session_id?: string | null
+          user_agent?: string | null
+          user_id?: string | null
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "generator_analytics_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      generator_leads: {
+        Row: {
+          blueprint_id: string
+          browser: string | null
+          company: string | null
+          converted_at: string | null
+          converted_user_id: string | null
+          created_at: string | null
+          creative_seed: string
+          device_type: string | null
+          email: string
+          id: string
+          ip_address: unknown
+          marketing_consent: boolean | null
+          name: string | null
+          newsletter_consent: boolean | null
+          os: string | null
+          referrer: string | null
+          role: string | null
+          source: string | null
+          status: string | null
+          updated_at: string | null
+          user_agent: string | null
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
+        }
+        Insert: {
+          blueprint_id: string
+          browser?: string | null
+          company?: string | null
+          converted_at?: string | null
+          converted_user_id?: string | null
+          created_at?: string | null
+          creative_seed: string
+          device_type?: string | null
+          email: string
+          id?: string
+          ip_address?: unknown
+          marketing_consent?: boolean | null
+          name?: string | null
+          newsletter_consent?: boolean | null
+          os?: string | null
+          referrer?: string | null
+          role?: string | null
+          source?: string | null
+          status?: string | null
+          updated_at?: string | null
+          user_agent?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+        }
+        Update: {
+          blueprint_id?: string
+          browser?: string | null
+          company?: string | null
+          converted_at?: string | null
+          converted_user_id?: string | null
+          created_at?: string | null
+          creative_seed?: string
+          device_type?: string | null
+          email?: string
+          id?: string
+          ip_address?: unknown
+          marketing_consent?: boolean | null
+          name?: string | null
+          newsletter_consent?: boolean | null
+          os?: string | null
+          referrer?: string | null
+          role?: string | null
+          source?: string | null
+          status?: string | null
+          updated_at?: string | null
+          user_agent?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "generator_leads_converted_user_id_fkey"
+            columns: ["converted_user_id"]
             isOneToOne: false
             referencedRelation: "platform_users"
             referencedColumns: ["id"]
@@ -14568,6 +16488,101 @@ export type Database = {
         }
         Relationships: []
       }
+      incident_corrective_actions: {
+        Row: {
+          action_type: string
+          assigned_to_id: string | null
+          assigned_to_name: string | null
+          completed_at: string | null
+          completed_by_id: string | null
+          created_at: string | null
+          description: string | null
+          due_date: string | null
+          id: string
+          incident_id: string
+          notes: string | null
+          priority: string | null
+          status: string | null
+          title: string
+          updated_at: string | null
+          verification_notes: string | null
+          verification_required: boolean | null
+          verified_at: string | null
+          verified_by_id: string | null
+        }
+        Insert: {
+          action_type: string
+          assigned_to_id?: string | null
+          assigned_to_name?: string | null
+          completed_at?: string | null
+          completed_by_id?: string | null
+          created_at?: string | null
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          incident_id: string
+          notes?: string | null
+          priority?: string | null
+          status?: string | null
+          title: string
+          updated_at?: string | null
+          verification_notes?: string | null
+          verification_required?: boolean | null
+          verified_at?: string | null
+          verified_by_id?: string | null
+        }
+        Update: {
+          action_type?: string
+          assigned_to_id?: string | null
+          assigned_to_name?: string | null
+          completed_at?: string | null
+          completed_by_id?: string | null
+          created_at?: string | null
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          incident_id?: string
+          notes?: string | null
+          priority?: string | null
+          status?: string | null
+          title?: string
+          updated_at?: string | null
+          verification_notes?: string | null
+          verification_required?: boolean | null
+          verified_at?: string | null
+          verified_by_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "incident_corrective_actions_assigned_to_id_fkey"
+            columns: ["assigned_to_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "incident_corrective_actions_completed_by_id_fkey"
+            columns: ["completed_by_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "incident_corrective_actions_incident_id_fkey"
+            columns: ["incident_id"]
+            isOneToOne: false
+            referencedRelation: "production_incidents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "incident_corrective_actions_verified_by_id_fkey"
+            columns: ["verified_by_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       incident_reports: {
         Row: {
           closed_at: string | null
@@ -14693,6 +16708,75 @@ export type Database = {
             columns: ["reported_by"]
             isOneToOne: false
             referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      incident_updates: {
+        Row: {
+          attachments: Json | null
+          content: string
+          created_at: string | null
+          created_by_id: string | null
+          created_by_name: string | null
+          id: string
+          incident_id: string
+          new_status:
+            | Database["public"]["Enums"]["incident_resolution_status_enum"]
+            | null
+          previous_status:
+            | Database["public"]["Enums"]["incident_resolution_status_enum"]
+            | null
+          title: string | null
+          update_type: string
+        }
+        Insert: {
+          attachments?: Json | null
+          content: string
+          created_at?: string | null
+          created_by_id?: string | null
+          created_by_name?: string | null
+          id?: string
+          incident_id: string
+          new_status?:
+            | Database["public"]["Enums"]["incident_resolution_status_enum"]
+            | null
+          previous_status?:
+            | Database["public"]["Enums"]["incident_resolution_status_enum"]
+            | null
+          title?: string | null
+          update_type: string
+        }
+        Update: {
+          attachments?: Json | null
+          content?: string
+          created_at?: string | null
+          created_by_id?: string | null
+          created_by_name?: string | null
+          id?: string
+          incident_id?: string
+          new_status?:
+            | Database["public"]["Enums"]["incident_resolution_status_enum"]
+            | null
+          previous_status?:
+            | Database["public"]["Enums"]["incident_resolution_status_enum"]
+            | null
+          title?: string | null
+          update_type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "incident_updates_created_by_id_fkey"
+            columns: ["created_by_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "incident_updates_incident_id_fkey"
+            columns: ["incident_id"]
+            isOneToOne: false
+            referencedRelation: "production_incidents"
             referencedColumns: ["id"]
           },
         ]
@@ -14874,6 +16958,222 @@ export type Database = {
           },
         ]
       }
+      insurance_certificates: {
+        Row: {
+          additional_insured: boolean | null
+          certificate_holder: string
+          certificate_holder_address: string | null
+          certificate_number: string | null
+          certificate_url: string | null
+          created_at: string | null
+          expiration_date: string | null
+          id: string
+          issued_date: string
+          notes: string | null
+          policy_id: string
+          primary_noncontributory: boolean | null
+          requested_by: string | null
+          waiver_of_subrogation: boolean | null
+        }
+        Insert: {
+          additional_insured?: boolean | null
+          certificate_holder: string
+          certificate_holder_address?: string | null
+          certificate_number?: string | null
+          certificate_url?: string | null
+          created_at?: string | null
+          expiration_date?: string | null
+          id?: string
+          issued_date: string
+          notes?: string | null
+          policy_id: string
+          primary_noncontributory?: boolean | null
+          requested_by?: string | null
+          waiver_of_subrogation?: boolean | null
+        }
+        Update: {
+          additional_insured?: boolean | null
+          certificate_holder?: string
+          certificate_holder_address?: string | null
+          certificate_number?: string | null
+          certificate_url?: string | null
+          created_at?: string | null
+          expiration_date?: string | null
+          id?: string
+          issued_date?: string
+          notes?: string | null
+          policy_id?: string
+          primary_noncontributory?: boolean | null
+          requested_by?: string | null
+          waiver_of_subrogation?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "insurance_certificates_policy_id_fkey"
+            columns: ["policy_id"]
+            isOneToOne: false
+            referencedRelation: "insurance_policies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "insurance_certificates_requested_by_fkey"
+            columns: ["requested_by"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      insurance_policies: {
+        Row: {
+          additional_insureds: Json | null
+          aggregate_limit: number | null
+          broker_contact_id: string | null
+          broker_email: string | null
+          broker_name: string | null
+          broker_phone: string | null
+          carrier: string
+          carrier_am_best_rating: string | null
+          claims: Json | null
+          claims_count: number | null
+          coi_url: string | null
+          coverage_amount: number | null
+          created_at: string | null
+          created_by: string | null
+          declarations_url: string | null
+          deductible: number | null
+          effective_date: string
+          endorsements: Json | null
+          exclusions: string[] | null
+          expiration_date: string
+          id: string
+          insurance_type: Database["public"]["Enums"]["insurance_type_enum"]
+          metadata: Json | null
+          next_premium_due: string | null
+          notes: string | null
+          organization_id: string | null
+          per_occurrence_limit: number | null
+          policy_document_url: string | null
+          policy_number: string | null
+          premium: number | null
+          premium_frequency: string | null
+          production_id: string | null
+          self_insured_retention: number | null
+          status: Database["public"]["Enums"]["policy_status_enum"] | null
+          updated_at: string | null
+        }
+        Insert: {
+          additional_insureds?: Json | null
+          aggregate_limit?: number | null
+          broker_contact_id?: string | null
+          broker_email?: string | null
+          broker_name?: string | null
+          broker_phone?: string | null
+          carrier: string
+          carrier_am_best_rating?: string | null
+          claims?: Json | null
+          claims_count?: number | null
+          coi_url?: string | null
+          coverage_amount?: number | null
+          created_at?: string | null
+          created_by?: string | null
+          declarations_url?: string | null
+          deductible?: number | null
+          effective_date: string
+          endorsements?: Json | null
+          exclusions?: string[] | null
+          expiration_date: string
+          id?: string
+          insurance_type: Database["public"]["Enums"]["insurance_type_enum"]
+          metadata?: Json | null
+          next_premium_due?: string | null
+          notes?: string | null
+          organization_id?: string | null
+          per_occurrence_limit?: number | null
+          policy_document_url?: string | null
+          policy_number?: string | null
+          premium?: number | null
+          premium_frequency?: string | null
+          production_id?: string | null
+          self_insured_retention?: number | null
+          status?: Database["public"]["Enums"]["policy_status_enum"] | null
+          updated_at?: string | null
+        }
+        Update: {
+          additional_insureds?: Json | null
+          aggregate_limit?: number | null
+          broker_contact_id?: string | null
+          broker_email?: string | null
+          broker_name?: string | null
+          broker_phone?: string | null
+          carrier?: string
+          carrier_am_best_rating?: string | null
+          claims?: Json | null
+          claims_count?: number | null
+          coi_url?: string | null
+          coverage_amount?: number | null
+          created_at?: string | null
+          created_by?: string | null
+          declarations_url?: string | null
+          deductible?: number | null
+          effective_date?: string
+          endorsements?: Json | null
+          exclusions?: string[] | null
+          expiration_date?: string
+          id?: string
+          insurance_type?: Database["public"]["Enums"]["insurance_type_enum"]
+          metadata?: Json | null
+          next_premium_due?: string | null
+          notes?: string | null
+          organization_id?: string | null
+          per_occurrence_limit?: number | null
+          policy_document_url?: string | null
+          policy_number?: string | null
+          premium?: number | null
+          premium_frequency?: string | null
+          production_id?: string | null
+          self_insured_retention?: number | null
+          status?: Database["public"]["Enums"]["policy_status_enum"] | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "insurance_policies_broker_contact_id_fkey"
+            columns: ["broker_contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "insurance_policies_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "insurance_policies_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_executive_dashboard"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "insurance_policies_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "insurance_policies_production_id_fkey"
+            columns: ["production_id"]
+            isOneToOne: false
+            referencedRelation: "productions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       integration_asset_links: {
         Row: {
           asset_id: string
@@ -15050,13 +17350,6 @@ export type Database = {
             foreignKeyName: "integration_event_links_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
-          },
-          {
-            foreignKeyName: "integration_event_links_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
             referencedRelation: "mv_project_financials"
             referencedColumns: ["project_id"]
           },
@@ -15117,13 +17410,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "organizations"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "integration_project_links_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
           },
           {
             foreignKeyName: "integration_project_links_project_id_fkey"
@@ -15397,6 +17683,486 @@ export type Database = {
           },
         ]
       }
+      investment_rounds: {
+        Row: {
+          actual_close_date: string | null
+          amount_committed: number | null
+          amount_raised: number | null
+          created_at: string | null
+          created_by: string | null
+          data_room_url: string | null
+          deck_url: string | null
+          discount_rate: number | null
+          id: string
+          instrument:
+            | Database["public"]["Enums"]["investment_instrument_enum"]
+            | null
+          interest_rate: number | null
+          internal_notes: string | null
+          maturity_months: number | null
+          maximum_amount: number | null
+          metadata: Json | null
+          minimum_amount: number | null
+          minimum_investment: number | null
+          name: string
+          notes: string | null
+          open_date: string | null
+          organization_id: string | null
+          post_money_valuation: number | null
+          pre_money_valuation: number | null
+          production_id: string | null
+          round_type: Database["public"]["Enums"]["round_type_enum"] | null
+          status: Database["public"]["Enums"]["round_status_enum"] | null
+          subscription_agreement_url: string | null
+          target_amount: number | null
+          target_close_date: string | null
+          terms_url: string | null
+          updated_at: string | null
+          valuation_cap: number | null
+        }
+        Insert: {
+          actual_close_date?: string | null
+          amount_committed?: number | null
+          amount_raised?: number | null
+          created_at?: string | null
+          created_by?: string | null
+          data_room_url?: string | null
+          deck_url?: string | null
+          discount_rate?: number | null
+          id?: string
+          instrument?:
+            | Database["public"]["Enums"]["investment_instrument_enum"]
+            | null
+          interest_rate?: number | null
+          internal_notes?: string | null
+          maturity_months?: number | null
+          maximum_amount?: number | null
+          metadata?: Json | null
+          minimum_amount?: number | null
+          minimum_investment?: number | null
+          name: string
+          notes?: string | null
+          open_date?: string | null
+          organization_id?: string | null
+          post_money_valuation?: number | null
+          pre_money_valuation?: number | null
+          production_id?: string | null
+          round_type?: Database["public"]["Enums"]["round_type_enum"] | null
+          status?: Database["public"]["Enums"]["round_status_enum"] | null
+          subscription_agreement_url?: string | null
+          target_amount?: number | null
+          target_close_date?: string | null
+          terms_url?: string | null
+          updated_at?: string | null
+          valuation_cap?: number | null
+        }
+        Update: {
+          actual_close_date?: string | null
+          amount_committed?: number | null
+          amount_raised?: number | null
+          created_at?: string | null
+          created_by?: string | null
+          data_room_url?: string | null
+          deck_url?: string | null
+          discount_rate?: number | null
+          id?: string
+          instrument?:
+            | Database["public"]["Enums"]["investment_instrument_enum"]
+            | null
+          interest_rate?: number | null
+          internal_notes?: string | null
+          maturity_months?: number | null
+          maximum_amount?: number | null
+          metadata?: Json | null
+          minimum_amount?: number | null
+          minimum_investment?: number | null
+          name?: string
+          notes?: string | null
+          open_date?: string | null
+          organization_id?: string | null
+          post_money_valuation?: number | null
+          pre_money_valuation?: number | null
+          production_id?: string | null
+          round_type?: Database["public"]["Enums"]["round_type_enum"] | null
+          status?: Database["public"]["Enums"]["round_status_enum"] | null
+          subscription_agreement_url?: string | null
+          target_amount?: number | null
+          target_close_date?: string | null
+          terms_url?: string | null
+          updated_at?: string | null
+          valuation_cap?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "investment_rounds_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "investment_rounds_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_executive_dashboard"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "investment_rounds_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "investment_rounds_production_id_fkey"
+            columns: ["production_id"]
+            isOneToOne: false
+            referencedRelation: "productions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      investments: {
+        Row: {
+          amount: number
+          committed_at: string | null
+          contract_id: string | null
+          created_at: string | null
+          created_by: string | null
+          currency: string | null
+          docs_sent_at: string | null
+          docs_signed_at: string | null
+          equity_percent: number | null
+          funded_at: string | null
+          id: string
+          investor_id: string
+          metadata: Json | null
+          notes: string | null
+          round_id: string
+          share_price: number | null
+          shares_issued: number | null
+          status: Database["public"]["Enums"]["investment_status_enum"] | null
+          stock_certificate_url: string | null
+          subscription_agreement_url: string | null
+          updated_at: string | null
+          wire_confirmation_url: string | null
+          wired_at: string | null
+        }
+        Insert: {
+          amount: number
+          committed_at?: string | null
+          contract_id?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          currency?: string | null
+          docs_sent_at?: string | null
+          docs_signed_at?: string | null
+          equity_percent?: number | null
+          funded_at?: string | null
+          id?: string
+          investor_id: string
+          metadata?: Json | null
+          notes?: string | null
+          round_id: string
+          share_price?: number | null
+          shares_issued?: number | null
+          status?: Database["public"]["Enums"]["investment_status_enum"] | null
+          stock_certificate_url?: string | null
+          subscription_agreement_url?: string | null
+          updated_at?: string | null
+          wire_confirmation_url?: string | null
+          wired_at?: string | null
+        }
+        Update: {
+          amount?: number
+          committed_at?: string | null
+          contract_id?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          currency?: string | null
+          docs_sent_at?: string | null
+          docs_signed_at?: string | null
+          equity_percent?: number | null
+          funded_at?: string | null
+          id?: string
+          investor_id?: string
+          metadata?: Json | null
+          notes?: string | null
+          round_id?: string
+          share_price?: number | null
+          shares_issued?: number | null
+          status?: Database["public"]["Enums"]["investment_status_enum"] | null
+          stock_certificate_url?: string | null
+          subscription_agreement_url?: string | null
+          updated_at?: string | null
+          wire_confirmation_url?: string | null
+          wired_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "investments_contract_id_fkey"
+            columns: ["contract_id"]
+            isOneToOne: false
+            referencedRelation: "contracts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "investments_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "investments_investor_id_fkey"
+            columns: ["investor_id"]
+            isOneToOne: false
+            referencedRelation: "investors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "investments_round_id_fkey"
+            columns: ["round_id"]
+            isOneToOne: false
+            referencedRelation: "investment_rounds"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      investor_communications: {
+        Row: {
+          attachments: Json | null
+          communication_type: string
+          completed_at: string | null
+          content: string | null
+          created_at: string | null
+          created_by_id: string | null
+          duration_minutes: number | null
+          follow_up_date: string | null
+          follow_up_notes: string | null
+          follow_up_required: boolean | null
+          id: string
+          investor_id: string | null
+          participants: Json | null
+          round_id: string | null
+          scheduled_at: string | null
+          subject: string | null
+        }
+        Insert: {
+          attachments?: Json | null
+          communication_type: string
+          completed_at?: string | null
+          content?: string | null
+          created_at?: string | null
+          created_by_id?: string | null
+          duration_minutes?: number | null
+          follow_up_date?: string | null
+          follow_up_notes?: string | null
+          follow_up_required?: boolean | null
+          id?: string
+          investor_id?: string | null
+          participants?: Json | null
+          round_id?: string | null
+          scheduled_at?: string | null
+          subject?: string | null
+        }
+        Update: {
+          attachments?: Json | null
+          communication_type?: string
+          completed_at?: string | null
+          content?: string | null
+          created_at?: string | null
+          created_by_id?: string | null
+          duration_minutes?: number | null
+          follow_up_date?: string | null
+          follow_up_notes?: string | null
+          follow_up_required?: boolean | null
+          id?: string
+          investor_id?: string | null
+          participants?: Json | null
+          round_id?: string | null
+          scheduled_at?: string | null
+          subject?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "investor_communications_created_by_id_fkey"
+            columns: ["created_by_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "investor_communications_investor_id_fkey"
+            columns: ["investor_id"]
+            isOneToOne: false
+            referencedRelation: "investors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "investor_communications_round_id_fkey"
+            columns: ["round_id"]
+            isOneToOne: false
+            referencedRelation: "investment_rounds"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      investors: {
+        Row: {
+          accreditation_document_url: string | null
+          accreditation_verified: boolean | null
+          accreditation_verified_at: string | null
+          accredited: boolean | null
+          contact_id: string | null
+          created_at: string | null
+          created_by: string | null
+          entity_name: string | null
+          entity_type: string | null
+          geographic_focus: string[] | null
+          id: string
+          interests: string[] | null
+          internal_notes: string | null
+          investment_max: number | null
+          investment_min: number | null
+          investor_type:
+            | Database["public"]["Enums"]["investor_type_enum"]
+            | null
+          last_contact_date: string | null
+          metadata: Json | null
+          nda_document_url: string | null
+          nda_signed: boolean | null
+          nda_signed_at: string | null
+          next_follow_up: string | null
+          notes: string | null
+          organization_id: string | null
+          preferred_instruments: string[] | null
+          referred_by: string | null
+          relationship_owner_id: string | null
+          sectors: string[] | null
+          source: string | null
+          status: Database["public"]["Enums"]["investor_status_enum"] | null
+          tags: string[] | null
+          updated_at: string | null
+        }
+        Insert: {
+          accreditation_document_url?: string | null
+          accreditation_verified?: boolean | null
+          accreditation_verified_at?: string | null
+          accredited?: boolean | null
+          contact_id?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          entity_name?: string | null
+          entity_type?: string | null
+          geographic_focus?: string[] | null
+          id?: string
+          interests?: string[] | null
+          internal_notes?: string | null
+          investment_max?: number | null
+          investment_min?: number | null
+          investor_type?:
+            | Database["public"]["Enums"]["investor_type_enum"]
+            | null
+          last_contact_date?: string | null
+          metadata?: Json | null
+          nda_document_url?: string | null
+          nda_signed?: boolean | null
+          nda_signed_at?: string | null
+          next_follow_up?: string | null
+          notes?: string | null
+          organization_id?: string | null
+          preferred_instruments?: string[] | null
+          referred_by?: string | null
+          relationship_owner_id?: string | null
+          sectors?: string[] | null
+          source?: string | null
+          status?: Database["public"]["Enums"]["investor_status_enum"] | null
+          tags?: string[] | null
+          updated_at?: string | null
+        }
+        Update: {
+          accreditation_document_url?: string | null
+          accreditation_verified?: boolean | null
+          accreditation_verified_at?: string | null
+          accredited?: boolean | null
+          contact_id?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          entity_name?: string | null
+          entity_type?: string | null
+          geographic_focus?: string[] | null
+          id?: string
+          interests?: string[] | null
+          internal_notes?: string | null
+          investment_max?: number | null
+          investment_min?: number | null
+          investor_type?:
+            | Database["public"]["Enums"]["investor_type_enum"]
+            | null
+          last_contact_date?: string | null
+          metadata?: Json | null
+          nda_document_url?: string | null
+          nda_signed?: boolean | null
+          nda_signed_at?: string | null
+          next_follow_up?: string | null
+          notes?: string | null
+          organization_id?: string | null
+          preferred_instruments?: string[] | null
+          referred_by?: string | null
+          relationship_owner_id?: string | null
+          sectors?: string[] | null
+          source?: string | null
+          status?: Database["public"]["Enums"]["investor_status_enum"] | null
+          tags?: string[] | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "investors_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "investors_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "investors_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_executive_dashboard"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "investors_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "investors_referred_by_fkey"
+            columns: ["referred_by"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "investors_relationship_owner_id_fkey"
+            columns: ["relationship_owner_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       invoices: {
         Row: {
           amount_paid: number | null
@@ -15489,13 +18255,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "organizations"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "invoices_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
           },
           {
             foreignKeyName: "invoices_project_id_fkey"
@@ -15830,13 +18589,6 @@ export type Database = {
             foreignKeyName: "kpi_data_points_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
-          },
-          {
-            foreignKeyName: "kpi_data_points_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
             referencedRelation: "mv_project_financials"
             referencedColumns: ["project_id"]
           },
@@ -16044,13 +18796,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "organizations"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "kpi_targets_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
           },
           {
             foreignKeyName: "kpi_targets_project_id_fkey"
@@ -16371,13 +19116,6 @@ export type Database = {
             foreignKeyName: "ledger_entries_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
-          },
-          {
-            foreignKeyName: "ledger_entries_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
             referencedRelation: "mv_project_financials"
             referencedColumns: ["project_id"]
           },
@@ -16574,6 +19312,271 @@ export type Database = {
             columns: ["event_id"]
             isOneToOne: false
             referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lost_found_claims: {
+        Row: {
+          claim_description: string | null
+          claimant_email: string | null
+          claimant_name: string
+          claimant_phone: string | null
+          created_at: string | null
+          id: string
+          item_id: string
+          notes: string | null
+          proof_of_ownership: string | null
+          rejection_reason: string | null
+          status: string | null
+          verified_at: string | null
+          verified_by_id: string | null
+        }
+        Insert: {
+          claim_description?: string | null
+          claimant_email?: string | null
+          claimant_name: string
+          claimant_phone?: string | null
+          created_at?: string | null
+          id?: string
+          item_id: string
+          notes?: string | null
+          proof_of_ownership?: string | null
+          rejection_reason?: string | null
+          status?: string | null
+          verified_at?: string | null
+          verified_by_id?: string | null
+        }
+        Update: {
+          claim_description?: string | null
+          claimant_email?: string | null
+          claimant_name?: string
+          claimant_phone?: string | null
+          created_at?: string | null
+          id?: string
+          item_id?: string
+          notes?: string | null
+          proof_of_ownership?: string | null
+          rejection_reason?: string | null
+          status?: string | null
+          verified_at?: string | null
+          verified_by_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lost_found_claims_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "lost_found_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lost_found_claims_verified_by_id_fkey"
+            columns: ["verified_by_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lost_found_items: {
+        Row: {
+          brand: string | null
+          category:
+            | Database["public"]["Enums"]["lost_found_category_enum"]
+            | null
+          claimed_at: string | null
+          color: string | null
+          created_at: string | null
+          created_by: string | null
+          description: string
+          disposal_method: string | null
+          disposal_notes: string | null
+          disposed_at: string | null
+          distinguishing_features: string | null
+          donated_to: string | null
+          estimated_value: number | null
+          event_id: string | null
+          found_at: string
+          found_by_id: string | null
+          found_by_name: string | null
+          found_location: string | null
+          found_zone_id: string | null
+          id: string
+          id_number: string | null
+          id_type: string | null
+          id_verified: boolean | null
+          internal_notes: string | null
+          item_number: string | null
+          metadata: Json | null
+          notes: string | null
+          organization_id: string
+          owner_address: string | null
+          owner_email: string | null
+          owner_name: string | null
+          owner_phone: string | null
+          owner_signature_url: string | null
+          photos: string[] | null
+          production_id: string | null
+          returned_by_id: string | null
+          show_id: string | null
+          status: Database["public"]["Enums"]["lost_found_status_enum"] | null
+          storage_bin: string | null
+          storage_location: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          brand?: string | null
+          category?:
+            | Database["public"]["Enums"]["lost_found_category_enum"]
+            | null
+          claimed_at?: string | null
+          color?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          description: string
+          disposal_method?: string | null
+          disposal_notes?: string | null
+          disposed_at?: string | null
+          distinguishing_features?: string | null
+          donated_to?: string | null
+          estimated_value?: number | null
+          event_id?: string | null
+          found_at: string
+          found_by_id?: string | null
+          found_by_name?: string | null
+          found_location?: string | null
+          found_zone_id?: string | null
+          id?: string
+          id_number?: string | null
+          id_type?: string | null
+          id_verified?: boolean | null
+          internal_notes?: string | null
+          item_number?: string | null
+          metadata?: Json | null
+          notes?: string | null
+          organization_id: string
+          owner_address?: string | null
+          owner_email?: string | null
+          owner_name?: string | null
+          owner_phone?: string | null
+          owner_signature_url?: string | null
+          photos?: string[] | null
+          production_id?: string | null
+          returned_by_id?: string | null
+          show_id?: string | null
+          status?: Database["public"]["Enums"]["lost_found_status_enum"] | null
+          storage_bin?: string | null
+          storage_location?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          brand?: string | null
+          category?:
+            | Database["public"]["Enums"]["lost_found_category_enum"]
+            | null
+          claimed_at?: string | null
+          color?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          description?: string
+          disposal_method?: string | null
+          disposal_notes?: string | null
+          disposed_at?: string | null
+          distinguishing_features?: string | null
+          donated_to?: string | null
+          estimated_value?: number | null
+          event_id?: string | null
+          found_at?: string
+          found_by_id?: string | null
+          found_by_name?: string | null
+          found_location?: string | null
+          found_zone_id?: string | null
+          id?: string
+          id_number?: string | null
+          id_type?: string | null
+          id_verified?: boolean | null
+          internal_notes?: string | null
+          item_number?: string | null
+          metadata?: Json | null
+          notes?: string | null
+          organization_id?: string
+          owner_address?: string | null
+          owner_email?: string | null
+          owner_name?: string | null
+          owner_phone?: string | null
+          owner_signature_url?: string | null
+          photos?: string[] | null
+          production_id?: string | null
+          returned_by_id?: string | null
+          show_id?: string | null
+          status?: Database["public"]["Enums"]["lost_found_status_enum"] | null
+          storage_bin?: string | null
+          storage_location?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lost_found_items_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lost_found_items_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lost_found_items_found_by_id_fkey"
+            columns: ["found_by_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lost_found_items_found_zone_id_fkey"
+            columns: ["found_zone_id"]
+            isOneToOne: false
+            referencedRelation: "zones"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lost_found_items_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_executive_dashboard"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "lost_found_items_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lost_found_items_production_id_fkey"
+            columns: ["production_id"]
+            isOneToOne: false
+            referencedRelation: "productions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lost_found_items_returned_by_id_fkey"
+            columns: ["returned_by_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lost_found_items_show_id_fkey"
+            columns: ["show_id"]
+            isOneToOne: false
+            referencedRelation: "shows"
             referencedColumns: ["id"]
           },
         ]
@@ -17814,13 +20817,6 @@ export type Database = {
             foreignKeyName: "meeting_notes_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
-          },
-          {
-            foreignKeyName: "meeting_notes_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
             referencedRelation: "mv_project_financials"
             referencedColumns: ["project_id"]
           },
@@ -18317,6 +21313,72 @@ export type Database = {
           },
           {
             foreignKeyName: "merchandise_products_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      metric_definitions: {
+        Row: {
+          aggregation_type: string | null
+          calculation_formula: string | null
+          category: string | null
+          code: string
+          created_at: string | null
+          description: string | null
+          id: string
+          is_active: boolean | null
+          is_calculated: boolean | null
+          metadata: Json | null
+          name: string
+          organization_id: string | null
+          thresholds: Json | null
+          unit: string | null
+        }
+        Insert: {
+          aggregation_type?: string | null
+          calculation_formula?: string | null
+          category?: string | null
+          code: string
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          is_calculated?: boolean | null
+          metadata?: Json | null
+          name: string
+          organization_id?: string | null
+          thresholds?: Json | null
+          unit?: string | null
+        }
+        Update: {
+          aggregation_type?: string | null
+          calculation_formula?: string | null
+          category?: string | null
+          code?: string
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          is_calculated?: boolean | null
+          metadata?: Json | null
+          name?: string
+          organization_id?: string | null
+          thresholds?: Json | null
+          unit?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "metric_definitions_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_executive_dashboard"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "metric_definitions_organization_id_fkey"
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "organizations"
@@ -19169,13 +22231,6 @@ export type Database = {
             foreignKeyName: "opportunities_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
-          },
-          {
-            foreignKeyName: "opportunities_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
             referencedRelation: "mv_project_financials"
             referencedColumns: ["project_id"]
           },
@@ -19548,27 +22603,57 @@ export type Database = {
       organizations: {
         Row: {
           created_at: string
+          deleted_at: string | null
           id: string
+          legal_name: string | null
+          logo_url: string | null
+          metadata: Json | null
           name: string
+          org_type: Database["public"]["Enums"]["org_type_enum"] | null
+          primary_color: string | null
+          secondary_color: string | null
+          settings: Json | null
           slug: string
+          tax_id: string | null
           timezone: string | null
           updated_at: string
+          website: string | null
         }
         Insert: {
           created_at?: string
+          deleted_at?: string | null
           id?: string
+          legal_name?: string | null
+          logo_url?: string | null
+          metadata?: Json | null
           name: string
+          org_type?: Database["public"]["Enums"]["org_type_enum"] | null
+          primary_color?: string | null
+          secondary_color?: string | null
+          settings?: Json | null
           slug: string
+          tax_id?: string | null
           timezone?: string | null
           updated_at?: string
+          website?: string | null
         }
         Update: {
           created_at?: string
+          deleted_at?: string | null
           id?: string
+          legal_name?: string | null
+          logo_url?: string | null
+          metadata?: Json | null
           name?: string
+          org_type?: Database["public"]["Enums"]["org_type_enum"] | null
+          primary_color?: string | null
+          secondary_color?: string | null
+          settings?: Json | null
           slug?: string
+          tax_id?: string | null
           timezone?: string | null
           updated_at?: string
+          website?: string | null
         }
         Relationships: []
       }
@@ -20426,6 +23511,231 @@ export type Database = {
           },
         ]
       }
+      permit_inspections: {
+        Row: {
+          actual_date: string | null
+          corrective_actions: string | null
+          created_at: string | null
+          deficiencies: string[] | null
+          id: string
+          inspection_type: string
+          inspector_name: string | null
+          notes: string | null
+          permit_id: string
+          reinspection_date: string | null
+          reinspection_required: boolean | null
+          report_url: string | null
+          result: string | null
+          scheduled_date: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          actual_date?: string | null
+          corrective_actions?: string | null
+          created_at?: string | null
+          deficiencies?: string[] | null
+          id?: string
+          inspection_type: string
+          inspector_name?: string | null
+          notes?: string | null
+          permit_id: string
+          reinspection_date?: string | null
+          reinspection_required?: boolean | null
+          report_url?: string | null
+          result?: string | null
+          scheduled_date?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          actual_date?: string | null
+          corrective_actions?: string | null
+          created_at?: string | null
+          deficiencies?: string[] | null
+          id?: string
+          inspection_type?: string
+          inspector_name?: string | null
+          notes?: string | null
+          permit_id?: string
+          reinspection_date?: string | null
+          reinspection_required?: boolean | null
+          report_url?: string | null
+          result?: string | null
+          scheduled_date?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "permit_inspections_permit_id_fkey"
+            columns: ["permit_id"]
+            isOneToOne: false
+            referencedRelation: "permits"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      permits: {
+        Row: {
+          application_date: string | null
+          application_fee: number | null
+          application_url: string | null
+          approval_date: string | null
+          conditions: string | null
+          contact_id: string | null
+          created_at: string | null
+          created_by: string | null
+          effective_date: string | null
+          expiration_date: string | null
+          id: string
+          inspections_required: boolean | null
+          inspector_email: string | null
+          inspector_name: string | null
+          inspector_phone: string | null
+          internal_notes: string | null
+          issuing_authority: string | null
+          issuing_department: string | null
+          jurisdiction: string | null
+          metadata: Json | null
+          name: string
+          notes: string | null
+          organization_id: string | null
+          paid_date: string | null
+          permit_document_url: string | null
+          permit_fee: number | null
+          permit_number: string | null
+          permit_type: Database["public"]["Enums"]["permit_type_enum"]
+          production_id: string | null
+          requirements: string[] | null
+          restrictions: string | null
+          status: Database["public"]["Enums"]["permit_status_enum"] | null
+          submitted_date: string | null
+          supporting_docs: Json | null
+          total_cost: number | null
+          updated_at: string | null
+          venue_id: string | null
+        }
+        Insert: {
+          application_date?: string | null
+          application_fee?: number | null
+          application_url?: string | null
+          approval_date?: string | null
+          conditions?: string | null
+          contact_id?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          effective_date?: string | null
+          expiration_date?: string | null
+          id?: string
+          inspections_required?: boolean | null
+          inspector_email?: string | null
+          inspector_name?: string | null
+          inspector_phone?: string | null
+          internal_notes?: string | null
+          issuing_authority?: string | null
+          issuing_department?: string | null
+          jurisdiction?: string | null
+          metadata?: Json | null
+          name: string
+          notes?: string | null
+          organization_id?: string | null
+          paid_date?: string | null
+          permit_document_url?: string | null
+          permit_fee?: number | null
+          permit_number?: string | null
+          permit_type: Database["public"]["Enums"]["permit_type_enum"]
+          production_id?: string | null
+          requirements?: string[] | null
+          restrictions?: string | null
+          status?: Database["public"]["Enums"]["permit_status_enum"] | null
+          submitted_date?: string | null
+          supporting_docs?: Json | null
+          total_cost?: number | null
+          updated_at?: string | null
+          venue_id?: string | null
+        }
+        Update: {
+          application_date?: string | null
+          application_fee?: number | null
+          application_url?: string | null
+          approval_date?: string | null
+          conditions?: string | null
+          contact_id?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          effective_date?: string | null
+          expiration_date?: string | null
+          id?: string
+          inspections_required?: boolean | null
+          inspector_email?: string | null
+          inspector_name?: string | null
+          inspector_phone?: string | null
+          internal_notes?: string | null
+          issuing_authority?: string | null
+          issuing_department?: string | null
+          jurisdiction?: string | null
+          metadata?: Json | null
+          name?: string
+          notes?: string | null
+          organization_id?: string | null
+          paid_date?: string | null
+          permit_document_url?: string | null
+          permit_fee?: number | null
+          permit_number?: string | null
+          permit_type?: Database["public"]["Enums"]["permit_type_enum"]
+          production_id?: string | null
+          requirements?: string[] | null
+          restrictions?: string | null
+          status?: Database["public"]["Enums"]["permit_status_enum"] | null
+          submitted_date?: string | null
+          supporting_docs?: Json | null
+          total_cost?: number | null
+          updated_at?: string | null
+          venue_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "permits_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "permits_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "permits_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_executive_dashboard"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "permits_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "permits_production_id_fkey"
+            columns: ["production_id"]
+            isOneToOne: false
+            referencedRelation: "productions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "permits_venue_id_fkey"
+            columns: ["venue_id"]
+            isOneToOne: false
+            referencedRelation: "venues"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       photo_booth_photos: {
         Row: {
           booth_id: string | null
@@ -20831,13 +24141,6 @@ export type Database = {
             foreignKeyName: "procurement_requests_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
-          },
-          {
-            foreignKeyName: "procurement_requests_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
             referencedRelation: "mv_project_financials"
             referencedColumns: ["project_id"]
           },
@@ -21184,13 +24487,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "organizations"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "production_advances_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
           },
           {
             foreignKeyName: "production_advances_project_id_fkey"
@@ -21581,6 +24877,323 @@ export type Database = {
           },
         ]
       }
+      production_incidents: {
+        Row: {
+          arrest_made: boolean | null
+          attachments: Json | null
+          audio_recordings: string[] | null
+          closed_at: string | null
+          closed_by_id: string | null
+          closure_notes: string | null
+          contributing_factors: string[] | null
+          created_at: string | null
+          description: string
+          ems_arrival_time: string | null
+          ems_called: boolean | null
+          estimated_damages: number | null
+          event_id: string | null
+          fire_dept_arrival_time: string | null
+          fire_dept_called: boolean | null
+          fire_dept_report: string | null
+          follow_up_completed: boolean | null
+          follow_up_completed_at: string | null
+          follow_up_completed_by: string | null
+          follow_up_description: string | null
+          follow_up_due: string | null
+          follow_up_required: boolean | null
+          hospital_name: string | null
+          hospital_transport: boolean | null
+          id: string
+          immediate_actions: string | null
+          incident_at: string
+          incident_category: Database["public"]["Enums"]["incident_category_enum"]
+          injured_parties: Json | null
+          insurance_claim_number: string | null
+          insurance_claim_status: string | null
+          insurance_notified: boolean | null
+          insurance_notified_at: string | null
+          internal_notes: string | null
+          is_osha_recordable: boolean | null
+          is_workers_comp: boolean | null
+          latitude: number | null
+          law_enforcement_arrival_time: string | null
+          law_enforcement_badge: string | null
+          law_enforcement_called: boolean | null
+          law_enforcement_officer: string | null
+          law_enforcement_report: string | null
+          legal_case_number: string | null
+          legal_notified: boolean | null
+          legal_notified_at: string | null
+          litigation_status: string | null
+          location_description: string | null
+          longitude: number | null
+          medical_attention: boolean | null
+          medical_details: string | null
+          metadata: Json | null
+          notes: string | null
+          organization_id: string | null
+          persons_involved: Json | null
+          photos: string[] | null
+          preventive_measures: string | null
+          production_id: string | null
+          report_number: string | null
+          reported_at: string | null
+          reported_by_id: string | null
+          reported_by_name: string | null
+          reported_by_role: string | null
+          response_actions: string | null
+          response_time_minutes: number | null
+          review_notes: string | null
+          reviewed_at: string | null
+          reviewed_by_id: string | null
+          root_cause: string | null
+          severity: Database["public"]["Enums"]["severity_level_enum"]
+          show_id: string | null
+          status:
+            | Database["public"]["Enums"]["incident_resolution_status_enum"]
+            | null
+          tags: string[] | null
+          title: string
+          updated_at: string | null
+          videos: string[] | null
+          witnesses: Json | null
+          zone_id: string | null
+        }
+        Insert: {
+          arrest_made?: boolean | null
+          attachments?: Json | null
+          audio_recordings?: string[] | null
+          closed_at?: string | null
+          closed_by_id?: string | null
+          closure_notes?: string | null
+          contributing_factors?: string[] | null
+          created_at?: string | null
+          description: string
+          ems_arrival_time?: string | null
+          ems_called?: boolean | null
+          estimated_damages?: number | null
+          event_id?: string | null
+          fire_dept_arrival_time?: string | null
+          fire_dept_called?: boolean | null
+          fire_dept_report?: string | null
+          follow_up_completed?: boolean | null
+          follow_up_completed_at?: string | null
+          follow_up_completed_by?: string | null
+          follow_up_description?: string | null
+          follow_up_due?: string | null
+          follow_up_required?: boolean | null
+          hospital_name?: string | null
+          hospital_transport?: boolean | null
+          id?: string
+          immediate_actions?: string | null
+          incident_at: string
+          incident_category: Database["public"]["Enums"]["incident_category_enum"]
+          injured_parties?: Json | null
+          insurance_claim_number?: string | null
+          insurance_claim_status?: string | null
+          insurance_notified?: boolean | null
+          insurance_notified_at?: string | null
+          internal_notes?: string | null
+          is_osha_recordable?: boolean | null
+          is_workers_comp?: boolean | null
+          latitude?: number | null
+          law_enforcement_arrival_time?: string | null
+          law_enforcement_badge?: string | null
+          law_enforcement_called?: boolean | null
+          law_enforcement_officer?: string | null
+          law_enforcement_report?: string | null
+          legal_case_number?: string | null
+          legal_notified?: boolean | null
+          legal_notified_at?: string | null
+          litigation_status?: string | null
+          location_description?: string | null
+          longitude?: number | null
+          medical_attention?: boolean | null
+          medical_details?: string | null
+          metadata?: Json | null
+          notes?: string | null
+          organization_id?: string | null
+          persons_involved?: Json | null
+          photos?: string[] | null
+          preventive_measures?: string | null
+          production_id?: string | null
+          report_number?: string | null
+          reported_at?: string | null
+          reported_by_id?: string | null
+          reported_by_name?: string | null
+          reported_by_role?: string | null
+          response_actions?: string | null
+          response_time_minutes?: number | null
+          review_notes?: string | null
+          reviewed_at?: string | null
+          reviewed_by_id?: string | null
+          root_cause?: string | null
+          severity: Database["public"]["Enums"]["severity_level_enum"]
+          show_id?: string | null
+          status?:
+            | Database["public"]["Enums"]["incident_resolution_status_enum"]
+            | null
+          tags?: string[] | null
+          title: string
+          updated_at?: string | null
+          videos?: string[] | null
+          witnesses?: Json | null
+          zone_id?: string | null
+        }
+        Update: {
+          arrest_made?: boolean | null
+          attachments?: Json | null
+          audio_recordings?: string[] | null
+          closed_at?: string | null
+          closed_by_id?: string | null
+          closure_notes?: string | null
+          contributing_factors?: string[] | null
+          created_at?: string | null
+          description?: string
+          ems_arrival_time?: string | null
+          ems_called?: boolean | null
+          estimated_damages?: number | null
+          event_id?: string | null
+          fire_dept_arrival_time?: string | null
+          fire_dept_called?: boolean | null
+          fire_dept_report?: string | null
+          follow_up_completed?: boolean | null
+          follow_up_completed_at?: string | null
+          follow_up_completed_by?: string | null
+          follow_up_description?: string | null
+          follow_up_due?: string | null
+          follow_up_required?: boolean | null
+          hospital_name?: string | null
+          hospital_transport?: boolean | null
+          id?: string
+          immediate_actions?: string | null
+          incident_at?: string
+          incident_category?: Database["public"]["Enums"]["incident_category_enum"]
+          injured_parties?: Json | null
+          insurance_claim_number?: string | null
+          insurance_claim_status?: string | null
+          insurance_notified?: boolean | null
+          insurance_notified_at?: string | null
+          internal_notes?: string | null
+          is_osha_recordable?: boolean | null
+          is_workers_comp?: boolean | null
+          latitude?: number | null
+          law_enforcement_arrival_time?: string | null
+          law_enforcement_badge?: string | null
+          law_enforcement_called?: boolean | null
+          law_enforcement_officer?: string | null
+          law_enforcement_report?: string | null
+          legal_case_number?: string | null
+          legal_notified?: boolean | null
+          legal_notified_at?: string | null
+          litigation_status?: string | null
+          location_description?: string | null
+          longitude?: number | null
+          medical_attention?: boolean | null
+          medical_details?: string | null
+          metadata?: Json | null
+          notes?: string | null
+          organization_id?: string | null
+          persons_involved?: Json | null
+          photos?: string[] | null
+          preventive_measures?: string | null
+          production_id?: string | null
+          report_number?: string | null
+          reported_at?: string | null
+          reported_by_id?: string | null
+          reported_by_name?: string | null
+          reported_by_role?: string | null
+          response_actions?: string | null
+          response_time_minutes?: number | null
+          review_notes?: string | null
+          reviewed_at?: string | null
+          reviewed_by_id?: string | null
+          root_cause?: string | null
+          severity?: Database["public"]["Enums"]["severity_level_enum"]
+          show_id?: string | null
+          status?:
+            | Database["public"]["Enums"]["incident_resolution_status_enum"]
+            | null
+          tags?: string[] | null
+          title?: string
+          updated_at?: string | null
+          videos?: string[] | null
+          witnesses?: Json | null
+          zone_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "production_incidents_closed_by_id_fkey"
+            columns: ["closed_by_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "production_incidents_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "production_incidents_follow_up_completed_by_fkey"
+            columns: ["follow_up_completed_by"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "production_incidents_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_executive_dashboard"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "production_incidents_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "production_incidents_production_id_fkey"
+            columns: ["production_id"]
+            isOneToOne: false
+            referencedRelation: "productions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "production_incidents_reported_by_id_fkey"
+            columns: ["reported_by_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "production_incidents_reviewed_by_id_fkey"
+            columns: ["reviewed_by_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "production_incidents_show_id_fkey"
+            columns: ["show_id"]
+            isOneToOne: false
+            referencedRelation: "shows"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "production_incidents_zone_id_fkey"
+            columns: ["zone_id"]
+            isOneToOne: false
+            referencedRelation: "zones"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       production_logs: {
         Row: {
           attachments: string[] | null
@@ -21631,6 +25244,88 @@ export type Database = {
           },
           {
             foreignKeyName: "production_logs_production_id_fkey"
+            columns: ["production_id"]
+            isOneToOne: false
+            referencedRelation: "productions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      production_metrics: {
+        Row: {
+          created_at: string | null
+          dimensions: Json | null
+          granularity:
+            | Database["public"]["Enums"]["metrics_granularity_enum"]
+            | null
+          id: string
+          metadata: Json | null
+          metric_name: string
+          metric_type: string
+          organization_id: string | null
+          period_end: string
+          period_start: string
+          production_id: string | null
+          source: string | null
+          tags: string[] | null
+          unit: string | null
+          value: number
+        }
+        Insert: {
+          created_at?: string | null
+          dimensions?: Json | null
+          granularity?:
+            | Database["public"]["Enums"]["metrics_granularity_enum"]
+            | null
+          id?: string
+          metadata?: Json | null
+          metric_name: string
+          metric_type: string
+          organization_id?: string | null
+          period_end: string
+          period_start: string
+          production_id?: string | null
+          source?: string | null
+          tags?: string[] | null
+          unit?: string | null
+          value: number
+        }
+        Update: {
+          created_at?: string | null
+          dimensions?: Json | null
+          granularity?:
+            | Database["public"]["Enums"]["metrics_granularity_enum"]
+            | null
+          id?: string
+          metadata?: Json | null
+          metric_name?: string
+          metric_type?: string
+          organization_id?: string | null
+          period_end?: string
+          period_start?: string
+          production_id?: string | null
+          source?: string | null
+          tags?: string[] | null
+          unit?: string | null
+          value?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "production_metrics_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_executive_dashboard"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "production_metrics_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "production_metrics_production_id_fkey"
             columns: ["production_id"]
             isOneToOne: false
             referencedRelation: "productions"
@@ -21754,87 +25449,180 @@ export type Database = {
       productions: {
         Row: {
           actual_cost: number | null
+          announcement_date: string | null
+          break_even_percentage: number | null
           budget: number | null
+          capacity_per_show: number | null
+          closing_date: string | null
+          color_palette: Json | null
           created_at: string | null
           created_by: string | null
           crew_count: number | null
           curfew_time: string | null
+          deleted_at: string | null
           doors_time: string | null
+          elevator_pitch: string | null
           event_date: string
           event_end_date: string | null
           event_id: string | null
+          format: Database["public"]["Enums"]["production_format_enum"] | null
+          genre: string | null
           id: string
+          lifecycle_status:
+            | Database["public"]["Enums"]["production_lifecycle_enum"]
+            | null
           load_in_date: string
+          load_in_start: string | null
           load_out_date: string
+          load_out_end: string | null
           name: string
           notes: string | null
+          on_sale_date: string | null
+          opening_date: string | null
+          operating_budget_weekly: number | null
           organization_id: string
+          preview_start: string | null
+          production_budget: number | null
           production_manager_id: string | null
           production_type: string
           project_id: string
+          projected_gross: number | null
+          runtime_minutes: number | null
+          sensory_design: Json | null
           show_time: string | null
+          shows_per_day: number | null
+          slug: string | null
           special_requirements: string | null
+          sponsorship_target: number | null
           stage_manager_id: string | null
           status: string
+          tagline: string | null
+          target_transformation: string | null
           technical_director_id: string | null
+          ticket_price_max: number | null
+          ticket_price_min: number | null
           updated_at: string | null
+          url_irl_journey: Json | null
           venue_id: string | null
+          xyz_foundation: Json | null
         }
         Insert: {
           actual_cost?: number | null
+          announcement_date?: string | null
+          break_even_percentage?: number | null
           budget?: number | null
+          capacity_per_show?: number | null
+          closing_date?: string | null
+          color_palette?: Json | null
           created_at?: string | null
           created_by?: string | null
           crew_count?: number | null
           curfew_time?: string | null
+          deleted_at?: string | null
           doors_time?: string | null
+          elevator_pitch?: string | null
           event_date: string
           event_end_date?: string | null
           event_id?: string | null
+          format?: Database["public"]["Enums"]["production_format_enum"] | null
+          genre?: string | null
           id?: string
+          lifecycle_status?:
+            | Database["public"]["Enums"]["production_lifecycle_enum"]
+            | null
           load_in_date: string
+          load_in_start?: string | null
           load_out_date: string
+          load_out_end?: string | null
           name: string
           notes?: string | null
+          on_sale_date?: string | null
+          opening_date?: string | null
+          operating_budget_weekly?: number | null
           organization_id: string
+          preview_start?: string | null
+          production_budget?: number | null
           production_manager_id?: string | null
           production_type: string
           project_id: string
+          projected_gross?: number | null
+          runtime_minutes?: number | null
+          sensory_design?: Json | null
           show_time?: string | null
+          shows_per_day?: number | null
+          slug?: string | null
           special_requirements?: string | null
+          sponsorship_target?: number | null
           stage_manager_id?: string | null
           status?: string
+          tagline?: string | null
+          target_transformation?: string | null
           technical_director_id?: string | null
+          ticket_price_max?: number | null
+          ticket_price_min?: number | null
           updated_at?: string | null
+          url_irl_journey?: Json | null
           venue_id?: string | null
+          xyz_foundation?: Json | null
         }
         Update: {
           actual_cost?: number | null
+          announcement_date?: string | null
+          break_even_percentage?: number | null
           budget?: number | null
+          capacity_per_show?: number | null
+          closing_date?: string | null
+          color_palette?: Json | null
           created_at?: string | null
           created_by?: string | null
           crew_count?: number | null
           curfew_time?: string | null
+          deleted_at?: string | null
           doors_time?: string | null
+          elevator_pitch?: string | null
           event_date?: string
           event_end_date?: string | null
           event_id?: string | null
+          format?: Database["public"]["Enums"]["production_format_enum"] | null
+          genre?: string | null
           id?: string
+          lifecycle_status?:
+            | Database["public"]["Enums"]["production_lifecycle_enum"]
+            | null
           load_in_date?: string
+          load_in_start?: string | null
           load_out_date?: string
+          load_out_end?: string | null
           name?: string
           notes?: string | null
+          on_sale_date?: string | null
+          opening_date?: string | null
+          operating_budget_weekly?: number | null
           organization_id?: string
+          preview_start?: string | null
+          production_budget?: number | null
           production_manager_id?: string | null
           production_type?: string
           project_id?: string
+          projected_gross?: number | null
+          runtime_minutes?: number | null
+          sensory_design?: Json | null
           show_time?: string | null
+          shows_per_day?: number | null
+          slug?: string | null
           special_requirements?: string | null
+          sponsorship_target?: number | null
           stage_manager_id?: string | null
           status?: string
+          tagline?: string | null
+          target_transformation?: string | null
           technical_director_id?: string | null
+          ticket_price_max?: number | null
+          ticket_price_min?: number | null
           updated_at?: string | null
+          url_irl_journey?: Json | null
           venue_id?: string | null
+          xyz_foundation?: Json | null
         }
         Relationships: [
           {
@@ -21871,13 +25659,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "platform_users"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "productions_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
           },
           {
             foreignKeyName: "productions_project_id_fkey"
@@ -22085,13 +25866,6 @@ export type Database = {
           transaction_count?: number | null
         }
         Relationships: [
-          {
-            foreignKeyName: "project_revenue_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
-          },
           {
             foreignKeyName: "project_revenue_project_id_fkey"
             columns: ["project_id"]
@@ -22480,13 +26254,6 @@ export type Database = {
           would_recommend?: boolean | null
         }
         Relationships: [
-          {
-            foreignKeyName: "ratings_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
-          },
           {
             foreignKeyName: "ratings_project_id_fkey"
             columns: ["project_id"]
@@ -23288,13 +27055,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "organizations"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "resource_requests_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
           },
           {
             foreignKeyName: "resource_requests_project_id_fkey"
@@ -24200,13 +27960,6 @@ export type Database = {
             foreignKeyName: "risk_register_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
-          },
-          {
-            foreignKeyName: "risk_register_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
             referencedRelation: "mv_project_financials"
             referencedColumns: ["project_id"]
           },
@@ -24351,13 +28104,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "platform_users"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "risks_related_project_id_fkey"
-            columns: ["related_project_id"]
-            isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
           },
           {
             foreignKeyName: "risks_related_project_id_fkey"
@@ -24548,13 +28294,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "organizations"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "run_of_shows_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
           },
           {
             foreignKeyName: "run_of_shows_project_id_fkey"
@@ -24916,13 +28655,6 @@ export type Database = {
             foreignKeyName: "safety_incidents_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
-          },
-          {
-            foreignKeyName: "safety_incidents_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
             referencedRelation: "mv_project_financials"
             referencedColumns: ["project_id"]
           },
@@ -25060,13 +28792,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "organizations"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "safety_inspections_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
           },
           {
             foreignKeyName: "safety_inspections_project_id_fkey"
@@ -25929,6 +29654,65 @@ export type Database = {
           },
         ]
       }
+      shared_blueprints: {
+        Row: {
+          blueprint_data: Json
+          blueprint_id: string
+          created_at: string | null
+          created_by_email: string | null
+          created_by_user_id: string | null
+          creative_seed: string
+          download_count: number | null
+          expires_at: string
+          export_count: number | null
+          id: string
+          ip_address: unknown
+          updated_at: string | null
+          user_agent: string | null
+          view_count: number | null
+        }
+        Insert: {
+          blueprint_data: Json
+          blueprint_id: string
+          created_at?: string | null
+          created_by_email?: string | null
+          created_by_user_id?: string | null
+          creative_seed: string
+          download_count?: number | null
+          expires_at: string
+          export_count?: number | null
+          id: string
+          ip_address?: unknown
+          updated_at?: string | null
+          user_agent?: string | null
+          view_count?: number | null
+        }
+        Update: {
+          blueprint_data?: Json
+          blueprint_id?: string
+          created_at?: string | null
+          created_by_email?: string | null
+          created_by_user_id?: string | null
+          creative_seed?: string
+          download_count?: number | null
+          expires_at?: string
+          export_count?: number | null
+          id?: string
+          ip_address?: unknown
+          updated_at?: string | null
+          user_agent?: string | null
+          view_count?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shared_blueprints_created_by_user_id_fkey"
+            columns: ["created_by_user_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       shared_cart_items: {
         Row: {
           cart_id: string
@@ -26168,6 +29952,76 @@ export type Database = {
           },
         ]
       }
+      show_crew: {
+        Row: {
+          actual_in: string | null
+          actual_out: string | null
+          call_time: string | null
+          contact_id: string | null
+          created_at: string | null
+          crew_member_id: string | null
+          department: string | null
+          id: string
+          notes: string | null
+          role: string
+          show_id: string
+          status: string | null
+          wrap_time: string | null
+        }
+        Insert: {
+          actual_in?: string | null
+          actual_out?: string | null
+          call_time?: string | null
+          contact_id?: string | null
+          created_at?: string | null
+          crew_member_id?: string | null
+          department?: string | null
+          id?: string
+          notes?: string | null
+          role: string
+          show_id: string
+          status?: string | null
+          wrap_time?: string | null
+        }
+        Update: {
+          actual_in?: string | null
+          actual_out?: string | null
+          call_time?: string | null
+          contact_id?: string | null
+          created_at?: string | null
+          crew_member_id?: string | null
+          department?: string | null
+          id?: string
+          notes?: string | null
+          role?: string
+          show_id?: string
+          status?: string | null
+          wrap_time?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "show_crew_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "show_crew_crew_member_id_fkey"
+            columns: ["crew_member_id"]
+            isOneToOne: false
+            referencedRelation: "crew_members"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "show_crew_show_id_fkey"
+            columns: ["show_id"]
+            isOneToOne: false
+            referencedRelation: "shows"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       show_reports: {
         Row: {
           approved_at: string | null
@@ -26274,6 +30128,141 @@ export type Database = {
             columns: ["run_of_show_id"]
             isOneToOne: false
             referencedRelation: "run_of_shows"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      shows: {
+        Row: {
+          actual_doors: string | null
+          actual_end: string | null
+          actual_start: string | null
+          attendance: number | null
+          call_time: string | null
+          capacity: number | null
+          created_at: string | null
+          date: string
+          doors_time: string | null
+          end_time: string | null
+          house_manager_id: string | null
+          id: string
+          intermission_duration: number | null
+          internal_notes: string | null
+          metadata: Json | null
+          no_shows: number | null
+          notes: string | null
+          preset_time: string | null
+          production_id: string
+          run_of_show_id: string | null
+          show_number: number | null
+          show_type: Database["public"]["Enums"]["show_type_enum"] | null
+          stage_manager_id: string | null
+          start_time: string
+          status: Database["public"]["Enums"]["show_status_enum"] | null
+          tickets_comped: number | null
+          tickets_sold: number | null
+          updated_at: string | null
+          venue_id: string | null
+          weather_conditions: string | null
+        }
+        Insert: {
+          actual_doors?: string | null
+          actual_end?: string | null
+          actual_start?: string | null
+          attendance?: number | null
+          call_time?: string | null
+          capacity?: number | null
+          created_at?: string | null
+          date: string
+          doors_time?: string | null
+          end_time?: string | null
+          house_manager_id?: string | null
+          id?: string
+          intermission_duration?: number | null
+          internal_notes?: string | null
+          metadata?: Json | null
+          no_shows?: number | null
+          notes?: string | null
+          preset_time?: string | null
+          production_id: string
+          run_of_show_id?: string | null
+          show_number?: number | null
+          show_type?: Database["public"]["Enums"]["show_type_enum"] | null
+          stage_manager_id?: string | null
+          start_time: string
+          status?: Database["public"]["Enums"]["show_status_enum"] | null
+          tickets_comped?: number | null
+          tickets_sold?: number | null
+          updated_at?: string | null
+          venue_id?: string | null
+          weather_conditions?: string | null
+        }
+        Update: {
+          actual_doors?: string | null
+          actual_end?: string | null
+          actual_start?: string | null
+          attendance?: number | null
+          call_time?: string | null
+          capacity?: number | null
+          created_at?: string | null
+          date?: string
+          doors_time?: string | null
+          end_time?: string | null
+          house_manager_id?: string | null
+          id?: string
+          intermission_duration?: number | null
+          internal_notes?: string | null
+          metadata?: Json | null
+          no_shows?: number | null
+          notes?: string | null
+          preset_time?: string | null
+          production_id?: string
+          run_of_show_id?: string | null
+          show_number?: number | null
+          show_type?: Database["public"]["Enums"]["show_type_enum"] | null
+          stage_manager_id?: string | null
+          start_time?: string
+          status?: Database["public"]["Enums"]["show_status_enum"] | null
+          tickets_comped?: number | null
+          tickets_sold?: number | null
+          updated_at?: string | null
+          venue_id?: string | null
+          weather_conditions?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shows_house_manager_id_fkey"
+            columns: ["house_manager_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "shows_production_id_fkey"
+            columns: ["production_id"]
+            isOneToOne: false
+            referencedRelation: "productions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "shows_run_of_show_id_fkey"
+            columns: ["run_of_show_id"]
+            isOneToOne: false
+            referencedRelation: "run_of_shows"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "shows_stage_manager_id_fkey"
+            columns: ["stage_manager_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "shows_venue_id_fkey"
+            columns: ["venue_id"]
+            isOneToOne: false
+            referencedRelation: "venues"
             referencedColumns: ["id"]
           },
         ]
@@ -26772,6 +30761,451 @@ export type Database = {
           },
         ]
       }
+      sop_acknowledgments: {
+        Row: {
+          acknowledged_at: string | null
+          id: string
+          ip_address: unknown
+          notes: string | null
+          sop_id: string
+          user_id: string
+          version_acknowledged: string | null
+        }
+        Insert: {
+          acknowledged_at?: string | null
+          id?: string
+          ip_address?: unknown
+          notes?: string | null
+          sop_id: string
+          user_id: string
+          version_acknowledged?: string | null
+        }
+        Update: {
+          acknowledged_at?: string | null
+          id?: string
+          ip_address?: unknown
+          notes?: string | null
+          sop_id?: string
+          user_id?: string
+          version_acknowledged?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sop_acknowledgments_sop_id_fkey"
+            columns: ["sop_id"]
+            isOneToOne: false
+            referencedRelation: "sops"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sop_acknowledgments_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sop_categories: {
+        Row: {
+          code: string | null
+          color: string | null
+          created_at: string | null
+          description: string | null
+          icon: string | null
+          id: string
+          is_active: boolean | null
+          metadata: Json | null
+          name: string
+          organization_id: string | null
+          parent_id: string | null
+          sort_order: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          code?: string | null
+          color?: string | null
+          created_at?: string | null
+          description?: string | null
+          icon?: string | null
+          id?: string
+          is_active?: boolean | null
+          metadata?: Json | null
+          name: string
+          organization_id?: string | null
+          parent_id?: string | null
+          sort_order?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          code?: string | null
+          color?: string | null
+          created_at?: string | null
+          description?: string | null
+          icon?: string | null
+          id?: string
+          is_active?: boolean | null
+          metadata?: Json | null
+          name?: string
+          organization_id?: string | null
+          parent_id?: string | null
+          sort_order?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sop_categories_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_executive_dashboard"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "sop_categories_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sop_categories_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "sop_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sop_steps: {
+        Row: {
+          cautions: string[] | null
+          created_at: string | null
+          decision_options: Json | null
+          decision_point: boolean | null
+          estimated_duration_minutes: number | null
+          id: string
+          image_url: string | null
+          instruction: string
+          media_urls: string[] | null
+          metadata: Json | null
+          notes: string | null
+          responsible_role: string | null
+          responsible_role_id: string | null
+          sop_id: string
+          step_number: number
+          tips: string | null
+          title: string | null
+          updated_at: string | null
+          verification_method: string | null
+          verification_required: boolean | null
+          video_url: string | null
+          warnings: string[] | null
+        }
+        Insert: {
+          cautions?: string[] | null
+          created_at?: string | null
+          decision_options?: Json | null
+          decision_point?: boolean | null
+          estimated_duration_minutes?: number | null
+          id?: string
+          image_url?: string | null
+          instruction: string
+          media_urls?: string[] | null
+          metadata?: Json | null
+          notes?: string | null
+          responsible_role?: string | null
+          responsible_role_id?: string | null
+          sop_id: string
+          step_number: number
+          tips?: string | null
+          title?: string | null
+          updated_at?: string | null
+          verification_method?: string | null
+          verification_required?: boolean | null
+          video_url?: string | null
+          warnings?: string[] | null
+        }
+        Update: {
+          cautions?: string[] | null
+          created_at?: string | null
+          decision_options?: Json | null
+          decision_point?: boolean | null
+          estimated_duration_minutes?: number | null
+          id?: string
+          image_url?: string | null
+          instruction?: string
+          media_urls?: string[] | null
+          metadata?: Json | null
+          notes?: string | null
+          responsible_role?: string | null
+          responsible_role_id?: string | null
+          sop_id?: string
+          step_number?: number
+          tips?: string | null
+          title?: string | null
+          updated_at?: string | null
+          verification_method?: string | null
+          verification_required?: boolean | null
+          video_url?: string | null
+          warnings?: string[] | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sop_steps_sop_id_fkey"
+            columns: ["sop_id"]
+            isOneToOne: false
+            referencedRelation: "sops"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sop_training_records: {
+        Row: {
+          certificate_url: string | null
+          created_at: string | null
+          expiration_date: string | null
+          id: string
+          notes: string | null
+          passed: boolean | null
+          score: number | null
+          sop_id: string
+          trainer_id: string | null
+          training_date: string
+          training_type: string | null
+          user_id: string
+        }
+        Insert: {
+          certificate_url?: string | null
+          created_at?: string | null
+          expiration_date?: string | null
+          id?: string
+          notes?: string | null
+          passed?: boolean | null
+          score?: number | null
+          sop_id: string
+          trainer_id?: string | null
+          training_date: string
+          training_type?: string | null
+          user_id: string
+        }
+        Update: {
+          certificate_url?: string | null
+          created_at?: string | null
+          expiration_date?: string | null
+          id?: string
+          notes?: string | null
+          passed?: boolean | null
+          score?: number | null
+          sop_id?: string
+          trainer_id?: string | null
+          training_date?: string
+          training_type?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sop_training_records_sop_id_fkey"
+            columns: ["sop_id"]
+            isOneToOne: false
+            referencedRelation: "sops"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sop_training_records_trainer_id_fkey"
+            columns: ["trainer_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sop_training_records_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sops: {
+        Row: {
+          approval_notes: string | null
+          approved_at: string | null
+          approver_id: string | null
+          attachments: Json | null
+          author_id: string | null
+          category_id: string | null
+          change_summary: string | null
+          created_at: string | null
+          definitions: Json | null
+          document_url: string | null
+          effective_date: string | null
+          equipment_required: string[] | null
+          expiration_date: string | null
+          id: string
+          materials_required: string[] | null
+          metadata: Json | null
+          organization_id: string | null
+          prerequisites: string | null
+          previous_version_id: string | null
+          production_id: string | null
+          purpose: string | null
+          responsibilities: Json | null
+          review_date: string | null
+          review_notes: string | null
+          reviewed_at: string | null
+          reviewer_id: string | null
+          revision_history: Json | null
+          safety_warnings: string[] | null
+          scope: string | null
+          sop_number: string | null
+          sop_references: Json | null
+          status: Database["public"]["Enums"]["sop_status_enum"] | null
+          tags: string[] | null
+          title: string
+          training_frequency_days: number | null
+          training_required: boolean | null
+          updated_at: string | null
+          version: string | null
+        }
+        Insert: {
+          approval_notes?: string | null
+          approved_at?: string | null
+          approver_id?: string | null
+          attachments?: Json | null
+          author_id?: string | null
+          category_id?: string | null
+          change_summary?: string | null
+          created_at?: string | null
+          definitions?: Json | null
+          document_url?: string | null
+          effective_date?: string | null
+          equipment_required?: string[] | null
+          expiration_date?: string | null
+          id?: string
+          materials_required?: string[] | null
+          metadata?: Json | null
+          organization_id?: string | null
+          prerequisites?: string | null
+          previous_version_id?: string | null
+          production_id?: string | null
+          purpose?: string | null
+          responsibilities?: Json | null
+          review_date?: string | null
+          review_notes?: string | null
+          reviewed_at?: string | null
+          reviewer_id?: string | null
+          revision_history?: Json | null
+          safety_warnings?: string[] | null
+          scope?: string | null
+          sop_number?: string | null
+          sop_references?: Json | null
+          status?: Database["public"]["Enums"]["sop_status_enum"] | null
+          tags?: string[] | null
+          title: string
+          training_frequency_days?: number | null
+          training_required?: boolean | null
+          updated_at?: string | null
+          version?: string | null
+        }
+        Update: {
+          approval_notes?: string | null
+          approved_at?: string | null
+          approver_id?: string | null
+          attachments?: Json | null
+          author_id?: string | null
+          category_id?: string | null
+          change_summary?: string | null
+          created_at?: string | null
+          definitions?: Json | null
+          document_url?: string | null
+          effective_date?: string | null
+          equipment_required?: string[] | null
+          expiration_date?: string | null
+          id?: string
+          materials_required?: string[] | null
+          metadata?: Json | null
+          organization_id?: string | null
+          prerequisites?: string | null
+          previous_version_id?: string | null
+          production_id?: string | null
+          purpose?: string | null
+          responsibilities?: Json | null
+          review_date?: string | null
+          review_notes?: string | null
+          reviewed_at?: string | null
+          reviewer_id?: string | null
+          revision_history?: Json | null
+          safety_warnings?: string[] | null
+          scope?: string | null
+          sop_number?: string | null
+          sop_references?: Json | null
+          status?: Database["public"]["Enums"]["sop_status_enum"] | null
+          tags?: string[] | null
+          title?: string
+          training_frequency_days?: number | null
+          training_required?: boolean | null
+          updated_at?: string | null
+          version?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sops_approver_id_fkey"
+            columns: ["approver_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sops_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sops_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "sop_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sops_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_executive_dashboard"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "sops_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sops_previous_version_id_fkey"
+            columns: ["previous_version_id"]
+            isOneToOne: false
+            referencedRelation: "sops"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sops_production_id_fkey"
+            columns: ["production_id"]
+            isOneToOne: false
+            referencedRelation: "productions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sops_reviewer_id_fkey"
+            columns: ["reviewer_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       spare_parts: {
         Row: {
           category: string | null
@@ -26849,6 +31283,559 @@ export type Database = {
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sponsor_activations: {
+        Row: {
+          activation_type: string
+          actual_interactions: number | null
+          created_at: string | null
+          created_by: string | null
+          description: string | null
+          end_time: string | null
+          estimated_interactions: number | null
+          footprint_sqft: number | null
+          id: string
+          location_description: string | null
+          metadata: Json | null
+          name: string
+          notes: string | null
+          photos: string[] | null
+          power_requirements: string | null
+          setup_requirements: string | null
+          sponsor_id: string
+          staffing_count: number | null
+          start_time: string | null
+          status: string | null
+          updated_at: string | null
+          zone_id: string | null
+        }
+        Insert: {
+          activation_type: string
+          actual_interactions?: number | null
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          end_time?: string | null
+          estimated_interactions?: number | null
+          footprint_sqft?: number | null
+          id?: string
+          location_description?: string | null
+          metadata?: Json | null
+          name: string
+          notes?: string | null
+          photos?: string[] | null
+          power_requirements?: string | null
+          setup_requirements?: string | null
+          sponsor_id: string
+          staffing_count?: number | null
+          start_time?: string | null
+          status?: string | null
+          updated_at?: string | null
+          zone_id?: string | null
+        }
+        Update: {
+          activation_type?: string
+          actual_interactions?: number | null
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          end_time?: string | null
+          estimated_interactions?: number | null
+          footprint_sqft?: number | null
+          id?: string
+          location_description?: string | null
+          metadata?: Json | null
+          name?: string
+          notes?: string | null
+          photos?: string[] | null
+          power_requirements?: string | null
+          setup_requirements?: string | null
+          sponsor_id?: string
+          staffing_count?: number | null
+          start_time?: string | null
+          status?: string | null
+          updated_at?: string | null
+          zone_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sponsor_activations_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sponsor_activations_sponsor_id_fkey"
+            columns: ["sponsor_id"]
+            isOneToOne: false
+            referencedRelation: "sponsors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sponsor_activations_zone_id_fkey"
+            columns: ["zone_id"]
+            isOneToOne: false
+            referencedRelation: "zones"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sponsor_deliverables: {
+        Row: {
+          actual_impressions: number | null
+          created_at: string | null
+          deliverable_type: string
+          delivery_date: string | null
+          description: string | null
+          dimensions: string | null
+          due_date: string | null
+          id: string
+          location: string | null
+          metadata: Json | null
+          notes: string | null
+          proof_approved_at: string | null
+          proof_approved_by: string | null
+          proof_url: string | null
+          quantity: number | null
+          sponsor_id: string
+          status: string | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          actual_impressions?: number | null
+          created_at?: string | null
+          deliverable_type: string
+          delivery_date?: string | null
+          description?: string | null
+          dimensions?: string | null
+          due_date?: string | null
+          id?: string
+          location?: string | null
+          metadata?: Json | null
+          notes?: string | null
+          proof_approved_at?: string | null
+          proof_approved_by?: string | null
+          proof_url?: string | null
+          quantity?: number | null
+          sponsor_id: string
+          status?: string | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          actual_impressions?: number | null
+          created_at?: string | null
+          deliverable_type?: string
+          delivery_date?: string | null
+          description?: string | null
+          dimensions?: string | null
+          due_date?: string | null
+          id?: string
+          location?: string | null
+          metadata?: Json | null
+          notes?: string | null
+          proof_approved_at?: string | null
+          proof_approved_by?: string | null
+          proof_url?: string | null
+          quantity?: number | null
+          sponsor_id?: string
+          status?: string | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sponsor_deliverables_proof_approved_by_fkey"
+            columns: ["proof_approved_by"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sponsor_deliverables_sponsor_id_fkey"
+            columns: ["sponsor_id"]
+            isOneToOne: false
+            referencedRelation: "sponsors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sponsor_payments: {
+        Row: {
+          amount: number
+          created_at: string | null
+          created_by: string | null
+          currency: string | null
+          due_date: string | null
+          id: string
+          invoice_number: string | null
+          invoice_url: string | null
+          metadata: Json | null
+          notes: string | null
+          paid_date: string | null
+          payment_method: string | null
+          payment_type: string
+          reference_number: string | null
+          sponsor_id: string
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          amount: number
+          created_at?: string | null
+          created_by?: string | null
+          currency?: string | null
+          due_date?: string | null
+          id?: string
+          invoice_number?: string | null
+          invoice_url?: string | null
+          metadata?: Json | null
+          notes?: string | null
+          paid_date?: string | null
+          payment_method?: string | null
+          payment_type: string
+          reference_number?: string | null
+          sponsor_id: string
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string | null
+          created_by?: string | null
+          currency?: string | null
+          due_date?: string | null
+          id?: string
+          invoice_number?: string | null
+          invoice_url?: string | null
+          metadata?: Json | null
+          notes?: string | null
+          paid_date?: string | null
+          payment_method?: string | null
+          payment_type?: string
+          reference_number?: string | null
+          sponsor_id?: string
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sponsor_payments_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sponsor_payments_sponsor_id_fkey"
+            columns: ["sponsor_id"]
+            isOneToOne: false
+            referencedRelation: "sponsors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sponsor_tiers: {
+        Row: {
+          benefits: Json | null
+          benefits_summary: string | null
+          color: string | null
+          created_at: string | null
+          description: string | null
+          id: string
+          investment_max: number | null
+          investment_min: number | null
+          is_exclusive: boolean | null
+          level: number
+          logo_placement: string | null
+          max_sponsors: number | null
+          metadata: Json | null
+          name: string
+          organization_id: string | null
+          production_id: string | null
+          sort_order: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          benefits?: Json | null
+          benefits_summary?: string | null
+          color?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          investment_max?: number | null
+          investment_min?: number | null
+          is_exclusive?: boolean | null
+          level: number
+          logo_placement?: string | null
+          max_sponsors?: number | null
+          metadata?: Json | null
+          name: string
+          organization_id?: string | null
+          production_id?: string | null
+          sort_order?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          benefits?: Json | null
+          benefits_summary?: string | null
+          color?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          investment_max?: number | null
+          investment_min?: number | null
+          is_exclusive?: boolean | null
+          level?: number
+          logo_placement?: string | null
+          max_sponsors?: number | null
+          metadata?: Json | null
+          name?: string
+          organization_id?: string | null
+          production_id?: string | null
+          sort_order?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sponsor_tiers_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_executive_dashboard"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "sponsor_tiers_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sponsor_tiers_production_id_fkey"
+            columns: ["production_id"]
+            isOneToOne: false
+            referencedRelation: "productions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sponsors: {
+        Row: {
+          activated_at: string | null
+          activation_contact_id: string | null
+          activations: Json | null
+          approved_messaging: string | null
+          benefits: Json | null
+          billing_contact_id: string | null
+          brand_guidelines_url: string | null
+          cash_value: number | null
+          category_exclusivity: string | null
+          company_logo_url: string | null
+          company_name: string | null
+          company_website: string | null
+          completed_at: string | null
+          confirmed_at: string | null
+          contract_id: string | null
+          created_at: string | null
+          created_by: string | null
+          day_of_contact_id: string | null
+          deliverables_status: Json | null
+          exclusivity_terms: string | null
+          hospitality_tickets: number | null
+          id: string
+          industry: string | null
+          internal_notes: string | null
+          logo_files: Json | null
+          metadata: Json | null
+          notes: string | null
+          organization_id: string | null
+          parking_passes: number | null
+          payment_received: number | null
+          payment_schedule: Json | null
+          pitched_at: string | null
+          primary_contact_id: string | null
+          production_id: string
+          recap_due_date: string | null
+          recap_submitted: boolean | null
+          recap_url: string | null
+          status: Database["public"]["Enums"]["sponsor_status_enum"] | null
+          tags: string[] | null
+          territory: string | null
+          tier_id: string | null
+          total_value: number | null
+          updated_at: string | null
+          vik_value: number | null
+          vip_passes: number | null
+        }
+        Insert: {
+          activated_at?: string | null
+          activation_contact_id?: string | null
+          activations?: Json | null
+          approved_messaging?: string | null
+          benefits?: Json | null
+          billing_contact_id?: string | null
+          brand_guidelines_url?: string | null
+          cash_value?: number | null
+          category_exclusivity?: string | null
+          company_logo_url?: string | null
+          company_name?: string | null
+          company_website?: string | null
+          completed_at?: string | null
+          confirmed_at?: string | null
+          contract_id?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          day_of_contact_id?: string | null
+          deliverables_status?: Json | null
+          exclusivity_terms?: string | null
+          hospitality_tickets?: number | null
+          id?: string
+          industry?: string | null
+          internal_notes?: string | null
+          logo_files?: Json | null
+          metadata?: Json | null
+          notes?: string | null
+          organization_id?: string | null
+          parking_passes?: number | null
+          payment_received?: number | null
+          payment_schedule?: Json | null
+          pitched_at?: string | null
+          primary_contact_id?: string | null
+          production_id: string
+          recap_due_date?: string | null
+          recap_submitted?: boolean | null
+          recap_url?: string | null
+          status?: Database["public"]["Enums"]["sponsor_status_enum"] | null
+          tags?: string[] | null
+          territory?: string | null
+          tier_id?: string | null
+          total_value?: number | null
+          updated_at?: string | null
+          vik_value?: number | null
+          vip_passes?: number | null
+        }
+        Update: {
+          activated_at?: string | null
+          activation_contact_id?: string | null
+          activations?: Json | null
+          approved_messaging?: string | null
+          benefits?: Json | null
+          billing_contact_id?: string | null
+          brand_guidelines_url?: string | null
+          cash_value?: number | null
+          category_exclusivity?: string | null
+          company_logo_url?: string | null
+          company_name?: string | null
+          company_website?: string | null
+          completed_at?: string | null
+          confirmed_at?: string | null
+          contract_id?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          day_of_contact_id?: string | null
+          deliverables_status?: Json | null
+          exclusivity_terms?: string | null
+          hospitality_tickets?: number | null
+          id?: string
+          industry?: string | null
+          internal_notes?: string | null
+          logo_files?: Json | null
+          metadata?: Json | null
+          notes?: string | null
+          organization_id?: string | null
+          parking_passes?: number | null
+          payment_received?: number | null
+          payment_schedule?: Json | null
+          pitched_at?: string | null
+          primary_contact_id?: string | null
+          production_id?: string
+          recap_due_date?: string | null
+          recap_submitted?: boolean | null
+          recap_url?: string | null
+          status?: Database["public"]["Enums"]["sponsor_status_enum"] | null
+          tags?: string[] | null
+          territory?: string | null
+          tier_id?: string | null
+          total_value?: number | null
+          updated_at?: string | null
+          vik_value?: number | null
+          vip_passes?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sponsors_activation_contact_id_fkey"
+            columns: ["activation_contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sponsors_billing_contact_id_fkey"
+            columns: ["billing_contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sponsors_contract_id_fkey"
+            columns: ["contract_id"]
+            isOneToOne: false
+            referencedRelation: "contracts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sponsors_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sponsors_day_of_contact_id_fkey"
+            columns: ["day_of_contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sponsors_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_executive_dashboard"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "sponsors_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sponsors_primary_contact_id_fkey"
+            columns: ["primary_contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sponsors_production_id_fkey"
+            columns: ["production_id"]
+            isOneToOne: false
+            referencedRelation: "productions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sponsors_tier_id_fkey"
+            columns: ["tier_id"]
+            isOneToOne: false
+            referencedRelation: "sponsor_tiers"
             referencedColumns: ["id"]
           },
         ]
@@ -27705,6 +32692,51 @@ export type Database = {
           },
         ]
       }
+      task_templates: {
+        Row: {
+          checklist: Json | null
+          created_at: string
+          default_duration_hours: number | null
+          default_priority: string
+          department: string | null
+          dependencies_template: Json | null
+          description: string | null
+          id: string
+          is_active: boolean
+          name: string
+          task_type: string
+          updated_at: string
+        }
+        Insert: {
+          checklist?: Json | null
+          created_at?: string
+          default_duration_hours?: number | null
+          default_priority?: string
+          department?: string | null
+          dependencies_template?: Json | null
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          name: string
+          task_type?: string
+          updated_at?: string
+        }
+        Update: {
+          checklist?: Json | null
+          created_at?: string
+          default_duration_hours?: number | null
+          default_priority?: string
+          department?: string | null
+          dependencies_template?: Json | null
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          name?: string
+          task_type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       tax_brackets: {
         Row: {
           base_tax: number | null
@@ -28135,13 +33167,6 @@ export type Database = {
             foreignKeyName: "ticket_revenue_ingestions_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
-          },
-          {
-            foreignKeyName: "ticket_revenue_ingestions_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
             referencedRelation: "mv_project_financials"
             referencedColumns: ["project_id"]
           },
@@ -28443,13 +33468,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "organizations"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "time_entries_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
           },
           {
             foreignKeyName: "time_entries_project_id_fkey"
@@ -28792,13 +33810,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "organizations"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "timesheets_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
           },
           {
             foreignKeyName: "timesheets_project_id_fkey"
@@ -30047,13 +35058,6 @@ export type Database = {
             foreignKeyName: "user_context_preferences_last_project_id_fkey"
             columns: ["last_project_id"]
             isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
-          },
-          {
-            foreignKeyName: "user_context_preferences_last_project_id_fkey"
-            columns: ["last_project_id"]
-            isOneToOne: false
             referencedRelation: "mv_project_financials"
             referencedColumns: ["project_id"]
           },
@@ -31177,78 +36181,145 @@ export type Database = {
       }
       venues: {
         Row: {
+          ada_accessible: boolean | null
+          ada_notes: string | null
           address: string | null
+          address_line_2: string | null
+          amenities: Json | null
           capacity: number | null
           city: string
+          contact_email: string | null
+          contact_name: string | null
+          contact_phone: string | null
           country: string | null
           created_at: string | null
           created_by: string | null
+          curfew_time: string | null
+          deleted_at: string | null
           description: string | null
           email: string | null
           followers_count: number | null
           id: string
+          insurance_requirements: string | null
           latitude: number | null
+          loading_dock: boolean | null
+          loading_dock_height_ft: number | null
           longitude: number | null
+          max_capacity: number | null
           metadata: Json | null
           name: string
+          noise_restrictions: string | null
           organization_id: string | null
+          parking_spaces: number | null
           phone: string | null
           postal_code: string | null
+          power_capacity: string | null
+          rigging_capacity: string | null
           slug: string | null
           state: string | null
           status: string | null
+          technical_specs: Json | null
+          total_sqft: number | null
+          union_requirements: string | null
           updated_at: string | null
           venue_type: string | null
+          venue_type_enum: Database["public"]["Enums"]["venue_type_enum"] | null
           website: string | null
         }
         Insert: {
+          ada_accessible?: boolean | null
+          ada_notes?: string | null
           address?: string | null
+          address_line_2?: string | null
+          amenities?: Json | null
           capacity?: number | null
           city: string
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_phone?: string | null
           country?: string | null
           created_at?: string | null
           created_by?: string | null
+          curfew_time?: string | null
+          deleted_at?: string | null
           description?: string | null
           email?: string | null
           followers_count?: number | null
           id?: string
+          insurance_requirements?: string | null
           latitude?: number | null
+          loading_dock?: boolean | null
+          loading_dock_height_ft?: number | null
           longitude?: number | null
+          max_capacity?: number | null
           metadata?: Json | null
           name: string
+          noise_restrictions?: string | null
           organization_id?: string | null
+          parking_spaces?: number | null
           phone?: string | null
           postal_code?: string | null
+          power_capacity?: string | null
+          rigging_capacity?: string | null
           slug?: string | null
           state?: string | null
           status?: string | null
+          technical_specs?: Json | null
+          total_sqft?: number | null
+          union_requirements?: string | null
           updated_at?: string | null
           venue_type?: string | null
+          venue_type_enum?:
+            | Database["public"]["Enums"]["venue_type_enum"]
+            | null
           website?: string | null
         }
         Update: {
+          ada_accessible?: boolean | null
+          ada_notes?: string | null
           address?: string | null
+          address_line_2?: string | null
+          amenities?: Json | null
           capacity?: number | null
           city?: string
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_phone?: string | null
           country?: string | null
           created_at?: string | null
           created_by?: string | null
+          curfew_time?: string | null
+          deleted_at?: string | null
           description?: string | null
           email?: string | null
           followers_count?: number | null
           id?: string
+          insurance_requirements?: string | null
           latitude?: number | null
+          loading_dock?: boolean | null
+          loading_dock_height_ft?: number | null
           longitude?: number | null
+          max_capacity?: number | null
           metadata?: Json | null
           name?: string
+          noise_restrictions?: string | null
           organization_id?: string | null
+          parking_spaces?: number | null
           phone?: string | null
           postal_code?: string | null
+          power_capacity?: string | null
+          rigging_capacity?: string | null
           slug?: string | null
           state?: string | null
           status?: string | null
+          technical_specs?: Json | null
+          total_sqft?: number | null
+          union_requirements?: string | null
           updated_at?: string | null
           venue_type?: string | null
+          venue_type_enum?:
+            | Database["public"]["Enums"]["venue_type_enum"]
+            | null
           website?: string | null
         }
         Relationships: [
@@ -33182,13 +38253,6 @@ export type Database = {
             foreignKeyName: "workforce_time_entries_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
-          },
-          {
-            foreignKeyName: "workforce_time_entries_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
             referencedRelation: "mv_project_financials"
             referencedColumns: ["project_id"]
           },
@@ -33221,13 +38285,6 @@ export type Database = {
           workspace_id?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "workspace_projects_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
-          },
           {
             foreignKeyName: "workspace_projects_project_id_fkey"
             columns: ["project_id"]
@@ -33328,6 +38385,262 @@ export type Database = {
           },
         ]
       }
+      wrap_reports: {
+        Row: {
+          acquisition_channels: Json | null
+          actual_spend: number | null
+          approved_at: string | null
+          approved_by_id: string | null
+          attachments: Json | null
+          average_attendance: number | null
+          budget_total: number | null
+          created_at: string | null
+          crew_performance: string | null
+          demographics: Json | null
+          email_metrics: Json | null
+          expense_breakdown: Json | null
+          fb_revenue: number | null
+          gross_profit: number | null
+          guest_feedback_summary: string | null
+          guest_satisfaction: number | null
+          id: string
+          incident_summary: Json | null
+          lessons_learned: Json | null
+          lowest_attendance: number | null
+          marketing_metrics: Json | null
+          marketing_roi: number | null
+          marketing_spend: number | null
+          merchandise_revenue: number | null
+          metadata: Json | null
+          net_profit: number | null
+          notes: string | null
+          nps_score: number | null
+          operations_assessment: string | null
+          organization_id: string
+          other_revenue: number | null
+          overall_capacity_percent: number | null
+          peak_attendance: number | null
+          prepared_at: string | null
+          prepared_by_id: string | null
+          press_coverage: Json | null
+          production_id: string
+          profit_margin: number | null
+          recommendations: Json | null
+          renewal_prospects: Json | null
+          repeat_recommendations: string | null
+          revenue_breakdown: Json | null
+          reviewed_at: string | null
+          reviewed_by_id: string | null
+          safety_assessment: string | null
+          social_metrics: Json | null
+          sponsor_satisfaction: Json | null
+          sponsors_count: number | null
+          sponsorship_recap: Json | null
+          sponsorship_revenue: number | null
+          sponsorship_total: number | null
+          status: Database["public"]["Enums"]["report_status_enum"] | null
+          suggested_improvements: Json | null
+          ticket_revenue: number | null
+          top_complaints: Json | null
+          top_compliments: Json | null
+          top_expense_categories: Json | null
+          total_attendance: number | null
+          total_incidents: number | null
+          total_revenue: number | null
+          total_shows: number | null
+          updated_at: string | null
+          variance: number | null
+          variance_percent: number | null
+          vendor_assessments: Json | null
+          what_didnt_work: Json | null
+          what_worked: Json | null
+          would_repeat: boolean | null
+        }
+        Insert: {
+          acquisition_channels?: Json | null
+          actual_spend?: number | null
+          approved_at?: string | null
+          approved_by_id?: string | null
+          attachments?: Json | null
+          average_attendance?: number | null
+          budget_total?: number | null
+          created_at?: string | null
+          crew_performance?: string | null
+          demographics?: Json | null
+          email_metrics?: Json | null
+          expense_breakdown?: Json | null
+          fb_revenue?: number | null
+          gross_profit?: number | null
+          guest_feedback_summary?: string | null
+          guest_satisfaction?: number | null
+          id?: string
+          incident_summary?: Json | null
+          lessons_learned?: Json | null
+          lowest_attendance?: number | null
+          marketing_metrics?: Json | null
+          marketing_roi?: number | null
+          marketing_spend?: number | null
+          merchandise_revenue?: number | null
+          metadata?: Json | null
+          net_profit?: number | null
+          notes?: string | null
+          nps_score?: number | null
+          operations_assessment?: string | null
+          organization_id: string
+          other_revenue?: number | null
+          overall_capacity_percent?: number | null
+          peak_attendance?: number | null
+          prepared_at?: string | null
+          prepared_by_id?: string | null
+          press_coverage?: Json | null
+          production_id: string
+          profit_margin?: number | null
+          recommendations?: Json | null
+          renewal_prospects?: Json | null
+          repeat_recommendations?: string | null
+          revenue_breakdown?: Json | null
+          reviewed_at?: string | null
+          reviewed_by_id?: string | null
+          safety_assessment?: string | null
+          social_metrics?: Json | null
+          sponsor_satisfaction?: Json | null
+          sponsors_count?: number | null
+          sponsorship_recap?: Json | null
+          sponsorship_revenue?: number | null
+          sponsorship_total?: number | null
+          status?: Database["public"]["Enums"]["report_status_enum"] | null
+          suggested_improvements?: Json | null
+          ticket_revenue?: number | null
+          top_complaints?: Json | null
+          top_compliments?: Json | null
+          top_expense_categories?: Json | null
+          total_attendance?: number | null
+          total_incidents?: number | null
+          total_revenue?: number | null
+          total_shows?: number | null
+          updated_at?: string | null
+          variance?: number | null
+          variance_percent?: number | null
+          vendor_assessments?: Json | null
+          what_didnt_work?: Json | null
+          what_worked?: Json | null
+          would_repeat?: boolean | null
+        }
+        Update: {
+          acquisition_channels?: Json | null
+          actual_spend?: number | null
+          approved_at?: string | null
+          approved_by_id?: string | null
+          attachments?: Json | null
+          average_attendance?: number | null
+          budget_total?: number | null
+          created_at?: string | null
+          crew_performance?: string | null
+          demographics?: Json | null
+          email_metrics?: Json | null
+          expense_breakdown?: Json | null
+          fb_revenue?: number | null
+          gross_profit?: number | null
+          guest_feedback_summary?: string | null
+          guest_satisfaction?: number | null
+          id?: string
+          incident_summary?: Json | null
+          lessons_learned?: Json | null
+          lowest_attendance?: number | null
+          marketing_metrics?: Json | null
+          marketing_roi?: number | null
+          marketing_spend?: number | null
+          merchandise_revenue?: number | null
+          metadata?: Json | null
+          net_profit?: number | null
+          notes?: string | null
+          nps_score?: number | null
+          operations_assessment?: string | null
+          organization_id?: string
+          other_revenue?: number | null
+          overall_capacity_percent?: number | null
+          peak_attendance?: number | null
+          prepared_at?: string | null
+          prepared_by_id?: string | null
+          press_coverage?: Json | null
+          production_id?: string
+          profit_margin?: number | null
+          recommendations?: Json | null
+          renewal_prospects?: Json | null
+          repeat_recommendations?: string | null
+          revenue_breakdown?: Json | null
+          reviewed_at?: string | null
+          reviewed_by_id?: string | null
+          safety_assessment?: string | null
+          social_metrics?: Json | null
+          sponsor_satisfaction?: Json | null
+          sponsors_count?: number | null
+          sponsorship_recap?: Json | null
+          sponsorship_revenue?: number | null
+          sponsorship_total?: number | null
+          status?: Database["public"]["Enums"]["report_status_enum"] | null
+          suggested_improvements?: Json | null
+          ticket_revenue?: number | null
+          top_complaints?: Json | null
+          top_compliments?: Json | null
+          top_expense_categories?: Json | null
+          total_attendance?: number | null
+          total_incidents?: number | null
+          total_revenue?: number | null
+          total_shows?: number | null
+          updated_at?: string | null
+          variance?: number | null
+          variance_percent?: number | null
+          vendor_assessments?: Json | null
+          what_didnt_work?: Json | null
+          what_worked?: Json | null
+          would_repeat?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wrap_reports_approved_by_id_fkey"
+            columns: ["approved_by_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "wrap_reports_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_executive_dashboard"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "wrap_reports_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "wrap_reports_prepared_by_id_fkey"
+            columns: ["prepared_by_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "wrap_reports_production_id_fkey"
+            columns: ["production_id"]
+            isOneToOne: true
+            referencedRelation: "productions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "wrap_reports_reviewed_by_id_fkey"
+            columns: ["reviewed_by_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       zapier_action_logs: {
         Row: {
           action_type: string
@@ -33372,278 +38685,96 @@ export type Database = {
           },
         ]
       }
-      saved_filters: {
+      zones: {
         Row: {
-          id: string
-          user_id: string
-          name: string
+          access_level: number | null
+          amenities: Json | null
+          capacity: number | null
+          code: string | null
+          color: string | null
+          coordinates: Json | null
+          created_at: string | null
           description: string | null
-          entity_type: string
-          conditions: Json
-          sort_by: string | null
-          sort_order: string | null
-          is_public: boolean
-          is_default: boolean
-          use_count: number
-          last_used_at: string | null
-          created_at: string
-          updated_at: string
+          emergency_exits: number | null
+          floor_number: number | null
+          id: string
+          metadata: Json | null
+          name: string
+          parent_zone_id: string | null
+          production_id: string | null
+          restrictions: string[] | null
+          sort_order: number | null
+          sqft: number | null
+          updated_at: string | null
+          venue_id: string | null
+          zone_type: Database["public"]["Enums"]["zone_type_enum"] | null
         }
         Insert: {
-          id?: string
-          user_id: string
-          name: string
+          access_level?: number | null
+          amenities?: Json | null
+          capacity?: number | null
+          code?: string | null
+          color?: string | null
+          coordinates?: Json | null
+          created_at?: string | null
           description?: string | null
-          entity_type: string
-          conditions: Json
-          sort_by?: string | null
-          sort_order?: string | null
-          is_public?: boolean
-          is_default?: boolean
-          use_count?: number
-          last_used_at?: string | null
-          created_at?: string
-          updated_at?: string
+          emergency_exits?: number | null
+          floor_number?: number | null
+          id?: string
+          metadata?: Json | null
+          name: string
+          parent_zone_id?: string | null
+          production_id?: string | null
+          restrictions?: string[] | null
+          sort_order?: number | null
+          sqft?: number | null
+          updated_at?: string | null
+          venue_id?: string | null
+          zone_type?: Database["public"]["Enums"]["zone_type_enum"] | null
         }
         Update: {
+          access_level?: number | null
+          amenities?: Json | null
+          capacity?: number | null
+          code?: string | null
+          color?: string | null
+          coordinates?: Json | null
+          created_at?: string | null
+          description?: string | null
+          emergency_exits?: number | null
+          floor_number?: number | null
           id?: string
-          user_id?: string
+          metadata?: Json | null
           name?: string
-          description?: string | null
-          entity_type?: string
-          conditions?: Json
-          sort_by?: string | null
-          sort_order?: string | null
-          is_public?: boolean
-          is_default?: boolean
-          use_count?: number
-          last_used_at?: string | null
-          created_at?: string
-          updated_at?: string
+          parent_zone_id?: string | null
+          production_id?: string | null
+          restrictions?: string[] | null
+          sort_order?: number | null
+          sqft?: number | null
+          updated_at?: string | null
+          venue_id?: string | null
+          zone_type?: Database["public"]["Enums"]["zone_type_enum"] | null
         }
         Relationships: [
           {
-            foreignKeyName: "saved_filters_user_id_fkey"
-            columns: ["user_id"]
+            foreignKeyName: "zones_parent_zone_id_fkey"
+            columns: ["parent_zone_id"]
             isOneToOne: false
-            referencedRelation: "platform_users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      saved_views: {
-        Row: {
-          id: string
-          user_id: string
-          name: string
-          description: string | null
-          entity_type: string
-          visible_columns: string[]
-          column_order: string[]
-          column_widths: Json | null
-          filters: Json | null
-          sort_by: string | null
-          sort_order: string | null
-          page_size: number | null
-          is_public: boolean
-          is_default: boolean
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id?: string
-          user_id: string
-          name: string
-          description?: string | null
-          entity_type: string
-          visible_columns: string[]
-          column_order: string[]
-          column_widths?: Json | null
-          filters?: Json | null
-          sort_by?: string | null
-          sort_order?: string | null
-          page_size?: number | null
-          is_public?: boolean
-          is_default?: boolean
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          user_id?: string
-          name?: string
-          description?: string | null
-          entity_type?: string
-          visible_columns?: string[]
-          column_order?: string[]
-          column_widths?: Json | null
-          filters?: Json | null
-          sort_by?: string | null
-          sort_order?: string | null
-          page_size?: number | null
-          is_public?: boolean
-          is_default?: boolean
-          created_at?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "saved_views_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "platform_users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      feature_flags: {
-        Row: {
-          id: string
-          key: string
-          name: string
-          description: string | null
-          type: string
-          default_value: Json
-          status: string
-          rollout_strategy: string
-          rollout_percentage: number | null
-          allowed_users: string[] | null
-          allowed_roles: string[] | null
-          custom_rules: Json | null
-          tags: string[] | null
-          created_by: string
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id?: string
-          key: string
-          name: string
-          description?: string | null
-          type: string
-          default_value: Json
-          status?: string
-          rollout_strategy?: string
-          rollout_percentage?: number | null
-          allowed_users?: string[] | null
-          allowed_roles?: string[] | null
-          custom_rules?: Json | null
-          tags?: string[] | null
-          created_by: string
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          key?: string
-          name?: string
-          description?: string | null
-          type?: string
-          default_value?: Json
-          status?: string
-          rollout_strategy?: string
-          rollout_percentage?: number | null
-          allowed_users?: string[] | null
-          allowed_roles?: string[] | null
-          custom_rules?: Json | null
-          tags?: string[] | null
-          created_by?: string
-          created_at?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "feature_flags_created_by_fkey"
-            columns: ["created_by"]
-            isOneToOne: false
-            referencedRelation: "platform_users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      flag_overrides: {
-        Row: {
-          id: string
-          flag_id: string
-          user_id: string
-          value: Json
-          reason: string | null
-          expires_at: string | null
-          created_at: string
-        }
-        Insert: {
-          id?: string
-          flag_id: string
-          user_id: string
-          value: Json
-          reason?: string | null
-          expires_at?: string | null
-          created_at?: string
-        }
-        Update: {
-          id?: string
-          flag_id?: string
-          user_id?: string
-          value?: Json
-          reason?: string | null
-          expires_at?: string | null
-          created_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "flag_overrides_flag_id_fkey"
-            columns: ["flag_id"]
-            isOneToOne: false
-            referencedRelation: "feature_flags"
+            referencedRelation: "zones"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "flag_overrides_user_id_fkey"
-            columns: ["user_id"]
+            foreignKeyName: "zones_production_id_fkey"
+            columns: ["production_id"]
             isOneToOne: false
-            referencedRelation: "platform_users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      flag_evaluations: {
-        Row: {
-          id: string
-          flag_id: string
-          user_id: string
-          value: Json
-          matched_rule: string | null
-          evaluated_at: string
-        }
-        Insert: {
-          id?: string
-          flag_id: string
-          user_id: string
-          value: Json
-          matched_rule?: string | null
-          evaluated_at?: string
-        }
-        Update: {
-          id?: string
-          flag_id?: string
-          user_id?: string
-          value?: Json
-          matched_rule?: string | null
-          evaluated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "flag_evaluations_flag_id_fkey"
-            columns: ["flag_id"]
-            isOneToOne: false
-            referencedRelation: "feature_flags"
+            referencedRelation: "productions"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "flag_evaluations_user_id_fkey"
-            columns: ["user_id"]
+            foreignKeyName: "zones_venue_id_fkey"
+            columns: ["venue_id"]
             isOneToOne: false
-            referencedRelation: "platform_users"
+            referencedRelation: "venues"
             referencedColumns: ["id"]
           },
         ]
@@ -33661,22 +38792,7 @@ export type Database = {
           retired_assets: number | null
           total_assets: number | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "assets_organization_id_fkey"
-            columns: ["organization_id"]
-            isOneToOne: false
-            referencedRelation: "mv_executive_dashboard"
-            referencedColumns: ["organization_id"]
-          },
-          {
-            foreignKeyName: "assets_organization_id_fkey"
-            columns: ["organization_id"]
-            isOneToOne: false
-            referencedRelation: "organizations"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       analytics_kpi_summary: {
         Row: {
@@ -33725,43 +38841,7 @@ export type Database = {
           refreshed_at: string | null
           response_count: number | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "client_feedback_organization_id_fkey"
-            columns: ["organization_id"]
-            isOneToOne: false
-            referencedRelation: "mv_executive_dashboard"
-            referencedColumns: ["organization_id"]
-          },
-          {
-            foreignKeyName: "client_feedback_organization_id_fkey"
-            columns: ["organization_id"]
-            isOneToOne: false
-            referencedRelation: "organizations"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "client_feedback_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
-          },
-          {
-            foreignKeyName: "client_feedback_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "mv_project_financials"
-            referencedColumns: ["project_id"]
-          },
-          {
-            foreignKeyName: "client_feedback_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "projects"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       analytics_project_budget_vs_actual: {
         Row: {
@@ -33776,22 +38856,7 @@ export type Database = {
           utilization_ratio: number | null
           variance: number | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "projects_organization_id_fkey"
-            columns: ["organization_id"]
-            isOneToOne: false
-            referencedRelation: "mv_executive_dashboard"
-            referencedColumns: ["organization_id"]
-          },
-          {
-            foreignKeyName: "projects_organization_id_fkey"
-            columns: ["organization_id"]
-            isOneToOne: false
-            referencedRelation: "organizations"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       mv_asset_utilization: {
         Row: {
@@ -33824,13 +38889,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "organizations"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "assets_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
           },
           {
             foreignKeyName: "assets_project_id_fkey"
@@ -33935,13 +38993,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "platform_users"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "event_role_assignments_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "analytics_project_budget_vs_actual"
-            referencedColumns: ["project_id"]
           },
           {
             foreignKeyName: "event_role_assignments_project_id_fkey"
@@ -34073,6 +39124,17 @@ export type Database = {
         Args: { p_payroll_run_id: string }
         Returns: undefined
       }
+      calculate_production_financials: {
+        Args: { p_production_id: string }
+        Returns: {
+          break_even_attendance: number
+          production_id: string
+          projected_profit: number
+          projected_revenue: number
+          roi_percentage: number
+          total_budget: number
+        }[]
+      }
       calculate_review_statistics: {
         Args: { p_target_id: string; p_target_type: string }
         Returns: undefined
@@ -34102,6 +39164,10 @@ export type Database = {
           overtime_hours: number
           regular_hours: number
         }[]
+      }
+      call_cue: {
+        Args: { p_called_by_id: string; p_cue_id: string }
+        Returns: boolean
       }
       check_alert_threshold: {
         Args: { p_current_value: number; p_metric_name: string }
@@ -34134,6 +39200,15 @@ export type Database = {
           consent_type: string
           is_consented: boolean
           last_updated: string
+        }[]
+      }
+      check_contract_compliance: {
+        Args: { p_contract_id: string }
+        Returns: {
+          compliance_score: number
+          contract_id: string
+          is_compliant: boolean
+          missing_requirements: string[]
         }[]
       }
       check_crew_availability: {
@@ -34209,13 +39284,36 @@ export type Database = {
           tablename: unknown
         }[]
       }
+      check_user_sop_compliance: {
+        Args: { p_org_id: string; p_user_id: string }
+        Returns: {
+          acknowledged: boolean
+          requires_acknowledgment: boolean
+          requires_training: boolean
+          sop_id: string
+          sop_title: string
+          training_current: boolean
+          training_expires: string
+        }[]
+      }
       check_wallet_auto_reload: {
         Args: { p_wallet_id: string }
         Returns: boolean
       }
+      check_zone_access: {
+        Args: { p_credential_id: string; p_zone_id: string }
+        Returns: {
+          access_granted: boolean
+          access_level: number
+          credential_status: Database["public"]["Enums"]["credential_status_enum"]
+          denial_reason: string
+          zone_name: string
+        }[]
+      }
       cleanup_activity_feed: { Args: never; Returns: number }
       cleanup_api_key_usage: { Args: never; Returns: number }
       cleanup_audit_trail: { Args: never; Returns: number }
+      cleanup_expired_blueprints: { Args: never; Returns: number }
       cleanup_expired_exports: { Args: never; Returns: undefined }
       cleanup_expired_locks: { Args: never; Returns: number }
       cleanup_expired_weather_cache: { Args: never; Returns: number }
@@ -34244,7 +39342,12 @@ export type Database = {
         }
         Returns: Json
       }
+      complete_cue: { Args: { p_cue_id: string }; Returns: boolean }
       compute_trending_score: { Args: { p_event_id: string }; Returns: number }
+      convert_generator_lead: {
+        Args: { p_lead_id: string; p_user_id: string }
+        Returns: undefined
+      }
       create_change_request: {
         Args: {
           p_entity_id: string
@@ -34263,6 +39366,15 @@ export type Database = {
           p_due_date: string
           p_title: string
           p_user_id: string
+        }
+        Returns: string
+      }
+      create_sop_version: {
+        Args: {
+          p_author_id: string
+          p_change_summary: string
+          p_new_version: string
+          p_sop_id: string
         }
         Returns: string
       }
@@ -34320,6 +39432,18 @@ export type Database = {
         Args: { p_project_id: string }
         Returns: string
       }
+      generate_credential_number: {
+        Args: { p_production_id: string; p_type_code: string }
+        Returns: string
+      }
+      generate_daily_report: {
+        Args: {
+          p_created_by: string
+          p_production_id: string
+          p_report_date: string
+        }
+        Returns: string
+      }
       generate_financial_report: {
         Args: { p_end_date?: string; p_org_id: string; p_start_date?: string }
         Returns: {
@@ -34335,6 +39459,11 @@ export type Database = {
         }[]
       }
       generate_incident_number: { Args: { org_id: string }; Returns: string }
+      generate_incident_report_number: {
+        Args: { p_org_id: string }
+        Returns: string
+      }
+      generate_lost_item_number: { Args: { p_org_id: string }; Returns: string }
       generate_payroll_run_number: { Args: { org_id: string }; Returns: string }
       generate_project_csv: {
         Args: { p_org_id: string }
@@ -34362,6 +39491,10 @@ export type Database = {
         }[]
       }
       generate_work_order_number: { Args: { org_id: string }; Returns: string }
+      generate_wrap_report: {
+        Args: { p_created_by: string; p_production_id: string }
+        Returns: string
+      }
       get_activations: {
         Args: {
           p_category?: Database["public"]["Enums"]["activation_category"]
@@ -34462,6 +39595,65 @@ export type Database = {
           type: string
         }[]
       }
+      get_compliance_dashboard: {
+        Args: { p_production_id: string }
+        Returns: {
+          checklists_complete: number
+          checklists_total: number
+          overall_compliance_score: number
+          permits_approved: number
+          permits_expiring_soon: number
+          permits_pending: number
+          permits_total: number
+          policies_active: number
+          policies_expiring_soon: number
+          policies_total: number
+          production_id: string
+        }[]
+      }
+      get_contact_hierarchy: {
+        Args: { p_contact_id: string }
+        Returns: {
+          contact_id: string
+          full_name: string
+          job_title: string
+          level: number
+          path: string[]
+        }[]
+      }
+      get_contract_summary: {
+        Args: { p_contract_id: string }
+        Returns: {
+          category: Database["public"]["Enums"]["contract_category_enum"]
+          compliance_score: number
+          contract_id: string
+          contract_number: string
+          days_remaining: number
+          deliverables_completed: number
+          deliverables_total: number
+          end_date: string
+          is_fully_signed: boolean
+          lifecycle_status: Database["public"]["Enums"]["contract_lifecycle_status_enum"]
+          milestones_completed: number
+          milestones_total: number
+          party_a_name: string
+          party_b_name: string
+          start_date: string
+          title: string
+          total_value: number
+        }[]
+      }
+      get_contracts_needing_attention: {
+        Args: { p_days_ahead?: number; p_org_id: string }
+        Returns: {
+          attention_detail: string
+          attention_type: string
+          contract_id: string
+          days_until_due: number
+          due_date: string
+          title: string
+        }[]
+      }
       get_cross_platform_summary: {
         Args: { p_project_id: string }
         Returns: {
@@ -34470,6 +39662,30 @@ export type Database = {
           linked_id: string
           platform: string
           sync_status: string
+        }[]
+      }
+      get_cue_sheet: {
+        Args: { p_show_id: string }
+        Returns: {
+          activity: string
+          actual_time: string
+          audio_cue: string
+          cue_id: string
+          cue_number: string
+          cue_type: Database["public"]["Enums"]["cue_type_enum"]
+          is_milestone: boolean
+          lighting_cue: string
+          props: string[]
+          scenic_cue: string
+          scheduled_time: string
+          sequence: number
+          sfx_cue: string
+          status: string
+          talent: string[]
+          trigger_type: Database["public"]["Enums"]["trigger_type_enum"]
+          variance_seconds: number
+          video_cue: string
+          zone_name: string
         }[]
       }
       get_custom_fields: {
@@ -34488,6 +39704,17 @@ export type Database = {
           variance: number
         }[]
       }
+      get_direct_reports: {
+        Args: { p_contact_id: string }
+        Returns: {
+          contact_id: string
+          contact_type: Database["public"]["Enums"]["contact_type_enum"]
+          department_name: string
+          email: string
+          full_name: string
+          job_title: string
+        }[]
+      }
       get_entity_hierarchy: {
         Args: { p_entity_id: string }
         Returns: {
@@ -34501,6 +39728,17 @@ export type Database = {
       get_event_favorite_count: {
         Args: { p_event_id: string }
         Returns: number
+      }
+      get_expense_summary: {
+        Args: { p_production_id: string }
+        Returns: {
+          approved_expenses: number
+          by_category: Json
+          by_department: Json
+          pending_expenses: number
+          top_vendors: Json
+          total_expenses: number
+        }[]
       }
       get_expiring_certifications: {
         Args: { days_ahead?: number }
@@ -34523,6 +39761,17 @@ export type Database = {
           title: string
         }[]
       }
+      get_expiring_compliance_items: {
+        Args: { p_days_ahead?: number; p_org_id: string }
+        Returns: {
+          days_until_expiry: number
+          expiration_date: string
+          item_id: string
+          item_name: string
+          item_type: string
+          status: string
+        }[]
+      }
       get_expiring_contracts: {
         Args: { days_ahead?: number }
         Returns: {
@@ -34534,6 +39783,80 @@ export type Database = {
       }
       get_follower_count: { Args: { p_user_id: string }; Returns: number }
       get_following_count: { Args: { p_user_id: string }; Returns: number }
+      get_fundraising_dashboard: {
+        Args: { p_org_id: string }
+        Returns: {
+          active_round_summary: Json
+          active_rounds: number
+          investor_pipeline: Json
+          recent_investments: Json
+          total_investors: number
+          total_raised_all_time: number
+        }[]
+      }
+      get_generator_analytics_summary: {
+        Args: { p_end_date?: string; p_start_date?: string }
+        Returns: {
+          avg_duration_ms: number
+          event_count: number
+          event_type: string
+          unique_blueprints: number
+          unique_sessions: number
+        }[]
+      }
+      get_highest_platform_role: {
+        Args: { p_auth_user_id: string }
+        Returns: string
+      }
+      get_incident_statistics: {
+        Args: {
+          p_end_date?: string
+          p_production_id: string
+          p_start_date?: string
+        }
+        Returns: {
+          avg_resolution_days: number
+          by_category: Json
+          by_severity: Json
+          incidents_with_injuries: number
+          incidents_with_law_enforcement: number
+          open_incidents: number
+          resolved_incidents: number
+          total_incidents: number
+        }[]
+      }
+      get_incident_summary: {
+        Args: { p_incident_id: string }
+        Returns: {
+          corrective_actions_count: number
+          corrective_actions_pending: number
+          days_open: number
+          has_injuries: boolean
+          has_insurance_claim: boolean
+          has_law_enforcement: boolean
+          incident_at: string
+          incident_category: Database["public"]["Enums"]["incident_category_enum"]
+          incident_id: string
+          location: string
+          persons_involved_count: number
+          report_number: string
+          severity: Database["public"]["Enums"]["severity_level_enum"]
+          status: Database["public"]["Enums"]["incident_resolution_status_enum"]
+          title: string
+          updates_count: number
+        }[]
+      }
+      get_investor_portfolio: {
+        Args: { p_investor_id: string }
+        Returns: {
+          by_status: Json
+          investments: Json
+          investments_count: number
+          investor_id: string
+          rounds_participated: number
+          total_invested: number
+        }[]
+      }
       get_kpi_trend: {
         Args: {
           p_days?: number
@@ -34559,6 +39882,22 @@ export type Database = {
           total_records: number
         }[]
       }
+      get_metrics_summary: {
+        Args: {
+          p_end_date: string
+          p_production_id: string
+          p_start_date: string
+        }
+        Returns: {
+          avg_value: number
+          data_points: number
+          max_value: number
+          metric_name: string
+          metric_type: string
+          min_value: number
+          total_value: number
+        }[]
+      }
       get_n8n_workflow_stats: {
         Args: { p_workflow_id: string }
         Returns: {
@@ -34576,6 +39915,20 @@ export type Database = {
           success_rate: number
           successful: number
           total_sent: number
+        }[]
+      }
+      get_organization_branding: {
+        Args: { p_org_id: string }
+        Returns: {
+          id: string
+          legal_name: string
+          logo_url: string
+          name: string
+          org_type: Database["public"]["Enums"]["org_type_enum"]
+          primary_color: string
+          secondary_color: string
+          settings: Json
+          slug: string
         }[]
       }
       get_pending_action_items: {
@@ -34609,6 +39962,55 @@ export type Database = {
           score: number
         }[]
       }
+      get_production_contacts_by_type: {
+        Args: {
+          p_contact_type?: Database["public"]["Enums"]["contact_type_enum"]
+          p_production_id: string
+        }
+        Returns: {
+          contact_id: string
+          contact_type: Database["public"]["Enums"]["contact_type_enum"]
+          email: string
+          full_name: string
+          job_title: string
+          phone: string
+          role_in_production: string
+        }[]
+      }
+      get_production_credentials: {
+        Args: {
+          p_production_id: string
+          p_status?: Database["public"]["Enums"]["credential_status_enum"]
+        }
+        Returns: {
+          access_level: number
+          contact_email: string
+          contact_name: string
+          credential_id: string
+          credential_number: string
+          credential_type: string
+          days_remaining: number
+          scan_count: number
+          status: Database["public"]["Enums"]["credential_status_enum"]
+          valid_from: string
+          valid_until: string
+        }[]
+      }
+      get_production_dashboard_summary: {
+        Args: { p_production_id: string }
+        Returns: {
+          budget_utilization: number
+          crew_count: number
+          days_until_closing: number
+          days_until_opening: number
+          format: Database["public"]["Enums"]["production_format_enum"]
+          lifecycle_status: Database["public"]["Enums"]["production_lifecycle_enum"]
+          open_tasks: number
+          production_id: string
+          production_name: string
+          total_shows_scheduled: number
+        }[]
+      }
       get_production_summary: {
         Args: { p_production_id: string }
         Returns: {
@@ -34620,6 +40022,18 @@ export type Database = {
           production_id: string
           production_name: string
           status: string
+        }[]
+      }
+      get_production_zones: {
+        Args: { p_production_id: string }
+        Returns: {
+          access_level: number
+          capacity: number
+          parent_zone_name: string
+          zone_code: string
+          zone_id: string
+          zone_name: string
+          zone_type: Database["public"]["Enums"]["zone_type_enum"]
         }[]
       }
       get_profile_with_stats: {
@@ -34664,6 +40078,23 @@ export type Database = {
           title: string
         }[]
       }
+      get_round_summary: {
+        Args: { p_round_id: string }
+        Returns: {
+          amount_committed: number
+          amount_raised: number
+          average_investment: number
+          days_until_close: number
+          investments_count: number
+          investors_count: number
+          progress_percent: number
+          round_id: string
+          round_name: string
+          round_type: Database["public"]["Enums"]["round_type_enum"]
+          status: Database["public"]["Enums"]["round_status_enum"]
+          target_amount: number
+        }[]
+      }
       get_safety_metrics: {
         Args: { p_end_date: string; p_org_id: string; p_start_date: string }
         Returns: {
@@ -34674,6 +40105,76 @@ export type Database = {
           recordable_incidents: number
           total_incidents: number
           total_injuries: number
+        }[]
+      }
+      get_show_summary: {
+        Args: { p_show_id: string }
+        Returns: {
+          attendance: number
+          capacity: number
+          crew_checked_in: number
+          crew_count: number
+          cue_count: number
+          cues_completed: number
+          fill_rate: number
+          show_date: string
+          show_id: string
+          show_number: number
+          show_type: Database["public"]["Enums"]["show_type_enum"]
+          stage_manager: string
+          status: Database["public"]["Enums"]["show_status_enum"]
+          tickets_sold: number
+          venue_name: string
+        }[]
+      }
+      get_sop_with_steps: {
+        Args: { p_sop_id: string }
+        Returns: {
+          approved_at: string
+          approver_name: string
+          author_name: string
+          category_name: string
+          purpose: string
+          scope: string
+          sop_id: string
+          sop_number: string
+          status: Database["public"]["Enums"]["sop_status_enum"]
+          steps: Json
+          title: string
+          version: string
+        }[]
+      }
+      get_sponsor_dashboard: {
+        Args: { p_sponsor_id: string }
+        Returns: {
+          activations_active: number
+          activations_total: number
+          company_name: string
+          deliverables_completed: number
+          deliverables_total: number
+          payment_percentage: number
+          payment_received: number
+          sponsor_id: string
+          status: Database["public"]["Enums"]["sponsor_status_enum"]
+          tier_name: string
+          total_value: number
+          upcoming_payments: Json
+        }[]
+      }
+      get_sponsorship_summary: {
+        Args: { p_production_id: string }
+        Returns: {
+          completion_percentage: number
+          confirmed_sponsors: number
+          deliverables_completed: number
+          deliverables_pending: number
+          outstanding_amount: number
+          production_id: string
+          total_cash_value: number
+          total_received: number
+          total_sponsors: number
+          total_value: number
+          total_vik_value: number
         }[]
       }
       get_staff_workload: {
@@ -34716,6 +40217,33 @@ export type Database = {
           next_due_date: string
           priority: string
           schedule_id: string
+        }[]
+      }
+      get_upcoming_shows: {
+        Args: { p_days_ahead?: number; p_production_id: string }
+        Returns: {
+          capacity: number
+          show_date: string
+          show_id: string
+          show_number: number
+          show_type: Database["public"]["Enums"]["show_type_enum"]
+          stage_manager: string
+          start_time: string
+          status: Database["public"]["Enums"]["show_status_enum"]
+          tickets_sold: number
+          venue_name: string
+        }[]
+      }
+      get_upcoming_sponsor_deliverables: {
+        Args: { p_days_ahead?: number; p_production_id: string }
+        Returns: {
+          days_until_due: number
+          deliverable_id: string
+          deliverable_title: string
+          deliverable_type: string
+          due_date: string
+          sponsor_name: string
+          status: string
         }[]
       }
       get_user_available_discounts: {
@@ -34774,6 +40302,18 @@ export type Database = {
           total_steps: number
         }[]
       }
+      get_venue_with_zones: {
+        Args: { p_venue_id: string }
+        Returns: {
+          max_capacity: number
+          total_sqft: number
+          venue_id: string
+          venue_name: string
+          venue_type: Database["public"]["Enums"]["venue_type_enum"]
+          zone_count: number
+          zones: Json
+        }[]
+      }
       get_version_history: {
         Args: { p_entity_id: string; p_entity_type: string; p_limit?: number }
         Returns: {
@@ -34824,6 +40364,18 @@ export type Database = {
         Args: { p_artist_id: string }
         Returns: undefined
       }
+      increment_blueprint_download: {
+        Args: { p_share_id: string }
+        Returns: undefined
+      }
+      increment_blueprint_export: {
+        Args: { p_share_id: string }
+        Returns: undefined
+      }
+      increment_blueprint_view: {
+        Args: { p_share_id: string }
+        Returns: undefined
+      }
       increment_campaign_stat: {
         Args: { p_campaign_id: string; p_stat: string }
         Returns: undefined
@@ -34851,6 +40403,19 @@ export type Database = {
       is_following: {
         Args: { p_followed_id: string; p_follower_id: string }
         Returns: boolean
+      }
+      issue_credential: {
+        Args: {
+          p_contact_id: string
+          p_credential_type_id: string
+          p_issued_by_id?: string
+          p_notes?: string
+          p_photo_url?: string
+          p_production_id: string
+          p_valid_days?: number
+          p_valid_from?: string
+        }
+        Returns: string
       }
       log_activity: {
         Args: {
@@ -34886,6 +40451,21 @@ export type Database = {
           p_user_id: string
         }
         Returns: string
+      }
+      log_credential_scan: {
+        Args: {
+          p_credential_id: string
+          p_device_id?: string
+          p_location?: string
+          p_scan_type: string
+          p_scanned_by_id?: string
+          p_zone_id: string
+        }
+        Returns: {
+          access_granted: boolean
+          denial_reason: string
+          scan_id: string
+        }[]
       }
       log_impersonation_session: {
         Args: { p_context?: Json; p_target_auth_user: string }
@@ -35013,6 +40593,30 @@ export type Database = {
         }
         Returns: string
       }
+      record_metric: {
+        Args: {
+          p_dimensions?: Json
+          p_granularity?: Database["public"]["Enums"]["metrics_granularity_enum"]
+          p_metric_name: string
+          p_metric_type: string
+          p_org_id: string
+          p_production_id: string
+          p_unit?: string
+          p_value: number
+        }
+        Returns: string
+      }
+      record_sponsor_payment: {
+        Args: {
+          p_amount: number
+          p_notes?: string
+          p_payment_method?: string
+          p_payment_type?: string
+          p_reference_number?: string
+          p_sponsor_id: string
+        }
+        Returns: string
+      }
       record_user_activity: {
         Args: {
           p_artist_id?: string
@@ -35056,6 +40660,14 @@ export type Database = {
       }
       require_mfa_claim: { Args: never; Returns: undefined }
       reset_connection_stats: { Args: never; Returns: undefined }
+      revoke_credential: {
+        Args: {
+          p_credential_id: string
+          p_reason?: string
+          p_revoked_by_id: string
+        }
+        Returns: boolean
+      }
       revoke_impersonation_permission: {
         Args: { p_target_auth_user: string }
         Returns: {
@@ -35355,6 +40967,29 @@ export type Database = {
         }[]
       }
       schedule_materialized_view_refresh: { Args: never; Returns: undefined }
+      search_contacts: {
+        Args: {
+          p_contact_type?: Database["public"]["Enums"]["contact_type_enum"]
+          p_department_id?: string
+          p_limit?: number
+          p_offset?: number
+          p_org_id: string
+          p_search_term?: string
+          p_tags?: string[]
+        }
+        Returns: {
+          avatar_url: string
+          company: string
+          contact_id: string
+          contact_type: Database["public"]["Enums"]["contact_type_enum"]
+          department_name: string
+          email: string
+          full_name: string
+          job_title: string
+          phone: string
+          tags: string[]
+        }[]
+      }
       search_projects: {
         Args: {
           p_limit?: number
@@ -35459,6 +41094,19 @@ export type Database = {
         Args: { p_comment_id: string }
         Returns: boolean
       }
+      track_generator_event: {
+        Args: {
+          p_blueprint_id?: string
+          p_creative_seed?: string
+          p_duration_ms?: number
+          p_event_data?: Json
+          p_event_type: string
+          p_page_url?: string
+          p_referrer?: string
+          p_session_id?: string
+        }
+        Returns: string
+      }
       trigger_cleanup_expired_locks: { Args: never; Returns: undefined }
       universal_search: {
         Args: {
@@ -35498,6 +41146,16 @@ export type Database = {
         Returns: undefined
       }
       upsert_search_analytics: { Args: { p_query: string }; Returns: undefined }
+      validate_api_key: {
+        Args: { p_key_hash: string }
+        Returns: {
+          api_key_id: string
+          is_valid: boolean
+          organization_id: string
+          permissions: string[]
+          rate_limit: number
+        }[]
+      }
       validate_password_strength: {
         Args: { password: string }
         Returns: boolean
@@ -35538,10 +41196,101 @@ export type Database = {
         | "retired"
       automation_kind: "trigger" | "action"
       automation_status: "success" | "error"
+      contact_status_enum: "active" | "inactive" | "pending" | "archived"
+      contact_type_enum:
+        | "internal"
+        | "vendor"
+        | "contractor"
+        | "sponsor"
+        | "investor"
+        | "media"
+        | "artist"
+        | "guest"
+        | "emergency"
+        | "other"
+      contract_category_enum:
+        | "partner"
+        | "employment"
+        | "contractor"
+        | "subcontractor"
+        | "vendor"
+        | "artist"
+        | "sponsor"
+        | "intern"
+        | "nda"
+        | "other"
+      contract_lifecycle_status_enum:
+        | "draft"
+        | "pending_review"
+        | "pending_signature"
+        | "active"
+        | "completed"
+        | "terminated"
+        | "expired"
+      credential_status_enum:
+        | "pending"
+        | "active"
+        | "suspended"
+        | "revoked"
+        | "expired"
+      cue_type_enum:
+        | "master"
+        | "lighting"
+        | "sound"
+        | "video"
+        | "sfx"
+        | "scenic"
+        | "action"
+        | "note"
       deal_status: "lead" | "qualified" | "proposal" | "won" | "lost"
       employee_status: "active" | "on_leave" | "inactive" | "terminated"
       employment_type: "full_time" | "part_time" | "contractor" | "freelancer"
+      expense_category_enum:
+        | "travel"
+        | "meals"
+        | "lodging"
+        | "supplies"
+        | "equipment"
+        | "services"
+        | "shipping"
+        | "marketing"
+        | "entertainment"
+        | "venue"
+        | "talent"
+        | "production"
+        | "insurance"
+        | "permits"
+        | "other"
+      expense_report_status_enum:
+        | "draft"
+        | "submitted"
+        | "under_review"
+        | "approved"
+        | "rejected"
+        | "paid"
       expense_status: "draft" | "submitted" | "approved" | "rejected" | "paid"
+      incident_category_enum:
+        | "medical"
+        | "security"
+        | "property"
+        | "guest_complaint"
+        | "injury"
+        | "theft"
+        | "altercation"
+        | "technical"
+        | "weather"
+        | "crowd"
+        | "fire"
+        | "hazmat"
+        | "missing_person"
+        | "other"
+      incident_resolution_status_enum:
+        | "open"
+        | "investigating"
+        | "pending_review"
+        | "resolved"
+        | "closed"
+        | "reopened"
       industry_vertical:
         | "events_entertainment"
         | "corporate_meetings"
@@ -35557,8 +41306,130 @@ export type Database = {
         | "manufacturing"
         | "logistics"
         | "universal"
+      insurance_type_enum:
+        | "general_liability"
+        | "workers_comp"
+        | "employers_liability"
+        | "liquor_liability"
+        | "event_cancellation"
+        | "property"
+        | "auto"
+        | "umbrella"
+        | "cyber"
+        | "dno"
+        | "professional_liability"
+        | "other"
+      investment_instrument_enum:
+        | "equity"
+        | "safe"
+        | "convertible_note"
+        | "revenue_share"
+        | "profit_share"
+        | "debt"
+        | "grant"
+        | "other"
+      investment_status_enum:
+        | "committed"
+        | "docs_sent"
+        | "docs_signed"
+        | "wired"
+        | "funded"
+        | "cancelled"
+      investor_status_enum:
+        | "prospect"
+        | "contacted"
+        | "meeting"
+        | "due_diligence"
+        | "committed"
+        | "funded"
+        | "declined"
+        | "inactive"
+      investor_type_enum:
+        | "individual"
+        | "institution"
+        | "family_office"
+        | "vc"
+        | "angel"
+        | "corporate"
+        | "foundation"
+        | "other"
       lead_time_unit: "hours" | "days" | "weeks" | "months"
       ledger_side: "debit" | "credit"
+      lost_found_category_enum:
+        | "electronics"
+        | "clothing"
+        | "wallet_id"
+        | "keys"
+        | "jewelry"
+        | "bag"
+        | "glasses"
+        | "medication"
+        | "phone"
+        | "other"
+      lost_found_status_enum:
+        | "stored"
+        | "claimed"
+        | "donated"
+        | "disposed"
+        | "transferred"
+      metrics_granularity_enum:
+        | "minute"
+        | "hour"
+        | "day"
+        | "week"
+        | "month"
+        | "quarter"
+        | "year"
+      org_type_enum:
+        | "company"
+        | "agency"
+        | "venue"
+        | "vendor"
+        | "sponsor"
+        | "investor"
+      payment_method_enum:
+        | "personal_card"
+        | "company_card"
+        | "cash"
+        | "invoice"
+        | "check"
+        | "wire"
+        | "ach"
+        | "paypal"
+        | "venmo"
+        | "other"
+      permit_status_enum:
+        | "not_started"
+        | "researching"
+        | "applied"
+        | "pending"
+        | "approved"
+        | "denied"
+        | "expired"
+        | "revoked"
+      permit_type_enum:
+        | "business"
+        | "event"
+        | "fire"
+        | "building"
+        | "liquor"
+        | "food"
+        | "music"
+        | "noise"
+        | "temporary_structure"
+        | "electrical"
+        | "pyrotechnics"
+        | "street_closure"
+        | "parking"
+        | "health"
+        | "occupancy"
+        | "other"
+      policy_status_enum:
+        | "pending"
+        | "active"
+        | "expired"
+        | "cancelled"
+        | "lapsed"
       procurement_request_status:
         | "draft"
         | "submitted"
@@ -35574,6 +41445,26 @@ export type Database = {
         | "consumable"
         | "license"
         | "subscription"
+      production_format_enum:
+        | "immersive"
+        | "festival"
+        | "activation"
+        | "installation"
+        | "theater"
+        | "concert"
+        | "conference"
+        | "corporate"
+        | "private"
+        | "other"
+      production_lifecycle_enum:
+        | "draft"
+        | "planning"
+        | "pre_production"
+        | "production"
+        | "active"
+        | "completed"
+        | "cancelled"
+        | "archived"
       project_phase: "intake" | "preproduction" | "in_production" | "post"
       purchase_order_status:
         | "draft"
@@ -35582,11 +41473,83 @@ export type Database = {
         | "ordered"
         | "received"
         | "closed"
+      report_status_enum:
+        | "draft"
+        | "submitted"
+        | "review"
+        | "approved"
+        | "final"
+      round_status_enum:
+        | "planning"
+        | "open"
+        | "closing"
+        | "closed"
+        | "cancelled"
+      round_type_enum:
+        | "pre_seed"
+        | "seed"
+        | "series_a"
+        | "series_b"
+        | "series_c"
+        | "bridge"
+        | "growth"
+        | "mezzanine"
+        | "other"
+      severity_level_enum: "1" | "2" | "3" | "4" | "5"
+      show_status_enum:
+        | "scheduled"
+        | "confirmed"
+        | "in_progress"
+        | "completed"
+        | "cancelled"
+      show_type_enum: "preview" | "regular" | "final" | "special" | "private"
+      sop_status_enum:
+        | "draft"
+        | "review"
+        | "approved"
+        | "archived"
+        | "superseded"
+      sponsor_status_enum:
+        | "prospect"
+        | "pitched"
+        | "negotiating"
+        | "confirmed"
+        | "active"
+        | "completed"
+        | "declined"
       sync_status: "pending" | "in_progress" | "synced" | "failed"
       time_entry_status: "pending" | "approved" | "rejected"
+      trigger_type_enum:
+        | "time"
+        | "manual"
+        | "sensor"
+        | "previous_cue"
+        | "conditional"
+      venue_type_enum:
+        | "warehouse"
+        | "theater"
+        | "arena"
+        | "stadium"
+        | "outdoor"
+        | "convention"
+        | "hotel"
+        | "restaurant"
+        | "club"
+        | "custom"
+        | "other"
       webhook_provider: "stripe" | "twilio" | "gvteway"
       webhook_status: "received" | "validated" | "rejected" | "processed"
       workflow_status: "pending" | "in_progress" | "completed" | "blocked"
+      zone_type_enum:
+        | "public"
+        | "vip"
+        | "backstage"
+        | "production"
+        | "operations"
+        | "restricted"
+        | "loading"
+        | "parking"
+        | "other"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -35712,9 +41675,6 @@ export type CompositeTypes<
     : never
 
 export const Constants = {
-  graphql_public: {
-    Enums: {},
-  },
   public: {
     Enums: {
       activation_category: [
@@ -35750,10 +41710,110 @@ export const Constants = {
       ],
       automation_kind: ["trigger", "action"],
       automation_status: ["success", "error"],
+      contact_status_enum: ["active", "inactive", "pending", "archived"],
+      contact_type_enum: [
+        "internal",
+        "vendor",
+        "contractor",
+        "sponsor",
+        "investor",
+        "media",
+        "artist",
+        "guest",
+        "emergency",
+        "other",
+      ],
+      contract_category_enum: [
+        "partner",
+        "employment",
+        "contractor",
+        "subcontractor",
+        "vendor",
+        "artist",
+        "sponsor",
+        "intern",
+        "nda",
+        "other",
+      ],
+      contract_lifecycle_status_enum: [
+        "draft",
+        "pending_review",
+        "pending_signature",
+        "active",
+        "completed",
+        "terminated",
+        "expired",
+      ],
+      credential_status_enum: [
+        "pending",
+        "active",
+        "suspended",
+        "revoked",
+        "expired",
+      ],
+      cue_type_enum: [
+        "master",
+        "lighting",
+        "sound",
+        "video",
+        "sfx",
+        "scenic",
+        "action",
+        "note",
+      ],
       deal_status: ["lead", "qualified", "proposal", "won", "lost"],
       employee_status: ["active", "on_leave", "inactive", "terminated"],
       employment_type: ["full_time", "part_time", "contractor", "freelancer"],
+      expense_category_enum: [
+        "travel",
+        "meals",
+        "lodging",
+        "supplies",
+        "equipment",
+        "services",
+        "shipping",
+        "marketing",
+        "entertainment",
+        "venue",
+        "talent",
+        "production",
+        "insurance",
+        "permits",
+        "other",
+      ],
+      expense_report_status_enum: [
+        "draft",
+        "submitted",
+        "under_review",
+        "approved",
+        "rejected",
+        "paid",
+      ],
       expense_status: ["draft", "submitted", "approved", "rejected", "paid"],
+      incident_category_enum: [
+        "medical",
+        "security",
+        "property",
+        "guest_complaint",
+        "injury",
+        "theft",
+        "altercation",
+        "technical",
+        "weather",
+        "crowd",
+        "fire",
+        "hazmat",
+        "missing_person",
+        "other",
+      ],
+      incident_resolution_status_enum: [
+        "open",
+        "investigating",
+        "pending_review",
+        "resolved",
+        "closed",
+        "reopened",
+      ],
       industry_vertical: [
         "events_entertainment",
         "corporate_meetings",
@@ -35770,8 +41830,143 @@ export const Constants = {
         "logistics",
         "universal",
       ],
+      insurance_type_enum: [
+        "general_liability",
+        "workers_comp",
+        "employers_liability",
+        "liquor_liability",
+        "event_cancellation",
+        "property",
+        "auto",
+        "umbrella",
+        "cyber",
+        "dno",
+        "professional_liability",
+        "other",
+      ],
+      investment_instrument_enum: [
+        "equity",
+        "safe",
+        "convertible_note",
+        "revenue_share",
+        "profit_share",
+        "debt",
+        "grant",
+        "other",
+      ],
+      investment_status_enum: [
+        "committed",
+        "docs_sent",
+        "docs_signed",
+        "wired",
+        "funded",
+        "cancelled",
+      ],
+      investor_status_enum: [
+        "prospect",
+        "contacted",
+        "meeting",
+        "due_diligence",
+        "committed",
+        "funded",
+        "declined",
+        "inactive",
+      ],
+      investor_type_enum: [
+        "individual",
+        "institution",
+        "family_office",
+        "vc",
+        "angel",
+        "corporate",
+        "foundation",
+        "other",
+      ],
       lead_time_unit: ["hours", "days", "weeks", "months"],
       ledger_side: ["debit", "credit"],
+      lost_found_category_enum: [
+        "electronics",
+        "clothing",
+        "wallet_id",
+        "keys",
+        "jewelry",
+        "bag",
+        "glasses",
+        "medication",
+        "phone",
+        "other",
+      ],
+      lost_found_status_enum: [
+        "stored",
+        "claimed",
+        "donated",
+        "disposed",
+        "transferred",
+      ],
+      metrics_granularity_enum: [
+        "minute",
+        "hour",
+        "day",
+        "week",
+        "month",
+        "quarter",
+        "year",
+      ],
+      org_type_enum: [
+        "company",
+        "agency",
+        "venue",
+        "vendor",
+        "sponsor",
+        "investor",
+      ],
+      payment_method_enum: [
+        "personal_card",
+        "company_card",
+        "cash",
+        "invoice",
+        "check",
+        "wire",
+        "ach",
+        "paypal",
+        "venmo",
+        "other",
+      ],
+      permit_status_enum: [
+        "not_started",
+        "researching",
+        "applied",
+        "pending",
+        "approved",
+        "denied",
+        "expired",
+        "revoked",
+      ],
+      permit_type_enum: [
+        "business",
+        "event",
+        "fire",
+        "building",
+        "liquor",
+        "food",
+        "music",
+        "noise",
+        "temporary_structure",
+        "electrical",
+        "pyrotechnics",
+        "street_closure",
+        "parking",
+        "health",
+        "occupancy",
+        "other",
+      ],
+      policy_status_enum: [
+        "pending",
+        "active",
+        "expired",
+        "cancelled",
+        "lapsed",
+      ],
       procurement_request_status: [
         "draft",
         "submitted",
@@ -35789,6 +41984,28 @@ export const Constants = {
         "license",
         "subscription",
       ],
+      production_format_enum: [
+        "immersive",
+        "festival",
+        "activation",
+        "installation",
+        "theater",
+        "concert",
+        "conference",
+        "corporate",
+        "private",
+        "other",
+      ],
+      production_lifecycle_enum: [
+        "draft",
+        "planning",
+        "pre_production",
+        "production",
+        "active",
+        "completed",
+        "cancelled",
+        "archived",
+      ],
       project_phase: ["intake", "preproduction", "in_production", "post"],
       purchase_order_status: [
         "draft",
@@ -35798,12 +42015,80 @@ export const Constants = {
         "received",
         "closed",
       ],
+      report_status_enum: ["draft", "submitted", "review", "approved", "final"],
+      round_status_enum: ["planning", "open", "closing", "closed", "cancelled"],
+      round_type_enum: [
+        "pre_seed",
+        "seed",
+        "series_a",
+        "series_b",
+        "series_c",
+        "bridge",
+        "growth",
+        "mezzanine",
+        "other",
+      ],
+      severity_level_enum: ["1", "2", "3", "4", "5"],
+      show_status_enum: [
+        "scheduled",
+        "confirmed",
+        "in_progress",
+        "completed",
+        "cancelled",
+      ],
+      show_type_enum: ["preview", "regular", "final", "special", "private"],
+      sop_status_enum: [
+        "draft",
+        "review",
+        "approved",
+        "archived",
+        "superseded",
+      ],
+      sponsor_status_enum: [
+        "prospect",
+        "pitched",
+        "negotiating",
+        "confirmed",
+        "active",
+        "completed",
+        "declined",
+      ],
       sync_status: ["pending", "in_progress", "synced", "failed"],
       time_entry_status: ["pending", "approved", "rejected"],
+      trigger_type_enum: [
+        "time",
+        "manual",
+        "sensor",
+        "previous_cue",
+        "conditional",
+      ],
+      venue_type_enum: [
+        "warehouse",
+        "theater",
+        "arena",
+        "stadium",
+        "outdoor",
+        "convention",
+        "hotel",
+        "restaurant",
+        "club",
+        "custom",
+        "other",
+      ],
       webhook_provider: ["stripe", "twilio", "gvteway"],
       webhook_status: ["received", "validated", "rejected", "processed"],
       workflow_status: ["pending", "in_progress", "completed", "blocked"],
+      zone_type_enum: [
+        "public",
+        "vip",
+        "backstage",
+        "production",
+        "operations",
+        "restricted",
+        "loading",
+        "parking",
+        "other",
+      ],
     },
   },
 } as const
-
