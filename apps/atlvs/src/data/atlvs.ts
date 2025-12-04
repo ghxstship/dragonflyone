@@ -1798,3 +1798,58 @@ export const atlvsFeatureChecklist = [
     ],
   },
 ];
+
+// =============================================================================
+// ABOUT PAGE DATA
+// =============================================================================
+
+export const atlvsAboutData = {
+  hero: {
+    headline: "BUILT BY PRODUCTION PEOPLE WHO GOT TIRED OF THE CHAOS",
+    description:
+      "We started ATLVS because we lived it. The spreadsheet nightmares, the disconnected tools, the 2am fire drills that made us question our life choices. We knew there had to be a better way. Turns out, there was. We just had to build it ourselves.",
+  },
+  mission: {
+    title: "OUR MISSION",
+    description:
+      "To give every production team the tools they need to create extraordinary experiences without losing their minds in the process. When the logistics disappear, the magic happens. That's not just a tagline — it's the whole point.",
+  },
+  values: [
+    {
+      icon: "Target",
+      title: "SHIP THE SHOW",
+      description: "Everything we build helps you deliver. No feature bloat, no complexity for complexity's sake. If it doesn't help you ship, it doesn't ship.",
+    },
+    {
+      icon: "Heart",
+      title: "RESPECT THE CRAFT",
+      description: "Production is an art. Our tools enhance your expertise, not replace it. You're the captain — we're just building a better ship.",
+    },
+    {
+      icon: "Zap",
+      title: "MOVE FAST",
+      description: "In live events, speed isn't a luxury — it's survival. Our platform is built for the pace of real production, not theoretical workflows.",
+    },
+    {
+      icon: "Users",
+      title: "CREW FIRST",
+      description: "Happy crews make great shows. Burned out crews make mistakes. We build tools that make everyone's job easier. Including yours.",
+    },
+  ],
+  stats: [
+    { value: "2019", label: "Founded" },
+    { value: "85+", label: "Team Members" },
+    { value: "4", label: "Global Offices" },
+    { value: "$42M", label: "Raised" },
+  ],
+  team: {
+    title: "LEADERSHIP",
+    members: [
+      { name: "Alex Rivera", role: "CEO & Co-Founder", background: "Former VP Production, Insomniac" },
+      { name: "Jordan Chen", role: "CTO & Co-Founder", background: "Former Engineering Lead, Eventbrite" },
+      { name: "Sam Williams", role: "CPO", background: "Former Head of Product, Asana" },
+      { name: "Morgan Taylor", role: "COO", background: "Former COO, C3 Presents" },
+    ],
+  },
+  investors: ["Andreessen Horowitz", "Founders Fund", "Index Ventures", "General Catalyst"],
+};

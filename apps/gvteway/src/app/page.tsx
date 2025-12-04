@@ -37,144 +37,45 @@ import {
   Package,
   UserPlus,
   Gift,
+  type LucideIcon,
 } from "lucide-react";
 import NextLink from "next/link";
+import {
+  gvtewayMembershipTiers,
+  gvtewayMembershipBenefits,
+  gvtewayGetStartedSteps,
+  gvtewayTestimonials,
+} from "../data/gvteway";
 
 export const runtime = "edge";
 
 // =============================================================================
-// MEMBERSHIP LANDING PAGE DATA
+// ICON MAPPING - Maps string icon names from data file to actual components
 // =============================================================================
+const iconMap: Record<string, LucideIcon> = {
+  Lock,
+  Clock,
+  DollarSign,
+  Headphones,
+  Globe,
+  Users,
+  FileText,
+  Package,
+  UserPlus,
+  Gift,
+};
 
-// Membership tiers
-const membershipTiers = [
-  {
-    name: "MEMBER",
-    price: "$49",
-    period: "/mo",
-    description: "Dip your toes in. The water's perfect.",
-    features: [
-      "Priority access to all experiences",
-      "Member-only pricing",
-      "48-hour early access windows",
-      "Community access",
-    ],
-    cta: "Get Started",
-    popular: false,
-  },
-  {
-    name: "PLUS",
-    price: "$99",
-    period: "/mo",
-    description: "For those who like their adventures with extra sauce.",
-    features: [
-      "Everything in Member",
-      "VIP upgrades when available",
-      "Personal concierge service",
-      "Exclusive member events",
-      "Priority support",
-    ],
-    cta: "Get Started",
-    popular: true,
-  },
-  {
-    name: "EXTRA",
-    price: "$199",
-    period: "/mo",
-    description: "Go big or go home. You chose wisely.",
-    features: [
-      "Everything in Plus",
-      "Backstage passes",
-      "Curated adventure trips",
-      "Artist meet & greets",
-      "Dedicated account manager",
-      "Complimentary +1 on select experiences",
-    ],
-    cta: "Get Started",
-    popular: false,
-  },
-];
-
-// Membership benefits
-const membershipBenefits = [
-  {
-    icon: Lock,
-    title: "PRIORITY ACCESS",
-    description: "While everyone else is refreshing their browser like it's 2005, you're already in. Funny how that works.",
-  },
-  {
-    icon: Clock,
-    title: "EARLY WINDOWS",
-    description: "48 hours before the masses even know what's happening. Call it an unfair advantage. We call it membership.",
-  },
-  {
-    icon: DollarSign,
-    title: "MEMBER PRICING",
-    description: "Better rates on everything. Your wallet will thank you. Your accountant might actually smile.",
-  },
-  {
-    icon: Headphones,
-    title: "PERSONAL CONCIERGE",
-    description: "Need the impossible? That's literally what they're here for. Plus+ and above get their own legend.",
-  },
-  {
-    icon: Globe,
-    title: "GLOBAL ADVENTURES",
-    description: "52+ countries. Festivals, retreats, expeditions. Your passport is about to get very interesting.",
-  },
-  {
-    icon: Users,
-    title: "THE COMMUNITY",
-    description: "847 members who get it. No small talk about the weather. Just people who live for extraordinary.",
-  },
-];
-
-// Get Started steps
-const getStartedSteps = [
-  {
-    step: 1,
-    icon: FileText,
-    title: "APPLY FOR MEMBERSHIP",
-    description: "Fill out a quick application. We're selective, but not pretentious. Promise.",
-  },
-  {
-    step: 2,
-    icon: Package,
-    title: "CREATE YOUR PACKAGE",
-    description: "Pick your tier, customize your preferences. Make it yours.",
-  },
-  {
-    step: 3,
-    icon: UserPlus,
-    title: "JOIN THE COMMUNITY",
-    description: "Meet your people. The ones who understand why 'sold out' is a personal insult.",
-  },
-  {
-    step: 4,
-    icon: Gift,
-    title: "ENJOY EXCLUSIVE BENEFITS",
-    description: "Access unlocked. Adventures await. Try not to brag too much.",
-  },
-];
-
-// Testimonials
-const testimonials = [
-  {
-    quote: "GVTEWAY changed how I experience music. I've been backstage at festivals I used to watch from the lawn.",
-    author: "SARAH M.",
-    tier: "EXTRA MEMBER SINCE 2024",
-  },
-  {
-    quote: "The concierge service alone is worth the membership. They've made impossible reservations happen.",
-    author: "MARCUS T.",
-    tier: "PLUS MEMBER SINCE 2023",
-  },
-  {
-    quote: "I've met artists I've followed for years. These aren't just events—they're life-changing moments.",
-    author: "ELENA K.",
-    tier: "EXTRA MEMBER SINCE 2024",
-  },
-];
+// Map data with icon components
+const membershipTiers = gvtewayMembershipTiers;
+const membershipBenefits = gvtewayMembershipBenefits.map((benefit) => ({
+  ...benefit,
+  icon: iconMap[benefit.icon] || Lock,
+}));
+const getStartedSteps = gvtewayGetStartedSteps.map((step) => ({
+  ...step,
+  icon: iconMap[step.icon] || FileText,
+}));
+const testimonials = gvtewayTestimonials;
 
 // =============================================================================
 // COMPONENT
