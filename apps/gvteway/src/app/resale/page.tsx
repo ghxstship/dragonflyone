@@ -16,6 +16,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
+import { createExportHandler } from "@ghxstship/config";
 
 interface ResaleListing {
   id: string;
@@ -149,7 +150,22 @@ export default function ResalePage() {
         onRowClick={(r) => { setSelectedListing(r); setDrawerOpen(true); }}
         createLabel="List a Ticket"
         onCreate={() => router.push('/tickets')}
-        onExport={() => console.log('Export')}
+        entityType="resale-listings"
+        onExport={createExportHandler({
+          filename: "resale-listings",
+          getData: () => listings.map(l => ({
+            id: l.id,
+            event_name: l.event_name,
+            event_date: l.event_date,
+            venue_name: l.venue_name,
+            ticket_type: l.ticket_type,
+            section: l.section || '',
+            original_price: l.original_price,
+            asking_price: l.asking_price,
+            seller_name: l.seller_name,
+            status: l.status,
+          })),
+        })}
         stats={stats}
         emptyMessage="No listings found"
         emptyAction={{ label: 'List a Ticket', onClick: () => router.push('/tickets') }}

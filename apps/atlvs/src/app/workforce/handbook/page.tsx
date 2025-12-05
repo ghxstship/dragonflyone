@@ -110,7 +110,6 @@ export default function HandbookPage() {
       <EnterprisePageHeader
         title="Employee Handbook & Policies"
         subtitle="Manage handbook sections and track policy acknowledgments"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Workforce', href: '/workforce' }, { label: 'Handbook' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

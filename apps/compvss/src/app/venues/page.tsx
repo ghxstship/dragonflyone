@@ -25,7 +25,6 @@ export default function VenuesPage() {
       <EnterprisePageHeader
         title="Venue Directory"
         subtitle="Browse and manage venue information for productions"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Venues' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
 
     const today = new Date().toISOString().split('T')[0];
 
-    let query = supabase.from('invoices').select(`
+    const query = supabase.from('invoices').select(`
       *, client:contacts(id, name, email)
     `).eq('status', 'sent').lt('due_date', today);
 

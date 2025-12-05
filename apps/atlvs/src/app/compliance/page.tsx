@@ -98,14 +98,18 @@ export default function CompliancePage() {
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    console.log('Create compliance item:', data);
+    await fetch('/api/compliance', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
     setCreateModalOpen(false);
     fetchCompliance();
   };
 
   const handleDelete = async () => {
     if (itemToDelete) {
-      console.log('Delete:', itemToDelete.id);
+      await fetch(`/api/compliance/${itemToDelete.id}`, { method: 'DELETE' });
       setDeleteConfirmOpen(false);
       setItemToDelete(null);
       fetchCompliance();
@@ -165,7 +169,6 @@ export default function CompliancePage() {
         stats={stats}
         emptyMessage="No compliance items found"
         emptyAction={{ label: 'Add Item', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Compliance' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

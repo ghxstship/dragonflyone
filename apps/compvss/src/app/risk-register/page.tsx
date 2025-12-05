@@ -94,7 +94,6 @@ export default function RiskRegisterPage() {
       <EnterprisePageHeader
         title="Risk Register"
         subtitle="Identify, assess, and mitigate project risks"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Risk Register' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         primaryAction={{ label: 'Add Risk', onClick: () => setShowAddModal(true) }}

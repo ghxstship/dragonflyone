@@ -3,205 +3,11 @@
 > next lint --max-warnings 9999
 
 
-./src/app/(auth)/login/page.tsx
-53:21  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-97:38  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-100:64  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-122:31  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-
-./src/app/accessibility/page.tsx
-73:21  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-105:28  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-122:30  Warning: Classname 'text-on-dark-disabled' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-125:30  Warning: Classname 'text-on-dark-disabled' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-154:32  Warning: Classname 'text-success-400' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-155:32  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-166:30  Warning: Classname 'text-on-dark-disabled' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-170:30  Warning: Classname 'text-on-dark-disabled' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-174:30  Warning: Classname 'text-on-dark-disabled' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-175:30  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-203:42  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-203:42  Warning: Classname 'border-ink-200' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-228:39  Warning: Classname 'text-on-light-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-229:39  Warning: Classname 'text-on-light-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-232:24  Warning: Classname 'text-on-light-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-238:39  Warning: Classname 'text-on-light-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-240:37  Warning: Classname 'text-on-light-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-
 ./src/app/accessibility/request/page.tsx
 50:9  Warning: 'router' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-161:21  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-203:45  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-248:28  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-271:41  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-271:41  Warning: Classname 'text-on-dark-disabled' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-272:41  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-272:41  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-278:33  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-284:31  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-284:31  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-288:33  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-291:33  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-294:33  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-
-./src/app/account/orders/page.tsx
-57:23  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-65:23  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-73:23  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-99:34  Warning: Classname 'font-weight-semibold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-
-./src/app/account/page.tsx
-66:66  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-66:66  Warning: Classname 'border-ink-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-68:31  Warning: Classname 'font-weight-semibold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-69:31  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-120:29  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-124:29  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-128:29  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-
-./src/app/account/profile/page.tsx
-65:37  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-72:38  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-90:51  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-90:51  Warning: Classname 'border-ink-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-95:33  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-
-./src/app/account/tickets/page.tsx
-73:45  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-74:31  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-77:43  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-78:31  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-86:49  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-86:49  Warning: Classname 'border-ink-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-88:29  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-89:29  Warning: Classname 'font-weight-semibold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-93:31  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-99:31  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-105:31  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-
-./src/app/activity/page.tsx
-71:46  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-71:46  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-72:35  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-72:35  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-73:39  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-73:39  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-74:38  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-74:38  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-75:39  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-75:39  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-76:36  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-76:36  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-77:33  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-77:33  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-128:21  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-156:34  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-156:34  Warning: Classname 'bg-ink-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-163:33  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-173:37  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-177:37  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-177:37  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-191:44  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-191:44  Warning: Classname 'bg-ink-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-203:54  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-211:48  Warning: Classname 'text-on-dark-disabled' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-235:28  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-235:28  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-242:34  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-242:34  Warning: Classname 'bg-ink-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-245:46  Warning: Classname 'text-on-dark-disabled' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-266:33  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-266:33  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-279:42  Warning: Classname 'text-on-dark-disabled' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-
-./src/app/admin/anti-scalping/page.tsx
-200:23  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-292:31  Warning: Classname 'font-weight-bold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-295:42  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-296:41  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-299:42  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-304:42  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-304:42  Warning: Classname 'text-on-dark-disabled' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-332:40  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-335:40  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-339:40  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-344:42  Warning: Classname 'text-on-dark-disabled' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-368:31  Warning: Classname 'bg-ink-900' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-369:34  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-370:34  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-371:34  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-372:34  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-373:34  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-378:48  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-378:48  Warning: Classname 'border-ink-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-385:42  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-387:34  Warning: Classname 'text-on-dark-disabled' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-412:31  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-412:31  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-424:29  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-428:29  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-432:29  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-436:29  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-460:21  Warning: Classname 'font-weight-bold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-464:26  Warning: Classname 'text-ink-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-465:25  Warning: Classname 'font-weight-bold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-468:26  Warning: Classname 'text-ink-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-473:28  Warning: Classname 'text-ink-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-479:28  Warning: Classname 'text-ink-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-
-./src/app/admin/content-calendar/page.tsx
-59:21  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-85:40  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-90:40  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-
-./src/app/admin/contests/page.tsx
-94:105  Warning: Unexpected console statement.  no-console
 
 ./src/app/admin/integrations/page.tsx
 16:40  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-64:21  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-78:25  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-86:40  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-96:40  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-108:40  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-119:40  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-164:25  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-174:42  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-184:42  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-194:42  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-204:42  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-
-./src/app/admin/inventory-sync/page.tsx
-65:7  Warning: 'mockSyncLogs' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-98:9  Warning: 'router' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-167:25  Warning: Unexpected console statement.  no-console
-
-./src/app/admin/marketing/sms/page.tsx
-77:21  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-104:33  Warning: Classname 'bg-ink-900' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-105:36  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-106:36  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-107:36  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-108:36  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-109:36  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-110:36  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-111:36  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-116:53  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-116:53  Warning: Classname 'border-ink-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-120:71  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-129:75  Warning: Classname 'text-on-dark-disabled' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-135:80  Warning: Classname 'text-on-dark-disabled' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-166:44  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-166:44  Warning: Classname 'border-ink-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-168:28  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-185:39  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-224:34  Warning: Classname 'text-warning-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-224:34  Warning: Classname 'text-ink-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-264:49  Warning: Classname 'text-on-light-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-265:49  Warning: Classname 'text-on-light-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-268:49  Warning: Classname 'text-on-light-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-269:49  Warning: Classname 'text-on-light-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-270:49  Warning: Classname 'text-on-light-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
 
 ./src/app/admin/pos/cashless/page.tsx
 5:10  Warning: 'Wifi' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
@@ -211,113 +17,6 @@
 5:47  Warning: 'QrCode' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
 103:21  Warning: 'setTerminals' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
 104:24  Warning: 'setTransactions' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-163:23  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-240:52  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-240:52  Warning: Classname 'ring-success' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-245:34  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-260:32  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-270:34  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-274:34  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-298:29  Warning: Classname 'bg-ink-900' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-299:32  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-300:32  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-301:32  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-302:32  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-303:32  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-304:32  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-305:32  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-310:44  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-310:44  Warning: Classname 'border-ink-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-324:34  Warning: Classname 'text-on-dark-disabled' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-338:38  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-338:38  Warning: Classname 'text-on-dark-disabled' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-342:34  Warning: Classname 'text-on-dark-disabled' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-368:30  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-372:30  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-373:29  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-376:30  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-428:28  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-451:23  Warning: Classname 'font-weight-bold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-456:26  Warning: Classname 'text-ink-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-460:26  Warning: Classname 'text-ink-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-464:26  Warning: Classname 'text-ink-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-465:25  Warning: Classname 'font-weight-bold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-468:26  Warning: Classname 'text-ink-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-469:25  Warning: Classname 'font-weight-bold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-469:25  Warning: Classname 'text-success-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-473:24  Warning: Classname 'text-ink-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-484:26  Warning: Classname 'text-ink-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-
-./src/app/admin/pos/page.tsx
-99:23  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-134:46  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-146:29  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-146:29  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-154:50  Warning: Classname 'text-on-dark-disabled' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-165:36  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-165:36  Warning: Classname 'border-ink-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-188:44  Warning: Classname 'text-on-dark-disabled' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-197:44  Warning: Classname 'text-on-dark-disabled' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-201:44  Warning: Classname 'text-on-dark-disabled' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-206:42  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-220:33  Warning: Classname 'bg-ink-900' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-221:36  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-222:36  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-223:36  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-224:36  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-228:33  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-228:33  Warning: Classname 'border-ink-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-234:33  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-234:33  Warning: Classname 'border-ink-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-240:33  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-240:33  Warning: Classname 'border-ink-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-
-./src/app/admin/pricing/early-bird/page.tsx
-65:21  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-90:27  Warning: Classname 'bg-ink-900' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-91:30  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-92:30  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-93:30  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-94:30  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-95:30  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-96:30  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-97:30  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-98:30  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-103:47  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-103:47  Warning: Classname 'border-ink-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-108:30  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-118:42  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-118:42  Warning: Classname 'text-on-dark-disabled' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-154:26  Warning: Classname 'text-accent' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-158:32  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-159:42  Warning: Classname 'text-on-dark-disabled' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-167:32  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-204:32  Warning: Classname 'text-ink-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-222:49  Warning: Classname 'text-on-light-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-223:49  Warning: Classname 'text-on-light-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-226:49  Warning: Classname 'text-on-light-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-227:49  Warning: Classname 'text-on-light-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-229:47  Warning: Classname 'text-on-light-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-232:36  Warning: Classname 'text-on-light-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-
-./src/app/admin/promo-codes/page.tsx
-221:5  Warning: Unexpected console statement.  no-console
-
-./src/app/admin/sales-reporting/page.tsx
-62:97  Warning: Classname 'text-error-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-63:105  Warning: Classname 'text-success-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-73:9  Warning: 'router' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-84:93  Warning: Unexpected console statement.  no-console
-111:51  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-111:51  Warning: Classname 'border-ink-200' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-133:25  Warning: Unexpected console statement.  no-console
-147:48  Warning: Unexpected console statement.  no-console
-
-./src/app/admin/will-call/page.tsx
-3:20  Warning: 'useCallback' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-67:9  Warning: 'router' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-85:5  Warning: Unexpected console statement.  no-console
-137:25  Warning: Unexpected console statement.  no-console
 
 ./src/app/api/ab-testing/route.ts
 16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
@@ -742,16 +441,6 @@
 92:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 109:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
-./src/app/api/events/[id]/chat/route.ts
-15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-28:34  Warning: 'roomError' is never reassigned. Use 'const' instead.  prefer-const
-113:31  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-114:33  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-118:81  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-125:42  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-126:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
 ./src/app/api/events/[id]/entry-info/route.ts
 15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
 17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
@@ -795,4 +484,396 @@
 39:37  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 40:38  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 41:39  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-42:37  
+42:37  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+54:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/events/enhanced/route.ts
+18:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+20:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+78:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+89:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+108:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/events/map/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+114:39  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+123:47  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+141:17  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+141:25  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+144:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+147:28  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/events/nearby/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+87:39  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+93:47  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+109:17  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+109:25  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/events/route.ts
+71:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+98:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/events/templates/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+90:11  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/api/exclusive-content/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/experience-discovery/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+129:39  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+130:23  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/experiences/route.ts
+17:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+19:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/fan-chapters/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/fan-club-access/route.ts
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+117:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+180:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+203:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+223:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/fan-clubs/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/fan-content/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/fan-mentorship/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/fan-profiles/route.ts
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+137:30  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/fan-spotlight/route.ts
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+62:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+81:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+132:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/favorites/route.ts
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/follows/route.ts
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/friends/location/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/friends/meetups/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+52:31  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+53:31  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+55:56  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+55:91  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/friends/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+59:53  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+60:46  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+62:17  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+71:42  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/ga-floor-config/route.ts
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+50:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+69:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+92:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/gamification/route.ts
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/gift-cards/my-cards/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/gift-cards/purchase/route.ts
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/gift-cards/redeem/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/gift-cards/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/gift-registry/route.ts
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+73:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+157:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+180:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+207:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/group-organizer/route.ts
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+73:54  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+74:52  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+75:61  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+93:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+214:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+271:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/groups/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+177:13  Warning: 'group_id' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/api/guest-chat/route.ts
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+92:13  Warning: 'category' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+370:42  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/health/route.ts
+16:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+26:27  Warning: 'request' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/api/influencer-affiliates/route.ts
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+94:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+229:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+252:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/influencer-tracking/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+122:33  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/instagram-templates/route.ts
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+50:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+69:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+92:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/integrations/iot/route.ts
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+169:71  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/integrations/live-streaming/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+192:50  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/integrations/marketing-sync/route.ts
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+91:44  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/integrations/payment-gateways/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+174:74  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/integrations/social-media/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+95:67  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+277:52  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+319:35  Warning: 'tone' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/api/integrations/streaming/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/inventory-alerts/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/inventory-sync/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+27:11  Warning: 'locationId' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+49:65  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+72:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+217:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/landing-pages/route.ts
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/limited-releases/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/live-social-feed/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/live-tweet-wall/route.ts
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+74:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+130:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+189:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/local-partnerships/route.ts
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+72:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+141:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+176:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+196:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/lost-found/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+166:38  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/loyalty/route.ts
+17:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+19:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/loyalty-rewards/route.ts
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/marketing/campaigns/route.ts
+17:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+19:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/marketing/lists/route.ts
+17:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+19:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/marketing/templates/route.ts
+17:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+19:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/marketing-analytics/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+167:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/match/events/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+40:68  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+41:77  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+119:37  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/match/interests/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/match/users/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+64:63  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+96:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/media-kit/route.ts
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+76:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+174:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+213:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+236:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/member-benefits/route.ts
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+59:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+78:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+101:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+118:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/member-directory/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+34:11  Warning: 'interests' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+51:46  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/memberships/route.ts
+18:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+20:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+34:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+75:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+87:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+107:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/memberships/subscribe/route.ts
+16:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+66:29  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+110:43  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/memory-book/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/merch/catalog/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+74:44  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/merchandise/route.ts
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+114:51  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+116:43  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/messages/conversations/[id]/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+78:33  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+79:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/messages/conversations/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+72:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+73:43  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+74:45  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+75:47  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/messaging/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/mobile-ticket-delivery/route.ts
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+44:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+92:43  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+99:22  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+115:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+141:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/multi-language/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+87:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+169:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/multi-language-events/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars 

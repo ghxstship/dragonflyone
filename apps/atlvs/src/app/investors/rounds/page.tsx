@@ -305,11 +305,6 @@ export default function InvestmentRoundsPage() {
         stats={stats}
         emptyMessage="No investment rounds yet"
         emptyAction={{ label: 'Create First Round', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[
-          { label: 'ATLVS', href: '/dashboard' }, 
-          { label: 'Investors', href: '/investors' },
-          { label: 'Rounds' }
-        ]}
       />
 
       <RecordFormModal

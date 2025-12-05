@@ -17,7 +17,9 @@ import {
   type ListPageAction,
   type FormFieldConfig,
   type DetailSection,
+  type ExportFormat,
 } from '@ghxstship/ui';
+import { createExportHandler } from '@ghxstship/config';
 
 interface Document {
   id: string;
@@ -62,7 +64,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function DocumentsPage() {
   const router = useRouter();
-  const [documents] = useState<Document[]>(mockDocuments);
+  const [documents, setDocuments] = useState<Document[]>(mockDocuments);
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedDoc, setSelectedDoc] = useState<Document | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -77,13 +79,24 @@ export default function DocumentsPage() {
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    console.log('Upload document:', data);
+    const newDoc: Document = {
+      id: String(documents.length + 1),
+      name: String(data.name || ''),
+      type: String(data.type || 'Contract'),
+      folder: String(data.folder || 'Contracts'),
+      version: '1.0',
+      size: '0 KB',
+      uploadedBy: 'Current User',
+      uploadedAt: new Date().toISOString().split('T')[0],
+      status: 'active',
+    };
+    setDocuments(prev => [...prev, newDoc]);
     setCreateModalOpen(false);
   };
 
   const handleDelete = async () => {
     if (docToDelete) {
-      console.log('Delete:', docToDelete.id);
+      setDocuments(prev => prev.filter(d => d.id !== docToDelete.id));
       setDeleteConfirmOpen(false);
       setDocToDelete(null);
     }
@@ -126,11 +139,23 @@ export default function DocumentsPage() {
         onRowClick={(r) => { setSelectedDoc(r); setDrawerOpen(true); }}
         createLabel="Upload Document"
         onCreate={() => setCreateModalOpen(true)}
-        onExport={() => console.log('Export')}
+        entityType="documents"
+        onExport={createExportHandler({
+          filename: "documents",
+          getData: () => documents.map(d => ({
+            id: d.id,
+            name: d.name,
+            type: d.type,
+            folder: d.folder,
+            size: d.size,
+            uploadedBy: d.uploadedBy,
+            uploadedAt: d.uploadedAt,
+          })),
+        })}
+        exportFormats={["csv", "json"]}
         stats={stats}
         emptyMessage="No documents found"
         emptyAction={{ label: 'Upload Document', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Documents' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

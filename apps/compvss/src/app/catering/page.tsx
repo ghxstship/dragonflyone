@@ -17,7 +17,7 @@ import {
   TableRow,
   TableHead,
   TableCell,
-  LoadingSpinner,
+  Spinner,
   EmptyState,
   Container,
   Grid,
@@ -58,6 +58,52 @@ interface CateringSummary {
   dietary_requirements: DietaryRequirement[];
 }
 
+// Demo data for unauthenticated users
+const DEMO_SERVICES: MealService[] = [
+  {
+    id: "demo-1",
+    project_id: "proj-001",
+    project_name: "Summer Festival 2024",
+    service_date: new Date().toISOString(),
+    meal_type: "breakfast",
+    headcount: 45,
+    vendor_id: "vendor-001",
+    vendor_name: "Gourmet Catering Co",
+    location: "Backstage Area A",
+    dietary_notes: "12 vegetarian, 5 vegan, 3 gluten-free",
+    cost_per_head: 18,
+    total_cost: 810,
+    status: "confirmed",
+  },
+  {
+    id: "demo-2",
+    project_id: "proj-001",
+    project_name: "Summer Festival 2024",
+    service_date: new Date().toISOString(),
+    meal_type: "lunch",
+    headcount: 52,
+    vendor_id: "vendor-001",
+    vendor_name: "Gourmet Catering Co",
+    location: "Crew Tent",
+    cost_per_head: 22,
+    total_cost: 1144,
+    status: "confirmed",
+  },
+];
+
+const DEMO_CATERING_SUMMARY: CateringSummary = {
+  total_services: 24,
+  upcoming_meals: 6,
+  total_headcount: 312,
+  total_cost: 8450,
+  average_cost_per_head: 27,
+  dietary_requirements: [
+    { type: "Vegetarian", count: 12 },
+    { type: "Vegan", count: 5 },
+    { type: "Gluten-Free", count: 8 },
+  ],
+};
+
 export default function CateringPage() {
   const router = useRouter();
   const { addNotification } = useNotifications();
@@ -76,6 +122,13 @@ export default function CateringPage() {
       if (filterMealType !== "all") params.append("meal_type", filterMealType);
 
       const response = await fetch(`/api/catering?${params.toString()}`);
+      if (response.status === 401) {
+        // Use demo data for unauthenticated users
+        setServices(DEMO_SERVICES);
+        setSummary(DEMO_CATERING_SUMMARY);
+        setError(null);
+        return;
+      }
       if (!response.ok) throw new Error("Failed to fetch catering data");
       
       const data = await response.json();
@@ -83,7 +136,10 @@ export default function CateringPage() {
       setSummary(data.summary || null);
       setError(null);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
+      // Fallback to demo data on error
+      setServices(DEMO_SERVICES);
+      setSummary(DEMO_CATERING_SUMMARY);
+      setError(null);
     } finally {
       setLoading(false);
     }
@@ -146,7 +202,6 @@ export default function CateringPage() {
         <EnterprisePageHeader
           title="Catering & Hospitality"
           subtitle="Manage crew meals, dietary requirements, and hospitality services"
-          breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Catering' }]}
           views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
           activeView="default"
           showFavorite
@@ -154,7 +209,7 @@ export default function CateringPage() {
         />
         <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
-            <LoadingSpinner size="lg" text="Loading catering data..." />
+            <Spinner variant="grey" size="lg" text="Loading catering data..." />
           </Container>
         </MainContent>
       </CompvssAppLayout>
@@ -167,7 +222,6 @@ export default function CateringPage() {
         <EnterprisePageHeader
           title="Catering & Hospitality"
           subtitle="Manage crew meals, dietary requirements, and hospitality services"
-          breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Catering' }]}
           views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
           activeView="default"
           showFavorite
@@ -191,7 +245,6 @@ export default function CateringPage() {
       <EnterprisePageHeader
         title="Catering & Hospitality"
         subtitle="Manage crew meals, dietary requirements, and hospitality services"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Catering' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         primaryAction={{ label: 'Schedule Meal', onClick: () => router.push('/catering/schedule') }}

@@ -176,7 +176,6 @@ export default function LeadScoringPage() {
       <EnterprisePageHeader
         title="Lead Scoring"
         subtitle="Automated lead qualification and scoring"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Leads', href: '/leads' }, { label: 'Scoring' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         primaryAction={{ label: 'View Pipeline', onClick: () => router.push('/deals') }}

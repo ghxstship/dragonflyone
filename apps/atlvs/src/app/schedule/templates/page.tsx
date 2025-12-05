@@ -318,11 +318,6 @@ export default function TaskTemplatesPage() {
         stats={pageStats}
         emptyMessage="No task templates yet"
         emptyAction={{ label: 'Create First Template', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[
-          { label: 'ATLVS', href: '/dashboard' }, 
-          { label: 'Schedule', href: '/schedule' },
-          { label: 'Templates' }
-        ]}
         quickActions={[
           { id: 'tasks', label: 'Tasks', icon: <CheckSquare className="size-4" />, onClick: () => router.push('/schedule/tasks') },
           { id: 'contingencies', label: 'Contingencies', icon: <Clock className="size-4" />, onClick: () => router.push('/schedule/contingencies') },

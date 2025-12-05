@@ -5,6 +5,7 @@
 
 import { SupabaseClient } from '@supabase/supabase-js';
 import type { Database, Json } from './supabase-types';
+import { logger } from './logger';
 
 export interface CollaborationUser {
   id: string;
@@ -80,10 +81,10 @@ export class CollaborativeDocument {
         }
       })
       .on('presence', { event: 'join' }, ({ key, newPresences }: any) => {
-        console.log('User joined:', key, newPresences);
+        logger.debug('User joined', { key, presences: newPresences });
       })
       .on('presence', { event: 'leave' }, ({ key, leftPresences }: any) => {
-        console.log('User left:', key, leftPresences);
+        logger.debug('User left', { key, presences: leftPresences });
       });
 
     // Track document changes

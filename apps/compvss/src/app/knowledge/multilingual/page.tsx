@@ -93,7 +93,6 @@ export default function MultilingualPage() {
       <EnterprisePageHeader
         title="Multilingual Support"
         subtitle="Content translations for international crews"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Knowledge', href: '/knowledge' }, { label: 'Multilingual' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

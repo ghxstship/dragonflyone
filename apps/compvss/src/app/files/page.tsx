@@ -86,7 +86,6 @@ export default function FileSharingPage() {
       <EnterprisePageHeader
         title="File Sharing"
         subtitle="Project files with version control and cloud storage"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Files' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         primaryAction={{ label: 'Upload File', onClick: () => setShowUploadModal(true) }}

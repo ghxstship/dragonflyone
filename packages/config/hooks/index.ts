@@ -40,3 +40,11 @@ export type {
   SelectionRange,
   CollaborationEvent,
 } from './useCollaboration';
+
+// Activity feed hook
+export { useActivityFeed } from './useActivityFeed';
+export type { ActivityItem } from './useActivityFeed';
+
+// System health hook
+export { useSystemHealth, getHealthStatusColor, getHealthStatusLabel } from './useSystemHealth';
+export type { SystemHealthMetrics } from './useSystemHealth';

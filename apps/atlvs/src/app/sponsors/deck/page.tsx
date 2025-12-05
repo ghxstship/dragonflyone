@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Download, Eye, FileText, Presentation, Edit, Share2 } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import { useSponsorTiers, useSponsorStats } from '../../../hooks/useSponsors';
+import { logger } from '@ghxstship/config';
 import {
   Container,
   Section,
@@ -26,14 +27,23 @@ export default function SponsorshipDeckPage() {
   
   const [selectedFormat, setSelectedFormat] = useState<'pdf' | 'pptx' | 'web'>('pdf');
 
-  const handleDownload = () => {
-    Logger.info('Deck generation triggered');
-    console.log('Downloading deck in format:', selectedFormat);
+  const handleDownload = async () => {
+    logger.info('Deck generation triggered');
+    const response = await fetch(`/api/sponsors/deck/generate?format=${selectedFormat}`, { method: 'POST' });
+    if (response.ok) {
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `sponsorship-deck.${selectedFormat}`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
   };
 
   const handlePreview = () => {
-    Logger.info('Deck preview triggered');
-    console.log('Previewing deck');
+    logger.info('Deck preview triggered');
+    window.open('/sponsors/deck/preview', '_blank');
   };
 
   return (

@@ -1,14 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { Eye, Check } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig,
 } from '@ghxstship/ui';
-import { getBadgeVariant } from '@ghxstship/config';
+import { getBadgeVariant, createExportHandler } from '@ghxstship/config';
 
 interface RentalEquipment {
   id: string;
@@ -63,7 +62,6 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function RentalEquipmentPage() {
-  const router = useRouter();
   const [data, setData] = useState<RentalEquipment[]>(mockData);
   const [selected, setSelected] = useState<RentalEquipment | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -117,10 +115,23 @@ export default function RentalEquipmentPage() {
         rowActions={rowActions}
         onRowClick={(r) => { setSelected(r); setDrawerOpen(true); }}
         onCreate={() => setModalOpen(true)}
-        onExport={() => console.log('Export')}
+        entityType="rentals"
+        onExport={createExportHandler({
+          filename: "equipment-rentals",
+          getData: () => data.map(r => ({
+            id: r.id,
+            name: r.name,
+            vendor: r.vendor,
+            category: r.category,
+            status: r.status,
+            startDate: r.rentalStart,
+            endDate: r.rentalEnd,
+            dailyRate: r.dailyRate,
+            totalCost: r.totalCost,
+          })),
+        })}
         stats={stats}
         emptyMessage="No rentals found"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Assets', href: '/assets' }, { label: 'Rentals' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
@@ -147,7 +158,14 @@ export default function RentalEquipmentPage() {
         mode="create"
         title="Add Rental"
         fields={formFields}
-        onSubmit={async (values) => { console.log('Create rental:', values); setModalOpen(false); }}
+        onSubmit={async (values) => {
+          await fetch('/api/rentals', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(values),
+          });
+          setModalOpen(false);
+        }}
       />
     </AtlvsAppLayout>
   );

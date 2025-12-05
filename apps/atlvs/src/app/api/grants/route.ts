@@ -523,7 +523,7 @@ function generateReportingSchedule(
   const reports = [];
   const start = new Date(startDate);
   const end = new Date(endDate);
-  let current = new Date(start);
+  const current = new Date(start);
 
   const monthsInterval = {
     monthly: 1,

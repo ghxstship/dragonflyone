@@ -64,7 +64,6 @@ export default function AvailabilityPage() {
       <EnterprisePageHeader
         title="Availability Calendar"
         subtitle="Crew availability integration with calendars"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Directory', href: '/directory' }, { label: 'Availability' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

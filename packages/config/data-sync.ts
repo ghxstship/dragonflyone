@@ -4,6 +4,7 @@
  */
 
 import { QueryClient } from '@tanstack/react-query';
+import { logger } from './logger';
 
 export interface SyncQueueItem {
   id: string;
@@ -34,13 +35,13 @@ export class DataSyncManager {
     this.isOnline = navigator.onLine;
 
     window.addEventListener('online', () => {
-      console.log('Network: Online');
+      logger.info('Network: Online');
       this.isOnline = true;
       this.processSyncQueue();
     });
 
     window.addEventListener('offline', () => {
-      console.log('Network: Offline');
+      logger.info('Network: Offline');
       this.isOnline = false;
     });
   }
@@ -118,7 +119,7 @@ export class DataSyncManager {
       for (const item of this.syncQueue) {
         try {
           await this.executeOperation(item);
-          console.log('Synced:', item);
+          logger.debug('Synced operation', { operation: item.operation, table: item.table });
         } catch (error) {
           console.error('Sync failed:', item, error);
           

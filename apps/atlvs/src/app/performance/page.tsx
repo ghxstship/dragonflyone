@@ -15,7 +15,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
-import { getBadgeVariant } from "@ghxstship/config";
+import { getBadgeVariant, createExportHandler } from "@ghxstship/config";
 
 interface Review {
   id: string;
@@ -123,11 +123,22 @@ export default function PerformancePage() {
         onRowClick={(r) => { setSelectedReview(r); setDrawerOpen(true); }}
         createLabel="Schedule Review"
         onCreate={() => router.push('/performance/reviews/new')}
-        onExport={() => router.push('/performance/goals/new')}
+        entityType="performance-reviews"
+        onExport={createExportHandler({
+          filename: "performance-reviews",
+          getData: () => reviews.map(r => ({
+            id: r.id,
+            employee: r.employee?.full_name,
+            reviewer: r.reviewer?.full_name,
+            period: r.review_period,
+            rating: r.overall_score,
+            status: r.status,
+            due_date: r.scheduled_date || '',
+          })),
+        })}
         stats={stats}
         emptyMessage="No reviews found"
         emptyAction={{ label: 'Schedule Review', onClick: () => router.push('/performance/reviews/new') }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Performance' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

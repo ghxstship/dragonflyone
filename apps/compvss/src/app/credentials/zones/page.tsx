@@ -305,11 +305,6 @@ export default function ZonesPage() {
           stats={stats}
           emptyMessage="No zones configured"
           emptyAction={{ label: 'Create First Zone', onClick: () => setCreateModalOpen(true) }}
-          breadcrumbs={[
-            { label: 'COMPVSS', href: '/dashboard' }, 
-            { label: 'Credentials', href: '/credentials' },
-            { label: 'Zones' }
-          ]}
           quickActions={[
             { id: 'map', label: 'Zone Map', icon: <MapPin className="size-4" />, onClick: () => {} },
           ]}

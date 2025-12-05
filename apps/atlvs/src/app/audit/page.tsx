@@ -15,6 +15,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
+import { createExportHandler } from "@ghxstship/config";
 
 interface AuditLog {
   id: string;
@@ -110,10 +111,22 @@ export default function AuditPage() {
         filters={filters}
         rowActions={rowActions}
         onRowClick={(r) => { setSelectedLog(r); setDrawerOpen(true); }}
-        onExport={() => router.push('/audit/export')}
+        entityType="audit"
+        onExport={createExportHandler({
+          filename: "audit-logs",
+          getData: () => logs.map(l => ({
+            id: l.id,
+            timestamp: l.timestamp,
+            user_email: l.user?.email || l.user_email || '',
+            action: l.action,
+            resource_type: l.resource_type,
+            resource_id: l.resource_id,
+            details: l.details || '',
+            ip_address: l.ip_address || '',
+          })),
+        })}
         stats={stats}
         emptyMessage="No audit logs found"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Audit' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

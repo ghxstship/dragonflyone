@@ -19,6 +19,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
+import { createExportHandler } from '@ghxstship/config';
 import { useEmployees, useCreateEmployee, useDeleteEmployee } from '@/hooks/useEmployees';
 
 interface Employee {
@@ -131,7 +132,19 @@ export default function WorkforcePage() {
   ];
 
   const handleBulkAction = async (actionId: string, selectedIds: string[]) => {
-    console.log('Bulk action:', actionId, selectedIds);
+    if (actionId === 'delete') {
+      await Promise.all(selectedIds.map(id => fetch(`/api/employees/${id}`, { method: 'DELETE' })));
+      refetch();
+    } else if (actionId === 'status') {
+      await Promise.all(selectedIds.map(id =>
+        fetch(`/api/employees/${id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: 'active' }),
+        })
+      ));
+      refetch();
+    }
   };
 
   const handleCreate = async (data: Record<string, unknown>) => {
@@ -193,11 +206,23 @@ export default function WorkforcePage() {
         onRowClick={(row) => { setSelectedEmployee(row); setDrawerOpen(true); }}
         createLabel="Add Employee"
         onCreate={() => setCreateModalOpen(true)}
-        onExport={() => console.log('Export employees')}
+        entityType="employees"
+        onExport={createExportHandler({
+          filename: "employees",
+          getData: () => employeeList.map(e => ({
+            id: e.id,
+            full_name: e.full_name,
+            email: e.email,
+            phone: e.phone || '',
+            role: e.role || '',
+            department: e.department || '',
+            status: e.status,
+            hire_date: e.hire_date || '',
+          })),
+        })}
         stats={stats}
         emptyMessage="No employees found"
         emptyAction={{ label: 'Add Employee', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Workforce' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

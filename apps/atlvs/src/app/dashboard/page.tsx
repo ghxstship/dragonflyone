@@ -26,6 +26,8 @@ import {
 import { useProjects } from "../../hooks/useProjects";
 import { useActionItems } from "../../hooks/useActionItems";
 import { useUserQuickLinkFavorites } from "../../hooks/useQuickLinks";
+import { useActivityFeed } from "@ghxstship/config/hooks";
+import { QuickLinkFormSheet, useQuickLinkForm } from "@ghxstship/config/components";
 import { ArrowRight, Star, Link as LinkIcon, Zap, CalendarClock, Users, Trash2 } from "lucide-react";
 import type { ActionItem } from "../../hooks/useActionItems";
 
@@ -86,47 +88,59 @@ const eisenhowerConfig: Record<EisenhowerQuadrant, {
   },
 };
 
-const mockProjects = [
+// Display project interface for unified typing
+interface DisplayProject {
+  id: string;
+  name: string;
+  client_id?: string;
+  status: string;
+  budget?: number;
+  actual_cost?: number;
+  health?: string;
+  manager_id?: string;
+  start_date?: string;
+  end_date?: string;
+  progress?: number;
+}
+
+const mockProjects: DisplayProject[] = [
   {
     id: "PRJ-2024-001",
     name: "Ultra Music Festival 2025",
-    client: "Ultra Worldwide",
+    client_id: "Ultra Worldwide",
     status: "In Progress",
     budget: 2500000,
-    actual: 1847520,
-    variance: -26,
+    actual_cost: 1847520,
     health: "On Track",
-    pm: "Sarah Martinez",
-    startDate: "2024-10-01",
-    endDate: "2025-03-30",
+    manager_id: "Sarah Martinez",
+    start_date: "2024-10-01",
+    end_date: "2025-03-30",
     progress: 68,
   },
   {
     id: "PRJ-2024-002",
     name: "Formula 1 Miami GP",
-    client: "Formula One Group",
+    client_id: "Formula One Group",
     status: "Planning",
     budget: 3200000,
-    actual: 456000,
-    variance: 14,
+    actual_cost: 456000,
     health: "At Risk",
-    pm: "Michael Chen",
-    startDate: "2024-11-15",
-    endDate: "2025-05-04",
+    manager_id: "Michael Chen",
+    start_date: "2024-11-15",
+    end_date: "2025-05-04",
     progress: 35,
   },
   {
     id: "PRJ-2024-003",
     name: "Art Basel Miami Beach",
-    client: "MCH Group",
+    client_id: "MCH Group",
     status: "Completed",
     budget: 950000,
-    actual: 925400,
-    variance: 2.6,
+    actual_cost: 925400,
     health: "Completed",
-    pm: "Elena Rodriguez",
-    startDate: "2024-08-01",
-    endDate: "2024-12-08",
+    manager_id: "Elena Rodriguez",
+    start_date: "2024-08-01",
+    end_date: "2024-12-08",
     progress: 100,
   },
 ];
@@ -138,12 +152,13 @@ const defaultKpis = [
   { label: "Client Satisfaction", value: "9.2/10", trend: "+0.3", up: true },
 ];
 
-const recentActivity = [
-  { id: 1, action: "New deal closed", detail: "Rolling Loud Miami - $1.8M contract signed", time: "2 hours ago", user: "Jessica Park" },
-  { id: 2, action: "Budget approved", detail: "Ultra 2025 - Additional $250K allocated for production", time: "5 hours ago", user: "Michael Chen" },
-  { id: 3, action: "Project milestone reached", detail: "Art Basel - Final settlement completed", time: "1 day ago", user: "Elena Rodriguez" },
-  { id: 4, action: "Asset checkout", detail: "Meyer Sound LEO System - checked out for III Points", time: "1 day ago", user: "David Kim" },
-  { id: 5, action: "Invoice sent", detail: "Wynwood Life Nov - $45,000 invoice dispatched", time: "2 days ago", user: "Finance Team" },
+// Fallback activity data (used when hook returns no data)
+const fallbackActivity = [
+  { id: '1', action: "New deal closed", detail: "Rolling Loud Miami - $1.8M contract signed", time: "2 hours ago", user: "Jessica Park" },
+  { id: '2', action: "Budget approved", detail: "Ultra 2025 - Additional $250K allocated for production", time: "5 hours ago", user: "Michael Chen" },
+  { id: '3', action: "Project milestone reached", detail: "Art Basel - Final settlement completed", time: "1 day ago", user: "Elena Rodriguez" },
+  { id: '4', action: "Asset checkout", detail: "Meyer Sound LEO System - checked out for III Points", time: "1 day ago", user: "David Kim" },
+  { id: '5', action: "Invoice sent", detail: "Wynwood Life Nov - $45,000 invoice dispatched", time: "2 days ago", user: "Finance Team" },
 ];
 
 export default function DashboardPage() {
@@ -151,11 +166,25 @@ export default function DashboardPage() {
   const { data: projects, isLoading: projectsLoading } = useProjects({ status: 'active' });
   const { data: actionItems, isLoading: actionItemsLoading } = useActionItems({ limit: 3 });
   const { data: quickLinks, isLoading: quickLinksLoading } = useUserQuickLinkFavorites('demo-user');
+  const { data: activityData } = useActivityFeed({ limit: 5 });
+  
+  // Quick link form state
+  const { isOpen: formOpen, currentHref, openForm, closeForm, hasForm } = useQuickLinkForm();
 
   const isLoading = projectsLoading;
 
+  // Use live activity data or fallback
+  const recentActivity = activityData || fallbackActivity;
+  
+  // Handle quick link click - open form if available, otherwise navigate
+  const handleQuickLinkClick = (href: string) => {
+    if (!openForm(href)) {
+      window.location.href = href;
+    }
+  };
+
   // Use live projects or fall back to mock data
-  const displayProjects = projects || mockProjects;
+  const displayProjects: DisplayProject[] = (projects as DisplayProject[]) || mockProjects;
 
   // Calculate KPIs from real data
   const kpisData = projects ? {
@@ -249,17 +278,17 @@ export default function DashboardPage() {
                     <H3 className="text-white">{project.name}</H3>
                     <Body size="xs" className="font-mono text-grey-500">{project.id.substring(0, 12).toUpperCase()}</Body>
                   </TableCell>
-                  <TableCell>{(project as any).client_id || (project as any).client || 'N/A'}</TableCell>
-                  <TableCell>{(project as any).manager_id || (project as any).pm || 'N/A'}</TableCell>
+                  <TableCell>{project.client_id || 'N/A'}</TableCell>
+                  <TableCell>{project.manager_id || 'N/A'}</TableCell>
                   <TableCell className="font-mono text-white">
                     ${((project.budget || 0) / 1000).toFixed(0)}K
                   </TableCell>
                   <TableCell className="font-mono">
-                    ${(((project as any).actual_cost || (project as any).actual || 0) / 1000).toFixed(0)}K
+                    ${((project.actual_cost || 0) / 1000).toFixed(0)}K
                   </TableCell>
                   <TableCell>
-                    <Body className={`font-mono ${((project as any).actual_cost || (project as any).actual || 0) > (project.budget || 0) ? "text-error" : "text-success"}`}>
-                      {((((project.budget || 0) - ((project as any).actual_cost || (project as any).actual || 0)) / (project.budget || 1)) * 100).toFixed(1)}%
+                    <Body className={`font-mono ${(project.actual_cost || 0) > (project.budget || 0) ? "text-error" : "text-success"}`}>
+                      {((((project.budget || 0) - (project.actual_cost || 0)) / (project.budget || 1)) * 100).toFixed(1)}%
                     </Body>
                   </TableCell>
                   <TableCell>
@@ -322,8 +351,8 @@ export default function DashboardPage() {
                       variant="outlineWhite"
                       fullWidth
                       className="justify-start text-left"
-                      onClick={() => window.location.href = link.href}
-                      icon={<LinkIcon className="size-4" />}
+                      onClick={() => handleQuickLinkClick(link.href)}
+                      icon={hasForm(link.href) ? <Zap className="size-4" /> : <LinkIcon className="size-4" />}
                       iconPosition="left"
                     >
                       {link.name}
@@ -336,8 +365,8 @@ export default function DashboardPage() {
                     variant="outlineWhite" 
                     fullWidth
                     className="justify-start text-left"
-                    onClick={() => window.location.href = '/projects/new'}
-                    icon={<LinkIcon className="size-4" />}
+                    onClick={() => handleQuickLinkClick('/projects/new')}
+                    icon={<Zap className="size-4" />}
                     iconPosition="left"
                   >
                     Create New Project
@@ -346,8 +375,8 @@ export default function DashboardPage() {
                     variant="outlineWhite" 
                     fullWidth
                     className="justify-start text-left"
-                    onClick={() => window.location.href = '/expenses/new'}
-                    icon={<LinkIcon className="size-4" />}
+                    onClick={() => handleQuickLinkClick('/expenses/new')}
+                    icon={<Zap className="size-4" />}
                     iconPosition="left"
                   >
                     Submit Expense Report
@@ -356,7 +385,7 @@ export default function DashboardPage() {
                     variant="outlineWhite" 
                     fullWidth
                     className="justify-start text-left"
-                    onClick={() => window.location.href = '/assets/availability'}
+                    onClick={() => handleQuickLinkClick('/assets/availability')}
                     icon={<LinkIcon className="size-4" />}
                     iconPosition="left"
                   >
@@ -366,7 +395,7 @@ export default function DashboardPage() {
                     variant="outlineWhite" 
                     fullWidth
                     className="justify-start text-left"
-                    onClick={() => window.location.href = '/reports/financial/new'}
+                    onClick={() => handleQuickLinkClick('/reports/financial/new')}
                     icon={<LinkIcon className="size-4" />}
                     iconPosition="left"
                   >
@@ -472,6 +501,15 @@ export default function DashboardPage() {
           </Section>
           </Grid>
       </Stack>
+      
+      {/* Quick Link Form Sheet */}
+      {currentHref && (
+        <QuickLinkFormSheet
+          href={currentHref}
+          open={formOpen}
+          onClose={closeForm}
+        />
+      )}
     </AtlvsAppLayout>
   );
 }

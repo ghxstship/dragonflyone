@@ -90,7 +90,6 @@ export default function PhotoDocumentationPage() {
       <EnterprisePageHeader
         title="Photo Documentation"
         subtitle="Phase-by-phase photo and video documentation for all projects"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Photo Documentation' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         primaryAction={{ label: 'Upload Photos', onClick: () => setShowUploadModal(true) }}

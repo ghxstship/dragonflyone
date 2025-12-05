@@ -17,7 +17,7 @@ import {
   type DetailSection,
   type FormFieldConfig,
 } from "@ghxstship/ui";
-import { getBadgeVariant } from "@ghxstship/config";
+import { getBadgeVariant, createExportHandler } from "@ghxstship/config";
 
 interface MaintenanceRecord {
   id: string;
@@ -152,11 +152,24 @@ export default function AssetMaintenancePage() {
         onRowClick={(r) => { setSelectedRecord(r); setDrawerOpen(true); }}
         createLabel="Schedule Maintenance"
         onCreate={() => setCreateModalOpen(true)}
-        onExport={() => console.log('Export')}
+        entityType="asset-maintenance"
+        onExport={createExportHandler({
+          filename: "asset-maintenance",
+          getData: () => records.map(r => ({
+            id: r.id,
+            assetId: r.assetId,
+            assetName: r.assetName,
+            category: r.category,
+            type: r.type,
+            status: r.status,
+            priority: r.priority,
+            scheduledDate: r.scheduledDate,
+            completedDate: r.completedDate || '',
+          })),
+        })}
         stats={stats}
         emptyMessage="No maintenance records found"
         emptyAction={{ label: 'Schedule Maintenance', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Assets', href: '/assets' }, { label: 'Maintenance' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

@@ -6,8 +6,9 @@ import { Eye, Pencil, X, Link } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Body,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig,
+  type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig, type ExportFormat,
 } from '@ghxstship/ui';
+import { createExportHandler } from '@ghxstship/config';
 
 interface CalendarEvent {
   id: string;
@@ -61,7 +62,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function CalendarIntegrationPage() {
   const router = useRouter();
-  const [data] = useState<CalendarEvent[]>(mockData);
+  const [data, setData] = useState<CalendarEvent[]>(mockData);
   const [selected, setSelected] = useState<CalendarEvent | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -71,8 +72,8 @@ export default function CalendarIntegrationPage() {
 
   const rowActions: ListPageAction<CalendarEvent>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Edit Event', icon: <Pencil className="size-4" />, onClick: (r) => console.log('Edit', r.id) },
-    { id: 'cancel', label: 'Cancel Event', icon: <X className="size-4" />, onClick: (r) => console.log('Cancel', r.id) },
+    { id: 'edit', label: 'Edit Event', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/crm/calendar/${r.id}/edit`) },
+    { id: 'cancel', label: 'Cancel Event', icon: <X className="size-4" />, onClick: (r) => setData(prev => prev.map(e => e.id === r.id ? { ...e, status: 'Cancelled' as const } : e)) },
   ];
 
   const stats = [
@@ -83,7 +84,18 @@ export default function CalendarIntegrationPage() {
   ];
 
   const handleCreate = async (formData: Record<string, unknown>) => {
-    console.log('Create event:', formData);
+    const newEvent: CalendarEvent = {
+      id: `EVT-${String(data.length + 1).padStart(3, '0')}`,
+      title: String(formData.title || ''),
+      type: (formData.type as CalendarEvent['type']) || 'Meeting',
+      date: String(formData.date || new Date().toISOString().split('T')[0]),
+      time: String(formData.time || '9:00 AM'),
+      duration: String(formData.duration || '30 min'),
+      attendees: [],
+      location: formData.location ? String(formData.location) : undefined,
+      status: 'Scheduled',
+    };
+    setData(prev => [...prev, newEvent]);
     setCreateModalOpen(false);
   };
 
@@ -119,11 +131,24 @@ export default function CalendarIntegrationPage() {
         onRowClick={(r) => { setSelected(r); setDrawerOpen(true); }}
         createLabel="Schedule Meeting"
         onCreate={() => setCreateModalOpen(true)}
-        onExport={() => console.log('Export')}
+        entityType="calendar-events"
+        onExport={createExportHandler({
+          filename: "calendar-events",
+          getData: () => data.map(e => ({
+            id: e.id,
+            title: e.title,
+            type: e.type,
+            date: e.date,
+            time: e.time,
+            duration: e.duration,
+            attendees: e.attendees.join(', '),
+            status: e.status,
+          })),
+        })}
+        exportFormats={["csv", "json"]}
         stats={stats}
         emptyMessage="No events scheduled"
         emptyAction={{ label: 'Schedule Meeting', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'CRM', href: '/crm' }, { label: 'Calendar' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
@@ -142,7 +167,11 @@ export default function CalendarIntegrationPage() {
           subtitle={(r) => `${r.type} • ${r.date} ${r.time}`}
           sections={detailSections}
           actions={[{ id: 'edit', label: 'Edit Event', icon: <Pencil className="size-4" /> }, { id: 'join', label: 'Join Meeting', icon: <Link className="size-4" /> }]}
-          onAction={(id, r) => { console.log(id, r.id); setDrawerOpen(false); }}
+          onAction={(id, r) => {
+            if (id === 'edit') router.push(`/crm/calendar/${r.id}/edit`);
+            if (id === 'join' && r.location) window.open(r.location, '_blank');
+            setDrawerOpen(false);
+          }}
         />
       )}
     </AtlvsAppLayout>

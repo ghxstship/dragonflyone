@@ -105,7 +105,6 @@ export default function OfflineAccessPage() {
       <EnterprisePageHeader
         title="Offline Access"
         subtitle="Download content for mobile-optimized offline access"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Knowledge', href: '/knowledge' }, { label: 'Offline' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

@@ -22,7 +22,7 @@ import {
   H3,
   H4,
   Body,
-  LoadingSpinner,
+  Spinner,
 } from '@ghxstship/ui';
 import { useAdvancingRequest, useFulfillAdvance } from '@ghxstship/config';
 import type { FulfillAdvancePayload } from '@ghxstship/config/types/advancing';
@@ -47,7 +47,7 @@ export function FulfillmentManager({ requestId, onSuccess }: FulfillmentManagerP
   const { data: request, isLoading } = useAdvancingRequest(requestId);
   const { mutate: fulfillRequest, isPending } = useFulfillAdvance();
 
-  if (isLoading) return <LoadingSpinner />;
+  if (isLoading) return <Spinner variant="grey" />;
   if (!request) return <Alert variant="error">Request not found</Alert>;
 
   const canFulfill = ['approved', 'in_progress'].includes(request.status);

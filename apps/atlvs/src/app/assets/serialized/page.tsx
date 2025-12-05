@@ -199,7 +199,6 @@ export default function SerializedComponentsPage() {
       <EnterprisePageHeader
         title="Serialized Component Tracking"
         subtitle="Track individual components within assets by serial number"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Assets', href: '/assets' }, { label: 'Serialized' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         primaryAction={{ label: 'Add Component', onClick: () => setShowAddModal(true) }}

@@ -19,7 +19,9 @@ import {
   type ListPageBulkAction,
   type FormFieldConfig,
   type DetailSection,
+  type ExportFormat,
 } from '@ghxstship/ui';
+import { createExportHandler } from '@ghxstship/config';
 import { useEmployees } from '../../hooks/useEmployees';
 
 interface Employee {
@@ -152,7 +154,32 @@ export default function EmployeesPage() {
   };
 
   const handleBulkAction = async (actionId: string, selectedIds: string[]) => {
-    console.log('Bulk action:', actionId, selectedIds);
+    if (actionId === 'export') {
+      const exportData = employeeList.filter(e => selectedIds.includes(e.id));
+      const headers = Object.keys(exportData[0] || {}).join(',');
+      const rows = exportData.map(e => Object.values(e).map(v => `"${v}"`).join(','));
+      const csv = [headers, ...rows].join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `employees-export-${new Date().toISOString().split('T')[0]}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } else if (actionId === 'activate' || actionId === 'deactivate') {
+      const status = actionId === 'activate' ? 'active' : 'inactive';
+      await Promise.all(selectedIds.map(id => 
+        fetch(`/api/employees/${id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status }),
+        })
+      ));
+      refetch();
+    } else if (actionId === 'delete') {
+      await Promise.all(selectedIds.map(id => fetch(`/api/employees/${id}`, { method: 'DELETE' })));
+      refetch();
+    }
   };
 
   const stats = [
@@ -207,11 +234,24 @@ export default function EmployeesPage() {
         onRowClick={(row) => { setSelectedEmployee(row); setDrawerOpen(true); }}
         createLabel="Add Employee"
         onCreate={() => setCreateModalOpen(true)}
-        onExport={() => console.log('Export employees')}
+        entityType="employees"
+        onExport={createExportHandler({
+          filename: "employees",
+          getData: () => employeeList.map(e => ({
+            id: e.id,
+            name: `${e.first_name} ${e.last_name}`,
+            email: e.email,
+            phone: e.phone || '',
+            department: e.department_name || e.department_id || '',
+            role: e.role || '',
+            status: e.status,
+            hire_date: e.hire_date || '',
+          })),
+        })}
+        exportFormats={["csv", "json"]}
         stats={stats}
         emptyMessage="No employees found"
         emptyAction={{ label: 'Add Employee', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Employees' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
@@ -240,7 +280,7 @@ export default function EmployeesPage() {
         sections={detailSections}
         onEdit={(e) => router.push(`/employees/${e.id}/edit`)}
         onDelete={(e) => { setEmployeeToDelete(e); setDeleteConfirmOpen(true); setDrawerOpen(false); }}
-        actions={[{ id: 'schedule', label: 'View Schedule', icon: '📅' }]}
+        actions={[{ id: 'schedule', label: 'View Schedule', icon: <Calendar className="size-4" /> }]}
         onAction={(actionId, emp) => {
           if (actionId === 'schedule') router.push(`/employees/${emp.id}/schedule`);
         }}

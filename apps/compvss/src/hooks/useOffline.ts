@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { logger } from '@ghxstship/config';
 
 interface OfflineState {
   isOnline: boolean;
@@ -76,10 +77,10 @@ export function useOffline(): OfflineState & {
     if ('serviceWorker' in navigator) {
       try {
         const registration = await navigator.serviceWorker.register('/sw.js');
-        console.log('[App] Service Worker registered:', registration.scope);
+        logger.info(`Service Worker registered: ${registration.scope}`);
         setState(s => ({ ...s, isServiceWorkerReady: true }));
       } catch (error) {
-        console.error('[App] Service Worker registration failed:', error);
+        logger.error('Service Worker registration failed', error instanceof Error ? error : undefined);
       }
     }
   }, []);

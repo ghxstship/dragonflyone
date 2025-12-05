@@ -34,10 +34,10 @@ interface Deliverable {
   tier_name?: string;
 }
 
-const statusColors: Record<string, 'success' | 'warning' | 'error' | 'default'> = {
+const statusColors: Record<string, 'success' | 'warning' | 'error' | 'info'> = {
   completed: 'success',
   in_progress: 'warning',
-  pending: 'default',
+  pending: 'info',
   cancelled: 'error',
 };
 
@@ -83,7 +83,7 @@ const columns: ListPageColumn<Deliverable>[] = [
     accessor: 'status', 
     sortable: true,
     render: (value) => (
-      <Badge variant={statusColors[String(value)] || 'default'}>
+      <Badge variant={statusColors[String(value)] || 'solid'}>
         {String(value).replace('_', ' ').toUpperCase()}
       </Badge>
     )
@@ -156,8 +156,12 @@ function SponsorFulfillmentPageContent() {
       id: 'complete', 
       label: 'Mark Complete', 
       icon: <CheckCircle className="size-4" />, 
-      onClick: (row) => { setDeliverableToComplete(row); setCompleteDialogOpen(true); },
-      hidden: (row) => row.status === 'completed'
+      onClick: (row) => { 
+        if (row.status !== 'completed') {
+          setDeliverableToComplete(row); 
+          setCompleteDialogOpen(true); 
+        }
+      }
     },
   ];
 
@@ -166,7 +170,7 @@ function SponsorFulfillmentPageContent() {
       await completeDeliverableMutation.mutateAsync({
         id: deliverableToComplete.id,
         sponsorId: deliverableToComplete.sponsor_id,
-        completedBy: user?.id || '', 
+        completedBy: '', 
       });
       setCompleteDialogOpen(false);
       setDeliverableToComplete(null);
@@ -220,44 +224,39 @@ function SponsorFulfillmentPageContent() {
 
   return (
     <AtlvsAppLayout>
-      <ListPage<Deliverable>
-        title="Sponsor Fulfillment"
-        subtitle="Track and manage sponsor deliverables"
-        data={filteredDeliverables}
-        columns={columns}
-        rowKey="id"
-        loading={false}
-        searchPlaceholder="Search deliverables..."
-        filters={filters}
-        rowActions={rowActions}
-        onRowClick={(row) => { setSelectedDeliverable(row); setDrawerOpen(true); }}
-        stats={stats}
-        emptyMessage="No deliverables found"
-        breadcrumbs={[
-          { label: 'ATLVS', href: '/dashboard' }, 
-          { label: 'Sponsors', href: '/sponsors' },
-          { label: 'Fulfillment' }
-        ]}
-        headerContent={
-          <Select
-            value={selectedSponsorId}
-            onChange={(e) => {
-              setSelectedSponsorId(e.target.value);
-              if (e.target.value) {
-                router.push(`/sponsors/fulfillment?sponsor=${e.target.value}`);
-              } else {
-                router.push('/sponsors/fulfillment');
-              }
-            }}
-            className="w-64 border-2 border-grey-300 px-3 py-2"
-          >
-            <option value="">All Sponsors</option>
-            {sponsors?.map(sponsor => (
-              <option key={sponsor.id} value={sponsor.id}>{sponsor.company_name}</option>
-            ))}
-          </Select>
-        }
-      />
+      <Stack gap={4}>
+        <Select
+          value={selectedSponsorId}
+          onChange={(e) => {
+            setSelectedSponsorId(e.target.value);
+            if (e.target.value) {
+              router.push(`/sponsors/fulfillment?sponsor=${e.target.value}`);
+            } else {
+              router.push('/sponsors/fulfillment');
+            }
+          }}
+          className="w-64 border-2 border-grey-300 px-3 py-2"
+        >
+          <option value="">All Sponsors</option>
+          {sponsors?.map(sponsor => (
+            <option key={sponsor.id} value={sponsor.id}>{sponsor.company_name}</option>
+          ))}
+        </Select>
+        <ListPage<Deliverable>
+          title="Sponsor Fulfillment"
+          subtitle="Track and manage sponsor deliverables"
+          data={filteredDeliverables}
+          columns={columns}
+          rowKey="id"
+          loading={false}
+          searchPlaceholder="Search deliverables..."
+          filters={filters}
+          rowActions={rowActions}
+          onRowClick={(row) => { setSelectedDeliverable(row); setDrawerOpen(true); }}
+          stats={stats}
+          emptyMessage="No deliverables found"
+        />
+      </Stack>
 
       <DetailDrawer
         open={drawerOpen}
@@ -272,7 +271,7 @@ function SponsorFulfillmentPageContent() {
         open={completeDialogOpen}
         title="Complete Deliverable"
         message={`Mark "${deliverableToComplete?.title}" as completed?`}
-        variant="default"
+        variant="info"
         confirmLabel="Complete"
         onConfirm={handleComplete}
         onCancel={() => { setCompleteDialogOpen(false); setDeliverableToComplete(null); }}

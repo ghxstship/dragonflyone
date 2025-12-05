@@ -19,6 +19,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
+import { createExportHandler } from '@ghxstship/config';
 import { usePurchaseOrders, useCreatePurchaseOrder, useDeletePurchaseOrder } from '@/hooks/useProcurement';
 
 interface PurchaseOrder {
@@ -210,11 +211,22 @@ export default function ProcurementPage() {
         onRowClick={(row) => { setSelectedPO(row); setDrawerOpen(true); }}
         createLabel="New Purchase Order"
         onCreate={() => setCreateModalOpen(true)}
-        onExport={() => router.push('/procurement/export')}
+        entityType="purchase-orders"
+        onExport={createExportHandler({
+          filename: "purchase-orders",
+          getData: () => (purchaseOrders || []).map(p => ({
+            id: p.id,
+            vendor: p.vendor,
+            description: p.description,
+            amount: p.amount,
+            status: p.status,
+            order_date: p.order_date || '',
+            delivery_date: p.delivery_date || '',
+          })),
+        })}
         stats={stats}
         emptyMessage="No purchase orders found"
         emptyAction={{ label: 'Create Purchase Order', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Procurement' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

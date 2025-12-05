@@ -4,8 +4,7 @@
 
 
 ./src/app/advancing/catalog/page.tsx
-247:27  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-284:19  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+17:3  Warning: 'Alert' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
 
 ./src/app/api/advancing/[id]/fulfill/route.ts
 25:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
@@ -197,9 +196,6 @@
 ./src/app/api/faq-database/route.ts
 26:38  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
-./src/app/api/file-management/route.ts
-105:11  Warning: 'breadcrumb' is never reassigned. Use 'const' instead.  prefer-const
-
 ./src/app/api/freelancer-marketplace/route.ts
 33:28  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 49:73  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
@@ -207,9 +203,6 @@
 
 ./src/app/api/health/route.ts
 12:27  Warning: 'request' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
-
-./src/app/api/incidents/route.ts
-166:9  Warning: 'updates' is never reassigned. Use 'const' instead.  prefer-const
 
 ./src/app/api/industry-associations/route.ts
 50:27  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
@@ -229,7 +222,6 @@
 
 ./src/app/api/language-filter/route.ts
 31:11  Warning: 'entityType' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-36:9  Warning: 'query' is never reassigned. Use 'const' instead.  prefer-const
 44:36  Warning: 'count' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
 57:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 69:40  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
@@ -427,7 +419,6 @@
 
 ./src/app/api/talent-pool/route.ts
 15:11  Warning: 'skills' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-28:9  Warning: 'query' is never reassigned. Use 'const' instead.  prefer-const
 88:35  Warning: 'availability' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
 
 ./src/app/api/technical-rehearsals/route.ts
@@ -489,51 +480,8 @@
 ./src/app/api/win-loss-tracking/route.ts
 14:11  Warning: 'period' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
 
-./src/app/artist-portal/page.tsx
-124:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-124:23  Warning: Classname 'border-ink-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-129:33  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-130:33  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-136:31  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-165:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-165:23  Warning: Classname 'border-ink-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-169:31  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-190:25  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-190:25  Warning: Classname 'hover:bg-ink-800' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-200:25  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-200:25  Warning: Classname 'hover:bg-ink-800' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-209:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-209:23  Warning: Classname 'hover:bg-ink-800' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-217:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-217:23  Warning: Classname 'hover:bg-ink-800' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-
-./src/app/artists/page.tsx
-182:27  Warning: Unexpected console statement.  no-console
-
-./src/app/availability/page.tsx
-101:9  Warning: 'router' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-187:27  Warning: Unexpected console statement.  no-console
-
-./src/app/background-checks/page.tsx
-82:9  Warning: 'router' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-95:92  Warning: Unexpected console statement.  no-console
-96:104  Warning: Unexpected console statement.  no-console
-153:25  Warning: Unexpected console statement.  no-console
-188:29  Warning: Unexpected console statement.  no-console
-
-./src/app/best-practices/page.tsx
-100:41  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-
 ./src/app/catering/page.tsx
-63:11  Warning: 'addNotification' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-348:31  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-
-./src/app/certifications/page.tsx
-3:20  Warning: 'useEffect' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-107:19  Warning: 'setLoading' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-134:5  Warning: Unexpected console statement.  no-console
-147:53  Warning: 'selectedIds' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
-209:27  Warning: Unexpected console statement.  no-console
+109:11  Warning: 'addNotification' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
 
 ./src/app/channels/page.tsx
 3:20  Warning: 'useEffect' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
@@ -542,245 +490,23 @@
 25:3  Warning: 'TabsList' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
 26:3  Warning: 'Tab' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
 143:9  Warning: 'getTypeBadge' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-201:49  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-221:55  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-243:51  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-256:36  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-260:59  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-364:47  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-
-./src/app/clock-in/page.tsx
-139:25  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-143:25  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-150:27  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-158:37  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-159:25  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-205:38  Warning: Classname 'text-ink-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-206:27  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-214:25  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-214:25  Warning: Classname 'border-ink-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-226:49  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-227:37  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-
-./src/app/communications/channels/page.tsx
-181:37  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-185:25  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-
-./src/app/communications/page.tsx
-79:63  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-102:29  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
 
 ./src/app/credentials/issue/page.tsx
 20:3  Warning: 'Select' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-77:16  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-77:16  Warning: Classname 'bg-grey-50' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-84:17  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-84:17  Warning: Classname 'border-grey-300' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-91:23  Warning: Classname 'text-grey-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-98:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-98:23  Warning: Classname 'border-grey-200' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-107:29  Warning: Classname 'bg-primary/5' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-107:29  Warning: Classname 'border-grey-200' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-107:29  Warning: Classname 'hover:border-grey-400' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-118:37  Warning: Classname 'font-weight-semibold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-119:37  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-130:33  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-130:33  Warning: Classname 'text-grey-400' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-136:27  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-136:27  Warning: Classname 'border-grey-300' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-139:28  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-139:28  Warning: Classname 'border-grey-200' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-143:29  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-143:29  Warning: Classname 'bg-primary/10' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-143:29  Warning: Classname 'hover:bg-grey-50' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-143:29  Warning: Classname 'border-grey-100' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-152:39  Warning: Classname 'font-weight-semibold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-153:39  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-173:27  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-173:27  Warning: Classname 'border-grey-300' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-177:27  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-177:27  Warning: Classname 'border-grey-300' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-191:25  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-191:25  Warning: Classname 'border-grey-300' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-202:25  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-202:25  Warning: Classname 'border-grey-300' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-211:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-211:23  Warning: Classname 'border-grey-200' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-217:31  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-222:33  Warning: Classname 'font-weight-semibold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-226:29  Warning: Classname 'text-grey-400' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-231:31  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-232:31  Warning: Classname 'font-weight-semibold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-233:31  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-236:29  Warning: Classname 'text-grey-400' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-241:31  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-242:31  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-242:31  Warning: Classname 'font-weight-semibold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-247:28  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-247:28  Warning: Classname 'border-warning' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-247:28  Warning: Classname 'bg-warning/10' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-249:35  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-256:28  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-256:28  Warning: Classname 'border-error' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-256:28  Warning: Classname 'bg-error/10' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-264:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-264:23  Warning: Classname 'bg-primary' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-
-./src/app/credentials/page.tsx
-210:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-214:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-218:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-222:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-234:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-238:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-242:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-248:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-275:25  Warning: Unexpected console statement.  no-console
 
 ./src/app/credentials/reports/page.tsx
 3:10  Warning: 'useState' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-55:16  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-55:16  Warning: Classname 'bg-grey-100' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-62:23  Warning: Classname 'text-grey-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-66:17  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-66:17  Warning: Classname 'border-grey-300' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-103:21  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-103:21  Warning: Classname 'border-grey-200' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-115:35  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-117:32  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-117:32  Warning: Classname 'bg-grey-200' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-119:31  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-134:21  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-134:21  Warning: Classname 'border-grey-200' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-142:29  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-147:31  Warning: Classname 'font-weight-semibold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-157:21  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-157:21  Warning: Classname 'border-grey-200' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-164:25  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-164:25  Warning: Classname 'border-grey-100' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-167:33  Warning: Classname 'font-weight-medium' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-168:33  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-168:33  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-170:31  Warning: Classname 'text-grey-400' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-178:21  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-178:21  Warning: Classname 'border-grey-200' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-184:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-184:23  Warning: Classname 'border-grey-300' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-191:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-191:23  Warning: Classname 'border-grey-300' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-198:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-198:23  Warning: Classname 'border-grey-300' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-205:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-205:23  Warning: Classname 'border-grey-300' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
 
 ./src/app/credentials/scan/page.tsx
 3:20  Warning: 'useRef' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
 3:28  Warning: 'useEffect' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-85:27  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-88:29  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-90:21  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-103:16  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-103:16  Warning: Classname 'bg-ink-950' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-110:17  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-110:17  Warning: Classname 'border-grey-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-117:23  Warning: Classname 'text-grey-400' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-125:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-125:23  Warning: Classname 'border-grey-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-125:23  Warning: Classname 'bg-grey-900' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-131:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-131:23  Warning: Classname 'border-grey-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-131:23  Warning: Classname 'bg-grey-800' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-144:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-144:23  Warning: Classname 'border-grey-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-144:23  Warning: Classname 'bg-grey-900' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-149:33  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-149:33  Warning: Classname 'text-grey-400' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-156:27  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-156:27  Warning: Classname 'border-grey-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-156:27  Warning: Classname 'bg-grey-800' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-162:25  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-162:25  Warning: Classname 'bg-primary' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-171:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-171:23  Warning: Classname 'border-grey-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-171:23  Warning: Classname 'bg-grey-900/50' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-173:29  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-173:29  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-174:25  Warning: Classname 'text-grey-400' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-175:27  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-179:29  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-179:29  Warning: Classname 'border-grey-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-179:29  Warning: Classname 'text-grey-400' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-200:31  Warning: Classname 'text-grey-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-204:31  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-204:31  Warning: Classname 'border-grey-200' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-213:37  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-213:37  Warning: Classname 'font-weight-bold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-217:35  Warning: Classname 'font-weight-semibold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-220:35  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-229:25  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-229:25  Warning: Classname 'border-grey-300' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-238:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-238:23  Warning: Classname 'border-grey-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-238:23  Warning: Classname 'bg-grey-900' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-242:29  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-248:29  Warning: Classname 'border-success/30' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-248:29  Warning: Classname 'bg-success/10' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-248:29  Warning: Classname 'border-error/30' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-248:29  Warning: Classname 'bg-error/10' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-254:46  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-256:42  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-259:39  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-262:39  Warning: Classname 'text-grey-400' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-
-./src/app/credentials/types/page.tsx
-174:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-182:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-186:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-190:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-204:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-208:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
 
 ./src/app/credentials/zones/page.tsx
 7:31  Warning: 'Shield' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
 7:39  Warning: 'Plus' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-201:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-207:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-211:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-215:19  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-232:14  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-232:14  Warning: Classname 'bg-grey-50' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-237:23  Warning: Classname 'text-grey-600' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-244:19  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-244:19  Warning: Classname 'border-grey-300' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-250:19  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-250:19  Warning: Classname 'bg-primary' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-257:19  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-257:19  Warning: Classname 'border-grey-200' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-262:21  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-262:21  Warning: Classname 'border-grey-100' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-269:31  Warning: Classname 'font-weight-semibold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-270:31  Warning: Classname 'text-grey-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-276:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-276:23  Warning: Classname 'border-grey-300' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-
-./src/app/crew/loading.tsx
-22:33  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
 
 ./src/app/crew/page.tsx
-224:5  Warning: Unexpected console statement.  no-console
-228:5  Warning: Unexpected console statement.  no-console
-234:7  Warning: Unexpected console statement.  no-console
-310:17  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-325:25  Warning: Unexpected console statement.  no-console
-
-./src/app/crew/social/page.tsx
-117:31  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-129:37  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-163:35  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-180:37  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-199:31  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-239:33  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-268:21  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+241:11  Warning: 'newMember' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
 
 ./src/app/crew-social/page.tsx
 3:20  Warning: 'useEffect' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
@@ -788,101 +514,296 @@
 59:11  Warning: 'Connection' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
 83:23  Warning: 'setCrewMembers' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
 93:26  Warning: 'memberId' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
-206:55  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-229:55  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-250:47  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-260:29  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-267:55  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-295:53  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-297:33  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-297:33  Warning: Classnames 'w-12, h-12' could be replaced by the 'size-12' shorthand!  tailwindcss/enforces-shorthand
-340:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-340:23  Warning: Classnames 'w-16, h-16' could be replaced by the 'size-16' shorthand!  tailwindcss/enforces-shorthand
-
-./src/app/dashboard/loading.tsx
-19:33  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-25:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-26:23  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-30:21  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-
-./src/app/dashboard/page.tsx
-4:28  Warning: 'CompvssLoadingLayout' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-19:3  Warning: 'EnterprisePageHeader' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-20:3  Warning: 'MainContent' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-162:21  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-163:55  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-182:21  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-182:21  Warning: Classname 'border-ink-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-183:55  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-202:21  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-202:21  Warning: Classname 'border-ink-400' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-203:55  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-
-./src/app/deliveries/page.tsx
-108:19  Warning: 'setLoading' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-134:5  Warning: Unexpected console statement.  no-console
-148:5  Warning: Unexpected console statement.  no-console
-185:38  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-185:38  Warning: Classname 'border-ink-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-227:27  Warning: Unexpected console statement.  no-console
-
-./src/app/directory/availability/page.tsx
-114:39  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-122:31  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-141:43  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-155:25  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-155:25  Warning: Classname 'bg-success-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-159:25  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-159:25  Warning: Classname 'bg-warning-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-163:25  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-163:25  Warning: Classname 'bg-error-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-167:25  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-167:25  Warning: Classname 'bg-ink-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-187:21  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-216:29  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-
-./src/app/directory/filters/page.tsx
-109:33  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-109:33  Warning: Classname 'bg-primary-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-121:33  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-121:33  Warning: Classname 'bg-primary-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
-129:27  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-129:27  Warning: Classname 'bg-primary-500' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
 
 ./src/app/directory/page.tsx
 92:9  Warning: 'filterOptions' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
 99:27  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 122:39  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-349:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-381:59  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-
-./src/app/equipment/page.tsx
-170:5  Warning: Unexpected console statement.  no-console
-239:27  Warning: Unexpected console statement.  no-console
-
-./src/app/expenses/page.tsx
-17:3  Warning: 'StatCard' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-18:3  Warning: 'Select' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-19:3  Warning: 'Table' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-20:3  Warning: 'TableHeader' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-21:3  Warning: 'TableBody' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-22:3  Warning: 'TableRow' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-23:3  Warning: 'TableHead' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-24:3  Warning: 'TableCell' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-25:3  Warning: 'Button' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-136:5  Warning: Unexpected console statement.  no-console
-186:36  Warning: Unexpected console statement.  no-console
-
-./src/app/glossary/page.tsx
-125:27  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-
-./src/app/incidents/page.tsx
-3:20  Warning: 'useCallback' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-86:5  Warning: Unexpected console statement.  no-console
-93:7  Warning: Unexpected console statement.  no-console
-151:27  Warning: Unexpected console statement.  no-console
+348:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/integrations/page.tsx
 35:12  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-110:55  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
-140:35  Warning: Invalid Tailwind CSS classnames order  tailwi
+
+./src/app/knowledge/multilingual/page.tsx
+82:9  Warning: 'getStatusColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/knowledge/offline/page.tsx
+84:9  Warning: 'getStatusColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+94:9  Warning: 'getPriorityColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/knowledge/regulations/page.tsx
+63:9  Warning: 'getStatusColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/mentorship/page.tsx
+73:10  Warning: 'selectedProgram' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+79:9  Warning: 'getAvailabilityColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+88:9  Warning: 'getLevelColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/my-assignments/page.tsx
+17:3  Warning: 'Briefcase' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/my-credentials/page.tsx
+17:3  Warning: 'Shield' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/my-timesheets/page.tsx
+29:3  Warning: 'Plus' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/opportunities/bid-decision/page.tsx
+65:9  Warning: 'getScoreColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+71:9  Warning: 'getStatusColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/opportunities/mobile/page.tsx
+73:9  Warning: 'getTypeColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/opportunities/page.tsx
+27:56  Warning: 'FileText' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+33:66  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+37:10  Warning: 'searchQuery' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+37:23  Warning: 'setSearchQuery' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+38:10  Warning: 'locationFilter' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+38:26  Warning: 'setLocationFilter' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+40:37  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/opportunities/proposals/page.tsx
+66:9  Warning: 'getStatusColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/p/[productionId]/credentials/page.tsx
+4:67  Warning: 'Badge' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/p/[productionId]/expenses/page.tsx
+14:3  Warning: 'Body' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/p/[productionId]/incidents/page.tsx
+53:9  Warning: 'router' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/p/[productionId]/lost-found/page.tsx
+18:3  Warning: 'Textarea' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/p/[productionId]/operations/page.tsx
+4:48  Warning: 'Button' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+5:10  Warning: 'Clapperboard' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/p/[productionId]/schedule/page.tsx
+4:56  Warning: 'Badge' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+5:10  Warning: 'Calendar' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+5:20  Warning: 'CheckSquare' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+5:53  Warning: 'Plus' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/p/[productionId]/weather/page.tsx
+22:3  Warning: 'Thermometer' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+49:20  Warning: 'setForecast' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/p/[productionId]/wrap/page.tsx
+20:3  Warning: 'DollarSign' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/page.tsx
+72:29  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
+97:49  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
+107:71  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
+144:48  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
+149:35  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
+150:35  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
+168:26  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
+196:39  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
+213:26  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
+240:39  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
+290:61  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
+307:51  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
+326:52  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
+338:26  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
+370:54  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
+386:56  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
+414:55  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
+437:58  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
+457:51  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
+473:51  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
+489:51  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
+505:52  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
+521:51  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
+542:52  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
+560:52  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
+570:25  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
+576:25  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
+
+./src/app/photo-documentation/page.tsx
+20:3  Warning: 'TabPanel' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+44:11  Warning: 'Photo' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+76:9  Warning: 'getPhaseColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/projects/page.tsx
+28:52  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+33:64  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+64:60  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/punch-list/page.tsx
+79:9  Warning: 'getPriorityColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+89:9  Warning: 'getStatusColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/qa-checkpoints/page.tsx
+107:9  Warning: 'getStatusColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/reports/daily/[id]/page.tsx
+4:57  Warning: 'Download' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/reports/daily/page.tsx
+5:52  Warning: 'Users' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+5:59  Warning: 'DollarSign' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/reports/wrap/page.tsx
+5:52  Warning: 'TrendingUp' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+5:64  Warning: 'DollarSign' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+5:76  Warning: 'Users' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/risk-register/page.tsx
+72:9  Warning: 'getRiskScoreColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+79:9  Warning: 'getStatusColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+89:9  Warning: 'getProbabilityValue' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+90:9  Warning: 'getImpactValue' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/set-times/page.tsx
+70:9  Warning: 'getStatusColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+81:9  Warning: 'getStatusBg' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/settings/page.tsx
+52:33  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
+64:33  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
+76:33  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
+88:33  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
+
+./src/app/settlement/page.tsx
+130:9  Warning: 'getStatusColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/show-call/page.tsx
+71:9  Warning: 'getStatusColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+81:9  Warning: 'getStatusBg' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/site-access/page.tsx
+82:9  Warning: 'getStatusColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/site-surveys/page.tsx
+113:11  Warning: 'addNotification' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+180:9  Warning: 'getAssessmentColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/skills/page.tsx
+52:71  Warning: 'refetch' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+82:53  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+83:53  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+86:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+89:52  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+97:55  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+106:49  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+108:59  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+191:46  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/social-amplification/page.tsx
+70:10  Warning: 'selectedCampaign' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+83:9  Warning: 'getStatusColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/sops/[id]/page.tsx
+5:71  Warning: 'Play' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+5:77  Warning: 'GripVertical' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+47:50  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+61:10  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+72:12  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+183:47  Warning: 'index' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/sops/acknowledgments/page.tsx
+7:23  Warning: 'Clock' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+7:30  Warning: 'User' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+7:36  Warning: 'FileText' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+7:46  Warning: 'Download' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+12:3  Warning: 'Badge' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+13:3  Warning: 'Grid' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/sops/page.tsx
+5:23  Warning: 'FileText' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+5:56  Warning: 'Download' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+187:31  Warning: 'data' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/sops/training/page.tsx
+15:3  Warning: 'Button' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+116:9  Warning: 'startTrainingMutation' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+159:17  Warning: 'row' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/soundcheck/page.tsx
+27:3  Warning: 'Table' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+28:3  Warning: 'TableHeader' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+29:3  Warning: 'TableRow' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+30:3  Warning: 'TableCell' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+73:9  Warning: 'getStatusColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+84:9  Warning: 'getStatusBg' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/spec-sheets/page.tsx
+55:10  Warning: 'activeTab' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+55:21  Warning: 'setActiveTab' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+67:9  Warning: 'getCategoryColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/stakeholder-portal/page.tsx
+72:9  Warning: 'getRoleColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/subcontractors/page.tsx
+106:11  Warning: 'addNotification' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/tech-rehearsal/page.tsx
+91:9  Warning: 'getStatusColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+101:9  Warning: 'getPriorityColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/templates/page.tsx
+58:10  Warning: 'activeTab' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+58:21  Warning: 'setActiveTab' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+74:9  Warning: 'getCategoryColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/vendor-portal/page.tsx
+22:3  Warning: 'Clock' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/vendors/compare/page.tsx
+55:10  Warning: 'categoryFilter' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+55:26  Warning: 'setCategoryFilter' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+67:9  Warning: 'getAvailabilityColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+76:9  Warning: 'getPricingColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/weather-contingency/page.tsx
+19:3  Warning: 'TabPanel' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+112:9  Warning: 'getRiskColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+122:9  Warning: 'getRiskBg' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+132:9  Warning: 'getStatusColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/components/advancing/advance-request-form.tsx
+11:3  Warning: 'Select' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+30:3  Warning: 'Plus' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+148:22  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/components/advancing/fulfillment-manager.tsx
+17:3  Warning: 'ButtonGroup' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+66:9  Warning: 'handleNotesChange' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+103:24  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/components/mobile-job-search.tsx
+8:3  Warning: 'Display' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+20:67  Warning: 'ChevronDown' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+79:21  Warning: 'setIsLoading' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+80:16  Warning: 'setJobs' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/components/navigation.tsx
+4:10  Warning: 'compvssNavigation' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/components/task-board.tsx
+4:61  Warning: 'Label' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+20:10  Warning: 'selectedTask' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/hooks/useNotifications.ts
+65:61  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/hooks/useOffline.ts
+91:30  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+201:47  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+217:32  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+232:26  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/hooks/useProjectManagement.ts
+77:71  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/hooks/useVenues.ts
+16:29  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules

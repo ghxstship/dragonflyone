@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { ProtectedRoute as SharedProtectedRoute } from '@ghxstship/ui';
-import { useAuth } from '../hooks/useAuth';
+import { useAuth } from '@ghxstship/config/hooks/useAuth';
 
 export function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const router = useRouter();

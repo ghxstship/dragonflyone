@@ -18,7 +18,9 @@ import {
   type ListPageBulkAction,
   type FormFieldConfig,
   type DetailSection,
+  type ExportFormat,
 } from "@ghxstship/ui";
+import { createExportHandler } from "@ghxstship/config";
 
 interface Asset {
   id: string;
@@ -93,9 +95,21 @@ export default function AssetsPage() {
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    console.log('Create asset:', data);
+    const newAsset: Asset = {
+      id: `AST-${String(assets.length + 1).padStart(3, '0')}`,
+      name: String(data.name || ''),
+      category: String(data.category || 'Audio'),
+      location: String(data.location || ''),
+      status: 'Available',
+      value: Number(data.value) || 0,
+      condition: String(data.condition || 'Good'),
+      lastMaintenance: new Date().toISOString().split('T')[0],
+      nextMaintenance: String(data.nextMaintenance || ''),
+      utilization: 0,
+      projects: 0,
+    };
+    setAssets(prev => [...prev, newAsset]);
     setCreateModalOpen(false);
-    refetch();
   };
 
   const handleDelete = async () => {
@@ -146,15 +160,44 @@ export default function AssetsPage() {
         filters={filters}
         rowActions={rowActions}
         bulkActions={bulkActions}
-        onBulkAction={(id, ids) => console.log('Bulk:', id, ids)}
+        onBulkAction={async (id, ids) => {
+          if (id === 'export') {
+            const exportData = assets.filter(a => ids.includes(a.id));
+            const headers = Object.keys(exportData[0] || {}).join(',');
+            const rows = exportData.map(a => Object.values(a).map(v => `"${v}"`).join(','));
+            const csv = [headers, ...rows].join('\n');
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `assets-export-${new Date().toISOString().split('T')[0]}.csv`;
+            link.click();
+            URL.revokeObjectURL(url);
+          } else if (id === 'maintenance') {
+            router.push(`/assets/maintenance/schedule?ids=${ids.join(',')}`);
+          } else if (id === 'delete') {
+            setAssets(prev => prev.filter(a => !ids.includes(a.id)));
+          }
+        }}
         onRowClick={(r) => { setSelectedAsset(r); setDrawerOpen(true); }}
         createLabel="Add Asset"
         onCreate={() => setCreateModalOpen(true)}
-        onExport={() => console.log('Export')}
+        entityType="assets"
+        onExport={createExportHandler({
+          filename: "assets",
+          getData: () => assets.map(a => ({
+            id: a.id,
+            name: a.name,
+            category: a.category,
+            location: a.location,
+            status: a.status,
+            value: a.value || 0,
+          })),
+        })}
+        exportFormats={["csv", "json"]}
         stats={stats}
         emptyMessage="No assets found"
         emptyAction={{ label: 'Add Asset', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Assets' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

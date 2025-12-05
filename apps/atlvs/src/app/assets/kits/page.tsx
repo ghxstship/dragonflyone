@@ -6,9 +6,9 @@ import { Eye, Rocket, Pencil } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Stack, Body,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig,
+  type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig, type ExportFormat,
 } from '@ghxstship/ui';
-import { getBadgeVariant } from '@ghxstship/config';
+import { getBadgeVariant, createExportHandler } from '@ghxstship/config';
 
 interface AssetKit {
   id: string;
@@ -56,7 +56,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function AssetKitsPage() {
   const router = useRouter();
-  const [data] = useState<AssetKit[]>(mockData);
+  const [data, setData] = useState<AssetKit[]>(mockData);
   const [selected, setSelected] = useState<AssetKit | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -66,8 +66,8 @@ export default function AssetKitsPage() {
 
   const rowActions: ListPageAction<AssetKit>[] = [
     { id: 'view', label: 'View Contents', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
-    { id: 'deploy', label: 'Deploy Kit', icon: <Rocket className="size-4" />, onClick: (r) => console.log('Deploy', r.id) },
-    { id: 'edit', label: 'Edit Kit', icon: <Pencil className="size-4" />, onClick: (r) => console.log('Edit', r.id) },
+    { id: 'deploy', label: 'Deploy Kit', icon: <Rocket className="size-4" />, onClick: (r) => setData(prev => prev.map(k => k.id === r.id ? { ...k, status: 'Deployed' as const } : k)) },
+    { id: 'edit', label: 'Edit Kit', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/assets/kits/${r.id}/edit`) },
   ];
 
   const stats = [
@@ -78,7 +78,17 @@ export default function AssetKitsPage() {
   ];
 
   const handleCreate = async (formData: Record<string, unknown>) => {
-    console.log('Create kit:', formData);
+    const newKit: AssetKit = {
+      id: `KIT-${String(data.length + 1).padStart(3, '0')}`,
+      name: String(formData.name || ''),
+      category: String(formData.category || 'Audio'),
+      itemCount: 0,
+      totalValue: 0,
+      status: 'Available',
+      description: String(formData.description || ''),
+      items: [],
+    };
+    setData(prev => [...prev, newKit]);
     setCreateModalOpen(false);
   };
 
@@ -120,11 +130,23 @@ export default function AssetKitsPage() {
         onRowClick={(r) => { setSelected(r); setDrawerOpen(true); }}
         createLabel="Create Kit"
         onCreate={() => setCreateModalOpen(true)}
-        onExport={() => console.log('Export')}
+        entityType="asset-kits"
+        onExport={createExportHandler({
+          filename: "asset-kits",
+          getData: () => data.map(kit => ({
+            id: kit.id,
+            name: kit.name,
+            category: kit.category,
+            itemCount: kit.itemCount,
+            totalValue: kit.totalValue,
+            status: kit.status,
+            lastUsed: kit.lastUsed || '',
+          })),
+        })}
+        exportFormats={["csv", "json"]}
         stats={stats}
         emptyMessage="No kits found"
         emptyAction={{ label: 'Create Kit', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Assets', href: '/assets' }, { label: 'Kits' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
@@ -143,7 +165,11 @@ export default function AssetKitsPage() {
           subtitle={(r) => `${r.category} • ${r.itemCount} items • ${formatCurrency(r.totalValue)}`}
           sections={detailSections}
           actions={[{ id: 'deploy', label: 'Deploy Kit', icon: <Rocket className="size-4" /> }, { id: 'edit', label: 'Edit Kit', icon: <Pencil className="size-4" /> }]}
-          onAction={(id, r) => { console.log(id, r.id); setDrawerOpen(false); }}
+          onAction={(id, r) => {
+            if (id === 'deploy') setData(prev => prev.map(k => k.id === r.id ? { ...k, status: 'Deployed' as const } : k));
+            if (id === 'edit') router.push(`/assets/kits/${r.id}/edit`);
+            setDrawerOpen(false);
+          }}
         />
       )}
     </AtlvsAppLayout>

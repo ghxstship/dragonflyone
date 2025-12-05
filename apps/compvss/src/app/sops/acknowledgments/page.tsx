@@ -17,6 +17,7 @@ import {
   type ListPageColumn,
   type ListPageFilter,
 } from '@ghxstship/ui';
+import { createExportHandler } from '@ghxstship/config';
 
 interface SOPAcknowledgment {
   id: string;
@@ -102,14 +103,19 @@ export default function SOPAcknowledgmentsPage() {
         onRetry={refetch}
         searchPlaceholder="Search by user or SOP..."
         filters={filters}
-        onExport={() => {}}
+        entityType="sop-acknowledgments"
+        onExport={createExportHandler({
+          filename: "sop-acknowledgments",
+          getData: () => acknowledgments.map(a => ({
+            id: a.id,
+            acknowledged_at: a.acknowledged_at,
+            sop_title: a.sop?.title || '',
+            user_name: a.user ? `${a.user.first_name} ${a.user.last_name}` : '',
+            user_email: a.user?.email || '',
+          })),
+        })}
         stats={stats}
         emptyMessage="No acknowledgments recorded yet"
-        breadcrumbs={[
-          { label: 'COMPVSS', href: '/dashboard' }, 
-          { label: 'SOPs', href: '/sops' },
-          { label: 'Acknowledgments' }
-        ]}
         headerContent={
           <Select
             value={selectedSopId}

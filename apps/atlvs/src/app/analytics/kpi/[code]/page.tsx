@@ -16,7 +16,7 @@ import {
   Stack,
   Label,
   SectionHeader,
-  LoadingSpinner,
+  Spinner,
   StatCard,
   EnterprisePageHeader,
   MainContent,
@@ -102,7 +102,7 @@ export default function KPIDetailPage() {
       <AtlvsAppLayout>
         <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
-            <LoadingSpinner size="lg" text="Loading KPI data..." />
+            <Spinner variant="grey" size="lg" text="Loading KPI data..." />
           </Container>
         </MainContent>
       </AtlvsAppLayout>
@@ -132,7 +132,6 @@ export default function KPIDetailPage() {
       <EnterprisePageHeader
         title={kpi.name}
         subtitle={kpi.description}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Analytics', href: '/analytics' }, { label: 'KPI', href: '/analytics/kpi' }, { label: kpi.code }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         secondaryActions={[{ id: 'back', label: 'Back to Library', onClick: () => router.push('/analytics/kpi') }]}

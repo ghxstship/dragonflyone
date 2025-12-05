@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { Eye, Pencil, Calendar } from 'lucide-react';
 import { CompvssAppLayout } from '../../components/app-layout';
 import {
@@ -20,7 +19,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
-import { getBadgeVariant } from '@ghxstship/config';
+import { getBadgeVariant, createExportHandler } from '@ghxstship/config';
 
 interface AvailabilitySlot {
   id: string;
@@ -98,7 +97,6 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function AvailabilityPage() {
-  const router = useRouter();
   const [availability, setAvailability] = useState<AvailabilitySlot[]>(generateMockAvailability());
   const [selectedSlot, setSelectedSlot] = useState<AvailabilitySlot | null>(null);
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -160,7 +158,6 @@ export default function AvailabilityPage() {
       <EnterprisePageHeader
         title="Availability"
         subtitle="Crew availability and calendar integration"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Availability' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
@@ -184,7 +181,22 @@ export default function AvailabilityPage() {
           onRowClick={(r) => { setSelectedSlot(r); setDrawerOpen(true); }}
           createLabel="Set Availability"
           onCreate={() => setCreateModalOpen(true)}
-          onExport={() => console.log('Export')}
+          entityType="availability"
+          onExport={createExportHandler({
+            filename: "availability",
+            getData: () => availability.map(s => ({
+              id: s.id,
+              user_name: s.user_name,
+              role: s.role,
+              department: s.department,
+              date: s.date,
+              status: s.status,
+              start_time: s.start_time || '',
+              end_time: s.end_time || '',
+              notes: s.notes || '',
+              calendar_source: s.calendar_source || '',
+            })),
+          })}
           stats={stats}
           emptyMessage="No availability records"
         />

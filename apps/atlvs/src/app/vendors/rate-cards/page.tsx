@@ -15,6 +15,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
+import { createExportHandler } from "@ghxstship/config";
 
 interface RateItem {
   id: string;
@@ -172,10 +173,21 @@ export default function RateCardsPage() {
         onRowClick={(r) => { setSelectedRateCard(r); setDrawerOpen(true); }}
         createLabel="Request New Rate Card"
         onCreate={() => router.push("/vendors/rate-cards/request")}
-        onExport={() => router.push("/vendors/rate-cards/export")}
+        entityType="rate-cards"
+        onExport={createExportHandler({
+          filename: "rate-cards",
+          getData: () => rateCards.map(r => ({
+            id: r.id,
+            vendorName: r.vendorName,
+            category: r.category,
+            effectiveDate: r.effectiveDate,
+            expiryDate: r.expirationDate,
+            status: r.status,
+            itemCount: r.items?.length || 0,
+          })),
+        })}
         stats={stats}
         emptyMessage="No rate cards found"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Vendors', href: '/vendors' }, { label: 'Rate Cards' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

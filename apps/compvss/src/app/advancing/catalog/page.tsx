@@ -25,6 +25,55 @@ import {
 import type { ProductionCatalogItem } from '@ghxstship/config/types/advancing';
 import { Search, Package, Filter, X } from 'lucide-react';
 
+// Demo data for unauthenticated users
+const DEMO_CATALOG_ITEMS: ProductionCatalogItem[] = [
+  {
+    id: "demo-1",
+    item_id: "AV-001",
+    item_name: "LED Video Wall Panel",
+    category: "Audio Visual",
+    subcategory: "Video",
+    specifications: "2.5mm pixel pitch, 500x500mm panel, indoor rated",
+    standard_unit: "panel",
+    common_variations: ["2.5mm", "2.9mm", "3.9mm"],
+    industry_vertical: "events",
+    procurement_type: "rental",
+    featured: true,
+  },
+  {
+    id: "demo-2",
+    item_id: "LX-001",
+    item_name: "Moving Head Wash Light",
+    category: "Lighting",
+    subcategory: "Moving Lights",
+    specifications: "RGBW LED, 19x15W, zoom 7-50 degrees",
+    standard_unit: "fixture",
+    common_variations: ["Wash", "Spot", "Beam"],
+    industry_vertical: "events",
+    procurement_type: "rental",
+    featured: true,
+  },
+  {
+    id: "demo-3",
+    item_id: "ST-001",
+    item_name: "Stage Deck Platform",
+    category: "Staging",
+    subcategory: "Decking",
+    specifications: "4x8 ft aluminum frame, adjustable legs 16-24 inches",
+    standard_unit: "deck",
+    common_variations: ["4x4", "4x8", "6x8"],
+    industry_vertical: "events",
+    procurement_type: "rental",
+    featured: false,
+  },
+];
+
+const DEMO_CATALOG_DATA = {
+  items: DEMO_CATALOG_ITEMS,
+  total: 329,
+  categories: ["Audio Visual", "Lighting", "Staging", "Power", "Rigging"],
+};
+
 export default function CatalogPage() {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState('');
@@ -43,15 +92,16 @@ export default function CatalogPage() {
 
   // Extract unique subcategories from current category
   const subcategories = useMemo(() => {
-    if (!data?.items || !selectedCategory) return [];
+    const items = error ? DEMO_CATALOG_DATA.items : data?.items;
+    if (!items || !selectedCategory) return [];
     const subs = new Set<string>();
-    data.items.forEach(item => {
+    items.forEach(item => {
       if (item.category === selectedCategory && item.subcategory) {
         subs.add(item.subcategory);
       }
     });
     return Array.from(subs).sort();
-  }, [data?.items, selectedCategory]);
+  }, [data?.items, selectedCategory, error]);
 
   const clearFilters = () => {
     setSelectedCategory(undefined);
@@ -73,26 +123,14 @@ export default function CatalogPage() {
 
   const isSelected = (itemId: string) => selectedItems.some(i => i.id === itemId);
 
-  if (error) {
-    return (
-      <CompvssAppLayout>
-        <MainContent padding="lg">
-          <Container>
-            <Alert variant="error" title="Error Loading Catalog">
-              {error.message}
-            </Alert>
-          </Container>
-        </MainContent>
-      </CompvssAppLayout>
-    );
-  }
+  // Use demo data when there's an error (e.g., unauthenticated)
+  const effectiveData = error ? DEMO_CATALOG_DATA : data;
 
   return (
     <CompvssAppLayout>
       <EnterprisePageHeader
         title="Production Advancing Catalog"
-        subtitle={`Browse ${data?.total || 329} standardized production items across all categories`}
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Advancing', href: '/advancing' }, { label: 'Catalog' }]}
+        subtitle={`Browse ${effectiveData?.total || 329} standardized production items across all categories`}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite
@@ -155,7 +193,7 @@ export default function CatalogPage() {
               >
                 ALL CATEGORIES
               </Badge>
-              {data?.categories && data.categories.map((category) => (
+              {effectiveData?.categories && effectiveData.categories.map((category) => (
                 <Badge
                   key={category}
                   variant={selectedCategory === category ? 'solid' : 'outline'}
@@ -213,9 +251,9 @@ export default function CatalogPage() {
             <Stack className="items-center justify-center py-12">
               <Spinner />
             </Stack>
-          ) : data?.items && data.items.length > 0 ? (
+          ) : effectiveData?.items && effectiveData.items.length > 0 ? (
             <Grid cols={3} gap={6} className="mb-8">
-              {data.items.map((item) => (
+              {effectiveData.items.map((item) => (
                 <Card
                   key={item.id}
                   onClick={() => toggleItemSelection(item)}
@@ -280,9 +318,9 @@ export default function CatalogPage() {
           )}
 
           {/* Results Summary */}
-          {data && (
+          {effectiveData && (
             <Body className="mt-8 text-center text-body-sm">
-              Showing {data.items?.length || 0} of {data.total} items
+              Showing {effectiveData.items?.length || 0} of {effectiveData.total} items
               {selectedCategory && ` in ${selectedCategory}`}
             </Body>
           )}

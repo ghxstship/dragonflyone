@@ -15,7 +15,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
-import { getBadgeVariant } from "@ghxstship/config";
+import { getBadgeVariant, createExportHandler } from "@ghxstship/config";
 
 interface TaxDocument {
   id: string;
@@ -124,11 +124,22 @@ export default function TaxesPage() {
         onRowClick={(r) => { setSelectedDoc(r); setDrawerOpen(true); }}
         createLabel="Add Tax Document"
         onCreate={() => router.push('/taxes/new')}
-        onExport={() => router.push('/taxes/annual-report')}
+        entityType="taxes"
+        onExport={createExportHandler({
+          filename: "tax-documents",
+          getData: () => documents.map(d => ({
+            id: d.id,
+            title: d.title,
+            type: d.document_type,
+            tax_year: d.tax_year,
+            status: d.status,
+            due_date: d.due_date || '',
+            amount: d.amount_due || 0,
+          })),
+        })}
         stats={stats}
         emptyMessage="No tax documents found"
         emptyAction={{ label: 'Add Tax Document', onClick: () => router.push('/taxes/new') }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Taxes' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

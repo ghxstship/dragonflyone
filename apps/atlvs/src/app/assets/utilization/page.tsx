@@ -8,6 +8,7 @@ import {
   ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
 } from '@ghxstship/ui';
+import { createExportHandler } from '@ghxstship/config';
 
 interface AssetUtilization {
   id: string;
@@ -107,10 +108,22 @@ export default function AssetUtilizationPage() {
         filters={filters}
         rowActions={rowActions}
         onRowClick={(r) => { setSelected(r); setDrawerOpen(true); }}
-        onExport={() => console.log('Export')}
+        entityType="asset-utilization"
+        onExport={createExportHandler({
+          filename: "asset-utilization",
+          getData: () => data.map(a => ({
+            id: a.id,
+            name: a.name,
+            category: a.category,
+            utilizationRate: a.utilizationRate,
+            hoursUsed: a.hoursUsed,
+            hoursAvailable: a.hoursAvailable,
+            status: a.status,
+            trend: a.trend,
+          })),
+        })}
         stats={stats}
         emptyMessage="No utilization data found"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Assets', href: '/assets' }, { label: 'Utilization' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

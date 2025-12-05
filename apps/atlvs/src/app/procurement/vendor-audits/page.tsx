@@ -95,7 +95,6 @@ export default function VendorAuditsPage() {
       <EnterprisePageHeader
         title="Vendor Audit & Evaluation"
         subtitle="Schedule and track vendor audits and evaluations"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Procurement', href: '/procurement' }, { label: 'Vendor Audits' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

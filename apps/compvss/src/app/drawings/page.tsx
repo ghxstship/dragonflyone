@@ -74,7 +74,6 @@ export default function DrawingsPage() {
       <EnterprisePageHeader
         title="Drawings & CAD Files"
         subtitle="Technical drawings with markup and version control"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Drawings' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         primaryAction={{ label: 'Upload Drawing', onClick: () => setShowUploadModal(true) }}

@@ -14,7 +14,7 @@ import {
   EVENT_ROLE_HIERARCHY,
   isLegendRole,
   getAllInheritedRoles,
-} from '../roles.js';
+} from '../roles';
 
 // =============================================================================
 // TYPES
@@ -500,4 +500,4 @@ export type {
   Permission,
   PlatformRole,
   EventRole,
-} from '../roles.js';
+} from '../roles';

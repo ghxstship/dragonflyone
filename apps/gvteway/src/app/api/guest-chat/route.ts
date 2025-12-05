@@ -91,7 +91,7 @@ export async function GET(request: NextRequest) {
       const eventId = searchParams.get('event_id');
       const category = searchParams.get('category');
 
-      let replies = [
+      const replies = [
         { id: 'hours', text: 'What are the venue hours?' },
         { id: 'parking', text: 'Where can I park?' },
         { id: 'refund', text: 'How do I get a refund?' },

@@ -230,11 +230,6 @@ export default function ApiKeysPage() {
         stats={pageStats}
         emptyMessage="No API keys created yet"
         emptyAction={{ label: 'Create First Key', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[
-          { label: 'ATLVS', href: '/dashboard' }, 
-          { label: 'API Management', href: '/api-management' },
-          { label: 'API Keys' }
-        ]}
       />
 
       <RecordFormModal

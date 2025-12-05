@@ -6,9 +6,9 @@ import { Eye, Reply, Link } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   ListPage, Badge, DetailDrawer, Grid, Body,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
+  type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type ExportFormat,
 } from '@ghxstship/ui';
-import { getBadgeVariant } from '@ghxstship/config';
+import { getBadgeVariant, createExportHandler } from '@ghxstship/config';
 
 interface EmailThread {
   id: string;
@@ -56,8 +56,8 @@ export default function EmailIntegrationPage() {
 
   const rowActions: ListPageAction<EmailThread>[] = [
     { id: 'view', label: 'View Email', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
-    { id: 'reply', label: 'Reply', icon: <Reply className="size-4" />, onClick: (r) => console.log('Reply to', r.id) },
-    { id: 'link', label: 'Link to Contact', icon: <Link className="size-4" />, onClick: (r) => console.log('Link', r.id) },
+    { id: 'reply', label: 'Reply', icon: <Reply className="size-4" />, onClick: (r) => window.location.href = `mailto:${r.from}?subject=Re: ${r.subject}` },
+    { id: 'link', label: 'Link to Contact', icon: <Link className="size-4" />, onClick: (r) => router.push(`/crm/email-integration/${r.id}/link`) },
   ];
 
   const stats = [
@@ -95,10 +95,22 @@ export default function EmailIntegrationPage() {
         filters={filters}
         rowActions={rowActions}
         onRowClick={(r) => { setSelected(r); setDrawerOpen(true); }}
-        onExport={() => console.log('Export')}
+        entityType="emails"
+        onExport={createExportHandler({
+          filename: "emails",
+          getData: () => data.map(e => ({
+            id: e.id,
+            subject: e.subject,
+            from: e.from,
+            date: e.date,
+            status: e.status,
+            linkedContact: e.linkedContact || '',
+            linkedDeal: e.linkedDeal || '',
+          })),
+        })}
+        exportFormats={["csv", "json"]}
         stats={stats}
         emptyMessage="No emails found"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'CRM', href: '/crm' }, { label: 'Email Integration' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
@@ -115,8 +127,12 @@ export default function EmailIntegrationPage() {
           title={(r) => r.subject}
           subtitle={(r) => `From: ${r.from} • ${r.date}`}
           sections={detailSections}
-          actions={[{ id: 'reply', label: 'Reply', icon: '↩️' }, { id: 'link', label: 'Link to Contact', icon: '🔗' }]}
-          onAction={(id, r) => { console.log(id, r.id); setDrawerOpen(false); }}
+          actions={[{ id: 'reply', label: 'Reply', icon: <Reply className="size-4" /> }, { id: 'link', label: 'Link to Contact', icon: <Link className="size-4" /> }]}
+          onAction={(id, r) => {
+            if (id === 'reply') window.location.href = `mailto:${r.from}?subject=Re: ${r.subject}`;
+            if (id === 'link') router.push(`/crm/email-integration/${r.id}/link`);
+            setDrawerOpen(false);
+          }}
         />
       )}
     </AtlvsAppLayout>

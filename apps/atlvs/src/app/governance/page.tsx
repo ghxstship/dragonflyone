@@ -15,7 +15,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
-import { getBadgeVariant } from "@ghxstship/config";
+import { getBadgeVariant, createExportHandler } from "@ghxstship/config";
 
 interface BoardMeeting {
   id: string;
@@ -125,11 +125,22 @@ export default function GovernancePage() {
         onRowClick={(r) => { setSelectedMeeting(r); setDrawerOpen(true); }}
         createLabel="Schedule Meeting"
         onCreate={() => router.push('/governance/meetings/new')}
-        onExport={() => console.log('Export')}
+        entityType="governance"
+        onExport={createExportHandler({
+          filename: "board-meetings",
+          getData: () => meetings.map(m => ({
+            id: m.id,
+            title: m.title,
+            date: m.scheduled_date,
+            type: m.meeting_type,
+            status: m.status,
+            attendees: m.attendees,
+            location: m.location || '',
+          })),
+        })}
         stats={stats}
         emptyMessage="No meetings scheduled"
         emptyAction={{ label: 'Schedule Meeting', onClick: () => router.push('/governance/meetings/new') }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Governance' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

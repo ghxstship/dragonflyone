@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, RefreshCw, Pencil, Trash2, Bell, Download } from "lucide-react";
 import { CompvssAppLayout } from "../../components/app-layout";
@@ -22,6 +22,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from "@ghxstship/ui";
+import { createExportHandler } from "@ghxstship/config";
 
 interface Certification {
   id: string;
@@ -104,7 +105,7 @@ const formFields: FormFieldConfig[] = [
 export default function CertificationsPage() {
   const router = useRouter();
   const [certifications, setCertifications] = useState<Certification[]>(mockCertifications);
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
   
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedCert, setSelectedCert] = useState<Certification | null>(null);
@@ -131,9 +132,17 @@ export default function CertificationsPage() {
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    console.log('Create certification:', data);
+    const newCert: Certification = {
+      id: `CERT-${String(certifications.length + 1).padStart(3, '0')}`,
+      crew_member_id: String(data.crew_member_id || ''),
+      crew_member_name: String(data.crew_member_name || ''),
+      certification_type: String(data.certification_type || ''),
+      issue_date: String(data.issue_date || new Date().toISOString().split('T')[0]),
+      expiry_date: String(data.expiry_date || ''),
+      status: 'active',
+    };
+    setCertifications(prev => [...prev, newCert]);
     setCreateModalOpen(false);
-    refetch();
   };
 
   const handleDelete = async () => {
@@ -146,7 +155,29 @@ export default function CertificationsPage() {
 
   const handleBulkAction = async (actionId: string, selectedIds: string[]) => {
     if (actionId === 'remind') {
-      alert('Renewal reminders sent!');
+      const selected = certifications.filter(c => selectedIds.includes(c.id));
+      selected.forEach(cert => {
+        fetch('/api/notifications', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ type: 'renewal_reminder', certificationId: cert.id }),
+        });
+      });
+    } else if (actionId === 'export') {
+      const selected = certifications.filter(c => selectedIds.includes(c.id));
+      const csv = [
+        ['ID', 'Crew Member', 'Type', 'Issue Date', 'Expiry Date', 'Status'].join(','),
+        ...selected.map(c => [c.id, c.crew_member_name, c.certification_type, c.issue_date, c.expiry_date, c.status].join(','))
+      ].join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'certifications-export.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    } else if (actionId === 'delete') {
+      setCertifications(prev => prev.filter(c => !selectedIds.includes(c.id)));
     }
   };
 
@@ -179,7 +210,6 @@ export default function CertificationsPage() {
       <EnterprisePageHeader
         title="Certifications & Licenses"
         subtitle="Track crew certifications, licenses, and renewal dates"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Certifications' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
@@ -206,7 +236,20 @@ export default function CertificationsPage() {
           onRowClick={(row) => { setSelectedCert(row); setDrawerOpen(true); }}
           createLabel="Add Certification"
           onCreate={() => setCreateModalOpen(true)}
-          onExport={() => console.log('Export certifications')}
+          entityType="certifications"
+          onExport={createExportHandler({
+            filename: "certifications",
+            getData: () => certifications.map(c => ({
+              id: c.id,
+              crew_member_name: c.crew_member_name,
+              certification_type: c.certification_type,
+              issue_date: c.issue_date,
+              expiry_date: c.expiry_date,
+              status: c.status,
+              issuing_authority: c.issuing_authority || '',
+              certificate_number: c.certificate_number || '',
+            })),
+          })}
           stats={stats}
           emptyMessage="No certifications found"
           emptyAction={{ label: 'Add Certification', onClick: () => setCreateModalOpen(true) }}

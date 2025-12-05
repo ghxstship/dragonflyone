@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Eye, Pencil } from 'lucide-react';
+import { Eye, Pencil, Mail } from 'lucide-react';
 import { AtlvsAppLayout } from '../../components/app-layout';
 import {
   ListPage,
@@ -16,7 +16,9 @@ import {
   type ListPageAction,
   type DetailSection,
   type FormFieldConfig,
+  type ExportFormat,
 } from '@ghxstship/ui';
+import { createExportHandler } from '@ghxstship/config';
 import { useContacts } from '@/hooks/useContacts';
 
 interface Partnership {
@@ -99,7 +101,13 @@ export default function PartnershipsPage() {
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    console.log('Create partnership:', data);
+    try {
+      await fetch('/api/partnerships', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+    } catch { /* handled by refetch */ }
     setCreateModalOpen(false);
     refetch?.();
   };
@@ -133,11 +141,23 @@ export default function PartnershipsPage() {
         onRowClick={(r) => { setSelectedPartnership(r); setDrawerOpen(true); }}
         createLabel="New Partnership"
         onCreate={() => setCreateModalOpen(true)}
-        onExport={() => router.push('/partnerships/export')}
+        entityType="partnerships"
+        onExport={createExportHandler({
+          filename: "partnerships",
+          getData: () => partnerships.map(p => ({
+            id: p.id,
+            name: p.name,
+            type: p.type,
+            status: p.status,
+            startDate: p.startDate || '',
+            endDate: p.endDate || '',
+            value: p.value || 0,
+          })),
+        })}
+        exportFormats={["csv", "json"]}
         stats={stats}
         emptyMessage="No partnerships found"
         emptyAction={{ label: 'Add Partnership', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Partnerships' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
@@ -165,8 +185,11 @@ export default function PartnershipsPage() {
           subtitle={(p) => p.company || p.type || 'Partner'}
           sections={detailSections}
           onEdit={(p) => router.push(`/partnerships/${p.id}/edit`)}
-          actions={[{ id: 'contact', label: 'Contact', icon: '✉️' }]}
-          onAction={(id, p) => { console.log(id, p.id); setDrawerOpen(false); }}
+          actions={[{ id: 'contact', label: 'Contact', icon: <Mail className="size-4" /> }]}
+          onAction={(id, p) => {
+            if (id === 'contact' && p.email) window.location.href = `mailto:${p.email}`;
+            setDrawerOpen(false);
+          }}
         />
       )}
     </AtlvsAppLayout>

@@ -16,7 +16,7 @@ import {
   TableRow,
   TableHead,
   TableCell,
-  LoadingSpinner,
+  Spinner,
   Container,
   Grid,
   Stack,
@@ -94,7 +94,6 @@ export default function WeatherPage() {
         <EnterprisePageHeader
           title="Weather Monitoring"
           subtitle="Track weather alerts and forecasts for event planning"
-          breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Weather' }]}
           views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
           activeView="default"
           showFavorite
@@ -102,7 +101,7 @@ export default function WeatherPage() {
         />
         <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
-            <LoadingSpinner size="lg" text="Loading weather data..." />
+            <Spinner variant="grey" size="lg" text="Loading weather data..." />
           </Container>
         </MainContent>
       </CompvssAppLayout>
@@ -114,7 +113,6 @@ export default function WeatherPage() {
       <EnterprisePageHeader
         title="Weather Monitoring"
         subtitle="Track weather alerts and forecasts for event planning"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Weather' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

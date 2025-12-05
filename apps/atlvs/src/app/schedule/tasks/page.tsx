@@ -300,11 +300,6 @@ export default function ScheduleTasksPage() {
         stats={pageStats}
         emptyMessage="No tasks yet"
         emptyAction={{ label: 'Create First Task', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[
-          { label: 'ATLVS', href: '/dashboard' }, 
-          { label: 'Schedule', href: '/schedule' },
-          { label: 'Tasks' }
-        ]}
         quickActions={[
           { id: 'contingencies', label: 'Contingencies', icon: <AlertTriangle className="size-4" />, onClick: () => router.push('/schedule/contingencies') },
           { id: 'templates', label: 'Templates', icon: <Clock className="size-4" />, onClick: () => router.push('/schedule/templates') },

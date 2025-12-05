@@ -8,7 +8,7 @@ import {
   ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
 } from '@ghxstship/ui';
-import { getBadgeVariant } from '@ghxstship/config';
+import { getBadgeVariant, createExportHandler } from '@ghxstship/config';
 
 interface AssetLocation {
   id: string;
@@ -67,7 +67,7 @@ export default function AssetTrackingPage() {
 
   const rowActions: ListPageAction<AssetLocation>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
-    { id: 'history', label: 'View History', icon: <History className="size-4" />, onClick: (r) => console.log('History:', r.id) },
+    { id: 'history', label: 'View History', icon: <History className="size-4" />, onClick: (r) => router.push(`/assets/tracking/${r.id}/history`) },
   ];
 
   const stats = [
@@ -108,10 +108,22 @@ export default function AssetTrackingPage() {
         filters={filters}
         rowActions={rowActions}
         onRowClick={(r) => { setSelected(r); setDrawerOpen(true); }}
-        onExport={() => console.log('Export')}
+        entityType="asset-tracking"
+        onExport={createExportHandler({
+          filename: "asset-tracking",
+          getData: () => data.map(a => ({
+            id: a.id,
+            assetId: a.assetId,
+            assetName: a.assetName,
+            category: a.category,
+            currentLocation: a.locationName,
+            lastScan: a.lastSeen,
+            status: a.status,
+            assignedTo: a.assignedProject || '',
+          })),
+        })}
         stats={stats}
         emptyMessage="No tracked assets found"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Assets', href: '/assets' }, { label: 'Tracking' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
@@ -128,8 +140,11 @@ export default function AssetTrackingPage() {
           title={(r) => r.assetName}
           subtitle={(r) => `${r.trackingType} • ${r.status} • ${r.locationName}`}
           sections={detailSections}
-          actions={[{ id: 'history', label: 'View History', icon: '📜' }]}
-          onAction={(id) => { console.log('Action:', id); setDrawerOpen(false); }}
+          actions={[{ id: 'history', label: 'View History', icon: <History className="size-4" /> }]}
+          onAction={(id, r) => {
+            if (id === 'history') router.push(`/assets/tracking/${r.id}/history`);
+            setDrawerOpen(false);
+          }}
         />
       )}
     </AtlvsAppLayout>

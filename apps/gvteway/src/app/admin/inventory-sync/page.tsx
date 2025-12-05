@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { Eye, Check, RefreshCw } from 'lucide-react';
 import { GvtewayAppLayout } from '@/components/app-layout';
 import {
@@ -15,6 +14,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from '@ghxstship/ui';
+import { createExportHandler } from '@ghxstship/config';
 
 interface InventoryLocation {
   id: string;
@@ -62,7 +62,7 @@ const mockInventory: InventoryItem[] = [
   { id: 'INV-005', sku: 'VINYL-ALBUM', name: 'Vinyl Album', category: 'Music', online_quantity: 50, physical_quantity: 48, reserved_quantity: 3, available_quantity: 45, sync_status: 'pending', last_sync: '2024-11-24T14:15:00Z', locations: defaultLocations },
 ];
 
-const mockSyncLogs: SyncLog[] = [
+const _mockSyncLogs: SyncLog[] = [
   { id: 'LOG-001', timestamp: '2024-11-24T14:30:00Z', type: 'auto', items_synced: 5, conflicts: 1, status: 'completed', duration_ms: 1500 },
   { id: 'LOG-002', timestamp: '2024-11-24T14:00:00Z', type: 'scheduled', items_synced: 5, conflicts: 0, status: 'completed', duration_ms: 1200 },
   { id: 'LOG-003', timestamp: '2024-11-24T13:30:00Z', type: 'manual', items_synced: 3, conflicts: 0, status: 'completed', duration_ms: 800 },
@@ -95,7 +95,6 @@ const filters: ListPageFilter[] = [
 ];
 
 export default function InventorySyncPage() {
-  const router = useRouter();
   const [inventory, setInventory] = useState<InventoryItem[]>(mockInventory);
   const [selectedItem, setSelectedItem] = useState<InventoryItem | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -164,7 +163,22 @@ export default function InventorySyncPage() {
         onRowClick={(r) => { setSelectedItem(r); setDrawerOpen(true); }}
         createLabel="Sync Now"
         onCreate={handleSync}
-        onExport={() => console.log('Export')}
+        entityType="inventory"
+        onExport={createExportHandler({
+          filename: "inventory",
+          getData: () => inventory.map(i => ({
+            id: i.id,
+            sku: i.sku,
+            name: i.name,
+            category: i.category,
+            online_quantity: i.online_quantity,
+            physical_quantity: i.physical_quantity,
+            reserved_quantity: i.reserved_quantity,
+            available_quantity: i.available_quantity,
+            sync_status: i.sync_status,
+            last_sync: i.last_sync,
+          })),
+        })}
         stats={stats}
         emptyMessage="No inventory items"
       />

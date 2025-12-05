@@ -272,11 +272,6 @@ function VenueZonesPageContent() {
         stats={pageStats}
         emptyMessage="No zones yet"
         emptyAction={{ label: 'Add First Zone', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[
-          { label: 'ATLVS', href: '/dashboard' }, 
-          { label: 'Venues', href: '/venues' },
-          { label: 'Zones' }
-        ]}
         headerContent={
           <Select
             value={selectedVenueId}

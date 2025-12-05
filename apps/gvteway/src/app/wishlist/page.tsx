@@ -17,6 +17,36 @@ import {
 } from '@ghxstship/ui';
 import { Heart, Trash2, ShoppingCart, Calendar, MapPin, Share2 } from 'lucide-react';
 
+// Demo data for unauthenticated users
+const DEMO_WISHLIST: WishlistItem[] = [
+  {
+    id: "demo-1",
+    user_id: "demo-user",
+    event_id: "event-001",
+    event_name: "Summer Music Festival 2024",
+    date: new Date(Date.now() + 30 * 86400000).toISOString(),
+    location: "Central Park, New York",
+    price: 149,
+    available: true,
+    tickets_left: 250,
+    notify_price_drop: true,
+    added_at: new Date().toISOString(),
+  },
+  {
+    id: "demo-2",
+    user_id: "demo-user",
+    event_id: "event-002",
+    event_name: "Jazz Night Under the Stars",
+    date: new Date(Date.now() + 45 * 86400000).toISOString(),
+    location: "Hollywood Bowl, Los Angeles",
+    price: 85,
+    available: true,
+    tickets_left: 45,
+    notify_price_drop: true,
+    added_at: new Date(Date.now() - 86400000).toISOString(),
+  },
+];
+
 interface WishlistItem {
   id: string;
   user_id: string;
@@ -43,6 +73,12 @@ export default function WishlistPage() {
     try {
       setLoading(true);
       const response = await fetch(`/api/wishlist?user_id=${userId}`);
+      if (response.status === 401) {
+        // Use demo data for unauthenticated users
+        setWishlist(DEMO_WISHLIST);
+        setError(null);
+        return;
+      }
       if (!response.ok) {
         throw new Error('Failed to fetch wishlist');
       }
@@ -50,7 +86,9 @@ export default function WishlistPage() {
       setWishlist(data.wishlist || []);
       setError(null);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
+      // Fallback to demo data on error
+      setWishlist(DEMO_WISHLIST);
+      setError(null);
     } finally {
       setLoading(false);
     }

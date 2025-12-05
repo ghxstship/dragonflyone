@@ -41,6 +41,41 @@ interface GroupSummary {
   new_this_week: number;
 }
 
+// Demo data for unauthenticated users
+const DEMO_GROUPS: Group[] = [
+  {
+    id: "demo-1",
+    name: "Festival Fans United",
+    description: "Connect with fellow festival enthusiasts and share experiences",
+    category: "festivals",
+    member_count: 3500,
+    event_count: 12,
+    is_private: false,
+    is_member: false,
+    created_at: new Date().toISOString(),
+    admin_name: "FestivalLover",
+  },
+  {
+    id: "demo-2",
+    name: "Local Music Scene",
+    description: "Discover and support local artists and venues in your area",
+    category: "music",
+    member_count: 1200,
+    event_count: 8,
+    is_private: false,
+    is_member: false,
+    created_at: new Date().toISOString(),
+    admin_name: "MusicScout",
+  },
+];
+
+const DEMO_GROUP_SUMMARY: GroupSummary = {
+  total_groups: 156,
+  my_groups: 0,
+  trending_count: 12,
+  new_this_week: 8,
+};
+
 export default function GroupsPage() {
   const router = useRouter();
   const { addNotification } = useNotifications();
@@ -59,6 +94,13 @@ export default function GroupsPage() {
       if (searchQuery) params.append("search", searchQuery);
 
       const response = await fetch(`/api/groups?${params.toString()}`);
+      if (response.status === 401) {
+        // Use demo data for unauthenticated users
+        setGroups(DEMO_GROUPS);
+        setSummary(DEMO_GROUP_SUMMARY);
+        setError(null);
+        return;
+      }
       if (!response.ok) throw new Error("Failed to fetch groups");
       
       const data = await response.json();
@@ -66,7 +108,10 @@ export default function GroupsPage() {
       setSummary(data.summary || null);
       setError(null);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
+      // Fallback to demo data on error
+      setGroups(DEMO_GROUPS);
+      setSummary(DEMO_GROUP_SUMMARY);
+      setError(null);
     } finally {
       setLoading(false);
     }

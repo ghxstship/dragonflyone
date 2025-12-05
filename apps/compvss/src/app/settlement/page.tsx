@@ -142,7 +142,6 @@ export default function SettlementPage() {
       <EnterprisePageHeader
         title="Post-Production Settlement"
         subtitle="Financial closeout and settlement for completed projects"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Settlement' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

@@ -18,7 +18,6 @@ export default function StageManagementPage() {
       <EnterprisePageHeader
         title="Stage Management"
         subtitle="Manage stage configurations, layouts, and technical requirements for productions."
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Stage Management' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

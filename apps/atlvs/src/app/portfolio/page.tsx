@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Eye, Pencil, Star } from "lucide-react";
+import { Eye, Pencil, Star, FileText } from "lucide-react";
 import { AtlvsAppLayout } from "../../components/app-layout";
 import {
   ListPage,
@@ -15,7 +15,9 @@ import {
   type ListPageFilter,
   type ListPageAction,
   type DetailSection,
+  type ExportFormat,
 } from "@ghxstship/ui";
+import { createExportHandler } from "@ghxstship/config";
 
 interface PortfolioProject {
   id: string;
@@ -110,19 +112,20 @@ const filters: ListPageFilter[] = [
 
 export default function PortfolioPage() {
   const router = useRouter();
+  const [projects, setProjects] = useState<PortfolioProject[]>(mockProjects);
   const [selectedProject, setSelectedProject] = useState<PortfolioProject | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const featuredCount = mockProjects.filter(p => p.featured).length;
+  const featuredCount = projects.filter(p => p.featured).length;
 
   const rowActions: ListPageAction<PortfolioProject>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedProject(r); setDrawerOpen(true); } },
     { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/portfolio/${r.id}/edit`) },
-    { id: 'feature', label: 'Toggle Featured', icon: <Star className="size-4" />, onClick: (r) => console.log('Toggle featured:', r.id) },
+    { id: 'feature', label: 'Toggle Featured', icon: <Star className="size-4" />, onClick: (r) => setProjects(prev => prev.map(p => p.id === r.id ? { ...p, featured: !p.featured } : p)) },
   ];
 
   const stats = [
-    { label: 'Total Projects', value: mockProjects.length },
+    { label: 'Total Projects', value: projects.length },
     { label: 'Featured', value: featuredCount },
     { label: 'Total Attendance', value: '600K+' },
     { label: 'Client Satisfaction', value: '98%' },
@@ -168,7 +171,7 @@ export default function PortfolioPage() {
       <ListPage<PortfolioProject>
         title="Portfolio"
         subtitle="Showcasing our past work and successful productions"
-        data={mockProjects}
+        data={projects}
         columns={columns}
         rowKey="id"
         loading={false}
@@ -178,11 +181,23 @@ export default function PortfolioPage() {
         onRowClick={(r) => { setSelectedProject(r); setDrawerOpen(true); }}
         createLabel="Add Project"
         onCreate={() => router.push('/portfolio/new')}
-        onExport={() => console.log('Export portfolio')}
+        entityType="portfolio"
+        onExport={createExportHandler({
+          filename: "portfolio",
+          getData: () => projects.map(p => ({
+            id: p.id,
+            name: p.name,
+            client: p.client,
+            category: p.category,
+            date: p.date,
+            location: p.location,
+            services: p.services.join(', '),
+          })),
+        })}
+        exportFormats={["csv", "json"]}
         stats={stats}
         emptyMessage="No portfolio projects found"
         emptyAction={{ label: 'Add Project', onClick: () => router.push('/portfolio/new') }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Portfolio' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
@@ -202,12 +217,12 @@ export default function PortfolioPage() {
           sections={detailSections}
           onEdit={(p) => router.push(`/portfolio/${p.id}/edit`)}
           actions={[
-            { id: 'feature', label: selectedProject.featured ? 'Remove Featured' : 'Mark Featured', icon: '⭐' },
-            { id: 'pdf', label: 'Download PDF', icon: '📄' },
+            { id: 'feature', label: selectedProject.featured ? 'Remove Featured' : 'Mark Featured', icon: <Star className="size-4" /> },
+            { id: 'pdf', label: 'Download PDF', icon: <FileText className="size-4" /> },
           ]}
           onAction={(id, p) => {
-            if (id === 'feature') console.log('Toggle featured:', p.id);
-            if (id === 'pdf') console.log('Download PDF:', p.id);
+            if (id === 'feature') setProjects(prev => prev.map(proj => proj.id === p.id ? { ...proj, featured: !proj.featured } : proj));
+            if (id === 'pdf') window.open(`/api/portfolio/${p.id}/pdf`, '_blank');
             setDrawerOpen(false);
           }}
         />

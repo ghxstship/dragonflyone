@@ -174,7 +174,6 @@ export default function RelationshipsPage() {
       <EnterprisePageHeader
         title="Relationship Mapping"
         subtitle="Stakeholder org charts and relationship visualization"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Contacts', href: '/contacts' }, { label: 'Relationships' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         primaryAction={{ label: 'Add Relationship', onClick: () => setShowAddModal(true) }}

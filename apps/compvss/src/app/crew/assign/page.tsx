@@ -74,7 +74,6 @@ export default function AssignCrewPage() {
       <EnterprisePageHeader
         title="Assign Crew"
         subtitle="Assign crew members to projects"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Crew', href: '/crew' }, { label: 'Assign' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

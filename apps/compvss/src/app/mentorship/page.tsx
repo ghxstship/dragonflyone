@@ -99,7 +99,6 @@ export default function MentorshipPage() {
       <EnterprisePageHeader
         title="Mentorship Program"
         subtitle="Connect with experienced professionals and accelerate your career"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Mentorship' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

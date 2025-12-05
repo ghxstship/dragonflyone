@@ -87,7 +87,6 @@ export default function ScheduledReportsPage() {
       <EnterprisePageHeader
         title="Scheduled Reports"
         subtitle="Automated report generation and distribution"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Reports', href: '/reports' }, { label: 'Scheduled' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         primaryAction={{ label: 'Create Schedule', onClick: () => setShowCreateModal(true) }}

@@ -92,7 +92,6 @@ export default function SuccessionPlanningPage() {
       <EnterprisePageHeader
         title="Succession Planning"
         subtitle="Identify and develop future leaders for key positions"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Workforce', href: '/workforce' }, { label: 'Succession' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

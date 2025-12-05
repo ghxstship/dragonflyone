@@ -164,7 +164,6 @@ export default function ChannelsPage() {
       <EnterprisePageHeader
         title="Department Channels"
         subtitle="Team communication and messaging"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Channels' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         primaryAction={{ label: 'Create Channel', onClick: () => setShowCreateModal(true) }}

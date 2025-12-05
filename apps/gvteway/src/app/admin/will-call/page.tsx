@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { Eye, Check } from "lucide-react";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
@@ -18,6 +17,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from "@ghxstship/ui";
+import { createExportHandler } from "@ghxstship/config";
 
 interface WillCallTicket {
   id: string;
@@ -64,7 +64,6 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function WillCallPage() {
-  const router = useRouter();
   const [tickets, setTickets] = useState<WillCallTicket[]>(mockTickets);
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedTicket, setSelectedTicket] = useState<WillCallTicket | null>(null);
@@ -82,7 +81,19 @@ export default function WillCallPage() {
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    console.log('Add will-call:', data);
+    const newTicket: WillCallTicket = {
+      id: `WC-${String(tickets.length + 1).padStart(3, '0')}`,
+      orderNumber: String(data.orderNumber || ''),
+      customerName: String(data.customerName || ''),
+      email: String(data.email || ''),
+      phone: data.phone ? String(data.phone) : undefined,
+      eventName: String(data.eventName || ''),
+      ticketType: String(data.ticketType || 'General Admission'),
+      quantity: Number(data.quantity) || 1,
+      status: 'Pending',
+      idRequired: Boolean(data.idRequired),
+    };
+    setTickets(prev => [...prev, newTicket]);
     setCreateModalOpen(false);
   };
 
@@ -134,7 +145,22 @@ export default function WillCallPage() {
         onRowClick={(r) => { setSelectedTicket(r); setDrawerOpen(true); }}
         createLabel="Add Will Call"
         onCreate={() => setCreateModalOpen(true)}
-        onExport={() => console.log('Export')}
+        entityType="will-call"
+        onExport={createExportHandler({
+          filename: "will-call",
+          getData: () => tickets.map(t => ({
+            id: t.id,
+            orderNumber: t.orderNumber,
+            customerName: t.customerName,
+            email: t.email,
+            phone: t.phone || '',
+            eventName: t.eventName,
+            ticketType: t.ticketType,
+            quantity: t.quantity,
+            status: t.status,
+            idRequired: t.idRequired,
+          })),
+        })}
         stats={stats}
         emptyMessage="No will-call tickets found"
         emptyAction={{ label: 'Add Will Call', onClick: () => setCreateModalOpen(true) }}

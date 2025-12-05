@@ -17,7 +17,7 @@ import {
   Stack,
   Label,
   Kicker,
-  LoadingSpinner,
+  Spinner,
   EmptyState,
   Figure,
 } from "@ghxstship/ui";
@@ -95,7 +95,7 @@ export default function ArtistsPage() {
             {/* Artists Grid */}
             {isLoading ? (
               <Stack className="flex items-center justify-center py-20">
-                <LoadingSpinner size="lg" text="Loading artists..." />
+                <Spinner variant="grey" size="lg" text="Loading artists..." />
               </Stack>
             ) : filteredArtists.length === 0 ? (
               <EmptyState

@@ -69,7 +69,6 @@ export default function DirectoryFiltersPage() {
       <EnterprisePageHeader
         title="Directory Search"
         subtitle="Filter by language and specialty"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Directory', href: '/directory' }, { label: 'Filters' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

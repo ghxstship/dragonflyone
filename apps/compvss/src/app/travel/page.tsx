@@ -18,7 +18,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
-import { getBadgeVariant } from "@ghxstship/config";
+import { getBadgeVariant, createExportHandler } from "@ghxstship/config";
 
 interface TravelBooking {
   id: string;
@@ -128,7 +128,6 @@ export default function TravelPage() {
       <EnterprisePageHeader
         title="Travel Coordination"
         subtitle="Manage crew flights, accommodations, and travel logistics"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Travel' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
@@ -154,7 +153,24 @@ export default function TravelPage() {
           onRowClick={(r) => { setSelectedBooking(r); setDrawerOpen(true); }}
           createLabel="Book Travel"
           onCreate={() => router.push('/travel/new')}
-          onExport={() => console.log('Export')}
+          entityType="travel"
+          onExport={createExportHandler({
+            filename: "travel-bookings",
+            getData: () => bookings.map(b => ({
+              id: b.id,
+              booking_reference: b.booking_reference,
+              crew_member_name: b.crew_member_name,
+              project_name: b.project_name,
+              travel_type: b.travel_type,
+              departure_date: b.departure_date,
+              return_date: b.return_date || '',
+              origin: b.origin,
+              destination: b.destination,
+              carrier: b.carrier || '',
+              cost: b.cost,
+              status: b.status,
+            })),
+          })}
           stats={stats}
           emptyMessage="No travel bookings"
           emptyAction={{ label: 'Book Travel', onClick: () => router.push('/travel/new') }}

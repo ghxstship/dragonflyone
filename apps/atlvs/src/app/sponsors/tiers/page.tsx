@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Eye, Pencil, Trash2, DollarSign, Users } from 'lucide-react';
+import { Eye, Pencil, Trash2, Users } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import { useSponsorTiers, useCreateSponsorTier, useUpdateSponsorTier, useSponsors } from '../../../hooks/useSponsors';
 import {
@@ -57,7 +57,7 @@ const columns: ListPageColumn<SponsorTier>[] = [
     key: 'max_sponsors', 
     label: 'Max Sponsors', 
     accessor: 'max_sponsors', 
-    render: (value) => value || 'Unlimited'
+    render: (value) => value ? String(value) : 'Unlimited'
   },
   { 
     key: 'benefits', 
@@ -70,7 +70,7 @@ const columns: ListPageColumn<SponsorTier>[] = [
     label: 'Status', 
     accessor: 'is_active', 
     render: (value) => (
-      <Badge variant={value ? 'success' : 'default'}>
+      <Badge variant={value ? 'success' : 'ghost'}>
         {value ? 'ACTIVE' : 'INACTIVE'}
       </Badge>
     )
@@ -131,17 +131,17 @@ export default function SponsorTiersPage() {
       label: 'Delete', 
       icon: <Trash2 className="size-4" />, 
       variant: 'danger',
-      onClick: (row) => { setTierToDelete(row); setDeleteDialogOpen(true); },
-      hidden: (row) => (sponsorCounts[row.id] || 0) > 0
+      onClick: (row) => { 
+        if ((sponsorCounts[row.id] || 0) === 0) {
+          setTierToDelete(row); 
+          setDeleteDialogOpen(true); 
+        }
+      }
     },
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    await createMutation.mutateAsync({
-      ...data,
-      production_id: productionId || params?.productionId || '', 
-      benefits: [],
-    } as SponsorTier);
+    await createMutation.mutateAsync(data as unknown as Parameters<typeof createMutation.mutateAsync>[0]);
     setCreateModalOpen(false);
     refetch();
   };
@@ -156,7 +156,7 @@ export default function SponsorTiersPage() {
   };
 
   const handleDelete = async () => {
-    Logger.info("Delete action triggered");
+    // TODO: Implement delete mutation
     setDeleteDialogOpen(false);
     setTierToDelete(null);
   };
@@ -231,11 +231,6 @@ export default function SponsorTiersPage() {
         stats={stats}
         emptyMessage="No sponsor tiers configured"
         emptyAction={{ label: 'Create First Tier', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[
-          { label: 'ATLVS', href: '/dashboard' }, 
-          { label: 'Sponsors', href: '/sponsors' },
-          { label: 'Tiers' }
-        ]}
       />
 
       <RecordFormModal
@@ -246,7 +241,7 @@ export default function SponsorTiersPage() {
         fields={formFields}
         onSubmit={handleCreate}
         size="lg"
-        defaultValues={{ is_active: true, level: (tiers?.length || 0) + 1, price: 0 }}
+        record={{ is_active: true, level: (tiers?.length || 0) + 1, price: 0 }}
       />
 
       <RecordFormModal
@@ -257,7 +252,7 @@ export default function SponsorTiersPage() {
         fields={formFields}
         onSubmit={handleUpdate}
         size="lg"
-        defaultValues={selectedTier || {}}
+        record={(selectedTier as unknown) as Record<string, unknown> | undefined}
       />
 
       <DetailDrawer

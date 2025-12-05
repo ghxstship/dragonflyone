@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Eye, Paperclip } from "lucide-react";
+import { Eye, Paperclip, AlertTriangle } from "lucide-react";
 import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
   ListPage, Badge, DetailDrawer, Grid, Body,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
+  type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type ExportFormat,
 } from "@ghxstship/ui";
-import { getBadgeVariant } from "@ghxstship/config";
+import { getBadgeVariant, createExportHandler } from "@ghxstship/config";
 
 interface CreditCardTxn {
   id: string;
@@ -63,7 +63,7 @@ export default function CreditCardsPage() {
 
   const rowActions: ListPageAction<CreditCardTxn>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
-    { id: 'receipt', label: 'Upload Receipt', icon: <Paperclip className="size-4" />, onClick: (r) => console.log('Upload receipt', r.id) },
+    { id: 'receipt', label: 'Upload Receipt', icon: <Paperclip className="size-4" />, onClick: (r) => router.push(`/finance/credit-cards/${r.id}/receipt`) },
   ];
 
   const stats = [
@@ -102,10 +102,23 @@ export default function CreditCardsPage() {
         filters={filters}
         rowActions={rowActions}
         onRowClick={(r) => { setSelected(r); setDrawerOpen(true); }}
-        onExport={() => console.log('Export')}
+        entityType="credit-card-transactions"
+        onExport={createExportHandler({
+          filename: "credit-card-transactions",
+          getData: () => data.map(t => ({
+            id: t.id,
+            cardHolder: t.cardHolder,
+            lastFour: t.lastFour,
+            merchant: t.merchant,
+            amount: t.amount,
+            date: t.date,
+            category: t.category,
+            status: t.status,
+          })),
+        })}
+        exportFormats={["csv", "json"]}
         stats={stats}
         emptyMessage="No transactions found"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Finance', href: '/finance' }, { label: 'Credit Cards' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
@@ -122,8 +135,14 @@ export default function CreditCardsPage() {
           title={(r) => r.merchant}
           subtitle={(r) => `$${r.amount.toLocaleString()} • ${r.status}`}
           sections={detailSections}
-          actions={[{ id: 'receipt', label: 'Upload Receipt', icon: '📎' }, { id: 'dispute', label: 'Dispute', icon: '⚠️' }]}
-          onAction={(id, r) => { console.log(id, r.id); setDrawerOpen(false); }}
+          actions={[{ id: 'receipt', label: 'Upload Receipt', icon: <Paperclip className="size-4" /> }, { id: 'dispute', label: 'Dispute', icon: <AlertTriangle className="size-4" /> }]}
+          onAction={(id, r) => {
+            if (id === 'receipt') router.push(`/finance/credit-cards/${r.id}/receipt`);
+            if (id === 'dispute') {
+              setData(prev => prev.map(t => t.id === r.id ? { ...t, status: 'Disputed' as const } : t));
+            }
+            setDrawerOpen(false);
+          }}
         />
       )}
     </AtlvsAppLayout>

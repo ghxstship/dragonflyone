@@ -88,7 +88,6 @@ export default function EmergencyProcurementPage() {
       <EnterprisePageHeader
         title="Emergency Procurement"
         subtitle="Fast-track procurement for urgent operational needs"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Procurement', href: '/procurement' }, { label: 'Emergency' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

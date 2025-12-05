@@ -15,7 +15,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
-import { getBadgeVariant } from "@ghxstship/config";
+import { getBadgeVariant, createExportHandler } from "@ghxstship/config";
 
 interface RFP {
   id: string;
@@ -127,11 +127,21 @@ export default function RFPPage() {
         onRowClick={(r) => { setSelectedRfp(r); setDrawerOpen(true); }}
         createLabel="Create RFP"
         onCreate={() => router.push('/rfp/new')}
-        onExport={() => router.push('/rfp/templates')}
+        entityType="rfps"
+        onExport={createExportHandler({
+          filename: "rfps",
+          getData: () => rfps.map(r => ({
+            id: r.id,
+            title: r.title,
+            client: r.client_name,
+            status: r.status,
+            deadline: r.deadline,
+            value: r.estimated_value,
+          })),
+        })}
         stats={stats}
         emptyMessage="No RFPs found"
         emptyAction={{ label: 'Create RFP', onClick: () => router.push('/rfp/new') }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'RFP' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

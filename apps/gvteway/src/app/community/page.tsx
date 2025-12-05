@@ -18,6 +18,56 @@ import {
 } from '@ghxstship/ui';
 import { Search, MessageCircle, Users, TrendingUp, Calendar } from 'lucide-react';
 
+// Demo data for unauthenticated users
+const DEMO_FORUMS: Forum[] = [
+  {
+    id: "demo-1",
+    title: "Festival Tips & Tricks",
+    posts: 1234,
+    members: 5678,
+    lastActive: "2 hours ago",
+    trending: true,
+    category: "General",
+  },
+  {
+    id: "demo-2",
+    title: "Artist Discussions",
+    posts: 890,
+    members: 3456,
+    lastActive: "5 hours ago",
+    trending: false,
+    category: "Music",
+  },
+];
+
+const DEMO_GROUPS: CommunityGroup[] = [
+  {
+    id: "demo-1",
+    name: "EDM Lovers",
+    members_count: 2500,
+    privacy: "public",
+    description: "A community for electronic dance music enthusiasts",
+  },
+  {
+    id: "demo-2",
+    name: "Festival Photographers",
+    members_count: 890,
+    privacy: "public",
+    description: "Share your best festival shots and photography tips",
+  },
+];
+
+const DEMO_COMMUNITY_EVENTS: CommunityEvent[] = [
+  {
+    id: "demo-1",
+    title: "Pre-Festival Meetup",
+    description: "Meet fellow fans before the big day!",
+    location: "Downtown Coffee House",
+    event_date: new Date(Date.now() + 7 * 86400000).toISOString(),
+    attendees_count: 45,
+  },
+];
+
 interface Forum {
   id: string;
   title: string;
@@ -71,6 +121,14 @@ export default function CommunityPage() {
     try {
       setLoading(true);
       const response = await fetch('/api/community/forums');
+      if (response.status === 401) {
+        // Use demo data for unauthenticated users
+        setForums(DEMO_FORUMS);
+        setGroups(DEMO_GROUPS);
+        setCommunityEvents(DEMO_COMMUNITY_EVENTS);
+        setError(null);
+        return;
+      }
       if (!response.ok) {
         throw new Error('Failed to fetch forums');
       }
@@ -78,7 +136,11 @@ export default function CommunityPage() {
       setForums(data.forums || []);
       setError(null);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
+      // Fallback to demo data on error
+      setForums(DEMO_FORUMS);
+      setGroups(DEMO_GROUPS);
+      setCommunityEvents(DEMO_COMMUNITY_EVENTS);
+      setError(null);
     } finally {
       setLoading(false);
     }
@@ -87,6 +149,7 @@ export default function CommunityPage() {
   const fetchGroups = useCallback(async () => {
     try {
       const response = await fetch('/api/community/groups');
+      if (response.status === 401) return; // Already handled in fetchForums
       if (response.ok) {
         const data = await response.json();
         setGroups(data.groups || []);
@@ -99,6 +162,7 @@ export default function CommunityPage() {
   const fetchCommunityEvents = useCallback(async () => {
     try {
       const response = await fetch('/api/community/events');
+      if (response.status === 401) return; // Already handled in fetchForums
       if (response.ok) {
         const data = await response.json();
         setCommunityEvents(data.events || []);

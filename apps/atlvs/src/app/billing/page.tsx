@@ -18,7 +18,9 @@ import {
   type ListPageAction,
   type FormFieldConfig,
   type DetailSection,
+  type ExportFormat,
 } from "@ghxstship/ui";
+import { createExportHandler } from "@ghxstship/config";
 
 interface Invoice {
   id: string;
@@ -123,7 +125,18 @@ export default function BillingPage() {
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    console.log('Create invoice:', data);
+    try {
+      const res = await fetch('/api/invoices', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (res.ok) {
+        addNotification({ type: 'success', title: 'Success', message: 'Invoice created' });
+      }
+    } catch {
+      addNotification({ type: 'error', title: 'Error', message: 'Failed to create invoice' });
+    }
     setCreateModalOpen(false);
     fetchInvoices();
   };
@@ -175,11 +188,24 @@ export default function BillingPage() {
         onRowClick={(r) => { setSelectedInvoice(r); setDrawerOpen(true); }}
         createLabel="Create Invoice"
         onCreate={() => setCreateModalOpen(true)}
-        onExport={() => console.log('Export')}
+        entityType="invoices"
+        onExport={createExportHandler({
+          filename: "invoices",
+          getData: () => invoices.map(inv => ({
+            id: inv.id,
+            invoice_number: inv.invoice_number,
+            client: inv.client?.name || '',
+            project: inv.project?.name || '',
+            total_amount: inv.total_amount,
+            amount_paid: inv.amount_paid,
+            status: inv.status,
+            due_date: inv.due_date,
+          })),
+        })}
+        exportFormats={["csv", "json"]}
         stats={stats}
         emptyMessage="No invoices found"
         emptyAction={{ label: 'Create Invoice', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Billing' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

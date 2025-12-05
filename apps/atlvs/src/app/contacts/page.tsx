@@ -19,6 +19,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
+import { createExportHandler } from '@ghxstship/config';
 import { useContacts } from '@/hooks/useContacts';
 
 interface Contact {
@@ -126,7 +127,23 @@ export default function ContactsPage() {
   };
 
   const handleBulkAction = async (actionId: string, selectedIds: string[]) => {
-    console.log('Bulk action:', actionId, selectedIds);
+    if (actionId === 'export') {
+      const selected = (contacts || []).filter(c => selectedIds.includes(c.id));
+      const csv = [
+        ['ID', 'First Name', 'Last Name', 'Email', 'Phone', 'Company', 'Title', 'Type'].join(','),
+        ...selected.map(c => [c.id, c.first_name, c.last_name, c.email, c.phone || '', c.company || '', c.title || '', c.type || ''].join(','))
+      ].join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'contacts-export.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    } else if (actionId === 'tag') {
+      // Tag action would open a modal - for now just refresh
+      refetch();
+    }
   };
 
   const stats = [
@@ -171,11 +188,23 @@ export default function ContactsPage() {
         onRowClick={(row) => { setSelectedContact(row); setDrawerOpen(true); }}
         createLabel="New Contact"
         onCreate={() => setCreateModalOpen(true)}
-        onExport={() => console.log('Export contacts')}
+        entityType="contacts"
+        onExport={createExportHandler({
+          filename: "contacts",
+          getData: () => (contacts || []).map(c => ({
+            id: c.id,
+            first_name: c.first_name,
+            last_name: c.last_name,
+            email: c.email,
+            phone: c.phone || '',
+            company: c.company || '',
+            title: c.title || '',
+            type: c.type || '',
+          })),
+        })}
         stats={stats}
         emptyMessage="No contacts yet"
         emptyAction={{ label: 'Add Contact', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Contacts' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

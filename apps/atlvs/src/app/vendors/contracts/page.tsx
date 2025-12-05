@@ -14,6 +14,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
+import { createExportHandler } from "@ghxstship/config";
 
 interface VendorContract {
   id: string;
@@ -121,10 +122,21 @@ export default function VendorContractsPage() {
         filters={filters}
         rowActions={rowActions}
         onRowClick={(r) => { setSelectedContract(r); setDrawerOpen(true); }}
-        onExport={() => router.push("/vendors/contracts/export")}
+        entityType="vendor-contracts"
+        onExport={createExportHandler({
+          filename: "vendor-contracts",
+          getData: () => contracts.map(c => ({
+            id: c.id,
+            vendorName: c.vendorName,
+            contractType: c.contractType,
+            value: c.value,
+            startDate: c.startDate,
+            endDate: c.expiryDate,
+            status: c.status,
+          })),
+        })}
         stats={stats}
         emptyMessage="No vendor contracts found"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Vendors', href: '/vendors' }, { label: 'Contracts' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

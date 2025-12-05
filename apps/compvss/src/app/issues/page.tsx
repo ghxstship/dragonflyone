@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { Eye, ArrowUp, Check } from 'lucide-react';
 import { CompvssAppLayout } from '../../components/app-layout';
 import {
@@ -20,7 +19,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
-import { getBadgeVariant } from '@ghxstship/config';
+import { getBadgeVariant, createExportHandler } from '@ghxstship/config';
 
 interface Issue {
   id: string;
@@ -84,7 +83,6 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function IssuesPage() {
-  const router = useRouter();
   const [issues, setIssues] = useState<Issue[]>(mockIssues);
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedIssue, setSelectedIssue] = useState<Issue | null>(null);
@@ -158,7 +156,6 @@ export default function IssuesPage() {
       <EnterprisePageHeader
         title="Live Issue Tracking"
         subtitle="Real-time issue management and escalation"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Issues' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
@@ -182,7 +179,21 @@ export default function IssuesPage() {
           onRowClick={(r) => { setSelectedIssue(r); setDrawerOpen(true); }}
           createLabel="Report Issue"
           onCreate={() => setCreateModalOpen(true)}
-          onExport={() => console.log('Export')}
+          entityType="issues"
+          onExport={createExportHandler({
+            filename: "issues",
+            getData: () => issues.map(i => ({
+              id: i.id,
+              title: i.title,
+              category: i.category,
+              priority: i.priority,
+              status: i.status,
+              reported_by: i.reported_by,
+              department: i.department,
+              location: i.location || '',
+              created_at: i.created_at,
+            })),
+          })}
           stats={stats}
           emptyMessage="No issues found"
           emptyAction={{ label: 'Report Issue', onClick: () => setCreateModalOpen(true) }}

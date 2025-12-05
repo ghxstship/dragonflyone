@@ -76,7 +76,6 @@ export default function EmergencyPage() {
       <EnterprisePageHeader
         title="Emergency Procedures"
         subtitle="Contact tree, emergency protocols, and response procedures"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Emergency' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

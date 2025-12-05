@@ -84,7 +84,6 @@ export default function WinLossPage() {
       <EnterprisePageHeader
         title="Win/Loss Analysis"
         subtitle="Track outcomes and competitive intelligence"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Opportunities', href: '/opportunities' }, { label: 'Win Loss' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

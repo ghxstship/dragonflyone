@@ -208,11 +208,6 @@ export default function ExpenseCategoriesPage() {
         stats={pageStats}
         emptyMessage="No expense categories yet"
         emptyAction={{ label: 'Create First Category', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[
-          { label: 'ATLVS', href: '/dashboard' }, 
-          { label: 'Expenses', href: '/expenses' },
-          { label: 'Categories' }
-        ]}
       />
 
       <RecordFormModal

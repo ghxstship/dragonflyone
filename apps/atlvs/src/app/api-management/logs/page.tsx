@@ -179,11 +179,6 @@ export default function ApiLogsPage() {
         filters={filters}
         stats={pageStats}
         emptyMessage="No API requests logged yet"
-        breadcrumbs={[
-          { label: 'ATLVS', href: '/dashboard' }, 
-          { label: 'API Management', href: '/api-management' },
-          { label: 'Logs' }
-        ]}
       />
     </AtlvsAppLayout>
   );

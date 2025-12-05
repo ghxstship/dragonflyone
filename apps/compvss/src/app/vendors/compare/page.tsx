@@ -87,7 +87,6 @@ export default function VendorComparePage() {
       <EnterprisePageHeader
         title="Vendor Comparison"
         subtitle="Compare vendors side-by-side to make informed decisions"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Vendors', href: '/vendors' }, { label: 'Compare' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

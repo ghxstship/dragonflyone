@@ -95,7 +95,6 @@ export default function SoundcheckPage() {
       <EnterprisePageHeader
         title="Soundcheck Coordination"
         subtitle="Schedule and manage soundcheck and focus time for all artists"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Soundcheck' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         primaryAction={{ label: 'Add Soundcheck', onClick: () => setShowAddModal(true) }}

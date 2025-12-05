@@ -8,7 +8,7 @@ import {
   ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
 } from '@ghxstship/ui';
-import { getBadgeVariant } from '@ghxstship/config';
+import { getBadgeVariant, createExportHandler } from '@ghxstship/config';
 
 interface StorageLocation {
   id: string;
@@ -102,10 +102,22 @@ export default function StorageOptimizationPage() {
         filters={filters}
         rowActions={rowActions}
         onRowClick={(r) => { setSelected(r); setDrawerOpen(true); }}
-        onExport={() => console.log('Export')}
+        entityType="storage"
+        onExport={createExportHandler({
+          filename: "storage-locations",
+          getData: () => data.map(l => ({
+            id: l.id,
+            name: l.name,
+            type: l.type,
+            capacity: l.capacity,
+            used: l.used,
+            available: l.available,
+            status: l.status,
+            address: l.address || '',
+          })),
+        })}
         stats={stats}
         emptyMessage="No locations found"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Assets', href: '/assets' }, { label: 'Storage' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

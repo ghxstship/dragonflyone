@@ -16,7 +16,7 @@ import {
   Stack,
   Grid,
   Card,
-  LoadingSpinner,
+  Spinner,
   Figure,
   Label,
   Kicker,
@@ -145,7 +145,7 @@ export default function EventsPage() {
             {/* Events Display */}
             {isLoading ? (
               <Stack className="flex items-center justify-center py-20">
-                <LoadingSpinner size="lg" text="Loading events..." />
+                <Spinner variant="grey" size="lg" text="Loading events..." />
               </Stack>
             ) : filteredEvents.length === 0 ? (
               <EmptyState

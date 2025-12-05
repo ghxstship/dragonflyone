@@ -18,7 +18,7 @@ import {
   Badge,
   Alert,
   Modal,
-  LoadingSpinner,
+  Spinner,
   StatCard,
   EnterprisePageHeader,
   MainContent,
@@ -139,7 +139,7 @@ export default function StrategicAlignmentPage() {
       <AtlvsAppLayout>
         <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
-            <LoadingSpinner size="lg" text="Loading alignment data..." />
+            <Spinner variant="grey" size="lg" text="Loading alignment data..." />
           </Container>
         </MainContent>
       </AtlvsAppLayout>
@@ -159,7 +159,6 @@ export default function StrategicAlignmentPage() {
       <EnterprisePageHeader
         title="Strategic Alignment"
         subtitle="Measure how projects align with strategic goals"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Alignment' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         primaryAction={{ label: 'Align Project', onClick: () => setShowAlignModal(true) }}

@@ -65,7 +65,6 @@ export default function BidPortalPage() {
       <EnterprisePageHeader
         title="Bid Submission Portal"
         subtitle="Submit proposals and track bid opportunities"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Bid Portal' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

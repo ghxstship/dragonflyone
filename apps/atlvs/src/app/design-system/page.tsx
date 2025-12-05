@@ -8,7 +8,7 @@ import {
   StatusBadge, HalftonePattern, GridPattern,
   // Molecules
   Alert, ButtonGroup, Card,
-  EmptyState, Field, LoadingSpinner, Pagination,
+  EmptyState, Field, Pagination,
   Skeleton, SkeletonCard, StatCard, Table, TableHeader, TableBody, TableRow, 
   TableHead, TableCell, Tabs, TabsList, Tab, TabPanel,
   // Organisms
@@ -512,7 +512,7 @@ export default function DesignSystemPage() {
                   <Spinner size="sm" />
                   <Spinner size="md" />
                   <Spinner size="lg" />
-                  <LoadingSpinner />
+                  <Spinner variant="grey" />
                 </Stack>
               </Card>
 

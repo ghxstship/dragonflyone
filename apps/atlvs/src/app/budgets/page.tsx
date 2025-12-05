@@ -6,9 +6,9 @@ import { Eye, Pencil, BarChart3 } from 'lucide-react';
 import { AtlvsAppLayout } from '../../components/app-layout';
 import {
   ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Body,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig,
+  type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig, type ExportFormat,
 } from '@ghxstship/ui';
-import { getBadgeVariant } from '@ghxstship/config';
+import { getBadgeVariant, createExportHandler } from '@ghxstship/config';
 import { useBudgets } from '@/hooks/useBudgets';
 
 interface Budget {
@@ -87,7 +87,11 @@ export default function BudgetsPage() {
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    console.log('Create budget:', data);
+    await fetch('/api/budgets', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
     setCreateModalOpen(false);
   };
 
@@ -120,11 +124,24 @@ export default function BudgetsPage() {
         onRowClick={(r) => { setSelected(r); setDrawerOpen(true); }}
         createLabel="New Budget"
         onCreate={() => setCreateModalOpen(true)}
-        onExport={() => console.log('Export budgets')}
+        entityType="budgets"
+        onExport={createExportHandler({
+          filename: "budgets",
+          getData: () => budgets.map(b => ({
+            id: b.id,
+            name: b.name,
+            category: b.category,
+            budgeted: b.budgeted,
+            actual: b.actual,
+            variance: b.variance,
+            status: b.status,
+            period: b.period || '',
+          })),
+        })}
+        exportFormats={["csv", "json"]}
         stats={stats}
         emptyMessage="No budgets found"
         emptyAction={{ label: 'Create Budget', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Budgets' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

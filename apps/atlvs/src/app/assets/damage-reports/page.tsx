@@ -8,7 +8,7 @@ import {
   ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
 } from "@ghxstship/ui";
-import { getBadgeVariant } from "@ghxstship/config";
+import { getBadgeVariant, createExportHandler } from "@ghxstship/config";
 
 interface DamageReport {
   id: string;
@@ -71,7 +71,7 @@ export default function DamageReportsPage() {
 
   const rowActions: ListPageAction<DamageReport>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
-    { id: 'update', label: 'Update Status', icon: <Pencil className="size-4" />, onClick: (r) => console.log('Update', r.id) },
+    { id: 'update', label: 'Update Status', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/assets/damage-reports/${r.id}/edit`) },
   ];
 
   const stats = [
@@ -111,10 +111,23 @@ export default function DamageReportsPage() {
         filters={filters}
         rowActions={rowActions}
         onRowClick={(r) => { setSelected(r); setDrawerOpen(true); }}
-        onExport={() => console.log('Export')}
+        entityType="damage-reports"
+        onExport={createExportHandler({
+          filename: "damage-reports",
+          getData: () => data.map(d => ({
+            id: d.id,
+            assetId: d.assetId,
+            assetName: d.assetName,
+            category: d.category,
+            reportedBy: d.reportedBy,
+            reportedDate: d.reportedDate,
+            severity: d.severity,
+            status: d.status,
+            description: d.description || '',
+          })),
+        })}
         stats={stats}
         emptyMessage="No damage reports found"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Assets', href: '/assets' }, { label: 'Damage Reports' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
@@ -132,7 +145,11 @@ export default function DamageReportsPage() {
           subtitle={(r) => `${r.severity} • ${r.status}`}
           sections={detailSections}
           actions={[{ id: 'update', label: 'Update Status', icon: <Pencil className="size-4" /> }, { id: 'resolve', label: 'Resolve', icon: <Check className="size-4" /> }]}
-          onAction={(id, r) => { console.log(id, r.id); setDrawerOpen(false); }}
+          onAction={(id, r) => {
+            if (id === 'update') router.push(`/assets/damage-reports/${r.id}/edit`);
+            if (id === 'resolve') router.push(`/assets/damage-reports/${r.id}/resolve`);
+            setDrawerOpen(false);
+          }}
         />
       )}
     </AtlvsAppLayout>

@@ -18,6 +18,7 @@ import {
   type DetailSection,
   type FormFieldConfig,
 } from "@ghxstship/ui";
+import { createExportHandler } from "@ghxstship/config";
 
 interface KeyResult {
   kr: string;
@@ -83,7 +84,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function OKRsPage() {
   const router = useRouter();
-  const [okrs] = useState<OKR[]>(mockOKRs);
+  const [okrs, setOkrs] = useState<OKR[]>(mockOKRs);
   const [selectedOKR, setSelectedOKR] = useState<OKR | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -105,7 +106,14 @@ export default function OKRsPage() {
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    console.log('Create OKR:', data);
+    const newOKR: OKR = {
+      id: `OKR-${String(okrs.length + 1).padStart(3, '0')}`,
+      objective: String(data.objective || ''),
+      owner: String(data.owner || ''),
+      keyResults: [],
+      progress: 0,
+    };
+    setOkrs(prev => [...prev, newOKR]);
     setCreateModalOpen(false);
   };
 
@@ -146,11 +154,22 @@ export default function OKRsPage() {
         onRowClick={(r) => { setSelectedOKR(r); setDrawerOpen(true); }}
         createLabel="Create New OKR"
         onCreate={() => setCreateModalOpen(true)}
-        onExport={() => router.push('/okrs/export')}
+        entityType="okrs"
+        onExport={createExportHandler({
+          filename: "okrs",
+          getData: () => okrs.map(o => ({
+            id: o.id,
+            title: o.objective,
+            owner: o.owner,
+            period: '',
+            progress: o.progress,
+            status: o.progress >= 70 ? 'On Track' : o.progress >= 50 ? 'In Progress' : 'At Risk',
+            keyResults: o.keyResults?.length || 0,
+          })),
+        })}
         stats={stats}
         emptyMessage="No OKRs found"
         emptyAction={{ label: 'Create OKR', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'OKRs' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

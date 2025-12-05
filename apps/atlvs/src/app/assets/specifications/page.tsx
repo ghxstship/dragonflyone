@@ -174,7 +174,6 @@ export default function AssetSpecificationsPage() {
       <EnterprisePageHeader
         title="Asset Specifications Library"
         subtitle="Technical documentation, specifications, and manuals for all equipment"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Assets', href: '/assets' }, { label: 'Specifications' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

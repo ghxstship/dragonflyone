@@ -13,11 +13,6 @@ export default function AdvanceRequestPage({ params }: { params: { id: string } 
       <EnterprisePageHeader
         title="Advance Request"
         subtitle={`Request ID: ${params.id}`}
-        breadcrumbs={[
-          { label: 'ATLVS', href: '/dashboard' },
-          { label: 'Advancing', href: '/advancing' },
-          { label: 'Request Detail' },
-        ]}
         showFavorite
         showSettings
       />

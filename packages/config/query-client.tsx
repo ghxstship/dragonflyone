@@ -9,6 +9,7 @@ import {
 } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import React, { useState } from 'react';
+import { logger } from './logger';
 
 /**
  * Default Query Client Configuration
@@ -55,7 +56,7 @@ export function makeQueryClient() {
         console.error('Mutation key:', mutation.options.mutationKey);
       },
       onSuccess: (_data, _variables, _context, mutation) => {
-        console.log('Mutation success:', mutation.options.mutationKey);
+        logger.debug('Mutation success', { mutationKey: mutation.options.mutationKey });
       },
     }),
   });

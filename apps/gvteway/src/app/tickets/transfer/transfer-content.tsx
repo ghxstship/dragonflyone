@@ -17,7 +17,7 @@ import {
   Stack,
   Badge,
   Alert,
-  LoadingSpinner,
+  Spinner,
 } from '@ghxstship/ui';
 
 interface Ticket {
@@ -104,7 +104,7 @@ export default function TicketTransferContent() {
   if (loading) {
     return (
       <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" />
+        <Spinner variant="grey" size="lg" />
       </Section>
     );
   }
@@ -239,7 +239,7 @@ export default function TicketTransferContent() {
                   >
                     {submitting ? (
                       <Stack direction="horizontal" gap={2} className="items-center justify-center">
-                        <LoadingSpinner size="sm" />
+                        <Spinner variant="grey" size="sm" />
                         <Body>Transferring...</Body>
                       </Stack>
                     ) : (

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, MapPin, Pencil } from "lucide-react";
 import { CompvssAppLayout } from "../../components/app-layout";
@@ -10,7 +10,6 @@ import {
   Badge,
   RecordFormModal,
   DetailDrawer,
-  ConfirmDialog,
   Grid,
   Stack,
   Body,
@@ -22,6 +21,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from "@ghxstship/ui";
+import { createExportHandler } from "@ghxstship/config";
 
 interface Shipment {
   id: string;
@@ -76,7 +76,11 @@ export default function LogisticsPage() {
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    console.log('Schedule shipment:', data);
+    await fetch('/api/shipments', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
     setCreateModalOpen(false);
     refetch?.();
   };
@@ -108,7 +112,6 @@ export default function LogisticsPage() {
       <EnterprisePageHeader
         title="Logistics & Transportation"
         subtitle="Track shipments, manage fleet, and coordinate deliveries"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Logistics' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
@@ -133,7 +136,20 @@ export default function LogisticsPage() {
           onRowClick={(r) => { setSelectedShipment(r); setDrawerOpen(true); }}
           createLabel="Schedule Shipment"
           onCreate={() => setCreateModalOpen(true)}
-          onExport={() => console.log('Export')}
+          entityType="logistics"
+          onExport={createExportHandler({
+            filename: "shipments",
+            getData: () => shipments.map(s => ({
+              id: s.id,
+              status: s.status,
+              equipment: s.equipment,
+              driver: s.driver,
+              origin: s.origin,
+              destination: s.destination,
+              truck: s.truck,
+              eta: s.eta || '',
+            })),
+          })}
           stats={stats}
           emptyMessage="No shipments found"
           emptyAction={{ label: 'Schedule Shipment', onClick: () => setCreateModalOpen(true) }}

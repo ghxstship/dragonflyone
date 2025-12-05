@@ -247,7 +247,6 @@ export default function InsurancePage() {
         stats={pageStats}
         emptyMessage="No insurance policies yet"
         emptyAction={{ label: 'Add First Policy', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Insurance' }]}
         quickActions={[
           { id: 'permits', label: 'Permits', icon: <FileText className="size-4" />, onClick: () => router.push('/permits') },
           { id: 'compliance', label: 'Compliance', icon: <Shield className="size-4" />, onClick: () => router.push('/compliance') },

@@ -15,7 +15,7 @@ import {
   Badge,
   Stack,
   Field,
-  LoadingSpinner,
+  Spinner,
 } from '@ghxstship/ui';
 import { Search, MapPin, DollarSign, Clock, Briefcase, Filter, X, ChevronDown } from 'lucide-react';
 
@@ -207,7 +207,7 @@ export function MobileJobSearch({ initialJobs = [], onApply }: MobileJobSearchPr
       <Container>
         {isLoading ? (
           <Stack className="items-center justify-center py-spacing-12">
-            <LoadingSpinner size="lg" text="Loading opportunities..." />
+            <Spinner variant="grey" size="lg" text="Loading opportunities..." />
           </Stack>
         ) : filteredJobs.length === 0 ? (
           <Card className="p-spacing-8 text-center">

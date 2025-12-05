@@ -257,11 +257,6 @@ export default function WebhooksPage() {
         stats={pageStats}
         emptyMessage="No webhooks configured yet"
         emptyAction={{ label: 'Add First Webhook', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[
-          { label: 'ATLVS', href: '/dashboard' }, 
-          { label: 'API Management', href: '/api-management' },
-          { label: 'Webhooks' }
-        ]}
       />
 
       <RecordFormModal

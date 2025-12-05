@@ -16,6 +16,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from '@ghxstship/ui';
+import { createExportHandler } from '@ghxstship/config';
 
 interface Advance {
   id: string;
@@ -106,10 +107,21 @@ export default function AdvanceReviewQueuePage() {
         filters={filters}
         rowActions={rowActions}
         onRowClick={(r) => router.push(`/advances/${r.id}`)}
-        onExport={() => console.log('Export')}
+        entityType="advances"
+        onExport={createExportHandler({
+          filename: "advances",
+          getData: () => advances.map(a => ({
+            id: a.id,
+            activation_name: a.activation_name || '',
+            organization: a.organization?.name || '',
+            estimated_cost: a.estimated_cost || '',
+            priority: getPriorityLabel(a.estimated_cost || 0),
+            status: a.status,
+            submitted_at: a.submitted_at || a.created_at,
+          })),
+        })}
         stats={stats}
         emptyMessage="No advances pending review"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Advances' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

@@ -19,6 +19,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
+import { createExportHandler } from '@ghxstship/config';
 
 interface SOP {
   id: string;
@@ -264,11 +265,23 @@ export default function SOPsPage() {
         onRowClick={(row) => router.push(`/sops/${row.id}`)}
         createLabel="New SOP"
         onCreate={() => setCreateModalOpen(true)}
-        onExport={() => {}}
+        entityType="sops"
+        onExport={createExportHandler({
+          filename: "sops",
+          getData: () => sops.map(s => ({
+            id: s.id,
+            title: s.title,
+            description: s.description || '',
+            version: s.version,
+            status: s.status,
+            effective_date: s.effective_date || '',
+            requires_acknowledgment: s.requires_acknowledgment,
+            category: s.category?.name || '',
+          })),
+        })}
         stats={pageStats}
         emptyMessage="No SOPs created yet"
         emptyAction={{ label: 'Create First SOP', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'SOPs' }]}
         quickActions={[
           { id: 'categories', label: 'Categories', icon: <FolderOpen className="size-4" />, onClick: () => router.push('/sops/categories') },
           { id: 'acknowledgments', label: 'Acknowledgments', icon: <CheckCircle className="size-4" />, onClick: () => router.push('/sops/acknowledgments') },

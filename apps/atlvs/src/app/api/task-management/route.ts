@@ -241,7 +241,7 @@ export async function PATCH(request: NextRequest) {
       if (existingTask?.recurrence) {
         // Create next recurring task
         const recurrence = existingTask.recurrence as { frequency: string; interval: number; until?: string };
-        let nextDueDate = new Date(body.due_date || new Date());
+        const nextDueDate = new Date(body.due_date || new Date());
 
         switch (recurrence.frequency) {
           case 'daily':

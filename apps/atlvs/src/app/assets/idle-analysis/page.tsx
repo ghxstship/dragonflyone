@@ -2,12 +2,13 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Eye, Zap } from 'lucide-react';
+import { Eye, Zap, DollarSign, ClipboardList, Package } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
 } from '@ghxstship/ui';
+import { createExportHandler } from '@ghxstship/config';
 
 interface IdleAsset {
   id: string;
@@ -63,7 +64,7 @@ export default function IdleAnalysisPage() {
 
   const rowActions: ListPageAction<IdleAsset>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
-    { id: 'action', label: 'Take Action', icon: <Zap className="size-4" />, onClick: (r) => console.log('Action', r.id) },
+    { id: 'action', label: 'Take Action', icon: <Zap className="size-4" />, onClick: (r) => router.push(`/assets/idle-analysis/${r.id}/action`) },
   ];
 
   const stats = [
@@ -102,10 +103,22 @@ export default function IdleAnalysisPage() {
         filters={filters}
         rowActions={rowActions}
         onRowClick={(r) => { setSelected(r); setDrawerOpen(true); }}
-        onExport={() => console.log('Export')}
+        entityType="idle-assets"
+        onExport={createExportHandler({
+          filename: "idle-assets",
+          getData: () => data.map(a => ({
+            id: a.id,
+            name: a.name,
+            category: a.category,
+            idleDays: a.idleDays,
+            lastUsed: a.lastUsed,
+            location: a.location,
+            status: a.status,
+            monthlyDepreciation: a.monthlyDepreciation,
+          })),
+        })}
         stats={stats}
         emptyMessage="No idle assets found"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Assets', href: '/assets' }, { label: 'Idle Analysis' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
@@ -122,8 +135,13 @@ export default function IdleAnalysisPage() {
           title={(r) => r.name}
           subtitle={(r) => `${r.category} • ${r.idleDays} days idle • ${r.recommendation}`}
           sections={detailSections}
-          actions={[{ id: 'sell', label: 'List for Sale', icon: '💰' }, { id: 'rent', label: 'List for Rental', icon: '📋' }, { id: 'assign', label: 'Assign to Project', icon: '📦' }]}
-          onAction={(id, r) => { console.log(id, r.id); setDrawerOpen(false); }}
+          actions={[{ id: 'sell', label: 'List for Sale', icon: <DollarSign className="size-4" /> }, { id: 'rent', label: 'List for Rental', icon: <ClipboardList className="size-4" /> }, { id: 'assign', label: 'Assign to Project', icon: <Package className="size-4" /> }]}
+          onAction={(id, r) => {
+            if (id === 'sell') router.push(`/assets/${r.id}/sell`);
+            if (id === 'rent') router.push(`/assets/${r.id}/rental`);
+            if (id === 'assign') router.push(`/assets/${r.id}/assign`);
+            setDrawerOpen(false);
+          }}
         />
       )}
     </AtlvsAppLayout>

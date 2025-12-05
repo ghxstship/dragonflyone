@@ -102,7 +102,7 @@ export async function GET(request: NextRequest) {
 
       // Get folder path (breadcrumb)
       type FolderBreadcrumb = { id: string; name: string; parent_id: string | null };
-      let breadcrumb: FolderBreadcrumb[] = [];
+      const breadcrumb: FolderBreadcrumb[] = [];
       if (folderId) {
         let currentFolderId: string | null = folderId;
         while (currentFolderId) {

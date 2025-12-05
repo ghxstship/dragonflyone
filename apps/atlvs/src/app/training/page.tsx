@@ -15,7 +15,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
-import { getBadgeVariant } from "@ghxstship/config";
+import { getBadgeVariant, createExportHandler } from "@ghxstship/config";
 
 interface TrainingProgram {
   id: string;
@@ -129,11 +129,25 @@ export default function TrainingPage() {
         onRowClick={(r) => { setSelectedProgram(r); setDrawerOpen(true); }}
         createLabel="Create Program"
         onCreate={() => router.push('/training/new')}
-        onExport={() => console.log('Export')}
+        entityType="training"
+        onExport={createExportHandler({
+          filename: "training-programs",
+          getData: () => programs.map(p => ({
+            id: p.id,
+            title: p.title,
+            category: p.category,
+            duration_hours: p.duration_hours,
+            instructor: p.instructor_name,
+            capacity: p.capacity,
+            enrolled: p.enrolled_count,
+            start_date: p.start_date,
+            end_date: p.end_date,
+            status: p.status,
+          })),
+        })}
         stats={stats}
         emptyMessage="No training programs found"
         emptyAction={{ label: 'Create Program', onClick: () => router.push('/training/new') }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Training' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

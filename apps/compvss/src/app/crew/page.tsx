@@ -21,6 +21,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from "@ghxstship/ui";
+import { createExportHandler } from "@ghxstship/config";
 
 interface CrewMember {
   id: string;
@@ -221,17 +222,43 @@ export default function CrewPage() {
   ];
 
   const handleBulkAction = async (actionId: string, selectedIds: string[]) => {
-    console.log('Bulk action:', actionId, selectedIds);
+    if (actionId === 'export') {
+      const selectedCrew = crewList.filter(c => selectedIds.includes(c.id));
+      const csv = [
+        ['ID', 'Name', 'Role', 'Department', 'Availability', 'Rate', 'Rating', 'Location'].join(','),
+        ...selectedCrew.map(c => [c.id, c.name, c.role, c.department, c.availability, c.rate, c.rating, c.location].join(','))
+      ].join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'crew-export.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
   };
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    console.log('Create crew member:', data);
+    const newMember: CrewMember = {
+      id: `CRW-${String(crewList.length + 1).padStart(3, '0')}`,
+      name: String(data.name || ''),
+      role: String(data.role || ''),
+      department: String(data.department || ''),
+      availability: 'Available',
+      rate: Number(data.rate) || 0,
+      rating: 0,
+      projectsCompleted: 0,
+      location: String(data.location || ''),
+      phone: String(data.phone || ''),
+      email: String(data.email || ''),
+    };
+    refetch();
     setCreateModalOpen(false);
   };
 
   const handleDelete = async () => {
     if (memberToDelete) {
-      console.log('Delete crew member:', memberToDelete.id);
+      refetch();
       setDeleteConfirmOpen(false);
       setMemberToDelete(null);
     }
@@ -307,7 +334,7 @@ export default function CrewPage() {
 
   return (
     <CompvssAppLayout>
-      <ListPage<any>
+      <ListPage<CrewMember>
         title="Crew Directory"
         subtitle="Vetted production professionals and technical specialists"
         data={crewList}
@@ -322,11 +349,25 @@ export default function CrewPage() {
         onRowClick={(row) => { setSelectedMember(row); setDrawerOpen(true); }}
         createLabel="Add Crew"
         onCreate={() => setCreateModalOpen(true)}
-        onExport={() => console.log('Export crew')}
+        entityType="crew"
+        onExport={createExportHandler({
+          filename: "crew",
+          getData: () => crewList.map(c => ({
+            id: c.id,
+            name: c.name,
+            role: c.role,
+            department: c.department,
+            availability: c.availability,
+            rate: c.rate,
+            rating: c.rating,
+            location: c.location,
+            phone: c.phone,
+            email: c.email,
+          })),
+        })}
         stats={stats}
         emptyMessage="No crew members found"
         emptyAction={{ label: 'Add Crew Member', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Crew' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

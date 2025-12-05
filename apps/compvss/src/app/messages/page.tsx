@@ -69,7 +69,6 @@ export default function MessagesPage() {
       <EnterprisePageHeader
         title="Messages"
         subtitle="Direct messaging with crew and vendors"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Messages' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

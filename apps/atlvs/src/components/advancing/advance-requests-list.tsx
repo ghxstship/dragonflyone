@@ -17,7 +17,7 @@ import {
   Button,
   Pagination,
   EmptyState,
-  LoadingSpinner,
+  Spinner,
   H3,
   Body,
   ButtonGroup,
@@ -114,7 +114,7 @@ export function AdvanceRequestsList({ projectId, status }: AdvanceRequestsListPr
 
         {/* Requests Table */}
         {isLoading ? (
-          <LoadingSpinner />
+          <Spinner variant="grey" />
         ) : requests.length === 0 ? (
           <EmptyState
             title="No requests found"

@@ -60,7 +60,8 @@
     "permissions.ts",
     "logging.ts",
     "session-config.ts",
-    "rate-limiting.ts"
+    "rate-limiting.ts",
+    "export-utils.ts"
   ],
   "exclude": [
     "node_modules",

@@ -1,9 +1,10 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { CompvssAppLayout, CompvssLoadingLayout } from '../../components/app-layout';
+import { CompvssAppLayout } from '../../components/app-layout';
 import { useCrew } from '../../hooks/useCrew';
 import { useEquipment } from '../../hooks/useEquipment';
+import { useActivityFeed } from '@ghxstship/config/hooks';
 import {
   H2,
   Body,
@@ -15,9 +16,8 @@ import {
   StatusBadge,
   Badge,
   SectionHeader,
-  LoadingSpinner,
-  EnterprisePageHeader,
-  MainContent,} from '@ghxstship/ui';
+  Spinner,
+} from '@ghxstship/ui';
 
 /**
  * COMPVSS Production Operations Dashboard
@@ -28,6 +28,7 @@ export default function CompvssDashboardPage() {
   const router = useRouter();
   const { data: crew, isLoading: crewLoading } = useCrew();
   const { data: equipment, isLoading: equipmentLoading } = useEquipment();
+  const { data: activityData } = useActivityFeed({ limit: 5, types: ['crew', 'equipment', 'project'] });
 
   // Mock user - in production this would come from auth context
   const user = {
@@ -36,6 +37,21 @@ export default function CompvssDashboardPage() {
   };
 
   const isLoading = crewLoading || equipmentLoading;
+
+  // Fallback activity data
+  const fallbackActivity = [
+    { id: '1', action: 'Check-in', detail: 'Mike Johnson - Lighting Tech' },
+    { id: '2', action: 'Project created', detail: 'Fall Concert Series' },
+    { id: '3', action: 'Crew assigned', detail: 'Summer Festival (8 new)' },
+    { id: '4', action: 'Equipment checked out', detail: 'Sound Package A' },
+    { id: '5', action: 'Show report submitted', detail: 'Corporate Event #1247' },
+  ];
+
+  const recentActivity = activityData?.map(a => ({
+    id: a.id,
+    action: a.action,
+    detail: a.detail,
+  })) || fallbackActivity;
 
   // Calculate real stats
   const stats = {
@@ -61,7 +77,7 @@ export default function CompvssDashboardPage() {
         <H2 className="mb-6">PRODUCTION OVERVIEW</H2>
         {isLoading ? (
           <Stack className="flex justify-center py-12">
-            <LoadingSpinner size="lg" text="Loading production data..." />
+            <Spinner variant="grey" size="lg" text="Loading production data..." />
           </Stack>
         ) : (
           <>
@@ -159,8 +175,8 @@ export default function CompvssDashboardPage() {
             {/* Active Projects */}
             <H2 className="mb-6">ACTIVE PROJECTS</H2>
             <Stack gap={4} className="mb-8">
-              <Card className="p-6 border-l-4 border-black">
-                <Stack gap={4} direction="horizontal" className="justify-between items-start">
+              <Card className="border-l-4 border-black p-6">
+                <Stack gap={4} direction="horizontal" className="items-start justify-between">
                   <Stack gap={2}>
                     <Body className="font-display text-body-md">Summer Music Festival 2024</Body>
                     <Body className="text-body-sm">
@@ -179,8 +195,8 @@ export default function CompvssDashboardPage() {
                 </Stack>
               </Card>
 
-              <Card className="p-6 border-l-4 border-ink-700">
-                <Stack gap={4} direction="horizontal" className="justify-between items-start">
+              <Card className="border-l-4 border-ink-700 p-6">
+                <Stack gap={4} direction="horizontal" className="items-start justify-between">
                   <Stack gap={2}>
                     <Body className="font-display text-body-md">Corporate Product Launch</Body>
                     <Body className="text-body-sm">
@@ -199,8 +215,8 @@ export default function CompvssDashboardPage() {
                 </Stack>
               </Card>
 
-              <Card className="p-6 border-l-4 border-ink-400">
-                <Stack gap={4} direction="horizontal" className="justify-between items-start">
+              <Card className="border-l-4 border-ink-400 p-6">
+                <Stack gap={4} direction="horizontal" className="items-start justify-between">
                   <Stack gap={2}>
                     <Body className="font-display text-body-md">Theater Production: Hamilton</Body>
                     <Body className="text-body-sm">
@@ -247,11 +263,11 @@ export default function CompvssDashboardPage() {
               <Card className="p-6">
                 <H2 className="mb-4">RECENT ACTIVITY</H2>
                 <Stack gap={2} className="text-body-sm">
-                  <Body className="text-body-sm">• Check-in: Mike Johnson - Lighting Tech</Body>
-                  <Body className="text-body-sm">• Project created: Fall Concert Series</Body>
-                  <Body className="text-body-sm">• Crew assigned: Summer Festival (8 new)</Body>
-                  <Body className="text-body-sm">• Equipment checked out: Sound Package A</Body>
-                  <Body className="text-body-sm">• Show report submitted: Corporate Event #1247</Body>
+                  {recentActivity.map((activity) => (
+                    <Body key={activity.id} className="text-body-sm">
+                      {activity.action}: {activity.detail}
+                    </Body>
+                  ))}
                 </Stack>
               </Card>
             </Grid>

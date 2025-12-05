@@ -95,7 +95,6 @@ export default function SocialAmplificationPage() {
       <EnterprisePageHeader
         title="Social Amplification"
         subtitle="Coordinate artist and performer social media promotion"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Social Amplification' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

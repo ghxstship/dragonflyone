@@ -14,7 +14,7 @@ import {
   Grid,
   Badge,
   Stack,
-  LoadingSpinner,
+  Spinner,
   H3,
   EnterprisePageHeader,
   MainContent,
@@ -199,7 +199,7 @@ export default function DirectoryPage() {
       <CompvssAppLayout>
         <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
-            <LoadingSpinner size="lg" text="Loading directory..." />
+            <Spinner variant="grey" size="lg" text="Loading directory..." />
           </Container>
         </MainContent>
       </CompvssAppLayout>
@@ -211,7 +211,6 @@ export default function DirectoryPage() {
       <EnterprisePageHeader
         title="Directory"
         subtitle="Search and filter crew, vendors, and venues by language, specialty, and more"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Directory' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

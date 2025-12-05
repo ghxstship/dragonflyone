@@ -2,13 +2,13 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Eye, Link, Pencil } from 'lucide-react';
+import { Eye, ExternalLink, Pencil } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   ListPage, Badge, DetailDrawer, Grid, Body,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
+  type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type ExportFormat,
 } from '@ghxstship/ui';
-import { getBadgeVariant } from '@ghxstship/config';
+import { getBadgeVariant, createExportHandler } from '@ghxstship/config';
 
 interface StateLaborLaw {
   id: string;
@@ -64,7 +64,7 @@ export default function LaborLawsPage() {
 
   const rowActions: ListPageAction<StateLaborLaw>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
-    { id: 'source', label: 'View Source', icon: <Link className="size-4" />, onClick: (r) => console.log('View source', r.id) },
+    { id: 'source', label: 'View Source', icon: <ExternalLink className="size-4" />, onClick: (r) => window.open(`https://www.dol.gov/agencies/whd/state/meal-rest-breaks#${r.stateCode}`, '_blank') },
   ];
 
   const stats = [
@@ -101,10 +101,22 @@ export default function LaborLawsPage() {
         filters={filters}
         rowActions={rowActions}
         onRowClick={(r) => { setSelected(r); setDrawerOpen(true); }}
-        onExport={() => console.log('Export')}
+        entityType="labor-laws"
+        onExport={createExportHandler({
+          filename: "labor-laws",
+          getData: () => data.map(l => ({
+            id: l.id,
+            state: l.state,
+            stateCode: l.stateCode,
+            category: l.category,
+            requirement: l.requirement,
+            effectiveDate: l.effectiveDate,
+            status: l.status,
+          })),
+        })}
+        exportFormats={["csv", "json"]}
         stats={stats}
         emptyMessage="No labor laws found"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Workforce', href: '/workforce' }, { label: 'Labor Laws' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
@@ -121,8 +133,12 @@ export default function LaborLawsPage() {
           title={(r) => r.requirement}
           subtitle={(r) => `${r.state} • ${r.category}`}
           sections={detailSections}
-          actions={[{ id: 'source', label: 'View Source', icon: <Link className="size-4" /> }, { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" /> }]}
-          onAction={(id, r) => { console.log(id, r.id); setDrawerOpen(false); }}
+          actions={[{ id: 'source', label: 'View Source', icon: <ExternalLink className="size-4" /> }, { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" /> }]}
+          onAction={(id, r) => {
+            if (id === 'source') window.open(`https://www.dol.gov/agencies/whd/state/meal-rest-breaks#${r.stateCode}`, '_blank');
+            if (id === 'edit') router.push(`/workforce/labor-laws/${r.id}/edit`);
+            setDrawerOpen(false);
+          }}
         />
       )}
     </AtlvsAppLayout>

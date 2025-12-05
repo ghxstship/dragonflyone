@@ -8,6 +8,7 @@ import {
   ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig,
 } from '@ghxstship/ui';
+import { createExportHandler } from '@ghxstship/config';
 
 interface Dashboard {
   id: string;
@@ -50,7 +51,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function DashboardBuilderPage() {
   const router = useRouter();
-  const [data] = useState<Dashboard[]>(mockData);
+  const [data, setData] = useState<Dashboard[]>(mockData);
   const [selected, setSelected] = useState<Dashboard | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -60,7 +61,10 @@ export default function DashboardBuilderPage() {
   const rowActions: ListPageAction<Dashboard>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
     { id: 'edit', label: 'Edit Dashboard', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/analytics/dashboard-builder/${r.id}`) },
-    { id: 'duplicate', label: 'Duplicate', icon: <Copy className="size-4" />, onClick: (r) => console.log('Duplicate', r.id) },
+    { id: 'duplicate', label: 'Duplicate', icon: <Copy className="size-4" />, onClick: (r) => {
+      const duplicated: Dashboard = { ...r, id: `DB-${Date.now()}`, name: `${r.name} (Copy)`, isDefault: false, createdAt: new Date().toISOString().split('T')[0], lastModified: new Date().toISOString().split('T')[0] };
+      setData(prev => [...prev, duplicated]);
+    }},
   ];
 
   const stats = [
@@ -71,7 +75,17 @@ export default function DashboardBuilderPage() {
   ];
 
   const handleCreate = async (formData: Record<string, unknown>) => {
-    console.log('Create dashboard:', formData);
+    const newDashboard: Dashboard = {
+      id: `DB-${Date.now()}`,
+      name: String(formData.name || 'Untitled'),
+      description: String(formData.description || ''),
+      widgetCount: 0,
+      isDefault: false,
+      createdAt: new Date().toISOString().split('T')[0],
+      lastModified: new Date().toISOString().split('T')[0],
+      status: 'Draft',
+    };
+    setData(prev => [...prev, newDashboard]);
     setCreateModalOpen(false);
   };
 
@@ -104,11 +118,23 @@ export default function DashboardBuilderPage() {
         onRowClick={(r) => { setSelected(r); setDrawerOpen(true); }}
         createLabel="New Dashboard"
         onCreate={() => setCreateModalOpen(true)}
-        onExport={() => console.log('Export')}
+        entityType="dashboards"
+        onExport={createExportHandler({
+          filename: "dashboards",
+          getData: () => data.map(d => ({
+            id: d.id,
+            name: d.name,
+            description: d.description || '',
+            widgetCount: d.widgetCount,
+            isDefault: d.isDefault,
+            status: d.status,
+            createdAt: d.createdAt,
+            lastModified: d.lastModified,
+          })),
+        })}
         stats={stats}
         emptyMessage="No dashboards found"
         emptyAction={{ label: 'Create Dashboard', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Analytics', href: '/analytics' }, { label: 'Dashboard Builder' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

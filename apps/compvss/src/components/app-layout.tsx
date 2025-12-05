@@ -12,7 +12,7 @@ import {
   Container,
   Stack,
   Label,
-  LoadingSpinner,
+  Spinner,
   AuthenticatedShell,
   Link,
   ContextSwitcher,
@@ -227,7 +227,7 @@ export function CompvssLoadingLayout({
   return (
     <CompvssAppLayout variant={variant}>
       <Stack className="flex min-h-[60vh] items-center justify-center">
-        <LoadingSpinner size="lg" text={text} />
+        <Spinner variant="grey" size="lg" text={text} />
       </Stack>
     </CompvssAppLayout>
   );

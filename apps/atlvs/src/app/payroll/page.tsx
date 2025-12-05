@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { Eye, Pencil } from "lucide-react";
+import { Eye, Pencil, Check } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { AtlvsAppLayout } from "../../components/app-layout";
 import {
   ListPage,
@@ -74,6 +75,7 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function PayrollPage() {
+  const router = useRouter();
   const { addNotification } = useNotifications();
   const [entries, setEntries] = useState<PayrollEntry[]>([]);
   const [summary, setSummary] = useState<PayrollSummary | null>(null);
@@ -126,11 +128,22 @@ export default function PayrollPage() {
 
   const rowActions: ListPageAction<PayrollEntry>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedEntry(r); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => console.log('Edit:', r.id) },
+    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/payroll/${r.id}/edit`) },
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    console.log('Create entry:', data);
+    try {
+      const res = await fetch('/api/payroll', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (res.ok) {
+        addNotification({ type: 'success', title: 'Success', message: 'Payroll entry created' });
+      }
+    } catch {
+      addNotification({ type: 'error', title: 'Error', message: 'Failed to create entry' });
+    }
     setCreateModalOpen(false);
     fetchPayroll();
   };
@@ -178,7 +191,6 @@ export default function PayrollPage() {
         stats={stats}
         emptyMessage="No payroll entries found"
         emptyAction={{ label: 'Add Entry', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Payroll' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
@@ -188,7 +200,7 @@ export default function PayrollPage() {
         showSettings
       />
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Add Payroll Entry" fields={formFields} onSubmit={handleCreate} size="lg" />
-      <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedEntry} title={(e) => e.employee_name} subtitle={(e) => e.department} sections={detailSections} actions={[{ id: 'process', label: 'Process', icon: '✅' }]} onAction={(id) => id === 'process' && handleProcessPayroll()} />
+      <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedEntry} title={(e) => e.employee_name} subtitle={(e) => e.department} sections={detailSections} actions={[{ id: 'process', label: 'Process', icon: <Check className="size-4" /> }]} onAction={(id) => id === 'process' && handleProcessPayroll()} />
     </AtlvsAppLayout>
   );
 }

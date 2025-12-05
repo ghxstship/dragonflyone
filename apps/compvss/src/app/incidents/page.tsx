@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Pencil, Trash2 } from "lucide-react";
 import { CompvssAppLayout } from "../../components/app-layout";
@@ -22,6 +22,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from "@ghxstship/ui";
+import { createExportHandler } from "@ghxstship/config";
 
 interface Incident {
   id: string;
@@ -83,14 +84,18 @@ export default function IncidentsPage() {
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    console.log('Report incident:', data);
+    await fetch('/api/incidents', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
     setCreateModalOpen(false);
     refetch?.();
   };
 
   const handleDelete = async () => {
     if (incidentToDelete) {
-      console.log('Delete:', incidentToDelete.id);
+      await fetch(`/api/incidents/${incidentToDelete.id}`, { method: 'DELETE' });
       setDeleteConfirmOpen(false);
       setIncidentToDelete(null);
       refetch?.();
@@ -123,7 +128,6 @@ export default function IncidentsPage() {
       <EnterprisePageHeader
         title="Safety Incidents"
         subtitle="Track and manage safety incidents across all events"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Incidents' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
@@ -148,7 +152,20 @@ export default function IncidentsPage() {
           onRowClick={(r) => { setSelectedIncident(r); setDrawerOpen(true); }}
           createLabel="Report Incident"
           onCreate={() => setCreateModalOpen(true)}
-          onExport={() => console.log('Export')}
+          entityType="incidents"
+          onExport={createExportHandler({
+            filename: "incidents",
+            getData: () => incidents.map(i => ({
+              id: i.id,
+              type: i.type,
+              severity: i.severity,
+              status: i.status,
+              incident_date: i.incident_date || '',
+              reporter: i.reporter,
+              event_name: i.event_name || '',
+              description: i.description || '',
+            })),
+          })}
           stats={stats}
           emptyMessage="No incidents found"
           emptyAction={{ label: 'Report Incident', onClick: () => setCreateModalOpen(true) }}

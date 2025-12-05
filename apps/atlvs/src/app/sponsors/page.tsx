@@ -290,7 +290,6 @@ export default function SponsorsPage() {
         stats={pageStats}
         emptyMessage="No sponsors yet"
         emptyAction={{ label: 'Add First Sponsor', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Sponsors' }]}
         quickActions={[
           { id: 'tiers', label: 'Manage Tiers', icon: <Building2 className="size-4" />, onClick: () => router.push('/sponsors/tiers') },
           { id: 'deck', label: 'Sponsorship Deck', icon: <FileText className="size-4" />, onClick: () => router.push('/sponsors/deck') },

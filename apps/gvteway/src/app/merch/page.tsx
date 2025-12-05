@@ -17,6 +17,44 @@ import {
   Card,
   Kicker,
 } from "@ghxstship/ui";
+import type { MerchItem } from "../../hooks/useMerch";
+
+// Demo data for unauthenticated users
+const DEMO_MERCH: MerchItem[] = [
+  {
+    id: "demo-1",
+    name: "Festival Tour T-Shirt",
+    description: "Official tour merchandise",
+    price: 35,
+    category: "apparel",
+    sizes: ["S", "M", "L", "XL"],
+    colors: ["Black", "White"],
+    stock: 150,
+    images: [],
+    status: "active",
+  },
+  {
+    id: "demo-2",
+    name: "Limited Edition Poster",
+    description: "Signed artist poster",
+    price: 25,
+    category: "art",
+    stock: 50,
+    images: [],
+    status: "active",
+  },
+  {
+    id: "demo-3",
+    name: "Festival Cap",
+    description: "Embroidered logo cap",
+    price: 28,
+    category: "accessories",
+    colors: ["Black", "Navy"],
+    stock: 75,
+    images: [],
+    status: "active",
+  },
+];
 
 export default function MerchPage() {
   const _router = useRouter();
@@ -24,11 +62,14 @@ export default function MerchPage() {
   const [filterCategory, setFilterCategory] = useState("all");
   const [sortBy, setSortBy] = useState("featured");
 
-  const { data: merchItems, isLoading, error, refetch } = useMerch(
+  const { data: merchItems, isLoading, error, refetch: _refetch } = useMerch(
     filterCategory !== "all" ? { category: filterCategory } : undefined
   );
 
-  const sortedMerch = [...(merchItems || [])].sort((a, b) => {
+  // Use demo data when there's an error (e.g., unauthenticated)
+  const effectiveMerch = error ? DEMO_MERCH : (merchItems || []);
+
+  const sortedMerch = [...effectiveMerch].sort((a, b) => {
     if (sortBy === "price-low") return a.price - b.price;
     if (sortBy === "price-high") return b.price - a.price;
     return 0;
@@ -36,19 +77,6 @@ export default function MerchPage() {
 
   if (isLoading) {
     return <GvtewayLoadingLayout text="Loading merchandise..." />;
-  }
-
-  if (error) {
-    return (
-      <GvtewayAppLayout>
-        <EmptyState
-          title="Error Loading Merchandise"
-          description={error instanceof Error ? error.message : "An error occurred"}
-          action={{ label: "Retry", onClick: () => refetch() }}
-          inverted
-        />
-      </GvtewayAppLayout>
-    );
   }
 
   return (

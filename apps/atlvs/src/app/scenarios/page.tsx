@@ -17,6 +17,7 @@ import {
   type DetailSection,
   type FormFieldConfig,
 } from "@ghxstship/ui";
+import { createExportHandler } from "@ghxstship/config";
 
 interface Scenario {
   id: string;
@@ -205,11 +206,22 @@ export default function ScenariosPage() {
         onRowClick={(r) => { setSelectedScenario(r); setDrawerOpen(true); }}
         createLabel="Create Scenario"
         onCreate={() => setCreateModalOpen(true)}
-        onExport={() => router.push('/scenarios/export')}
+        entityType="scenarios"
+        onExport={createExportHandler({
+          filename: "scenarios",
+          getData: () => scenarios.map(s => ({
+            id: s.id,
+            name: s.name,
+            type: s.scenario_type,
+            status: s.status,
+            revenue_impact: s.revenue_forecast,
+            cost_impact: s.cost_forecast,
+            probability: s.probability,
+          })),
+        })}
         stats={stats}
         emptyMessage="No scenarios found"
         emptyAction={{ label: 'Create Scenario', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Scenarios' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

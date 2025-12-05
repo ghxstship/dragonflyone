@@ -3,6 +3,8 @@
  * Integrates with Sentry, New Relic, and custom alerting
  */
 
+import { logger } from '../logger';
+
 export interface MonitoringConfig {
   sentry?: {
     dsn: string;
@@ -160,7 +162,7 @@ export async function sendAlert(
     timestamp: new Date().toISOString(),
   };
   
-  console.log(`[ALERT] ${alert.type.toUpperCase()}: ${alert.title}`, alert);
+  logger.info(`[ALERT] ${alert.type.toUpperCase()}: ${alert.title}`, { alert });
   
   // Send to custom webhook if configured
   if (config.customAlerts?.webhookUrl) {
@@ -196,7 +198,7 @@ export async function sendAlert(
       };
       
       // Would send to Slack webhook here
-      console.log('Slack alert payload:', slackPayload);
+      logger.debug('Slack alert payload', { payload: slackPayload });
     } catch (error) {
       console.error('Failed to send Slack alert:', error);
     }

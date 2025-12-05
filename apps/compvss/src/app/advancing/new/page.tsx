@@ -19,7 +19,6 @@ export default function NewAdvanceRequestPage() {
       <EnterprisePageHeader
         title="Create Advance Request"
         subtitle="Request production items and services for your event"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Advancing', href: '/advancing' }, { label: 'New' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

@@ -24,7 +24,6 @@ const taxReportSchema = z.object({
 // GET - Generate tax reports or retrieve tax data
 export const GET = apiRoute(
   async (request: NextRequest) => {
-    const supabase = createAdminClient();
     const { searchParams } = new URL(request.url);
     const action = searchParams.get('action');
     const year = searchParams.get('year');
@@ -76,8 +75,7 @@ export const GET = apiRoute(
 
 // POST - File tax return or record payment
 export const POST = apiRoute(
-  async (request: NextRequest, context: any) => {
-    const supabase = createAdminClient();
+  async (request: NextRequest, context: { user: { id: string } }) => {
     const body = await request.json();
     const { action } = body;
 
@@ -139,8 +137,49 @@ export const POST = apiRoute(
   }
 );
 
+// Types for tax reports
+interface TaxReportConfig {
+  report_type: '1099' | 'w2' | 'sales_tax' | 'vat' | 'quarterly' | 'annual';
+  fiscal_year: number;
+  quarter?: number;
+  jurisdiction: string;
+  include_estimates?: boolean;
+}
+
+interface PayrollRecord {
+  gross_pay: number;
+  federal_withholding: number;
+  state_withholding: number;
+  social_security: number;
+  medicare: number;
+}
+
+interface Order {
+  total_amount: number;
+  tax_amount: number;
+  jurisdiction: string;
+}
+
+interface Transaction {
+  amount: number;
+  vat_amount: number;
+  vat_rate: number;
+}
+
+interface LedgerEntry {
+  entry_type: string;
+  amount: number;
+  category?: string;
+}
+
+interface JurisdictionSales {
+  sales: number;
+  tax_collected: number;
+  count: number;
+}
+
 // Helper functions
-async function generateTaxReport(config: any) {
+async function generateTaxReport(config: TaxReportConfig) {
   const startDate = config.quarter 
     ? new Date(config.fiscal_year, (config.quarter - 1) * 3, 1)
     : new Date(config.fiscal_year, 0, 1);
@@ -216,17 +255,17 @@ async function generateW2Report(year: number) {
     employees: employees?.map(emp => ({
       ...emp,
       totals: {
-        wages: emp.payroll_records.reduce((sum: number, r: any) => sum + r.gross_pay, 0),
-        federal_tax: emp.payroll_records.reduce((sum: number, r: any) => sum + r.federal_withholding, 0),
-        state_tax: emp.payroll_records.reduce((sum: number, r: any) => sum + r.state_withholding, 0),
-        social_security: emp.payroll_records.reduce((sum: number, r: any) => sum + r.social_security, 0),
-        medicare: emp.payroll_records.reduce((sum: number, r: any) => sum + r.medicare, 0)
+        wages: emp.payroll_records.reduce((sum: number, r: PayrollRecord) => sum + r.gross_pay, 0),
+        federal_tax: emp.payroll_records.reduce((sum: number, r: PayrollRecord) => sum + r.federal_withholding, 0),
+        state_tax: emp.payroll_records.reduce((sum: number, r: PayrollRecord) => sum + r.state_withholding, 0),
+        social_security: emp.payroll_records.reduce((sum: number, r: PayrollRecord) => sum + r.social_security, 0),
+        medicare: emp.payroll_records.reduce((sum: number, r: PayrollRecord) => sum + r.medicare, 0)
       }
     })) || []
   };
 }
 
-async function generateSalesTaxReport(startDate: Date, endDate: Date, jurisdiction: string) {
+async function generateSalesTaxReport(startDate: Date, endDate: Date, _jurisdiction: string) {
   // Get taxable sales
   const { data: orders } = await getSupabase()
     .from('orders')
@@ -235,7 +274,7 @@ async function generateSalesTaxReport(startDate: Date, endDate: Date, jurisdicti
     .lte('created_at', endDate.toISOString())
     .eq('status', 'completed');
 
-  const salesByJurisdiction = (orders || []).reduce((acc: any, order: any) => {
+  const salesByJurisdiction = (orders || []).reduce((acc: Record<string, JurisdictionSales>, order: Order) => {
     const j = order.jurisdiction || 'unknown';
     if (!acc[j]) {
       acc[j] = { sales: 0, tax_collected: 0, count: 0 };
@@ -244,17 +283,17 @@ async function generateSalesTaxReport(startDate: Date, endDate: Date, jurisdicti
     acc[j].tax_collected += order.tax_amount;
     acc[j].count += 1;
     return acc;
-  }, {});
+  }, {} as Record<string, JurisdictionSales>);
 
   return {
     report_type: 'Sales Tax',
     period: { start: startDate, end: endDate },
     by_jurisdiction: salesByJurisdiction,
-    total_tax_collected: Object.values(salesByJurisdiction).reduce((sum: number, j: any) => sum + j.tax_collected, 0)
+    total_tax_collected: Object.values(salesByJurisdiction).reduce((sum: number, j: JurisdictionSales) => sum + j.tax_collected, 0)
   };
 }
 
-async function generateVATReport(startDate: Date, endDate: Date, jurisdiction: string) {
+async function generateVATReport(startDate: Date, endDate: Date, _jurisdiction: string) {
   // Similar to sales tax but with VAT calculations
   const { data: transactions } = await getSupabase()
     .from('transactions')
@@ -265,7 +304,7 @@ async function generateVATReport(startDate: Date, endDate: Date, jurisdiction: s
   return {
     report_type: 'VAT',
     period: { start: startDate, end: endDate },
-    output_vat: (transactions || []).reduce((sum: number, t: any) => sum + t.vat_amount, 0),
+    output_vat: (transactions || []).reduce((sum: number, t: Transaction) => sum + t.vat_amount, 0),
     total_transactions: transactions?.length || 0
   };
 }
@@ -278,12 +317,12 @@ async function generateQuarterlyReport(startDate: Date, endDate: Date) {
     .lte('entry_date', endDate.toISOString().split('T')[0]);
 
   const revenue = (financials || [])
-    .filter((e: any) => e.entry_type === 'revenue')
-    .reduce((sum: number, e: any) => sum + e.amount, 0);
+    .filter((e: LedgerEntry) => e.entry_type === 'revenue')
+    .reduce((sum: number, e: LedgerEntry) => sum + e.amount, 0);
 
   const expenses = (financials || [])
-    .filter((e: any) => e.entry_type === 'expense')
-    .reduce((sum: number, e: any) => sum + e.amount, 0);
+    .filter((e: LedgerEntry) => e.entry_type === 'expense')
+    .reduce((sum: number, e: LedgerEntry) => sum + e.amount, 0);
 
   return {
     report_type: 'Quarterly',
@@ -306,24 +345,25 @@ async function generateAnnualReport(year: number) {
     .gte('entry_date', startDate.toISOString().split('T')[0])
     .lte('entry_date', endDate.toISOString().split('T')[0]);
 
-  const byCategory = (financials || []).reduce((acc: any, entry: any) => {
-    if (!acc[entry.category]) {
-      acc[entry.category] = 0;
+  const byCategory = (financials || []).reduce((acc: Record<string, number>, entry: LedgerEntry) => {
+    const category = entry.category || 'uncategorized';
+    if (!acc[category]) {
+      acc[category] = 0;
     }
-    acc[entry.category] += entry.amount;
+    acc[category] += entry.amount;
     return acc;
-  }, {});
+  }, {} as Record<string, number>);
 
   return {
     report_type: 'Annual',
     fiscal_year: year,
     summary: byCategory,
     total_revenue: (financials || [])
-      .filter((e: any) => e.entry_type === 'revenue')
-      .reduce((sum: number, e: any) => sum + e.amount, 0),
+      .filter((e: LedgerEntry) => e.entry_type === 'revenue')
+      .reduce((sum: number, e: LedgerEntry) => sum + e.amount, 0),
     total_expenses: (financials || [])
-      .filter((e: any) => e.entry_type === 'expense')
-      .reduce((sum: number, e: any) => sum + e.amount, 0)
+      .filter((e: LedgerEntry) => e.entry_type === 'expense')
+      .reduce((sum: number, e: LedgerEntry) => sum + e.amount, 0)
   };
 }
 
@@ -345,8 +385,8 @@ async function calculateTaxLiability(year: number) {
     .gte('entry_date', startDate.toISOString().split('T')[0])
     .lte('entry_date', endDate.toISOString().split('T')[0]);
 
-  const totalRevenue = (revenue || []).reduce((sum: number, r: any) => sum + r.amount, 0);
-  const totalExpenses = (expenses || []).reduce((sum: number, e: any) => sum + e.amount, 0);
+  const totalRevenue = (revenue || []).reduce((sum: number, r: { amount: number }) => sum + r.amount, 0);
+  const totalExpenses = (expenses || []).reduce((sum: number, e: { amount: number }) => sum + e.amount, 0);
   const taxableIncome = totalRevenue - totalExpenses;
 
   return {

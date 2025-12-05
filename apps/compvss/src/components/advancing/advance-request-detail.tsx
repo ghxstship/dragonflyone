@@ -16,7 +16,7 @@ import {
   H3,
   H4,
   Body,
-  LoadingSpinner,
+  Spinner,
 } from '@ghxstship/ui';
 import { useAdvancingRequest } from '@ghxstship/config';
 
@@ -28,7 +28,7 @@ interface AdvanceRequestDetailProps {
 export function AdvanceRequestDetail({ requestId }: AdvanceRequestDetailProps) {
   const { data: request, isLoading } = useAdvancingRequest(requestId);
 
-  if (isLoading) return <LoadingSpinner />;
+  if (isLoading) return <Spinner variant="grey" />;
   if (!request) return <Alert variant="error">Request not found</Alert>;
 
   const formatCurrency = (amount: number | null) => {

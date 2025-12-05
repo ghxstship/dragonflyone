@@ -26,7 +26,7 @@ import {
   H3,
   H4,
   Body,
-  LoadingSpinner,
+  Spinner,
 } from '@ghxstship/ui';
 import {
   useAdvancingRequest,
@@ -49,7 +49,7 @@ export function AdvanceRequestDetail({ requestId, onUpdate }: AdvanceRequestDeta
   const { mutate: approveRequest, isPending: isApproving } = useApproveAdvance();
   const { mutate: rejectRequest, isPending: isRejecting } = useRejectAdvance();
 
-  if (isLoading) return <LoadingSpinner />;
+  if (isLoading) return <Spinner variant="grey" />;
   if (!request) return <Alert variant="error">Request not found</Alert>;
 
   const canApprove = ['submitted', 'under_review'].includes(request.status);

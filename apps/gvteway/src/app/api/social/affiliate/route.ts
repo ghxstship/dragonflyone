@@ -69,7 +69,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    let query = supabase
+    const query = supabase
       .from('affiliate_links')
       .select('*')
       .in('shop_id', shop_id ? [shop_id] : shopIds);

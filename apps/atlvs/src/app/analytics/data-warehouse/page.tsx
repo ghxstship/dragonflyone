@@ -8,7 +8,7 @@ import {
   ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig,
 } from '@ghxstship/ui';
-import { getBadgeVariant } from '@ghxstship/config';
+import { getBadgeVariant, createExportHandler } from '@ghxstship/config';
 
 interface DataSource {
   id: string;
@@ -72,8 +72,12 @@ export default function DataWarehousePage() {
 
   const rowActions: ListPageAction<DataSource>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
-    { id: 'sync', label: 'Sync Now', icon: <RefreshCw className="size-4" />, onClick: (r) => console.log('Sync', r.id) },
-    { id: 'reconnect', label: 'Reconnect', icon: <Plug className="size-4" />, onClick: (r) => console.log('Reconnect', r.id) },
+    { id: 'sync', label: 'Sync Now', icon: <RefreshCw className="size-4" />, onClick: (r) => {
+      fetch(`/api/data-sources/${r.id}/sync`, { method: 'POST' });
+    }},
+    { id: 'reconnect', label: 'Reconnect', icon: <Plug className="size-4" />, onClick: (r) => {
+      fetch(`/api/data-sources/${r.id}/reconnect`, { method: 'POST' });
+    }},
   ];
 
   const stats = [
@@ -84,7 +88,11 @@ export default function DataWarehousePage() {
   ];
 
   const handleCreate = async (formData: Record<string, unknown>) => {
-    console.log('Create data source:', formData);
+    await fetch('/api/data-sources', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
+    });
     setCreateModalOpen(false);
   };
 
@@ -116,11 +124,22 @@ export default function DataWarehousePage() {
         onRowClick={(r) => { setSelected(r); setDrawerOpen(true); }}
         createLabel="Add Data Source"
         onCreate={() => setCreateModalOpen(true)}
-        onExport={() => router.push('/analytics/data-warehouse/export')}
+        entityType="data-sources"
+        onExport={createExportHandler({
+          filename: "data-sources",
+          getData: () => data.map(d => ({
+            id: d.id,
+            name: d.name,
+            type: d.type,
+            status: d.status,
+            lastSync: d.lastSync,
+            recordCount: d.recordCount,
+            syncFrequency: d.syncFrequency,
+          })),
+        })}
         stats={stats}
         emptyMessage="No data sources configured"
         emptyAction={{ label: 'Add Data Source', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Analytics', href: '/analytics' }, { label: 'Data Warehouse' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
@@ -138,8 +157,12 @@ export default function DataWarehousePage() {
           title={(r) => r.name}
           subtitle={(r) => `${r.type} • ${r.status}`}
           sections={detailSections}
-          actions={[{ id: 'sync', label: 'Sync Now', icon: '🔄' }, { id: 'configure', label: 'Configure', icon: '⚙️' }]}
-          onAction={(id, r) => { console.log(id, r.id); setDrawerOpen(false); }}
+          actions={[{ id: 'sync', label: 'Sync Now', icon: <RefreshCw className="size-4" /> }, { id: 'configure', label: 'Configure', icon: <Plug className="size-4" /> }]}
+          onAction={(id, r) => {
+            if (id === 'sync') fetch(`/api/data-sources/${r.id}/sync`, { method: 'POST' });
+            if (id === 'configure') router.push(`/analytics/data-warehouse/${r.id}/configure`);
+            setDrawerOpen(false);
+          }}
         />
       )}
     </AtlvsAppLayout>

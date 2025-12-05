@@ -15,7 +15,9 @@ import {
   type ListPageFilter,
   type ListPageAction,
   type DetailSection,
+  type ExportFormat,
 } from "@ghxstship/ui";
+import { createExportHandler } from "@ghxstship/config";
 
 interface Transaction {
   id: string;
@@ -131,10 +133,22 @@ export default function FinancePage() {
         onRowClick={(r) => { setSelectedTxn(r); setDrawerOpen(true); }}
         createLabel="Add Transaction"
         onCreate={() => router.push('/finance/new')}
-        onExport={() => console.log('Export')}
+        entityType="transactions"
+        onExport={createExportHandler({
+          filename: "transactions",
+          getData: () => transactions.map(t => ({
+            id: t.id,
+            type: t.type,
+            entity: t.entity,
+            amount: t.amount,
+            date: t.date,
+            status: t.status,
+            category: t.category,
+          })),
+        })}
+        exportFormats={["csv", "json"]}
         stats={stats}
         emptyMessage="No transactions found"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Finance' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

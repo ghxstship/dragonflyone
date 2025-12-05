@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { AtlvsAppLayout } from "../../../components/app-layout";
+import { Eye } from 'lucide-react';
 import {
   ListPage,
   Badge,
@@ -15,7 +16,9 @@ import {
   type ListPageAction,
   type DetailSection,
   type FormFieldConfig,
+  type ExportFormat,
 } from "@ghxstship/ui";
+import { createExportHandler } from "@ghxstship/config";
 
 interface Referral {
   id: string;
@@ -77,8 +80,8 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function ReferralProgramPage() {
-  const router = useRouter();
-  const [referrals] = useState<Referral[]>(mockReferrals);
+  const _router = useRouter();
+  const [referrals, setReferrals] = useState<Referral[]>(mockReferrals);
   const [selectedReferral, setSelectedReferral] = useState<Referral | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -88,7 +91,7 @@ export default function ReferralProgramPage() {
   const totalPaid = referrals.filter(r => r.bonusStatus === "Paid").reduce((s, r) => s + (r.bonusAmount || 0), 0);
 
   const rowActions: ListPageAction<Referral>[] = [
-    { id: "view", label: "View Details", icon: "👁️", onClick: (r) => { setSelectedReferral(r); setDrawerOpen(true); } },
+    { id: "view", label: "View Details", icon: <Eye className="size-4" />, onClick: (r) => { setSelectedReferral(r); setDrawerOpen(true); } },
   ];
 
   const stats = [
@@ -99,7 +102,16 @@ export default function ReferralProgramPage() {
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    console.log("Submit referral:", data);
+    const newReferral: Referral = {
+      id: `REF-${String(referrals.length + 1).padStart(3, '0')}`,
+      candidateName: String(data.candidateName || ''),
+      position: String(data.position || ''),
+      referredBy: String(data.referredBy || ''),
+      referrerDept: String(data.referrerDept || ''),
+      submittedDate: new Date().toISOString().split('T')[0],
+      status: 'Pending',
+    };
+    setReferrals((prev: Referral[]) => [...prev, newReferral]);
     setCreateModalOpen(false);
   };
 
@@ -137,11 +149,23 @@ export default function ReferralProgramPage() {
         onRowClick={(r) => { setSelectedReferral(r); setDrawerOpen(true); }}
         createLabel="Submit Referral"
         onCreate={() => setCreateModalOpen(true)}
-        onExport={() => router.push("/workforce/referrals/export")}
+        entityType="referrals"
+        onExport={createExportHandler({
+          filename: "referrals",
+          getData: () => referrals.map(r => ({
+            id: r.id,
+            candidateName: r.candidateName,
+            position: r.position,
+            referredBy: r.referredBy,
+            submittedDate: r.submittedDate,
+            status: r.status,
+            bonusStatus: r.bonusStatus || '',
+          })),
+        })}
+        exportFormats={["csv", "json"]}
         stats={stats}
         emptyMessage="No referrals found"
         emptyAction={{ label: "Submit Referral", onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Workforce', href: '/workforce' }, { label: 'Referrals' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

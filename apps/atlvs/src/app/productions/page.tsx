@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { AtlvsAppLayout } from "../../components/app-layout";
 import { SectionHeader, Card, CardBody, Stack, StatCard, Body, Badge, Button, H3, Grid, Box } from "@ghxstship/ui";
 import { FolderKanban, Calendar, Users, Plus, ArrowRight } from "lucide-react";
 import { atlvsDemoProductions } from "../../data/atlvs";
@@ -23,7 +24,8 @@ export default function ProductionsPage() {
   };
 
   return (
-    <Stack gap={8}>
+    <AtlvsAppLayout>
+      <Stack gap={8}>
       <Stack gap={4}>
         <SectionHeader
           kicker="Platform"
@@ -73,6 +75,7 @@ export default function ProductionsPage() {
           </Stack>
         </CardBody>
       </Card>
-    </Stack>
+      </Stack>
+    </AtlvsAppLayout>
   );
 }

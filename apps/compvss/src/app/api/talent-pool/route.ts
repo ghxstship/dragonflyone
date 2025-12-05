@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ pool: data });
     }
 
-    let query = supabase.from('talent_pools').select(`
+    const query = supabase.from('talent_pools').select(`
       *, member_count:talent_pool_members(count)
     `);
 

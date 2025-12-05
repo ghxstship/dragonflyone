@@ -15,7 +15,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
-import { getBadgeVariant } from "@ghxstship/config";
+import { getBadgeVariant, createExportHandler } from "@ghxstship/config";
 
 interface IntellectualProperty {
   id: string;
@@ -143,11 +143,22 @@ export default function IPTrackingPage() {
         onRowClick={(r) => { setSelectedAsset(r); setDrawerOpen(true); }}
         createLabel="Register New IP"
         onCreate={() => router.push('/ip-tracking/new')}
-        onExport={() => router.push('/ip-tracking/export')}
+        entityType="ip-assets"
+        onExport={createExportHandler({
+          filename: "ip-assets",
+          getData: () => assets.map(a => ({
+            id: a.id,
+            title: a.title,
+            type: a.ip_type,
+            status: a.status,
+            filing_date: a.filing_date || '',
+            expiration_date: a.expiration_date || '',
+            owner: a.owner_entity || '',
+          })),
+        })}
         stats={stats}
         emptyMessage="No IP assets found"
         emptyAction={{ label: 'Register New IP', onClick: () => router.push('/ip-tracking/new') }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'IP Tracking' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

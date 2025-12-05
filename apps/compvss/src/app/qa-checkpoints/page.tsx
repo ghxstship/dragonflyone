@@ -122,7 +122,6 @@ export default function QACheckpointsPage() {
       <EnterprisePageHeader
         title="QA Checkpoints"
         subtitle="Quality assurance and sign-off tracking for production phases"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'QA Checkpoints' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

@@ -240,11 +240,6 @@ export default function DailyReportsPage() {
         stats={pageStats}
         emptyMessage="No daily reports yet"
         emptyAction={{ label: 'Create First Report', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[
-          { label: 'COMPVSS', href: '/dashboard' }, 
-          { label: 'Reports' },
-          { label: 'Daily' }
-        ]}
         quickActions={[
           { id: 'wrap', label: 'Wrap Reports', icon: <Calendar className="size-4" />, onClick: () => router.push('/reports/wrap') },
         ]}

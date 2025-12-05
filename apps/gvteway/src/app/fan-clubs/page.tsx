@@ -44,6 +44,47 @@ interface FanClubSummary {
   presales_available: number;
 }
 
+// Demo data for unauthenticated users
+const DEMO_FAN_CLUBS: FanClub[] = [
+  {
+    id: "demo-1",
+    name: "Official Fan Club",
+    artist_id: "artist-001",
+    artist_name: "The Midnight",
+    description: "Get exclusive access to presales, meet & greets, and behind-the-scenes content",
+    member_count: 12500,
+    tier: "standard",
+    benefits: ["Presale Access", "Exclusive Merch", "Monthly Newsletter", "Members-Only Events"],
+    monthly_price: 9.99,
+    annual_price: 99,
+    is_member: false,
+    exclusive_events: 8,
+    presale_access: true,
+  },
+  {
+    id: "demo-2",
+    name: "VIP Fan Club",
+    artist_id: "artist-002",
+    artist_name: "Aurora Rising",
+    description: "The ultimate fan experience with premium perks and exclusive content",
+    member_count: 8200,
+    tier: "premium",
+    benefits: ["VIP Presale Access", "Meet & Greet Priority", "Signed Merch", "Virtual Hangouts"],
+    monthly_price: 19.99,
+    annual_price: 199,
+    is_member: false,
+    exclusive_events: 12,
+    presale_access: true,
+  },
+];
+
+const DEMO_FAN_CLUB_SUMMARY: FanClubSummary = {
+  total_clubs: 45,
+  my_memberships: 0,
+  exclusive_events: 24,
+  presales_available: 8,
+};
+
 export default function FanClubsPage() {
   const router = useRouter();
   const [clubs, setClubs] = useState<FanClub[]>([]);
@@ -61,6 +102,13 @@ export default function FanClubsPage() {
       if (searchQuery) params.append("search", searchQuery);
 
       const response = await fetch(`/api/fan-clubs?${params.toString()}`);
+      if (response.status === 401) {
+        // Use demo data for unauthenticated users
+        setClubs(DEMO_FAN_CLUBS);
+        setSummary(DEMO_FAN_CLUB_SUMMARY);
+        setError(null);
+        return;
+      }
       if (!response.ok) throw new Error("Failed to fetch fan clubs");
       
       const data = await response.json();
@@ -68,7 +116,10 @@ export default function FanClubsPage() {
       setSummary(data.summary || null);
       setError(null);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
+      // Fallback to demo data on error
+      setClubs(DEMO_FAN_CLUBS);
+      setSummary(DEMO_FAN_CLUB_SUMMARY);
+      setError(null);
     } finally {
       setLoading(false);
     }

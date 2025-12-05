@@ -104,7 +104,6 @@ export default function CategoryManagementPage() {
       <EnterprisePageHeader
         title="Category Management"
         subtitle="Manage spend categories and sourcing strategies"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Procurement', href: '/procurement' }, { label: 'Categories' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

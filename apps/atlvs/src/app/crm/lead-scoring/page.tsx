@@ -8,6 +8,7 @@ import {
   ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
 } from '@ghxstship/ui';
+import { createExportHandler } from '@ghxstship/config';
 
 interface Lead {
   id: string;
@@ -117,10 +118,22 @@ export default function LeadScoringPage() {
         filters={filters}
         rowActions={rowActions}
         onRowClick={(r) => { setSelected(r); setDrawerOpen(true); }}
-        onExport={() => console.log('Export leads')}
+        entityType="leads"
+        onExport={createExportHandler({
+          filename: "leads",
+          getData: () => data.map(l => ({
+            id: l.id,
+            name: l.name,
+            company: l.company,
+            email: l.email,
+            score: l.score,
+            status: l.status,
+            source: l.source,
+            lastActivity: l.lastActivity,
+          })),
+        })}
         stats={stats}
         emptyMessage="No leads found"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'CRM', href: '/crm' }, { label: 'Lead Scoring' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

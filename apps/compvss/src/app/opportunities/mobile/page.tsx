@@ -85,7 +85,6 @@ export default function MobileJobSearchPage() {
       <EnterprisePageHeader
         title="Job Search"
         subtitle="Mobile-optimized job search and quick apply"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Opportunities', href: '/opportunities' }, { label: 'Mobile' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

@@ -8,7 +8,7 @@ import {
   Button,
   Stack,
   StatusBadge,
-  LoadingSpinner,
+  Spinner,
   Container,
   useNotifications,
   H1,
@@ -106,13 +106,12 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
         <EnterprisePageHeader
           title="Loading..."
           subtitle="Fetching project details"
-          breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Projects', href: '/projects' }, { label: 'Loading...' }]}
           views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
           activeView="default"
         />
         <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
-            <LoadingSpinner size="lg" text="Loading project..." />
+            <Spinner variant="grey" size="lg" text="Loading project..." />
           </Container>
         </MainContent>
       </AtlvsAppLayout>
@@ -125,7 +124,6 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
         <EnterprisePageHeader
           title="Error"
           subtitle={error || "Project not found"}
-          breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Projects', href: '/projects' }, { label: 'Error' }]}
           views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
           activeView="default"
         />
@@ -168,11 +166,6 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
       <EnterprisePageHeader
         title={project.name}
         subtitle={project.client?.name || project.client_name || "No client"}
-        breadcrumbs={[
-          { label: 'ATLVS', href: '/dashboard' },
-          { label: 'Projects', href: '/projects' },
-          { label: project.name },
-        ]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         primaryAction={{ label: 'Update Status', onClick: handleUpdateStatus }}

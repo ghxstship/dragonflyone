@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { AtlvsAppLayout } from "../../../components/app-layout";
+import { Eye, RefreshCw } from 'lucide-react';
 import {
   ListPage,
   Badge,
@@ -15,7 +16,9 @@ import {
   type ListPageAction,
   type DetailSection,
   type FormFieldConfig,
+  type ExportFormat,
 } from "@ghxstship/ui";
+import { createExportHandler } from "@ghxstship/config";
 
 interface BackgroundCheck {
   id: string;
@@ -100,7 +103,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function BackgroundChecksPage() {
   const router = useRouter();
-  const [checks] = useState<BackgroundCheck[]>(mockBackgroundChecks);
+  const [checks, setChecks] = useState<BackgroundCheck[]>(mockBackgroundChecks);
   const [selectedCheck, setSelectedCheck] = useState<BackgroundCheck | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -111,8 +114,8 @@ export default function BackgroundChecksPage() {
   const completedCount = checks.filter(c => c.status === "Completed").length;
 
   const rowActions: ListPageAction<BackgroundCheck>[] = [
-    { id: "view", label: "View Details", icon: "👁️", onClick: (r) => { setSelectedCheck(r); setDrawerOpen(true); } },
-    { id: "renew", label: "Renew", icon: "🔄", onClick: (r) => router.push(`/workforce/background-checks/${r.id}/renew`) },
+    { id: "view", label: "View Details", icon: <Eye className="size-4" />, onClick: (r) => { setSelectedCheck(r); setDrawerOpen(true); } },
+    { id: "renew", label: "Renew", icon: <RefreshCw className="size-4" />, onClick: (r) => router.push(`/workforce/background-checks/${r.id}/renew`) },
   ];
 
   const stats = [
@@ -123,7 +126,17 @@ export default function BackgroundChecksPage() {
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    console.log("Request background check:", data);
+    const newCheck: BackgroundCheck = {
+      id: `BGC-${String(checks.length + 1).padStart(3, '0')}`,
+      employeeId: String(data.employeeId || ''),
+      employeeName: String(data.employeeName || ''),
+      department: String(data.department || ''),
+      checkType: String(data.checkType || 'Criminal'),
+      provider: String(data.provider || 'Checkr'),
+      requestDate: new Date().toISOString().split('T')[0],
+      status: 'Pending',
+    };
+    setChecks((prev: BackgroundCheck[]) => [...prev, newCheck]);
     setCreateModalOpen(false);
   };
 
@@ -159,10 +172,21 @@ export default function BackgroundChecksPage() {
         onRowClick={(r) => { setSelectedCheck(r); setDrawerOpen(true); }}
         createLabel="Request Check"
         onCreate={() => setCreateModalOpen(true)}
-        onExport={() => router.push("/workforce/background-checks/export")}
+        entityType="background-checks"
+        onExport={createExportHandler({
+          filename: "background-checks",
+          getData: () => checks.map(c => ({
+            id: c.id,
+            employeeName: c.employeeName,
+            checkType: c.checkType,
+            status: c.status,
+            requestDate: c.requestDate,
+            completionDate: c.completedDate || '',
+            result: c.result || '',
+          })),
+        })}
         stats={stats}
         emptyMessage="No background checks found"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Workforce', href: '/workforce' }, { label: 'Background Checks' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

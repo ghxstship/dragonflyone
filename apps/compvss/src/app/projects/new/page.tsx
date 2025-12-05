@@ -66,7 +66,6 @@ export default function NewProjectPage() {
       <EnterprisePageHeader
         title="New Production"
         subtitle="Create a new production project"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Projects', href: '/projects' }, { label: 'New' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

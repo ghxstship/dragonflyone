@@ -64,7 +64,6 @@ export default function KnowledgePage() {
       <EnterprisePageHeader
         title="Knowledge Base"
         subtitle="SOPs, guides, and training materials"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Knowledge' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         primaryAction={{ label: 'Contribute', onClick: () => router.push('/knowledge/contribute') }}

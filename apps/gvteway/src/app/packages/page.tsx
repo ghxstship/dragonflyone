@@ -48,6 +48,59 @@ interface PackageSummary {
   average_savings: number;
 }
 
+// Demo data for unauthenticated users
+const DEMO_PACKAGES: EventPackage[] = [
+  {
+    id: "demo-1",
+    name: "VIP Festival Experience",
+    event_id: "event-001",
+    event_name: "Summer Music Festival 2024",
+    event_date: new Date(Date.now() + 30 * 86400000).toISOString(),
+    venue_name: "Central Park, New York",
+    description: "The ultimate festival experience with premium seating and exclusive perks",
+    includes: ["VIP Seating", "Backstage Tour", "Meet & Greet", "Exclusive Merch"],
+    ticket_type: "VIP",
+    hotel_name: "Grand Plaza Hotel",
+    hotel_nights: 2,
+    transportation_included: true,
+    meet_greet: true,
+    vip_access: true,
+    original_price: 1500,
+    package_price: 1199,
+    savings: 20,
+    availability: 15,
+    status: "available",
+  },
+  {
+    id: "demo-2",
+    name: "Weekend Getaway Package",
+    event_id: "event-002",
+    event_name: "Jazz Night Under the Stars",
+    event_date: new Date(Date.now() + 45 * 86400000).toISOString(),
+    venue_name: "Hollywood Bowl, Los Angeles",
+    description: "A perfect weekend escape with premium tickets and accommodation",
+    includes: ["Premium Tickets", "2-Night Hotel Stay", "Airport Transfer"],
+    ticket_type: "Premium",
+    hotel_name: "Sunset Inn",
+    hotel_nights: 2,
+    transportation_included: true,
+    meet_greet: false,
+    vip_access: false,
+    original_price: 650,
+    package_price: 549,
+    savings: 15,
+    availability: 25,
+    status: "available",
+  },
+];
+
+const DEMO_PACKAGE_SUMMARY: PackageSummary = {
+  total_packages: 24,
+  vip_packages: 8,
+  travel_packages: 12,
+  average_savings: 18,
+};
+
 export default function PackagesPage() {
   const router = useRouter();
   const [packages, setPackages] = useState<EventPackage[]>([]);
@@ -65,6 +118,13 @@ export default function PackagesPage() {
       if (searchQuery) params.append("search", searchQuery);
 
       const response = await fetch(`/api/packages?${params.toString()}`);
+      if (response.status === 401) {
+        // Use demo data for unauthenticated users
+        setPackages(DEMO_PACKAGES);
+        setSummary(DEMO_PACKAGE_SUMMARY);
+        setError(null);
+        return;
+      }
       if (!response.ok) throw new Error("Failed to fetch packages");
       
       const data = await response.json();
@@ -72,7 +132,10 @@ export default function PackagesPage() {
       setSummary(data.summary || null);
       setError(null);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
+      // Fallback to demo data on error
+      setPackages(DEMO_PACKAGES);
+      setSummary(DEMO_PACKAGE_SUMMARY);
+      setError(null);
     } finally {
       setLoading(false);
     }

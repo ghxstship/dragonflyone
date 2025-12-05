@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { Stack } from '../foundations/layout.js';
-import { LoadingSpinner } from '../molecules/loading-spinner.js';
+import { Spinner } from '../atoms/spinner.js';
 
 export interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -43,7 +43,7 @@ export function ProtectedRoute({
   if (loading) {
     return (
       <Stack className="flex min-h-screen items-center justify-center bg-black text-white">
-        <LoadingSpinner size="lg" text={loadingText} />
+        <Spinner variant="grey" size="lg" text={loadingText} />
       </Stack>
     );
   }

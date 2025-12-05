@@ -156,7 +156,6 @@ export default function VendorSelectionPage() {
       <EnterprisePageHeader
         title="Vendor Selection"
         subtitle="Evaluate bids, score vendors, and route for approval"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Procurement', href: '/procurement' }, { label: 'Vendor Selection' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

@@ -19,6 +19,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
+import { createExportHandler } from '@ghxstship/config';
 import { useProjects, useCreateProject, useDeleteProject } from '@/hooks/useProjects';
 
 interface Project {
@@ -120,7 +121,14 @@ export default function ProjectsPage() {
   const rowActions: ListPageAction<Project>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (row) => { setSelectedProject(row); setDrawerOpen(true); } },
     { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (row) => router.push(`/projects/${row.id}/edit`) },
-    { id: 'duplicate', label: 'Duplicate', icon: <ClipboardList className="size-4" />, onClick: (row) => console.log('Duplicate', row.id) },
+    { id: 'duplicate', label: 'Duplicate', icon: <ClipboardList className="size-4" />, onClick: async (row) => {
+      await fetch('/api/projects', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...row, id: undefined, name: `${row.name} (Copy)`, code: `${row.code}-COPY` }),
+      });
+      refetch();
+    }},
     { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (row) => { setProjectToDelete(row); setDeleteConfirmOpen(true); } },
   ];
 
@@ -131,12 +139,45 @@ export default function ProjectsPage() {
   ];
 
   const handleBulkAction = async (actionId: string, selectedIds: string[]) => {
-    console.log('Bulk action:', actionId, selectedIds);
-    // Implement bulk actions
+    if (actionId === 'archive') {
+      await Promise.all(selectedIds.map(id =>
+        fetch(`/api/projects/${id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: 'archived' }),
+        })
+      ));
+      refetch();
+    } else if (actionId === 'export') {
+      const selected = (projects || []).filter(p => selectedIds.includes(p.id));
+      const csv = [
+        ['ID', 'Name', 'Status', 'Budget', 'Start', 'End'].join(','),
+        ...selected.map(p => [p.id, p.name, p.status, p.budget || '', p.start_date || '', p.end_date || ''].join(','))
+      ].join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'projects-export.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    } else if (actionId === 'delete') {
+      await Promise.all(selectedIds.map(id => fetch(`/api/projects/${id}`, { method: 'DELETE' })));
+      refetch();
+    }
   };
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    await createProjectMutation.mutateAsync(data as any);
+    await createProjectMutation.mutateAsync({
+      name: String(data.name || ''),
+      status: (data.status as 'planning' | 'active' | 'on-hold' | 'completed' | 'cancelled') || 'planning',
+      budget: data.budget ? Number(data.budget) : undefined,
+      start_date: String(data.start_date || new Date().toISOString()),
+      end_date: data.end_date ? String(data.end_date) : undefined,
+      client_id: data.client_id ? String(data.client_id) : undefined,
+      manager_id: data.manager_id ? String(data.manager_id) : undefined,
+      description: data.description ? String(data.description) : undefined,
+    });
     setCreateModalOpen(false);
     refetch();
   };
@@ -201,11 +242,21 @@ export default function ProjectsPage() {
         onRowClick={(row) => { setSelectedProject(row); setDrawerOpen(true); }}
         createLabel="New Project"
         onCreate={() => setCreateModalOpen(true)}
-        onExport={() => console.log('Export projects')}
+        entityType="projects"
+        onExport={createExportHandler({
+          filename: "projects",
+          getData: () => (projects || []).map(p => ({
+            id: p.id,
+            name: p.name,
+            status: p.status,
+            budget: p.budget || '',
+            start_date: p.start_date || '',
+            end_date: p.end_date || '',
+          })),
+        })}
         stats={stats}
         emptyMessage="No projects yet"
         emptyAction={{ label: 'Create Project', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Projects' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

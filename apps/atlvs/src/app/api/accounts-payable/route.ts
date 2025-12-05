@@ -1,9 +1,66 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
+
+// Types for accounts payable
+interface Payment {
+  id: string;
+  amount: number;
+  payment_date: string;
+  status: string;
+}
+
+interface LineItem {
+  description: string;
+  quantity: number;
+  unit_price: number;
+  amount: number;
+  po_line_id?: string;
+}
+
+interface ReceiptLineItem {
+  po_line_id: string;
+  quantity_received: number;
+  condition?: string;
+  notes?: string;
+}
+
+interface Vendor {
+  id: string;
+  name: string;
+  payment_terms?: string;
+}
+
+interface PurchaseOrder {
+  id: string;
+  po_number: string;
+  total_amount: number;
+  line_items?: LineItem[];
+}
+
+interface Receipt {
+  id: string;
+  received_date: string;
+  line_items?: ReceiptLineItem[];
+}
+
+interface AgingInvoice {
+  id: string;
+  invoice_number: string;
+  vendor_id: string;
+  amount: number;
+  due_date: string;
+  status: string;
+  days_overdue?: number;
+}
+
+interface AgingBucket {
+  count: number;
+  amount: number;
+  invoices: AgingInvoice[];
+}
 
 // Validation schemas
 const invoiceSchema = z.object({
@@ -91,7 +148,8 @@ export async function GET(request: NextRequest) {
 
       // Calculate paid amounts
       const enrichedInvoices = invoices?.map(inv => {
-        const paidAmount = (inv.payments as any[])?.reduce((sum, p) => 
+        const payments = inv.payments as Payment[] | undefined;
+        const paidAmount = payments?.reduce((sum, p) => 
           p.status === 'completed' ? sum + p.amount : sum, 0) || 0;
         return {
           ...inv,
@@ -126,13 +184,14 @@ export async function GET(request: NextRequest) {
 
       // Perform 3-way match analysis
       const matchAnalysis = invoices?.map(inv => {
-        const po = inv.purchase_order as any;
-        const receipt = inv.receipt as any;
+        const po = inv.purchase_order as PurchaseOrder | null;
+        const receipt = inv.receipt as Receipt | null;
+        const vendor = inv.vendor as Vendor | null;
         
         const matchResult = {
           invoice_id: inv.id,
           invoice_number: inv.invoice_number,
-          vendor_name: (inv.vendor as any)?.name,
+          vendor_name: vendor?.name,
           invoice_amount: inv.amount,
           po_amount: po?.total_amount || 0,
           po_match: false,
@@ -159,12 +218,12 @@ export async function GET(request: NextRequest) {
           
           // Check quantities if line items available
           if (inv.line_items && receipt.line_items) {
-            const invoiceItems = inv.line_items as any[];
-            const receiptItems = receipt.line_items as any[];
+            const invoiceItems = inv.line_items as LineItem[];
+            const receiptItems = receipt.line_items as ReceiptLineItem[];
             
             let allQuantitiesMatch = true;
             invoiceItems.forEach(invItem => {
-              const recItem = receiptItems.find((r: any) => r.po_line_id === invItem.po_line_id);
+              const recItem = receiptItems.find((r: ReceiptLineItem) => r.po_line_id === invItem.po_line_id);
               if (!recItem || recItem.quantity_received !== invItem.quantity) {
                 allQuantitiesMatch = false;
               }
@@ -206,12 +265,12 @@ export async function GET(request: NextRequest) {
       if (error) throw error;
 
       const today = new Date();
-      const aging = {
-        current: { count: 0, amount: 0, invoices: [] as any[] },
-        days_1_30: { count: 0, amount: 0, invoices: [] as any[] },
-        days_31_60: { count: 0, amount: 0, invoices: [] as any[] },
-        days_61_90: { count: 0, amount: 0, invoices: [] as any[] },
-        over_90: { count: 0, amount: 0, invoices: [] as any[] },
+      const aging: Record<string, AgingBucket> = {
+        current: { count: 0, amount: 0, invoices: [] },
+        days_1_30: { count: 0, amount: 0, invoices: [] },
+        days_31_60: { count: 0, amount: 0, invoices: [] },
+        days_61_90: { count: 0, amount: 0, invoices: [] },
+        over_90: { count: 0, amount: 0, invoices: [] },
       };
 
       invoices?.forEach(inv => {
@@ -287,7 +346,7 @@ export async function GET(request: NextRequest) {
 
     if (type === 'receipts') {
       // Get goods receipts
-      let query = supabase
+      const query = supabase
         .from('receipts')
         .select(`
           *,
@@ -346,9 +405,9 @@ export async function GET(request: NextRequest) {
         paid_last_30_days: last30DaysPaid,
       },
     });
-  } catch (error: any) {
-    Logger.error('Accounts payable error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
@@ -511,8 +570,8 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: 'Invoice not found' }, { status: 404 });
       }
 
-      const po = invoice.purchase_order as any;
-      const receipt = invoice.receipt as any;
+      const po = invoice.purchase_order as PurchaseOrder | null;
+      const receipt = invoice.receipt as Receipt | null;
 
       // Perform matching
       const matchResult = {
@@ -570,12 +629,12 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
-    Logger.error('Accounts payable error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
@@ -637,9 +696,9 @@ export async function PATCH(request: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ invoice });
-  } catch (error: any) {
-    Logger.error('Accounts payable error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
@@ -681,8 +740,8 @@ export async function DELETE(request: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
-    Logger.error('Accounts payable error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

@@ -17,7 +17,7 @@ import {
   Badge,
   Pagination,
   EmptyState,
-  LoadingSpinner,
+  Spinner,
   H3,
   Body,
 } from '@ghxstship/ui';
@@ -109,7 +109,7 @@ export function CatalogBrowser({ onSelectItem, selectedItems = [] }: CatalogBrow
         )}
 
         {isLoading ? (
-          <LoadingSpinner />
+          <Spinner variant="grey" />
         ) : catalog.length === 0 ? (
           <EmptyState
             title="No items found"

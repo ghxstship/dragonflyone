@@ -16,7 +16,7 @@ import {
   Badge,
   Figure,
   Kicker,
-  LoadingSpinner,
+  Spinner,
 } from '@ghxstship/ui';
 import Image from 'next/image';
 
@@ -212,7 +212,7 @@ function UniversalSearchContent() {
 
             {loading ? (
               <Stack className="items-center py-12">
-                <LoadingSpinner size="lg" />
+                <Spinner variant="grey" size="lg" />
               </Stack>
             ) : filteredResults.length > 0 ? (
               <Grid cols={3} gap={6}>

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Eye, Pencil, MapPin, Building2, DollarSign, Trash2 } from 'lucide-react';
+import { Eye, Pencil, MapPin, Trash2 } from 'lucide-react';
 import { AtlvsAppLayout } from '../../components/app-layout';
 import { useVenues, useVenueStats, useDeleteVenue } from '../../hooks/useVenues';
 import {
@@ -35,12 +35,12 @@ interface Venue {
   contact_email?: string;
 }
 
-const statusColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'default'> = {
+const statusColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'ghost'> = {
   active: 'success',
   contracted: 'success',
   confirmed: 'warning',
   prospective: 'info',
-  completed: 'default',
+  completed: 'ghost',
 };
 
 const venueTypeLabels: Record<string, string> = {
@@ -87,7 +87,7 @@ const columns: ListPageColumn<Venue>[] = [
     accessor: 'status', 
     sortable: true,
     render: (value) => (
-      <Badge variant={statusColors[String(value)] || 'default'}>
+      <Badge variant={statusColors[String(value)] || 'solid'}>
         {String(value).toUpperCase()}
       </Badge>
     )
@@ -187,7 +187,7 @@ export default function VenuesPage() {
   ];
 
   const handleCreate = async (_data: Record<string, unknown>) => {
-    Logger.info("Create action triggered");
+    // TODO: Implement create mutation
     setCreateModalOpen(false);
     refetch();
   };
@@ -273,11 +273,6 @@ export default function VenuesPage() {
         stats={pageStats}
         emptyMessage="No venues yet"
         emptyAction={{ label: 'Add First Venue', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Venues' }]}
-        quickActions={[
-          { id: 'zones', label: 'All Zones', icon: <MapPin className="size-4" />, onClick: () => router.push('/venues/zones') },
-          { id: 'maps', label: 'Venue Maps', icon: <Building2 className="size-4" />, onClick: () => router.push('/venues/maps') },
-        ]}
       />
 
       <RecordFormModal
@@ -288,7 +283,7 @@ export default function VenuesPage() {
         fields={formFields}
         onSubmit={handleCreate}
         size="lg"
-        defaultValues={{ status: 'prospective', venue_type: 'indoor' }}
+        record={{ status: 'prospective', venue_type: 'indoor' }}
       />
 
       <DetailDrawer

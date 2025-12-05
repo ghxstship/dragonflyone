@@ -185,11 +185,6 @@ export default function SOPCategoriesPage() {
         stats={stats}
         emptyMessage="No categories created yet"
         emptyAction={{ label: 'Create First Category', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[
-          { label: 'COMPVSS', href: '/dashboard' }, 
-          { label: 'SOPs', href: '/sops' },
-          { label: 'Categories' }
-        ]}
       />
 
       <RecordFormModal

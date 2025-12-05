@@ -1,7 +1,9 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { Eye, Key } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Eye, Key, Mail } from 'lucide-react';
+import { AtlvsAppLayout } from '../../components/app-layout';
 import {
   ListPage,
   Badge,
@@ -14,8 +16,9 @@ import {
   type ListPageAction,
   type FormFieldConfig,
   type DetailSection,
+  type ExportFormat,
 } from '@ghxstship/ui';
-import { getBadgeVariant } from '@ghxstship/config';
+import { getBadgeVariant, createExportHandler } from '@ghxstship/config';
 
 interface Stakeholder {
   id: string;
@@ -65,6 +68,7 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function StakeholdersPage() {
+  const router = useRouter();
   const [stakeholders, setStakeholders] = useState<Stakeholder[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -113,7 +117,7 @@ export default function StakeholdersPage() {
 
   const rowActions: ListPageAction<Stakeholder>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedStakeholder(r); setDrawerOpen(true); } },
-    { id: 'manage', label: 'Manage Access', icon: <Key className="size-4" />, onClick: (r) => console.log('Manage', r.id) },
+    { id: 'manage', label: 'Manage Access', icon: <Key className="size-4" />, onClick: (r) => router.push(`/stakeholders/${r.id}/access`) },
   ];
 
   const stats = [
@@ -139,7 +143,7 @@ export default function StakeholdersPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<Stakeholder>
         title="Stakeholder Hub"
         subtitle="Manage stakeholder access and communications"
@@ -155,11 +159,23 @@ export default function StakeholdersPage() {
         onRowClick={(r) => { setSelectedStakeholder(r); setDrawerOpen(true); }}
         createLabel="Invite Stakeholder"
         onCreate={() => setCreateModalOpen(true)}
-        onExport={() => console.log('Export')}
+        entityType="stakeholders"
+        onExport={createExportHandler({
+          filename: "stakeholders",
+          getData: () => stakeholders.map(s => ({
+            id: s.id,
+            name: s.name,
+            email: s.email,
+            role: s.role,
+            organization: s.organization || '',
+            status: s.status,
+            projects: s.projects?.join(', ') || '',
+          })),
+        })}
+        exportFormats={["csv", "json"]}
         stats={stats}
         emptyMessage="No stakeholders found"
         emptyAction={{ label: 'Invite Stakeholder', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Stakeholders' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
@@ -187,15 +203,16 @@ export default function StakeholdersPage() {
           subtitle={(s) => `${s.organization} • ${s.role}`}
           sections={detailSections}
           actions={[
-            { id: 'manage', label: 'Manage Access', icon: '🔑' },
-            { id: 'message', label: 'Send Message', icon: '✉️' },
+            { id: 'manage', label: 'Manage Access', icon: <Key className="size-4" /> },
+            { id: 'message', label: 'Send Message', icon: <Mail className="size-4" /> },
           ]}
           onAction={(id, s) => {
-            console.log(id, s.id);
+            if (id === 'manage') router.push(`/stakeholders/${s.id}/access`);
+            if (id === 'message') window.location.href = `mailto:${s.email}`;
             setDrawerOpen(false);
           }}
         />
       )}
-    </>
+    </AtlvsAppLayout>
   );
 }

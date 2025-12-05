@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { AtlvsAppLayout } from "../../components/app-layout";
 import { SectionHeader, Card, CardBody, Stack, StatCard, Body, Box, H3, Grid } from "@ghxstship/ui";
 import { Building2, Users, CreditCard, Shield, Settings, Bell } from "lucide-react";
 
@@ -15,8 +16,9 @@ export default function OrganizationPage() {
   };
 
   return (
-    <Stack gap={8}>
-      <SectionHeader
+    <AtlvsAppLayout>
+      <Stack gap={8}>
+        <SectionHeader
         kicker="Platform"
         title="Organization"
         description="Manage your organization settings and members"
@@ -80,6 +82,7 @@ export default function OrganizationPage() {
           </Stack>
         </CardBody>
       </Card>
-    </Stack>
+      </Stack>
+    </AtlvsAppLayout>
   );
 }

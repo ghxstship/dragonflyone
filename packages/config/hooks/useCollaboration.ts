@@ -5,7 +5,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { RealtimeChannel } from '@supabase/supabase-js';
-import { supabase } from '../supabase-client.js';
+import { supabase } from '../supabase-client';
 
 // =============================================================================
 // TYPES

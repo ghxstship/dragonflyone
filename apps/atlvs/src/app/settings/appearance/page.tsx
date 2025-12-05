@@ -74,11 +74,6 @@ export default function AppearanceSettingsPage() {
       <EnterprisePageHeader
         title="Appearance"
         subtitle="Customize the look and feel of your workspace"
-        breadcrumbs={[
-          { label: 'ATLVS', href: '/dashboard' },
-          { label: 'Settings', href: '/settings' },
-          { label: 'Appearance' },
-        ]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

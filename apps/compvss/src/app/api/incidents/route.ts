@@ -163,7 +163,7 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: 'incident_id is required' }, { status: 400 });
     }
 
-    let updates: Record<string, unknown> = { updated_at: new Date().toISOString() };
+    const updates: Record<string, unknown> = { updated_at: new Date().toISOString() };
 
     switch (action) {
       case 'assign':

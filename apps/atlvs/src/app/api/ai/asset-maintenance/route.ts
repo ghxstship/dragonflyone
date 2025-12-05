@@ -3,6 +3,66 @@ export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 
+// Types for asset maintenance
+interface Asset {
+  id: string;
+  name: string;
+  category: string;
+  purchase_date?: string;
+  warranty_expiry?: string;
+  maintenance_interval_days?: number;
+  last_maintenance_date?: string;
+  usage_hours?: number;
+  expected_lifespan_hours?: number;
+  location?: string;
+  status?: string;
+}
+
+interface MaintenanceRecord {
+  asset_id: string;
+  maintenance_type: string;
+  maintenance_date: string;
+  cost?: number;
+  issues_found?: string | string[];
+  notes?: string;
+}
+
+interface UsageLog {
+  asset_id: string;
+  metric_type: string;
+  value: number;
+  recorded_at: string;
+}
+
+interface MaintenancePrediction {
+  days_until_maintenance: number;
+  recommended_date: string;
+  risk_level: string;
+  failure_probability: number;
+  days_since_last_maintenance: number;
+  maintenance_count: number;
+}
+
+interface FailurePattern {
+  issue: string;
+  occurrences: number;
+}
+
+interface ScheduleItem {
+  asset_id: string;
+  asset_name: string;
+  location: string;
+  scheduled_date: string;
+}
+
+interface Anomaly {
+  asset_id: string;
+  metric_type: string;
+  current_value: number;
+  expected_range: { min: number; max: number };
+  severity: string;
+}
+
 // GET /api/ai/asset-maintenance - Predictive maintenance for assets
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
@@ -39,8 +99,8 @@ export async function GET(request: NextRequest) {
         .order('maintenance_date', { ascending: false });
 
       // Build maintenance map
-      const maintenanceMap: Record<string, any[]> = {};
-      maintenanceHistory?.forEach(m => {
+      const maintenanceMap: Record<string, MaintenanceRecord[]> = {};
+      maintenanceHistory?.forEach((m: MaintenanceRecord) => {
         if (!maintenanceMap[m.asset_id]) maintenanceMap[m.asset_id] = [];
         maintenanceMap[m.asset_id].push(m);
       });
@@ -117,7 +177,7 @@ export async function GET(request: NextRequest) {
       // Group by category
       const categoryTotals: Record<string, { total: number; count: number }> = {};
       costs?.forEach(c => {
-        const category = (c.asset as any)?.category || 'other';
+        const category = (c.asset as { category?: string })?.category || 'other';
         if (!categoryTotals[category]) categoryTotals[category] = { total: 0, count: 0 };
         categoryTotals[category].total += c.cost || 0;
         categoryTotals[category].count++;
@@ -281,7 +341,7 @@ export async function POST(request: NextRequest) {
 }
 
 // Helper functions
-function predictMaintenance(asset: any, history: any[]): any {
+function predictMaintenance(asset: Asset, history: MaintenanceRecord[]): MaintenancePrediction {
   const now = Date.now();
   const lastMaintenance = asset.last_maintenance_date
     ? new Date(asset.last_maintenance_date).getTime()
@@ -332,7 +392,7 @@ function predictMaintenance(asset: any, history: any[]): any {
   };
 }
 
-function calculateHealthScore(asset: any, history: any[]): number {
+function calculateHealthScore(asset: Asset, history: MaintenanceRecord[]): number {
   let score = 100;
 
   // Age factor
@@ -364,7 +424,7 @@ function calculateHealthScore(asset: any, history: any[]): number {
   return Math.max(0, Math.round(score));
 }
 
-function analyzeFailurePatterns(history: any[]): any[] {
+function analyzeFailurePatterns(history: MaintenanceRecord[]): FailurePattern[] {
   const patterns: Record<string, number> = {};
 
   history.forEach(h => {
@@ -381,7 +441,7 @@ function analyzeFailurePatterns(history: any[]): any[] {
     .sort((a, b) => b.occurrences - a.occurrences);
 }
 
-function estimateRemainingLife(asset: any, history: any[]): any {
+function estimateRemainingLife(asset: Asset, history: MaintenanceRecord[]): { estimate?: string; confidence: string; remaining_hours?: number; remaining_days?: number | null; usage_percentage?: number } {
   if (!asset.expected_lifespan_hours || !asset.usage_hours) {
     return { estimate: 'unknown', confidence: 'low' };
   }
@@ -397,7 +457,7 @@ function estimateRemainingLife(asset: any, history: any[]): any {
   };
 }
 
-function generateRecommendations(asset: any, healthScore: number, patterns: any[]): string[] {
+function generateRecommendations(asset: Asset, healthScore: number, patterns: FailurePattern[]): string[] {
   const recommendations = [];
 
   if (healthScore < 50) {
@@ -417,16 +477,16 @@ function generateRecommendations(asset: any, healthScore: number, patterns: any[
   return recommendations;
 }
 
-function optimizeMaintenanceSchedule(assets: any[]): any[] {
+function optimizeMaintenanceSchedule(assets: Asset[]): ScheduleItem[] {
   // Group by location for efficiency
-  const byLocation: Record<string, any[]> = {};
+  const byLocation: Record<string, Asset[]> = {};
   assets.forEach(asset => {
     const location = asset.location || 'default';
     if (!byLocation[location]) byLocation[location] = [];
     byLocation[location].push(asset);
   });
 
-  const schedule: Array<{ asset_id: string; asset_name: string; location: string; scheduled_date: string }> = [];
+  const schedule: ScheduleItem[] = [];
   const startDate = new Date();
 
   Object.entries(byLocation).forEach(([location, locationAssets]) => {
@@ -455,7 +515,7 @@ function optimizeMaintenanceSchedule(assets: any[]): any[] {
   return schedule;
 }
 
-function calculateEfficiencyGain(schedule: any[]): number {
+function calculateEfficiencyGain(schedule: ScheduleItem[]): number {
   // Estimate travel time savings from location grouping
   const locations = new Set(schedule.map(s => s.location));
   const baseTrips = schedule.length;
@@ -463,16 +523,16 @@ function calculateEfficiencyGain(schedule: any[]): number {
   return Math.round((1 - optimizedTrips / baseTrips) * 100);
 }
 
-function detectAnomalies(usageData: any[]): any[] {
+function detectAnomalies(usageData: UsageLog[]): Anomaly[] {
   // Group by asset and metric
   const grouped: Record<string, number[]> = {};
-  usageData.forEach(d => {
+  usageData.forEach((d: UsageLog) => {
     const key = `${d.asset_id}-${d.metric_type}`;
     if (!grouped[key]) grouped[key] = [];
     grouped[key].push(d.value);
   });
 
-  const anomalies: any[] = [];
+  const anomalies: Anomaly[] = [];
 
   Object.entries(grouped).forEach(([key, values]) => {
     if (values.length < 5) return;

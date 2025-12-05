@@ -99,7 +99,6 @@ export default function SetTimesPage() {
       <EnterprisePageHeader
         title="Set Time Tracking"
         subtitle="Track actual start/end times and monitor schedule variance"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Set Times' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

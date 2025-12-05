@@ -17,6 +17,7 @@ import {
   type DetailSection,
   type FormFieldConfig,
 } from "@ghxstship/ui";
+import { createExportHandler } from "@ghxstship/config";
 
 interface Stakeholder {
   id: string;
@@ -127,11 +128,23 @@ export default function RelationshipsPage() {
         onRowClick={(r) => { setSelectedStakeholder(r); setDrawerOpen(true); }}
         createLabel="Add Stakeholder"
         onCreate={() => setCreateModalOpen(true)}
-        onExport={() => console.log('Export')}
+        entityType="stakeholders"
+        onExport={createExportHandler({
+          filename: "stakeholders",
+          getData: () => stakeholders.map(s => ({
+            id: s.id,
+            name: s.name,
+            role: s.role,
+            company: s.company,
+            email: s.email,
+            phone: s.phone || '',
+            influence: s.influence,
+            sentiment: s.sentiment,
+          })),
+        })}
         stats={stats}
         emptyMessage="No stakeholders found"
         emptyAction={{ label: 'Add Stakeholder', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'CRM', href: '/crm' }, { label: 'Relationships' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

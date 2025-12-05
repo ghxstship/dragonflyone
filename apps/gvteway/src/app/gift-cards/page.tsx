@@ -17,7 +17,7 @@ import {
   Stack,
   Badge,
   Alert,
-  LoadingSpinner,
+  Spinner,
   Kicker,
 } from '@ghxstship/ui';
 
@@ -359,7 +359,7 @@ export default function GiftCardsPage() {
           <Stack gap={4}>
             {loading ? (
               <Stack className="items-center py-spacing-12">
-                <LoadingSpinner size="lg" />
+                <Spinner variant="grey" size="lg" />
               </Stack>
             ) : myCards.length > 0 ? (
               <Grid cols={3} gap={4}>

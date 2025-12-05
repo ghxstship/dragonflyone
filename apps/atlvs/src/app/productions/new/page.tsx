@@ -490,11 +490,6 @@ export default function NewProductionPage() {
       <EnterprisePageHeader
         title="Create New Production"
         subtitle="Set up a new production from scratch or from a blueprint"
-        breadcrumbs={[
-          { label: 'ATLVS', href: '/dashboard' },
-          { label: 'Productions', href: '/productions' },
-          { label: 'New' }
-        ]}
       />
       <MainContent padding="lg">
         <Container className="max-w-container-4xl">

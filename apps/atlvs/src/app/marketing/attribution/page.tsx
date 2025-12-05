@@ -89,7 +89,6 @@ export default function MarketingAttributionPage() {
       <EnterprisePageHeader
         title="Marketing Attribution"
         subtitle="Track marketing sources and campaign performance"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Marketing', href: '/marketing' }, { label: 'Attribution' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

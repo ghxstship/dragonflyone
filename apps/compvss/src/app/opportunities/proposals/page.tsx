@@ -83,7 +83,6 @@ export default function ProposalsPage() {
       <EnterprisePageHeader
         title="Proposals"
         subtitle="Collaborative proposal creation with version control"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Opportunities', href: '/opportunities' }, { label: 'Proposals' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

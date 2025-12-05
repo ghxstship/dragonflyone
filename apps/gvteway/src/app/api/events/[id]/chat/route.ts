@@ -3,6 +3,19 @@ export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
+// Types for chat
+interface ChatUser {
+  full_name?: string;
+  avatar_url?: string;
+  role?: string;
+}
+
+interface ChatEvent {
+  id: string;
+  title: string;
+  date: string;
+}
+
 function getSupabaseClient() {
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -12,9 +25,9 @@ function getSupabaseClient() {
 
 
 // Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
+const _supabaseProxy = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
   get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
+    return (getSupabaseClient() as Record<string, unknown>)[prop];
   }
 });
 
@@ -107,23 +120,27 @@ export async function GET(
       .select('user_id', { count: 'exact', head: true })
       .eq('chat_room_id', chatRoom.id);
 
-    const formattedMessages = messages?.map(msg => ({
-      id: msg.id,
-      user_id: msg.user_id,
-      user_name: (msg.user as any)?.full_name || 'Anonymous',
-      user_avatar: (msg.user as any)?.avatar_url,
-      content: msg.content,
-      created_at: msg.created_at,
-      is_pinned: msg.is_pinned,
-      is_moderator: ['admin', 'super_admin', 'moderator'].includes((msg.user as any)?.role),
-    })) || [];
+    const formattedMessages = messages?.map(msg => {
+      const user = msg.user as ChatUser | null;
+      return {
+        id: msg.id,
+        user_id: msg.user_id,
+        user_name: user?.full_name || 'Anonymous',
+        user_avatar: user?.avatar_url,
+        content: msg.content,
+        created_at: msg.created_at,
+        is_pinned: msg.is_pinned,
+        is_moderator: ['admin', 'super_admin', 'moderator'].includes(user?.role || ''),
+      };
+    }) || [];
 
+    const event = chatRoom.events as ChatEvent | null;
     return NextResponse.json({
       chat_room: {
         id: chatRoom.id,
         event_id: chatRoom.event_id,
-        event_title: (chatRoom.events as any)?.title,
-        event_date: (chatRoom.events as any)?.date,
+        event_title: event?.title,
+        event_date: event?.date,
         status: chatRoom.status,
         participant_count: participantCount || 0,
         rules: chatRoom.rules,

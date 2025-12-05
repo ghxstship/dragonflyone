@@ -1,5 +1,6 @@
 import { RealtimeChannel, SupabaseClient } from '@supabase/supabase-js';
 import { Database } from './supabase-types';
+import { logger } from './logger';
 
 type Tables = Database['public']['Tables'];
 type TableName = keyof Tables;
@@ -63,7 +64,7 @@ export class RealtimeManager {
       )
       .subscribe((status: string) => {
         if (status === 'SUBSCRIBED') {
-          console.log(`Subscribed to ${channelName}`);
+          logger.debug(`Subscribed to ${channelName}`);
         } else if (status === 'CHANNEL_ERROR') {
           callbacks.onError?.(new Error(`Failed to subscribe to ${channelName}`));
         }
@@ -78,14 +79,14 @@ export class RealtimeManager {
     if (channel) {
       this.supabase.removeChannel(channel);
       this.channels.delete(channelName);
-      console.log(`Unsubscribed from ${channelName}`);
+      logger.debug(`Unsubscribed from ${channelName}`);
     }
   }
 
   unsubscribeAll(): void {
     this.channels.forEach((channel, name) => {
       this.supabase.removeChannel(channel);
-      console.log(`Unsubscribed from ${name}`);
+      logger.debug(`Unsubscribed from ${name}`);
     });
     this.channels.clear();
   }

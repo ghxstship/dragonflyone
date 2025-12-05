@@ -274,7 +274,6 @@ export default function InvestorsPage() {
         stats={pageStats}
         emptyMessage="No investors yet"
         emptyAction={{ label: 'Add First Investor', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Investors' }]}
         quickActions={[
           { id: 'rounds', label: 'Investment Rounds', icon: <Building2 className="size-4" />, onClick: () => router.push('/investors/rounds') },
           { id: 'documents', label: 'Documents', icon: <FileText className="size-4" />, onClick: () => router.push('/investors/documents') },

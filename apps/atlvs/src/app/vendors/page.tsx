@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, Package, Trash2, Download, Check, Pause } from 'lucide-react';
+import { AtlvsAppLayout } from '../../components/app-layout';
 import {
   ListPage,
   Badge,
@@ -19,6 +20,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
+import { createExportHandler } from '@ghxstship/config';
 import { useVendors, type Vendor } from '../../hooks/useVendors';
 
 const columns: ListPageColumn<Vendor>[] = [
@@ -158,7 +160,29 @@ export default function VendorsPage() {
   };
 
   const handleBulkAction = async (actionId: string, selectedIds: string[]) => {
-    console.log('Bulk action:', actionId, selectedIds);
+    if (actionId === 'export') {
+      const selected = vendorList.filter(v => selectedIds.includes(v.id));
+      const csv = [
+        ['ID', 'Name', 'Category', 'Status', 'Rating', 'Total Spend', 'Email'].join(','),
+        ...selected.map(v => [v.id, v.name, v.category, v.status, v.rating || '', v.total_spend || '', v.email].join(','))
+      ].join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'vendors-export.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    } else if (actionId === 'deactivate') {
+      await Promise.all(selectedIds.map(id =>
+        fetch(`/api/vendors/${id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: 'inactive' }),
+        })
+      ));
+      refetch();
+    }
   };
 
   const vendorList = vendors || [];
@@ -197,7 +221,7 @@ export default function VendorsPage() {
   ] : [];
 
   return (
-    <>
+    <AtlvsAppLayout>
       <ListPage<Vendor>
         title="Vendor Management"
         subtitle="Track and manage vendor relationships and procurement"
@@ -214,11 +238,23 @@ export default function VendorsPage() {
         onRowClick={(row) => { setSelectedVendor(row); setDrawerOpen(true); }}
         createLabel="Add Vendor"
         onCreate={() => setCreateModalOpen(true)}
-        onExport={() => console.log('Export vendors')}
+        entityType="vendors"
+        onExport={createExportHandler({
+          filename: "vendors",
+          getData: () => vendorList.map(v => ({
+            id: v.id,
+            name: v.name,
+            category: v.category,
+            status: v.status,
+            rating: v.rating || '',
+            total_spend: v.total_spend || '',
+            email: v.email,
+            phone: v.phone || '',
+          })),
+        })}
         stats={stats}
         emptyMessage="No vendors found"
         emptyAction={{ label: 'Add Vendor', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Vendors' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
@@ -262,6 +298,6 @@ export default function VendorsPage() {
         onConfirm={handleDelete}
         onCancel={() => { setDeleteConfirmOpen(false); setVendorToDelete(null); }}
       />
-    </>
+    </AtlvsAppLayout>
   );
 }

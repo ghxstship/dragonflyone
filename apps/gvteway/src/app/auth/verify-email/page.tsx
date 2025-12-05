@@ -9,7 +9,7 @@ import {
   Stack,
   Card,
   Label,
-  LoadingSpinner,
+  Spinner,
   ScrollReveal,
   AuthPage,
   IconBox,
@@ -87,7 +87,7 @@ export default function VerifyEmailPage() {
           fallback={
             <Card inverted className="border-2 border-white/20 bg-black p-8">
               <Stack gap={6} className="items-center text-center">
-                <LoadingSpinner size="lg" />
+                <Spinner variant="grey" size="lg" />
                 <Body size="sm" className="text-on-dark-muted">
                   Loading...
                 </Body>

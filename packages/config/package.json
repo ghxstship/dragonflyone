@@ -36,7 +36,8 @@
     "./hooks": "./hooks/index.ts",
     "./hooks/useAuth": "./hooks/useAuth.ts",
     "./hooks/useRealtime": "./hooks/useRealtime.ts",
-    "./hooks/useAdvancingCatalog": "./hooks/useAdvancingCatalog.ts"
+    "./hooks/useAdvancingCatalog": "./hooks/useAdvancingCatalog.ts",
+    "./components": "./components/index.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.5.2",

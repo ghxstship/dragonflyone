@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { Container, Section, Display, H2, H3, Body, Button, Input, Select, Card, Grid, Badge, Stack, LoadingSpinner } from '@ghxstship/ui';
+import { Container, Section, Display, H2, H3, Body, Button, Input, Select, Card, Grid, Badge, Stack, Spinner } from '@ghxstship/ui';
 import { CreditCard, Lock, Check } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 
@@ -120,7 +120,7 @@ export default function CheckoutContent() {
   if (loading) {
     return (
       <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" text="Loading checkout..." />
+        <Spinner variant="grey" size="lg" text="Loading checkout..." />
       </Section>
     );
   }

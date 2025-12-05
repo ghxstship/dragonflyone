@@ -60,9 +60,6 @@ export const useCrewCertifications = (filters?: { status?: CertificationStatus }
   });
 };
 
-// Legacy alias for backward compatibility
-export const useSafetyCertifications = useCrewCertifications;
-
 export const useReportSafetyIncident = () => {
   const queryClient = useQueryClient();
 
@@ -139,9 +136,6 @@ export const useUpdateCrewCertification = () => {
   });
 };
 
-// Legacy alias for backward compatibility
-export const useUpdateSafetyCertification = useUpdateCrewCertification;
-
 export const useDeleteCrewCertification = () => {
   const queryClient = useQueryClient();
 
@@ -159,5 +153,3 @@ export const useDeleteCrewCertification = () => {
   });
 };
 
-// Legacy alias for backward compatibility
-export const useDeleteSafetyCertification = useDeleteCrewCertification;

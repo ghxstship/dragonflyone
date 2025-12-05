@@ -17,7 +17,7 @@ import {
   Badge,
   Pagination,
   EmptyState,
-  LoadingSpinner,
+  Spinner,
   H3,
   Body,
   Search,
@@ -122,7 +122,7 @@ export function CatalogBrowser({
 
         {/* Catalog Table */}
         {isLoading ? (
-          <LoadingSpinner />
+          <Spinner variant="grey" />
         ) : catalog.length === 0 ? (
           <EmptyState
             title="No items found"

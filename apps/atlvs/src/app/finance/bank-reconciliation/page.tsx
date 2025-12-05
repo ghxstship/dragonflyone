@@ -14,8 +14,9 @@ import {
   type ListPageFilter,
   type ListPageAction,
   type DetailSection,
+  type ExportFormat,
 } from "@ghxstship/ui";
-import { getBadgeVariant } from "@ghxstship/config";
+import { getBadgeVariant, createExportHandler } from "@ghxstship/config";
 
 interface BankTransaction {
   id: string;
@@ -66,7 +67,7 @@ export default function BankReconciliationPage() {
 
   const rowActions: ListPageAction<BankTransaction>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedTxn(r); setDrawerOpen(true); } },
-    { id: 'match', label: 'Match', icon: <Link className="size-4" />, onClick: (r) => console.log('Match', r.id) },
+    { id: 'match', label: 'Match', icon: <Link className="size-4" />, onClick: (r) => router.push(`/finance/bank-reconciliation/${r.id}/match`) },
   ];
 
   const stats = [
@@ -104,11 +105,23 @@ export default function BankReconciliationPage() {
         rowActions={rowActions}
         onRowClick={(r) => { setSelectedTxn(r); setDrawerOpen(true); }}
         createLabel="Import Statement"
-        onCreate={() => console.log('Import')}
-        onExport={() => console.log('Export')}
+        onCreate={() => router.push('/finance/bank-reconciliation/import')}
+        entityType="bank-transactions"
+        onExport={createExportHandler({
+          filename: "bank-transactions",
+          getData: () => transactions.map(t => ({
+            id: t.id,
+            date: t.date,
+            description: t.description,
+            amount: t.amount,
+            type: t.type,
+            status: t.status,
+            matchedEntry: t.matchedEntry || '',
+          })),
+        })}
+        exportFormats={["csv", "json"]}
         stats={stats}
         emptyMessage="No transactions found"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Finance', href: '/finance' }, { label: 'Bank Reconciliation' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
@@ -125,8 +138,11 @@ export default function BankReconciliationPage() {
           title={(r) => r.description}
           subtitle={(r) => `${r.bankAccount} • ${r.status}`}
           sections={detailSections}
-          actions={[{ id: 'match', label: 'Find Match', icon: '🔗' }]}
-          onAction={(id, r) => { console.log(id, r.id); setDrawerOpen(false); }}
+          actions={[{ id: 'match', label: 'Find Match', icon: <Link className="size-4" /> }]}
+          onAction={(id, r) => {
+            if (id === 'match') router.push(`/finance/bank-reconciliation/${r.id}/match`);
+            setDrawerOpen(false);
+          }}
         />
       )}
     </AtlvsAppLayout>

@@ -16,6 +16,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
+import { createExportHandler } from "@ghxstship/config";
 
 interface Risk {
   id: string;
@@ -106,11 +107,22 @@ export default function RisksPage() {
         onRowClick={(r) => { setSelectedRisk(r); setDrawerOpen(true); }}
         createLabel="Report New Risk"
         onCreate={() => router.push('/risks/new')}
-        onExport={() => router.push('/risks/export')}
+        entityType="risks"
+        onExport={createExportHandler({
+          filename: "risks",
+          getData: () => (risks || []).map(r => ({
+            id: r.id,
+            title: r.title,
+            category: r.category,
+            severity: r.severity,
+            probability: r.probability,
+            status: r.status,
+            owner: r.owner || '',
+          })),
+        })}
         stats={stats}
         emptyMessage="No risks found"
         emptyAction={{ label: 'Report New Risk', onClick: () => router.push('/risks/new') }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Risks' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

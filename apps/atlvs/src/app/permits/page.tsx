@@ -247,7 +247,6 @@ export default function PermitsPage() {
         stats={pageStats}
         emptyMessage="No permits yet"
         emptyAction={{ label: 'Add First Permit', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Permits' }]}
         quickActions={[
           { id: 'insurance', label: 'Insurance', icon: <FileText className="size-4" />, onClick: () => router.push('/insurance') },
           { id: 'compliance', label: 'Compliance', icon: <CheckCircle className="size-4" />, onClick: () => router.push('/compliance') },

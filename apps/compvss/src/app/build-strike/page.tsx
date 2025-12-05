@@ -49,7 +49,6 @@ export default function BuildStrikePage() {
       <EnterprisePageHeader
         title="Build & Strike"
         subtitle="Build Progress: 45%"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Build Strike' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         primaryAction={{ label: 'Add Task', onClick: () => router.push('/build-strike/new') }}

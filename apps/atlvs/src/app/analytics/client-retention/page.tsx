@@ -8,7 +8,7 @@ import {
   ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
 } from '@ghxstship/ui';
-import { getBadgeVariant } from '@ghxstship/config';
+import { getBadgeVariant, createExportHandler } from '@ghxstship/config';
 
 interface ClientRetention {
   id: string;
@@ -73,7 +73,7 @@ export default function ClientRetentionPage() {
 
   const rowActions: ListPageAction<ClientRetention>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
-    { id: 'contact', label: 'Schedule Call', icon: <Phone className="size-4" />, onClick: (r) => console.log('Schedule call', r.id) },
+    { id: 'contact', label: 'Schedule Call', icon: <Phone className="size-4" />, onClick: (r) => window.open(`mailto:${r.clientName.toLowerCase().replace(/\s/g, '.')}@example.com?subject=Follow-up%20Call`) },
   ];
 
   const stats = [
@@ -114,10 +114,23 @@ export default function ClientRetentionPage() {
         filters={filters}
         rowActions={rowActions}
         onRowClick={(r) => { setSelected(r); setDrawerOpen(true); }}
-        onExport={() => router.push('/analytics/client-retention/export')}
+        entityType="client-retention"
+        onExport={createExportHandler({
+          filename: "client-retention",
+          getData: () => data.map(c => ({
+            id: c.id,
+            clientName: c.clientName,
+            segment: c.segment,
+            status: c.status,
+            healthScore: c.healthScore,
+            totalDeals: c.totalDeals,
+            totalRevenue: c.totalRevenue,
+            lastDealDate: c.lastDealDate,
+            daysSinceLastDeal: c.daysSinceLastDeal,
+          })),
+        })}
         stats={stats}
         emptyMessage="No client retention data found"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Analytics', href: '/analytics' }, { label: 'Client Retention' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
@@ -134,8 +147,12 @@ export default function ClientRetentionPage() {
           title={(r) => r.clientName}
           subtitle={(r) => `${r.segment} • ${r.status}`}
           sections={detailSections}
-          actions={[{ id: 'contact', label: 'Schedule Call', icon: '📞' }, { id: 'email', label: 'Send Email', icon: '✉️' }]}
-          onAction={(id, r) => { console.log(id, r.id); setDrawerOpen(false); }}
+          actions={[{ id: 'contact', label: 'Schedule Call', icon: <Phone className="size-4" /> }, { id: 'email', label: 'Send Email', icon: <Phone className="size-4" /> }]}
+          onAction={(id, r) => {
+            if (id === 'contact') window.open(`mailto:${r.clientName.toLowerCase().replace(/\s/g, '.')}@example.com?subject=Follow-up%20Call`);
+            if (id === 'email') window.open(`mailto:${r.clientName.toLowerCase().replace(/\s/g, '.')}@example.com`);
+            setDrawerOpen(false);
+          }}
         />
       )}
     </AtlvsAppLayout>

@@ -16,7 +16,7 @@ import {
   Stack,
   Badge,
   Alert,
-  LoadingSpinner,
+  Spinner,
   ProjectCard,
   Form,
   Kicker,
@@ -228,7 +228,7 @@ export default function NearbyEventsPage() {
 
         {loading ? (
           <Stack className="items-center py-12">
-            <LoadingSpinner size="lg" />
+            <Spinner variant="grey" size="lg" />
             <Body className="mt-4 text-on-dark-muted">Finding events near you...</Body>
           </Stack>
         ) : events.length > 0 ? (

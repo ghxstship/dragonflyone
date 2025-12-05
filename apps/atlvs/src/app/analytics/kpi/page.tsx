@@ -17,7 +17,7 @@ import {
   Badge,
   Select,
   Stack,
-  LoadingSpinner,
+  Spinner,
   StatCard,
   EnterprisePageHeader,
   MainContent,
@@ -140,7 +140,7 @@ export default function KPILibraryPage() {
       <AtlvsAppLayout>
         <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
-            <LoadingSpinner size="lg" text="Loading KPI definitions..." />
+            <Spinner variant="grey" size="lg" text="Loading KPI definitions..." />
           </Container>
         </MainContent>
       </AtlvsAppLayout>
@@ -154,7 +154,6 @@ export default function KPILibraryPage() {
       <EnterprisePageHeader
         title="KPI Master Library"
         subtitle="Complete reference library of 200 preconfigured KPI metrics for analytics and insights"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Analytics', href: '/analytics' }, { label: 'Kpi' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

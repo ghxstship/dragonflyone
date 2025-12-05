@@ -81,7 +81,6 @@ export default function SpecSheetsPage() {
       <EnterprisePageHeader
         title="Technical Specifications"
         subtitle="Equipment specification sheets and cut sheets library"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Spec Sheets' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

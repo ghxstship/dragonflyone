@@ -18,6 +18,7 @@ import {
   type ListPageFilter,
   type ListPageAction,
 } from '@ghxstship/ui';
+import { createExportHandler } from '@ghxstship/config';
 
 interface SOPTrainingRecord {
   id: string;
@@ -188,14 +189,23 @@ export default function SOPTrainingPage() {
         searchPlaceholder="Search by user or SOP..."
         filters={filters}
         rowActions={rowActions}
-        onExport={() => {}}
+        entityType="sop-training"
+        onExport={createExportHandler({
+          filename: "sop-training",
+          getData: () => trainingRecords.map(t => ({
+            id: t.id,
+            status: t.status,
+            started_at: t.started_at || '',
+            completed_at: t.completed_at || '',
+            score: t.score || '',
+            attempts: t.attempts,
+            sop_title: t.sop?.title || '',
+            user_name: t.user ? `${t.user.first_name} ${t.user.last_name}` : '',
+            user_email: t.user?.email || '',
+          })),
+        })}
         stats={[...stats, { label: 'Avg Score', value: `${avgScore}%` }]}
         emptyMessage="No training records yet"
-        breadcrumbs={[
-          { label: 'COMPVSS', href: '/dashboard' }, 
-          { label: 'SOPs', href: '/sops' },
-          { label: 'Training' }
-        ]}
         headerContent={
           <Select
             value={selectedSopId}

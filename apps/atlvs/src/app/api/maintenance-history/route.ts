@@ -106,7 +106,7 @@ export async function GET(request: NextRequest) {
       const daysAhead = parseInt(searchParams.get('days') || '30');
       const futureDate = new Date(Date.now() + daysAhead * 24 * 60 * 60 * 1000).toISOString();
 
-      let query = supabase
+      const query = supabase
         .from('maintenance_records')
         .select(`
           *,

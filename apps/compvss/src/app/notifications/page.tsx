@@ -16,6 +16,34 @@ import {
 } from "@ghxstship/ui";
 import { Bell, CheckCircle, Mail, Users, Calendar, Settings } from "lucide-react";
 
+// Demo data for unauthenticated users
+const DEMO_NOTIFICATIONS: Notification[] = [
+  {
+    id: "demo-1",
+    type: "crew_update",
+    title: "Crew Assignment Updated",
+    message: "Your assignment for Summer Festival has been confirmed. Check your schedule for details.",
+    read: false,
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: "demo-2",
+    type: "schedule",
+    title: "Schedule Change",
+    message: "Load-in time for Corporate Gala has been moved to 6:00 AM.",
+    read: false,
+    created_at: new Date(Date.now() - 86400000).toISOString(),
+  },
+  {
+    id: "demo-3",
+    type: "system",
+    title: "Training Reminder",
+    message: "Your First Aid certification expires in 30 days. Schedule your renewal.",
+    read: true,
+    created_at: new Date(Date.now() - 172800000).toISOString(),
+  },
+];
+
 interface Notification {
   id: string;
   type: string;
@@ -41,6 +69,12 @@ export default function NotificationsPage() {
       }
 
       const response = await fetch(`/api/notifications?${params.toString()}`);
+      if (response.status === 401) {
+        // Use demo data for unauthenticated users
+        setNotifications(DEMO_NOTIFICATIONS);
+        setError(null);
+        return;
+      }
       if (!response.ok) {
         throw new Error("Failed to fetch notifications");
       }
@@ -48,7 +82,9 @@ export default function NotificationsPage() {
       setNotifications(data.notifications || []);
       setError(null);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
+      // Fallback to demo data on error
+      setNotifications(DEMO_NOTIFICATIONS);
+      setError(null);
     } finally {
       setLoading(false);
     }

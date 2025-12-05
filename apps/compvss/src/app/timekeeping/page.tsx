@@ -16,7 +16,7 @@ import {
   TableRow,
   TableHead,
   TableCell,
-  LoadingSpinner,
+  Spinner,
   Container,
   Grid,
   Stack,
@@ -57,7 +57,6 @@ export default function TimekeepingPage() {
         <EnterprisePageHeader
           title="Timekeeping"
           subtitle="Track crew hours, overtime, and timesheet approvals"
-          breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Timekeeping' }]}
           views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
           activeView="default"
           showFavorite
@@ -65,7 +64,7 @@ export default function TimekeepingPage() {
         />
         <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
-            <LoadingSpinner size="lg" text="Loading timekeeping data..." />
+            <Spinner variant="grey" size="lg" text="Loading timekeeping data..." />
           </Container>
         </MainContent>
       </CompvssAppLayout>
@@ -77,7 +76,6 @@ export default function TimekeepingPage() {
       <EnterprisePageHeader
         title="Timekeeping"
         subtitle="Track crew hours, overtime, and timesheet approvals"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Timekeeping' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         primaryAction={{ label: 'Log Time', onClick: () => router.push('/timekeeping/log') }}

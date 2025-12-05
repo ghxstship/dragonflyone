@@ -95,7 +95,6 @@ export default function LogisticsPage() {
       <EnterprisePageHeader
         title="Freight & Logistics"
         subtitle="Coordinate shipments and track deliveries"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Procurement', href: '/procurement' }, { label: 'Logistics' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

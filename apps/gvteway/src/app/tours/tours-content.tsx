@@ -18,7 +18,7 @@ import {
   Grid,
   Stack,
   Badge,
-  LoadingSpinner,
+  Spinner,
 } from '@ghxstship/ui';
 import Image from 'next/image';
 
@@ -110,7 +110,7 @@ export default function ToursContent() {
   if (loading) {
     return (
       <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" />
+        <Spinner variant="grey" size="lg" />
       </Section>
     );
   }

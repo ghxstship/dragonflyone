@@ -12,7 +12,7 @@ import {
   Card,
   Grid,
   Select,
-  LoadingSpinner,
+  Spinner,
   ProgressBar,
   Stack,
   Display,
@@ -103,7 +103,6 @@ export default function ReportsPage() {
         <EnterprisePageHeader
           title="Executive Reports"
           subtitle="Loading..."
-          breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Reports' }]}
           views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
           activeView="default"
           showFavorite
@@ -111,7 +110,7 @@ export default function ReportsPage() {
         />
         <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
-            <LoadingSpinner size="lg" text="Loading reports..." />
+            <Spinner variant="grey" size="lg" text="Loading reports..." />
           </Container>
         </MainContent>
       </AtlvsAppLayout>
@@ -124,7 +123,6 @@ export default function ReportsPage() {
         <EnterprisePageHeader
           title="Executive Reports"
           subtitle="No data available"
-          breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Reports' }]}
           views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
           activeView="default"
           showFavorite
@@ -144,7 +142,6 @@ export default function ReportsPage() {
       <EnterprisePageHeader
         title="Executive Reports"
         subtitle="Business intelligence and analytics dashboard"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Reports' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         secondaryActions={[

@@ -92,7 +92,6 @@ export default function ShowCallPage() {
       <EnterprisePageHeader
         title="Show Call Status"
         subtitle="Real-time crew check-in and attendance tracking"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Show Call' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

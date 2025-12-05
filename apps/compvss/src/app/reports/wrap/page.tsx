@@ -247,11 +247,6 @@ export default function WrapReportsPage() {
         stats={pageStats}
         emptyMessage="No wrap reports yet"
         emptyAction={{ label: 'Create First Report', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[
-          { label: 'COMPVSS', href: '/dashboard' }, 
-          { label: 'Reports' },
-          { label: 'Wrap' }
-        ]}
         quickActions={[
           { id: 'daily', label: 'Daily Reports', icon: <FileText className="size-4" />, onClick: () => router.push('/reports/daily') },
         ]}

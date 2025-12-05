@@ -89,7 +89,6 @@ export default function BidDecisionPage() {
       <EnterprisePageHeader
         title="Bid/No-Bid Decisions"
         subtitle="Opportunity evaluation and decision workflow"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Opportunities', href: '/opportunities' }, { label: 'Bid Decision' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

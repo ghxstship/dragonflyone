@@ -17,7 +17,9 @@ import {
   type ListPageAction,
   type FormFieldConfig,
   type DetailSection,
+  type ExportFormat,
 } from "@ghxstship/ui";
+import { createExportHandler } from "@ghxstship/config";
 
 interface Task {
   id: string;
@@ -170,11 +172,24 @@ export default function TasksPage() {
         onRowClick={(r) => { setSelectedTask(r); setDrawerOpen(true); }}
         createLabel="Create Task"
         onCreate={() => setCreateModalOpen(true)}
-        onExport={() => console.log('Export tasks')}
+        entityType="tasks"
+        onExport={createExportHandler({
+          filename: "tasks",
+          getData: () => tasks.map(t => ({
+            id: t.id,
+            title: t.title,
+            type: t.type,
+            priority: t.priority,
+            dueDate: t.dueDate,
+            status: t.status,
+            assignee: t.assignee || '',
+            linkedContact: t.linkedContact || '',
+          })),
+        })}
+        exportFormats={["csv", "json"]}
         stats={stats}
         emptyMessage="No tasks found"
         emptyAction={{ label: 'Create Task', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'CRM', href: '/crm' }, { label: 'Tasks' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

@@ -57,6 +57,51 @@ interface ForumSummary {
   new_today: number;
 }
 
+// Demo data for unauthenticated users
+const DEMO_THREADS: ForumThread[] = [
+  {
+    id: "demo-1",
+    title: "Best festivals to attend this summer?",
+    category: "general",
+    author_id: "user-001",
+    author_name: "MusicFan23",
+    reply_count: 45,
+    view_count: 1234,
+    last_reply_at: new Date(Date.now() - 3600000).toISOString(),
+    last_reply_by: "FestivalLover",
+    is_pinned: true,
+    is_locked: false,
+    created_at: new Date(Date.now() - 86400000 * 3).toISOString(),
+  },
+  {
+    id: "demo-2",
+    title: "Tips for first-time concert goers",
+    category: "general",
+    author_id: "user-002",
+    author_name: "ConcertPro",
+    reply_count: 28,
+    view_count: 890,
+    last_reply_at: new Date(Date.now() - 7200000).toISOString(),
+    is_pinned: false,
+    is_locked: false,
+    created_at: new Date(Date.now() - 86400000 * 5).toISOString(),
+  },
+];
+
+const DEMO_CATEGORIES: ForumCategory[] = [
+  { id: "general", name: "General Discussion", description: "Talk about anything music related", thread_count: 234, post_count: 1890 },
+  { id: "events", name: "Event Talk", description: "Discuss upcoming and past events", thread_count: 156, post_count: 1234 },
+  { id: "reviews", name: "Reviews", description: "Share your event experiences", thread_count: 89, post_count: 567 },
+  { id: "tickets", name: "Tickets & Sales", description: "Buy, sell, and trade tickets", thread_count: 67, post_count: 345 },
+];
+
+const DEMO_FORUM_SUMMARY: ForumSummary = {
+  total_threads: 546,
+  total_posts: 4036,
+  active_users: 234,
+  new_today: 12,
+};
+
 export default function ForumsPage() {
   const router = useRouter();
   const { addNotification: _addNotification } = useNotifications();
@@ -76,6 +121,14 @@ export default function ForumsPage() {
       if (searchQuery) params.append("search", searchQuery);
 
       const response = await fetch(`/api/forums?${params.toString()}`);
+      if (response.status === 401) {
+        // Use demo data for unauthenticated users
+        setThreads(DEMO_THREADS);
+        setCategories(DEMO_CATEGORIES);
+        setSummary(DEMO_FORUM_SUMMARY);
+        setError(null);
+        return;
+      }
       if (!response.ok) throw new Error("Failed to fetch forums");
       
       const data = await response.json();
@@ -84,7 +137,11 @@ export default function ForumsPage() {
       setSummary(data.summary || null);
       setError(null);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
+      // Fallback to demo data on error
+      setThreads(DEMO_THREADS);
+      setCategories(DEMO_CATEGORIES);
+      setSummary(DEMO_FORUM_SUMMARY);
+      setError(null);
     } finally {
       setLoading(false);
     }

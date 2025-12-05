@@ -8,7 +8,7 @@ import {
   ListPage, Badge, DetailDrawer, Grid, Stack, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
 } from '@ghxstship/ui';
-import { getBadgeVariant } from '@ghxstship/config';
+import { getBadgeVariant, createExportHandler } from '@ghxstship/config';
 
 interface OptimizationRecommendation {
   id: string;
@@ -120,10 +120,22 @@ export default function AssetOptimizationPage() {
         filters={filters}
         rowActions={rowActions}
         onRowClick={(r) => { setSelected(r); setDrawerOpen(true); }}
-        onExport={() => console.log('Export')}
+        entityType="optimization"
+        onExport={createExportHandler({
+          filename: "optimization-recommendations",
+          getData: () => data.map(r => ({
+            id: r.id,
+            type: r.type,
+            assetName: r.asset_name,
+            category: r.category,
+            priority: r.priority,
+            status: r.status,
+            potentialSavings: r.potential_savings,
+            recommendation: r.recommendation,
+          })),
+        })}
         stats={stats}
         emptyMessage="No recommendations found"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Assets', href: '/assets' }, { label: 'Optimization' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

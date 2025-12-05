@@ -1,10 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { Eye, Pencil, Shield } from 'lucide-react';
 import { CompvssAppLayout } from '../../../components/app-layout';
-import { useCredentialTypes, useCreateCredentialType, useUpdateCredentialType } from '../../../hooks/useCredentials';
+import { useCredentialTypes, useCreateCredentialType, useUpdateCredentialType, type CredentialType } from '../../../hooks/useCredentials';
 import {
   ListPage,
   Badge,
@@ -19,19 +19,8 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
+import { createExportHandler } from '@ghxstship/config';
 
-interface CredentialType {
-  id: string;
-  name: string;
-  code: string;
-  description?: string;
-  access_level: number;
-  color: string;
-  max_issued?: number;
-  requires_photo: boolean;
-  requires_background_check: boolean;
-  is_active: boolean;
-}
 
 const columns: ListPageColumn<CredentialType>[] = [
   { 
@@ -99,7 +88,9 @@ const formFields: FormFieldConfig[] = [
 
 export default function CredentialTypesPage() {
   const router = useRouter();
-  const { data: credentialTypes, isLoading, error, refetch } = useCredentialTypes();
+  const params = useParams();
+  const productionId = params?.productionId as string | undefined;
+  const { data: credentialTypes, isLoading, error, refetch } = useCredentialTypes(productionId);
   const createMutation = useCreateCredentialType();
   const updateMutation = useUpdateCredentialType();
   
@@ -140,8 +131,8 @@ export default function CredentialTypesPage() {
       requires_photo: data.requires_photo as boolean,
       requires_background_check: data.requires_background_check as boolean,
       is_active: data.is_active as boolean,
-      production_id: productionId || params?.productionId || '', 
-      organization_id: user?.organization_id || '', 
+      production_id: productionId || '',
+      organization_id: '',
     };
     await createMutation.mutateAsync(createData);
     setCreateModalOpen(false);
@@ -234,15 +225,24 @@ export default function CredentialTypesPage() {
         onRowClick={(row) => { setSelectedType(row); setDrawerOpen(true); }}
         createLabel="New Credential Type"
         onCreate={() => setCreateModalOpen(true)}
-        onExport={() => { Logger.info('Export action triggered'); }}
+        entityType="credential-types"
+        onExport={createExportHandler({
+          filename: "credential-types",
+          getData: () => (credentialTypes || []).map(t => ({
+            id: t.id,
+            name: t.name,
+            code: t.code,
+            description: t.description || '',
+            access_level: t.access_level,
+            color: t.color,
+            max_issued: t.max_issued || '',
+            requires_photo: t.requires_photo,
+            requires_background_check: t.requires_background_check,
+          })),
+        })}
         stats={stats}
         emptyMessage="No credential types configured"
         emptyAction={{ label: 'Create First Type', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[
-          { label: 'COMPVSS', href: '/dashboard' }, 
-          { label: 'Credentials', href: '/credentials' },
-          { label: 'Types' }
-        ]}
       />
 
       <RecordFormModal

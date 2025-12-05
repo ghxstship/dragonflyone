@@ -15,7 +15,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
-import { getBadgeVariant } from "@ghxstship/config";
+import { getBadgeVariant, createExportHandler } from "@ghxstship/config";
 
 interface Quote {
   id: string;
@@ -127,11 +127,22 @@ export default function QuotesPage() {
         onRowClick={(r) => { setSelectedQuote(r); setDrawerOpen(true); }}
         createLabel="Create Quote"
         onCreate={() => router.push('/quotes/new')}
-        onExport={() => console.log('Export')}
+        entityType="quotes"
+        onExport={createExportHandler({
+          filename: "quotes",
+          getData: () => quotes.map(q => ({
+            id: q.id,
+            quote_number: q.quote_number,
+            client_name: q.client_name,
+            opportunity_name: q.opportunity_name,
+            total_amount: q.total_amount,
+            status: q.status,
+            valid_until: q.valid_until,
+          })),
+        })}
         stats={stats}
         emptyMessage="No quotes found"
         emptyAction={{ label: 'Create Quote', onClick: () => router.push('/quotes/new') }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Quotes' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

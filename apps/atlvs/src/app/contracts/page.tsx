@@ -226,7 +226,6 @@ export default function ContractsPage() {
         stats={stats}
         emptyMessage="No contracts found"
         emptyAction={{ label: 'Create Contract', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Contracts' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

@@ -86,7 +86,6 @@ export default function VIPManagementPage() {
       <EnterprisePageHeader
         title="VIP & Backstage Management"
         subtitle="Guest list management and access control"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'VIP Management' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         primaryAction={{ label: 'Add Guest', onClick: () => setShowAddModal(true) }}

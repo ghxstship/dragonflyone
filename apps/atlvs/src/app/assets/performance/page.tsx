@@ -8,6 +8,7 @@ import {
   ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
 } from '@ghxstship/ui';
+import { createExportHandler } from '@ghxstship/config';
 
 interface AssetPerformance {
   id: string;
@@ -105,10 +106,22 @@ export default function AssetPerformancePage() {
         filters={filters}
         rowActions={rowActions}
         onRowClick={(r) => { setSelected(r); setDrawerOpen(true); }}
-        onExport={() => console.log('Export')}
+        entityType="asset-performance"
+        onExport={createExportHandler({
+          filename: "asset-performance",
+          getData: () => data.map(a => ({
+            id: a.id,
+            name: a.name,
+            category: a.category,
+            utilizationRate: a.utilizationRate,
+            uptime: a.uptime,
+            mtbf: a.mtbf,
+            mttr: a.mttr,
+            status: a.status,
+          })),
+        })}
         stats={stats}
         emptyMessage="No performance data found"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Assets', href: '/assets' }, { label: 'Performance' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

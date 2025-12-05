@@ -143,7 +143,6 @@ export default function WeatherContingencyPage() {
       <EnterprisePageHeader
         title="Weather Contingency Planning"
         subtitle="Monitor conditions and manage weather-related contingency plans"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Weather Contingency' }]}
         views={[
           { id: 'default', label: 'Default', icon: 'grid' },
         ]}

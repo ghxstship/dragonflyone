@@ -220,11 +220,6 @@ function InvestorDocumentsPageContent() {
         onRowClick={(row) => { setSelectedDocument(row); setDrawerOpen(true); }}
         stats={stats}
         emptyMessage="No documents found"
-        breadcrumbs={[
-          { label: 'ATLVS', href: '/dashboard' }, 
-          { label: 'Investors', href: '/investors' },
-          { label: 'Documents' }
-        ]}
         headerContent={
           <Stack direction="horizontal" gap={2}>
             <Select

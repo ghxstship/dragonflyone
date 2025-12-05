@@ -20,6 +20,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from "@ghxstship/ui";
+import { createExportHandler } from "@ghxstship/config";
 
 interface Invoice {
   id: string;
@@ -190,9 +191,24 @@ export default function InvoicesPage() {
   };
 
   const handleBulkAction = async (actionId: string, selectedIds: string[]) => {
-    console.log('Bulk action:', actionId, selectedIds);
     if (actionId === 'remind') {
+      await Promise.all(selectedIds.map(id =>
+        fetch(`/api/invoices/${id}/remind`, { method: 'POST' })
+      ));
       addNotification({ type: 'info', title: 'Sending', message: 'Payment reminders being sent' });
+    } else if (actionId === 'export') {
+      const selected = invoices.filter(inv => selectedIds.includes(inv.id));
+      const csv = [
+        ['ID', 'Number', 'Client', 'Amount', 'Due', 'Status', 'Date'].join(','),
+        ...selected.map(inv => [inv.id, inv.invoice_number, inv.client_name, inv.total_amount, inv.amount_due, inv.status, inv.issue_date].join(','))
+      ].join('\\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'invoices-export.csv';
+      a.click();
+      URL.revokeObjectURL(url);
     }
   };
 
@@ -245,11 +261,23 @@ export default function InvoicesPage() {
         onRowClick={(row) => { setSelectedInvoice(row); setDrawerOpen(true); }}
         createLabel="Create Invoice"
         onCreate={() => setCreateModalOpen(true)}
-        onExport={() => router.push('/invoices/export')}
+        entityType="invoices"
+        onExport={createExportHandler({
+          filename: "invoices",
+          getData: () => (invoices || []).map(i => ({
+            id: i.id,
+            invoice_number: i.invoice_number,
+            client_name: i.client_name,
+            total_amount: i.total_amount,
+            amount_paid: i.amount_paid,
+            status: i.status,
+            issue_date: i.issue_date,
+            due_date: i.due_date,
+          })),
+        })}
         stats={stats}
         emptyMessage="No invoices found"
         emptyAction={{ label: 'Create Invoice', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Invoices' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

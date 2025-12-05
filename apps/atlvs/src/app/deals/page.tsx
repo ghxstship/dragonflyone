@@ -17,7 +17,9 @@ import {
   type ListPageAction,
   type FormFieldConfig,
   type DetailSection,
+  type ExportFormat,
 } from '@ghxstship/ui';
+import { createExportHandler } from '@ghxstship/config';
 import { useDeals } from '../../hooks/useDeals';
 
 interface Deal {
@@ -78,14 +80,18 @@ export default function DealsPage() {
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    console.log('Create deal:', data);
+    await fetch('/api/deals', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
     setCreateModalOpen(false);
     refetch?.();
   };
 
   const handleDelete = async () => {
     if (dealToDelete) {
-      console.log('Delete:', dealToDelete.id);
+      await fetch(`/api/deals/${dealToDelete.id}`, { method: 'DELETE' });
       setDeleteConfirmOpen(false);
       setDealToDelete(null);
       refetch?.();
@@ -129,11 +135,23 @@ export default function DealsPage() {
         onRowClick={(r) => { setSelectedDeal(r); setDrawerOpen(true); }}
         createLabel="New Deal"
         onCreate={() => setCreateModalOpen(true)}
-        onExport={() => console.log('Export')}
+        entityType="deals"
+        onExport={createExportHandler({
+          filename: "deals",
+          getData: () => deals.map(d => ({
+            id: d.id,
+            title: d.title,
+            client: d.client || '',
+            value: d.value || 0,
+            stage: d.stage || '',
+            probability: d.probability || 0,
+            status: d.status,
+          })),
+        })}
+        exportFormats={["csv", "json"]}
         stats={stats}
         emptyMessage="No deals yet"
         emptyAction={{ label: 'Create Deal', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Deals' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

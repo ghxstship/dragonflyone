@@ -93,7 +93,6 @@ export default function SiteAccessPage() {
       <EnterprisePageHeader
         title="Site Access Management"
         subtitle="Gates, parking, loading docks, and vehicle passes"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Site Access' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         primaryAction={{ label: 'Issue Vehicle Pass', onClick: () => setShowAddPassModal(true) }}

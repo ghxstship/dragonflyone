@@ -89,7 +89,6 @@ export default function BrandGuidelinesPage() {
       <EnterprisePageHeader
         title="Brand Guidelines"
         subtitle="Brand standards and asset documentation"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Knowledge', href: '/knowledge' }, { label: 'Brand Guidelines' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

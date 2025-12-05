@@ -1,8 +1,10 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import clsx from "clsx";
-import { Search, Upload, Download, ChevronUp, ChevronDown, MoreVertical } from "lucide-react";
+import { Upload, Download, Search } from "lucide-react";
+import { DataGrid } from "../organisms/data-grid.js";
+import { ImportExportDialog, type ExportFormat, type ColumnConfig, type ImportTemplate } from "../organisms/import-export-dialog.js";
 
 export interface ListPageColumn<T> {
   key: string;
@@ -10,13 +12,16 @@ export interface ListPageColumn<T> {
   accessor: keyof T | ((row: T) => React.ReactNode);
   sortable?: boolean;
   width?: string;
+  minWidth?: string;
+  align?: "left" | "center" | "right";
   render?: (value: unknown, row: T) => React.ReactNode;
+  hidden?: boolean;
 }
 
 export interface ListPageFilter {
   key: string;
   label: string;
-  options: { value: string; label: string }[];
+  options: { value: string; label: string; count?: number }[];
   multiple?: boolean;
 }
 
@@ -26,6 +31,8 @@ export interface ListPageAction<T> {
   icon?: React.ReactNode;
   variant?: "default" | "danger";
   onClick: (row: T) => void;
+  disabled?: boolean | ((row: T) => boolean);
+  hidden?: boolean | ((row: T) => boolean);
 }
 
 export interface ListPageBulkAction {
@@ -33,6 +40,7 @@ export interface ListPageBulkAction {
   label: string;
   icon?: React.ReactNode;
   variant?: "default" | "danger";
+  disabled?: boolean;
 }
 
 export interface ListPageProps<T> {
@@ -68,10 +76,18 @@ export interface ListPageProps<T> {
   createLabel?: string;
   /** Create handler */
   onCreate?: () => void;
-  /** Import handler */
-  onImport?: () => void;
-  /** Export handler */
-  onExport?: () => void;
+  /** Entity type for import/export (e.g., "crew", "assets") */
+  entityType?: string;
+  /** Import handler - receives file and field mapping */
+  onImport?: (file: File, mapping: Record<string, string>) => Promise<void>;
+  /** Import templates for field mapping */
+  importTemplates?: ImportTemplate[];
+  /** Sample fields for import template download */
+  importSampleFields?: string[];
+  /** Export handler - receives format and selected columns */
+  onExport?: (format: ExportFormat, selectedColumns: string[]) => Promise<void>;
+  /** Available export formats */
+  exportFormats?: ExportFormat[];
   /** Stats to display */
   stats?: Array<{ label: string; value: string | number }>;
   /** Empty state message */
@@ -115,6 +131,16 @@ export interface ListPageProps<T> {
   onSettings?: () => void;
   /** Use enterprise header layout */
   useEnterpriseHeader?: boolean;
+  /** Pagination config */
+  pagination?: { page: number; pageSize: number; total: number };
+  /** Page change handler */
+  onPageChange?: (page: number) => void;
+  /** Enable striped rows */
+  striped?: boolean;
+  /** Compact mode */
+  compact?: boolean;
+  /** Enable column visibility toggle */
+  columnVisibility?: boolean;
 }
 
 export function ListPage<T>({
@@ -134,25 +160,111 @@ export function ListPage<T>({
   onRowClick,
   createLabel = "Create New",
   onCreate,
+  entityType,
   onImport,
+  importTemplates = [],
+  importSampleFields = [],
   onExport,
+  exportFormats = ["csv", "json", "excel"],
   stats = [],
   emptyMessage = "No records found",
   emptyAction,
   header,
   inverted = true,
   className = "",
+  pagination,
+  onPageChange,
+  striped = false,
+  compact = false,
+  columnVisibility = false,
 }: ListPageProps<T>) {
   const [searchValue, setSearchValue] = useState("");
   const [activeFilters, setActiveFilters] = useState<Record<string, string | string[]>>({});
   const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
   const [sortColumn, setSortColumn] = useState<string | null>(null);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc" | null>(null);
+  
+  // Import/Export dialog state
+  const [importExportMode, setImportExportMode] = useState<"import" | "export" | null>(null);
+  const [importExportLoading, setImportExportLoading] = useState(false);
 
-  const getRowKey = useCallback((row: T): string => {
+  // Convert columns to ColumnConfig for export dialog
+  const exportColumns: ColumnConfig[] = useMemo(() => 
+    columns.map(col => ({
+      key: col.key,
+      label: col.label,
+      selected: !col.hidden,
+    })), [columns]);
+
+  // Handle import with loading state
+  const handleImport = useCallback(async (file: File, mapping: Record<string, string>) => {
+    if (!onImport) return;
+    setImportExportLoading(true);
+    try {
+      await onImport(file, mapping);
+      setImportExportMode(null);
+    } finally {
+      setImportExportLoading(false);
+    }
+  }, [onImport]);
+
+  // Handle export with loading state
+  const handleExport = useCallback(async (format: ExportFormat, selectedCols: string[]) => {
+    if (!onExport) return;
+    setImportExportLoading(true);
+    try {
+      await onExport(format, selectedCols);
+      setImportExportMode(null);
+    } finally {
+      setImportExportLoading(false);
+    }
+  }, [onExport]);
+
+  // getRowKey is now handled internally by DataGrid
+  const _getRowKey = useCallback((row: T): string => {
     if (typeof rowKey === "function") return rowKey(row);
     return String(row[rowKey]);
   }, [rowKey]);
+
+  // Convert ListPage columns to DataGrid columns
+  const dataGridColumns = useMemo(() => columns.map(col => ({
+    key: col.key,
+    label: col.label,
+    accessor: col.accessor,
+    sortable: col.sortable,
+    width: col.width,
+    minWidth: col.minWidth,
+    align: col.align,
+    render: col.render,
+    hidden: col.hidden,
+  })), [columns]);
+
+  // Convert ListPage bulk actions to DataGrid format
+  const dataGridBulkActions = useMemo(() => bulkActions.map(action => ({
+    id: action.id,
+    label: action.label,
+    icon: action.icon,
+    variant: action.variant,
+    disabled: action.disabled,
+  })), [bulkActions]);
+
+  // Convert ListPage row actions to DataGrid format
+  const dataGridRowActions = useMemo(() => rowActions.map(action => ({
+    id: action.id,
+    label: action.label,
+    icon: action.icon,
+    variant: action.variant,
+    disabled: action.disabled,
+    hidden: action.hidden,
+  })), [rowActions]);
+
+  // Handle row action - bridge to ListPage onClick pattern
+  const handleRowAction = useCallback((actionId: string, row: T) => {
+    const action = rowActions.find(a => a.id === actionId);
+    if (action) {
+      action.onClick(row);
+    }
+  }, [rowActions]);
 
   // Filter and search data
   const filteredData = React.useMemo(() => {
@@ -202,32 +314,7 @@ export function ListPage<T>({
     return result;
   }, [data, searchValue, activeFilters, sortColumn, sortDirection, columns]);
 
-  const handleSort = (columnKey: string) => {
-    if (sortColumn === columnKey) {
-      if (sortDirection === "asc") setSortDirection("desc");
-      else if (sortDirection === "desc") {
-        setSortColumn(null);
-        setSortDirection(null);
-      }
-    } else {
-      setSortColumn(columnKey);
-      setSortDirection("asc");
-    }
-  };
-
-  const handleSelectAll = () => {
-    if (selectedKeys.length === filteredData.length) {
-      setSelectedKeys([]);
-    } else {
-      setSelectedKeys(filteredData.map(getRowKey));
-    }
-  };
-
-  const handleSelectRow = (key: string) => {
-    setSelectedKeys(prev => 
-      prev.includes(key) ? prev.filter(k => k !== key) : [...prev, key]
-    );
-  };
+  // Note: handleSort, handleSelectAll, handleSelectRow are now handled by DataGrid internally
 
   const handleFilterChange = (key: string, value: string) => {
     setActiveFilters(prev => ({ ...prev, [key]: value === "All" ? "" : value }));
@@ -242,7 +329,7 @@ export function ListPage<T>({
 
   // Theme-aware classes - Bold Contemporary Pop Art Adventure
   const bgClass = inverted ? "bg-black text-white" : "bg-white text-black";
-  const borderClass = inverted ? "border-grey-700" : "border-grey-300";
+  const _borderClass = inverted ? "border-grey-700" : "border-grey-300";
   const mutedTextClass = inverted ? "text-grey-400" : "text-grey-600";
   const primaryBtnClass = inverted
     ? "bg-white text-black border-2 border-white shadow-[3px_3px_0_hsl(var(--primary))] hover:shadow-[4px_4px_0_hsl(var(--primary))] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-[var(--radius-button)]"
@@ -301,12 +388,15 @@ export function ListPage<T>({
             <h1 className="font-display text-h1-sm tracking-tight">{title}</h1>
             <div className="flex gap-gap-sm">
               {onImport && (
-                <button onClick={onImport} className={clsx("px-spacing-4 py-spacing-2 font-code text-mono-sm cursor-pointer", secondaryBtnClass)}>
+                <button onClick={() => setImportExportMode("import")} className={clsx("px-spacing-4 py-spacing-2 font-code text-mono-sm cursor-pointer", secondaryBtnClass)}>
                   <Upload className="size-4 inline mr-1" />Import
                 </button>
               )}
               {onExport && (
-                <button onClick={onExport} className={clsx("px-spacing-4 py-spacing-2 font-code text-mono-sm cursor-pointer", secondaryBtnClass)}>
+                <button 
+                  onClick={() => setImportExportMode("export")} 
+                  className={clsx("px-spacing-4 py-spacing-2 font-code text-mono-sm cursor-pointer", secondaryBtnClass)}
+                >
                   <Download className="size-4 inline mr-1" />Export
                 </button>
               )}
@@ -408,135 +498,62 @@ export function ListPage<T>({
           {filteredData.length} {filteredData.length === 1 ? "result" : "results"}
         </div>
 
-        {/* Table */}
-        {filteredData.length === 0 ? (
-          <div className={clsx("text-center px-spacing-8 py-spacing-16 border", inverted ? "border-grey-800" : "border-grey-200")}>
-            <h3 className={clsx("font-heading text-h4-md mb-spacing-2", inverted ? "text-grey-500" : "text-grey-400")}>{emptyMessage}</h3>
-            {emptyAction && (
-              <button onClick={emptyAction.onClick} className={clsx("mt-spacing-4 px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase leading-none cursor-pointer", primaryBtnClass)}>
-                {emptyAction.label}
-              </button>
-            )}
-          </div>
-        ) : (
-          <div className={clsx("border overflow-auto", inverted ? "border-grey-800" : "border-grey-200")}>
-            <table className="w-full border-collapse font-body text-body-md">
-              <thead>
-                <tr className={inverted ? "bg-grey-900" : "bg-grey-100"}>
-                  {bulkActions.length > 0 && (
-                    <th className="px-spacing-4 py-spacing-3 w-spacing-12 text-center">
-                      <input type="checkbox" checked={selectedKeys.length === filteredData.length && filteredData.length > 0} onChange={handleSelectAll} className="cursor-pointer" />
-                    </th>
-                  )}
-                  {columns.map(col => (
-                    <th
-                      key={col.key}
-                      onClick={() => col.sortable && handleSort(col.key)}
-                      className={clsx(
-                        "px-spacing-4 py-spacing-3 text-left font-code text-mono-sm font-weight-normal tracking-widest uppercase",
-                        inverted ? "text-grey-400" : "text-grey-500",
-                        col.sortable && "cursor-pointer"
-                      )}
-                      style={{ width: col.width }}
-                    >
-                      <span className="flex items-center gap-gap-xs">
-                        {col.label}
-                        {col.sortable && (
-                          <span className={clsx("text-micro", sortColumn === col.key ? "opacity-100" : "opacity-30")}>
-                            {sortColumn === col.key && sortDirection === "asc" ? <ChevronUp className="size-3" /> : sortColumn === col.key && sortDirection === "desc" ? <ChevronDown className="size-3" /> : <><ChevronUp className="size-2" /><ChevronDown className="size-2" /></>}
-                          </span>
-                        )}
-                      </span>
-                    </th>
-                  ))}
-                  {rowActions.length > 0 && <th className="px-spacing-4 py-spacing-3 w-spacing-16" />}
-                </tr>
-              </thead>
-              <tbody>
-                {filteredData.map((row) => {
-                  const key = getRowKey(row);
-                  const isSelected = selectedKeys.includes(key);
-                  return (
-                    <tr
-                      key={key}
-                      onClick={() => onRowClick?.(row)}
-                      className={clsx(
-                        "border-b transition-colors duration-fast",
-                        inverted ? "border-grey-800" : "border-grey-200",
-                        isSelected
-                          ? inverted ? "bg-grey-900" : "bg-grey-100"
-                          : "bg-transparent",
-                        onRowClick && (inverted ? "cursor-pointer hover:bg-grey-900" : "cursor-pointer hover:bg-grey-100")
-                      )}
-                    >
-                      {bulkActions.length > 0 && (
-                        <td className="px-spacing-4 py-spacing-3 text-center" onClick={(e) => e.stopPropagation()}>
-                          <input type="checkbox" checked={isSelected} onChange={() => handleSelectRow(key)} className="cursor-pointer" />
-                        </td>
-                      )}
-                      {columns.map(col => {
-                        const value = typeof col.accessor === "function" ? col.accessor(row) : row[col.accessor];
-                        const rendered = col.render ? col.render(value, row) : value;
-                        return (
-                          <td key={col.key} className={clsx("px-spacing-4 py-spacing-3", inverted ? "text-grey-300" : "text-grey-700")}>
-                            {rendered as React.ReactNode}
-                          </td>
-                        );
-                      })}
-                      {rowActions.length > 0 && (
-                        <td className="px-spacing-4 py-spacing-3 text-center" onClick={(e) => e.stopPropagation()}>
-                          <RowActionsMenu row={row} actions={rowActions} inverted={inverted} />
-                        </td>
-                      )}
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+        {/* DataGrid - Composing the feature-rich data grid component */}
+        <DataGrid
+          data={filteredData}
+          columns={dataGridColumns}
+          rowKey={rowKey}
+          searchable={false}
+          selectable={bulkActions.length > 0}
+          selectedKeys={selectedKeys}
+          onSelectionChange={setSelectedKeys}
+          bulkActions={dataGridBulkActions}
+          onBulkAction={onBulkAction}
+          rowActions={dataGridRowActions}
+          onRowAction={handleRowAction}
+          onRowClick={onRowClick}
+          sortable={true}
+          defaultSort={sortColumn && sortDirection ? { column: sortColumn, direction: sortDirection } : undefined}
+          onSortChange={(col: string, dir: "asc" | "desc" | null) => {
+            setSortColumn(dir ? col : null);
+            setSortDirection(dir);
+          }}
+          pagination={pagination}
+          onPageChange={onPageChange}
+          loading={false}
+          emptyMessage={emptyMessage}
+          striped={striped}
+          compact={compact}
+          columnVisibility={columnVisibility}
+        />
+        
+        {/* Empty state with action */}
+        {filteredData.length === 0 && emptyAction && (
+          <div className="text-center mt-spacing-4">
+            <button onClick={emptyAction.onClick} className={clsx("px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase leading-none cursor-pointer", primaryBtnClass)}>
+              {emptyAction.label}
+            </button>
           </div>
         )}
       </div>
-    </div>
-  );
-}
 
-// Inline row actions menu
-function RowActionsMenu<T>({ row, actions, inverted = true }: { row: T; actions: ListPageAction<T>[]; inverted?: boolean }) {
-  const [open, setOpen] = useState(false);
-  return (
-    <div className="relative inline-block">
-      <button
-        onClick={() => setOpen(!open)}
-        className={clsx(
-          "p-spacing-1 bg-transparent border-none cursor-pointer text-body-md",
-          inverted ? "text-grey-400 hover:text-grey-300" : "text-grey-500 hover:text-grey-700"
-        )}
-      >
-        <MoreVertical className="size-4" />
-      </button>
-      {open && (
-        <div className={clsx(
-          "absolute top-full right-0 min-w-container-xs border z-dropdown",
-          inverted ? "bg-grey-900 border-grey-700" : "bg-white border-grey-300"
-        )}>
-          {actions.map(action => (
-            <button
-              key={action.id}
-              onClick={() => { setOpen(false); action.onClick(row); }}
-              className={clsx(
-                "block w-full px-spacing-3 py-spacing-2 text-left font-body text-body-sm bg-transparent border-none border-b cursor-pointer",
-                inverted
-                  ? "border-grey-800 hover:bg-grey-800"
-                  : "border-grey-200 hover:bg-grey-100",
-                action.variant === "danger"
-                  ? inverted ? "text-grey-400" : "text-grey-500"
-                  : inverted ? "text-grey-300" : "text-grey-700"
-              )}
-            >
-              {action.icon} {action.label}
-            </button>
-          ))}
-        </div>
+      {/* Import/Export Dialog */}
+      {importExportMode && (
+        <ImportExportDialog
+          open={true}
+          onClose={() => setImportExportMode(null)}
+          mode={importExportMode}
+          entityType={entityType || title.toLowerCase().replace(/\s+/g, "-")}
+          entityLabel={title}
+          onImport={handleImport}
+          importTemplates={importTemplates}
+          sampleFields={importSampleFields}
+          exportFormats={exportFormats}
+          columns={exportColumns}
+          onExport={handleExport}
+          totalRecords={data.length}
+          loading={importExportLoading}
+        />
       )}
     </div>
   );

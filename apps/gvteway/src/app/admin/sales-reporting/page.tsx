@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { Eye, Download } from 'lucide-react';
 import { GvtewayAppLayout } from '@/components/app-layout';
 import {
@@ -16,6 +15,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from '@ghxstship/ui';
+import { createExportHandler } from '@ghxstship/config';
 
 interface SalesData {
   id: string;
@@ -70,7 +70,6 @@ const filters: ListPageFilter[] = [
 ];
 
 export default function SalesReportingPage() {
-  const router = useRouter();
   const [selectedPeriod, setSelectedPeriod] = useState<SalesData | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -81,7 +80,17 @@ export default function SalesReportingPage() {
 
   const rowActions: ListPageAction<SalesData>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedPeriod(r); setDrawerOpen(true); } },
-    { id: 'export', label: 'Export', icon: <Download className="size-4" />, onClick: (r) => console.log('Export', r.id) },
+    { id: 'export', label: 'Export', icon: <Download className="size-4" />, onClick: (r) => {
+      const csv = ['Location', 'Type', 'Date', 'Period', 'Transactions', 'Gross Sales', 'Refunds', 'Net Sales'].join(',') + '\n' +
+        [r.location, r.location_type, r.date, r.period, r.transactions, r.gross_sales, r.refunds, r.net_sales].join(',');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `sales-${r.id}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }},
   ];
 
   const stats = [
@@ -130,7 +139,21 @@ export default function SalesReportingPage() {
         filters={filters}
         rowActions={rowActions}
         onRowClick={(r) => { setSelectedPeriod(r); setDrawerOpen(true); }}
-        onExport={() => console.log('Export all')}
+        entityType="sales"
+        onExport={createExportHandler({
+          filename: "sales-report",
+          getData: () => mockSalesData.map(s => ({
+            id: s.id,
+            location: s.location,
+            location_type: s.location_type,
+            date: s.date,
+            period: s.period,
+            transactions: s.transactions,
+            gross_sales: s.gross_sales,
+            refunds: s.refunds,
+            net_sales: s.net_sales,
+          })),
+        })}
         stats={stats}
         emptyMessage="No sales data available"
       />
@@ -143,8 +166,20 @@ export default function SalesReportingPage() {
           title={(s) => s.location}
           subtitle={(s) => `${s.date} • ${s.period}`}
           sections={detailSections}
-          actions={[{ id: 'export', label: 'Export', icon: '⬇️' }]}
-          onAction={(id) => id === 'export' && console.log('Export period')}
+          actions={[{ id: 'export', label: 'Export', icon: <Download className="size-4" /> }]}
+          onAction={(id) => {
+            if (id === 'export' && selectedPeriod) {
+              const csv = ['Location', 'Type', 'Date', 'Period', 'Transactions', 'Gross Sales', 'Refunds', 'Net Sales'].join(',') + '\n' +
+                [selectedPeriod.location, selectedPeriod.location_type, selectedPeriod.date, selectedPeriod.period, selectedPeriod.transactions, selectedPeriod.gross_sales, selectedPeriod.refunds, selectedPeriod.net_sales].join(',');
+              const blob = new Blob([csv], { type: 'text/csv' });
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = `sales-${selectedPeriod.id}.csv`;
+              a.click();
+              URL.revokeObjectURL(url);
+            }
+          }}
         />
       )}
     </GvtewayAppLayout>

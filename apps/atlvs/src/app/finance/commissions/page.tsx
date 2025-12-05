@@ -17,7 +17,7 @@ import {
   type DetailSection,
   type FormFieldConfig,
 } from "@ghxstship/ui";
-import { getBadgeVariant } from "@ghxstship/config";
+import { getBadgeVariant, createExportHandler } from "@ghxstship/config";
 
 interface CommissionRecord {
   id: string;
@@ -141,11 +141,22 @@ export default function CommissionsPage() {
         onRowClick={(r) => { setSelectedRecord(r); setDrawerOpen(true); }}
         createLabel="Add Commission"
         onCreate={() => setCreateModalOpen(true)}
-        onExport={() => console.log('Export')}
+        entityType="commissions"
+        onExport={createExportHandler({
+          filename: "commissions",
+          getData: () => records.map(c => ({
+            id: c.id,
+            salesperson: c.salesRep,
+            deal: c.dealName,
+            amount: c.commissionAmount,
+            rate: c.commissionRate,
+            status: c.status,
+            paidDate: c.paymentDate || '',
+          })),
+        })}
         stats={stats}
         emptyMessage="No commission records found"
         emptyAction={{ label: 'Add Commission', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Finance', href: '/finance' }, { label: 'Commissions' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

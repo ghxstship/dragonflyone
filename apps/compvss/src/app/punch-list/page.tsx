@@ -101,7 +101,6 @@ export default function PunchListPage() {
       <EnterprisePageHeader
         title="Punch List"
         subtitle="Track and resolve outstanding items before show"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Punch List' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         primaryAction={{ label: 'Add Item', onClick: () => setShowAddModal(true) }}

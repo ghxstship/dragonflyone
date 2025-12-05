@@ -290,11 +290,6 @@ export default function ContingenciesPage() {
         stats={pageStats}
         emptyMessage="No contingency plans yet"
         emptyAction={{ label: 'Create First Plan', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[
-          { label: 'ATLVS', href: '/dashboard' }, 
-          { label: 'Schedule', href: '/schedule' },
-          { label: 'Contingencies' }
-        ]}
         quickActions={[
           { id: 'tasks', label: 'Tasks', icon: <CheckCircle className="size-4" />, onClick: () => router.push('/schedule/tasks') },
         ]}

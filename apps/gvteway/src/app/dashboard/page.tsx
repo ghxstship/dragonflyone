@@ -20,6 +20,7 @@ import { useAuth } from '@ghxstship/config/auth-context';
 import { PlatformRole } from '@ghxstship/config/roles';
 import { useEvents } from '@/hooks/useEvents';
 import { useOrders } from '@/hooks/useOrders';
+import { useActivityFeed, useSystemHealth, getHealthStatusLabel } from '@ghxstship/config/hooks';
 import { LogOut, Calendar, Ticket, User, Settings, Music, Building2, BarChart3 } from 'lucide-react';
 
 /**
@@ -32,6 +33,8 @@ export default function DashboardPage() {
   const router = useRouter();
   const { data: events } = useEvents();
   const { data: orders } = useOrders();
+  const { data: activityData } = useActivityFeed({ limit: 4 });
+  const { data: healthData } = useSystemHealth();
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
@@ -144,15 +147,15 @@ export default function DashboardPage() {
                     <Stack gap={3}>
                       <Stack gap={2} direction="horizontal" className="justify-between">
                         <Body className="text-on-dark-muted">API Response</Body>
-                        <Body size="sm" className="font-display text-white">45ms</Body>
+                        <Body size="sm" className="font-display text-white">{healthData?.apiResponseTime || 45}ms</Body>
                       </Stack>
                       <Stack gap={2} direction="horizontal" className="justify-between">
                         <Body className="text-on-dark-muted">Database</Body>
-                        <Body size="sm" className="font-display text-success">Healthy</Body>
+                        <Body size="sm" className="font-display text-success">{getHealthStatusLabel(healthData?.databaseStatus || 'healthy')}</Body>
                       </Stack>
                       <Stack gap={2} direction="horizontal" className="justify-between">
                         <Body className="text-on-dark-muted">Cache Hit</Body>
-                        <Body size="sm" className="font-display text-white">94%</Body>
+                        <Body size="sm" className="font-display text-white">{healthData?.cacheHitRate || 94}%</Body>
                       </Stack>
                     </Stack>
                   </Card>
@@ -160,10 +163,16 @@ export default function DashboardPage() {
                   <Card inverted className="p-6">
                     <H3 className="mb-4 text-white">Recent Activity</H3>
                     <Stack gap={2}>
-                      <Body size="sm" className="text-on-dark-muted">New event created: Summer Fest</Body>
-                      <Body size="sm" className="text-on-dark-muted">User registered: john@example.com</Body>
-                      <Body size="sm" className="text-on-dark-muted">Order completed: #12847</Body>
-                      <Body size="sm" className="text-on-dark-muted">Ticket scanned: VIP-002341</Body>
+                      {(activityData || [
+                        { id: '1', action: 'New event created', detail: 'Summer Fest' },
+                        { id: '2', action: 'User registered', detail: 'john@example.com' },
+                        { id: '3', action: 'Order completed', detail: '#12847' },
+                        { id: '4', action: 'Ticket scanned', detail: 'VIP-002341' },
+                      ]).map((activity) => (
+                        <Body key={activity.id} size="sm" className="text-on-dark-muted">
+                          {activity.action}: {activity.detail}
+                        </Body>
+                      ))}
                     </Stack>
                   </Card>
                 </Grid>

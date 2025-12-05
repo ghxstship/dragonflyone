@@ -92,7 +92,6 @@ export default function UnionCompliancePage() {
       <EnterprisePageHeader
         title="Union Compliance"
         subtitle="Union rules, agreements, and compliance tracking"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Workforce', href: '/workforce' }, { label: 'Union Compliance' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

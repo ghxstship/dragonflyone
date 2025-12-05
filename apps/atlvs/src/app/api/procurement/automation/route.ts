@@ -425,7 +425,7 @@ export async function POST(request: NextRequest) {
       // Automatically create PO from awarded RFP or selected quote
       const { source_type, source_id, vendor_id } = body;
 
-      let poData: any = {
+      const poData: any = {
         vendor_id,
         status: 'pending_approval',
         created_by: user.id,

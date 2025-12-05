@@ -94,7 +94,6 @@ export default function StakeholderPortalPage() {
       <EnterprisePageHeader
         title="Stakeholder Portal"
         subtitle="Role-based communication portal for project stakeholders"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Stakeholder Portal' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         primaryAction={{ label: 'Invite Stakeholder', onClick: () => setShowInviteModal(true) }}

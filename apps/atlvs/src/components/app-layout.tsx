@@ -12,7 +12,7 @@ import {
   Container,
   Stack,
   Label,
-  LoadingSpinner,
+  Spinner,
   AuthenticatedShell,
   Link,
 } from "@ghxstship/ui";
@@ -324,7 +324,7 @@ export function AtlvsLoadingLayout({
   return (
     <AtlvsAppLayout variant={variant}>
       <Stack className="flex min-h-[60vh] items-center justify-center">
-        <LoadingSpinner size="lg" text={text} />
+        <Spinner variant="grey" size="lg" text={text} />
       </Stack>
     </AtlvsAppLayout>
   );

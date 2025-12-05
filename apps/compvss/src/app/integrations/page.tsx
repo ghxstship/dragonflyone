@@ -20,7 +20,7 @@ import {
   TableRow,
   TableHead,
   TableCell,
-  LoadingSpinner,
+  Spinner,
   useNotifications,
   EnterprisePageHeader,
   MainContent,
@@ -89,7 +89,6 @@ export default function CompvssIntegrationsPage() {
       <EnterprisePageHeader
         title="Platform Integrations"
         subtitle="Monitor cross-platform data synchronization and manage production workflows."
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Integrations' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite
@@ -116,7 +115,7 @@ export default function CompvssIntegrationsPage() {
 
                 {loading ? (
                   <Stack className="items-center justify-center py-12">
-                    <LoadingSpinner size="lg" text="Loading sync jobs..." />
+                    <Spinner variant="grey" size="lg" text="Loading sync jobs..." />
                   </Stack>
                 ) : (
                   <Table variant="dark">

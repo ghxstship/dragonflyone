@@ -113,8 +113,6 @@ export { ProjectCard } from "./molecules/project-card.js";
 export type { ProjectCardProps } from "./molecules/project-card.js";
 export { ServiceCard } from "./molecules/service-card.js";
 export type { ServiceCardProps } from "./molecules/service-card.js";
-export { LoadingSpinner } from "./molecules/loading-spinner.js";
-export type { LoadingSpinnerProps } from "./molecules/loading-spinner.js";
 export { EmptyState } from "./molecules/empty-state.js";
 export { Skeleton, SkeletonCard, SkeletonTable } from "./molecules/skeleton.js";
 export { NotificationToast } from "./molecules/notification-toast.js";

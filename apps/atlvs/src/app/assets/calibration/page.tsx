@@ -8,7 +8,7 @@ import {
   ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
 } from '@ghxstship/ui';
-import { getBadgeVariant } from '@ghxstship/config';
+import { getBadgeVariant, createExportHandler } from '@ghxstship/config';
 
 interface CalibrationRecord {
   id: string;
@@ -62,7 +62,7 @@ export default function CalibrationCertificationPage() {
 
   const rowActions: ListPageAction<CalibrationRecord>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
-    { id: 'schedule', label: 'Schedule', icon: <Calendar className="size-4" />, onClick: (r) => console.log('Schedule', r.id) },
+    { id: 'schedule', label: 'Schedule', icon: <Calendar className="size-4" />, onClick: (r) => router.push(`/assets/calibration/${r.id}/schedule`) },
   ];
 
   const stats = [
@@ -101,10 +101,24 @@ export default function CalibrationCertificationPage() {
         filters={filters}
         rowActions={rowActions}
         onRowClick={(r) => { setSelected(r); setDrawerOpen(true); }}
-        onExport={() => console.log('Export')}
+        entityType="calibration"
+        onExport={createExportHandler({
+          filename: "calibration-records",
+          getData: () => data.map(c => ({
+            id: c.id,
+            assetId: c.assetId,
+            assetName: c.assetName,
+            category: c.category,
+            calibrationType: c.calibrationType,
+            lastCalibration: c.lastCalibration,
+            nextDue: c.nextDue,
+            frequency: c.frequency,
+            status: c.status,
+            certifiedBy: c.certifiedBy || '',
+          })),
+        })}
         stats={stats}
         emptyMessage="No calibration records found"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Assets', href: '/assets' }, { label: 'Calibration' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
@@ -122,7 +136,11 @@ export default function CalibrationCertificationPage() {
           subtitle={(r) => `${r.calibrationType} • ${r.frequency}`}
           sections={detailSections}
           actions={[{ id: 'schedule', label: 'Schedule Calibration', icon: <Calendar className="size-4" /> }, { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" /> }]}
-          onAction={(id, r) => { console.log(id, r.id); setDrawerOpen(false); }}
+          onAction={(id, r) => {
+            if (id === 'schedule') router.push(`/assets/calibration/${r.id}/schedule`);
+            if (id === 'edit') router.push(`/assets/calibration/${r.id}/edit`);
+            setDrawerOpen(false);
+          }}
         />
       )}
     </AtlvsAppLayout>

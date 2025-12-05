@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Eye, ClipboardList, Flag } from "lucide-react";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
@@ -80,6 +81,7 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function ContestsPage() {
+  const router = useRouter();
   const [contests, setContests] = useState<Contest[]>(mockContests);
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedContest, setSelectedContest] = useState<Contest | null>(null);
@@ -91,7 +93,7 @@ export default function ContestsPage() {
 
   const rowActions: ListPageAction<Contest>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedContest(r); setDrawerOpen(true); } },
-    { id: 'entries', label: 'View Entries', icon: <ClipboardList className="size-4" />, onClick: (r) => console.log('View entries', r.id) },
+    { id: 'entries', label: 'View Entries', icon: <ClipboardList className="size-4" />, onClick: (r) => router.push(`/admin/contests/${r.id}/entries`) },
     { id: 'end', label: 'End Contest', icon: <Flag className="size-4" />, onClick: (r) => handleEndContest(r.id) },
   ];
 

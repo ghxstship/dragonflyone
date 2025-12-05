@@ -15,7 +15,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
-import { getBadgeVariant } from "@ghxstship/config";
+import { getBadgeVariant, createExportHandler } from "@ghxstship/config";
 
 interface Subsidiary {
   id: string;
@@ -136,11 +136,22 @@ export default function SubsidiariesPage() {
         onRowClick={(r) => { setSelectedEntity(r); setDrawerOpen(true); }}
         createLabel="Add Entity"
         onCreate={() => router.push('/subsidiaries/new')}
-        onExport={() => router.push('/subsidiaries/export')}
+        entityType="subsidiaries"
+        onExport={createExportHandler({
+          filename: "subsidiaries",
+          getData: () => subsidiaries.map(e => ({
+            id: e.id,
+            name: e.name,
+            type: e.entity_type,
+            jurisdiction: e.jurisdiction,
+            status: e.status,
+            ownership: e.ownership_percentage,
+            revenue: e.annual_revenue,
+          })),
+        })}
         stats={stats}
         emptyMessage="No subsidiaries found"
         emptyAction={{ label: 'Add Entity', onClick: () => router.push('/subsidiaries/new') }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Subsidiaries' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

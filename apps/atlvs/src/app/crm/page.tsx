@@ -14,7 +14,9 @@ import {
   type ListPageFilter,
   type ListPageAction,
   type DetailSection,
+  type ExportFormat,
 } from '@ghxstship/ui';
+import { createExportHandler } from '@ghxstship/config';
 import { useContacts } from '@/hooks/useContacts';
 import { useDeals } from '@/hooks/useDeals';
 
@@ -98,11 +100,22 @@ export default function CRMPage() {
         onRowClick={(r) => { setSelectedContact(r); setDrawerOpen(true); }}
         createLabel="Add Contact"
         onCreate={() => router.push('/contacts')}
-        onExport={() => console.log('Export')}
+        entityType="contacts"
+        onExport={createExportHandler({
+          filename: "contacts",
+          getData: () => (contacts || []).map(c => ({
+            id: c.id,
+            name: c.name,
+            email: c.email,
+            phone: c.phone || '',
+            company: c.company || '',
+            status: c.status,
+          })),
+        })}
+        exportFormats={["csv", "json"]}
         stats={stats}
         emptyMessage="No contacts found"
         emptyAction={{ label: 'Add Contact', onClick: () => router.push('/contacts') }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'CRM' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

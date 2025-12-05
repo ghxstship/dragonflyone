@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { Eye, RefreshCw, Download } from "lucide-react";
 import { CompvssAppLayout } from "../../components/app-layout";
 import {
@@ -18,7 +17,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from "@ghxstship/ui";
-import { getBadgeVariant } from "@ghxstship/config";
+import { getBadgeVariant, createExportHandler } from "@ghxstship/config";
 
 interface BackgroundCheck {
   id: string;
@@ -79,7 +78,6 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function BackgroundChecksPage() {
-  const router = useRouter();
   const [checks, setChecks] = useState<BackgroundCheck[]>(mockChecks);
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedCheck, setSelectedCheck] = useState<BackgroundCheck | null>(null);
@@ -90,10 +88,44 @@ export default function BackgroundChecksPage() {
   const pending = checks.filter(c => c.status === "Pending" || c.status === "In Progress").length;
   const cleared = checks.filter(c => c.status === "Cleared").length;
 
+  const handleRenew = (check: BackgroundCheck) => {
+    const renewed: BackgroundCheck = {
+      ...check,
+      id: `BGC-${String(checks.length + 1).padStart(3, '0')}`,
+      status: 'Pending',
+      submittedDate: new Date().toISOString().split('T')[0],
+      completedDate: undefined,
+      expirationDate: undefined,
+      daysUntilExpiry: undefined,
+    };
+    setChecks([...checks, renewed]);
+  };
+
+  const handleDownload = (check: BackgroundCheck) => {
+    const reportData = {
+      id: check.id,
+      crewMember: check.crewMemberName,
+      department: check.department,
+      checkType: check.checkType,
+      status: check.status,
+      provider: check.provider,
+      submittedDate: check.submittedDate,
+      completedDate: check.completedDate,
+      expirationDate: check.expirationDate,
+    };
+    const blob = new Blob([JSON.stringify(reportData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `background-check-${check.id}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   const rowActions: ListPageAction<BackgroundCheck>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedCheck(r); setDrawerOpen(true); } },
-    { id: 'renew', label: 'Renew', icon: <RefreshCw className="size-4" />, onClick: (r) => console.log('Renew', r.id) },
-    { id: 'download', label: 'Download Report', icon: <Download className="size-4" />, onClick: (r) => console.log('Download', r.id) },
+    { id: 'renew', label: 'Renew', icon: <RefreshCw className="size-4" />, onClick: handleRenew },
+    { id: 'download', label: 'Download Report', icon: <Download className="size-4" />, onClick: handleDownload },
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
@@ -150,11 +182,24 @@ export default function BackgroundChecksPage() {
         onRowClick={(r) => { setSelectedCheck(r); setDrawerOpen(true); }}
         createLabel="Initiate Check"
         onCreate={() => setCreateModalOpen(true)}
-        onExport={() => console.log('Export')}
+        entityType="background-checks"
+        onExport={createExportHandler({
+          filename: "background-checks",
+          getData: () => checks.map(c => ({
+            id: c.id,
+            crewMemberName: c.crewMemberName,
+            department: c.department,
+            checkType: c.checkType,
+            status: c.status,
+            provider: c.provider,
+            submittedDate: c.submittedDate,
+            completedDate: c.completedDate || '',
+            expirationDate: c.expirationDate || '',
+          })),
+        })}
         stats={stats}
         emptyMessage="No background checks found"
         emptyAction={{ label: 'Initiate Check', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Background Checks' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
@@ -182,10 +227,13 @@ export default function BackgroundChecksPage() {
           subtitle={(c) => `${c.department} • ${c.checkType}`}
           sections={detailSections}
           actions={[
-            { id: 'download', label: 'Download Report', icon: '⬇️' },
-            ...(selectedCheck.status === 'Expired' ? [{ id: 'renew', label: 'Renew', icon: '🔄' }] : []),
+            { id: 'download', label: 'Download Report', icon: <Download className="size-4" /> },
+            ...(selectedCheck.status === 'Expired' ? [{ id: 'renew', label: 'Renew', icon: <RefreshCw className="size-4" /> }] : []),
           ]}
-          onAction={(id) => console.log('Action', id)}
+          onAction={(id) => {
+            if (id === 'download') handleDownload(selectedCheck);
+            if (id === 'renew') handleRenew(selectedCheck);
+          }}
         />
       )}
     </CompvssAppLayout>

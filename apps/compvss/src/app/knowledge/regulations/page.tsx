@@ -87,7 +87,6 @@ export default function RegulationsPage() {
       <EnterprisePageHeader
         title="Industry Regulations"
         subtitle="Compliance documentation and regulatory references"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Knowledge', href: '/knowledge' }, { label: 'Regulations' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

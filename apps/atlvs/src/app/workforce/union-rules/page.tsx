@@ -6,9 +6,9 @@ import { Eye, Pencil, Trash2 } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   ListPage, Badge, DetailDrawer, Grid, Body,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
+  type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type ExportFormat,
 } from '@ghxstship/ui';
-import { getBadgeVariant } from '@ghxstship/config';
+import { createExportHandler } from '@ghxstship/config';
 
 interface UnionRule {
   id: string;
@@ -61,7 +61,7 @@ export default function UnionRulesPage() {
 
   const rowActions: ListPageAction<UnionRule>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Edit Rule', icon: <Pencil className="size-4" />, onClick: (r) => console.log('Edit rule', r.id) },
+    { id: 'edit', label: 'Edit Rule', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/workforce/union-rules/${r.id}/edit`) },
   ];
 
   const stats = [
@@ -98,10 +98,22 @@ export default function UnionRulesPage() {
         filters={filters}
         rowActions={rowActions}
         onRowClick={(r) => { setSelected(r); setDrawerOpen(true); }}
-        onExport={() => console.log('Export')}
+        entityType="union-rules"
+        onExport={createExportHandler({
+          filename: "union-rules",
+          getData: () => data.map(r => ({
+            id: r.id,
+            union: r.union,
+            category: r.category,
+            rule: r.rule,
+            effectiveDate: r.effectiveDate,
+            status: r.status,
+            penaltyType: r.penaltyType || '',
+          })),
+        })}
+        exportFormats={["csv", "json"]}
         stats={stats}
         emptyMessage="No union rules found"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Workforce', href: '/workforce' }, { label: 'Union Rules' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
@@ -119,7 +131,11 @@ export default function UnionRulesPage() {
           subtitle={(r) => `${r.union} • ${r.category}`}
           sections={detailSections}
           actions={[{ id: 'edit', label: 'Edit Rule', icon: <Pencil className="size-4" /> }, { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" /> }]}
-          onAction={(id, r) => { console.log(id, r.id); setDrawerOpen(false); }}
+          onAction={(id, r) => {
+            if (id === 'edit') router.push(`/workforce/union-rules/${r.id}/edit`);
+            if (id === 'delete') fetch(`/api/workforce/union-rules/${r.id}`, { method: 'DELETE' });
+            setDrawerOpen(false);
+          }}
         />
       )}
     </AtlvsAppLayout>

@@ -22,6 +22,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
+import { createExportHandler } from '@ghxstship/config';
 import { useEquipment } from '@/hooks/useEquipment';
 
 interface Equipment {
@@ -167,7 +168,20 @@ export default function EquipmentPage() {
   };
 
   const handleBulkAction = async (actionId: string, selectedIds: string[]) => {
-    console.log('Bulk action:', actionId, selectedIds);
+    if (actionId === 'export') {
+      const selected = equipmentList.filter(e => selectedIds.includes(e.id));
+      const csv = [
+        ['ID', 'Tag', 'Type', 'Status', 'Location'].join(','),
+        ...selected.map(e => [e.id, e.tag, e.type || e.category, e.status || e.state, e.location || ''].join(','))
+      ].join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'equipment-export.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
   };
 
   const stats = [
@@ -209,7 +223,6 @@ export default function EquipmentPage() {
       <EnterprisePageHeader
         title="Equipment Inventory"
         subtitle="Track and manage production equipment"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Equipment' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
@@ -236,7 +249,18 @@ export default function EquipmentPage() {
           onRowClick={(row) => { setSelectedEquipment(row); setDrawerOpen(true); }}
           createLabel="Add Equipment"
           onCreate={() => setCreateModalOpen(true)}
-          onExport={() => console.log('Export equipment')}
+          entityType="equipment"
+          onExport={createExportHandler({
+            filename: "equipment",
+            getData: () => equipmentList.map(e => ({
+              id: e.id,
+              tag: e.tag,
+              type: e.type || e.category,
+              status: e.status || e.state,
+              location: e.location || '',
+              assigned_to: e.assigned_to || '',
+            })),
+          })}
           stats={stats}
           emptyMessage="No equipment found"
           emptyAction={{ label: 'Add Equipment', onClick: () => setCreateModalOpen(true) }}

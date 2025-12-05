@@ -42,7 +42,6 @@ export default function SettingsPage() {
       <EnterprisePageHeader
         title="Settings"
         subtitle="Configure your account preferences and notifications"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Settings' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

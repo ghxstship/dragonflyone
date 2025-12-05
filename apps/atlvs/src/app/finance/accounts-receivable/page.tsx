@@ -14,8 +14,9 @@ import {
   type ListPageFilter,
   type ListPageAction,
   type DetailSection,
+  type ExportFormat,
 } from "@ghxstship/ui";
-import { getBadgeVariant } from "@ghxstship/config";
+import { getBadgeVariant, createExportHandler } from "@ghxstship/config";
 
 interface Invoice {
   id: string;
@@ -68,8 +69,8 @@ export default function AccountsReceivablePage() {
 
   const rowActions: ListPageAction<Invoice>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedInvoice(r); setDrawerOpen(true); } },
-    { id: 'payment', label: 'Record Payment', icon: <DollarSign className="size-4" />, onClick: (r) => console.log('Record payment', r.id) },
-    { id: 'reminder', label: 'Send Reminder', icon: <Mail className="size-4" />, onClick: (r) => console.log('Send reminder', r.id) },
+    { id: 'payment', label: 'Record Payment', icon: <DollarSign className="size-4" />, onClick: (r) => router.push(`/finance/accounts-receivable/${r.id}/payment`) },
+    { id: 'reminder', label: 'Send Reminder', icon: <Mail className="size-4" />, onClick: (r) => window.location.href = `mailto:${r.clientEmail}?subject=Payment Reminder: ${r.invoiceNumber}` },
   ];
 
   const stats = [
@@ -112,10 +113,22 @@ export default function AccountsReceivablePage() {
         onRowClick={(r) => { setSelectedInvoice(r); setDrawerOpen(true); }}
         createLabel="Create Invoice"
         onCreate={() => router.push('/finance/accounts-receivable/new')}
-        onExport={() => console.log('Export')}
+        entityType="invoices"
+        onExport={createExportHandler({
+          filename: "accounts-receivable",
+          getData: () => invoices.map(inv => ({
+            id: inv.id,
+            invoiceNumber: inv.invoiceNumber,
+            client: inv.client,
+            amount: inv.amount,
+            dueDate: inv.dueDate,
+            daysOverdue: inv.daysOverdue,
+            status: inv.status,
+          })),
+        })}
+        exportFormats={["csv", "json"]}
         stats={stats}
         emptyMessage="No invoices found"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Finance', href: '/finance' }, { label: 'Accounts Receivable' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
@@ -132,8 +145,12 @@ export default function AccountsReceivablePage() {
           title={(r) => r.invoiceNumber}
           subtitle={(r) => `${r.client} • $${(r.amount - r.paidAmount).toLocaleString()} balance`}
           sections={detailSections}
-          actions={[{ id: 'payment', label: 'Record Payment', icon: '💰' }, { id: 'reminder', label: 'Send Reminder', icon: '📧' }]}
-          onAction={(id, r) => { console.log(id, r.id); setDrawerOpen(false); }}
+          actions={[{ id: 'payment', label: 'Record Payment', icon: <DollarSign className="size-4" /> }, { id: 'reminder', label: 'Send Reminder', icon: <Mail className="size-4" /> }]}
+          onAction={(id, r) => {
+            if (id === 'payment') router.push(`/finance/accounts-receivable/${r.id}/payment`);
+            if (id === 'reminder') window.location.href = `mailto:${r.clientEmail}?subject=Payment Reminder: ${r.invoiceNumber}`;
+            setDrawerOpen(false);
+          }}
         />
       )}
     </AtlvsAppLayout>

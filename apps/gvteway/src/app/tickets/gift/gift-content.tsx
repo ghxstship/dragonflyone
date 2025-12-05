@@ -18,7 +18,7 @@ import {
   Grid,
   Stack,
   Alert,
-  LoadingSpinner,
+  Spinner,
 } from '@ghxstship/ui';
 
 interface Event {
@@ -139,7 +139,7 @@ export default function GiftTicketsContent() {
   if (loading) {
     return (
       <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" />
+        <Spinner variant="grey" size="lg" />
       </Section>
     );
   }

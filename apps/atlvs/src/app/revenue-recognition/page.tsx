@@ -18,7 +18,7 @@ import {
   Stack,
   Grid,
   Badge,
-  LoadingSpinner,
+  Spinner,
   EnterprisePageHeader,
   MainContent,
 } from '@ghxstship/ui';
@@ -81,7 +81,7 @@ export default function RevenueRecognitionPage() {
       <AtlvsAppLayout>
         <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
-            <LoadingSpinner size="lg" text="Loading revenue recognition data..." />
+            <Spinner variant="grey" size="lg" text="Loading revenue recognition data..." />
           </Container>
         </MainContent>
       </AtlvsAppLayout>
@@ -93,7 +93,6 @@ export default function RevenueRecognitionPage() {
       <EnterprisePageHeader
         title="Revenue Recognition"
         subtitle="Manage revenue recognition rules and schedules"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Revenue Recognition' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         primaryAction={{ label: 'Create Rule', onClick: () => setShowCreateForm(true) }}

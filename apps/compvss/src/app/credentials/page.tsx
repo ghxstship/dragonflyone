@@ -19,6 +19,7 @@ import {
   type ListPageBulkAction,
   type DetailSection,
 } from '@ghxstship/ui';
+import { createExportHandler } from '@ghxstship/config';
 
 interface Credential {
   id: string;
@@ -272,11 +273,23 @@ export default function CredentialsPage() {
         onRowClick={(row) => { setSelectedCredential(row); setDrawerOpen(true); }}
         createLabel="Issue Credential"
         onCreate={() => router.push('/credentials/issue')}
-        onExport={() => console.log('Export credentials')}
+        entityType="credentials"
+        onExport={createExportHandler({
+          filename: "credentials",
+          getData: () => credentials.map(c => ({
+            id: c.id,
+            badge_number: c.badge_number,
+            status: c.status,
+            issued_at: c.issued_at || '',
+            expires_at: c.expires_at || '',
+            credential_type: c.credential_type?.name || '',
+            contact_name: c.contact ? `${c.contact.first_name} ${c.contact.last_name}` : '',
+            contact_email: c.contact?.email || '',
+          })),
+        })}
         stats={pageStats}
         emptyMessage="No credentials issued yet"
         emptyAction={{ label: 'Issue First Credential', onClick: () => router.push('/credentials/issue') }}
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Credentials' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

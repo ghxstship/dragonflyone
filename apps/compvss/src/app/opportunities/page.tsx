@@ -119,7 +119,6 @@ export default function OpportunitiesPage() {
       <EnterprisePageHeader
         title="Opportunities"
         subtitle="RFPs, careers, and gig board"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Opportunities' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         primaryAction={{ label: 'Post Opportunity', onClick: () => router.push('/opportunities/new') }}

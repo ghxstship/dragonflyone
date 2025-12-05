@@ -14,6 +14,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
+import { createExportHandler } from "@ghxstship/config";
 
 interface RFIDWristband {
   id: string;
@@ -62,7 +63,6 @@ const filters: ListPageFilter[] = [
 export default function RFIDPage() {
   const router = useRouter();
   const params = useParams();
-  const eventId = params.id as string;
   const [wristbands] = useState<RFIDWristband[]>(mockWristbands);
   const [selectedWristband, setSelectedWristband] = useState<RFIDWristband | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -73,7 +73,7 @@ export default function RFIDPage() {
 
   const rowActions: ListPageAction<RFIDWristband>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedWristband(r); setDrawerOpen(true); } },
-    { id: 'topup', label: 'Top Up', icon: <CreditCard className="size-4" />, onClick: (r) => console.log('Top up', r.id) },
+    { id: 'topup', label: 'Top Up', icon: <CreditCard className="size-4" />, onClick: (r) => router.push(`/events/${params.id}/rfid/${r.id}/topup`) },
   ];
 
   const stats = [
@@ -113,8 +113,21 @@ export default function RFIDPage() {
         rowActions={rowActions}
         onRowClick={(r) => { setSelectedWristband(r); setDrawerOpen(true); }}
         createLabel="Scan Wristband"
-        onCreate={() => console.log('Scan')}
-        onExport={() => console.log('Export')}
+        onCreate={() => router.push(`/events/${params.id}/rfid/scan`)}
+        entityType="rfid-wristbands"
+        onExport={createExportHandler({
+          filename: "rfid-wristbands",
+          getData: () => wristbands.map(w => ({
+            id: w.id,
+            wristbandId: w.wristbandId,
+            guestName: w.guestName,
+            email: w.email,
+            ticketType: w.ticketType,
+            balance: w.balance,
+            status: w.status,
+            transactions: w.transactions,
+          })),
+        })}
         stats={stats}
         emptyMessage="No wristbands registered"
       />
@@ -127,10 +140,14 @@ export default function RFIDPage() {
           subtitle={(w) => `${w.wristbandId} • $${w.balance.toFixed(2)}`}
           sections={detailSections}
           actions={[
-            { id: 'topup', label: 'Top Up', icon: '💳' },
-            { id: 'refund', label: 'Refund', icon: '💰' },
+            { id: 'topup', label: 'Top Up', icon: <CreditCard className="size-4" /> },
+            { id: 'refund', label: 'Refund', icon: <CreditCard className="size-4" /> },
           ]}
-          onAction={(id, w) => { console.log(id, w.id); setDrawerOpen(false); }}
+          onAction={(id, w) => {
+            if (id === 'topup') router.push(`/events/${params.id}/rfid/${w.id}/topup`);
+            if (id === 'refund') router.push(`/events/${params.id}/rfid/${w.id}/refund`);
+            setDrawerOpen(false);
+          }}
         />
       )}
     </>

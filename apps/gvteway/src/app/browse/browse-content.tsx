@@ -19,7 +19,7 @@ import {
   Stack,
   Badge,
   ProjectCard,
-  LoadingSpinner,
+  Spinner,
   Pagination,
 } from '@ghxstship/ui';
 import { useEvents } from '@/hooks/useEvents';
@@ -115,7 +115,7 @@ export default function BrowseContent() {
   if (isLoading) {
     return (
       <Section className="min-h-screen bg-white flex items-center justify-center">
-        <LoadingSpinner size="lg" />
+        <Spinner variant="grey" size="lg" />
       </Section>
     );
   }

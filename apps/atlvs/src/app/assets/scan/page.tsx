@@ -156,7 +156,6 @@ export default function AssetScanPage() {
       <EnterprisePageHeader
         title="Barcode Scanner"
         subtitle="Scan assets for check-in, check-out, and inventory"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Assets', href: '/assets' }, { label: 'Scan' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         secondaryActions={[{ id: 'asset-list', label: 'Asset List', onClick: () => router.push('/assets') }]}

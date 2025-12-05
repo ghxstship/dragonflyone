@@ -15,7 +15,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from '@ghxstship/ui';
-import { useAdvancingRequests } from '@ghxstship/config';
+import { useAdvancingRequests, createExportHandler } from '@ghxstship/config';
 import type { ProductionAdvance, AdvanceStatus } from '@ghxstship/config/types/advancing';
 
 const formatCurrency = (amount: number | null) => {
@@ -117,10 +117,21 @@ export default function AdvancingPage() {
         filters={filters}
         rowActions={rowActions}
         onRowClick={(r) => router.push(`/advancing/requests/${r.id}`)}
-        onExport={() => router.push('/advancing/export')}
+        entityType="advancing"
+        onExport={createExportHandler({
+          filename: "advancing-requests",
+          getData: () => requests.map(r => ({
+            id: r.id,
+            activation_name: r.activation_name || '',
+            team_workspace: r.team_workspace || '',
+            project: r.project?.name || '',
+            status: r.status,
+            estimated_cost: r.estimated_cost || '',
+            created_at: r.created_at,
+          })),
+        })}
         stats={stats}
         emptyMessage="No advance requests found"
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Advancing' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

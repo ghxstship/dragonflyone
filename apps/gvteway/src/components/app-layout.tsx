@@ -11,7 +11,7 @@ import {
   Container,
   Stack,
   Label,
-  LoadingSpinner,
+  Spinner,
   AuthenticatedShell,
 } from "@ghxstship/ui";
 import type { SidebarNavSection } from "@ghxstship/ui";
@@ -189,7 +189,7 @@ export function GvtewayLoadingLayout({
   return (
     <GvtewayAppLayout variant={variant}>
       <Stack className="flex min-h-[60vh] items-center justify-center">
-        <LoadingSpinner size="lg" text={text} />
+        <Spinner variant="grey" size="lg" text={text} />
       </Stack>
     </GvtewayAppLayout>
   );

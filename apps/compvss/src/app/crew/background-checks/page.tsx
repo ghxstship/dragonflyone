@@ -74,7 +74,6 @@ export default function BackgroundChecksPage() {
       <EnterprisePageHeader
         title="Background Checks"
         subtitle="Background check status and renewal alerts"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Crew', href: '/crew' }, { label: 'Background Checks' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

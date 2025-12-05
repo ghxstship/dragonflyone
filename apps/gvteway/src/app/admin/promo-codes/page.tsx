@@ -218,8 +218,13 @@ export default function PromoCodesPage() {
   ];
 
   const handleBulkAction = async (actionId: string, selectedIds: string[]) => {
-    console.log('Bulk action:', actionId, selectedIds);
-    // Implement bulk actions
+    if (actionId === 'disable') {
+      setPromoCodes(prev => prev.map(p => selectedIds.includes(p.id) ? { ...p, status: 'disabled' as const } : p));
+    } else if (actionId === 'enable') {
+      setPromoCodes(prev => prev.map(p => selectedIds.includes(p.id) ? { ...p, status: 'active' as const } : p));
+    } else if (actionId === 'delete') {
+      setPromoCodes(prev => prev.filter(p => !selectedIds.includes(p.id)));
+    }
   };
 
   const stats = [

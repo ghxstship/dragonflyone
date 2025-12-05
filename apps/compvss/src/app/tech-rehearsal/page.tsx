@@ -113,7 +113,6 @@ export default function TechRehearsalPage() {
       <EnterprisePageHeader
         title="Technical Rehearsals"
         subtitle="Schedule and manage tech rehearsals, sound checks, and run-throughs"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Tech Rehearsal' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         primaryAction={{ label: 'Schedule Rehearsal', onClick: () => setShowAddModal(true) }}

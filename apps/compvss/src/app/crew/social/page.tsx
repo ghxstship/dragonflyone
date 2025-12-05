@@ -84,7 +84,6 @@ export default function CrewSocialPage() {
       <EnterprisePageHeader
         title="Crew Social"
         subtitle="Connect with your crew, share updates, and build connections"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Crew', href: '/crew' }, { label: 'Social' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

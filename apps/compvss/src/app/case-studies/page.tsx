@@ -63,7 +63,6 @@ export default function CaseStudiesPage() {
       <EnterprisePageHeader
         title="Case Studies"
         subtitle="Project post-mortems and lessons learned"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Case Studies' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

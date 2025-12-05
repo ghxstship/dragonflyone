@@ -28,271 +28,22 @@ module.exports = {
   extends: [
     "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended",
-    "plugin:tailwindcss/recommended",
     "prettier"
   ],
   parser: "@typescript-eslint/parser",
-  plugins: ["@typescript-eslint", "tailwindcss"],
+  plugins: ["@typescript-eslint"],
   parserOptions: {
     ecmaVersion: 2021,
     sourceType: "module",
-  },
-  settings: {
-    tailwindcss: {
-      // Use callees to detect Tailwind classes in cn(), clsx(), etc.
-      callees: ["cn", "clsx", "cva", "twMerge"],
-      // Point to the shared Tailwind config for class validation
-      config: "packages/config-tailwind/tailwind.config.js",
-      // Allow design system classes (glob patterns)
-      whitelist: [
-        // ═══════════════════════════════════════════════════════════════
-        // TYPOGRAPHY TOKENS (PRESERVED)
-        // ═══════════════════════════════════════════════════════════════
-        "text-display-.*", "text-h[1-6]-.*", "text-body-.*", "text-mono-.*", "text-micro.*",
-        "font-display", "font-heading", "font-body", "font-mono", "font-code",
-        "font-weight-.*",
-        "leading-display", "leading-heading", "leading-title", "leading-subtitle", 
-        "leading-body", "leading-relaxed", "leading-comfortable", "leading-none",
-        "tracking-label", "tracking-kicker", "tracking-display",
-        
-        // ═══════════════════════════════════════════════════════════════
-        // COLOR TOKENS (PRESERVED)
-        // ═══════════════════════════════════════════════════════════════
-        // Brand colors
-        "bg-primary.*", "text-primary.*", "border-primary.*",
-        "bg-secondary.*", "text-secondary.*", "border-secondary.*",
-        "bg-accent.*", "text-accent.*", "border-accent.*",
-        "bg-destructive.*", "text-destructive.*", "border-destructive.*",
-        // Status colors
-        "bg-success.*", "text-success.*", "border-success.*",
-        "bg-warning.*", "text-warning.*", "border-warning.*",
-        "bg-error.*", "text-error.*", "border-error.*",
-        "bg-info.*", "text-info.*", "border-info.*",
-        // Surface/semantic colors
-        "bg-surface-.*", "bg-ink-.*",
-        "text-on-dark-.*", "text-on-light-.*", "text-on-mid-.*",
-        "text-tertiary", "text-muted", "text-inverse", "text-link.*",
-        "border-muted", "border-focus", "border-inverse",
-        // Neutral scale (explicit patterns for grey and ink palettes)
-        "bg-grey-100", "bg-grey-200", "bg-grey-300", "bg-grey-400", "bg-grey-500", 
-        "bg-grey-600", "bg-grey-700", "bg-grey-800", "bg-grey-900",
-        "text-grey-100", "text-grey-200", "text-grey-300", "text-grey-400", "text-grey-500", 
-        "text-grey-600", "text-grey-700", "text-grey-800", "text-grey-900",
-        "border-grey-100", "border-grey-200", "border-grey-300", "border-grey-400", "border-grey-500", 
-        "border-grey-600", "border-grey-700", "border-grey-800", "border-grey-900",
-        "bg-ink-50", "bg-ink-100", "bg-ink-200", "bg-ink-300", "bg-ink-400", "bg-ink-500", 
-        "bg-ink-600", "bg-ink-700", "bg-ink-800", "bg-ink-900", "bg-ink-950",
-        "text-ink-50", "text-ink-100", "text-ink-200", "text-ink-300", "text-ink-400", "text-ink-500", 
-        "text-ink-600", "text-ink-700", "text-ink-800", "text-ink-900", "text-ink-950",
-        "border-ink-50", "border-ink-100", "border-ink-200", "border-ink-300", "border-ink-400", "border-ink-500", 
-        "border-ink-600", "border-ink-700", "border-ink-800", "border-ink-900", "border-ink-950",
-        "hover:bg-grey-*", "hover:text-grey-*", "hover:border-grey-*",
-        "hover:bg-ink-*", "hover:text-ink-*", "hover:border-ink-*",
-        "bg-black", "bg-white", "text-black", "text-white", "border-black", "border-white",
-        // Accent palette (categories/tags)
-        "bg-purple.*", "bg-pink.*", "bg-cyan.*", "bg-teal.*", "bg-violet.*", "bg-indigo.*",
-        "text-purple.*", "text-pink.*", "text-cyan.*", "text-teal.*", "text-violet.*", "text-indigo.*",
-        "border-purple.*", "border-pink.*", "border-cyan.*", "border-teal.*", "border-violet.*", "border-indigo.*",
-        // Brand colors
-        "bg-brand.*", "text-brand.*", "border-brand.*", "ring-brand.*", "focus:ring-brand.*",
-        // Foreground/background semantic
-        "bg-foreground.*", "text-foreground.*", "border-foreground.*",
-        "bg-background.*", "text-background.*", "border-background.*",
-        "bg-card.*", "text-card.*", "border-card.*",
-        "bg-popover.*", "text-popover.*", "border-popover.*",
-        "bg-muted.*", "text-muted.*", "border-muted.*",
-        "ring-.*",
-        
-        // ═══════════════════════════════════════════════════════════════
-        // SPACING TOKENS (REBUILT)
-        // ═══════════════════════════════════════════════════════════════
-        "spacing-.*",
-        "gap-xs", "gap-sm", "gap-md", "gap-lg", "gap-xl", "gap-2xl", "gap-3xl",
-        "p-button.*", "px-button.*", "py-button.*",
-        "p-input.*", "px-input.*", "py-input.*",
-        "p-card.*", "p-modal.*", "p-section.*", "p-page.*",
-        
-        // ═══════════════════════════════════════════════════════════════
-        // SIZING TOKENS
-        // ═══════════════════════════════════════════════════════════════
-        "w-icon-.*", "h-icon-.*", "w-avatar-.*", "h-avatar-.*", 
-        "h-input.*", "h-button.*",
-        "min-w-card-.*", "min-w-sidebar", "min-w-select",
-        "max-w-container-.*", "max-w-prose", "max-w-content",
-        "min-h-card", "min-h-calendar-cell", "min-h-panel-.*", "min-h-chat", "min-h-map",
-        "max-h-dropdown", "max-h-modal", "max-h-panel-.*", "max-h-chat",
-        
-        // ═══════════════════════════════════════════════════════════════
-        // BORDER RADIUS TOKENS (REBUILT - SHARP TO ROUNDED)
-        // ═══════════════════════════════════════════════════════════════
-        "rounded-none",           // 0px - Sharp
-        "rounded-radius-.*",      // Design system scale
-        "rounded-button",         // 4px - Sharp, bold action
-        "rounded-input",          // 4px - Matches buttons
-        "rounded-card",           // 8px - Panel aesthetic
-        "rounded-modal",          // 16px - Contained, prominent
-        "rounded-badge",          // 2px - Label-like, sharp
-        "rounded-avatar",         // 9999px - Always circular
-        "rounded-tooltip",        // 4px - Speech bubble
-        "rounded-tag",            // Design system tag
-        
-        // ═══════════════════════════════════════════════════════════════
-        // BORDER WIDTH TOKENS (REBUILT - BOLD DEFAULT)
-        // ═══════════════════════════════════════════════════════════════
-        "border-none",            // 0px
-        "border-thin",            // 1px - Subtle dividers only
-        "border-DEFAULT",         // 2px - BOLD DEFAULT
-        "border-thick",           // 3px - Emphasis
-        "border-heavy",           // 4px - Maximum impact
-        "border-2", "border-3", "border-4",  // Explicit widths
-        
-        // ═══════════════════════════════════════════════════════════════
-        // SHADOW TOKENS (REBUILT - HARD OFFSET COMIC STYLE)
-        // ═══════════════════════════════════════════════════════════════
-        "shadow-none",
-        "shadow-xs",              // 2px 2px 0 - Subtle lift
-        "shadow-sm",              // 3px 3px 0 - Low elevation
-        "shadow-DEFAULT",         // 4px 4px 0 - Default cards
-        "shadow-md",              // 4px 4px 0 - Medium
-        "shadow-lg",              // 6px 6px 0 - Hover state
-        "shadow-xl",              // 8px 8px 0 - Modals
-        "shadow-2xl",             // 12px 12px 0 - Maximum
-        "shadow-primary",         // 4px 4px 0 primary - Accent
-        "shadow-accent",          // 4px 4px 0 accent - Pop art
-        "shadow-hover",           // 6px 6px 0 - Elevated
-        "shadow-active",          // 1px 1px 0 - Pressed
-        "shadow-focus",           // 0 0 0 3px ring
-        "shadow-inset",           // Inset shadow
-        "shadow-outline.*",       // Outline shadows
-        "shadow-hard.*",          // Hard offset shadows
-        "shadow-brand.*",         // Brand color shadows
-        "shadow-pop.*",           // Pop art shadows
-        "shadow-subtle.*",        // Subtle shadows for cards
-        
-        // ═══════════════════════════════════════════════════════════════
-        // ANIMATION TOKENS (REBUILT - SNAPPY WITH CHARACTER)
-        // ═══════════════════════════════════════════════════════════════
-        // Durations
-        "duration-instant",       // 50ms
-        "duration-fast",          // 100ms
-        "duration-DEFAULT",       // 150ms
-        "duration-normal",        // 150ms
-        "duration-base",          // 150ms
-        "duration-slow",          // 250ms
-        "duration-slower",        // 400ms
-        // Easings
-        "ease-DEFAULT",           // Smooth
-        "ease-linear",
-        "ease-in", "ease-out", "ease-in-out",
-        "ease-bounce",            // Overshoot
-        "ease-snap",              // Dramatic
-        "ease-spring",            // Natural
-        // Keyframe animations
-        "animate-pop-in",         // Scale + translate entrance
-        "animate-slide-up-bounce",// Slide with bounce
-        "animate-shake",          // Error shake
-        "animate-pulse-shadow",   // Pulsing shadow
-        "animate-comic-appear",   // Comic book entrance
-        "animate-hard-fade",      // Hard fade
-        "animate-scanline",       // Scanline effect
-        // Stagger delays
-        "stagger-1", "stagger-2", "stagger-3", "stagger-4",
-        "stagger-5", "stagger-6", "stagger-7", "stagger-8",
-        
-        // ═══════════════════════════════════════════════════════════════
-        // BACKGROUND PATTERNS (POP ART)
-        // ═══════════════════════════════════════════════════════════════
-        "bg-halftone.*",          // Halftone dots
-        "bg-stripes.*",           // Diagonal stripes
-        "bg-grid.*",              // Grid pattern
-        "bg-benday.*",            // Ben-Day dots
-        "bg-crosshatch.*",        // Cross hatch
-        "bg-speed-lines.*",       // Speed lines
-        "bg-action-lines.*",      // Radial burst
-        
-        // ═══════════════════════════════════════════════════════════════
-        // Z-INDEX TOKENS
-        // ═══════════════════════════════════════════════════════════════
-        "z-base", "z-dropdown", "z-sticky", "z-fixed", 
-        "z-modal.*", "z-popover", "z-tooltip",
-        
-        // ═══════════════════════════════════════════════════════════════
-        // OPACITY TOKENS
-        // ═══════════════════════════════════════════════════════════════
-        "opacity-overlay.*", "opacity-disabled", "opacity-muted", "opacity-hover",
-        
-        // ═══════════════════════════════════════════════════════════════
-        // INTERACTIVE STATE TOKENS
-        // ═══════════════════════════════════════════════════════════════
-        "hover-surface", "active-surface", "focus-ring",
-        "ring-focus.*", "ring-error", "ring-success",
-        
-        // ═══════════════════════════════════════════════════════════════
-        // ASPECT RATIOS
-        // ═══════════════════════════════════════════════════════════════
-        "aspect-square", "aspect-video.*", "aspect-photo.*", 
-        "aspect-wide", "aspect-ultrawide", "aspect-golden",
-        
-        // ═══════════════════════════════════════════════════════════════
-        // TRANSFORM UTILITIES (FOR HOVER/ACTIVE STATES)
-        // ═══════════════════════════════════════════════════════════════
-        "translate-lift",         // -2px, -2px on hover
-        "translate-press",        // 1px, 1px on active
-        "translate-elevate"       // -1px, -1px subtle
-      ]
-    }
   },
   rules: {
     // ════════════════════════════════════════════════════════════════════
     // DESIGN SYSTEM ENFORCEMENT - ZERO TOLERANCE
     // ════════════════════════════════════════════════════════════════════
     
-    // Tailwind plugin rules
-    "tailwindcss/classnames-order": "warn",
-    "tailwindcss/no-custom-classname": ["warn", {
-      // Allow design system classes that may not be in default Tailwind
-      "whitelist": [
-        // Typography
-        "text-display-.*", "text-h[1-6]-.*", "text-body-.*", "text-mono-.*",
-        "font-display", "font-heading", "font-body", "font-mono", "font-code",
-        // Colors - surfaces and semantic
-        "bg-surface-*", "bg-ink-*", "bg-grey-*",
-        "text-on-dark-*", "text-on-light-*", "text-on-mid-*",
-        "text-primary", "text-secondary", "text-tertiary", "text-muted",
-        "text-success", "text-warning", "text-error", "text-info",
-        "text-success-*", "text-warning-*", "text-error-*", "text-info-*",
-        "text-grey-*", "text-ink-*",
-        "border-primary", "border-secondary", "border-muted",
-        "border-grey-*", "border-ink-*",
-        // Spacing
-        "spacing-.*", "gap-xs", "gap-sm", "gap-md", "gap-lg", "gap-xl",
-        // Border radius (design system)
-        "rounded-radius-.*", "rounded-button", "rounded-input", "rounded-card",
-        "rounded-modal", "rounded-badge", "rounded-avatar", "rounded-tooltip",
-        // Shadows (hard offset)
-        "shadow-outline.*", "shadow-hard.*", "shadow-primary", "shadow-accent",
-        "shadow-hover", "shadow-active", "shadow-focus",
-        // Border widths
-        "border-thin", "border-thick", "border-heavy",
-        // Z-index
-        "z-base", "z-dropdown", "z-sticky", "z-fixed", "z-modal.*", "z-popover", "z-tooltip",
-        // Durations
-        "duration-instant", "duration-fast", "duration-base", "duration-normal", "duration-slow", "duration-slower",
-        // Easings
-        "ease-bounce", "ease-snap", "ease-spring",
-        // Animations
-        "animate-pop-in", "animate-slide-up-bounce", "animate-shake",
-        "animate-pulse-shadow", "animate-comic-appear", "animate-hard-fade", "animate-scanline",
-        // Stagger
-        "stagger-[1-8]",
-        // Patterns
-        "bg-halftone.*", "bg-stripes.*", "bg-grid.*", "bg-benday.*",
-        "bg-crosshatch.*", "bg-speed-lines.*", "bg-action-lines.*",
-        // Transforms
-        "translate-lift", "translate-press", "translate-elevate"
-      ]
-    }],
-    "tailwindcss/no-contradicting-classname": "error",
+    // NOTE: Tailwind ESLint plugin removed - our design system uses extensive
+    // custom classes that the plugin cannot validate. The design system itself
+    // enforces consistency through component APIs and TypeScript types.
     
     // TypeScript rules
     "@typescript-eslint/no-unused-vars": ["warn", {
@@ -456,16 +207,14 @@ module.exports = {
       // Config files are exempt
       files: ["*.config.{js,ts,mjs,cjs}", "tailwind.config.*"],
       rules: {
-        "no-restricted-syntax": "off",
-        "tailwindcss/no-custom-classname": "off"
+        "no-restricted-syntax": "off"
       }
     },
     {
       // Design documentation is exempt
       files: ["docs/**/*.{js,jsx,ts,tsx}"],
       rules: {
-        "no-restricted-syntax": "off",
-        "tailwindcss/no-custom-classname": "off"
+        "no-restricted-syntax": "off"
       }
     }
   ]

@@ -17,7 +17,7 @@ import {
   Button,
   Pagination,
   EmptyState,
-  LoadingSpinner,
+  Spinner,
   H3,
   Body,
 } from '@ghxstship/ui';
@@ -99,7 +99,7 @@ export function AdvanceRequestsList({ projectId, status }: AdvanceRequestsListPr
         </Select>
 
         {isLoading ? (
-          <LoadingSpinner />
+          <Spinner variant="grey" />
         ) : requests.length === 0 ? (
           <EmptyState
             title="No requests found"

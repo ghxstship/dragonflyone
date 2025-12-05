@@ -88,7 +88,6 @@ export default function TemplatesPage() {
       <EnterprisePageHeader
         title="Template Library"
         subtitle="Contracts, checklists, forms, riders, and standard operating procedures"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Templates' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         primaryAction={{ label: 'Upload Template', onClick: () => setShowUploadModal(true) }}

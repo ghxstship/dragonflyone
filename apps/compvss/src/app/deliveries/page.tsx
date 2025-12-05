@@ -22,6 +22,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from "@ghxstship/ui";
+import { createExportHandler } from "@ghxstship/config";
 
 interface Delivery {
   id: string;
@@ -105,7 +106,7 @@ const formFields: FormFieldConfig[] = [
 export default function DeliveriesPage() {
   const router = useRouter();
   const [deliveries, setDeliveries] = useState<Delivery[]>(mockDeliveries);
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
   
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedDelivery, setSelectedDelivery] = useState<Delivery | null>(null);
@@ -131,9 +132,19 @@ export default function DeliveriesPage() {
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    console.log('Create delivery:', data);
+    const newDelivery: Delivery = {
+      id: `DEL-${String(deliveries.length + 1).padStart(3, '0')}`,
+      vendor: String(data.vendor || ''),
+      description: String(data.description || ''),
+      scheduledDate: String(data.scheduledDate || new Date().toISOString().split('T')[0]),
+      scheduledTime: String(data.scheduledTime || '09:00'),
+      accessPoint: String(data.accessPoint || 'Main Gate'),
+      projectId: String(data.projectId || ''),
+      status: 'Scheduled',
+      items: [],
+    };
+    setDeliveries(prev => [...prev, newDelivery]);
     setCreateModalOpen(false);
-    refetch();
   };
 
   const handleDelete = async () => {
@@ -145,7 +156,24 @@ export default function DeliveriesPage() {
   };
 
   const handleBulkAction = async (actionId: string, selectedIds: string[]) => {
-    console.log('Bulk action:', actionId, selectedIds);
+    if (actionId === 'export') {
+      const selected = deliveries.filter(d => selectedIds.includes(d.id));
+      const csv = [
+        ['ID', 'Vendor', 'Status', 'Date', 'Time', 'Access Point', 'Carrier', 'Tracking'].join(','),
+        ...selected.map(d => [d.id, d.vendor, d.status, d.scheduledDate, d.scheduledTime, d.accessPoint, d.carrier || '', d.trackingNumber || ''].join(','))
+      ].join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'deliveries-export.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    } else if (actionId === 'print') {
+      window.print();
+    } else if (actionId === 'delete') {
+      setDeliveries(prev => prev.filter(d => !selectedIds.includes(d.id)));
+    }
   };
 
   const inTransit = deliveries.filter(d => d.status === "In Transit").length;
@@ -197,7 +225,6 @@ export default function DeliveriesPage() {
       <EnterprisePageHeader
         title="Delivery Tracking"
         subtitle="Track incoming deliveries, receiving, and signature capture"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Deliveries' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
@@ -224,7 +251,20 @@ export default function DeliveriesPage() {
           onRowClick={(row) => { setSelectedDelivery(row); setDrawerOpen(true); }}
           createLabel="Add Delivery"
           onCreate={() => setCreateModalOpen(true)}
-          onExport={() => console.log('Export deliveries')}
+          entityType="deliveries"
+          onExport={createExportHandler({
+            filename: "deliveries",
+            getData: () => deliveries.map(d => ({
+              id: d.id,
+              vendor: d.vendor,
+              status: d.status,
+              scheduledDate: d.scheduledDate,
+              scheduledTime: d.scheduledTime,
+              accessPoint: d.accessPoint,
+              carrier: d.carrier || '',
+              trackingNumber: d.trackingNumber || '',
+            })),
+          })}
           stats={stats}
           emptyMessage="No deliveries found"
           emptyAction={{ label: 'Add Delivery', onClick: () => setCreateModalOpen(true) }}

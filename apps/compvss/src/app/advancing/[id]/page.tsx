@@ -30,7 +30,6 @@ export default function AdvanceRequestPage({ params }: { params: { id: string } 
       <EnterprisePageHeader
         title="Advance Request"
         subtitle={`Request ID: ${params.id}`}
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Advancing', href: '/advancing' }, { label: params.id }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         showFavorite

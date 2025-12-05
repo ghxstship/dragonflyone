@@ -21,6 +21,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from "@ghxstship/ui";
+import { createExportHandler } from "@ghxstship/config";
 
 interface MaintenanceItem {
   id: string;
@@ -81,11 +82,21 @@ export default function MaintenancePage() {
   const rowActions: ListPageAction<MaintenanceItem>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedItem(r); setDrawerOpen(true); } },
     { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/maintenance/${r.id}`) },
-    { id: 'complete', label: 'Mark Complete', icon: <Check className="size-4" />, onClick: (r) => console.log('Complete', r.id) },
+    { id: 'complete', label: 'Mark Complete', icon: <Check className="size-4" />, onClick: (r) => {
+      fetch(`/api/maintenance/${r.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'completed', completed_at: new Date().toISOString() }),
+      }).then(() => refetch?.());
+    }},
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    console.log('Create maintenance:', data);
+    await fetch('/api/maintenance', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
     setCreateModalOpen(false);
     refetch?.();
   };
@@ -115,7 +126,6 @@ export default function MaintenancePage() {
       <EnterprisePageHeader
         title="Equipment Maintenance"
         subtitle="Track and schedule equipment maintenance tasks"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Maintenance' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
@@ -141,7 +151,19 @@ export default function MaintenancePage() {
           onRowClick={(r) => { setSelectedItem(r); setDrawerOpen(true); }}
           createLabel="Schedule Maintenance"
           onCreate={() => setCreateModalOpen(true)}
-          onExport={() => console.log('Export')}
+          entityType="maintenance"
+          onExport={createExportHandler({
+            filename: "maintenance",
+            getData: () => items.map(i => ({
+              id: i.id,
+              equipment_name: i.equipment_name,
+              type: i.type,
+              priority: i.priority,
+              status: i.status,
+              last_service: i.last_service || '',
+              next_due: i.next_due || '',
+            })),
+          })}
           stats={stats}
           emptyMessage="No maintenance records found"
           emptyAction={{ label: 'Schedule Maintenance', onClick: () => setCreateModalOpen(true) }}
@@ -166,8 +188,16 @@ export default function MaintenancePage() {
           subtitle={(m) => formatStatus(m.type)}
           sections={detailSections}
           onEdit={(m) => router.push(`/maintenance/${m.id}`)}
-          actions={[{ id: 'complete', label: 'Mark Complete', icon: '✅' }]}
-          onAction={(id) => console.log('Action', id)}
+          actions={[{ id: 'complete', label: 'Mark Complete', icon: <Check className="size-4" /> }]}
+          onAction={(id) => {
+            if (id === 'complete' && selectedItem) {
+              fetch(`/api/maintenance/${selectedItem.id}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: 'completed', completed_at: new Date().toISOString() }),
+              }).then(() => { refetch?.(); setDrawerOpen(false); });
+            }
+          }}
         />
       )}
     </CompvssAppLayout>

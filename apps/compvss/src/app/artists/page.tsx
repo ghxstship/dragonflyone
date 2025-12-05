@@ -21,6 +21,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from "@ghxstship/ui";
+import { createExportHandler } from "@ghxstship/config";
 
 interface Artist {
   id: string;
@@ -155,7 +156,6 @@ export default function ArtistsPage() {
       <EnterprisePageHeader
         title="Artist Management"
         subtitle="Manage artists, riders, and performance requirements"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Artists' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },
@@ -179,7 +179,22 @@ export default function ArtistsPage() {
           onRowClick={(r) => { setSelectedArtist(r); setDrawerOpen(true); }}
           createLabel="Add Artist"
           onCreate={() => setCreateModalOpen(true)}
-          onExport={() => console.log('Export artists')}
+          entityType="artists"
+          onExport={createExportHandler({
+            filename: "artists",
+            getData: () => artists.map(a => ({
+              id: a.id,
+              name: a.name,
+              genre: a.genre,
+              type: a.type,
+              manager: a.manager || '',
+              managerEmail: a.managerEmail || '',
+              managerPhone: a.managerPhone || '',
+              agent: a.agent || '',
+              documents: [a.technicalRider && 'Tech', a.inputList && 'Input', a.stageplot && 'Plot'].filter(Boolean).join(', '),
+              upcomingShows: a.upcomingShows,
+            })),
+          })}
           stats={stats}
           emptyMessage="No artists found"
           emptyAction={{ label: 'Add Artist', onClick: () => setCreateModalOpen(true) }}

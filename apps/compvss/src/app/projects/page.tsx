@@ -12,7 +12,7 @@ import {
   Grid,
   Stack,
   Container,
-  LoadingSpinner,
+  Spinner,
   StatCard,
   EnterprisePageHeader,
   MainContent,
@@ -37,7 +37,7 @@ export default function ProjectsPage() {
       <CompvssAppLayout>
         <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
-            <LoadingSpinner size="lg" text="Loading projects..." />
+            <Spinner variant="grey" size="lg" text="Loading projects..." />
           </Container>
         </MainContent>
       </CompvssAppLayout>
@@ -49,7 +49,6 @@ export default function ProjectsPage() {
       <EnterprisePageHeader
         title="Projects"
         subtitle="Manage production projects and events"
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Projects' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         primaryAction={canCreateProject ? { label: 'New Project', onClick: () => router.push('/projects/new') } : undefined}

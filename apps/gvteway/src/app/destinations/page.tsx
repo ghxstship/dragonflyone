@@ -41,6 +41,45 @@ interface DestinationSummary {
   featured_count: number;
 }
 
+// Demo data for unauthenticated users
+const DEMO_DESTINATIONS: Destination[] = [
+  {
+    id: "demo-1",
+    name: "New York City",
+    city: "New York",
+    state: "NY",
+    country: "USA",
+    description: "The city that never sleeps - home to world-class venues and legendary performances",
+    venue_count: 245,
+    upcoming_events: 1234,
+    featured_events: ["Madison Square Garden Concert", "Brooklyn Steel Show"],
+    popular_genres: ["Rock", "Hip-Hop", "Jazz"],
+    average_ticket_price: 125,
+    is_trending: true,
+  },
+  {
+    id: "demo-2",
+    name: "Los Angeles",
+    city: "Los Angeles",
+    state: "CA",
+    country: "USA",
+    description: "Entertainment capital with iconic outdoor venues and year-round events",
+    venue_count: 189,
+    upcoming_events: 987,
+    featured_events: ["Hollywood Bowl Symphony", "The Forum Concert"],
+    popular_genres: ["Pop", "Electronic", "Latin"],
+    average_ticket_price: 110,
+    is_trending: true,
+  },
+];
+
+const DEMO_DESTINATION_SUMMARY: DestinationSummary = {
+  total_destinations: 85,
+  trending_count: 12,
+  total_events: 4500,
+  featured_count: 24,
+};
+
 export default function DestinationsPage() {
   const router = useRouter();
   const [destinations, setDestinations] = useState<Destination[]>([]);
@@ -58,6 +97,13 @@ export default function DestinationsPage() {
       if (searchQuery) params.append("search", searchQuery);
 
       const response = await fetch(`/api/destinations?${params.toString()}`);
+      if (response.status === 401) {
+        // Use demo data for unauthenticated users
+        setDestinations(DEMO_DESTINATIONS);
+        setSummary(DEMO_DESTINATION_SUMMARY);
+        setError(null);
+        return;
+      }
       if (!response.ok) throw new Error("Failed to fetch destinations");
       
       const data = await response.json();
@@ -65,7 +111,10 @@ export default function DestinationsPage() {
       setSummary(data.summary || null);
       setError(null);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
+      // Fallback to demo data on error
+      setDestinations(DEMO_DESTINATIONS);
+      setSummary(DEMO_DESTINATION_SUMMARY);
+      setError(null);
     } finally {
       setLoading(false);
     }

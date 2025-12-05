@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
     const offset = parseInt(searchParams.get('offset') || '0');
 
     // Get all language profiles
-    let query = supabase
+    const query = supabase
       .from('language_profiles')
       .select(`
         *,

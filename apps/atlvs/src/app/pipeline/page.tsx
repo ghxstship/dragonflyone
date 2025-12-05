@@ -16,6 +16,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
+import { createExportHandler } from "@ghxstship/config";
 
 interface Deal {
   id: string;
@@ -109,11 +110,22 @@ export default function PipelinePage() {
         onRowClick={(r) => { setSelectedDeal(r); setDrawerOpen(true); }}
         createLabel="Add Deal"
         onCreate={() => router.push('/pipeline/new')}
-        onExport={() => router.push('/pipeline/forecast')}
+        entityType="deals"
+        onExport={createExportHandler({
+          filename: "deals",
+          getData: () => (deals || []).map((d: Deal) => ({
+            id: d.id,
+            name: d.name,
+            client: d.client,
+            value: d.value,
+            stage: d.stage,
+            probability: d.probability,
+            close_date: d.closeDate || '',
+          })),
+        })}
         stats={stats}
         emptyMessage="No deals found"
         emptyAction={{ label: 'Add Deal', onClick: () => router.push('/pipeline/new') }}
-        breadcrumbs={[{ label: 'ATLVS', href: '/dashboard' }, { label: 'Pipeline' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

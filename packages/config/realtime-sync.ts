@@ -1,6 +1,7 @@
 import { QueryClient } from '@tanstack/react-query';
 import { RealtimeChannel, RealtimePostgresChangesPayload } from '@supabase/supabase-js';
 import { supabase } from './supabase-client';
+import { logger } from './logger';
 
 /**
  * Real-time Data Synchronization Utilities
@@ -141,10 +142,10 @@ export function subscribeToPresence(
       onPresenceChange?.(users);
     })
     .on('presence', { event: 'join' }, ({ key, newPresences }) => {
-      console.log('User joined:', key, newPresences);
+      logger.debug('User joined', { key, presences: newPresences });
     })
     .on('presence', { event: 'leave' }, ({ key, leftPresences }) => {
-      console.log('User left:', key, leftPresences);
+      logger.debug('User left', { key, presences: leftPresences });
     })
     .subscribe(async (status) => {
       if (status === 'SUBSCRIBED') {

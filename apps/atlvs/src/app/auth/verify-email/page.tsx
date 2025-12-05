@@ -11,7 +11,7 @@ import {
   Card,
   Label,
   ScrollReveal,
-  LoadingSpinner,
+  Spinner,
   AuthPage,
   IconBox,
 } from "@ghxstship/ui";
@@ -85,7 +85,7 @@ export default function VerifyEmailPage() {
               fallback={
                 <Card className="border-2 border-black/10 bg-white p-8">
                   <Stack gap={6} className="items-center text-center">
-                    <LoadingSpinner size="lg" />
+                    <Spinner variant="grey" size="lg" />
                     <Body size="sm" className="text-muted">
                       Loading...
                     </Body>

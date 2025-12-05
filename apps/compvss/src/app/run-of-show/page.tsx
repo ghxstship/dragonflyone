@@ -10,7 +10,7 @@ import {
   Card,
   Grid,
   Stack,
-  LoadingSpinner,
+  Spinner,
   EnterprisePageHeader,
   MainContent,
 } from '@ghxstship/ui';
@@ -45,7 +45,7 @@ export default function RunOfShowPage() {
       <CompvssAppLayout>
         <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
-            <LoadingSpinner size="lg" text="Loading run of show..." />
+            <Spinner variant="grey" size="lg" text="Loading run of show..." />
           </Container>
         </MainContent>
       </CompvssAppLayout>
@@ -64,7 +64,6 @@ export default function RunOfShowPage() {
       <EnterprisePageHeader
         title="Run of Show"
         subtitle={`Current Time: ${currentTime}`}
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Run of Show' }]}
         views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
         activeView="default"
         primaryAction={{ label: 'Add Cue', onClick: () => router.push('/run-of-show/cues/new') }}

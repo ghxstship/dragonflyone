@@ -14,15 +14,6 @@ import {
   Stack,
   Grid,
   Body,
-  StatCard,
-  Select,
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableHead,
-  TableCell,
-  Button,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -30,6 +21,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from "@ghxstship/ui";
+import { createExportHandler } from "@ghxstship/config";
 
 interface Expense {
   id: string;
@@ -133,7 +125,11 @@ export default function ExpensesPage() {
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    console.log('Submit expense:', data);
+    await fetch('/api/expenses', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
     setCreateModalOpen(false);
     fetchExpenses();
   };
@@ -183,15 +179,56 @@ export default function ExpensesPage() {
         filters={filters}
         rowActions={rowActions}
         bulkActions={bulkActions}
-        onBulkAction={(id, ids) => console.log('Bulk:', id, ids)}
+        onBulkAction={async (id, ids) => {
+          if (id === 'approve') {
+            await Promise.all(ids.map(expenseId =>
+              fetch(`/api/expenses/${expenseId}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: 'approved' }),
+              })
+            ));
+            fetchExpenses();
+          } else if (id === 'export') {
+            const selected = expenses.filter(e => ids.includes(e.id));
+            const csv = [
+              ['ID', 'Number', 'Project', 'Crew Member', 'Category', 'Amount', 'Status', 'Date'].join(','),
+              ...selected.map(e => [e.id, e.expense_number, e.project_name, e.crew_member_name, e.category, e.amount, e.status, e.expense_date].join(','))
+            ].join('\n');
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'expenses-export.csv';
+            a.click();
+            URL.revokeObjectURL(url);
+          }
+        }}
         onRowClick={(r) => { setSelectedExpense(r); setDrawerOpen(true); }}
         createLabel="Submit Expense"
         onCreate={() => setCreateModalOpen(true)}
-        onExport={() => router.push('/expenses/export')}
+        entityType="expenses"
+        onExport={createExportHandler({
+          filename: "expenses",
+          getData: () => expenses.map(e => ({
+            id: e.id,
+            expense_number: e.expense_number,
+            project_name: e.project_name,
+            crew_member_name: e.crew_member_name,
+            category: e.category,
+            description: e.description,
+            amount: e.amount,
+            currency: e.currency,
+            expense_date: e.expense_date,
+            submitted_date: e.submitted_date,
+            status: e.status,
+            approved_by: e.approved_by || '',
+            approved_date: e.approved_date || '',
+          })),
+        })}
         stats={stats}
         emptyMessage="No expenses found"
         emptyAction={{ label: 'Submit Expense', onClick: () => setCreateModalOpen(true) }}
-        breadcrumbs={[{ label: 'COMPVSS', href: '/dashboard' }, { label: 'Expenses' }]}
         views={[
           { id: 'list', label: 'List', icon: 'list' },
           { id: 'grid', label: 'Grid', icon: 'grid' },

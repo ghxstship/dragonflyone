@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { Section, LoadingSpinner, Container } from '@ghxstship/ui';
+import { Section, Spinner, Container } from '@ghxstship/ui';
 import BrowseContent from './browse-content';
 
 function BrowseLoadingFallback() {
@@ -13,7 +13,7 @@ function BrowseLoadingFallback() {
         }}
       />
       <Container className="relative z-10 flex min-h-screen items-center justify-center">
-        <LoadingSpinner size="lg" />
+        <Spinner variant="grey" size="lg" />
       </Container>
     </Section>
   );
