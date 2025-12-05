@@ -15,10 +15,10 @@
 |--------|-------|
 | P0 (Critical) | 0 |
 | P1 (High) | 1 (In Progress) |
-| P2 (Medium) | 4 |
+| P2 (Medium) | 1 |
 | P3 (Low) | 6 |
-| Completed (Last 30 Days) | 47 |
-| Total Pages | 540+ |
+| Completed (Last 30 Days) | 60 |
+| Total Pages | 575+ |
 | Design System Violations | 0 |
 
 ---
@@ -356,7 +356,7 @@ Production-scoped asset allocation and tracking.
 
 | Field | Value |
 |-------|-------|
-| **Status** | Not Started |
+| **Status** | Complete |
 | **Priority** | P2 |
 | **Effort** | L (1-2 weeks) |
 | **App** | COMPVSS |
@@ -365,20 +365,20 @@ Production-scoped asset allocation and tracking.
 Self-service portal for crew members to manage their assignments, timesheets, and credentials.
 
 **Missing Pages:**
-- `/my-schedule` - Personal schedule view
-- `/my-assignments` - Assignment acceptance/decline
-- `/my-timesheets` - Timesheet submission
-- `/my-credentials` - Credential status
-- `/my-training` - Training completion
-- `/clock-in` - Clock in/out interface
+- [x] `/my-schedule` - Personal schedule view ✓ CREATED
+- [x] `/my-assignments` - Assignment acceptance/decline ✓ CREATED
+- [x] `/my-timesheets` - Timesheet submission ✓ CREATED
+- [x] `/my-credentials` - Credential status ✓ CREATED
+- [x] `/my-training` - Training completion ✓ CREATED
+- [x] `/clock-in` - Clock in/out interface ✓ CREATED
 
 **Required Functionality:**
-- View upcoming assignments
-- Accept/decline assignments
-- Submit timesheets
-- View credential status
-- Complete training modules
-- Clock in/out with geolocation
+- [x] View upcoming assignments
+- [x] Accept/decline assignments
+- [x] Submit timesheets
+- [x] View credential status
+- [x] Complete training modules
+- [x] Clock in/out with geolocation
 
 ---
 
@@ -386,7 +386,7 @@ Self-service portal for crew members to manage their assignments, timesheets, an
 
 | Field | Value |
 |-------|-------|
-| **Status** | Not Started |
+| **Status** | Complete |
 | **Priority** | P2 |
 | **Effort** | M (3-5 days) |
 | **App** | COMPVSS |
@@ -395,10 +395,10 @@ Self-service portal for crew members to manage their assignments, timesheets, an
 Self-service portal for vendors to manage deliveries and invoices.
 
 **Missing Pages:**
-- `/vendor-portal` - Vendor dashboard
-- `/my-deliveries` - Delivery schedule
-- `/my-invoices` - Invoice submission
-- `/my-contracts` - Contract status
+- [x] `/vendor-portal` - Vendor dashboard ✓ CREATED
+- [x] `/my-deliveries` - Delivery schedule ✓ CREATED
+- [x] `/my-invoices` - Invoice submission ✓ CREATED
+- [x] `/my-contracts` - Contract status ✓ CREATED
 
 ---
 
@@ -406,7 +406,7 @@ Self-service portal for vendors to manage deliveries and invoices.
 
 | Field | Value |
 |-------|-------|
-| **Status** | Not Started |
+| **Status** | Complete |
 | **Priority** | P2 |
 | **Effort** | M (3-5 days) |
 | **App** | COMPVSS |
@@ -415,9 +415,9 @@ Self-service portal for vendors to manage deliveries and invoices.
 Self-service portal for artists and entertainers.
 
 **Missing Pages:**
-- `/artist-portal` - Artist dashboard
-- `/my-rider` - Rider requirements
-- `/my-hospitality` - Hospitality requests
+- [x] `/artist-portal` - Artist dashboard ✓ CREATED
+- [x] `/my-rider` - Rider requirements ✓ CREATED
+- [x] `/my-hospitality` - Hospitality requests ✓ CREATED
 
 ---
 
@@ -540,7 +540,7 @@ Ensure production data syncs correctly across ATLVS, COMPVSS, and GVTEWAY.
 
 | Field | Value |
 |-------|-------|
-| **Status** | Not Started |
+| **Status** | Complete |
 | **Priority** | P2 |
 | **Effort** | M (3-5 days) |
 | **App** | All |
@@ -549,9 +549,14 @@ Ensure production data syncs correctly across ATLVS, COMPVSS, and GVTEWAY.
 Filter navigation items based on user's platform role and event role.
 
 **Required Functionality:**
-- Hide admin pages from non-admin users
-- Show role-specific portals (crew, vendor, artist, sponsor, investor)
-- Event-level role filtering for COMPVSS and GVTEWAY
+- [x] Hide admin pages from non-admin users - `useRoleAwareNavigation` hook implemented
+- [x] Show role-specific portals (crew, vendor, artist, sponsor, investor) - Portal pages created
+- [x] Event-level role filtering for COMPVSS and GVTEWAY - `ATLVS_EVENT_NAV_VISIBILITY` matrix defined
+
+**Implementation Notes:**
+- `useRoleAwareNavigation` hook in `@ghxstship/config/hooks` filters navigation based on user roles
+- Navigation configs use `platformRoles` and `eventRoles` properties for visibility control
+- `ATLVS_PLATFORM_NAV_VISIBILITY` and `ATLVS_EVENT_NAV_VISIBILITY` matrices define access rules
 
 ---
 
