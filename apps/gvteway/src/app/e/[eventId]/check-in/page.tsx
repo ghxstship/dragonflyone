@@ -1,0 +1,256 @@
+'use client';
+
+import { useState, useEffect, useCallback } from 'react';
+import { useParams } from 'next/navigation';
+import {
+  SectionHeader,
+  Card,
+  CardBody,
+  Stack,
+  StatCard,
+  Button,
+  Badge,
+  Grid,
+  Body,
+  H3,
+  Input,
+} from '@ghxstship/ui';
+import {
+  Scan,
+  Users,
+  CheckCircle,
+  XCircle,
+  Search,
+  Clock,
+  RefreshCw,
+} from 'lucide-react';
+import { GvtewayAppLayout } from '../../../../components/app-layout';
+
+interface CheckInStats {
+  totalCapacity: number;
+  checkedIn: number;
+  pending: number;
+  denied: number;
+}
+
+interface RecentScan {
+  id: string;
+  ticketId: string;
+  name: string;
+  ticketType: string;
+  status: 'success' | 'duplicate' | 'invalid' | 'expired';
+  timestamp: Date;
+}
+
+export default function EventCheckInPage() {
+  const params = useParams();
+  const eventId = params?.eventId as string;
+  const [stats, setStats] = useState<CheckInStats>({
+    totalCapacity: 670,
+    checkedIn: 423,
+    pending: 247,
+    denied: 12,
+  });
+  const [recentScans, setRecentScans] = useState<RecentScan[]>([
+    { id: '1', ticketId: 'TKT-001234', name: 'John Smith', ticketType: 'VIP', status: 'success', timestamp: new Date() },
+    { id: '2', ticketId: 'TKT-001235', name: 'Jane Doe', ticketType: 'GA', status: 'success', timestamp: new Date(Date.now() - 60000) },
+    { id: '3', ticketId: 'TKT-001236', name: 'Bob Wilson', ticketType: 'GA', status: 'duplicate', timestamp: new Date(Date.now() - 120000) },
+  ]);
+  const [manualSearch, setManualSearch] = useState('');
+  const [isSearching, setIsSearching] = useState(false);
+
+  const checkedInPercentage = Math.round((stats.checkedIn / stats.totalCapacity) * 100);
+
+  const handleManualSearch = useCallback(async () => {
+    if (!manualSearch.trim()) return;
+    setIsSearching(true);
+    try {
+      const response = await fetch(`/api/events/${eventId}/check-in/search?q=${encodeURIComponent(manualSearch)}`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.ticket) {
+          setRecentScans(prev => [{
+            id: Date.now().toString(),
+            ticketId: data.ticket.id,
+            name: data.ticket.name,
+            ticketType: data.ticket.type,
+            status: data.ticket.status,
+            timestamp: new Date(),
+          }, ...prev.slice(0, 9)]);
+        }
+      }
+    } catch (_error) {
+      // Handle error
+    } finally {
+      setIsSearching(false);
+      setManualSearch('');
+    }
+  }, [eventId, manualSearch]);
+
+  const refreshStats = useCallback(async () => {
+    try {
+      const response = await fetch(`/api/events/${eventId}/check-in/stats`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.stats) setStats(data.stats);
+      }
+    } catch (_error) {
+      // Handle error
+    }
+  }, [eventId]);
+
+  useEffect(() => {
+    const interval = setInterval(refreshStats, 10000);
+    return () => clearInterval(interval);
+  }, [refreshStats]);
+
+  const getStatusBadge = (status: RecentScan['status']) => {
+    switch (status) {
+      case 'success':
+        return <Badge variant="success">Checked In</Badge>;
+      case 'duplicate':
+        return <Badge variant="warning">Duplicate</Badge>;
+      case 'invalid':
+        return <Badge variant="error">Invalid</Badge>;
+      case 'expired':
+        return <Badge variant="error">Expired</Badge>;
+      default:
+        return <Badge>Unknown</Badge>;
+    }
+  };
+
+  return (
+    <GvtewayAppLayout>
+      <Stack gap={8}>
+        <SectionHeader
+          kicker="Event"
+          title="Check-In Dashboard"
+          description="Real-time attendance tracking and ticket scanning"
+          colorScheme="on-dark"
+        />
+
+        <Grid cols={4} gap={4}>
+          <StatCard
+            label="Checked In"
+            value={stats.checkedIn.toLocaleString()}
+            icon={<CheckCircle size={20} />}
+            trend="up"
+            inverted
+          />
+          <StatCard
+            label="Pending"
+            value={stats.pending.toLocaleString()}
+            icon={<Users size={20} />}
+            inverted
+          />
+          <StatCard
+            label="Denied"
+            value={stats.denied.toString()}
+            icon={<XCircle size={20} />}
+            inverted
+          />
+          <StatCard
+            label="Attendance"
+            value={`${checkedInPercentage}%`}
+            icon={<Scan size={20} />}
+            trend={checkedInPercentage >= 50 ? 'up' : undefined}
+            inverted
+          />
+        </Grid>
+
+        <Grid cols={2} gap={6}>
+          <Card variant="elevated" inverted>
+            <CardBody>
+              <Stack gap={4}>
+                <H3 className="text-white">Manual Lookup</H3>
+                <Stack direction="horizontal" gap={2}>
+                  <Input
+                    value={manualSearch}
+                    onChange={(e) => setManualSearch(e.target.value)}
+                    placeholder="Search by ticket ID, name, or email..."
+                    onKeyDown={(e) => e.key === 'Enter' && handleManualSearch()}
+                  />
+                  <Button variant="solid" onClick={handleManualSearch} disabled={isSearching}>
+                    <Search size={16} />
+                  </Button>
+                </Stack>
+                <Body className="text-body-sm text-on-dark-muted">
+                  Enter ticket ID, attendee name, or email to manually check in
+                </Body>
+              </Stack>
+            </CardBody>
+          </Card>
+
+          <Card variant="elevated" inverted>
+            <CardBody>
+              <Stack gap={4}>
+                <Stack direction="horizontal" className="items-center justify-between">
+                  <H3 className="text-white">Scanner Status</H3>
+                  <Badge variant="success">Online</Badge>
+                </Stack>
+                <Stack gap={2}>
+                  <Stack direction="horizontal" className="justify-between">
+                    <Body className="text-on-dark-muted">Active Scanners</Body>
+                    <Body className="font-weight-semibold text-white">4</Body>
+                  </Stack>
+                  <Stack direction="horizontal" className="justify-between">
+                    <Body className="text-on-dark-muted">Scans/min</Body>
+                    <Body className="font-weight-semibold text-white">12</Body>
+                  </Stack>
+                  <Stack direction="horizontal" className="justify-between">
+                    <Body className="text-on-dark-muted">Avg Scan Time</Body>
+                    <Body className="font-weight-semibold text-white">1.2s</Body>
+                  </Stack>
+                </Stack>
+              </Stack>
+            </CardBody>
+          </Card>
+        </Grid>
+
+        <Card variant="elevated" inverted>
+          <CardBody>
+            <Stack gap={4}>
+              <Stack direction="horizontal" className="items-center justify-between">
+                <H3 className="text-white">Recent Scans</H3>
+                <Button variant="ghost" size="sm" onClick={refreshStats}>
+                  <RefreshCw size={14} className="mr-1" />
+                  Refresh
+                </Button>
+              </Stack>
+              <Stack gap={2}>
+                {recentScans.map((scan) => (
+                  <Stack
+                    key={scan.id}
+                    direction="horizontal"
+                    className="items-center justify-between rounded border-2 border-ink-700 p-3"
+                  >
+                    <Stack direction="horizontal" gap={4} className="items-center">
+                      {scan.status === 'success' ? (
+                        <CheckCircle size={20} className="text-success" />
+                      ) : (
+                        <XCircle size={20} className="text-error" />
+                      )}
+                      <Stack gap={0}>
+                        <Body className="font-weight-semibold text-white">{scan.name}</Body>
+                        <Body className="text-body-sm text-on-dark-muted">
+                          {scan.ticketId} - {scan.ticketType}
+                        </Body>
+                      </Stack>
+                    </Stack>
+                    <Stack direction="horizontal" gap={4} className="items-center">
+                      {getStatusBadge(scan.status)}
+                      <Body className="text-body-sm text-on-dark-muted">
+                        <Clock size={12} className="mr-1 inline" />
+                        {scan.timestamp.toLocaleTimeString()}
+                      </Body>
+                    </Stack>
+                  </Stack>
+                ))}
+              </Stack>
+            </Stack>
+          </CardBody>
+        </Card>
+      </Stack>
+    </GvtewayAppLayout>
+  );
+}
