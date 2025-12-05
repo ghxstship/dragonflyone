@@ -4,11 +4,11 @@ import { log } from '@ghxstship/config';
 
 export async function GET(
   _request: NextRequest,
-  { params }: { params: { eventId: string } }
+  { params }: { params: { id: string } }
 ) {
   try {
     const supabase = supabaseAdmin;
-    const { eventId } = params;
+    const { id } = params;
 
     // Get ticket tiers and sales data
     const { data: tiers, error: tiersError } = await supabase
@@ -21,10 +21,10 @@ export async function GET(
         sold_count,
         available_count
       `)
-      .eq('event_id', eventId);
+      .eq('event_id', id);
 
     if (tiersError) {
-      log.error('Failed to fetch ticket tiers', { error: tiersError, eventId });
+      log.error('Failed to fetch ticket tiers', { error: tiersError, eventId: id });
       return NextResponse.json({ error: 'Failed to fetch box office data' }, { status: 500 });
     }
 
