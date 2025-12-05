@@ -25,3 +25,18 @@ export type {
   NavSection,
   UserRoleContext,
 } from './useNavigation';
+
+// Collaboration hooks
+export {
+  useCollaborationPresence,
+  useCollaborationEvents,
+  useLiveEditing,
+  useTypingIndicator,
+} from './useCollaboration';
+export type {
+  CollaboratorPresence,
+  CollaborationRoom,
+  CursorPosition,
+  SelectionRange,
+  CollaborationEvent,
+} from './useCollaboration';
