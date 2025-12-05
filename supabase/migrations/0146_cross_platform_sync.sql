@@ -3,16 +3,30 @@
 -- stays synchronized across ATLVS, COMPVSS, and GVTEWAY
 
 -- =============================================================================
+-- ADD PRODUCTION_ID COLUMNS TO RELATED TABLES
+-- =============================================================================
+
+-- Add production_id to events table for cross-platform linking
+ALTER TABLE events ADD COLUMN IF NOT EXISTS production_id UUID REFERENCES productions(id) ON DELETE SET NULL;
+CREATE INDEX IF NOT EXISTS idx_events_production_id ON events(production_id) WHERE production_id IS NOT NULL;
+
+-- Add ticket_revenue to events if not exists
+ALTER TABLE events ADD COLUMN IF NOT EXISTS ticket_revenue NUMERIC(12,2) DEFAULT 0;
+
+-- =============================================================================
 -- PRODUCTION ID VALIDATION
 -- =============================================================================
 
--- Function to validate unified production ID format
+-- Function to validate production_id exists in productions table
+-- (Foreign key constraint handles this, but we add explicit validation for better error messages)
 CREATE OR REPLACE FUNCTION validate_production_id()
 RETURNS TRIGGER AS $$
 BEGIN
-  -- Production IDs must follow the format: prod-{timestamp}-{random}
-  IF NEW.production_id IS NOT NULL AND NEW.production_id !~ '^prod-[0-9]+-[a-z0-9]+$' THEN
-    RAISE EXCEPTION 'Invalid production_id format. Expected: prod-{timestamp}-{random}';
+  -- Validate that the production exists and is not archived
+  IF NEW.production_id IS NOT NULL THEN
+    IF NOT EXISTS (SELECT 1 FROM productions WHERE id = NEW.production_id) THEN
+      RAISE EXCEPTION 'Production with id % does not exist', NEW.production_id;
+    END IF;
   END IF;
   RETURN NEW;
 END;
@@ -22,14 +36,6 @@ $$ LANGUAGE plpgsql;
 DROP TRIGGER IF EXISTS validate_event_production_id ON events;
 CREATE TRIGGER validate_event_production_id
   BEFORE INSERT OR UPDATE ON events
-  FOR EACH ROW
-  WHEN (NEW.production_id IS NOT NULL)
-  EXECUTE FUNCTION validate_production_id();
-
--- Apply validation to crew_workspaces table
-DROP TRIGGER IF EXISTS validate_workspace_production_id ON crew_workspaces;
-CREATE TRIGGER validate_workspace_production_id
-  BEFORE INSERT OR UPDATE ON crew_workspaces
   FOR EACH ROW
   WHEN (NEW.production_id IS NOT NULL)
   EXECUTE FUNCTION validate_production_id();
@@ -56,19 +62,6 @@ BEGIN
       updated_at = NOW()
     WHERE production_id = NEW.id;
 
-    -- Update crew workspaces
-    UPDATE crew_workspaces
-    SET 
-      status = CASE 
-        WHEN NEW.status = 'active' THEN 'active'
-        WHEN NEW.status = 'completed' THEN 'completed'
-        WHEN NEW.status = 'cancelled' THEN 'inactive'
-        WHEN NEW.status = 'archived' THEN 'archived'
-        ELSE status
-      END,
-      updated_at = NOW()
-    WHERE production_id = NEW.id;
-
     -- Log the sync event
     INSERT INTO sync_logs (
       source_table,
@@ -84,7 +77,7 @@ BEGIN
       'status_change',
       OLD.status,
       NEW.status,
-      ARRAY['events', 'crew_workspaces'],
+      ARRAY['events'],
       NOW()
     );
   END IF;
@@ -216,7 +209,6 @@ CREATE INDEX IF NOT EXISTS idx_sync_logs_created_at ON sync_logs(created_at DESC
 -- Enable realtime for cross-platform tables
 ALTER PUBLICATION supabase_realtime ADD TABLE productions;
 ALTER PUBLICATION supabase_realtime ADD TABLE events;
-ALTER PUBLICATION supabase_realtime ADD TABLE crew_workspaces;
 ALTER PUBLICATION supabase_realtime ADD TABLE sync_logs;
 
 -- =============================================================================
@@ -224,11 +216,10 @@ ALTER PUBLICATION supabase_realtime ADD TABLE sync_logs;
 -- =============================================================================
 
 -- Function to get all related records for a production
-CREATE OR REPLACE FUNCTION get_production_ecosystem(p_production_id TEXT)
+CREATE OR REPLACE FUNCTION get_production_ecosystem(p_production_id UUID)
 RETURNS TABLE (
   production JSONB,
   events JSONB,
-  crew_workspaces JSONB,
   sync_history JSONB
 ) AS $$
 BEGIN
@@ -236,13 +227,12 @@ BEGIN
   SELECT
     (SELECT row_to_json(p.*) FROM productions p WHERE p.id = p_production_id)::jsonb AS production,
     (SELECT jsonb_agg(row_to_json(e.*)) FROM events e WHERE e.production_id = p_production_id) AS events,
-    (SELECT jsonb_agg(row_to_json(cw.*)) FROM crew_workspaces cw WHERE cw.production_id = p_production_id) AS crew_workspaces,
-    (SELECT jsonb_agg(row_to_json(sl.*)) FROM sync_logs sl WHERE sl.source_id = p_production_id ORDER BY sl.created_at DESC LIMIT 50) AS sync_history;
+    (SELECT jsonb_agg(row_to_json(sl.*)) FROM sync_logs sl WHERE sl.source_id = p_production_id::text ORDER BY sl.created_at DESC LIMIT 50) AS sync_history;
 END;
 $$ LANGUAGE plpgsql;
 
 -- Function to manually trigger a full sync for a production
-CREATE OR REPLACE FUNCTION trigger_production_sync(p_production_id TEXT)
+CREATE OR REPLACE FUNCTION trigger_production_sync(p_production_id UUID)
 RETURNS JSONB AS $$
 DECLARE
   v_production RECORD;
@@ -270,19 +260,6 @@ BEGIN
     updated_at = NOW()
   WHERE production_id = p_production_id;
 
-  -- Sync to crew workspaces
-  UPDATE crew_workspaces
-  SET 
-    status = CASE 
-      WHEN v_production.status = 'active' THEN 'active'
-      WHEN v_production.status = 'completed' THEN 'completed'
-      WHEN v_production.status = 'cancelled' THEN 'inactive'
-      WHEN v_production.status = 'archived' THEN 'archived'
-      ELSE status
-    END,
-    updated_at = NOW()
-  WHERE production_id = p_production_id;
-
   -- Log the manual sync
   INSERT INTO sync_logs (
     source_table,
@@ -294,7 +271,7 @@ BEGIN
     'productions',
     p_production_id,
     'manual_sync',
-    ARRAY['events', 'crew_workspaces'],
+    ARRAY['events'],
     NOW()
   );
 
@@ -307,5 +284,5 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- Grant execute permissions
-GRANT EXECUTE ON FUNCTION get_production_ecosystem(TEXT) TO authenticated;
-GRANT EXECUTE ON FUNCTION trigger_production_sync(TEXT) TO authenticated;
+GRANT EXECUTE ON FUNCTION get_production_ecosystem(UUID) TO authenticated;
+GRANT EXECUTE ON FUNCTION trigger_production_sync(UUID) TO authenticated;

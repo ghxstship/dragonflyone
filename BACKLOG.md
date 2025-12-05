@@ -3,7 +3,7 @@
 > Product backlog for the GHXSTSHIP platform (ATLVS, COMPVSS, GVTEWAY).  
 > Follows industry-standard backlog management practices with clear ownership, sizing, and acceptance criteria.
 
-**Last Updated:** December 4, 2025 (7:15pm EST)  
+**Last Updated:** December 4, 2025 (10:10pm EST)  
 **Backlog Owner:** Engineering Team  
 **Review Cadence:** Weekly
 
@@ -18,8 +18,17 @@
 | P2 (Medium) | 0 |
 | P3 (Low) | 2 (PWA only) |
 | Completed (Last 30 Days) | 66 |
-| Total Pages | 585+ |
-| Design System Violations | 0 |
+| Total Pages | 561 |
+| ATLVS Pages | 211 |
+| COMPVSS Pages | 164 |
+| GVTEWAY Pages | 186 |
+| Loading States | 8 |
+| Error Boundaries | 13 |
+| E2E Test Specs | 16 |
+| DB Migrations | 146 |
+| Edge Functions | 16 |
+| Config Modules | 213 |
+| Design System Violations | 0 (warnings only) |
 
 ---
 
@@ -839,16 +848,16 @@ Implement stub pages or hide from navigation.
 | **Owner** | Unassigned |
 | **Effort** | XL (2+ weeks) |
 | **Completed** | Dec 4, 2025 |
-| **Scope** | 512 pages |
+| **Scope** | 561 pages |
 
 **Description:**  
 All authenticated pages aligned with GHXSTSHIP design system.
 
 **Acceptance Criteria:**
-- [x] ATLVS pages refactored (197 pages)
-- [x] GVTEWAY pages refactored (174 pages)
-- [x] COMPVSS pages refactored (141 pages)
-- [x] All pages pass ESLint design system rules (0 violations)
+- [x] ATLVS pages refactored (211 pages)
+- [x] GVTEWAY pages refactored (186 pages)
+- [x] COMPVSS pages refactored (164 pages)
+- [x] All pages pass ESLint design system rules (0 errors, warnings only)
 
 **References:**
 - `docs/design/STYLE-GUIDE-PREVIEW.jsx`
@@ -868,7 +877,7 @@ All authenticated pages aligned with GHXSTSHIP design system.
 | BACK-001 | ExperienceGeneratorSchema | Dec 4, 2025 | Types exist, UI/API routes verified |
 | BACK-002 | Navigation Phase 8 | Dec 4, 2025 | Deep linking, unified search, role filtering implemented |
 | BACK-003 | Design System ESLint | Dec 4, 2025 | 0 violations, warnings are TypeScript strictness |
-| BACK-004 | UI Style Guide Refactor | Dec 4, 2025 | 512 pages pass design system rules |
+| BACK-004 | UI Style Guide Refactor | Dec 4, 2025 | 561 pages pass design system rules |
 | BACK-005 | Test Coverage Analysis | Dec 4, 2025 | 10 unit test files, 16 E2E specs, CI coverage reporting |
 | BACK-006 | API Versioning | Dec 4, 2025 | Middleware created in `packages/config/api-versioning.ts` |
 | BACK-007 | Staging Environment | Dec 4, 2025 | `.env.staging.example` created |
@@ -878,7 +887,7 @@ All authenticated pages aligned with GHXSTSHIP design system.
 | BACK-011 | Session Timeout | Dec 4, 2025 | SessionManager in `packages/config/session-config.ts` |
 | BACK-012 | Rate Limiting | Dec 4, 2025 | Full implementation in `packages/config/rate-limiting.ts` |
 | BACK-013 | Vercel Cron Jobs | Dec 4, 2025 | 7 cron jobs configured, Pro plan active |
-| BACK-C01 | Workflow Audit | Dec 4, 2025 | 512 pages audited, 16 E2E specs, 8 loading files |
+| BACK-C01 | Workflow Audit | Dec 4, 2025 | 561 pages audited, 16 E2E specs, 8 loading files |
 | BACK-C02 | Loading States | Dec 4, 2025 | Route-level loading.tsx files added |
 | BACK-C03 | AI Experience Generator | Dec 3, 2025 | Core implementation complete |
 | BACK-C04 | Typography Audit | Nov 27, 2025 | 1,800+ violations fixed |
@@ -891,6 +900,26 @@ All authenticated pages aligned with GHXSTSHIP design system.
 ## Notes & Decisions
 
 - **Vercel Plan:** Pro plan now active - all 7 cron jobs enabled
-- **Design System:** 0 violations, remaining warnings are TypeScript strictness (not blocking)
+- **Design System:** 0 errors, remaining warnings are TypeScript strictness and custom Tailwind classes (not blocking)
 - **Enterprise Features:** SSO/SAML infrastructure ready, needs Supabase project configuration
 - **API Versioning:** Middleware ready, route migration can be done incrementally
+- **Edge Functions:** 16 Supabase edge functions deployed (advance-notifications, automation-actions, automation-triggers, broadcast-updates, cache-warmer, cleanup-jobs, deal-project-handoff, email-notifications, file-upload, health-check, integration-webhook-ingest, nightly-reconciliation, webhook-gvteway, webhook-stripe, webhook-twilio)
+- **Config Package:** 213 TypeScript modules in `packages/config` providing shared utilities, hooks, and services
+
+---
+
+## Deferred Items (Future Sprints)
+
+These items are intentionally deferred and tracked for future implementation:
+
+| Item | Reason | Dependency |
+|------|--------|------------|
+| PDF Generation (wrap reports) | Needs PDF library selection | None |
+| Stripe Payout Integration | Needs Stripe Connect setup | Stripe account |
+| Offline Mode (check-in) | Needs service worker implementation | PWA infrastructure |
+| Access Zone Validation | Needs zone configuration UI | Zone schema |
+| Photo/Video Attachments | Needs file upload service | S3/Supabase Storage |
+| Catering Management | Lower priority feature | None |
+| Sponsor Activation Pages | Lower priority feature | None |
+| Investor Update Pages | Lower priority feature | None |
+| Attendee Refund/Transfer Pages | Lower priority feature | None |

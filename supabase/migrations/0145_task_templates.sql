@@ -27,20 +27,25 @@ CREATE INDEX IF NOT EXISTS idx_task_templates_department ON task_templates(depar
 -- Enable RLS
 ALTER TABLE task_templates ENABLE ROW LEVEL SECURITY;
 
--- RLS Policies
+-- RLS Policies (drop and recreate to be idempotent)
+DROP POLICY IF EXISTS "task_templates_select_policy" ON task_templates;
 CREATE POLICY "task_templates_select_policy" ON task_templates
   FOR SELECT USING (true);
 
+DROP POLICY IF EXISTS "task_templates_insert_policy" ON task_templates;
 CREATE POLICY "task_templates_insert_policy" ON task_templates
   FOR INSERT WITH CHECK (true);
 
+DROP POLICY IF EXISTS "task_templates_update_policy" ON task_templates;
 CREATE POLICY "task_templates_update_policy" ON task_templates
   FOR UPDATE USING (true);
 
+DROP POLICY IF EXISTS "task_templates_delete_policy" ON task_templates;
 CREATE POLICY "task_templates_delete_policy" ON task_templates
   FOR DELETE USING (true);
 
 -- Add updated_at trigger
+DROP TRIGGER IF EXISTS set_task_templates_updated_at ON task_templates;
 CREATE TRIGGER set_task_templates_updated_at
   BEFORE UPDATE ON task_templates
   FOR EACH ROW

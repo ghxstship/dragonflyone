@@ -44,6 +44,41 @@
 291:33  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
 294:33  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
 
+./src/app/account/orders/page.tsx
+57:23  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+65:23  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+73:23  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+99:34  Warning: Classname 'font-weight-semibold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+
+./src/app/account/page.tsx
+66:66  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+66:66  Warning: Classname 'border-ink-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+68:31  Warning: Classname 'font-weight-semibold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+69:31  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+120:29  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+124:29  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+128:29  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+
+./src/app/account/profile/page.tsx
+65:37  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+72:38  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+90:51  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+90:51  Warning: Classname 'border-ink-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+95:33  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+
+./src/app/account/tickets/page.tsx
+73:45  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+74:31  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+77:43  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+78:31  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+86:49  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
+86:49  Warning: Classname 'border-ink-700' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+88:29  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+89:29  Warning: Classname 'font-weight-semibold' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+93:31  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+99:31  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+105:31  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
+
 ./src/app/activity/page.tsx
 71:46  Warning: Invalid Tailwind CSS classnames order  tailwindcss/classnames-order
 71:46  Warning: Classname 'text-on-dark-muted' is not a Tailwind CSS class!  tailwindcss/no-custom-classname
@@ -285,248 +320,248 @@
 137:25  Warning: Unexpected console statement.  no-console
 
 ./src/app/api/ab-testing/route.ts
-14:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-16:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-60:58  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-78:50  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-78:64  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-101:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-113:50  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-138:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-211:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-250:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-255:34  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-255:42  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-267:39  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+62:58  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+80:50  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+80:64  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+103:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+115:50  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+140:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+213:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+252:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+257:34  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+257:42  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+269:39  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/abandoned-cart/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/accessibility/requests/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-52:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-53:34  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+54:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+55:34  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/accessibility/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/activity/feed/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-82:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-83:38  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-85:39  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-86:39  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-88:40  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-90:38  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+84:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+85:38  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+87:39  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+88:39  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+90:40  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+92:38  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/ad-campaigns/route.ts
-14:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-16:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-94:48  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-94:56  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-123:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-188:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-247:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+96:48  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+96:56  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+125:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+190:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+249:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/admin/promo-codes/[id]/route.ts
-14:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-16:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/admin/promo-codes/route.ts
-14:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-16:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/admin/reconciliation/route.ts
-129:89  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-166:61  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+132:89  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+169:61  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/advanced-search/route.ts
-14:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-16:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-156:20  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-301:20  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+158:20  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+303:20  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/age-restrictions/route.ts
-14:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-16:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-46:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-65:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-88:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+48:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+67:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+90:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/age-verification/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/ai/nlp-search/route.ts
-13:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-66:18  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-414:41  Warning: 'parsed' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
-414:62  Warning: 'results' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
-414:71  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+68:18  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+416:41  Warning: 'parsed' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+416:62  Warning: 'results' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+416:71  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/ai/recommendations/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-65:34  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+67:34  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/ai-recommendations/route.ts
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-46:26  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-75:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-75:56  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-75:72  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-75:80  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-110:56  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-138:52  Warning: 'profile' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
-138:61  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-156:43  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-172:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-172:55  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+48:26  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+77:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+77:56  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+77:72  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+77:80  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+112:56  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+140:52  Warning: 'profile' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+140:61  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+158:43  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+174:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+174:55  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/ambassador-program/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/anti-scalping/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-138:41  Warning: 'device_fingerprint' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+140:41  Warning: 'device_fingerprint' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
 
 ./src/app/api/approval-workflows/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-69:26  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+71:26  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/ar-experiences/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-56:45  Warning: 'venue_id' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+58:45  Warning: 'venue_id' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
 
 ./src/app/api/artist-amplification/route.ts
-14:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-16:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-65:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-130:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-153:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+67:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+132:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+155:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/artists/[id]/follow/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/artists/[id]/follow/status/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/artists/route.ts
-14:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-16:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+17:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+19:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/auth/callback/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/auth/magic-link/route.ts
-14:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-16:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+17:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+19:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/auth/me/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/auth/oauth/[provider]/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/auth/password/reset/route.ts
-14:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-16:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+17:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+19:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/auth/password/update/route.ts
-14:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-16:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+17:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+19:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/auth/refresh/route.ts
-14:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-16:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+17:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+19:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/auth/signin/route.ts
-14:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-16:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+17:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+19:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/auth/signout/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/auth/signup/route.ts
-14:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-16:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+17:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+19:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/auth/verify-email/route.ts
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/batch/tickets/route.ts
-21:75  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+23:75  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/bulk-posting/route.ts
-14:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-16:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-58:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-130:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+60:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+132:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/bundle-deals/route.ts
-14:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-16:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-57:67  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-96:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-158:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-181:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-201:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+59:67  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+98:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+160:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+183:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+203:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/bundles/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-54:37  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-156:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+56:37  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+158:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/campaigns/route.ts
-148:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-218:99  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-281:112  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+151:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+221:99  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+284:112  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/capacity/route.ts
-17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-107:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-125:45  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-150:60  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-151:59  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-178:45  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-242:63  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-279:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-280:33  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-309:52  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-310:48  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-383:50  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+19:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+109:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+127:45  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+152:60  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+153:59  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+180:45  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+244:63  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+281:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+282:33  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+311:52  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+312:48  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+385:50  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/cashless-payments/route.ts
-14:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-16:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-59:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-143:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+61:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+145:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/charity-campaigns/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-44:56  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-45:89  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+46:56  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+47:89  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/checkout/route.ts
-14:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-16:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-179:9  Warning: 'giftCardId' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+19:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+182:9  Warning: 'giftCardId' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
 
 ./src/app/api/checkout/session/route.test.ts
 21:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
@@ -534,268 +569,230 @@
 187:101  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/collections/[id]/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-56:20  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-56:28  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-57:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-79:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+58:20  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+58:28  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+59:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+81:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/collections/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-61:54  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+63:54  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 ./src/app/api/comment-moderation/route.ts
-14:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-16:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-75:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-148:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-187:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
-./src/app/api/community/events/route.ts
-14:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-16:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
-./src/app/api/community/forums/route.ts
-11:27  Warning: 'request' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
-
-./src/app/api/community/groups/route.ts
-63:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
-./src/app/api/community/polls/[id]/vote/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
-./src/app/api/community/polls/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-85:45  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-103:38  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
-./src/app/api/community/route.ts
-14:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-16:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-88:20  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
-./src/app/api/community-analytics/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
-./src/app/api/community-challenges/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
-./src/app/api/content/categories/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-19:27  Warning: 'request' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
-
-./src/app/api/content/exclusive/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-95:31  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
-./src/app/api/content-calendar/route.ts
-14:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-16:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-53:55  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-61:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-75:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-106:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-153:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-170:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
-./src/app/api/content-optimization/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-42:11  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-62:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-69:11  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-73:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-79:34  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-80:24  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-123:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
-./src/app/api/contest-giveaway/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
-./src/app/api/contests/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
-./src/app/api/crisis-management/route.ts
-14:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-16:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-68:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-127:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-184:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
-./src/app/api/currency-pricing/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-112:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-145:48  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-164:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
-./src/app/api/deals/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
-./src/app/api/dietary-notifications/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-89:40  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-89:58  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
-./src/app/api/digital-wallet/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-103:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
-./src/app/api/directions/parking/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
-./src/app/api/directions/transport/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
-./src/app/api/directions/venue/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
-./src/app/api/discounts/verify/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-37:7  Warning: 'event_id' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-
-./src/app/api/discover/quiz/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-90:47  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-104:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
-./src/app/api/early-access/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-34:64  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
-./src/app/api/early-bird/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
-./src/app/api/event-aggregators/route.ts
-14:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-16:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-59:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-116:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-160:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-183:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-203:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
-./src/app/api/event-collaboration/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
-./src/app/api/event-parking/route.ts
-14:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-16:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-48:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-67:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-90:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-107:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
-./src/app/api/events/[id]/chat/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-26:34  Warning: 'roomError' is never reassigned. Use 'const' instead.  prefer-const
-111:31  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-112:33  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-116:81  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-123:42  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-124:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
-./src/app/api/events/[id]/entry-info/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-57:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
-./src/app/api/events/[id]/partners/route.ts
-14:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-16:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
-./src/app/api/events/[id]/program/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-77:51  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-86:40  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-89:51  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-98:47  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-113:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-115:52  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-122:45  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-134:47  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-143:43  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
-./src/app/api/events/[id]/qr-checkin/route.ts
-14:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-115:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
-./src/app/api/events/[id]/route.ts
-14:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-16:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
-./src/app/api/events/[id]/seating/route.ts
-24:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-55:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-134:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
-./src/app/api/events/[id]/tickets/generate/route.ts
-19:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
-./src/app/api/events/[id]/waitlist/route.ts
-15:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-37:37  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-38:38  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-39:39  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-40:37  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-52:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
-./src/app/api/events/enhanced/route.ts
 16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
 18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-76:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-87:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-106:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+77:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+150:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+189:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
-./src/app/api/events/map/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-112:39  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-121:47  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-139:17  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-139:25  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-142:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-145:28  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+./src/app/api/community/events/route.ts
+17:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+19:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
-./src/app/api/events/nearby/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-85:39  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-91:47  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-107:17  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-107:25  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+./src/app/api/community/forums/route.ts
+13:27  Warning: 'request' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
 
-./src/app/api/events/route.ts
-69:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-96:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+./src/app/api/community/groups/route.ts
+65:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
-./src/app/api/events/templates/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-15:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-88:11  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+./src/app/api/community/polls/[id]/vote/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
-./src/app/api/exclusive-content/route.ts
-13:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-
+./src/app/api/community/polls/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+87:45  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+105:38  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/community/route.ts
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+90:20  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/community-analytics/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/community-challenges/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/content/categories/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+21:27  Warning: 'request' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/api/content/exclusive/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+97:31  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/content-calendar/route.ts
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+55:55  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+63:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+77:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+108:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+155:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+172:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/content-optimization/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+44:11  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+64:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+71:11  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+75:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+81:34  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+82:24  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+125:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/contest-giveaway/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/contests/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/crisis-management/route.ts
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+70:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+129:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+186:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/currency-pricing/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+114:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+147:48  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+166:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/deals/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/dietary-notifications/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+91:40  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+91:58  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/digital-wallet/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+105:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/directions/parking/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/directions/transport/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/directions/venue/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/discounts/verify/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+39:7  Warning: 'event_id' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/api/discover/quiz/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+92:47  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+106:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/early-access/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+36:64  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/early-bird/route.ts
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/event-aggregators/route.ts
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+61:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+118:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+162:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+185:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+205:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/event-collaboration/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/event-parking/route.ts
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+50:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+69:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+92:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+109:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/events/[id]/chat/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+28:34  Warning: 'roomError' is never reassigned. Use 'const' instead.  prefer-const
+113:31  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+114:33  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+118:81  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+125:42  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+126:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/events/[id]/entry-info/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+59:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/events/[id]/partners/route.ts
+17:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+19:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/events/[id]/program/route.ts
+15:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+17:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+79:51  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+88:40  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+91:51  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+100:47  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+115:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+117:52  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+124:45  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+136:47  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+145:43  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/events/[id]/qr-checkin/route.ts
+16:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+117:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/events/[id]/route.ts
+16:7  Warning: 'supabase' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+18:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/events/[id]/seating/route.ts
+27:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+58:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+137:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/events/[id]/tickets/generate/route.ts
+21:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/events/[id]/waitlist/route.ts
+17:41  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+39:37  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+40:38  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+41:39  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+42:37  

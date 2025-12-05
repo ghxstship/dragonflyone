@@ -124,8 +124,8 @@ importers:
         specifier: ^5.0.5
         version: 5.0.10
       supabase:
-        specifier: ^2.62.5
-        version: 2.62.5
+        specifier: ^2.65.6
+        version: 2.65.6
       tailwindcss:
         specifier: ^3.4.3
         version: 3.4.18(yaml@2.8.1)
@@ -383,7 +383,7 @@ importers:
         version: 0.0.1
       zustand:
         specifier: ^4.5.5
-        version: 4.5.7(@types/react@18.2.79)(immer@10.2.0)(react@18.2.0)
+        version: 4.5.7(@types/react@18.3.27)(immer@10.2.0)(react@18.2.0)
     devDependencies:
       typescript:
         specifier: 5.4.5
@@ -3932,8 +3932,8 @@ packages:
     engines: {node: '>=16 || 14 >=14.17'}
     hasBin: true
 
-  supabase@2.62.5:
-    resolution: {integrity: sha512-KjR57sEwNpTLOMHo+Nt9bHtq9RGWV0GGp6MWALp7RQtOcZdUopUOH+hoOojAuVyk4ChOipB7POu0y3vssW272A==}
+  supabase@2.65.6:
+    resolution: {integrity: sha512-PKeKFwIpx/H65WZ8BVqvQU1cve2n2Er++Yo0EGjSfV/vNwnLkpdnlpD9o8ZJJLDF/hxlduOCwxHiTnBimnbXdA==}
     engines: {npm: '>=8'}
     hasBin: true
 
@@ -8284,7 +8284,7 @@ snapshots:
       tinyglobby: 0.2.15
       ts-interface-checker: 0.1.13
 
-  supabase@2.62.5:
+  supabase@2.65.6:
     dependencies:
       bin-links: 6.0.0
       https-proxy-agent: 7.0.6
@@ -8824,14 +8824,6 @@ snapshots:
   yocto-queue@1.2.2: {}
 
   zod@3.25.76: {}
-
-  zustand@4.5.7(@types/react@18.2.79)(immer@10.2.0)(react@18.2.0):
-    dependencies:
-      use-sync-external-store: 1.6.0(react@18.2.0)
-    optionalDependencies:
-      '@types/react': 18.2.79
-      immer: 10.2.0
-      react: 18.2.0
 
   zustand@4.5.7(@types/react@18.3.27)(immer@10.2.0)(react@18.2.0):
     dependencies:
