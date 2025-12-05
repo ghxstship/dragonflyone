@@ -3,7 +3,7 @@
 > Product backlog for the GHXSTSHIP platform (ATLVS, COMPVSS, GVTEWAY).  
 > Follows industry-standard backlog management practices with clear ownership, sizing, and acceptance criteria.
 
-**Last Updated:** December 4, 2025 (6:30pm EST)  
+**Last Updated:** December 4, 2025 (7:15pm EST)  
 **Backlog Owner:** Engineering Team  
 **Review Cadence:** Weekly
 
@@ -14,9 +14,9 @@
 | Metric | Count |
 |--------|-------|
 | P0 (Critical) | 0 |
-| P1 (High) | 0 |
-| P2 (Medium) | 0 |
-| P3 (Low) | 0 |
+| P1 (High) | 8 |
+| P2 (Medium) | 12 |
+| P3 (Low) | 6 |
 | Completed (Last 30 Days) | 32 |
 | Total Pages | 512 |
 | Design System Violations | 0 |
@@ -40,21 +40,598 @@
 
 ---
 
-## P1 - High Priority
+## P1 - High Priority (Lifecycle Critical)
 
-*All P1 items completed*
+### BACK-025: Production Creation Workflow
+
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Priority** | P1 |
+| **Effort** | L (1-2 weeks) |
+| **App** | ATLVS |
+
+**Description:**  
+Complete the production creation workflow from Experience Generator blueprint to active production.
+
+**Missing Pages:**
+- `/productions/new` - Create new production form
+- `/events/create/from-blueprint` (GVTEWAY) - Create event from generator blueprint
+
+**Missing API Routes:**
+- `POST /api/productions` - Create production from blueprint
+- `POST /api/productions/from-blueprint` - Convert blueprint to production
+
+**Acceptance Criteria:**
+- [ ] User can create production manually via form
+- [ ] User can convert Experience Generator blueprint to production
+- [ ] Production inherits all blueprint data (XYZ foundation, 5 senses, journey phases)
+- [ ] Cross-platform sync to COMPVSS and GVTEWAY on creation
 
 ---
 
-## P2 - Medium Priority
+### BACK-026: Production Lifecycle Close/Archive
 
-*All P2 items completed*
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Priority** | P1 |
+| **Effort** | M (3-5 days) |
+| **App** | ATLVS |
+
+**Description:**  
+Production close and archive workflow for completed productions.
+
+**Missing Pages:**
+- `/p/[productionId]/close` - Production close wizard
+- `/p/[productionId]/wrap` - Wrap report generation
+- `/p/[productionId]/reconciliation` - Final financial reconciliation
+
+**Required Functionality:**
+- Close checklist (all invoices paid, all contracts closed, all reports submitted)
+- Final P&L generation
+- Archive production data
+- Generate wrap report PDF
+
+**Acceptance Criteria:**
+- [ ] Production cannot be closed until all checklist items complete
+- [ ] Final reconciliation shows all revenue vs expenses
+- [ ] Wrap report auto-generated with key metrics
+- [ ] Production archived and read-only after close
 
 ---
 
-## P3 - Low Priority
+### BACK-027: Event-Level Box Office & Settlement (GVTEWAY)
 
-*No pending items*
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Priority** | P1 |
+| **Effort** | L (1-2 weeks) |
+| **App** | GVTEWAY |
+
+**Description:**  
+Real-time box office management and post-event settlement for ticketed events.
+
+**Missing Pages:**
+- `/e/[eventId]/box-office` - Real-time ticket sales dashboard
+- `/e/[eventId]/settlement` - Post-event financial settlement
+- `/e/[eventId]/refunds` - Refund management
+- `/e/[eventId]/analytics` - Event performance analytics
+- `/admin/box-office` - Global box office dashboard
+- `/admin/settlement` - Settlement management
+- `/admin/refunds` - Refund queue management
+
+**Required Functionality:**
+- Real-time ticket sales by tier
+- Will-call management
+- Refund processing with reason codes
+- Settlement calculation (gross - fees - refunds - chargebacks)
+- Payout scheduling
+
+**Acceptance Criteria:**
+- [ ] Real-time sales dashboard with auto-refresh
+- [ ] Refund workflow with approval for amounts > $100
+- [ ] Settlement report generation
+- [ ] Integration with Stripe for payouts
+
+---
+
+### BACK-028: Event Check-In & Credential Scanning (GVTEWAY)
+
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Priority** | P1 |
+| **Effort** | M (3-5 days) |
+| **App** | GVTEWAY |
+
+**Description:**  
+Mobile-optimized check-in and credential scanning for event entry.
+
+**Missing Pages:**
+- `/e/[eventId]/check-in` - Check-in dashboard
+- `/e/[eventId]/scan` - QR/barcode scanner interface
+- `/e/[eventId]/will-call` - Will-call pickup
+- `/e/[eventId]/credentials` - Credential verification
+
+**Required Functionality:**
+- QR code scanning via camera
+- Manual ticket lookup
+- Will-call name search
+- Credential type verification
+- Access zone validation
+- Offline mode support
+
+**Acceptance Criteria:**
+- [ ] Scanner works on mobile devices
+- [ ] Offline queue syncs when connection restored
+- [ ] Real-time attendance count
+- [ ] Duplicate scan prevention
+
+---
+
+### BACK-029: Production-Level Load-In/Load-Out/Strike (COMPVSS)
+
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Priority** | P1 |
+| **Effort** | L (1-2 weeks) |
+| **App** | COMPVSS |
+
+**Description:**  
+Production-scoped load-in, load-out, and strike management.
+
+**Missing Pages:**
+- `/p/[productionId]/load-in` - Load-in schedule and checklist
+- `/p/[productionId]/load-out` - Load-out schedule and checklist
+- `/p/[productionId]/strike` - Strike schedule and checklist
+
+**Required Functionality:**
+- Department-by-department load-in schedule
+- Equipment tracking during load-in/out
+- Crew call times
+- Delivery tracking
+- Strike checklist with sign-off
+- Damage documentation
+
+**Acceptance Criteria:**
+- [ ] Load-in schedule with department assignments
+- [ ] Real-time progress tracking
+- [ ] Equipment check-in/check-out
+- [ ] Strike completion sign-off
+
+---
+
+### BACK-030: Production-Level Incidents & Lost/Found (COMPVSS)
+
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Priority** | P1 |
+| **Effort** | M (3-5 days) |
+| **App** | COMPVSS |
+
+**Description:**  
+Production-scoped incident reporting and lost & found management.
+
+**Missing Pages:**
+- `/p/[productionId]/incidents` - Incident log and reporting
+- `/p/[productionId]/lost-found` - Lost & found inventory
+
+**Required Functionality:**
+- Incident report creation with severity levels
+- Photo/video attachment
+- Witness information
+- Follow-up tracking
+- Lost item logging
+- Claim processing
+- Disposal workflow
+
+**Acceptance Criteria:**
+- [ ] Incident reports with all required fields from schema
+- [ ] Severity-based escalation
+- [ ] Lost item claim workflow
+- [ ] 30-day disposal policy enforcement
+
+---
+
+### BACK-031: Production-Level Expenses & Vendors (COMPVSS)
+
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Priority** | P1 |
+| **Effort** | M (3-5 days) |
+| **App** | COMPVSS |
+
+**Description:**  
+Production-scoped expense tracking and vendor management.
+
+**Missing Pages:**
+- `/p/[productionId]/expenses` - Production expense tracking
+- `/p/[productionId]/vendors` - Production vendor list
+- `/p/[productionId]/catering` - Catering management
+
+**Required Functionality:**
+- Expense submission with receipt upload
+- Budget code assignment
+- Approval workflow
+- Vendor contact directory
+- Catering headcount tracking
+- Meal schedule
+
+**Acceptance Criteria:**
+- [ ] Expense submission with receipt photo
+- [ ] Approval workflow by department head
+- [ ] Budget tracking against allocation
+- [ ] Vendor performance tracking
+
+---
+
+### BACK-032: Production-Level Wrap Report (COMPVSS)
+
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Priority** | P1 |
+| **Effort** | M (3-5 days) |
+| **App** | COMPVSS |
+
+**Description:**  
+Production-scoped wrap report generation with operational metrics.
+
+**Missing Pages:**
+- `/p/[productionId]/wrap` - Wrap report generation
+
+**Required Functionality:**
+- Auto-populate from daily reports
+- Incident summary
+- Crew hours summary
+- Equipment usage summary
+- Lessons learned
+- Recommendations
+
+**Acceptance Criteria:**
+- [ ] Auto-aggregation from daily reports
+- [ ] All schema fields populated
+- [ ] PDF export
+- [ ] Approval workflow
+
+---
+
+## P2 - Medium Priority (Supporting Workflows)
+
+### BACK-033: Production-Level Insurance & Permits (ATLVS)
+
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Priority** | P2 |
+| **Effort** | M (3-5 days) |
+| **App** | ATLVS |
+
+**Description:**  
+Production-scoped insurance and permit management.
+
+**Missing Pages:**
+- `/p/[productionId]/insurance` - Production insurance policies
+- `/p/[productionId]/permits` - Production permits
+
+**Required Functionality:**
+- COI tracking
+- Permit application status
+- Expiration alerts
+- Document storage
+
+---
+
+### BACK-034: Production-Level Assets (ATLVS)
+
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Priority** | P2 |
+| **Effort** | M (3-5 days) |
+| **App** | ATLVS |
+
+**Description:**  
+Production-scoped asset allocation and tracking.
+
+**Missing Pages:**
+- `/p/[productionId]/assets` - Production asset allocation
+
+**Required Functionality:**
+- Asset allocation to production
+- Check-out/check-in tracking
+- Damage reporting
+- Utilization metrics
+
+---
+
+### BACK-035: Crew Self-Service Portal (COMPVSS)
+
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Priority** | P2 |
+| **Effort** | L (1-2 weeks) |
+| **App** | COMPVSS |
+
+**Description:**  
+Self-service portal for crew members to manage their assignments, timesheets, and credentials.
+
+**Missing Pages:**
+- `/my-schedule` - Personal schedule view
+- `/my-assignments` - Assignment acceptance/decline
+- `/my-timesheets` - Timesheet submission
+- `/my-credentials` - Credential status
+- `/my-training` - Training completion
+- `/clock-in` - Clock in/out interface
+
+**Required Functionality:**
+- View upcoming assignments
+- Accept/decline assignments
+- Submit timesheets
+- View credential status
+- Complete training modules
+- Clock in/out with geolocation
+
+---
+
+### BACK-036: Vendor Self-Service Portal (COMPVSS)
+
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Priority** | P2 |
+| **Effort** | M (3-5 days) |
+| **App** | COMPVSS |
+
+**Description:**  
+Self-service portal for vendors to manage deliveries and invoices.
+
+**Missing Pages:**
+- `/vendor-portal` - Vendor dashboard
+- `/my-deliveries` - Delivery schedule
+- `/my-invoices` - Invoice submission
+- `/my-contracts` - Contract status
+
+---
+
+### BACK-037: Artist/Entertainer Portal (COMPVSS)
+
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Priority** | P2 |
+| **Effort** | M (3-5 days) |
+| **App** | COMPVSS |
+
+**Description:**  
+Self-service portal for artists and entertainers.
+
+**Missing Pages:**
+- `/artist-portal` - Artist dashboard
+- `/my-rider` - Rider requirements
+- `/my-hospitality` - Hospitality requests
+
+---
+
+### BACK-038: Sponsor Self-Service Portal (ATLVS)
+
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Priority** | P2 |
+| **Effort** | M (3-5 days) |
+| **App** | ATLVS |
+
+**Description:**  
+Self-service portal for sponsors to track deliverables and activations.
+
+**Missing Pages:**
+- `/sponsor-portal` - Sponsor dashboard
+- `/my-activations` - Activation schedule
+- `/my-deliverables` - Deliverable tracking
+- `/my-reports` - Performance reports
+
+---
+
+### BACK-039: Investor Self-Service Portal (ATLVS)
+
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Priority** | P2 |
+| **Effort** | M (3-5 days) |
+| **App** | ATLVS |
+
+**Description:**  
+Self-service portal for investors to view updates and documents.
+
+**Missing Pages:**
+- `/investor-portal` - Investor dashboard
+- `/my-investments` - Investment status
+- `/investor-updates` - Company updates
+
+---
+
+### BACK-040: Attendee Self-Service (GVTEWAY)
+
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Priority** | P2 |
+| **Effort** | S (1-2 days) |
+| **App** | GVTEWAY |
+
+**Description:**  
+Enhanced attendee self-service for ticket management.
+
+**Missing Pages:**
+- `/my-refunds` - Refund request status
+- `/my-transfers` - Transfer history
+
+---
+
+### BACK-041: Production Weather Contingency (COMPVSS)
+
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Priority** | P2 |
+| **Effort** | S (1-2 days) |
+| **App** | COMPVSS |
+
+**Description:**  
+Production-scoped weather monitoring and contingency activation.
+
+**Missing Pages:**
+- `/p/[productionId]/weather` - Weather monitoring dashboard
+
+---
+
+### BACK-042: Production Settlement (COMPVSS)
+
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Priority** | P2 |
+| **Effort** | M (3-5 days) |
+| **App** | COMPVSS |
+
+**Description:**  
+Production-scoped crew and vendor settlement.
+
+**Missing Pages:**
+- `/p/[productionId]/settlement` - Production settlement
+
+---
+
+### BACK-043: Cross-Platform Production Sync
+
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Priority** | P2 |
+| **Effort** | L (1-2 weeks) |
+| **App** | All |
+
+**Description:**  
+Ensure production data syncs correctly across ATLVS, COMPVSS, and GVTEWAY.
+
+**Required Functionality:**
+- Production created in ATLVS syncs to COMPVSS and GVTEWAY
+- Event created in GVTEWAY syncs to ATLVS
+- Real-time status updates across platforms
+- Unified production ID across platforms
+
+---
+
+### BACK-044: Role-Based Navigation Filtering
+
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Priority** | P2 |
+| **Effort** | M (3-5 days) |
+| **App** | All |
+
+**Description:**  
+Filter navigation items based on user's platform role and event role.
+
+**Required Functionality:**
+- Hide admin pages from non-admin users
+- Show role-specific portals (crew, vendor, artist, sponsor, investor)
+- Event-level role filtering for COMPVSS and GVTEWAY
+
+---
+
+## P3 - Low Priority (Future Enhancements)
+
+### BACK-045: Mobile-Optimized Crew App
+
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Priority** | P3 |
+| **Effort** | XL (2+ weeks) |
+| **App** | COMPVSS |
+
+**Description:**  
+PWA-optimized experience for crew members on mobile devices.
+
+---
+
+### BACK-046: Mobile-Optimized Attendee App
+
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Priority** | P3 |
+| **Effort** | XL (2+ weeks) |
+| **App** | GVTEWAY |
+
+**Description:**  
+PWA-optimized experience for attendees on mobile devices.
+
+---
+
+### BACK-047: Real-Time Collaboration Features
+
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Priority** | P3 |
+| **Effort** | L (1-2 weeks) |
+| **App** | All |
+
+**Description:**  
+Real-time collaboration features using Supabase Realtime.
+
+---
+
+### BACK-048: Advanced Reporting & BI
+
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Priority** | P3 |
+| **Effort** | L (1-2 weeks) |
+| **App** | ATLVS |
+
+**Description:**  
+Advanced reporting and business intelligence dashboards.
+
+---
+
+### BACK-049: Automated Workflow Triggers
+
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Priority** | P3 |
+| **Effort** | L (1-2 weeks) |
+| **App** | All |
+
+**Description:**  
+Automated workflow triggers based on status changes and dates.
+
+---
+
+### BACK-050: Multi-Language Support Expansion
+
+| Field | Value |
+|-------|-------|
+| **Status** | Not Started |
+| **Priority** | P3 |
+| **Effort** | M (3-5 days) |
+| **App** | GVTEWAY |
+
+**Description:**  
+Expand i18n support beyond English and Spanish.
 
 ---
 
