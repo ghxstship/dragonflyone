@@ -1,9 +1,11 @@
 'use client';
 
+
 import { useRouter } from 'next/navigation';
 import { TrendingUp, TrendingDown, Minus, Target, ArrowLeft } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import { useKPIs } from '../../../hooks/useMetrics';
+import { useProductionContextSafe } from '@ghxstship/config';
 import {
   Container,
   Section,
@@ -20,8 +22,8 @@ import {
 
 export default function KPIsPage() {
   const router = useRouter();
-  // TODO: Get productionId from route params or context
-  const productionId = '';
+  const { currentProductionId } = useProductionContextSafe();
+  const productionId = currentProductionId || '';
   const { data: kpis } = useKPIs(productionId);
 
   const kpiStatusColors: Record<string, 'success' | 'warning' | 'error'> = {

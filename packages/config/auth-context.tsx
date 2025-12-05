@@ -182,7 +182,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return eventRoles.includes(role);
   };
 
-  const hasPermission = (_permission: string, _eventId?: string): boolean => {
+  const hasPermission = (permission: string, _eventId?: string): boolean => {
     if (!user) return false;
     
     // Legend roles have all permissions
@@ -195,8 +195,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     );
     if (isAdmin) return true;
 
-    // TODO: Implement detailed permission checking
-    return false;
+    // Check specific permission against user's roles
+    const permissionMap: Record<string, string[]> = {
+      'read:productions': ['ATLVS_VIEWER', 'ATLVS_EDITOR', 'ATLVS_ADMIN'],
+      'write:productions': ['ATLVS_EDITOR', 'ATLVS_ADMIN'],
+      'delete:productions': ['ATLVS_ADMIN'],
+      'read:crew': ['COMPVSS_VIEWER', 'COMPVSS_EDITOR', 'COMPVSS_ADMIN'],
+      'write:crew': ['COMPVSS_EDITOR', 'COMPVSS_ADMIN'],
+      'delete:crew': ['COMPVSS_ADMIN'],
+      'read:events': ['GVTEWAY_VIEWER', 'GVTEWAY_EDITOR', 'GVTEWAY_ADMIN'],
+      'write:events': ['GVTEWAY_EDITOR', 'GVTEWAY_ADMIN'],
+      'delete:events': ['GVTEWAY_ADMIN'],
+    };
+    
+    const allowedRoles = permissionMap[permission] || [];
+    return user.platformRoles.some(role => allowedRoles.includes(role));
   };
 
   const canAccessPlatform = (platform: 'atlvs' | 'compvss' | 'gvteway'): boolean => {

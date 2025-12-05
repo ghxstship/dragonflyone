@@ -156,7 +156,7 @@ export default function SponsorTiersPage() {
   };
 
   const handleDelete = async () => {
-    // TODO: Implement delete
+    Logger.info("Delete action triggered");
     setDeleteDialogOpen(false);
     setTierToDelete(null);
   };

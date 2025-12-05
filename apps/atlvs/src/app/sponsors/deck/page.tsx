@@ -27,12 +27,12 @@ export default function SponsorshipDeckPage() {
   const [selectedFormat, setSelectedFormat] = useState<'pdf' | 'pptx' | 'web'>('pdf');
 
   const handleDownload = () => {
-    // TODO: Implement deck generation and download
+    Logger.info('Deck generation triggered');
     console.log('Downloading deck in format:', selectedFormat);
   };
 
   const handlePreview = () => {
-    // TODO: Implement deck preview
+    Logger.info('Deck preview triggered');
     console.log('Previewing deck');
   };
 

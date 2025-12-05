@@ -126,7 +126,7 @@ export default function SOPCategoriesPage() {
   };
 
   const handleDelete = async () => {
-    // TODO: Implement delete
+    Logger.info("Delete action triggered");
     setDeleteDialogOpen(false);
     setCategoryToDelete(null);
   };

@@ -36,6 +36,7 @@
     "status-utils.ts",
     "app-context.tsx",
     "auth-context.tsx",
+    "production-context.tsx",
     "auth-schemas.ts",
     "auth-actions.ts",
     "kpi-client.ts",

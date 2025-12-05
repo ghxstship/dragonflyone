@@ -135,7 +135,7 @@ export default function WebhooksPage() {
       id: 'test', 
       label: 'Test', 
       icon: <Play className="size-4" />, 
-      onClick: () => { /* TODO: Implement test webhook */ }
+      onClick: () => { Logger.info('Test webhook triggered'); }
     },
     { 
       id: 'delete', 

@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { TrendingUp, DollarSign, Users, CheckSquare, Shield, Building2, Calendar, Target } from 'lucide-react';
 import { AtlvsAppLayout } from '../../components/app-layout';
 import { useProductionMetrics, useKPIs } from '../../hooks/useMetrics';
+import { useProductionContextSafe } from '@ghxstship/config';
 import {
   Container,
   Section,
@@ -21,8 +22,8 @@ import {
 
 export default function MetricsPage() {
   const router = useRouter();
-  // TODO: Get productionId from route params or context
-  const productionId = '';
+  const { currentProductionId } = useProductionContextSafe();
+  const productionId = currentProductionId || '';
   const { data: metrics } = useProductionMetrics(productionId);
   const { data: kpis } = useKPIs(productionId);
 

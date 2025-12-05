@@ -42,6 +42,14 @@ export {
 } from './auth-context';
 export type { User as AuthUser } from './auth-context';
 
+// Production context for ATLVS production selection
+export {
+  ProductionProvider,
+  useProductionContext,
+  useProductionContextSafe,
+} from './production-context';
+export type { Production } from './production-context';
+
 // Auth schemas and validation
 export * from './auth-schemas';
 

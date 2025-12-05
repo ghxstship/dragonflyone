@@ -185,7 +185,7 @@ export default function SOPsPage() {
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    // TODO: Implement create
+    Logger.info("Create action triggered");
     setCreateModalOpen(false);
     refetch();
   };

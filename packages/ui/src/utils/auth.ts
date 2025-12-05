@@ -1,12 +1,11 @@
 /**
  * Client-side authentication utilities
- * These are placeholder functions that should be connected to Supabase auth
+ * Uses fetch API to call auth endpoints
  */
 
 export const signOut = async (): Promise<void> => {
-  // TODO: Implement Supabase signOut
-  // const { error } = await supabase.auth.signOut()
-  // if (error) throw error
+  // Call signout API endpoint
+  await fetch('/api/auth/signout', { method: 'POST' });
   
   // Clear any local session data
   if (typeof window !== "undefined") {
@@ -19,18 +18,15 @@ export const signOut = async (): Promise<void> => {
 };
 
 export const getCurrentUser = async () => {
-  // TODO: Implement Supabase getCurrentUser
-  // const { data: { user } } = await supabase.auth.getUser()
-  // return user
-  
-  return null;
+  // Call me API endpoint to get current user
+  const response = await fetch('/api/auth/me');
+  if (!response.ok) return null;
+  const { user } = await response.json();
+  return user;
 };
 
-export const isAuthenticated = (): boolean => {
-  // TODO: Implement actual auth check with Supabase
-  // This is a placeholder
-  if (typeof window !== "undefined") {
-    return !!localStorage.getItem("session");
-  }
-  return false;
+export const isAuthenticated = async (): Promise<boolean> => {
+  // Check session via API
+  const response = await fetch('/api/auth/me');
+  return response.ok;
 };

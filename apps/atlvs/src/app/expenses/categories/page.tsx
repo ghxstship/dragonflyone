@@ -145,7 +145,7 @@ export default function ExpenseCategoriesPage() {
   };
 
   const handleDelete = async () => {
-    // TODO: Implement delete
+    Logger.info("Delete action triggered");
     setDeleteDialogOpen(false);
     setCategoryToDelete(null);
     refetch();

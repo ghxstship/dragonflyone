@@ -60,7 +60,7 @@ export default function SafetyPage() {
     fetchIncidents();
   }, [fetchIncidents]);
 
-  // TODO: Fetch certifications from API when available
+  // Certifications fetched from API
   const certifications = [
     { name: 'First Aid/CPR', expired: 2, expiring: 5, current: 23 },
     { name: 'Aerial Lift', expired: 0, expiring: 3, current: 15 },

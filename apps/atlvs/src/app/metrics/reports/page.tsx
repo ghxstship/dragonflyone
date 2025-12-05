@@ -1,9 +1,11 @@
 'use client';
 
+
 import { useRouter } from 'next/navigation';
 import { Download, FileText, Calendar, TrendingUp, DollarSign, Users, ArrowLeft } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import { useProductionMetrics } from '../../../hooks/useMetrics';
+import { useProductionContextSafe } from '@ghxstship/config';
 import {
   Container,
   Section,
@@ -80,8 +82,8 @@ const reportTemplates: ReportTemplate[] = [
 
 export default function MetricsReportsPage() {
   const router = useRouter();
-  // TODO: Get productionId from route params or context
-  const productionId = '';
+  const { currentProductionId } = useProductionContextSafe();
+  const productionId = currentProductionId || '';
   const { data: metrics } = useProductionMetrics(productionId);
 
   const categoryColors: Record<string, 'success' | 'warning' | 'info' | 'default'> = {

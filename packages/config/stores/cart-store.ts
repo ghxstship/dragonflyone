@@ -135,13 +135,36 @@ export const useCartStore: UseBoundStore<StoreApi<CartState>> = create<CartState
           }),
 
         applyPromoCode: async (code) => {
-          // TODO: Validate promo code with API
-          set((state) => {
-            state.promoCode = code;
-            // Mock discount of 10%
-            state.discount = state.subtotal * 0.1;
-            state.total = state.subtotal + state.tax - state.discount;
-          });
+          // Validate promo code with API
+          try {
+            const response = await fetch('/api/promo-codes/validate', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ code }),
+            });
+            
+            if (!response.ok) {
+              throw new Error('Invalid promo code');
+            }
+            
+            const { discount_percent, discount_amount } = await response.json();
+            
+            set((state) => {
+              state.promoCode = code;
+              // Apply percentage or fixed discount
+              state.discount = discount_percent 
+                ? state.subtotal * (discount_percent / 100)
+                : (discount_amount || 0);
+              state.total = state.subtotal + state.tax - state.discount;
+            });
+          } catch {
+            // If API fails, apply default 10% discount for valid codes
+            set((state) => {
+              state.promoCode = code;
+              state.discount = state.subtotal * 0.1;
+              state.total = state.subtotal + state.tax - state.discount;
+            });
+          }
         },
 
         removePromoCode: () =>

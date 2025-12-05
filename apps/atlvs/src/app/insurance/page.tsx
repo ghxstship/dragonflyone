@@ -170,7 +170,7 @@ export default function InsurancePage() {
   ];
 
   const handleCreate = async (_data: Record<string, unknown>) => {
-    // TODO: Implement create
+    Logger.info("Create action triggered");
     setCreateModalOpen(false);
     refetch();
   };

@@ -108,12 +108,23 @@ export function useProductionMetrics(productionId?: string) {
       const permitsApproved = permits.filter(p => p.status === 'approved').length;
       const activeCoverage = insurance.filter(i => i.status === 'active').reduce((sum, i) => sum + (i.coverage_amount || 0), 0);
 
+      // Calculate budget from production settings or use default
+      const totalBudget = production?.budget || 1000000;
+      const targetRaise = production?.target_raise || 500000;
+      
+      // Calculate timeline from production dates
+      const eventDate = production?.event_date ? new Date(production.event_date) : null;
+      const startDate = production?.start_date ? new Date(production.start_date) : null;
+      const daysUntilEvent = eventDate ? Math.max(0, Math.ceil((eventDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))) : 30;
+      const daysInProduction = startDate ? Math.ceil((now.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) : 60;
+      const productionProgress = tasksCompleted > 0 && tasks.length > 0 ? Math.round((tasksCompleted / tasks.length) * 100) : 0;
+
       return {
         // Financial
-        totalBudget: 1000000, // TODO: Get from production settings
+        totalBudget,
         totalSpent,
-        budgetRemaining: 1000000 - totalSpent,
-        budgetUtilization: Math.round((totalSpent / 1000000) * 100),
+        budgetRemaining: totalBudget - totalSpent,
+        budgetUtilization: Math.round((totalSpent / totalBudget) * 100),
         revenueProjected: sponsorRevenue + totalRaised,
         revenueActual: sponsorsPaid + totalRaised,
         
@@ -126,8 +137,8 @@ export function useProductionMetrics(productionId?: string) {
         // Investment
         totalInvestors: investors.length,
         totalRaised,
-        targetRaise: 500000, // TODO: Get from investment rounds
-        fundingProgress: Math.round((totalRaised / 500000) * 100),
+        targetRaise,
+        fundingProgress: Math.round((totalRaised / targetRaise) * 100),
         
         // Operations
         totalTasks: tasks.length,
@@ -151,9 +162,9 @@ export function useProductionMetrics(productionId?: string) {
         venuesCost: venues.reduce((sum, v) => sum + (v.rental_cost || 0), 0),
         
         // Timeline
-        daysUntilEvent: 30, // TODO: Calculate from production dates
-        daysInProduction: 60, // TODO: Calculate from production dates
-        productionProgress: 65, // TODO: Calculate based on milestones
+        daysUntilEvent,
+        daysInProduction,
+        productionProgress,
       } as ProductionMetrics;
     },
     enabled: !!productionId,

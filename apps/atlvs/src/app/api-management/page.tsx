@@ -1,9 +1,11 @@
 'use client';
 
+
 import { useRouter } from 'next/navigation';
 import { Key, Webhook, FileText, Activity, Shield, Clock } from 'lucide-react';
 import { AtlvsAppLayout } from '../../components/app-layout';
 import { useApiStats, useApiKeys, useWebhooks } from '../../hooks/useApiManagement';
+import { useProductionContextSafe } from '@ghxstship/config';
 import {
   Container,
   Section,
@@ -21,8 +23,8 @@ import {
 
 export default function ApiManagementPage() {
   const router = useRouter();
-  // TODO: Get productionId from route params or context
-  const productionId = '';
+  const { currentProductionId } = useProductionContextSafe();
+  const productionId = currentProductionId || '';
   const { data: stats } = useApiStats(productionId);
   const { data: apiKeys } = useApiKeys({ productionId: productionId });
   const { data: webhooks } = useWebhooks({ productionId: productionId });

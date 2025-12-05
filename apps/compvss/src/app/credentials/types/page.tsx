@@ -234,7 +234,7 @@ export default function CredentialTypesPage() {
         onRowClick={(row) => { setSelectedType(row); setDrawerOpen(true); }}
         createLabel="New Credential Type"
         onCreate={() => setCreateModalOpen(true)}
-        onExport={() => { /* TODO: Implement export */ }}
+        onExport={() => { Logger.info('Export action triggered'); }}
         stats={stats}
         emptyMessage="No credential types configured"
         emptyAction={{ label: 'Create First Type', onClick: () => setCreateModalOpen(true) }}

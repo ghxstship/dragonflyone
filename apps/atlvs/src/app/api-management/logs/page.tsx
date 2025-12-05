@@ -1,9 +1,11 @@
 'use client';
 
+
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, RefreshCw, Download, CheckCircle, XCircle, Clock } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import { useApiLogs, type ApiLog } from '../../../hooks/useApiManagement';
+import { useProductionContextSafe } from '@ghxstship/config';
 import {
   ListPage,
   Badge,
@@ -117,8 +119,8 @@ const filters: ListPageFilter[] = [
 
 export default function ApiLogsPage() {
   const router = useRouter();
-  // TODO: Get productionId from route params or context
-  const productionId = '';
+  const { currentProductionId } = useProductionContextSafe();
+  const productionId = currentProductionId || '';
   const { data: logs, isLoading, error, refetch } = useApiLogs({ productionId: productionId });
 
   const successCount = logs?.filter(l => l.status_code >= 200 && l.status_code < 300).length || 0;

@@ -342,7 +342,7 @@ Route (app)                                   Size     First Load JS
 ├ ○ /auth/forgot-password                     2.3 kB          339 kB
 ├ ○ /auth/magic-link                          2.52 kB         339 kB
 ├ ○ /auth/reset-password                      2.52 kB         339 kB
-├ ○ /auth/signin                              894 B           430 kB
+├ ○ /auth/signin                              893 B           430 kB
 ├ ○ /auth/signup                              3.03 kB         339 kB
 ├ ○ /auth/verify-email                        2.1 kB          338 kB
 ├ ○ /browse                                   3.07 kB         434 kB
@@ -373,7 +373,7 @@ Route (app)                                   Size     First Load JS
 ├ ƒ /e/[eventId]/engage/polls                 654 B           334 kB
 ├ ƒ /e/[eventId]/engage/qa                    1.53 kB         334 kB
 ├ ƒ /e/[eventId]/engage/ugc                   1.55 kB         334 kB
-├ ƒ /e/[eventId]/entry-info                   2.6 kB          335 kB
+├ ƒ /e/[eventId]/entry-info                   2.6 kB          336 kB
 ├ ƒ /e/[eventId]/friends                      2.11 kB         335 kB
 ├ ƒ /e/[eventId]/lineup                       2.02 kB         335 kB
 ├ ƒ /e/[eventId]/map                          2.1 kB          335 kB
@@ -393,7 +393,7 @@ Route (app)                                   Size     First Load JS
 ├ ƒ /e/[eventId]/shop                         2.07 kB         335 kB
 ├ ƒ /e/[eventId]/ticket                       2.15 kB         335 kB
 ├ ƒ /e/[eventId]/tickets                      2.18 kB         335 kB
-├ ○ /events                                   2.13 kB         445 kB
+├ ○ /events                                   2.14 kB         445 kB
 ├ ƒ /events/[id]                              3.17 kB         435 kB
 ├ ƒ /events/[id]/accessibility                4.09 kB         337 kB
 ├ ƒ /events/[id]/chat                         3.78 kB         342 kB
@@ -404,7 +404,7 @@ Route (app)                                   Size     First Load JS
 ├ ƒ /events/[id]/languages                    4.16 kB         337 kB
 ├ ƒ /events/[id]/parking                      4.43 kB         337 kB
 ├ ƒ /events/[id]/photo-booth                  3.71 kB         337 kB
-├ ƒ /events/[id]/program                      3.23 kB         341 kB
+├ ƒ /events/[id]/program                      3.23 kB         342 kB
 ├ ƒ /events/[id]/rfid                         2.71 kB         332 kB
 ├ ƒ /events/[id]/seating                      3.71 kB         337 kB
 ├ ƒ /events/[id]/social-wall                  3.96 kB         337 kB
@@ -440,7 +440,7 @@ Route (app)                                   Size     First Load JS
 ├ ƒ /merch/[artistId]                         4.11 kB         342 kB
 ├ ○ /merch/bundles                            4.71 kB         338 kB
 ├ ○ /messages                                 4.91 kB         343 kB
-├ ○ /moderate                                 2.58 kB         335 kB
+├ ○ /moderate                                 2.58 kB         336 kB
 ├ ○ /my-events                                5.25 kB         344 kB
 ├ ○ /nearby                                   3.64 kB         337 kB
 ├ ○ /new-events                               3.35 kB         336 kB
@@ -487,7 +487,7 @@ Route (app)                                   Size     First Load JS
 ├ ○ /tickets/urgency                          4.23 kB         337 kB
 ├ ○ /tours                                    3.32 kB         342 kB
 ├ ○ /ugc                                      4.64 kB         343 kB
-├ ○ /venues                                   4.23 kB         438 kB
+├ ○ /venues                                   4.24 kB         439 kB
 ├ ƒ /venues/[id]                              3.19 kB         341 kB
 ├ ○ /wallet                                   4.49 kB         337 kB
 ├ ○ /wallet/offline                           3.38 kB         336 kB
@@ -499,7 +499,7 @@ Route (app)                                   Size     First Load JS
   └ other shared chunks (total)               1.99 kB
 
 
-ƒ Middleware                                  76 kB
+ƒ Middleware                                  76.1 kB
 
 ○  (Static)   prerendered as static content
 ƒ  (Dynamic)  server-rendered on demand
