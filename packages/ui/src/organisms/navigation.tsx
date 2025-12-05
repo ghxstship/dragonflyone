@@ -122,7 +122,7 @@ export const NavLink = forwardRef<HTMLAnchorElement, NavLinkProps>(
         ref={ref}
         href={href}
         className={clsx(
-          "font-heading text-sm uppercase tracking-wider font-bold",
+          "font-heading text-sm uppercase tracking-wider font-bold leading-none",
           "transition-all duration-100 ease-[var(--ease-bounce)]",
           "hover:-translate-y-0.5",
           active && "border-b-2",

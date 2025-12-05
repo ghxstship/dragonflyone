@@ -260,23 +260,34 @@ export function AtlvsAppLayout({
             logo={<Display size="md">ATLVS</Display>}
             copyright={`© ${new Date().getFullYear()} GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED.`}
           >
-            <FooterColumn title="Platform">
-              <FooterLink href="/dashboard">Dashboard</FooterLink>
-              <FooterLink href="/projects">Projects</FooterLink>
-              <FooterLink href="/finance">Finance</FooterLink>
+            <FooterColumn title="Product">
+              <FooterLink href="/features">Features</FooterLink>
+              <FooterLink href="/pricing">Pricing</FooterLink>
+              <FooterLink href="/integrations">Integrations</FooterLink>
+              <FooterLink href="/security">Security</FooterLink>
+              <FooterLink href="/changelog">What&apos;s New</FooterLink>
             </FooterColumn>
             <FooterColumn title="Resources">
-              <FooterLink href="/assets">Assets</FooterLink>
-              <FooterLink href="/vendors">Vendors</FooterLink>
-              <FooterLink href="/reports">Reports</FooterLink>
-            </FooterColumn>
-            <FooterColumn title="Support">
               <FooterLink href="/help">Help Center</FooterLink>
-              <FooterLink href="/help#contact">Contact</FooterLink>
+              <FooterLink href="/docs/api">API Docs</FooterLink>
+              <FooterLink href="/blog">Blog</FooterLink>
+              <FooterLink href="/guides">Guides</FooterLink>
+              <FooterLink href="/case-studies">Case Studies</FooterLink>
+              <FooterLink href="/templates">Templates</FooterLink>
+            </FooterColumn>
+            <FooterColumn title="Company">
+              <FooterLink href="/about">About</FooterLink>
+              <FooterLink href="/careers">Careers</FooterLink>
+              <FooterLink href="/press">Press</FooterLink>
+              <FooterLink href="/partners">Partners</FooterLink>
+              <FooterLink href="/contact">Contact</FooterLink>
             </FooterColumn>
             <FooterColumn title="Legal">
               <FooterLink href="/legal/privacy">Privacy</FooterLink>
               <FooterLink href="/legal/terms">Terms</FooterLink>
+              <FooterLink href="/legal/cookies">Cookies</FooterLink>
+              <FooterLink href="/legal/accessibility">Accessibility</FooterLink>
+              <FooterLink href="/status">Status</FooterLink>
             </FooterColumn>
           </Footer>
         ) : undefined

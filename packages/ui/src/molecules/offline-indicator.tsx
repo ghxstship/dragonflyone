@@ -128,7 +128,7 @@ export function OfflineIndicator({
             <button
               onClick={handleSync}
               disabled={isSyncing}
-              className="px-spacing-3 py-spacing-1 text-mono-xs font-heading uppercase tracking-widest bg-warning-400 hover:bg-warning-500 transition-colors disabled:opacity-50"
+              className="px-spacing-3 py-spacing-1 text-mono-xs font-heading uppercase tracking-widest leading-none bg-warning-400 hover:bg-warning-500 transition-colors disabled:opacity-50"
             >
               {isSyncing ? 'Syncing...' : 'Sync Now'}
             </button>
@@ -168,7 +168,7 @@ export function OfflineIndicator({
           <button
             onClick={handleSync}
             disabled={isSyncing}
-            className="flex items-center gap-gap-xs px-spacing-2 py-spacing-1 text-mono-xs font-heading uppercase tracking-widest bg-warning-400 hover:bg-warning-500 transition-colors disabled:opacity-50"
+            className="flex items-center gap-gap-xs px-spacing-2 py-spacing-1 text-mono-xs font-heading uppercase tracking-widest leading-none bg-warning-400 hover:bg-warning-500 transition-colors disabled:opacity-50"
           >
             <RefreshCw className={`h-spacing-3 w-spacing-3 ${isSyncing ? 'animate-spin' : ''}`} />
             {isSyncing ? 'Syncing...' : 'Sync Now'}

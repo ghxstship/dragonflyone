@@ -53,7 +53,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
   // Base classes - Bold Contemporary Pop Art Adventure aesthetic
   const baseClasses = clsx(
     "inline-flex items-center justify-center gap-2",
-    "font-heading uppercase tracking-wider font-bold",
+    "font-heading uppercase tracking-wider font-bold leading-none",
     "border-2 rounded-[var(--radius-button)]",
     "transition-all duration-[100ms] ease-[var(--ease-bounce)]",
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",

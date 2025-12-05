@@ -16,13 +16,13 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
           case "default":
             return "text-current hover:text-grey-300 transition-colors";
           case "nav":
-            return "font-heading text-mono-sm uppercase tracking-widest hover:text-grey-300 transition-colors";
+            return "font-heading text-mono-sm uppercase tracking-widest leading-none hover:text-grey-300 transition-colors";
           case "footer":
             return "font-body text-grey-500 hover:text-black transition-colors";
           case "inline":
             return "underline underline-offset-4 hover:text-grey-300 transition-colors";
           case "button":
-            return "border-2 border-current px-spacing-6 py-spacing-3 text-mono-sm uppercase tracking-widest transition hover:-translate-y-0.5 hover:bg-black hover:text-white";
+            return "border-2 border-current px-spacing-6 py-spacing-3 text-mono-sm uppercase tracking-widest leading-none transition hover:-translate-y-0.5 hover:bg-black hover:text-white";
           default:
             return "";
         }
@@ -31,13 +31,13 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
           case "default":
             return "text-current hover:text-grey-400 transition-colors";
           case "nav":
-            return "font-heading text-mono-sm uppercase tracking-widest hover:text-grey-400 transition-colors";
+            return "font-heading text-mono-sm uppercase tracking-widest leading-none hover:text-grey-400 transition-colors";
           case "footer":
             return "font-body text-grey-300 hover:text-white transition-colors";
           case "inline":
             return "underline underline-offset-4 hover:text-grey-400 transition-colors";
           case "button":
-            return "border-2 border-current px-spacing-6 py-spacing-3 text-mono-sm uppercase tracking-widest transition hover:-translate-y-0.5 hover:bg-white hover:text-black";
+            return "border-2 border-current px-spacing-6 py-spacing-3 text-mono-sm uppercase tracking-widest leading-none transition hover:-translate-y-0.5 hover:bg-white hover:text-black";
           default:
             return "";
         }

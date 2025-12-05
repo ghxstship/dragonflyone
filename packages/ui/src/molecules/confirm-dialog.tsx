@@ -157,7 +157,7 @@ export function ConfirmDialog({
             onClick={onCancel}
             disabled={loading}
             className={clsx(
-              "px-6 py-3 font-heading text-sm tracking-wider uppercase font-bold",
+              "px-6 py-3 font-heading text-sm tracking-wider uppercase font-bold leading-none",
               "border-2 rounded-[var(--radius-button)]",
               "transition-all duration-100 ease-[var(--ease-bounce)]",
               "hover:-translate-x-0.5 hover:-translate-y-0.5",
@@ -175,7 +175,7 @@ export function ConfirmDialog({
             onClick={onConfirm}
             disabled={loading}
             className={clsx(
-              "px-6 py-3 font-heading text-sm tracking-wider uppercase font-bold",
+              "px-6 py-3 font-heading text-sm tracking-wider uppercase font-bold leading-none",
               "border-2 rounded-[var(--radius-button)]",
               "transition-all duration-100 ease-[var(--ease-bounce)]",
               "flex items-center gap-2",

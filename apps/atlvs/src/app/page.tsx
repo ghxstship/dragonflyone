@@ -375,7 +375,9 @@ export default function Home() {
               </Button>
             </NextLink>
           </Stack>
-          <Text className="mt-8 font-mono text-mono-xs uppercase tracking-label text-grey-500">{atlvsLandingCta.footnote}</Text>
+          <Label size="xs" className="mt-8 block text-center text-grey-500">
+            {atlvsLandingCta.footnote}
+          </Label>
         </Container>
       </FullBleedSection>
     </AtlvsAppLayout>

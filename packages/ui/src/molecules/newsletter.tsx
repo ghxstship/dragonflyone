@@ -55,7 +55,7 @@ export const Newsletter = forwardRef<HTMLDivElement, NewsletterProps>(
             type="submit"
             disabled={loading || success}
             className={clsx(
-              "px-spacing-6 py-spacing-3 font-heading uppercase tracking-wider border-2 transition-all min-w-container-xs",
+              "px-spacing-6 py-spacing-3 font-heading uppercase tracking-wider leading-none border-2 transition-all min-w-container-xs",
               inverted
                 ? "border-white bg-transparent text-white hover:bg-white hover:text-black disabled:opacity-50"
                 : "border-black bg-black text-white hover:bg-white hover:text-black disabled:opacity-50"

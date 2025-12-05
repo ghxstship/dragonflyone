@@ -306,7 +306,7 @@ export function RecordFormModal<T = Record<string, unknown>>({
                 type="button"
                 onClick={handlePrev}
                 disabled={submitting}
-                className="px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase bg-surface-primary text-text-primary border-2 border-border-primary cursor-pointer hover:bg-surface-secondary"
+                className="px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase leading-none bg-surface-primary text-text-primary border-2 border-border-primary cursor-pointer hover:bg-surface-secondary"
               >
                 Previous
               </button>
@@ -318,7 +318,7 @@ export function RecordFormModal<T = Record<string, unknown>>({
               onClick={onClose}
               disabled={submitting}
               className={clsx(
-                "px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase bg-surface-primary text-text-primary border-2 border-border-primary",
+                "px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase leading-none bg-surface-primary text-text-primary border-2 border-border-primary",
                 submitting ? "cursor-not-allowed" : "cursor-pointer hover:bg-grey-100"
               )}
             >
@@ -328,7 +328,7 @@ export function RecordFormModal<T = Record<string, unknown>>({
               <button
                 type="button"
                 onClick={handleNext}
-                className="px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase bg-black text-white border-2 border-black cursor-pointer hover:bg-grey-900"
+                className="px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase leading-none bg-black text-white border-2 border-black cursor-pointer hover:bg-grey-900"
               >
                 Next
               </button>
@@ -338,7 +338,7 @@ export function RecordFormModal<T = Record<string, unknown>>({
                 onClick={handleSubmit}
                 disabled={submitting || loading}
                 className={clsx(
-                  "px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase bg-black text-white border-2 border-black flex items-center gap-gap-xs",
+                  "px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase leading-none bg-black text-white border-2 border-black flex items-center gap-gap-xs",
                   submitting ? "cursor-not-allowed opacity-70" : "cursor-pointer hover:bg-grey-900"
                 )}
               >

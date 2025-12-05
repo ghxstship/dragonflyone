@@ -316,7 +316,7 @@ export function ImportExportDialog({
             onClick={onClose}
             disabled={processing}
             className={clsx(
-              "px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase bg-surface-primary text-text-primary border-2 border-border-primary",
+              "px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase leading-none bg-surface-primary text-text-primary border-2 border-border-primary",
               processing ? "cursor-not-allowed" : "cursor-pointer hover:bg-grey-100"
             )}
           >
@@ -327,7 +327,7 @@ export function ImportExportDialog({
             onClick={mode === "import" ? handleImport : handleExport}
             disabled={processing || loading || (mode === "import" && !selectedFile) || (mode === "export" && selectedColumns.size === 0)}
             className={clsx(
-              "px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase bg-black text-white border-2 border-black flex items-center gap-gap-xs",
+              "px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase leading-none bg-black text-white border-2 border-black flex items-center gap-gap-xs",
               processing || (mode === "import" && !selectedFile) || (mode === "export" && selectedColumns.size === 0)
                 ? "cursor-not-allowed opacity-50"
                 : "cursor-pointer hover:bg-grey-900"

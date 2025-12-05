@@ -56,8 +56,8 @@ export const Pagination = forwardRef<HTMLDivElement, PaginationProps>(
     const paginationRange = generatePagination();
 
     const navButtonClasses = inverted
-      ? "px-spacing-3 py-spacing-2 border-2 border-grey-500 text-grey-200 bg-transparent rounded-[var(--radius-button)] shadow-[2px_2px_0_rgba(255,255,255,0.1)] hover:bg-white hover:text-black hover:border-white hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[3px_3px_0_rgba(255,255,255,0.2)] active:translate-x-0 active:translate-y-0 active:shadow-[1px_1px_0_rgba(255,255,255,0.1)] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-100 ease-[var(--ease-bounce)] font-heading uppercase text-mono-sm"
-      : "px-spacing-3 py-spacing-2 border-2 border-black text-black bg-white rounded-[var(--radius-button)] shadow-[2px_2px_0_rgba(0,0,0,0.1)] hover:bg-black hover:text-white hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[3px_3px_0_rgba(0,0,0,0.15)] active:translate-x-0 active:translate-y-0 active:shadow-[1px_1px_0_rgba(0,0,0,0.1)] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-100 ease-[var(--ease-bounce)] font-heading uppercase text-mono-sm";
+      ? "px-spacing-3 py-spacing-2 border-2 border-grey-500 text-grey-200 bg-transparent rounded-[var(--radius-button)] shadow-[2px_2px_0_rgba(255,255,255,0.1)] hover:bg-white hover:text-black hover:border-white hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[3px_3px_0_rgba(255,255,255,0.2)] active:translate-x-0 active:translate-y-0 active:shadow-[1px_1px_0_rgba(255,255,255,0.1)] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-100 ease-[var(--ease-bounce)] font-heading uppercase text-mono-sm leading-none"
+      : "px-spacing-3 py-spacing-2 border-2 border-black text-black bg-white rounded-[var(--radius-button)] shadow-[2px_2px_0_rgba(0,0,0,0.1)] hover:bg-black hover:text-white hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[3px_3px_0_rgba(0,0,0,0.15)] active:translate-x-0 active:translate-y-0 active:shadow-[1px_1px_0_rgba(0,0,0,0.1)] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-100 ease-[var(--ease-bounce)] font-heading uppercase text-mono-sm leading-none";
 
     return (
       <div
@@ -87,7 +87,7 @@ export const Pagination = forwardRef<HTMLDivElement, PaginationProps>(
               key={pageNumber}
               onClick={() => onPageChange(pageNumber as number)}
               className={clsx(
-                "px-spacing-4 py-spacing-2 border-2 rounded-[var(--radius-button)] transition-all duration-100 ease-[var(--ease-bounce)] font-heading uppercase text-mono-sm min-w-spacing-11",
+                "px-spacing-4 py-spacing-2 border-2 rounded-[var(--radius-button)] transition-all duration-100 ease-[var(--ease-bounce)] font-heading uppercase text-mono-sm leading-none min-w-spacing-11",
                 currentPage === pageNumber
                   ? inverted
                     ? "border-white bg-white text-black shadow-[3px_3px_0_hsl(var(--primary))]"

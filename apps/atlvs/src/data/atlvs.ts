@@ -1034,7 +1034,7 @@ export const atlvsLandingHero = {
   primaryCta: { label: "START FREE TRIAL", href: "/auth/signup" },
   secondaryCta: { label: "WATCH DEMO", href: "#demo" },
   tagline: "Where chaos meets its match.",
-  trustedBy: ["INSOMNIAC", "RED BULL", "SUPERFLY", "AEG", "C3 PRESENTS"],
+  trustedBy: ["III POINTS", "SALVAGE CITY", "PATRON", "FORMULA 1 LAS VEGAS GRAND PRIX", "FACTORY TOWN", "OKEECHOBEE", "CARNIVAL CRUISE LINE"],
 };
 
 // Four verticals for landing page

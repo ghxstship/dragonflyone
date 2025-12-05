@@ -112,7 +112,7 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
         role="tab"
         aria-selected={active}
         className={clsx(
-          "px-4 py-2 font-heading uppercase text-xs tracking-wider font-bold",
+          "px-4 py-2 font-heading uppercase text-xs tracking-wider font-bold leading-none",
           "transition-all duration-100 ease-[var(--ease-bounce)]",
           "focus:outline-none focus:ring-2 focus:ring-offset-2",
           inverted ? "focus:ring-white focus:ring-offset-ink-950" : "focus:ring-black focus:ring-offset-white",

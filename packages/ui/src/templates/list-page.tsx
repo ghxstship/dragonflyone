@@ -262,7 +262,7 @@ export function ListPage<T>({
           {onRetry && (
             <button
               onClick={onRetry}
-              className={clsx("px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase cursor-pointer", primaryBtnClass)}
+              className={clsx("px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase leading-none cursor-pointer", primaryBtnClass)}
             >
               Retry
             </button>
@@ -311,7 +311,7 @@ export function ListPage<T>({
                 </button>
               )}
               {onCreate && (
-                <button onClick={onCreate} className={clsx("px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase cursor-pointer", primaryBtnClass)}>
+                <button onClick={onCreate} className={clsx("px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase leading-none cursor-pointer", primaryBtnClass)}>
                   + {createLabel}
                 </button>
               )}
@@ -413,7 +413,7 @@ export function ListPage<T>({
           <div className={clsx("text-center px-spacing-8 py-spacing-16 border", inverted ? "border-grey-800" : "border-grey-200")}>
             <h3 className={clsx("font-heading text-h4-md mb-spacing-2", inverted ? "text-grey-500" : "text-grey-400")}>{emptyMessage}</h3>
             {emptyAction && (
-              <button onClick={emptyAction.onClick} className={clsx("mt-spacing-4 px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase cursor-pointer", primaryBtnClass)}>
+              <button onClick={emptyAction.onClick} className={clsx("mt-spacing-4 px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase leading-none cursor-pointer", primaryBtnClass)}>
                 {emptyAction.label}
               </button>
             )}
